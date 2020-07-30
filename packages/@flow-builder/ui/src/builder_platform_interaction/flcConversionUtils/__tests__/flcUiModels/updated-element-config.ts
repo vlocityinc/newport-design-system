@@ -41,7 +41,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 2,
+            connectorCount: 0,
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,
@@ -50,55 +50,28 @@ export default {
                     childReference: 'outcome-element-guid'
                 }
             ],
-            availableConnections: [],
-            next: 'decision-next-element-guid',
-            prev: 'start-element-guid',
-            children: [null, null],
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true
-            }
-        },
-        'decision-next-element-guid': {
-            guid: 'decision-next-element-guid',
-            name: 'd1',
-            description: '',
-            label: 'd1',
-            locationX: 0,
-            locationY: 0,
-            isCanvasElement: true,
-            connectorCount: 0,
-            defaultConnectorLabel: 'Default Outcome',
-            elementType: 'Decision',
-            maxConnections: 2,
-            childReferences: [
-                {
-                    childReference: 'outcome2-element-guid'
-                }
-            ],
             availableConnections: [
                 {
-                    type: 'REGULAR',
-                    childReference: 'outcome2-element-guid'
+                    childReference: 'outcome-element-guid',
+                    type: 'REGULAR'
                 },
                 {
                     type: 'DEFAULT'
                 }
             ],
-            next: 'end-element-guid (decision-next-element-guid)',
-            prev: 'decision-element-guid',
+            next: 'end-element-guid (decision-element-guid)',
+            prev: 'start-element-guid',
             children: [null, null],
             config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true
+                isSelected: true,
+                isHighlighted: true,
+                isSelectable: false
             }
         },
-        'end-element-guid (decision-next-element-guid)': {
-            guid: 'end-element-guid (decision-next-element-guid)',
+        'end-element-guid (decision-element-guid)': {
+            guid: 'end-element-guid (decision-element-guid)',
             elementType: 'END_ELEMENT',
-            prev: 'decision-next-element-guid',
+            prev: 'decision-element-guid',
             next: null,
             isCanvasElement: true,
             config: {
@@ -109,23 +82,6 @@ export default {
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',
-            name: 'd1out',
-            label: 'd1out',
-            elementType: 'OUTCOME',
-            dataType: 'Boolean',
-            conditionLogic: 'and',
-            conditions: [
-                {
-                    rowIndex: 'cbf949b8-cb9c-4f36-931f-1b128912360d',
-                    leftHandSide: '$Flow.CurrentRecord',
-                    rightHandSide: 'a',
-                    rightHandSideDataType: 'String',
-                    operator: 'EqualTo'
-                }
-            ]
-        },
-        'outcome2-element-guid': {
-            guid: 'outcome2-element-guid',
             name: 'd1out',
             label: 'd1out',
             elementType: 'OUTCOME',

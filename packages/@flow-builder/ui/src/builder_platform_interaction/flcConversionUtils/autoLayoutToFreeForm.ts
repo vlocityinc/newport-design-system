@@ -513,8 +513,16 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
     const [offsetX, offsetY] = startElementCoords;
     const elementsPosition = calculateElementPositions(elements, offsetX, offsetY);
 
-    // add non-canvas elements to to the ffc state
+    // add non-canvas elements to to the ffc state and reset config for all Canvas Elements
     Object.values(elements).forEach((element: FlowElement) => {
+        if (element.isCanvasElement) {
+            ffcStoreState.elements[element.guid].config = {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            };
+        }
+
         if (ffcStoreState.elements[element.guid] == null && element.elementType !== ELEMENT_TYPE.ROOT_ELEMENT) {
             ffcStoreState.elements[element.guid] = element;
         }

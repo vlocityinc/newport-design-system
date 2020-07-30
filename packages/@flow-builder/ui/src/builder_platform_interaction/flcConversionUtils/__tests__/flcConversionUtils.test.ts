@@ -20,6 +20,7 @@ import decisionWithNestedLeftDecision from './flcUiModels/decision-with-nested-l
 import decisionWithNestedRightDecision from './flcUiModels/decision-with-nested-right-decision';
 import decisionWithEmptyNestedDecision from './flcUiModels/decision-with-empty-nested-decision';
 import decisionWithDecisionNext from './flcUiModels/decision-with-decision-next';
+import updatedElementConfig from './flcUiModels/updated-element-config';
 
 import ffcSanity from './ffcUiModels/sanity';
 import ffcElementWithFault from './ffcUiModels/element-with-fault';
@@ -36,6 +37,7 @@ import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-w
 import ffcComplex1 from './ffcUiModels/complex1';
 import ffcDecisionWithMultipleOutcomes from './ffcUiModels/decision-with-multiple-outcomes';
 import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault';
+import ffcUpdatedElementConfig from './ffcUiModels/updated-element-config';
 
 import {
     convertToFreeFormCanvas,
@@ -488,6 +490,29 @@ describe('flc conversion utils', () => {
     });
 
     describe('converts', () => {
+        describe('Resetting config', () => {
+            it('When toggling from Free-Form to Auto-Layout', () => {
+                const options = { shouldConsolidateEndConnectors: false, noEmptyFaults: false };
+                const alcUiModel = convertToAutoLayoutCanvas(
+                    addEndElementsAndConnectorsTransform(deepCopy(ffcUpdatedElementConfig)),
+                    options
+                );
+                expect(translateNulls(alcUiModel)).toMatchSnapshot();
+            });
+
+            it('When toggling from Auto-Layout to Free-Form', () => {
+                const ffcUiModel = sortCanvasElementsAndConnectors(
+                    translateNulls(
+                        removeEndElementsAndConnectorsTransform(
+                            convertToFreeFormCanvas(deepCopy(updatedElementConfig), startElementCoords),
+                            []
+                        )
+                    )
+                );
+
+                expect(ffcUiModel).toMatchSnapshot();
+            });
+        });
         describe('round trip from Free Form', () => {
             describe('sanity', () => {
                 assertRoundTripFromFreeFormCanvas(ffcSanity);

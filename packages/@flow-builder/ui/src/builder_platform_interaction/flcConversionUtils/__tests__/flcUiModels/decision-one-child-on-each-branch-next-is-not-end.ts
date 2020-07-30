@@ -161,7 +161,12 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'screen-after-decision-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',

@@ -7,17 +7,8 @@ export default {
             label: null,
             type: 'REGULAR',
             config: { isSelected: false }
-        },
-        {
-            guid: 'decision-element-guid -> nested-decision-element-guid',
-            source: 'decision-element-guid',
-            target: 'nested-decision-element-guid',
-            label: 'DEFAULT',
-            type: 'DEFAULT',
-            config: { isSelected: false }
         }
     ],
-    canvasElements: ['decision-element-guid', 'nested-decision-element-guid', 'start-element-guid'],
     elements: {
         'start-element-guid': {
             guid: 'start-element-guid',
@@ -55,38 +46,17 @@ export default {
             locationX: 488,
             locationY: 206,
             isCanvasElement: true,
-            connectorCount: 1,
+            connectorCount: 0,
             config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true
+                isSelected: true,
+                isHighlighted: true,
+                isSelectable: false
             },
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,
             childReferences: [{ childReference: 'outcome-element-guid' }],
-            availableConnections: [{ type: 'REGULAR', childReference: 'outcome-element-guid' }]
-        },
-
-        'nested-decision-element-guid': {
-            guid: 'nested-decision-element-guid',
-            name: 'd1',
-            description: '',
-            label: 'd1',
-            locationX: 686,
-            locationY: 326,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true
-            },
-            defaultConnectorLabel: 'Default Outcome',
-            elementType: 'Decision',
-            maxConnections: 2,
-            childReferences: [{ childReference: 'outcome2-element-guid' }],
-            availableConnections: [{ type: 'REGULAR', childReference: 'outcome2-element-guid' }, { type: 'DEFAULT' }]
+            availableConnections: [{ type: 'REGULAR', childReference: 'outcome-element-guid' }, { type: 'DEFAULT' }]
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',
@@ -104,23 +74,7 @@ export default {
                     operator: 'EqualTo'
                 }
             ]
-        },
-        'outcome2-element-guid': {
-            guid: 'outcome2-element-guid',
-            name: 'd1out',
-            label: 'd1out',
-            elementType: 'OUTCOME',
-            dataType: 'Boolean',
-            conditionLogic: 'and',
-            conditions: [
-                {
-                    rowIndex: 'cbf949b8-cb9c-4f36-931f-1b128912360d',
-                    leftHandSide: '$Flow.CurrentRecord',
-                    rightHandSide: 'a',
-                    rightHandSideDataType: 'String',
-                    operator: 'EqualTo'
-                }
-            ]
         }
-    }
+    },
+    canvasElements: ['decision-element-guid', 'start-element-guid']
 };

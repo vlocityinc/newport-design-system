@@ -26,7 +26,12 @@ export default {
             next: 'decision-element-guid',
             parent: 'root',
             childIndex: 0,
-            isTerminal: true
+            isTerminal: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'decision-element-guid': {
             guid: 'decision-element-guid',
@@ -48,7 +53,12 @@ export default {
             availableConnections: [],
             next: 'screen-after-decision-element-guid',
             prev: 'start-element-guid',
-            children: ['screen1-after-decision-element-guid', 'nested-decision-element-guid']
+            children: ['screen1-after-decision-element-guid', 'nested-decision-element-guid'],
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'nested-decision-element-guid': {
             guid: 'nested-decision-element-guid',
@@ -73,7 +83,12 @@ export default {
             parent: 'decision-element-guid',
             childIndex: 1,
             isTerminal: false,
-            children: [null, null]
+            children: [null, null],
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'screen1-after-decision-element-guid': {
             guid: 'screen1-after-decision-element-guid',
@@ -143,7 +158,12 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'screen-after-decision-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',

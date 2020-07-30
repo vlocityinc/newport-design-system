@@ -26,7 +26,12 @@ export default {
             next: 'wait-element-guid',
             parent: 'root',
             childIndex: 0,
-            isTerminal: false
+            isTerminal: false,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'wait-element-guid': {
             guid: 'wait-element-guid',
@@ -39,7 +44,8 @@ export default {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                isSelectable: true
             },
             childReferences: [
                 {
@@ -70,7 +76,12 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'wait-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',

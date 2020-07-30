@@ -26,7 +26,12 @@ export default {
             next: 'decision-element-guid',
             parent: 'root',
             childIndex: 0,
-            isTerminal: true
+            isTerminal: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'decision-element-guid': {
             guid: 'decision-element-guid',
@@ -52,7 +57,12 @@ export default {
             ],
             next: 'end-element-guid (decision-element-guid)',
             prev: 'start-element-guid',
-            children: ['screen-left-element-guid', null]
+            children: ['screen-left-element-guid', null],
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'screen-left-element-guid': {
             guid: 'screen-left-element-guid',
@@ -93,7 +103,12 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'decision-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',

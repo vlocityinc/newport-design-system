@@ -69,7 +69,12 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'screen-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         root: {
             elementType: 'root',

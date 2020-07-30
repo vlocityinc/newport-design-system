@@ -9,7 +9,11 @@ export default {
             locationY: 0,
             isCanvasElement: true,
             connectorCount: 1,
-            config: { isSelected: false, isHighlighted: false },
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -55,7 +59,11 @@ export default {
             locationY: 0,
             isCanvasElement: true,
             connectorCount: 1,
-            config: { isSelected: true, isHighlighted: false },
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             assignNextValueToReferenceIndex: 'a908350c-409c-4d2f-bbd3-b9c61e5932b9',
             collectionReference: '9b6730a5-ad83-46b9-80f0-f8bc2acb22ac',
             collectionReferenceIndex: '2b392712-4f34-45b1-8816-2b32ddfec6fc',
@@ -113,7 +121,12 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'loop-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         root: {
             elementType: 'root',

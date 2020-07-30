@@ -7,7 +7,11 @@ export default {
             locationY: 48,
             isCanvasElement: true,
             connectorCount: 0,
-            config: { isSelected: false, isHighlighted: false, isSelectable: true },
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',

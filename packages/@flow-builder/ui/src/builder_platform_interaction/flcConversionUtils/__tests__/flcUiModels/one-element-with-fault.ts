@@ -111,14 +111,24 @@ export default {
             elementType: 'END_ELEMENT',
             prev: 'fault-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'end-element-guid (record-create-element-guid)': {
             guid: 'end-element-guid (record-create-element-guid)',
             elementType: 'END_ELEMENT',
             prev: 'record-create-element-guid',
             next: null,
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         root: {
             elementType: 'root',

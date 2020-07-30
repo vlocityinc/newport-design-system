@@ -17,6 +17,11 @@ Object {
       "nested-decision-element-guid",
       "null",
     ],
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 1,
     "defaultConnectorLabel": "Default Outcome",
     "description": "",
@@ -50,6 +55,11 @@ Object {
       "screen-left-element-guid",
       "screen-right-element-guid",
     ],
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 2,
     "defaultConnectorLabel": "Default Outcome",
     "description": "",
@@ -164,6 +174,11 @@ Object {
   },
   "start-element-guid": Object {
     "childIndex": 0,
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 1,
     "description": "",
     "elementType": "START_ELEMENT",
@@ -210,6 +225,11 @@ Object {
       "nested-decision-element-guid",
       "null",
     ],
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 1,
     "defaultConnectorLabel": "Default Outcome",
     "description": "",
@@ -225,6 +245,11 @@ Object {
     "prev": "start-element-guid",
   },
   "end-element-guid (decision-element-guid)": Object {
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "elementType": "END_ELEMENT",
     "guid": "end-element-guid (decision-element-guid)",
     "isCanvasElement": true,
@@ -251,6 +276,11 @@ Object {
       "null",
       "null",
     ],
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 0,
     "defaultConnectorLabel": "Default Outcome",
     "description": "",
@@ -316,6 +346,11 @@ Object {
   },
   "start-element-guid": Object {
     "childIndex": 0,
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 1,
     "description": "",
     "elementType": "START_ELEMENT",
@@ -358,6 +393,11 @@ Object {
       "screen-left-element-guid",
       "screen-right-element-guid",
     ],
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 2,
     "defaultConnectorLabel": "Default Outcome",
     "description": "",
@@ -477,6 +517,11 @@ Object {
   },
   "start-element-guid": Object {
     "childIndex": 0,
+    "config": Object {
+      "isHighlighted": false,
+      "isSelectable": true,
+      "isSelected": false,
+    },
     "connectorCount": 1,
     "description": "",
     "elementType": "START_ELEMENT",
@@ -502,6 +547,246 @@ Object {
     "parent": "root",
     "prev": "null",
     "triggerType": "None",
+  },
+}
+`;
+
+exports[`flc conversion utils converts Resetting config When toggling from Auto-Layout to Free-Form 1`] = `
+Object {
+  "canvasElements": Array [
+    "decision-element-guid",
+    "start-element-guid",
+  ],
+  "connectors": Array [
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "start-element-guid -> decision-element-guid",
+      "label": "null",
+      "source": "start-element-guid",
+      "target": "decision-element-guid",
+      "type": "REGULAR",
+    },
+  ],
+  "elements": Object {
+    "decision-element-guid": Object {
+      "availableConnections": Array [
+        Object {
+          "childReference": "outcome-element-guid",
+          "type": "REGULAR",
+        },
+        Object {
+          "type": "DEFAULT",
+        },
+      ],
+      "childReferences": Array [
+        Object {
+          "childReference": "outcome-element-guid",
+        },
+      ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "defaultConnectorLabel": "Default Outcome",
+      "description": "",
+      "elementType": "Decision",
+      "guid": "decision-element-guid",
+      "isCanvasElement": true,
+      "label": "d1",
+      "locationX": 488,
+      "locationY": 206,
+      "maxConnections": 2,
+      "name": "d1",
+    },
+    "outcome-element-guid": Object {
+      "conditionLogic": "and",
+      "conditions": Array [
+        Object {
+          "leftHandSide": "$Flow.CurrentRecord",
+          "operator": "EqualTo",
+          "rightHandSide": "a",
+          "rightHandSideDataType": "String",
+          "rowIndex": "cbf949b8-cb9c-4f36-931f-1b128912360d",
+        },
+      ],
+      "dataType": "Boolean",
+      "elementType": "OUTCOME",
+      "guid": "outcome-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+    },
+    "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
+      "connectorCount": 1,
+      "description": "",
+      "elementType": "START_ELEMENT",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "e7f9f0cf-3953-43b3-a578-3ddc8a10e4df",
+        },
+      ],
+      "guid": "start-element-guid",
+      "isCanvasElement": true,
+      "locationX": 362,
+      "locationY": 48,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "2832cafc-39fc-41bf-95b1-c6d3881f6705",
+      "triggerType": "None",
+    },
+  },
+}
+`;
+
+exports[`flc conversion utils converts Resetting config When toggling from Free-Form to Auto-Layout 1`] = `
+Object {
+  "canvasElements": Array [],
+  "connectors": Array [],
+  "elements": Object {
+    "decision-element-guid": Object {
+      "availableConnections": Array [
+        Object {
+          "childReference": "outcome-element-guid",
+          "type": "REGULAR",
+        },
+        Object {
+          "type": "DEFAULT",
+        },
+      ],
+      "childReferences": Array [
+        Object {
+          "childReference": "outcome-element-guid",
+        },
+      ],
+      "children": Array [
+        "end-element-guid (decision-element-guid::0)",
+        "end-element-guid (decision-element-guid::1)",
+      ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "defaultConnectorLabel": "Default Outcome",
+      "description": "",
+      "elementType": "Decision",
+      "guid": "decision-element-guid",
+      "isCanvasElement": true,
+      "label": "d1",
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 2,
+      "name": "d1",
+      "next": "null",
+      "prev": "start-element-guid",
+    },
+    "end-element-guid (decision-element-guid::0)": Object {
+      "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
+      "elementType": "END_ELEMENT",
+      "guid": "end-element-guid (decision-element-guid::0)",
+      "isCanvasElement": true,
+      "isTerminal": true,
+      "next": "null",
+      "parent": "decision-element-guid",
+      "prev": "null",
+    },
+    "end-element-guid (decision-element-guid::1)": Object {
+      "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
+      "elementType": "END_ELEMENT",
+      "guid": "end-element-guid (decision-element-guid::1)",
+      "isCanvasElement": true,
+      "isTerminal": true,
+      "next": "null",
+      "parent": "decision-element-guid",
+      "prev": "null",
+    },
+    "outcome-element-guid": Object {
+      "conditionLogic": "and",
+      "conditions": Array [
+        Object {
+          "leftHandSide": "$Flow.CurrentRecord",
+          "operator": "EqualTo",
+          "rightHandSide": "a",
+          "rightHandSideDataType": "String",
+          "rowIndex": "cbf949b8-cb9c-4f36-931f-1b128912360d",
+        },
+      ],
+      "dataType": "Boolean",
+      "elementType": "OUTCOME",
+      "guid": "outcome-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+    },
+    "root": Object {
+      "children": Array [
+        "start-element-guid",
+      ],
+      "elementType": "root",
+      "guid": "root",
+      "label": "root",
+      "name": "root",
+      "next": "null",
+      "prev": "null",
+      "text": "root",
+      "value": "root",
+    },
+    "start-element-guid": Object {
+      "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
+      "connectorCount": 1,
+      "description": "",
+      "elementType": "START_ELEMENT",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "e7f9f0cf-3953-43b3-a578-3ddc8a10e4df",
+        },
+      ],
+      "guid": "start-element-guid",
+      "isCanvasElement": true,
+      "isTerminal": true,
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 1,
+      "next": "decision-element-guid",
+      "object": "",
+      "objectIndex": "2832cafc-39fc-41bf-95b1-c6d3881f6705",
+      "parent": "root",
+      "prev": "null",
+      "triggerType": "None",
+    },
   },
 }
 `;
@@ -548,6 +833,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -575,6 +865,11 @@ Object {
           "childReference": "outcome2-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -622,6 +917,11 @@ Object {
       "name": "d1out",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -682,6 +982,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -712,6 +1017,11 @@ Object {
       "name": "d1out",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -786,6 +1096,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -844,6 +1159,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -929,6 +1249,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1015,6 +1340,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -1083,6 +1413,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1141,6 +1476,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -1215,6 +1555,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1242,6 +1587,11 @@ Object {
           "childReference": "outcome2-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1289,6 +1639,11 @@ Object {
       "name": "d1out",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -1380,6 +1735,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1399,6 +1759,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1485,6 +1850,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -1592,6 +1962,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1611,6 +1986,11 @@ Object {
           "childReference": "outcome2-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1714,6 +2094,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -1821,6 +2206,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1840,6 +2230,11 @@ Object {
           "childReference": "outcome2-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -1943,6 +2338,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -2238,6 +2638,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -2324,6 +2729,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -2383,7 +2793,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 0,
       "dataType": "SObject",
@@ -2403,6 +2814,7 @@ Object {
     "start-element-guid": Object {
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -2497,7 +2909,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 1,
       "dataType": "SObject",
@@ -2545,6 +2958,7 @@ Object {
     "start-element-guid": Object {
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -2646,7 +3060,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 2,
       "dataType": "SObject",
@@ -2722,6 +3137,7 @@ Object {
     "start-element-guid": Object {
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -2812,7 +3228,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 1,
       "dataType": "SObject",
@@ -2836,6 +3253,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -2868,6 +3290,7 @@ Object {
     "start-element-guid": Object {
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -2947,7 +3370,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 1,
       "dataType": "SObject",
@@ -2975,7 +3399,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 1,
       "dataType": "SObject",
@@ -2995,6 +3420,7 @@ Object {
     "start-element-guid": Object {
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -3288,6 +3714,11 @@ Object {
         "null",
         "nested-decision-element-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3304,6 +3735,11 @@ Object {
     },
     "end-element-guid (screen-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-element-guid:)",
       "isCanvasElement": true,
@@ -3313,6 +3749,11 @@ Object {
     },
     "end-element-guid (screen2-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen2-element-guid:)",
       "isCanvasElement": true,
@@ -3332,6 +3773,11 @@ Object {
         "screen2-element-guid",
         "null",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3460,6 +3906,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -3514,6 +3965,11 @@ Object {
         "end-element-guid (decision-element-guid::0)",
         "end-element-guid (decision-element-guid::1)",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3530,6 +3986,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::0)",
       "isCanvasElement": true,
@@ -3540,6 +4001,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::1)": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::1)",
       "isCanvasElement": true,
@@ -3580,6 +4046,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -3626,6 +4097,11 @@ Object {
         "null",
         "nested-decision-element-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3642,6 +4118,11 @@ Object {
     },
     "end-element-guid (nested-decision-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (nested-decision-element-guid::0)",
       "isCanvasElement": true,
@@ -3652,6 +4133,11 @@ Object {
     },
     "end-element-guid (screen-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-element-guid:)",
       "isCanvasElement": true,
@@ -3676,6 +4162,11 @@ Object {
         "end-element-guid (nested-decision-element-guid::0)",
         "null",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3771,6 +4262,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -3822,6 +4318,11 @@ Object {
         "end-element-guid (decision-element-guid::0)",
         "decision-next-element-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3856,6 +4357,11 @@ Object {
         "end-element-guid (decision-next-element-guid::0)",
         "end-element-guid (decision-next-element-guid::1)",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -3874,6 +4380,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::0)",
       "isCanvasElement": true,
@@ -3884,6 +4395,11 @@ Object {
     },
     "end-element-guid (decision-next-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-next-element-guid::0)",
       "isCanvasElement": true,
@@ -3894,6 +4410,11 @@ Object {
     },
     "end-element-guid (decision-next-element-guid::1)": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-next-element-guid::1)",
       "isCanvasElement": true,
@@ -3951,6 +4472,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -4021,6 +4547,11 @@ Object {
         "end-element-guid (decision-element-guid::2)",
         "end-element-guid (decision-element-guid::3)",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4037,6 +4568,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::0)",
       "isCanvasElement": true,
@@ -4047,6 +4583,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::1)": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::1)",
       "isCanvasElement": true,
@@ -4057,6 +4598,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::2)": Object {
       "childIndex": 2,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::2)",
       "isCanvasElement": true,
@@ -4067,6 +4613,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::3)": Object {
       "childIndex": 3,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::3)",
       "isCanvasElement": true,
@@ -4141,6 +4692,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -4192,6 +4748,11 @@ Object {
         "end-element-guid (decision-element-guid::0)",
         "nested-decision-element-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4208,6 +4769,11 @@ Object {
     },
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-element-guid::0)",
       "isCanvasElement": true,
@@ -4218,6 +4784,11 @@ Object {
     },
     "end-element-guid (nested-decision-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (nested-decision-element-guid::0)",
       "isCanvasElement": true,
@@ -4228,6 +4799,11 @@ Object {
     },
     "end-element-guid (nested-decision-element-guid::1)": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (nested-decision-element-guid::1)",
       "isCanvasElement": true,
@@ -4256,6 +4832,11 @@ Object {
         "end-element-guid (nested-decision-element-guid::0)",
         "end-element-guid (nested-decision-element-guid::1)",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4321,6 +4902,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -4367,6 +4953,11 @@ Object {
         "screen1-after-decision-element-guid",
         "nested-decision-element-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4383,6 +4974,11 @@ Object {
     },
     "end-element-guid (screen-after-decision-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-after-decision-element-guid:)",
       "isCanvasElement": true,
@@ -4402,6 +4998,11 @@ Object {
         "null",
         "null",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4530,6 +5131,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -4576,6 +5182,11 @@ Object {
         "screen-left-element-guid",
         "screen-right-element-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 2,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4592,6 +5203,11 @@ Object {
     },
     "end-element-guid (screen-after-decision-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-after-decision-element-guid:)",
       "isCanvasElement": true,
@@ -4727,6 +5343,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -4764,6 +5385,11 @@ Object {
   "elements": Object {
     "end-element-guid (fault-element-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (fault-element-guid::0)",
       "isCanvasElement": true,
@@ -4774,6 +5400,11 @@ Object {
     },
     "end-element-guid (fault-element-guid::1)": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (fault-element-guid::1)",
       "isCanvasElement": true,
@@ -4784,6 +5415,11 @@ Object {
     },
     "end-element-guid (record-create-element-guid::0)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (record-create-element-guid::0)",
       "isCanvasElement": true,
@@ -4811,6 +5447,11 @@ Object {
         "end-element-guid (fault-element-guid::0)",
         "end-element-guid (fault-element-guid::1)",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -4921,6 +5562,11 @@ Object {
   "elements": Object {
     "end-element-guid (fault-element-guid::0)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (fault-element-guid::0)",
       "isCanvasElement": true,
@@ -4930,6 +5576,11 @@ Object {
     },
     "end-element-guid (record-create-element-guid::0)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (record-create-element-guid::0)",
       "isCanvasElement": true,
@@ -5062,6 +5713,11 @@ Object {
     },
     "end-element-guid (loop-element-guid::1)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (loop-element-guid::1)",
       "isCanvasElement": true,
@@ -5086,7 +5742,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 0,
       "dataType": "SObject",
@@ -5122,6 +5779,7 @@ Object {
       "childIndex": 0,
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -5176,6 +5834,11 @@ Object {
     },
     "end-element-guid (screen-after-last-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-after-last-element-guid:)",
       "isCanvasElement": true,
@@ -5197,7 +5860,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 1,
       "dataType": "SObject",
@@ -5263,6 +5927,7 @@ Object {
       "childIndex": 0,
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -5317,6 +5982,11 @@ Object {
     },
     "end-element-guid (screen-after-last-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-after-last-element-guid:)",
       "isCanvasElement": true,
@@ -5334,7 +6004,8 @@ Object {
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
-        "isSelected": true,
+        "isSelectable": true,
+        "isSelected": false,
       },
       "connectorCount": 2,
       "dataType": "SObject",
@@ -5433,6 +6104,7 @@ Object {
       "childIndex": 0,
       "config": Object {
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 1,
@@ -5472,6 +6144,11 @@ Object {
   "elements": Object {
     "end-element-guid (start-element-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (start-element-guid:)",
       "isCanvasElement": true,
@@ -5596,6 +6273,11 @@ Object {
     },
     "end-element-guid (decision-for-outcome3-guid::0)": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-for-outcome3-guid::0)",
       "isCanvasElement": true,
@@ -5606,6 +6288,11 @@ Object {
     },
     "end-element-guid (decision-for-outcome3-guid::1)": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (decision-for-outcome3-guid::1)",
       "isCanvasElement": true,
@@ -5616,6 +6303,11 @@ Object {
     },
     "end-element-guid (fault-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (fault-guid:)",
       "isCanvasElement": true,
@@ -5625,6 +6317,11 @@ Object {
     },
     "end-element-guid (screen-for-outcome1-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-for-outcome1-guid:)",
       "isCanvasElement": true,
@@ -5634,6 +6331,11 @@ Object {
     },
     "end-element-guid (screen-for-outcome2-guid:)": Object {
       "childIndex": "null",
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "elementType": "END_ELEMENT",
       "guid": "end-element-guid (screen-for-outcome2-guid:)",
       "isCanvasElement": true,
@@ -5756,6 +6458,11 @@ Object {
     },
     "screen-for-outcome2-guid": Object {
       "childIndex": 1,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -5774,6 +6481,11 @@ Object {
     },
     "start-element-guid": Object {
       "childIndex": 0,
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 1,
       "description": "",
       "elementType": "START_ELEMENT",
@@ -5815,6 +6527,11 @@ Object {
         "screen-for-outcome2-guid",
         "decision-for-outcome3-guid",
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 4,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",

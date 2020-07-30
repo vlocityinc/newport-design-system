@@ -48,6 +48,11 @@ export default {
             locationY: 48,
             isCanvasElement: true,
             connectorCount: 1,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -73,6 +78,11 @@ export default {
             locationY: 206,
             isCanvasElement: true,
             connectorCount: 2,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,
@@ -89,6 +99,11 @@ export default {
             locationY: 326,
             isCanvasElement: true,
             connectorCount: 1,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,
@@ -102,7 +117,11 @@ export default {
             locationY: 758,
             isCanvasElement: true,
             connectorCount: 0,
-            config: { isSelected: false, isHighlighted: false, isSelectable: true },
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             elementType: 'Screen',
             maxConnections: 1,
             triggerType: 'None',

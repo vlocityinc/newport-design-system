@@ -40,7 +40,12 @@ export default {
             prev: 'start-element-guid',
             next: null,
             elementType: 'END_ELEMENT',
-            isCanvasElement: true
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         root: {
             elementType: 'root',
