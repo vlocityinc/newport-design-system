@@ -182,6 +182,21 @@ $b2b-table-border: $palette-gray-5;
 			}
 		}
 	}
+
+	.nds-b2b-table_cell-center {
+		text-align: center;
+	}
+
+	.nds-b2b-table_cell-right {
+		text-align: right;
+	}
+
+	td.nds-b2b-table_cell-readonly {
+		&.nds-b2b-table_cell-center,
+		&.nds-b2b-table_cell-right{
+			padding-right: 1.6rem;
+		}
+	}	
 }
 
 .nds-b2b-detail-row {
