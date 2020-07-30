@@ -1467,10 +1467,6 @@ export default class Editor extends LightningElement {
      */
     handleEditElement = event => {
         if (event && event.detail && event.type) {
-            const element = storeInstance.getCurrentState().elements[event.detail.canvasElementGUID];
-            if (element && element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
-                this.closeAutoLayoutContextualMenu();
-            }
             const mode = event.detail.mode;
             const guid = event.detail.canvasElementGUID;
             this.editElement(mode, guid);
@@ -1791,6 +1787,9 @@ export default class Editor extends LightningElement {
      */
     editElement(mode: any, guid: string) {
         const element = storeInstance.getCurrentState().elements[guid];
+        if (element && element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
+            this.closeAutoLayoutContextualMenu();
+        }
 
         const nodeUpdate = this.deMutateAndUpdateNodeCollection;
         const newResourceCallback = this.newResourceCallback;
