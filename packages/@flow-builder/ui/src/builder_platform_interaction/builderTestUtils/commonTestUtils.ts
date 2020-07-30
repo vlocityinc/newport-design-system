@@ -48,3 +48,35 @@ export const untilNoFailure = (expectations, maxTicks = DEFAULT_MAX_TICKS) => {
 export const ticks = (maxTicks = DEFAULT_MAX_TICKS) => {
     return until(() => false, maxTicks).catch(() => {});
 };
+
+/**
+ * Create a new promise with status properties.
+ */
+export const makeQuerablePromise = promise => {
+    // Don't modify any promise that has been already modified.
+    if (promise.isResolved) {
+        return promise;
+    }
+
+    let isPending = true;
+    let isRejected = false;
+    let isFulfilled = false;
+
+    const result = promise.then(
+        value => {
+            isFulfilled = true;
+            isPending = false;
+            return value;
+        },
+        e => {
+            isRejected = true;
+            isPending = false;
+            throw e;
+        }
+    );
+
+    result.isFulfilled = () => isFulfilled;
+    result.isPending = () => isPending;
+    result.isRejected = () => isRejected;
+    return result;
+};

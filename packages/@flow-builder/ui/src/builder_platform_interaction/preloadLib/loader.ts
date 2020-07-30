@@ -62,6 +62,8 @@ const promiseFinally = (promise, onFinally) =>
         }
     );
 
+export const GET_APEX_TYPES_TIMEOUT_MS = 20000;
+
 /**
  * Orchestrates loading of various metadata the Flow Builder requires.
  * This includes loading of metadata for the expression builder and resource picker,
@@ -73,7 +75,8 @@ class Loader {
     /** An object to be able to wait until entities are loaded */
     entitiesLoaded = {
         promise: null,
-        resolve: null
+        resolve: null,
+        reject: null
     };
 
     apexClassesLoaded = {
@@ -92,15 +95,39 @@ class Loader {
 
     // @api
     loadApexClasses() {
+        // The returned promise will be fulfilled when either apex classes and entities are loaded or when timeout for fetching apex types is reached
         if (!this.apexClassesLoaded.promise) {
-            // Load apex
-            // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
-            this.apexClassesLoaded.promise = Promise.all([
-                fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}, { background: true }),
-                this.entitiesLoaded.promise
-            ]).then(([data]) => {
-                this.store.dispatch(updateApexClasses(data));
-                setApexClasses(data);
+            this.apexClassesLoaded.promise = new Promise((resolve, reject) => {
+                // getApexTypes can take a while. See W-7690844
+                // We use a timeout so that we don't block on property editor opening for minutes
+                let timer;
+                new Promise((resolveTimeout, rejectTimeout) => {
+                    // eslint-disable-next-line @lwc/lwc/no-async-operation
+                    timer = setTimeout(
+                        () => rejectTimeout(new Error('loadApexClasses took too long')),
+                        GET_APEX_TYPES_TIMEOUT_MS
+                    );
+                }).catch(() => resolve());
+                const fetchApexTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}, { background: true });
+                fetchApexTypesPromise
+                    .then(() => {
+                        clearTimeout(timer);
+                    })
+                    .catch(() => {});
+
+                // Load apex
+                // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
+                Promise.all([fetchApexTypesPromise, this.entitiesLoaded.promise])
+                    .catch(e => {
+                        reject(e);
+                        throw e;
+                    })
+                    .then(([data]) => {
+                        this.store.dispatch(updateApexClasses(data));
+                        setApexClasses(data);
+                        resolve();
+                    })
+                    .catch(() => {});
             });
         }
         return this.apexClassesLoaded.promise;
@@ -133,6 +160,10 @@ class Loader {
                     loadEventTypes(),
                     // Get workflow enabled entities for before-save trigger object list
                     loadEntities('ALL')
+                        .catch(e => {
+                            this.entitiesLoaded.reject(e);
+                            throw e;
+                        })
                         .then(() => this.entitiesLoaded.resolve())
                         .then(loadWorkflowEnabledEntities),
                     loadResourceTypes(flowProcessType),
@@ -182,8 +213,9 @@ class Loader {
     }
 
     createEntitiesLoadedPromise() {
-        this.entitiesLoaded.promise = new Promise(resolve => {
+        this.entitiesLoaded.promise = new Promise((resolve, reject) => {
             this.entitiesLoaded.resolve = resolve;
+            this.entitiesLoaded.reject = reject;
         });
     }
 }

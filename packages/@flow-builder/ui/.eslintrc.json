@@ -31,7 +31,8 @@
                         "**/builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts",
                         "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
                         "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
-                        "**/builder_platform_interaction/flcButtonMenu/keyboard.ts"
+                        "**/builder_platform_interaction/flcButtonMenu/keyboard.ts",
+                        "**/builder_platform_interaction/preloadLib/loader.js"
                     ],
                     "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.ts"],
                     "@lwc/lwc/no-inner-html": [
