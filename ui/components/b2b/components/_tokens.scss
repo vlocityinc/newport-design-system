@@ -10,21 +10,9 @@ $b2b-product-item-min-width: 21rem !default;
   max-height: $lineHeight * $lineCount;
   margin-right: -1em;
   padding-right: 1em;
-  &:before {
-    content: "...";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-  &:after {
-    content: "";
-    position: absolute;
-    right: 0;
-    width: 1em;
-    height: 1em;
-    margin-top: 0.2em;
-    background: $bgColor;
-  }
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
 }
 @mixin cardsHeaderAttributes {
   overflow: hidden;
