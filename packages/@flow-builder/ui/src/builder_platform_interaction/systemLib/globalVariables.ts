@@ -1,3 +1,5 @@
+import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+
 // @ts-nocheck
 let globalVariableTypes;
 let globalVariables;
@@ -115,14 +117,15 @@ export const getGlobalVariables = (typeName, showMultiPicklistGlobalVariables = 
 /**
  * Information about a single global variable
  *
- * @param {String} id      string with the format $____.______
+ * @param {String} id      points to a global variable
  * @returns {Object|null}  object representing the global variable if this id is valid
  */
 export const getGlobalVariable = id => {
-    if (id) {
-        const ref = id.split('.');
-        if (globalVariables && globalVariables[ref[0]]) {
-            return globalVariables[ref[0]][id];
+    const reference = removeCurlyBraces(id);
+    if (reference) {
+        const refParts = reference.split('.');
+        if (globalVariables && globalVariables[refParts[0]]) {
+            return globalVariables[refParts[0]][reference];
         }
     }
     return null;

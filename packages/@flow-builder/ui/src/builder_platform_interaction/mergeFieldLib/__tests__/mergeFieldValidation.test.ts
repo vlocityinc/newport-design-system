@@ -92,7 +92,18 @@ jest.mock('builder_platform_interaction/systemLib', () => {
                     isSystemVariable: true,
                     label: 'OriginDateTime',
                     name: '$System.OriginDateTime',
-                    subtype: 'Flow',
+                    readOnly: true
+                };
+            } else if (id === '$Setup.CustomSetting__c.CustomField__c') {
+                return {
+                    apiName: '$Setup.CustomSetting__c.CustomField__c',
+                    dataType: 'String',
+                    guid: '$Setup.CustomSetting__c.CustomField__c',
+                    isAssignable: false,
+                    isCollection: false,
+                    isSystemVariable: true,
+                    label: '$Setup.CustomSetting__c.CustomField__c',
+                    name: '$Setup.CustomSetting__c.CustomField__c',
                     readOnly: true
                 };
             }
@@ -560,6 +571,23 @@ describe('Merge field validation', () => {
             expect(validationErrors).toEqual([
                 validationError(2, 23, 'wrongDataType', `The data type of the resource you entered isn't compatible.`)
             ]);
+        });
+        it('Allows valid global variable which has more than 2 parts', () => {
+            const validationErrors = validateMergeField('{!$Setup.CustomSetting__c.CustomField__c}');
+            expect(validationErrors).toEqual([]);
+        });
+        it('Does not allow invalid $Flow global variable with more than 2 parts', () => {
+            const validationErrors = validateMergeField('{!$Flow.CustomSetting__c.CustomField__c}');
+            expect(validationErrors).toEqual([validationError(2, 38, 'invalidGlobalVariable', `Enter a valid value.`)]);
+        });
+        it('Does not allow invalid global variable with more than 2 parts', () => {
+            const validationErrors = validateMergeField('{!$Setup.CustomSetting__c.InvalidCustomField__c}');
+            expect(validationErrors).toEqual([validationError(2, 46, 'invalidGlobalVariable', `Enter a valid value.`)]);
+        });
+        // W-7881499
+        it('Allows $SmartDataDiscovery global variables without validation', () => {
+            const validationErrors = validateMergeField('{!$SmartDataDiscovery.Blah.Blah.Id}');
+            expect(validationErrors).toEqual([]);
         });
     });
     describe('Global constants', () => {

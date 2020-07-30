@@ -36,5 +36,21 @@ describe('global Variables', () => {
                 name: '$Organization.MP__c'
             });
         });
+        it('should work if the id has curly braces', () => {
+            setGlobalVariables(mockGlobalVariablesWithMultiPicklistField);
+
+            expect(getGlobalVariable('{!$Organization.MP__c}')).toEqual({
+                apiName: 'MP__c',
+                dataType: 'Multipicklist',
+                guid: '$Organization.MP__c',
+                label: 'MP__c',
+                name: '$Organization.MP__c'
+            });
+        });
+        it('should not work if the merge field syntax is incomplete', () => {
+            setGlobalVariables(mockGlobalVariablesWithMultiPicklistField);
+
+            expect(getGlobalVariable('!$Organization.MP__c')).toBeNull();
+        });
     });
 });

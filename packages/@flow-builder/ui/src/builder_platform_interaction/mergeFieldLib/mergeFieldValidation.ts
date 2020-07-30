@@ -31,7 +31,7 @@ import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interacti
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
 
-const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|(\w+|\$Record)(\.[A-Za-z0-9_:]+)*)\}/g;
+const MERGEFIELD_REGEX = /\{!(((\$\w+)(\.[A-Za-z0-9_:]+)+)|(\w+|\$Record)(\.[A-Za-z0-9_:]+)*)\}/g;
 
 const MAXIMUM_NUMBER_OF_LEVELS = 10;
 
@@ -187,18 +187,22 @@ export class MergeFieldsValidation {
 
     _validateGlobalVariable(mergeFieldReferenceValue: string, index: number) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        const globalVariable = getGlobalVariable(mergeFieldReferenceValue);
-        if (!globalVariable) {
-            return [
-                validationErrors.invalidGlobalVariable(
-                    MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
-                    index,
-                    endIndex
-                )
-            ];
-        }
-        if (!this._isElementValidForAllowedParamTypes(globalVariable)) {
-            return [validationErrors.invalidDataType(index, endIndex)];
+        // TODO W-7881499 Once global variables with child types are returned in
+        // menu data, remove this special handling
+        if (!mergeFieldReferenceValue.startsWith('$SmartDataDiscovery')) {
+            const globalVariable = getGlobalVariable(mergeFieldReferenceValue);
+            if (!globalVariable) {
+                return [
+                    validationErrors.invalidGlobalVariable(
+                        MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
+                        index,
+                        endIndex
+                    )
+                ];
+            }
+            if (!this._isElementValidForAllowedParamTypes(globalVariable)) {
+                return [validationErrors.invalidDataType(index, endIndex)];
+            }
         }
         return [];
     }
