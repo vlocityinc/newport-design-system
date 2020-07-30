@@ -1,7 +1,5 @@
-// @ts-nocheck
 const eventName = 'closemenu';
-
-export class CloseMenuEvent extends CustomEvent {
+export class CloseMenuEvent extends CustomEvent<{}> {
     constructor() {
         super(eventName, {
             bubbles: true,

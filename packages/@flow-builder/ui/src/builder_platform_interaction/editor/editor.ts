@@ -1141,7 +1141,7 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Handles the edit flow properies event fired by the toolbar. Opens the flow properties property editor with
+     * Handles the edit flow properties event fired by the toolbar. Opens the flow properties property editor with
      * the current values for the flow properties.
      */
     handleEditFlowProperties = () => {
@@ -1467,6 +1467,10 @@ export default class Editor extends LightningElement {
      */
     handleEditElement = event => {
         if (event && event.detail && event.type) {
+            const element = storeInstance.getCurrentState().elements[event.detail.canvasElementGUID];
+            if (element && element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
+                this.closeAutoLayoutContextualMenu();
+            }
             const mode = event.detail.mode;
             const guid = event.detail.canvasElementGUID;
             this.editElement(mode, guid);
