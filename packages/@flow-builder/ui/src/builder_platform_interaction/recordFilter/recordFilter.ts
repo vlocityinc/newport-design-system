@@ -2,7 +2,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, filterLogicOptions } from './recordFilterLabels';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
@@ -124,7 +123,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterLogicOptions() {
-        return filterLogicOptions(this.elementType, this.entityLabelPlural);
+        return filterLogicOptions(this.elementType, this.entityLabelPlural, this.entityLabel);
     }
 
     get showDeleteFilter() {
@@ -133,10 +132,6 @@ export default class RecordFilter extends LightningElement {
 
     get showTitle() {
         return !this.hideTitle;
-    }
-
-    get showFilterList() {
-        return this.selectedFilter === RECORD_FILTER_CRITERIA.ALL;
     }
 
     get filterLabel() {

@@ -1,12 +1,10 @@
-// @ts-nocheck
 import { format } from 'builder_platform_interaction/commonUtils';
-/* Labels */
 import findRecords from '@salesforce/label/FlowBuilderRecordEditor.findRecords';
-import ruleFindingRecords from '@salesforce/label/FlowBuilderRecordEditor.ruleFindingRecords';
 import addCriteria from '@salesforce/label/FlowBuilderRecordEditor.addCriteria';
 import filterLhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterLhsLabel';
 import filterOperatorLabel from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
+import filterNoCriteriaRunFlow from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaRunFlow';
 import filterNoCriteriaGet from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaGet';
 import filterNoCriteria from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteria';
 import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate';
@@ -16,6 +14,8 @@ import filterAllCriterias from '@salesforce/label/FlowBuilderRecordEditor.filter
 import filterAllCriteriasAnd from '@salesforce/label/FlowBuilderRecordEditor.filterAllCriteriasAnd';
 import filterPrefix from '@salesforce/label/FlowBuilderRecordEditor.filterPrefix';
 import criteriaMatchingRecords from '@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords';
+import filterCriteriaHeaderDelete from '@salesforce/label/FlowBuilderRecordEditor.filterCriteriaHeaderDelete';
+import filterCriteriaHeaderUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterCriteriaHeaderUpdate';
 import updateAllRecords from '@salesforce/label/FlowBuilderRecordEditor.updateAllRecords';
 import getAllRecords from '@salesforce/label/FlowBuilderRecordEditor.getAllRecords';
 import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
@@ -26,12 +26,12 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flow
 
 export const LABELS = {
     findRecords,
-    ruleFindingRecords,
     addCriteria,
     filterLhsLabel,
     filterOperatorLabel,
     filterRhsLabel,
     filterNoCriteria,
+    filterNoCriteriaRunFlow,
     filterNoCriteriaGet,
     filterNoCriteriaUpdate,
     filterLhsPlaceholder,
@@ -39,22 +39,24 @@ export const LABELS = {
     filterAllCriterias,
     filterAllCriteriasAnd,
     filterPrefix,
-    criteriaMatchingRecords,
     updateAllRecords,
     getAllRecords,
     warning,
     andConditionLogicLabel,
     orConditionLogicLabel,
-    customConditionLogicLabel
+    customConditionLogicLabel,
+    criteriaMatchingRecords,
+    filterCriteriaHeaderDelete,
+    filterCriteriaHeaderUpdate
 };
 
 export const CRITERIA_RECORDS_LABELS = {
-    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.ruleFindingRecords,
-    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.RECORD_DELETE]: LABELS.criteriaMatchingRecords,
+    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.criteriaMatchingRecords,
+    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterCriteriaHeaderUpdate,
+    [ELEMENT_TYPE.RECORD_DELETE]: LABELS.filterCriteriaHeaderDelete,
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.START_ELEMENT]: LABELS.ruleFindingRecords,
-    [ELEMENT_TYPE.START_ON_DML]: LABELS.ruleFindingRecords
+    [ELEMENT_TYPE.START_ELEMENT]: LABELS.criteriaMatchingRecords,
+    [ELEMENT_TYPE.START_ON_DML]: LABELS.criteriaMatchingRecords
 };
 
 export const WARNING_LABELS = {
@@ -62,25 +64,11 @@ export const WARNING_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.getAllRecords
 };
 
-export const NO_CRITERIA_LABELS = {
-    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterNoCriteriaGet,
-    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterNoCriteriaUpdate,
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterNoCriteriaGet,
-    [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterNoCriteriaGet
-};
-
-export const ALL_CRITERIA_LABELS = {
-    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterAllCriterias,
-    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterAllCriterias,
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterAllCriterias,
-    [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterAllCriteriasAnd
-};
-
-const defaultFilterLogic = recordName => {
+const defaultFilterLogic = recordPluralName => {
     return [
         {
             value: CONDITION_LOGIC.NO_CONDITIONS,
-            label: format(LABELS.filterNoCriteriaGet, recordName)
+            label: format(LABELS.filterNoCriteriaRunFlow, recordPluralName)
         },
         {
             value: CONDITION_LOGIC.AND,
@@ -97,13 +85,32 @@ const defaultFilterLogic = recordName => {
     ];
 };
 
-export const filterLogicOptions = (elementType, recordName) => {
+export const filterLogicOptions = (elementType, recordPluralName, recordSingularName) => {
     switch (elementType) {
+        case ELEMENT_TYPE.RECORD_LOOKUP:
+            return [
+                {
+                    value: CONDITION_LOGIC.NO_CONDITIONS,
+                    label: format(LABELS.filterNoCriteriaGet, recordSingularName)
+                },
+                {
+                    value: CONDITION_LOGIC.AND,
+                    label: LABELS.andConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.OR,
+                    label: LABELS.orConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                    label: LABELS.customConditionLogicLabel
+                }
+            ];
         case ELEMENT_TYPE.RECORD_UPDATE:
             return [
                 {
                     value: CONDITION_LOGIC.NO_CONDITIONS,
-                    label: format(LABELS.filterNoCriteriaUpdate, recordName)
+                    label: format(LABELS.filterNoCriteriaUpdate, recordSingularName)
                 },
                 {
                     value: CONDITION_LOGIC.AND,
@@ -134,6 +141,6 @@ export const filterLogicOptions = (elementType, recordName) => {
                 }
             ];
         default:
-            return defaultFilterLogic(recordName);
+            return defaultFilterLogic(recordPluralName);
     }
 };

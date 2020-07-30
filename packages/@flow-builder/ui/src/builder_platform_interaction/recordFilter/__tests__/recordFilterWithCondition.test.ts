@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -30,7 +29,7 @@ const EMPTY_FILTER_ITEM = {
     leftHandSide: { value: '', error: null },
     rightHandSide: { value: '', error: null },
     rightHandSideDataType: { value: '', error: null },
-    rowIndex: 'RECORDLOOKUPFILTERITEM_1'
+    rowIndex: '326e1b1a-7235-487f-9b44-38db56af4a43'
 };
 
 const AND_FILTER_LOGIC = { value: CONDITION_LOGIC.AND, error: null };
@@ -79,29 +78,36 @@ const createComponentUnderTest = ({
     document.body.appendChild(el);
     return el;
 };
-
-const SELECTORS = {
-    ...INTERACTION_COMPONENTS_SELECTORS,
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    hiddenFilterList: INTERACTION_COMPONENTS_SELECTORS.LIST + '.slds-hide'
-};
-
 const getFilterRecordsCombobox = filterCmp =>
-    deepQuerySelector(filterCmp, [SELECTORS.CONDITION_LIST, SELECTORS.LIGHTNING_COMBOBOX]);
-const getFilterList = filterCmp => deepQuerySelector(filterCmp, [SELECTORS.CONDITION_LIST, SELECTORS.LIST]);
+    deepQuerySelector(filterCmp, [
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+    ]);
+const getFilterList = filterCmp =>
+    deepQuerySelector(filterCmp, [
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        INTERACTION_COMPONENTS_SELECTORS.LIST
+    ]);
 const getExpressionBuilders = filterCmp =>
-    filterCmp.shadowRoot.querySelectorAll(SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
+    filterCmp.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
 
 const getListAddButton = filterCmp =>
-    deepQuerySelector(filterCmp, [SELECTORS.CONDITION_LIST, SELECTORS.LIST, SELECTORS.LIGHTNING_BUTTON]);
+    deepQuerySelector(filterCmp, [
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        INTERACTION_COMPONENTS_SELECTORS.LIST,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON
+    ]);
 const getFirstRow = filterCmp =>
-    deepQuerySelector(filterCmp, [SELECTORS.CONDITION_LIST, 'slot'])
+    deepQuerySelector(filterCmp, [INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST, 'slot'])
         .assignedNodes()[0]
-        .querySelector(SELECTORS.ROW);
+        .querySelector(INTERACTION_COMPONENTS_SELECTORS.ROW);
 const getFirstRowDeleteButton = filterCmp =>
-    getFirstRow(filterCmp).shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
+    getFirstRow(filterCmp).shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON);
 const getCustomConditionLogicInput = filterCmp =>
-    deepQuerySelector(filterCmp, [SELECTORS.CONDITION_LIST, SELECTORS.LIGHTNING_INPUT]);
+    deepQuerySelector(filterCmp, [
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT
+    ]);
 
 describe('record-filter', () => {
     describe('Filter records combobox', () => {
@@ -142,26 +148,42 @@ describe('record-filter', () => {
             });
         });
     });
-
-    describe('Combobox Labels', () => {
+    describe('Combobox header label', () => {
         it('For record lookup', () => {
             const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
-            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.ruleFindingRecords');
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
         });
         it('For record update', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_UPDATE })
             );
-            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.filterCriteriaHeaderUpdate');
         });
         it('For record delete', () => {
             const filterRecord = getFilterRecordsCombobox(
-                createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_UPDATE, filterLogic: CONDITION_LOGIC.AND })
+                createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_DELETE })
+            );
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.filterCriteriaHeaderDelete');
+        });
+        it('For start', () => {
+            const filterRecord = getFilterRecordsCombobox(
+                createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ELEMENT })
+            );
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        });
+        it('For start on DML', () => {
+            const filterRecord = getFilterRecordsCombobox(
+                createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ON_DML })
+            );
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        });
+        it('For record choice set', () => {
+            const filterRecord = getFilterRecordsCombobox(
+                createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_CHOICE_SET })
             );
             expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
         });
     });
-
     describe('Combobox options', () => {
         it('should have expected labels for record lookup', () => {
             const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
@@ -187,11 +209,11 @@ describe('record-filter', () => {
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
         });
-        it('should have expected labels for record start element', () => {
+        it('should have expected labels for start element', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ELEMENT })
             );
-            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaRunFlow');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
@@ -200,7 +222,7 @@ describe('record-filter', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_CHOICE_SET })
             );
-            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaRunFlow');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
@@ -209,13 +231,12 @@ describe('record-filter', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ON_DML })
             );
-            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaRunFlow');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
         });
     });
-
     describe('Filter Items', () => {
         describe('For record lookup', () => {
             let element;
@@ -302,7 +323,6 @@ describe('record-filter', () => {
             });
         });
     });
-
     describe('Filter items events dispatch', () => {
         it('when fires addRecordFilterEvent', async () => {
             const element = createComponentUnderTest();
@@ -336,7 +356,11 @@ describe('record-filter', () => {
 
         it('when fires deleteRecordFilterEvent', async () => {
             const firstRowIndex = 0;
-            const element = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, AND_FILTER_LOGIC, mock3FilterItems);
+            const element = createComponentUnderTest({
+                elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+                filterLogic: AND_FILTER_LOGIC,
+                filterItems: mock3FilterItems
+            });
             const eventCallback = jest.fn();
             element.addEventListener(DeleteRecordFilterEvent.EVENT_NAME, eventCallback);
             const rowsDeleteButtons = getFirstRowDeleteButton(element);
@@ -368,7 +392,6 @@ describe('record-filter', () => {
             });
         });
     });
-
     describe('when Filterable fields', () => {
         it('should show only filterable fields', () => {
             const element = createComponentUnderTest();
