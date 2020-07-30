@@ -6,7 +6,7 @@
   border-radius: 0.3rem;
   border: 1px solid $white-smoke;
   border-top: 0.3125rem solid $azure;
-  padding: 1rem 2.5rem 1rem 2.8rem;
+  padding: 0.8rem;
   margin-bottom: 0.7rem;
   position: relative;
   cursor: pointer;
@@ -15,10 +15,11 @@
     pointer-events: none;
   }
   .nds-b2b-promo-name {
-    font-size: $font-size-6;
+    font-size: $font-size-5;
   }
   .nds-b2b-promo-description {
     font-weight: $font-weight-light;
+    font-size: $font-size-2;
     margin-top: 0.3rem;
     @include multiLineEllipsis(1rem, 2);
   }
