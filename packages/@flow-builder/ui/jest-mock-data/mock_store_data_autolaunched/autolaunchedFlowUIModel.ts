@@ -540,6 +540,7 @@ export const autolaunchedFlowUIModel = {
         runInMode: null,
         status: 'Draft',
         versionNumber: 1,
+        apiVersion: 50,
         isAutoLayoutCanvas: false
     }
 };

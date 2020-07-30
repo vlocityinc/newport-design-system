@@ -77,7 +77,8 @@ export const flowWithScreenAndLightningComponentAddress = {
         subflows: [],
         textTemplates: [],
         variables: [],
-        waits: []
+        waits: [],
+        apiVersion: 50
     },
     processType: 'Flow',
     status: 'Draft',

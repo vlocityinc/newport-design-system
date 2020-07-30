@@ -213,7 +213,8 @@
             }
         ],
         "processType": "ContactRequestFlow",
-        "runInMode": null
+        "runInMode": null,
+        "apiVersion": 50
     },
     "processType": "ContactRequestFlow",
     "status": "InvalidDraft",

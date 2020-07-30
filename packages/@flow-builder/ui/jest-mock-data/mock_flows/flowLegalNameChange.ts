@@ -1278,7 +1278,7 @@ export const flowLegalNameChange = {
         processType: 'Flow',
         runInMode: null,
         status: 'Active',
-        apiVersion: 49
+        apiVersion: 50
     },
     processType: 'Flow',
     status: 'Active',

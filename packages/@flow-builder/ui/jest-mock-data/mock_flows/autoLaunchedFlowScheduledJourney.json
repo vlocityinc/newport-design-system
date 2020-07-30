@@ -267,7 +267,8 @@
         ],
         "processType": "AutoLaunchedFlow",
         "runInMode": null,
-        "status": "Draft"
+        "status": "Draft",
+        "apiVersion": 50
     },
     "processType": "AutoLaunchedFlow",
     "status": "Draft",

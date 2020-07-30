@@ -409,6 +409,7 @@ export const contactRequestFlowUIModel = {
         processType: 'ContactRequestFlow',
         runInMode: null,
         versionNumber: 1,
+        apiVersion: 50,
         isAutoLayoutCanvas: false
     }
 };

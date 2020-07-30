@@ -149,7 +149,8 @@
         ],
         "processType": "Flow",
         "runInMode": null,
-        "status": "InvalidDraft"
+        "status": "InvalidDraft",
+        "apiVersion": 50
     },
     "processType": "Flow",
     "status": "InvalidDraft",

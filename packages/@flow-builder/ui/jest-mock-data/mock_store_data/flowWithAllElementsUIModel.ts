@@ -2832,6 +2832,7 @@ export const flowWithAllElementsUIModel = {
         runInMode: null,
         status: null,
         versionNumber: 1,
+        apiVersion: 50,
         isAutoLayoutCanvas: false
     }
 };
