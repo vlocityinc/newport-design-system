@@ -1,18 +1,77 @@
 {
-  "version": 2,
+  "version": "experimental",
   "tags": [
     {
-      "name": "c-button",
-      "description": "Buttons are clickable items used to perform an action.",
+      "name": "button",
+      "path": "./button.js",
       "properties": [
         {
-          "name": "header"
+          "name": "label"
+        },
+        {
+          "name": "variant"
+        },
+        {
+          "name": "title"
+        },
+        {
+          "name": "theme",
+          "type": "string",
+          "default": "\"slds\""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "iconName"
+        },
+        {
+          "name": "ndsIcon"
+        },
+        {
+          "name": "iconPosition"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "bgColor"
+        },
+        {
+          "name": "extraclass"
+        },
+        {
+          "name": "iconSize",
+          "type": "string",
+          "default": "\"xx-small\""
+        },
+        {
+          "name": "iconUrl"
+        },
+        {
+          "name": "iconFill"
+        },
+        {
+          "name": "iconBgColor"
+        },
+        {
+          "name": "iconVariant",
+          "type": "string",
+          "default": "\"default\""
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "default": "\"button\""
+        },
+        {
+          "name": "disableTab",
+          "type": "boolean",
+          "default": "false"
         }
-      ],
-      "attributes": [],
-      "events": [],
-      "slots": [],
-      "cssProperties": []
+      ]
     }
   ]
 }
