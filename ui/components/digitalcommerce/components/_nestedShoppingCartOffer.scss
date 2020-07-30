@@ -33,6 +33,23 @@
         .nds-dc-tile_text {
           color: $kashmir-blue;
           font-size: 0.75rem;
+          .nds-dc-action_badge {
+            display: inline-block;
+            position: absolute;
+            margin: -1rem -2rem 0 0;
+            color: white;
+            padding: 0 0.3125rem;
+            border-radius:0.3125rem;
+            &.nds-dc-action_add {
+              background-color: $salem;
+            }
+            &.nds-dc-action_change {
+              background-color: $palette-gray-9;
+            }
+            &.nds-dc-action_disconnect {
+              background-color: $koromiko;
+            }
+          }
           input {
             width: 2.1875rem;
             padding: $spacing-applied-promo;
@@ -44,6 +61,9 @@
             &:focus {
               outline: 0;
             }
+          }
+          input[readonly] {
+            border-bottom: 2px solid $gray-border-primary;
           }
           &.nds-dc-title {
             width: 35%;
@@ -132,6 +152,10 @@
         .nds-dc-offer_menu {
           .nds-dc-tile_text {
             font-size: $font-size-applied-promo;
+            .nds-dc-action_badge {
+              position: relative;
+              margin: 0;
+            }
             &.nds-dc-title {
               width: 30%;
               padding-left: 1.25rem;
