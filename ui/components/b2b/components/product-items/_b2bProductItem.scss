@@ -38,24 +38,21 @@
     border-radius: 0.3rem;
     width: 100%;
     height: 100%;
-    padding: 0.8rem 1.5rem 0.8rem 2.6rem;
+    padding: 0.8rem;
     min-height: 8rem;
     cursor: pointer;
 
     .nds-b2b-product-name {
-      font-size: $font-size-6;
+      font-size: $font-size-5;
       color: $black-primary;
     }
     .nds-b2b-product-description {
       font-weight: $font-weight-light;
       margin-top: 0.3rem;
+      font-size: $font-size-2;
       margin-bottom: 1.25rem;
       color: #666666;
       @include multiLineEllipsis(1rem, 2);
-    }
-    .nds-b2b-product-icon {
-      margin-left: -1.6rem;
-      margin-right: 0.4rem;
     }
 
     .nds-b2b-price_info {
@@ -65,7 +62,37 @@
       .nds-b2b-each-attribute {
         margin-left: 3rem;
         font-size: 1rem;
-        font-weight: 400;
+        font-weight: $font-weight-regular;
+        .nds-b2b-price-label {
+          color: $palette-gray-9;
+          font-size: $font-size-2;
+        }
+      }
+    }
+
+    .nds-b2b-attributes_info {
+      @include cardsHeaderAttributes;
+      overflow: auto;
+      position: inherit;
+      width: inherit;
+      margin-bottom: 1.3rem;
+      .nds-b2b-each-attribute {
+        min-width: auto;
+        .nds-b2b-attribute_label {
+          margin-right: 0.3rem;
+          &::after {
+            content: ":";
+          }
+        }
+        .nds-b2b-attribute_value {
+          font-size: 0.8rem;
+          font-weight: $font-weight-regular;
+        }
+        &:not(:first-child):before {
+          content: " . ";
+          font-weight: $font-weight-light;
+          padding: 0 0.25rem;
+        }
       }
     }
     
@@ -78,8 +105,12 @@
     }
   }
   @media screen and (min-width: 48rem) {
-    margin-left: 0.7rem;
-    min-width: $b2b-product-item-min-width;
-    max-width: $b2b-product-item-max-width;
+    margin-right: 0.7rem;
+    min-width: 17rem;
+    max-width: 17rem;
+  }
+  @media screen and (min-width: 80rem) {
+    min-width: 24rem;
+    max-width: 24rem;
   }
 }
