@@ -187,6 +187,11 @@
               }
             }
           }
+          &.nds-b2b-no-chevron {
+            &::after {
+              content: "";
+            }
+          }
           @media screen and (min-width: 48rem) {
             padding: 1.5rem 3rem 1.5rem 1.5rem;
             &::after {
