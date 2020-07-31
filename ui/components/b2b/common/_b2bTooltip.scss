@@ -1,0 +1,16 @@
+.nds-b2b-tooltip_wrapper {
+	position: relative;
+}
+
+.nds-b2b-tooltip_cont {
+	display: none;
+	color: $black-primary;
+	margin-top: .5rem;
+	position: absolute;
+	top: 100%;
+	left: 0;
+
+	.nds-b2b-tooltip_wrapper:hover & {
+		display: block;
+	}
+}
