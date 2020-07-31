@@ -31,7 +31,7 @@ To debug a test:
 To update all the snaphots in a package:
 `yarn lwc-test --updateSnapshot`
 
-## SFCI Setup
+## SFCI Setup and CLCO
 
 To add a new branch under SFCI you need to do the following:
 

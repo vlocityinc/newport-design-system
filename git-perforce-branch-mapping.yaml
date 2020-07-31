@@ -2,3 +2,5 @@
 'master': '//app/main/...'
 '226': '//app/226/patch/...'
 '226-freeze': '//app/226/freeze/...'
+'228': '//app/228/patch/...'
+'228-freeze': '//app/228/freeze/...'
