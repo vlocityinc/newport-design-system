@@ -23,6 +23,7 @@
             <builder_platform_interaction-toolbar
                 ontoggleselectionmode={handleToggleSelectionMode}
                 oncopy={handleCopy}
+                onclick={handleLeftPaneAndToolbarInteraction}
                 onduplicate={handleDuplicate}
                 oneditflowproperties={handleEditFlowProperties}
                 oneditflow={handleEditFlow}
@@ -71,6 +72,7 @@
                 if:true={showLeftPanel}
                 onaddnewresource={handleAddResourceElement}
                 onaddelement={handleAddCanvasElement}
+                onclick={handleLeftPaneAndToolbarInteraction}
                 oneditelement={handleEditElement}
                 ondeleteelement={handleElementDelete}
                 onlocatoriconclicked={handleHighlightOnCanvas}

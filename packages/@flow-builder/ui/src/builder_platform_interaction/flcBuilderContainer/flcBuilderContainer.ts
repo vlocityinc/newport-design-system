@@ -11,6 +11,8 @@ import {
 } from 'builder_platform_interaction/flcBuilderUtils';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 
+const LEFT_PANE_WIDTH = 320;
+
 let startElementMetadata = null;
 
 function augmentElementsMetadata(elementsMetadata) {
@@ -105,6 +107,10 @@ export default class FlcBuilderContainer extends LightningElement {
     flowModel = null;
 
     rootElement = null;
+
+    get canvasOffsets() {
+        return this.isSelectionMode ? [LEFT_PANE_WIDTH, 0] : [0, 0];
+    }
 
     constructor() {
         super();

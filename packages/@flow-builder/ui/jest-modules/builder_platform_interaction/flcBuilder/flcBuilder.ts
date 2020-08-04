@@ -13,4 +13,7 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     flowModel;
+
+    @api
+    offsets;
 }

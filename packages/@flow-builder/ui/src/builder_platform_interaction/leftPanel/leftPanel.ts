@@ -146,8 +146,7 @@ export default class LeftPanel extends LightningElement {
         this.showResourceDetailsPanel = true;
     }
 
-    handleAddNewResourceButtonClick = event => {
-        event.stopPropagation();
+    handleAddNewResourceButtonClick = () => {
         const handleOnClickEvent = new NewResourceEvent();
         this.dispatchEvent(handleOnClickEvent);
         this._addInlineResourceFromManagerTab = true;

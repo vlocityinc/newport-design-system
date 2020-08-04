@@ -129,6 +129,9 @@ export default class FlcBuilder extends LightningElement {
     @api
     isPasteAvailable!: boolean;
 
+    @api
+    offsets = [0, 0];
+
     get isReconnecting() {
         return this._reconnectSourceGuid != null;
     }
@@ -201,6 +204,12 @@ export default class FlcBuilder extends LightningElement {
         this.isZoomInDisabled = scale >= MAX_ZOOM - FUDGE;
         this.isZoomOutDisabled = scale <= MIN_ZOOM + FUDGE;
         this.isZoomToView = this.isZoomInDisabled;
+    }
+
+    get canvasStyle() {
+        const [x, y] = this.offsets;
+
+        return `margin-left: ${x}px; margin-top: ${y}px`;
     }
 
     // TODO to be fix in @W-7865113. This function was used in both flc-node-menu and flc-node-start-menu to replace menu.elementMetadata
