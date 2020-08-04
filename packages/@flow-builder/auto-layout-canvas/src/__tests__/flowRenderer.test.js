@@ -5,7 +5,9 @@ import {
     getEmptyFlowContext,
     getFlowWithEmptyDecisionContext,
     getFlowWithEmptyDeciisionWith3BranchesContext,
-    getFlowWithDecisionWithOneElementOnLeftBranchContext
+    getFlowWithDecisionWithOneElementOnLeftBranchContext,
+    getFlowWithEmptyLoopContext,
+    getFlowWithTwoFaults
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -29,6 +31,13 @@ describe('flowRenderer', () => {
 
         it('flow with decision with one element on left branch', () => {
             renderAndAssert(getFlowWithDecisionWithOneElementOnLeftBranchContext());
+        });
+
+        it('flow with empty loop context', () => {
+            renderAndAssert(getFlowWithEmptyLoopContext());
+        });
+        it('flow with two faults', () => {
+            renderAndAssert(getFlowWithTwoFaults());
         });
     });
 });

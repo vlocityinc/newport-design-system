@@ -345,8 +345,7 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
 
     const nodeRenderInfos = [];
 
-    const childCount = childIndex === FAULT_INDEX ? 1 : parentNode.children.length;
-    const connectorVariant = getConnectorVariant(parentNode, childIndex, context, childCount);
+    const connectorVariant = getConnectorVariant(parentNode, childIndex, context);
 
     while (node) {
         const nodeRenderInfo = renderNode(parentNode, node, context, connectorVariant);
@@ -546,28 +545,57 @@ function renderBranches(
  * @param parentNodeGuid - The parent node
  * @param childIndex - The childIndex
  * @param context  - The flow render context
- * @param childCount - The parent node's child count
+ *
  */
 function getConnectorVariant(
     parentNode: ParentNodeModel,
     childIndex: number,
-    context: FlowRenderContext,
-    childCount: number = 0
+    context: FlowRenderContext
 ): ConnectorVariant {
+    if (childIndex === FAULT_INDEX) {
+        return ConnectorVariant.FAULT;
+    }
+
     const { progress, nodeLayoutMap, elementsMetadata } = context;
     const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
     let variant = ConnectorVariant.DEFAULT;
 
     const metadata = getElementMetadata(elementsMetadata, parentNode.elementType);
 
-    if (childIndex === FAULT_INDEX) {
-        variant = ConnectorVariant.FAULT;
-    } else if (metadata.type === ElementType.LOOP) {
+    let leftBottomEdgeIndex = NaN;
+    let rightBottomEdgeIndex = NaN;
+
+    const { children } = parentNode;
+
+    let firstNonTerminalBranch = true;
+
+    children.forEach((child, i) => {
+        const isTerminal = child != null && resolveBranchHead(context.flowModel, child).isTerminal;
+
+        if (!isTerminal) {
+            if (firstNonTerminalBranch) {
+                firstNonTerminalBranch = false;
+                leftBottomEdgeIndex = i;
+            }
+
+            rightBottomEdgeIndex = i;
+        }
+    });
+
+    if (metadata.type === ElementType.LOOP) {
         variant = ConnectorVariant.LOOP;
     } else if (branchLayout.x === 0) {
         variant = ConnectorVariant.CENTER;
-    } else if (childIndex === FAULT_INDEX || childIndex === 0 || childIndex === childCount - 1) {
+    } else if (childIndex === 0 || childIndex === children.length - 1) {
         variant = ConnectorVariant.EDGE;
+    }
+
+    if (variant === ConnectorVariant.DEFAULT) {
+        if (childIndex === leftBottomEdgeIndex && branchLayout.x < 0) {
+            variant = ConnectorVariant.EDGE_BOTTOM;
+        } else if (childIndex === rightBottomEdgeIndex && branchLayout.x > 0) {
+            variant = ConnectorVariant.EDGE_BOTTOM;
+        }
     }
 
     return variant;
@@ -612,7 +640,7 @@ function createPreConnector(
             : [parentNode.children[childIndex], parentNode.children.length];
 
     const isEmptyBranch = branchHeadGuid == null;
-    const variant = getConnectorVariant(parentNode, childIndex, context, childCount);
+    const variant = getConnectorVariant(parentNode, childIndex, context);
     const { elementType } = parentNode;
     const metadata = getElementMetadata(elementsMetadata, elementType);
 

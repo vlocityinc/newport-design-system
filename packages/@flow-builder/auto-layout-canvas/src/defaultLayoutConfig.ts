@@ -44,6 +44,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                             svgMarginTop: gridHeight,
                             variants: {
                                 edge: { svgMarginBottom: gridHeight },
+                                edgeBottom: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight }
                             }
                         },
@@ -53,6 +54,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                             svgMarginTop: gridHeight,
                             variants: {
                                 edge: { svgMarginBottom: gridHeight },
+                                edgeBottom: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight },
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
@@ -65,6 +67,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                                 edge: {
                                     svgMarginBottom: gridHeight
                                 },
+                                edgeBottom: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight },
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
@@ -93,6 +96,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                                     svgMarginTop: gridHeight,
                                     svgMarginBottom: gridHeight
                                 },
+                                edgeBottom: { svgMarginBottom: gridHeight },
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
                                 },

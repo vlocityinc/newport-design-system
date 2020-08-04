@@ -89,5 +89,13 @@ describe('layout', () => {
         it('flow with two elements with fault branches', () => {
             calculateLayoutAndAssert(getFlowWithTwoFaults());
         });
+
+        it('flow with decision with 3 branches where the middle branch is a left bottom edge', () => {
+            const nestedBranch = { ...BRANCH_ELEMENT, children: [null, null, null] };
+            const branchElement = { ...BRANCH_ELEMENT, children: [[END_ELEMENT], null, [nestedBranch]] };
+
+            const flowModel = createFlow([branchElement]);
+            calculateLayoutAndAssert(createFlowRenderContext({ flowModel }));
+        });
     });
 });

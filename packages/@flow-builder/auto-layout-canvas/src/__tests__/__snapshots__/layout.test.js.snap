@@ -166,6 +166,192 @@ Object {
 }
 `;
 
+exports[`layout calculateLayout flow with decision with 3 branches where the middle branch is a left bottom edge 1`] = `
+Object {
+  "branch-guid": Object {
+    "layout": Object {
+      "h": 432,
+      "joinOffsetY": 336,
+      "offsetX": 396,
+      "w": 968,
+      "x": 0,
+      "y": 120,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:0": Object {
+    "layout": Object {
+      "h": 192,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": -308,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "branch-guid:0-end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:1": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": -44,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "branch-guid:2": Object {
+    "layout": Object {
+      "h": 336,
+      "joinOffsetY": 0,
+      "offsetX": 264,
+      "w": 528,
+      "x": 308,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "branch-guid:2-branch-guid": Object {
+    "layout": Object {
+      "h": 192,
+      "joinOffsetY": 120,
+      "offsetX": 264,
+      "w": 528,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:2-branch-guid:0": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": -176,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 144,
+    },
+  },
+  "branch-guid:2-branch-guid:1": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 144,
+    },
+  },
+  "branch-guid:2-branch-guid:2": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": 176,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 144,
+    },
+  },
+  "end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 552,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 600,
+      "joinOffsetY": 0,
+      "offsetX": 396,
+      "w": 968,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
 exports[`layout calculateLayout flow with decision with one element on left branch 1`] = `
 Object {
   "branch-guid": Object {
