@@ -95,18 +95,18 @@ export default class RecordInputOutputAssignments extends LightningElement {
         const excludedFields = [];
         const _inputOutputAssignmentsItems = [];
         // In the inputOutputAssignmentsItems the left hand side value is formed like "entityName.FieldApiName"
-        this.inputOutputAssignmentsItems.forEach(item => {
+        this.inputOutputAssignmentsItems.forEach((item) => {
             const fieldName = this.getLeftHandSideFieldName(item);
             if (fieldName) {
                 excludedFields.push(fieldName);
             }
         });
 
-        this.inputOutputAssignmentsItems.forEach(item => {
+        this.inputOutputAssignmentsItems.forEach((item) => {
             const itemApiName = this.getLeftHandSideFieldName(item);
             const fields = this.recordFields && Object.values(this.recordFields);
             const entityFilteredFields = {};
-            fields.forEach(field => {
+            fields.forEach((field) => {
                 // The field list Should not contains the already selected field
                 if (this.includeField(excludedFields, field.apiName, itemApiName)) {
                     entityFilteredFields[field.apiName] = field;

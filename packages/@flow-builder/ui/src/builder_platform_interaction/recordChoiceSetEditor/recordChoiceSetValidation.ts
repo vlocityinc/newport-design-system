@@ -14,7 +14,7 @@ const additionalRules = {
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
 const validateFilter = () => {
-    return filter => {
+    return (filter) => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
         };
@@ -33,7 +33,7 @@ const validateFilter = () => {
  * @return {function} the function to be called with each outputAssignment item to return the array of rules.
  */
 const validateOutputAssignments = () => {
-    return outputAssignment => {
+    return (outputAssignment) => {
         const rules = {};
 
         if (outputAssignment[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {

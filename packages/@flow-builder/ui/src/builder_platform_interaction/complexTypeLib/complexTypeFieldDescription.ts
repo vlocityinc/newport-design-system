@@ -57,7 +57,7 @@ export function getAutomaticOutputParameters(flowResource) {
             if (parameters === undefined) {
                 return undefined;
             }
-            automaticOutputParameters = parameters.filter(parameter => parameter.isOutput);
+            automaticOutputParameters = parameters.filter((parameter) => parameter.isOutput);
         } else if (flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
             return getActiveOrLatestFlowOutputVariables(flowResource.flowName);
         }
@@ -113,7 +113,7 @@ function getExtensionComplexTypeOutputFields(flowResource) {
     return fields;
 }
 
-const isSingleAnonymousOutput = parameter => {
+const isSingleAnonymousOutput = (parameter) => {
     return parameter.isSystemGeneratedOutput && parameter.maxOccurs === 1;
 };
 
@@ -137,7 +137,7 @@ function getInvocableActionComplexTypeOutputFields({ actionName, actionType, dat
     const fields =
         parameters &&
         parameters
-            .filter(parameter => parameter.isOutput)
+            .filter((parameter) => parameter.isOutput)
             .reduce((acc, parameter) => {
                 if (isSingleAnonymousOutput(parameter)) {
                     acc =

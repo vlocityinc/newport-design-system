@@ -94,7 +94,7 @@ describe('visual-picker-list', () => {
 
     it('shows 2 items for each row', () => {
         const rows = getRows(visualPickerCmp);
-        rows.forEach(row => {
+        rows.forEach((row) => {
             const itemsPerRow = getItemsPerRow(row);
             expect(itemsPerRow).toHaveLength(2);
         });

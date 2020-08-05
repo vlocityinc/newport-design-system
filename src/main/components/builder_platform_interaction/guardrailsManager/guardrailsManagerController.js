@@ -5,7 +5,7 @@
  */
 
 ({
-    init: function(cmp, event, helper) {
+    init: function (cmp, event, helper) {
         if (cmp.get('v.consumerId')) {
             var mutePreference = new helper.guardrailsUtils.MutePreference(cmp.get('v.consumerId'));
             cmp.set('v.mutePreference', mutePreference);
@@ -13,7 +13,7 @@
         }
     },
 
-    handleGuardrailsResults: function(cmp, event, helper) {
+    handleGuardrailsResults: function (cmp, event, helper) {
         var eventParams = event.getParams();
         var report = eventParams.guardrailsResult.results;
         var hasNewResults = helper.processResults(cmp, report);
@@ -26,7 +26,7 @@
         }
     },
 
-    handleToggleGuardrails: function(cmp, event, helper) {
+    handleToggleGuardrails: function (cmp, event, helper) {
         event.stopPropagation();
 
         var muted = event.detail.muted;

@@ -577,21 +577,21 @@ export class MergeFieldsValidation {
 
     _getOutputParameterForExtension(extension, parameterName: string) {
         parameterName = parameterName.toLowerCase();
-        const outputParam = extension.outputParameters.find(param => parameterName === param.apiName.toLowerCase());
+        const outputParam = extension.outputParameters.find((param) => parameterName === param.apiName.toLowerCase());
         return outputParam && getExtensionParamDescriptionAsComplexTypeFieldDescription(outputParam);
     }
 
     _getActionOutputParameter(parameters, parameterName: string) {
         parameterName = parameterName.toLowerCase();
         const outputParam = parameters.find(
-            param => param.isOutput === true && parameterName === param.name.toLowerCase()
+            (param) => param.isOutput === true && parameterName === param.name.toLowerCase()
         );
         return outputParam && getInvocableActionParamDescriptionAsComplexTypeFieldDescription(outputParam);
     }
 
     _getSubflowOutputVariable(outputVariables, variableName: string) {
         variableName = variableName.toLowerCase();
-        return outputVariables.find(variable => variableName === variable.name.toLowerCase());
+        return outputVariables.find((variable) => variableName === variable.name.toLowerCase());
     }
 }
 

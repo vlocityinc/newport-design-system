@@ -149,10 +149,10 @@ const addCondition = (screen, field, event) => {
  */
 const clearGenericParameters = ({ parameters, extensionParameters, genericTypeName }) =>
     parameters
-        .map(parameter => ({
+        .map((parameter) => ({
             parameter,
             parameterType: extensionParameters.find(
-                paramType => paramType.apiName === getValueFromHydratedItem(parameter.name)
+                (paramType) => paramType.apiName === getValueFromHydratedItem(parameter.name)
             )
         }))
         .map(({ parameter, parameterType }) =>
@@ -200,7 +200,7 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
     const { dynamicTypeMappings } = field;
 
     // Find the dynamic type mapping. It has to be present in the array already.
-    const index = dynamicTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
+    const index = dynamicTypeMappings.findIndex((mapping) => getValueFromHydratedItem(mapping.typeName) === typeName);
     const dynamicTypeMapping = dynamicTypeMappings[index];
 
     // Check if the value has actually changed
@@ -263,7 +263,7 @@ const resizeColumnsForSection = (screen, sectionGuid) => {
     const newWidth = MAX_TOTAL_WIDTH / parent.fields.length;
 
     // Update the column with a new width input parameter
-    parent.fields.forEach(column => {
+    parent.fields.forEach((column) => {
         const originalInputParameters = column.inputParameters;
         const inputParameter = Object.assign({}, originalInputParameters[0], {
             name: 'width',
@@ -545,7 +545,7 @@ const processFerovValueChange = (valueField, ferovDataType, typePropertyName) =>
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
  * @returns {screenfield} - The new screenfield after the change
  */
-const handleFieldsPropertyChange = data => {
+const handleFieldsPropertyChange = (data) => {
     return updateProperties(data.field, {
         fields: data.newValue
     });
@@ -557,7 +557,7 @@ const handleFieldsPropertyChange = data => {
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
  * @returns {screenfield} - The new screenfield after the change
  */
-const handleStandardScreenFieldPropertyChange = data => {
+const handleStandardScreenFieldPropertyChange = (data) => {
     // Non-extension screen field change
 
     // Run validation
@@ -638,11 +638,11 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
     let param = null;
     if (attributeIndex > 0) {
         const params = field[parametersPropName].filter(
-            p => (p.name && p.name.value ? p.name.value : p.name) === paramName
+            (p) => (p.name && p.name.value ? p.name.value : p.name) === paramName
         );
         param = params[attributeIndex - 1];
     } else {
-        param = field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+        param = field[parametersPropName].find((p) => (p.name && p.name.value ? p.name.value : p.name) === paramName);
     }
 
     // Going from no value to having a value

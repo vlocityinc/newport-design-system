@@ -25,7 +25,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
     const debugTraces = [];
     debugTraces.push(getStartInterviewInfo(debugData));
     for (let i = 1; i < debugData.debugTrace.length; i++) {
-        const trace = debugData.debugTrace[i].debugInfo.split(NEWLINE).filter(e => {
+        const trace = debugData.debugTrace[i].debugInfo.split(NEWLINE).filter((e) => {
             return !!e;
         });
         debugTraces.push({
@@ -47,7 +47,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
  * @return {Object} start debug interview info
  */
 function getStartInterviewInfo(debugData) {
-    const startedInfo = debugData.debugTrace[0].debugInfo.split(NEWLINE).filter(e => {
+    const startedInfo = debugData.debugTrace[0].debugInfo.split(NEWLINE).filter((e) => {
         return !!e;
     });
     startedInfo.push(format(LABELS.interviewStartedAt, formatDateHelper(debugData.startInterviewTime)));
@@ -123,7 +123,7 @@ export function convertElementTypeToTitleCase(str) {
         return str;
     }
     const colon = str.indexOf(':');
-    const elementType = str.substr(0, colon).replace(/\w\S*/g, txt => {
+    const elementType = str.substr(0, colon).replace(/\w\S*/g, (txt) => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
     return elementType + str.substr(colon);

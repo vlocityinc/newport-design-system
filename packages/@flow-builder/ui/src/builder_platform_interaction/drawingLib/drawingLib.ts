@@ -89,7 +89,7 @@ class DrawingLib {
      * Sets the container as the main area for all the jsPlumb activity.
      * @param {String|Object} container - id of the element or the whole element where the jsPlumb instance should live
      */
-    setContainer = container => {
+    setContainer = (container) => {
         this.instance.setContainer(container);
     };
 
@@ -114,7 +114,7 @@ class DrawingLib {
      * Updates the zoom level of the jsPlumb container to draw connections based on the new zoom level.
      * @param {Integer} zoomValue - Zoom level for the container
      */
-    setZoom = zoomValue => {
+    setZoom = (zoomValue) => {
         this.instance.setZoom(zoomValue);
     };
 
@@ -132,7 +132,7 @@ class DrawingLib {
      * @param {String} canvasElementContainer - The canvas element container
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    isSource = canvasElementContainer => {
+    isSource = (canvasElementContainer) => {
         return this.instance.isSource(canvasElementContainer);
     };
 
@@ -140,7 +140,7 @@ class DrawingLib {
      * Makes the end-points of all the nodes a source point to start creating connectors from.
      * @param {String} canvasElementContainer - The canvas element container
      */
-    makeSource = canvasElementContainer => {
+    makeSource = (canvasElementContainer) => {
         this.instance.makeSource(canvasElementContainer, {
             filter: '.end-point',
             endpoint: 'Dot',
@@ -155,7 +155,7 @@ class DrawingLib {
      * @param {String} canvasElementContainer - The canvas element container
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    isTarget = canvasElementContainer => {
+    isTarget = (canvasElementContainer) => {
         return this.instance.isTarget(canvasElementContainer);
     };
 
@@ -163,7 +163,7 @@ class DrawingLib {
      * Makes all the nodes a target region for the connectors to be dropped at.
      * @param {String} canvasElementContainer - The canvas element container
      */
-    makeTarget = canvasElementContainer => {
+    makeTarget = (canvasElementContainer) => {
         this.instance.makeTarget(canvasElementContainer, {
             allowLoopback: false,
             maxConnections: -1,
@@ -251,7 +251,7 @@ class DrawingLib {
      * Sets up a new connection when a connector is dragged from a source and dropped at a target.
      * @param {Function} connectionAdded - Function to dispatch an addConnection event to the editor
      */
-    setNewConnection = connectionAdded => {
+    setNewConnection = (connectionAdded) => {
         this.instance.bind('beforeDrop', connectionAdded);
     };
 
@@ -259,7 +259,7 @@ class DrawingLib {
      * Notifies when a connections is clicked.
      * @param {Function} connectionClicked - Function to mark the node as selected
      */
-    clickConnection = connectionClicked => {
+    clickConnection = (connectionClicked) => {
         this.instance.bind('click', connectionClicked);
     };
 
@@ -356,7 +356,7 @@ class DrawingLib {
      * Add the given element to the drag selection.
      * @param {Object} nodeElement - The passed element
      */
-    addToDragSelection = nodeElement => {
+    addToDragSelection = (nodeElement) => {
         this.instance.addToDragSelection(nodeElement);
     };
 
@@ -364,7 +364,7 @@ class DrawingLib {
      * Removes the given element from the drag selection.
      * @param {Object} nodeElement - The passed element
      */
-    removeFromDragSelection = nodeElement => {
+    removeFromDragSelection = (nodeElement) => {
         this.instance.removeFromDragSelection(nodeElement);
     };
 
@@ -388,7 +388,7 @@ class DrawingLib {
         this.instance.unmanage(nodeId);
     };
 
-    disableDragElement = el => {
+    disableDragElement = (el) => {
         this.instance.destroyDraggable(el);
     };
 
@@ -396,7 +396,7 @@ class DrawingLib {
      * Removes the connector from jsPlumb's instance
      * @param {Object} connector - jsPlumb connector instance
      */
-    removeConnectorFromLib = connector => {
+    removeConnectorFromLib = (connector) => {
         if (!connector) {
             throw new Error('connector is not defined. It must be defined.');
         }
@@ -408,7 +408,7 @@ class DrawingLib {
      * Revalidate specific element
      * @param {Object} canvasElementContainer - The canvas element container
      */
-    revalidate = canvasElementContainer => {
+    revalidate = (canvasElementContainer) => {
         this.instance.revalidate(canvasElementContainer);
     };
 }
@@ -436,7 +436,7 @@ export const clearDrawingLibInstance = () => {
  * @param {Function} decorator - Function to configure a connector.
  *                               Accepts (connector, connectorType) and can modify the connector
  */
-export const setConnectionDecorator = decorator => {
+export const setConnectionDecorator = (decorator) => {
     connectionDecorator = decorator;
     return getDrawingLibInstance();
 };

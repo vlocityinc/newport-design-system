@@ -5,7 +5,7 @@ import { NumberRecordToStoreChangedEvent } from 'builder_platform_interaction/ev
 import { NUMBER_RECORDS_OPTIONS } from '../../recordLookupEditor/recordLookupEditorLabels';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-record-number-record-to-store', {
         is: RecordNumberRecordToStore
     });
@@ -18,7 +18,7 @@ const SELECTORS = {
     lightningGroupButton: 'lightning-radio-group'
 };
 
-const getLightningGroupButton = recordNumberRecordToStore =>
+const getLightningGroupButton = (recordNumberRecordToStore) =>
     recordNumberRecordToStore.shadowRoot.querySelector(SELECTORS.lightningGroupButton);
 
 describe('record-number-record-to-store', () => {

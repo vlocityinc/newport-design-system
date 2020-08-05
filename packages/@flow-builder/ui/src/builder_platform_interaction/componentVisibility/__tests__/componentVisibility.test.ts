@@ -45,7 +45,7 @@ function getVisibilityRule(conditionLogic = CONDITION_LOGIC.NO_CONDITIONS, condi
     };
 }
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-component-visibility', {
         is: ComponentVisiblity
     });
@@ -68,7 +68,7 @@ const createComponentUnderTest = props => {
         UpdateConditionEvent.EVENT_NAME
     ];
 
-    events.map(event => el.addEventListener(event, reducer));
+    events.map((event) => el.addEventListener(event, reducer));
 
     document.body.appendChild(el);
     return el;

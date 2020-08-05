@@ -15,8 +15,8 @@ export * from './matchers';
  * @return {Function} a filter function that finds elements containing the given
  *         pattern in their label
  */
-export const labelFilter = pattern => {
-    return obj => {
+export const labelFilter = (pattern) => {
+    return (obj) => {
         return pattern ? containsMatcher(obj, 'label', pattern) : true;
     };
 };
@@ -30,8 +30,8 @@ export const labelFilter = pattern => {
  * @return {Function} a filter function that finds resources containing the given
  *         pattern in their label
  */
-export const resourceFilter = pattern => {
-    return obj => {
+export const resourceFilter = (pattern) => {
+    return (obj) => {
         let result = false;
         if (obj.elementType === ELEMENT_TYPE.ROOT_ELEMENT || obj.elementType === ELEMENT_TYPE.END_ELEMENT) {
             result = false;
@@ -62,8 +62,8 @@ export const resourceFilter = pattern => {
  * @return {Function} a filter function that finds canvas elements containing the given
  *         pattern in their label
  */
-export const canvasElementFilter = pattern => {
-    return obj => {
+export const canvasElementFilter = (pattern) => {
+    return (obj) => {
         // TODO: Temporarily filtering out the Start Element until it becomes a
         // first class element.
         let result =

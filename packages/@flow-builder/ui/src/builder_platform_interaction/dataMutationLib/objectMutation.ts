@@ -71,7 +71,7 @@ export function updateProperties(obj = {}, props = {}) {
  * @param {String} string the string path we will convert to an array path
  * @returns {Array}     array of keys that represent a path in an object
  */
-export const stringToPath = string => {
+export const stringToPath = (string) => {
     if (Array.isArray(string)) {
         // if we get an array we assume it is already a correct path
         return string;
@@ -116,7 +116,7 @@ export const set = (obj = {}, path = [], value = undefined) => {
  * @return {Object} new object with only allowed properties
  */
 export function pick(obj = {}, allowedProps = []) {
-    const filterKeysRule = key => obj.hasOwnProperty(key);
+    const filterKeysRule = (key) => obj.hasOwnProperty(key);
     return allowedProps.filter(filterKeysRule).reduce((acc, key) => {
         acc[key] = obj[key];
         return acc;
@@ -132,7 +132,7 @@ export function pick(obj = {}, allowedProps = []) {
  * @return {Object} new object without omitted properties
  */
 export function omit(obj = {}, omitProps = []) {
-    const filterKeysRule = key => omitProps.indexOf(key) === -1;
+    const filterKeysRule = (key) => omitProps.indexOf(key) === -1;
     return Object.keys(obj)
         .filter(filterKeysRule)
         .reduce((acc, key) => {

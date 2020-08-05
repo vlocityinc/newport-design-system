@@ -7,7 +7,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-constant-editor', {
         is: VariableConstantEditor
     });
@@ -20,7 +20,7 @@ const setupComponentUnderTest = props => {
 describe('Variable Validation', () => {
     let stringVar;
 
-    const validate = node => {
+    const validate = (node) => {
         return getErrorsFromHydratedElement(variableConstantValidation.validateAll(node, getRules(node)));
     };
 

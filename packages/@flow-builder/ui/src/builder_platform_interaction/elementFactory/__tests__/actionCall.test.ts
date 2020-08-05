@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function() {
+    const getCurrentState = function () {
         return {
             properties: {
                 processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
@@ -41,7 +41,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             }
         };
     };
-    const getStore = function() {
+    const getStore = function () {
         return {
             getCurrentState
         };
@@ -150,7 +150,7 @@ const actionCallInStore = {
 };
 
 const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
-    return parameters.map(param => {
+    return parameters.map((param) => {
         if (isInput) {
             return {
                 name: param.name,

@@ -339,7 +339,7 @@ export default class Combobox extends LightningElement {
      */
     set type(dataType) {
         if (dataType && dataType.toUpperCase) {
-            if (!Object.values(FLOW_DATA_TYPE).find(type => type.value === dataType)) {
+            if (!Object.values(FLOW_DATA_TYPE).find((type) => type.value === dataType)) {
                 throw new Error(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
             }
             this._dataType = dataType;
@@ -998,7 +998,7 @@ export default class Combobox extends LightningElement {
                 const currentMenuData: any = this.state.menuData[i];
                 if (currentMenuData.items) {
                     // a menu data group
-                    currentMenuData.items.forEach(item => {
+                    currentMenuData.items.forEach((item) => {
                         if (item.displayText && item.displayText.toLowerCase() === text.toLowerCase()) {
                             matchedItems.push(item);
                         }
@@ -1042,7 +1042,7 @@ export default class Combobox extends LightningElement {
             const groupOrItem: any = this.state.menuData[i];
             if (groupOrItem.items) {
                 // a menu data group
-                foundItem = groupOrItem.items.find(item => {
+                foundItem = groupOrItem.items.find((item) => {
                     // add item to the cache whether or not it's the foundItem
                     this._itemCache[item.value] = item;
                     return item.value === value;
@@ -1500,7 +1500,7 @@ export default class Combobox extends LightningElement {
             // This is based on the current behavior of the grouped combobox, which always scrolls to a highlighted item
             // each time combobox items get updated. Highlighting of a specific menu item overrides the default combobox
             // behavior, which is to highlight and scroll to a first item in the list.
-            setSelectableMenuItem(result.menu, this.state.currentMenuLength, item =>
+            setSelectableMenuItem(result.menu, this.state.currentMenuLength, (item) =>
                 Object.assign({ highlight: true }, unwrap(item))
             );
             this.state.currentMenuLength = result.length;

@@ -26,7 +26,7 @@ const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
 };
 
-const getRecordSort = recordLookupEditor => {
+const getRecordSort = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
 };
 
@@ -40,18 +40,18 @@ const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME, proces
     return el;
 };
 
-const getVariableAndFieldMappingRadioButtonGroup = recordLookupEditor => {
+const getVariableAndFieldMappingRadioButtonGroup = (recordLookupEditor) => {
     return deepQuerySelector(recordLookupEditor, [
         SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT,
         SELECTORS.LIGHTNING_RADIO_GROUP
     ]);
 };
 
-const getQueryFields = recordLookupEditor => {
+const getQueryFields = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
 };
 
-const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
+const getAutomaticRecordStoreOptionsRadioGroup = (recordLookupEditor) => {
     return deepQuerySelector(recordLookupEditor, [
         SELECTORS.RECORD_NUMBER_RECORD_TO_STORE,
         SELECTORS.LIGHTNING_RADIO_GROUP

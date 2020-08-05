@@ -54,7 +54,7 @@ const subflowVariableAssignmentToNumber = (referencedVariableName, value = 0) =>
     valueDataType: 'Number'
 });
 
-const getParameterItem = (parameterItems, name) => parameterItems.find(parameterItem => parameterItem.name === name);
+const getParameterItem = (parameterItems, name) => parameterItems.find((parameterItem) => parameterItem.name === name);
 
 describe('Subflow parameters merger', () => {
     let inputOutputVariablesVersions;

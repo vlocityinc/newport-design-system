@@ -126,14 +126,14 @@ describe('dataTypeLib', () => {
     });
     describe('getDataTypeIcons', () => {
         it('returns a standard icon for each data type', () => {
-            dataTypes.forEach(dataType => expect(getDataTypeIcons(dataType, 'standard')).toBeDefined());
+            dataTypes.forEach((dataType) => expect(getDataTypeIcons(dataType, 'standard')).toBeDefined());
         });
         it('returns a utility icon for each data type', () => {
-            dataTypes.forEach(dataType => expect(getDataTypeIcons(dataType, 'utility')).toBeDefined());
+            dataTypes.forEach((dataType) => expect(getDataTypeIcons(dataType, 'utility')).toBeDefined());
         });
     });
     describe('getFlowDataType', () => {
-        test.each([undefined, null])('Passing with dataType %s', dataType => {
+        test.each([undefined, null])('Passing with dataType %s', (dataType) => {
             expect(getFlowDataType(dataType)).not.toBeDefined();
         });
     });

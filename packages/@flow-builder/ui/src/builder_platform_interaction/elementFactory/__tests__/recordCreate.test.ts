@@ -503,7 +503,7 @@ describe('recordCreate UI model => flow metadata', () => {
         });
     });
     describe('undefined/null recordCreate', () => {
-        test.each([undefined, null])('Passing with %s recordCreate should throw error', recordCreate => {
+        test.each([undefined, null])('Passing with %s recordCreate should throw error', (recordCreate) => {
             expect(() => createRecordCreateMetadataObject(recordCreate)).toThrowError();
         });
     });

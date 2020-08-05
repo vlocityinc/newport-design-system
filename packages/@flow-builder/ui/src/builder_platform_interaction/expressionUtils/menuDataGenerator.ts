@@ -146,7 +146,7 @@ const createMenuItem = ({
  * @param {Object} [parent] Parent object if field is a second level item
  * @return {boolean} True if dataType should be the subtext
  */
-const shouldShowDataTypeAsSubText = parent =>
+const shouldShowDataTypeAsSubText = (parent) =>
     parent &&
     (parent.dataType === FLOW_DATA_TYPE.APEX.value ||
         parent.text === SYSTEM_VARIABLE_PREFIX ||
@@ -276,7 +276,7 @@ function getMenuItemsForSObjectField(
         getMergeFieldLevel(parent) < MAXIMUM_NUMBER_OF_LEVELS - 1
     ) {
         const comboboxItems = [];
-        field.referenceToNames.forEach(referenceToName => {
+        field.referenceToNames.forEach((referenceToName) => {
             comboboxItems.push(
                 getMenuItemForSpannableSObjectField(field, parent, referenceToName, {
                     showAsFieldReference,
@@ -500,8 +500,8 @@ export function mutateFlowResourceToComboboxShape(resource) {
  * @param {Array} entities the array of entities that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given entities
  */
-export const mutateEntitiesToComboboxShape = entities => {
-    return entities.map(entity => {
+export const mutateEntitiesToComboboxShape = (entities) => {
+    return entities.map((entity) => {
         return createMenuItem({
             type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
             text: entity.entityLabel || entity.apiName,
@@ -515,8 +515,8 @@ export const mutateEntitiesToComboboxShape = entities => {
     });
 };
 
-export const mutateApexClassesToComboboxShape = classes => {
-    return classes.map(clazz => {
+export const mutateApexClassesToComboboxShape = (classes) => {
+    return classes.map((clazz) => {
         return createMenuItem({
             type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
             text: clazz.durableId,
@@ -529,7 +529,7 @@ export const mutateApexClassesToComboboxShape = classes => {
     });
 };
 
-export const apexClassesMenuDataSelector = createSelector([apexClassesSelector], apexClasses => {
+export const apexClassesMenuDataSelector = createSelector([apexClassesSelector], (apexClasses) => {
     return apexClasses ? mutateApexClassesToComboboxShape(apexClasses) : null;
 });
 
@@ -538,7 +538,7 @@ export const apexClassesMenuDataSelector = createSelector([apexClassesSelector],
  * @param {Object} picklistOption object that is a picklist value
  * @returns {MenuItem} menu item representing the picklist value
  */
-export const mutatePicklistValue = picklistOption => {
+export const mutatePicklistValue = (picklistOption) => {
     return createMenuItem({
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         text: picklistOption.label || picklistOption.value,
@@ -557,8 +557,8 @@ export const mutatePicklistValue = picklistOption => {
  * @param {Array} eventTypes the array of event types that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given event types
  */
-export const mutateEventTypesToComboboxShape = eventTypes => {
-    return eventTypes.map(eventType => {
+export const mutateEventTypesToComboboxShape = (eventTypes) => {
+    return eventTypes.map((eventType) => {
         return createMenuItem({
             type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
             text: eventType.label || eventType.qualifiedApiName,
@@ -571,7 +571,7 @@ export const mutateEventTypesToComboboxShape = eventTypes => {
     });
 };
 
-const mutateSystemAndGlobalVariablesToComboboxShape = value => {
+const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
     return {
         value,
         subtype: value,
@@ -596,7 +596,7 @@ export const getGlobalVariableTypeComboboxItems = () => {
     const globalVariableTypes = getGlobalVariableTypes();
     const typeMenuData = [];
     if (globalVariableTypes) {
-        Object.keys(globalVariableTypes).forEach(type => {
+        Object.keys(globalVariableTypes).forEach((type) => {
             const globalVariable = globalVariableTypes[type];
             typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
         });

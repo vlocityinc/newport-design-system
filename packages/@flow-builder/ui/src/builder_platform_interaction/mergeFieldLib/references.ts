@@ -10,16 +10,16 @@ import { recursiveSwap, getSwapValueFunction } from 'builder_platform_interactio
 export function loadReferencesIn(object) {
     const promises: Promise<unknown>[] = [];
     let firstError;
-    const loadReferenceFromUid = uid => {
+    const loadReferenceFromUid = (uid) => {
         promises.push(
-            resolveReferenceFromIdentifier(uid).catch(error => {
+            resolveReferenceFromIdentifier(uid).catch((error) => {
                 firstError = error;
             })
         );
         return uid;
     };
     recursiveSwap(object, getSwapValueFunction(loadReferenceFromUid, true));
-    return Promise.all(promises).then(result => {
+    return Promise.all(promises).then((result) => {
         if (firstError) {
             throw firstError;
         } else {

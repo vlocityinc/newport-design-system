@@ -159,7 +159,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = node;
         await ticks(1);
         const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
-        rows.forEach(row => {
+        rows.forEach((row) => {
             expect(row.showDelete).toBe(true);
         });
     });
@@ -170,7 +170,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = node;
         await ticks(1);
         const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
-        rows.forEach(row => {
+        rows.forEach((row) => {
             expect(row.showDelete).toBe(false);
         });
     });

@@ -16,20 +16,20 @@ const { LEFT, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 
 const NB_RULE_TYPES = new Set(rules.map(({ ruleType }) => ruleType)).size;
 const NB_ASSIGNMENT_RULES = rules.filter(({ ruleType }) => ruleType === ASSIGNMENT).length;
-const NB_COMPARISON_RULES = rules.filter(rule => rule.ruleType === COMPARISON).length;
-const RULES_WITH_INCLUDE_ELEMENTS = rules.filter(rule => hasArrayPopulated(rule.includeElems));
+const NB_COMPARISON_RULES = rules.filter((rule) => rule.ruleType === COMPARISON).length;
+const RULES_WITH_INCLUDE_ELEMENTS = rules.filter((rule) => hasArrayPopulated(rule.includeElems));
 const DISTINCT_INCLUDE_ELEMENTS = new Set(
     RULES_WITH_INCLUDE_ELEMENTS.reduce((acc, rule) => [...acc, ...rule.includeElems], [])
 );
-const RULES_WITH_INCLUDE_ELEMENTS_RULE_TYPES = RULES_WITH_INCLUDE_ELEMENTS.map(rule => rule.ruleType);
+const RULES_WITH_INCLUDE_ELEMENTS_RULE_TYPES = RULES_WITH_INCLUDE_ELEMENTS.map((rule) => rule.ruleType);
 const NB_COMPARISON_RULES_WITH_INCLUDE_ELEMENTS = RULES_WITH_INCLUDE_ELEMENTS.filter(
-    rule => rule.ruleType === COMPARISON
+    (rule) => rule.ruleType === COMPARISON
 ).length;
 const NB_ASSIGNMENT_RULES_WITH_INCLUDE_ELEMENTS = RULES_WITH_INCLUDE_ELEMENTS.filter(
-    rule => rule.ruleType === ASSIGNMENT
+    (rule) => rule.ruleType === ASSIGNMENT
 ).length;
 
-const verifyRuleTypeProperties = testRulesVariable => {
+const verifyRuleTypeProperties = (testRulesVariable) => {
     expect(testRulesVariable).toHaveProperty(COMPARISON);
     expect(testRulesVariable).toHaveProperty(ASSIGNMENT);
 };
@@ -40,11 +40,11 @@ const verifyRuleByIncludeElement = (storedRules, { ruleType: ruleWithIncludeElem
     expect(includeElementSpecificRules).toHaveProperty(ruleWithIncludeElements);
     expect(includeElementSpecificRules[ruleWithIncludeElements]).toHaveLength(
         RULES_WITH_INCLUDE_ELEMENTS.filter(
-            rule => rule.ruleType === ruleWithIncludeElements && rule.includeElems.includes(includeElement)
+            (rule) => rule.ruleType === ruleWithIncludeElements && rule.includeElems.includes(includeElement)
         ).length
     );
 };
-const verifyOutputRulePerInitialRule = initialRule => {
+const verifyOutputRulePerInitialRule = (initialRule) => {
     const initialLHS = initialRule[LEFT];
     const initialRHSParams = initialRule[RHS_PARAMS];
     const outputRules = getOutputRules();
@@ -98,8 +98,8 @@ describe('Set Flow Operator Rules', () => {
                 );
             });
             it('sets the rules variable with rules with includedElems', () => {
-                RULES_WITH_INCLUDE_ELEMENTS.forEach(ruleWithIncludeElements => {
-                    ruleWithIncludeElements.includeElems.forEach(includeElement => {
+                RULES_WITH_INCLUDE_ELEMENTS.forEach((ruleWithIncludeElements) => {
+                    ruleWithIncludeElements.includeElems.forEach((includeElement) => {
                         verifyRuleByIncludeElement(storedRules, ruleWithIncludeElements, includeElement);
                     });
                 });
@@ -112,8 +112,8 @@ describe('Set Flow Operator Rules', () => {
         });
         describe('get rules for element type', () => {
             it('gets comparison rules', () => {
-                Object.keys(RULE_TYPES).forEach(ruleType => {
-                    Object.keys(ELEMENT_TYPE).forEach(elementType => {
+                Object.keys(RULE_TYPES).forEach((ruleType) => {
+                    Object.keys(ELEMENT_TYPE).forEach((elementType) => {
                         const ruleTypeName = RULE_TYPES[ruleType];
                         const elementTypeName = ELEMENT_TYPE[elementType];
                         const elementTypeInRuleName =
@@ -139,7 +139,7 @@ describe('Set Flow Operator Rules', () => {
     });
     describe('getOutputRules with individual rule', () => {
         it('Stores assignment rules backwards to use as output rules', () => {
-            rules.forEach(rule => {
+            rules.forEach((rule) => {
                 if (
                     rule.assignmentOperator &&
                     rule.assignmentOperator.value === RULE_OPERATOR.ASSIGN &&

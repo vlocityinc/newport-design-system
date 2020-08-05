@@ -61,7 +61,7 @@ const selectors = {
     fieldToFerov: 'builder_platform_interaction-field-to-ferov-expression-builder'
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-condition-list', {
         is: ConditionList
     });

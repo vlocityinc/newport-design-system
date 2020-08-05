@@ -80,7 +80,7 @@ const existingNestedTextField = {
 
 const foundElementGuidPrefix = 'found';
 
-getElementByGuid.mockImplementation(guid => {
+getElementByGuid.mockImplementation((guid) => {
     if (guid === newScreenGuid) {
         return null;
     } else if (guid === existingScreenGuid) {
@@ -102,12 +102,12 @@ getElementByGuid.mockImplementation(guid => {
 
 jest.mock('../base/baseElement');
 baseCanvasElement
-    .mockImplementation(element => {
+    .mockImplementation((element) => {
         return Object.assign({}, element);
     })
     .mockName('baseCanvasElementMock');
 createPastedCanvasElement
-    .mockImplementation(duplicatedElement => {
+    .mockImplementation((duplicatedElement) => {
         return duplicatedElement;
     })
     .mockName('createPastedCanvasElementMock');
@@ -134,25 +134,25 @@ duplicateCanvasElementWithChildElements
     })
     .mockName('duplicateCanvasElementWithChildElementsMock');
 baseChildElement
-    .mockImplementation(field => {
+    .mockImplementation((field) => {
         return Object.assign({}, field);
     })
     .mockName('baseChildElementMock');
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
 
 jest.mock('../base/baseMetadata');
-baseCanvasElementMetadataObject.mockImplementation(element => {
+baseCanvasElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
-baseChildElementMetadataObject.mockImplementation(element => {
+baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
 
 jest.mock('../screenField');
-createScreenFieldMetadataObject.mockImplementation(element => {
+createScreenFieldMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
-createScreenField.mockImplementation(element => {
+createScreenField.mockImplementation((element) => {
     return Object.assign({}, element);
 });
 createScreenFieldWithFieldReferences.mockImplementation((element, screenFields, parentName, index) => {
@@ -161,7 +161,7 @@ createScreenFieldWithFieldReferences.mockImplementation((element, screenFields, 
     }
     return Object.assign({}, element);
 });
-createScreenFieldWithFields.mockImplementation(element => {
+createScreenFieldWithFields.mockImplementation((element) => {
     return Object.assign({}, element);
 });
 

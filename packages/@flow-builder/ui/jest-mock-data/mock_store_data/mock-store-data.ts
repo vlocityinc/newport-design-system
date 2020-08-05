@@ -4,7 +4,7 @@ import { elementsForPropertyEditors } from './elementsForPropertyEditors';
 export * from './flowWithAllElementsUIModel';
 export * from './elementsForPropertyEditors';
 
-export const getElementByName = name => {
+export const getElementByName = (name) => {
     const elements = flowWithAllElementsUIModel.elements;
     for (const guid in elements) {
         if (elements.hasOwnProperty(guid)) {
@@ -16,7 +16,7 @@ export const getElementByName = name => {
     return undefined;
 };
 
-export const getElementByGuid = guid => {
+export const getElementByGuid = (guid) => {
     return flowWithAllElementsUIModel.elements[guid];
 };
 
@@ -114,7 +114,7 @@ export const screenWithAddressAddress = getElementByName('Address');
 export const loopOnAccountAutoOutput = getElementByName('loopOnAccountAutoOutput');
 
 // elements after getElementForPropertyEditor
-const deepCopy = obj => JSON.parse(JSON.stringify(obj));
+const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 export const numberVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[numberVariable.name]);
 export const stringVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[stringVariable.name]);
 export const dateVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[dateVariable.name]);

@@ -33,9 +33,9 @@ export function createApexPlugin(apexPlugin = {}) {
         outputParameters = [],
         availableConnections = getDefaultAvailableConnections()
     } = apexPlugin;
-    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
-    availableConnections = availableConnections.map(availableConnection =>
+    inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
+    outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
+    availableConnections = availableConnections.map((availableConnection) =>
         createAvailableConnection(availableConnection)
     );
     const apexPluginObject = Object.assign(newApexPlugin, {
@@ -115,8 +115,8 @@ export function createApexPluginMetadataObject(apexPlugin, config) {
     const apexPluginMetadata = baseCanvasElementMetadataObject(apexPlugin, config);
     const { apexClass } = apexPlugin;
     let { inputParameters = [], outputParameters = [] } = apexPlugin;
-    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+    inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
+    outputParameters = outputParameters.map((outputParameter) => createOutputParameterMetadataObject(outputParameter));
 
     return Object.assign(apexPluginMetadata, {
         apexClass,

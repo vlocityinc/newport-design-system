@@ -20,10 +20,10 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const MAX_CONNECTIONS = 2;
 
-const getAvailableConnections = recordDelete => {
+const getAvailableConnections = (recordDelete) => {
     const { availableConnections } = recordDelete;
     return availableConnections
-        ? availableConnections.map(availableConnection => createAvailableConnection(availableConnection))
+        ? availableConnections.map((availableConnection) => createAvailableConnection(availableConnection))
         : getDefaultAvailableConnections();
 };
 
@@ -125,7 +125,7 @@ export function createRecordDeleteMetadataObject(recordDelete, config) {
     }
 
     let { filters = [] } = recordDelete;
-    filters = filters.map(filter => createFilterMetadataObject(filter));
+    filters = filters.map((filter) => createFilterMetadataObject(filter));
     return Object.assign(recordDeleteMetadata, {
         object,
         filterLogic,

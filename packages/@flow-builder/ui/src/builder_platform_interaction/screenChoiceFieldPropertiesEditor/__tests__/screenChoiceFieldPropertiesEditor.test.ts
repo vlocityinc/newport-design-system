@@ -18,7 +18,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -73,7 +73,7 @@ const field = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VAL
     helpText: false
 });
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-choice-field-properties-editor', {
         is: ScreenChoiceFieldPropertiesEditor
     });

@@ -11,7 +11,7 @@ import {
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 
-const addAssignmentItem = state => {
+const addAssignmentItem = (state) => {
     // TODO this should come from the assignment element factory W-5825956
     const emptyAssignmentItem = {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },

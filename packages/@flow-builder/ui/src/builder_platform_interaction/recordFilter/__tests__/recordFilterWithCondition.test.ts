@@ -78,32 +78,32 @@ const createComponentUnderTest = ({
     document.body.appendChild(el);
     return el;
 };
-const getFilterRecordsCombobox = filterCmp =>
+const getFilterRecordsCombobox = (filterCmp) =>
     deepQuerySelector(filterCmp, [
         INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
     ]);
-const getFilterList = filterCmp =>
+const getFilterList = (filterCmp) =>
     deepQuerySelector(filterCmp, [
         INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
         INTERACTION_COMPONENTS_SELECTORS.LIST
     ]);
-const getExpressionBuilders = filterCmp =>
+const getExpressionBuilders = (filterCmp) =>
     filterCmp.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
 
-const getListAddButton = filterCmp =>
+const getListAddButton = (filterCmp) =>
     deepQuerySelector(filterCmp, [
         INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
         INTERACTION_COMPONENTS_SELECTORS.LIST,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON
     ]);
-const getFirstRow = filterCmp =>
+const getFirstRow = (filterCmp) =>
     deepQuerySelector(filterCmp, [INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST, 'slot'])
         .assignedNodes()[0]
         .querySelector(INTERACTION_COMPONENTS_SELECTORS.ROW);
-const getFirstRowDeleteButton = filterCmp =>
+const getFirstRowDeleteButton = (filterCmp) =>
     getFirstRow(filterCmp).shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON);
-const getCustomConditionLogicInput = filterCmp =>
+const getCustomConditionLogicInput = (filterCmp) =>
     deepQuerySelector(filterCmp, [
         INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT

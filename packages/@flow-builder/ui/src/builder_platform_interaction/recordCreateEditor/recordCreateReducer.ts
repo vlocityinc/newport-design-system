@@ -38,7 +38,7 @@ const emptyAssignmentItem = () => {
     };
 };
 
-const addRecordRecordFieldAssignment = state => {
+const addRecordRecordFieldAssignment = (state) => {
     const path = [PROP_NAMES.inputAssignments, state[PROP_NAMES.inputAssignments].length];
     return set(state, path, emptyAssignmentItem());
 };

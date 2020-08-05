@@ -68,15 +68,15 @@ function createComponentForTest(node) {
     return el;
 }
 
-const getEntityResourcePicker = contextEditor => {
+const getEntityResourcePicker = (contextEditor) => {
     return contextEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
-const getRecordFilter = contextEditor => {
+const getRecordFilter = (contextEditor) => {
     return contextEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
 };
 
-const getCustomPropertyEditor = contextEditor => {
+const getCustomPropertyEditor = (contextEditor) => {
     return contextEditor.shadowRoot.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
 };
 

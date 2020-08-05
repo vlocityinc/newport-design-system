@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
 
-const setupComponentUnderTest = recordChoiceSetObject => {
+const setupComponentUnderTest = (recordChoiceSetObject) => {
     const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
         is: RecordChoiceSetEditor
     });
@@ -137,7 +137,7 @@ describe('Record Choice Set Validation', () => {
     };
 
     describe('validateAll', () => {
-        const validate = node => {
+        const validate = (node) => {
             return getErrorsFromHydratedElement(recordChoiceSetValidation.validateAll(node, getRules(node, true)));
         };
         const recordChoice = setupComponentUnderTest(recordChoiceObject);

@@ -89,7 +89,7 @@ export const deepFindCommonElement = (
     return undefined;
 };
 
-const isImmutable = element =>
+const isImmutable = (element) =>
     element == null || typeof element === 'string' || typeof element === 'number' || typeof element === 'boolean';
 
 export const deepFindMatchers = {

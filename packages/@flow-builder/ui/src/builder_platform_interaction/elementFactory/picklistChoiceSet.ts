@@ -25,7 +25,7 @@ export const createPicklistChoiceSet = (element = {}) => {
  * @param {Object} element - picklistChoiceSet element.
  * @returns {Object} picklistChoiceSet object in a {guid : [choice]} format
  */
-export const createPicklistChoiceSetForStore = element => {
+export const createPicklistChoiceSetForStore = (element) => {
     if (!element) {
         throw new Error('Element is required to create picklist choice set element for store');
     }
@@ -38,7 +38,7 @@ export const createPicklistChoiceSetForStore = element => {
  * @param {Object} element picklistChoiceSet object
  * @returns {Object} picklistChoiceMetadata object
  */
-export const createPicklistChoiceSetMetadataObject = element => {
+export const createPicklistChoiceSetMetadataObject = (element) => {
     if (!element) {
         throw new Error('Element is required to create dynamic choice set meta data object');
     }

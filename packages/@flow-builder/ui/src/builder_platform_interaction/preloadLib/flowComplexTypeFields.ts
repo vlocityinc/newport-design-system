@@ -27,7 +27,7 @@ export function loadFieldsForComplexTypesInFlow(state) {
 
 export function loadFieldsForApexClassesInFlow(state) {
     const selector = filteredElementsSelector(
-        element => element.dataType === FLOW_DATA_TYPE.APEX.value && !element.isCollection
+        (element) => element.dataType === FLOW_DATA_TYPE.APEX.value && !element.isCollection
     );
     const apexTypes = selector(state);
     if (apexTypes.length > 0) {
@@ -53,8 +53,8 @@ export function loadFieldsForSobjectsInFlow(state) {
 
 export function loadFieldsForExtensionsInFlow(state) {
     const extensionNames = componentInstanceScreenFieldsSelector(state)
-        .filter(screenField => screenField.storeOutputAutomatically === true)
-        .map(screenField => screenField.extensionName);
+        .filter((screenField) => screenField.storeOutputAutomatically === true)
+        .map((screenField) => screenField.extensionName);
     return describeExtensions(extensionNames, {
         disableErrorModal: true,
         background: true
@@ -62,8 +62,8 @@ export function loadFieldsForExtensionsInFlow(state) {
 }
 
 export function loadFieldsForSubflowsInFlow(state) {
-    const selector = filteredElementsSelector(element => element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value);
-    const subFlowNames = selector(state).map(subflowElement => subflowElement.flowName);
+    const selector = filteredElementsSelector((element) => element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value);
+    const subFlowNames = selector(state).map((subflowElement) => subflowElement.flowName);
     const promises = [];
     for (let i = 0; i < subFlowNames.length; i++) {
         // fetch fields and cache them
@@ -79,14 +79,14 @@ export function loadFieldsForSubflowsInFlow(state) {
 export function loadParametersForInvocableApexActionsInFlowFromMetadata(actionCalls) {
     const actionCallNamesAndTypes = actionCalls
         .filter(
-            actionCall => actionCall.storeOutputAutomatically === true && actionCall.actionType === ACTION_TYPE.APEX
+            (actionCall) => actionCall.storeOutputAutomatically === true && actionCall.actionType === ACTION_TYPE.APEX
         )
-        .map(actionCall => ({
+        .map((actionCall) => ({
             actionName: actionCall.actionName,
             actionType: actionCall.actionType
         }));
     const promises = [];
-    actionCallNamesAndTypes.forEach(actionCallNameAndType =>
+    actionCallNamesAndTypes.forEach((actionCallNameAndType) =>
         promises.push(
             fetchDetailsForInvocableAction(actionCallNameAndType, {
                 disableErrorModal: true,
@@ -105,13 +105,13 @@ export function loadParametersForInvocableActionsInFlow(state) {
         ELEMENT_TYPE.EXTERNAL_SERVICE
     );
     const actionCallNamesAndTypes = actionCallsSelector(state)
-        .filter(actionCall => actionCall.storeOutputAutomatically === true)
-        .map(actionCall => ({
+        .filter((actionCall) => actionCall.storeOutputAutomatically === true)
+        .map((actionCall) => ({
             actionName: actionCall.actionName,
             actionType: actionCall.actionType
         }));
     const promises = [];
-    actionCallNamesAndTypes.forEach(actionCallNameAndType =>
+    actionCallNamesAndTypes.forEach((actionCallNameAndType) =>
         promises.push(
             fetchDetailsForInvocableAction(actionCallNameAndType, {
                 disableErrorModal: true,

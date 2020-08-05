@@ -6,7 +6,8 @@ import { flowWithNoInputOutputVariables } from 'serverData/GetFlowInputOutputVar
 
 describe('subflowsLib', () => {
     describe('getActiveOrLatestInputOutputVariables', () => {
-        const getVariableWithApiName = (variables, apiName) => variables.find(variable => variable.apiName === apiName);
+        const getVariableWithApiName = (variables, apiName) =>
+            variables.find((variable) => variable.apiName === apiName);
         it('returns the latest version variables when there is no active version', () => {
             const inputOutputVariables = getActiveOrLatestInputOutputVariables(flowWithNoActiveVersion);
             const variable = getVariableWithApiName(inputOutputVariables.outputVariables, 'output1');

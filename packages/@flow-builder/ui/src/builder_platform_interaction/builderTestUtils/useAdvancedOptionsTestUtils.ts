@@ -4,11 +4,11 @@ const SELECTORS = {
     lightningInput: 'lightning-input'
 };
 
-export const getUseAdvancedOptionComponent = parentElement => {
+export const getUseAdvancedOptionComponent = (parentElement) => {
     return parentElement.shadowRoot.querySelector(SELECTORS.useAdvancedOptionsCheckboxComponent);
 };
 
-export const getAdvancedOptionCheckbox = parentElement => {
+export const getAdvancedOptionCheckbox = (parentElement) => {
     const useAdvancedOptionComponent = getUseAdvancedOptionComponent(parentElement);
     return useAdvancedOptionComponent.shadowRoot.querySelector(SELECTORS.lightningInput);
 };

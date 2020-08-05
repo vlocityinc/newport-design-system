@@ -62,7 +62,7 @@ export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue
  * @return value after swapping
  */
 const swapTemplateField = (swapFunction, value) => {
-    const replacer = fullMatch => {
+    const replacer = (fullMatch) => {
         // Strip '{!', '}'
         const expressionMatch = fullMatch.substr(2).replace('}', '');
         return '{!' + swapFunction(expressionMatch) + '}';
@@ -109,11 +109,11 @@ export const getSwapValueFunction = (swapFunction, checkReferenceFields = true) 
  */
 export const recursiveSwap = (object, swapFunction) => {
     if (Array.isArray(object)) {
-        object.forEach(element => {
+        object.forEach((element) => {
             recursiveSwap(element, swapFunction);
         });
     } else if (isPlainObject(object)) {
-        Object.keys(object).forEach(objectKey => {
+        Object.keys(object).forEach((objectKey) => {
             const value = object[objectKey];
 
             if (shouldCallSwapFunction(object, objectKey, value)) {
@@ -163,13 +163,13 @@ export const swapSingleExpression = (expression, mapping) => {
 export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
     const { enableGuidToDevnameSwappingForReferenceFields = true } = config;
     const mapping = {};
-    Object.keys(elementUidMap).forEach(uid => {
+    Object.keys(elementUidMap).forEach((uid) => {
         mapping[uid] = elementUidMap[uid].name;
     });
 
     // swap the uid with it's dev name if the uid is in the element map
     // leave it unchanged if it's not
-    const swapSingleUidToDevName = uid => {
+    const swapSingleUidToDevName = (uid) => {
         return swapSingleExpression(uid, mapping);
     };
 
@@ -193,7 +193,7 @@ export const swapDevNamesToUids = (nameToUid, flow, config = {}) => {
     const { enableDevnameToGuidSwappingForReferenceFields = true } = config;
     // swap the uid with it's dev name if the uid is in the element map
     // leave it unchanged if it's not
-    const swapSingleDevNameToUid = devName => {
+    const swapSingleDevNameToUid = (devName) => {
         return swapSingleExpression(devName, nameToUid);
     };
 

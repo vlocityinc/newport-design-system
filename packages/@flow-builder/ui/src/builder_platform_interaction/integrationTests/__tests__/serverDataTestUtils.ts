@@ -49,7 +49,7 @@ import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAuto
 import { supportedElementsForFlow } from 'serverData/GetSupportedElements/supportedElementsForFlow.json';
 import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedElements/supportedElementsForAutoLaunchedFlow.json';
 
-const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
+const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
     if (!shouldExecuteCallback()) {
         return;
@@ -63,14 +63,14 @@ const auraFetch = actions => async (actionName, shouldExecuteCallback, callback,
     callback(result);
 };
 
-export const getSubflows = flowProcessTypeToSubflows => ({ flowProcessType }) => {
+export const getSubflows = (flowProcessTypeToSubflows) => ({ flowProcessType }) => {
     const subflows = flowProcessTypeToSubflows[flowProcessType] || [];
     return {
         data: subflows
     };
 };
 
-export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables => ({ flowName }) => {
+export const getFlowInputOutputVariables = (flowNameToFlowInputOutputVariables) => ({ flowName }) => {
     const flowInputOutputVariables = flowNameToFlowInputOutputVariables[flowName];
     if (flowInputOutputVariables != null) {
         return { data: flowInputOutputVariables };
@@ -78,14 +78,14 @@ export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables =>
     return { error: 'Unknown flow' };
 };
 
-export const getAllInvocableActionsForType = flowProcessTypeToInvocableActions => ({ flowProcessType }) => {
+export const getAllInvocableActionsForType = (flowProcessTypeToInvocableActions) => ({ flowProcessType }) => {
     const invocableActions = flowProcessTypeToInvocableActions[flowProcessType] || [];
     return {
         data: invocableActions
     };
 };
 
-const getFieldsForEntity = entityApiNameToEntityFields => ({ entityApiName }) => {
+const getFieldsForEntity = (entityApiNameToEntityFields) => ({ entityApiName }) => {
     const fields = entityApiNameToEntityFields[entityApiName];
     if (fields != null) {
         return { data: fields };
@@ -93,12 +93,12 @@ const getFieldsForEntity = entityApiNameToEntityFields => ({ entityApiName }) =>
     return { error: 'Unknown entity' };
 };
 
-export const getTemplates = allTemplates => ({ processTypes }) => {
-    const matchingTemplates = allTemplates.filter(template => processTypes.includes(template.ProcessType));
+export const getTemplates = (allTemplates) => ({ processTypes }) => {
+    const matchingTemplates = allTemplates.filter((template) => processTypes.includes(template.ProcessType));
     return { data: matchingTemplates };
 };
 
-export const getInvocableActionDetails = invocableActionParameters => params => {
+export const getInvocableActionDetails = (invocableActionParameters) => (params) => {
     let invocableActionParametersForAction;
     const invocableActionParametersForType = invocableActionParameters[params.actionType];
     if (invocableActionParametersForType) {
@@ -111,27 +111,27 @@ export const getInvocableActionDetails = invocableActionParameters => params => 
         : { error: 'Cannot find invocable action parameters' };
 };
 
-const createGetter = data => () => ({ data });
+const createGetter = (data) => () => ({ data });
 
 export const createGetterByProcessType = (map, defaultValue = []) => ({ flowProcessType }) => ({
     data: map[flowProcessType] || defaultValue
 });
 
-const getFlowExtensionListParams = flowExtensionListParameters => params => ({
+const getFlowExtensionListParams = (flowExtensionListParameters) => (params) => ({
     data: params.names.reduce((obj, name) => {
         obj[name] = flowExtensionListParameters[name];
         return obj;
     }, {})
 });
 
-const getFlowExtensionDetails = flowExtDetails => params => ({
+const getFlowExtensionDetails = (flowExtDetails) => (params) => ({
     data: params.names.reduce((obj, name) => {
         obj[name] = flowExtDetails[name];
         return obj;
     }, {})
 });
 
-const retrieveFlow = flowIdToFlow => ({ flowId }) => {
+const retrieveFlow = (flowIdToFlow) => ({ flowId }) => {
     const flow = flowIdToFlow[flowId];
     if (flow != null) {
         return { data: flow };
@@ -230,5 +230,5 @@ export function initializeAuraFetch(actions = {}) {
             ...actions
         })
     );
-    setAuraGetCallback(callback => callback);
+    setAuraGetCallback((callback) => callback);
 }

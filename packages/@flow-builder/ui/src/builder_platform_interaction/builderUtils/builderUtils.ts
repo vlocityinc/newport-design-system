@@ -157,7 +157,7 @@ const getTitleForModalHeader = (mode, element) => {
     return titlePrefix ? titlePrefix + ' ' + label : label;
 };
 
-const getLabelForOkButton = mode => {
+const getLabelForOkButton = (mode) => {
     let label;
     if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
         label = LABELS.saveButtonLabel;
@@ -167,7 +167,7 @@ const getLabelForOkButton = mode => {
 
 let newResourceConfig;
 
-const getNewResourceConfig = attributes => {
+const getNewResourceConfig = (attributes) => {
     if (newResourceConfig) {
         return newResourceConfig;
     }
@@ -198,7 +198,7 @@ const getNewResourceConfig = attributes => {
     return newResourceConfig;
 };
 
-const clearExpressionValidator = panel => {
+const clearExpressionValidator = (panel) => {
     const panelBody = panel.get('v.body')[0];
     if (panelBody && panelBody.get('v.bodyComponent') && panelBody.get('v.bodyComponent').desc !== RESOURCE_EDITOR) {
         clearExpressions();
@@ -209,7 +209,7 @@ const clearExpressionValidator = panel => {
  * Callback that executes just before closing any property editor modal
  * @param {Object} panel : panel Instance of status icon
  */
-const closeActionCallback = panel => {
+const closeActionCallback = (panel) => {
     hidePopover();
     clearExpressionValidator(panel);
     panel.close();
@@ -283,7 +283,7 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
 /**
  * Convert a property editor descriptor in to a class name for dynamic lwc loading.
  */
-const getPropertyEditorClassName = desc => {
+const getPropertyEditorClassName = (desc) => {
     const packageAndClass = desc.split(':');
 
     return packageAndClass[0] + '/' + packageAndClass[1];
@@ -396,7 +396,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
         propertyEditorFooterPromise = createComponentPromise('builder_platform_interaction:propertyEditorFooter');
     }
     Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise])
-        .then(newComponents => {
+        .then((newComponents) => {
             const createPanelEventAttributes = {
                 panelType: MODAL,
                 visible: true,
@@ -406,11 +406,11 @@ const doInvoke = (cmpName, attr, panelConfig) => {
                     bodyClass: panelConfig.bodyClass,
                     header: newComponents[1],
                     footer: newComponents[2],
-                    closeAction: panel => {
+                    closeAction: (panel) => {
                         closeActionCallback(panel);
                     }
                 },
-                onCreate: panel => {
+                onCreate: (panel) => {
                     const panelFooter = panel.get('v.footer')[0];
                     panelFooter.set('v.panelInstance', panel);
                     panelFooter.set('v.closeActionCallback', closeActionCallback);
@@ -421,7 +421,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
             };
             dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
         })
-        .catch(errorMessage => {
+        .catch((errorMessage) => {
             throw new Error('UI panel creation failed: ' + errorMessage);
         });
 };
@@ -512,7 +512,7 @@ export const invokeModalWithComponents = (
     onCreate = invokeModalWithComponentsOnCreate
 ) => {
     Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise])
-        .then(newComponents => {
+        .then((newComponents) => {
             const createPanelEventAttributes = {
                 panelType: MODAL,
                 visible: true,
@@ -525,7 +525,7 @@ export const invokeModalWithComponents = (
                     bodyClass: data.bodyClass || '',
                     footerClass: data.footerClass || '',
                     flavor: data.flavor || '',
-                    closeAction: modal => {
+                    closeAction: (modal) => {
                         let skipCloseAction = false;
                         if (data.closeCallback) {
                             skipCloseAction = data.closeCallback();
@@ -535,19 +535,19 @@ export const invokeModalWithComponents = (
                         }
                     }
                 },
-                onCreate: modal => {
+                onCreate: (modal) => {
                     onCreate(modal, data);
                 }
             };
             dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
         })
-        .catch(errorMessage => {
+        .catch((errorMessage) => {
             throw new Error('Modal creation failed : ' + errorMessage);
         });
 };
 
 const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
-    modalBodyPromise.then(newComponent => {
+    modalBodyPromise.then((newComponent) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
             visible: true,
@@ -555,7 +555,7 @@ const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
                 modalClass: data.modalClass || '',
                 body: newComponent,
                 bodyClass: data.bodyClass || '',
-                closeAction: modal => {
+                closeAction: (modal) => {
                     let skipCloseAction = false;
                     if (data.closeCallback) {
                         skipCloseAction = data.closeCallback();
@@ -565,7 +565,7 @@ const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
                     }
                 }
             },
-            onCreate: modal => {
+            onCreate: (modal) => {
                 onCreate(modal);
             }
         };
@@ -645,7 +645,7 @@ function showDebugEditorPopover(
  * Invokes the modal and creates the alert/confirmation modal inside it
  * @param {object} data - contains data for modal header/body/footer
  */
-export const invokeModal = data => {
+export const invokeModal = (data) => {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
         headerTitle: data.headerData.headerTitle,
         headerVariant: data.headerData.headerVariant
@@ -677,7 +677,7 @@ export const invokeModal = data => {
  * This should only be used when displaying internal only data.
  * @param data
  */
-export const invokeModalInternalData = data => {
+export const invokeModalInternalData = (data) => {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
         headerTitle: data.headerData.headerTitle
     });
@@ -707,7 +707,7 @@ export const invokeAutoLayoutWelcomeMat = (processType, triggerType, createCallb
         createCallback
     });
 
-    const invokeModalWithComponentsOnCreateOverride = modal => {
+    const invokeModalWithComponentsOnCreateOverride = (modal) => {
         const panelBody = modal.get('v.body')[0];
         panelBody.set('v.closeCallback', modal.close);
     };
@@ -813,7 +813,7 @@ export function showHover(cmpName, attr, hoverId, panelConfig) {
                 panelType: HOVER_PANEL,
                 visible: true,
                 panelConfig,
-                onCreate: hoverPanel => {
+                onCreate: (hoverPanel) => {
                     if (hoverPanel.isValid()) {
                         hoverPanels[hoverId] = hoverPanel;
                     }
@@ -924,7 +924,7 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
     const componentPromise = createComponentPromise(cmpName, cmpAttributes);
 
     Promise.resolve(componentPromise)
-        .then(newComponent => {
+        .then((newComponent) => {
             const createPanelEventAttributes = {
                 panelType: PANEL,
                 visible: true,
@@ -943,7 +943,7 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
             };
             dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
         })
-        .catch(errorMessage => {
+        .catch((errorMessage) => {
             throw new Error('Status Icon Panel creation failed : ' + errorMessage);
         });
 }
@@ -967,7 +967,7 @@ export function createConfigurationEditor({
     }
     let newCmp;
     createComponentPromise(cmpName, attr)
-        .then(cmp => {
+        .then((cmp) => {
             renderComponent(cmp, container);
             newCmp = cmp;
             successCallback(newCmp);

@@ -55,18 +55,18 @@ const subflowInStore = {
     dataType: 'ActionOutput'
 };
 
-const subflowInStoreWithAnyRowIndexGuidExpected = subflow => {
+const subflowInStoreWithAnyRowIndexGuidExpected = (subflow) => {
     const copiedSubflow = deepCopy(subflow);
-    copiedSubflow.inputAssignments.forEach(assignment => {
+    copiedSubflow.inputAssignments.forEach((assignment) => {
         assignment.rowIndex = expect.any(String);
     });
-    copiedSubflow.outputAssignments.forEach(assignment => {
+    copiedSubflow.outputAssignments.forEach((assignment) => {
         assignment.rowIndex = expect.any(String);
     });
     return copiedSubflow;
 };
 
-const expectedSubflowMetadata = subflow => {
+const expectedSubflowMetadata = (subflow) => {
     const copiedSubflow = deepCopy(subflow);
     delete copiedSubflow.processMetadataValues;
     delete copiedSubflow.connector;
@@ -74,7 +74,7 @@ const expectedSubflowMetadata = subflow => {
     if (!copiedSubflow.description) {
         copiedSubflow.description = '';
     }
-    copiedSubflow.inputAssignments.forEach(assignment => {
+    copiedSubflow.inputAssignments.forEach((assignment) => {
         delete assignment.processMetadataValues;
         for (const key in assignment.value) {
             if (Object.prototype.hasOwnProperty.call(assignment.value, key)) {
@@ -82,7 +82,7 @@ const expectedSubflowMetadata = subflow => {
             }
         }
     });
-    copiedSubflow.outputAssignments.forEach(assignment => {
+    copiedSubflow.outputAssignments.forEach((assignment) => {
         delete assignment.processMetadataValues;
     });
     return copiedSubflow;

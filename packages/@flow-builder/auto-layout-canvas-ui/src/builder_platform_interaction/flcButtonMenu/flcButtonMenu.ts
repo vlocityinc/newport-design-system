@@ -552,7 +552,7 @@ export default class FlcButtonMenu extends LightningElement {
                 that.toggleMenuVisibility();
             },
             focusMenuItemWithText(text) {
-                const match = [...that.getMenuItems()].filter(menuItem => {
+                const match = [...that.getMenuItems()].filter((menuItem) => {
                     const label = menuItem.label;
                     return label && label.toLowerCase().indexOf(text) === 0;
                 });

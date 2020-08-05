@@ -252,7 +252,7 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         // action call : standard actions and quickactions
-        metadataFilter: element =>
+        metadataFilter: (element) =>
             element.actionType !== ACTION_TYPE.EMAIL_ALERT &&
             element.actionType !== ACTION_TYPE.APEX &&
             element.actionType !== ACTION_TYPE.FLOW,
@@ -288,7 +288,7 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter: element => element.actionType === ACTION_TYPE.EXTERNAL_SERVICE,
+        metadataFilter: (element) => element.actionType === ACTION_TYPE.EXTERNAL_SERVICE,
         labels: {
             singular: LABELS.actionSingularLabel,
             plural: LABELS.actionPluralLabel,
@@ -351,7 +351,7 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter: element => element.actionType === ACTION_TYPE.APEX,
+        metadataFilter: (element) => element.actionType === ACTION_TYPE.APEX,
         labels: {
             singular: LABELS.apexSingularLabel,
             plural: LABELS.apexPluralLabel,
@@ -383,7 +383,7 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter: element => element.actionType === ACTION_TYPE.EMAIL_ALERT,
+        metadataFilter: (element) => element.actionType === ACTION_TYPE.EMAIL_ALERT,
         labels: {
             singular: LABELS.emailAlertSingularLabel,
             plural: LABELS.emailAlertPluralLabel,

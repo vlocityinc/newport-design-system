@@ -64,7 +64,7 @@ const focusoutEvent = new FocusEvent('focusout', {
     cancelable: true
 });
 
-const changeEvent = value => {
+const changeEvent = (value) => {
     return new CustomEvent('change', {
         detail: {
             value
@@ -164,7 +164,7 @@ const decisionWithTwoOutcomes = {
     ]
 };
 
-const createComponentForTest = node => {
+const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-decision-editor', {
         is: DecisionEditor
     });

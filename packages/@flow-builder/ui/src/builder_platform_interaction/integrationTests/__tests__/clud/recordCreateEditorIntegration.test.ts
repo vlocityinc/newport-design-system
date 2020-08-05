@@ -52,24 +52,24 @@ import { getFieldToFerovExpressionBuilders } from '../recordFilterTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
-const getSObjectOrSObjectCollectionPicker = recordEditor =>
+const getSObjectOrSObjectCollectionPicker = (recordEditor) =>
     recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
-const getRecordStoreOption = recordEditor =>
+const getRecordStoreOption = (recordEditor) =>
     recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
-const getInputOutputAssignments = recordEditor =>
+const getInputOutputAssignments = (recordEditor) =>
     recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
-const getEntityResourcePickerComboboxElement = entityResourcePicker =>
+const getEntityResourcePickerComboboxElement = (entityResourcePicker) =>
     deepQuerySelector(entityResourcePicker, [
         INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
         INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
-const getExpressionBuilderComboboxElement = expressionBuilder =>
+const getExpressionBuilderComboboxElement = (expressionBuilder) =>
     deepQuerySelector(expressionBuilder, [
         INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
-const getOutputResourcePicker = recordEditor =>
+const getOutputResourcePicker = (recordEditor) =>
     recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.OUTPUT_RESOURCE_PICKER);
 
 const createComponentForTest = (node, processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE) => {
@@ -83,10 +83,10 @@ describe('Record Create Editor', () => {
     let recordCreateNode;
     let store;
     let sObjectOrSObjectCollectionPicker;
-    const expectCannotBeTraversedInResourcePicker = async textValues => {
+    const expectCannotBeTraversedInResourcePicker = async (textValues) => {
         await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
     };
-    const expectCannotBeSelectedInResourcePicker = async textValues => {
+    const expectCannotBeSelectedInResourcePicker = async (textValues) => {
         await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
     };
     describe('Working in auto launched flow', () => {
@@ -259,7 +259,7 @@ describe('Record Create Editor', () => {
             });
             describe('Working with fields', () => {
                 let recordCreateElement;
-                const selectEntity = async apiName => {
+                const selectEntity = async (apiName) => {
                     const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                     changeComboboxValue(comboboxElement, apiName);
@@ -424,8 +424,8 @@ describe('Record Create Editor', () => {
                         inputAssignments = getInputOutputAssignments(recordCreateElement);
                         const feedItemFieldsArray: { creatable; apiName }[] = Object.values(feedItemFields);
                         const creatableFields = feedItemFieldsArray
-                            .filter(field => field.creatable)
-                            .map(field => field.apiName);
+                            .filter((field) => field.creatable)
+                            .map((field) => field.apiName);
                         expect(creatableFields.length).toBeGreaterThan(15);
                         expect(creatableFields).toHaveLength(20);
 
@@ -494,7 +494,7 @@ describe('Record Create Editor', () => {
             });
         });
         describe('sObject Or SObject Collection Picker', () => {
-            const expectCanBeTraversedInResourcePicker = async textValues => {
+            const expectCanBeTraversedInResourcePicker = async (textValues) => {
                 await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
             };
             describe('create from single value', () => {

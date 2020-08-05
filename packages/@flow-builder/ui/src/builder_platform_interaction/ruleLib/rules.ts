@@ -105,10 +105,10 @@ export const RULE_OPERATOR = {
  *
  * @param rule {operatorRule}   a rule with the INCLUDE_ELEMS property populated
  */
-const storeRulesForIncludeElems = rule => {
+const storeRulesForIncludeElems = (rule) => {
     const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
     // for each element in this rule's includeElems...
-    rule[RULE_PROPERTY.INCLUDE_ELEMS].forEach(elementType => {
+    rule[RULE_PROPERTY.INCLUDE_ELEMS].forEach((elementType) => {
         // if this element doesn't have any specific rules yet, create an entry in rulesInstance
         if (!rulesInstance[elementType]) {
             rulesInstance[elementType] = {};
@@ -121,8 +121,8 @@ const storeRulesForIncludeElems = rule => {
     });
 };
 
-const hasIncludeElems = rule => rule[RULE_PROPERTY.INCLUDE_ELEMS] && rule[RULE_PROPERTY.INCLUDE_ELEMS].length > 0;
-const hasExcludeElems = rule => rule[RULE_PROPERTY.EXCLUDE_ELEMS] && rule[RULE_PROPERTY.EXCLUDE_ELEMS].length > 0;
+const hasIncludeElems = (rule) => rule[RULE_PROPERTY.INCLUDE_ELEMS] && rule[RULE_PROPERTY.INCLUDE_ELEMS].length > 0;
+const hasExcludeElems = (rule) => rule[RULE_PROPERTY.EXCLUDE_ELEMS] && rule[RULE_PROPERTY.EXCLUDE_ELEMS].length > 0;
 
 /**
  * Build map in the opposite way the original assignment rules are structured.
@@ -139,7 +139,7 @@ const addToStringifiedOutputRuleMap = (rule, stringifiedInputsToOutputs, assignm
     }
 
     if (!hasExcludeElems(rule)) {
-        rule[RULE_PROPERTY.RHS_PARAMS].forEach(rhsParam => {
+        rule[RULE_PROPERTY.RHS_PARAMS].forEach((rhsParam) => {
             const rhs = JSON.stringify(rhsParam);
             if (!stringifiedInputsToOutputs[rhs]) {
                 stringifiedInputsToOutputs[rhs] = new Set();
@@ -158,18 +158,18 @@ const addToStringifiedOutputRuleMap = (rule, stringifiedInputsToOutputs, assignm
  */
 const buildRulesInstanceForOutputRules = (stringifiedInputsToOutputs, assignmentRulesWithExclusions) => {
     // parse the stringified params & build object in the same shape as the original rules, so that the same utility functions can be applied
-    Object.keys(stringifiedInputsToOutputs).forEach(assignToParam => {
+    Object.keys(stringifiedInputsToOutputs).forEach((assignToParam) => {
         outputRules.push({
             [RULE_PROPERTY.LEFT]: JSON.parse(assignToParam),
             [RULE_PROPERTY.OPERATOR]: RULE_OPERATOR.ASSIGN, // this can be hardcoded here because a rule would only be in this object if this were true
-            [RULE_PROPERTY.RHS_PARAMS]: Array.from(stringifiedInputsToOutputs[assignToParam]).map(param =>
+            [RULE_PROPERTY.RHS_PARAMS]: Array.from(stringifiedInputsToOutputs[assignToParam]).map((param) =>
                 JSON.parse(param)
             )
         });
     });
 
-    assignmentRulesWithExclusions.forEach(rule => {
-        rule[RULE_PROPERTY.RHS_PARAMS].forEach(rhsParam => {
+    assignmentRulesWithExclusions.forEach((rule) => {
+        rule[RULE_PROPERTY.RHS_PARAMS].forEach((rhsParam) => {
             // create an output ("backwards") rule, that excludes the same element types as the original rule
             outputRules.push({
                 [RULE_PROPERTY.LEFT]: rhsParam,
@@ -191,14 +191,14 @@ export const setRules = (rules = null) => {
     outputRules = [];
     // Create the rules instance with all rule types, where
     // RULE_TYPES looks like this: { ASSIGNMENT: 'assignment', COMPARISON: 'comparison' }
-    Object.values(RULE_TYPES).forEach(ruleTypeName => {
+    Object.values(RULE_TYPES).forEach((ruleTypeName) => {
         rulesInstance[ruleTypeName] = [];
     });
     // Add rules to the correct buckets
     if (rules) {
         const stringifiedInputsToOutputs = {};
         const assignmentRulesWithExclusions = [];
-        rules.forEach(rule => {
+        rules.forEach((rule) => {
             let currentRule = Object.assign({}, rule);
             const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
             // rules come in with two fields - assignmentOperator and comparisonOperator

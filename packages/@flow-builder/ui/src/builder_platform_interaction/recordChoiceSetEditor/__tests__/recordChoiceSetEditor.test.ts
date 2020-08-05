@@ -40,7 +40,7 @@ const SELECTORS = {
     OUTPUT_ASSIGNMENTS: 'builder_platform_interaction-record-input-output-assignments'
 };
 
-const setupComponentUnderTest = recordChoiceObject => {
+const setupComponentUnderTest = (recordChoiceObject) => {
     const element = createElement('builder_platform_interaction-record-choice-set-editor', {
         is: RecordChoiceSetEditor
     });
@@ -57,7 +57,7 @@ jest.mock('builder_platform_interaction/actions', () => {
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../recordChoiceSetReducer', () => {
     return {
-        recordChoiceSetReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
+        recordChoiceSetReducer: jest.fn().mockImplementation((obj) => Object.assign({}, obj))
     };
 });
 
@@ -388,7 +388,7 @@ describe('record-choice-set-editor', () => {
                         dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
                     });
 
-                    const dispatchValueChangedEvent = payload => {
+                    const dispatchValueChangedEvent = (payload) => {
                         const mockChangeEvent = new ValueChangedEvent(payload);
                         dataTypePicker.dispatchEvent(mockChangeEvent);
                     };

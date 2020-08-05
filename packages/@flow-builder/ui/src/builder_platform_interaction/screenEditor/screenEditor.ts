@@ -126,7 +126,7 @@ export default class ScreenEditor extends LightningElement {
      * @param {Screen} newScreen - The screen to process
      */
     processScreenExtensions(newScreen) {
-        processRequiredParamsForExtensionsInScreen(newScreen, data => {
+        processRequiredParamsForExtensionsInScreen(newScreen, (data) => {
             if (data.error) {
                 throw data.error;
             } else {
@@ -142,17 +142,17 @@ export default class ScreenEditor extends LightningElement {
      */
     processPaletteExtensions() {
         const triggerType = getTriggerType();
-        getSupportedScreenFieldTypes(this.processType, triggerType).then(supportedTypes => {
+        getSupportedScreenFieldTypes(this.processType, triggerType).then((supportedTypes) => {
             if (supportedTypes) {
-                this.screenFieldTypes = getAllScreenFieldTypes().filter(type =>
-                    supportedTypes.some(supportedType => {
+                this.screenFieldTypes = getAllScreenFieldTypes().filter((type) =>
+                    supportedTypes.some((supportedType) => {
                         return supportedType.name === type.name || supportedType.name === type.fieldType;
                     })
                 );
             }
         });
         getExtensionFieldTypes(this.processType)
-            .then(data => {
+            .then((data) => {
                 const rawScreen = unwrap(this.screen);
                 this.extensionTypes = data;
                 // Force rerender of the canvas.
@@ -161,7 +161,7 @@ export default class ScreenEditor extends LightningElement {
                     this.screen = processScreenExtensionTypes(rawScreen);
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 throw error;
             });
     }
@@ -186,7 +186,7 @@ export default class ScreenEditor extends LightningElement {
      * Handler for the add screen field event
      * @param {event} event - The event
      */
-    handleAddScreenField = event => {
+    handleAddScreenField = (event) => {
         // Add the new field to the canvas.
         this.screen = screenReducer(this.screen, event);
 
@@ -204,7 +204,7 @@ export default class ScreenEditor extends LightningElement {
      * will be set as the selected node
      * @param {event} event - The event
      */
-    handleAddScreenFieldToContainerFieldWithParentFocus = event => {
+    handleAddScreenFieldToContainerFieldWithParentFocus = (event) => {
         this.handleAddScreenField(event);
 
         if (event.callback) {
@@ -220,7 +220,7 @@ export default class ScreenEditor extends LightningElement {
      * Handler for the delete screen element event. Invokes the delete confirmation modal.
      * @param {event} event - The event
      */
-    handleDeleteScreenElement = event => {
+    handleDeleteScreenElement = (event) => {
         const state = this.screen;
         const parent =
             event.parentGuid && event.parentGuid !== this.screen.guid
@@ -271,7 +271,7 @@ export default class ScreenEditor extends LightningElement {
      */
     getAllScreenFields(fields) {
         let allFields = [];
-        fields.forEach(field => {
+        fields.forEach((field) => {
             allFields = [...allFields, ...this.flattenScreenFields(field)];
         });
         return [...fields, ...allFields];
@@ -289,7 +289,7 @@ export default class ScreenEditor extends LightningElement {
         const allFields = [];
         const fields = screenField.fields;
         if (fields) {
-            fields.forEach(field => {
+            fields.forEach((field) => {
                 allFields.push(field);
                 allFields.push(...this.flattenScreenFields(field));
             });
@@ -301,7 +301,7 @@ export default class ScreenEditor extends LightningElement {
      * Handler for screen state changed events
      * @param {event} event - The event
      */
-    handleScreenStateChanged = event => {
+    handleScreenStateChanged = (event) => {
         this.screen = screenReducer(this.screen, event, this.selectedNode);
         this.resetSelectedNode();
     };
@@ -321,7 +321,7 @@ export default class ScreenEditor extends LightningElement {
      * Handler for the select screen element event
      * @param {event} event - The event
      */
-    handleSelectScreenElement = event => {
+    handleSelectScreenElement = (event) => {
         this.hidePopover();
         const elem = event.screenElement;
         if (elem && elem.guid !== this.screen.guid) {
@@ -344,12 +344,12 @@ export default class ScreenEditor extends LightningElement {
      * Handles reordering a list of the screen fields
      * @param {event} event - reorderListEvent
      */
-    handleMoveScreenElement = event => {
+    handleMoveScreenElement = (event) => {
         this.screen = screenReducer(this.screen, event);
         event.stopPropagation();
     };
 
-    handleColumnWidthChanged = event => {
+    handleColumnWidthChanged = (event) => {
         this.screen = screenReducer(this.screen, event);
         event.stopPropagation();
 

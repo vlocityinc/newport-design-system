@@ -109,13 +109,13 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-const getSObjectOrSObjectCollectionPicker = recordDeleteEditor =>
+const getSObjectOrSObjectCollectionPicker = (recordDeleteEditor) =>
     recordDeleteEditor.shadowRoot.querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
-const getEntityResourcePicker = recordDeleteEditor =>
+const getEntityResourcePicker = (recordDeleteEditor) =>
     recordDeleteEditor.shadowRoot.querySelector(SELECTORS.entityResourcePicker);
-const getRecordStoreOption = recordDeleteEditor =>
+const getRecordStoreOption = (recordDeleteEditor) =>
     recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordStoreOption);
-const getRecordFilter = recordDeleteEditor => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordFilter);
+const getRecordFilter = (recordDeleteEditor) => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordFilter);
 
 describe('Record delete editor', () => {
     let recordDeleteEditor;

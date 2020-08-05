@@ -33,15 +33,15 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
-const getActionSelectorElement = actionEditor => {
+const getActionSelectorElement = (actionEditor) => {
     return actionEditor.shadowRoot.querySelector(SELECTORS.ACTION_SELECTOR);
 };
 
-const getActionSelectorComboboxElement = actionSelector => {
+const getActionSelectorComboboxElement = (actionSelector) => {
     return deepQuerySelector(actionSelector, [SELECTORS.COMBOBOX, SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 };
 
-const getSubflowEditorElement = calloutEditor => {
+const getSubflowEditorElement = (calloutEditor) => {
     return deepQuerySelector(calloutEditor, [SELECTORS.CALLOUT_EDITOR_CONTAINER, SELECTORS.SUBFLOW_EDITOR]);
 };
 
@@ -70,7 +70,7 @@ describe('Subflow Editor (new subflow)', () => {
     it('shows subflows in the action selector combobox', () => {
         const actionSelectorElement = getActionSelectorElement(propertyEditor);
         const actionComboboxElement = getActionSelectorComboboxElement(actionSelectorElement);
-        expect(actionComboboxElement.items.map(item => item.text)).toEqual(expect.arrayContaining(['my subflow']));
+        expect(actionComboboxElement.items.map((item) => item.text)).toEqual(expect.arrayContaining(['my subflow']));
     });
     describe('When a subflow is selected', () => {
         let subflowElement;

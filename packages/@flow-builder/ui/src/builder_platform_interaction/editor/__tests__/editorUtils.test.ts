@@ -64,31 +64,31 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        deleteElements: jest.fn().mockImplementation(payload => {
+        deleteElements: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'deleteElement',
                 payload
             };
         }),
-        updatePropertiesAfterSaving: jest.fn().mockImplementation(payload => {
+        updatePropertiesAfterSaving: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'updatePropertiesAfterSaving',
                 payload
             };
         }),
-        updatePropertiesAfterSaveFailed: jest.fn().mockImplementation(payload => {
+        updatePropertiesAfterSaveFailed: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'updatePropertiesAfterSaveFailed',
                 payload
             };
         }),
-        updateProperties: jest.fn().mockImplementation(payload => {
+        updateProperties: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'updateProperties',
                 payload
             };
         }),
-        highlightOnCanvas: jest.fn().mockImplementation(payload => {
+        highlightOnCanvas: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'highlightOnCanvas',
                 payload
@@ -152,7 +152,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
-        getConfigForElementType: jest.fn().mockImplementation(elementType => {
+        getConfigForElementType: jest.fn().mockImplementation((elementType) => {
             if (elementType === 'START_ELEMENT') {
                 return {
                     canBeDuplicated: false,
@@ -166,7 +166,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByDevName: jest.fn().mockImplementation(devName => {
+        getElementByDevName: jest.fn().mockImplementation((devName) => {
             return {
                 guid: devName
             };
@@ -648,7 +648,7 @@ describe('Editor Utils Test', () => {
                 saveType: SaveType.CREATE,
                 processType: 'AutoLaunchedFlow'
             };
-            const mocksaveFlowFn = jest.fn(saveType => saveType);
+            const mocksaveFlowFn = jest.fn((saveType) => saveType);
             saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
             expect(mocksaveFlowFn.mock.results[0].value).toBe(SaveType.CREATE);
         });

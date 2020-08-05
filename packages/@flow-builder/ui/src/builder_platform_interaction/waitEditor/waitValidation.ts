@@ -15,7 +15,7 @@ import { LABELS } from './waitEditorLabels';
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeHoursDaysOrBlank = value => {
+export const shouldBeHoursDaysOrBlank = (value) => {
     if (value && value !== WAIT_TIME_EVENT_OFFSET_UNIT.HOURS && value !== WAIT_TIME_EVENT_OFFSET_UNIT.DAYS) {
         return LABELS.shouldBeHoursOrDays;
     }
@@ -39,7 +39,7 @@ const conditionRule = {
 };
 
 // TODO: This will work properly when this story (W-5568291) is completed
-const outputParameterRules = outputParameter => {
+const outputParameterRules = (outputParameter) => {
     const opRules = {};
     opRules.value = [ValidationRules.validateResourcePicker(outputParameter.rowIndex)];
     return opRules;
@@ -47,7 +47,7 @@ const outputParameterRules = outputParameter => {
 
 const absoluteTimeRules = () => {
     return {
-        inputParameters: inputParameter => {
+        inputParameters: (inputParameter) => {
             const ipRules = {};
 
             if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME) {
@@ -67,7 +67,7 @@ const absoluteTimeRules = () => {
 
 const directTimeRules = () => {
     return {
-        inputParameters: inputParameter => {
+        inputParameters: (inputParameter) => {
             const requiredParameterNames = [
                 WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT,
                 WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME
@@ -96,7 +96,7 @@ const directTimeRules = () => {
     };
 };
 
-const platformEventParametersRule = eventTypeIndex => {
+const platformEventParametersRule = (eventTypeIndex) => {
     return {
         eventType: [ValidationRules.shouldNotBeBlank, ValidationRules.validateResourcePicker(eventTypeIndex)],
         inputParameters: () => {
@@ -119,7 +119,7 @@ class WaitValidation extends Validation {
     }
 
     getWaitEventRules() {
-        return waitEvent => {
+        return (waitEvent) => {
             let rules = Object.assign({}, defaultRules);
 
             if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
@@ -154,7 +154,7 @@ class WaitValidation extends Validation {
                 name: state.name.value
             }
         ];
-        const waitEventsDevNameToGuidList = state.waitEvents.map(waitEvent => {
+        const waitEventsDevNameToGuidList = state.waitEvents.map((waitEvent) => {
             return {
                 guid: waitEvent.guid,
                 name: waitEvent.name.value

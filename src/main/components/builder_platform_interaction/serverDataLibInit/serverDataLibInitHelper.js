@@ -4,8 +4,8 @@
      * Generic function to get data from server using this component. It sets the function on server-data-lib.js
      * @param cmp
      */
-    initializeFetch: function(cmp, helper) {
-        var auraFetch = $A.getCallback(function(
+    initializeFetch: function (cmp, helper) {
+        var auraFetch = $A.getCallback(function (
             actionName,
             shouldExecuteCallback,
             callback,
@@ -26,7 +26,7 @@
                 if (background) {
                     action.setBackground();
                 }
-                action.setCallback(this, function(result) {
+                action.setCallback(this, function (result) {
                     var executeCallback = shouldExecuteCallback();
                     var error = result.getError();
                     if (executeCallback) {
@@ -64,7 +64,7 @@
     /**
      * This function is called when network gets disconnected while a server call is in progress.
      */
-    offlineCallback: function(cmp, helper) {
+    offlineCallback: function (cmp, helper) {
         var headerTitle, bodyTextOne;
         if (helper.showAlertModal) {
             headerTitle = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionTitle');
@@ -78,7 +78,7 @@
      * It opens a modal with errorMessage if disableErrorModal is false.
      * Error argument could be used for setting custom error message.
      */
-    errorCallback: function(cmp, helper, disableErrorModal, errorMessage, gackId) {
+    errorCallback: function (cmp, helper, disableErrorModal, errorMessage, gackId) {
         var headerTitle, bodyTextOne;
         if (helper.showAlertModal && !disableErrorModal) {
             headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');
@@ -91,7 +91,7 @@
     /**
      * Helper function to set the error message. It appends the gack id if it is defined.
      */
-    setErrorMessage: function(errorMessage, gackId) {
+    setErrorMessage: function (errorMessage, gackId) {
         var newErrorMessage = errorMessage ? errorMessage : $A.get('$Label.FlowBuilderAlertModal.errorMessage');
         if (gackId) {
             newErrorMessage += ' ' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId);
@@ -103,7 +103,7 @@
      * This function is called user closes the error alert modal.
      * A function is returned with helper as closure
      */
-    errorAlertModalCloseCallback: function(helper) {
+    errorAlertModalCloseCallback: function (helper) {
         function setShowAlertModal() {
             helper.showAlertModal = true;
         }
@@ -115,7 +115,7 @@
      * A function is returned with helper as closure
      */
 
-    offlineAlertModalCloseCallback: function(helper) {
+    offlineAlertModalCloseCallback: function (helper) {
         function setShowAlertModal() {
             helper.showAlertModal = true;
         }
@@ -125,7 +125,7 @@
     /**
      * Helper function to open an alert modal
      */
-    openAlertModal: function(cmp, headerTitle, bodyTextOne, buttonCloseCallback) {
+    openAlertModal: function (cmp, headerTitle, bodyTextOne, buttonCloseCallback) {
         var buttonVariant, buttonLabel, alertModal;
         alertModal = cmp.find('builderUtils').invokeModal;
         buttonVariant = 'Brand';

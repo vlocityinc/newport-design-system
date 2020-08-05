@@ -26,7 +26,7 @@ jest.mock('builder_platform_interaction/actions', () => {
     };
 });
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-output-resource-picker', {
         is: OutputResourcePicker
     });
@@ -50,10 +50,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
-        getOutputRules: jest
-            .fn()
-            .mockReturnValue(['rule1'])
-            .mockName('getOutputRules'),
+        getOutputRules: jest.fn().mockReturnValue(['rule1']).mockName('getOutputRules'),
         getRHSTypes: jest
             .fn()
             .mockReturnValue({
@@ -68,7 +65,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        normalizeFEROV: jest.fn().mockImplementation(identifier => ({
+        normalizeFEROV: jest.fn().mockImplementation((identifier) => ({
             itemOrDisplayText: identifier
         })),
         getMenuData: jest

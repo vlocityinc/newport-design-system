@@ -33,14 +33,14 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function() {
+    const getCurrentState = function () {
         return {
             properties: {
                 processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
             }
         };
     };
-    const getStore = function() {
+    const getStore = function () {
         return {
             getCurrentState
         };
@@ -72,7 +72,7 @@ const mockGetScreenFieldTypeByNameEmail = () => ({
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
     return Object.assign({}, actual, {
-        getScreenFieldTypeByName: jest.fn().mockImplementation(name => {
+        getScreenFieldTypeByName: jest.fn().mockImplementation((name) => {
             if (name === 'Column') {
                 return actual.getScreenFieldTypeByName(name);
             } else if (name === 'Section') {
@@ -269,7 +269,7 @@ const sectionScreenFieldStore = () => ({
 });
 
 const foundElementGuidPrefix = 'found';
-getElementByGuid.mockImplementation(guid => {
+getElementByGuid.mockImplementation((guid) => {
     if (guid === componentScreenFieldEmailStoreGuid) {
         return componentScreenFieldEmailStore();
     }

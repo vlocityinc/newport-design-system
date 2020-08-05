@@ -53,7 +53,7 @@ function _deleteCanvasElements(canvasElements, selectedCanvasElements) {
     if (selectedCanvasElements && selectedCanvasElements.length > 0) {
         return selectedCanvasElements.reduce(
             (newCanvasElements, element) => {
-                return newCanvasElements.filter(canvasElement => canvasElement !== element.guid);
+                return newCanvasElements.filter((canvasElement) => canvasElement !== element.guid);
             },
             [...canvasElements]
         );

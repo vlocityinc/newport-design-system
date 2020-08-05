@@ -105,7 +105,7 @@ export function getConnectionProperties(originalCanvasElement, newChildReference
 
     if (originalCanvasElement && originalCanvasElement.availableConnections && originalCanvasElement.childReferences) {
         const flatOriginalAvailableConnections = originalCanvasElement.availableConnections.map(
-            availableConnection => availableConnection.childReference || availableConnection.type
+            (availableConnection) => availableConnection.childReference || availableConnection.type
         );
         const originalChildReferences = originalCanvasElement.childReferences;
 

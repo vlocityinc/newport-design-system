@@ -35,7 +35,7 @@ export function usedBy(
     let usedByElements =
         elementsKeys &&
         elementsKeys
-            .filter(element => !listOfGuidsToSkip.includes(element))
+            .filter((element) => !listOfGuidsToSkip.includes(element))
             .reduce((acc, key) => {
                 if (!updatedElementGuids.includes(key)) {
                     const element = elements[key];
@@ -169,7 +169,7 @@ export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
 function getChildElementGuids(element) {
     let childElementGuids = [];
     if (element && element.fields) {
-        element.fields.forEach(field => {
+        element.fields.forEach((field) => {
             if (field && field.guid) {
                 childElementGuids.push(field.guid);
             }
@@ -286,14 +286,14 @@ function matchElement(elementGuids, object, key, value) {
             const occurences = value.match(EXPRESSION_RE);
             if (occurences) {
                 return occurences
-                    .map(occurence =>
+                    .map((occurence) =>
                         updateDevNameToGuid(splitStringBySeparator(occurence.slice(2, occurence.length - 1))[0])
                     )
-                    .filter(guid => elementGuids.includes(guid));
+                    .filter((guid) => elementGuids.includes(guid));
             }
         } else if (isReferenceField(object, key)) {
             const guid = splitStringBySeparator(value)[0];
-            return elementGuids && elementGuids.filter(elementGuid => guid === elementGuid);
+            return elementGuids && elementGuids.filter((elementGuid) => guid === elementGuid);
         }
     }
     return [];

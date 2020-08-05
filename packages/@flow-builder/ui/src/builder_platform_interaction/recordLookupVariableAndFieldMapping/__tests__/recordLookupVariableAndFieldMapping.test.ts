@@ -31,7 +31,7 @@ const selectors = {
     lightningRadioGroup: 'lightning-radio-group'
 };
 
-const getRadioGroup = variableAndFieldMappingElement => {
+const getRadioGroup = (variableAndFieldMappingElement) => {
     return variableAndFieldMappingElement.shadowRoot.querySelector(selectors.lightningRadioGroup);
 };
 

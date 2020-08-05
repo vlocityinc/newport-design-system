@@ -102,10 +102,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         getDataType: actual.getDataType,
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
         elementToParam: actual.elementToParam,
-        isCollectionRequired: jest
-            .fn()
-            .mockReturnValue(false)
-            .mockName('isCollectionRequired'),
+        isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY
     };
@@ -122,7 +119,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields),
         fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
-        getEntity: jest.fn().mockImplementation(apiName => mockEntities.find(entity => entity.apiName === apiName))
+        getEntity: jest.fn().mockImplementation((apiName) => mockEntities.find((entity) => entity.apiName === apiName))
     };
 });
 

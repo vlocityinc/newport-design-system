@@ -26,11 +26,11 @@ function setDynamicTypeMappings(genericTypes = [], dynamicTypeMappings = []) {
         return undefined;
     }
 
-    return genericTypes.map(genericType => {
+    return genericTypes.map((genericType) => {
         let dynamicTypeMapping;
         if (dynamicTypeMappings) {
             dynamicTypeMapping = dynamicTypeMappings.find(
-                item => getValueFromHydratedItem(item.typeName) === genericType.name
+                (item) => getValueFromHydratedItem(item.typeName) === genericType.name
             );
         }
         if (!dynamicTypeMapping) {
@@ -97,8 +97,8 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
     // Get all extension fields
     const extensionFields = getAllChildExtensionFields(screen);
     // Get the extension names
-    const extensions = extensionFields.map(f => getValueFromHydratedItem(f.extensionName));
-    const processFn = descriptions => {
+    const extensions = extensionFields.map((f) => getValueFromHydratedItem(f.extensionName));
+    const processFn = (descriptions) => {
         // Create a map field.name = field
         const fieldsMap = extensionFields.reduce((map, field) => {
             const extensionName = getValueFromHydratedItem(field.extensionName);
@@ -124,11 +124,11 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
         // Async, go to server if necessary
         // Get the descriptions
         describeExtensions(extensions)
-            .then(descs => {
+            .then((descs) => {
                 processFn(descs);
                 callback({ screen });
             })
-            .catch(error => callback({ error: error.message }));
+            .catch((error) => callback({ error: error.message }));
     } else {
         // Use cached descriptors
         const descs = getCachedExtensions(extensions);
@@ -148,7 +148,7 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
  */
 function getAllChildExtensionFields(parent) {
     let extensionFields = [];
-    parent.fields.forEach(field => {
+    parent.fields.forEach((field) => {
         if (isExtensionField(field)) {
             extensionFields.push(field);
         } else if (field.fields && field.fields.length > 0) {
@@ -167,7 +167,7 @@ function getAllChildExtensionFields(parent) {
 function addRequiredInputParameters(field, description) {
     for (const param of description.inputParameters) {
         if (param.isRequired && !param.hasDefaultValue) {
-            if (!field.inputParameters.find(p => p.name.value === param.apiName)) {
+            if (!field.inputParameters.find((p) => p.name.value === param.apiName)) {
                 // Param is not present
                 field.inputParameters.push({
                     name: { value: param.apiName, error: null },

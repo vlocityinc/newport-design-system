@@ -48,7 +48,7 @@ const existingDecisionWithChildren = {
     children: ['screen1', 'screen2', null]
 };
 
-getElementByGuid.mockImplementation(guid => {
+getElementByGuid.mockImplementation((guid) => {
     if (guid === newDecisionGuid || guid === decisionWithChildrenGuid) {
         return null;
     } else if (guid === existingDecisionGuid) {
@@ -64,12 +64,12 @@ getElementByGuid.mockImplementation(guid => {
 
 jest.mock('../base/baseElement');
 baseCanvasElement
-    .mockImplementation(element => {
+    .mockImplementation((element) => {
         return Object.assign({}, element);
     })
     .mockName('baseCanvasElementMock');
 createPastedCanvasElement
-    .mockImplementation(duplicatedElement => {
+    .mockImplementation((duplicatedElement) => {
         return duplicatedElement;
     })
     .mockName('createPastedCanvasElementMock');
@@ -106,21 +106,21 @@ duplicateCanvasElementWithChildElements
     })
     .mockName('duplicateCanvasElementWithChildElementsMock');
 baseChildElement
-    .mockImplementation(outcome => {
+    .mockImplementation((outcome) => {
         return Object.assign({}, outcome);
     })
     .mockName('baseChildElementMock');
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
 
 jest.mock('../base/baseMetadata');
-baseCanvasElementMetadataObject.mockImplementation(element => {
+baseCanvasElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
-baseChildElementMetadataObject.mockImplementation(element => {
+baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
 createConditionMetadataObject
-    .mockImplementation(element => Object.assign({}, element))
+    .mockImplementation((element) => Object.assign({}, element))
     .mockName('createConditionMetadataObject');
 
 jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
@@ -308,7 +308,7 @@ describe('decision', () => {
     });
 
     describe('createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor', () => {
-        const shouldUseFlc = useFlc => {
+        const shouldUseFlc = (useFlc) => {
             shouldUseAutoLayoutCanvas.mockImplementation(() => {
                 return useFlc;
             });

@@ -89,7 +89,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor', {
         is: ScreenEditor
     });
@@ -109,7 +109,7 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -361,7 +361,7 @@ describe('Extension events', () => {
 
                 newState = {
                     getFieldIndex: getFieldIndexMock,
-                    getFieldByGUID: jest.fn(guid => {
+                    getFieldByGUID: jest.fn((guid) => {
                         return guid === parent.guid ? parent : null;
                     }),
                     fields: []
@@ -429,7 +429,7 @@ describe('Extension events', () => {
 
             return Promise.resolve().then(async () => {
                 const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-                mockScreenReducer = jest.fn(state => {
+                mockScreenReducer = jest.fn((state) => {
                     return state;
                 });
                 const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
@@ -451,7 +451,7 @@ describe('Extension events', () => {
             });
         });
         const SCREEN_FIELD_NAME_UPDATED_BY_REDUCER = 'ScreenField1Updated';
-        const mockedReducerThatUpdatesScreenFieldName = state => {
+        const mockedReducerThatUpdatesScreenFieldName = (state) => {
             state.fields[0].guid = SCREEN_FIELD_NAME_UPDATED_BY_REDUCER;
             return state;
         };
@@ -479,7 +479,7 @@ describe('Extension events', () => {
     it('handles dynamictypemappingchange event', async () => {
         const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
 
-        mockScreenReducer = jest.fn(state => state);
+        mockScreenReducer = jest.fn((state) => state);
 
         // Select the field to be changed.
         const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);

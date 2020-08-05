@@ -12,10 +12,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
-        validateTextWithMergeFields: jest
-            .fn()
-            .mockName('validateTextWithMergeFields')
-            .mockReturnValue([])
+        validateTextWithMergeFields: jest.fn().mockName('validateTextWithMergeFields').mockReturnValue([])
     };
 });
 

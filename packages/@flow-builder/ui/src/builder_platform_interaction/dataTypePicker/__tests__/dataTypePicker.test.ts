@@ -28,7 +28,7 @@ describe('Data Type picker', () => {
         dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
         await Promise.resolve();
         expect(
-            dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox').options.map(option => option.label)
+            dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox').options.map((option) => option.label)
         ).toEqual(['FlowBuilderDataTypes.textDataTypeLabel', 'FlowBuilderDataTypes.numberDataTypeLabel']);
     });
 
@@ -113,7 +113,7 @@ describe('Data Type picker', () => {
     });
     describe('Events', () => {
         let eventCallback;
-        const expectValueChangedEventWithValue = value => {
+        const expectValueChangedEventWithValue = (value) => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: { value }
@@ -174,7 +174,7 @@ describe('Data Type picker', () => {
     });
     describe('Scale input', () => {
         let eventCallback;
-        const expectValueChangedEventWithScale = scale => {
+        const expectValueChangedEventWithScale = (scale) => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: {
@@ -182,7 +182,7 @@ describe('Data Type picker', () => {
                 }
             });
         };
-        const enterScaleAndDispatchBlur = userInput => {
+        const enterScaleAndDispatchBlur = (userInput) => {
             scaleComponent().value = userInput;
             scaleComponent().dispatchEvent(new CustomEvent('blur'));
         };

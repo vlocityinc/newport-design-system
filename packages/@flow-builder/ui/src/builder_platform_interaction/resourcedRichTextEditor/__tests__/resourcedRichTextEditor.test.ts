@@ -14,7 +14,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-resourced-rich-text-editor', {
         is: ResourcedRichTextEditor
     });
@@ -30,7 +30,7 @@ jest.mock('builder_platform_interaction/mergeFieldLib', () => {
 
 jest.mock('../richTextConverter', () => {
     return {
-        convertHTMLToQuillHTML: htmlText => `<converted>${htmlText}</converted>`
+        convertHTMLToQuillHTML: (htmlText) => `<converted>${htmlText}</converted>`
     };
 });
 

@@ -6,14 +6,14 @@ const LABEL_DESCRIPTION_SELECTORS = {
     LABEL: '.label'
 };
 
-export const getLabelDescriptionElement = editor => {
+export const getLabelDescriptionElement = (editor) => {
     return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
 };
 
-export const getLabelDescriptionNameElement = editor => {
+export const getLabelDescriptionNameElement = (editor) => {
     return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
 };
 
-export const getLabelDescriptionLabelElement = editor => {
+export const getLabelDescriptionLabelElement = (editor) => {
     return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
 };

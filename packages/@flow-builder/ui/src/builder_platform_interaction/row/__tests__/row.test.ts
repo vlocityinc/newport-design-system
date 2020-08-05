@@ -7,7 +7,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 const prefix = 'myAwesomePrefix';
 const itemIndex = 3;
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-row', {
         is: Row
     });

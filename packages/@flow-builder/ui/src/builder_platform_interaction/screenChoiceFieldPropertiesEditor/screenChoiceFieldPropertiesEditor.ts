@@ -47,7 +47,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         return EXPANDED_SECTION_NAMES;
     }
 
-    handlePropertyChanged = event => {
+    handlePropertyChanged = (event) => {
         this.dispatchEvent(addCurrentValueToEvent(event, this.field, this.field[event.detail.propertyName]));
         event.stopPropagation();
     };
@@ -66,7 +66,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         );
     }
 
-    handleDefaultValuePropertyChanged = event => {
+    handleDefaultValuePropertyChanged = (event) => {
         event.stopPropagation();
 
         // If user is trying to set default value back to nothing, set the value to null,
@@ -89,7 +89,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         );
     };
 
-    handleChoiceChanged = event => {
+    handleChoiceChanged = (event) => {
         event.stopPropagation();
 
         // We get the display value from the event, which might be something
@@ -118,12 +118,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         }
     };
 
-    handleChoiceDeleted = event => {
+    handleChoiceDeleted = (event) => {
         event.stopPropagation();
         this.dispatchEvent(createChoiceDeletedEvent(this.field, event.detail.index));
     };
 
-    handleChoiceAdded = event => {
+    handleChoiceAdded = (event) => {
         event.stopPropagation();
         this.dispatchEvent(createChoiceAddedEvent(this.field, this.field.choiceReferences.length));
     };

@@ -71,7 +71,7 @@ export default class FlcNodeMenu extends Menu {
     /**
      * Handles the click on the cancel button and closes the contextual menu
      */
-    handleCancelButtonClick = event => {
+    handleCancelButtonClick = (event) => {
         event.stopPropagation();
         this.dispatchEvent(new CloseMenuEvent());
     };
@@ -79,7 +79,7 @@ export default class FlcNodeMenu extends Menu {
     /**
      * Handles the click on the action row item and dispatches the appropriate event
      */
-    handleSelectNodeAction = event => {
+    handleSelectNodeAction = (event) => {
         event.stopPropagation();
         const actionType = event.currentTarget.getAttribute('data-value');
         let closeMenu = true;
@@ -117,11 +117,11 @@ export default class FlcNodeMenu extends Menu {
     /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
      */
-    handleComboboxChange = event => {
+    handleComboboxChange = (event) => {
         event.stopPropagation();
         this._selectedConditionValue = event.detail.value;
         this._childIndexToKeep = this.conditionOptions.findIndex(
-            option => option.value === this._selectedConditionValue
+            (option) => option.value === this._selectedConditionValue
         );
 
         if (this._childIndexToKeep === this.conditionOptions.length - 1) {
@@ -133,7 +133,7 @@ export default class FlcNodeMenu extends Menu {
     /**
      * Handles the click on the Footer button and dispatches the relevant event
      */
-    handleFooterButtonClick = event => {
+    handleFooterButtonClick = (event) => {
         event.stopPropagation();
         this.dispatchEvent(new CloseMenuEvent());
 

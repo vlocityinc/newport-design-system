@@ -70,16 +70,16 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             BOOLEAN_TRUE: booleanTrue
         },
         GLOBAL_CONSTANT_PREFIX: globalConstantPrefix,
-        getGlobalConstantOrSystemVariable: id => {
+        getGlobalConstantOrSystemVariable: (id) => {
             return id === emptyString || id === booleanTrue;
         },
-        isGlobalConstantOrSystemVariableId: id => {
+        isGlobalConstantOrSystemVariableId: (id) => {
             return id.startsWith(globalConstantPrefix) || id.startsWith(systemVariablePrefix);
         },
-        isNonRecordGlobalResourceId: id => {
+        isNonRecordGlobalResourceId: (id) => {
             return id.startsWith('$User');
         },
-        isRecordSystemVariableIdentifier: id => id.startsWith('$Record')
+        isRecordSystemVariableIdentifier: (id) => id.startsWith('$Record')
     };
 });
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
@@ -105,7 +105,7 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
 
 let combobox, groupedCombobox;
 
-const createCombobox = props => {
+const createCombobox = (props) => {
     combobox = createElement(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX, {
         is: Combobox
     });
@@ -122,7 +122,7 @@ const fillComboboxPropertiesFromConfig = (comboBox = combobox) => {
 describe('Combobox', () => {
     beforeAll(() => {
         const sObjectVariables = comboboxInitialConfig.menuData[1].items;
-        sObjectVariables.forEach(sObjectVar => addToParentElementCache(sObjectVar.displayText, sObjectVar));
+        sObjectVariables.forEach((sObjectVar) => addToParentElementCache(sObjectVar.displayText, sObjectVar));
     });
     describe('pill NOT supported', () => {
         describe('Property sanity checks', () => {
@@ -992,8 +992,8 @@ describe('Combobox', () => {
                 isTextWithMergeFields.mockReturnValue(false);
             });
 
-            Object.keys(validationTestData).forEach(dataType => {
-                validationTestData[dataType].forEach(testData => {
+            Object.keys(validationTestData).forEach((dataType) => {
+                validationTestData[dataType].forEach((testData) => {
                     testName = !testData.isLiteralsAllowed
                         ? `for data type ${dataType} and value ${testData.value}`
                         : `for data type ${dataType} value ${testData.value} and literalsAllowed ${testData.isLiteralsAllowed}`;
@@ -1468,9 +1468,9 @@ describe('Combobox', () => {
                     }
                 });
             });
-            it('should fire a new resource event with the correct position ', async done => {
+            it('should fire a new resource event with the correct position ', async (done) => {
                 const LEFT = 'LEFT';
-                const newResourceCallback = jest.fn(event => {
+                const newResourceCallback = jest.fn((event) => {
                     expect(event.detail.position).toEqual(LEFT);
                     done();
                 });
@@ -2202,8 +2202,8 @@ describe('Combobox', () => {
                 isTextWithMergeFields.mockReturnValue(false);
             });
 
-            Object.keys(validationTestData).forEach(dataType => {
-                validationTestData[dataType].forEach(testData => {
+            Object.keys(validationTestData).forEach((dataType) => {
+                validationTestData[dataType].forEach((testData) => {
                     testName = !testData.isLiteralsAllowed
                         ? `for data type ${dataType} and value ${testData.value}`
                         : `for data type ${dataType} value ${testData.value} and literalsAllowed ${testData.isLiteralsAllowed}`;
@@ -2666,9 +2666,9 @@ describe('Combobox', () => {
                     }
                 });
             });
-            it('should fire a new resource event with the correct position ', async done => {
+            it('should fire a new resource event with the correct position ', async (done) => {
                 const LEFT = 'LEFT';
-                const newResourceCallback = jest.fn(event => {
+                const newResourceCallback = jest.fn((event) => {
                     expect(event.detail.position).toEqual(LEFT);
                     done();
                 });

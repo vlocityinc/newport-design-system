@@ -18,11 +18,11 @@ jest.mock('builder_platform_interaction/actions', () => {
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../stageReducer', () => {
     return {
-        stageReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
+        stageReducer: jest.fn().mockImplementation((obj) => Object.assign({}, obj))
     };
 });
 
-const createComponentUnderTest = node => {
+const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-stage-editor', {
         is: StageEditor
     });
@@ -37,15 +37,15 @@ const selectors = {
     STAGE_ACTIVE_BY_DEFAULT_CHECKBOX: '.test-active-by-default'
 };
 
-const getLabelDescription = stageEditor => {
+const getLabelDescription = (stageEditor) => {
     return stageEditor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
 };
 
-const getStageOrder = stageEditor => {
+const getStageOrder = (stageEditor) => {
     return stageEditor.shadowRoot.querySelector(selectors.STAGE_ORDER_INPUT);
 };
 
-const getStageActiveByDefaultCheckBox = stageEditor => {
+const getStageActiveByDefaultCheckBox = (stageEditor) => {
     return stageEditor.shadowRoot.querySelector(selectors.STAGE_ACTIVE_BY_DEFAULT_CHECKBOX);
 };
 

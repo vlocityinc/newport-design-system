@@ -79,7 +79,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     get recordFieldsToFilter() {
         return Object.keys(this.state.entityFields)
-            .filter(key => this.state.entityFields[key].filterable)
+            .filter((key) => this.state.entityFields[key].filterable)
             .reduce((obj, key) => {
                 obj[key] = this.state.entityFields[key];
                 return obj;
@@ -88,7 +88,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     get recordFieldsToUpdate() {
         return Object.keys(this.state.entityFields)
-            .filter(key => this.state.entityFields[key].editable)
+            .filter((key) => this.state.entityFields[key].editable)
             .reduce((obj, key) => {
                 obj[key] = this.state.entityFields[key];
                 return obj;
@@ -120,7 +120,9 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get resourceDisplayText() {
-        const entityToDisplay = getUpdateableEntities().find(entity => entity.apiName === this.state.recordEntityName);
+        const entityToDisplay = getUpdateableEntities().find(
+            (entity) => entity.apiName === this.state.recordEntityName
+        );
         if (entityToDisplay) {
             return entityToDisplay.entityLabel;
         }
@@ -159,7 +161,7 @@ export default class RecordUpdateEditor extends LightningElement {
         this.state.entityFields = {};
         if (this.state.recordEntityName) {
             fetchFieldsForEntity(this.state.recordEntityName)
-                .then(fields => {
+                .then((fields) => {
                     this.state.entityFields = fields;
                 })
                 .catch(() => {

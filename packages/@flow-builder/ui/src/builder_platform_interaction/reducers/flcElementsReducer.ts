@@ -268,7 +268,7 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
     const newState = updateProperties(elements);
     let hasStateChanged = false;
 
-    Object.keys(elements).map(guid => {
+    Object.keys(elements).map((guid) => {
         if (newState[guid].config) {
             let updatedIsSelected = newState[guid].config.isSelected;
             let updatedIsSelectable = newState[guid].config.isSelectable;

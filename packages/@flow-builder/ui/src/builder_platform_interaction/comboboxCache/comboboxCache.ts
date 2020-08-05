@@ -28,9 +28,9 @@ export const addToParentElementCache = (key, value) => {
  * @param {String} key the devName/displayText of the menu item
  * @returns {MenuItem} the parent element in combobox shape. Undefined if no item found
  */
-export const getElementFromParentElementCache = key => {
+export const getElementFromParentElementCache = (key) => {
     if (!parentElementCache[key] && !apexClassesCached) {
-        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach(el => {
+        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach((el) => {
             const menuItem = mutateFlowResourceToComboboxShape(el);
             parentElementCache[menuItem.displayText] = menuItem;
         });

@@ -81,7 +81,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: serverActionType => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_FLOW_ENTRIES:
                     return Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
@@ -124,7 +124,7 @@ format.format = jest.fn(() => {
     return mockFormattedLabel;
 });
 
-const createComponentUnderTest = node => {
+const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-flowPropertiesEditor', { is: FlowPropertiesEditor });
     el.node = node;
     document.body.appendChild(el);
@@ -146,43 +146,43 @@ const SELECTORS = {
     API_VERSION: 'lightning-combobox.api-version'
 };
 
-const getLabelDescription = flowPropertiesEditor => {
+const getLabelDescription = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
 };
 
-const getProcessType = flowPropertiesEditor => {
+const getProcessType = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.FLOW_TYPE);
 };
 
-const getShowAdvancedButton = flowPropertiesEditor => {
+const getShowAdvancedButton = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.SHOW_ADVANCED);
 };
 
-const getHideAdvancedButton = flowPropertiesEditor => {
+const getHideAdvancedButton = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.HIDE_ADVANCED);
 };
 
-const getAdvancedProperties = flowPropertiesEditor => {
+const getAdvancedProperties = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.ADVANCED_PROPERTIES);
 };
 
-const getLastModifiedDetails = flowPropertiesEditor => {
+const getLastModifiedDetails = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.LAST_MODIFIED);
 };
 
-const getResourceTextArea = flowPropertiesEditor => {
+const getResourceTextArea = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.RESOURCE_TEXT_AREA);
 };
 
-const getLastProcessType = flowPropertiesEditor => {
+const getLastProcessType = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.LAST_PROCESS_TYPE);
 };
 
-const getSaveAsToggle = flowPropertiesEditor => {
+const getSaveAsToggle = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.SAVE_AS_TOGGLE);
 };
 
-const getRichTextPlainTextSwitch = rexourdedTextArea =>
+const getRichTextPlainTextSwitch = (rexourdedTextArea) =>
     rexourdedTextArea.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH);
 
 const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) => {
@@ -191,7 +191,7 @@ const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) =
     labelDescription.dispatchEvent(event);
 };
 
-const getApiVersion = flowPropertiesEditor => {
+const getApiVersion = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.API_VERSION);
 };
 

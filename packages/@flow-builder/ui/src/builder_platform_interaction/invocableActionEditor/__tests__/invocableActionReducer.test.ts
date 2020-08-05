@@ -35,7 +35,7 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
 });
 
 const getParameterItemsWithName = (parameterItems, name) =>
-    parameterItems.filter(parameterItem => parameterItem.name === name);
+    parameterItems.filter((parameterItem) => parameterItem.name === name);
 
 const originalState = {
     actionName: { value: 'chatterPost', error: null },

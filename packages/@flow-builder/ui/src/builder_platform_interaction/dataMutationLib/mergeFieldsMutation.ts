@@ -40,7 +40,7 @@ export const sanitizeGuid = (potentialGuid: string): ComplexGuid => {
     return complexGuid;
 };
 
-const guidToDevName = guid => {
+const guidToDevName = (guid) => {
     const flowElement = getElementByGuid(guid);
     if (flowElement) {
         return flowElement.name;
@@ -48,7 +48,7 @@ const guidToDevName = guid => {
     return undefined;
 };
 
-const devNameToGuid = devName => {
+const devNameToGuid = (devName) => {
     // not case-sensitive
     const flowElement = getElementByDevName(devName);
     if (flowElement) {
@@ -86,11 +86,11 @@ const replaceMergeFieldReferences = (template, mappingFunction) => {
  * @param {string} template Template with merge fields containing guids
  * @return {string} The mutated template with merge fields containing devNames
  */
-export const mutateTextWithMergeFields = template => replaceMergeFieldReferences(template, guidToDevName);
+export const mutateTextWithMergeFields = (template) => replaceMergeFieldReferences(template, guidToDevName);
 
 /**
  * Demutate a text with merge fields
  * @param {string} template Template with merge fields containing devNames
  * @return {string} The mutated template with merge fields containing guids
  */
-export const demutateTextWithMergeFields = template => replaceMergeFieldReferences(template, devNameToGuid);
+export const demutateTextWithMergeFields = (template) => replaceMergeFieldReferences(template, devNameToGuid);

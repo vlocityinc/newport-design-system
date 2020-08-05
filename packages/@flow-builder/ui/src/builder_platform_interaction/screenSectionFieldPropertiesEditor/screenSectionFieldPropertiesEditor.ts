@@ -63,7 +63,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
                 width: columnWidth,
                 widthLabel: format(this.labels.columnsWidthTitle, index + 1),
                 widthOptions: this.calculateColumnWidthOptions(maxWidth),
-                handleWidthChange: event => {
+                handleWidthChange: (event) => {
                     this.dispatchEvent(
                         createColumnWidthChangedEvent(event.target.name, Number(event.detail.value), this.field.guid)
                     );
@@ -73,7 +73,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
     }
 
     calculateColumnWidthOptions(maxWidth) {
-        return this.columnWidths.filter(columnWidth => {
+        return this.columnWidths.filter((columnWidth) => {
             if (maxWidth === '12') {
                 return Number(columnWidth.value) === Number(maxWidth);
             }
@@ -115,7 +115,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
         );
     }
 
-    handlePropertyChanged = event => {
+    handlePropertyChanged = (event) => {
         event.stopPropagation();
         const currentValue = this.field[event.detail.propertyName];
         this.dispatchEvent(addCurrentValueToEvent(event, this.field, currentValue));

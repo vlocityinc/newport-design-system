@@ -12,7 +12,7 @@ const changeEventName = 'change';
 const itemText = '{!var}';
 const resourcePickerVal = 'initialValue';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-resourced-textarea', {
         is: ResourcedTextarea
     });

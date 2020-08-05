@@ -124,5 +124,5 @@ export const getDefaultAvailableConnections = () => [
 ];
 
 export const createRecordFilters = (filters, object, defaultFilters = [createFilter()]) => {
-    return filters && filters.length > 0 ? filters.map(filter => createFilter(filter, object)) : defaultFilters;
+    return filters && filters.length > 0 ? filters.map((filter) => createFilter(filter, object)) : defaultFilters;
 };

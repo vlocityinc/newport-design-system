@@ -7,8 +7,8 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getEntity: jest.fn().mockImplementation(apiName => {
-            return mockEntities.find(entity => entity.apiName.toLowerCase() === apiName.toLowerCase());
+        getEntity: jest.fn().mockImplementation((apiName) => {
+            return mockEntities.find((entity) => entity.apiName.toLowerCase() === apiName.toLowerCase());
         })
     };
 });

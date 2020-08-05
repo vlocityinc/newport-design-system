@@ -23,7 +23,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     let el = createElement('builder_platform_interaction-wait-resume-conditions', {
         is: WaitResumeConditions
     });

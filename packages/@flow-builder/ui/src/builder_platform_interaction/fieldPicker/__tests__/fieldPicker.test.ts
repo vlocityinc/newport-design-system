@@ -26,7 +26,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 jest.mock('builder_platform_interaction/processTypeLib');
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-field-picker', {
         is: FieldPicker
     });

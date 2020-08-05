@@ -9,7 +9,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 );
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const setupComponentUnderTest = defaultChoiceObject => {
+const setupComponentUnderTest = (defaultChoiceObject) => {
     const element = createElement('builder_platform_interaction-choice-editor', {
         is: ChoiceEditor
     });
@@ -64,7 +64,7 @@ describe('Choice Validation', () => {
         }
     };
 
-    const validate = node => {
+    const validate = (node) => {
         return getErrorsFromHydratedElement(choiceValidation.validateAll(node));
     };
 

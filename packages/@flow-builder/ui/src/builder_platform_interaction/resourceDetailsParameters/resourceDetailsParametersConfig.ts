@@ -13,7 +13,7 @@ export class ResourceDetailsParametersConfig {
      * @returns {Function} - Map function for any fetched parameter
      */
     map() {
-        return rawParameter => {
+        return (rawParameter) => {
             if (!rawParameter) {
                 return {};
             }

@@ -101,7 +101,7 @@ function findConnectionIndex(parentElement: AutoLayoutCanvasElement, childSource
     }
 
     const { singular, plural } = getChildReferencesKeys();
-    return parentElement[plural].findIndex(entry => entry[singular] === childSource);
+    return parentElement[plural].findIndex((entry) => entry[singular] === childSource);
 }
 
 function isBranchingElement(element: FlowElement) {
@@ -143,7 +143,7 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Strin
     );
 
     // populate the ins, outs and fault for each ConnectorInfo
-    connectors.forEach(connector => {
+    connectors.forEach((connector) => {
         const { source, target, type } = connector;
 
         if (target != null) {
@@ -160,7 +160,7 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Strin
     });
 
     // for free form flo loops with no next connector, we need to generate one
-    Object.values(conversionInfos).forEach(conversionInfo => {
+    Object.values(conversionInfos).forEach((conversionInfo) => {
         const { isLoop, outs, ins, elementGuid } = conversionInfo;
         if (isLoop && outs.length !== 2) {
             // create a new next connector
@@ -456,7 +456,7 @@ function convertLoop(
     const { outs } = conversionInfos[loopElement.guid];
     loopElement.children = [null];
 
-    const loopNextConnector = outs.find(connector => connector.type === CONNECTOR_TYPE.LOOP_NEXT);
+    const loopNextConnector = outs.find((connector) => connector.type === CONNECTOR_TYPE.LOOP_NEXT);
 
     if (loopNextConnector != null) {
         if (loopNextConnector.target !== loopElement.guid) {
@@ -466,7 +466,7 @@ function convertLoop(
     }
 
     // set the loopElement's next pointer
-    const loopEndConnector = outs.find(connector => connector.type === CONNECTOR_TYPE.LOOP_END);
+    const loopEndConnector = outs.find((connector) => connector.type === CONNECTOR_TYPE.LOOP_END);
     loopElement.next = loopEndConnector != null ? loopEndConnector.target : null;
 }
 
@@ -709,7 +709,7 @@ function consolidateEndConnectorsForBranch(
 
         if (isBranchingElement(element) && areAllBranchesTerminals(element, elements)) {
             // eslint-disable-next-line no-loop-func
-            element.children!.forEach(child => {
+            element.children!.forEach((child) => {
                 if (child != null) {
                     consolidateEndConnectorsForBranch(elements, elements[child] as AutoLayoutCanvasElement, true);
                 }

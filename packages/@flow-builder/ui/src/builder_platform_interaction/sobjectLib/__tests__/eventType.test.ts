@@ -51,13 +51,13 @@ describe('Event Type Tests', () => {
 
     describe('Get Event Type Parameters Callback Tests', () => {
         it('Verify input parameters returned', () => {
-            getInputParametersForEventType(platformEvent1ApiName, parameters => {
+            getInputParametersForEventType(platformEvent1ApiName, (parameters) => {
                 expect(Object.keys(parameters)).toHaveLength(4);
             });
         });
 
         it('Verify output parameters returned', () => {
-            getOutputParametersForEventType(platformEventInkLevelApiName, parameters => {
+            getOutputParametersForEventType(platformEventInkLevelApiName, (parameters) => {
                 expect(Object.keys(parameters)).toHaveLength(1);
             });
         });

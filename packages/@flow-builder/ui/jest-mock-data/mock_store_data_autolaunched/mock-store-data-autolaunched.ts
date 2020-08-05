@@ -2,7 +2,7 @@
 import { autolaunchedFlowUIModel } from './autolaunchedFlowUIModel';
 export * from './autolaunchedFlowUIModel';
 
-export const getElementByName = name => {
+export const getElementByName = (name) => {
     const elements = autolaunchedFlowUIModel.elements;
     for (const guid in elements) {
         if (elements.hasOwnProperty(guid)) {

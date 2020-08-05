@@ -4,8 +4,8 @@
 
 1. Install prerequisites
 
-Node.js (version 10.16.3)
-yarn (version 1.19.1)
+Node.js (version 12.16.2)
+yarn (version >= 1.3.2)
 
 Setup nexus/npm as described here: https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=NEXUS&title=Nexus+NPM+Repositories
 
@@ -15,13 +15,13 @@ Note: If you haven't setup SSH Keys before you can look here: https://help.githu
 
 ```sh
 yarn --version && node --version
-> 1.19.1
-> v10.16.3
+> 1.3.2
+> v12.16.2
 ```
 
-To update your node version do: `nvm install v10.16.3 && nvm use v10.16.3)`
+To update your node version do: `nvm install v12.16.2 && nvm use v12.16.2)`
 
-To update your yarn version do: `brew unlink yarn && brew install yarn@1.19.1`
+To update your yarn version do: `brew unlink yarn && brew install yarn@1.3.2`
 
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
@@ -184,7 +184,7 @@ As for any Perforce commands it requires some environment variables to be set.
 
 ### P4PORT
 
-A [fallback](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/master/scripts/pom.js#L8) pointing to the generic Perforce proxy (ie: ssl:p4proxy.soma.salesforce.com:1999) is in place.  
+A [fallback](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/master/scripts/pom.js#L8) pointing to the generic Perforce proxy (ie: ssl:p4proxy.soma.salesforce.com:1999) is in place.
 Of course, you are free to force a custom one via a new CUSTOM_P4PORT entry in your project .env file for instance as follows:
 
 `CUSTOM_P4PORT=ssl:p4proxy.paris.soma.salesforce.com:1999`
@@ -199,7 +199,7 @@ or still source `~/blt/env.sh`
 
 ### P4CLIENT
 
-Required for a script like [check:goldFiles](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/master/package.json#L16 'check:goldFiles NPM script') for instance.  
+Required for a script like [check:goldFiles](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/master/package.json#L16 'check:goldFiles NPM script') for instance.
 No generic fallback provided for sure but same thing as for P4PORT, you can add the CUSTOM_P4CLIENT entry inside your .env file as follows:
 
 `CUSTOM_P4CLIENT=yourP4Client`

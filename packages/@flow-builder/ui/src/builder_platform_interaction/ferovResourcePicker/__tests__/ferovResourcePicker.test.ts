@@ -41,7 +41,7 @@ const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
 };
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-ferov-resource-picker', {
         is: FerovResourcePicker
     });
@@ -71,10 +71,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         mockParam,
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
-        getRHSTypes: jest
-            .fn()
-            .mockReturnValue(mockParam)
-            .mockName('getRHSTypes')
+        getRHSTypes: jest.fn().mockReturnValue(mockParam).mockName('getRHSTypes')
     };
 });
 
@@ -94,7 +91,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                 ])
             )
             .mockName('getMenuData'),
-        normalizeFEROV: jest.fn().mockImplementation(rhsId => {
+        normalizeFEROV: jest.fn().mockImplementation((rhsId) => {
             return jest.requireActual('builder_platform_interaction/expressionUtils').normalizeFEROV(rhsId);
         })
     };

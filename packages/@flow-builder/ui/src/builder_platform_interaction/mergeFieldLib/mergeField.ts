@@ -59,7 +59,7 @@ function resolveComplexTypeReference(flowResource, fieldNames?: string[]): Promi
         fieldsPromise = resolveSubflowOutputReference(flowResource, fieldNames);
     }
     if (fieldsPromise) {
-        return fieldsPromise.then(fields => {
+        return fieldsPromise.then((fields) => {
             return fields ? [flowResource, ...fields] : undefined;
         });
     }
@@ -75,18 +75,18 @@ function resolveApexPropertyReference(clazz: string, fieldNames: string[]) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchPropertiesForClass(clazz).then(properties => {
+    return fetchPropertiesForClass(clazz).then((properties) => {
         const property = getApexPropertyWithName(properties, fieldName);
         if (!property) {
             return undefined;
         }
         if (remainingFieldNames.length > 0) {
             if (property.dataType === FLOW_DATA_TYPE.APEX.value) {
-                return resolveApexPropertyReference(property.subtype, remainingFieldNames).then(fields => {
+                return resolveApexPropertyReference(property.subtype, remainingFieldNames).then((fields) => {
                     return fields ? [property, ...fields] : undefined;
                 });
             } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-                return resolveEntityFieldReference(property.subtype, remainingFieldNames).then(fields => {
+                return resolveEntityFieldReference(property.subtype, remainingFieldNames).then((fields) => {
                     return fields ? [property, ...fields] : undefined;
                 });
             }
@@ -101,7 +101,7 @@ function resolveEntityFieldReference(entityName: string, fieldNames: string[]): 
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then(fields => {
+    return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then((fields) => {
         if (remainingFieldNames.length > 0) {
             const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
             const field = getEntityFieldWithRelationshipName(fields, relationshipName);
@@ -112,7 +112,7 @@ function resolveEntityFieldReference(entityName: string, fieldNames: string[]): 
             if (!referenceToName) {
                 return undefined;
             }
-            return resolveEntityFieldReference(referenceToName, remainingFieldNames).then(remainingFields => {
+            return resolveEntityFieldReference(referenceToName, remainingFieldNames).then((remainingFields) => {
                 return remainingFields ? [field, ...remainingFields] : undefined;
             });
         }
@@ -132,13 +132,13 @@ function resolveLightningComponentOutputReference(
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchExtensionOutputParameters(extensionName).then(outputParameters => {
+    return fetchExtensionOutputParameters(extensionName).then((outputParameters) => {
         const field = outputParameters[fieldName];
         if (!field) {
             return undefined;
         }
         if (remainingFieldNames.length > 0) {
-            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then(remainingFields => {
+            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then((remainingFields) => {
                 return remainingFields ? [field, ...remainingFields] : undefined;
             });
         }
@@ -163,13 +163,13 @@ function resolveActionOutputReference(
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchActionOutputParameters({ actionType, actionName }).then(outputParameters => {
+    return fetchActionOutputParameters({ actionType, actionName }).then((outputParameters) => {
         const field = outputParameters[fieldName];
         if (!field) {
             return undefined;
         }
         if (remainingFieldNames.length > 0) {
-            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then(remainingFields => {
+            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then((remainingFields) => {
                 return remainingFields ? [field, ...remainingFields] : undefined;
             });
         }
@@ -185,13 +185,13 @@ function resolveSubflowOutputReference(
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchActiveOrLatestFlowOutputVariables(flowName).then(variables => {
-        const field = variables.find(variable => variable.name === fieldName);
+    return fetchActiveOrLatestFlowOutputVariables(flowName).then((variables) => {
+        const field = variables.find((variable) => variable.name === fieldName);
         if (!field) {
             return undefined;
         }
         if (remainingFieldNames.length > 0) {
-            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then(remainingFields => {
+            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then((remainingFields) => {
                 return remainingFields ? [field, ...remainingFields] : undefined;
             });
         }
@@ -218,7 +218,7 @@ export function getReferenceToName(field, specificEntityName?: string): string |
 function entityFieldIncludesReferenceToName(entityField, referenceToName: string): boolean {
     referenceToName = referenceToName.toLowerCase();
     return entityField.referenceToNames.some(
-        fieldReferenceToName => fieldReferenceToName.toLowerCase() === referenceToName
+        (fieldReferenceToName) => fieldReferenceToName.toLowerCase() === referenceToName
     );
 }
 
@@ -262,12 +262,12 @@ function getExtensionOutputParamDescriptions(extension) {
 function fetchExtensionOutputParameters(extensionName: string) {
     return describeExtension(extensionName, {
         disableErrorModal: true
-    }).then(extension => getExtensionOutputParamDescriptions(extension));
+    }).then((extension) => getExtensionOutputParamDescriptions(extension));
 }
 
 function getActionOutputParameterDescriptions(details) {
     return details.parameters
-        .filter(parameter => parameter.isOutput === true)
+        .filter((parameter) => parameter.isOutput === true)
         .reduce((acc, parameter) => {
             acc[parameter.name] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(parameter);
             return acc;
@@ -280,5 +280,5 @@ function fetchActionOutputParameters({ actionType, actionName }: { actionType: s
         {
             disableErrorModal: true
         }
-    ).then(details => getActionOutputParameterDescriptions(details));
+    ).then((details) => getActionOutputParameterDescriptions(details));
 }

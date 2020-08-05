@@ -54,7 +54,7 @@ const DATATYPES_WITH_NO_DEFAULT_VALUE = [
     FLOW_DATA_TYPE.APEX.value
 ];
 const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE).filter(
-    type =>
+    (type) =>
         type !== FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT &&
         type !== FLOW_DATA_TYPE.ACTION_OUTPUT &&
         type !== FLOW_DATA_TYPE.SUBFLOW_OUTPUT
@@ -204,7 +204,7 @@ export default class VariableConstantEditor extends LightningElement {
      * @return {Array} with options in format the checkbox-group expects. eg: ['isInput', 'isOutput']
      */
     get externalAccessValue() {
-        return [VARIABLE_CONSTANT_FIELDS.IS_INPUT, VARIABLE_CONSTANT_FIELDS.IS_OUTPUT].filter(value => {
+        return [VARIABLE_CONSTANT_FIELDS.IS_INPUT, VARIABLE_CONSTANT_FIELDS.IS_OUTPUT].filter((value) => {
             return this.variableConstantResource[value];
         });
     }
@@ -404,7 +404,7 @@ export default class VariableConstantEditor extends LightningElement {
         this.variableConstantResource[VARIABLE_CONSTANT_FIELDS.IS_INPUT] = false;
         this.variableConstantResource[VARIABLE_CONSTANT_FIELDS.IS_OUTPUT] = false;
         this._externalAccessSelectedValues = event.detail.value;
-        this._externalAccessSelectedValues.forEach(propertyName => {
+        this._externalAccessSelectedValues.forEach((propertyName) => {
             this.variableConstantResource[propertyName] = true;
         });
     }
@@ -485,7 +485,7 @@ export default class VariableConstantEditor extends LightningElement {
      * Initialize the external access previous and selected values.
      */
     initializeExternalAccessValues() {
-        this.externalAccessValue.forEach(value => {
+        this.externalAccessValue.forEach((value) => {
             this._externalAccessPreviousValues.add(value);
             this._externalAccessSelectedValues.push(value);
         });
@@ -507,7 +507,7 @@ export default class VariableConstantEditor extends LightningElement {
         }
 
         // check if input output was true and now its false, if so show warning
-        this._externalAccessPreviousValues.forEach(value => {
+        this._externalAccessPreviousValues.forEach((value) => {
             if (!this._externalAccessSelectedValues.includes(value)) {
                 this.fireWarningEvent(value, warningMessage);
             }
@@ -518,7 +518,7 @@ export default class VariableConstantEditor extends LightningElement {
      * Clears warning from all the fields on which warning can be set.
      */
     clearWarnings() {
-        WARNING_FIELDS.forEach(propertyName => {
+        WARNING_FIELDS.forEach((propertyName) => {
             this.fireWarningEvent(propertyName, null);
         });
     }

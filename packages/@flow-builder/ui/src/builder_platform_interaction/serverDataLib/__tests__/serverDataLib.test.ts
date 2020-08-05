@@ -52,7 +52,7 @@ describe('Fetch function', () => {
     });
 });
 
-const mockAuraFetch = responseProvider =>
+const mockAuraFetch = (responseProvider) =>
     jest.fn().mockImplementation((actionName, shouldExecuteCallback, callback, params) => {
         Promise.resolve().then(() => {
             if (shouldExecuteCallback()) {
@@ -60,8 +60,8 @@ const mockAuraFetch = responseProvider =>
             }
         });
     });
-const mockIdentityAuraFetch = mockAuraFetch(params => ({ data: params }));
-const mockErrorAuraFetch = error => mockAuraFetch(() => ({ error }));
+const mockIdentityAuraFetch = mockAuraFetch((params) => ({ data: params }));
+const mockErrorAuraFetch = (error) => mockAuraFetch(() => ({ error }));
 
 describe('fetchOnce function', () => {
     afterEach(() => {

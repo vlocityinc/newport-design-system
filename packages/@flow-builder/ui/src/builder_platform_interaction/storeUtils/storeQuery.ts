@@ -10,7 +10,7 @@ export const getElementByGuidFromState = ({ elements }, guid) => elements[guid];
  * @param {string} guid for the element
  * @return {*} store element or undefined if the guid does not exists.
  */
-export const getElementByGuid = guid => getElementByGuidFromState(Store.getStore().getCurrentState(), guid);
+export const getElementByGuid = (guid) => getElementByGuidFromState(Store.getStore().getCurrentState(), guid);
 
 export const getElementByDevNameFromState = ({ elements }, devName, caseSensitive = false) => {
     // TODO : add a devName => guid mapping in the store to improve perfs
@@ -45,7 +45,7 @@ export const getElementByDevName = (devName, caseSensitive = false) =>
  * Fetches the Start element from the store
  */
 export const getStartElement = (): object => {
-    return Object.values(Store.getStore().getCurrentState().elements).find(element => {
+    return Object.values(Store.getStore().getCurrentState().elements).find((element) => {
         return element.elementType === ELEMENT_TYPE.START_ELEMENT;
     });
 };
@@ -61,7 +61,7 @@ export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listO
     return (
         elements &&
         Object.values(elements).filter(
-            element =>
+            (element) =>
                 !listOfGuidsToSkip.includes(element.guid) &&
                 nameToBeTested !== '' && // no need to run the validation in case of empty string
                 (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase())
@@ -94,7 +94,7 @@ export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = 
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = Object.values(elements).filter(
-        element => !listOfGuidsToSkip.includes(element.guid) && element.stageOrder === orderNumberToBeTested
+        (element) => !listOfGuidsToSkip.includes(element.guid) && element.stageOrder === orderNumberToBeTested
     );
     return matches.length > 0;
 };
@@ -104,7 +104,7 @@ export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = 
  * @returns {String}
  */
 export const getTriggerType = () => {
-    const startElement = Object.values(Store.getStore().getCurrentState().elements).find(element => {
+    const startElement = Object.values(Store.getStore().getCurrentState().elements).find((element) => {
         return element.elementType === ELEMENT_TYPE.START_ELEMENT;
     });
 
@@ -116,7 +116,7 @@ export const getTriggerType = () => {
  * @returns Create, CreateOrUpdate, Update, Delete
  */
 export const getRecordTriggerType = (): string => {
-    const startElement = Object.values(Store.getStore().getCurrentState().elements).find(element => {
+    const startElement = Object.values(Store.getStore().getCurrentState().elements).find((element) => {
         return element.elementType === ELEMENT_TYPE.START_ELEMENT;
     });
 

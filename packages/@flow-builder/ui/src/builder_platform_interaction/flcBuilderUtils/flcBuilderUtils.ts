@@ -53,7 +53,7 @@ export const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex'
  */
 export function addFlcProperties(object, flcProperties) {
     if (shouldUseAutoLayoutCanvas()) {
-        flcExtraProps.forEach(propName => {
+        flcExtraProps.forEach((propName) => {
             const propValue = flcProperties[propName];
             if (propValue !== undefined) {
                 object[propName] = propValue;
@@ -64,7 +64,7 @@ export function addFlcProperties(object, flcProperties) {
     return object;
 }
 
-export const startElementDescription = triggerType => {
+export const startElementDescription = (triggerType) => {
     if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
         return TRIGGER_TYPE_LABELS[triggerType];
     }
@@ -82,7 +82,7 @@ export const startElementDescription = triggerType => {
     return undefined;
 };
 
-export const hasTrigger = triggerType => {
+export const hasTrigger = (triggerType) => {
     switch (triggerType) {
         case NONE:
             return false;
@@ -91,7 +91,7 @@ export const hasTrigger = triggerType => {
     }
 };
 
-export const hasContext = triggerType => {
+export const hasContext = (triggerType) => {
     switch (triggerType) {
         case NONE:
         case PLATFORM_EVENT:
@@ -108,7 +108,7 @@ export const hasContext = triggerType => {
  * @return the start element
  */
 export function findStartElement(elements: FlowElements): FlowElement {
-    return Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT)!;
+    return Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT)!;
 }
 
 function createElementHelper(elementType: string, guid: Guid) {

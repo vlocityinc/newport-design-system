@@ -6,6 +6,7 @@
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
+        "target": "esnext",
          "paths": {
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/events": ["../../ui/src/builder_platform_interaction/events/events.ts"],

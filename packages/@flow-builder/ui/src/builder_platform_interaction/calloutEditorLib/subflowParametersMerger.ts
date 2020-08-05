@@ -38,31 +38,31 @@ export function mergeSubflowAssignmentsWithInputOutputVariables(
     nodeOutputAssignments,
     inputOutputVariablesVersions
 ) {
-    const flowHasActiveVersion = inputOutputVariablesVersions.find(version => version.isActiveVersion) !== undefined;
+    const flowHasActiveVersion = inputOutputVariablesVersions.find((version) => version.isActiveVersion) !== undefined;
     const activeInputVariables = flowHasActiveVersion
         ? getVariables(
               inputOutputVariablesVersions,
-              version => version.isActiveVersion === true,
-              variable => variable.isInput === true
+              (version) => version.isActiveVersion === true,
+              (variable) => variable.isInput === true
           )
         : undefined;
     const latestInputVariables = getVariables(
         inputOutputVariablesVersions,
-        version => version.isLatestVersion === true,
-        variable => variable.isInput === true
+        (version) => version.isLatestVersion === true,
+        (variable) => variable.isInput === true
     );
 
     const activeOutputVariables = flowHasActiveVersion
         ? getVariables(
               inputOutputVariablesVersions,
-              version => version.isActiveVersion === true,
-              variable => variable.isOutput === true
+              (version) => version.isActiveVersion === true,
+              (variable) => variable.isOutput === true
           )
         : undefined;
     const latestOutputVariables = getVariables(
         inputOutputVariablesVersions,
-        version => version.isLatestVersion === true,
-        variable => variable.isOutput === true
+        (version) => version.isLatestVersion === true,
+        (variable) => variable.isOutput === true
     );
 
     return {
@@ -93,18 +93,18 @@ function getVariables(inputOutputVariablesVersions, versionFilter, variableFilte
 function getAsMap(activeVariables, latestVariables, nodeAssignments) {
     const map = {};
     if (activeVariables) {
-        activeVariables.forEach(variable => {
+        activeVariables.forEach((variable) => {
             map[variable.name] = map[variable.name] || {};
             map[variable.name].activeVariable = variable;
             map[variable.name].nodeAssignments = [];
         });
     }
-    latestVariables.forEach(variable => {
+    latestVariables.forEach((variable) => {
         map[variable.name] = map[variable.name] || {};
         map[variable.name].latestVariable = variable;
         map[variable.name].nodeAssignments = [];
     });
-    nodeAssignments.forEach(nodeAssignment => {
+    nodeAssignments.forEach((nodeAssignment) => {
         // there can be several assignments for a given variable (when flow has been edited using CFD)
         const nodeAssignmentName = getValueFromHydratedItem(nodeAssignment.name);
         map[nodeAssignmentName] = map[nodeAssignmentName] || {};
@@ -128,7 +128,7 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, activeVariables, 
         if (nodeAssignmentsForVariable.length > 0) {
             // When using CFD, there is a warning when an input variable has multiple input assignments. At runtime, the last input assignment win
             // When using CFD, you can add multiple output assignments for the same subflow variable
-            nodeAssignmentsForVariable.forEach(nodeAssignment => {
+            nodeAssignmentsForVariable.forEach((nodeAssignment) => {
                 const parameterItem = merge(name, nodeAssignment, activeVariable, latestVariable);
                 const warnings = nodeAssignmentsForVariable.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
                 const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);

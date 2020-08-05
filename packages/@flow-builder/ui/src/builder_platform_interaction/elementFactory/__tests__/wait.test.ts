@@ -71,7 +71,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-getElementByGuid.mockImplementation(guid => {
+getElementByGuid.mockImplementation((guid) => {
     if (guid === newWaitGuid || guid === waitWithChildrenGuid) {
         return null;
     } else if (guid === existingWaitGuid) {
@@ -92,7 +92,7 @@ getElementByGuid.mockImplementation(guid => {
 jest.mock('../base/baseElement', () => {
     return {
         baseCanvasElement: jest
-            .fn(element => {
+            .fn((element) => {
                 return Object.assign({}, element);
             })
             .mockName('baseCanvasElementMock'),
@@ -132,36 +132,36 @@ jest.mock('../base/baseElement', () => {
             })
             .mockName('duplicateCanvasElementWithChildElementsMock'),
         baseChildElement: jest
-            .fn(waitEvent => {
+            .fn((waitEvent) => {
                 return Object.assign({}, waitEvent);
             })
             .mockName('baseChildElementMock'),
         baseCanvasElementsArrayToMap: jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap,
         createCondition: jest
             .fn()
-            .mockImplementation(element => Object.assign({}, element))
+            .mockImplementation((element) => Object.assign({}, element))
             .mockName('createCondition')
     };
 });
 
 jest.mock('../base/baseMetadata');
-baseCanvasElementMetadataObject.mockImplementation(element => {
+baseCanvasElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
-baseChildElementMetadataObject.mockImplementation(element => {
+baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
-createConditionMetadataObject.mockImplementation(element => Object.assign({}, element));
+createConditionMetadataObject.mockImplementation((element) => Object.assign({}, element));
 
 jest.mock('../inputParameter', () => {
     return {
         createInputParameter: jest
             .fn()
-            .mockImplementation(element => Object.assign({}, element))
+            .mockImplementation((element) => Object.assign({}, element))
             .mockName('createInputParameter'),
         createInputParameterMetadataObject: jest
             .fn()
-            .mockImplementation(element => Object.assign({}, element))
+            .mockImplementation((element) => Object.assign({}, element))
             .mockName('createInputParameterMetadataObject')
     };
 });
@@ -170,17 +170,17 @@ jest.mock('../outputParameter', () => {
     return {
         createOutputParameter: jest
             .fn()
-            .mockImplementation(element => Object.assign({}, element))
+            .mockImplementation((element) => Object.assign({}, element))
             .mockName('createOutputParameter'),
         createOutputParameterMetadataObject: jest
             .fn()
-            .mockImplementation(element => Object.assign({}, element))
+            .mockImplementation((element) => Object.assign({}, element))
             .mockName('createOutputParameterMetadataObject')
     };
 });
 
 jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
-getConnectionProperties.mockImplementation(originalWait => {
+getConnectionProperties.mockImplementation((originalWait) => {
     if (originalWait.hasOwnProperty('availableConnections')) {
         return {
             connectorCount: 1,
@@ -403,13 +403,13 @@ describe('wait', () => {
             const waitEvent = createWaitEvent(mockWaitEvent);
 
             let index = 0;
-            [...mockWaitEvent.inputParameters, ...expectedAdditionalInputParameters].forEach(inputParameter => {
+            [...mockWaitEvent.inputParameters, ...expectedAdditionalInputParameters].forEach((inputParameter) => {
                 expect(createInputParameter.mock.calls[index++][0]).toEqual(inputParameter);
             });
 
             expect(waitEvent.inputParameters).toHaveLength(5);
             index = 0;
-            waitEvent.inputParameters.forEach(inputParameter => {
+            waitEvent.inputParameters.forEach((inputParameter) => {
                 expect(inputParameter).toEqual(createInputParameter.mock.results[index++].value);
             });
         });
@@ -438,7 +438,7 @@ describe('wait', () => {
     });
 
     describe('createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor', () => {
-        const shouldUseFlc = useFlc => {
+        const shouldUseFlc = (useFlc) => {
             shouldUseAutoLayoutCanvas.mockImplementation(() => {
                 return useFlc;
             });
@@ -855,13 +855,13 @@ describe('wait', () => {
                 const wait = createWaitMetadataObject(waitFromStore);
 
                 let index = 0;
-                wait.waitEvents[0].inputParameters.forEach(inputParameter => {
+                wait.waitEvents[0].inputParameters.forEach((inputParameter) => {
                     expect(createInputParameterMetadataObject.mock.calls[index++][0]).toEqual(inputParameter);
                 });
 
                 expect(wait.waitEvents[0].inputParameters).toHaveLength(3);
                 index = 0;
-                wait.waitEvents[0].inputParameters.forEach(inputParameter => {
+                wait.waitEvents[0].inputParameters.forEach((inputParameter) => {
                     expect(createInputParameterMetadataObject.mock.results[index++].value).toEqual(inputParameter);
                 });
             });

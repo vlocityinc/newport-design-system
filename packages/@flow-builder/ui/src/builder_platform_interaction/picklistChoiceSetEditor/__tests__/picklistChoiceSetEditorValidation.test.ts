@@ -6,7 +6,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const setupComponentUnderTest = picklistChoiceSetObject => {
+const setupComponentUnderTest = (picklistChoiceSetObject) => {
     const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
         is: PicklistChoiceSetEditor
     });
@@ -55,7 +55,7 @@ describe('Picklist Choice Set Validation', () => {
         }
     };
 
-    const validate = node => {
+    const validate = (node) => {
         return getErrorsFromHydratedElement(picklistChoiceSetValidation.validateAll(node));
     };
 

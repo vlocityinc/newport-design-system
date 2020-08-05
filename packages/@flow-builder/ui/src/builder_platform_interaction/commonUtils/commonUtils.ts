@@ -4,7 +4,7 @@
  * @param {String} value The string to check
  * @returns {Boolean} Whether value is undefined or null
  */
-export const isUndefinedOrNull = value => {
+export const isUndefinedOrNull = (value) => {
     return value === undefined || value === null;
 };
 
@@ -13,7 +13,7 @@ export const isUndefinedOrNull = value => {
  * @param {Object} value input
  * @return {boolean} true if undefined otherwise false.
  */
-export const isUndefined = value => {
+export const isUndefined = (value) => {
     return value === undefined;
 };
 
@@ -22,7 +22,7 @@ export const isUndefined = value => {
  * @param {*} item The item in question of being an object
  * @returns {Boolean} Whether item is an object or not
  */
-export const isObject = item => {
+export const isObject = (item) => {
     return typeof item === 'object' && !Array.isArray(item) && !isUndefinedOrNull(item);
 };
 
@@ -31,7 +31,7 @@ export const isObject = item => {
  * @param {string}      value input
  * @return {string}     returns value surrounded by curly braces and bang
  */
-export const addCurlyBraces = value => {
+export const addCurlyBraces = (value) => {
     return '{!' + value + '}';
 };
 
@@ -50,7 +50,7 @@ export const splitStringBySeparator = (value: string, separator = '.') => {
  * @param {string}      value to remove the curly braces
  * @return {string}     string without curly braces and bang
  */
-export const removeCurlyBraces = value => {
+export const removeCurlyBraces = (value) => {
     if (isReference(value)) {
         return value.substring(2, value.length - 1);
     }
@@ -81,7 +81,7 @@ export const format = (formatString, ...args) => {
  * @param {String} value input number string
  * @returns {*} false if not a number else regex result array
  */
-export const isValidNumber = value => {
+export const isValidNumber = (value) => {
     return value ? !isNaN(value) : false;
 };
 
@@ -96,7 +96,7 @@ export const isValidNumber = value => {
  * @param {String} value - the value to be converted in to a valid dev name
  * @returns {String} The sanitized, dev name safe version of the value passed in
  */
-export const sanitizeDevName = value => {
+export const sanitizeDevName = (value) => {
     value = value.replace(/[\W_]+/g, '_');
     value = value.replace(/_+$/, '');
     value = value.replace(/^_+/, '');
@@ -116,7 +116,7 @@ export const sanitizeDevName = value => {
  * @param {String} value the string to escape
  * @return {String} a RegExp escaped string
  */
-export const escapeForRegExp = value => {
+export const escapeForRegExp = (value) => {
     if (typeof value !== 'string') {
         throw new TypeError('value must be a string');
     }
@@ -161,7 +161,7 @@ export function memoize(func) {
     let everInvoked = false;
     let lastArguments;
     let lastResult;
-    return function() {
+    return function () {
         // Invoke the memoized function, but only if never invoked or if the arguments are different.
         if (everInvoked === false || !equalArguments(lastArguments, arguments)) {
             lastResult = func.apply(null, arguments);
@@ -177,7 +177,7 @@ export function memoize(func) {
  * @param {string || boolean} rawValue - dirty value about ot be sanitized could be false, true or "false", "true"
  * @returns {boolean} corresponding "pure" boolean value (eg: 'false' => false)
  */
-export const sanitizeBoolean = rawValue => {
+export const sanitizeBoolean = (rawValue) => {
     return rawValue ? rawValue !== 'false' : false;
 };
 

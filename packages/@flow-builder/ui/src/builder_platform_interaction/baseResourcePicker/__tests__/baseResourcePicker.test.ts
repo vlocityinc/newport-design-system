@@ -7,7 +7,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEdi
 import BaseResourcePicker from '../baseResourcePicker';
 import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-base-resource-picker', {
         is: BaseResourcePicker
     });
@@ -20,10 +20,7 @@ const filteredMenuData = ['filteredMenuData'];
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        filterMatches: jest
-            .fn()
-            .mockReturnValue(['filteredMenuData'])
-            .mockName('filterMatches')
+        filterMatches: jest.fn().mockReturnValue(['filteredMenuData']).mockName('filterMatches')
     };
 });
 

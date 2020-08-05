@@ -38,7 +38,7 @@ const addRules = (property, rules, propertyRules) => {
     rules[property].push(...propertyRules);
 };
 
-const addDefaultRules = rules => {
+const addDefaultRules = (rules) => {
     for (const propertyName in defaultRules) {
         if (defaultRules.hasOwnProperty(propertyName)) {
             addRules(propertyName, rules, defaultRules[propertyName]);
@@ -52,7 +52,7 @@ const addDefaultRules = rules => {
  *
  * @param {object} rules - The rules
  */
-const addCommonRules = rules => {
+const addCommonRules = (rules) => {
     // Common rules
     addRules('helpText', rules, [ValidationRules.isValidResourcedTextArea]);
 
@@ -150,7 +150,7 @@ const getExtensionParameterRules = (type: string, required: boolean, rowIndex?: 
     return rules;
 };
 
-const getDynamicTypeMappingRules = rowIndex => {
+const getDynamicTypeMappingRules = (rowIndex) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
@@ -170,16 +170,16 @@ const getRulesForExtensionField = (field, rules) => {
     const genericTypes = getGenericTypesForExtension(extensionName);
 
     if (genericTypes) {
-        rules.dynamicTypeMappings = function(dynamicTypeMapping) {
+        rules.dynamicTypeMappings = function (dynamicTypeMapping) {
             return {
                 typeValue: getDynamicTypeMappingRules(dynamicTypeMapping.rowIndex)
             };
         };
     }
 
-    rules.inputParameters = param => {
+    rules.inputParameters = (param) => {
         const inputName = param.name.value ? param.name.value : param.name;
-        const attributeDescriptor = descriptor.inputParameters.find(p => p.apiName === inputName);
+        const attributeDescriptor = descriptor.inputParameters.find((p) => p.apiName === inputName);
         if (!attributeDescriptor) {
             throw new Error(`Cannot find parameter ${inputName} in the description of ${extensionName}`);
         } else {
@@ -192,10 +192,10 @@ const getRulesForExtensionField = (field, rules) => {
         }
     };
 
-    rules.outputParameters = param => {
+    rules.outputParameters = (param) => {
         // Find attribute description in the definition of the extension
         const outputName = param.name.value ? param.name.value : param.name;
-        const attributeDescriptors = descriptor.outputParameters.filter(p => p.apiName === outputName);
+        const attributeDescriptors = descriptor.outputParameters.filter((p) => p.apiName === outputName);
         if (attributeDescriptors.length < 1) {
             throw new Error('Cannot find parameter ' + outputName + ' in the description of ' + extensionName);
         } else {
@@ -212,8 +212,8 @@ const getRulesForExtensionField = (field, rules) => {
  * @param {String} dependentValue - The value that toggles requiredness validation (passing a value in this argument will trigger requiredness validation)
  * @returns {function} - The validation rule
  */
-const createConditionalRuleForTextProperty = dependentValue => {
-    return propertyValue => {
+const createConditionalRuleForTextProperty = (dependentValue) => {
+    return (propertyValue) => {
         if (dependentValue && dependentValue.value && dependentValue.value.length) {
             let error = ValidationRules.shouldNotBeBlank(propertyValue);
             if (!error) {
@@ -233,7 +233,7 @@ const createConditionalRuleForTextProperty = dependentValue => {
  * @returns - The validation rule
  */
 const createReferenceSafeRule = (rule: any, dataType?: any): Function => {
-    return value => {
+    return (value) => {
         if (isReference(value) || (dataType && dataType === 'reference')) {
             return null;
         }
@@ -326,7 +326,7 @@ export const getRulesForField = (field, newValueIsReference = false) => {
     if (isExtensionField(field)) {
         getRulesForExtensionField(field, rules);
     } else if (isRegionContainerField(field) || isRegionField(field)) {
-        rules.fields = childField => {
+        rules.fields = (childField) => {
             return getRulesForField(childField);
         };
     } else {
@@ -346,7 +346,7 @@ const getScreenAdditionalRules = (): Rules => {
 
     addCommonRules(rules);
 
-    rules.fields = field => {
+    rules.fields = (field) => {
         return getRulesForField(field, field.defaultValueDataType === 'reference');
     };
 
@@ -362,7 +362,7 @@ const getScreenAdditionalRules = (): Rules => {
 export const fieldsToGuidNames = (fields: Field[] = []): GuidName[] => {
     let guidNameTuples: GuidName[] = [];
 
-    fields.forEach(field => {
+    fields.forEach((field) => {
         guidNameTuples.push({ guid: field.guid, name: field.name.value });
 
         const nestedFields = field.fields;

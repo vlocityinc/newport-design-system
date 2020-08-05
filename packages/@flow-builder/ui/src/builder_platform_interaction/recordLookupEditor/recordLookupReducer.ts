@@ -62,7 +62,7 @@ const emptyAssignmentItem = () => {
     };
 };
 
-const addRecordFilter = state => {
+const addRecordFilter = (state) => {
     const path = ['filters', state.filters.length];
     return set(state, path, emptyFilterItem());
 };
@@ -78,7 +78,7 @@ const updateRecordFilter = (state, event) => {
     return set(state, path, item);
 };
 
-const addQueriedField = state => {
+const addQueriedField = (state) => {
     const emptyField = hydrateWithErrors({
         field: '',
         rowIndex: generateGuid()
@@ -101,7 +101,7 @@ const deleteQueriedField = (state, event) => {
         state.queriedFields[1].field.error = null;
     }
     // reset error if the fields was duplicate and only one left.
-    const duplicates = state.queriedFields.filter(queriedField => queriedField.field.value === oldFieldValue);
+    const duplicates = state.queriedFields.filter((queriedField) => queriedField.field.value === oldFieldValue);
     if (duplicates.length === 1) {
         duplicates[0].field.error = null;
     }
@@ -119,11 +119,11 @@ const updateQueriedField = (state, event) => {
     return state;
 };
 
-const resetOutputAssignments = state => {
+const resetOutputAssignments = (state) => {
     return set(state, 'outputAssignments', [emptyAssignmentItem()]);
 };
 
-const addRecordFieldAssignment = state => {
+const addRecordFieldAssignment = (state) => {
     const path = ['outputAssignments', state.outputAssignments.length];
     return set(state, path, emptyAssignmentItem());
 };
@@ -148,7 +148,7 @@ const updateRecordFieldAssignment = (state, event) => {
     return set(state, path, item);
 };
 
-const resetQueriedFields = state => {
+const resetQueriedFields = (state) => {
     if (state.variableAndFieldMapping !== VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
         // reset queriedFields: Id query field item and one empty query field item
         return set(
@@ -177,7 +177,7 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetSordOrderAndSortField = state => {
+const resetSordOrderAndSortField = (state) => {
     return updateProperties(state, {
         sortOrder: SORT_ORDER.NOT_SORTED,
         sortField: { value: '', error: null }
@@ -189,7 +189,7 @@ const resetSordOrderAndSortField = state => {
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetOutputAssignmentsOutputReferenceAndQueriedfields = state => {
+const resetOutputAssignmentsOutputReferenceAndQueriedfields = (state) => {
     state = resetOutputAssignments(state);
     // reset outputReference and queried fields
     return updateOutputReferenceAndQueriedFields(state, '', null);
@@ -200,7 +200,7 @@ const resetOutputAssignmentsOutputReferenceAndQueriedfields = state => {
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetFilters = state => {
+const resetFilters = (state) => {
     // reset filters: create one empty filter item
     return set(state, 'filters', [emptyFilterItem()]);
 };
@@ -210,7 +210,7 @@ const resetFilters = state => {
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetStoreOptions = state => {
+const resetStoreOptions = (state) => {
     return updateProperties(state, {
         getFirstRecordOnly: true,
         wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
@@ -223,7 +223,7 @@ const resetStoreOptions = state => {
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetWayToStoreFields = state => {
+const resetWayToStoreFields = (state) => {
     return updateProperties(state, {
         wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
         assignNullValuesIfNoRecordsFound: false
@@ -235,7 +235,7 @@ const resetWayToStoreFields = state => {
  * @param {Object} state - current element state
  * @returns {Object} updated state
  */
-const resetSubSections = state => {
+const resetSubSections = (state) => {
     state = resetSordOrderAndSortField(state);
     state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
     // reset filters & filterLogic

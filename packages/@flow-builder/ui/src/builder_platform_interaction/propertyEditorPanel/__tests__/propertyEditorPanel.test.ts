@@ -10,7 +10,7 @@ const PROPERTY_EDITOR_SELECTOR = '.inline-property-editor';
 
 jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
 
-const createComponentUnderTest = async props => {
+const createComponentUnderTest = async (props) => {
     const el = await createElement('builder_platform_interaction-property-editor-panel', {
         is: PropertyEditorPanel
     });
@@ -25,7 +25,7 @@ describe('propertyEditorPanel', () => {
     it('close button dispatches closePropertyEditorEvent', () => {
         const eventCallback = jest.fn();
 
-        return createComponentUnderTest().then(component => {
+        return createComponentUnderTest().then((component) => {
             component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
 
             const closeButton = component.shadowRoot.querySelector('.slds-icon-utility-close');

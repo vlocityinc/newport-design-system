@@ -1,9 +1,9 @@
 ({
-    init: function(cmp) {
+    init: function (cmp) {
         var bodyComponent = cmp.get('v.bodyComponent');
         if (bodyComponent) {
             var loggingUtils = cmp.find('loggingUtils');
-            $A.createComponent(bodyComponent.desc, bodyComponent.attr, function(newCmp, status, errorMessage) {
+            $A.createComponent(bodyComponent.desc, bodyComponent.attr, function (newCmp, status, errorMessage) {
                 if (status === 'SUCCESS') {
                     var body = cmp.find('body-content');
                     body && body.set('v.body', newCmp); // setting the newly created assignment editor here in body
@@ -32,14 +32,14 @@
         }
     },
 
-    handleAddNewResource: function(cmp) {
+    handleAddNewResource: function (cmp) {
         var newResourceCallback = cmp.get('v.newResourceCallback');
         if (newResourceCallback && typeof newResourceCallback === 'function') {
             newResourceCallback();
         }
     },
 
-    closePanel: function(cmp) {
+    closePanel: function (cmp) {
         var closeActionCallback = cmp.get('v.closeActionCallback');
         var panelInstance = cmp.get('v.panelInstance');
         cmp.getEvent('notify')
@@ -51,7 +51,7 @@
             .fire();
     },
 
-    setHeaderTitle: function(cmp, title) {
+    setHeaderTitle: function (cmp, title) {
         var panelInstance = cmp.get('v.panelInstance');
         if (!panelInstance) {
             return;

@@ -221,7 +221,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @param {String} display  LHS_DISPLAY_OPTION determines how LHS should be displayed
      */
     set lhsDisplayOption(display) {
-        if (!Object.values(LHS_DISPLAY_OPTION).find(option => option === display)) {
+        if (!Object.values(LHS_DISPLAY_OPTION).find((option) => option === display)) {
             throw new Error(`Display option must be one of the predefined options but instead was ${display}`);
         }
         this._lhsDisplayOption = display;
@@ -600,8 +600,8 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     getPossibleRHSDataTypes(rhsTypes) {
         return Object.keys(rhsTypes)
-            .filter(key => rhsTypes[key][0] && rhsTypes[key][0][DATA_TYPE])
-            .map(key => rhsTypes[key][0][DATA_TYPE]);
+            .filter((key) => rhsTypes[key][0] && rhsTypes[key][0][DATA_TYPE])
+            .map((key) => rhsTypes[key][0][DATA_TYPE]);
     }
 
     /**
@@ -904,7 +904,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             elementType: this.containerElement,
             shouldBeWritable
         };
-        const updateState = stateUpdatesPromise => {
+        const updateState = (stateUpdatesPromise) => {
             // we use this Promise to make sure we update the state in the same order populateMenuData is called
             if (!this.updateStatePromise) {
                 this.updateStatePromise = Promise.resolve();
@@ -912,12 +912,12 @@ export default class BaseExpressionBuilder extends LightningElement {
             stateUpdatesPromise = Promise.resolve(stateUpdatesPromise);
             this.updateStatePromise = this.updateStatePromise
                 .then(() => stateUpdatesPromise)
-                .then(stateUpdates => Object.assign(this.state, stateUpdates));
+                .then((stateUpdates) => Object.assign(this.state, stateUpdates));
             return this.updateStatePromise;
         };
         if (getFields) {
             updateState(
-                this.getFieldsPromise(parentMenuItem, preFetchedFields, objectType).then(retrievedFields => {
+                this.getFieldsPromise(parentMenuItem, preFetchedFields, objectType).then((retrievedFields) => {
                     const menuData = filterFieldsForChosenElement(parentMenuItem, retrievedFields, {
                         allowedParamTypes: paramTypes,
                         showAsFieldReference: isDisplayedAsFieldReference,
@@ -968,7 +968,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     areAllDefined(attributes) {
-        const undefinedIndex = attributes.findIndex(attribute => {
+        const undefinedIndex = attributes.findIndex((attribute) => {
             return isUndefined(attribute);
         });
         return undefinedIndex < 0;
@@ -1068,7 +1068,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             const isDisplayedAsFieldReference = this.lhsDisplayOption !== LHS_DISPLAY_OPTION.SOBJECT_FIELD;
             const allowFieldsTraversal =
                 this.isLookupTraversalSupported() && this.objectType == null && !this.lhsMustBeWritable;
-            this.getFieldsPromise(event.detail.item.parent, LHS_FIELDS, this.objectType).then(fields => {
+            this.getFieldsPromise(event.detail.item.parent, LHS_FIELDS, this.objectType).then((fields) => {
                 const menuData = filterFieldsForChosenElement(event.detail.item.parent, fields, {
                     allowedParamTypes: this.lhsParamTypes,
                     showAsFieldReference: isDisplayedAsFieldReference,
@@ -1152,7 +1152,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     isPicklistItem(rhsItem) {
-        const matchPicklistItem = picklistItem => {
+        const matchPicklistItem = (picklistItem) => {
             if (picklistItem.label) {
                 return picklistItem.value + '-' + picklistItem.label === rhsItem.value;
             }

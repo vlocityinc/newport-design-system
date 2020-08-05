@@ -485,7 +485,7 @@ function renderBranches(
     const childIndexes = children != null ? children.map((child, childIndex) => childIndex) : [FAULT_INDEX];
     const conditionOptions = createConditionOptions(node, context);
 
-    const flows = childIndexes.map(i => {
+    const flows = childIndexes.map((i) => {
         // When rendering branches for the element being deleted, setting context.isDeletingBranch to true
         // when traversing a branch whose index is not equal to childIndexToKeep
         if (isElementGuidToDelete(context, node.guid)) {
@@ -695,7 +695,7 @@ function createBranchConnectors(
     const connectorIndexes = [0, parentNode.children.length - 1];
 
     return connectorIndexes
-        .map(branchIndex => {
+        .map((branchIndex) => {
             const branchLayout = getBranchLayout(parentNode.guid, branchIndex, progress, nodeLayoutMap);
 
             // Marking the connector as to be deleted if it's a part of the branch being deleted
@@ -712,7 +712,7 @@ function createBranchConnectors(
                 connectorToBeDeleted
             );
         })
-        .filter(connectorInfo => connectorInfo.geometry.w > 0 && connectorInfo.geometry.h);
+        .filter((connectorInfo) => connectorInfo.geometry.w > 0 && connectorInfo.geometry.h);
 }
 
 /**
@@ -769,7 +769,7 @@ function createMergeConnectors(
 
             return null;
         })
-        .filter(renderInfo => renderInfo != null) as ConnectorRenderInfo[];
+        .filter((renderInfo) => renderInfo != null) as ConnectorRenderInfo[];
 }
 
 /**

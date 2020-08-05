@@ -27,7 +27,7 @@ export const setEntities = (entities = null) => {
     const workflowEnabledEntities = [];
 
     if (entities) {
-        entities.forEach(entity => {
+        entities.forEach((entity) => {
             allEntities.push(entity);
             allEntitiesMap[entity.apiName.toLowerCase()] = entity;
             if (entity.queryable) {
@@ -77,7 +77,7 @@ export const getAllEntities = () => {
  * @param {string} apiName the api name of the entity
  * @return {Object} the entity description
  */
-export const getEntity = apiName => {
+export const getEntity = (apiName) => {
     const storedEntities = getStoredEntities();
     const map = storedEntities ? storedEntities.allEntitiesMap : undefined;
     return map ? map[apiName.toLowerCase()] : undefined;
@@ -90,7 +90,7 @@ export const getEntity = apiName => {
  */
 export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
     const workflowEnabledEntities = [];
-    orgWorkflowEnabledEntities.forEach(entityApiName => {
+    orgWorkflowEnabledEntities.forEach((entityApiName) => {
         const entity = getEntity(entityApiName);
         if (entity) {
             workflowEnabledEntities.push(entity);
@@ -156,7 +156,7 @@ export const getWorkflowEnabledEntities = () => {
     return storedEntities ? storedEntities.workflowEnabledEntities : [];
 };
 
-export const areFieldsForEntityAlreadyFetched = entityName => {
+export const areFieldsForEntityAlreadyFetched = (entityName) => {
     const params = {
         entityApiName: entityName
     };
@@ -187,7 +187,7 @@ export const fetchFieldsForEntity = (
         background,
         disableErrorModal,
         messageForErrorModal
-    }).then(fields => {
+    }).then((fields) => {
         cachedEntityFields[entityName] = fields;
         return fields;
     });
@@ -197,7 +197,7 @@ export const fetchFieldsForEntity = (
  * Grabs the fields for a specific sObject from the cache, undefined if not a valid entityName
  * @param {String} entityName Api name of the SObject
  */
-export const getFieldsForEntity = entityName => {
+export const getFieldsForEntity = (entityName) => {
     return cachedEntityFields[entityName];
 };
 

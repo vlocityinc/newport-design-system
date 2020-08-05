@@ -193,15 +193,15 @@ export default class FlowPropertiesEditor extends LightningElement {
             if (this.flowProperties.triggerType) {
                 const triggerType = this.flowProperties.triggerType.value;
                 const value = processType + ' ' + triggerType;
-                result = this._processTypes.find(item => item.value === value);
+                result = this._processTypes.find((item) => item.value === value);
                 // Find a flow entry for a trigger, which is not represented with its own flow entry.
                 if (!result) {
-                    result = this._processTypes.find(item => item.triggerTypes.some(type => type === triggerType));
+                    result = this._processTypes.find((item) => item.triggerTypes.some((type) => type === triggerType));
                 }
             }
             if (!result) {
                 const value = processType + ' ' + FLOW_TRIGGER_TYPE.NONE;
-                result = this._processTypes.find(item => item.value === value);
+                result = this._processTypes.find((item) => item.value === value);
             }
         }
         return result;
@@ -230,7 +230,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     get runInModeLabel() {
         let label = null;
         if (this.flowProperties.runInMode) {
-            const runInMode = this._runInModes.find(pt => {
+            const runInMode = this._runInModes.find((pt) => {
                 return pt.value === this.flowProperties.runInMode.value;
             });
 
@@ -305,10 +305,10 @@ export default class FlowPropertiesEditor extends LightningElement {
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_ENTRIES, {
             builderType: getBuilderType()
-        }).then(flowEntries => {
+        }).then((flowEntries) => {
             this._processTypes = flowEntries
                 // Get rid of all recommended flow templates. The rest should be the list of "blank" entries.
-                .filter(item => !(item.recommended && typeof item.flow === 'string'))
+                .filter((item) => !(item.recommended && typeof item.flow === 'string'))
                 // Create a list of items for the combobox
                 .map(({ label, processType, defaultTriggerType = FLOW_TRIGGER_TYPE.NONE, triggerTypes = [] }) => ({
                     label,

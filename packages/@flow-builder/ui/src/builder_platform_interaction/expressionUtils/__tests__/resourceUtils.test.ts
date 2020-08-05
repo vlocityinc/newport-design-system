@@ -57,7 +57,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn().mockImplementation(entityName => {
+        getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
             if (entityName === 'Account') {
                 return mockAccountFields;
             } else if (entityName === 'User') {
@@ -171,7 +171,7 @@ describe('ResourceUtils', () => {
             expect(normalizedFEROV.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariable.name + field));
         });
         it('should not throw an exception if the user does not have access to the SObject field in a merge field', () => {
-            getFieldsForEntity.mockImplementationOnce(entityName => {
+            getFieldsForEntity.mockImplementationOnce((entityName) => {
                 return entityName === account ? ['Name1'] : undefined;
             });
             const field = '.Name';

@@ -11,7 +11,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        fetchActiveOrLatestFlowOutputVariables: jest.fn(flowName => {
+        fetchActiveOrLatestFlowOutputVariables: jest.fn((flowName) => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return Promise.resolve(
                     actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables

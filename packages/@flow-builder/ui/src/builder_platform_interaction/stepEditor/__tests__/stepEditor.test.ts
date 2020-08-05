@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import StepEditor from '../stepEditor';
 
-const createComponentUnderTest = node => {
+const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-step-editor', {
         is: StepEditor
     });
@@ -17,15 +17,15 @@ const selectors = {
     SECTION_HEADER: '.test-section-description'
 };
 
-const getLabelDescription = stepEditor => {
+const getLabelDescription = (stepEditor) => {
     return stepEditor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
 };
 
-const getBadgeIcon = stepEditor => {
+const getBadgeIcon = (stepEditor) => {
     return stepEditor.shadowRoot.querySelector(selectors.BADGE_ICON);
 };
 
-const getSectionHeader = stepEditor => {
+const getSectionHeader = (stepEditor) => {
     return stepEditor.shadowRoot.querySelector(selectors.SECTION_HEADER);
 };
 

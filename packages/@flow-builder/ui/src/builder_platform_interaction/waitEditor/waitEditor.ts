@@ -77,11 +77,11 @@ export default class WaitEditor extends LightningElement {
     }
 
     get activeWaitEvent() {
-        return this.waitElement.waitEvents.find(waitEvent => waitEvent.guid === this.activeWaitEventId);
+        return this.waitElement.waitEvents.find((waitEvent) => waitEvent.guid === this.activeWaitEventId);
     }
 
     get waitEventsWithDefaultPath() {
-        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(waitEvent => {
+        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map((waitEvent) => {
             return {
                 element: waitEvent,
                 label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : LABELS.newWaitEventLabel,

@@ -9,7 +9,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 const elementConfig = jest.requireActual('builder_platform_interaction/elementConfig');
-elementConfig.getConfigForElementType = jest.fn().mockImplementation(elementType => {
+elementConfig.getConfigForElementType = jest.fn().mockImplementation((elementType) => {
     return elementType === ELEMENT_TYPE.START_ELEMENT
         ? {
               isDeletable: false,
@@ -18,7 +18,7 @@ elementConfig.getConfigForElementType = jest.fn().mockImplementation(elementType
           }
         : elementConfig.elementTypeToConfigMap[elementType];
 });
-elementConfig.getConfigForElement = jest.fn().mockImplementation(element => {
+elementConfig.getConfigForElement = jest.fn().mockImplementation((element) => {
     return element.elementType === ELEMENT_TYPE.START_ELEMENT
         ? {
               isDeletable: false,
@@ -65,7 +65,7 @@ jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
 }));
 
-const dblClick = component => {
+const dblClick = (component) => {
     const doubleClickEvent = new Event('dblclick', {
         bubbles: true,
         cancelable: true

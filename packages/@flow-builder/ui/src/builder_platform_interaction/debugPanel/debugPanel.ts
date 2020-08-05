@@ -27,7 +27,7 @@ export default class DebugPanel extends LightningElement {
 
     get allTitles() {
         if (this.debugTraces) {
-            return this.debugTraces.map(e => e.title);
+            return this.debugTraces.map((e) => e.title);
         }
         return [];
     }

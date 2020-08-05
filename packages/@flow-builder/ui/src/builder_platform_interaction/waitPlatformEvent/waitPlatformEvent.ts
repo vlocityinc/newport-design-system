@@ -189,7 +189,7 @@ export default class WaitPlatformEvent extends LightningElement {
      * get the fields of the selected entity
      */
     updateFilterFields(eventType) {
-        getInputParametersForEventType(eventType, params => {
+        getInputParametersForEventType(eventType, (params) => {
             this.filterFields = params;
         });
     }

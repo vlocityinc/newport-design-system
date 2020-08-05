@@ -9,8 +9,8 @@ import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';
 
-const enrichItems = items =>
-    items.map(item => {
+const enrichItems = (items) =>
+    items.map((item) => {
         let itemId;
         if (item.flow) {
             if (typeof item.flow === 'string') {
@@ -146,8 +146,8 @@ export default class NewFlowModalBody extends LightningElement {
      */
     handleSelectRecommendedItem(event) {
         event.stopPropagation();
-        const selectedItem = event.detail.items.find(item => item.isSelected);
-        const deselectedItem = event.detail.items.find(item => !item.isSelected);
+        const selectedItem = event.detail.items.find((item) => item.isSelected);
+        const deselectedItem = event.detail.items.find((item) => !item.isSelected);
         if (deselectedItem && !selectedItem) {
             this.setRecommendedItemIsSelected(deselectedItem.id, true);
             return;
@@ -157,7 +157,7 @@ export default class NewFlowModalBody extends LightningElement {
             this.setRecommendedItemIsSelected(deselectedItem.id, false);
         }
         if (selectedItem) {
-            selectedRecommendedItem = this.state.recommendedItems.find(item => item.itemId === selectedItem.id);
+            selectedRecommendedItem = this.state.recommendedItems.find((item) => item.itemId === selectedItem.id);
             this.setRecommendedItemIsSelected(selectedItem.id, true);
         }
         this.state.selectedRecommendedItem = selectedRecommendedItem;
@@ -167,7 +167,7 @@ export default class NewFlowModalBody extends LightningElement {
     }
 
     setRecommendedItemIsSelected(itemId, isSelected) {
-        const selectedItem = this.state.recommendedItems.find(item => item.itemId === itemId);
+        const selectedItem = this.state.recommendedItems.find((item) => item.itemId === itemId);
         // This is a hacky way of triggering re-render of <visual-picker-list/>.
         // Needs to be fixed at the picker level.
         selectedItem.isSelected = !isSelected;
@@ -204,7 +204,7 @@ export default class NewFlowModalBody extends LightningElement {
     fetchProcessTypes() {
         this.state.processTypesLoading = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, { builderType: this.builderType })
-            .then(processTypes => {
+            .then((processTypes) => {
                 setProcessTypes(processTypes);
                 loadAllSupportedFeatures(processTypes);
                 this.state.processTypesLoading = false;
@@ -222,14 +222,14 @@ export default class NewFlowModalBody extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_ENTRIES, {
             builderType: this.builderType
         })
-            .then(items => {
+            .then((items) => {
                 this.state.itemsLoading = false;
                 this.state.items = enrichItems(items);
 
                 // Collect all items for the Recommended tab
                 this.state.recommendedItems = this.state.items
-                    .filter(item => item.recommended)
-                    .map(item => ({ ...item }));
+                    .filter((item) => item.recommended)
+                    .map((item) => ({ ...item }));
 
                 // Select the first recommended item
                 if (this.state.recommendedItems && this.state.recommendedItems.length > 0) {
@@ -240,7 +240,7 @@ export default class NewFlowModalBody extends LightningElement {
                 // Remove recommended templates:
                 // they will be shown along with other templates on the Templates tab.
                 this.state.items = this.state.items.filter(
-                    item => !(item.recommended && typeof item.flow === 'string')
+                    (item) => !(item.recommended && typeof item.flow === 'string')
                 );
             })
             .catch(() => {

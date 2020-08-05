@@ -105,7 +105,7 @@ export const createAction = (type, payload = {}) => ({ type, payload });
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updateFlow = payload => createAction(UPDATE_FLOW, payload);
+export const updateFlow = (payload) => createAction(UPDATE_FLOW, payload);
 
 /**
  * @returns {Object} Undo Action without any payload.
@@ -129,7 +129,7 @@ export const clearUndoRedo = createAction(CLEAR_UNDO_REDO);
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updateProperties = payload => createAction(UPDATE_PROPERTIES, payload);
+export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, payload);
 
 /**
  * Action for updating flow properties in the store, when the save flow call is failed.
@@ -138,21 +138,21 @@ export const updateProperties = payload => createAction(UPDATE_PROPERTIES, paylo
  * @returns {Object} action new action based on type and payload
  */
 
-export const updatePropertiesAfterSaveFailed = payload => createAction(UPDATE_PROPERTIES_AFTER_SAVE_FAILED, payload);
+export const updatePropertiesAfterSaveFailed = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVE_FAILED, payload);
 /**
  * Action for updating flow properties in the store after saving a flow.
  *
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updatePropertiesAfterSaving = payload => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
+export const updatePropertiesAfterSaving = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
 /**
  * Action for updating flow properties in the store after activating a flow.
  *
  * @param {Object} payload - contains new flow status
  * @returns {Object} action new action based on type and payload
  */
-export const updatePropertiesAfterActivateButtonPress = payload =>
+export const updatePropertiesAfterActivateButtonPress = (payload) =>
     createAction(UPDATE_PROPERTIES_AFTER_ACTIVATING, payload);
 
 /**
@@ -161,7 +161,7 @@ export const updatePropertiesAfterActivateButtonPress = payload =>
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updatePropertiesAfterCreatingFlowFromTemplate = payload =>
+export const updatePropertiesAfterCreatingFlowFromTemplate = (payload) =>
     createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE, payload);
 
 /**
@@ -170,7 +170,7 @@ export const updatePropertiesAfterCreatingFlowFromTemplate = payload =>
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updatePropertiesAfterCreatingFlowFromProcessType = payload =>
+export const updatePropertiesAfterCreatingFlowFromProcessType = (payload) =>
     createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, payload);
 
 /**
@@ -179,7 +179,7 @@ export const updatePropertiesAfterCreatingFlowFromProcessType = payload =>
  * @param {Object} payload - contains canvasElementGuidMap, childElementGuidMap, connectorsToDuplicate
  * @returns {Object} action - new action based on type and payload
  */
-export const doDuplicate = payload => createAction(DO_DUPLICATE, payload);
+export const doDuplicate = (payload) => createAction(DO_DUPLICATE, payload);
 
 /**
  * Action for adding a new element in the store.
@@ -187,7 +187,7 @@ export const doDuplicate = payload => createAction(DO_DUPLICATE, payload);
  * @param {Object} payload - contains new element value to be added
  * @returns {Object} action new action based on type and payload
  */
-export const addElement = payload => {
+export const addElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
@@ -228,7 +228,7 @@ export const addElement = payload => {
  * @param {Object} payload - contains GUID of the element to be updated and new values
  * @returns {Object} action new action based on type and payload
  */
-export const updateElement = payload => {
+export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
@@ -267,7 +267,7 @@ export const updateElement = payload => {
  * @param {Object} payload - contains the elements to be deleted
  * @returns {Object} action new action based on type and payload
  */
-export const deleteElements = payload => {
+export const deleteElements = (payload) => {
     if (!payload) {
         return {};
     }
@@ -308,7 +308,7 @@ export const deleteElements = payload => {
  * @param {Object} payload - contains connectorGUID, source, target, connector label and config
  * @returns {Object} action new action based on type and payload
  */
-export const addConnector = payload => createAction(ADD_CONNECTOR, payload);
+export const addConnector = (payload) => createAction(ADD_CONNECTOR, payload);
 
 /**
  * Action for selecting a canvas element or connector.
@@ -316,7 +316,7 @@ export const addConnector = payload => createAction(ADD_CONNECTOR, payload);
  * @param {Object} payload - contains GUID of the element to be selected
  * @returns {Object} action new action based on type and payload
  */
-export const selectOnCanvas = payload => createAction(SELECT_ON_CANVAS, payload);
+export const selectOnCanvas = (payload) => createAction(SELECT_ON_CANVAS, payload);
 
 /**
  * Action for toggling the isSelected property of a canvas element or connector.
@@ -324,7 +324,7 @@ export const selectOnCanvas = payload => createAction(SELECT_ON_CANVAS, payload)
  * @param {Object} payload - contains GUID of the element to be toggled
  * @returns {Object} action new action based on type and payload
  */
-export const toggleOnCanvas = payload => createAction(TOGGLE_ON_CANVAS, payload);
+export const toggleOnCanvas = (payload) => createAction(TOGGLE_ON_CANVAS, payload);
 
 /**
  * Action for deselecting all the selected canvas elements and connectors.
@@ -338,7 +338,7 @@ export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
  * @param {Object} payload - contains arrays with the canvas elements and connectors to be selected/deselected
  * @returns {Object} action new action based on type and payload
  */
-export const marqueeSelectOnCanvas = payload => createAction(MARQUEE_SELECT_ON_CANVAS, payload);
+export const marqueeSelectOnCanvas = (payload) => createAction(MARQUEE_SELECT_ON_CANVAS, payload);
 
 /**
  * Action for selecting/desecting multiple canvas elements on the Fixed Canvas.
@@ -346,18 +346,18 @@ export const marqueeSelectOnCanvas = payload => createAction(MARQUEE_SELECT_ON_C
  * can be selected next
  * @returns {Object} action new action based on type and payload
  */
-export const selectionOnFixedCanvas = payload => createAction(SELECTION_ON_FIXED_CANVAS, payload);
+export const selectionOnFixedCanvas = (payload) => createAction(SELECTION_ON_FIXED_CANVAS, payload);
 
-export const flcCreateConnection = payload => createAction(FLC_CREATE_CONNECTION, payload);
-export const addElementFault = payload => createAction(ADD_FAULT, payload);
+export const flcCreateConnection = (payload) => createAction(FLC_CREATE_CONNECTION, payload);
+export const addElementFault = (payload) => createAction(ADD_FAULT, payload);
 
-export const deleteElementFault = payload => createAction(DELETE_FAULT, payload);
+export const deleteElementFault = (payload) => createAction(DELETE_FAULT, payload);
 
 /**
  * Action for pasting elements on the fixed canvas
  * @param {Object} payload - Contains the data for pasting elements on the fixed canvas
  */
-export const pasteOnFixedCanvas = payload => createAction(PASTE_ON_FIXED_CANVAS, payload);
+export const pasteOnFixedCanvas = (payload) => createAction(PASTE_ON_FIXED_CANVAS, payload);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true
@@ -365,7 +365,7 @@ export const pasteOnFixedCanvas = payload => createAction(PASTE_ON_FIXED_CANVAS,
  * @param {Object} payload - contains GUID of the element to be toggled
  * @returns {Object} action new action based on type and payload
  */
-export const highlightOnCanvas = payload => createAction(HIGHLIGHT_ON_CANVAS, payload);
+export const highlightOnCanvas = (payload) => createAction(HIGHLIGHT_ON_CANVAS, payload);
 
 /**
  * Action for updating the location of canvas element. This is needed in additon to updateElement
@@ -373,7 +373,7 @@ export const highlightOnCanvas = payload => createAction(HIGHLIGHT_ON_CANVAS, pa
  * @param {Object} payload - contains guid & position coordinates for the canvas element.
  * @returns {Object} action - updateCanvasElementLocation action
  */
-export const updateCanvasElementLocation = payload => createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
+export const updateCanvasElementLocation = (payload) => createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
 
 /**
  * Action for resetting the inline resource to null.
@@ -388,21 +388,21 @@ export const removeLastCreatedInlineResource = createAction(REMOVE_LAST_CREATED_
  * @param {Object} payload - contains a string `left` or `right` or null & the row index of the condition
  * @returns {Object} action - updateInlineResourceProperties action
  */
-export const updateInlineResourceProperties = payload => createAction(UPDATE_INLINE_RESOURCE_PROPERTIES, payload);
+export const updateInlineResourceProperties = (payload) => createAction(UPDATE_INLINE_RESOURCE_PROPERTIES, payload);
 
 /**
  * Action for updating a list of all apex classes.
  */
-export const updateApexClasses = payload => createAction(UPDATE_APEX_CLASSES, payload);
+export const updateApexClasses = (payload) => createAction(UPDATE_APEX_CLASSES, payload);
 
-export const updateEntities = payload => createAction(UPDATE_ENTITIES, payload);
+export const updateEntities = (payload) => createAction(UPDATE_ENTITIES, payload);
 
 /**
  * Action for decorating a flow on the canvas (example, highlighting connectors and elements)
  * @param {Object} payload - canvas decorator object
  * @returns {Object} action - decorateCanvas action
  */
-export const decorateCanvas = payload => createAction(DECORATE_CANVAS, payload);
+export const decorateCanvas = (payload) => createAction(DECORATE_CANVAS, payload);
 
 /**
  * Action for clearing any current canvas decorations (example, highlighted connectors)

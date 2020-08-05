@@ -69,7 +69,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
-        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(processType => {
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn((processType) => {
             return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
                 : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
@@ -180,45 +180,45 @@ const recordLookupElementWithoutOutputRefNorOutputAssignment = () => ({
     variableAndFieldMapping: 'automatic'
 });
 
-const getRecordStoreOption = recordLookupEditor => {
+const getRecordStoreOption = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
 };
 
-const getEntityResourcePicker = recordLookupEditor => {
+const getEntityResourcePicker = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
-const getRecordSobjectAndQueryFields = recordLookupEditor => {
+const getRecordSobjectAndQueryFields = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
 };
 
-const getsObjectOrSObjectCollectionPicker = recordSobjectAndQueryFields => {
+const getsObjectOrSObjectCollectionPicker = (recordSobjectAndQueryFields) => {
     return recordSobjectAndQueryFields.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 };
 
-const getNumberRecordToStoreComponent = recordLookupEditor => {
+const getNumberRecordToStoreComponent = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_NUMBER_RECORD_TO_STORE);
 };
 
-const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
+const getAutomaticRecordStoreOptionsRadioGroup = (recordLookupEditor) => {
     return getNumberRecordToStoreComponent(recordLookupEditor).shadowRoot.querySelector(
         SELECTORS.LIGHTNING_RADIO_GROUP
     );
 };
 
-const getAutomaticQueryFields = recordLookupEditor => {
+const getAutomaticQueryFields = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
 };
 
-const getManualWayToStoreFields = recordLookupEditor => {
+const getManualWayToStoreFields = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.LIGHTNING_RADIO_GROUP);
 };
 
-const getVariableAndFieldMappingComponent = recordLookupEditor => {
+const getVariableAndFieldMappingComponent = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT);
 };
 
-const getVariableAndFieldMappingRadioButtonGroup = recordLookupEditor => {
+const getVariableAndFieldMappingRadioButtonGroup = (recordLookupEditor) => {
     return deepQuerySelector(recordLookupEditor, [
         SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT,
         SELECTORS.LIGHTNING_RADIO_GROUP

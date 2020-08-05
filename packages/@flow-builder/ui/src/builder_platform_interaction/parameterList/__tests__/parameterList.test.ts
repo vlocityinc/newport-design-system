@@ -130,31 +130,31 @@ const selectors = {
     configurationEditor: 'builder_platform_interaction-custom-property-editor'
 };
 
-const getInputsDiv = parameterList => parameterList.shadowRoot.querySelector(selectors.divInput);
+const getInputsDiv = (parameterList) => parameterList.shadowRoot.querySelector(selectors.divInput);
 
-const getOutputsDiv = parameterList => parameterList.shadowRoot.querySelector(selectors.divOutputs);
+const getOutputsDiv = (parameterList) => parameterList.shadowRoot.querySelector(selectors.divOutputs);
 
-const getInputParameterItems = parameterList => {
+const getInputParameterItems = (parameterList) => {
     return parameterList.shadowRoot.querySelector(selectors.divInputs).querySelectorAll(selectors.parameterItem);
 };
 
-const getOutputParameterItems = parameterList => {
+const getOutputParameterItems = (parameterList) => {
     return parameterList.shadowRoot.querySelector(selectors.divOutputs).querySelectorAll(selectors.parameterItem);
 };
 
-const getEmptyInputs = parameterList => {
+const getEmptyInputs = (parameterList) => {
     return parameterList.shadowRoot.querySelector(selectors.emptyInputs).querySelector(selectors.goneCamping);
 };
 
-const getEmptyInputsOutputs = parameterList => {
+const getEmptyInputsOutputs = (parameterList) => {
     return parameterList.shadowRoot.querySelector(selectors.emptyInputsOutputs).querySelector(selectors.goneCamping);
 };
 
-const getInputHeader = parameterList => parameterList.shadowRoot.querySelector(selectors.inputHeader);
+const getInputHeader = (parameterList) => parameterList.shadowRoot.querySelector(selectors.inputHeader);
 
-const getOutputHeader = parameterList => parameterList.shadowRoot.querySelector(selectors.outputHeader);
+const getOutputHeader = (parameterList) => parameterList.shadowRoot.querySelector(selectors.outputHeader);
 
-const getConfigurationEditor = parameterList => parameterList.shadowRoot.querySelector(selectors.configurationEditor);
+const getConfigurationEditor = (parameterList) => parameterList.shadowRoot.querySelector(selectors.configurationEditor);
 
 function createComponentForTest({
     elementType = ELEMENT_TYPE.ACTION_CALL,
@@ -258,7 +258,7 @@ describe('parameter-list', () => {
                         isRequired: false
                     }
                 ];
-                const inputParameters = [...parameterItems].map(parameterItem => {
+                const inputParameters = [...parameterItems].map((parameterItem) => {
                     return {
                         name: getValueFromHydratedItem(parameterItem.item.name),
                         label: getValueFromHydratedItem(parameterItem.item.label),
@@ -281,7 +281,7 @@ describe('parameter-list', () => {
                     },
                     { name: 'feedId', label: 'Feed ID', isRequired: false }
                 ];
-                const outputParameters = [...parameterItems].map(parameterItem => {
+                const outputParameters = [...parameterItems].map((parameterItem) => {
                     return {
                         name: getValueFromHydratedItem(parameterItem.item.name),
                         label: getValueFromHydratedItem(parameterItem.item.label),
@@ -316,7 +316,7 @@ describe('parameter-list', () => {
                     isRequired: false
                 }
             ];
-            const inputParameters = [...parameterItems].map(parameterItem => {
+            const inputParameters = [...parameterItems].map((parameterItem) => {
                 return {
                     name: getValueFromHydratedItem(parameterItem.item.name),
                     label: getValueFromHydratedItem(parameterItem.item.label),
@@ -408,7 +408,7 @@ describe('parameter-list', () => {
                     isRequired: false
                 }
             ];
-            const inputParameters = [...parameterItems].map(parameterItem => {
+            const inputParameters = [...parameterItems].map((parameterItem) => {
                 return {
                     name: getValueFromHydratedItem(parameterItem.item.name),
                     label: getValueFromHydratedItem(parameterItem.item.label),
@@ -433,7 +433,7 @@ describe('parameter-list', () => {
                 { name: 'accountId', label: 'Account ID', isRequired: false },
                 { name: 'feedId', label: 'Feed ID', isRequired: false }
             ];
-            const outputParameters = [...parameterItems].map(parameterItem => {
+            const outputParameters = [...parameterItems].map((parameterItem) => {
                 return {
                     name: getValueFromHydratedItem(parameterItem.item.name),
                     label: getValueFromHydratedItem(parameterItem.item.label),

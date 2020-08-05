@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 const resourceApiName = 'Account';
 const selectedField = 'Description';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-record-sort', {
         is: RecordSortResult
     });
@@ -43,15 +43,15 @@ const SELECTORS = {
     fieldPicker: 'builder_platform_interaction-field-picker'
 };
 
-const getSortOrderCombobox = recordSortResultComponent => {
+const getSortOrderCombobox = (recordSortResultComponent) => {
     return recordSortResultComponent.shadowRoot.querySelector(SELECTORS.lightningCombobox);
 };
 
-const getFilterCombobox = recordSortResultComponent => {
+const getFilterCombobox = (recordSortResultComponent) => {
     return recordSortResultComponent.shadowRoot.querySelector(SELECTORS.fieldPicker);
 };
 
-const getFilterHelpText = recordSortResultComponent => {
+const getFilterHelpText = (recordSortResultComponent) => {
     return recordSortResultComponent.shadowRoot.querySelector(SELECTORS.filterHelpText);
 };
 
@@ -101,7 +101,7 @@ describe('recordSort', () => {
             expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(SORT_ORDER.ASC);
             expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
             expect(Object.keys(getFilterCombobox(recordSortResultComponent).fields)).toHaveLength(
-                Object.values(accountFields).filter(field => field.sortable).length
+                Object.values(accountFields).filter((field) => field.sortable).length
             );
         });
         it('"Description" as value, sort field should be populated', () => {
@@ -210,8 +210,8 @@ describe('recordSort', () => {
             });
             const options = await until(() => getFilterCombobox(recordSortResultComponent).fields);
             const mockAccFieldsArr = accountFields;
-            Object.values(options).forEach(option => {
-                expect(mockAccFieldsArr.find(field => field.apiName === option.apiName).sortable).toBeTruthy();
+            Object.values(options).forEach((option) => {
+                expect(mockAccFieldsArr.find((field) => field.apiName === option.apiName).sortable).toBeTruthy();
             });
         });
     });

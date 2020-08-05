@@ -7,7 +7,7 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
  * @param {ParameterItem} param a parameter
  * @returns {String} return the parameter's label or parameter's name
  */
-const getLabel = param => {
+const getLabel = (param) => {
     const label = getValueFromHydratedItem(param.label);
     return label ? label : getValueFromHydratedItem(param.name);
 };

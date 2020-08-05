@@ -245,7 +245,7 @@ export function createScreenMetadataObject(screen, config = {}) {
     let { fields = [] } = screen;
     const { childReferences } = screen;
     if (childReferences && childReferences.length > 0) {
-        fields = childReferences.map(childReference => {
+        fields = childReferences.map((childReference) => {
             return createScreenFieldMetadataObject(getElementByGuid(childReference.childReference));
         });
     }
@@ -278,12 +278,12 @@ export function createScreenElement(screen) {
         childIndex
     } = screen;
 
-    const getFieldByGUID = function(guid) {
+    const getFieldByGUID = function (guid) {
         return this.findFieldByGUID(this.fields, guid);
     };
 
-    const findFieldByGUID = function(fields = [], guid) {
-        let foundField = fields.find(field => {
+    const findFieldByGUID = function (fields = [], guid) {
+        let foundField = fields.find((field) => {
             return field.guid === guid;
         });
         if (foundField) {
@@ -305,13 +305,13 @@ export function createScreenElement(screen) {
     // index indicating the position of the field with the provided guid within its parent's
     // fields array. The next item is the position of the parent in the grandparent's fields
     // array, etc. etc.
-    const getFieldIndexesByGUID = function(guid) {
+    const getFieldIndexesByGUID = function (guid) {
         const indexes = this.findFieldIndexByGUID(this.fields, guid);
         return indexes || -1;
     };
 
-    const findFieldIndexByGUID = function(fields = [], guid) {
-        let foundIndex = fields.findIndex(field => {
+    const findFieldIndexByGUID = function (fields = [], guid) {
+        let foundIndex = fields.findIndex((field) => {
             return field.guid === guid;
         });
         if (foundIndex >= 0) {
@@ -383,12 +383,12 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
         screenFieldReferencesFromStore = getAssociatedScreenFieldReferencesFromStore(screenFromStore);
     }
     if (screenFieldReferencesFromStore) {
-        const newfieldGuids = newFields.map(newField => newField.guid);
+        const newfieldGuids = newFields.map((newField) => newField.guid);
         return screenFieldReferencesFromStore
-            .filter(fieldReferenceGuid => {
+            .filter((fieldReferenceGuid) => {
                 return !newfieldGuids.includes(fieldReferenceGuid);
             })
-            .map(childReference => getElementByGuid(childReference));
+            .map((childReference) => getElementByGuid(childReference));
     }
     return [];
 }

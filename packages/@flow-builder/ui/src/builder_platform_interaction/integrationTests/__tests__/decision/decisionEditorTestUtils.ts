@@ -12,7 +12,7 @@ const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
 };
 
-export const createComponentForTest = node => {
+export const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-decision-editor', {
         is: DecisionEditor
     });
@@ -21,18 +21,15 @@ export const createComponentForTest = node => {
     return el;
 };
 
-export const getList = decision => {
+export const getList = (decision) => {
     return deepQuerySelector(decision, [SELECTORS.OUTCOME, SELECTORS.CONDITION_LIST, SELECTORS.LIST]);
 };
 
-export const getRow = decision => {
-    return getList(decision)
-        .querySelector(' div > slot')
-        .assignedNodes()[0]
-        .querySelector(SELECTORS.ROW);
+export const getRow = (decision) => {
+    return getList(decision).querySelector(' div > slot').assignedNodes()[0].querySelector(SELECTORS.ROW);
 };
 
-export const getFerToFerovExpressionBuilder = decision => {
+export const getFerToFerovExpressionBuilder = (decision) => {
     return getRow(decision)
         .shadowRoot.querySelector(' div > slot')
         .assignedNodes()[0]

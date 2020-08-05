@@ -408,7 +408,7 @@ function calculateBranchLayout(
     }
 
     // Updating layout for all the Fault Branches in a given flow (straight line) such that they don't overlap
-    faultLayouts.reverse().forEach(faultLayout => {
+    faultLayouts.reverse().forEach((faultLayout) => {
         height = Math.max(faultLayout.y + faultLayout.h, height);
         faultLayout.x = rightWidth + faultLayout.offsetX;
         rightWidth += faultLayout.w;

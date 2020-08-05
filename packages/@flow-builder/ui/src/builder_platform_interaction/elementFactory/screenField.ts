@@ -65,8 +65,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         isRequired = true;
         dynamicTypeMappings = createDynamicTypeMappings(dataTypeMappings || dynamicTypeMappings);
         inputParameters = inputParameters
-            .filter(inputParameter => !!inputParameter.value)
-            .map(inputParameter => createInputParameter(inputParameter));
+            .filter((inputParameter) => !!inputParameter.value)
+            .map((inputParameter) => createInputParameter(inputParameter));
 
         if (storeOutputAutomatically) {
             dataType = FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
@@ -74,14 +74,14 @@ export function createScreenField(screenField = {}, isNewField = false) {
         } else {
             storeOutputAutomatically = false;
             dataType = undefined;
-            outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+            outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
         }
         fields = [];
     } else {
         storeOutputAutomatically = undefined;
         type = getScreenFieldType(screenField);
         if (isRegionField(screenField)) {
-            inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
+            inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
         } else {
             inputParameters = [];
         }
@@ -112,7 +112,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         );
     }
 
-    choiceReferences = choiceReferences.map(choiceReference => createChoiceReference(choiceReference));
+    choiceReferences = choiceReferences.map((choiceReference) => createChoiceReference(choiceReference));
 
     // Convert scale property to string, which is needed for validation purposes.
     // Saving it as a string allows it be hydrated.
@@ -390,7 +390,7 @@ export function createScreenFieldMetadataObject(screenField) {
 
     let dataTypeMappings;
     if (isExtensionField(screenField)) {
-        inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+        inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
         if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
             outputParameters = [];
             dataType = undefined;
@@ -401,20 +401,20 @@ export function createScreenFieldMetadataObject(screenField) {
             storeOutputAutomatically = undefined;
             dataType = undefined;
         } else {
-            outputParameters = outputParameters.map(outputParameter =>
+            outputParameters = outputParameters.map((outputParameter) =>
                 createOutputParameterMetadataObject(outputParameter)
             );
             storeOutputAutomatically = undefined;
         }
         dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
     } else if (isRegionField(screenField)) {
-        inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+        inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
     }
 
-    choiceReferences = choiceReferences.map(choiceReference => createChoiceReferenceMetadatObject(choiceReference));
-    fields = fields.map(field => createScreenFieldMetadataObject(field));
+    choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));
+    fields = fields.map((field) => createScreenFieldMetadataObject(field));
     if (childReferences && childReferences.length > 0) {
-        fields = childReferences.map(childReference => {
+        fields = childReferences.map((childReference) => {
             return createScreenFieldMetadataObject(getElementByGuid(childReference.childReference));
         });
     }
@@ -446,7 +446,7 @@ export function createScreenFieldMetadataObject(screenField) {
     let { conditions } = visibilityRule;
 
     if (conditions.length > 0) {
-        conditions = conditions.map(condition => createConditionMetadataObject(condition));
+        conditions = conditions.map((condition) => createConditionMetadataObject(condition));
         Object.assign(mdScreenField, {
             visibilityRule: {
                 conditionLogic: visibilityRule.conditionLogic,
@@ -502,7 +502,7 @@ function createVisibilityRuleObject(visibilityRule) {
 
     const { conditions, conditionLogic } = visibilityRule;
     return {
-        conditions: conditions.map(condition => createCondition(condition)),
+        conditions: conditions.map((condition) => createCondition(condition)),
         conditionLogic
     };
 }

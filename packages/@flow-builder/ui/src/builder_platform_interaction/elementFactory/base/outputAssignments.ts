@@ -21,7 +21,7 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
  * @param {Object} outputAssignment
  * @param {String} sObject
  */
-export const createOutputAssignmentMetadataObject = outputAssignment => {
+export const createOutputAssignmentMetadataObject = (outputAssignment) => {
     if (!outputAssignment) {
         throw new Error('outputAssignment is required to create the outputAssignmentMetadataObject');
     }

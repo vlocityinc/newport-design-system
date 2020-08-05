@@ -11,7 +11,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function() {
+    const getCurrentState = function () {
         return {
             properties: {
                 processType: 'flow'
@@ -19,7 +19,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function() {
+    const getStore = function () {
         return {
             getCurrentState
         };
@@ -30,7 +30,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-callout-editor-container', {
         is: CalloutEditorContainer
     });

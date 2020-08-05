@@ -30,7 +30,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('../base/baseElement');
 baseCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElement);
 createPastedCanvasElement
-    .mockImplementation(duplicatedElement => {
+    .mockImplementation((duplicatedElement) => {
         return duplicatedElement;
     })
     .mockName('createPastedCanvasElementMock');

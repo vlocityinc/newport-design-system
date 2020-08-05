@@ -55,7 +55,7 @@ const isAssociatedConnector = (selectedElementGUIDs, connector) => {
  * @return {Array} Array of connectors to be deleted
  */
 const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], includeSelectedConnector = false) => {
-    return connectors.filter(connector => {
+    return connectors.filter((connector) => {
         return (
             (includeSelectedConnector && connector.config.isSelected) ||
             isAssociatedConnector(selectedElementGUIDs, connector)
@@ -70,10 +70,10 @@ const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], inclu
  */
 const selectedCanvasElementGuids = (canvasElements = []) => {
     return canvasElements
-        .filter(canvasElement => {
+        .filter((canvasElement) => {
             return canvasElement.config && canvasElement.config.isSelected;
         })
-        .map(canvasElement => {
+        .map((canvasElement) => {
             return canvasElement.guid;
         });
 };
@@ -83,7 +83,7 @@ const selectedCanvasElementGuids = (canvasElements = []) => {
  * @return {Array} array of deletable canvas elements
  */
 const deletableCanvasElements = (canvasElements = []) => {
-    return canvasElements.filter(canvasElement => {
+    return canvasElements.filter((canvasElement) => {
         return getPropertyOrDefaultToTrue(getConfigForElementType(canvasElement.elementType), 'isDeletable');
     });
 };
@@ -109,7 +109,7 @@ const doDeleteOrInvokeAlert = (
 
     const usedByElements = usedBy(selectedElementGUIDs, storeElements);
     const selectedElements = Object.values(storeElements).filter(
-        element => selectedElementGUIDs.indexOf(element.guid) !== -1
+        (element) => selectedElementGUIDs.indexOf(element.guid) !== -1
     );
 
     if (!usedByElements || usedByElements.length === 0) {
@@ -130,7 +130,7 @@ const doDeleteOrInvokeAlert = (
 
 const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
     const startElement = Object.values(storeInstance.getCurrentState().elements).find(
-        element => element.elementType === ELEMENT_TYPE.START_ELEMENT
+        (element) => element.elementType === ELEMENT_TYPE.START_ELEMENT
     );
     if (
         !isConfigurableStartSupported(processType) ||
@@ -218,7 +218,7 @@ export const updateStoreAfterSaveFlowIsSuccessful = (
     );
 };
 
-export const updateStoreAfterSaveAsNewFlowIsFailed = storeInstance => {
+export const updateStoreAfterSaveAsNewFlowIsFailed = (storeInstance) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -247,7 +247,7 @@ export const updateStoreAfterSaveAsNewVersionIsFailed = (storeInstance, label, d
     );
 };
 
-export const updateUrl = flowId => {
+export const updateUrl = (flowId) => {
     let urlParams = '';
     if (flowId) {
         urlParams += '?flowId=' + flowId;
@@ -255,7 +255,7 @@ export const updateUrl = flowId => {
     window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + urlParams);
 };
 
-export const setFlowErrorsAndWarnings = data => {
+export const setFlowErrorsAndWarnings = (data) => {
     const { errors = {}, warnings = {} } = data || {};
     return {
         errors,
@@ -267,7 +267,7 @@ export const setFlowErrorsAndWarnings = data => {
  * It return another function which will have closure on store instance. The returned function will be executed when user clicks okay on flow property editor.
  * @param {Object} storeInstance Instance of client side store
  */
-export const flowPropertiesCallback = storeInstance => flowProperties => {
+export const flowPropertiesCallback = (storeInstance) => (flowProperties) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -280,7 +280,7 @@ export const flowPropertiesCallback = storeInstance => flowProperties => {
  * @param {Object} storeInstance instance of the client side store
  * @param {Function} saveFlowFn function which make server call to save the flow
  */
-export const saveAsFlowCallback = (storeInstance, saveFlowFn) => flowProperties => {
+export const saveAsFlowCallback = (storeInstance, saveFlowFn) => (flowProperties) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -304,7 +304,7 @@ export const saveAsFlowCallback = (storeInstance, saveFlowFn) => flowProperties 
  * @param {Object} canvasElement - canvas element being duplicated
  * @returns {Boolean} Returns true if the canvas element should be duplicated
  */
-const shouldDuplicateElement = canvasElement => {
+const shouldDuplicateElement = (canvasElement) => {
     if (!canvasElement) {
         throw new Error('canvasElement is not defined');
     }
@@ -327,7 +327,7 @@ const shouldDuplicateElement = canvasElement => {
  * @param {Object} canvasElement - canvas element being duplicated
  * @returns {Boolean} Returns true if the canvas element is selected
  */
-const isSelected = canvasElement => {
+const isSelected = (canvasElement) => {
     if (!canvasElement) {
         throw new Error('canvasElement is not defined');
     }
@@ -342,7 +342,7 @@ const isSelected = canvasElement => {
  * @param {Object} canvasElement - canvas element being duplicated
  * @returns {Boolean} - Returns true if canvas element is Decision, Screen or Wait
  */
-const hasChildElements = canvasElement => {
+const hasChildElements = (canvasElement) => {
     if (!canvasElement) {
         throw new Error('canvasElement is not defined');
     }
@@ -476,7 +476,7 @@ export const getCopiedData = (elementsInStore, topCopiedGuid) => {
  *
  * @param {Object} elements - Object containing element objects for which the maps needs to be created
  */
-const createGuidMap = elements => {
+const createGuidMap = (elements) => {
     return Object.keys(elements).reduce((acc, guid) => {
         acc[guid] = generateGuid();
         return acc;
@@ -664,7 +664,7 @@ export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap)
  * @param {Object} canvasElementToHighlight - canvas element that is being highlighted
  * @return {Boolean} Returns true if the canvas element is currently highlighted
  */
-const isCanvasElementHighlighted = canvasElementToHighlight => {
+const isCanvasElementHighlighted = (canvasElementToHighlight) => {
     if (!canvasElementToHighlight) {
         throw new Error('canvasElementToHighlight is not defined');
     }
@@ -720,7 +720,7 @@ export const createStartElement = (storeInstance, triggerType) => {
  * @param {String} navigateUrl url to navigate to
  * @return true if you want to skip the close modal
  */
-export const closeModalAndNavigateTo = navigateUrl => {
+export const closeModalAndNavigateTo = (navigateUrl) => {
     if (navigateUrl) {
         window.top.location = navigateUrl;
         return false;
@@ -784,7 +784,7 @@ export const isGuardrailsEnabled = () => {
  */
 export function getToolboxElements(flowProcessType, flowTriggerType) {
     logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         // TODO: fetch should return a promise
         fetch(SERVER_ACTION_TYPE.GET_SUPPORTED_ELEMENTS, resolve, {
             flowProcessType,
@@ -811,7 +811,7 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
  */
 export function getElementsMetadata(toolboxElements, palette, existingMetadata = []) {
     const newElementsMetadata = [];
-    getElementSections(toolboxElements, palette).forEach(section => {
+    getElementSections(toolboxElements, palette).forEach((section) => {
         (section._children || []).forEach(
             ({
                 canHaveFaultConnector,
@@ -845,12 +845,12 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
     }
     const updatedElementsMetadata = [...newElementsMetadata];
     const newElementsMetadataMap = {};
-    newElementsMetadata.forEach(newMetadata => {
+    newElementsMetadata.forEach((newMetadata) => {
         newElementsMetadataMap[newMetadata.elementType] = newMetadata;
     });
     // Comparing the existing elementMetadata to the newElementsMetadata
     // If an item of the old list is not found in the new one, push it the the updated list with its "isSupported" property to false
-    existingMetadata.forEach(oldMetadata => {
+    existingMetadata.forEach((oldMetadata) => {
         if (!newElementsMetadataMap[oldMetadata.elementType]) {
             updatedElementsMetadata.push({ ...oldMetadata, isSupported: false });
         }
@@ -866,11 +866,11 @@ export const getConnectorsToHighlight = (canvasDecorator: object): array => {
     // Add first highlighted connector coming out of the Start element
     const connectorsToHighlight = [{ source: getStartElement().guid, type: CONNECTOR_TYPE.REGULAR }];
     if (canvasDecorator.decoratedElements) {
-        canvasDecorator.decoratedElements.forEach(element => {
+        canvasDecorator.decoratedElements.forEach((element) => {
             const storeElement = getElementByDevName(element.elementApiName);
             if (storeElement && element.decoratedConnectors) {
                 // Add highlighted connectors for the each of the elements in the decorator object
-                element.decoratedConnectors.forEach(connector => {
+                element.decoratedConnectors.forEach((connector) => {
                     const childSourceElement = connector.childSource && getElementByDevName(connector.childSource);
                     if (!connector.childSource || (connector.childSource && childSourceElement)) {
                         connectorsToHighlight.push({

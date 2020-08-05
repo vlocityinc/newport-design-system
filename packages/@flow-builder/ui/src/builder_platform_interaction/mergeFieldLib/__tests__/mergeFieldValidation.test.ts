@@ -18,7 +18,7 @@ import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverDa
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const lookupScreenField = jest.requireActual('mock/storeData').lookupScreenField;
     return Object.assign({}, jest.requireActual('builder_platform_interaction/storeUtils'), {
-        getElementByDevName: name =>
+        getElementByDevName: (name) =>
             name === 'lookupScreenField'
                 ? lookupScreenField
                 : jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
@@ -38,7 +38,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
         GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
         SYSTEM_VARIABLE_PREFIX: '$Flow',
         SYSTEM_VARIABLE_CLIENT_PREFIX: '$Client',
-        getGlobalConstantOrSystemVariable: id => {
+        getGlobalConstantOrSystemVariable: (id) => {
             if (id === currentDateSystemVariable) {
                 return {
                     apiName: 'CurrentDate',
@@ -81,7 +81,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             }
             return undefined;
         },
-        getGlobalVariable: id => {
+        getGlobalVariable: (id) => {
             if (id === '$System.OriginDateTime') {
                 return {
                     apiName: 'OriginDateTime',
@@ -115,7 +115,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
     return {
-        getFieldsForEntity: jest.fn().mockImplementation(entityName => {
+        getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
             if (entityName === 'Account') {
                 return mockAccountFields;
             } else if (entityName === 'User') {
@@ -126,14 +126,14 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             return undefined;
         }),
         getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
-        getEntity: jest.fn().mockImplementation(apiName => mockEntities.find(entity => entity.apiName === apiName))
+        getEntity: jest.fn().mockImplementation((apiName) => mockEntities.find((entity) => entity.apiName === apiName))
     };
 });
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+        getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation((flowName) => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
             }
@@ -146,7 +146,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     const flowExtensionMock = require('mock/flowExtensionsData');
     return {
         getCachedExtension: jest.fn().mockImplementation((name, dynamicTypeMappings) => {
-            let result = Object.values(flowExtensionMock).find(extension => extension.name === name);
+            let result = Object.values(flowExtensionMock).find((extension) => extension.name === name);
             if (name === 'c:lookup') {
                 // Run the actual function for <c:lookup/>
                 const applyDynamicTypeMappings = jest.requireActual('builder_platform_interaction/flowExtensionLib')
@@ -978,7 +978,7 @@ describe('Is text with merge fields validation', () => {
         }
     ];
 
-    validationTestData.forEach(testData => {
+    validationTestData.forEach((testData) => {
         it(`returns ${testData.result} for '${testData.value}'`, () => {
             expect(isTextWithMergeFields(testData.value)).toEqual(testData.result);
         });

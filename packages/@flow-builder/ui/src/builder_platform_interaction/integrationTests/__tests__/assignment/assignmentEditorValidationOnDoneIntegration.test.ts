@@ -14,7 +14,7 @@ import { updateElement } from 'builder_platform_interaction/actions';
 import { createRecordLookup } from 'builder_platform_interaction/elementFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
-const createComponentForTest = assignmentElement => {
+const createComponentForTest = (assignmentElement) => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
         is: AssignmentEditor
     });

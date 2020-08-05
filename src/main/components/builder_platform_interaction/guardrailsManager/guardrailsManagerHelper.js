@@ -5,14 +5,14 @@
  */
 
 ({
-    createGuardrailsPanel: function(cmp, isMinimized) {
+    createGuardrailsPanel: function (cmp, isMinimized) {
         if (!cmp.get('v.isCreatingPanel')) {
             $A.createComponent(
                 'analyzer_framework:badgeCount',
                 {
                     count: cmp.getReference('v.count')
                 },
-                function(badgeCount) {
+                function (badgeCount) {
                     if (badgeCount) {
                         $A.getEvt('markup://force:showDockingPanel')
                             .setParams({
@@ -31,7 +31,7 @@
                                     keyboardShortcut: 'GoToPrompt',
                                     loadMinimized: isMinimized
                                 },
-                                onCreate: $A.getCallback(function(guardrailsPanel) {
+                                onCreate: $A.getCallback(function (guardrailsPanel) {
                                     if (guardrailsPanel) {
                                         cmp.set('v.guardrailsPanel', guardrailsPanel);
                                         cmp.set('v.isCreatingPanel', false);
@@ -53,7 +53,7 @@
     /**
      * @return {boolean} whether there are any new reesults
      **/
-    processResults: function(cmp, report) {
+    processResults: function (cmp, report) {
         var prevResults = cmp.get('v.items');
         var newResults = this.guardrailsUtils.processReport(report);
         this.updateItems(cmp, newResults);
@@ -61,7 +61,7 @@
         return this.guardrailsUtils.hasNewResults(prevResults, newResults);
     },
 
-    updateItems: function(cmp, results, mute) {
+    updateItems: function (cmp, results, mute) {
         cmp.set('v.items', results);
         var count = results.length;
         cmp.set('v.count', count);

@@ -1,11 +1,9 @@
 ({
-    handleGuardrailResult: function(cmp, event) {
-        cmp.getEvent('guardrailsResult')
-            .setParams(event.getParams())
-            .fire();
+    handleGuardrailResult: function (cmp, event) {
+        cmp.getEvent('guardrailsResult').setParams(event.getParams()).fire();
     },
 
-    handleDebugToast: function(cmp, event, helper) {
+    handleDebugToast: function (cmp, event, helper) {
         var toastEvent = $A.get('e.force:showToast');
         var eventParams = event.getParams();
         toastEvent.setParams({

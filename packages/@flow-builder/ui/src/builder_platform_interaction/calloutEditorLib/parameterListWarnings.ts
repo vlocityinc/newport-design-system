@@ -23,13 +23,13 @@ import { MERGE_WARNING_TYPE } from './mergeWarningType';
  */
 export function getParameterListWarnings(inputAssignments, outputAssignments, labels) {
     const map = {};
-    inputAssignments.forEach(assignment => {
+    inputAssignments.forEach((assignment) => {
         const warning = getParameterItemWarning(assignment.warnings, labels);
         if (warning) {
             map[assignment.rowIndex] = warning;
         }
     });
-    outputAssignments.forEach(assignment => {
+    outputAssignments.forEach((assignment) => {
         const warning = getParameterItemWarning(assignment.warnings, labels);
         if (warning) {
             map[assignment.rowIndex] = warning;
@@ -53,7 +53,7 @@ export function getParameterItemWarning(warnings, labels) {
     let warningBadge;
     let hideIcon = false;
     let grayPill = false;
-    warnings.forEach(warning => {
+    warnings.forEach((warning) => {
         switch (warning) {
             case MERGE_WARNING_TYPE.NOT_AVAILABLE:
                 warningMessage = labels.warningNotAvailable;

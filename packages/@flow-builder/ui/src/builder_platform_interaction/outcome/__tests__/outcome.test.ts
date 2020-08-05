@@ -13,10 +13,7 @@ jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
 
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
-        getConditionsWithPrefixes: jest
-            .fn()
-            .mockName('getConditionsWithPrefixes')
-            .mockReturnValue([]),
+        getConditionsWithPrefixes: jest.fn().mockName('getConditionsWithPrefixes').mockReturnValue([]),
         showDeleteCondition: jest.fn().mockName('showDeleteCondition')
     };
 });
@@ -103,7 +100,7 @@ const createComponentUnderTest = () => {
     return el;
 };
 
-const onChangeExecuteWhenOptionEvent = outcomeExecuteWhenOption => {
+const onChangeExecuteWhenOptionEvent = (outcomeExecuteWhenOption) => {
     return new CustomEvent('change', {
         detail: {
             value: outcomeExecuteWhenOption

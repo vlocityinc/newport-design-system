@@ -10,7 +10,7 @@ import { labelComparator } from 'builder_platform_interaction/sortLib';
  */
 class ResourceDetailsParametersSubflowConfig extends ResourceDetailsParametersConfig {
     map() {
-        return rawParameter => {
+        return (rawParameter) => {
             if (!rawParameter) {
                 return {};
             }
@@ -29,10 +29,10 @@ class ResourceDetailsParametersSubflowConfig extends ResourceDetailsParametersCo
                 callback([], `No resource found for GUID: ${resourceGuid}`);
             } else {
                 fetchActiveOrLatestFlowOutputVariables(resource.flowName)
-                    .then(outputVariables => {
+                    .then((outputVariables) => {
                         callback(outputVariables.map(this.map()).sort(labelComparator));
                     })
-                    .catch(error => callback([], error));
+                    .catch((error) => callback([], error));
             }
         };
     }

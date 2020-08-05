@@ -206,7 +206,7 @@ export function getColumnFieldType() {
 export function getScreenFieldTypeByName(name) {
     name = name && name.toLowerCase();
     return [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes(), getColumnFieldType()].find(
-        type => type.name.toLowerCase() === name
+        (type) => type.name.toLowerCase() === name
     );
 }
 
@@ -461,7 +461,7 @@ export function getFerovTypeFromTypeName(type) {
         }
 
         for (const ferovType in FEROV_TYPES) {
-            if (FEROV_TYPES[ferovType].find(t => t === flowType)) {
+            if (FEROV_TYPES[ferovType].find((t) => t === flowType)) {
                 return ferovType;
             }
         }
@@ -488,7 +488,7 @@ export function getPlaceHolderLabel(fieldName) {
  */
 export function getFieldChoiceData(field) {
     if (field.choiceReferences && field.choiceReferences.length > 0) {
-        return field.choiceReferences.map(choice => {
+        return field.choiceReferences.map((choice) => {
             if (
                 choice &&
                 choice.choiceReference &&

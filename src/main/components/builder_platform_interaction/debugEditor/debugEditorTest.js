@@ -33,13 +33,13 @@
 
     browsers: ['GOOGLECHROME', 'FIREFOX', 'SAFARI'],
 
-    assertObjectEquals: function(obj1, obj2, assertionMessage) {
+    assertObjectEquals: function (obj1, obj2, assertionMessage) {
         return $A.test.assertEquals(JSON.stringify(obj1), JSON.stringify(obj2), assertionMessage);
     },
 
     /** Test Cases **/
     testDefaultOptions: {
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.assertTrue(
                 cmp.find('isRunLatestVersionBox').get('v.checked'),
                 'RunLatestVersion is checked by default'
@@ -75,7 +75,7 @@
     },
 
     testToggleCheckboxes: {
-        test: function(cmp) {
+        test: function (cmp) {
             cmp.find('isRunLatestVersionBox').set('v.checked', false);
             cmp.find('isShowDebugInfoBox').set('v.checked', false);
             cmp.find('isDebugAsUserAllowedBox').set('v.checked', true);
@@ -98,13 +98,13 @@
     },
 
     testDebugAsUserHelp: {
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     $A.test.assertEquals(
                         $A.get('$Label.FlowDebug.ShowDebugAsUserHelp'),
                         cmp.get('v.runAsHelptext'),
@@ -135,13 +135,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     $A.test.assertEquals(
                         $A.get('$Label.FlowDebug.ShowDebugAsUserDisabledHelp'),
                         cmp.get('v.runAsHelptext'),
@@ -172,13 +172,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     $A.test.assertEquals(
                         $A.get('$Label.FlowDebug.ShowDebugAsUserDisabledHelpInPrdOrg'),
                         cmp.get('v.runAsHelptext'),
@@ -275,13 +275,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 10, "Input variables don't show up");
                     // inputs[0] is aura$expression by default, so inputs.length = 10 means 9 input variables created correctly
@@ -322,13 +322,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 1, 'Output-only variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means no output-only variable cmp created
@@ -370,13 +370,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 1, 'Apex-defined variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means no apex-defined variable cmp created
@@ -417,13 +417,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 1, 'collection variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means no collection variable cmp created
@@ -464,13 +464,13 @@
                 ]
             }
         ],
-        test: function(cmp) {
+        test: function (cmp) {
             $A.test.addWaitFor(
                 false,
-                function() {
+                function () {
                     return $A.test.isActionPending('doInit');
                 },
-                function(cmp) {
+                function (cmp) {
                     var testString = 'Test inputs';
                     var testVar = cmp.find('flowInput').get('v.body')[1];
                     $A.test.assertUndefinedOrNull(testVar.set('v.value'), 'Input value should be empty initially');

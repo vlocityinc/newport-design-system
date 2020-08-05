@@ -141,7 +141,7 @@ export default class Canvas extends LightningElement {
      * Method to set up any new connections made within the canvas.
      * @param {object} connectorInfo - Contains all the information about the new connector
      */
-    connectionAdded = connectorInfo => {
+    connectionAdded = (connectorInfo) => {
         const addConnectionEvent = new AddConnectionEvent(connectorInfo.sourceId, connectorInfo.targetId);
         this.dispatchEvent(addConnectionEvent);
     };
@@ -169,7 +169,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse enter event
      */
-    handleCanvasMouseEnter = event => {
+    handleCanvasMouseEnter = (event) => {
         if (!this.isMarqueeModeOn && (event.buttons === 1 || event.buttons === 3) && this.shouldPanOnEnter) {
             this._initPanStart(event);
         }
@@ -191,7 +191,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse down event
      */
-    handleCanvasMouseDown = event => {
+    handleCanvasMouseDown = (event) => {
         if (!this.isMarqueeModeOn) {
             this._initPanStart(event);
         }
@@ -202,7 +202,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse move event
      */
-    handleCanvasMouseMove = event => {
+    handleCanvasMouseMove = (event) => {
         if (this.isCanvasMouseDown) {
             this.isPanInProgress = true;
 
@@ -232,7 +232,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse up event
      */
-    handleCanvasMouseUp = event => {
+    handleCanvasMouseUp = (event) => {
         this.canvasArea.focus();
 
         // We need the this.isPanInProgress check here so that we don't deselect elements when the user ends panning
@@ -274,7 +274,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {Object} event drag over event
      */
-    handleDragOver = event => {
+    handleDragOver = (event) => {
         event.preventDefault();
         // NOTE: For security reasons, we don't have access to data in the dataTransfer object in
         // the drag over event. This prevents things like dom elements from other namespaces from
@@ -287,7 +287,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {Object} event drop event
      */
-    handleDrop = event => {
+    handleDrop = (event) => {
         event.preventDefault();
         const { elementType, elementSubtype, actionType, actionName } = JSON.parse(event.dataTransfer.getData('text'));
         if (!isCanvasElement(elementType)) {
@@ -314,7 +314,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse enter event
      */
-    handleOverlayMouseEnter = event => {
+    handleOverlayMouseEnter = (event) => {
         event.stopPropagation();
         if (event.buttons === 1 || event.buttons === 3) {
             this._initMarqueeBox(event);
@@ -327,7 +327,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse leave event
      */
-    handleOverlayMouseLeave = event => {
+    handleOverlayMouseLeave = (event) => {
         event.stopPropagation();
         if (this.isMarqueeInProgress) {
             this._clearMarqueeBox();
@@ -339,7 +339,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse down event
      */
-    handleOverlayMouseDown = event => {
+    handleOverlayMouseDown = (event) => {
         event.stopPropagation();
         this._initMarqueeBox(event);
     };
@@ -349,7 +349,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse move event
      */
-    handleOverlayMouseMove = event => {
+    handleOverlayMouseMove = (event) => {
         event.stopPropagation();
         if (this.isOverlayMouseDown) {
             this.marqueeEndPoint = this._getMousePoint(event);
@@ -396,7 +396,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - mouse up event
      */
-    handleOverlayMouseUp = event => {
+    handleOverlayMouseUp = (event) => {
         event.stopPropagation();
         this._clearMarqueeBox();
     };
@@ -406,7 +406,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - context menu event
      */
-    handleOverlayContextMenu = event => {
+    handleOverlayContextMenu = (event) => {
         event.stopPropagation();
         this._clearMarqueeBox();
     };
@@ -423,7 +423,7 @@ export default class Canvas extends LightningElement {
      *
      * @param {object} event - click to zoom event coming from zoom-panel.js
      */
-    handleZoom = event => {
+    handleZoom = (event) => {
         if (event && event.detail.action && canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)) {
             const action = event.detail.action;
             this._canvasZoom(action);
@@ -444,7 +444,7 @@ export default class Canvas extends LightningElement {
      * @param {String} cursorStyle - new cursor style
      * @private
      */
-    _updateCursorStyling = cursorStyle => {
+    _updateCursorStyling = (cursorStyle) => {
         if (cursorStyle === CURSOR_STYLE_GRAB) {
             this.canvasArea.classList.remove('grabbing', 'crosshair');
             this.canvasArea.classList.add('grab');
@@ -463,7 +463,7 @@ export default class Canvas extends LightningElement {
      * @param {Object} event - event coming from handleCanvasMouseMove, handleOverlayMouseMove, _initPanStart and _initMarqueeBox
      * @private
      */
-    _getMousePoint = event => {
+    _getMousePoint = (event) => {
         const mousePointX = event && event.clientX - this.canvasAreaOffsets[0];
         const mousePointY = event && event.clientY - this.canvasAreaOffsets[1];
 
@@ -508,7 +508,7 @@ export default class Canvas extends LightningElement {
      * @param {Object} event - event coming from handleCanvasMouseEnter and handleCanvasMouseDown
      * @private
      */
-    _initPanStart = event => {
+    _initPanStart = (event) => {
         this.isCanvasMouseDown = true;
         this._updateCursorStyling(CURSOR_STYLE_GRABBING);
 
@@ -537,7 +537,7 @@ export default class Canvas extends LightningElement {
      * @param {String} action - Marquee action coming from handleMarqueeOn or _clearMarqueeBox
      * @private
      */
-    _toggleMarqueeMode = action => {
+    _toggleMarqueeMode = (action) => {
         if (action === MARQUEE_ACTION.MARQUEE_ON) {
             // Enabling marquee mode
             this.isMarqueeModeOn = true;
@@ -556,7 +556,7 @@ export default class Canvas extends LightningElement {
      * @param {Object} event - event coming from handleOverlayMouseEnter and handleOverlayMouseDown
      * @private
      */
-    _initMarqueeBox = event => {
+    _initMarqueeBox = (event) => {
         this.isOverlayMouseDown = true;
         this._updateCursorStyling(CURSOR_STYLE_CROSSHAIR);
         const { viewportCenterPoint } = this._getViewportDimensions();
@@ -595,7 +595,7 @@ export default class Canvas extends LightningElement {
      * @param {String} action - Zoom action coming from handleZoom
      * @private
      */
-    _canvasZoom = action => {
+    _canvasZoom = (action) => {
         const viewportAndOffsetConfig = {
             viewportDimensions: this._getViewportDimensions(),
             centerOffsets: [
@@ -701,7 +701,7 @@ export default class Canvas extends LightningElement {
      */
     @api
     panElementToViewIfNeeded = (canvasElementGuid = '') => {
-        const searchedElementArray = this.nodes.filter(node => node.guid === canvasElementGuid);
+        const searchedElementArray = this.nodes.filter((node) => node.guid === canvasElementGuid);
 
         if (searchedElementArray && searchedElementArray.length === 1) {
             const searchedElement = searchedElementArray[0];
@@ -740,7 +740,7 @@ export default class Canvas extends LightningElement {
 
     setupCommandsAndShortcuts = () => {
         // Delete Nodes Command
-        const deleteNodesCommand = new DeleteNodesCommand(event => this.handleDeleteNodes(event));
+        const deleteNodesCommand = new DeleteNodesCommand((event) => this.handleDeleteNodes(event));
         this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
             key: 'Delete'
         });

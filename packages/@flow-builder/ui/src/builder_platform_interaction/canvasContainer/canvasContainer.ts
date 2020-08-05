@@ -85,7 +85,7 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - node clicked event coming from node.js
      */
-    handleCanvasElementSelection = event => {
+    handleCanvasElementSelection = (event) => {
         if (event && event.detail) {
             const payload = {
                 guid: event.detail.canvasElementGUID
@@ -101,7 +101,7 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - connection clicked event coming from canvas.js
      */
-    handleConnectorSelection = event => {
+    handleConnectorSelection = (event) => {
         if (event && event.detail) {
             const payload = {
                 guid: event.detail.connectorGUID
@@ -115,7 +115,7 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - node stop event coming from node.js
      */
-    handleCanvasElementMove = event => {
+    handleCanvasElementMove = (event) => {
         if (event && event.detail && event.detail.dragSelection) {
             const payload = [];
             for (let i = 0; i < event.detail.dragSelection.length; i++) {
@@ -140,7 +140,7 @@ export default class CanvasContainer extends LightningElement {
         storeInstance.dispatch(deselectOnCanvas);
     };
 
-    handleAddConnector = event => {
+    handleAddConnector = (event) => {
         if (event && event.detail) {
             const { sourceGuid, targetGuid } = event.detail;
             if (sourceGuid && targetGuid) {
@@ -163,7 +163,7 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - marquee select event coming from canvas.js
      */
-    handleMarqueeSelection = event => {
+    handleMarqueeSelection = (event) => {
         if (event && event.detail) {
             const payload = {
                 canvasElementGuidsToSelect: event.detail.canvasElementGuidsToSelect,
@@ -175,7 +175,7 @@ export default class CanvasContainer extends LightningElement {
         }
     };
 
-    handleCanvasClick = event => {
+    handleCanvasClick = (event) => {
         event.stopPropagation();
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);

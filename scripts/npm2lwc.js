@@ -72,7 +72,7 @@ function npm2lwc(npmPackagesPath, coreModulePath, options) {
     }
 
     // Build out map from npm package name to LWC equivalent
-    foundPkgs.forEach(pkgPath => {
+    foundPkgs.forEach((pkgPath) => {
         const packageJson = require(resolve(pkgPath, 'package.json'));
         const npm2lwcConfig = packageJson.npm2lwc;
         if (npm2lwcConfig) {
@@ -85,7 +85,7 @@ function npm2lwc(npmPackagesPath, coreModulePath, options) {
         }
     });
 
-    foundPkgs.forEach(pkgPath => {
+    foundPkgs.forEach((pkgPath) => {
         const npm2lwcConfig = require(resolve(pkgPath, 'package.json')).npm2lwc;
         if (npm2lwcConfig) {
             const pkg = relative(npmPackagesPath, pkgPath);
@@ -157,11 +157,13 @@ function exportPackageToLwcModule(packageRootPath, pkg, modulesPath, npm2lwcName
 function transpileTs(fullSourcePath, modulePath) {
     const babelOptions = {
         babelrc: false,
-        plugins: [[babelTsPlugin, { allowDeclareFields: true }]],
+        plugins: [[babelTsPlugin, { allowDeclareFields: true, onlyRemoveTypeImports: true }]],
+
         parserOpts: {
             plugins: [
-                ['decorators', { decoratorsBeforeExport: true }],
-                ['classProperties', {}]
+                ['classProperties', {}],
+                //   ['classPrivateProperties', {}],
+                ['decorators', { decoratorsBeforeExport: true }]
             ]
         }
     };
@@ -207,7 +209,7 @@ function mvUiModule(src, dest, options) {
 
         copySync(sourcePath, dest, {
             // TODO: remove this hardcoded filter
-            filter: src => {
+            filter: (src) => {
                 if (src.endsWith('.ts')) {
                     const relativePath = relative(sourcePath, src);
                     let modulePath = resolve(dest, relativePath);

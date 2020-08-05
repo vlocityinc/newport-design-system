@@ -39,7 +39,7 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
         storeOutputAutomatically
     } = recordCreate;
     let { inputAssignments = [], availableConnections = getDefaultAvailableConnections() } = recordCreate;
-    availableConnections = availableConnections.map(availableConnection =>
+    availableConnections = availableConnections.map((availableConnection) =>
         createAvailableConnection(availableConnection)
     );
 
@@ -48,7 +48,7 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
 
     let recordCreateObject;
     if (object) {
-        inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
+        inputAssignments = inputAssignments.map((item) => createFlowInputFieldAssignment(item, object));
 
         recordCreateObject = Object.assign(newRecordCreate, {
             object,
@@ -174,7 +174,7 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
     if (getFirstRecordOnly && recordCreate.object !== '') {
         const { assignRecordIdToReference } = recordCreate;
         let { inputAssignments = [] } = recordCreate;
-        inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
+        inputAssignments = inputAssignments.map((input) => createFlowInputFieldAssignmentMetadataObject(input));
 
         inputAssignments = createEmptyAssignmentMetadata(inputAssignments);
 

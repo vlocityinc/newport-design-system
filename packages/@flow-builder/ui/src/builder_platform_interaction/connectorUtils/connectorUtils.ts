@@ -32,11 +32,11 @@ export const getFlowLocations = (locations, item) => {
  * @param {Array} canvasElements      Canvas Elements
  * @return {Object} flowBounds        Contains flow bounds and flowWidth and flowHeight
  */
-export const getFlowBounds = canvasElements => {
+export const getFlowBounds = (canvasElements) => {
     // Getting the minimum and maximum coordinates of the flow along with flow width and height
     const flowBounds = {};
 
-    canvasElements.forEach(element => {
+    canvasElements.forEach((element) => {
         getFlowLocations(flowBounds, element);
     });
 
@@ -89,7 +89,7 @@ export const createConnectorObject = (source, childSource, target, label, type) 
  * @returns {Array} availableConnections    updated list of available connections
  */
 export const removeFromAvailableConnections = (availableConnections, connectors = []) => {
-    availableConnections = availableConnections.filter(connection => {
+    availableConnections = availableConnections.filter((connection) => {
         let removeConnection = false;
         for (let i = 0; i < connectors.length; i++) {
             // Remove from the list of available connections if the connection type matches the connector type,
@@ -137,7 +137,7 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         // push it at the end if the option exists in comboboxOptions
         const defaultOutcomeComboboxOption = {};
         for (let i = 0; i < sourceElement.childReferences.length; i++) {
-            comboboxOptions.map(option => {
+            comboboxOptions.map((option) => {
                 if (option.value === sourceElement.childReferences[i].childReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
@@ -163,7 +163,7 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         const defaultPathComboboxOption = {};
         const faultComboboxOption = {};
         for (let i = 0; i < sourceElement.childReferences.length; i++) {
-            comboboxOptions.forEach(option => {
+            comboboxOptions.forEach((option) => {
                 if (option.value === sourceElement.childReferences[i].childReference) {
                     sortedComboboxOptions.push(option);
                 } else if (

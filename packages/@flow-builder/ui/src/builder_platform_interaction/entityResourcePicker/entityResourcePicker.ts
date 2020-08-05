@@ -149,7 +149,7 @@ export default class EntityResourcePicker extends LightningElement {
             this._state.displayText = null;
         } else {
             this._state.item = this._fullEntityMenuData
-                ? this._fullEntityMenuData.find(item => item.value === itemOrDisplayText)
+                ? this._fullEntityMenuData.find((item) => item.value === itemOrDisplayText)
                 : null;
             this._state.displayText = this._state.item ? null : itemOrDisplayText;
         }
@@ -212,7 +212,7 @@ export default class EntityResourcePicker extends LightningElement {
     // this may go away if combobox eventually does this work
     _initializeItemFromDisplayText() {
         if (this._fullEntityMenuData && !this._state.item && this._state.displayText) {
-            const item = this._fullEntityMenuData.find(menuItem => menuItem.value === this._state.displayText);
+            const item = this._fullEntityMenuData.find((menuItem) => menuItem.value === this._state.displayText);
             if (item) {
                 this._state.item = item;
                 this._state.displayText = null;

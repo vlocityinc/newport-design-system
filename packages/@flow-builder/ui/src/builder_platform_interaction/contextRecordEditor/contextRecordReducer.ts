@@ -45,7 +45,7 @@ const emptyFilterItem = () => {
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetFilters = state => {
+const resetFilters = (state) => {
     // reset filters: create one empty filter item
     return set(state, PROPS.filters, [emptyFilterItem()]);
 };
@@ -55,7 +55,7 @@ const resetFilters = state => {
  * @param {Object} state - current element state
  * @returns {Object} updated state
  */
-const resetSubSections = state => {
+const resetSubSections = (state) => {
     // reset filters & filterLogic
     state = updateProperties(state, {
         [PROPS.filterLogic]: { value: CONDITION_LOGIC.AND, error: null }
@@ -63,7 +63,7 @@ const resetSubSections = state => {
     return resetFilters(state);
 };
 
-const addRecordFilter = state => {
+const addRecordFilter = (state) => {
     const path = [PROPS.filters, state.filters.length];
     return set(state, path, emptyFilterItem());
 };

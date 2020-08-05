@@ -105,7 +105,7 @@ export class Store {
             currentState = readonly(currentState);
         }
         // once state is changes, executing all the listeners
-        currentListeners.forEach(listener => {
+        currentListeners.forEach((listener) => {
             listener();
         });
     }

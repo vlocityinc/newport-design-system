@@ -9,7 +9,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByDevName: jest.fn(name => {
+        getElementByDevName: jest.fn((name) => {
             const outcome = {
                 guid: 'a8368340-a386-4406-9118-02389237ad54',
                 name: 'outcome',
@@ -30,7 +30,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             };
             return name !== 'outcome' ? { guid: '1' } : outcome;
         }),
-        getElementByGuid: jest.fn(guid => {
+        getElementByGuid: jest.fn((guid) => {
             const decision = {
                 guid: 'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
                 name: 'decision',

@@ -51,7 +51,7 @@ export const multiComparator = (comparators: Comparator[]): Comparator => {
 
     return (a, b) => {
         let result = 0;
-        comparators.some(comparator => {
+        comparators.some((comparator) => {
             result = comparator(a, b);
             return result !== 0;
         });

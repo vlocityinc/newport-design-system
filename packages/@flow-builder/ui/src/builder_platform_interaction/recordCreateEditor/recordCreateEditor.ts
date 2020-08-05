@@ -180,7 +180,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     get recordFieldsToCreate() {
         return Object.keys(this.state.entityFields)
-            .filter(key => this.state.entityFields[key].creatable)
+            .filter((key) => this.state.entityFields[key].creatable)
             .reduce((obj, key) => {
                 obj[key] = this.state.entityFields[key];
                 return obj;
@@ -194,7 +194,7 @@ export default class RecordCreateEditor extends LightningElement {
         this.state.entityFields = {};
         if (this.state.recordEntityName) {
             fetchFieldsForEntity(this.state.recordEntityName)
-                .then(fields => {
+                .then((fields) => {
                     this.state.entityFields = fields;
                 })
                 .catch(() => {
@@ -204,7 +204,9 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     resourceDisplayText() {
-        const entityToDisplay = getCreateableEntities().find(entity => entity.apiName === this.state.recordEntityName);
+        const entityToDisplay = getCreateableEntities().find(
+            (entity) => entity.apiName === this.state.recordEntityName
+        );
         if (entityToDisplay) {
             this.state.resourceDisplayText = entityToDisplay.entityLabel;
         }

@@ -37,7 +37,7 @@ const MAX_CONNECTIONS_DEFAULT = 2;
  * @param {String} eventTypeName event type name
  * @returns {Boolean} true if event type is a wait time event type, false otherwise
  */
-export const isWaitTimeEventType = eventTypeName => {
+export const isWaitTimeEventType = (eventTypeName) => {
     return Object.values(WAIT_TIME_EVENT_TYPE).includes(eventTypeName);
 };
 
@@ -45,7 +45,7 @@ export const isWaitTimeEventType = eventTypeName => {
  * Returns the event parameter type field name. 'inputParameters' or 'outputParameters'
  * @param {Boolean} isInputParameter whether input or output param, true for input.
  */
-export const getParametersPropertyName = isInputParameter => {
+export const getParametersPropertyName = (isInputParameter) => {
     return isInputParameter ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
 };
 
@@ -54,9 +54,9 @@ export const getParametersPropertyName = isInputParameter => {
  * @param {Object} parameters object of parameters
  * @returns {Object[]} list of metadata parameters
  */
-const outputParameterMapToArray = parameters => {
+const outputParameterMapToArray = (parameters) => {
     // filter parameter with empty values
-    const filterEmptyValueParams = paramName => {
+    const filterEmptyValueParams = (paramName) => {
         const parameter = parameters[paramName];
         if (parameter) {
             const value = parameter.value;
@@ -64,12 +64,10 @@ const outputParameterMapToArray = parameters => {
         }
         return false;
     };
-    const mapToArray = paramName => {
+    const mapToArray = (paramName) => {
         return createOutputParameterMetadataObject(parameters[paramName]);
     };
-    return Object.keys(parameters)
-        .filter(filterEmptyValueParams)
-        .map(mapToArray);
+    return Object.keys(parameters).filter(filterEmptyValueParams).map(mapToArray);
 };
 
 /**
@@ -88,8 +86,8 @@ const getAdditionalParameters = (eventType, parameters, isInput = false) => {
     // for wait time event type filter and return the additional params for both input and output params
     if (isWaitTimeEventType(eventType)) {
         return WAIT_TIME_EVENT_FIELDS[eventType][paramType]
-            .filter(paramName => !existingParameterNames[paramName])
-            .map(paramName => {
+            .filter((paramName) => !existingParameterNames[paramName])
+            .map((paramName) => {
                 return { name: paramName };
             });
         // for platform event additional params needed only for output parameters, since input parameters is a condition list
@@ -108,7 +106,7 @@ const getAdditionalParameters = (eventType, parameters, isInput = false) => {
  */
 export const createWaitEventInputParameters = (eventType, inputParameters = []) => {
     const additionalInputParameters = getAdditionalParameters(eventType, inputParameters, true);
-    return [...inputParameters, ...additionalInputParameters].map(inputParameter => {
+    return [...inputParameters, ...additionalInputParameters].map((inputParameter) => {
         return createInputParameter(inputParameter);
     });
 };
@@ -179,7 +177,7 @@ export function createWaitWithWaitEvents(wait = {}) {
 
     if (childReferences && childReferences.length > 0) {
         // Decouple waitEvent from store.
-        waitEvents = childReferences.map(childReference =>
+        waitEvents = childReferences.map((childReference) =>
             createWaitEvent(getElementByGuid(childReference.childReference))
         );
     } else {
@@ -315,7 +313,7 @@ export function createWaitEvent(waitEvent = {}) {
     } = waitEvent;
 
     if (conditions.length > 0 && conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
-        conditions = conditions.map(condition => createCondition(condition));
+        conditions = conditions.map((condition) => createCondition(condition));
     } else {
         // wait events from metadata have NO CONDITIONS as condition logic even when they have no conditions
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
@@ -358,10 +356,10 @@ export function createWaitMetadataObject(wait, config = {}) {
                 conditions = [];
                 conditionLogic = CONDITION_LOGIC.AND;
             } else {
-                conditions = conditions.map(condition => createConditionMetadataObject(condition));
+                conditions = conditions.map((condition) => createConditionMetadataObject(condition));
             }
 
-            inputParameters = inputParameters.map(inputParameter => {
+            inputParameters = inputParameters.map((inputParameter) => {
                 return createInputParameterMetadataObject(inputParameter);
             });
 
@@ -410,7 +408,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         wait,
         newWaitEvents
     );
-    const deletedWaitEventGuids = deletedWaitEvents.map(waitEvent => waitEvent.guid);
+    const deletedWaitEventGuids = deletedWaitEvents.map((waitEvent) => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
 
@@ -592,11 +590,11 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
     let waitEventReferencesFromStore;
     if (waitFromStore) {
         waitEventReferencesFromStore = waitFromStore.childReferences.map(
-            childReference => childReference.childReference
+            (childReference) => childReference.childReference
         );
     }
 
-    const newWaitEventGuids = newWaitEvents.map(newWaitEvent => newWaitEvent.guid);
+    const newWaitEventGuids = newWaitEvents.map((newWaitEvent) => newWaitEvent.guid);
 
     // Initializing the new children array
     const newChildren = new Array(newWaitEventGuids.length + 1).fill(null);
@@ -605,10 +603,10 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
 
     if (waitEventReferencesFromStore) {
         deletedWaitEvents = waitEventReferencesFromStore
-            .filter(waitEventReferenceGuid => {
+            .filter((waitEventReferenceGuid) => {
                 return !newWaitEventGuids.includes(waitEventReferenceGuid);
             })
-            .map(childReference => getElementByGuid(childReference));
+            .map((childReference) => getElementByGuid(childReference));
 
         if (shouldUseAutoLayoutCanvas()) {
             // For wait events that previously existed, finding the associated children

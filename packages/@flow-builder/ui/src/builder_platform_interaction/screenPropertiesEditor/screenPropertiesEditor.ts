@@ -26,7 +26,7 @@ export default class ScreenPropertiesEditor extends LightningElement {
 
     // Refire the event including the old value.
     // This function only handles changes from the label-description component, not the rest of the properties
-    handlePropertyChanged = event => {
+    handlePropertyChanged = (event) => {
         event.stopPropagation();
         const property = event.detail.propertyName;
         const error = event.detail.error;

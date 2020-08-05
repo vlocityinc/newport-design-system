@@ -171,7 +171,7 @@ export const formatDateTime = (literal, isDateTime = false) => {
  * @param {Date} datetime to format
  * @returns {String} datetime text in user's locale format.
  */
-export const formatDateTimeUTC = date => {
+export const formatDateTimeUTC = (date) => {
     return getLocalizationService().formatDateTimeUTC(date);
 };
 
@@ -182,6 +182,6 @@ export const formatDateTimeUTC = date => {
  * @returns {String} text containing the abbreviated version of the day of the week, according to the
  * user's locale format.
  */
-export const getDayOfTheWeek = date => {
+export const getDayOfTheWeek = (date) => {
     return getLocalizationService().formatDateTimeUTC(date, 'EEE');
 };

@@ -42,7 +42,7 @@ export default class ScreenEditorCanvas extends LightningElement {
         return this.selectedItemGuid === CANVAS_SCREEN_GUIDS.FOOTER_GUID;
     }
 
-    handleOnClick = event => {
+    handleOnClick = (event) => {
         const selected = this.getSelectedElement();
         this.dispatchEvent(createScreenElementDeselectedEvent(selected));
         event.stopPropagation();

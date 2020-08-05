@@ -129,7 +129,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         return (
             this.state.dynamicTypeMappings &&
             !!this.state.dynamicTypeMappings.find(
-                dynamicTypeMapping => !dynamicTypeMapping.value || dynamicTypeMapping.comboboxConfig.errorMessage
+                (dynamicTypeMapping) => !dynamicTypeMapping.value || dynamicTypeMapping.comboboxConfig.errorMessage
             )
         );
     }
@@ -176,7 +176,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         if (this._field && this._field.inputParameters && this._shouldCreateConfigurationEditor()) {
             const inputParameters = this._field.inputParameters
                 .filter(({ value }) => !!value)
-                .map(inputParameter => createInputParameter(inputParameter));
+                .map((inputParameter) => createInputParameter(inputParameter));
             dehydrate(inputParameters);
             swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
             return inputParameters.map(({ name, value, valueDataType }) => ({
@@ -298,7 +298,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      */
     handleDynamicTypeMappingChange(event) {
         const rowIndex = event.target.rowIndex;
-        const dynamicTypeMapping = this.state.dynamicTypeMappings.find(value => value.rowIndex === rowIndex);
+        const dynamicTypeMapping = this.state.dynamicTypeMappings.find((value) => value.rowIndex === rowIndex);
         this.dispatchEvent(
             new DynamicTypeMappingChangeEvent({
                 typeName: getValueFromHydratedItem(dynamicTypeMapping.name),

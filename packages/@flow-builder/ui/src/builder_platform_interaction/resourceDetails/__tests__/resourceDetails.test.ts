@@ -27,7 +27,7 @@ jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
 }));
 
-const createComponentUnderTest = details => {
+const createComponentUnderTest = (details) => {
     const el = createElement('builder_platform_interaction-resource-details', {
         is: ResourceDetails
     });
@@ -65,10 +65,10 @@ const SELECTORS = {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const getApiNameLineTextContent = resourceDetailsComponent =>
+const getApiNameLineTextContent = (resourceDetailsComponent) =>
     Array.from(resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.detailsSectionLi))
-        .map(li => li.textContent)
-        .find(textContent => textContent && textContent.includes('uniqueName'));
+        .map((li) => li.textContent)
+        .find((textContent) => textContent && textContent.includes('uniqueName'));
 
 describe('Resource Details', () => {
     describe('For elements', () => {

@@ -24,7 +24,7 @@ const selectors = {
     fieldPicker: 'builder_platform_interaction-field-picker'
 };
 
-const getFieldPicker = recordFieldPickerRow => {
+const getFieldPicker = (recordFieldPickerRow) => {
     return recordFieldPickerRow.shadowRoot.querySelector(selectors.fieldPicker);
 };
 
@@ -119,7 +119,7 @@ describe('record-field-picker-row', () => {
             const fields = Object.keys(fieldPicker.fields);
             expect(fieldPicker.value).toEqual('Description');
             expect(fields).toHaveLength(Object.keys(accountFields).length - queriedFields.length);
-            expect(fields.some(item => ['Fax', 'Name', 'Id'].indexOf(item.text) >= 0)).toBe(false);
+            expect(fields.some((item) => ['Fax', 'Name', 'Id'].indexOf(item.text) >= 0)).toBe(false);
         });
     });
     describe('handling value change event from combobox', () => {

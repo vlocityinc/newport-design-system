@@ -59,14 +59,14 @@ export const VALIDATE_ALL = 'VALIDATE_ALL';
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldNotBeBlank = value => evaluateRegex(regexConfig.shouldNotBeBlank, value);
+export const shouldNotBeBlank = (value) => evaluateRegex(regexConfig.shouldNotBeBlank, value);
 
 /**
  * Function to test the value should not begin or end with underscore
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldNotBeginOrEndWithUnderscores = value =>
+export const shouldNotBeginOrEndWithUnderscores = (value) =>
     evaluateRegex(regexConfig.shouldNotBeginOrEndWithUnderscores, value);
 
 /**
@@ -74,7 +74,7 @@ export const shouldNotBeginOrEndWithUnderscores = value =>
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldNotBeginWithNumericOrSpecialCharacters = value =>
+export const shouldNotBeginWithNumericOrSpecialCharacters = (value) =>
     evaluateRegex(regexConfig.shouldNotBeginWithNumericOrSpecialCharacters, value);
 
 /**
@@ -82,7 +82,7 @@ export const shouldNotBeginWithNumericOrSpecialCharacters = value =>
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldAcceptOnlyAlphanumericCharacters = value =>
+export const shouldAcceptOnlyAlphanumericCharacters = (value) =>
     evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericCharacters, value);
 
 /**
@@ -90,14 +90,15 @@ export const shouldAcceptOnlyAlphanumericCharacters = value =>
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeAPositiveIntegerOrZero = value => evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
+export const shouldBeAPositiveIntegerOrZero = (value) =>
+    evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
 
 /**
  * Function to test the value is a valid date
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeADate = value => {
+export const shouldBeADate = (value) => {
     if (!value) {
         return null;
     }
@@ -114,7 +115,7 @@ export const shouldBeADate = value => {
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeADateTime = value => {
+export const shouldBeADateTime = (value) => {
     if (!value) {
         return null;
     }
@@ -131,8 +132,8 @@ export const shouldBeADateTime = value => {
  * @param {string} maxLimit - max value allowed
  * @returns {string|null} errorString or null
  */
-export const shouldBeUnderMaxValue = maxLimit => {
-    return function(value) {
+export const shouldBeUnderMaxValue = (maxLimit) => {
+    return function (value) {
         if (isNaN(value)) {
             return LABELS.shouldBeAPositiveIntegerOrZero;
         } else if (value > maxLimit) {
@@ -147,7 +148,7 @@ export const shouldBeUnderMaxValue = maxLimit => {
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeANumber = value => {
+export const shouldBeANumber = (value) => {
     if (isNaN(Number(value))) {
         return LABELS.mustBeAValidNumber;
     }
@@ -160,7 +161,7 @@ export const shouldBeANumber = value => {
  * @param {String} value the value to be tested
  * @returns {String|null} errorString or null
  */
-export const shouldNotBeNullOrUndefined = value => {
+export const shouldNotBeNullOrUndefined = (value) => {
     if (isUndefinedOrNull(value)) {
         return cannotBeBlankError;
     }
@@ -173,8 +174,8 @@ export const shouldNotBeNullOrUndefined = value => {
  * @param {number} limit - maximum number of characters possible in value
  * @returns {string|null} errorString or null
  */
-export const maximumCharactersLimit = limit => {
-    return function(value) {
+export const maximumCharactersLimit = (limit) => {
+    return function (value) {
         if (value && value.length > limit) {
             return format(LABELS.maximumCharactersLimit, limit);
         }
@@ -188,7 +189,7 @@ export const maximumCharactersLimit = limit => {
  * @returns {string|null} errorString or null
  */
 export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
-    return function(value) {
+    return function (value) {
         if (value !== '') {
             value = Number(value);
             if (value < rangeMinimum || value > rangeMaximum) {
@@ -203,8 +204,8 @@ export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
  * Run validation on LHS of an expression
  * @param {String} rowIndex the index(guid) of the expression
  */
-export const lhsShouldBeValid = rowIndex => {
-    return function() {
+export const lhsShouldBeValid = (rowIndex) => {
+    return function () {
         return validateLHS(rowIndex);
     };
 };
@@ -213,8 +214,8 @@ export const lhsShouldBeValid = rowIndex => {
  * Run validation on RHS of an expression
  * @param {String} rowIndex the index(guid) of the expression
  */
-export const rhsShouldBeValid = rowIndex => {
-    return function() {
+export const rhsShouldBeValid = (rowIndex) => {
+    return function () {
         return validateRHS(rowIndex);
     };
 };
@@ -223,8 +224,8 @@ export const rhsShouldBeValid = rowIndex => {
  * Run validation on a resource picker
  * @param {String} rowIndex the index(guid) of the picker
  */
-export const validateResourcePicker = rowIndex => {
-    return function() {
+export const validateResourcePicker = (rowIndex) => {
+    return function () {
         return validatePicker(rowIndex);
     };
 };
@@ -235,7 +236,7 @@ export const validateResourcePicker = rowIndex => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith3Properties = () => {
-    return expression => {
+    return (expression) => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
         };
@@ -258,7 +259,7 @@ export const validateExpressionWith3Properties = () => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith3PropertiesWithNoEmptyRHS = () => {
-    return expression => {
+    return (expression) => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
         };
@@ -281,7 +282,7 @@ export const validateExpressionWith3PropertiesWithNoEmptyRHS = () => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith2Properties = () => {
-    return expression => {
+    return (expression) => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
         };
@@ -303,7 +304,7 @@ export const validateExpressionWith2Properties = () => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
-    return expression => {
+    return (expression) => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank],
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: []
@@ -362,8 +363,8 @@ export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToS
  * @param {Object} options list of options to provide to merge field validation
  * @returns {Function} function that accepts the text to be validated. Returns an error from validation operation
  */
-export const isValidTextWithMergeFields = options => {
-    return text => {
+export const isValidTextWithMergeFields = (options) => {
+    return (text) => {
         const errors = validateTextWithMergeFields(text, options);
         return errors.length > 0 ? errors[0].message : null;
     };
@@ -373,7 +374,7 @@ export const isValidTextWithMergeFields = options => {
  * Validates that the text inside a resourced text area is valid
  * @param {String} text the text to validate
  */
-export const isValidResourcedTextArea = text => {
+export const isValidResourcedTextArea = (text) => {
     return isValidTextWithMergeFields({
         allowGlobalConstants: false,
         allowCollectionVariables: true

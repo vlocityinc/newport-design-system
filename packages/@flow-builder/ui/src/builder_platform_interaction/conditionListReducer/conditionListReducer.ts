@@ -55,7 +55,7 @@ const deleteCondition = (conditionList, event) => {
  * @param {*} conditionList - The condition list data
  * @param {*} event - The AddConditionEvent
  */
-const addCondition = conditionList => {
+const addCondition = (conditionList) => {
     const newCondition = hydrateWithErrors(createCondition());
     return updateProperties(conditionList, {
         conditions: addItem(conditionList.conditions, newCondition)

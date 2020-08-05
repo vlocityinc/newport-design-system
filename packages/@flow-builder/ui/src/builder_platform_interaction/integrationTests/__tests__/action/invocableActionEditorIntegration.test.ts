@@ -429,7 +429,7 @@ describe('Invocable Action Editor', () => {
                         expect(numberParameterItems).toHaveLength(2);
                     });
                     it('show delete button', () => {
-                        numberParameterItems.forEach(item => {
+                        numberParameterItems.forEach((item) => {
                             const deleteBtn = getDeleteButton(item);
                             expect(deleteBtn.iconName).toEqual('utility:delete');
                         });
@@ -686,7 +686,7 @@ describe('Invocable Action Editor', () => {
                         expect(numberParameterItems).toHaveLength(2);
                     });
                     it('show delete button', () => {
-                        numberParameterItems.forEach(item => {
+                        numberParameterItems.forEach((item) => {
                             const deleteBtn = getDeleteButton(item);
                             expect(deleteBtn.iconName).toEqual('utility:delete');
                         });

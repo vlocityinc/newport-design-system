@@ -315,7 +315,7 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
     // otherwise all the other branches must terminals
     if (
         branchingElement.children.findIndex(
-            child => child != null && !(elements[child] as BranchHeadNodeModel).isTerminal
+            (child) => child != null && !(elements[child] as BranchHeadNodeModel).isTerminal
         ) !== -1
     ) {
         return [];
@@ -325,7 +325,7 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
     return branchingElement.children.reduce((acc: Guid[], child: NodeRef, index: number) => {
         // only elements on other branches can be targets
         if (child != null && index !== childIndex) {
-            const branchElements = new FlcList(elements, child).map(element => element.guid) as Guid[];
+            const branchElements = new FlcList(elements, child).map((element) => element.guid) as Guid[];
             return acc.concat(branchElements);
         }
 
@@ -420,7 +420,7 @@ function deleteFault(state: FlowModel, elementWithFaultGuid: Guid, getSubElement
     const faultGuid = elementWithFault.fault;
     delete elementWithFault.fault;
 
-    new FlcList(state, faultGuid!).forEach(listElement => {
+    new FlcList(state, faultGuid!).forEach((listElement) => {
         const elementToDelete = state[listElement.guid];
         delete state[listElement.guid];
         deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
@@ -438,7 +438,7 @@ function deleteFault(state: FlowModel, elementWithFaultGuid: Guid, getSubElement
  * @param getSubElementGuids - Function to get sub element guids
  */
 function deleteBranch(state: FlowModel, branchHeadGuid: Guid, getSubElementGuids: GetSubElementGuids) {
-    new FlcList(state, branchHeadGuid!).forEach(listElement => {
+    new FlcList(state, branchHeadGuid!).forEach((listElement) => {
         const elementToDelete = state[listElement.guid];
         delete state[listElement.guid];
         deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
@@ -575,10 +575,10 @@ function deleteElementDescendents(
     }
 
     elementsToDelete.forEach((guid: NodeRef) => {
-        new FlcList(state, guid!).forEach(listElement => {
+        new FlcList(state, guid!).forEach((listElement) => {
             const elementToDelete = state[listElement.guid];
             delete state[listElement.guid];
-            getSubElementGuids(elementToDelete, state).map(subElementGuid => {
+            getSubElementGuids(elementToDelete, state).map((subElementGuid) => {
                 delete state[subElementGuid];
             });
             deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
@@ -656,7 +656,7 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
 
     let allTerminalBranches = true;
 
-    parentElement.children.forEach(child => {
+    parentElement.children.forEach((child) => {
         if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
             allTerminalBranches = false;
         }
@@ -807,7 +807,9 @@ function assertAutoLayoutStateForBranch(elements: FlowModel, branchHeadGuid: Nod
             }
 
             if (isBranchingOrLoopElement(element)) {
-                (element as ParentNodeModel).children.forEach(child => assertAutoLayoutStateForBranch(elements, child));
+                (element as ParentNodeModel).children.forEach((child) =>
+                    assertAutoLayoutStateForBranch(elements, child)
+                );
             }
 
             element = element.next != null ? elements[element.next] : null;

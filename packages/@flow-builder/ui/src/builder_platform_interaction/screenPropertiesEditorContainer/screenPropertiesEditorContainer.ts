@@ -147,12 +147,12 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         // Needed to unrender the existing configuration editor
         this.configurationEditor = undefined;
         describeExtension(extensionName)
-            .then(desc => {
+            .then((desc) => {
                 this.displaySpinner = false;
                 if (this.node === node) {
                     this.configurationEditor = desc.configurationEditor;
                     const genericTypes = this.extensionTypes
-                        ? this.extensionTypes.find(extensionType => extensionType.name === extensionName).genericTypes
+                        ? this.extensionTypes.find((extensionType) => extensionType.name === extensionName).genericTypes
                         : undefined;
                     if (genericTypes && genericTypes.length > 0) {
                         desc = readonly({

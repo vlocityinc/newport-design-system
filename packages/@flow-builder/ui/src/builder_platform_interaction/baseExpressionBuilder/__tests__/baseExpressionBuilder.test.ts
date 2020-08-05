@@ -126,10 +126,10 @@ const mockComboboxReturnItem = {
     displayText: addCurlyBraces(numberVariable.name)
 };
 
-const getComboboxElements = expressionBuilder =>
+const getComboboxElements = (expressionBuilder) =>
     expressionBuilder.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
 
-const getLightningCombobox = expressionBuilder =>
+const getLightningCombobox = (expressionBuilder) =>
     expressionBuilder.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX);
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
@@ -139,17 +139,14 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         getOperators: jest.fn().mockReturnValue(['Assign', 'Add']),
         getRHSTypes: jest.fn(),
         getDataType: actual.getDataType,
-        transformOperatorsForCombobox: jest.fn().mockImplementation(values =>
-            values.map(value => ({
+        transformOperatorsForCombobox: jest.fn().mockImplementation((values) =>
+            values.map((value) => ({
                 label: 'some label',
                 value
             }))
         ),
         elementToParam: actual.elementToParam,
-        isCollectionRequired: jest
-            .fn()
-            .mockReturnValue(false)
-            .mockName('isCollectionRequired'),
+        isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY
     };

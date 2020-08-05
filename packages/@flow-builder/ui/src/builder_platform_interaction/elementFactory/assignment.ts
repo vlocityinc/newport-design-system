@@ -18,7 +18,7 @@ export function createAssignment(assignment = {}) {
     const newAssignment = baseCanvasElement(assignment);
     let { assignmentItems } = assignment;
     if (assignmentItems && assignmentItems.length > 0) {
-        assignmentItems = assignmentItems.map(assignmentItem => createAssignmentItem(assignmentItem));
+        assignmentItems = assignmentItems.map((assignmentItem) => createAssignmentItem(assignmentItem));
     } else {
         const newAssignmentItem = createAssignmentItem();
         assignmentItems = [newAssignmentItem];
@@ -108,7 +108,7 @@ export function createAssignmentMetadataObject(assignment, config = {}) {
     const newAssignment = baseCanvasElementMetadataObject(assignment, config);
     let { assignmentItems } = assignment;
     if (assignmentItems && assignmentItems.length > 0) {
-        assignmentItems = assignmentItems.map(assignmentItem => createAssignmentItemMetadataObject(assignmentItem));
+        assignmentItems = assignmentItems.map((assignmentItem) => createAssignmentItemMetadataObject(assignmentItem));
     } else {
         const newAssignmentItem = createAssignmentItemMetadataObject();
         assignmentItems = [newAssignmentItem];

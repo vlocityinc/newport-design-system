@@ -100,7 +100,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
      * Prepend output for the screen-reducer to know it is handling with the output version of the attribute
      * @param {Event} event - The property change event
      */
-    handlePropertyChanged = event => {
+    handlePropertyChanged = (event) => {
         const input = this.isInput;
         const prefix = input ? EXTENSION_PARAM_PREFIX.INPUT : EXTENSION_PARAM_PREFIX.OUTPUT;
         event.detail.propertyName = prefix + '.' + event.detail.propertyName;

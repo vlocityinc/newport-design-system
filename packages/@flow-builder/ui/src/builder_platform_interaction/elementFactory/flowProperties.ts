@@ -159,7 +159,7 @@ function getLastModifiedBy(lastModifiedBy) {
  * @returns true if processMetadataValues have an object with name as 'OriginBuilderType'
  */
 function checkIfCreatedOutsideLFB(processMetadataValues = []) {
-    return !processMetadataValues.some(processMetadataValue => {
+    return !processMetadataValues.some((processMetadataValue) => {
         return processMetadataValue.name === ORIGIN_BUILDER_TYPE;
     });
 }
@@ -171,7 +171,7 @@ function checkIfCreatedOutsideLFB(processMetadataValues = []) {
  */
 
 function checkIfLightningFlowBuilder(processMetadataValues = []) {
-    return processMetadataValues.some(processMetadataValue => {
+    return processMetadataValues.some((processMetadataValue) => {
         return (
             processMetadataValue.name === BUILDER_TYPE &&
             processMetadataValue.value &&
@@ -186,7 +186,7 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
  * @returns true if processMetadataValues have a object with name as 'CanvasMode' and stringValue as 'AUTO-LAYOUT-CANVAS'
  */
 function checkIfBuiltInAutoLayoutCanvas(processMetadataValues: Array<object> = []): boolean {
-    return processMetadataValues.some(processMetadataValue => {
+    return processMetadataValues.some((processMetadataValue) => {
         return (
             processMetadataValue.name === CANVAS_MODE &&
             processMetadataValue.value &&

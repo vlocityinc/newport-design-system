@@ -47,7 +47,7 @@ const selectors = {
     doneButton: 'lightning-button'
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-condition-editor-popover', {
         is: ConditionEditorPopover
     });

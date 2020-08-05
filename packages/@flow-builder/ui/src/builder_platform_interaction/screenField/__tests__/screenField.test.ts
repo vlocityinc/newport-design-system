@@ -11,7 +11,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -32,7 +32,7 @@ const SELECTORS = {
 const emptyFieldName = '';
 const fieldName = 'foo';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-field', {
         is: ScreenField
     });

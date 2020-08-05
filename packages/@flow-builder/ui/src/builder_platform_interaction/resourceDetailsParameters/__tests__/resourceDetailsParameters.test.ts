@@ -16,7 +16,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
-const createComponentUnderTest = resourceDetails => {
+const createComponentUnderTest = (resourceDetails) => {
     const el = createElement('builder_platform_interaction-resource-details-parameters', {
         is: ResourceDetailsParameters
     });
@@ -36,7 +36,7 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => ({
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        fetchActiveOrLatestFlowOutputVariables: jest.fn(flowName => {
+        fetchActiveOrLatestFlowOutputVariables: jest.fn((flowName) => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return Promise.resolve(
                     actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables

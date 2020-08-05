@@ -27,7 +27,7 @@ export const resetDeletedGuids = () => {
     deletedOutcomeGuids = new Map();
 };
 
-const addOutcome = state => {
+const addOutcome = (state) => {
     let newOutcome = createOutcome();
     newOutcome.showOutcomeExecutionOptions = isExecuteOnlyWhenChangeMatchesConditionsPossible();
     newOutcome = hydrateWithErrors(newOutcome);
@@ -38,7 +38,7 @@ const addOutcome = state => {
 };
 
 const changeExecuteWhenOption = (state, event) => {
-    const outcomes = state.outcomes.map(outcome => {
+    const outcomes = state.outcomes.map((outcome) => {
         return outcome.guid === event.detail.guid
             ? updateProperties(outcome, {
                   doesRequireRecordChangedToMeetCriteria: event.detail.doesRequireRecordChangedToMeetCriteria
@@ -53,7 +53,7 @@ const deleteOutcome = (state, event) => {
     if (usedElements && usedElements.length > 0) {
         invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.OUTCOME);
     } else {
-        const outcomes = state.outcomes.filter(outcome => {
+        const outcomes = state.outcomes.filter((outcome) => {
             return outcome.guid !== event.detail.guid;
         });
 
@@ -68,14 +68,14 @@ const deleteOutcome = (state, event) => {
 
 const reorderOutcomes = (state, event) => {
     let outcomes = state.outcomes;
-    const destinationIndex = state.outcomes.findIndex(element => {
+    const destinationIndex = state.outcomes.findIndex((element) => {
         return element.guid === event.detail.destinationGuid;
     });
-    const movedOutcome = state.outcomes.find(outcome => {
+    const movedOutcome = state.outcomes.find((outcome) => {
         return outcome.guid === event.detail.sourceGuid;
     });
     if (destinationIndex >= 0 && movedOutcome) {
-        outcomes = state.outcomes.filter(outcome => {
+        outcomes = state.outcomes.filter((outcome) => {
             return outcome.guid !== event.detail.sourceGuid;
         });
         outcomes.splice(destinationIndex, 0, movedOutcome);
@@ -84,7 +84,7 @@ const reorderOutcomes = (state, event) => {
 };
 
 const addCondition = (state, event) => {
-    const outcomes = state.outcomes.map(outcome => {
+    const outcomes = state.outcomes.map((outcome) => {
         return outcome.guid === event.detail.parentGUID ? conditionListReducer(outcome, event) : outcome;
     });
 
@@ -92,7 +92,7 @@ const addCondition = (state, event) => {
 };
 
 const deleteCondition = (state, event) => {
-    const outcomes = state.outcomes.map(outcome => {
+    const outcomes = state.outcomes.map((outcome) => {
         return outcome.guid === event.detail.parentGUID ? conditionListReducer(outcome, event) : outcome;
     });
 
@@ -100,7 +100,7 @@ const deleteCondition = (state, event) => {
 };
 
 const updateCondition = (state, event) => {
-    const outcomes = state.outcomes.map(outcome => {
+    const outcomes = state.outcomes.map((outcome) => {
         if (outcome.guid === event.detail.parentGUID) {
             return conditionListReducer(outcome, event, deletedOutcomeGuids, LABELS.decisionSingularLabel);
         }
@@ -128,7 +128,7 @@ const validateProperty = (state, event) => {
 
 const outcomePropertyChanged = (state, event) => {
     validateProperty(state, event);
-    const outcomes = state.outcomes.map(outcome => {
+    const outcomes = state.outcomes.map((outcome) => {
         return event.detail.guid !== outcome.guid
             ? outcome
             : updateProperties(outcome, {

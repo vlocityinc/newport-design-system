@@ -11,7 +11,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
-const addRecordFilter = recordChoice => {
+const addRecordFilter = (recordChoice) => {
     const path = ['filters', recordChoice.filters.length];
     return set(
         recordChoice,
@@ -29,7 +29,7 @@ const deleteRecordFilter = (recordChoice, action) => {
     return set(recordChoice, 'filters', updatedFiltersList);
 };
 
-const addRecordRecordFieldAssignment = recordChoice => {
+const addRecordRecordFieldAssignment = (recordChoice) => {
     const path = ['outputAssignments', recordChoice.outputAssignments.length];
     return set(recordChoice, path, hydrateWithErrors(createOutputAssignment()));
 };
@@ -45,15 +45,15 @@ const updateRecordRecordFieldAssignment = (recordChoice, action) => {
     return set(recordChoice, path, item);
 };
 
-const addEmptyOutputAssignment = recordChoice => {
+const addEmptyOutputAssignment = (recordChoice) => {
     return Object.assign({}, recordChoice, {
         outputAssignments: [hydrateWithErrors(createOutputAssignment())]
     });
 };
 
-const updateOutputAssignmentsBeforeClose = recordChoice => {
+const updateOutputAssignmentsBeforeClose = (recordChoice) => {
     // Filtering out the valid outputAssignments, i.e. the ones that have both LHS and RHS
-    const updatedItems = recordChoice.outputAssignments.filter(outputAssignment => {
+    const updatedItems = recordChoice.outputAssignments.filter((outputAssignment) => {
         return outputAssignment.leftHandSide.value && outputAssignment.rightHandSide.value && outputAssignment;
     });
 

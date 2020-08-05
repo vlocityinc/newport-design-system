@@ -40,7 +40,7 @@ export default class CalloutEditor extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
             flowProcessType: this.processTypeValue
         })
-            .then(invocableActions => {
+            .then((invocableActions) => {
                 this.invocableActionsFetched = true;
                 this.invocableActions = invocableActions;
 
@@ -174,7 +174,7 @@ export default class CalloutEditor extends LightningElement {
 
     setCategoryOptions() {
         if (this.selectedFilterBy === LABELS.filterByTypeOption) {
-            const getTypeOption = elementType => {
+            const getTypeOption = (elementType) => {
                 return {
                     label: this.labels[elementType].TYPE_OPTION_LABEL,
                     name: elementType
@@ -185,7 +185,7 @@ export default class CalloutEditor extends LightningElement {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
-            if (this.invocableActions.some(action => action.type === ACTION_TYPE.EXTERNAL_SERVICE)) {
+            if (this.invocableActions.some((action) => action.type === ACTION_TYPE.EXTERNAL_SERVICE)) {
                 typeOptions.push(getTypeOption(ELEMENT_TYPE.EXTERNAL_SERVICE));
             }
             this.categoryOptions = typeOptions;

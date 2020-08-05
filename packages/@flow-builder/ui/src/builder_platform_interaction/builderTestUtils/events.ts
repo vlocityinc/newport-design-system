@@ -9,7 +9,7 @@ export const focusoutEvent = new FocusEvent('focusout', {
     cancelable: true
 });
 
-export const textInputEvent = textInput => {
+export const textInputEvent = (textInput) => {
     return new CustomEvent('textinput', {
         bubbles: true,
         cancelable: true,
@@ -23,7 +23,7 @@ export const blurEvent = new FocusEvent('blur', {
     composed: true
 });
 
-export const selectEvent = value => {
+export const selectEvent = (value) => {
     return new CustomEvent('select', {
         bubbles: true,
         cancelable: true,
@@ -31,7 +31,7 @@ export const selectEvent = value => {
     });
 };
 
-export const changeEvent = value => {
+export const changeEvent = (value) => {
     return new CustomEvent('change', {
         bubbles: true,
         cancelable: false,
@@ -78,7 +78,7 @@ export const removeEvent = (): CustomEvent => {
     });
 };
 
-export const lightningRadioGroupChangeEvent = newValue => {
+export const lightningRadioGroupChangeEvent = (newValue) => {
     return new CustomEvent('change', {
         detail: {
             newValue

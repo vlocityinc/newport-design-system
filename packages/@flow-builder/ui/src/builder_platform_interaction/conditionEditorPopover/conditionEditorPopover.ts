@@ -26,7 +26,7 @@ export default class ConditionEditorPopover extends LightningElement {
         return getRulesForElementType(RULE_TYPES.COMPARISON, this.containerElement);
     }
 
-    handleDoneEditing = event => {
+    handleDoneEditing = (event) => {
         this._updateConditionPromise.then(() => {
             event.stopPropagation();
 
@@ -50,7 +50,7 @@ export default class ConditionEditorPopover extends LightningElement {
         });
     };
 
-    handleUpdateCondition = event => {
+    handleUpdateCondition = (event) => {
         event.stopPropagation();
 
         const newValue = event.detail.newValue;
@@ -62,7 +62,7 @@ export default class ConditionEditorPopover extends LightningElement {
         // Adding a delay here insures that the done button's onclick is queued before any updates to the UI occur.
         // This can be removed when W-6434223 is fixed
         // Work item here: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000007CF9FIAW/view
-        this._updateConditionPromise = new Promise(resolve => {
+        this._updateConditionPromise = new Promise((resolve) => {
             // eslint-disable-next-line @lwc/lwc/no-async-operation
             setTimeout(() => resolve(), 100);
         }).then(() => {

@@ -8,7 +8,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
-const createComponentUnderTest = node => {
+const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-formula-editor', {
         is: FormulaEditor
     });
@@ -23,15 +23,15 @@ const SELECTORS = {
     richTextPlainTextSwitch: 'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
-const getDataTypePicker = formulaEditor => {
+const getDataTypePicker = (formulaEditor) => {
     return formulaEditor.shadowRoot.querySelector(SELECTORS.dataTypePicker);
 };
 
-const getFormulaTextArea = formulaEditor => {
+const getFormulaTextArea = (formulaEditor) => {
     return formulaEditor.shadowRoot.querySelector(SELECTORS.resourcedTextArea);
 };
 
-const getRichTextPlainTextSwitch = rexourdedTextArea =>
+const getRichTextPlainTextSwitch = (rexourdedTextArea) =>
     rexourdedTextArea.shadowRoot.querySelector(SELECTORS.richTextPlainTextSwitch);
 
 describe('formula-editor', () => {

@@ -88,7 +88,7 @@ const createComponentForTest = (node, processType = FLOW_PROCESS_TYPE.AUTO_LAUNC
     return el;
 };
 
-const getLoopVariableComboboxElement = loopEditor => {
+const getLoopVariableComboboxElement = (loopEditor) => {
     return deepQuerySelector(loopEditor, [
         SELECTORS.LOOP_VARIABLE,
         SELECTORS.BASE_RESOURCE_PICKER,
@@ -97,10 +97,10 @@ const getLoopVariableComboboxElement = loopEditor => {
     ]);
 };
 
-const getNotificationDiv = loopEditor => deepQuerySelector(loopEditor, [SELECTORS.SLDS_SCOPED_NOTIFICATION]);
-const getLoopVariableResourcePicker = loopEditor => loopEditor.shadowRoot.querySelector(SELECTORS.LOOP_VARIABLE);
+const getNotificationDiv = (loopEditor) => deepQuerySelector(loopEditor, [SELECTORS.SLDS_SCOPED_NOTIFICATION]);
+const getLoopVariableResourcePicker = (loopEditor) => loopEditor.shadowRoot.querySelector(SELECTORS.LOOP_VARIABLE);
 
-const getCollectionVariableCombobox = loopEditor => {
+const getCollectionVariableCombobox = (loopEditor) => {
     return deepQuerySelector(loopEditor, [
         SELECTORS.COLLECTION_VARIABLE,
         SELECTORS.BASE_RESOURCE_PICKER,
@@ -108,7 +108,7 @@ const getCollectionVariableCombobox = loopEditor => {
     ]);
 };
 
-const getCollectionVariableGroupedComboboxElement = loopEditor =>
+const getCollectionVariableGroupedComboboxElement = (loopEditor) =>
     deepQuerySelector(getCollectionVariableCombobox(loopEditor), [SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 
 describe('Loop Editor with processType does not support automatic output', () => {

@@ -159,7 +159,7 @@ export default class OutputResourcePicker extends LightningElement {
      * Handler for when a user clicks on new resource button from the combobox
      * Update the store and save the rowIndex of the comobobox
      */
-    handleAddInlineResource = event => {
+    handleAddInlineResource = (event) => {
         if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
             storeInstance.dispatch(
                 updateInlineResourceProperties({
@@ -193,7 +193,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     /** HELPER METHODS */
 
-    initializeResourcePicker = normalizedValue => {
+    initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the normalized value
         this._value = normalizedValue;
         this.populateMenuData(this.parentItem);
@@ -217,7 +217,7 @@ export default class OutputResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
-    populateMenuData = parentItem => {
+    populateMenuData = (parentItem) => {
         if (this._baseResourcePicker) {
             getMenuData(
                 this.elementConfig,
@@ -233,7 +233,7 @@ export default class OutputResourcePicker extends LightningElement {
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: false
                 }
-            ).then(menuData => {
+            ).then((menuData) => {
                 this._baseResourcePicker.setMenuData(menuData);
                 this.setInlineResource(menuData);
             });
@@ -243,7 +243,7 @@ export default class OutputResourcePicker extends LightningElement {
     /**
      * set the newly created resource in the combobox
      */
-    setInlineResource = menuData => {
+    setInlineResource = (menuData) => {
         const {
             lastInlineResourceRowIndex: inlineResourceRowIndex,
             lastInlineResourceGuid: inlineGuid
@@ -265,7 +265,7 @@ export default class OutputResourcePicker extends LightningElement {
      * @param {String} identifier    Used to identify the value (e.g. GUID for flow elements)
      * @returns normalizedValue      value to pass to the combobox
      */
-    normalizeValue = identifier => {
+    normalizeValue = (identifier) => {
         return normalizeFEROV(identifier).itemOrDisplayText;
     };
 }

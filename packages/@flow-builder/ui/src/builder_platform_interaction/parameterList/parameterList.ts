@@ -211,7 +211,7 @@ export default class ParameterList extends LightningElement {
         const sortedInputs = this.sortInputs
             ? this.state.inputs.slice().sort(multiComparator([compareParamsByRequired, compareParamsByLabel]))
             : this.state.inputs;
-        return sortedInputs.map(item => ({
+        return sortedInputs.map((item) => ({
             item,
             warning: this.warnings[item.rowIndex] || {}
         }));
@@ -221,7 +221,7 @@ export default class ParameterList extends LightningElement {
         const sortedOutputs = this.sortOutputs
             ? this.state.outputs.slice().sort(compareParamsByLabel)
             : this.state.outputs;
-        return sortedOutputs.map(item => ({
+        return sortedOutputs.map((item) => ({
             item,
             warning: this.warnings[item.rowIndex] || {}
         }));

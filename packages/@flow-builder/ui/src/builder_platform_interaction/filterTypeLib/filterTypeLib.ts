@@ -8,7 +8,7 @@ export const SOBJECT_OR_SOBJECT_COLLECTION_FILTER = {
     SOBJECT_OR_SOBJECT_COLLECTION: 'SOBJECT_OR_SOBJECT_COLLECTION'
 };
 
-export const getSObjectOrSObjectCollectionFilter = isCollection => {
+export const getSObjectOrSObjectCollectionFilter = (isCollection) => {
     return isCollection
         ? SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION
         : SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;

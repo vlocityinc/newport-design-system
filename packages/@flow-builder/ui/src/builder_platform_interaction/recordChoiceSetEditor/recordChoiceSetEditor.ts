@@ -140,7 +140,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
     get recordFieldsForFilter() {
         return Object.keys(this.menuDataFields)
-            .filter(key => this.menuDataFields[key].filterable)
+            .filter((key) => this.menuDataFields[key].filterable)
             .reduce((obj, key) => {
                 obj[key] = this.menuDataFields[key];
                 return obj;
@@ -192,7 +192,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
     getEntityFields() {
         sobjectLib
             .fetchFieldsForEntity(this.recordChoiceSetResource.object.value)
-            .then(fields => {
+            .then((fields) => {
                 this.menuDataFields = fields;
 
                 if (!this.menuDataFields) {

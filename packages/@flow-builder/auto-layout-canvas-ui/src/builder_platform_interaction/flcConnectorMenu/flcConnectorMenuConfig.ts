@@ -124,7 +124,7 @@ export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable
         extraSections
     );
     // Filtering out sections that no longer have items in them.
-    const updatedSections = sections.filter(section => {
+    const updatedSections = sections.filter((section) => {
         return section.items && section.items.length > 0;
     });
     return { sections: updatedSections };

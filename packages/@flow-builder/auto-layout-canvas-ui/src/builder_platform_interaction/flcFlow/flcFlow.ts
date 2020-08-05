@@ -29,6 +29,6 @@ export default class FlcFlow extends LightningElement {
     }
 
     get faultFlows() {
-        return this.nodes.filter(node => node.faultFlow != null).map(node => node.faultFlow);
+        return this.nodes.filter((node) => node.faultFlow != null).map((node) => node.faultFlow);
     }
 }

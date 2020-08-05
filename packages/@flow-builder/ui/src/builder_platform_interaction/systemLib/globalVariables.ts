@@ -14,7 +14,7 @@ export const resetGlobalVariables = () => {
  * @param {Array}
  *            data raw type data from the server
  */
-const convertTypeData = data =>
+const convertTypeData = (data) =>
     data.reduce((acc, obj) => {
         const type = {
             durableId: obj.durableId,
@@ -60,7 +60,7 @@ const convertData = (data, types) =>
  * @param {Object}
  *            data the data returned by the service
  */
-export const setGlobalVariables = data => {
+export const setGlobalVariables = (data) => {
     let allTypes;
     if (Array.isArray(data.globalVariableTypes)) {
         allTypes = convertTypeData(data.globalVariableTypes);
@@ -69,7 +69,7 @@ export const setGlobalVariables = data => {
         globalVariables = convertData(data.globalVariables, allTypes);
     }
     globalVariableTypes = {};
-    Object.keys(allTypes).forEach(type => {
+    Object.keys(allTypes).forEach((type) => {
         if (globalVariables[type]) {
             globalVariableTypes[type] = allTypes[type];
         }
@@ -101,7 +101,7 @@ export const getGlobalVariables = (typeName, showMultiPicklistGlobalVariables = 
     if (showMultiPicklistGlobalVariables) {
         return globalVariableFields;
     } else if (globalVariableFields) {
-        Object.keys(globalVariableFields).forEach(key => {
+        Object.keys(globalVariableFields).forEach((key) => {
             // TODO W-7837206 Remove this once backend support for Multipicklist is added
             if (globalVariableFields[key].dataType !== 'Multipicklist') {
                 if (!filteredGlobalVariables) {
@@ -120,7 +120,7 @@ export const getGlobalVariables = (typeName, showMultiPicklistGlobalVariables = 
  * @param {String} id      points to a global variable
  * @returns {Object|null}  object representing the global variable if this id is valid
  */
-export const getGlobalVariable = id => {
+export const getGlobalVariable = (id) => {
     const reference = removeCurlyBraces(id);
     if (reference) {
         const refParts = reference.split('.');

@@ -21,15 +21,15 @@ const selectors = {
     fieldsList: 'builder_platform_interaction-record-query-fields'
 };
 
-const getSObjectPicker = recordStoreFieldsComponent => {
+const getSObjectPicker = (recordStoreFieldsComponent) => {
     return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.sobjectPicker);
 };
 
-const getFieldList = recordStoreFieldsComponent => {
+const getFieldList = (recordStoreFieldsComponent) => {
     return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.fieldsList);
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-record-sobject-and-query-fields', {
         is: RecordSobjectAndQueryFields
     });

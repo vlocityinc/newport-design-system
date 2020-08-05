@@ -69,7 +69,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
-        getResourceLabel: jest.fn(el => {
+        getResourceLabel: jest.fn((el) => {
             return el.label;
         }),
         getResourceCategory: jest.fn()
@@ -91,13 +91,13 @@ jest.mock('../editorUtils', () => {
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return Object.assign(jest.requireActual('builder_platform_interaction/propertyEditorFactory'), {
-        getElementForPropertyEditor: jest.fn(node => {
+        getElementForPropertyEditor: jest.fn((node) => {
             if (node == null) {
                 throw new Error('Node must not be null');
             }
             return node;
         }),
-        getElementForStore: jest.fn(node => {
+        getElementForStore: jest.fn((node) => {
             return node;
         })
     });
@@ -125,29 +125,29 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        addElement: jest.fn(el => {
+        addElement: jest.fn((el) => {
             return {
                 value: el
             };
         }),
-        updateElement: jest.fn(el => {
+        updateElement: jest.fn((el) => {
             return {
                 updateValue: el
             };
         }),
-        deleteElements: jest.fn().mockImplementation(payload => {
+        deleteElements: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'deleteElement',
                 payload
             };
         }),
-        updateCanvasElementLocation: jest.fn().mockImplementation(payload => {
+        updateCanvasElementLocation: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'updateCanvasElementLocation',
                 payload
             };
         }),
-        doDuplicate: jest.fn().mockImplementation(payload => {
+        doDuplicate: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'doDuplicate',
                 payload
@@ -158,7 +158,7 @@ jest.mock('builder_platform_interaction/actions', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const dispatchSpy = jest.fn().mockImplementation(() => {
-        mockSubscribers.forEach(subscriber => {
+        mockSubscribers.forEach((subscriber) => {
             subscriber();
         });
     });
@@ -167,7 +167,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         Store: {
             getStore: () => {
                 return {
-                    subscribe: mapAppStateToStore => {
+                    subscribe: (mapAppStateToStore) => {
                         mockSubscribers.push(mapAppStateToStore);
                         return jest.fn().mockImplementation(() => {
                             return 'Testing';
@@ -180,7 +180,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
                 };
             }
         },
-        deepCopy: jest.fn().mockImplementation(obj => {
+        deepCopy: jest.fn().mockImplementation((obj) => {
             return obj;
         }),
         generateGuid: jest.fn().mockImplementation(() => {
@@ -189,7 +189,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         combinedReducer: jest.fn(),
         createSelector: jest.fn().mockImplementation(() => {
             return () => {
-                return mockStoreState.canvasElements.map(canvasElementGUID => {
+                return mockStoreState.canvasElements.map((canvasElementGUID) => {
                     return mockStoreState.elements[canvasElementGUID];
                 });
             };
@@ -902,9 +902,9 @@ describe('property editor', () => {
 
             // make sure mockStoreState matches expected state
             mockStoreState.connectors = mockStoreState.connectors.filter(
-                conn => conn.target !== '1' && conn.source !== '1'
+                (conn) => conn.target !== '1' && conn.source !== '1'
             );
-            mockStoreState.canvasElements = mockStoreState.canvasElements.filter(el => el !== '1');
+            mockStoreState.canvasElements = mockStoreState.canvasElements.filter((el) => el !== '1');
             delete mockStoreState.elements['1'];
 
             canvasContainer.dispatchEvent(event);
@@ -1165,7 +1165,7 @@ describe('editor guardrails', () => {
         isGuardrailsEnabled.mockReturnValue(true);
     });
 
-    const setupGuardrails = function(running, mockResult = []) {
+    const setupGuardrails = function (running, mockResult = []) {
         const editorComponent = createComponentUnderTest({
             guardrailsParams: {
                 running

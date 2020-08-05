@@ -60,7 +60,7 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
 });
 jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
-        getConfigForElementType: jest.fn().mockImplementation(elementType => {
+        getConfigForElementType: jest.fn().mockImplementation((elementType) => {
             if (elementType === 'dummyElementType') {
                 return {
                     metadataKey: 'dummyMetadataKey',

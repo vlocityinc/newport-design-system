@@ -53,9 +53,9 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
                 }
             ];
         },
-        getCachedExtensions: names => {
+        getCachedExtensions: (names) => {
             const cachedExtensions = [];
-            names.forEach(name => {
+            names.forEach((name) => {
                 cachedExtensions.push({
                     name,
                     inputParameters: [{ apiName: name + 'input1', isRequired: true, defaultValue: null }]

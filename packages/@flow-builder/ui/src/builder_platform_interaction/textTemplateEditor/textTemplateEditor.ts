@@ -66,7 +66,7 @@ export default class TextTemplateEditor extends LightningElement {
     /**
      * @param {Object} event property changed event coming from label-description component
      */
-    handlePropertyChanged = event => {
+    handlePropertyChanged = (event) => {
         event.stopPropagation();
         const propertyName = event.detail.propertyName;
         this.updateProperty(propertyName, event);
@@ -75,7 +75,7 @@ export default class TextTemplateEditor extends LightningElement {
     /**
      * @param {object} event property changed event coming from resourced-textarea component
      */
-    handleResourceTextAreaChanged = event => {
+    handleResourceTextAreaChanged = (event) => {
         event.stopPropagation();
         const propertyName = 'text';
         this.updateProperty(propertyName, event);

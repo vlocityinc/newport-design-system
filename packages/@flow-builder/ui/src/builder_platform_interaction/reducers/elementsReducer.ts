@@ -145,7 +145,7 @@ function _duplicateElement(
     );
 
     // Deselect all the unduplicated elements
-    unduplicatedCanvasElementsGuids.forEach(guid => _deselectElement(newState[guid], newState));
+    unduplicatedCanvasElementsGuids.forEach((guid) => _deselectElement(newState[guid], newState));
 
     for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
         const selectedElement = newState[elementGuidsToDuplicate[i]];
@@ -259,7 +259,7 @@ function _addOrUpdateElement(state, guid, element) {
  */
 function _updateCanvasElementsLocation(state, updatedCanvasElementLocations) {
     const newState = updateProperties(state);
-    updatedCanvasElementLocations.map(info => {
+    updatedCanvasElementLocations.map((info) => {
         newState[info.canvasElementGuid] = updateProperties(newState[info.canvasElementGuid], {
             locationX: info.locationX,
             locationY: info.locationY
@@ -319,7 +319,7 @@ function _updateRecordLookup(state, guid, element) {
 function _deleteAndUpdateElements(elements, originalElements, connectorsToDelete) {
     const guidsToDelete = [];
 
-    originalElements.forEach(element => {
+    originalElements.forEach((element) => {
         guidsToDelete.push(...getSubElementGuids(element, elements));
         guidsToDelete.push(element.guid);
     });
@@ -387,7 +387,7 @@ function _updateElementOnAddConnection(elements, connector) {
 function _selectCanvasElement(elements, selectedGUID) {
     const newState = updateProperties(elements);
     let hasStateChanged = false;
-    Object.keys(elements).map(guid => {
+    Object.keys(elements).map((guid) => {
         const element = newState[guid];
         if (element && element.isCanvasElement && element.config) {
             if (guid === selectedGUID) {
@@ -426,7 +426,7 @@ function _selectCanvasElement(elements, selectedGUID) {
 function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
     const newState = updateProperties(elements);
     let hasStateChanged = false;
-    guidsToSelect.map(guid => {
+    guidsToSelect.map((guid) => {
         newState[guid] = updateProperties(newState[guid], {
             config: {
                 isSelected: true,
@@ -437,7 +437,7 @@ function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
         return guid;
     });
 
-    guidsToDeselect.map(guid => {
+    guidsToDeselect.map((guid) => {
         newState[guid] = updateProperties(newState[guid], {
             config: {
                 isSelected: false,
@@ -484,7 +484,7 @@ function _toggleCanvasElement(elements, selectedGUID) {
 function _deselectCanvasElements(elements) {
     const newState = updateProperties(elements);
     let hasStateChanged = false;
-    Object.keys(elements).map(guid => {
+    Object.keys(elements).map((guid) => {
         const element = newState[guid];
         if (
             element &&
@@ -516,7 +516,7 @@ function _deselectCanvasElements(elements) {
  */
 function _highlightCanvasElement(elements, elementGuid) {
     const newState = updateProperties(elements);
-    Object.keys(elements).map(guid => {
+    Object.keys(elements).map((guid) => {
         const element = newState[guid];
         if (element && element.isCanvasElement && element.config) {
             if (guid === elementGuid) {
@@ -650,11 +650,11 @@ function _filterAvailableConnections(element, childSourceGUID, connectorType) {
     if (element.availableConnections) {
         if (childSourceGUID) {
             element.availableConnections = element.availableConnections.filter(
-                availableConnector => availableConnector.childReference !== childSourceGUID
+                (availableConnector) => availableConnector.childReference !== childSourceGUID
             );
         } else {
             element.availableConnections = element.availableConnections.filter(
-                availableConnector => availableConnector.type !== connectorType
+                (availableConnector) => availableConnector.type !== connectorType
             );
         }
     }

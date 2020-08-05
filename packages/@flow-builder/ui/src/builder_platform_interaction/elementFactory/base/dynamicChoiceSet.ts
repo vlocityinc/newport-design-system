@@ -35,7 +35,7 @@ export const createDynamicChoiceSet = (element = {}) => {
  * @param {Object} element - Base dynamic choice metadata object
  * @returns {Object} dynamicChoiceSetMetadataObject
  */
-export const createDynamicChoiceSetMetadataObject = element => {
+export const createDynamicChoiceSetMetadataObject = (element) => {
     if (!element) {
         throw new Error('element is required to create dynamic choice set metadata object');
     }

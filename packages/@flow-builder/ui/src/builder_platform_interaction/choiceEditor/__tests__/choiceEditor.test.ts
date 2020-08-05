@@ -36,7 +36,7 @@ const SELECTORS = {
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
-const setupComponentUnderTest = choiceObject => {
+const setupComponentUnderTest = (choiceObject) => {
     const element = createElement('builder_platform_interaction-choice-editor', {
         is: ChoiceEditor
     });
@@ -55,7 +55,7 @@ jest.mock('builder_platform_interaction/actions', () => {
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../choiceReducer', () => {
     return {
-        choiceReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
+        choiceReducer: jest.fn().mockImplementation((obj) => Object.assign({}, obj))
     };
 });
 

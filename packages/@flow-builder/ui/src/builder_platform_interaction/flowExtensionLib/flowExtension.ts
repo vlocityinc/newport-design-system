@@ -154,7 +154,7 @@ export function describeExtension(
         background,
         disableErrorModal,
         messageForErrorModal
-    }).then(descriptions => descriptions[0]);
+    }).then((descriptions) => descriptions[0]);
 }
 
 /**
@@ -263,7 +263,7 @@ export function describeExtensions(
     names = [],
     { background = false, disableErrorModal = false, messageForErrorModal } = {}
 ) {
-    const extensionNamesToFetch = names.filter(name => !extensionDescriptionCache[name]);
+    const extensionNamesToFetch = names.filter((name) => !extensionDescriptionCache[name]);
     let promise;
     if (extensionNamesToFetch.length === 0) {
         promise = Promise.resolve([]);
@@ -280,7 +280,7 @@ export function describeExtensions(
                                 extensionDescriptionCache[name] = createDescription(name, data[name]);
                             }
                         }
-                        resolve(extensionNamesToFetch.map(name => extensionDescriptionCache[name]));
+                        resolve(extensionNamesToFetch.map((name) => extensionDescriptionCache[name]));
                     }
                 },
                 { names: extensionNamesToFetch },
@@ -292,7 +292,7 @@ export function describeExtensions(
             );
         });
     }
-    return promise.then(() => names.map(name => extensionDescriptionCache[name]));
+    return promise.then(() => names.map((name) => extensionDescriptionCache[name]));
 }
 
 /**
@@ -311,7 +311,7 @@ export function getAllCachedExtensionTypes() {
     return extensionCache;
 }
 
-export const getCachedExtensionType = name => extensionCache.find(extension => extension.name === name);
+export const getCachedExtensionType = (name) => extensionCache.find((extension) => extension.name === name);
 
 export function getCachedFlowProcessType() {
     return flowProcessTypeCache;
@@ -329,10 +329,10 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
     }
 
     return parameters
-        .map(parameter => ({
+        .map((parameter) => ({
             parameter,
             dynamicTypeMapping: dynamicTypeMappings.find(
-                dynamicTypeMapping =>
+                (dynamicTypeMapping) =>
                     parameter.subtype === '{' + getValueFromHydratedItem(dynamicTypeMapping.typeName) + '}'
             )
         }))

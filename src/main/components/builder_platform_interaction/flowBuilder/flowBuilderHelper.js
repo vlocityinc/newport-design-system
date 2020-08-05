@@ -1,5 +1,5 @@
 ({
-    init: function(cmp) {
+    init: function (cmp) {
         var serverDataLibInit = cmp.find('serverDataLibInit');
         var serverDataLib = serverDataLibInit.find('serverDataLib');
         var serverActionType = serverDataLib.SERVER_ACTION_TYPE.GET_CONTEXT;
@@ -12,7 +12,7 @@
         imageLib.preloadImages();
     },
 
-    getContextCallback: function(response) {
+    getContextCallback: function (response) {
         if (response.error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else {

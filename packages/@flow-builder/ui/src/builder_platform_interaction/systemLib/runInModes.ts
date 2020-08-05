@@ -16,7 +16,7 @@ export const getRunInModes = () => {
  * @param {Object}
  *            data the data returned by the service
  */
-export const setRunInModes = data => {
+export const setRunInModes = (data) => {
     if (Array.isArray(data)) {
         runInModes = data;
     }

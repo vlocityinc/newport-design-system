@@ -38,11 +38,11 @@ export function createRecordUpdate(recordUpdate = {}) {
         availableConnections = getDefaultAvailableConnections()
     } = recordUpdate;
 
-    availableConnections = availableConnections.map(availableConnection =>
+    availableConnections = availableConnections.map((availableConnection) =>
         createAvailableConnection(availableConnection)
     );
 
-    inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
+    inputAssignments = inputAssignments.map((item) => createFlowInputFieldAssignment(item, object));
 
     const useSobject = inputReference !== '' || object === '';
 
@@ -139,10 +139,10 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
         if (filterLogic === CONDITION_LOGIC.NO_CONDITIONS) {
             filters = [];
         } else {
-            filters = filters.map(filter => createFilterMetadataObject(filter));
+            filters = filters.map((filter) => createFilterMetadataObject(filter));
         }
 
-        inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
+        inputAssignments = inputAssignments.map((input) => createFlowInputFieldAssignmentMetadataObject(input));
 
         return Object.assign(recordUpdateMetadata, {
             filters,

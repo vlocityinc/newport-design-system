@@ -31,7 +31,7 @@ export default class ReorderableVerticalNavigation extends LightningElement {
     _activeItemId;
 
     get decoratedMenuItems() {
-        return this.menuItems.map(menuItem => {
+        return this.menuItems.map((menuItem) => {
             const { element, label, isDraggable, hasErrors } = menuItem;
             return {
                 guid: element.guid,

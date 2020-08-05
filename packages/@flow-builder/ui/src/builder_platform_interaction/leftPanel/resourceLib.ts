@@ -62,7 +62,7 @@ const mutateElements = (elements, searchRegex) =>
  * @param {Object} element the element
  * @returns {string|undefined} the icon name
  */
-export const getResourceIconName = element => {
+export const getResourceIconName = (element) => {
     const { elementType, dataType, storeOutputAutomatically } = element;
     if (elementType === ELEMENT_TYPE.SCREEN_FIELD) {
         const screenFieldDataType = getScreenFieldDataType(element);
@@ -103,12 +103,12 @@ const mutateResources = (elements, searchRegex) =>
         return mutatedElements;
     }, {});
 
-const getElementSectionsFromElementMap = elementMap => {
+const getElementSectionsFromElementMap = (elementMap) => {
     const elementSections = Object.keys(elementMap)
-        .filter(elementType => {
+        .filter((elementType) => {
             return elementMap[elementType] && elementMap[elementType].length > 0;
         })
-        .map(category => {
+        .map((category) => {
             const section = {
                 guid: generateGuid(),
                 label: category,
@@ -121,7 +121,7 @@ const getElementSectionsFromElementMap = elementMap => {
     return elementSections;
 };
 
-const getSearchRegExp = searchString => {
+const getSearchRegExp = (searchString) => {
     return searchString ? new RegExp(escapeForRegExp(searchString), 'i') : undefined;
 };
 

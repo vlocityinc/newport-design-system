@@ -27,7 +27,7 @@ expect.extend(goldObjectMatchers);
 const SAMPLE_FLOWS = [flowLegalNameChange, flowCollectionServicesDemo, flowWithVariables, flowWithAssignments];
 
 // 1993 Park-Miller LCG
-const lcg = s => () => {
+const lcg = (s) => () => {
     s = Math.imul(48271, s) | 0 % 2147483647;
     return (s & 2147483647) / 2147483648;
 };
@@ -35,7 +35,7 @@ const lcg = s => () => {
 let pseudoRandom = lcg(123);
 
 function mockGenerateGuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
         const r = (pseudoRandom() * 16) | 0;
         const v = c === 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
@@ -109,10 +109,10 @@ export const modifyExpected = (given, expected, callback, path = []) => {
     return expected;
 };
 
-const isEmpty = value =>
+const isEmpty = (value) =>
     value === '' || value == null || value === undefined || (Array.isArray(value) && value.length === 0);
 
-const all = callbacks => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const all = (callbacks) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     for (const callback of callbacks) {
         callback(givenElement, expectedElement, key, givenValue, expectedValue, path);
     }
@@ -154,10 +154,10 @@ const isSamePath = (path1, path2) => {
  * @returns {boolean} true if path is included in paths
  */
 const isPathIncluded = (paths, path) => {
-    return paths.find(pathFromArray => isSamePath(pathFromArray, path)) !== undefined;
+    return paths.find((pathFromArray) => isSamePath(pathFromArray, path)) !== undefined;
 };
 
-const ignoreIfNotInGiven = paths => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const ignoreIfNotInGiven = (paths) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     if (expectedElement) {
         if (isEmpty(givenValue) && isPathIncluded(paths, path)) {
             delete expectedElement[key];
@@ -165,7 +165,7 @@ const ignoreIfNotInGiven = paths => (givenElement, expectedElement, key, givenVa
     }
 };
 
-const ignoreIfNotInExpected = paths => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const ignoreIfNotInExpected = (paths) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     if (expectedElement) {
         if (isEmpty(expectedValue) && isPathIncluded(paths, path)) {
             if (!Object.prototype.hasOwnProperty.call(expectedElement, key)) {
@@ -234,7 +234,7 @@ describe('Flow Translator', () => {
         resetMockGenerateGuidPseudoRandom();
     });
     describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
-        SAMPLE_FLOWS.forEach(metadataFlow => {
+        SAMPLE_FLOWS.forEach((metadataFlow) => {
             it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
                 uiFlow = translateFlowToUIModel(metadataFlow);
                 expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);

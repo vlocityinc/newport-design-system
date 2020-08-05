@@ -562,7 +562,7 @@ describe('Subflow Editor', () => {
                     expect(numberParameterItems[1].item.value.value).toEqual(getElementGuid('numberVariable'));
                 });
                 it('show delete button', () => {
-                    numberParameterItems.forEach(item => {
+                    numberParameterItems.forEach((item) => {
                         const deleteBtn = getDeleteButton(item);
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });
@@ -1046,7 +1046,7 @@ describe('Subflow Editor', () => {
                     expect(numberParameterItems[1].item.value.value).toEqual(getElementGuid('numberVariable'));
                 });
                 it('show delete button', () => {
-                    numberParameterItems.forEach(item => {
+                    numberParameterItems.forEach((item) => {
                         const deleteBtn = getDeleteButton(item);
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });

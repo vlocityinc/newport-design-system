@@ -33,11 +33,11 @@ const getSystemGeneratedOutputParameter = (actionName, actionType, dataTypeMappi
         dataTypeMappings
     });
     return parameters
-        ? parameters.find(param => param.isOutput === true && param.isSystemGeneratedOutput === true)
+        ? parameters.find((param) => param.isOutput === true && param.isSystemGeneratedOutput === true)
         : undefined;
 };
 
-const maxOccursToIsCollection = maxOccurs => {
+const maxOccursToIsCollection = (maxOccurs) => {
     return maxOccurs > 1 ? true : false;
 };
 
@@ -53,7 +53,7 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     } = actionCall;
     let dataType;
     dataTypeMappings = createDynamicTypeMappings(dataTypeMappings);
-    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
+    inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
     let isSystemGeneratedOutput;
     let subtype;
     let isCollection;
@@ -73,10 +73,10 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
         }
     } else {
         dataType = FLOW_DATA_TYPE.BOOLEAN.value;
-        outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+        outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
         storeOutputAutomatically = false;
     }
-    availableConnections = availableConnections.map(availableConnection =>
+    availableConnections = availableConnections.map((availableConnection) =>
         createAvailableConnection(availableConnection)
     );
 
@@ -165,7 +165,7 @@ export function createActionCallMetadataObject(actionCall, config) {
 
     const { actionType, actionName } = actionCall;
     let { inputParameters = [], outputParameters = [], dataTypeMappings = [], storeOutputAutomatically } = actionCall;
-    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+    inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
     if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
         outputParameters = [];
     } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
@@ -174,7 +174,7 @@ export function createActionCallMetadataObject(actionCall, config) {
         outputParameters = [];
         storeOutputAutomatically = undefined;
     } else {
-        outputParameters = outputParameters.map(outputParameter =>
+        outputParameters = outputParameters.map((outputParameter) =>
             createOutputParameterMetadataObject(outputParameter)
         );
     }

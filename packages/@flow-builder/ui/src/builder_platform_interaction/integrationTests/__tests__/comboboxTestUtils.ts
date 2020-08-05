@@ -14,7 +14,7 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import { getGroupedComboboxGroupLabel, selectGroupedComboboxItemBy } from './groupedComboboxTestUtils';
 
-export const getGroupedComboboxFromCombobox = combobox =>
+export const getGroupedComboboxFromCombobox = (combobox) =>
     deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 
 export const typeLiteralValueInCombobox = async (combobox, value) => {
@@ -68,7 +68,7 @@ export const selectComboboxItemBy = async (combobox, propertyName, propertyValue
     return selectGroupedComboboxItemBy(groupedCombobox, propertyName, propertyValues, { blur });
 };
 
-export const getComboboxItems = combobox => {
+export const getComboboxItems = (combobox) => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return groupedCombobox.items;
 };

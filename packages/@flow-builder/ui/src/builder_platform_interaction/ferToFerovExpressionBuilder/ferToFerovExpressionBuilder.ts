@@ -81,7 +81,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     set expression(expression) {
         this.state.expression = expression;
         this.populateLhsState();
-        populateRhsState(expression, values => {
+        populateRhsState(expression, (values) => {
             this.state.rhsDescribe = values;
         });
     }

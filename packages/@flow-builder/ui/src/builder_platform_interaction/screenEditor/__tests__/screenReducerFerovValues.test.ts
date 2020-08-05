@@ -151,7 +151,7 @@ function testFerovValue(
 }
 
 function testInputParamValue(valueBefore, valueAfter) {
-    const screenFieldProvider = value => {
+    const screenFieldProvider = (value) => {
         const config = {
             hydrateValues: false,
             helpText: false,
@@ -164,11 +164,11 @@ function testInputParamValue(valueBefore, valueAfter) {
         return createScreenField(field);
     };
 
-    const fieldProvider = screen => {
+    const fieldProvider = (screen) => {
         return screen.fields[0].inputParameters[0];
     };
 
-    const propertyNameProvider = field => {
+    const propertyNameProvider = (field) => {
         return EXTENSION_PARAM_PREFIX.INPUT + '.' + (field ? field.name.value : 'attribute1');
     };
 
@@ -184,13 +184,13 @@ function testInputParamValue(valueBefore, valueAfter) {
 }
 
 function testDefaultValue(valueBefore, valueAfter, fieldType) {
-    const screenFieldProvider = value => {
+    const screenFieldProvider = (value) => {
         return createTestScreenField('field1', fieldType || 'TextBox', value, {
             hydrateValues: false
         });
     };
 
-    const fieldProvider = screen => {
+    const fieldProvider = (screen) => {
         return screen.fields[0];
     };
 

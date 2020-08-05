@@ -7,7 +7,7 @@ let appName = 'FLOW_BUILDER';
  * Function to set the builder name e.g FLOW_BUILDER or STRATEGY_BUILDER
  * @param {String} name
  */
-export const setAppName = name => {
+export const setAppName = (name) => {
     appName = name;
 };
 

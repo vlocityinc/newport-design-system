@@ -22,14 +22,14 @@ const SYSTEM_VARIABLES = [SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX]
  * @param {String} id             id to check
  * @returns {Boolean}    true if the id might point to a non-element resource, false otherwise
  */
-export const isGlobalConstantOrSystemVariableId = id =>
+export const isGlobalConstantOrSystemVariableId = (id) =>
     !!id && GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
-export const isSystemVariableId = id => !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
-export const isRecordSystemVariableIdentifier = id =>
+export const isSystemVariableId = (id) => !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
+export const isRecordSystemVariableIdentifier = (id) =>
     !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
-export const isRecordSystemVariableCompositeIdentifier = id =>
+export const isRecordSystemVariableCompositeIdentifier = (id) =>
     !!id && typeof id === 'string' && isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
-export const isNonRecordGlobalResourceId = id =>
+export const isNonRecordGlobalResourceId = (id) =>
     !!id &&
     typeof id === 'string' &&
     removeCurlyBraces(id).startsWith('$') &&
@@ -41,7 +41,7 @@ export const isNonRecordGlobalResourceId = id =>
  * @param {String} id           points to a global constant or system variable
  * @returns {Object|undefined}  if the id was valid, the object it references will be returned, otherwise undefined
  */
-export const getGlobalConstantOrSystemVariable = id => {
+export const getGlobalConstantOrSystemVariable = (id) => {
     const reference = removeCurlyBraces(id);
     return GLOBAL_CONSTANT_OBJECTS[reference] || getSystemVariables()[reference];
 };

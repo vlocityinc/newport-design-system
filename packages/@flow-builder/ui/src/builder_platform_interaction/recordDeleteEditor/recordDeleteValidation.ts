@@ -6,7 +6,7 @@ import { Validation } from 'builder_platform_interaction/validation';
  * validates against possible blank, empty or undefined value
  * @returns {Array} corresponding array of validation rules
  */
-const validateAgainstBlankNullOrUndefined = index => {
+const validateAgainstBlankNullOrUndefined = (index) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,

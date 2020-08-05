@@ -12,7 +12,7 @@ import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from '../../base/baseList';
 jest.mock('../../ferov', () => {
     return {
         createFEROVMetadataObject: jest
-            .fn(condition => {
+            .fn((condition) => {
                 return {
                     value: 'someRHSValueFrom' + condition
                 };

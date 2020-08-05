@@ -20,7 +20,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: serverActionType => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_PROCESS_TYPES:
                     return mockProcessTypesPromise;
@@ -49,28 +49,28 @@ function createComponentForTest(props) {
     return el;
 }
 
-const getTemplatesTab = modalBody => modalBody.shadowRoot.querySelector('lightning-tab.templates');
+const getTemplatesTab = (modalBody) => modalBody.shadowRoot.querySelector('lightning-tab.templates');
 
-const getProcessTypesNavigation = modalBody =>
+const getProcessTypesNavigation = (modalBody) =>
     modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-vertical-navigation');
 
-const getProcessTypesTemplates = modalBody =>
+const getProcessTypesTemplates = (modalBody) =>
     modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-templates');
 
-const getRecommended = modalBody =>
+const getRecommended = (modalBody) =>
     modalBody.shadowRoot
         .querySelector('lightning-tab.recommended')
         .querySelector('builder_platform_interaction-visual-picker-list');
 
-const getTemplates = processTypeTemplates =>
+const getTemplates = (processTypeTemplates) =>
     processTypeTemplates.shadowRoot.querySelector('builder_platform_interaction-visual-picker-list');
 
-const getErrorMessage = modalBody => modalBody.shadowRoot.querySelector('.errorMessage .slds-notify__content');
+const getErrorMessage = (modalBody) => modalBody.shadowRoot.querySelector('.errorMessage .slds-notify__content');
 
-const getErrorClosingButton = modalBody => modalBody.shadowRoot.querySelector('lightning-button-icon');
+const getErrorClosingButton = (modalBody) => modalBody.shadowRoot.querySelector('lightning-button-icon');
 
-const getProcessType = processTypeName =>
-    MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);
+const getProcessType = (processTypeName) =>
+    MOCK_ALL_PROCESS_TYPES.find((processType) => processType.name === processTypeName);
 
 const resetProcessTypesCache = () => setProcessTypes([]);
 

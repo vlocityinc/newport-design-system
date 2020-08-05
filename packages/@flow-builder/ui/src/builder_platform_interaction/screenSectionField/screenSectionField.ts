@@ -11,7 +11,7 @@ export default class ScreenSectionField extends LightningElement {
     @api selectedItemGuid;
 
     get columns() {
-        return this.section.fields.map(column => {
+        return this.section.fields.map((column) => {
             const columnWidth =
                 column.inputParameters && column.inputParameters.length > 0
                     ? Number(getValueFromHydratedItem(column.inputParameters[0].value))

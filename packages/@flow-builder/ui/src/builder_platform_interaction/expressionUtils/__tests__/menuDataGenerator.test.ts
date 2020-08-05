@@ -87,7 +87,7 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
                     isSystemGeneratedOutput
                 })
             ),
-        getResourceLabel: jest.fn().mockImplementation(resource => resource.name)
+        getResourceLabel: jest.fn().mockImplementation((resource) => resource.name)
     };
 });
 
@@ -272,7 +272,7 @@ describe('menuDataGenerator', () => {
         const clientVariable = {
             dataType: FLOW_DATA_TYPE.STRING.value
         };
-        const mockedDataTypeLabel = field => `${field.dataType}Label`;
+        const mockedDataTypeLabel = (field) => `${field.dataType}Label`;
 
         const expectSubText = (field, parent, expectedSubtext = mockedDataTypeLabel(field)) => {
             const dataTypeLabel = mockedDataTypeLabel(field);

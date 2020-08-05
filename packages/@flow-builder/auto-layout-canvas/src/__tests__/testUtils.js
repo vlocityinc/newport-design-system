@@ -160,7 +160,7 @@ function createFlowRenderContext(custom) {
 function linkElements(elements) {
     let prevElement = null;
 
-    return elements.map(element => {
+    return elements.map((element) => {
         if (prevElement) {
             prevElement.next = element.guid;
             element.prev = prevElement.guid;
@@ -194,7 +194,7 @@ function createBranch(
     let hasEnd = false;
     let branchHead;
 
-    branch.forEach(elementInfo => {
+    branch.forEach((elementInfo) => {
         nextElement = createElement(elementInfo, elementsMap, prefix);
 
         if (prevElement == null) {

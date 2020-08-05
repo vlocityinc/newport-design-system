@@ -107,9 +107,9 @@ export default class ProcessTypesTemplates extends LightningElement {
         let blankItems = this.state.blankItems;
         if (blankItems && blankItems.length > 0 && this.processType) {
             if (this.processType !== ALL_PROCESS_TYPE.name) {
-                blankItems = blankItems.filter(item => item.processType === this.processType);
+                blankItems = blankItems.filter((item) => item.processType === this.processType);
             }
-            this.state.processTypesTiles = blankItems.map(item => ({ ...item }));
+            this.state.processTypesTiles = blankItems.map((item) => ({ ...item }));
         } else {
             this.state.processTypesTiles = [];
         }
@@ -134,7 +134,7 @@ export default class ProcessTypesTemplates extends LightningElement {
         const processTypes =
             this.processType !== ALL_PROCESS_TYPE.name
                 ? [this.processType]
-                : this.state.processTypes.map(type => type.name);
+                : this.state.processTypes.map((type) => type.name);
         if (!processTypes || processTypes.length === 0) {
             return;
         }
@@ -145,7 +145,7 @@ export default class ProcessTypesTemplates extends LightningElement {
 
         this.state.templatesLoading = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_TEMPLATES, { processTypes }, { disableErrorModal: true })
-            .then(data => {
+            .then((data) => {
                 this.state.templatesLoading = false;
                 // caches the returned templates to avoid calling to server when changing the process type
                 cacheTemplates(this.state.processTypes, this.processType, data);
@@ -164,7 +164,7 @@ export default class ProcessTypesTemplates extends LightningElement {
         // Make sure the selected item is present in the current tile set and
         // re-select it in case the current tile set has changed.
         if (selectedItem) {
-            selectedItem = items ? items.find(i => i.itemId === selectedItem.itemId) : null;
+            selectedItem = items ? items.find((i) => i.itemId === selectedItem.itemId) : null;
         }
         // Select the first item, if none are selected.
         if (!selectedItem && items && items.length > 0) {
@@ -174,22 +174,22 @@ export default class ProcessTypesTemplates extends LightningElement {
     }
 
     select(itemId) {
-        const item = this.items.find(template => template.itemId === itemId);
+        const item = this.items.find((template) => template.itemId === itemId);
         item.isSelected = false;
         item.isSelected = true;
         this.selectedItem = item;
     }
 
     deselect(itemId) {
-        const item = this.items.find(template => template.itemId === itemId);
+        const item = this.items.find((template) => template.itemId === itemId);
         item.isSelected = true;
         item.isSelected = false;
     }
 
     handleTemplateOrProcessTypeTileChanged(event) {
         event.stopPropagation();
-        const deselectedItem = event.detail.items.find(item => !item.isSelected);
-        const selectedItem = event.detail.items.find(item => item.isSelected);
+        const deselectedItem = event.detail.items.find((item) => !item.isSelected);
+        const selectedItem = event.detail.items.find((item) => item.isSelected);
         if (deselectedItem && !selectedItem) {
             this.select(deselectedItem.id);
             return;

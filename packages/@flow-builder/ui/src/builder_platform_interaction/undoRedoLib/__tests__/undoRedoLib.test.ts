@@ -27,7 +27,7 @@ const storeStateWithOneMockElement = {
     variables: []
 };
 
-const mockReducerFn = jest.fn(x => ({ ...x }));
+const mockReducerFn = jest.fn((x) => ({ ...x }));
 
 describe('UndoRedo Library Function', () => {
     const blacklistedActions = [INIT];

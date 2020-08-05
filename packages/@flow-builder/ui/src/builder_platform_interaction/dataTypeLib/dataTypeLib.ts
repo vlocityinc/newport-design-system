@@ -230,7 +230,7 @@ export function getFlowType(dataType) {
         for (const flowType in FLOW_DATA_TYPE) {
             if (FLOW_DATA_TYPE.hasOwnProperty(flowType)) {
                 const flowDataType = FLOW_DATA_TYPE[flowType];
-                const type = TYPE_MAPPING[flowDataType.value].find(t => t.toUpperCase() === ucDataType);
+                const type = TYPE_MAPPING[flowDataType.value].find((t) => t.toUpperCase() === ucDataType);
                 if (type) {
                     return flowDataType;
                 }
@@ -296,7 +296,7 @@ export function getDataTypeLabel(dataTypeApiName) {
  */
 export function getFlowDataType(dataType) {
     const flowDataType = dataType
-        ? Object.keys(TYPE_MAPPING).find(key => TYPE_MAPPING[key].includes(dataType.toLowerCase()))
+        ? Object.keys(TYPE_MAPPING).find((key) => TYPE_MAPPING[key].includes(dataType.toLowerCase()))
         : undefined;
     return flowDataType ? flowDataType : undefined;
 }
@@ -341,4 +341,4 @@ export const SUPER_TYPE = {
     }
 };
 
-export const superTypeToFlowDataType = superType => SUPER_TYPE[superType].flowDataType;
+export const superTypeToFlowDataType = (superType) => SUPER_TYPE[superType].flowDataType;

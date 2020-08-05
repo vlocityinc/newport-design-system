@@ -46,7 +46,7 @@ import { canContainSObjectElements } from 'builder_platform_interaction/selector
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
-const isPicklistFieldAllowed = allowedTypes => {
+const isPicklistFieldAllowed = (allowedTypes) => {
     // we need a param to represent picklist values so we can check if they are allowed based on the given param types
     const picklistParam = {
         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -150,11 +150,11 @@ export function isElementAllowed(
         return true;
     }
 
-    const isElementMatchForProperty = property => {
+    const isElementMatchForProperty = (property) => {
         if (!property) {
             return false;
         }
-        const paramTypeKey = Object.keys(allowedParamTypes).find(key => {
+        const paramTypeKey = Object.keys(allowedParamTypes).find((key) => {
             return key.toLowerCase() === property.toLowerCase();
         });
         const allowedType = paramTypeKey ? allowedParamTypes[paramTypeKey] : undefined;
@@ -206,7 +206,7 @@ function getNewResourceItem() {
  * @param {Object[]} picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
-export const getPicklistMenuData = picklist => {
+export const getPicklistMenuData = (picklist) => {
     if (!Array.isArray(picklist)) {
         throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
     }
@@ -255,12 +255,12 @@ export function getElementsForMenuData(
     );
 }
 
-const disableHasNextOnMenuItem = menuItem => {
+const disableHasNextOnMenuItem = (menuItem) => {
     menuItem.hasNext = false;
     menuItem.rightIconName = '';
 };
 
-const isApexCollectionAnonymousAutomaticOutput = menuItem => {
+const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     return (
         menuItem.dataType === FLOW_DATA_TYPE.APEX.value &&
         menuItem.storeOutputAutomatically &&
@@ -307,14 +307,14 @@ export function filterAndMutateMenuData(
     // Create menu items from flow elements, sort them and group by their category.
     const menuData = menuDataElements
         .filter(
-            element =>
+            (element) =>
                 isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
                 // exclude the start element so that it is easier to add back as a global var below
                 !isSystemElement(element.elementType) &&
                 (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
                 !isSectionOrColumn(element)
         )
-        .map(element => {
+        .map((element) => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {
                 disableHasNextOnMenuItem(menuItem);
@@ -347,7 +347,7 @@ export function filterAndMutateMenuData(
 
     // Add the start element as $Record under Global Variables
     const startElement = menuDataElements.find(
-        element =>
+        (element) =>
             isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
             // exclude the start element so that it is easier to add back as a global var below
             element.elementType === ELEMENT_TYPE.START_ELEMENT
@@ -395,7 +395,7 @@ export function filterAndMutateMenuData(
  * @param {String} entityType   The entity type that we want in our menu data (ex: queryable, updatable etc)
  * @returns {MenuData}             Combobox menu data with our entities
  */
-export const getEntitiesMenuData = entityType => {
+export const getEntitiesMenuData = (entityType) => {
     let entities;
     switch (entityType) {
         case sobjectLib.ENTITY_TYPE.QUERYABLE:
@@ -420,7 +420,7 @@ export const getEntitiesMenuData = entityType => {
     return mutateEntitiesToComboboxShape(entities);
 };
 
-const isWritable = field => {
+const isWritable = (field) => {
     return isSystemVariableId(field.guid) ? !field.readOnly : true;
 };
 
@@ -457,7 +457,7 @@ export function filterFieldsForChosenElement(
             allowSObjectFieldsTraversal = false;
         }
         return Object.values(fields)
-            .filter(field => {
+            .filter((field) => {
                 return (
                     (shouldBeWritable ? isWritable(field) : true) &&
                     isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, sObjectSelectorConfig)
@@ -476,7 +476,7 @@ export function filterFieldsForChosenElement(
                     ),
                 []
             )
-            .filter(field =>
+            .filter((field) =>
                 // filter a second time because several menu items may be generated, some of them possibly not with the expected dataType
                 isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, sObjectSelectorConfig)
             )
@@ -545,7 +545,7 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
 }
 
 function getScreenFieldElementByGuid(guid) {
-    return getElementByGuid(guid) || getScreenElement().fields.find(field => field.guid === guid);
+    return getElementByGuid(guid) || getScreenElement().fields.find((field) => field.guid === guid);
 }
 
 /**
@@ -557,7 +557,7 @@ function getScreenFieldElementByGuid(guid) {
  * @returns {Object}  the element with the provided devName
  */
 export function getElementByDevName(elements = {}, devName) {
-    return Object.values(elements).find(element => {
+    return Object.values(elements).find((element) => {
         return element.name === devName;
     });
 }
@@ -586,7 +586,7 @@ export const getResourceTypesMenuData = () => {
  */
 export const getProcessTypesMenuData = () => {
     const processTypes = getProcessTypes();
-    return processTypes.map(processTypeObject => {
+    return processTypes.map((processTypeObject) => {
         return {
             value: processTypeObject.name,
             label: processTypeObject.label
@@ -600,7 +600,7 @@ export const getProcessTypesMenuData = () => {
  */
 export const getRunInModesMenuData = () => {
     const runInModes = getRunInModes();
-    return runInModes.map(runInModeObject => {
+    return runInModes.map((runInModeObject) => {
         return {
             value: runInModeObject.name,
             label: runInModeObject.value
@@ -630,7 +630,7 @@ export const getEventTypesMenuDataRunTime = () => {
 
 export const getApiVersionMenuData = () => {
     const apiVersions = getApiVersionsList();
-    return apiVersions.map(apiVersion => {
+    return apiVersions.map((apiVersion) => {
         return {
             value: apiVersion.toString(),
             label: apiVersion.toString()

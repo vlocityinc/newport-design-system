@@ -58,7 +58,7 @@ jest.mock('builder_platform_interaction/subflowsLib', () => ({
 }));
 
 describe('flowComplexTypeFields', () => {
-    const stateWithElements = elements => {
+    const stateWithElements = (elements) => {
         const elementsMap = elements.reduce((acc, element) => {
             acc[element.guid] = element;
             return acc;
@@ -66,7 +66,7 @@ describe('flowComplexTypeFields', () => {
         return { elements: elementsMap };
     };
     describe('loadFieldsForSobjectsInFlow', () => {
-        const expectOneCallToFetchFieldsForEntity = expectedEntityName => {
+        const expectOneCallToFetchFieldsForEntity = (expectedEntityName) => {
             expect(fetchFieldsForEntity.mock.calls).toHaveLength(1);
             expect(fetchFieldsForEntity.mock.calls[0][0]).toBe(expectedEntityName);
         };
@@ -102,7 +102,7 @@ describe('flowComplexTypeFields', () => {
         });
     });
     describe('loadFieldsForExtensionsInFlow', () => {
-        const expectOneCallToDescribeExtensions = expectedNames => {
+        const expectOneCallToDescribeExtensions = (expectedNames) => {
             expect(describeExtensions.mock.calls).toHaveLength(1);
             expect(describeExtensions.mock.calls[0][0]).toEqual(expectedNames);
         };
@@ -158,7 +158,7 @@ describe('flowComplexTypeFields', () => {
         });
     });
     describe('loadParametersForInvocableApexActionsInFlowFromMetadata', () => {
-        const expectOneCallToFetchParametersForInvocableAction = expectedActionCallNameAndType => {
+        const expectOneCallToFetchParametersForInvocableAction = (expectedActionCallNameAndType) => {
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(1);
             expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(expectedActionCallNameAndType);
         };

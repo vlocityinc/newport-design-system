@@ -143,8 +143,8 @@ describe('Combobox Search Library', () => {
 
         it('New array should have filterText highlighted in text & subtext in group items.', () => {
             const filteredArray = filterMatches(filterText.name, menuData);
-            filteredArray.forEach(group => {
-                group.items.every(item => {
+            filteredArray.forEach((group) => {
+                group.items.every((item) => {
                     return (
                         expect(item.text).toContainEqual(filteredTextName) &&
                         expect(item.subText).toContainEqual(filteredTextName)
@@ -156,8 +156,8 @@ describe('Combobox Search Library', () => {
         it('Second search result should have highlight cleared from previous search.', () => {
             let filteredArray = filterMatches(filterText.name, menuData);
             filteredArray = filterMatches(filterText.str, menuData);
-            filteredArray.forEach(group => {
-                group.items.every(item => {
+            filteredArray.forEach((group) => {
+                group.items.every((item) => {
                     return (
                         expect(item.text).not.toContainEqual(filteredTextName) &&
                         expect(item.subText).toContainEqual(filteredTextString)

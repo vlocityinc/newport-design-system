@@ -283,7 +283,7 @@ const _setConnectorLabel = (connector, jsPlumbConnector) => {
  * @param {Object} event - Any event that needs to be checked for multi-selection
  * @returns {boolean}  Returns true if shift key is down during the event
  */
-export const isMultiSelect = event => {
+export const isMultiSelect = (event) => {
     return event && event.shiftKey;
 };
 
@@ -359,7 +359,7 @@ export const setupConnectors = (connectors, jsPlumbConnectorMap, canvasElementGu
     // This contains all the newly added connectors
     const additionJsPlumbConnectorMap = {};
 
-    connectors.forEach(connector => {
+    connectors.forEach((connector) => {
         const connectorGuid = connector.guid;
 
         let jsPlumbConnector = jsPlumbConnectorMap[connectorGuid];

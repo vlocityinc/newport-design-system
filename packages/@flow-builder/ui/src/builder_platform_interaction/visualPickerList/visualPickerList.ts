@@ -86,7 +86,7 @@ export default class VisualPickerList extends LightningElement {
     }
 
     checkAllowMultipleSelection() {
-        const selectedItems = this.items.filter(item => item.isSelected);
+        const selectedItems = this.items.filter((item) => item.isSelected);
         if (selectedItems.length > 1 && !this.allowMultipleSelection) {
             throw new Error('Can not select more than 1 item');
         }
@@ -103,7 +103,7 @@ export default class VisualPickerList extends LightningElement {
         if (event.detail.isSelected) {
             // unselect the prev selected item if allowMultipleSelection is false
             if (!this.allowMultipleSelection) {
-                const prevSelectedItem = this.items.find(item => item.isSelected);
+                const prevSelectedItem = this.items.find((item) => item.isSelected);
                 if (prevSelectedItem) {
                     changedItems.push({
                         id: prevSelectedItem.itemId,

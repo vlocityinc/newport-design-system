@@ -67,7 +67,7 @@ const dispatchValueChangeEvent = (component, value, error = null) => {
     component.dispatchEvent(changeEvent);
 };
 
-const getSelectEvent = inputValue => {
+const getSelectEvent = (inputValue) => {
     return new CustomEvent('select', {
         detail: { value: inputValue }
     });
@@ -92,15 +92,15 @@ const dispatchSelectedSubflowChangeEvent = (component, flowName) =>
         elementType: ELEMENT_TYPE.SUBFLOW
     });
 
-const getActionSelector = calloutEditor => {
+const getActionSelector = (calloutEditor) => {
     return calloutEditor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
 };
 
-const getContainer = calloutEditor => calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+const getContainer = (calloutEditor) => calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
 
-const filterByCombobox = calloutEditor => calloutEditor.shadowRoot.querySelector(selectors.FILTER_BY_COMBO);
+const filterByCombobox = (calloutEditor) => calloutEditor.shadowRoot.querySelector(selectors.FILTER_BY_COMBO);
 
-const actionCategories = calloutEditor => calloutEditor.shadowRoot.querySelector(selectors.ACTION_CATEGORIES);
+const actionCategories = (calloutEditor) => calloutEditor.shadowRoot.querySelector(selectors.ACTION_CATEGORIES);
 
 describe('callout-editor', () => {
     let calloutEditor;
@@ -122,7 +122,7 @@ describe('callout-editor', () => {
     });
     describe('filter by combo', () => {
         it('displays all filter options', () => {
-            expect(filterByCombobox(calloutEditor).options.map(option => option.label)).toEqual([
+            expect(filterByCombobox(calloutEditor).options.map((option) => option.label)).toEqual([
                 'FlowBuilderActionSelector.filterByCategoryOption',
                 'FlowBuilderActionSelector.filterByTypeOption'
             ]);

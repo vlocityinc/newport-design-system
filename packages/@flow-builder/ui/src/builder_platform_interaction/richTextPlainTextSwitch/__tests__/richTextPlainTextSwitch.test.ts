@@ -12,7 +12,7 @@ function createComponentForTest(props) {
     return el;
 }
 
-const changeModeEvent = value =>
+const changeModeEvent = (value) =>
     new CustomEvent('change', {
         detail: { value }
     });
@@ -21,7 +21,7 @@ const SELECTORS = {
     lightningCombobox: 'lightning-combobox'
 };
 
-const getLightningCombobox = richTextPlainTextSwitchComponent =>
+const getLightningCombobox = (richTextPlainTextSwitchComponent) =>
     richTextPlainTextSwitchComponent.shadowRoot.querySelector(SELECTORS.lightningCombobox);
 
 describe('rich-text-plain-text-switch', () => {

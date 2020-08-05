@@ -10,7 +10,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -32,7 +32,7 @@ const SELECTORS = {
 
 const fieldName = 'input1';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-input-field-properties-editor', {
         is: ScreenInputFieldPropertiesEditor
     });

@@ -27,19 +27,19 @@ export const getChevronElement = (leftPanel, resourceGuid, paletteIndex = PALETT
     return palette.shadowRoot.querySelector('[data-key="' + resourceGuid + '"]');
 };
 
-export const clickOnViewDetailButton = chevronElement => {
+export const clickOnViewDetailButton = (chevronElement) => {
     const chevronButton = chevronElement.querySelector(LEFT_PANEL_SELECTORS.BUTTON_VIEW_DETAIL);
     expect(chevronButton).toBeDefined();
     chevronButton.click();
 };
 
-export const clickOnLocatorButton = chevronElement => {
+export const clickOnLocatorButton = (chevronElement) => {
     const locatorButton = chevronElement.querySelector(LEFT_PANEL_SELECTORS.BUTTON_LOCATOR_ICON);
     expect(locatorButton).toBeDefined();
     locatorButton.click();
 };
 
-export const clickDeleteButtonInResourceDetailsPanel = resourceDetailsPanel => {
+export const clickDeleteButtonInResourceDetailsPanel = (resourceDetailsPanel) => {
     const deleteButton = resourceDetailsPanel.shadowRoot.querySelector(
         '[title="' + LEFT_PANEL_SELECTORS.RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TITLE + '"]'
     );
@@ -47,11 +47,11 @@ export const clickDeleteButtonInResourceDetailsPanel = resourceDetailsPanel => {
     deleteButton.click();
 };
 
-export const getResourceDetail = leftPanel => {
+export const getResourceDetail = (leftPanel) => {
     return deepQuerySelector(leftPanel, [LEFT_PANEL_SELECTORS.LEFT_PANEL_RESOURCE_DETAILS]);
 };
 
-export const getLeftPanel = editorCmp => {
+export const getLeftPanel = (editorCmp) => {
     return editorCmp.shadowRoot.querySelector(LEFT_PANEL_SELECTORS.LEFT_PANEL);
 };
 

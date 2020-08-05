@@ -37,7 +37,7 @@ const SELECTORS = {
     FILTER_EXPRESSION_BUILDER: INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER
 };
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     let element = createElement('builder_platform_interaction-wait-platform-event', {
         is: WaitPlatformEvent
     });

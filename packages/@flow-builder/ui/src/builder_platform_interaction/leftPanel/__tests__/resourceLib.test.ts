@@ -22,8 +22,8 @@ jest.mock(
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getEntity: jest.fn().mockImplementation(apiName => {
-            return mockEntities.find(entity => entity.apiName === apiName);
+        getEntity: jest.fn().mockImplementation((apiName) => {
+            return mockEntities.find((entity) => entity.apiName === apiName);
         })
     };
 });
@@ -55,14 +55,14 @@ const sectionsMatchers = {
         let previousSectionLabel;
         let previousItemLabel;
         let message = 'sections and items are sorted in ascending order';
-        forEachSection(sections, section => {
+        forEachSection(sections, (section) => {
             if (previousSectionLabel && section.label.localeCompare(previousSectionLabel) < 0) {
                 result = false;
                 message = 'sections are not sorted in ascending order';
             }
             previousSectionLabel = section.label;
             previousItemLabel = undefined;
-            forEachItemInSection(section, item => {
+            forEachItemInSection(section, (item) => {
                 if (previousItemLabel && item.label.localeCompare(previousItemLabel) < 0) {
                     result = false;
                     message = `items are not sorted in ascending order : ${item.label} is before ${previousItemLabel}`;
@@ -77,7 +77,7 @@ const sectionsMatchers = {
     },
     toNotHaveEmptySection(sections) {
         let emptySection;
-        forEachSection(sections, section => {
+        forEachSection(sections, (section) => {
             if (!section._children || section._children.length === 0) {
                 emptySection = section;
             }
@@ -99,8 +99,8 @@ expect.extend(sectionsMatchers);
 
 const getSection = (sections, elementGuid) => {
     let result;
-    forEachSection(sections, section => {
-        forEachItemInSection(section, item => {
+    forEachSection(sections, (section) => {
+        forEachItemInSection(section, (item) => {
             if (item.guid === elementGuid) {
                 result = section;
             }
@@ -109,10 +109,10 @@ const getSection = (sections, elementGuid) => {
     return result;
 };
 
-const getAllItems = sections => {
+const getAllItems = (sections) => {
     const result = [];
-    forEachSection(sections, section => {
-        forEachItemInSection(section, item => {
+    forEachSection(sections, (section) => {
+        forEachItemInSection(section, (item) => {
             result.push(item);
         });
     });
@@ -121,8 +121,8 @@ const getAllItems = sections => {
 
 const getItem = (sections, elementGuid) => {
     let result;
-    forEachSection(sections, section => {
-        forEachItemInSection(section, item => {
+    forEachSection(sections, (section) => {
+        forEachItemInSection(section, (item) => {
             if (item.guid === elementGuid) {
                 result = item;
             }
@@ -133,7 +133,7 @@ const getItem = (sections, elementGuid) => {
 
 describe('resource-lib', () => {
     describe('getResourceSection', () => {
-        it.each([undefined, []])('returns empty passing %o', resources => {
+        it.each([undefined, []])('returns empty passing %o', (resources) => {
             const resourceSections = getResourceSections(resources);
             expect(resourceSections).toHaveLength(0);
         });
@@ -146,11 +146,11 @@ describe('resource-lib', () => {
         });
         test('sections and items have required properties', () => {
             const sections = getResourceSections(flowWithAllElementsUIModel.elements);
-            forEachSection(sections, section => {
+            forEachSection(sections, (section) => {
                 expect(section.guid).toBeDefined();
                 expect(section._children).toBeDefined();
                 expect(section.label).toBeDefined();
-                forEachItemInSection(section, item => {
+                forEachItemInSection(section, (item) => {
                     expect(item.guid).toBeDefined();
                     expect(item.label).toBeDefined();
                     expect(item.description).toBe(item.label);
@@ -168,8 +168,8 @@ describe('resource-lib', () => {
         });
         it('should set an icon for all resources except stage', () => {
             const sections = getResourceSections(flowWithAllElementsUIModel.elements);
-            forEachSection(sections, section => {
-                forEachItemInSection(section, item => {
+            forEachSection(sections, (section) => {
+                forEachItemInSection(section, (item) => {
                     if (item.elementType === ELEMENT_TYPE.STAGE) {
                         expect(item.iconName).toBeUndefined();
                     } else {
@@ -200,7 +200,7 @@ describe('resource-lib', () => {
         );
     });
     describe('getElementSections', () => {
-        it.each([undefined, []])('returns empty passing %o', elements => {
+        it.each([undefined, []])('returns empty passing %o', (elements) => {
             const elementsSections = getElementSections(elements);
             expect(elementsSections).toHaveLength(0);
         });
@@ -213,11 +213,11 @@ describe('resource-lib', () => {
         });
         test('sections and items have required properties', () => {
             const sections = getElementSections(flowWithAllElementsUIModel.elements);
-            forEachSection(sections, section => {
+            forEachSection(sections, (section) => {
                 expect(section.guid).toBeDefined();
                 expect(section._children).toBeDefined();
                 expect(section.label).toBeDefined();
-                forEachItemInSection(section, item => {
+                forEachItemInSection(section, (item) => {
                     expect(item.guid).toBeDefined();
                     expect(item.label).toBeDefined();
                     expect(item.description).toBe(item.label);
@@ -231,8 +231,8 @@ describe('resource-lib', () => {
         });
         it('should not set an icon for canvas elements', () => {
             const sections = getElementSections(flowWithAllElementsUIModel.elements);
-            forEachSection(sections, section => {
-                forEachItemInSection(section, item => {
+            forEachSection(sections, (section) => {
+                forEachItemInSection(section, (item) => {
                     expect(item.iconName).toBeUndefined();
                 });
             });
@@ -251,9 +251,9 @@ describe('resource-lib', () => {
         );
         test('all elements in a section should have the same element type', () => {
             const sections = getElementSections(flowWithAllElementsUIModel.elements);
-            forEachSection(sections, section => {
+            forEachSection(sections, (section) => {
                 let expectedElementType;
-                forEachItemInSection(section, item => {
+                forEachItemInSection(section, (item) => {
                     if (!expectedElementType) {
                         expectedElementType = item.elementType;
                     } else {

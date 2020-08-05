@@ -13,7 +13,7 @@ const validateAssignments = () => ValidationRules.validateExpressionWith2Propert
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateInputReference = index => {
+const validateInputReference = (index) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
@@ -35,7 +35,7 @@ export const recordUpdateValidation = new Validation();
  * @param {Object} nodeElement the element that need to be validated
  * @return {Object} the override rules
  */
-export const getRules = nodeElement => {
+export const getRules = (nodeElement) => {
     const overrideRules = Object.assign({}, recordUpdateValidation.finalizedRules);
     // case where a sObject has been selected
     if (nodeElement.useSobject) {

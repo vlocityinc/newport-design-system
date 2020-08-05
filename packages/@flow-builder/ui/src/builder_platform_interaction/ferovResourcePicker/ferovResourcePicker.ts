@@ -252,7 +252,7 @@ export default class FerovResourcePicker extends LightningElement {
      * Handler for when a user clicks on new resource button from the combobox
      * Update the store and save the rowIndex of the comobobox
      */
-    handleAddInlineResource = event => {
+    handleAddInlineResource = (event) => {
         if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
             storeInstance.dispatch(
                 updateInlineResourceProperties({
@@ -288,7 +288,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     /** HELPER METHODS */
 
-    initializeResourcePicker = normalizedValue => {
+    initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
         this.value = normalizedValue.itemOrDisplayText;
         this.populateMenuData(this.parentItem, normalizedValue.fields);
@@ -321,14 +321,14 @@ export default class FerovResourcePicker extends LightningElement {
                     allowSObjectFields: this.comboboxConfig.allowSObjectFields,
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
                 }
-            ).then(menuData => {
+            ).then((menuData) => {
                 this._baseResourcePicker.setMenuData(menuData);
                 this.setInlineResource(menuData);
             });
         }
     };
 
-    setInlineResource = menuData => {
+    setInlineResource = (menuData) => {
         const {
             lastInlineResourceRowIndex: inlineResourceRowIndex,
             lastInlineResourceGuid: inlineGuid

@@ -111,7 +111,7 @@ function getFerovObjectValue(ferovObject) {
  * @return {string}     returns the metadataType
  */
 function getMetaDataType(ferovObject) {
-    return FEROV_DATA_TYPE_VALUES.find(type => {
+    return FEROV_DATA_TYPE_VALUES.find((type) => {
         return ferovObject.hasOwnProperty(type);
     });
 }
@@ -169,7 +169,7 @@ function validateParams(valueProperty, dataTypeProperty) {
  * @param {String} fieldName the key of the field
  * @returns {String} the dataType key
  */
-export const getDataTypeKey = fieldName => {
+export const getDataTypeKey = (fieldName) => {
     return fieldName + 'DataType';
 };
 
@@ -235,7 +235,7 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
         if (dataType && value !== '' && value !== undefined && value !== null) {
             // find the data type key of the element object
             const ferovDataTypeValue = getFerovDataTypeValue(dataType);
-            const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find(type => {
+            const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
                 return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
             });
 

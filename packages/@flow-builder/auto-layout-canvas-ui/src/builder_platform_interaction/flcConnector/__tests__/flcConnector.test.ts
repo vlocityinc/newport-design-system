@@ -84,7 +84,7 @@ const getFaultConnectorInfo = () => {
     };
 };
 
-const createComponentUnderTest = connectorInfo => {
+const createComponentUnderTest = (connectorInfo) => {
     const el = createElement('builder_platform_interaction-flc-connector', {
         is: FlcConnector
     });

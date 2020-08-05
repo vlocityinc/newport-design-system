@@ -47,6 +47,6 @@ afterAll(() => {
 
 // fail test suite on unhandled promise rejection
 // eslint-disable-next-line lwc-core/no-process-env
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error) => {
     throw error;
 });

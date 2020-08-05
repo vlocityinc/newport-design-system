@@ -112,7 +112,7 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.isAutoLayoutCanvas).toBe(isAutoLayoutCanvas);
     });
 
-    test.each([UPDATE_APEX_CLASSES, UPDATE_ENTITIES])('should not set hasUnsavedChanges on %s', action => {
+    test.each([UPDATE_APEX_CLASSES, UPDATE_ENTITIES])('should not set hasUnsavedChanges on %s', (action) => {
         const newState = reducer(
             { a: 'b' },
             {

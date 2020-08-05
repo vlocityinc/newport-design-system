@@ -24,7 +24,7 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
-const getProcessTypesNavigationItems = modalBody => {
+const getProcessTypesNavigationItems = (modalBody) => {
     return deepQuerySelector(modalBody, [
         SELECTORS.PROCESS_TYPES_NAVIGATION,
         SELECTORS.LIGHTNING_VERTICAL_NAVIGATION
@@ -32,7 +32,9 @@ const getProcessTypesNavigationItems = modalBody => {
 };
 
 const selectProcessType = (processTypesNavigationItems, processType) => {
-    const searchedNode = [...processTypesNavigationItems].find(processTypeNode => processTypeNode.name === processType);
+    const searchedNode = [...processTypesNavigationItems].find(
+        (processTypeNode) => processTypeNode.name === processType
+    );
 
     searchedNode.dispatchEvent(
         new CustomEvent('select', {
@@ -45,14 +47,14 @@ const selectProcessType = (processTypesNavigationItems, processType) => {
     );
 };
 
-const getProcessTypesTemplates = modalBody => modalBody.shadowRoot.querySelector(SELECTORS.PROCESS_TYPES_TEMPLATES);
+const getProcessTypesTemplates = (modalBody) => modalBody.shadowRoot.querySelector(SELECTORS.PROCESS_TYPES_TEMPLATES);
 
 const getTemplateList = (processTypeTemplates, section) =>
     processTypeTemplates.shadowRoot.querySelector(section).querySelector(SELECTORS.VISUAL_PICKER_LIST);
 
-const getTemplateItems = templatesList => templatesList.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
+const getTemplateItems = (templatesList) => templatesList.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
 
-const getExploreFlowTemplateTile = processTypeTemplates =>
+const getExploreFlowTemplateTile = (processTypeTemplates) =>
     processTypeTemplates.shadowRoot
         .querySelector(SELECTORS.TEMPLATES_SECTION)
         .querySelector(SELECTORS.GET_TEMPLATES_TILE);
@@ -68,7 +70,7 @@ const createComponentForTest = () => {
     return el;
 };
 
-const getTemplateItemTitle = templateItem => templateItem.shadowRoot.querySelector('h2').title;
+const getTemplateItemTitle = (templateItem) => templateItem.shadowRoot.querySelector('h2').title;
 
 describe('new Flow Modal Body', () => {
     let newFlowModalBody;
@@ -117,7 +119,7 @@ describe('new Flow Modal Body', () => {
                     expect(templateItems).toHaveLength(5);
                     // 5 = Blanks(AutoLaunched + BeforeSave + Scheduled + FlowByValue) + 1 template
 
-                    const templateItemTitles = Array.from(templateItems).map(templateItem =>
+                    const templateItemTitles = Array.from(templateItems).map((templateItem) =>
                         getTemplateItemTitle(templateItem)
                     );
                     expect(templateItemTitles).toContain('FTEST-TestFileBasedT');
@@ -130,7 +132,7 @@ describe('new Flow Modal Body', () => {
                     const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
                     const templateList = getTemplateList(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
                     const templateItems = getTemplateItems(templateList);
-                    const templateItemTitles = Array.from(templateItems).map(templateItem =>
+                    const templateItemTitles = Array.from(templateItems).map((templateItem) =>
                         getTemplateItemTitle(templateItem)
                     );
                     expect(templateItemTitles).not.toContain('FTEST-TestFileBasedT');

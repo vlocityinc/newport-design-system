@@ -23,33 +23,33 @@ const SELECTORS = {
     DELETE_BUTTON: 'lightning-button-icon'
 };
 
-export const getBaseCalloutElement = actionEditor => {
+export const getBaseCalloutElement = (actionEditor) => {
     return actionEditor.shadowRoot.querySelector(SELECTORS.BASE_CALLOUT_EDITOR);
 };
 
-const getParameterList = actionEditor => {
+const getParameterList = (actionEditor) => {
     return getBaseCalloutElement(actionEditor).shadowRoot.querySelector(SELECTORS.PARAMETER_LIST);
 };
 
-export const getInputParameterItems = actionEditor => {
+export const getInputParameterItems = (actionEditor) => {
     return getParameterList(actionEditor)
         .shadowRoot.querySelector(SELECTORS.INPUT_DIV)
         .querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
-export const getParameterListOutputDiv = actionEditor => {
+export const getParameterListOutputDiv = (actionEditor) => {
     return getParameterList(actionEditor).shadowRoot.querySelector(SELECTORS.OUTPUT_DIV);
 };
 
-export const getOutputParameterItems = actionEditor => {
+export const getOutputParameterItems = (actionEditor) => {
     return getParameterListOutputDiv(actionEditor).querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
-const getFerovResourcePicker = parameterItem => {
+const getFerovResourcePicker = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 };
 
-export const getInputParameterComboboxElement = parameterItem => {
+export const getInputParameterComboboxElement = (parameterItem) => {
     return deepQuerySelector(parameterItem, [
         SELECTORS.FEROV_RESOURCE_PICKER,
         SELECTORS.BASE_RESOURCE_PICKER,
@@ -58,7 +58,7 @@ export const getInputParameterComboboxElement = parameterItem => {
     ]);
 };
 
-export const getOutputParameterComboboxElement = parameterItem => {
+export const getOutputParameterComboboxElement = (parameterItem) => {
     return deepQuerySelector(parameterItem, [
         SELECTORS.OUTPUT_RESOURCE_PICKER,
         SELECTORS.BASE_RESOURCE_PICKER,
@@ -67,27 +67,27 @@ export const getOutputParameterComboboxElement = parameterItem => {
     ]);
 };
 
-export const getLightningInputToggle = parameterItem => {
+export const getLightningInputToggle = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.LIGHTNING_TOGGLE);
 };
 
-const getParameterLabel = parameterItem => {
+const getParameterLabel = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.PARAMETER_LABEL);
 };
 
-export const getParameterIcon = parameterItem => {
+export const getParameterIcon = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.LIGHTNING_ICON);
 };
 
-export const getWarningIcon = parameterItem => {
+export const getWarningIcon = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.WARNING_ICON);
 };
 
-export const getWarningBadge = parameterItem => {
+export const getWarningBadge = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.WARNING_BADGE);
 };
 
-export const getDeleteButton = parameterItem => {
+export const getDeleteButton = (parameterItem) => {
     return parameterItem.shadowRoot.querySelector(SELECTORS.DELETE_BUTTON);
 };
 
@@ -99,7 +99,7 @@ export const VALIDATION_ERROR_MESSAGES = {
     ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
 };
 
-export const toggleChangeEvent = checked => {
+export const toggleChangeEvent = (checked) => {
     return new CustomEvent('change', {
         bubbles: true,
         cancelable: true,
@@ -155,35 +155,35 @@ export const verifyOutputParameter = (parameter, label, value) => {
     expect(icon.iconName).toEqual(iconName);
 };
 
-export const getParameter = (parameters, name) => parameters.find(parameter => parameter.name === name);
+export const getParameter = (parameters, name) => parameters.find((parameter) => parameter.name === name);
 
 export const findParameterElement = (parameterElements, name) => {
-    return Array.from(parameterElements).find(parameter => parameter.item.name === name);
+    return Array.from(parameterElements).find((parameter) => parameter.item.name === name);
 };
 
 export const filterParameterElements = (parameterElements, name) => {
-    return Array.from(parameterElements).filter(parameter => parameter.item.name === name);
+    return Array.from(parameterElements).filter((parameter) => parameter.item.name === name);
 };
 
 export const findIndex = (parameters, rowIndex) => {
-    return parameters.findIndex(parameter => parameter.rowIndex === rowIndex);
+    return parameters.findIndex((parameter) => parameter.rowIndex === rowIndex);
 };
 
 export const findByIndex = (parameters, rowIndex) => {
-    return parameters.find(parameter => parameter.rowIndex === rowIndex);
+    return parameters.find((parameter) => parameter.rowIndex === rowIndex);
 };
 
-export const getElementGuid = elementDevName => {
+export const getElementGuid = (elementDevName) => {
     const element = getElementByDevName(elementDevName);
     return element === undefined ? undefined : element.guid;
 };
 
-export const getAutomaticOutputAdvancedOptionCheckbox = actionEditor => {
+export const getAutomaticOutputAdvancedOptionCheckbox = (actionEditor) => {
     const parameterList = getParameterList(actionEditor);
     return getAdvancedOptionCheckbox(parameterList);
 };
 
-export const getAutomaticOutputAdvancedOptionComponent = actionEditor => {
+export const getAutomaticOutputAdvancedOptionComponent = (actionEditor) => {
     const parameterList = getParameterList(actionEditor);
     return getUseAdvancedOptionComponent(parameterList);
 };

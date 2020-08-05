@@ -97,8 +97,8 @@ jest.mock(
 );
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getEntity: jest.fn().mockImplementation(apiName => {
-            return mockEntities.find(entity => entity.apiName === apiName);
+        getEntity: jest.fn().mockImplementation((apiName) => {
+            return mockEntities.find((entity) => entity.apiName === apiName);
         })
     };
 });

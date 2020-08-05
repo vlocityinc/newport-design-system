@@ -24,7 +24,7 @@ export default class ScreenChoiceField extends LightningElement {
 
     get choices() {
         if (this.field.choiceReferences && this.field.choiceReferences.length > 0) {
-            return this.field.choiceReferences.map(choice => {
+            return this.field.choiceReferences.map((choice) => {
                 if (choice && choice.choiceReference && choice.choiceReference.value !== '') {
                     const choiceElement = getElementByGuid(choice.choiceReference.value);
                     if (!choiceElement) {

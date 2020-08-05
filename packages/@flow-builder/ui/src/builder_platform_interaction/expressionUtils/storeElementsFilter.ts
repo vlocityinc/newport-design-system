@@ -149,7 +149,7 @@ export function flattenElements(screenElement) {
     const screenElements = [];
     const fields = screenElement.fields;
     if (fields) {
-        fields.forEach(field => {
+        fields.forEach((field) => {
             if (field && field.isNewField && field.name.value !== '') {
                 screenElements.push(field);
             }

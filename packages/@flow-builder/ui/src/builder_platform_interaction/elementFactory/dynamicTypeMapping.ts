@@ -28,7 +28,7 @@ function createDynamicTypeMapping(dynamicTypeMapping) {
     };
 }
 
-export const createDynamicTypeMappings = dynamicTypeMappings =>
+export const createDynamicTypeMappings = (dynamicTypeMappings) =>
     dynamicTypeMappings ? dynamicTypeMappings.map(createDynamicTypeMapping) : undefined;
 
 /**
@@ -37,9 +37,9 @@ export const createDynamicTypeMappings = dynamicTypeMappings =>
  * @param {DynamicTypeMapping[]} [dynamicTypeMappings]
  * @returns {DynamicTypeMappingMetadataObject|undefined}
  */
-export const createDataTypeMappingsMetadataObject = dynamicTypeMappings =>
+export const createDataTypeMappingsMetadataObject = (dynamicTypeMappings) =>
     dynamicTypeMappings && dynamicTypeMappings.length > 0
-        ? dynamicTypeMappings.map(dynamicTypeMapping => ({
+        ? dynamicTypeMappings.map((dynamicTypeMapping) => ({
               typeName: getValueFromHydratedItem(dynamicTypeMapping.typeName),
               typeValue: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
           }))

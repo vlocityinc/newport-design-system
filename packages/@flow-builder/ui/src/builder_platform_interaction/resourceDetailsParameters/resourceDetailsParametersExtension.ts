@@ -14,10 +14,10 @@ class ResourceDetailsParametersExtensionConfig extends ResourceDetailsParameters
                 callback([], `No resource found for GUID: ${resourceGuid}`);
             } else {
                 describeExtension(resource.extensionName)
-                    .then(desc => {
+                    .then((desc) => {
                         callback(desc.outputParameters.map(super.map()));
                     })
-                    .catch(error => callback([], error));
+                    .catch((error) => callback([], error));
             }
         };
     }

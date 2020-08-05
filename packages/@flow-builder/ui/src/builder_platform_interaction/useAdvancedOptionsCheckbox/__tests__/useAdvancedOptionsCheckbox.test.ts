@@ -32,7 +32,7 @@ class ToggleOnChangeEvent extends CustomEvent {
     }
 }
 
-const getAdvancedOptionCheckbox = useAdvancedOptionsCheckboxElement => {
+const getAdvancedOptionCheckbox = (useAdvancedOptionsCheckboxElement) => {
     return useAdvancedOptionsCheckboxElement.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT);
 };
 

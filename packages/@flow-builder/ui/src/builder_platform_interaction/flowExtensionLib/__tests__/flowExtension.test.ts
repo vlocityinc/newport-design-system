@@ -124,7 +124,7 @@ describe('flowExtension', () => {
     });
 
     describe('getCachedExtension', () => {
-        it('applies dynamic type mappings, when supplied', done => {
+        it('applies dynamic type mappings, when supplied', (done) => {
             listExtensions('', false, async () => {
                 await describeExtensions(['c:lookup']);
                 const dynamicTypeMappings = [

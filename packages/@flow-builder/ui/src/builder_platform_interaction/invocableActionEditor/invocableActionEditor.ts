@@ -168,7 +168,7 @@ export default class InvocableActionEditor extends LightningElement {
         return (
             this.actionCallNode.dataTypeMappings &&
             this.actionCallNode.dataTypeMappings.find(
-                dataTypeMapping =>
+                (dataTypeMapping) =>
                     !dataTypeMapping.typeValue || !dataTypeMapping.typeValue.value || dataTypeMapping.typeValue.error
             )
         );
@@ -240,10 +240,10 @@ export default class InvocableActionEditor extends LightningElement {
             },
             options
         )
-            .then(invocableActions => {
+            .then((invocableActions) => {
                 if (this.connected) {
                     this.invocableActionDescriptor = invocableActions.find(
-                        action => action.name === actionParams.actionName && action.type === actionParams.actionType
+                        (action) => action.name === actionParams.actionName && action.type === actionParams.actionType
                     );
                     this.updateDataTypeMappings();
                     this.updatePropertyEditorTitle();
@@ -386,7 +386,7 @@ export default class InvocableActionEditor extends LightningElement {
         ) {
             const inputParameters = this.actionCallNode.inputParameters
                 .filter(({ value }) => !!value)
-                .map(inputParameter => createInputParameter(inputParameter));
+                .map((inputParameter) => createInputParameter(inputParameter));
             dehydrate(inputParameters);
             swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
             return inputParameters.map(({ name, value, valueDataType }) => ({

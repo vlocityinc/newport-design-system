@@ -29,7 +29,7 @@ export const ATT_SELECTOR_OPERATORS = {
     STARTS_WITH_WORD: '|',
     ENDS_WITH: '$',
 
-    parse: opValue => {
+    parse: (opValue) => {
         if (opValue) {
             for (const prop in ATT_SELECTOR_OPERATORS) {
                 if (ATT_SELECTOR_OPERATORS[prop] === opValue) {

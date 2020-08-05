@@ -36,7 +36,7 @@ const getFieldMenuData = (
     if (entityFields) {
         return Promise.resolve(filterFieldsForChosenElement(parentItem, entityFields, options));
     }
-    return getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables).then(fields =>
+    return getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables).then((fields) =>
         filterFieldsForChosenElement(parentItem, fields, options)
     );
 };

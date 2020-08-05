@@ -47,7 +47,7 @@ export const isCollectionRequired = (paramTypes, dataType) => {
     if (dataType && paramTypes && paramTypes[dataType]) {
         const dataTypeParams = paramTypes[dataType];
         // find the first param that does not have to be a collection (can be literal)
-        const paramLiteralAllowed = dataTypeParams.find(param => {
+        const paramLiteralAllowed = dataTypeParams.find((param) => {
             return !param[IS_COLLECTION];
         });
         // if we could not find a param that can be a literal, then collection is required
@@ -61,7 +61,7 @@ export const isCollectionRequired = (paramTypes, dataType) => {
  * @param {Object} element  an element from the store
  * @return {dataTypeLib/FLOW_DATA_TYPE} flow data type
  */
-export const getDataType = element => {
+export const getDataType = (element) => {
     return getValueFromHydratedItem(element[DATA_TYPE]) || (element.type && element.type.type);
 };
 
@@ -72,7 +72,7 @@ export const getDataType = element => {
  * @param {param} param        the param we are extracting the value from
  * @returns {String}            the value at the given property
  */
-const getDataTypeOrElementTypes = param => {
+const getDataTypeOrElementTypes = (param) => {
     return param[DATA_TYPE] ? [param[DATA_TYPE]] : [...param[MUST_BE_ELEMENTS]];
 };
 
@@ -87,7 +87,7 @@ const filterByRuleType = (rules, ruleType) => {
         throw new Error(`Rule type must be either ${ASSIGNMENT} or ${COMPARISON}`);
     }
     // filter the given rules by the desired rule type
-    return rules.filter(rule => {
+    return rules.filter((rule) => {
         return rule[RULE_TYPE] === ruleType;
     });
 };
@@ -110,7 +110,7 @@ export const setOperators = (allOperators = {}) => {
  * @param {Object} element          flow element (FER) from the store
  * @returns {Object}                the new param object representing the store element
  */
-export const elementToParam = element => {
+export const elementToParam = (element) => {
     if (!element || Object.keys(element).length === 0) {
         throw new Error(`Element must be non empty object but instead was ${element}`);
     }
@@ -230,7 +230,7 @@ const addParamToTypeMap = (map, param, types) => {
     if (!types) {
         types = getDataTypeOrElementTypes(param);
     }
-    types.forEach(type => {
+    types.forEach((type) => {
         if (!map.hasOwnProperty(type)) {
             map[type] = new Set();
         }
@@ -242,12 +242,12 @@ const addParamToTypeMap = (map, param, types) => {
  * Turns the passed in map into an allowedParamMap (see above typedef)
  * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
  */
-const convertToAllowedParamMap = stringifiedParamTypeMap => {
+const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
     let canBeSystemVariable = false;
     let canBeSObjectField = false;
     let canBeApexProperty = false;
-    Object.keys(stringifiedParamTypeMap).forEach(key => {
-        stringifiedParamTypeMap[key] = Array.from(stringifiedParamTypeMap[key]).map(serializedValue => {
+    Object.keys(stringifiedParamTypeMap).forEach((key) => {
+        stringifiedParamTypeMap[key] = Array.from(stringifiedParamTypeMap[key]).map((serializedValue) => {
             const param = JSON.parse(serializedValue);
             canBeSObjectField = canBeSObjectField || specialCaseAllowed(param, SOBJECT_FIELD_REQUIREMENT);
             canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(param, SYSTEM_VARIABLE_REQUIREMENT);
@@ -275,7 +275,7 @@ export const getLHSTypes = (elementType, rules, ruleType) => {
     const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
 
     const paramTypeMap = {};
-    allowedRules.forEach(rule => {
+    allowedRules.forEach((rule) => {
         if (ruleAllowedInElementEditor(rule, elementType)) {
             addParamToTypeMap(paramTypeMap, rule[LEFT]);
         }
@@ -322,8 +322,8 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
  * @param {String[]} operators    the list of operators as it comes from the rule service
  * @returns {Array}               operators in the shape the combobox expects
  */
-export const transformOperatorsForCombobox = operators => {
-    const mapOperatorToMenuItem = operator => {
+export const transformOperatorsForCombobox = (operators) => {
+    const mapOperatorToMenuItem = (operator) => {
         return {
             value: operator,
             label: operatorsInstance[operator]
@@ -353,13 +353,13 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
     const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
 
     const paramTypeMap = {};
-    allowedRules.forEach(rule => {
+    allowedRules.forEach((rule) => {
         if (
             ruleAllowedInElementEditor(rule, elementType) &&
             operator === rule[OPERATOR] &&
             isMatch(rule[LEFT], lhsElement)
         ) {
-            rule[RHS_PARAMS].forEach(rhsParam => {
+            rule[RHS_PARAMS].forEach((rhsParam) => {
                 let type = getDataTypeOrElementTypes(rhsParam);
                 if (isComplexType(lhsElement.dataType) && isComplexType(type[0])) {
                     // if element is an sObject, we want to track by subtype because sObject/apex type must match exactly

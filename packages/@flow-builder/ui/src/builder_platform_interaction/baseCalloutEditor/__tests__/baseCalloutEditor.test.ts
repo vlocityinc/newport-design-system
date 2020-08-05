@@ -108,15 +108,15 @@ const selectors = {
     typeMapping: 'builder_platform_interaction-entity-resource-picker'
 };
 
-const getLabelDescription = baseCalloutEditor => {
+const getLabelDescription = (baseCalloutEditor) => {
     return baseCalloutEditor.shadowRoot.querySelector(selectors.labelDescription);
 };
 
-const getParameterList = baseCalloutEditor => {
+const getParameterList = (baseCalloutEditor) => {
     return baseCalloutEditor.shadowRoot.querySelector(selectors.parameterList);
 };
 
-const getTypeMappings = baseCalloutEditor => {
+const getTypeMappings = (baseCalloutEditor) => {
     return baseCalloutEditor.shadowRoot.querySelectorAll(selectors.typeMapping);
 };
 

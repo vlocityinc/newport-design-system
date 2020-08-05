@@ -128,15 +128,15 @@ export default class ScheduleTriggerEditor extends LightningElement {
         this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
-    handleFrequencyChange = event => {
+    handleFrequencyChange = (event) => {
         this._updateField(START_ELEMENT_FIELDS.FREQUENCY, event.detail.value);
     };
 
-    handleStartDateChange = event => {
+    handleStartDateChange = (event) => {
         this._updateField(START_ELEMENT_FIELDS.START_DATE, event.detail.value);
     };
 
-    handleStartTimeChange = event => {
+    handleStartTimeChange = (event) => {
         this._updateField(START_ELEMENT_FIELDS.START_TIME, event.detail.value);
     };
 }

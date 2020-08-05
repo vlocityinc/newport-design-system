@@ -44,7 +44,7 @@ const emptyFilterItem = () => ({
  * @param {object} state - element / node state
  * @returns {object} updated state
  */
-const addRecordFilter = state => {
+const addRecordFilter = (state) => {
     const path = [PROP_NAMES.filters, state.filters.length];
     return set(state, path, emptyFilterItem());
 };
@@ -80,7 +80,7 @@ const updateRecordFilter = (state, { index, value }) => {
  * @param {object} state - element / node state
  * @returns {object} updated state
  */
-const resetFilters = state => {
+const resetFilters = (state) => {
     return set(state, PROP_NAMES.filters, [emptyFilterItem()]);
 };
 

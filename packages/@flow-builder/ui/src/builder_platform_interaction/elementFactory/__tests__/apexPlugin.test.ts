@@ -94,7 +94,7 @@ const apexPluginInStore = {
     elementType: 'APEX_PLUGIN_CALL'
 };
 const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
-    return parameters.map(param => {
+    return parameters.map((param) => {
         if (isInput) {
             return {
                 name: param.name,

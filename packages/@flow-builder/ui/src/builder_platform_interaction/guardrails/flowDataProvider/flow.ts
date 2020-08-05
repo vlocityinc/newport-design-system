@@ -21,7 +21,7 @@ export class Flow extends Data {
             if (Object.values(METADATA_KEY).includes(metadataKey)) {
                 if (flowModel.metadata[metadataKey]) {
                     elements = [];
-                    const elementType = Object.keys(elementTypeToConfigMap).find(key => {
+                    const elementType = Object.keys(elementTypeToConfigMap).find((key) => {
                         return (
                             elementTypeToConfigMap[key].hasOwnProperty('metadataKey') &&
                             elementTypeToConfigMap[key].metadataKey === metadataKey

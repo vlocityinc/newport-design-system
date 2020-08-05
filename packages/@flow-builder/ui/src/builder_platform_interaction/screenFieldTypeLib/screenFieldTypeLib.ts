@@ -12,7 +12,7 @@ export function getSupportedScreenFieldTypes(flowProcessType: string, flowTrigge
     logPerfTransactionStart(SCREEN_FIELD_TYPES, null, null);
     const param = { flowProcessType, flowTriggerType };
     return fetchOnce(SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES, param)
-        .then(data => {
+        .then((data) => {
             logPerfTransactionEnd(
                 SCREEN_FIELD_TYPES,
                 {
@@ -28,7 +28,7 @@ export function getSupportedScreenFieldTypes(flowProcessType: string, flowTrigge
             // if flowSectionsAndColumns perm is off, remove section from supported screen field types
             // so that it will not show up in the screen left palette
             const sectionFieldType = getSectionFieldType().fieldType;
-            return data.filter(type => type.name !== sectionFieldType);
+            return data.filter((type) => type.name !== sectionFieldType);
         })
         .catch((/* error */) => {
             // Handle error case here if something is needed beyond our automatic generic error modal popup

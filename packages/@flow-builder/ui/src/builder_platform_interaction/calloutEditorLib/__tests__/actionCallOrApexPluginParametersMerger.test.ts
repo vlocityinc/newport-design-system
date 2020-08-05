@@ -197,7 +197,7 @@ const notAvailableParameter = [
         valueDataType: 'reference'
     }
 ];
-const getParameterItem = (parameterItems, name) => parameterItems.find(parameterItem => parameterItem.name === name);
+const getParameterItem = (parameterItems, name) => parameterItems.find((parameterItem) => parameterItem.name === name);
 
 describe('ActionCall/ApexPlugin parameters merge', () => {
     const storeLib = require('builder_platform_interaction/storeLib');

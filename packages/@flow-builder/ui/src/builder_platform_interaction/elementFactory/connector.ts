@@ -57,7 +57,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid) => {
         connectors.push(connector);
     } else if (element.connectors) {
         // Step elements have an array of connectors
-        element.connectors.forEach(elementconnector => {
+        element.connectors.forEach((elementconnector) => {
             if (elementconnector.targetReference) {
                 const connector = createConnector(
                     elementGuid,
@@ -122,7 +122,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid) => {
     return connectors;
 };
 
-export const createConnectorMetadataObject = connector => {
+export const createConnectorMetadataObject = (connector) => {
     return { targetReference: connector.target };
 };
 

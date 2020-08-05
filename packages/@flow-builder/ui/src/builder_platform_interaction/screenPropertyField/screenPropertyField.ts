@@ -221,7 +221,7 @@ export default class ScreenPropertyField extends LightningElement {
         throw new Error('Unknown type for property field ' + this.type);
     }
 
-    handleComboboxChanged = event => {
+    handleComboboxChanged = (event) => {
         event.stopPropagation();
 
         const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, getFlowDataTypeByName(this.type));
@@ -236,7 +236,7 @@ export default class ScreenPropertyField extends LightningElement {
         );
     };
 
-    handleEvent = event => {
+    handleEvent = (event) => {
         event.stopPropagation();
 
         // If this is a change event, we don't want to always handle it, because it can

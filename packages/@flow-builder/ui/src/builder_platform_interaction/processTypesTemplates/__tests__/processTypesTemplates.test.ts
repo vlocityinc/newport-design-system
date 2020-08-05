@@ -14,7 +14,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: serverActionType => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_TEMPLATES:
                     return mockTemplatesPromise;
@@ -63,21 +63,21 @@ const SELECTORS = {
     CHECKBOX: 'input[type="radio"]'
 };
 
-const getVisualPickerList = processTypeTemplates => {
+const getVisualPickerList = (processTypeTemplates) => {
     const featuredSection = processTypeTemplates.shadowRoot.querySelector(SELECTORS.TEMPLATES_SECTION);
     return featuredSection.querySelector(SELECTORS.VISUAL_PICKER_LIST);
 };
 
-const getVisualPickerListItems = processTypeTemplates => {
+const getVisualPickerListItems = (processTypeTemplates) => {
     const visualPickerList = getVisualPickerList(processTypeTemplates);
     return visualPickerList.items;
 };
 
-const getVisualPickerItems = visualPickerList => {
+const getVisualPickerItems = (visualPickerList) => {
     return visualPickerList.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
 };
 
-const getCheckbox = visualPickerItem => {
+const getCheckbox = (visualPickerItem) => {
     return visualPickerItem.shadowRoot.querySelector(SELECTORS.CHECKBOX);
 };
 

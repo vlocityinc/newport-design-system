@@ -59,7 +59,7 @@ describe('system Variables', () => {
         it('sets variables', () => {
             setSystemVariables(systemVariablesForFlow);
 
-            systemVariablesForFlow.forEach(systemVariable => {
+            systemVariablesForFlow.forEach((systemVariable) => {
                 expect(getSystemVariables(`$${systemVariable.category}.${systemVariable.devName}`)).not.toEqual({});
             });
         });

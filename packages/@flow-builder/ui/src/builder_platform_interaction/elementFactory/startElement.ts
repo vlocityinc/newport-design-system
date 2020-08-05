@@ -180,7 +180,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
     let recordFilters;
 
     if (filters.length > 0 && filters[0].leftHandSide && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
-        recordFilters = filters.map(filter => createFilterMetadataObject(filter));
+        recordFilters = filters.map((filter) => createFilterMetadataObject(filter));
     } else {
         recordFilters = [];
         filterLogic = undefined;
@@ -206,10 +206,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
 function getISOTimeFromMillis(timeinMillis) {
     const date = new Date(timeinMillis);
     // ISO Time is in this format: 2008-09-15T15:53:00Z, and we just care about the latter time portion minus the Z
-    return date
-        .toISOString()
-        .slice(0, -1)
-        .split('T')[1];
+    return date.toISOString().slice(0, -1).split('T')[1];
 }
 
 function getscheduledLabel(startDate, startTime, frequency) {

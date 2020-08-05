@@ -95,7 +95,7 @@ export default class Palette extends LightningElement {
      */
     createItemMap(rows) {
         const itemMap = {};
-        rows.forEach(row => {
+        rows.forEach((row) => {
             itemMap[row.key] = row;
         });
         return itemMap;

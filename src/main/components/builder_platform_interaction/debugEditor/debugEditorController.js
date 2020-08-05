@@ -1,9 +1,9 @@
 ({
-    doInit: function(cmp, event, helper) {
+    doInit: function (cmp, event, helper) {
         helper.buildInput(cmp, cmp.get('v.flowName'));
     },
 
-    handleDebugAsUserCheck: function(cmp, event) {
+    handleDebugAsUserCheck: function (cmp, event) {
         cmp.set('v.showDebugAsUserLookup', event.getParam('checked'));
         if (!cmp.get('v.showDebugAsUserLookup')) {
             // if unchecked, refresh search box by removing selected user
@@ -11,7 +11,7 @@
         }
     },
 
-    getDebugAsUserId: function(cmp) {
+    getDebugAsUserId: function (cmp) {
         if (cmp.get('v.showIsDebugAsUserAllowed') && cmp.get('v.showDebugAsUserLookup')) {
             var values = cmp.find('debugAsUserList').get('v.values');
             return values[0] ? values[0].id : null;
@@ -19,7 +19,7 @@
         return null;
     },
 
-    getDebugInput: function(cmp, event, helper) {
+    getDebugInput: function (cmp, event, helper) {
         var debugInput = {
             inputs: helper.readAllInputs(cmp),
             runLatestVersion: cmp.find('isRunLatestVersionBox').get('v.checked'),

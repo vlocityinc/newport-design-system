@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { createSelector } from 'builder_platform_interaction/storeLib';
 
-const elementsSelector = state => state.elements;
+const elementsSelector = (state) => state.elements;
 
-const canvasElementsSelector = state => state.canvasElements;
+const canvasElementsSelector = (state) => state.canvasElements;
 
 /**
  * Transform canvas elements GUIDs to shape canvas expects

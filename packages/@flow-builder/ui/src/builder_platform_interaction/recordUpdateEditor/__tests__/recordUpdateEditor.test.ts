@@ -36,7 +36,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             return mockEntities;
         }),
         ENTITY_TYPE: jest.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
-        getEntity: jest.fn().mockImplementation(apiName => mockEntities.find(entity => entity.apiName === apiName))
+        getEntity: jest.fn().mockImplementation((apiName) => mockEntities.find((entity) => entity.apiName === apiName))
     };
 });
 
@@ -91,23 +91,23 @@ const inputAssignmentElement = {
     rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d2e'
 };
 
-const getSObjectOrSObjectCollectionPicker = recordUpdateEditor => {
+const getSObjectOrSObjectCollectionPicker = (recordUpdateEditor) => {
     return recordUpdateEditor.shadowRoot.querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
-const getEntityResourcePicker = recordUpdateEditor => {
+const getEntityResourcePicker = (recordUpdateEditor) => {
     return recordUpdateEditor.shadowRoot.querySelector(selectors.entityResourcePicker);
 };
 
-const getRecordStoreOption = recordUpdateEditor => {
+const getRecordStoreOption = (recordUpdateEditor) => {
     return recordUpdateEditor.shadowRoot.querySelector(selectors.recordStoreOption);
 };
 
-const getRecordFilter = recordUpdateEditor => {
+const getRecordFilter = (recordUpdateEditor) => {
     return recordUpdateEditor.shadowRoot.querySelector(selectors.recordFilter);
 };
 
-const getInputOutputAssignments = recordUpdateEditor => {
+const getInputOutputAssignments = (recordUpdateEditor) => {
     return recordUpdateEditor.shadowRoot.querySelector(selectors.inputOutputAssignments);
 };
 

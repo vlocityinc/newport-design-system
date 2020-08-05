@@ -10,7 +10,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-constant-editor', {
         is: VariableConstantEditor
     });
@@ -35,7 +35,7 @@ describe('variable/constant reducer', () => {
         stringVariable = mockStoreData.stringVariableForPropertyEditor();
         variableConstantEditor = setupComponentUnderTest(stringVariable);
 
-        updateAction = errorValue => {
+        updateAction = (errorValue) => {
             const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
                 propertyName,
                 value,

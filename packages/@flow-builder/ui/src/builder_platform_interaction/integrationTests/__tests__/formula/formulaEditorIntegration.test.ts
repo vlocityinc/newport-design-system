@@ -43,24 +43,24 @@ const VALIDATION_ERROR_MESSAGES = {
     UNKNOWN_RECORD_FIELD: 'FlowBuilderMergeFieldValidation.unknownRecordField'
 };
 
-const getDataTypePickerElement = editor => editor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
+const getDataTypePickerElement = (editor) => editor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
 
-const getDataTypeComboboxElement = editor =>
+const getDataTypeComboboxElement = (editor) =>
     getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
 
-const getResourcedTextArea = editor => editor.shadowRoot.querySelector(SELECTORS.RESOURCED_TEXTAREA);
+const getResourcedTextArea = (editor) => editor.shadowRoot.querySelector(SELECTORS.RESOURCED_TEXTAREA);
 
-const getFormulaTextArea = editor => getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
+const getFormulaTextArea = (editor) => getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
 
-const getFerovResourcePicker = editor =>
+const getFerovResourcePicker = (editor) =>
     getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 
-const getResourceCombobox = editor => {
+const getResourceCombobox = (editor) => {
     const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
     return baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
 };
 
-const getResourceGroupedCombobox = editor => {
+const getResourceGroupedCombobox = (editor) => {
     const interactionCombobox = getResourceCombobox(editor);
     return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };

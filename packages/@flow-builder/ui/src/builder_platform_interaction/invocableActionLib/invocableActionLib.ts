@@ -30,7 +30,7 @@ export function fetchDetailsForInvocableAction(
         background,
         disableErrorModal,
         messageForErrorModal
-    }).then(details => {
+    }).then((details) => {
         cachedDetails[key] = details;
         return details;
     });
@@ -48,10 +48,10 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
     }
 
     return parameters
-        .map(parameter => ({
+        .map((parameter) => ({
             parameter,
             dynamicTypeMapping: dynamicTypeMappings.find(
-                dynamicTypeMapping => parameter.sobjectType === getValueFromHydratedItem(dynamicTypeMapping.typeName)
+                (dynamicTypeMapping) => parameter.sobjectType === getValueFromHydratedItem(dynamicTypeMapping.typeName)
             )
         }))
         .map(({ parameter, dynamicTypeMapping }) => {

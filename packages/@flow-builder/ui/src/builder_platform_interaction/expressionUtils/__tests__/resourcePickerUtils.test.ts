@@ -38,7 +38,7 @@ jest.mock('../menuDataRetrieval', () => {
 });
 
 jest.mock('../storeElementsFilter', () => ({
-    getStoreElements: jest.fn(storeState => {
+    getStoreElements: jest.fn((storeState) => {
         return storeState;
     })
 }));

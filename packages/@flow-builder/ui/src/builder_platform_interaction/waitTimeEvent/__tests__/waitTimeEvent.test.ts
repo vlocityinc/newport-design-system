@@ -25,7 +25,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     let el = createElement('builder_platform_interaction-wait-time-event', {
         is: WaitTimeEvent
     });

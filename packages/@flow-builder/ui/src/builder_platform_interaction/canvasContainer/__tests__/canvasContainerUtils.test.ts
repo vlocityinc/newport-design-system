@@ -32,19 +32,19 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        selectOnCanvas: jest.fn().mockImplementation(payload => {
+        selectOnCanvas: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'selectOnCanvas',
                 payload
             };
         }),
-        toggleOnCanvas: jest.fn().mockImplementation(payload => {
+        toggleOnCanvas: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'toggleOnCanvas',
                 payload
             };
         }),
-        addConnector: jest.fn().mockImplementation(payload => {
+        addConnector: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'addConnection',
                 payload

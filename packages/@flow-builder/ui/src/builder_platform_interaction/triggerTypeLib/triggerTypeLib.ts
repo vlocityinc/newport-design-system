@@ -2,7 +2,7 @@
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
-const isUndefinedOrNoneTriggerType = triggerType => {
+const isUndefinedOrNoneTriggerType = (triggerType) => {
     return !triggerType || triggerType === FLOW_TRIGGER_TYPE.NONE;
 };
 
@@ -11,7 +11,7 @@ const isUndefinedOrNoneTriggerType = triggerType => {
  * * @param {String} triggerType
  * @returns {Boolean}
  */
-export const isRunInModeSupported = triggerType => {
+export const isRunInModeSupported = (triggerType) => {
     return isUndefinedOrNoneTriggerType(triggerType);
 };
 
@@ -20,7 +20,7 @@ export const isRunInModeSupported = triggerType => {
  * @param {String} triggerType
  * @returns {Boolean} true if lookup traversal is supported for this trigger type, false otherwise
  */
-export const isLookupTraversalSupported = triggerType => {
+export const isLookupTraversalSupported = (triggerType) => {
     return !triggerType || triggerType !== FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
 };
 
@@ -29,7 +29,7 @@ export const isLookupTraversalSupported = triggerType => {
  * @param {String} triggerType
  * @returns {Boolean} true if it has a schedule, false otherwise
  */
-export const isScheduledTriggerType = triggerType => {
+export const isScheduledTriggerType = (triggerType) => {
     // TODO this information should eventually just come from the trigger type service
     return triggerType === FLOW_TRIGGER_TYPE.SCHEDULED || triggerType === FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
 };
@@ -39,7 +39,7 @@ export const isScheduledTriggerType = triggerType => {
  * @param {String} triggerType
  * @returns {Boolean} true if it is record change trigger, false otherwise
  */
-export const isRecordChangeTriggerType = triggerType => {
+export const isRecordChangeTriggerType = (triggerType) => {
     return (
         triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
         triggerType === FLOW_TRIGGER_TYPE.BEFORE_DELETE ||
@@ -52,7 +52,7 @@ export const isRecordChangeTriggerType = triggerType => {
  * @param {String} triggerType
  * @returns {Boolean} true if it has criteria, false otherwise
  */
-export const getTriggerHasCriteria = triggerType => {
+export const getTriggerHasCriteria = (triggerType) => {
     // TODO this information should eventually just come from the trigger type service
     return isScheduledTriggerType(triggerType) || isRecordChangeTriggerType(triggerType);
 };
@@ -62,8 +62,8 @@ export const getTriggerHasCriteria = triggerType => {
  * @param {String} triggerType
  * @returns {Promise} promise that resolves to the trigger type info
  */
-export const getTriggerTypeInfo = triggerType => {
-    return fetchOnce(SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO, { triggerType }).then(data => {
+export const getTriggerTypeInfo = (triggerType) => {
+    return fetchOnce(SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO, { triggerType }).then((data) => {
         return data;
     });
 };

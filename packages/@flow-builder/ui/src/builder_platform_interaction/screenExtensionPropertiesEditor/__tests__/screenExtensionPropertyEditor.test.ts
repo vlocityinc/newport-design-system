@@ -37,7 +37,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -66,7 +66,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 jest.mock('../screenExtensionPropertiesReducer', () => {
     const actual = jest.requireActual('../screenExtensionPropertiesReducer');
     return {
-        screenExtensionPropertiesEventReducer: jest.fn().mockImplementation(state => state),
+        screenExtensionPropertiesEventReducer: jest.fn().mockImplementation((state) => state),
         screenExtensionPropertiesPropsToStateReducer: actual.screenExtensionPropertiesPropsToStateReducer
     };
 });
@@ -75,7 +75,7 @@ jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
 );
 
-let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(processType => {
+let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn((processType) => {
     return processType === 'flow' ? 'Supported' : 'Unsupported';
 });
 
@@ -84,7 +84,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
-        getProcessTypeAutomaticOutPutHandlingSupport: processType =>
+        getProcessTypeAutomaticOutPutHandlingSupport: (processType) =>
             mockGetProcessTypeAutomaticOutPutHandlingSupport(processType)
     };
 });
@@ -220,9 +220,9 @@ const OUTPUT_PARAMETERS = [
         valueDataType: 'reference'
     }
 ];
-const getStoreOutputVariableTitleElement = extensionEditor =>
+const getStoreOutputVariableTitleElement = (extensionEditor) =>
     Array.from(extensionEditor.shadowRoot.querySelectorAll(SELECTORS.H3)).find(
-        h3 => h3.textContent && h3.textContent === LABELS.extensionOutputsHeader
+        (h3) => h3.textContent && h3.textContent === LABELS.extensionOutputsHeader
     );
 
 const parametersComparator = (p1, p2, forInputs) => {
@@ -313,11 +313,11 @@ const runTest = async (createFieldRequired, createDescriptionRequired, propertie
 
 const testEditors = (selector, propertyName) => {
     let props = null;
-    const propertiesProcessor = properties => {
+    const propertiesProcessor = (properties) => {
         props = properties;
     };
 
-    return runTest(true, true, propertiesProcessor, extensionEditor => {
+    return runTest(true, true, propertiesProcessor, (extensionEditor) => {
         const attEditors = query(extensionEditor, selector, true);
         expect(attEditors).toHaveLength(DESCRIPTOR_PARAMETERS.length);
         let descParams = props.extensionDescription[propertyName];
@@ -325,18 +325,18 @@ const testEditors = (selector, propertyName) => {
 
         // Check there's an attribute editor per parameter in the extension Descriptor and that the attribute and the descriptor match for every editor
         let fieldParams = props.field[propertyName];
-        attEditors.forEach(attEditor => {
+        attEditors.forEach((attEditor) => {
             if (attEditor.attribute) {
                 expect(attEditor.attribute.name.value).toEqual(attEditor.descriptor.apiName);
                 const fieldParamsCount = fieldParams.length;
                 fieldParams = fieldParams.filter(
-                    fieldParam => fieldParam.name.value !== attEditor.attribute.name.value
+                    (fieldParam) => fieldParam.name.value !== attEditor.attribute.name.value
                 );
                 expect(fieldParams).toHaveLength(fieldParamsCount - 1); // Make sure we only removed 1
             }
 
             const descParamsCount = descParams.length;
-            descParams = descParams.filter(descParam => descParam.apiName !== attEditor.descriptor.apiName);
+            descParams = descParams.filter((descParam) => descParam.apiName !== attEditor.descriptor.apiName);
             expect(descParams).toHaveLength(descParamsCount - 1); // Make sure we only removed 1
         });
 
@@ -354,26 +354,26 @@ function forceRender(element) {
 
 describe('Screen Extension Properties Editor', () => {
     it('does not render its container when the field is not set', () => {
-        return runTest(false, true, null, editor => {
+        return runTest(false, true, null, (editor) => {
             expect(query(editor, SELECTORS.CONTAINER_DIV)).toBeNull();
         });
     });
 
     it('renders its container when the field is set', () => {
-        return runTest(true, true, null, editor => {
+        return runTest(true, true, null, (editor) => {
             expect(query(editor, SELECTORS.CONTAINER_DIV)).not.toBeNull();
         });
     });
 
     it('only renders its container when the extension description is not set', () => {
-        return runTest(true, false, null, editor => {
+        return runTest(true, false, null, (editor) => {
             const containerDiv = query(editor, SELECTORS.CONTAINER_DIV);
             expect(containerDiv.childElementCount).toBe(0);
         });
     });
 
     it('displays name, input and output parameters', () => {
-        return runTest(true, true, null, editor => {
+        return runTest(true, true, null, (editor) => {
             expect(query(editor, SELECTORS.NAME_FIELD)).not.toBeNull();
             expect(query(editor, SELECTORS.INPUT_EDITOR, true)).toHaveLength(DESCRIPTOR_PARAMETERS.length);
             expect(query(editor, SELECTORS.OUTPUT_EDITOR, true)).toHaveLength(DESCRIPTOR_PARAMETERS.length);
@@ -381,54 +381,54 @@ describe('Screen Extension Properties Editor', () => {
     });
 
     it('sorts input parameters by requirenesss and name', () => {
-        return runTest(true, true, null, editor => {
+        return runTest(true, true, null, (editor) => {
             const inputs = query(editor, SELECTORS.INPUT_EDITOR, true);
             expect(inputs).toHaveLength(DESCRIPTOR_PARAMETERS.length);
 
-            const names = inputs.map(input => input.descriptor.label || input.descriptor.apiName);
+            const names = inputs.map((input) => input.descriptor.label || input.descriptor.apiName);
             const expectedNames = DESCRIPTOR_PARAMETERS.sort((p1, p2) => parametersComparator(p1, p2, true)).map(
-                p => p.label || p.apiName
+                (p) => p.label || p.apiName
             );
             expect(names).toEqual(expectedNames);
         });
     });
 
     it('sorts output parameters alphabetically', () => {
-        return runTest(true, true, null, editor => {
+        return runTest(true, true, null, (editor) => {
             const outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
             expect(outputs).toHaveLength(DESCRIPTOR_PARAMETERS.length);
 
-            const names = outputs.map(input => input.descriptor.label || input.descriptor.apiName);
+            const names = outputs.map((input) => input.descriptor.label || input.descriptor.apiName);
             const expectedNames = DESCRIPTOR_PARAMETERS.sort((p1, p2) => parametersComparator(p1, p2, false)).map(
-                p => p.label || p.apiName
+                (p) => p.label || p.apiName
             );
             expect(names).toEqual(expectedNames);
         });
     });
 
     it('does not render the outputs section if the component does not have any output attributes', () => {
-        const propertiesProcessor = properties => {
+        const propertiesProcessor = (properties) => {
             properties.extensionDescription.outputParameters = [];
             properties.field.outputParameters = [];
         };
 
-        return runTest(true, true, propertiesProcessor, editor => {
+        return runTest(true, true, propertiesProcessor, (editor) => {
             expect(getStoreOutputVariableTitleElement(editor)).not.toBeDefined();
         });
     });
 
     it('does render the outputs section if the component does have output attributes', () => {
-        return runTest(true, true, null, editor => {
+        return runTest(true, true, null, (editor) => {
             expect(getStoreOutputVariableTitleElement(editor)).toBeDefined();
         });
     });
 
     it('can handle multiple mappings for an output parameter', () => {
-        const propertiesProcessor = properties => {
+        const propertiesProcessor = (properties) => {
             properties.field.outputParameters.push(properties.field.outputParameters[0]); // Add second mapping for first parameter
         };
 
-        return runTest(true, true, propertiesProcessor, editor => {
+        return runTest(true, true, propertiesProcessor, (editor) => {
             const outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
             expect(outputs).toHaveLength(DESCRIPTOR_PARAMETERS.length + 1);
         });

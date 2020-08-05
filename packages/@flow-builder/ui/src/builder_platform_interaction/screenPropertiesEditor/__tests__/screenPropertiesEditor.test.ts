@@ -16,7 +16,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 );
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -37,7 +37,7 @@ const SELECTORS = {
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]'
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-properties-editor', {
         is: ScreenPropertiesEditor
     });

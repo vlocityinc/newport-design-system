@@ -42,7 +42,7 @@ describe('resource-details-parameters-extension', () => {
     describe('mapperExtensionOutputParameter', () => {
         const mapperExtensionOutputMapFunc = ResourceDetailsParametersExtensionConfig.map();
         const parameterName = 'myParameterName';
-        const getParameterWithLabel = srcObject => ({
+        const getParameterWithLabel = (srcObject) => ({
             label: srcObject.label,
             apiName: parameterName
         });
@@ -63,7 +63,7 @@ describe('resource-details-parameters-extension', () => {
             ${''}
         `(
             '(Incorrect "final" parameter label (initial raw label: "$label") should fallback to parameter name',
-            label => {
+            (label) => {
                 actualResult = mapperExtensionOutputMapFunc(getParameterWithLabel(label));
                 expect(actualResult).toMatchObject({
                     label: parameterName,

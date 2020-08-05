@@ -22,7 +22,7 @@ import { getChildrenItems, filterFieldsForChosenElement } from './menuDataRetrie
  * */
 let screen = null;
 
-export const setScreenElement = element => {
+export const setScreenElement = (element) => {
     screen = element;
 };
 
@@ -62,7 +62,7 @@ export const LHS_DISPLAY_OPTION = {
  * @param {Object} event Event for the data type
  * @return {Object|String} value of the event payload
  */
-export const getItemOrDisplayText = event => {
+export const getItemOrDisplayText = (event) => {
     // if it is a combobox value changed event we have two cases: literals or item select
     return event.detail.item || event.detail.displayText;
 };
@@ -73,7 +73,7 @@ export const getItemOrDisplayText = event => {
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
  * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
-export const getResourceByUniqueIdentifier = identifier => {
+export const getResourceByUniqueIdentifier = (identifier) => {
     if (identifier) {
         const complexGuid = sanitizeGuid(identifier);
         return (
@@ -117,7 +117,7 @@ export function getUncommittedResource(screenElement, identifier) {
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
  * @returns {FEROV_DATA_TYPE|null}    the dataType category this value belongs to or null if it doesn't exist
  */
-export const getFerovDataTypeForValidId = identifier => {
+export const getFerovDataTypeForValidId = (identifier) => {
     if (GLOBAL_CONSTANT_OBJECTS[identifier]) {
         return GLOBAL_CONSTANT_OBJECTS[identifier].dataType;
     } else if (getResourceByUniqueIdentifier(identifier)) {
@@ -162,7 +162,7 @@ const normalizeMenuItemChildField = (parentMenuItem, fieldNames, { allowSObjectF
         allowSObjectFieldsTraversal
     });
     const fieldDisplayText = addCurlyBraces(removeCurlyBraces(parentMenuItem.displayText) + '.' + fieldName);
-    const item = menuItems.find(menuItem => menuItem.displayText === fieldDisplayText);
+    const item = menuItems.find((menuItem) => menuItem.displayText === fieldDisplayText);
     if (!item) {
         return undefined;
     }
@@ -272,7 +272,7 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
 };
 
 export const checkExpressionForDeletedElem = (deletedGuids, expression, propertyEditorLabel) => {
-    const checkComboboxForDeletedElem = prop => {
+    const checkComboboxForDeletedElem = (prop) => {
         const property = expression[prop];
         if (property && !property.error && deletedGuids.has(property.value)) {
             const deletedDevName = getResourceByUniqueIdentifier(property.value).name;
@@ -281,7 +281,7 @@ export const checkExpressionForDeletedElem = (deletedGuids, expression, property
         }
     };
 
-    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].forEach(prop =>
+    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].forEach((prop) =>
         checkComboboxForDeletedElem(prop)
     );
 };

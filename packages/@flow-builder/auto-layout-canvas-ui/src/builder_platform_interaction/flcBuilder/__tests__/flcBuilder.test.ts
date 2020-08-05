@@ -80,7 +80,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     };
 });
 
-Element.prototype.getBoundingClientRect = jest.fn(function() {
+Element.prototype.getBoundingClientRect = jest.fn(function () {
     switch (this.className) {
         case 'canvas':
             return CANVAS_BOUNDING_CLIENT_RECT;

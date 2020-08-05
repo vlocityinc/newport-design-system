@@ -19,7 +19,7 @@ const SELECTORS = {
     FIELD_PICKER: 'builder_platform_interaction-field-picker'
 };
 
-const setupComponentUnderTest = picklistChoiceObject => {
+const setupComponentUnderTest = (picklistChoiceObject) => {
     const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
         is: PicklistChoiceSetEditor
     });
@@ -38,7 +38,7 @@ jest.mock('builder_platform_interaction/actions', () => {
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../picklistChoiceSetReducer', () => {
     return {
-        picklistChoiceSetReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
+        picklistChoiceSetReducer: jest.fn().mockImplementation((obj) => Object.assign({}, obj))
     };
 });
 
@@ -182,7 +182,7 @@ describe('picklist-choice-set-editor', () => {
             dataTypePicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
         });
 
-        const dispatchValueChangedEvent = payload => {
+        const dispatchValueChangedEvent = (payload) => {
             const mockChangeEvent = new ValueChangedEvent(payload);
             dataTypePicker.dispatchEvent(mockChangeEvent);
         };

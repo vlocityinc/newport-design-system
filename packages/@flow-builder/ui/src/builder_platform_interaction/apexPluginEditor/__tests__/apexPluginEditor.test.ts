@@ -115,7 +115,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: serverActionType => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_APEX_PLUGINS:
                     return mockApexPluginsPromise;
@@ -128,7 +128,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-const getBaseCalloutEditor = apexPluginEditor => {
+const getBaseCalloutEditor = (apexPluginEditor) => {
     return apexPluginEditor.shadowRoot.querySelector(selectors.baseCalloutEditor);
 };
 

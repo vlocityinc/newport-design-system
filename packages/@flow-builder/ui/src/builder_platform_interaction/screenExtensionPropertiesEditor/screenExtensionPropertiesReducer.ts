@@ -9,7 +9,7 @@ import EntityResourcePicker from 'builder_platform_interaction/entityResourcePic
 
 const resetOuputParameters = (state, { extensionDescription }) =>
     updateProperties(state, {
-        outputParameters: (extensionDescription.outputParameters || []).map(descriptor => ({
+        outputParameters: (extensionDescription.outputParameters || []).map((descriptor) => ({
             attribute: undefined,
             descriptor,
             key: descriptor.apiName
@@ -47,20 +47,20 @@ export function screenExtensionPropertiesEventReducer(state, props, event) {
 function createParametersMapping(descriptors, paramsIn, filteringProperty, sortByRequiredness, dynamicTypeMappings) {
     const result = [];
     descriptors
-        .filter(descriptor => descriptor[filteringProperty])
-        .filter(descriptor => !descriptor.availableValues)
-        .forEach(descriptor => {
+        .filter((descriptor) => descriptor[filteringProperty])
+        .filter((descriptor) => !descriptor.availableValues)
+        .forEach((descriptor) => {
             let value;
             if (descriptor.availableValues && dynamicTypeMappings) {
                 const dynamicTypeMapping = dynamicTypeMappings.find(
-                    item => getValueFromHydratedItem(item.typeName) === descriptor.availableValues
+                    (item) => getValueFromHydratedItem(item.typeName) === descriptor.availableValues
                 );
                 if (dynamicTypeMapping) {
                     value = getValueFromHydratedItem(dynamicTypeMapping.typeValue);
                 }
             }
 
-            const params = paramsIn.filter(param => descriptor.apiName === param.name.value);
+            const params = paramsIn.filter((param) => descriptor.apiName === param.name.value);
             if (params && params.length > 0) {
                 for (let j = 0; j < params.length; j++) {
                     result.push({
@@ -124,7 +124,7 @@ const createOutputParameters = ({ extensionDescription, field }) =>
 const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disabled) =>
     (genericTypes || [])
         // Add a flow type for a super type
-        .map(genericType => ({
+        .map((genericType) => ({
             genericType,
             flowDataType: superTypeToFlowDataType(genericType.superType)
         }))
@@ -133,7 +133,7 @@ const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disab
             genericType,
             flowDataTypeName: flowDataType ? flowDataType.value : undefined,
             dynamicTypeMapping: dynamicTypeMappings.find(
-                item => getValueFromHydratedItem(item.typeName) === genericType.name
+                (item) => getValueFromHydratedItem(item.typeName) === genericType.name
             )
         }))
         // Create dynamic type mapping for rendering the entity picker

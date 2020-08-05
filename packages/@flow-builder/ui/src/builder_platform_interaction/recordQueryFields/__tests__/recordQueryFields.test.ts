@@ -32,15 +32,15 @@ const queried2Fields = [
     { field: { value: 'Fax', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_2' }
 ];
 
-const getFieldList = recordStoreFieldsComponent =>
+const getFieldList = (recordStoreFieldsComponent) =>
     recordStoreFieldsComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LIST);
-const getRecordFieldPickers = recordStoreFieldsComponent =>
+const getRecordFieldPickers = (recordStoreFieldsComponent) =>
     recordStoreFieldsComponent.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER_ROW);
-const getCombobox = recordStoreFieldsComponent =>
+const getCombobox = (recordStoreFieldsComponent) =>
     recordStoreFieldsComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
-const getFieldPicker = recordFieldPicker =>
+const getFieldPicker = (recordFieldPicker) =>
     recordFieldPicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER);
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-record-query-fields', {
         is: RecordQueryFields
     });
@@ -54,7 +54,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         fetchFieldsForEntity: jest.fn().mockResolvedValue(() => {
             const accountFields = {};
             const fields = Object.keys(mockAccountFields);
-            fields.forEach(field => {
+            fields.forEach((field) => {
                 accountFields[field] = field;
             });
             return accountFields;

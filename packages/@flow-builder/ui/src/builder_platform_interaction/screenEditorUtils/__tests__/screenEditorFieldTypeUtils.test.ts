@@ -41,7 +41,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 const choice1Guid = 'choice1';
 const choice2Guid = 'choice2';
 const choice3Guid = 'choice3';
-getElementByGuid.mockImplementation(guid => {
+getElementByGuid.mockImplementation((guid) => {
     const element = {
         guid,
         name: 'choiceName'

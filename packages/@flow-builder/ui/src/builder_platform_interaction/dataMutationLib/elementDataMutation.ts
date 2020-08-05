@@ -8,7 +8,7 @@ const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'ro
  * @param {Object} item to evaluate if its hydrated
  * @return {boolean} returns true if item has error and value property otherwise false
  */
-export const isItemHydratedWithErrors = item => {
+export const isItemHydratedWithErrors = (item) => {
     return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
 };
 
@@ -36,7 +36,7 @@ const doHydrateWithErrors = (element, blackList) => {
  * @param {object | null} value - The value to hydrate
  * @returns {object} - The hydrated value
  */
-export const hydrateIfNecessary = value => {
+export const hydrateIfNecessary = (value) => {
     if (!isItemHydratedWithErrors(value) && (typeof value === 'string' || value === null)) {
         return { value, error: null };
     }
@@ -63,12 +63,12 @@ export const hydrateWithErrors = (element, elementBlackListFields = [], useDefau
  * @param {Object} element hydrated element data object
  * @return {Object} dehydrated element object
  */
-export const dehydrate = element => {
+export const dehydrate = (element) => {
     if (!isUndefinedOrNull(element)) {
         Object.entries(element).forEach(([key, value]) => {
             if (typeof value === 'object') {
                 if (Array.isArray(value)) {
-                    value.forEach(item => {
+                    value.forEach((item) => {
                         dehydrate(item);
                     });
                 } else if (isItemHydratedWithErrors(element[key])) {
@@ -94,7 +94,7 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
         if (value && typeof value === 'object') {
             // TODO: FLC find better way
             if (Array.isArray(value) && key !== 'children') {
-                value.forEach(item => {
+                value.forEach((item) => {
                     getErrorsFromHydratedElement(item, listOfErrors);
                 });
             } else if (isItemHydratedWithErrors(element[key])) {
@@ -115,7 +115,7 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
  * @param {*} item Object hydrated with error or a property
  * @return {*} value property if item is hydrated with error else item
  */
-export const getValueFromHydratedItem = item => {
+export const getValueFromHydratedItem = (item) => {
     if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
         return item.value;
     }
@@ -127,7 +127,7 @@ export const getValueFromHydratedItem = item => {
  * @param {*} item Object hydrated with error or a property
  * @return {*} value property if item is hydrated with error else null
  */
-export const getErrorFromHydratedItem = item => {
+export const getErrorFromHydratedItem = (item) => {
     if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
         return item.error;
     }

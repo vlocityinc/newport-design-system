@@ -17,7 +17,7 @@ export const loopValidation = new Validation(additionalRules);
  * Validate the assignNextValueToReference item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateAssignNextValueToReference = assignNextValueToReferenceIndex => {
+const validateAssignNextValueToReference = (assignNextValueToReferenceIndex) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,

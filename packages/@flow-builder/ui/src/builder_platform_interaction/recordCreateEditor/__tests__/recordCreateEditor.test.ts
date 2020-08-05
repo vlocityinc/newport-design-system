@@ -70,7 +70,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
-        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(processType => {
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn((processType) => {
             return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTO
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
                 : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
@@ -230,15 +230,15 @@ const inputAssignmentElement = {
     rightHandSideGuid: { value: '345cafc2-7744-4e46-8eaa-f2df29539d2e', error: null },
     rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d2e'
 };
-const getRecordStoreOption = recordCreateEditor =>
+const getRecordStoreOption = (recordCreateEditor) =>
     recordCreateEditor.shadowRoot.querySelector(SELECTORS.recordStoreOption);
-const getSObjectOrSObjectCollectionPicker = recordCreateEditor =>
+const getSObjectOrSObjectCollectionPicker = (recordCreateEditor) =>
     recordCreateEditor.shadowRoot.querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
-const getEntityResourcePicker = recordCreateEditor =>
+const getEntityResourcePicker = (recordCreateEditor) =>
     recordCreateEditor.shadowRoot.querySelector(SELECTORS.entityResourcePicker);
-const getRecordInputOutputAssignments = recordCreateEditor =>
+const getRecordInputOutputAssignments = (recordCreateEditor) =>
     recordCreateEditor.shadowRoot.querySelector(SELECTORS.recordInputOutputAssignments);
-const getOutputResourcePickerForId = recordCreateEditor =>
+const getOutputResourcePickerForId = (recordCreateEditor) =>
     recordCreateEditor.shadowRoot.querySelector(SELECTORS.outputResourcePicker);
 
 describe('record-create-editor', () => {

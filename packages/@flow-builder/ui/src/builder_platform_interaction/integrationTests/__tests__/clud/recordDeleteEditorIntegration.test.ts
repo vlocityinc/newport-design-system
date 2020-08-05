@@ -94,13 +94,13 @@ describe('Record Delete Editor', () => {
     });
     describe('Working with sObject', () => {
         let recordDeleteComponent, sObjectOrSObjectCollectionPicker;
-        const expectCanBeTraversedInResourcePicker = async textValues => {
+        const expectCanBeTraversedInResourcePicker = async (textValues) => {
             await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
         };
-        const expectCannotBeTraversedInResourcePicker = async textValues => {
+        const expectCannotBeTraversedInResourcePicker = async (textValues) => {
             await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
         };
-        const expectCannotBeSelectedInResourcePicker = async textValues => {
+        const expectCannotBeSelectedInResourcePicker = async (textValues) => {
             await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
         };
         beforeEach(() => {

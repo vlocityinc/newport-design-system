@@ -5,10 +5,7 @@ import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeF
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
-        validateTextWithMergeFields: jest
-            .fn()
-            .mockName('validateTextWithMergeFields')
-            .mockReturnValue([])
+        validateTextWithMergeFields: jest.fn().mockName('validateTextWithMergeFields').mockReturnValue([])
     };
 });
 

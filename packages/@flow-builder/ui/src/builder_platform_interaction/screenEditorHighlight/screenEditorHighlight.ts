@@ -52,7 +52,7 @@ export default class ScreenEditorHighlight extends LightningElement {
             (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || 'utility:connected_apps';
     }
 
-    handleSelected = event => {
+    handleSelected = (event) => {
         event.stopPropagation();
 
         if (!this.selected) {
@@ -60,17 +60,17 @@ export default class ScreenEditorHighlight extends LightningElement {
         }
     };
 
-    handleDelete = event => {
+    handleDelete = (event) => {
         event.stopPropagation();
         this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
     };
 
-    handleMouseOver = event => {
+    handleMouseOver = (event) => {
         event.stopPropagation();
         this.hovering = true;
     };
 
-    handleMouseOut = event => {
+    handleMouseOut = (event) => {
         event.stopPropagation();
         this.hovering = false;
     };

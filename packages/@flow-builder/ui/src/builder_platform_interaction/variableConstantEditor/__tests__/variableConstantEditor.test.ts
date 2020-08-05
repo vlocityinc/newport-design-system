@@ -29,7 +29,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/selectors', () => ({
-    readableElementsSelector: jest.fn(data => Object.values(data.elements))
+    readableElementsSelector: jest.fn((data) => Object.values(data.elements))
 }));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -43,7 +43,7 @@ const SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-constant-editor', {
         is: VariableConstantEditor
     });
@@ -91,7 +91,7 @@ jest.mock('builder_platform_interaction/actions', () => {
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../variableConstantReducer', () => {
     return {
-        variableConstantReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
+        variableConstantReducer: jest.fn().mockImplementation((obj) => Object.assign({}, obj))
     };
 });
 

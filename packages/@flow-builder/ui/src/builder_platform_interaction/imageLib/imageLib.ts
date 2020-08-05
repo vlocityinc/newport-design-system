@@ -32,7 +32,7 @@ export const ICONS_LARGE = {
 };
 
 export function preloadImages() {
-    Object.values(ICONS_LARGE).forEach(source => {
+    Object.values(ICONS_LARGE).forEach((source) => {
         preloadImage('ICONS_LARGE', source);
     });
 }

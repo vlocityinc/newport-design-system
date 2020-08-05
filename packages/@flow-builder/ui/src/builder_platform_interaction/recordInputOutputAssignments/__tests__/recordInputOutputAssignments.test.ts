@@ -59,11 +59,11 @@ const selectors = {
     fieldList: 'builder_platform_interaction-list'
 };
 
-const getFieldList = recordInputOutputAssignmentCmp => {
+const getFieldList = (recordInputOutputAssignmentCmp) => {
     return recordInputOutputAssignmentCmp.shadowRoot.querySelector(selectors.fieldList);
 };
 
-const getExpressionBuilders = recordInputOutputAssignmentCmp => {
+const getExpressionBuilders = (recordInputOutputAssignmentCmp) => {
     return recordInputOutputAssignmentCmp.shadowRoot.querySelectorAll(selectors.expressionBuilder);
 };
 
@@ -123,12 +123,12 @@ describe('record-input-output-assignment', () => {
         it('should not contain duplicated fields', () => {
             expect(
                 Object.values(expressionBuilders[0].lhsFields)
-                    .map(field => field.apiName)
+                    .map((field) => field.apiName)
                     .includes('Name')
             ).toBe(false);
             expect(
                 Object.values(expressionBuilders[1].lhsFields)
-                    .map(field => field.apiName)
+                    .map((field) => field.apiName)
                     .includes('Description')
             ).toBe(false);
         });

@@ -112,7 +112,7 @@ const originalState = {
 };
 
 const getParameterItemsWithName = (parameterItems, name) =>
-    parameterItems.filter(parameterItem => parameterItem.name === name);
+    parameterItems.filter((parameterItem) => parameterItem.name === name);
 
 describe('subflowReducer', () => {
     describe('MERGE_WITH_VARIABLES event', () => {

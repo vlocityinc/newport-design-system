@@ -85,7 +85,7 @@ export default class SubflowEditor extends LightningElement {
         this.subflowVariablesDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         fetchFlowInputOutputVariables(flowName)
-            .then(inputOutputVariables => {
+            .then((inputOutputVariables) => {
                 if (this.connected) {
                     this.displaySpinner = false;
                     this.subflowVariablesDescriptor = inputOutputVariables;
@@ -108,7 +108,7 @@ export default class SubflowEditor extends LightningElement {
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const serverActionParams = { flowName };
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE, serverActionParams)
-            .then(runInMode => {
+            .then((runInMode) => {
                 if (this.connected) {
                     this.subflowRunInMode = runInMode;
                 }
@@ -145,9 +145,9 @@ export default class SubflowEditor extends LightningElement {
             },
             options
         )
-            .then(subflows => {
+            .then((subflows) => {
                 if (this.connected) {
-                    this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
+                    this.subflowDescriptor = subflows.find((f) => f.fullName === flowName);
                     this.updatePropertyEditorTitle();
                 }
             })

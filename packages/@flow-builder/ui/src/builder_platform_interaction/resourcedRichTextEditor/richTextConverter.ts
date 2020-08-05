@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { inputRichTextLibrary } from 'lightning/quillLib';
 
-const INPUT_RICH_TEXT_FONTS = (inputRichTextLibrary.FONT_LIST || []).map(item => ({
+const INPUT_RICH_TEXT_FONTS = (inputRichTextLibrary.FONT_LIST || []).map((item) => ({
     fontName: item.label.toUpperCase(),
     value: item.value
 }));
@@ -19,7 +19,7 @@ export function convertHTMLToQuillHTML(htmlText) {
     // If we don't add a surrounding div, leading spaces are removed
     const document = new DOMParser().parseFromString('<div>' + htmlText + '</div>', 'text/html');
 
-    document.childNodes.forEach(node => {
+    document.childNodes.forEach((node) => {
         processNode(node);
     });
     return serializeToString(document);
@@ -64,7 +64,7 @@ function processNode(node) {
     }
 
     if (newNode) {
-        newNode.childNodes.forEach(childNode => {
+        newNode.childNodes.forEach((childNode) => {
             processNode(childNode);
         });
     }
@@ -152,7 +152,7 @@ function processFontNode(node) {
         }
     }
 
-    attributesToRemove.forEach(attribute => {
+    attributesToRemove.forEach((attribute) => {
         renamedNode.removeAttribute(attribute);
     });
 
@@ -167,7 +167,7 @@ function processFontNode(node) {
  */
 function convertToSupportedFontFamily(fontName) {
     const fontNameUppercase = fontName.toUpperCase();
-    const elementFound = INPUT_RICH_TEXT_FONTS.find(element => element.fontName === fontNameUppercase);
+    const elementFound = INPUT_RICH_TEXT_FONTS.find((element) => element.fontName === fontNameUppercase);
     if (elementFound) {
         if (elementFound.value === 'default') {
             return undefined;
@@ -188,7 +188,7 @@ function processUnsupportedNode(node) {
     if (node.hasChildNodes()) {
         let childNode = node.childNodes[0];
         parentNode.replaceChild(childNode, node);
-        node.childNodes.forEach(childNodeTmp => {
+        node.childNodes.forEach((childNodeTmp) => {
             insertAfter(childNodeTmp, childNode);
             childNode = childNodeTmp;
         });
@@ -200,8 +200,8 @@ function processUnsupportedNode(node) {
 
 function renameNode(node, newNodeName) {
     const newNode = createElement(newNodeName);
-    Array.from(node.attributes).forEach(attr => newNode.setAttribute(attr.localName, attr.value));
-    Array.from(node.childNodes).forEach(childNode => newNode.appendChild(childNode));
+    Array.from(node.attributes).forEach((attr) => newNode.setAttribute(attr.localName, attr.value));
+    Array.from(node.childNodes).forEach((childNode) => newNode.appendChild(childNode));
 
     node.parentElement.insertBefore(newNode, node);
     node.parentElement.removeChild(node);

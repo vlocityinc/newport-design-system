@@ -176,7 +176,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: serverActionType => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
                     return mockActionsPromise;
@@ -190,7 +190,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function() {
+    const getCurrentState = function () {
         return {
             properties: {
                 processType: 'flow'
@@ -198,7 +198,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function() {
+    const getStore = function () {
         return {
             getCurrentState
         };
@@ -209,7 +209,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-const getBaseCalloutEditor = actionEditor => {
+const getBaseCalloutEditor = (actionEditor) => {
     return actionEditor.shadowRoot.querySelector(selectors.baseCalloutEditor);
 };
 

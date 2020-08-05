@@ -28,15 +28,15 @@ import errorCode from '@salesforce/label/FlowBuilderAlertModal.errorCode';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 
 /** Promise.allSettled() polyfill. */
-const promiseAllSettled = promises =>
+const promiseAllSettled = (promises) =>
     Promise.all(
-        promises.map(promise =>
+        promises.map((promise) =>
             promise
-                .then(value => ({
+                .then((value) => ({
                     status: 'fulfilled',
                     value
                 }))
-                .catch(reason => ({
+                .catch((reason) => ({
                     status: 'rejected',
                     reason
                 }))
@@ -46,15 +46,15 @@ const promiseAllSettled = promises =>
 /** Promise.finally() polyfill. */
 const promiseFinally = (promise, onFinally) =>
     promise.then(
-        value => {
+        (value) => {
             const result = onFinally();
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 resolve(result);
             }).then(() => value);
         },
-        reason => {
+        (reason) => {
             const result = onFinally();
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 resolve(result);
             }).then(() => {
                 throw reason;
@@ -118,7 +118,7 @@ class Loader {
                 // Load apex
                 // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
                 Promise.all([fetchApexTypesPromise, this.entitiesLoaded.promise])
-                    .catch(e => {
+                    .catch((e) => {
                         reject(e);
                         throw e;
                     })
@@ -160,7 +160,7 @@ class Loader {
                     loadEventTypes(),
                     // Get workflow enabled entities for before-save trigger object list
                     loadEntities('ALL')
-                        .catch(e => {
+                        .catch((e) => {
                             this.entitiesLoaded.reject(e);
                             throw e;
                         })
@@ -170,8 +170,8 @@ class Loader {
                     loadProcessTypeFeatures(flowProcessType),
                     loadGlobalVariables(flowProcessType),
                     loadSystemVariables(flowProcessType)
-                ]).then(promises => {
-                    const failed = promises.find(promise => promise.status === 'rejected');
+                ]).then((promises) => {
+                    const failed = promises.find((promise) => promise.status === 'rejected');
                     if (failed) {
                         // This will get replaced with a better error message with W-7024241.
                         let messageForErrorModal = errorMessage;
@@ -266,5 +266,5 @@ export const loadApexClasses = () => loader.loadApexClasses();
  * Load all supported features for the given list of process types
  * @param processTypes
  */
-export const loadAllSupportedFeatures = processTypes =>
-    processTypes.forEach(processType => loadProcessTypeFeatures(processType.name));
+export const loadAllSupportedFeatures = (processTypes) =>
+    processTypes.forEach((processType) => loadProcessTypeFeatures(processType.name));

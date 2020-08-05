@@ -1,5 +1,5 @@
 ({
-    handleUpdateNodeOnOk: function(cmp) {
+    handleUpdateNodeOnOk: function (cmp) {
         cmp.set('v.isSaveDisabled', true);
         var panelInstance = cmp.get('v.panelInstance');
         var propertyEditor = panelInstance.get('v.body')[0];
@@ -31,7 +31,7 @@
         }
     },
 
-    closePanel: function(cmp) {
+    closePanel: function (cmp) {
         var closeActionCallback = cmp.get('v.closeActionCallback');
         var panelInstance = cmp.get('v.panelInstance');
         closeActionCallback(panelInstance);

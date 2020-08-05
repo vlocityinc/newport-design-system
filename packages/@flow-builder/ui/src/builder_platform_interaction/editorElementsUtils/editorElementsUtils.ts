@@ -18,8 +18,8 @@ const mutateElements = (elements, palette) =>
     palette.headers.reduce((acc, { headerLabel, headerItems }) => {
         try {
             if (headerLabel && headerItems) {
-                headerItems.forEach(headerItem => {
-                    const filteredElements = elements.filter(el => {
+                headerItems.forEach((headerItem) => {
+                    const filteredElements = elements.filter((el) => {
                         if (headerItem.type === 'element') {
                             return headerItem.name === el.elementType;
                         }
@@ -30,7 +30,7 @@ const mutateElements = (elements, palette) =>
                         return false;
                     });
                     if (filteredElements.length > 0) {
-                        filteredElements.forEach(element => {
+                        filteredElements.forEach((element) => {
                             const elementType = element.elementType || ELEMENT_TYPE.ACTION_CALL;
                             const elementSubtype = element.isElementSubtype ? element.name : null;
                             const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElement(element);

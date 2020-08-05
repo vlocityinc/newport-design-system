@@ -258,7 +258,7 @@ export default class Node extends LightningElement {
      * Handles the node click event on node div and fires off a nodeSelected event.
      * @param {object} event - node clicked event
      */
-    handleNodeClick = event => {
+    handleNodeClick = (event) => {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
 
@@ -281,7 +281,7 @@ export default class Node extends LightningElement {
      * Handles the node double click event on node div and fires off a edit element event.
      * @param {object} event - node double clicked event
      */
-    handleDblClick = event => {
+    handleDblClick = (event) => {
         event.stopPropagation();
 
         if (this.isEditable()) {
@@ -296,7 +296,7 @@ export default class Node extends LightningElement {
      * since multiple elements can be deleted using the delete key.
      * @param {object} event - trash can click event
      */
-    handleTrashClick = event => {
+    handleTrashClick = (event) => {
         event.stopPropagation();
         if (!this.isNodeDragging) {
             const { guid, elementType } = this.node;
@@ -322,7 +322,7 @@ export default class Node extends LightningElement {
      * @param {object} event - drag start event
      */
     @api
-    dragStart = event => {
+    dragStart = (event) => {
         this.isNodeDragging = true;
         if (this.isSelectable() && !this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
@@ -336,7 +336,7 @@ export default class Node extends LightningElement {
      * @param {object} event - drag stop event
      */
     @api
-    dragStop = event => {
+    dragStop = (event) => {
         if (
             (event.finalPos[0] !== this.node.locationX || event.finalPos[1] !== this.node.locationY) &&
             event.selection &&
@@ -352,7 +352,7 @@ export default class Node extends LightningElement {
      * @param {object} event - drag event
      */
     @api
-    drag = event => {
+    drag = (event) => {
         const dragNodeEvent = new DragNodeEvent(this.node.guid, event.pos[0], event.pos[1]);
         this.dispatchEvent(dragNodeEvent);
     };

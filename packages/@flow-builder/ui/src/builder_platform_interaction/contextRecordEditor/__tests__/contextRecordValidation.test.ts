@@ -93,7 +93,7 @@ function createComponentForTest(node) {
     return el;
 }
 
-const validate = node => {
+const validate = (node) => {
     const rules = getRules(node);
     return getErrorsFromHydratedElement(contextValidation.validateAll(node, rules));
 };

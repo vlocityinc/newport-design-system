@@ -11,14 +11,14 @@ function animateNext(callback: any, timestamp: number, duration: number) {
     callback(animProgress);
 
     if (animProgress !== 1) {
-        requestAnimationFrame(ts => animateNext(callback, ts, duration));
+        requestAnimationFrame((ts) => animateNext(callback, ts, duration));
     }
 }
 
 function animate(callback: any, duration: number = DURATION) {
     animStart = null;
     animProgress = 0;
-    requestAnimationFrame(timestamp => animateNext(callback, timestamp, duration));
+    requestAnimationFrame((timestamp) => animateNext(callback, timestamp, duration));
 }
 
 export { animate };

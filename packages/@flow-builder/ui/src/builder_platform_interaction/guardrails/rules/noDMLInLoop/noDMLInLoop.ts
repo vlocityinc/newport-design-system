@@ -25,14 +25,14 @@ export class NoDMLInLoop extends Rule {
         const flow = context.getData();
         if (flow.loops && flow.loops.length > 0) {
             const dmlsWithTips = new Set();
-            flow.loops.forEach(loopElement => {
+            flow.loops.forEach((loopElement) => {
                 const { isClosed, dmls } = this.getDmlsInLoop(
                     loopElement,
                     flow.consumerProperties.connectorTargets,
                     flow
                 );
                 if (isClosed) {
-                    dmls.forEach(dml => {
+                    dmls.forEach((dml) => {
                         if (!dmlsWithTips.has(dml.element.id)) {
                             context.report(new Result([dml.element], [dml.type, dml.element.label]));
                             dmlsWithTips.add(dml.element.id);

@@ -66,7 +66,7 @@ const getParametersForEventTypeCallback = (eventTypeParametersData = [], eventTy
     const inputParams = {};
     const outputParams = {};
     const parameters = {};
-    eventTypeAllParameters.forEach(eventTypeParameter => {
+    eventTypeAllParameters.forEach((eventTypeParameter) => {
         // These additional properties are needed for expression builder
         eventTypeParameter.sobjectName = eventTypeApiName;
         eventTypeParameter.prefixedApiName = eventTypeApiName + '.' + eventTypeParameter.qualifiedApiName;
@@ -164,6 +164,6 @@ export const setEventTypes = (eventTypesData, type) => {
  * Returns all the event types except the Alarm events.
  * @returns {Array} All Event types except Alarm events.
  */
-export const getEventTypes = type => {
+export const getEventTypes = (type) => {
     return eventTypes[type];
 };

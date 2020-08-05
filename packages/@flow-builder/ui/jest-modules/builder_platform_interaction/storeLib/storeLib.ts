@@ -27,10 +27,10 @@ const MockStore = jest.fn().mockImplementation(() => {
         return Object.assign({}, _state);
     };
 
-    const isFunction = arg => typeof arg === 'function';
+    const isFunction = (arg) => typeof arg === 'function';
     const UnsubscribeSpy = jest.fn().mockImplementation(() => {});
 
-    const SubscribeSpy = jest.fn().mockImplementation(subscribeCallback => {
+    const SubscribeSpy = jest.fn().mockImplementation((subscribeCallback) => {
         if (isFunction(subscribeCallback)) {
             // add the subscribeCallback to list of listners
             _listeners.push(subscribeCallback);
@@ -42,7 +42,7 @@ const MockStore = jest.fn().mockImplementation(() => {
         return UnsubscribeSpy;
     });
 
-    const DispatchSpy = jest.fn().mockImplementation(action => {
+    const DispatchSpy = jest.fn().mockImplementation((action) => {
         // keep track of the actions dispatched to the mock store. It is NOT the job of the mock store
         // to validate if these actions are valid, there should be tests for actions that cover that
         _actions.push(action);

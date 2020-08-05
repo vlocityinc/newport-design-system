@@ -42,7 +42,7 @@ describe('resource-details-parameters-action', () => {
     describe('mapperActionOutputParameter', () => {
         const mapperActionOutputMapFunc = ResourceDetailsParametersActionConfig.map();
         const parameterName = 'myParameterName';
-        const getParameterWithLabel = srcObject => ({
+        const getParameterWithLabel = (srcObject) => ({
             label: srcObject.label,
             name: parameterName
         });
@@ -64,7 +64,7 @@ describe('resource-details-parameters-action', () => {
             ${''}
         `(
             '(Incorrect "final" parameter label (initial raw label: "$label") should fallback to parameter name',
-            label => {
+            (label) => {
                 actualResult = mapperActionOutputMapFunc(getParameterWithLabel(label));
                 expect(actualResult).toMatchObject({
                     label: parameterName,

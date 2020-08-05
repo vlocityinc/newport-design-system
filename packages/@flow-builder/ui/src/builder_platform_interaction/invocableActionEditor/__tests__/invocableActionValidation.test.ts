@@ -9,7 +9,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function() {
+    const getCurrentState = function () {
         return {
             properties: {
                 processType: 'flow'
@@ -17,7 +17,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function() {
+    const getStore = function () {
         return {
             getCurrentState
         };
@@ -34,14 +34,14 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
 
-const createComponentForTest = node => {
+const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     el.node = node;
     document.body.appendChild(el);
     return el;
 };
 
-const validate = node => {
+const validate = (node) => {
     return getErrorsFromHydratedElement(invocableActionValidation.validateAll(node));
 };
 

@@ -21,7 +21,7 @@ import {
     getRecordGroupedComboox
 } from '../recordFilterTestUtils';
 
-const createComponentForTest = contextRecordEditorElement => {
+const createComponentForTest = (contextRecordEditorElement) => {
     const el = createElement('builder_platform_interaction-context-record-editor', {
         is: contextRecordEditor
     });

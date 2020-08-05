@@ -9,7 +9,7 @@ import { mockApexPluginParameters } from 'mock/calloutData';
 import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
 
 const getParameterItemsWithName = (parameterItems, name) =>
-    parameterItems.filter(parameterItem => parameterItem.name === name);
+    parameterItems.filter((parameterItem) => parameterItem.name === name);
 
 describe('apex-plugin-reducer', () => {
     let originalState;

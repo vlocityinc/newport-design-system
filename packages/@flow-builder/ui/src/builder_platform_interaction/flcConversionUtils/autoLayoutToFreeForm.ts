@@ -241,7 +241,7 @@ function toCanvasElement(elements: FlowElements, alcCanvasElement: AutoLayoutCan
     } else if (supportsChildren(alcCanvasElement)) {
         // @ts-ignore
         availableConnections = [
-            ...alcCanvasElement.childReferences!.map(cr => ({
+            ...alcCanvasElement.childReferences!.map((cr) => ({
                 childReference: cr.childReference,
                 type: CONNECTOR_TYPE.REGULAR
             })),
@@ -266,7 +266,7 @@ function toCanvasElement(elements: FlowElements, alcCanvasElement: AutoLayoutCan
     }
 
     // remove all the Auto Layout specific props
-    flcExtraProps.forEach(prop => delete canvasElement[prop]);
+    flcExtraProps.forEach((prop) => delete canvasElement[prop]);
 
     return canvasElement;
 }
@@ -429,12 +429,12 @@ function assertStoreState(storeState: StoreState) {
     const { elements, connectors } = storeState;
 
     Object.values(elements)
-        .filter(element => element.isCanvasElement)
-        .forEach(element => {
+        .filter((element) => element.isCanvasElement)
+        .forEach((element) => {
             const { guid, elementType, connectorCount, availableConnections, childReferences } = element;
             const { canHaveFaultConnector } = getConfigForElementType(elementType) as any;
             let { maxConnections } = getConfigForElementType(elementType) as any;
-            const elementConnectors = connectors.filter(connector => connector.source === guid);
+            const elementConnectors = connectors.filter((connector) => connector.source === guid);
 
             const childReferencesMap = elementConnectors.reduce((acc, childRef) => {
                 acc[childRef.childReference] = true;
@@ -455,7 +455,7 @@ function assertStoreState(storeState: StoreState) {
                 }
 
                 expectedAvailableConnections = expectedAvailableConnections.filter(
-                    connection => !childReferencesMap[connection.childReference]
+                    (connection) => !childReferencesMap[connection.childReference]
                 );
 
                 if (JSON.stringify(expectedAvailableConnections) !== JSON.stringify(availableConnections)) {
@@ -533,7 +533,7 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
         const { source, childSource, type } = connector;
         const sourceElement = ffcStoreState.elements[source] as CanvasElement;
         if (sourceElement.availableConnections != null) {
-            sourceElement.availableConnections = sourceElement.availableConnections.filter(connection => {
+            sourceElement.availableConnections = sourceElement.availableConnections.filter((connection) => {
                 // eslint-disable-next-line eqeqeq
                 return connection.type !== type || connection.childReference != childSource;
             });

@@ -34,10 +34,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
-        getConditionsWithPrefixes: jest
-            .fn()
-            .mockName('getConditionsWithPrefixes')
-            .mockReturnValue([]),
+        getConditionsWithPrefixes: jest.fn().mockName('getConditionsWithPrefixes').mockReturnValue([]),
         showDeleteCondition: jest.fn().mockName('showDeleteCondition')
     };
 });
@@ -84,7 +81,7 @@ const selectors = {
     ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder'
 };
 
-const createComponentUnderTest = waitEvent => {
+const createComponentUnderTest = (waitEvent) => {
     const el = createElement('builder_platform_interaction-wait-event', {
         is: WaitEvent
     });

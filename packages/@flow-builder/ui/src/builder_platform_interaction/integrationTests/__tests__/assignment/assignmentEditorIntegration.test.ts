@@ -96,7 +96,7 @@ jest.mock(
     { virtual: true }
 );
 
-const createComponentForTest = assignmentElement => {
+const createComponentForTest = (assignmentElement) => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
         is: AssignmentEditor
     });
@@ -105,7 +105,7 @@ const createComponentForTest = assignmentElement => {
     return el;
 };
 
-const getFerToFerovExpressionBuilder = assignment =>
+const getFerToFerovExpressionBuilder = (assignment) =>
     deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER]);
 
 describe('Assignment Editor', () => {

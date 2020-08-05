@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { booleanMatcher, containsMatcher, equalsMatcher, notEqualsMatcher, startsWithMatcher } from '../matchers';
 
-const verifyValidation = matcher => {
+const verifyValidation = (matcher) => {
     // throws an error when obj is undefined
     expect(() => matcher()).toThrowError(TypeError);
 
@@ -24,7 +24,7 @@ const verifyValidation = matcher => {
     expect(() => matcher({}, '')).toThrowError(TypeError);
 };
 
-const verifyStringValidation = matcher => {
+const verifyStringValidation = (matcher) => {
     verifyValidation(matcher);
 
     // throws an error when pattern is undefined

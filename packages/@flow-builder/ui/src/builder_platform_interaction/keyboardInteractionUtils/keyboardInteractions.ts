@@ -10,7 +10,7 @@ export class KeyboardInteractions {
         this.keyboardService = new KeyboardShortcutServiceImpl(this.commandRegistry);
     }
 
-    keydownListener = event => {
+    keydownListener = (event) => {
         this.keyboardService.handleKeydown(event);
     };
 

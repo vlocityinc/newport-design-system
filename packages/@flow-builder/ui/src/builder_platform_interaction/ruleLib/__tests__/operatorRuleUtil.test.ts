@@ -51,40 +51,40 @@ const mockApexProperty = {
     dataType: 'Number'
 };
 
-const RULES_WITH_EXCLUSION = rules.filter(rule => rule.excludeElems && rule.excludeElems.length > 0);
+const RULES_WITH_EXCLUSION = rules.filter((rule) => rule.excludeElems && rule.excludeElems.length > 0);
 const RULE_WITH_EXCLUSION = RULES_WITH_EXCLUSION[0];
 const ELEMENT_TYPE_WITH_EXCLUSION = RULE_WITH_EXCLUSION.excludeElems[0];
 const RULE_TYPE_WITH_EXCLUSION = RULE_WITH_EXCLUSION.ruleType;
 const RULES_WITH_EXCLUSION_LEFTS_AND_OPERATORS = RULES_WITH_EXCLUSION.filter(
-    rule =>
+    (rule) =>
         rule.ruleType === RULE_TYPE_WITH_EXCLUSION &&
         rule.excludeElems &&
         rule.excludeElems.includes(ELEMENT_TYPE_WITH_EXCLUSION) &&
         rule.left &&
         (rule.left.dataType === 'Date' || (rule.left.mustBeElements && rule.left.mustBeElements.includes('STAGE')))
-).map(rule => ({ left: rule.left, operator: rule.assignmentOperator || rule.comparisonOperator }));
+).map((rule) => ({ left: rule.left, operator: rule.assignmentOperator || rule.comparisonOperator }));
 const RULES_WITH_EXCLUSION_LEFTS = RULES_WITH_EXCLUSION_LEFTS_AND_OPERATORS.map(
-    ruleLeftAndOperator => ruleLeftAndOperator.left
+    (ruleLeftAndOperator) => ruleLeftAndOperator.left
 );
 
-const uiElementType = ruleElementType =>
+const uiElementType = (ruleElementType) =>
     Object.keys(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE).find(
-        uiElementTypeKey => UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[uiElementTypeKey] === ruleElementType
+        (uiElementTypeKey) => UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[uiElementTypeKey] === ruleElementType
     );
-const setOfDistinctLeftParams = filter =>
-    new Set(rules.filter(rule => filter(rule)).map(rule => JSON.stringify(rule.left)));
+const setOfDistinctLeftParams = (filter) =>
+    new Set(rules.filter((rule) => filter(rule)).map((rule) => JSON.stringify(rule.left)));
 
 const ruleTypeFilter = (rule, ruleType) => rule.ruleType === ruleType;
 const lhsDataTypeFilter = (rule, dataType) => rule.left && rule.left.dataType === dataType;
 const lhsElementFilter = (rule, element) =>
     rule.left && rule.left.mustBeElements && rule.left.mustBeElements.includes(element);
-const arrayToUndefinedIfEmpty = array => (array && array.length > 0 ? array : undefined);
-const setOfStringifiedParamsToArray = setOfStringifiedParams =>
-    Array.from(setOfStringifiedParams).map(entry => JSON.parse(entry));
-const dataTypeAndElementsFromRuleLefts = ruleLefts => {
+const arrayToUndefinedIfEmpty = (array) => (array && array.length > 0 ? array : undefined);
+const setOfStringifiedParamsToArray = (setOfStringifiedParams) =>
+    Array.from(setOfStringifiedParams).map((entry) => JSON.parse(entry));
+const dataTypeAndElementsFromRuleLefts = (ruleLefts) => {
     const lhsDataTypesOfRuleWithExclusion = [];
     const lhsElementsOfRuleWithExclusion = [];
-    ruleLefts.forEach(ruleLeft => {
+    ruleLefts.forEach((ruleLeft) => {
         if (ruleLeft.dataType) {
             lhsDataTypesOfRuleWithExclusion.push(ruleLeft.dataType);
         } else if (ruleLeft.mustBeElements) {
@@ -192,19 +192,19 @@ describe('Operator Rule Util', () => {
                 lhsDataTypesOfRuleWithExclusion,
                 lhsElementsOfRuleWithExclusion
             } = dataTypeAndElementsFromRuleLefts(RULES_WITH_EXCLUSION_LEFTS);
-            const expectedDataTypes = excludedDataType =>
+            const expectedDataTypes = (excludedDataType) =>
                 setOfStringifiedParamsToArray(
                     setOfDistinctLeftParams(
-                        rule =>
+                        (rule) =>
                             ruleTypeFilter(rule, RULE_TYPE_WITH_EXCLUSION) &&
                             lhsDataTypeFilter(rule, excludedDataType) &&
                             (!rule.excludeElems || !rule.excludeElems.includes(ELEMENT_TYPE_WITH_EXCLUSION))
                     )
                 );
-            const expectedElements = excludedElement =>
+            const expectedElements = (excludedElement) =>
                 setOfStringifiedParamsToArray(
                     setOfDistinctLeftParams(
-                        rule =>
+                        (rule) =>
                             ruleTypeFilter(rule, RULE_TYPE_WITH_EXCLUSION) &&
                             lhsElementFilter(rule, excludedElement) &&
                             (!rule.excludeElems || !rule.excludeElems.includes(ELEMENT_TYPE_WITH_EXCLUSION))
@@ -217,28 +217,32 @@ describe('Operator Rule Util', () => {
                 RULE_TYPE_WITH_EXCLUSION
             );
 
-            lhsDataTypesOfRuleWithExclusion.forEach(excludedDataType =>
+            lhsDataTypesOfRuleWithExclusion.forEach((excludedDataType) =>
                 expect(lhsTypes[excludedDataType]).toStrictEqual(
                     arrayToUndefinedIfEmpty(expectedDataTypes(excludedDataType))
                 )
             );
-            lhsElementsOfRuleWithExclusion.forEach(excludedElement =>
+            lhsElementsOfRuleWithExclusion.forEach((excludedElement) =>
                 expect(lhsTypes[excludedElement]).toBe(arrayToUndefinedIfEmpty(expectedElements(excludedElement)))
             );
         });
 
         it('should return all the left hand side types for assignment rules', () => {
             const expectedDates = setOfStringifiedParamsToArray(
-                setOfDistinctLeftParams(rule => ruleTypeFilter(rule, ASSIGNMENT) && lhsDataTypeFilter(rule, 'Date'))
+                setOfDistinctLeftParams((rule) => ruleTypeFilter(rule, ASSIGNMENT) && lhsDataTypeFilter(rule, 'Date'))
             );
             const expectedSObject = setOfStringifiedParamsToArray(
-                setOfDistinctLeftParams(rule => ruleTypeFilter(rule, ASSIGNMENT) && lhsDataTypeFilter(rule, 'SObject'))
+                setOfDistinctLeftParams(
+                    (rule) => ruleTypeFilter(rule, ASSIGNMENT) && lhsDataTypeFilter(rule, 'SObject')
+                )
             );
             const expectedStage = setOfStringifiedParamsToArray(
-                setOfDistinctLeftParams(rule => ruleTypeFilter(rule, ASSIGNMENT) && lhsElementFilter(rule, 'STAGE'))
+                setOfDistinctLeftParams((rule) => ruleTypeFilter(rule, ASSIGNMENT) && lhsElementFilter(rule, 'STAGE'))
             );
             const expectedDateTimes = setOfStringifiedParamsToArray(
-                setOfDistinctLeftParams(rule => ruleTypeFilter(rule, ASSIGNMENT) && lhsDataTypeFilter(rule, 'DateTime'))
+                setOfDistinctLeftParams(
+                    (rule) => ruleTypeFilter(rule, ASSIGNMENT) && lhsDataTypeFilter(rule, 'DateTime')
+                )
             );
 
             const lhsTypes = getLHSTypes(
@@ -257,7 +261,7 @@ describe('Operator Rule Util', () => {
 
         it('should return all the left hand side types for comparison rules', () => {
             const expectedStage = setOfStringifiedParamsToArray(
-                setOfDistinctLeftParams(rule => ruleTypeFilter(rule, COMPARISON) && lhsElementFilter(rule, 'STAGE'))
+                setOfDistinctLeftParams((rule) => ruleTypeFilter(rule, COMPARISON) && lhsElementFilter(rule, 'STAGE'))
             );
 
             const lhsTypes = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, assignmentComparisonRules, COMPARISON);
@@ -271,7 +275,7 @@ describe('Operator Rule Util', () => {
             const {
                 lhsDataTypesOfRuleWithExclusion,
                 lhsElementsOfRuleWithExclusion
-            } = dataTypeAndElementsFromRuleLefts(assignmentComparisonRules.map(rule => rule.left));
+            } = dataTypeAndElementsFromRuleLefts(assignmentComparisonRules.map((rule) => rule.left));
             lhsDataTypesOfRuleWithExclusion.push(...lhsElementsOfRuleWithExclusion);
             const nbDistinctDataTypesAndElements = new Set(lhsDataTypesOfRuleWithExclusion).size;
 
@@ -327,7 +331,7 @@ describe('Operator Rule Util', () => {
             new Set(
                 rules
                     .filter(
-                        rule =>
+                        (rule) =>
                             rule.ruleType === ruleType &&
                             rule.left &&
                             rule.left.dataType === variable.dataType &&
@@ -335,14 +339,14 @@ describe('Operator Rule Util', () => {
                             !rule.excludeElems.includes(elementType) &&
                             canBeFilter(rule.left, variable)
                     )
-                    .map(rule => rule[ruleType + 'Operator'].value)
+                    .map((rule) => rule[ruleType + 'Operator'].value)
             );
 
         const operatorsPerRuleTypeAndLHSTypeForElement = (element, ruleType, elementType) =>
             new Set(
                 rules
                     .filter(
-                        rule =>
+                        (rule) =>
                             rule.ruleType === ruleType &&
                             rule.left &&
                             rule.left.mustBeElements &&
@@ -351,9 +355,9 @@ describe('Operator Rule Util', () => {
                             !rule.excludeElems.includes(element) &&
                             canBeFilter(rule.left, element)
                     )
-                    .map(rule => rule[ruleType + 'Operator'].value)
+                    .map((rule) => rule[ruleType + 'Operator'].value)
             );
-        const elementTypeInRuleName = element =>
+        const elementTypeInRuleName = (element) =>
             UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element.elementType] || element.elementType;
 
         it('should only return results from the given rule type', () => {
@@ -440,11 +444,11 @@ describe('Operator Rule Util', () => {
     describe('get right hand side types util', () => {
         const allowedValues = ['CanBe', 'MustBe'];
 
-        const getCanBe = params => {
+        const getCanBe = (params) => {
             let canBeSobjectField = false;
             let canBeApexProperty = false;
             let canBeSystemVariable = false;
-            params.forEach(param => {
+            params.forEach((param) => {
                 canBeSobjectField = canBeSobjectField || allowedValues.includes(param.canBeSobjectField);
                 canBeApexProperty = canBeApexProperty || allowedValues.includes(param.canBeApexProperty);
                 canBeSystemVariable = canBeSystemVariable || allowedValues.includes(param.canBeSystemVariable);
@@ -488,7 +492,7 @@ describe('Operator Rule Util', () => {
             const expectedRHSParams = setOfStringifiedParamsToArray(
                 setOfDistinctRhsParams(
                     assignmentComparisonRules,
-                    rule =>
+                    (rule) =>
                         lhsElementFilter(rule, 'STAGE') &&
                         ruleTypeFilter(rule, COMPARISON) &&
                         rule.comparisonOperator.value === EQUALS_OPERATOR
@@ -518,7 +522,7 @@ describe('Operator Rule Util', () => {
             const expectedRHSParams = setOfStringifiedParamsToArray(
                 setOfDistinctRhsParams(
                     assignmentAssignmentRules,
-                    rule =>
+                    (rule) =>
                         lhsDataTypeFilter(rule, dateVariable.dataType) &&
                         rule.left &&
                         rule.left.collection === dateVariable.isCollection &&
@@ -536,19 +540,19 @@ describe('Operator Rule Util', () => {
             );
 
             expect(rhsTypes).toMatchObject({
-                Date: expectedRHSParams.filter(rhsParam => rhsParam.dataType === 'Date'),
-                DateTime: expectedRHSParams.filter(rhsParam => rhsParam.dataType === 'DateTime')
+                Date: expectedRHSParams.filter((rhsParam) => rhsParam.dataType === 'Date'),
+                DateTime: expectedRHSParams.filter((rhsParam) => rhsParam.dataType === 'DateTime')
             });
         });
 
         it('should return all the rhsTypes for the comparison rules, excluding appropriately', () => {
             expect(RULES_WITH_EXCLUSION_LEFTS_AND_OPERATORS.length).toBeGreaterThan(0);
 
-            const expectedRhsParamsForDatatype = operator =>
+            const expectedRhsParamsForDatatype = (operator) =>
                 setOfStringifiedParamsToArray(
                     setOfDistinctRhsParams(
                         elementTypeWithExclusionRules,
-                        rule =>
+                        (rule) =>
                             ruleTypeFilter(rule, RULE_TYPE_WITH_EXCLUSION) &&
                             rule[RULE_TYPE_WITH_EXCLUSION + 'Operator'].value === operator &&
                             lhsDataTypeFilter(rule, 'Date') &&
@@ -556,11 +560,11 @@ describe('Operator Rule Util', () => {
                     )
                 );
 
-            const expectedRhsParamsForElements = operator =>
+            const expectedRhsParamsForElements = (operator) =>
                 setOfStringifiedParamsToArray(
                     setOfDistinctRhsParams(
                         elementTypeWithExclusionRules,
-                        rule =>
+                        (rule) =>
                             ruleTypeFilter(rule, RULE_TYPE_WITH_EXCLUSION) &&
                             rule[RULE_TYPE_WITH_EXCLUSION + 'Operator'].value === operator &&
                             lhsElementFilter(rule, 'STAGE') &&
@@ -569,7 +573,7 @@ describe('Operator Rule Util', () => {
                 );
 
             let expectedParams, lhsForTest;
-            RULES_WITH_EXCLUSION_LEFTS_AND_OPERATORS.forEach(rulesWithExclusionLeftAndOperator => {
+            RULES_WITH_EXCLUSION_LEFTS_AND_OPERATORS.forEach((rulesWithExclusionLeftAndOperator) => {
                 if (rulesWithExclusionLeftAndOperator.left.dataType === 'Date') {
                     expectedParams = expectedRhsParamsForDatatype(rulesWithExclusionLeftAndOperator.operator.value);
                     lhsForTest = dateVariable;
@@ -600,7 +604,7 @@ describe('Operator Rule Util', () => {
             const expectedRHSParams = setOfStringifiedParamsToArray(
                 setOfDistinctRhsParams(
                     recordUpdateComparisonRules,
-                    rule =>
+                    (rule) =>
                         lhsElementFilter(rule, 'STAGE') &&
                         rule.left &&
                         rule.left.collection === dateVariable.isCollection &&
@@ -619,7 +623,7 @@ describe('Operator Rule Util', () => {
 
             expect(rhsTypes).toMatchObject({
                 STAGE: expectedRHSParams.filter(
-                    rhsParam => rhsParam.mustBeElements && rhsParam.mustBeElements.includes('STAGE')
+                    (rhsParam) => rhsParam.mustBeElements && rhsParam.mustBeElements.includes('STAGE')
                 )
             });
         });

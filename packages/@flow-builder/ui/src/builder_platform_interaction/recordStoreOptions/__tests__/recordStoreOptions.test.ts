@@ -21,33 +21,33 @@ const selectors = {
     lightningCombobox: 'lightning-input'
 };
 
-const getNumberRecordsToStoreRadioGroup = recordStoreOptionComponent => {
+const getNumberRecordsToStoreRadioGroup = (recordStoreOptionComponent) => {
     const numberRecordsToStoreRadioGroup = recordStoreOptionComponent.shadowRoot.querySelectorAll(
         selectors.lightningRadioGroup
     );
     return numberRecordsToStoreRadioGroup[0];
 };
 
-const getWayToStoreFieldsRadioGroup = recordStoreOptionComponent => {
+const getWayToStoreFieldsRadioGroup = (recordStoreOptionComponent) => {
     const numberRecordsToStoreRadioGroup = recordStoreOptionComponent.shadowRoot.querySelectorAll(
         selectors.lightningRadioGroup
     );
     return numberRecordsToStoreRadioGroup[1];
 };
 
-const getTitle = recordStoreOptionComponent => {
+const getTitle = (recordStoreOptionComponent) => {
     const formattedRichText = recordStoreOptionComponent.shadowRoot.querySelector(selectors.lightningFormattedRichText);
     return formattedRichText;
 };
 
-const getAssignNullIfNoRecordFoundCombobox = recordStoreOptionComponent => {
+const getAssignNullIfNoRecordFoundCombobox = (recordStoreOptionComponent) => {
     const assignNullIfNoRecordFoundCombobox = recordStoreOptionComponent.shadowRoot.querySelector(
         selectors.lightningCombobox
     );
     return assignNullIfNoRecordFoundCombobox;
 };
 
-const getChangeEvent = eventValue => {
+const getChangeEvent = (eventValue) => {
     return new CustomEvent('change', {
         detail: {
             value: eventValue
@@ -55,7 +55,7 @@ const getChangeEvent = eventValue => {
     });
 };
 
-const getCheckedEvent = eventValue => {
+const getCheckedEvent = (eventValue) => {
     return new CustomEvent('change', {
         detail: {
             checked: eventValue

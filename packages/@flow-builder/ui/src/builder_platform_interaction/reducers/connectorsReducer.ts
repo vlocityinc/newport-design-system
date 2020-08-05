@@ -93,7 +93,7 @@ function _duplicateConnector(
     childElementGuidMap = {},
     connectorsToDuplicate = []
 ) {
-    let newState = connectors.map(connector => {
+    let newState = connectors.map((connector) => {
         // Deselect each connector to be duplicated (since the duplicated connectors will now be selected)
         if (connector.config && connector.config.isSelected) {
             return _updateConnectorConfig(connector, { isSelected: false });
@@ -127,10 +127,10 @@ function _duplicateConnector(
 function _deleteConnectors(connectors, connectorsToDelete) {
     let newState = connectors;
     if (connectorsToDelete && connectorsToDelete.length > 0) {
-        const connectorGUIDs = connectorsToDelete.map(deleteConnector => {
+        const connectorGUIDs = connectorsToDelete.map((deleteConnector) => {
             return deleteConnector.guid;
         });
-        newState = connectors.filter(connector => connectorGUIDs.indexOf(connector.guid) === -1);
+        newState = connectors.filter((connector) => connectorGUIDs.indexOf(connector.guid) === -1);
     }
     return newState;
 }
@@ -200,7 +200,7 @@ function _deleteAndUpdateConnectorsForChildElements(
  */
 function _selectConnector(connectors, selectedGUID) {
     let hasStateChanged = false;
-    const newState = connectors.map(connector => {
+    const newState = connectors.map((connector) => {
         if (connector.guid === selectedGUID) {
             if (!connector.config.isSelected) {
                 hasStateChanged = true;
@@ -229,7 +229,7 @@ function _selectConnector(connectors, selectedGUID) {
  * @private
  */
 function _toggleConnector(connectors, selectedGUID) {
-    const index = connectors.findIndex(connector => connector.guid === selectedGUID);
+    const index = connectors.findIndex((connector) => connector.guid === selectedGUID);
     if (index !== -1) {
         const newConnector = _updateConnectorConfig(connectors[index], {
             isSelected: !connectors[index].config.isSelected
@@ -249,7 +249,7 @@ function _toggleConnector(connectors, selectedGUID) {
  */
 function _deselectConnectors(connectors) {
     let hasStateChanged = false;
-    const newState = connectors.map(connector => {
+    const newState = connectors.map((connector) => {
         if (connector.config.isSelected) {
             hasStateChanged = true;
             return _updateConnectorConfig(connector, {
@@ -272,7 +272,7 @@ function _deselectConnectors(connectors) {
  */
 function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
     let hasStateChanged = false;
-    const newState = connectors.map(connector => {
+    const newState = connectors.map((connector) => {
         if (guidsToSelect.includes(connector.guid)) {
             hasStateChanged = true;
             return _updateConnectorConfig(connector, {
@@ -299,10 +299,10 @@ function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
  */
 function _highlightConnectors(connectors: object[], connectorsToHighlight: object[]) {
     let hasStateChanged = false;
-    const newState = connectors.map(connector => {
+    const newState = connectors.map((connector) => {
         // Check if the connector exists in the connectorsToHighlight list by matching source element and connector type,
         // and if a child source (like decision outcome) exists, match that as well
-        const foundConnector = connectorsToHighlight.some(connectorToHighlight => {
+        const foundConnector = connectorsToHighlight.some((connectorToHighlight) => {
             return (
                 connectorToHighlight.source === connector.source &&
                 connectorToHighlight.type === connector.type &&
@@ -330,7 +330,7 @@ function _highlightConnectors(connectors: object[], connectorsToHighlight: objec
  */
 function _clearConnectorHighlights(connectors: object[]) {
     let hasStateChanged = false;
-    const newState = connectors.map(connector => {
+    const newState = connectors.map((connector) => {
         if (connector.config.isHighlighted) {
             hasStateChanged = true;
             return _updateConnectorConfig(connector, {

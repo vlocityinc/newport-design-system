@@ -234,7 +234,7 @@ describe('wait-reducer', () => {
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
             const inputParameters = resultObj.waitEvents[directRecordTimeTypeWaitEventIndex].inputParameters;
-            const recordIdIndex = inputParameters.findIndex(param => {
+            const recordIdIndex = inputParameters.findIndex((param) => {
                 return param.name.value === directRecordRecordId.value;
             });
             expect(inputParameters[recordIdIndex].value).toEqual({
@@ -259,7 +259,7 @@ describe('wait-reducer', () => {
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
             const inputParameters = resultObj.waitEvents[directRecordTimeTypeWaitEventIndex].inputParameters;
-            const salesforceObjectIndex = inputParameters.findIndex(param => {
+            const salesforceObjectIndex = inputParameters.findIndex((param) => {
                 return param.name.value === directRecordSalesforceObject.value;
             });
             expect(inputParameters[salesforceObjectIndex].value).toEqual({
@@ -285,7 +285,7 @@ describe('wait-reducer', () => {
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
             const inputParameters = resultObj.waitEvents[directRecordTimeTypeWaitEventIndex].inputParameters;
-            const directRecordBaseTimeIndex = inputParameters.findIndex(param => {
+            const directRecordBaseTimeIndex = inputParameters.findIndex((param) => {
                 return param.name.value === directRecordBaseTime.value;
             });
             expect(inputParameters[directRecordBaseTimeIndex].value).toEqual({

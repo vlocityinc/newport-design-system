@@ -123,10 +123,10 @@ export default class ApexPluginEditor extends LightningElement {
         this.apexPluginDescriptor = undefined;
         const options = { disableErrorModal: true };
         fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, undefined, options)
-            .then(apexPlugins => {
+            .then((apexPlugins) => {
                 if (this.connected) {
                     this.apexPluginDescriptor = apexPlugins.find(
-                        apexPlugin => apexPlugin.apexClass === getValueFromHydratedItem(this.apexPluginNode.apexClass)
+                        (apexPlugin) => apexPlugin.apexClass === getValueFromHydratedItem(this.apexPluginNode.apexClass)
                     );
                     this.updatePropertyEditorTitle();
                 }
@@ -143,7 +143,7 @@ export default class ApexPluginEditor extends LightningElement {
         };
         this.displaySpinner = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams)
-            .then(parameters => {
+            .then((parameters) => {
                 if (this.connected) {
                     this.displaySpinner = false;
                     this.apexPluginParametersDescriptor = parameters;

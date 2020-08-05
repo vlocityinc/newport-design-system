@@ -18,7 +18,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
 const SELECTOR_COMPONENT_VISIBILITY = 'builder_platform_interaction-component-visibility';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-component-visibility-section', {
         is: ScreenComponentVisiblitySection
     });

@@ -51,17 +51,17 @@ const emptyAssignmentItem = () => {
     };
 };
 
-const resetFilter = state => {
+const resetFilter = (state) => {
     // reset filters: create one empty filter item
     return set(state, FILTERS_PROP, [emptyFilterItem()]);
 };
 
-const resetFilterErrors = state => {
+const resetFilterErrors = (state) => {
     const oldFilters = state.filters;
     state = set(
         state,
         FILTERS_PROP,
-        oldFilters.map(filter => {
+        oldFilters.map((filter) => {
             filter[LHS].error = null;
             filter[OPERATOR].error = null;
             filter[RHS].error = null;
@@ -71,12 +71,12 @@ const resetFilterErrors = state => {
     return state;
 };
 
-const resetAssignmentErrors = state => {
+const resetAssignmentErrors = (state) => {
     const oldInputAssignments = state.inputAssignments;
     state = set(
         state,
         INPUTASSIGNMENTS_PROP,
-        oldInputAssignments.map(inputAssignment => {
+        oldInputAssignments.map((inputAssignment) => {
             inputAssignment[LHS].error = null;
             inputAssignment[RHS].error = null;
             return inputAssignment;
@@ -85,7 +85,7 @@ const resetAssignmentErrors = state => {
     return state;
 };
 
-const addRecordFilter = state => {
+const addRecordFilter = (state) => {
     const path = [FILTERS_PROP, state.filters.length];
     return set(state, path, emptyFilterItem());
 };
@@ -101,7 +101,7 @@ const updateRecordFilter = (state, event) => {
     return set(state, path, item);
 };
 
-const addRecordRecordFieldAssignment = state => {
+const addRecordRecordFieldAssignment = (state) => {
     const path = [INPUTASSIGNMENTS_PROP, state.inputAssignments.length];
     return set(state, path, emptyAssignmentItem());
 };

@@ -33,7 +33,7 @@ const SELECTORS = {
 const inputParameterArrayToMap = (parameters = []) => {
     const parametersMap = new Map();
 
-    parameters.forEach(param => {
+    parameters.forEach((param) => {
         parametersMap.set(getValueFromHydratedItem(param.name), param);
     });
 

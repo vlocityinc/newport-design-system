@@ -14,7 +14,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements))
+        readableElementsSelector: jest.fn((data) => Object.values(data.elements))
     };
 });
 
@@ -133,7 +133,7 @@ const runTest = async (inputType, outputType, propertiesProcessor, test) => {
 };
 
 const testResourcePickerConfigAllowLiterals = (propertyProcessor, expectedValue) => {
-    return runTest(STRING, null, propertyProcessor, editor => {
+    return runTest(STRING, null, propertyProcessor, (editor) => {
         const field = query(editor, SELECTORS.PROPERTY_FIELD);
         expect(field).not.toBeNull();
         expect(field.resourcePickerConfig.allowLiterals).toBe(expectedValue);
@@ -142,18 +142,18 @@ const testResourcePickerConfigAllowLiterals = (propertyProcessor, expectedValue)
 
 describe('Screen Extension Attribute Editor', () => {
     it('does not render container when the descriptor is not set', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             delete inputProperties.descriptor;
             delete inputProperties.attribute;
         };
 
-        return runTest(STRING, null, propertyProcessor, editor => {
+        return runTest(STRING, null, propertyProcessor, (editor) => {
             expect(query(editor, SELECTORS.CONTAINER_DIV)).toBeNull();
         });
     });
 
     it('renders container when the descriptor is set', () => {
-        return runTest(STRING, null, null, inputEditor => {
+        return runTest(STRING, null, null, (inputEditor) => {
             expect(query(inputEditor, SELECTORS.CONTAINER_DIV)).not.toBeNull();
         });
     });
@@ -168,7 +168,7 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('does not display an icon for input attributes', () => {
-        return runTest(STRING, null, null, inputEditor => {
+        return runTest(STRING, null, null, (inputEditor) => {
             expect(query(inputEditor, SELECTORS.INPUT_DIV + ' ' + SELECTORS.ICON)).toBeNull();
         });
     });
@@ -192,13 +192,13 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('does not display a padding div for outputs with index = 0', () => {
-        return runTest(STRING, null, null, outputEditor => {
+        return runTest(STRING, null, null, (outputEditor) => {
             expect(query(outputEditor, SELECTORS.PADDING_DIV, true)).toHaveLength(0);
         });
     });
 
     it('sets the right values in the screen property field for inputs', () => {
-        return runTest(STRING, null, null, inputEditor => {
+        return runTest(STRING, null, null, (inputEditor) => {
             const propertyField = query(inputEditor, SELECTORS.PROPERTY_FIELD);
             expect(propertyField).not.toBeNull();
             expect(propertyField.allowResourcesForParameter).toBe(true);
@@ -230,17 +230,17 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('displays helpText when the attribute descriptor provides a description', () => {
-        return runTest(STRING, null, null, inputEditor => {
+        return runTest(STRING, null, null, (inputEditor) => {
             expect(query(inputEditor, SELECTORS.HELP_TEXT)).not.toBeNull();
         });
     });
 
     it('does not display helpText when the attribute descriptor does not provide a description', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             delete inputProperties.descriptor.description;
         };
 
-        return runTest(STRING, null, propertyProcessor, inputEditor => {
+        return runTest(STRING, null, propertyProcessor, (inputEditor) => {
             expect(query(inputEditor, SELECTORS.HELP_TEXT)).toBeNull();
         });
     });
@@ -270,7 +270,7 @@ describe('Screen Extension Attribute Editor', () => {
         };
 
         it('for primitives', () => {
-            return runTest(STRING, undefined, null, inputEditor => {
+            return runTest(STRING, undefined, null, (inputEditor) => {
                 testChecker(inputEditor, true, false, null, false, false, undefined, undefined, false);
             });
         });
@@ -294,7 +294,7 @@ describe('Screen Extension Attribute Editor', () => {
             });
         });
         it('for apex types', () => {
-            return runTest(APEX, undefined, null, inputEditor => {
+            return runTest(APEX, undefined, null, (inputEditor) => {
                 testChecker(inputEditor, false, false, null, false, false, undefined, DESCRIPTORS[APEX].subtype, false);
             });
         });
@@ -306,7 +306,7 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('sets allowsLiterals to false for outputs regardless of type', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             inputProperties.attributeType = 'output'; // output, string, maxoccurs = 1
         };
 
@@ -314,7 +314,7 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('sets allowsLiterals to false for maxoccurs > 1', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             inputProperties.descriptor.maxOccurs = 2; // input, string, maxoccurs = 2
         };
 
@@ -322,7 +322,7 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('sets allowsLiterals to false for sobjects', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             inputProperties.descriptor.dataType = 'sobject'; // input, sobject, maxoccurs = 1
         };
 
@@ -330,7 +330,7 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('sets allowsLiterals to false for apex', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             inputProperties.descriptor.dataType = 'apex'; // input, sobject, maxoccurs = 1
         };
 
@@ -338,22 +338,22 @@ describe('Screen Extension Attribute Editor', () => {
     });
 
     it('value returns defaultvalue for input parameters without a value', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             inputProperties.attribute = null;
         };
 
-        return runTest(STRING, null, propertyProcessor, inputEditor => {
+        return runTest(STRING, null, propertyProcessor, (inputEditor) => {
             const propertyField = query(inputEditor, SELECTORS.PROPERTY_FIELD);
             expect(propertyField.value).toBe(DESCRIPTORS[STRING].defaultValue);
         });
     });
 
     it('label returns apiName if descriptor does not have a label', () => {
-        const propertyProcessor = inputProperties => {
+        const propertyProcessor = (inputProperties) => {
             delete inputProperties.descriptor.label;
         };
 
-        return runTest(STRING, null, propertyProcessor, inputEditor => {
+        return runTest(STRING, null, propertyProcessor, (inputEditor) => {
             const propertyField = query(inputEditor, SELECTORS.PROPERTY_FIELD);
             expect(propertyField.label).toBe(DESCRIPTORS[STRING].apiName);
         });
@@ -383,7 +383,7 @@ describe('Screen Extension Attribute Editor', () => {
             const containerDiv = query(outputEditor, SELECTORS.CONTAINER_DIV);
 
             let event;
-            containerDiv.addEventListener(PropertyChangedEvent.EVENT_NAME, evt => {
+            containerDiv.addEventListener(PropertyChangedEvent.EVENT_NAME, (evt) => {
                 event = evt;
             });
 

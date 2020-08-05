@@ -37,7 +37,7 @@ const getElement = (storeInstance, guid) => {
  * @param {Array} array to be checked.
  * @returns true if an array is empty.
  */
-export const isEmptyArray = array => {
+export const isEmptyArray = (array) => {
     if (!Array.isArray(array)) {
         throw new Error('Value passed to the function is not an array');
     }
@@ -49,7 +49,7 @@ export const isEmptyArray = array => {
  * @param {Object} currentStoreState is client side model
  * @return all the nodes in the client side model. If model is not passed, then return an empty array
  */
-export const getNodesFromStore = currentStoreState => {
+export const getNodesFromStore = (currentStoreState) => {
     if (!currentStoreState) {
         return [];
     }
@@ -61,7 +61,7 @@ export const getNodesFromStore = currentStoreState => {
  * @param {Object} currentStoreState is client side model
  * @return all the connectors in the client side model. If model is not passed, then return an empty array
  */
-export const getConnectorsFromStore = currentStoreState => {
+export const getConnectorsFromStore = (currentStoreState) => {
     if (!currentStoreState) {
         return [];
     }
@@ -127,7 +127,7 @@ export const shouldOpenConnectorSelectionModal = (storeInstance, sourceGuid) => 
  * @param {String} targetGuid - Contains the target guid
  * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
  */
-export const addConnection = (storeInstance, sourceGuid, targetGuid) => valueFromCombobox => {
+export const addConnection = (storeInstance, sourceGuid, targetGuid) => (valueFromCombobox) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -234,10 +234,10 @@ export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (
     }
 
     if (existingCanvasElements.length !== 0 && updatedCanvasElements.length < existingCanvasElements.length) {
-        const existingCanvasElementGuids = existingCanvasElements.map(node => node.guid);
-        const updatedCanvasElementGuids = updatedCanvasElements.map(node => node.guid);
+        const existingCanvasElementGuids = existingCanvasElements.map((node) => node.guid);
+        const updatedCanvasElementGuids = updatedCanvasElements.map((node) => node.guid);
         const canvasElementGuidsToBeDeleted = existingCanvasElementGuids.filter(
-            guid => !updatedCanvasElementGuids.includes(guid)
+            (guid) => !updatedCanvasElementGuids.includes(guid)
         );
         for (let i = 0; i < canvasElementGuidsToBeDeleted.length; i++) {
             const canvasElementGuid = canvasElementGuidsToBeDeleted[i];
@@ -270,10 +270,10 @@ export const calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance = (
         throw new Error('updatedConnectors is not defined. It must be defined.');
     }
 
-    const existingConnectorGuids = existingConnectors.map(connector => connector.guid);
-    const updatedConnectorGuids = updatedConnectors.map(connector => connector.guid);
-    const connectorGuidsToBeDeleted = existingConnectorGuids.filter(guid => !updatedConnectorGuids.includes(guid));
-    connectorGuidsToBeDeleted.forEach(connectorGuid => {
+    const existingConnectorGuids = existingConnectors.map((connector) => connector.guid);
+    const updatedConnectorGuids = updatedConnectors.map((connector) => connector.guid);
+    const connectorGuidsToBeDeleted = existingConnectorGuids.filter((guid) => !updatedConnectorGuids.includes(guid));
+    connectorGuidsToBeDeleted.forEach((connectorGuid) => {
         // remove jsPlumbConnector instance from drawingLib
         const connectorToBeDeleted =
             canvasTemplate &&

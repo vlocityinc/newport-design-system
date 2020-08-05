@@ -111,7 +111,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
         // if RHSDT doesn't exist as a separate property, then RHS must be a FER
         this.rhsIsFer = !expression[RHSDT];
 
-        populateRhsState(expression, values => {
+        populateRhsState(expression, (values) => {
             this.state.rhsDescribe = values;
         });
     }

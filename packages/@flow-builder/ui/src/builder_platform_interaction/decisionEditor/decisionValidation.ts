@@ -24,7 +24,7 @@ class DecisionValidation extends Validation {
      */
     validateAll(nodeElement, overrideRules) {
         if (nodeElement.outcomes) {
-            const outcomes = nodeElement.outcomes.map(outcome => {
+            const outcomes = nodeElement.outcomes.map((outcome) => {
                 return super.validateAll(outcome, overrideRules);
             });
             nodeElement = updateProperties(nodeElement, { outcomes });
@@ -47,7 +47,7 @@ class DecisionValidation extends Validation {
                 name: state.name.value
             }
         ];
-        const outcomesDevNameToGuidList = state.outcomes.map(outcome => {
+        const outcomesDevNameToGuidList = state.outcomes.map((outcome) => {
             return {
                 guid: outcome.guid,
                 name: outcome.name.value

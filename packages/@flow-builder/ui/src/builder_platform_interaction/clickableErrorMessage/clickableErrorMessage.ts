@@ -63,7 +63,7 @@ export default class ClickableMessage extends LightningElement {
 
     findParentElementGuid(element) {
         const usedByElements = [];
-        usedBy([element.guid]).forEach(el => usedByElements.push(getElementByGuid(el.guid)));
+        usedBy([element.guid]).forEach((el) => usedByElements.push(getElementByGuid(el.guid)));
         for (let i = 0; i < usedByElements.length; i++) {
             if (usedByElements[i].childReferences) {
                 for (let j = 0; j < usedByElements[i].childReferences.length; j++) {

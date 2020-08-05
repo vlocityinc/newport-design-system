@@ -24,7 +24,7 @@ jest.mock('../base/dynamicChoiceSet', () => {
 jest.mock('../base/baseElement', () => {
     return {
         baseElementsArrayToMap: jest
-            .fn(test => {
+            .fn((test) => {
                 return {
                     guid: [test]
                 };

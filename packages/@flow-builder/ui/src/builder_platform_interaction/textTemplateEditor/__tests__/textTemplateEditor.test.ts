@@ -23,7 +23,7 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-text-template-editor', {
         is: TextTemplateEditor
     });
@@ -50,7 +50,7 @@ jest.mock('builder_platform_interaction/actions', () => {
 
 jest.mock('../textTemplateReducer', () => {
     return {
-        textTemplateReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
+        textTemplateReducer: jest.fn().mockImplementation((obj) => Object.assign({}, obj))
     };
 });
 

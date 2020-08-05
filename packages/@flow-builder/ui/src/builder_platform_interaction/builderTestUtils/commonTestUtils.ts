@@ -52,7 +52,7 @@ export const ticks = (maxTicks = DEFAULT_MAX_TICKS) => {
 /**
  * Create a new promise with status properties.
  */
-export const makeQuerablePromise = promise => {
+export const makeQuerablePromise = (promise) => {
     // Don't modify any promise that has been already modified.
     if (promise.isResolved) {
         return promise;
@@ -63,12 +63,12 @@ export const makeQuerablePromise = promise => {
     let isFulfilled = false;
 
     const result = promise.then(
-        value => {
+        (value) => {
             isFulfilled = true;
             isPending = false;
             return value;
         },
-        e => {
+        (e) => {
             isRejected = true;
             isPending = false;
             throw e;

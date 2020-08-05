@@ -39,7 +39,7 @@ function createComponentForTest(node) {
     return el;
 }
 
-const getEntityResourcePicker = platformEditor => {
+const getEntityResourcePicker = (platformEditor) => {
     return platformEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
@@ -50,7 +50,7 @@ const getComboboxStateChangedEvent = (detail = defaultValueItem) => {
     });
 };
 
-const scheduledNewStartElement = event => ({
+const scheduledNewStartElement = (event) => ({
     description: { value: '', error: null },
     elementType: 'START_ELEMENT',
     guid: '326e1b1a-7235-487f-9b44-38db56af4a45',

@@ -18,7 +18,7 @@ let START_Y_OFFSET;
  * @param {Object} flow current flow
  * @returns {string} flow startElementReference property or undefined if none
  */
-export const getFlowStartElementReference = flow =>
+export const getFlowStartElementReference = (flow) =>
     flow.startElementReference || (flow.metadata && flow.metadata.startElementReference) || undefined;
 
 /**
@@ -251,7 +251,8 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
     if (!metadataKeyList) {
         throw new Error('Metadata does not have corresponding element array');
     }
-    const areElementsIncomplete = elements => Object.values(elements).some(element => !!element[INCOMPLETE_ELEMENT]);
+    const areElementsIncomplete = (elements) =>
+        Object.values(elements).some((element) => !!element[INCOMPLETE_ELEMENT]);
     // We need 2 passes because some element factory (ex : Loop) need to access another element
     const map = new Map();
     for (let pass = 0; pass < 2; pass++) {

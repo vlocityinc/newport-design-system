@@ -30,7 +30,7 @@ describe('guardrails execute', () => {
     it('no data', () => {
         expect.assertions(2);
         const flow = undefined;
-        return executeInstance.evaluate(flow).then(result => {
+        return executeInstance.evaluate(flow).then((result) => {
             expect(result).toEqual(null);
             expect(flowDataProviderMock.updateFlow).toHaveBeenCalledTimes(0);
         });
@@ -46,7 +46,7 @@ describe('guardrails execute', () => {
         results.set(flow.fullName, resultData);
         mockEngineExecute.mockReturnValue({ results });
 
-        return executeInstance.evaluate(flow).then(guardrailResults => {
+        return executeInstance.evaluate(flow).then((guardrailResults) => {
             expect(flowDataProviderMock.updateFlow).toHaveBeenCalledTimes(1);
             expect(flowDataProviderMock.updateFlow).toHaveBeenCalledWith(flow);
 

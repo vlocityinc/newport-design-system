@@ -34,7 +34,7 @@ export function createDecisionWithOutcomes(decision = {}) {
     if (childReferences && childReferences.length > 0) {
         // decision with outcome references
         // Decouple outcome from store.
-        outcomes = childReferences.map(childReference => {
+        outcomes = childReferences.map((childReference) => {
             const outcome = createOutcome(getElementByGuid(childReference.childReference));
             // establish if outcome execution options should be shown
             outcome.showOutcomeExecutionOptions = isExecuteOnlyWhenChangeMatchesConditionsPossible();
@@ -179,7 +179,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         decision,
         newOutcomes
     );
-    const deletedOutcomeGuids = deletedOutcomes.map(outcome => outcome.guid);
+    const deletedOutcomeGuids = deletedOutcomes.map((outcome) => outcome.guid);
 
     let originalDecision = getElementByGuid(decision.guid);
 
@@ -265,7 +265,7 @@ export function createOutcome(outcome = {}) {
     let { conditions = [] } = outcome;
 
     if (conditions.length > 0) {
-        conditions = conditions.map(condition => createCondition(condition));
+        conditions = conditions.map((condition) => createCondition(condition));
     } else {
         conditions = [createCondition()];
     }
@@ -293,7 +293,7 @@ export function createDecisionMetadataObject(decision, config = {}) {
             const { doesRequireRecordChangedToMeetCriteria = false } = outcome;
 
             if (conditions.length > 0) {
-                conditions = conditions.map(condition => createConditionMetadataObject(condition));
+                conditions = conditions.map((condition) => createConditionMetadataObject(condition));
             }
 
             return Object.assign(metadataOutcome, {
@@ -381,11 +381,11 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
     let outcomeReferencesFromStore;
     if (decisionFromStore) {
         outcomeReferencesFromStore = decisionFromStore.childReferences.map(
-            childReference => childReference.childReference
+            (childReference) => childReference.childReference
         );
     }
 
-    const newOutcomeGuids = newOutcomes.map(newOutcome => newOutcome.guid);
+    const newOutcomeGuids = newOutcomes.map((newOutcome) => newOutcome.guid);
 
     // Initializing the new children array
     const newChildren = new Array(newOutcomeGuids.length + 1).fill(null);
@@ -394,10 +394,10 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
 
     if (outcomeReferencesFromStore) {
         deletedOutcomes = outcomeReferencesFromStore
-            .filter(outcomeReferenceGuid => {
+            .filter((outcomeReferenceGuid) => {
                 return !newOutcomeGuids.includes(outcomeReferenceGuid);
             })
-            .map(childReference => getElementByGuid(childReference));
+            .map((childReference) => getElementByGuid(childReference));
 
         if (shouldUseAutoLayoutCanvas()) {
             // For outcomes that previously existed, finding the associated children

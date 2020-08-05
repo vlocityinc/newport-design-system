@@ -568,7 +568,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         childElement1: 'childElement1_0'
     };
 
-    const createChildElement = function(originalChildElement) {
+    const createChildElement = function (originalChildElement) {
         return originalChildElement;
     };
 
@@ -674,7 +674,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             ]
         };
 
-        const createDuplicateChildElements = function(originalChildElement) {
+        const createDuplicateChildElements = function (originalChildElement) {
             originalChildElement.guid = 'section1';
             return [
                 { guid: 'section1', name: 'section1', childReferences: [{ childReference: 'column1' }] },

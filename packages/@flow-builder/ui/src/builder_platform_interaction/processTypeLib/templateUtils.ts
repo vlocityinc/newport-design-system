@@ -9,7 +9,7 @@ let allTemplates = {};
 
 const RECOMMENDED_PROCESS_TYPES = [FLOW_PROCESS_TYPE.FLOW, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW];
 
-const groupByProcessType = templates => {
+const groupByProcessType = (templates) => {
     return templates.reduce((templatesByProcessType, template) => {
         if (!templatesByProcessType[template.ProcessType]) {
             templatesByProcessType[template.ProcessType] = [];
@@ -50,12 +50,12 @@ function createFlowEntryTilesForProcessType(processType) {
     return [createProcessTypeTile(processType)];
 }
 
-export const createFlowEntryTilesForProcessTypes = processTypes =>
+export const createFlowEntryTilesForProcessTypes = (processTypes) =>
     processTypes.reduce((tiles, processType) => tiles.concat(createFlowEntryTilesForProcessType(processType)), []);
 
-export const createRecommendedItems = allProcessTypes => {
-    const recommendedProcessTypes = RECOMMENDED_PROCESS_TYPES.map(processTypeName =>
-        allProcessTypes.find(processType => processType.name === processTypeName)
+export const createRecommendedItems = (allProcessTypes) => {
+    const recommendedProcessTypes = RECOMMENDED_PROCESS_TYPES.map((processTypeName) =>
+        allProcessTypes.find((processType) => processType.name === processTypeName)
     );
     return createFlowEntryTilesForProcessTypes(recommendedProcessTypes);
 };
@@ -83,19 +83,19 @@ const createFlowEntryTilesForTemplate = ({ EnumOrID, Label, Description, Process
  * @param data an array of FlowVersionDescriptor
  * @return (Template[]) an array of Template
  */
-export const createFlowEntryTilesForTemplates = templates => (templates || []).map(createFlowEntryTilesForTemplate);
+export const createFlowEntryTilesForTemplates = (templates) => (templates || []).map(createFlowEntryTilesForTemplate);
 
 export const cacheTemplates = (allProcessTypes, processType, templates) => {
     if (processType === ALL_PROCESS_TYPE.name) {
         allTemplates = groupByProcessType(templates);
-        allProcessTypes.forEach(type => {
+        allProcessTypes.forEach((type) => {
             allTemplates[type.name] = allTemplates[type.name] || [];
         });
     }
     allTemplates[processType] = templates;
 };
 
-export const getTemplates = processType => {
+export const getTemplates = (processType) => {
     return allTemplates[processType];
 };
 

@@ -50,10 +50,10 @@ const invocableActionPropertyChanged = (state, event) => {
 // TODO: Can we consolidate this with the similar function in screenReducer.js?
 const clearGenericParameters = ({ actionCallParameters, invocableActionParameters, genericTypeName }) =>
     actionCallParameters
-        .map(actionCallParameter => ({
+        .map((actionCallParameter) => ({
             actionCallParameter,
             invocableActionParameter: invocableActionParameters.find(
-                invocableActionParameter =>
+                (invocableActionParameter) =>
                     invocableActionParameter.name === getValueFromHydratedItem(actionCallParameter.name)
             )
         }))
@@ -78,7 +78,7 @@ function clearGenericActionCallParameters(actionCall, genericTypeName) {
         result.inputParameters = clearGenericParameters({
             actionCallParameters: inputParameters,
             invocableActionParameters: invocableActionParams.filter(
-                invocableActionParam => invocableActionParam.isInput
+                (invocableActionParam) => invocableActionParam.isInput
             ),
             genericTypeName
         });
@@ -87,7 +87,7 @@ function clearGenericActionCallParameters(actionCall, genericTypeName) {
         result.outputParameters = clearGenericParameters({
             actionCallParameters: outputParameters,
             invocableActionParameters: invocableActionParams.filter(
-                invocableActionParam => invocableActionParam.isOutput
+                (invocableActionParam) => invocableActionParam.isOutput
             ),
             genericTypeName
         });
@@ -99,7 +99,7 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
     const { typeName, typeValue, rowIndex, isConfigurable } = event.detail;
     // Find an existing dynamic type mapping by the type name or create new.
     const dataTypeMappings = actionCall.dataTypeMappings || [];
-    const index = dataTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
+    const index = dataTypeMappings.findIndex((mapping) => getValueFromHydratedItem(mapping.typeName) === typeName);
     const dataTypeMapping =
         index !== -1
             ? dataTypeMappings[index]

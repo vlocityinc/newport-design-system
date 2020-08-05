@@ -68,7 +68,7 @@ export default class DecisionEditor extends LightningElement {
     }
 
     get activeOutcome() {
-        return this.decisionElement.outcomes.find(outcome => outcome.guid === this.activeOutcomeId);
+        return this.decisionElement.outcomes.find((outcome) => outcome.guid === this.activeOutcomeId);
     }
 
     // getter and setter for nodes don't work well with mixins
@@ -92,7 +92,7 @@ export default class DecisionEditor extends LightningElement {
     // getErrorsFromHydratedElement recursively walks the object structure and there could be performance issues by calling it in a getter
     // (and thus on every render) depending on the object depth
     get outcomesWithDefaultOutcome() {
-        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(outcome => {
+        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map((outcome) => {
             return {
                 element: outcome,
                 label: outcome.label && outcome.label.value ? outcome.label.value : EMPTY_OUTCOME_LABEL,

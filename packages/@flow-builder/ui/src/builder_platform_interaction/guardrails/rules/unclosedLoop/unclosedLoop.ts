@@ -5,7 +5,7 @@ export class UnclosedLoop extends Rule {
     invoke(context) {
         const flow = context.getData();
         if (flow.loops && flow.loops.length > 0) {
-            flow.loops.forEach(loopElement => {
+            flow.loops.forEach((loopElement) => {
                 if (!this.hasLoop(loopElement, flow.consumerProperties.connectorTargets)) {
                     context.report(new Result([loopElement], [loopElement.label]));
                 }

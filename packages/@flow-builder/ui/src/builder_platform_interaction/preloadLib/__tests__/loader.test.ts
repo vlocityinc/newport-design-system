@@ -36,7 +36,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE,
         fetchOnce: jest.fn().mockResolvedValue({}),
-        getAuraCallback: callback => callback
+        getAuraCallback: (callback) => callback
     };
 });
 
@@ -116,7 +116,7 @@ describe('Loader', () => {
             beforeEach(() => {
                 getApexTypesPromise = getResolvablePromise();
                 loadEntitiesPromise = getResolvablePromise();
-                fetchOnce.mockImplementation(serverActionType => {
+                fetchOnce.mockImplementation((serverActionType) => {
                     if (serverActionType === SERVER_ACTION_TYPE.GET_APEX_TYPES) {
                         return getApexTypesPromise;
                     }

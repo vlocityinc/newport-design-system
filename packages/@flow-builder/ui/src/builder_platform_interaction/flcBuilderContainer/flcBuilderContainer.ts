@@ -19,7 +19,7 @@ function augmentElementsMetadata(elementsMetadata) {
     const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
     const endElement = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
 
-    elementsMetadata = elementsMetadata.map(metadata => ({
+    elementsMetadata = elementsMetadata.map((metadata) => ({
         ...metadata,
         type: getFlcElementType(metadata.elementType)
     }));
@@ -127,7 +127,7 @@ export default class FlcBuilderContainer extends LightningElement {
         const storeState = storeInstance.getCurrentState();
         const { elements } = storeState;
 
-        startElementMetadata = Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
+        startElementMetadata = Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
     }
 
     mapCanvasStateToStore = () => {
@@ -135,14 +135,14 @@ export default class FlcBuilderContainer extends LightningElement {
         const { elements } = storeState;
 
         this.rootElement =
-            this.rootElement || Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
+            this.rootElement || Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
 
         if (this.rootElement && this.elementsMetadata) {
             this.flowModel = storeState.elements;
         }
     };
 
-    handleFlcBuilderClick = event => {
+    handleFlcBuilderClick = (event) => {
         event.stopPropagation();
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);

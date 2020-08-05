@@ -5,7 +5,7 @@ import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.em
 import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
 
-const removeCurlyBraces = id => {
+const removeCurlyBraces = (id) => {
     if (typeof id === 'string' && id.startsWith('{!') && id.endsWith('}')) {
         return id.substring(2, id.length - 1);
     }
@@ -48,7 +48,7 @@ export const GLOBAL_CONSTANT_OBJECTS = {
     }
 };
 
-export const isGlobalConstantOrSystemVariableId = id => {
+export const isGlobalConstantOrSystemVariableId = (id) => {
     id = removeCurlyBraces(id);
     return (
         id === GLOBAL_CONSTANTS.BOOLEAN_TRUE ||
@@ -58,11 +58,11 @@ export const isGlobalConstantOrSystemVariableId = id => {
     );
 };
 
-export const getGlobalConstantOrSystemVariable = id => {
+export const getGlobalConstantOrSystemVariable = (id) => {
     return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)] || mockSystemLib.getSystemVariables()[id];
 };
 
-export const isNonRecordGlobalResourceId = id => {
+export const isNonRecordGlobalResourceId = (id) => {
     return mockSystemLib.getGlobalVariables()[id];
 };
 

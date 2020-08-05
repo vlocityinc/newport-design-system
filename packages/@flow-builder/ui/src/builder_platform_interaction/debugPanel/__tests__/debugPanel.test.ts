@@ -8,7 +8,7 @@ commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
-const createComponentUnderTest = debugData => {
+const createComponentUnderTest = (debugData) => {
     const el = createElement('builder_platform_interaction-debug-panel', {
         is: DebugPanel
     });

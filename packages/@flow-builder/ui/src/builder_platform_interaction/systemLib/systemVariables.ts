@@ -23,7 +23,7 @@ export const resetSystemVariables = () => {
  * @param {Array}
  *            data raw variable data from the server
  */
-const convertData = data =>
+const convertData = (data) =>
     data.reduce((acc, obj) => {
         const name = `$${obj.category}.${obj.devName}`;
         const currentObj = Object.assign({}, obj);
@@ -50,14 +50,14 @@ const convertData = data =>
  * @param {Object}
  *            data the data returned by the service
  */
-export const setSystemVariables = data => {
+export const setSystemVariables = (data) => {
     const variables = [...data];
     // Remove $Record var. In the current implementation $Record is treated as an alias to the start element.
     // The attributes communicated in $Record here are hard-coded in the start element factory.
     // With that the visibility of $Record communicated by the backend based on the process type is ignored in the Flow Builder.
     // If it is ever needed, it can be tracked with a dedicated local var here and surfaced in the app by
     // e.g. a function like isRecordSystemVariableEnabled().
-    const index = variables.findIndex(variable => variable.category === SYSTEM_VARIABLE_RECORD_CATEGORY);
+    const index = variables.findIndex((variable) => variable.category === SYSTEM_VARIABLE_RECORD_CATEGORY);
     if (index !== -1) {
         variables.splice(index, 1);
     }
@@ -70,10 +70,10 @@ export const setSystemVariables = data => {
  *
  * @returns {Object} system variables usable in menus
  */
-export const getSystemVariables = category => {
+export const getSystemVariables = (category) => {
     if (category) {
         const categoryVariables = {};
-        Object.keys(systemVariables).forEach(key => {
+        Object.keys(systemVariables).forEach((key) => {
             if (key.startsWith(category)) {
                 categoryVariables[key] = systemVariables[key];
             }

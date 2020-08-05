@@ -13,7 +13,7 @@ const validateAssignments = () => ValidationRules.validateExpressionWith2Propert
  * Validate the inputReference item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateInputReference = index => {
+const validateInputReference = (index) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,

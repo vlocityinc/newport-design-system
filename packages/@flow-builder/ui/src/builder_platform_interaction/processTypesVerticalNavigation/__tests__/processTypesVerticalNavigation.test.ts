@@ -23,7 +23,7 @@ const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR: 'a'
 };
 
-const getAllVerticalNavigationItemIcons = processTypesVerticalNavigation =>
+const getAllVerticalNavigationItemIcons = (processTypesVerticalNavigation) =>
     processTypesVerticalNavigation.shadowRoot.querySelectorAll(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON);
 
 describe('process-types-vertical-navigation ', () => {
@@ -101,7 +101,7 @@ describe('process-types-vertical-navigation ', () => {
                 processTypesVerticalNavigation
             );
             const joinedProcessTypesNames = Array.from(processTypesVerticalNavigationItemIcons)
-                .map(itemIcon => {
+                .map((itemIcon) => {
                     return itemIcon.name;
                 })
                 .join('');
@@ -123,7 +123,7 @@ describe('process-types-vertical-navigation ', () => {
                 processTypesVerticalNavigation
             );
             const actualIconNames = Array.from(processTypesVerticalNavigationItemIcons).map(
-                itemIcon => itemIcon.iconName
+                (itemIcon) => itemIcon.iconName
             );
             expect(actualIconNames).toEqual([
                 'utility:flow',

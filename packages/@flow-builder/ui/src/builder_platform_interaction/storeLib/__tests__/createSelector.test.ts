@@ -51,7 +51,7 @@ const elementsSelector = () => state.elements;
 const canvasElementsSelector = () => state.canvasElements;
 
 describe('Create Selectors', () => {
-    it('when two selectors {array} values are passed in should return as two arguments to resulted function.', done => {
+    it('when two selectors {array} values are passed in should return as two arguments to resulted function.', (done) => {
         const canvasSelector = createSelector(
             [elementsSelector, canvasElementsSelector],
             (elements, canvasElements) => {
@@ -62,7 +62,7 @@ describe('Create Selectors', () => {
         );
         canvasSelector();
     });
-    it('when selectors {array} value is NULL should return as error string - {string} could not transform the null.', done => {
+    it('when selectors {array} value is NULL should return as error string - {string} could not transform the null.', (done) => {
         try {
             createSelector(null, () => {})();
         } catch (e) {
@@ -70,7 +70,7 @@ describe('Create Selectors', () => {
             done();
         }
     });
-    it('when one selectors {array} values instead of two are passed in should return as two arguments to resulted function.', done => {
+    it('when one selectors {array} values instead of two are passed in should return as two arguments to resulted function.', (done) => {
         const canvasSelector = createSelector([elementsSelector], (elements, canvasElements) => {
             expect(elements).toEqual(state.elements);
             expect(canvasElements).toBeUndefined();
@@ -78,7 +78,7 @@ describe('Create Selectors', () => {
         });
         canvasSelector();
     });
-    it('when selectors {array} value is empty then should return as error string - {string} could not transform the null.', done => {
+    it('when selectors {array} value is empty then should return as error string - {string} could not transform the null.', (done) => {
         try {
             createSelector([], () => {})();
         } catch (e) {
@@ -86,7 +86,7 @@ describe('Create Selectors', () => {
             done();
         }
     });
-    it('when selectors value is an OBJECT then should return as error string - {string} could not transform the [object Object].', done => {
+    it('when selectors value is an OBJECT then should return as error string - {string} could not transform the [object Object].', (done) => {
         try {
             createSelector({}, () => {})();
         } catch (e) {

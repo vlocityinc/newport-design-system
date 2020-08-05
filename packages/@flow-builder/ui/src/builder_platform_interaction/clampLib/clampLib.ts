@@ -45,7 +45,7 @@ const getChunks = (label, splitChar) => label.split(splitChar);
  * @param {Array<String>} deimiters. Array of delimiters left to use;
  * @returns {String} Returns the next delimiter or an empty string to split the label by.
  */
-const getNextDelimiter = delimiters => {
+const getNextDelimiter = (delimiters) => {
     // If there are more characters to try, grab the next one
     if (delimiters.length > 0) {
         return delimiters.shift();

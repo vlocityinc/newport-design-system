@@ -88,7 +88,7 @@ export default class StatusIcon extends LightningElement {
             msgs = {};
         }
         this.allCount = 0;
-        this.internalMessages = Object.keys(msgs).map(section => {
+        this.internalMessages = Object.keys(msgs).map((section) => {
             let sectionHeader = section;
             let sectionInfo = '';
             this.allCount += msgs[section].length;
@@ -102,7 +102,7 @@ export default class StatusIcon extends LightningElement {
                 title: sectionHeader,
                 sectionInfo,
                 guid: generateGuid(),
-                messages: msgs[section].map(msg => {
+                messages: msgs[section].map((msg) => {
                     return {
                         message: msg,
                         guid: generateGuid()

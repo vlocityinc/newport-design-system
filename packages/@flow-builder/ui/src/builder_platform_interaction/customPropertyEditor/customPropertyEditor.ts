@@ -129,7 +129,7 @@ export default class CustomPropertyEditor extends LightningElement {
     get errors() {
         const errors = (this.configurationEditor && this.configurationEditor.errors) || [];
         return errors
-            .map(errorString => ({
+            .map((errorString) => ({
                 key: CUSTOM_PROPERTY_EDITOR,
                 errorString
             }))
@@ -186,7 +186,7 @@ export default class CustomPropertyEditor extends LightningElement {
             });
         };
 
-        const errorCallback = err => {
+        const errorCallback = (err) => {
             this.configurationEditorLoading = false;
             logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
                 isSuccess: false

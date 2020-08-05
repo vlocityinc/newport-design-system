@@ -44,7 +44,7 @@ export default class ActionSelector extends LightningElement {
     connectedCallback() {
         this.connected = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS)
-            .then(apexPlugins => {
+            .then((apexPlugins) => {
                 if (this.connected) {
                     this.apexPlugins = apexPlugins;
                     this.apexPluginsFetched = true;
@@ -63,7 +63,7 @@ export default class ActionSelector extends LightningElement {
             flowProcessType: this.flowProcessType,
             flowDefinitionId
         })
-            .then(subflows => {
+            .then((subflows) => {
                 if (this.connected) {
                     this.subflowsFetched = true;
                     this.subflows = subflows;
@@ -175,21 +175,21 @@ export default class ActionSelector extends LightningElement {
         let selectedAction = { elementType };
         if (actionValue) {
             if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === actionValue);
+                const apexPluginFound = this.apexPlugins.find((apexPlugin) => apexPlugin.apexClass === actionValue);
                 if (apexPluginFound) {
                     selectedAction = Object.assign(selectedAction, {
                         apexClass: apexPluginFound.apexClass
                     });
                 }
             } else if (elementType === ELEMENT_TYPE.SUBFLOW) {
-                const subflowFound = this.subflows.find(subflow => subflow.fullName === actionValue);
+                const subflowFound = this.subflows.find((subflow) => subflow.fullName === actionValue);
                 if (subflowFound) {
                     selectedAction = Object.assign(selectedAction, {
                         flowName: subflowFound.fullName
                     });
                 }
             } else {
-                const actionFound = this._invocableActions.find(action => action.durableId === actionValue);
+                const actionFound = this._invocableActions.find((action) => action.durableId === actionValue);
                 if (actionFound) {
                     selectedAction = Object.assign(selectedAction, {
                         actionName: actionFound.name,
@@ -267,7 +267,7 @@ export default class ActionSelector extends LightningElement {
 
     get actionComboValue() {
         // value for combobox is {menuDataRetrieval.MenuItem|String|null|undefined}
-        const menuItem = this.fullActionMenuData.find(element => element.value === this.state.selectedActionValue);
+        const menuItem = this.fullActionMenuData.find((element) => element.value === this.state.selectedActionValue);
         if (menuItem) {
             return menuItem;
         }
@@ -288,12 +288,12 @@ export default class ActionSelector extends LightningElement {
             : selectedCategory &&
               selectedCategory.toLowerCase() === this.labels.unCategorizedInvocableActions.toLowerCase()
             ? this._invocableActions.filter(
-                  action => !action.category || action.category.toLowerCase() === selectedCategory.toLowerCase()
+                  (action) => !action.category || action.category.toLowerCase() === selectedCategory.toLowerCase()
               )
             : this._invocableActions.filter(
-                  action => action.category && action.category.toLowerCase() === selectedCategory.toLowerCase()
+                  (action) => action.category && action.category.toLowerCase() === selectedCategory.toLowerCase()
               );
-        const items = filteredActions.map(action => this.getComboItemFromInvocableAction(action));
+        const items = filteredActions.map((action) => this.getComboItemFromInvocableAction(action));
 
         const categoryLabel = isAllAction ? this.labels.allInvocableActions.toLowerCase() : selectedCategory;
 
@@ -315,33 +315,33 @@ export default class ActionSelector extends LightningElement {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this._invocableActions
                     .filter(
-                        action =>
+                        (action) =>
                             action.isStandard ||
                             action.type === ACTION_TYPE.QUICK_ACTION ||
                             action.type === ACTION_TYPE.COMPONENT
                     )
-                    .map(action => this.getComboItemFromInvocableAction(action));
+                    .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_CALL:
                 items = this._invocableActions
-                    .filter(action => action.type === ACTION_TYPE.APEX)
-                    .map(action => this.getComboItemFromInvocableAction(action));
+                    .filter((action) => action.type === ACTION_TYPE.APEX)
+                    .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.EMAIL_ALERT:
                 items = this._invocableActions
-                    .filter(action => action.type === ACTION_TYPE.EMAIL_ALERT)
-                    .map(action => this.getComboItemFromInvocableAction(action));
+                    .filter((action) => action.type === ACTION_TYPE.EMAIL_ALERT)
+                    .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-                items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
+                items = this.apexPlugins.map((apexPlugin) => this.getComboItemFromApexPlugin(apexPlugin));
                 break;
             case ELEMENT_TYPE.SUBFLOW:
-                items = this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
+                items = this.subflows.map((subflow) => this.getComboItemFromSubflow(subflow));
                 break;
             case ELEMENT_TYPE.EXTERNAL_SERVICE:
                 items = this._invocableActions
-                    .filter(action => action.type === ACTION_TYPE.EXTERNAL_SERVICE)
-                    .map(action => this.getComboItemFromInvocableAction(action));
+                    .filter((action) => action.type === ACTION_TYPE.EXTERNAL_SERVICE)
+                    .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             default:
                 items = [];

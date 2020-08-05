@@ -123,7 +123,7 @@ function sortCanvasElementsAndConnectors({ elements, canvasElements, connectors 
     canvasElements.sort();
     connectors = connectors
         .sort((a, b) => b.guid.localeCompare(a.guid))
-        .map(connector => {
+        .map((connector) => {
             if (connector.childSource == null) {
                 delete connector.childSource;
             }

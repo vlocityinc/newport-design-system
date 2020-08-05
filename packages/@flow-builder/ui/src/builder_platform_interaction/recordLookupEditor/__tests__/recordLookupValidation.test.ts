@@ -31,7 +31,7 @@ function createComponentForTest(node) {
     return el;
 }
 
-const validate = node => {
+const validate = (node) => {
     const rules = getRules(node);
     return getErrorsFromHydratedElement(recordLookupValidation.validateAll(node, rules));
 };
@@ -309,7 +309,7 @@ describe('Record Lookup Validation using sObject', () => {
         recordLookupEditorNode = recordLookupElementWithValidSObject();
     });
     describe('outputReference is not valid', () => {
-        const createRecordLookupEditor = invalidOutputReference => {
+        const createRecordLookupEditor = (invalidOutputReference) => {
             recordLookupEditorNode.outputReference.value = invalidOutputReference;
             return createComponentForTest(recordLookupEditorNode);
         };

@@ -16,12 +16,12 @@ export const createRecordChoiceSet = (element = {}) => {
     const { object = null, sortField = null, outputAssignments = [] } = element;
     let { filterLogic = CONDITION_LOGIC.AND } = element;
     const objectIndex = generateGuid();
-    const translatedOutputAssignments = outputAssignments.map(outputAssignment =>
+    const translatedOutputAssignments = outputAssignments.map((outputAssignment) =>
         createOutputAssignment(outputAssignment, object)
     );
     let { filters } = element;
     if (filters && filters.length > 0) {
-        filters = filters.map(filter => createFilter(filter, object));
+        filters = filters.map((filter) => createFilter(filter, object));
     } else {
         const newFilter = createFilter();
         filters = [newFilter];
@@ -48,7 +48,7 @@ export const createRecordChoiceSet = (element = {}) => {
  * @param {Object} element - recordChoiceSet element.
  * @returns {Object} recordChoiceSet object in a {guid : [choice]} format
  */
-export const createRecordChoiceSetForStore = element => {
+export const createRecordChoiceSetForStore = (element) => {
     if (!element) {
         throw new Error('Element is required to create record choice set element for store');
     }
@@ -60,7 +60,7 @@ export const createRecordChoiceSetForStore = element => {
  * @param {Object} element recordChoiceSet object
  * @returns {Object} recordChoiceMetadata object
  */
-export const createRecordChoiceSetMetadataObject = element => {
+export const createRecordChoiceSetMetadataObject = (element) => {
     if (!element) {
         throw new Error('Element is required to create dynamic choice set meta data object');
     }
@@ -70,9 +70,9 @@ export const createRecordChoiceSetMetadataObject = element => {
     if (filterLogic === CONDITION_LOGIC.NO_CONDITIONS) {
         filters = [];
     } else {
-        filters = filters.map(filter => createFilterMetadataObject(filter));
+        filters = filters.map((filter) => createFilterMetadataObject(filter));
     }
-    const outputAssignmentsMetadataObject = outputAssignments.map(outputAssignment =>
+    const outputAssignmentsMetadataObject = outputAssignments.map((outputAssignment) =>
         createOutputAssignmentMetadataObject(outputAssignment)
     );
 

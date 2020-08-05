@@ -21,7 +21,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 function generateEndConnectors(elements: FlowElements): FlowConnector[] {
     const endConnectors: FlowConnector[] = [];
 
-    Object.values(elements).forEach(element => {
+    Object.values(elements).forEach((element) => {
         if (element.isCanvasElement) {
             const canvasElement = element as CanvasElement;
             if (canvasElement.availableConnections != null) {
@@ -73,7 +73,7 @@ export function removeEndElementsAndConnectorsTransform(
     let { elements, connectors } = storeState;
 
     // remove the end connectors
-    connectors = connectors.filter(connector => {
+    connectors = connectors.filter((connector) => {
         const { source, target, childSource, type } = connector;
         if (elements[target].elementType === ELEMENT_TYPE.END_ELEMENT) {
             const sourceElement = elements[source] as CanvasElement;
@@ -149,7 +149,7 @@ export function addEndElementsAndConnectorsTransform(
     const endElements: FlowElements = {};
 
     // create the end elements from the end connectors
-    endConnectors.forEach(endConnector => {
+    endConnectors.forEach((endConnector) => {
         const { target } = endConnector;
 
         if (!endElements[target]) {
@@ -163,7 +163,10 @@ export function addEndElementsAndConnectorsTransform(
         ...storeState,
         elements: { ...storeState.elements, ...endElements },
         connectors: [...storeState.connectors, ...endConnectors],
-        canvasElements: [...storeState.canvasElements, ...Object.values(endElements).map(endElement => endElement.guid)]
+        canvasElements: [
+            ...storeState.canvasElements,
+            ...Object.values(endElements).map((endElement) => endElement.guid)
+        ]
     };
 }
 

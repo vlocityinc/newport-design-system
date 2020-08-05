@@ -24,7 +24,7 @@ const validateAssignments = () => {
  * Validate the outputReference item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateOutputReference = outputReferenceIndex => {
+const validateOutputReference = (outputReferenceIndex) => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,

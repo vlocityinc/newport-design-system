@@ -64,7 +64,7 @@ export const WARNING_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.getAllRecords
 };
 
-const defaultFilterLogic = recordPluralName => {
+const defaultFilterLogic = (recordPluralName) => {
     return [
         {
             value: CONDITION_LOGIC.NO_CONDITIONS,

@@ -23,7 +23,7 @@ describe('UID Swapper', () => {
     });
 
     describe('Swaps full values', () => {
-        const swapFunction = value => {
+        const swapFunction = (value) => {
             return '[' + value + ']';
         };
         const swapValueFunction = getSwapValueFunction(swapFunction, true);

@@ -461,7 +461,7 @@ const CLASS_IS_NEW = 'is-new';
 
 function getCssStyle(cssEntries): string {
     return Object.entries(cssEntries)
-        .map(entry => `${entry[0]}: ${entry[1]}px`)
+        .map((entry) => `${entry[0]}: ${entry[1]}px`)
         .join(';');
 }
 

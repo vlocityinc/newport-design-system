@@ -25,7 +25,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
     return {
-        fetchFieldsForEntity: jest.fn().mockImplementation(entityName => {
+        fetchFieldsForEntity: jest.fn().mockImplementation((entityName) => {
             if (entityName === 'Account') {
                 return Promise.resolve(mockAccountFields);
             } else if (entityName === 'User') {
@@ -36,15 +36,15 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             return Promise.reject(`No entity with name ${entityName}`);
         }),
         getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
-        getEntity: jest.fn().mockImplementation(apiName => {
-            return mockEntities.find(entity => entity.apiName.toLowerCase() === apiName.toLowerCase());
+        getEntity: jest.fn().mockImplementation((apiName) => {
+            return mockEntities.find((entity) => entity.apiName.toLowerCase() === apiName.toLowerCase());
         })
     };
 });
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {
-        describeExtension: jest.fn().mockImplementation(name => {
+        describeExtension: jest.fn().mockImplementation((name) => {
             if (name === 'flowruntime:email') {
                 return Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription);
             } else if (name === 'c:HelloWorld') {
@@ -58,7 +58,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        fetchActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+        fetchActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation((flowName) => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return Promise.resolve(
                     actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables

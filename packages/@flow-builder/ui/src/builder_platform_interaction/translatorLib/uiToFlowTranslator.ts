@@ -8,7 +8,7 @@ import {
     removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
 
-const getXYTranslate = canvasElements => {
+const getXYTranslate = (canvasElements) => {
     const EXTRA_SPACING = 50;
 
     const flowBounds = getFlowBounds(canvasElements);
@@ -56,7 +56,7 @@ export function translateUIModelToFlow(uiModel) {
     }
 
     // Get x, y coordinate translate numbers
-    const canvasElements = uiModel.canvasElements.map(guid => elements[guid]);
+    const canvasElements = uiModel.canvasElements.map((guid) => elements[guid]);
     const xyTranslate = getXYTranslate(canvasElements);
 
     const config = { xyTranslate, connectorMap };

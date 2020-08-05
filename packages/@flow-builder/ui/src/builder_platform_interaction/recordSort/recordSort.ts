@@ -86,7 +86,7 @@ export default class RecordSort extends LightningElement {
         this.loadingFields = true;
         this.fields = {};
         fetchFieldsForEntity(resourceApiName)
-            .then(fields => {
+            .then((fields) => {
                 this.loadingFields = false;
                 this.fields = this.getSortableFields(fields);
             })
@@ -97,7 +97,7 @@ export default class RecordSort extends LightningElement {
 
     getSortableFields(fields) {
         return Object.values(fields)
-            .filter(field => field.sortable)
+            .filter((field) => field.sortable)
             .reduce((options, field) => {
                 options[field.apiName] = field;
                 return options;

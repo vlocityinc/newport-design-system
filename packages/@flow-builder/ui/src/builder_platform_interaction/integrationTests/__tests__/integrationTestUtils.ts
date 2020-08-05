@@ -72,7 +72,7 @@ export const setupState = () => {
     return store;
 };
 
-export const setupStateForProcessType = async processType => {
+export const setupStateForProcessType = async (processType) => {
     const store = setupState();
     await loadOnProcessTypeChange(processType).loadPeripheralMetadataPromise;
     await loadApexClasses();
@@ -88,7 +88,7 @@ export const loadFlow = async (flow, store) => {
     store.dispatch(updateFlow(uiFlow));
 };
 
-export const setupStateForFlow = async flow => {
+export const setupStateForFlow = async (flow) => {
     const store = await setupState();
     await loadFlow(flow, store);
     await loadApexClasses();

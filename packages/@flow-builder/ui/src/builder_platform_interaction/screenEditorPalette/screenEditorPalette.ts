@@ -66,7 +66,7 @@ export default class ScreenPalette extends LightningElement {
         this.buildModel();
     }
 
-    handlePaletteItemClickedEvent = event => {
+    handlePaletteItemClickedEvent = (event) => {
         // Clicking on an element from the palette should add the corresponding field
         // type to the canvas.
         const fieldGuid = event.detail.guid;

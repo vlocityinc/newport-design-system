@@ -149,7 +149,7 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         this.startElement = recordChangeTriggerReducer(this.startElement, event);
     }
 
-    handleTriggerSaveTypeChange = event => {
+    handleTriggerSaveTypeChange = (event) => {
         this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, event.detail.value);
         // if previous record trigger was delete and newly selected record trigger is
         // create, create or update or update then set the trigger type to old trigger type

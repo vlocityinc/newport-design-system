@@ -29,10 +29,10 @@ jest.mock(
     { virtual: true }
 );
 
-const ALL_ACTIONS_LABELS = mockActions.map(mockAction => mockAction.label);
+const ALL_ACTIONS_LABELS = mockActions.map((mockAction) => mockAction.label);
 const SYSTEM_ACTIONS_LABELS = mockActions
-    .filter(mockAction => mockAction.category === 'System')
-    .map(mockAction => mockAction.label);
+    .filter((mockAction) => mockAction.category === 'System')
+    .map((mockAction) => mockAction.label);
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', {
@@ -57,7 +57,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: serverActionType => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
                     return mockActionsPromise;
@@ -105,7 +105,7 @@ describe('Action selector', () => {
             const standardActionText = 'Post to Chatter';
             const quickActionText = 'Add Member';
             const localActionText = 'successLocalAction';
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(
+            expect(groupedCombobox().items.map((item) => item.text)).toEqual(
                 expect.arrayContaining([standardActionText, quickActionText, localActionText])
             );
         });
@@ -155,7 +155,7 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.SUBFLOW };
         });
         it('should set combobox items to subflows (and ignore filter and category)', () => {
-            expect(groupedCombobox().items.map(item => item.text)).toEqual([
+            expect(groupedCombobox().items.map((item) => item.text)).toEqual([
                 'CFD - Update elements with different config',
                 'LFB Sample 01',
                 'LFB Sample - Huge Flow',
@@ -177,7 +177,7 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
             actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
+            expect(groupedCombobox().items.map((item) => item.text)).toEqual(['Action Test']);
         });
         it('should update the combobox placeholder', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
@@ -219,7 +219,7 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
             actionSelectorComponent.selectedCategory = 'System';
             await Promise.resolve();
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(SYSTEM_ACTIONS_LABELS);
+            expect(groupedCombobox().items.map((item) => item.text)).toEqual(SYSTEM_ACTIONS_LABELS);
         });
         it('should update the combobox placeholder', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
@@ -231,7 +231,7 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
             actionSelectorComponent.selectedCategory = null;
             await Promise.resolve();
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(ALL_ACTIONS_LABELS);
+            expect(groupedCombobox().items.map((item) => item.text)).toEqual(ALL_ACTIONS_LABELS);
         });
         it('should set combobox placeholder to Search all actions if none selected', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
@@ -243,7 +243,7 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
             actionSelectorComponent.selectedCategory = 'All';
             await Promise.resolve();
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(ALL_ACTIONS_LABELS);
+            expect(groupedCombobox().items.map((item) => item.text)).toEqual(ALL_ACTIONS_LABELS);
         });
         it('should set combobox placeholder to Search all actions if All', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
@@ -295,7 +295,7 @@ describe('Action selector', () => {
             await Promise.resolve();
         };
         let eventCallback;
-        const expectEventCallbackCalledWithValue = value => {
+        const expectEventCallbackCalledWithValue = (value) => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.value).toEqual(value);
         };
@@ -430,7 +430,8 @@ describe('Action selector', () => {
         });
     });
     describe('Action subtext', () => {
-        const groupedComboboxItemWithValue = value => groupedCombobox().items.find(option => option.value === value);
+        const groupedComboboxItemWithValue = (value) =>
+            groupedCombobox().items.find((option) => option.value === value);
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
             actionSelectorComponent.invocableActions = mockActions;

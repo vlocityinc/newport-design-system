@@ -17,9 +17,9 @@ import {
     expectCannotBeTraversed
 } from '../comboboxTestUtils';
 
-const getLHSGroupedCombobox = combobox =>
+const getLHSGroupedCombobox = (combobox) =>
     combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
-const getRHSGroupedCombobox = combobox =>
+const getRHSGroupedCombobox = (combobox) =>
     combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 
 describe('Decision Editor', () => {

@@ -53,14 +53,14 @@ const FUDGE = 0.02;
 function debounce(fct, wait) {
     let timeoutId;
 
-    return function(...args) {
+    return function (...args) {
         if (timeoutId) {
             clearTimeout(timeoutId);
         }
 
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         timeoutId = setTimeout(() => {
-            return fct.apply(null, args);
+            return fct(...args);
         }, wait);
     };
 }
@@ -344,7 +344,7 @@ export default class FlcBuilder extends LightningElement {
      *
      * @param {ToggleMenuEvent} event - the toggle menu event
      */
-    handleToggleMenu = event => {
+    handleToggleMenu = (event) => {
         const { detail } = event;
         const { type, elementMetadata } = detail;
         const isNodeMenu = type === MenuType.NODE;
@@ -375,7 +375,7 @@ export default class FlcBuilder extends LightningElement {
         this.updateFlowRenderContext({ interactionState });
     };
 
-    handleCloseMenu = event => {
+    handleCloseMenu = (event) => {
         event.stopPropagation();
         this.closeNodeOrConnectorMenu();
     };
@@ -383,7 +383,7 @@ export default class FlcBuilder extends LightningElement {
     /**
      * Handles the "merge with existing path" connector menu item selection
      */
-    handleMergeWithExistingPath = event => {
+    handleMergeWithExistingPath = (event) => {
         event.stopPropagation();
 
         const { targetGuid } = event.detail;
@@ -435,7 +435,7 @@ export default class FlcBuilder extends LightningElement {
     /**
      * Handles node selection and deleselection
      */
-    handleNodeSelectionDeselection = event => {
+    handleNodeSelectionDeselection = (event) => {
         event.stopPropagation();
 
         if (this._reconnectSourceGuid != null) {
@@ -446,7 +446,7 @@ export default class FlcBuilder extends LightningElement {
         }
     };
 
-    handleHighlightPathsToDelete = event => {
+    handleHighlightPathsToDelete = (event) => {
         const interactionState = updateDeletionPathInfo(
             event.detail.elementGuidToDelete,
             event.detail.childIndexToKeep,
@@ -460,7 +460,7 @@ export default class FlcBuilder extends LightningElement {
      *
      * @param {boolean} isFirstRender - true if it's the first time rendering the flow
      */
-    rerender = isFirstRender => {
+    rerender = (isFirstRender) => {
         if (this._isDisconnected) {
             // return if disconnected; this may occur because of debouncing
             return;
@@ -472,7 +472,7 @@ export default class FlcBuilder extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
         } else {
-            animate(progress => this.renderFlow(progress));
+            animate((progress) => this.renderFlow(progress));
         }
     };
 
@@ -608,7 +608,7 @@ export default class FlcBuilder extends LightningElement {
         this._isDisconnected = true;
     }
 
-    handleCanvasClick = event => {
+    handleCanvasClick = (event) => {
         event.stopPropagation();
 
         this.closeNodeOrConnectorMenu();

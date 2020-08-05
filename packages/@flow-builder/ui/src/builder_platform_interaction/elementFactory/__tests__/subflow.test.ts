@@ -23,7 +23,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('../base/baseElement');
 baseCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElement);
 createPastedCanvasElement
-    .mockImplementation(duplicatedElement => {
+    .mockImplementation((duplicatedElement) => {
         return duplicatedElement;
     })
     .mockName('createPastedCanvasElementMock');
@@ -106,12 +106,12 @@ const subflowInStore = {
     elementType: 'SUBFLOW'
 };
 
-const subflowInStoreWithAnyRowIndexGuidExpected = subflow => {
+const subflowInStoreWithAnyRowIndexGuidExpected = (subflow) => {
     const copiedSubflow = deepCopy(subflow);
-    copiedSubflow.inputAssignments.forEach(assignment => {
+    copiedSubflow.inputAssignments.forEach((assignment) => {
         assignment.rowIndex = expect.any(String);
     });
-    copiedSubflow.outputAssignments.forEach(assignment => {
+    copiedSubflow.outputAssignments.forEach((assignment) => {
         assignment.rowIndex = expect.any(String);
     });
     return copiedSubflow;
@@ -126,7 +126,7 @@ const expectedSubflowMetadata = (subflow, { removeConnector = false } = {}) => {
     if (!copiedSubflow.description) {
         copiedSubflow.description = '';
     }
-    copiedSubflow.inputAssignments.forEach(assignment => {
+    copiedSubflow.inputAssignments.forEach((assignment) => {
         delete assignment.processMetadataValues;
         for (const key in assignment.value) {
             if (Object.prototype.hasOwnProperty.call(assignment.value, key)) {
@@ -134,7 +134,7 @@ const expectedSubflowMetadata = (subflow, { removeConnector = false } = {}) => {
             }
         }
     });
-    copiedSubflow.outputAssignments.forEach(assignment => {
+    copiedSubflow.outputAssignments.forEach((assignment) => {
         delete assignment.processMetadataValues;
     });
     return copiedSubflow;

@@ -143,7 +143,7 @@ export default class RecordDeleteEditor extends LightningElement {
         this.state.entityFields = {};
         if (this.recordEntityName) {
             fetchFieldsForEntity(this.recordEntityName)
-                .then(fields => {
+                .then((fields) => {
                     this.state.entityFields = fields;
                 })
                 .catch(() => {

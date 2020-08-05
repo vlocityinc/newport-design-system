@@ -27,7 +27,7 @@ export default class ScreenCanvas extends LightningElement {
 
     get fields() {
         if (this.element) {
-            return this.element.fields.map(field => {
+            return this.element.fields.map((field) => {
                 return {
                     field,
                     selected: this.selectedItemGuid === field.guid,

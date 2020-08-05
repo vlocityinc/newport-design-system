@@ -8,7 +8,7 @@ jest.mock('builder_platform_interaction/variableConstantEditor', () =>
     require('builder_platform_interaction_mocks/variableConstantEditor')
 );
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-resource-editor-container', {
         is: ResourceEditorContainer
     });
@@ -25,7 +25,7 @@ const mockNode = { elementType: ELEMENT_TYPE.VARIABLE };
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return {
-        getElementForPropertyEditor: jest.fn().mockImplementation(node => node)
+        getElementForPropertyEditor: jest.fn().mockImplementation((node) => node)
     };
 });
 

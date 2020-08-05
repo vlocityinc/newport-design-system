@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import ScreenFieldCard from '../screenFieldCard';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-ScreenFieldCard', {
         is: ScreenFieldCard
     });

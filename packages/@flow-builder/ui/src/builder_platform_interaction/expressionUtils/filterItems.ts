@@ -8,7 +8,7 @@ import { escapeForRegExp, isReference } from 'builder_platform_interaction/commo
 function clearHighlight(groupOrItem) {
     // a menu data group
     if (groupOrItem.items) {
-        groupOrItem.items.forEach(item => {
+        groupOrItem.items.forEach((item) => {
             clearHighlightForItem(item);
         });
     } else {
@@ -89,7 +89,7 @@ function highlight(filterText, escapedFilterText, targetText) {
     }
 
     const targetTextArray = targetText.split(regex).filter(String);
-    const formattedText = targetTextArray.map(targetTextFragment => {
+    const formattedText = targetTextArray.map((targetTextFragment) => {
         return {
             highlight: targetTextFragment.toLowerCase() === filterText.toLowerCase(),
             text: targetTextFragment
@@ -143,12 +143,12 @@ export function filterMatches(filterText, menuData, isMergeField) {
         // if its menu data item convert it into array for matching
         let itemsToMatch = menuData[i].items || [menuData[i]];
         if (isMergeField) {
-            itemsToMatch = itemsToMatch.filter(menuItem => {
+            itemsToMatch = itemsToMatch.filter((menuItem) => {
                 return isReference(menuItem.displayText);
             });
         }
 
-        const matchedItems = itemsToMatch.filter(menuItem => {
+        const matchedItems = itemsToMatch.filter((menuItem) => {
             return (
                 isEmpty(filterText) ||
                 getIndex(filterText, menuItem.text) !== -1 ||
@@ -160,7 +160,7 @@ export function filterMatches(filterText, menuData, isMergeField) {
         const escapedFilterText = isEmpty(filterText) ? filterText : escapeForRegExp(filterText);
         // Only add group with matched items
         if (matchedItems && matchedItems.length > 0) {
-            matchedItems.forEach(menuItem => {
+            matchedItems.forEach((menuItem) => {
                 highlightItem(filterText, escapedFilterText, menuItem);
             });
             // a menu data group

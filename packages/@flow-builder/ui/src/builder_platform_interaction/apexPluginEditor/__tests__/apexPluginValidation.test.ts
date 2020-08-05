@@ -9,14 +9,14 @@ jest.mock('builder_platform_interaction/baseCalloutEditor', () =>
     require('builder_platform_interaction_mocks/baseCalloutEditor')
 );
 
-const createComponentForTest = node => {
+const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-apex-plugin-editor', { is: ApexPluginEditor });
     el.node = node;
     document.body.appendChild(el);
     return el;
 };
 
-const validate = node => {
+const validate = (node) => {
     return getErrorsFromHydratedElement(apexPluginValidation.validateAll(node));
 };
 

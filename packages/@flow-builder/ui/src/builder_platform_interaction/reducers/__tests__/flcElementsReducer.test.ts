@@ -34,7 +34,7 @@ const getElement = (guid, name) => {
     };
 };
 jest.mock('../elementsReducer', () => {
-    return jest.fn(state => Object.assign({}, state));
+    return jest.fn((state) => Object.assign({}, state));
 });
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
@@ -42,7 +42,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
         'builder_platform_interaction/elementFactory'
     );
     return {
-        createEndElement: jest.fn(props => {
+        createEndElement: jest.fn((props) => {
             const prev = props ? props.prev : undefined;
             const end = {
                 guid: 'end-element-guid'
@@ -69,7 +69,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         deleteElement: jest.fn(),
         linkElement: jest.fn(),
         linkBranchOrFault: jest.fn(),
-        reconnectBranchElement: jest.fn(state => state),
+        reconnectBranchElement: jest.fn((state) => state),
         assertAutoLayoutState: jest.fn()
     });
 });
@@ -142,7 +142,7 @@ describe('elements-reducer', () => {
     });
 
     describe('Delete Element', () => {
-        const shouldAddEndElement = addEndElement => {
+        const shouldAddEndElement = (addEndElement) => {
             deleteElement.mockImplementation(() => ({
                 addEndElement
             }));

@@ -23,7 +23,7 @@ function createComponentForTest(node) {
     return el;
 }
 
-const validate = node => {
+const validate = (node) => {
     const rules = getRules(node);
     return getErrorsFromHydratedElement(loopValidation.validateAll(node, rules));
 };

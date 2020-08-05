@@ -137,31 +137,31 @@ const outputAssignmentElement = {
     rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d2e'
 };
 
-const getRecordStoreOption = recordLookupEditor => {
+const getRecordStoreOption = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
 };
 
-const getEntityResourcePicker = recordLookupEditor => {
+const getEntityResourcePicker = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
-const getRecordFilter = recordLookupEditor => {
+const getRecordFilter = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
 };
 
-const getRecordSort = recordLookupEditor => {
+const getRecordSort = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
 };
 
-const getRecordSobjectAndQueryFields = recordLookupEditor => {
+const getRecordSobjectAndQueryFields = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
 };
 
-const getsObjectOrSObjectCollectionPicker = recordSobjectAndQueryFields => {
+const getsObjectOrSObjectCollectionPicker = (recordSobjectAndQueryFields) => {
     return recordSobjectAndQueryFields.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 };
 
-const getInputOutputAssignments = recordLookupEditor => {
+const getInputOutputAssignments = (recordLookupEditor) => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 };
 

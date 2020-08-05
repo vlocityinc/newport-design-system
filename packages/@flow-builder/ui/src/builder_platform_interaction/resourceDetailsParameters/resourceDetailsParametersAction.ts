@@ -10,7 +10,7 @@ import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConf
  */
 class ResourceDetailsParametersActionConfig extends ResourceDetailsParametersConfig {
     map() {
-        return rawParameter => {
+        return (rawParameter) => {
             if (!rawParameter) {
                 return {};
             }
@@ -35,12 +35,12 @@ class ResourceDetailsParametersActionConfig extends ResourceDetailsParametersCon
                     .then(({ parameters = [] } = {}) =>
                         callback(
                             parameters
-                                .filter(parameter => parameter.isOutput)
+                                .filter((parameter) => parameter.isOutput)
                                 .map(this.map())
                                 .sort(labelComparator)
                         )
                     )
-                    .catch(error => callback([], error));
+                    .catch((error) => callback([], error));
             }
         };
     }

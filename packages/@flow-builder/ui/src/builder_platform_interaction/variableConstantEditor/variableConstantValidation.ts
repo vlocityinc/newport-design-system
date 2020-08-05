@@ -14,7 +14,7 @@ const additionalRules = {
 
 export const variableConstantValidation = new Validation(additionalRules);
 
-export const getRules = variableConstantResource => {
+export const getRules = (variableConstantResource) => {
     const overrideRules = Object.assign({}, variableConstantValidation.finalizedRules);
 
     if (isComplexType(getValueFromHydratedItem(variableConstantResource.dataType))) {

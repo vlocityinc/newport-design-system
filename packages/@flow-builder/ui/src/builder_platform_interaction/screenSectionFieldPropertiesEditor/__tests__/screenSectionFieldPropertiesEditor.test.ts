@@ -13,7 +13,7 @@ const SELECTORS = {
     COMBOBOX: 'lightning-combobox'
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-section-field-properties-editor', {
         is: ScreenSectionFieldPropertiesEditor
     });

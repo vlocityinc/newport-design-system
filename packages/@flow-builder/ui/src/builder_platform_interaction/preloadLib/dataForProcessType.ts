@@ -27,7 +27,7 @@ import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setSubflows } from 'builder_platform_interaction/subflowsLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
-export const loadActions = flowProcessType =>
+export const loadActions = (flowProcessType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, { flowProcessType }, { background: true }).then(
         setInvocableActions
     );
@@ -45,22 +45,22 @@ export const loadOperators = () =>
     fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS, {}, { disableErrorModal: true }).then(setOperators);
 
 export const loadEventTypes = () =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { eventType: RUNTIME }, { disableErrorModal: true }).then(data => {
+    fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { eventType: RUNTIME }, { disableErrorModal: true }).then((data) => {
         setEventTypes(data, RUNTIME);
     });
 
 export const loadEventType = (type, apiName) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPE, { eventTypeApiName: apiName }, { disableErrorModal: true }).then(
-        data => {
+        (data) => {
             setEventTypes([data], type);
         }
     );
 
-export const loadEntities = crudType =>
+export const loadEntities = (crudType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType }, { disableErrorModal: true }).then(setEntities);
 
-export const loadEntity = entityApiName =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY, { entityApiName }, { disableErrorModal: true }).then(data => {
+export const loadEntity = (entityApiName) =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY, { entityApiName }, { disableErrorModal: true }).then((data) => {
         setEntities([data]);
     });
 
@@ -69,48 +69,48 @@ export const loadWorkflowEnabledEntities = () =>
         setWorkflowEnabledEntities
     );
 
-export const loadResourceTypes = flowProcessType =>
+export const loadResourceTypes = (flowProcessType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, { flowProcessType }, { disableErrorModal: true }).then(
         setResourceTypes
     );
 
-export const loadGlobalVariables = flowProcessType =>
+export const loadGlobalVariables = (flowProcessType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, { flowProcessType }, { disableErrorModal: true }).then(
-        data => {
+        (data) => {
             setGlobalVariables(data);
-            getGlobalVariableTypeComboboxItems().forEach(item => addToParentElementCache(item.displayText, item));
+            getGlobalVariableTypeComboboxItems().forEach((item) => addToParentElementCache(item.displayText, item));
         }
     );
 
-export const loadSystemVariables = flowProcessType =>
+export const loadSystemVariables = (flowProcessType) =>
     fetchOnce(
         SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES,
         {
             flowProcessType
         },
         { disableErrorModal: true }
-    ).then(data => {
+    ).then((data) => {
         const item = getFlowSystemVariableComboboxItem();
         // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
         addToParentElementCache(item.displayText, item);
         setSystemVariables(data);
     });
 
-export const loadProcessTypeFeatures = flowProcessType =>
+export const loadProcessTypeFeatures = (flowProcessType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES, {
         flowProcessType
-    }).then(data => {
+    }).then((data) => {
         setProcessTypeFeature(flowProcessType, data);
     });
 
-export const loadPalette = flowProcessType =>
+export const loadPalette = (flowProcessType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_PALETTE, {
         flowProcessType
     });
 
 export const loadVersioningData = () =>
     fetchOnce(SERVER_ACTION_TYPE.GET_VERSIONING_INFO, { builderType: getBuilderType() }, { background: true })
-        .then(data => {
+        .then((data) => {
             if (data) {
                 cacheVersioningDataForAllProcessTypes(data);
                 initVersioningInfoForProcessType(getProcessType());

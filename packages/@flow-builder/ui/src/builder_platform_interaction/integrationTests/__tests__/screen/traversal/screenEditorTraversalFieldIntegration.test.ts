@@ -24,7 +24,7 @@ const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor', {
         is: ScreenEditor
     });
@@ -35,15 +35,15 @@ const createComponentUnderTest = props => {
     return el;
 };
 
-const getScreenPropertiesEditorContainerElement = screenEditor => {
+const getScreenPropertiesEditorContainerElement = (screenEditor) => {
     return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 };
 
-const getCanvasElement = screenEditor => {
+const getCanvasElement = (screenEditor) => {
     return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
 };
 
-const getExtensionPropertiesEditorElement = screenEditor => {
+const getExtensionPropertiesEditorElement = (screenEditor) => {
     return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
         SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
     );
@@ -53,7 +53,7 @@ const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
     const screenEditorCanvas = getCanvasElement(screenEditor);
     const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
     let elementAddress;
-    screenEditorHighlight.forEach(element => {
+    screenEditorHighlight.forEach((element) => {
         if (element.title === elementTitle) {
             elementAddress = element;
         }
@@ -61,7 +61,7 @@ const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
     return elementAddress.shadowRoot.querySelector('div');
 };
 
-const getCombobox = extensionPropertiesEditor => {
+const getCombobox = (extensionPropertiesEditor) => {
     return deepQuerySelector(extensionPropertiesEditor, [
         SELECTORS.SCREEN_EXTENSION_ATTRIBUTE_EDITOR,
         SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR,
@@ -71,7 +71,7 @@ const getCombobox = extensionPropertiesEditor => {
     ]);
 };
 
-const getGroupedCombobox = extensionPropertiesEditor => {
+const getGroupedCombobox = (extensionPropertiesEditor) => {
     const combobox = getCombobox(extensionPropertiesEditor);
     return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };

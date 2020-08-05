@@ -148,7 +148,7 @@ export default class startNodeTriggerButton extends LightningElement {
         return getConfigForElementType(this.node.elementType).nodeConfig;
     }
 
-    handleTriggerClick = event => {
+    handleTriggerClick = (event) => {
         event.stopPropagation();
 
         const canvasElementGUID = this.node.guid;

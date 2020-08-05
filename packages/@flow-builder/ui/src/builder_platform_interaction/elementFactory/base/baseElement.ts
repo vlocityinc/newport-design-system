@@ -152,7 +152,7 @@ export function createPastedCanvasElement(
 
     // Resetting the children array to include children guids that are being pasted or null for those that aren't
     if (pastedCanvasElement.children) {
-        pastedCanvasElement.children = pastedCanvasElement.children.map(childGuid => {
+        pastedCanvasElement.children = pastedCanvasElement.children.map((childGuid) => {
             return canvasElementGuidMap[childGuid] || null;
         });
     }
@@ -238,7 +238,7 @@ function _createDuplicateChildElement(
             // Updating the childReferences array to have the guids of the duplicated nested child elements
             const updatedChildReferences =
                 el.childReferences &&
-                el.childReferences.map(origChildReferenceObj => {
+                el.childReferences.map((origChildReferenceObj) => {
                     return {
                         childReference: childElementGuidMap[origChildReferenceObj.childReference]
                     };
@@ -308,7 +308,7 @@ export function duplicateCanvasElementWithChildElements(
 
     // Iterating over existing child references to create duplicate child elements and updating available connections.
     // Also using the duplicated guids to create the updated childReferences for the duplicated element
-    const updatedChildReferences = childReferences.map(childReference => {
+    const updatedChildReferences = childReferences.map((childReference) => {
         const { duplicatedChildElement, duplicatedNestedChildElements } = _createDuplicateChildElement(
             childReference,
             childElementGuidMap,

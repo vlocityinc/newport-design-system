@@ -9,12 +9,12 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
     const actual = jest.requireActual('builder_platform_interaction/elementConfig');
 
     return Object.assign({}, actual, {
-        getConfigForElementType: jest.fn(type => {
+        getConfigForElementType: jest.fn((type) => {
             const config = actual.getConfigForElementType(type);
             config.descriptor = `${mockPackage}:${mockComponent}`;
             return config;
         }),
-        getConfigForElement: jest.fn(element => {
+        getConfigForElement: jest.fn((element) => {
             const config = actual.getConfigForElement(element);
             config.descriptor = `${mockPackage}:${mockComponent}`;
             return config;
@@ -50,7 +50,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 const EDIT_MODE = 'editelement',
     ADD_MODE = 'addelement';
 
-const getAttributes = mode => ({
+const getAttributes = (mode) => ({
     mode,
     node: {
         guid: 'd9e45a91-1dae-4acc-a0a8-69e0b316abe2',

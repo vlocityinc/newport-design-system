@@ -24,11 +24,11 @@ const selectors = {
     ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-const getFerovResourcePicker = sobjectPickerComponent => {
+const getFerovResourcePicker = (sobjectPickerComponent) => {
     return sobjectPickerComponent.shadowRoot.querySelector(selectors.ferovResourcePicker);
 };
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-sobject-or-sobject-collection-picker', {
         is: SObjectOrSObjectCollectionPicker
     });

@@ -30,8 +30,8 @@ commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
-const getProcessType = processTypeName =>
-    MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);
+const getProcessType = (processTypeName) =>
+    MOCK_ALL_PROCESS_TYPES.find((processType) => processType.name === processTypeName);
 
 describe('templatesUtils', () => {
     describe('getting the process types tiles', () => {

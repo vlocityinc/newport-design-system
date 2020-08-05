@@ -52,11 +52,11 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             CREATE: 'Create',
             CREATE_AND_UPDATE: 'CreateAndUpdate'
         },
-        isSystemElement: elementType => {
+        isSystemElement: (elementType) => {
             return elementType === 'ROOT_ELEMENT' || elementType === 'END_ELEMENT' || elementType === 'START_ELEMENT';
         },
         forEachMetadataFlowElement: (metadata, callback) => {
-            metadata.dummyMetadata.forEach(e => callback(e, 'dummyMetadata'));
+            metadata.dummyMetadata.forEach((e) => callback(e, 'dummyMetadata'));
             callback(metadata.startElement, 'start');
         }
     };

@@ -52,7 +52,7 @@ export const FLOW_PROCESS_TYPE_FEATURE = {
     GLOBAL_VARIABLES: 'GlobalVariables'
 };
 
-export const getProcessTypeIcon = processType => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
+export const getProcessTypeIcon = (processType) => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
 
 export const getTriggerTypeIcon = (processType, triggerType) =>
     TRIGGER_TYPE_ICONS.get(triggerType) || PROCESS_TYPE_DEFAULT_ICON;
@@ -64,7 +64,7 @@ export const getTriggerTypeIcon = (processType, triggerType) =>
  * @property {String} label
  * @property {String} iconName
  */
-export const getProcessTypesWithIcons = processTypes =>
+export const getProcessTypesWithIcons = (processTypes) =>
     processTypes.map(({ name, label }) => ({
         name,
         label,
@@ -74,7 +74,7 @@ export const getProcessTypesWithIcons = processTypes =>
 function hasProcessTypeFeature(processType, feature) {
     const processTypeFeatures = getProcessFeatures(processType);
 
-    return processTypeFeatures && processTypeFeatures.find(processTypeFeature => processTypeFeature === feature)
+    return processTypeFeatures && processTypeFeatures.find((processTypeFeature) => processTypeFeature === feature)
         ? true
         : false;
 }
@@ -88,7 +88,7 @@ function hasProcessTypeFeature(processType, feature) {
  * @params {String} processType
  * @return {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
  */
-export const getProcessTypeAutomaticOutPutHandlingSupport = processType => {
+export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
     const isStoreOutputAutomaticallyAvailable = hasProcessTypeFeature(
         processType,
         FLOW_PROCESS_TYPE_FEATURE.STORE_OUTPUT_AUTOMATICALLY
@@ -103,7 +103,7 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = processType => {
  * @param {String} processType
  * @returns {Boolean}
  */
-export const isConfigurableStartSupported = processType => {
+export const isConfigurableStartSupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.CONFIGURABLE_START);
 };
 
@@ -112,7 +112,7 @@ export const isConfigurableStartSupported = processType => {
  * @param {Object} processType the current process type
  * @returns {Boolean} true if field traversal is supported, false otherwise
  */
-export const isLookupTraversalSupported = processType => {
+export const isLookupTraversalSupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.LOOKUP_TRAVERSAL);
 };
 
@@ -121,7 +121,7 @@ export const isLookupTraversalSupported = processType => {
  * @param {Object} processType the current process type
  * @returns {Boolean} true if global variables outside formula is supported, false if only supported in formulas
  */
-export const isGlobalVariablesSupported = processType => {
+export const isGlobalVariablesSupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.GLOBAL_VARIABLES);
 };
 
@@ -130,7 +130,7 @@ export const isGlobalVariablesSupported = processType => {
  * @param {String} processType
  * @returns {Boolean}
  */
-export const isConditionalFieldVisibilitySupported = processType => {
+export const isConditionalFieldVisibilitySupported = (processType) => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.CONDITIONAL_FIELD_VISIBILITY);
 };
 
@@ -156,7 +156,7 @@ const compareProcessTypes = (left, right) => {
     return 0;
 };
 
-export const sortProcessTypes = processTypes => {
+export const sortProcessTypes = (processTypes) => {
     if (processTypes) {
         processTypes.sort(compareProcessTypes);
     }

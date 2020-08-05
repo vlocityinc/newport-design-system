@@ -76,7 +76,7 @@ export default class startNodeContextButton extends LightningElement {
             case BEFORE_SAVE:
             case BEFORE_DELETE:
             case SCHEDULED:
-                item = getEntitiesMenuData().find(menuItem => menuItem.value === this.node.object);
+                item = getEntitiesMenuData().find((menuItem) => menuItem.value === this.node.object);
                 return item ? item.displayText : this.node.object;
             default:
                 return this.node.object;
@@ -114,7 +114,7 @@ export default class startNodeContextButton extends LightningElement {
         }
     }
 
-    handleObjectClick = event => {
+    handleObjectClick = (event) => {
         event.stopPropagation();
 
         const canvasElementGUID = this.node.guid;

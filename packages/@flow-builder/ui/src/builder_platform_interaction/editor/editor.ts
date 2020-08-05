@@ -447,7 +447,7 @@ export default class Editor extends LightningElement {
             })
         );
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
-        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
+        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then((data) => this.getHeaderUrlsCallBack(data));
         this.keyboardInteractions = new KeyboardInteractions();
         initializeLoader(storeInstance);
         loadOnStart();
@@ -553,7 +553,7 @@ export default class Editor extends LightningElement {
     /**
      * Method to return the config based on the passed component(leftPanel, canvas etc.) config value.
      */
-    getConfig = componentConfig => {
+    getConfig = (componentConfig) => {
         return (
             (this.builderConfig &&
                 this.builderConfig.componentConfigs &&
@@ -577,7 +577,7 @@ export default class Editor extends LightningElement {
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
         if (flowProcessTypeChanged || triggerTypeChanged) {
             this.spinners.showAutoLayoutSpinner = true;
-            const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then(supportedElements => {
+            const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then((supportedElements) => {
                 this.supportedElements = supportedElements;
             });
             let palettePromise;
@@ -596,7 +596,7 @@ export default class Editor extends LightningElement {
                     }
                 });
 
-                palettePromise = loadPalettePromise.then(data => {
+                palettePromise = loadPalettePromise.then((data) => {
                     this.palette = data;
                 });
 
@@ -615,7 +615,7 @@ export default class Editor extends LightningElement {
                         SERVER_ACTION_TYPE.GET_EVENT_TYPES,
                         { eventType: MANAGED_SETUP },
                         { disableErrorModal: true }
-                    ).then(eventTypesData => {
+                    ).then((eventTypesData) => {
                         setEventTypes(eventTypesData, MANAGED_SETUP);
                     });
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
@@ -637,7 +637,7 @@ export default class Editor extends LightningElement {
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
         if (!getRunInModes()) {
-            const getRunInModesCall = fetchOnce(SERVER_ACTION_TYPE.GET_RUN_IN_MODES, {}).then(data => {
+            const getRunInModesCall = fetchOnce(SERVER_ACTION_TYPE.GET_RUN_IN_MODES, {}).then((data) => {
                 setRunInModes(data);
             });
             this.propertyEditorBlockerCalls.push(getRunInModesCall);
@@ -658,7 +658,7 @@ export default class Editor extends LightningElement {
 
         if (isGuardrailsEnabled() && this.guardrailsParams && this.guardrailsParams.running && canvasInitialized) {
             const flow = translateUIModelToFlow(flowState);
-            this.guardrailsEngine.evaluate(flow).then(results => {
+            this.guardrailsEngine.evaluate(flow).then((results) => {
                 this.dispatchEvent(new GuardrailsResultEvent(results));
             });
         }
@@ -851,7 +851,7 @@ export default class Editor extends LightningElement {
     /**
      * Callback which gets executed after getting data urls for header
      */
-    getHeaderUrlsCallBack = data => {
+    getHeaderUrlsCallBack = (data) => {
         let isFromAloha = data.preferred === 'CLASSIC';
         if (window.location.search.indexOf('isFromAloha=true') >= 0) {
             isFromAloha = true;
@@ -870,7 +870,7 @@ export default class Editor extends LightningElement {
      * Helper method to construct the detail page back url for Aloha
      * @param {String} url - base url which we build on to construct the url for the detail page
      */
-    buildBackUrlForAloha = url => {
+    buildBackUrlForAloha = (url) => {
         if (this.currentFlowDefId) {
             url = '/' + this.currentFlowDefId;
         }
@@ -881,7 +881,7 @@ export default class Editor extends LightningElement {
      * Helper method to construct the detail page back url for Lightning
      * @param {String} url - base url which we build on to construct the url for the detail page
      */
-    buildBackUrlForLightning = url => {
+    buildBackUrlForLightning = (url) => {
         if (this.currentFlowDefId) {
             url = url.split('/home')[0] + '/page?address=' + encodeURIComponent('/' + this.currentFlowDefId);
         }
@@ -891,7 +891,7 @@ export default class Editor extends LightningElement {
     /**
      * Callback after run debug interivew initiated by the debug modal
      */
-    runDebugInterviewCallback = debugModal => {
+    runDebugInterviewCallback = (debugModal) => {
         const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
@@ -977,7 +977,7 @@ export default class Editor extends LightningElement {
      * It will invoke a default browser warning when user tries to leave the flow builder
      * @param {Object} event before unload event
      */
-    beforeUnloadCallback = event => {
+    beforeUnloadCallback = (event) => {
         event.preventDefault();
         // Chrome requires returnValue to be set.
         event.returnValue = '';
@@ -1027,7 +1027,7 @@ export default class Editor extends LightningElement {
      * Handles Selection on Fixed Layout Canvas
      * @param {object} event Selection event coming from flcBuilder
      */
-    handleSelectionOnFixedCanvas = event => {
+    handleSelectionOnFixedCanvas = (event) => {
         if (event && event.detail) {
             const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids } = event.detail;
             const payload = {
@@ -1042,11 +1042,11 @@ export default class Editor extends LightningElement {
         }
     };
 
-    handleAddElementFault = event => {
+    handleAddElementFault = (event) => {
         storeInstance.dispatch(addElementFault(event.detail.guid));
     };
 
-    handleDeleteElementFault = event => {
+    handleDeleteElementFault = (event) => {
         storeInstance.dispatch(deleteElementFault(event.detail.guid));
     };
 
@@ -1054,7 +1054,7 @@ export default class Editor extends LightningElement {
      * Handles the copy event coming from the Element Action Contextual Menu and
      * updates the appropriate properties
      */
-    handleCopySingleElement = event => {
+    handleCopySingleElement = (event) => {
         const { elementGuid } = event.detail;
         const elements = storeInstance.getCurrentState().elements;
         const copiedElement = elements[elementGuid];
@@ -1091,7 +1091,7 @@ export default class Editor extends LightningElement {
     /**
      * Handles the paste event and dispatches the pasteOnFixedCanvas action to the store
      */
-    handlePasteOnCanvas = event => {
+    handlePasteOnCanvas = (event) => {
         const { prev, next, parent, childIndex } = event.detail;
 
         const { canvasElementGuidMap, childElementGuidMap } = getPasteElementGuidMaps(
@@ -1244,7 +1244,7 @@ export default class Editor extends LightningElement {
      * Pops the flowProperties property editor if the flow is being saved for the first time.
      * @param {object} event when save or save as buttons are clicked
      */
-    handleSaveFlow = event => {
+    handleSaveFlow = (event) => {
         if (event && event.detail && event.detail.type) {
             const eventType = event.detail.type;
             let flowProperties = storeInstance.getCurrentState().properties;
@@ -1353,7 +1353,7 @@ export default class Editor extends LightningElement {
     /**
      * Queuing up the call out for display debug editor's pop-over modal.
      */
-    queueOpenFlowDebugEditor = paramsProvider => {
+    queueOpenFlowDebugEditor = (paramsProvider) => {
         // borrow editor's spinner, UX approved.
         this.spinners.showPropertyEditorSpinner = true;
         // debug editor probably has pre setup also.
@@ -1373,7 +1373,7 @@ export default class Editor extends LightningElement {
      * containing resources information, which is handled by container.cmp.
      *  @param {object} event - when add resource button is clicked.
      */
-    handleAddResourceElement = event => {
+    handleAddResourceElement = (event) => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
 
@@ -1394,7 +1394,7 @@ export default class Editor extends LightningElement {
      *
      * @param {Object} event canvas element drop event
      */
-    handleAddCanvasElement = event => {
+    handleAddCanvasElement = (event) => {
         if (storeInstance && storeInstance.getCurrentState().properties.lastInlineResourceGuid) {
             storeInstance.dispatch(removeLastCreatedInlineResource);
         }
@@ -1469,7 +1469,7 @@ export default class Editor extends LightningElement {
      *
      * @param {object} event - node double clicked event coming from node.js
      */
-    handleEditElement = event => {
+    handleEditElement = (event) => {
         if (event && event.detail && event.type) {
             const mode = event.detail.mode;
             const guid = event.detail.canvasElementGUID;
@@ -1657,7 +1657,7 @@ export default class Editor extends LightningElement {
      *
      * @param {object} event - multi delete event coming from canvas.js
      */
-    handleElementDelete = event => {
+    handleElementDelete = (event) => {
         if (event && event.detail) {
             this.closeAutoLayoutContextualMenu();
             getElementsToBeDeleted(storeInstance, event.detail);
@@ -1671,14 +1671,14 @@ export default class Editor extends LightningElement {
      *
      * @param {object} event - locator icon clicked event coming from left-panel
      */
-    handleHighlightOnCanvas = event => {
+    handleHighlightOnCanvas = (event) => {
         if (event && event.detail && event.detail.elementGuid) {
             const elementGuid = event.detail.elementGuid;
             this.highlightOnCanvas(elementGuid);
         }
     };
 
-    handleShiftFocus = shiftBackward => {
+    handleShiftFocus = (shiftBackward) => {
         const currentlyFocusedElement =
             this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
 
@@ -1729,7 +1729,7 @@ export default class Editor extends LightningElement {
         focusOnDockingPanel();
     };
 
-    handleFlcCreateConnection = event => {
+    handleFlcCreateConnection = (event) => {
         storeInstance.dispatch(flcCreateConnection(event.detail));
     };
 
@@ -1836,7 +1836,7 @@ export default class Editor extends LightningElement {
      * the save flow action with the correct save type: create or update.
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
      */
-    saveFlow = saveType => {
+    saveFlow = (saveType) => {
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
         const params = {
             flow,
@@ -1863,13 +1863,13 @@ export default class Editor extends LightningElement {
             const storeElements = storeInstance.getCurrentState().elements;
             // Accumulator needs to be initalized with  [updatedNodeValue.guid]: updatedNodeValue because usedBy won't return any dependencies if nodeForStore is not in the 2nd arg...
             const loopElements = Object.keys(storeElements)
-                .filter(key => storeElements[key].elementType === ELEMENT_TYPE.LOOP)
+                .filter((key) => storeElements[key].elementType === ELEMENT_TYPE.LOOP)
                 .reduce((newObj, key) => ({ ...newObj, [key]: storeElements[key] }), {
                     [updatedNodeValue.guid]: updatedNodeValue
                 });
             const loopsToUpdate = usedBy([updatedNodeValue.guid], loopElements);
             if (loopsToUpdate && loopsToUpdate.length > 0) {
-                loopsToUpdate.forEach(loopToUpdate => {
+                loopsToUpdate.forEach((loopToUpdate) => {
                     this.deMutateAndUpdateNodeCollection(storeElements[loopToUpdate.guid]);
                 });
             }
@@ -1880,7 +1880,7 @@ export default class Editor extends LightningElement {
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param {object} node - node object for the particular property editor update
      */
-    deMutateAndUpdateNodeCollection = node => {
+    deMutateAndUpdateNodeCollection = (node) => {
         if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
             const elementTypeLabel = getConfigForElement(node).labels.singular;
             const elementLabel = node.label.value;
@@ -1909,7 +1909,7 @@ export default class Editor extends LightningElement {
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param {object} node - node object for the particular property editor update
      */
-    deMutateAndAddNodeCollection = node => {
+    deMutateAndAddNodeCollection = (node) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
@@ -2035,7 +2035,7 @@ export default class Editor extends LightningElement {
         if (!getProcessTypes()) {
             this.processTypeLoading = true;
             fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, { builderType: this.builderType })
-                .then(data => {
+                .then((data) => {
                     setProcessTypes(data);
                     loadAllSupportedFeatures(getProcessTypes());
                 })
@@ -2068,7 +2068,7 @@ export default class Editor extends LightningElement {
      * Callback to be called when getting the template data
      * @param modal the flow modal
      */
-    getTemplateDataCallback = modal => ({ data, error }) => {
+    getTemplateDataCallback = (modal) => ({ data, error }) => {
         if (error) {
             // update error message to show in flow modal
             this.isFlowServerCallInProgress = false;
@@ -2093,7 +2093,7 @@ export default class Editor extends LightningElement {
      * Callback passed when user clicks on Create button from new flow modal
      *  @param modal the flow modal
      */
-    createFlowFromTemplateCallback = modal => {
+    createFlowFromTemplateCallback = (modal) => {
         const item = getSelectedFlowEntry(modal);
         if (typeof item === 'string') {
             // Create a new flow from a template referenced by a salesforce id

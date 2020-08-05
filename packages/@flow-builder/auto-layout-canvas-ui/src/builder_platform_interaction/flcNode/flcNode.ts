@@ -158,7 +158,7 @@ export default class FlcNode extends LightningElement {
      *
      * @param {object} event - click event fired when clicking on the selection checkbox
      */
-    handleSelectionCheckboxClick = event => {
+    handleSelectionCheckboxClick = (event) => {
         event.stopPropagation();
         const toggleNodeSelectionEvent = new FlcSelectDeselectNodeEvent(
             this.nodeInfo.guid,

@@ -102,7 +102,7 @@ export default class ComponentVisibility extends LightningElement {
      * Cancels the onclick event fired when clicking on the add button.
      * @param {Event} event onclick event that is fired when clicking on the component
      */
-    handleOnClick = event => {
+    handleOnClick = (event) => {
         // hack to prevent the onclick event generated when clicking the add button from hiding the popover
         if (this._addConditionClicked) {
             this._addConditionClicked = false;
@@ -115,7 +115,7 @@ export default class ComponentVisibility extends LightningElement {
      * Displays the popover for the new condition.
      * @param {AddConditionEvent} event the condition logic change event
      */
-    handleAddCondition = event => {
+    handleAddCondition = (event) => {
         if (this.isLastConditionNew()) {
             // if we already have a "New Condition", don't do anything
             event.stopPropagation();
@@ -134,7 +134,7 @@ export default class ComponentVisibility extends LightningElement {
      * @param {PropertyChangedEvent} event the condition logic change event
      * @fires UpdateConditionLogicEvent
      */
-    handlePropertyChanged = event => {
+    handlePropertyChanged = (event) => {
         event.stopPropagation();
 
         const conditionLogic = event.detail.value;
@@ -158,7 +158,7 @@ export default class ComponentVisibility extends LightningElement {
      * @param {Event} event the onclick event
      * @fires DeleteConditionEvent when a "New Condition" was displayed
      */
-    handleClickCondition = event => {
+    handleClickCondition = (event) => {
         event.stopPropagation();
 
         // only do something when we clicked on a different condition
@@ -190,7 +190,7 @@ export default class ComponentVisibility extends LightningElement {
      * Deletes any "New Condition" that was being edited.
      * @fires DeleteConditionEvent
      */
-    handleClosePopover = panel => {
+    handleClosePopover = (panel) => {
         if (panel.closedBy === 'closeOnClickOut') {
             this.deleteNewCondition();
             this._popoverIndex = -1;
@@ -253,7 +253,7 @@ export default class ComponentVisibility extends LightningElement {
             'builder_platform_interaction:conditionEditorPopover',
             {
                 condition: this.visibilityRule.conditions[index],
-                handleDone: condition => this.handleDone(index, condition)
+                handleDone: (condition) => this.handleDone(index, condition)
             },
             {
                 referenceElement,

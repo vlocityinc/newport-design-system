@@ -154,7 +154,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
         writableElementsSelector: jest.fn(),
         isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn(),
         readableElementsSelector: jest.fn(),
-        canContainSObjectElements: jest.fn().mockImplementation(element => {
+        canContainSObjectElements: jest.fn().mockImplementation((element) => {
             return element.dataType === 'sobject';
         })
     };
@@ -179,7 +179,7 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/elementLabelLib');
     return {
-        getResourceLabel: jest.fn().mockImplementation(resource => resource.name),
+        getResourceLabel: jest.fn().mockImplementation((resource) => resource.name),
         getResourceCategory: actual.getResourceCategory
     };
 });
@@ -187,7 +187,7 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+        getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation((flowName) => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
             }

@@ -55,7 +55,7 @@ export const ELEMENT_ACTION_CONFIG = {
     }
 };
 
-const getFooterData = contextualMenuMode => {
+const getFooterData = (contextualMenuMode) => {
     return contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE
         ? ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION
         : ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION;

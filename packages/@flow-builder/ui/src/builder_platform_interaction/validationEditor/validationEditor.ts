@@ -21,7 +21,7 @@ export default class ValidationEditor extends LightningElement {
 
     labels = LABELS;
 
-    handleFormulaExpressionValueChanged = event => {
+    handleFormulaExpressionValueChanged = (event) => {
         if (event && event.detail) {
             event.stopPropagation();
             const formulaDisplayedValue = {
@@ -33,7 +33,7 @@ export default class ValidationEditor extends LightningElement {
         }
     };
 
-    handleErrorMessageValueChanged = event => {
+    handleErrorMessageValueChanged = (event) => {
         if (event && event.detail) {
             event.stopPropagation();
             const formulaDisplayedValue = this.template.querySelector('.property-input.formulaExpression').value;

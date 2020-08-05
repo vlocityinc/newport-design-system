@@ -17,7 +17,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     });
 });
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-canvas', {
         is: ScreenCanvas
     });
@@ -214,7 +214,7 @@ describe('onDrop', () => {
 
         // Assume each screen field is 120 pixels side and long.
         function boundingClientRectMock(counter) {
-            return function() {
+            return function () {
                 return {
                     width: 120,
                     height: 120,

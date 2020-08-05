@@ -12,7 +12,7 @@ export const getInlineResource = (resourceGuid, menuData = []) => {
     for (let i = 0; i < menuData.length; i++) {
         const { items } = menuData[i];
         if (items) {
-            inlineItem = items.find(currentItem => currentItem.value === resourceGuid);
+            inlineItem = items.find((currentItem) => currentItem.value === resourceGuid);
             if (inlineItem) {
                 return inlineItem;
             }

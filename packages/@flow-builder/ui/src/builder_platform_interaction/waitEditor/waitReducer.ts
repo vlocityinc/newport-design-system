@@ -77,7 +77,7 @@ const waitPropertyChanged = (state, event) => {
     });
 };
 
-const addWaitEvent = state => {
+const addWaitEvent = (state) => {
     let newWaitEvent = createWaitEvent();
     newWaitEvent = hydrateWithErrors(newWaitEvent);
 
@@ -92,7 +92,7 @@ const deleteWaitEvent = (state, event) => {
     if (usedElements && usedElements.length > 0) {
         invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.WAIT_EVENT);
     } else {
-        const waitEvents = state.waitEvents.filter(waitEvent => {
+        const waitEvents = state.waitEvents.filter((waitEvent) => {
             return waitEvent.guid !== event.detail.guid;
         });
 
@@ -106,14 +106,14 @@ const deleteWaitEvent = (state, event) => {
 
 const reorderWaitEvents = (state, event) => {
     let waitEvents = state.waitEvents;
-    const destinationIndex = state.waitEvents.findIndex(element => {
+    const destinationIndex = state.waitEvents.findIndex((element) => {
         return element.guid === event.detail.destinationGuid;
     });
-    const movedWaitEvent = state.waitEvents.find(waitEvent => {
+    const movedWaitEvent = state.waitEvents.find((waitEvent) => {
         return waitEvent.guid === event.detail.sourceGuid;
     });
     if (destinationIndex >= 0 && movedWaitEvent) {
-        waitEvents = state.waitEvents.filter(waitEvent => {
+        waitEvents = state.waitEvents.filter((waitEvent) => {
             return waitEvent.guid !== event.detail.sourceGuid;
         });
         waitEvents.splice(destinationIndex, 0, movedWaitEvent);
@@ -129,7 +129,7 @@ const reorderWaitEvents = (state, event) => {
  * @returns {Object} updated state
  */
 const waitEventReducer = (state, event, waitEventOperation) => {
-    const mapEvents = waitEvent => {
+    const mapEvents = (waitEvent) => {
         if (waitEvent.guid === event.detail.parentGUID) {
             return waitEventOperation(waitEvent, event, deletedWaitEventGuids, LABELS.waitSingularLabel);
         }
@@ -196,7 +196,7 @@ const updatePlatformEventInputParametersByLogic = (waitEvent, event) => {
     return Object.assign({}, waitEvent, { inputParameters });
 };
 
-const verifyParentGuidIsSet = event => {
+const verifyParentGuidIsSet = (event) => {
     if (isUndefinedOrNull(event.detail.parentGUID)) {
         throw new Error('The wait event GUID must be set!');
     }
@@ -211,7 +211,7 @@ const verifyParentGuidIsSet = event => {
 const waitEventPropertyChanged = (state, event) => {
     verifyParentGuidIsSet(event);
     validateProperty(state, event);
-    const mapEvents = waitEvent => {
+    const mapEvents = (waitEvent) => {
         if (waitEvent.guid === event.detail.parentGUID) {
             let conditions;
             if (event.detail.propertyName === 'conditionLogic') {
@@ -243,7 +243,7 @@ const updateWaitEventParameter = (state, event) => {
                 : event.detail.value.error;
     }
 
-    const updateParameter = parameters => {
+    const updateParameter = (parameters) => {
         // Only set the params that are actually passed in
         const propsToUpdate = {};
 
@@ -276,7 +276,7 @@ const updateWaitEventParameter = (state, event) => {
             let index = event.detail.index;
 
             if (index === null && parameters.length > 0) {
-                index = parameters.findIndex(param => {
+                index = parameters.findIndex((param) => {
                     return param.name.value === nameValue;
                 });
             }
@@ -306,7 +306,7 @@ const updateWaitEventParameter = (state, event) => {
 
 const addWaitEventParameter = (state, event) => {
     verifyParentGuidIsSet(event);
-    const addParameter = parameters => {
+    const addParameter = (parameters) => {
         // input parameters is an array
         if (event.detail.isInputParameter) {
             const newParameter = hydrateWithErrors(createInputParameter());
@@ -333,7 +333,7 @@ const addWaitEventParameter = (state, event) => {
 
 const deleteWaitEventParameter = (state, event) => {
     verifyParentGuidIsSet(event);
-    const deleteParameter = parameters => {
+    const deleteParameter = (parameters) => {
         // input parameters is an array
         if (event.detail.isInputParameter) {
             return deleteItem(parameters, event.detail.index);

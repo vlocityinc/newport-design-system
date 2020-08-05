@@ -1,9 +1,9 @@
 ({
-    handleOk: function(cmp, event, helper) {
+    handleOk: function (cmp, event, helper) {
         helper.handleUpdateNodeOnOk(cmp);
     },
 
-    handleCancel: function(cmp, event, helper) {
+    handleCancel: function (cmp, event, helper) {
         helper.closePanel(cmp);
     }
 });

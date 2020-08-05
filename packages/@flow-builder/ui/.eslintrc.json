@@ -32,7 +32,7 @@
                         "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
                         "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
                         "**/builder_platform_interaction/flcButtonMenu/keyboard.ts",
-                        "**/builder_platform_interaction/preloadLib/loader.js"
+                        "**/builder_platform_interaction/preloadLib/loader.ts"
                     ],
                     "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.ts"],
                     "@lwc/lwc/no-inner-html": [
@@ -50,7 +50,11 @@
                     ],
 
                     "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"],
-                    "no-loop-func": ["**/builder_platform_interaction/translatorLib/flowToUiTranslator.ts"],
+                    "no-loop-func": [
+                        "**/builder_platform_interaction/translatorLib/flowToUiTranslator.ts",
+                        "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
+                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
+                    ],
                     "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
                     "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
                     "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
@@ -62,8 +66,14 @@
                         "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts"
                     ],
                     "lwc-core/no-process-env": ["**/jestSetup.js"],
-                    "lwc-core/no-dynamic-import": [
-                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.js"
+
+                    "no-continue": [
+                        "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
+                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
+                    ],
+                    "eqeqeq": [
+                        "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
+                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
                     ]
                 }
             }

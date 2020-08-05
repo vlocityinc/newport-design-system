@@ -121,7 +121,7 @@ export default class ResourcedTextarea extends LightningElement {
         return this.plainTextAvailable ? 'divResourcePickerPartialWidth' : 'divResourcePickerFulllWidth';
     }
 
-    handleResourcePickerSelection = event => {
+    handleResourcePickerSelection = (event) => {
         event.stopPropagation();
         if (event && event.detail && event.detail.item) {
             const text = event.detail.item.displayText;

@@ -191,7 +191,7 @@ export default class PicklistChoiceSetEditor extends LightningElement {
     getEntityFields() {
         sobjectLib
             .fetchFieldsForEntity(this.picklistChoiceSetResource.picklistObject.value)
-            .then(fields => {
+            .then((fields) => {
                 this._entityFields = fields;
                 if (this.picklistChoiceSetResource.dataType && this.picklistChoiceSetResource.dataType.value) {
                     this.filterEntityFields();

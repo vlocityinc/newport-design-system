@@ -1,10 +1,10 @@
 ({
     // Build screen for all input variables and get debugRunAs validation result
-    buildInput: function(cmp, flowName) {
+    buildInput: function (cmp, flowName) {
         this.getDebugRunAsValidation(cmp);
         var action = cmp.get('c.getFlowInputOutputVariables');
         action.setParams({ flowName: flowName });
-        action.setCallback(this, function(response) {
+        action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === 'SUCCESS') {
                 this.buildInputVarComponents(cmp, response.getReturnValue()[0]);
@@ -14,7 +14,7 @@
         $A.enqueueAction(action);
     },
 
-    buildInputVarComponents: function(cmp, data) {
+    buildInputVarComponents: function (cmp, data) {
         var content = cmp.find('flowInput');
         var body = content.get('v.body');
         var hasInputs = false;
@@ -32,7 +32,7 @@
         cmp.set('v.hasInputs', hasInputs);
     },
 
-    readAllInputs: function(cmp) {
+    readAllInputs: function (cmp) {
         var content = cmp.find('flowInput');
         var body = content.get('v.body');
         var args = [];
@@ -48,12 +48,12 @@
         return args;
     },
 
-    getDebugRunAsValidation: function(cmp) {
+    getDebugRunAsValidation: function (cmp) {
         var action = cmp.get('c.debugRunAsValidation');
         var flowDevName = cmp.get('v.flowName');
         var flowVersionId = cmp.get('v.flowId');
         action.setParams({ flowVersionId: flowVersionId, flowDevName: flowDevName });
-        action.setCallback(this, function(response) {
+        action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var validationMap = response.getReturnValue();
@@ -65,7 +65,7 @@
         $A.enqueueAction(action);
     },
 
-    setRunAsHelptext: function(cmp) {
+    setRunAsHelptext: function (cmp) {
         var isDebugAsUserAllowed = cmp.get('v.showIsDebugAsUserAllowed');
         var isDebugAsUserAllowedInNonPrd = cmp.get('v.showIsDebugAsUserAllowedInNonPrd');
         if (isDebugAsUserAllowed && isDebugAsUserAllowedInNonPrd) {
@@ -77,7 +77,7 @@
         }
     },
 
-    _isValueSet: function(value) {
+    _isValueSet: function (value) {
         return value || value === 0; // any non-zero length string, object, number (including 0), or true (but not false)
     },
 
@@ -94,7 +94,7 @@
     },
 
     // input variables of unsupported type (collection, Apex) are omitted
-    _createSimpleInput: function(argument) {
+    _createSimpleInput: function (argument) {
         if (argument.isCollection === true || argument.isInput === false) {
             return undefined; // unsupported
         }
@@ -126,7 +126,7 @@
                   };
 
         var field;
-        $A.createComponent(descriptor, attributes, function(newCmp) {
+        $A.createComponent(descriptor, attributes, function (newCmp) {
             field = newCmp;
         });
         return field;

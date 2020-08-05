@@ -103,7 +103,7 @@ export default class ConditionList extends LightningElement {
         this.state.showCustomLogicInput = false;
 
         if (
-            !Object.values(CONDITION_LOGIC).find(logicValue => {
+            !Object.values(CONDITION_LOGIC).find((logicValue) => {
                 return value === logicValue;
             })
         ) {

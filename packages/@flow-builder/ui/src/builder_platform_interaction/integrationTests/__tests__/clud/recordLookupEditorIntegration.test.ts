@@ -50,28 +50,28 @@ import {
     newFilterItem
 } from '../recordFilterTestUtils';
 
-const getRecordSobjectAndQueryFieldElement = recordLookupEditor =>
+const getRecordSobjectAndQueryFieldElement = (recordLookupEditor) =>
     recordLookupEditor.shadowRoot.querySelector(
         INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
     );
-const getSObjectOrSObjectCollectionPicker = recordLookupEditor =>
+const getSObjectOrSObjectCollectionPicker = (recordLookupEditor) =>
     getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
         INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
     );
-const getSobjectAndFieldsElement = recordLookupEditor =>
+const getSobjectAndFieldsElement = (recordLookupEditor) =>
     getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
         INTERACTION_COMPONENTS_SELECTORS.RECORD_QUERY_FIELDS_COMPONENT
     );
-const getRecordFilter = recordLookupEditor =>
+const getRecordFilter = (recordLookupEditor) =>
     recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
-const getRecordSort = recordLookupEditor =>
+const getRecordSort = (recordLookupEditor) =>
     recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_SORT);
-const getInputOutputAssignments = recordLookupEditor =>
+const getInputOutputAssignments = (recordLookupEditor) =>
     recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
-const getAllRecordFieldPickerRows = recordStoreFieldsComponent =>
+const getAllRecordFieldPickerRows = (recordStoreFieldsComponent) =>
     recordStoreFieldsComponent.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER_ROW);
 
-const getEntityResourcePickerComboboxElement = entityResourcePicker => {
+const getEntityResourcePickerComboboxElement = (entityResourcePicker) => {
     return deepQuerySelector(entityResourcePicker, [
         INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
         INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
@@ -79,7 +79,7 @@ const getEntityResourcePickerComboboxElement = entityResourcePicker => {
     ]);
 };
 
-const getRecordObjectAndQueryFieldResourceGroupedCombobox = editor =>
+const getRecordObjectAndQueryFieldResourceGroupedCombobox = (editor) =>
     getResourceGroupedCombobox(getRecordSobjectAndQueryFieldElement(editor));
 
 const createComponentForTest = (
@@ -98,13 +98,13 @@ const createComponentForTest = (
 
 describe('Record Lookup Editor', () => {
     let recordLookupNode, recordLookupComponent, sObjectOrSObjectCollectionPicker;
-    const expectCanBeTraversedInResourcePicker = async textValues => {
+    const expectCanBeTraversedInResourcePicker = async (textValues) => {
         await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
     };
-    const expectCannotBeTraversedInResourcePicker = async textValues => {
+    const expectCannotBeTraversedInResourcePicker = async (textValues) => {
         await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
     };
-    const expectCannotBeSelectedInResourcePicker = async textValues => {
+    const expectCannotBeSelectedInResourcePicker = async (textValues) => {
         await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
     };
     describe('Flow that supports automatic output', () => {

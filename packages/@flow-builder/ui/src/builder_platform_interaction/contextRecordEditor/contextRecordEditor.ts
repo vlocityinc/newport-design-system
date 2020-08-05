@@ -78,7 +78,7 @@ export default class contextRecordEditor extends LightningElement {
         if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
             // Get the current trigger type info and set the custom property editor info if one is defined,
             // else, load fields for the selected context object
-            getTriggerTypeInfo(this.triggerType).then(data => {
+            getTriggerTypeInfo(this.triggerType).then((data) => {
                 if (data && data.configurationEditor) {
                     this.configurationEditor = { name: data.configurationEditor };
                 } else {
@@ -164,7 +164,7 @@ export default class contextRecordEditor extends LightningElement {
         this.fields = {};
         if (this.recordEntityName) {
             fetchFieldsForEntity(this.recordEntityName)
-                .then(fields => {
+                .then((fields) => {
                     this.fields = fields;
                 })
                 .catch(() => {

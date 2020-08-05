@@ -157,7 +157,7 @@ describe('validateAll method', () => {
 
     it('returns the object with errors when rules fail at various level of properties', () => {
         // This function is to prove that we can validate RHS using the LHS value
-        const validateRHS = condition => {
+        const validateRHS = (condition) => {
             return () => {
                 return 'LHS is ' + condition.leftHandSide.value;
             };
@@ -166,7 +166,7 @@ describe('validateAll method', () => {
             outcomes: () => {
                 return {
                     name: [ValidationRules.maximumCharactersLimit(10)],
-                    conditions: condition => {
+                    conditions: (condition) => {
                         return {
                             leftHandSide: [
                                 ValidationRules.maximumCharactersLimit(50),

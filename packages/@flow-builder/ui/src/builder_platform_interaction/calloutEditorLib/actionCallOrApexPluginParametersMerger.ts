@@ -10,12 +10,12 @@ import { MERGE_WARNING_TYPE } from './mergeWarningType';
  */
 function getAsMap(actionParameters, nodeParameters) {
     const map = {};
-    actionParameters.forEach(parameter => {
+    actionParameters.forEach((parameter) => {
         map[parameter.name] = map[parameter.name] || {};
         map[parameter.name].parameter = parameter;
         map[parameter.name].paramAssigments = [];
     });
-    nodeParameters.forEach(nodeParameter => {
+    nodeParameters.forEach((nodeParameter) => {
         // there can be several assignments for a given parameter
         const nodeParameterName = getValueFromHydratedItem(nodeParameter.name);
         map[nodeParameterName] = map[nodeParameterName] || {};
@@ -73,7 +73,7 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
             };
         }
         if (paramAssigments.length > 0) {
-            paramAssigments.forEach(nodeParameter => {
+            paramAssigments.forEach((nodeParameter) => {
                 const parameterItemWithWarning = Object.assign({}, nodeParameter, parameterItem);
                 const warnings = getMergeWarnings(parameter, paramAssigments);
                 if (warnings.length > 0) {
@@ -112,8 +112,8 @@ function getMergeWarnings(parameter, paramAssigments) {
  */
 export function mergeInputOutputParameters(allParameters, nodeInputParameters, nodeOutputParameters) {
     const newParameters = {};
-    const inputParameters = allParameters.filter(parameter => parameter.isInput === true);
-    const outputParameters = allParameters.filter(parameter => parameter.isInput === false);
+    const inputParameters = allParameters.filter((parameter) => parameter.isInput === true);
+    const outputParameters = allParameters.filter((parameter) => parameter.isInput === false);
     newParameters.inputs = mergeParameters(inputParameters, nodeInputParameters);
     newParameters.outputs = mergeParameters(outputParameters, nodeOutputParameters);
     return newParameters;

@@ -35,7 +35,7 @@ export default class RecordFieldPickerRow extends LightningElement {
             this.setupMenuDataFields();
             sobjectLib
                 .fetchFieldsForEntity(name)
-                .then(fields => {
+                .then((fields) => {
                     this._entityFields = fields;
                     this.setupMenuDataFields();
                 })
@@ -57,7 +57,7 @@ export default class RecordFieldPickerRow extends LightningElement {
         if (!fields) {
             return;
         }
-        this._queriedFields = fields.map(field => {
+        this._queriedFields = fields.map((field) => {
             return field.field.value;
         });
 
@@ -79,7 +79,7 @@ export default class RecordFieldPickerRow extends LightningElement {
         }
 
         this.menuDataFields = Object.keys(this._entityFields)
-            .filter(field => {
+            .filter((field) => {
                 return field === this.value || !this.queriedFields.includes(field);
             })
             .reduce((menuData, fieldName) => {

@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import RichLabel from '../richLabel';
 
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-rich-label', {
         is: RichLabel
     });

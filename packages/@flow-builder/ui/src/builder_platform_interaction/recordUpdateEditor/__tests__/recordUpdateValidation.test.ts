@@ -77,7 +77,7 @@ const recordUpdateUsingFieldsTemplate = () => {
     };
 };
 
-const validate = node => {
+const validate = (node) => {
     const rules = getRules(node);
     return getErrorsFromHydratedElement(recordUpdateValidation.validateAll(node, rules));
 };

@@ -20,7 +20,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => ({
 }));
 
 jest.mock('../base/baseMetadata');
-baseCanvasElementMetadataObject.mockImplementation(element => {
+baseCanvasElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
 
