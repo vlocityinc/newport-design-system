@@ -87,27 +87,29 @@ $b2b-table-border: $palette-gray-5;
 		}	
 	}
 }
-.nds-map-btn{
+.nds-b2b-map-btn{
 	position: absolute;
 	right: 1rem;
-	.nds-map-top{
+	.nds-b2b-map-top{
 		margin-top: 5.3rem;
 	}
   }
-.xnds-scrollable_x{
+.nds-b2b-tbl-top{
 	margin-top: 3rem;
 }
 .nds-b2b-panel-container {
 	& .nds-is-relative {
 		overflow: 'visible';
 	} 
-	.b2b-nds-panel {
+	.nds-b2b-panel {
 		position: absolute;
-		right: 0;
-		top: 0;
+		right: 1rem;
+		top: 15.3rem;
 		height: 27rem;
-		width: 90%;
+		width: 50%;
 		z-index: 10;
+		box-shadow:none;
+		background:none;
 	}
 }
 
