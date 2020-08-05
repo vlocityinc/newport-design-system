@@ -87,18 +87,15 @@ $b2b-table-border: $palette-gray-5;
 		}	
 	}
 }
-.mapBtn{
+.nds-map-btn{
 	position: absolute;
-	right:40px;
-	label{
-		margin-top:85px;
+	right: 1rem;
+	.nds-map-top{
+		margin-top: 5.3rem;
 	}
   }
-.hideFrame {
-	display: none;
-}
-div.xnds-scrollable_x{
-	margin-top: 48px;
+.xnds-scrollable_x{
+	margin-top: 3rem;
 }
 .nds-b2b-panel-container {
 	& .nds-is-relative {
