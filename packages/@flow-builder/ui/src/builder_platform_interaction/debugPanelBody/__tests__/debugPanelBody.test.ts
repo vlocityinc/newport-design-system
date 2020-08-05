@@ -21,7 +21,7 @@ const NORMALINPUT = {
     title: TITLE
 };
 const varEqualsNull = {
-    rawText: '{!var4} Equals null',
+    rawText: '{!var4} ' + LABELS.equals + ' null',
     title: TITLE
 };
 const varEqualSignNull = {
@@ -44,6 +44,17 @@ const nullPartofStringAtEnd = {
     rawText: '{!var} = annull',
     title: TITLE
 };
+
+const nullAtEnd = {
+    rawText: 'emailBody = this is null',
+    title: TITLE
+};
+
+const twoEquals = {
+    rawText: 'emailBody = this = null',
+    title: TITLE
+};
+
 const errorOccurredString = {
     rawText: LABELS.faultMess + ': something happened',
     title: TITLE,
@@ -200,6 +211,16 @@ describe('debug-panel-body', () => {
         });
         it('has no warning when null is part of a string and null is at the end', () => {
             debugPanelBody = createComponentUnderTest(nullPartofStringAtEnd);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when null is at the end', () => {
+            debugPanelBody = createComponentUnderTest(nullAtEnd);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when this = null is a value', () => {
+            debugPanelBody = createComponentUnderTest(twoEquals);
             const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
             expect(warningIcon).toBeNull();
         });

@@ -7,13 +7,14 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  * builder canvas (debugMode)
  *
  * - Splits rawText by newline characters
- * - Strings with "Error Occurred:" or "Error element" recieve an error box
+ * - Strings with "Error Occurred:" or "Error element" titles recieve an error box
  * - Warning icon appears when a variable is null or (null) and "Failed to find record"
- * - Governor limit info recieves a "Governor Limit Info" title
+ * - Governor limit info recieves one "Governor Limit Info" title
  * - Titles are "Result" or any string that ends with ":"
  */
 
-const NULL = ' null$';
+const NULL = '^[^ ]+ = null$';
+const EQUALSNULL = '^[^ ]+ ' + LABELS.equals + ' null$';
 const NULLPARENS = '(null)';
 const NEWLINE = '\\n';
 
@@ -35,17 +36,16 @@ export default class debugPanelBody extends LightningElement {
     }
 
     /**
-     * Main function to format the string. Each string will be marked by booleans that
-     * indicate if it will be need special formatting
-     * - Splits text by newline
-     * - Removes /" characters from output
-     * - Removes trailing whitespace to help with checking for titles
+     * Main function to format the string. Each string will have an object with
+     * booleans to indicate if it will be need special formatting
      */
     getDebugInfoBody() {
-        let obj = [{}];
-        obj = obj.splice(1);
         const splitText = this.rawText.split(NEWLINE);
         let needsGovTitle = true;
+        let obj = [{}];
+
+        /* removes empty object in array */
+        obj = obj.splice(1);
 
         if (this.title.includes(ERRBODY)) {
             obj.push(this.formatErrorBody(splitText));
@@ -60,12 +60,13 @@ export default class debugPanelBody extends LightningElement {
                 obj.push(this.formatErrorMessage(curr));
             } else if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
                 const temp = { value: curr, isTitle: false, isWarn: false, isError: false, id: generateGuid() };
+
                 if (curr === LABELS.resultLabel || curr === LABELS.inputLabel) {
                     temp.isTitle = true;
                 } else if (curr.charAt(curr.length - 1) === ':') {
                     temp.value = curr.slice(0, -1);
                     temp.isTitle = true;
-                } else if (curr.match(NULL) || curr.includes(NULLPARENS) || curr === LABELS.failedFind) {
+                } else if (this.needsWarningIcon(curr)) {
                     temp.isWarn = true;
                 } else if (needsGovTitle && this.isGovLimit(curr)) {
                     needsGovTitle = false;
@@ -121,5 +122,14 @@ export default class debugPanelBody extends LightningElement {
     /* Checks if a string is a gov limit info */
     isGovLimit(currString) {
         return currString.match(DML) || currString.match(DMLROW) || currString.match(SOQL) || currString.match(SOQLROW);
+    }
+
+    needsWarningIcon(currString) {
+        return (
+            currString.match(NULL) ||
+            currString.match(EQUALSNULL) ||
+            currString.includes(NULLPARENS) ||
+            currString === LABELS.failedFind
+        );
     }
 }
