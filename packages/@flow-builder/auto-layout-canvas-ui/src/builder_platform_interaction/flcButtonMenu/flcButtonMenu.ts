@@ -63,7 +63,6 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     _menuOpened = false;
-    _firstLoad = true;
 
     //     if (!this._dropdownOpened && this._dropdownVisible) {
     //         this._dropdownOpened = true;
@@ -156,15 +155,7 @@ export default class FlcButtonMenu extends LightningElement {
         if (!this.target) {
             this.target = this.template.querySelector('button');
         }
-        if (
-            this._firstLoad &&
-            this.elementMetadata &&
-            this.elementMetadata.type === ElementType.START &&
-            this.isCanvasReady
-        ) {
-            this.toggleMenuVisibility();
-            this._firstLoad = false;
-        }
+
         // if we are using autopositioning focus happens in its own cycle
         // if (!this._positioning && this._dropdownVisible) {
         //     // logic to focus on first menu item after render

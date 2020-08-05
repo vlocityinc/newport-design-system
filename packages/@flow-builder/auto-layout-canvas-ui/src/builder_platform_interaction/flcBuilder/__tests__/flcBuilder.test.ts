@@ -9,6 +9,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestU
 
 const NODE_MENU_OPENED = true;
 const CONNECTOR_MENU_OPENED = true;
+const START_MENU_OPENED = true;
 
 const CANVAS_BOUNDING_CLIENT_RECT = {
     top: 200,
@@ -22,6 +23,13 @@ const FLOW_CONTAINER_BOUNDING_CLIENT_RECT = {
     left: 200,
     bottom: 768,
     right: 1024
+};
+
+const DEFAULT_CLIENT_RECT = {
+    top: 0,
+    left: 0,
+    bottom: 100,
+    right: 100
 };
 
 const connectorToggleMenuEvent = new ToggleMenuEvent({
@@ -64,7 +72,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     return {
         renderFlow: jest.fn(() => flowRenderInfo),
         toggleFlowMenu,
-        closeFlowMenu: jest.fn(),
+        closeFlowMenu: jest.fn(() => ({})),
         calculateFlowLayout: jest.fn(),
         getDefaultLayoutConfig,
         animate: jest.fn(),
@@ -87,7 +95,7 @@ Element.prototype.getBoundingClientRect = jest.fn(function () {
         case 'flow-container':
             return FLOW_CONTAINER_BOUNDING_CLIENT_RECT;
         default:
-            return null;
+            return DEFAULT_CLIENT_RECT;
     }
 });
 
@@ -120,12 +128,19 @@ describe('Auto Layout Canvas', () => {
     const getFlow = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-flow');
     const getZoomPanel = () => cmp.shadowRoot.querySelector('builder_platform_interaction-zoom-panel');
     const getNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-node-menu');
+    const getStartNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-node-start-menu');
     const getConnectorMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-connector-menu');
 
-    const checkMenusOpened = (isNodeMenuOpened, isConnectorMenuOpened) => {
+    const checkMenusOpened = (isNodeMenuOpened, isConnectorMenuOpened, isStartMenuOpened = false) => {
         expect(getNodeMenu() != null).toBe(isNodeMenuOpened);
         expect(getConnectorMenu() != null).toBe(isConnectorMenuOpened);
+        expect(getStartNodeMenu() != null).toBe(isStartMenuOpened);
     };
+
+    async function closeStartMenu() {
+        cmp.closeNodeOrConnectorMenu();
+        await ticks(1);
+    }
 
     function checkZoomToView() {
         const { isZoomInDisabled, isZoomOutDisabled, isZoomToView } = getZoomPanel();
@@ -183,7 +198,15 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('menus', () => {
+        it('opens the start menu on load', async () => {
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED, START_MENU_OPENED);
+        });
+
         it('open the node menu', async () => {
+            await closeStartMenu();
+
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
             const flow = getFlow();
 
             await dispatchEvent(flow, nodeToggleMenuEvent);
@@ -191,6 +214,8 @@ describe('Auto Layout Canvas', () => {
         });
 
         it('open and close the connector menu', async () => {
+            await closeStartMenu();
+
             const flow = getFlow();
 
             await dispatchEvent(flow, connectorToggleMenuEvent);
@@ -201,6 +226,8 @@ describe('Auto Layout Canvas', () => {
         });
 
         it('clicking on the canvas closes the connector menu', async () => {
+            await closeStartMenu();
+
             const flow = getFlow();
 
             await dispatchEvent(flow, connectorToggleMenuEvent);
@@ -217,6 +244,8 @@ describe('Auto Layout Canvas', () => {
         });
 
         it('opening a menu zooms out', async () => {
+            await closeStartMenu();
+
             const flow = getFlow();
 
             const zoomPanel = getZoomPanel();

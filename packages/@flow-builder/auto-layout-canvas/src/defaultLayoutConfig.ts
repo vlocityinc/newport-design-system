@@ -117,25 +117,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                 h: 48
             },
             offsetX: (gridWidth * 2) / 3,
-            w: gridWidth * 2,
-            menu: {
-                default: {
-                    w: 100,
-                    h: 225
-                },
-                branch: {
-                    w: 100,
-                    h: 225
-                },
-                loop: {
-                    w: 100,
-                    h: 225
-                },
-                start: {
-                    w: 100,
-                    h: 200
-                }
-            }
+            w: gridWidth * 2
         },
         branch: {
             defaultWidth: gridWidth * 2,

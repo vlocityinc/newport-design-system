@@ -12,7 +12,6 @@ import {
     Guid
 } from './model';
 import MenuType from './MenuType';
-import ElementType from './ElementType';
 
 export interface LayoutInfo {
     x: number;
@@ -43,11 +42,15 @@ export interface FlowRenderContext {
     isDeletingBranch: boolean;
 }
 
+export interface InteractionMenuInfo {
+    key: Guid;
+    type: MenuType;
+    geometry?: Geometry;
+}
+
 export interface FlowInteractionState {
-    menuInfo: {
-        key: Guid;
-        type: MenuType;
-    } | null;
+    closingMenu: MenuType | null;
+    menuInfo: InteractionMenuInfo | null;
     deletionPathInfo: {
         childIndexToKeep: number;
         elementGuidToDelete: Guid;
@@ -99,6 +102,10 @@ export enum ConnectorVariant {
     BRANCH_HEAD = 'branchHead',
     BRANCH_HEAD_EMPTY = 'branchHeadEmpty'
 }
+export enum VerticalAlign {
+    TOP,
+    BOTTOM
+}
 
 export interface ConnectorTypeLayoutConfig {
     h: number;
@@ -138,9 +145,6 @@ export interface LayoutConfig {
         };
         w: number;
         offsetX: number;
-        menu: {
-            [key in ElementType]?: Dimension | undefined;
-        };
     };
     branch: {
         defaultWidth: number;

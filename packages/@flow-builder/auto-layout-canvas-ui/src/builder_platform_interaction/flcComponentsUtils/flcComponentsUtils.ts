@@ -606,6 +606,18 @@ function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elements
     return false;
 }
 
+export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale) {
+    let { left, top } = detail;
+    const { x, y } = containerElementGeometry;
+
+    left = left - x + detail.offsetX + menuButtonHalfWidth;
+    top -= y;
+    return getStyleFromGeometry({
+        x: left * (1 / scale),
+        y: top * (1 / scale) + menuButtonHalfWidth
+    });
+}
+
 /**
  * Creates an object with the properties needed to render the node + connector menus
  *
@@ -621,18 +633,12 @@ function getFlcMenuData(
     context: FlowRenderContext
 ) {
     const detail = event.detail;
-    let { left, top } = detail;
+
     const { guid, next, parent, childIndex } = detail;
-    const { x, y } = containerElementGeometry;
+
     const { flowModel, elementsMetadata } = context;
 
-    left = left - x + detail.offsetX + menuButtonHalfWidth;
-    top -= y;
-
-    const style = getStyleFromGeometry({
-        x: left * (1 / scale),
-        y: top * (1 / scale) + menuButtonHalfWidth
-    });
+    const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale);
 
     const elementHasFault = guid ? flowModel[guid].fault : false;
     const targetGuid = childIndex != null ? getChild(flowModel[parent!], childIndex) : next;

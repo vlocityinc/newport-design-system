@@ -1,4 +1,13 @@
-import { NodeModel, resolveNode, ParentNodeModel, NodeRef, Guid, getElementMetadata, FAULT_INDEX } from './model';
+import {
+    ElementMetadata,
+    NodeModel,
+    resolveNode,
+    ParentNodeModel,
+    NodeRef,
+    Guid,
+    getElementMetadata,
+    FAULT_INDEX
+} from './model';
 import { areAllBranchesTerminals } from './modelUtils';
 import {
     FlowRenderContext,
@@ -8,7 +17,8 @@ import {
     LayoutInfo,
     NodeLayout,
     NodeLayoutMap,
-    getBranchLayoutKey
+    getBranchLayoutKey,
+    InteractionMenuInfo
 } from './flowRendererUtils';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
@@ -17,21 +27,17 @@ import ConnectorType from './ConnectorTypeEnum';
 export const NO_OFFSET = 0;
 
 /**
- * Returns the MenuType of a menu that is opened for a node
+ * Returns the menu info for a node if its menu is opened
  *
  * @param key - The menu key (the node guid for which the menu is opened)
  * @param context - The flow rendering context
- * @returns The MenuType if a menu is opened for the specified key, null otherwise
+ * @returns The menu info for a node if its menu is opened or null otherwise
  */
-function getMenuType(key: NodeRef, context: FlowRenderContext): MenuType | null {
+function getMenuInfo(key: NodeRef, context: FlowRenderContext): InteractionMenuInfo | null {
     const { interactionState } = context;
     const menuInfo = interactionState.menuInfo;
 
-    if (menuInfo && menuInfo.key === key) {
-        return menuInfo.type;
-    } else {
-        return null;
-    }
+    return menuInfo && menuInfo.key === key ? menuInfo : null;
 }
 
 /**
@@ -39,21 +45,10 @@ function getMenuType(key: NodeRef, context: FlowRenderContext): MenuType | null 
  *
  * @returns The height of the menu
  */
-function getMenuHeight({
-    menuType,
-    elementType,
-    layoutConfig
-}: {
-    menuType: MenuType;
-    elementType?: ElementType;
-    connectorType?: ConnectorType;
-    layoutConfig: LayoutConfig;
-}): number {
-    if (menuType === MenuType.CONNECTOR) {
-        return layoutConfig.connector.menu.h;
-    } else {
-        return layoutConfig.node.menu[elementType!]!.h;
-    }
+function getMenuHeight({ menuInfo }: { menuInfo: InteractionMenuInfo }): number {
+    const { geometry } = menuInfo;
+
+    return geometry != null ? geometry.h : 0;
 }
 
 /**
@@ -110,38 +105,49 @@ function getNextNodeConnectorType(elementType: ElementType): ConnectorType | nul
  * @returns The amount of extra height needed
  */
 function getExtraHeightForMenu({
-    menuType,
-    elementType,
+    menuInfo,
     connectorType,
     connectorVariant,
     connectorHeight,
     layoutConfig,
-    hasNext
+    hasNext,
+    joinOffsetY
 }: {
-    menuType: MenuType | null;
+    menuInfo: InteractionMenuInfo;
     elementType?: ElementType;
     connectorType: ConnectorType;
     connectorVariant: ConnectorVariant;
     connectorHeight: number;
     layoutConfig: LayoutConfig;
     hasNext: boolean;
+    metadata: ElementMetadata;
+    joinOffsetY: number;
 }): number {
-    if (menuType == null) {
+    if (menuInfo == null) {
         return 0;
     }
 
-    const menuHeight = getMenuHeight({ menuType, elementType, layoutConfig });
+    const menuHeight = getMenuHeight({ menuInfo });
     const menuMarginBottom = layoutConfig.menu.marginBottom;
-    const menuTriggerOffset =
-        menuType === MenuType.CONNECTOR
-            ? getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset
-            : 0;
-
     const halfIconSize = layoutConfig.node.icon.h / 2;
-    const heightFromMenuTriggerToNextNode = connectorHeight - menuTriggerOffset - (hasNext ? halfIconSize : 0);
-    const menuSpacingToNextNode = heightFromMenuTriggerToNextNode - menuHeight;
 
-    return menuSpacingToNextNode < menuMarginBottom ? menuMarginBottom - menuSpacingToNextNode : 0;
+    let extraHeight;
+
+    if (menuInfo.type === MenuType.CONNECTOR) {
+        const addTriggerOffset = getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset;
+        const heightFromMenuTriggerToNextNode = connectorHeight - addTriggerOffset - (hasNext ? halfIconSize : 0);
+        const menuSpacingToNextNode = heightFromMenuTriggerToNextNode - menuHeight;
+        extraHeight = menuMarginBottom - menuSpacingToNextNode;
+    } else {
+        const addTriggerOffset = getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset;
+
+        // TODO: get rid of this
+        const adjust = joinOffsetY > 0 ? 12 : 0;
+
+        extraHeight = menuHeight - (addTriggerOffset + joinOffsetY) + menuMarginBottom - adjust;
+    }
+
+    return extraHeight > 0 ? extraHeight : 0;
 }
 
 /**
@@ -164,7 +170,7 @@ function getElementType(context: FlowRenderContext, nodeModel: NodeModel): Eleme
  * @returns A NodeLayout for the node
  */
 function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, offsetY: number): NodeLayout {
-    const { nodeLayoutMap, layoutConfig, flowModel } = context;
+    const { nodeLayoutMap, layoutConfig, flowModel, elementsMetadata } = context;
 
     let layout;
     const { guid } = nodeModel;
@@ -206,18 +212,21 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
         height += nextNodeConnectorHeight;
     }
 
-    const menuType = getMenuType(guid, context);
+    const menuInfo = getMenuInfo(guid, context);
+    const metadata = getElementMetadata(elementsMetadata, nodeModel.elementType);
 
     height +=
-        menuType != null
+        menuInfo != null
             ? getExtraHeightForMenu({
-                  hasNext: nodeModel.next != null,
-                  menuType,
-                  elementType,
+                  menuInfo,
+
                   connectorType: nextNodeConnectorType!,
-                  connectorHeight: menuType === MenuType.CONNECTOR ? nextNodeConnectorHeight : height,
+                  connectorHeight: menuInfo.type === MenuType.CONNECTOR ? nextNodeConnectorHeight : height,
                   layoutConfig,
-                  connectorVariant: nextNodeConnectorVariant
+                  connectorVariant: nextNodeConnectorVariant,
+                  hasNext: nodeModel.next != null,
+                  metadata,
+                  joinOffsetY: branchingInfo.h
               })
             : 0;
 
@@ -342,7 +351,7 @@ function calculateBranchLayout(
     context: FlowRenderContext,
     offsetY: number = 0
 ): LayoutInfo {
-    const { flowModel, nodeLayoutMap, layoutConfig } = context;
+    const { flowModel, nodeLayoutMap, layoutConfig, elementsMetadata } = context;
 
     const prevLayout = getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap)
         ? getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap).layout
@@ -368,16 +377,21 @@ function calculateBranchLayout(
             ? 0
             : getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant).h;
 
-    const menuType = getMenuType(getBranchLayoutKey(parentNodeModel.guid, childIndex), context);
+    const menuInfo = getMenuInfo(getBranchLayoutKey(parentNodeModel.guid, childIndex), context);
+    const metadata = getElementMetadata(elementsMetadata, parentNodeModel.elementType);
 
-    height += getExtraHeightForMenu({
-        hasNext: branchHeadGuid != null,
-        menuType,
-        connectorType: nextNodeConnectorType,
-        connectorHeight: height,
-        layoutConfig,
-        connectorVariant: nextNodeConnectorVariant
-    });
+    if (menuInfo != null) {
+        height += getExtraHeightForMenu({
+            hasNext: branchHeadGuid != null,
+            menuInfo,
+            connectorType: nextNodeConnectorType,
+            connectorHeight: height,
+            layoutConfig,
+            connectorVariant: nextNodeConnectorVariant,
+            metadata,
+            joinOffsetY: 0
+        });
+    }
 
     const faultLayouts = [];
 

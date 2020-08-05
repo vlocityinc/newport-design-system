@@ -14,7 +14,8 @@ import {
     Guid,
     NodeRenderInfo,
     FlowRenderContext,
-    FlowRenderInfo
+    FlowRenderInfo,
+    FlowInteractionState
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import {
@@ -24,7 +25,7 @@ import {
     ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
 
-import { FlcSelectionEvent, FlcCreateConnectionEvent } from 'builder_platform_interaction/flcEvents';
+import { FlcSelectionEvent, FlcCreateConnectionEvent, ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
 
 import {
@@ -40,12 +41,18 @@ const ZOOM_SCALE_STEP = 0.2;
 const CANVAS_CLASS = '.canvas';
 const FLOW_CONTAINER_CLASS = '.flow-container';
 
+const START_MENU_SELECTOR = 'builder_platform_interaction-flc-node-start-menu';
+const CONNECTOR_MENU_SELECTOR = 'builder_platform_interaction-flc-connector-menu';
+const NODE_MENU_SELECTOR = 'builder_platform_interaction-flc-node-menu';
+
 const defaultConfig = getDefaultLayoutConfig();
 
 const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
 const MENU_ICON_SIZE = defaultConfig.node.icon.w;
 
 const SYNTHETIC_ZOOM_TO_VIEW_EVENT = { detail: { action: ZOOM_ACTION.ZOOM_TO_VIEW } };
+
+const FULL_OPACITY_CLASS = 'full-opacity';
 
 // needed to compensate for floating point arithmetic imprecisions
 const FUDGE = 0.02;
@@ -102,6 +109,9 @@ export default class FlcBuilder extends LightningElement {
     /* offsets to center the zoom */
     _panzoomOffsets;
 
+    /** pending interaction state to be processed in the next render cycle */
+    _pendingInteractionState: FlowInteractionState | null = null;
+
     @track
     isZoomToView = true;
 
@@ -119,6 +129,9 @@ export default class FlcBuilder extends LightningElement {
 
     @track
     isCanvasReady;
+
+    @track
+    menuOpacityClass = '';
 
     @api
     disableDebounce = false;
@@ -177,22 +190,22 @@ export default class FlcBuilder extends LightningElement {
         return this.menu != null && this.menu.connectorMenu === MenuType.NODE;
     }
 
+    get menuContainerClasses() {
+        return 'menu-container ' + this.menuOpacityClass;
+    }
+
     /**
      * Used to return the data that drives the start node.
      * This is different from what is in elementsMetadata
      */
-    get getStartRenderInfo() {
-        let item;
-        for (item of this.flow.flowInfo.nodes) {
-            if (item.metadata.type === ElementType.START) {
-                return item.node;
-            }
-        }
-        return undefined;
-    }
+    get startMenuElement() {
+        let startRenderInfo;
 
-    get isStart() {
-        return this.menu.elementMetadata.type === ElementType.START;
+        if (this.menu.elementMetadata.type === ElementType.START) {
+            startRenderInfo = this.flow.flowInfo.nodes.find((info) => info.metadata.type === ElementType.START);
+        }
+
+        return startRenderInfo != null ? startRenderInfo.node : null;
     }
 
     get scale() {
@@ -225,7 +238,13 @@ export default class FlcBuilder extends LightningElement {
     //     return undefined;
     // }
 
+    getStartElementGuid() {
+        return this._flowModel[ElementType.ROOT].children[0];
+    }
+
     renderedCallback() {
+        this.menuOpacityClass = this.menu != null ? FULL_OPACITY_CLASS : '';
+
         if (this._canvasElement == null) {
             this._canvasElement = this.template.querySelector(CANVAS_CLASS);
             this.updateFlowRenderContext();
@@ -237,6 +256,51 @@ export default class FlcBuilder extends LightningElement {
                 this._flowContainerElement = flowContainerElement;
                 this.initializePanzoom();
                 this.isCanvasReady = true;
+
+                // open the start element menu on load
+                const startElementGuid = this.getStartElementGuid();
+                const startElement = this._flowModel[startElementGuid];
+                const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+
+                const interactionState = {
+                    ...this._flowRenderContext.interactionState,
+                    menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
+                    deletionPathInfo: null,
+                    closingMenu: null
+                };
+
+                const event = new ToggleMenuEvent({
+                    top: containerGeometry.y - MENU_ICON_SIZE / 2,
+                    left: containerGeometry.x - MENU_ICON_SIZE / 2,
+                    offsetX: 0,
+                    type: MenuType.NODE,
+                    guid: startElementGuid,
+                    elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType]
+                });
+                this.openMenu(event, interactionState);
+            }
+        }
+        const menuElement =
+            this.template.querySelector(NODE_MENU_SELECTOR) ||
+            this.template.querySelector(START_MENU_SELECTOR) ||
+            this.template.querySelector(CONNECTOR_MENU_SELECTOR);
+
+        if (menuElement != null) {
+            const { w, h } = this.getDomElementGeometry(menuElement);
+
+            const interactionState = this._pendingInteractionState || this._flowRenderContext.interactionState;
+            const menuInfo = interactionState.menuInfo!;
+            const { geometry } = menuInfo;
+
+            this._pendingInteractionState = null;
+
+            if (geometry == null || geometry.h !== h) {
+                this.updateFlowRenderContext({
+                    interactionState: {
+                        ...interactionState,
+                        menuInfo: { ...menuInfo, geometry: { w, h, x: 0, y: 0 } }
+                    }
+                });
             }
         }
     }
@@ -263,7 +327,9 @@ export default class FlcBuilder extends LightningElement {
         return {
             flowModel: this._flowModel,
             nodeLayoutMap: {},
-            interactionState: {},
+            interactionState: {
+                menuInfo: { key: this.getStartElementGuid(), type: MenuType.NODE }
+            },
             elementsMetadata: elementsMetadataMap,
             layoutConfig: { ...getDefaultLayoutConfig() },
             isDeletingBranch: false
@@ -315,12 +381,10 @@ export default class FlcBuilder extends LightningElement {
      */
     @api
     closeNodeOrConnectorMenu() {
-        if (this.menu != null) {
-            this.updateFlowRenderContext({
-                interactionState: closeFlowMenu(this._flowRenderContext.interactionState)
-            });
-            this.menu = null;
-        }
+        const interactionState = closeFlowMenu(this._flowRenderContext.interactionState);
+        this._pendingInteractionState = null;
+        this.menu = null;
+        this.updateFlowRenderContext({ interactionState });
     }
 
     /**
@@ -357,28 +421,40 @@ export default class FlcBuilder extends LightningElement {
         const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
 
         if (interactionState.menuInfo != null) {
-            const connectorMenu = detail.type;
-            const menuButtonHalfWidth =
-                connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
-            const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
-
-            this.menu = Object.assign(
-                getFlcMenuData(event, menuButtonHalfWidth, containerGeometry, this._scale, this._flowRenderContext),
-                { elementsMetadata: this._elementsMetadata }
-            );
-
-            this.zoomForMenuDisplay(detail, menuButtonHalfWidth);
+            this.openMenu(event, interactionState);
         } else {
             this.menu = null;
+            this._pendingInteractionState = null;
+            this.updateFlowRenderContext({ interactionState });
         }
-
-        this.updateFlowRenderContext({ interactionState });
     };
 
     handleCloseMenu = (event) => {
         event.stopPropagation();
         this.closeNodeOrConnectorMenu();
     };
+
+    /**
+     * Opens the connector or node menu
+     * @param event - The event
+     * @param interactionState - The interaction state
+     */
+    openMenu(event: ToggleMenuEvent, interactionState: FlowInteractionState) {
+        this.menuOpacityClass = FULL_OPACITY_CLASS;
+
+        const connectorMenu = event.detail.type;
+
+        const menuButtonHalfWidth = connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+        const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+
+        this.menu = Object.assign(
+            getFlcMenuData(event, menuButtonHalfWidth, containerGeometry, this._scale, this._flowRenderContext),
+            { elementsMetadata: this._elementsMetadata }
+        );
+
+        this.zoomForMenuDisplay(event.detail, menuButtonHalfWidth);
+        this._pendingInteractionState = interactionState;
+    }
 
     /**
      * Handles the "merge with existing path" connector menu item selection
@@ -472,7 +548,9 @@ export default class FlcBuilder extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
         } else {
-            animate((progress) => this.renderFlow(progress));
+            animate((progress) => this.renderFlow(progress)).then(
+                () => (this._flowRenderContext.interactionState.closingMenu = null)
+            );
         }
     };
 

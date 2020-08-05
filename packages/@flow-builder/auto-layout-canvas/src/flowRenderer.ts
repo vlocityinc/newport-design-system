@@ -28,7 +28,8 @@ import {
     getMergeOutcomeCount,
     FlowRenderContext,
     LayoutInfo,
-    getBranchLayoutKey
+    getBranchLayoutKey,
+    VerticalAlign
 } from './flowRendererUtils';
 
 import ElementType from './ElementType';
@@ -306,6 +307,13 @@ function createNextConnector(
                 : ConnectorVariant.BRANCH_TAIL;
     }
 
+    let addAlign = VerticalAlign.TOP;
+    const { menuInfo, closingMenu } = interactionState;
+
+    if ((menuInfo != null && menuInfo.type === MenuType.NODE) || closingMenu === MenuType.NODE) {
+        addAlign = VerticalAlign.BOTTOM;
+    }
+
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
         ConnectorType.STRAIGHT,
@@ -317,7 +325,8 @@ function createNextConnector(
         context.isFault,
         [mainVariant, variant],
         isDeletingBranch,
-        showAdd
+        showAdd,
+        addAlign
     );
 }
 
@@ -673,6 +682,7 @@ function createPreConnector(
         variants,
         isDeletingBranch,
         true,
+        VerticalAlign.TOP,
         connectorBadgeLabel
     );
 }

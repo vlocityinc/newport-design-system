@@ -23,6 +23,7 @@ const flowRenderInfo = {
             isNew: false,
             logicConnectors: [],
             isTerminal: false,
+            node: {},
             nextConnector: {
                 geometry: { x: 0, y: 0, w: 6, h: 144 },
                 addInfo: { offsetY: 72, menuOpened: false },

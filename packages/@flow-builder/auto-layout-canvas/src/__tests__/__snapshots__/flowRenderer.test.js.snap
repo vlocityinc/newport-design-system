@@ -142,24 +142,6 @@ Object {
         "h": 48,
         "w": 48,
       },
-      "menu": Object {
-        "branch": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "default": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "loop": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "start": Object {
-          "h": 200,
-          "w": 100,
-        },
-      },
       "offsetX": 88,
       "w": 264,
     },
@@ -399,24 +381,6 @@ Object {
         "h": 48,
         "w": 48,
       },
-      "menu": Object {
-        "branch": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "default": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "loop": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "start": Object {
-          "h": 200,
-          "w": 100,
-        },
-      },
       "offsetX": 88,
       "w": 264,
     },
@@ -628,24 +592,6 @@ L 3, 120",
               "icon": Object {
                 "h": 48,
                 "w": 48,
-              },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
               },
               "offsetX": 88,
               "w": 264,
@@ -884,24 +830,6 @@ L 3, 144",
               "icon": Object {
                 "h": 48,
                 "w": 48,
-              },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
               },
               "offsetX": 88,
               "w": 264,
@@ -1293,24 +1221,6 @@ Object {
         "h": 48,
         "w": 48,
       },
-      "menu": Object {
-        "branch": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "default": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "loop": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "start": Object {
-          "h": 200,
-          "w": 100,
-        },
-      },
       "offsetX": 88,
       "w": 264,
     },
@@ -1523,24 +1433,6 @@ L 3, 120",
                 "h": 48,
                 "w": 48,
               },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
-              },
               "offsetX": 88,
               "w": 264,
             },
@@ -1718,24 +1610,6 @@ L 3, 96",
               "icon": Object {
                 "h": 48,
                 "w": 48,
-              },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
               },
               "offsetX": 88,
               "w": 264,
@@ -2127,24 +2001,6 @@ Object {
         "h": 48,
         "w": 48,
       },
-      "menu": Object {
-        "branch": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "default": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "loop": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "start": Object {
-          "h": 200,
-          "w": 100,
-        },
-      },
       "offsetX": 88,
       "w": 264,
     },
@@ -2357,24 +2213,6 @@ L 3, 120",
                 "h": 48,
                 "w": 48,
               },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
-              },
               "offsetX": 88,
               "w": 264,
             },
@@ -2553,24 +2391,6 @@ L 3, 96",
                 "h": 48,
                 "w": 48,
               },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
-              },
               "offsetX": 88,
               "w": 264,
             },
@@ -2748,24 +2568,6 @@ L 3, 168",
               "icon": Object {
                 "h": 48,
                 "w": 48,
-              },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
               },
               "offsetX": 88,
               "w": 264,
@@ -3158,24 +2960,6 @@ Object {
         "h": 48,
         "w": 48,
       },
-      "menu": Object {
-        "branch": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "default": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "loop": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "start": Object {
-          "h": 200,
-          "w": 100,
-        },
-      },
       "offsetX": 88,
       "w": 264,
     },
@@ -3387,24 +3171,6 @@ L 3, 120",
               "icon": Object {
                 "h": 48,
                 "w": 48,
-              },
-              "menu": Object {
-                "branch": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "default": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "loop": Object {
-                  "h": 225,
-                  "w": 100,
-                },
-                "start": Object {
-                  "h": 200,
-                  "w": 100,
-                },
               },
               "offsetX": 88,
               "w": 264,
@@ -3740,24 +3506,6 @@ Object {
         "h": 48,
         "w": 48,
       },
-      "menu": Object {
-        "branch": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "default": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "loop": Object {
-          "h": 225,
-          "w": 100,
-        },
-        "start": Object {
-          "h": 200,
-          "w": 100,
-        },
-      },
       "offsetX": 88,
       "w": 264,
     },
@@ -3968,24 +3716,6 @@ L 3, 120",
             "icon": Object {
               "h": 48,
               "w": 48,
-            },
-            "menu": Object {
-              "branch": Object {
-                "h": 225,
-                "w": 100,
-              },
-              "default": Object {
-                "h": 225,
-                "w": 100,
-              },
-              "loop": Object {
-                "h": 225,
-                "w": 100,
-              },
-              "start": Object {
-                "h": 200,
-                "w": 100,
-              },
             },
             "offsetX": 88,
             "w": 264,
@@ -4284,24 +4014,6 @@ L 3, 120",
             "icon": Object {
               "h": 48,
               "w": 48,
-            },
-            "menu": Object {
-              "branch": Object {
-                "h": 225,
-                "w": 100,
-              },
-              "default": Object {
-                "h": 225,
-                "w": 100,
-              },
-              "loop": Object {
-                "h": 225,
-                "w": 100,
-              },
-              "start": Object {
-                "h": 200,
-                "w": 100,
-              },
             },
             "offsetX": 88,
             "w": 264,

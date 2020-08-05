@@ -44,23 +44,28 @@ function toggleFlowMenu(
 ): FlowInteractionState {
     let menuInfo = interactionState.menuInfo;
 
+    const closingMenu = null;
+
     if (!menuInfo) {
-        const { parent, childIndex, type } = menuEventDetail;
-        const key = parent ? getBranchLayoutKey(parent, childIndex) : menuEventDetail.guid;
+        const { parent, childIndex, type, guid } = menuEventDetail;
+        const key = parent ? getBranchLayoutKey(parent, childIndex) : guid;
 
         menuInfo = {
             key,
             type
         };
     } else {
-        menuInfo = null;
+        return closeFlowMenu(interactionState);
     }
 
-    return { ...interactionState, menuInfo, deletionPathInfo: null };
+    return { ...interactionState, menuInfo, deletionPathInfo: null, closingMenu };
 }
 
 function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionState {
-    return { ...interactionState, menuInfo: null, deletionPathInfo: null };
+    const menuInfo = interactionState.menuInfo;
+    const closingMenu = menuInfo != null ? menuInfo.type : null;
+
+    return { ...interactionState, menuInfo: null, deletionPathInfo: null, closingMenu };
 }
 
 function updateDeletionPathInfo(
