@@ -15,13 +15,13 @@ Note: If you haven't setup SSH Keys before you can look here: https://help.githu
 
 ```sh
 yarn --version && node --version
-> 1.3.2
+> 1.22.4 
 > v12.16.2
 ```
 
 To update your node version do: `nvm install v12.16.2 && nvm use v12.16.2)`
 
-To update your yarn version do: `brew unlink yarn && brew install yarn@1.3.2`
+To update your yarn version do: `brew unlink yarn && brew install yarn@1.22.4`
 
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
