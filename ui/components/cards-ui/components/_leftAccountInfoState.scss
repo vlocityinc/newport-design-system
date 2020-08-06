@@ -5,14 +5,14 @@
  * @summary This is a Left Account Info State.
  *
  * @name base
- * @selector nds-table-cont
+ * @selector nds-table-account-info
  * @restrict
  * @variant
  * @required
  * @support dev-ready
  */
 
-.nds-table-cont {
+.nds-table-account-info {
   .nds-max-medium-table--stacked {
     td {
       &:before {
