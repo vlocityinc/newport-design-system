@@ -6,7 +6,7 @@ import { classSet } from 'lightning/utils';
 // TODO: need to fix this
 // import { handleKeyDownOnMenuItem, handleKeyDownOnMenuTrigger } from './keyboard';
 
-import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { ToggleMenuEvent, MenuPositionUpdateEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
@@ -154,6 +154,11 @@ export default class FlcButtonMenu extends LightningElement {
     renderedCallback() {
         if (!this.target) {
             this.target = this.template.querySelector('button');
+        }
+
+        if (this._menuOpened) {
+            // fire a MenuPositionUpdateEvent if the menuOpened so that the flcBuilder knows where to position it
+            this.toggleMenuVisibility(true);
         }
 
         // if we are using autopositioning focus happens in its own cycle
@@ -381,36 +386,31 @@ export default class FlcButtonMenu extends LightningElement {
         }
     }
 
-    toggleMenuVisibility(sendEvent = true) {
-        if (!this.disabled) {
-            const { top, left, width } = this.target.getBoundingClientRect();
-            const { clientWidth } = this.target;
+    toggleMenuVisibility(isPositionUpdate = false) {
+        const { top, left, width } = this.target.getBoundingClientRect();
+        const { clientWidth } = this.target;
 
-            // account for border and stuff
-            const offsetX = (width - clientWidth) / 2;
+        // account for border and stuff
+        const offsetX = (width - clientWidth) / 2;
 
-            const { conditionOptionsForNode, guid, connectionInfo, elementMetadata } = this;
-            const type = connectionInfo ? MenuType.CONNECTOR : MenuType.NODE;
+        const { conditionOptionsForNode, guid, connectionInfo, elementMetadata } = this;
+        const type = connectionInfo ? MenuType.CONNECTOR : MenuType.NODE;
 
-            if (sendEvent) {
-                this.dispatchEvent(
-                    new ToggleMenuEvent(
-                        Object.assign(
-                            {
-                                top,
-                                left,
-                                offsetX,
-                                type,
-                                guid: guid || connectionInfo.prev,
-                                elementMetadata,
-                                conditionOptionsForNode
-                            },
-                            connectionInfo
-                        )
-                    )
-                );
-            }
-        }
+        const detail = {
+            top,
+            left,
+            offsetX,
+            type,
+            guid: guid || connectionInfo.prev,
+            elementMetadata,
+            conditionOptionsForNode,
+            isPositionUpdate,
+            ...connectionInfo
+        };
+
+        const event = isPositionUpdate ? new MenuPositionUpdateEvent(detail) : new ToggleMenuEvent(detail);
+
+        this.dispatchEvent(event);
     }
 
     // const referenceElement = this.template.querySelector('button');

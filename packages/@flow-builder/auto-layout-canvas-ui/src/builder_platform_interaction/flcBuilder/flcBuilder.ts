@@ -73,6 +73,8 @@ function debounce(fct, wait) {
 }
 
 export default class FlcBuilder extends LightningElement {
+    _animatePromise: Promise<void> = Promise.resolve() as Promise<void>;
+
     /* if the builder has been disconnected */
     _isDisconnected = false;
 
@@ -277,6 +279,7 @@ export default class FlcBuilder extends LightningElement {
                     guid: startElementGuid,
                     elementMetadata: this._flowRenderContext.elementsMetadata[startElement.elementType]
                 });
+
                 this.openMenu(event, interactionState);
             }
         }
@@ -403,6 +406,36 @@ export default class FlcBuilder extends LightningElement {
         this.handleZoomAction(SYNTHETIC_ZOOM_TO_VIEW_EVENT, { top, left });
     }
 
+    handleMenuPositionUpdate(event) {
+        let menuInfo = this._flowRenderContext.interactionState.menuInfo!;
+
+        if (menuInfo.needToPosition) {
+            this._animatePromise.then(() => {
+                menuInfo = { ...menuInfo, needToPosition: false };
+
+                const interactionState = { ...this._flowRenderContext.interactionState, menuInfo };
+
+                const menuButtonHalfWidth =
+                    menuInfo.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+                const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
+
+                this.menu = Object.assign(
+                    getFlcMenuData(
+                        event,
+                        menuButtonHalfWidth,
+                        containerGeometry,
+                        this._scale,
+                        this._flowRenderContext,
+                        menuInfo.needToPosition
+                    ),
+                    { elementsMetadata: this._elementsMetadata }
+                );
+
+                this.updateFlowRenderContext({ interactionState });
+            });
+        }
+    }
+
     /**
      * Toggles the node or connector menu
      *
@@ -415,6 +448,10 @@ export default class FlcBuilder extends LightningElement {
 
         // return if a node doesn't support a menu
         if (isNodeMenu && !elementMetadata.supportsMenu) {
+            return;
+        }
+
+        if (event.detail.isPositionUpdate && this.menu != null && this.menu.style != null) {
             return;
         }
 
@@ -448,7 +485,14 @@ export default class FlcBuilder extends LightningElement {
         const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
 
         this.menu = Object.assign(
-            getFlcMenuData(event, menuButtonHalfWidth, containerGeometry, this._scale, this._flowRenderContext),
+            getFlcMenuData(
+                event,
+                menuButtonHalfWidth,
+                containerGeometry,
+                this._scale,
+                this._flowRenderContext,
+                interactionState.menuInfo!.needToPosition
+            ),
             { elementsMetadata: this._elementsMetadata }
         );
 
@@ -548,9 +592,14 @@ export default class FlcBuilder extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
         } else {
-            animate((progress) => this.renderFlow(progress)).then(
-                () => (this._flowRenderContext.interactionState.closingMenu = null)
-            );
+            const { menuInfo } = this._flowRenderContext.interactionState;
+
+            // 10ms animation when needToPosition
+            const duration = menuInfo != null && menuInfo.needToPosition ? 10 : undefined;
+
+            this._animatePromise = animate((progress) => this.renderFlow(progress), duration).then(() => {
+                this._flowRenderContext.interactionState.closingMenu = null;
+            });
         }
     };
 

@@ -606,16 +606,18 @@ function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elements
     return false;
 }
 
-export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale) {
+export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition) {
     let { left, top } = detail;
     const { x, y } = containerElementGeometry;
 
     left = left - x + detail.offsetX + menuButtonHalfWidth;
     top -= y;
-    return getStyleFromGeometry({
-        x: left * (1 / scale),
-        y: top * (1 / scale) + menuButtonHalfWidth
-    });
+    return needToPosition
+        ? 'opacity: 0'
+        : getStyleFromGeometry({
+              x: left * (1 / scale),
+              y: top * (1 / scale) + menuButtonHalfWidth
+          });
 }
 
 /**
@@ -630,7 +632,8 @@ function getFlcMenuData(
     menuButtonHalfWidth: number,
     containerElementGeometry: Geometry,
     scale: number,
-    context: FlowRenderContext
+    context: FlowRenderContext,
+    needToPosition = false
 ) {
     const detail = event.detail;
 
@@ -638,7 +641,7 @@ function getFlcMenuData(
 
     const { flowModel, elementsMetadata } = context;
 
-    const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale);
+    const style = getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition);
 
     const elementHasFault = guid ? flowModel[guid].fault : false;
     const targetGuid = childIndex != null ? getChild(flowModel[parent!], childIndex) : next;

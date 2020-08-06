@@ -26,6 +26,13 @@ import ConnectorType from './ConnectorTypeEnum';
 
 export const NO_OFFSET = 0;
 
+function getMenuNeedToPosition(key: NodeRef, context: FlowRenderContext): boolean {
+    const { interactionState } = context;
+    const { menuInfo } = interactionState;
+
+    return menuInfo != null && menuInfo.key === key && menuInfo.needToPosition;
+}
+
 /**
  * Returns the menu info for a node if its menu is opened
  *
@@ -214,9 +221,10 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
 
     const menuInfo = getMenuInfo(guid, context);
     const metadata = getElementMetadata(elementsMetadata, nodeModel.elementType);
+    const needToPosition = getMenuNeedToPosition(guid, context);
 
     height +=
-        menuInfo != null
+        menuInfo != null && !needToPosition
             ? getExtraHeightForMenu({
                   menuInfo,
 
@@ -381,16 +389,21 @@ function calculateBranchLayout(
     const metadata = getElementMetadata(elementsMetadata, parentNodeModel.elementType);
 
     if (menuInfo != null) {
-        height += getExtraHeightForMenu({
-            hasNext: branchHeadGuid != null,
-            menuInfo,
-            connectorType: nextNodeConnectorType,
-            connectorHeight: height,
-            layoutConfig,
-            connectorVariant: nextNodeConnectorVariant,
-            metadata,
-            joinOffsetY: 0
-        });
+        const menuKey = getBranchLayoutKey(parentNodeModel.guid, childIndex);
+        const needToPosition = getMenuNeedToPosition(menuKey, context);
+
+        height += needToPosition
+            ? 0
+            : getExtraHeightForMenu({
+                  hasNext: branchHeadGuid != null,
+                  menuInfo,
+                  connectorType: nextNodeConnectorType,
+                  connectorHeight: height,
+                  layoutConfig,
+                  connectorVariant: nextNodeConnectorVariant,
+                  metadata,
+                  joinOffsetY: 0
+              });
     }
 
     const faultLayouts = [];

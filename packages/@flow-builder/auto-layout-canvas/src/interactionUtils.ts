@@ -12,6 +12,7 @@ interface MenuEventDetail {
     parent: string;
     childIndex: number;
     type: MenuType;
+    isPositionUpdate?: boolean;
 }
 
 /**
@@ -43,16 +44,19 @@ function toggleFlowMenu(
     interactionState: FlowInteractionState
 ): FlowInteractionState {
     let menuInfo = interactionState.menuInfo;
+    const { parent, childIndex, type, guid, isPositionUpdate } = menuEventDetail;
+    const key = parent ? getBranchLayoutKey(parent, childIndex) : guid;
 
+    const isDifferentTarget = menuInfo != null && (menuInfo.key !== key || menuInfo.type !== type);
     const closingMenu = null;
 
-    if (!menuInfo) {
-        const { parent, childIndex, type, guid } = menuEventDetail;
-        const key = parent ? getBranchLayoutKey(parent, childIndex) : guid;
+    if (!menuInfo || isDifferentTarget || isPositionUpdate) {
+        const needToPosition = menuInfo != null && isDifferentTarget && !isPositionUpdate;
 
         menuInfo = {
             key,
-            type
+            type,
+            needToPosition
         };
     } else {
         return closeFlowMenu(interactionState);

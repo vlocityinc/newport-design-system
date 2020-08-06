@@ -25,4 +25,4 @@ function animate(callback: Function, duration: number = DURATION): Promise<void>
     });
 }
 
-export { animate };
+export { animate, DURATION };

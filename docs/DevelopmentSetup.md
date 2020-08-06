@@ -15,7 +15,7 @@ Note: If you haven't setup SSH Keys before you can look here: https://help.githu
 
 ```sh
 yarn --version && node --version
-> 1.22.4 
+> 1.22.4
 > v12.16.2
 ```
 

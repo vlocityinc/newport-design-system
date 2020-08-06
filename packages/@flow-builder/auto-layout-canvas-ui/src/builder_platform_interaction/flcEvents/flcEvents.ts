@@ -6,6 +6,7 @@ export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
 export { SelectMenuItemEvent } from './selectMenuItemEvent';
 export { ToggleMenuEvent } from './toggleMenuEvent';
 export { DeleteElementFaultEvent } from './deleteElementFaultEvent';
+export { MenuPositionUpdateEvent } from './menuPositionUpdateEvent';
 export { AddElementFaultEvent } from './addElementFaultEvent';
 export { PasteEvent } from './pasteEvent';
 export { CloseMenuEvent } from './closeMenuEvent';

@@ -46,6 +46,7 @@ export interface InteractionMenuInfo {
     key: Guid;
     type: MenuType;
     geometry?: Geometry;
+    needToPosition: boolean;
 }
 
 export interface FlowInteractionState {
