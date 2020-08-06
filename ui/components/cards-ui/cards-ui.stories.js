@@ -23,7 +23,7 @@ storiesOf(`${base}`, module)
             class="nds-tile nds-p-bottom--medium state-field"
           >
             <div class="nds-truncate">
-              <div class="vloc-min-height">
+              <div>
                 <div>
                   <span title="8281261518">8281261518</span>
                 </div>
@@ -35,7 +35,7 @@ storiesOf(`${base}`, module)
             class="nds-tile nds-p-bottom--medium state-field"
           >
             <div class="nds-truncate">
-              <div class="vloc-min-height">
+              <div>
                 <div>
                   <span title="BENGALURU">BENGALURU</span>
                 </div>
@@ -47,7 +47,7 @@ storiesOf(`${base}`, module)
             class="nds-tile nds-p-bottom--medium state-field"
           >
             <div class="nds-truncate">
-              <div class="vloc-min-height">
+              <div>
                 <div>
                   <span title="['Website']">['Website']</span>
                 </div>
