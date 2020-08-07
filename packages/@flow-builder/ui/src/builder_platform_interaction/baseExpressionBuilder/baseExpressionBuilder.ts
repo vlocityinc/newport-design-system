@@ -739,6 +739,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         event.stopPropagation();
         const { item, resetMenuDataAndDisplayText } = event.detail;
         const rhsCombobox = this._getRHSCombobox();
+        this.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD; // empty lhs qualifies as "not a field"
         if (rhsCombobox.pill && resetMenuDataAndDisplayText) {
             rhsCombobox.resetPill();
         }
