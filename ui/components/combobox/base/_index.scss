@@ -115,6 +115,28 @@
 }
 
 /**
+ * Display Flex
+ * @selector .display-flex
+ * @selector .display-flex .nds-listbox-item
+ * @selector .display-flex .nds-pill__label
+ * @modifier
+ */
+
+.display-flex {
+  display: flex;
+}
+
+.display-flex .nds-listbox-item {
+  overflow: hidden;
+}
+
+.display-flex .nds-pill__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/**
  * Choosable option within listbox
  *
  * @selector .nds-listbox__option
