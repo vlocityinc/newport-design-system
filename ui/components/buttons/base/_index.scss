@@ -81,7 +81,6 @@
   &:focus,
   &:active,
   &[disabled] {
-
     .nds-button__icon {
       fill: currentColor;
       pointer-events: none;
@@ -94,7 +93,7 @@
   }
   // Add spacing when another button is adjacent to it
   + .nds-button {
-    @include deprecate('4.0.0') {
+    @include deprecate("4.0.0") {
       margin-#{$left}: $spacing-xx-small;
     }
   }
@@ -130,7 +129,6 @@ a.nds-button--inverse:focus {
   border: 0;
   text-align: inherit;
 }
-
 
 /**
  * Creates the gray border with white background default style
@@ -195,7 +193,6 @@ a.nds-button--inverse:focus {
 .nds-button--inverse,
 .nds-button_icon-border-inverse,
 .nds-button--icon-border-inverse {
-
   &,
   &:link,
   &:visited {
@@ -273,7 +270,7 @@ a.nds-button--inverse:focus {
  * @deprecated
  */
 .nds-button-space-left {
-  @include deprecate('4.0.0', 'Use spacing utilities instead') {
+  @include deprecate("4.0.0", "Use spacing utilities instead") {
     margin-#{$left}: $spacing-xx-small;
   }
 }
@@ -292,10 +289,8 @@ a.nds-button--inverse:focus {
 }
 
 .nds-hint-parent {
-
   &:hover,
   &:focus {
-
     .nds-button--hint {
       color: $color-text-button-default;
     }
@@ -317,7 +312,8 @@ a.nds-button--inverse:focus {
    * @restrict .nds-button__icon
    */
   &_large,
-  &--large { // Usually used for the large close button
+  &--large {
+    // Usually used for the large close button
     @include square($square-icon-utility-large);
   }
 
@@ -374,5 +370,18 @@ svg.nds-button__icon {
  * @group size
  */
 .nds-button_stretch {
-    width: 100%;
+  width: 100%;
+}
+
+.nds-button[disabled] {
+  * {
+    pointer-events: none;
+  }
+}
+.nds-button {
+  &:disabled {
+    * {
+      pointer-events: none;
+    }
+  }
 }
