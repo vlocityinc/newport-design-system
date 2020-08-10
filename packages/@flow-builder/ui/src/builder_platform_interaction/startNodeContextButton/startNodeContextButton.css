@@ -33,21 +33,9 @@
     color: var(--lwc-colorTextIconDefault);
 }
 
-.object-label-size {
-    width: 18%;
-}
-
-.selected-object-label-size {
-    width: 67.5%;
-}
-
 .text-labels-bold {
     font-weight: var(--lwc-fontWeightBold);
     font-size: var(--lwc-fontSize3);
-}
-
-.edit-size {
-    width: 14.5%;
 }
 
 .edit {

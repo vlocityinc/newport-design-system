@@ -3,37 +3,9 @@
     font-size: var(--lwc-fontSize3);
 }
 
-.trigger-label-size {
-    width: 18%;
-}
-
-.flow-starts-size {
-    width: 27.5%;
-}
-
-.platform-event-size {
-    width: 15.5%;
-}
-
-.selected-platform-event-size {
-    width: 70%;
-}
-
-.selected-trigger-label-size {
-    width: 67.5%;
-}
-
-.selected-flow-starts-size {
-    width: 58%;
-}
-
 .edit {
     float: right;
     color: var(--lwc-brandAccessible, rgb(0, 112, 210));
-}
-
-.edit-size {
-    width: 14.5%;
 }
 
 .unset-start-button {

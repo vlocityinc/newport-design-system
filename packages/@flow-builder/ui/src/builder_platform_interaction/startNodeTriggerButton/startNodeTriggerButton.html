@@ -16,17 +16,19 @@
         <!--CONFIGURED TRIGGER/SCHEDULE-->
         <div if:true={isSetTrigger} class={startButtonClasses}>
             <div class="slds-grid">
-                <div class={triggerSize}>
-                    <span> {triggerLabel} </span>
-                </div>
-                <div class={selectedTriggerSize}>
-                    <span class="text-labels-bold" title={selectedTriggerLabel}>{selectedTriggerLabel}</span>
-                </div>
-                <div class="edit-size">
-                    <span class="edit">{editLabel}</span>
-                </div>
+                <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedTriggerLabel}>
+                    <span class="slds-m-right_xxx-small"> {triggerLabel} </span>
+                    <span class="text-labels-bold">{selectedTriggerLabel}</span>
+                </span>
+                <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                    <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
+                </span>
             </div>
-            <div if:false={isPlatformEvent} class="slds-m-top_xx-small test-run-flow">
+            <div
+                if:false={isPlatformEvent}
+                class="slds-m-top_xx-small slds-truncate test-run-flow"
+                title={selectedRunFlowLabel}
+            >
                 <span class="slds-m-right_xx-small">{runFlowLabel}</span
                 ><span class="text-labels-bold">{selectedRunFlowLabel}</span>
             </div>

@@ -16,17 +16,15 @@
         <!--CONFIGURED CONTEXT-->
         <div if:true={isContextSet} class={startButtonClasses}>
             <div class="slds-grid">
-                <div class="object-label-size">
-                    <span> {objectLabel} </span>
-                </div>
-                <div class="selected-object-label-size slds-truncate">
-                    <span class="text-labels-bold" title={selectedObject}>{selectedObject}</span>
-                </div>
-                <div class="edit-size">
-                    <span class="edit">{editLabel}</span>
-                </div>
+                <span class="slds-col slds-size_10-of-12 slds-truncate" title={selectedObject}>
+                    <span class="slds-m-right_xxx-small test-object-label"> {objectLabel} </span>
+                    <span class="text-labels-bold test-selected-object">{selectedObject}</span>
+                </span>
+                <span class="slds-col slds-size_2-of-12 slds-m-left_xxx-small">
+                    <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
+                </span>
             </div>
-            <div if:true={isConditions} class="test-conditions slds-m-top_xx-small">
+            <div if:true={isConditions} class="test-conditions slds-truncate slds-m-top_xx-small">
                 <span class="slds-m-right_xx-small">{recordConditionsLabel}</span
                 ><span class="text-labels-bold">{conditionsAppliedLabel}</span>
             </div>

@@ -55,9 +55,9 @@ const selectors = {
     startContext: '.start-context',
     contextButtonText: '.start-context span',
     contextButtonOptionlText: '.start-context .optional',
-    objectLabel: '.object-label-size',
-    selectedObject: '.selected-object-label-size',
-    editLabel: '.edit-size',
+    objectLabel: '.test-object-label',
+    selectedObject: '.test-selected-object',
+    editLabel: '.edit',
     recordConditions: '.test-conditions'
 };
 const runQuerySelector = (context, selector) => {
@@ -137,7 +137,7 @@ describe('When flow trigger Type is BEFORE_SAVE', () => {
     });
     it('Checks if non configured before record changed context button rendered text correctly', () => {
         expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonText).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject '
+            ' FlowBuilderCanvasElement.startElementObject Account'
         );
         expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
     });
@@ -169,7 +169,7 @@ describe('When flow trigger Type is BEFORE_DELETE', () => {
     });
     it('Checks if non configured before delete record changed context button rendered text correctly', () => {
         expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonText).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject '
+            ' FlowBuilderCanvasElement.startElementObject Account'
         );
         expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
     });
@@ -193,7 +193,7 @@ describe('When flow trigger Type is AFTER_SAVE', () => {
     });
     it('Checks if non configured after record changed context button rendered text correctly', () => {
         expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonText).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject '
+            ' FlowBuilderCanvasElement.startElementObject Account'
         );
         expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
     });

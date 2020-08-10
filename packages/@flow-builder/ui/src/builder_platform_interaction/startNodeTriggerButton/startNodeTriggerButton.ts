@@ -94,24 +94,8 @@ export default class startNodeTriggerButton extends LightningElement {
             : LABELS.startElementFlowStarts;
     }
 
-    get triggerSize() {
-        return isRecordChangeTriggerType(this.node.triggerType)
-            ? 'trigger-label-size'
-            : this.node.triggerType === PLATFORM_EVENT
-            ? 'platform-event-size'
-            : 'flow-starts-size';
-    }
-
     get isPlatformEvent() {
         return this.node.triggerType === PLATFORM_EVENT;
-    }
-
-    get selectedTriggerSize() {
-        return isRecordChangeTriggerType(this.node.triggerType)
-            ? 'selected-trigger-label-size slds-truncate'
-            : this.node.triggerType === PLATFORM_EVENT
-            ? 'selected-platform-event-size slds-truncate'
-            : 'selected-flow-starts-size slds-truncate';
     }
 
     get runFlowLabel() {
