@@ -12,10 +12,10 @@ function genTsConfig(packageDir) {
 
     const paths = fs
         .readdirSync(lwcModuleDir, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
+        .filter((dirent) => dirent.isDirectory())
         .map(
-            dirent =>
-                `            "builder_platform_interaction/${dirent.name}": ["./builder_platform_interaction/${dirent.name}/${dirent.name}.ts"]`
+            (dirent) =>
+                `            "builder_platform_interaction/${dirent.name}": ["./src/builder_platform_interaction/${dirent.name}/${dirent.name}.ts"]`
         )
         .join(',\n');
 
@@ -27,16 +27,16 @@ function genTsConfig(packageDir) {
         "declaration": false,
         "noUnusedLocals": false,
         "noImplicitAny": false,
-        "outDir": "./build/builder_platform_interaction",
-        "baseUrl": "./src",
+        "outDir": "./build",
+        "baseUrl": ".",
          "paths": {
-            "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
-            "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
+            "lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
+            "builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
             ${paths}
          }
     },
 
-    "include": ["src/**/*", "@types/index.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types/index.d.ts"]
 }`
     );
 }

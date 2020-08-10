@@ -25,7 +25,7 @@ import {
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { StoreReducer } from 'builder_platform_interaction/storeLib/store';
+import type { StoreReducer } from 'builder_platform_interaction/storeLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
