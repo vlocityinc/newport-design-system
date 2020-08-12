@@ -19,11 +19,12 @@ import {
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug, isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 
+const { logInteraction } = loggingUtils;
 /**
  * Toolbar component for flow builder.
  *s

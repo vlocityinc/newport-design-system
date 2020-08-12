@@ -22,11 +22,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/loggingUtils', () => ({
-    logInteraction: jest.fn(),
-    logPerfTransactionStart: jest.fn(),
-    logPerfTransactionEnd: jest.fn()
-}));
+jest.mock('@flow-builder/common-utils');
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

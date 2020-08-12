@@ -32,6 +32,9 @@ function genTsConfig(packageDir) {
          "paths": {
             "lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
+            "@flow-builder/common-utils": [
+                "../common-utils/dist/types/index.d.js"
+            ],
             ${paths}
          }
     },

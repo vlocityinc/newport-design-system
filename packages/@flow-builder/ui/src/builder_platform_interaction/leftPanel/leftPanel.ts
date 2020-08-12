@@ -9,7 +9,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import { LABELS } from './leftPanelLabels';
 import { getResourceSections, getElementSections, getResourceIconName } from './resourceLib';
 import { usedBy, createUsedByElement } from 'builder_platform_interaction/usedByLib';
@@ -22,6 +22,8 @@ import { removeLastCreatedInlineResource } from 'builder_platform_interaction/ac
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DELETE_ALL } from 'builder_platform_interaction/autoLayoutCanvas';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+
+const { logInteraction } = loggingUtils;
 
 let storeInstance;
 let unsubscribeStore;

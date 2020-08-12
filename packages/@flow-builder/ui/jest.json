@@ -22,6 +22,7 @@
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^serverData/(.+)/(.+)$": "<rootDir>/jest-mock-data/results/FlowBuilderControllerGoldFileTest/test$1Serialization/$2",
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
+        "^@flow-builder/common-utils$": "<rootDir>/../common-utils/dist/index.dev.js",
         "^builder_platform_interaction/flcBuilder$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/flcBuilder/flcBuilder.ts",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
         "^(builder_framework)/(.+)$": "<rootDir>/jest-modules/$1/$2/$2",

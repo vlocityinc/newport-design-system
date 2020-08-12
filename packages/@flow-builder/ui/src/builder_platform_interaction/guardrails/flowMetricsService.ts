@@ -1,12 +1,15 @@
 // @ts-nocheck
-import {
+
+import { loggingUtils } from '@flow-builder/common-utils';
+
+const {
     logPerfTransactionStart,
     logPerfTransactionEnd,
     logPerfMarkStart,
     logPerfMarkEnd,
     logPerfMark,
     logMetricsServiceErrorTransaction
-} from 'builder_platform_interaction/loggingUtils';
+} = loggingUtils;
 
 /**
  * Wrapper for instrumentation service for guardrails logging.

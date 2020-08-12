@@ -1,0 +1,30 @@
+{
+    "name": "@flow-builder/common-utils",
+    "version": "0.0.1",
+    "description": "Flow Builder Common Utils",
+    "main": "dist/index.js",
+    "typings": "dist/types/index.d.ts",
+    "author": "",
+    "license": "MIT",
+    "npm2lwc": {
+        "deployToCore": true,
+        "namespace": "builder_platform_interaction"
+    },
+    "scripts": {
+        "clean": "rm -rf dist/ build/",
+        "build:ts": "tsc",
+        "build:target:lwc": "rollup -c ../../../scripts/rollup/rollup-esNext.config.js",
+        "build:target:npm": "rollup -c ../../../scripts/rollup/rollup-npm.config.js",
+        "build:dev": "yarn build:ts && yarn build:target:lwc",
+        "build": "yarn build:dev && yarn build:target:npm",
+        "watch": "watch -p 'src/**/*.ts' -c 'yarn build:dev'",
+        "lint": "eslint --max-warnings 0 src/**/*.ts",
+        "test": "jest src/**/*.test.js",
+        "test:update-snapshots": "yarn test -u"
+    },
+    "devDependencies": {
+        "magic-string": "^0.22.4",
+        "source-map": "^0.7.3",
+        "watch-cli": "^0.2.3"
+    }
+}

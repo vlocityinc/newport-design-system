@@ -11,6 +11,9 @@
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/events": ["../../ui/src/builder_platform_interaction/events/events.ts"],
             "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
+            "@flow-builder/common-utils": [
+                "../../common-utils/dist/types/index.d.js"
+            ],
             "builder_platform_interaction/flcBuilder": ["./builder_platform_interaction/flcBuilder/flcBuilder.ts"],
             "builder_platform_interaction/flcButtonMenu": ["./builder_platform_interaction/flcButtonMenu/flcButtonMenu.ts"],
             "builder_platform_interaction/flcComponentsUtils": ["./builder_platform_interaction/flcComponentsUtils/flcComponentsUtils.ts"],

@@ -32,8 +32,10 @@ import {
 
 import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+
+const { logInteraction } = loggingUtils;
 
 export default class InvocableActionEditor extends LightningElement {
     connected = false;

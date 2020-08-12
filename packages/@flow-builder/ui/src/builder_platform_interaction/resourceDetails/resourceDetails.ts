@@ -1,10 +1,12 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction/events';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
 import { LABELS } from './resourceDetailsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
+const { logInteraction } = loggingUtils;
 
 export default class ResourceDetails extends LightningElement {
     @api

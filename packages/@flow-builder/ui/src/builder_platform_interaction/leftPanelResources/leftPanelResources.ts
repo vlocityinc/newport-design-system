@@ -1,11 +1,11 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './leftPanelResourcesLabels';
-import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
 
 const leftPanelResources = 'LEFT_PANEL_RESOURCES';
-
+const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 export default class LeftPanelResources extends LightningElement {
     @api
     canvasElements = [];

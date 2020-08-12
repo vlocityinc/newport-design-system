@@ -2,7 +2,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { RowContentsChangedEvent } from 'builder_platform_interaction/events';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getStoreElements,
@@ -34,6 +34,8 @@ import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+
+const { logInteraction } = loggingUtils;
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;

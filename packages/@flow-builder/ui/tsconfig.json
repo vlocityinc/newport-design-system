@@ -9,6 +9,9 @@
          "paths": {
             "lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
+            "@flow-builder/common-utils": [
+                "../common-utils/dist/types/index.d.js"
+            ],
                         "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
             "builder_platform_interaction/apexPluginEditor": ["./src/builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"],
@@ -98,7 +101,6 @@
             "builder_platform_interaction/leftPanelElements": ["./src/builder_platform_interaction/leftPanelElements/leftPanelElements.ts"],
             "builder_platform_interaction/leftPanelResources": ["./src/builder_platform_interaction/leftPanelResources/leftPanelResources.ts"],
             "builder_platform_interaction/list": ["./src/builder_platform_interaction/list/list.ts"],
-            "builder_platform_interaction/loggingUtils": ["./src/builder_platform_interaction/loggingUtils/loggingUtils.ts"],
             "builder_platform_interaction/loopEditor": ["./src/builder_platform_interaction/loopEditor/loopEditor.ts"],
             "builder_platform_interaction/marqueeSelectionBox": ["./src/builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"],
             "builder_platform_interaction/mergeFieldLib": ["./src/builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"],

@@ -25,7 +25,7 @@ import {
     ZOOM_ACTION,
     MARQUEE_ACTION
 } from 'builder_platform_interaction/events';
-import { logPerfMarkStart, logPerfMarkEnd, logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from '@flow-builder/common-utils';
 import {
     ZoomInCommand,
     ZoomOutCommand,
@@ -36,6 +36,7 @@ import {
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
+const { logPerfMarkStart, logPerfMarkEnd, logInteraction } = loggingUtils;
 /**
  * Canvas component for flow builder.
  *
