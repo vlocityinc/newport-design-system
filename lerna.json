@@ -1,11 +1,6 @@
 {
-  "command": {
-    "publish": {
-      "forcePublish": "*"
-    }
-  },
-  "exact": true,
-  "npmClient": "yarn",
-  "useWorkspaces": true,
-  "version": "0.0.1"
+    "exact": true,
+    "npmClient": "yarn",
+    "useWorkspaces": true,
+    "version": "0.0.1"
 }
