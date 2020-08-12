@@ -3,9 +3,6 @@
     "version": "1.0.0",
     "description": "Builders and Components",
     "private": true,
-    "publishConfig": {
-        "registry": "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/"
-    },
     "config": {
         "auraVersion": "0.6000.2725",
         "lwcVersion": "1.7.0",
