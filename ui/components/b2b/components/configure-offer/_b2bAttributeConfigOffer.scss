@@ -124,6 +124,9 @@
       .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label, .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty~.nds-form-element__label {
         top: 0rem;
       }
+      .nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
+        padding-left: 0.75rem;
+      }
       .nds-b2b-configure-text {
         font-size: 1rem;
         letter-spacing: 0.01rem;
@@ -145,6 +148,10 @@
           letter-spacing: 0.2px;
         }
       }
+    }
+
+    .nds-b2b-attribute-config-offer_radio {
+      min-width: 23rem;
     }
   }
   .nds-b2b-attribute-category-name {
