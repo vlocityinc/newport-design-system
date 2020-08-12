@@ -9,6 +9,9 @@
 .nds-b2b-error-message {
   padding: 0.7rem 0 0.7rem 1rem;
   background: $varden;
+  &.nds-b2b-root-message {
+    margin: 0.5rem 6vw 0 6vw;
+  }
 }
 
 .b2b-config-offer {
