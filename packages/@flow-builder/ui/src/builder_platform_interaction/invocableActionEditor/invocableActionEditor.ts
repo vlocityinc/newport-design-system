@@ -34,6 +34,7 @@ import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_in
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
 import { loggingUtils } from '@flow-builder/common-utils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
 
 const { logInteraction } = loggingUtils;
 
@@ -359,6 +360,22 @@ export default class InvocableActionEditor extends LightningElement {
                 apexPluginCalls,
                 actionCalls
             };
+        }
+        return {};
+    }
+
+    /**
+     * Returns the automatic output variables in the flow.
+     */
+    get automaticOutputVariables() {
+        if (this._shouldCreateConfigurationEditor()) {
+            const flowElements = Store.getStore().getCurrentState().elements;
+            const outputVariables = Object.values(flowElements)
+                .filter(({ storeOutputAutomatically }) => !!storeOutputAutomatically)
+                .map((element) => ({
+                    [element.name]: getAutomaticOutputParameters(element) || []
+                }));
+            return Object.assign({}, ...outputVariables);
         }
         return {};
     }

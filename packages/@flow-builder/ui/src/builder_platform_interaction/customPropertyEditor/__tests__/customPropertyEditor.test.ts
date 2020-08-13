@@ -40,6 +40,15 @@ const mockBuilderContext = {
     variables: []
 };
 
+const mockAutomaticOutputVariables = {
+    phone: [
+        {
+            apiName: 'label',
+            dataType: 'string'
+        }
+    ]
+};
+
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-custom-property-editor', { is: CustomPropertyEditor });
     Object.assign(el, props);
@@ -75,6 +84,13 @@ describe('Custom Property Editor', () => {
         cpe.builderContext = proxy;
 
         expect(cpe.builderContext).toMatchObject(mockBuilderContext);
+    });
+    it('gets the correct automatic output variables from the proxy ', () => {
+        const cpe = createComponentForTest();
+        const proxy = new Proxy(mockAutomaticOutputVariables, {});
+        cpe.automaticOutputVariables = proxy;
+
+        expect(cpe.automaticOutputVariables).toMatchObject(mockAutomaticOutputVariables);
     });
     it('creates the config editor when there is data and a configuration editor ', async () => {
         const cpe = createComponentForTest({

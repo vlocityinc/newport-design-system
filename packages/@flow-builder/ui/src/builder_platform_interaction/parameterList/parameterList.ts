@@ -82,6 +82,12 @@ export default class ParameterList extends LightningElement {
     @api
     configurationEditorTypeMappings;
 
+    /*
+     * Object of automatic output variables in flow
+     */
+    @api
+    automaticOutputVariables;
+
     /**
      * List of input ParameterItem
      *

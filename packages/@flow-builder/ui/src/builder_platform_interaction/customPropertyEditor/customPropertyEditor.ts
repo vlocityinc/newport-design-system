@@ -16,6 +16,7 @@ export default class CustomPropertyEditor extends LightningElement {
     _elementInfo = {};
     _builderContext = {};
     _inputVariables = [];
+    _automaticOutputVariables = {};
     _genericTypeMappings = [];
     _unrenderFn;
     _createComponentErrors = [];
@@ -59,6 +60,15 @@ export default class CustomPropertyEditor extends LightningElement {
 
     get builderContext() {
         return this._builderContext;
+    }
+
+    @api
+    set automaticOutputVariables(variables) {
+        this._automaticOutputVariables = variables;
+    }
+
+    get automaticOutputVariables() {
+        return this._automaticOutputVariables;
     }
 
     @api
@@ -212,7 +222,8 @@ export default class CustomPropertyEditor extends LightningElement {
                 elementInfo: this.elementInfo,
                 builderContext: this.builderContext,
                 inputVariables: this.configurationEditorInputVariables,
-                genericTypeMappings: this.configurationEditorTypeMappings
+                genericTypeMappings: this.configurationEditorTypeMappings,
+                automaticOutputVariables: this.automaticOutputVariables
             }
         };
         this._unrenderFn = createConfigurationEditor(params);

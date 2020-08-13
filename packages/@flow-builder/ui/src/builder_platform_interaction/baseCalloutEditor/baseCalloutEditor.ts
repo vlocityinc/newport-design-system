@@ -143,6 +143,9 @@ export default class BaseCalloutEditor extends LightningElement {
     configurationEditorInputVariables;
 
     @api
+    automaticOutputVariables;
+
+    @api
     validate() {
         if (this.configurationEditor) {
             const parameterList = this.template.querySelector('builder_platform_interaction-parameter-list');
