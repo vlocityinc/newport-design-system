@@ -158,7 +158,7 @@ export function describeExtension(
 }
 
 /**
- * Returns the description of all the provided extensions form the cache or null if any of the can't be found
+ * Returns the description of all the provided extensions from the cache or null if any of them can't be found
  * @param {string} names - The extension names
  * @returns {ExtensionDescriptor[]} - The description of the extensions
  */
