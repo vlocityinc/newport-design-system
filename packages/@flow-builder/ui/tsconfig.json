@@ -101,6 +101,7 @@
             "builder_platform_interaction/leftPanelElements": ["./src/builder_platform_interaction/leftPanelElements/leftPanelElements.ts"],
             "builder_platform_interaction/leftPanelResources": ["./src/builder_platform_interaction/leftPanelResources/leftPanelResources.ts"],
             "builder_platform_interaction/list": ["./src/builder_platform_interaction/list/list.ts"],
+            "builder_platform_interaction/loggingUtils": ["./src/builder_platform_interaction/loggingUtils/loggingUtils.ts"],
             "builder_platform_interaction/loopEditor": ["./src/builder_platform_interaction/loopEditor/loopEditor.ts"],
             "builder_platform_interaction/marqueeSelectionBox": ["./src/builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"],
             "builder_platform_interaction/mergeFieldLib": ["./src/builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"],
