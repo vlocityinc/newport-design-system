@@ -16,6 +16,12 @@
   appearance: none;
   position: relative;
 
+
+  &_xx-small,
+  &--xx-small {
+    height: 1px;
+  }
+
   /**
    * @summary Creates a progress bar height at the smaller .125rem (2px) size
    *
