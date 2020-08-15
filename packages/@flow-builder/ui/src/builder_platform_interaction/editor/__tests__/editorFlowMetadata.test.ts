@@ -51,7 +51,13 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
-jest.mock('@flow-builder/common-utils');
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    setAppName: jest.fn(),
+    logPerfMarkStart: jest.fn(),
+    logPerfTransactionStart: jest.fn(),
+    logPerfTransactionEnd: jest.fn(),
+    logPerfMarkEnd: jest.fn()
+}));
 
 jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
     require('builder_platform_interaction_mocks/keyboardInteractionUtils')

@@ -3,12 +3,10 @@ import { LightningElement, api, track } from 'lwc';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { isUniqueDevNameInStore } from 'builder_platform_interaction/validationRules';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
-import { loggingUtils } from '@flow-builder/common-utils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './labelDescriptionLabels';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-
-const { logInteraction } = loggingUtils;
 
 const SELECTORS = {
     LABEL: '.label',

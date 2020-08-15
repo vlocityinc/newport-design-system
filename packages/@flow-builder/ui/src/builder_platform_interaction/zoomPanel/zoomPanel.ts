@@ -1,9 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
-import { loggingUtils } from '@flow-builder/common-utils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './zoomPanelLabels';
-
-const { logInteraction } = loggingUtils;
 
 /**
  * Zoom Panel component for flow builder.

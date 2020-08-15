@@ -8,9 +8,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
-import { loggingUtils } from '@flow-builder/common-utils';
-
-const { logInteraction } = loggingUtils;
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
 let storeInstance;
 

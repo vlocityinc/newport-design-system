@@ -24,9 +24,5 @@
             "src"
         ]
     },
-    "devDependencies": {},
-    "dependencies": {
-        "@flow-builder/auto-layout-canvas": "0.0.1",
-        "@flow-builder/common-utils": "0.0.1"
-    }
+    "devDependencies": {}
 }

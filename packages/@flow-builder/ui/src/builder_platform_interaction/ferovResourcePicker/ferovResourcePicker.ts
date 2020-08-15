@@ -8,11 +8,9 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
-import { loggingUtils } from '@flow-builder/common-utils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
-
-const { logInteraction } = loggingUtils;
 
 let storeInstance;
 

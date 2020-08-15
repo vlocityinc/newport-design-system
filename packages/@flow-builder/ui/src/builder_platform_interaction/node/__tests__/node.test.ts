@@ -61,7 +61,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => ({
     getProcessType: jest.fn()
 }));
 
-jest.mock('@flow-builder/common-utils');
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
 
 const dblClick = (component) => {
     const doubleClickEvent = new Event('dblclick', {

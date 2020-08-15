@@ -1,10 +1,8 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LocatorIconClickedEvent } from 'builder_platform_interaction/events';
-import { loggingUtils } from '@flow-builder/common-utils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './usedByContentItemLabels';
-
-const { logInteraction } = loggingUtils;
 
 export default class UsedByContentItem extends LightningElement {
     @api

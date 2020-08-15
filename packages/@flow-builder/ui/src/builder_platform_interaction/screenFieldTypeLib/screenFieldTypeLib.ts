@@ -1,10 +1,9 @@
-import { loggingUtils } from '@flow-builder/common-utils';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { SERVER_ACTION_TYPE, fetchOnce } from 'builder_platform_interaction/serverDataLib';
 import { orgHasFlowScreenSections } from 'builder_platform_interaction/contextLib';
 import { getSectionFieldType } from 'builder_platform_interaction/screenEditorUtils';
 
 const SCREEN_FIELD_TYPES = 'SCREEN_FIELD_TYPES';
-const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 
 /**
  * Get the supported screen field types

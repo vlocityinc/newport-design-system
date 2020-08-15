@@ -18,7 +18,9 @@ jest.mock('builder_platform_interaction/storeUtils');
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-jest.mock('@flow-builder/common-utils');
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
 
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     return {
