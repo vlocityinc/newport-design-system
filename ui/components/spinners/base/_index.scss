@@ -16,6 +16,12 @@
   background-color: #fff;
 }
 
+.nds-spinner_container.nds-spinner_container_overlay {
+  position: fixed;
+  background-color: $color-background-temp-modal-tint-alt; // white transparent overlay
+  z-index: $z-index-toast; // z-index = 10000
+}
+
 /* Follow production class names (not starting with nds-) */
 /* stylelint-disable selector-class-pattern */
 .nds-spinner_container.is-hidden {
