@@ -26,6 +26,10 @@ export default class ActionSelector extends LightningElement {
 
     elementTypeToLabelMap = {
         [ELEMENT_TYPE.ACTION_CALL]: this.labels.actionSearchInputLabel,
+        [ELEMENT_TYPE.EXTERNAL_SERVICE]: this.labels.actionSearchInputLabel,
+        [ELEMENT_TYPE.APEX_CALL]: this.labels.actionSearchInputLabel,
+        [ELEMENT_TYPE.APEX_PLUGIN_CALL]: this.labels.actionSearchInputLabel,
+        [ELEMENT_TYPE.EMAIL_ALERT]: this.labels.actionSearchInputLabel,
         [ELEMENT_TYPE.SUBFLOW]: this.labels.flowSearchInputLabel
     };
 
