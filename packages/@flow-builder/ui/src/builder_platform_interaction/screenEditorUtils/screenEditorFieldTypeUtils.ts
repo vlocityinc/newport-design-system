@@ -151,7 +151,7 @@ const screenFieldTypes: ScreenFieldType[] = [
         name: 'Section',
         fieldType: 'RegionContainer',
         label: LABELS.fieldTypeLabelSection,
-        icon: 'standard:display_text',
+        icon: 'standard:section',
         category: LABELS.fieldCategoryDisplay,
         description: LABELS.fieldTypeDescriptionSection
     }
