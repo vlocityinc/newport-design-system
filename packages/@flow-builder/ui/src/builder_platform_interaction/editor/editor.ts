@@ -1221,7 +1221,7 @@ export default class Editor extends LightningElement {
         if (this.properties.hasUnsavedChanges) {
             invokeModal({
                 headerData: {
-                    headerTitle: LABELS.unsavedChangesHeaderTitle
+                    headerTitle: LABELS.newDebugUnsavedChangesHeaderTitle
                 },
                 bodyData: {
                     bodyTextOne: LABELS.newDebugUnsavedChangesBodyTextLabel,

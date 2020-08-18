@@ -343,7 +343,7 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const newDebugFlowEvent = new NewDebugFlowEvent();
         this.dispatchEvent(newDebugFlowEvent);
-        logInteraction(`debug-button`, 'toolbar', null, 'click');
+        logInteraction(`new-debug-button`, 'toolbar', null, 'click');
     }
 
     /**

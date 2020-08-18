@@ -6,6 +6,7 @@ import backButtonRedirectConfirmationTitle from '@salesforce/label/FlowBuilderAl
 import backButtonRedirectConfirmationMessage from '@salesforce/label/FlowBuilderAlertModal.backButtonRedirectConfirmationMessage';
 import unsavedChangesHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.unsavedChangesHeaderTitle';
 import unsavedChangesBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.unsavedChangesBodyTextLabel';
+import newDebugUnsavedChangesHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.newDebugUnsavedChangesHeaderTitle';
 import newDebugUnsavedChangesBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.newDebugUnsavedChangesBodyTextLabel';
 import cancelButtonLabel from '@salesforce/label/FlowBuilderAlertModal.cancelButtonLabel';
 import goToAutolayoutButtonLabel from '@salesforce/label/FlowBuilderAlertModal.goToAutolayoutButtonLabel';
@@ -26,6 +27,7 @@ export const LABELS = {
     cancelButtonLabel,
     continueToDebugTitle,
     unsavedChangesBodyTextLabel,
+    newDebugUnsavedChangesHeaderTitle,
     newDebugUnsavedChangesBodyTextLabel,
     goToAutolayoutButtonLabel,
     unsupportedFeaturesHeaderTitle,
