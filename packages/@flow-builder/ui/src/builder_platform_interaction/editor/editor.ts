@@ -941,7 +941,7 @@ export default class Editor extends LightningElement {
                 arguments: JSON.stringify(debugOptions.inputs),
                 enabledTrace: true,
                 enableRollbackMode: !!debugOptions.enableRollback,
-                useLatestSubflow: !!debugOptions.runLatestVersion,
+                useLatestSubflow: true,
                 showGovernorlimit: !!debugOptions.governorLimits,
                 debugAsUserId: debugOptions.debugAsUserId
             }

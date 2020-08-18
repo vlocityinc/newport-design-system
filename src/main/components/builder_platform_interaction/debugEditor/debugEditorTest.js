@@ -1,3 +1,4 @@
+/* eslint-disable */
 ({
     mocks: [
         {
@@ -40,29 +41,22 @@
     /** Test Cases **/
     testDefaultOptions: {
         test: function (cmp) {
-            $A.test.assertTrue(
-                cmp.find('isRunLatestVersionBox').get('v.checked'),
-                'RunLatestVersion is checked by default'
-            );
-            $A.test.assertTrue(cmp.find('isShowDebugInfoBox').get('v.checked'), 'ShowDebugInfo is checked by default');
             $A.test.assertFalse(
                 cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
-                'DebugAsUser is not checked by default'
+                'DebugAsUser should not be checked by default'
             );
             $A.test.assertFalse(
                 cmp.find('isEnableRollbackModeBox').get('v.checked'),
-                'EnableRollbackMode is not checked by default'
+                'EnableRollbackMode should not be checked by default'
             );
             $A.test.assertFalse(
                 cmp.find('isGovernorLimitsBox').get('v.checked'),
-                'GovernorLimits is not checked by default'
+                'GovernorLimits should not be checked by default'
             );
             this.assertObjectEquals(
                 cmp.getDebugInput(),
                 {
                     inputs: [],
-                    runLatestVersion: true,
-                    showDebugInfo: true,
                     runAs: false,
                     debugAsUserId: null,
                     enableRollback: false,
@@ -76,8 +70,6 @@
 
     testToggleCheckboxes: {
         test: function (cmp) {
-            cmp.find('isRunLatestVersionBox').set('v.checked', false);
-            cmp.find('isShowDebugInfoBox').set('v.checked', false);
             cmp.find('isDebugAsUserAllowedBox').set('v.checked', true);
             cmp.find('isEnableRollbackModeBox').set('v.checked', true);
             cmp.find('isGovernorLimitsBox').set('v.checked', true);
@@ -85,8 +77,6 @@
                 cmp.getDebugInput(),
                 {
                     inputs: [],
-                    runLatestVersion: false,
-                    showDebugInfo: false,
                     runAs: true,
                     debugAsUserId: null,
                     enableRollback: true,
@@ -285,7 +275,7 @@
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 10, "Input variables don't show up");
                     // inputs[0] is aura$expression by default, so inputs.length = 10 means 9 input variables created correctly
-                    $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs should return true');
                     $A.test.assertNotNull(cmp.find('inputValuesInfo'), 'Text for input variables does not show up.');
                     $A.test.assertUndefined(cmp.find('inputValuesNone'), 'Text for no input variables show up.');
                 }
@@ -332,7 +322,7 @@
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 1, 'Output-only variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means no output-only variable cmp created
-                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs should return false for only output vars');
                     $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
                     $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
                 }
@@ -380,7 +370,7 @@
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 1, 'Apex-defined variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means no apex-defined variable cmp created
-                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs should return false for apex input vars');
                     $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
                     $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
                 }
@@ -427,7 +417,10 @@
                     var inputs = cmp.find('flowInput').get('v.body');
                     $A.test.assertTrue(inputs.length === 1, 'collection variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means no collection variable cmp created
-                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertFalse(
+                        cmp.get('v.hasInputs'),
+                        'hasInputs should return false for collection input vars'
+                    );
                     $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
                     $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
                 }

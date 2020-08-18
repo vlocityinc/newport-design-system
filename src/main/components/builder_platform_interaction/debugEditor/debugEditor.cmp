@@ -27,14 +27,6 @@
         </div>
         
         <lightning:input class="slds-p-bottom_small" type="checkbox" 
-                aura:id="isRunLatestVersionBox" label="{!$Label.FlowDebug.UseLatest}" 
-                checked="true"/>
-        
-        <lightning:input class="slds-p-bottom_small" type="checkbox"
-                aura:id="isShowDebugInfoBox" label="{!$Label.FlowDebug.ShowDebugInfo}" 
-                checked="true" fieldLevelHelp="{!$Label.FlowDebug.ShowDebugInfoHelp}"/>
-        
-        <lightning:input class="slds-p-bottom_small" type="checkbox" 
                 aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}" 
                 checked="false" onchange="{!c.handleDebugAsUserCheck}"
                 fieldLevelHelp="{!v.runAsHelptext}" disabled="{!(!v.showIsDebugAsUserAllowed || !v.showIsDebugAsUserAllowedInNonPrd)}"/>

@@ -22,8 +22,6 @@
     getDebugInput: function (cmp, event, helper) {
         var debugInput = {
             inputs: helper.readAllInputs(cmp),
-            runLatestVersion: cmp.find('isRunLatestVersionBox').get('v.checked'),
-            showDebugInfo: cmp.find('isShowDebugInfoBox').get('v.checked'),
             runAs: cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             debugAsUserId: cmp.getDebugAsUserId(),
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
