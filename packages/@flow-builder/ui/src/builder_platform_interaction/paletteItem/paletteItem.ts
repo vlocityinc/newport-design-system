@@ -60,8 +60,7 @@ export default class PaletteItem extends LightningElement {
         return `test-paletteitem-${(this.elementType || '').toLowerCase()}`;
     }
 
-    handleLinkClick(event) {
-        event.stopPropagation();
+    handleLinkClick() {
         const elementType = this.elementType;
         const guid = this.guid;
         const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);

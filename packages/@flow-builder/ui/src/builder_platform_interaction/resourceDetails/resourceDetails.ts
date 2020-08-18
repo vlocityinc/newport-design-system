@@ -60,8 +60,7 @@ export default class ResourceDetails extends LightningElement {
         return this._isAutomaticOutputParametersSupported;
     }
 
-    handleEditButtonClicked(event) {
-        event.stopPropagation();
+    handleEditButtonClicked() {
         const editElementEvent = new EditElementEvent(this.resourceDetails.elementGuid);
         this.dispatchEvent(editElementEvent);
         logInteraction(
@@ -76,8 +75,7 @@ export default class ResourceDetails extends LightningElement {
         );
     }
 
-    handleDeleteButtonClicked(event) {
-        event.stopPropagation();
+    handleDeleteButtonClicked() {
         const deleteEvent = new DeleteResourceEvent(
             [this.resourceDetails.elementGuid],
             this.resourceDetails.elementType

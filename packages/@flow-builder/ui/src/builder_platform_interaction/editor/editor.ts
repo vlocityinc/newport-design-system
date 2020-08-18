@@ -1015,7 +1015,7 @@ export default class Editor extends LightningElement {
         }
     };
 
-    handleLeftPaneAndToolbarInteraction = () => {
+    handleLeftPanelAndToolbarInteraction = () => {
         this.closeAutoLayoutContextualMenu();
     };
 
@@ -1178,7 +1178,6 @@ export default class Editor extends LightningElement {
      */
     handleUndo = () => {
         if (!this.isUndoDisabled) {
-            this.closeAutoLayoutContextualMenu();
             storeInstance.dispatch(undo);
         }
     };
@@ -1189,7 +1188,6 @@ export default class Editor extends LightningElement {
      */
     handleRedo = () => {
         if (!this.isRedoDisabled) {
-            this.closeAutoLayoutContextualMenu();
             storeInstance.dispatch(redo);
         }
     };
@@ -1664,7 +1662,6 @@ export default class Editor extends LightningElement {
      */
     handleElementDelete = (event) => {
         if (event && event.detail) {
-            this.closeAutoLayoutContextualMenu();
             getElementsToBeDeleted(storeInstance, event.detail);
             this.handleClosePropertyEditor();
         }
