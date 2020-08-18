@@ -53,7 +53,7 @@ describe('debug utils', () => {
                     completedInterviewWithErrors.startInterviewTime.getTime()) /
                 1000
             ).toFixed(2);
-            expect(lastTrace[1]).toContain(calculatedDurationInMs);
+            expect(lastTrace[0]).toContain(calculatedDurationInMs);
         });
     });
 
@@ -66,8 +66,8 @@ describe('debug utils', () => {
         it('should display the paused message', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(pausedInterview.debugTrace.length + 1);
-            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.pausedMessage);
-            expect(updatedDebugTraceObject[len - 1].debugInfo).toMatch(LABELS.waitingMessage);
+            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewPausedHeader);
+            expect(updatedDebugTraceObject[len - 1].debugInfo).toMatch(LABELS.interviewPaused);
         });
     });
 
@@ -91,7 +91,11 @@ describe('debug utils', () => {
 
     it('test date formatter', () => {
         const start = new Date('June 17, 2020 03:24:00');
-        const outputDate = formatDateHelper(start);
-        expect(outputDate).toMatch('June 17, 2020, 3:24 AM');
+        const outputDateAndTime = formatDateHelper(start).dateAndTime;
+        expect(outputDateAndTime).toMatch('June 17, 2020, 3:24 AM');
+        const outputDate = formatDateHelper(start).date;
+        expect(outputDate).toMatch('June 17, 2020');
+        const outputTime = formatDateHelper(start).time;
+        expect(outputTime).toMatch('3:24 AM');
     });
 });

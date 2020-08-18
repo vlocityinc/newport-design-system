@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './debugPanelLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debugUtils';
 
 /**
@@ -47,7 +46,7 @@ export default class DebugPanel extends LightningElement {
         if (!this.hasErrors && data && data.debugTrace) {
             this.debugTraces = copyAndUpdateDebugTraceObject(data);
         } else if (this.hasErrors) {
-            this.errorMessage = format(LABELS.faultMessage, data.error);
+            this.errorMessage = data.error;
         }
     }
 }

@@ -50,7 +50,7 @@ function getStartInterviewInfo(debugData) {
     const startedInfo = debugData.debugTrace[0].debugInfo.split(NEWLINE).filter((e) => {
         return !!e;
     });
-    startedInfo.push(format(LABELS.interviewStartedAt, formatDateHelper(debugData.startInterviewTime)));
+    startedInfo.push(format(LABELS.interviewStartedAt, formatDateHelper(debugData.startInterviewTime).dateAndTime));
     return {
         title: startedInfo[0],
         debugInfo: startedInfo.slice(1).join(NEWLINE),
@@ -69,31 +69,26 @@ function getEndInterviewInfo(debugData) {
     const duration = ((debugData.endInterviewTime.getTime() - debugData.startInterviewTime.getTime()) / 1000).toFixed(
         2
     );
+    const dateTime = formatDateHelper(debugData.endInterviewTime);
     switch (debugData.interviewStatus) {
         case STATUS.FINISHED:
             end = {
                 title: LABELS.interviewFinishHeader,
-                debugInfo:
-                    format(LABELS.interviewFinishedAt, formatDateHelper(debugData.endInterviewTime)) +
-                    NEWLINE +
-                    format(LABELS.interviewFinishDuration, duration),
+                debugInfo: format(LABELS.interviewFinishedAt, duration, dateTime.date, dateTime.time),
                 id: generateGuid()
             };
             break;
         case STATUS.ERROR:
             end = {
                 title: LABELS.interviewError,
-                debugInfo:
-                    format(LABELS.interviewErrorAt, formatDateHelper(debugData.endInterviewTime)) +
-                    NEWLINE +
-                    format(LABELS.interviewFinishDuration, duration),
+                debugInfo: format(LABELS.interviewErrorAt, dateTime.date, dateTime.time, duration),
                 id: generateGuid()
             };
             break;
         case STATUS.WAITING:
             end = {
-                title: LABELS.pausedMessage,
-                debugInfo: LABELS.waitingMessage,
+                title: LABELS.interviewPausedHeader,
+                debugInfo: LABELS.interviewPaused,
                 id: generateGuid()
             };
             break;
@@ -109,8 +104,14 @@ function getEndInterviewInfo(debugData) {
  * @return {String} date in specified format in user default locale
  */
 export function formatDateHelper(dateTime) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-    return dateTime.toLocaleDateString(undefined, options);
+    const dateAndTime = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const date = { year: 'numeric', month: 'long', day: 'numeric' };
+    const time = { hour: 'numeric', minute: 'numeric' };
+    return {
+        dateAndTime: dateTime.toLocaleDateString(undefined, dateAndTime),
+        date: dateTime.toLocaleDateString(undefined, date),
+        time: dateTime.toLocaleTimeString(undefined, time)
+    };
 }
 
 /**
