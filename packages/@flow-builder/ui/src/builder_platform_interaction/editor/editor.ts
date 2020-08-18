@@ -1751,7 +1751,7 @@ export default class Editor extends LightningElement {
      */
     handleHighlightOnCanvasSubscriber = (event: PubSubEvent) => {
         const { payload } = event;
-        if (payload && payload.elementGuid) {
+        if (payload && payload.elementGuid && !this.properties.isAutoLayoutCanvas) {
             const elementGuid = payload.elementGuid;
             this.highlightOnCanvas(elementGuid);
         }
@@ -1818,7 +1818,7 @@ export default class Editor extends LightningElement {
                     processType
                 };
             });
-            if (element && element.isCanvasElement) {
+            if (element && element.isCanvasElement && !this.properties.isAutoLayoutCanvas) {
                 storeInstance.dispatch(
                     selectOnCanvas({
                         guid
