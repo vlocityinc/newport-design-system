@@ -207,6 +207,12 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.APEX_CALL
             });
         });
+        it('should display label', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
+            await Promise.resolve();
+            expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.actionSearchInputLabel');
+        });
     });
     describe('When action category changes', () => {
         beforeEach(() => {
@@ -262,6 +268,12 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedCategory = 'Uncategorized';
             await Promise.resolve();
             expect(groupedCombobox().placeholder).toBe('Search uncategorized actions...');
+        });
+        it('should display label', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'Uncategorized';
+            await Promise.resolve();
+            expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.actionSearchInputLabel');
         });
     });
     describe('When there are no actions for a given action type', () => {
