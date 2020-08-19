@@ -122,15 +122,15 @@
  * @modifier
  */
 
-.display-flex {
+.nds-listbox__flex {
   display: flex;
 }
 
-.display-flex .nds-listbox-item {
+.nds-listbox__flex .nds-listbox-item {
   overflow: hidden;
 }
 
-.display-flex .nds-pill__label {
+.nds-listbox__flex .nds-pill__label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
