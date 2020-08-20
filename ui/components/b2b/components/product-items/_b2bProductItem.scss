@@ -3,6 +3,7 @@
   max-width: 21.5rem;
   min-width: 21.5rem;
   min-height: $b2b-product-item-min-height;
+  max-height: $b2b-product-item-min-height;
   border-radius: 0.35rem;
   border: 1px solid $palette-warm-gray-4;
   padding: 0.5rem;
@@ -39,7 +40,8 @@
     width: 100%;
     height: 100%;
     padding: 0.8rem;
-    min-height: 8rem;
+    min-height: 9rem;
+    max-height: 9rem;
     cursor: pointer;
 
     .nds-b2b-product-name {
