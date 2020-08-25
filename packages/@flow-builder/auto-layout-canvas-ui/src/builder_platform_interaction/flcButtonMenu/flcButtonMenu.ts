@@ -387,7 +387,7 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     toggleMenuVisibility(isPositionUpdate = false) {
-        const { top, left, width } = this.target.getBoundingClientRect();
+        const { top, left, width, height } = this.target.getBoundingClientRect();
         const { clientWidth } = this.target;
 
         // account for border and stuff
@@ -399,6 +399,7 @@ export default class FlcButtonMenu extends LightningElement {
         const detail = {
             top,
             left,
+            height: height - 4, // TODO: clean up positioning
             offsetX,
             type,
             guid: guid || connectionInfo.prev,

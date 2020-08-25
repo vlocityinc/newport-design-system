@@ -67,7 +67,7 @@ function toggleFlowMenu(
 
 function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionState {
     const menuInfo = interactionState.menuInfo;
-    const closingMenu = menuInfo != null ? menuInfo.type : null;
+    const closingMenu = menuInfo != null ? { ...menuInfo } : null;
 
     return { ...interactionState, menuInfo: null, deletionPathInfo: null, closingMenu };
 }

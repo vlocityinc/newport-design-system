@@ -10,7 +10,7 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "noEmitOnError": true,
-        "target": "esNext",
+        "target": "es2018",
         "lib": ["dom", "es2018"]
     },
 

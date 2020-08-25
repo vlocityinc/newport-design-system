@@ -4,7 +4,8 @@ import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     getCanvasElementDeselectionDataOnToggleOff,
-    getFlcMenuData
+    getFlcMenuData,
+    getMenuStyle
 } from '../flcComponentsUtils';
 
 import * as autoLayoutTestUtils from '../../../../../auto-layout-canvas/src/__tests__/testUtils.js';
@@ -65,6 +66,27 @@ function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
 }
 
 describe('FLC Canvas Utils test', () => {
+    describe('getMenuStyle', () => {
+        const detail = {
+            left: 0,
+            top: 120,
+            height: 48,
+            offsetX: 0
+        };
+        const containerElementGeometry = {
+            x: 0,
+            y: 0
+        };
+
+        const menuButtonHalfWidth = 48;
+        const scale = 1;
+        const needToPosition = false;
+
+        expect(getMenuStyle(detail, containerElementGeometry, menuButtonHalfWidth, scale, needToPosition)).toEqual(
+            'left: 48px;top: 144px;width: undefinedpx;height: undefinedpx'
+        );
+    });
+
     describe('getFlcMenuData', () => {
         it('hasEndElement is true on branch when next element is not end node', () => {
             const hasEndElement = true;

@@ -612,11 +612,12 @@ export function getMenuStyle(detail, containerElementGeometry, menuButtonHalfWid
 
     left = left - x + detail.offsetX + menuButtonHalfWidth;
     top -= y;
+
     return needToPosition
         ? 'opacity: 0'
         : getStyleFromGeometry({
               x: left * (1 / scale),
-              y: top * (1 / scale) + menuButtonHalfWidth
+              y: (top + detail.height / 2) * (1 / scale)
           });
 }
 

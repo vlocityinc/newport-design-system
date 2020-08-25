@@ -50,7 +50,7 @@ export interface InteractionMenuInfo {
 }
 
 export interface FlowInteractionState {
-    closingMenu: MenuType | null;
+    closingMenu: InteractionMenuInfo | null;
     menuInfo: InteractionMenuInfo | null;
     deletionPathInfo: {
         childIndexToKeep: number;
@@ -204,7 +204,7 @@ function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayout
     return !prevLayout || progress === 1 ? layout : tween(prevLayout, layout, progress);
 }
 
-function tweenValue(prevValue: number, value: number, progress: number): number {
+export function tweenValue(prevValue: number, value: number, progress: number): number {
     const delta = (value - prevValue) * progress;
     return prevValue + delta;
 }

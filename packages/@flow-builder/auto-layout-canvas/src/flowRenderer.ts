@@ -308,10 +308,20 @@ function createNextConnector(
     }
 
     let addAlign = VerticalAlign.TOP;
-    const { menuInfo, closingMenu } = interactionState;
+    const menuInfo = interactionState.menuInfo || interactionState.closingMenu;
+    let prevHeight;
 
-    if ((menuInfo != null && menuInfo.type === MenuType.NODE) || closingMenu === MenuType.NODE) {
-        addAlign = VerticalAlign.BOTTOM;
+    if (menuInfo != null && menuInfo.type === MenuType.NODE && menuInfo.key === node.guid) {
+        if (interactionState.menuInfo != null) {
+            addAlign = VerticalAlign.BOTTOM;
+        } else {
+            const { prevLayout } = nodeLayoutMap[node.guid];
+            prevHeight = prevLayout?.h;
+            if (mainVariant === ConnectorVariant.POST_MERGE) {
+                // @ts-ignore
+                prevHeight -= prevLayout.joinOffsetY;
+            }
+        }
     }
 
     return connectorLib.createConnectorToNextNode(
@@ -326,7 +336,10 @@ function createNextConnector(
         [mainVariant, variant],
         isDeletingBranch,
         showAdd,
-        addAlign
+        progress,
+        addAlign,
+        undefined,
+        prevHeight
     );
 }
 
@@ -641,7 +654,7 @@ function createPreConnector(
     height: number,
     conditionOptions: Option[]
 ): ConnectorRenderInfo {
-    const { interactionState, elementsMetadata, isDeletingBranch } = context;
+    const { interactionState, elementsMetadata, isDeletingBranch, progress } = context;
 
     const [branchHeadGuid, childCount] =
         childIndex === FAULT_INDEX
@@ -682,6 +695,7 @@ function createPreConnector(
         variants,
         isDeletingBranch,
         true,
+        progress,
         VerticalAlign.TOP,
         connectorBadgeLabel
     );
