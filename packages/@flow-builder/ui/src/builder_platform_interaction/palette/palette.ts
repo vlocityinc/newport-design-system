@@ -1,9 +1,11 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LocatorIconClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { flatten } from './paletteLib';
 import { LABELS } from './paletteLabels';
+
+const { logInteraction } = loggingUtils;
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!

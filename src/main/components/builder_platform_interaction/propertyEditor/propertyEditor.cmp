@@ -11,12 +11,12 @@
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.panelInstance}" action="{!c.panelInstanceChange}"/>
-    <!-- Logging Util  -->
-    <builder_platform_interaction:loggingUtils aura:id="loggingUtils"></builder_platform_interaction:loggingUtils>
+    <!-- Shared Utils -->
+    <builder_platform_interaction:sharedUtils aura:id="sharedUtils"></builder_platform_interaction:sharedUtils>
     <!-- Body -->
-    
-    <div id="modal-content-id" aura:id="body-content" 
-    	onaddnewresource="{!c.handleAddNewResource}" 
+
+    <div id="modal-content-id" aura:id="body-content"
+    	onaddnewresource="{!c.handleAddNewResource}"
     	onsetpropertyeditortitle="{!c.setPropertyEditorTitle}"
     	onclosepropertyeditor="{!c.handleClose}">
         {!v.body}

@@ -2,8 +2,9 @@
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { logMetricsServiceErrorTransaction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
+const { logMetricsServiceErrorTransaction } = loggingUtils;
 /**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
  * are grouped by element category so that they can more easily be placed into

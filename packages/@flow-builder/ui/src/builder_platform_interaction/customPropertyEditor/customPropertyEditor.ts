@@ -2,8 +2,9 @@
 import { api, LightningElement, unwrap, track } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from './customPropertyEditorLabels';
-import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
+const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 const CONFIGURATION_EDITOR_SELECTOR = '.configuration-editor';
 const CUSTOM_PROPERTY_EDITOR = 'CUSTOM_PROPERTY_EDITOR';
 

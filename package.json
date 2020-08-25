@@ -113,6 +113,7 @@
     "workspaces": [
         "packages/@flow-builder/auto-layout-canvas",
         "packages/@flow-builder/auto-layout-canvas-ui",
+        "packages/@flow-builder/shared-utils",
         "packages/@flow-builder/ui",
         "packages/flow-builder-pocs"
     ],

@@ -22,10 +22,11 @@ import {
     loadSystemVariables,
     loadWorkflowEnabledEntities
 } from '../dataForProcessType';
-import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { ticks, makeQuerablePromise } from 'builder_platform_interaction/builderTestUtils';
 
+const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 jest.useFakeTimers();
 
 jest.mock('builder_platform_interaction/actions');
@@ -58,12 +59,7 @@ jest.mock('../dataForProcessType', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/loggingUtils', () => {
-    return {
-        logPerfTransactionStart: jest.fn(),
-        logPerfTransactionEnd: jest.fn()
-    };
-});
+jest.mock('builder_platform_interaction/sharedUtils');
 
 jest.mock('builder_platform_interaction/builderUtils');
 

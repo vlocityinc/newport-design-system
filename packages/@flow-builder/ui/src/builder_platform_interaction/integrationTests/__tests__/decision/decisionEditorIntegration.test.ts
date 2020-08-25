@@ -14,12 +14,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return partialStoreLibMock;
 });
 
-jest.mock('builder_platform_interaction/loggingUtils', () => {
-    return {
-        logPerfTransactionStart: jest.fn(),
-        logPerfTransactionEnd: jest.fn()
-    };
-});
+jest.mock('builder_platform_interaction/sharedUtils');
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const ruleLib = jest.requireActual('builder_platform_interaction/ruleLib');

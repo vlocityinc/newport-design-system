@@ -3,7 +3,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { updateApexClasses } from 'builder_platform_interaction/actions';
-import { logPerfTransactionEnd, logPerfTransactionStart } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     loadApexPlugins,
     loadActions,
@@ -27,6 +27,7 @@ import errorMessage from '@salesforce/label/FlowBuilderAlertModal.errorMessage';
 import errorCode from '@salesforce/label/FlowBuilderAlertModal.errorCode';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 
+const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;
 /** Promise.allSettled() polyfill. */
 const promiseAllSettled = (promises) =>
     Promise.all(

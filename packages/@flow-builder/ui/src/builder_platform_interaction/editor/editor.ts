@@ -64,12 +64,7 @@ import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platfo
 import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    logInteraction,
-    logPerfTransactionEnd,
-    logPerfTransactionStart,
-    setAppName
-} from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent, NewResourceEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -151,6 +146,8 @@ import {
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
+
+const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
 
 let unsubscribeStore;
 let storeInstance;

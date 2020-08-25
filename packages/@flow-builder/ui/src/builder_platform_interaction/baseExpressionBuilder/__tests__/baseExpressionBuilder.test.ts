@@ -12,7 +12,7 @@ import {
     accountSObjectVariable,
     flowWithAllElementsUIModel
 } from 'mock/storeData';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 import * as rulesMock from 'builder_platform_interaction/ruleLib';
@@ -33,6 +33,9 @@ import {
     clickPill,
     removePill
 } from 'builder_platform_interaction/builderTestUtils';
+
+const { logInteraction } = loggingUtils;
+
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/storeUtils');
@@ -51,9 +54,7 @@ jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
         getInlineResource: jest.fn()
     };
 });
-jest.mock('builder_platform_interaction/loggingUtils', () => ({
-    logInteraction: jest.fn()
-}));
+jest.mock('builder_platform_interaction/sharedUtils');
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         removeLastCreatedInlineResource: jest.fn(),

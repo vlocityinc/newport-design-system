@@ -4,9 +4,7 @@ import { format } from 'util';
 window.runningJestTest = true;
 window.processEnv = { NODE_ENV: 'development' };
 
-jest.mock('builder_platform_interaction/loggingUtils', () =>
-    require('builder_platform_interaction_mocks/loggingUtils')
-);
+jest.mock('builder_platform_interaction/sharedUtils');
 
 /**
  * This file runs before each test after the test framework has been installed in the environment

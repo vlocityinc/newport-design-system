@@ -5,9 +5,7 @@ import Palette from 'builder_platform_interaction/palette';
 import { LABELS } from '../paletteLabels';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/loggingUtils', () => ({
-    logInteraction: jest.fn()
-}));
+jest.mock('builder_platform_interaction/sharedUtils');
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

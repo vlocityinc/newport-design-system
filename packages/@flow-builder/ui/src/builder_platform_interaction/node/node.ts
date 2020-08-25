@@ -15,7 +15,7 @@ import { LABELS } from './nodeLabels';
 import { format, getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
@@ -23,6 +23,8 @@ import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import startNode from './startNode.html';
 import nodeElement from './node.html';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+
+const { logInteraction } = loggingUtils;
 
 /**
  * Node component for flow builder.

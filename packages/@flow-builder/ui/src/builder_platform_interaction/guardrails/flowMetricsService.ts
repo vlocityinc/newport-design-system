@@ -1,12 +1,15 @@
 // @ts-nocheck
-import {
+
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const {
     logPerfTransactionStart,
     logPerfTransactionEnd,
     logPerfMarkStart,
     logPerfMarkEnd,
     logPerfMark,
     logMetricsServiceErrorTransaction
-} from 'builder_platform_interaction/loggingUtils';
+} = loggingUtils;
 
 /**
  * Wrapper for instrumentation service for guardrails logging.

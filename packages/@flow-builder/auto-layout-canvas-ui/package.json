@@ -9,7 +9,8 @@
         "ui": true
     },
     "dependencies": {
-        "@flow-builder/auto-layout-canvas": "0.0.1"
+        "@flow-builder/auto-layout-canvas": "0.0.1",
+        "@flow-builder/shared-utils": "0.0.1"
     },
     "scripts": {
         "build:ts": "tsc",

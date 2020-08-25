@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logInteraction } = loggingUtils;
 
 export default class ButtonBanner extends LightningElement {
     @api

@@ -20,12 +20,13 @@ import {
     mockLoopOnApexTypeInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/loggingUtils', () => ({
-    logInteraction: jest.fn()
-}));
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logInteraction } = loggingUtils;
+
+jest.mock('builder_platform_interaction/sharedUtils');
 
 const createComponentUnderTest = (details) => {
     const el = createElement('builder_platform_interaction-resource-details', {

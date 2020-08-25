@@ -1,9 +1,11 @@
 // @ts-nocheck
 import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
-import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './headerLabels';
 import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
+
+const { logInteraction } = loggingUtils;
 
 const DEBUG_STATUS = {
     FINISHED: 'FINISHED',

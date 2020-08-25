@@ -2,7 +2,7 @@
     init: function (cmp) {
         var bodyComponent = cmp.get('v.bodyComponent');
         if (bodyComponent) {
-            var loggingUtils = cmp.find('loggingUtils');
+            var loggingUtils = cmp.find('sharedUtils').loggingUtils;
             $A.createComponent(bodyComponent.desc, bodyComponent.attr, function (newCmp, status, errorMessage) {
                 if (status === 'SUCCESS') {
                     var body = cmp.find('body-content');
