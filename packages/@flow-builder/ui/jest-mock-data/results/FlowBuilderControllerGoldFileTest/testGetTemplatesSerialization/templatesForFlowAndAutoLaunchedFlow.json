@@ -45,6 +45,16 @@
       "IsTemplate":true,
       "ProcessType":"Flow",
       "IsSwingFlow":false,
+      "Description":null,
+      "EnumOrID":"setup_service_experience__Reset_Pwd-1",
+      "Label":"Reset Password",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"Flow",
+      "IsSwingFlow":false,
       "Description":"Removed custom field references",
       "EnumOrID":"setup_service_experience__Verify_Cust-1",
       "Label":"Verify Identity",

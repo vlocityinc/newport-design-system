@@ -2,7 +2,7 @@
   "fileBasedScreenFlowTemplateData":{
   "actionCalls" : [ ],
   "apexPluginCalls" : [ ],
-  "apiVersion" : 50.0,
+  "apiVersion" : 51.0,
   "assignments" : [ {
     "assignmentItems" : [ {
       "assignToReference" : "$Flow.CurrentStage",
@@ -149,7 +149,8 @@
     "filters" : [ ],
     "locationX" : 50,
     "locationY" : 50,
-    "processMetadataValues" : [ ]
+    "processMetadataValues" : [ ],
+    "timeTriggers" : [ ]
   },
   "status" : "Active",
   "steppedStages" : [ ],

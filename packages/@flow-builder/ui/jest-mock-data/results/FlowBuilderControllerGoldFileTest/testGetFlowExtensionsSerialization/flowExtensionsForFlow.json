@@ -29,6 +29,12 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "flowruntime:emailLwc",
+  "source" : "Standard"
+},
+    {
   "description" : "Display Image",
   "fieldsToNull" : [ ],
   "label" : "Display Image",
@@ -55,6 +61,14 @@
   "fieldsToNull" : [ ],
   "label" : "Phone",
   "qualifiedApiName" : "flowruntime:phone",
+  "source" : "Standard"
+},
+    {
+  "category" : "Input",
+  "description" : "A phone input component for flow screens.",
+  "fieldsToNull" : [ ],
+  "label" : "Phone LWC",
+  "qualifiedApiName" : "flowruntime:phoneLwc",
   "source" : "Standard"
 },
     {

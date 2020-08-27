@@ -32,7 +32,7 @@
       "recommended":true
     },
     {
-      "icon":"utility:magicwand",
+      "icon":"utility:events",
       "description":"Launches when a platform event message is received. This autolaunched flow runs in the background.",
       "defaultTriggerType":"PlatformEvent",
       "label":"Platform Event\u2014Triggered Flow",
@@ -72,6 +72,11 @@
       "description":"Create self-service forms to collect contact details.",
       "label":"Contact Request Flow",
       "processType":"ContactRequestFlow"
+    },
+    {
+      "description":"Create a new flow for use in Recommendation Strategy.",
+      "label":"Recommendation Strategy",
+      "processType":"RecommendationStrategy"
     }
   ]
 }

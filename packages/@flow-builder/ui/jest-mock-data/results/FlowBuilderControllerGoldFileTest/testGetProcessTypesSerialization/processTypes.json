@@ -27,6 +27,12 @@
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
+  "label" : "Recommendation Strategy",
+  "name" : "RecommendationStrategy"
+},
+    {
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
   "label" : "Screen Flow",
   "name" : "Flow"
 },

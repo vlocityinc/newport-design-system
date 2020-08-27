@@ -1,7 +1,10 @@
 {
   "invocableActionsForAutoLaunchedFlow":[
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"activateSessionPermSet",
       "description":"Activates a session-based permission set for the running user.",
       "configurationEditor":null,
@@ -14,7 +17,10 @@
       "durableId":"activateSessionPermSet-activateSessionPermSet"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"chatterPost",
       "description":"Post to the feed for a specific record, user, or Chatter group.",
       "configurationEditor":null,
@@ -27,7 +33,10 @@
       "durableId":"chatterPost-chatterPost"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"choosePricebook",
       "description":"Choose Price Book",
       "configurationEditor":null,
@@ -40,7 +49,10 @@
       "durableId":"choosePricebook-choosePricebook"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"contactRequestAction",
       "description":"Request contact from support on behalf of the customer. Use a screen to let customers provide their contact details and describe their issue.",
       "configurationEditor":null,
@@ -53,7 +65,10 @@
       "durableId":"contactRequestAction-contactRequestAction"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"createServiceReport",
       "description":"Create Service Report",
       "configurationEditor":null,
@@ -66,7 +81,10 @@
       "durableId":"createServiceReport-createServiceReport"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"customNotificationAction",
       "description":"Send custom notifications to recipients through desktop or mobile",
       "configurationEditor":null,
@@ -79,7 +97,10 @@
       "durableId":"customNotificationAction-customNotificationAction"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"deactivateSessionPermSet",
       "description":"Deactivate a session-based permission set for the running user.",
       "configurationEditor":null,
@@ -92,7 +113,10 @@
       "durableId":"deactivateSessionPermSet-deactivateSessionPermSet"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"emailSimple",
       "description":"Send an email where you specify the subject, body, and recipients.",
       "configurationEditor":null,
@@ -105,7 +129,10 @@
       "durableId":"emailSimple-emailSimple"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"generateWorkOrders",
       "description":"Generate work orders from a maintenance plan.",
       "configurationEditor":null,
@@ -118,7 +145,10 @@
       "durableId":"generateWorkOrders-generateWorkOrders"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"Case.LogACall",
       "description":null,
       "configurationEditor":null,
@@ -131,7 +161,10 @@
       "durableId":"quickAction-Case.LogACall"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"Case.NewChildCase",
       "description":null,
       "configurationEditor":null,
@@ -144,7 +177,10 @@
       "durableId":"quickAction-Case.NewChildCase"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"CollaborationGroup.NewGroupMember",
       "description":null,
       "configurationEditor":null,
@@ -157,7 +193,10 @@
       "durableId":"quickAction-CollaborationGroup.NewGroupMember"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"CollaborationGroup.NewGroupRecord",
       "description":null,
       "configurationEditor":null,
@@ -170,7 +209,10 @@
       "durableId":"quickAction-CollaborationGroup.NewGroupRecord"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"FeedItem.NewTaskFromFeedItem",
       "description":null,
       "configurationEditor":null,
@@ -183,7 +225,10 @@
       "durableId":"quickAction-FeedItem.NewTaskFromFeedItem"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"LogACall",
       "description":null,
       "configurationEditor":null,
@@ -196,7 +241,10 @@
       "durableId":"quickAction-LogACall"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewAccount",
       "description":null,
       "configurationEditor":null,
@@ -209,7 +257,10 @@
       "durableId":"quickAction-NewAccount"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewCase",
       "description":null,
       "configurationEditor":null,
@@ -222,7 +273,10 @@
       "durableId":"quickAction-NewCase"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewContact",
       "description":null,
       "configurationEditor":null,
@@ -235,7 +289,10 @@
       "durableId":"quickAction-NewContact"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewEvent",
       "description":null,
       "configurationEditor":null,
@@ -248,7 +305,10 @@
       "durableId":"quickAction-NewEvent"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewGroup",
       "description":null,
       "configurationEditor":null,
@@ -261,7 +321,10 @@
       "durableId":"quickAction-NewGroup"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewLead",
       "description":null,
       "configurationEditor":null,
@@ -274,7 +337,10 @@
       "durableId":"quickAction-NewLead"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewNote",
       "description":null,
       "configurationEditor":null,
@@ -287,7 +353,10 @@
       "durableId":"quickAction-NewNote"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewOpportunity",
       "description":null,
       "configurationEditor":null,
@@ -300,7 +369,10 @@
       "durableId":"quickAction-NewOpportunity"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"NewTask",
       "description":null,
       "configurationEditor":null,
@@ -313,7 +385,10 @@
       "durableId":"quickAction-NewTask"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"Task.Defer",
       "description":null,
       "configurationEditor":null,
@@ -326,7 +401,10 @@
       "durableId":"quickAction-Task.Defer"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"Task.EditDescription",
       "description":null,
       "configurationEditor":null,
@@ -339,7 +417,10 @@
       "durableId":"quickAction-Task.EditDescription"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"Task.UpdatePriority",
       "description":null,
       "configurationEditor":null,
@@ -352,7 +433,10 @@
       "durableId":"quickAction-Task.UpdatePriority"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":false,
+      "iconName":null,
       "name":"Task.UpdateStatus",
       "description":null,
       "configurationEditor":null,
@@ -365,7 +449,10 @@
       "durableId":"quickAction-Task.UpdateStatus"
     },
     {
+      "iconId":null,
+      "fillColor":null,
       "isStandard":true,
+      "iconName":null,
       "name":"submit",
       "description":"Submit a Salesforce record for approval.",
       "configurationEditor":null,
