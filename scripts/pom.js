@@ -24,7 +24,7 @@ function getPomProperty(property, pomAsJson) {
 }
 
 async function getCorePomProperties(branch) {
-    return p4.cmd(`print -q //app/${branch}/core/pom.xml`).then(p4Response => {
+    return p4.cmd(`print -q //app/${branch}/core/pom.xml`).then((p4Response) => {
         if (p4Response.error) {
             throw Error(p4Response.error[0].data);
         }
@@ -62,7 +62,7 @@ async function checkProjectPomProperties(branch) {
         const corePomProperties = await getCorePomProperties(branch);
 
         printHeader('Checking pom properties');
-        const propertiesNotInSync = POM_PROPERTIES_TO_CHECK.map(property =>
+        const propertiesNotInSync = POM_PROPERTIES_TO_CHECK.map((property) =>
             checkProperty(property, projectPomProperties, corePomProperties)
         ).filter(Boolean);
 
@@ -88,16 +88,13 @@ async function checkProjectPomProperties(branch) {
 async function updatePom(branch) {
     const corePomProperties = await getCorePomProperties(branch);
 
-    await Promise.all(
-        POM_PROPERTIES_TO_CHECK.map(async function(property) {
-            const coreValue = getPomProperty(property, corePomProperties);
-
-            printHeader(`Syncing ${property} ...`);
-            return await exec(
-                `mvn versions:update-property -Dproperty=${property} -DnewVersion=[${coreValue}] -DallowDowngrade=true -DgenerateBackupPoms=false`
-            );
-        })
-    );
+    for (const property of POM_PROPERTIES_TO_CHECK) {
+        const coreValue = getPomProperty(property, corePomProperties);
+        printHeader(`Syncing ${property} ...`);
+        await exec(
+            `mvn versions:update-property -Dproperty=${property} -DnewVersion=[${coreValue}] -DallowDowngrade=true -DgenerateBackupPoms=false`
+        );
+    }
 }
 
 usage('Usage: $0 [options]')
@@ -105,13 +102,13 @@ usage('Usage: $0 [options]')
         ['sync'],
         'Sync pom.xml properties with what is in core',
         () => {},
-        argv => {
+        (argv) => {
             updatePom(argv.branch)
                 .then(() => {
                     printSuccess('Successfully synced pom.xml');
                     process.exit(0);
                 })
-                .catch(e => {
+                .catch((e) => {
                     printError(`Failed to sync pom.xml : ${e.message}`);
                     process.exit(1);
                 });
@@ -121,7 +118,7 @@ usage('Usage: $0 [options]')
         ['check'],
         `Check if pom.xml properties are in sync with what is in core`,
         () => {},
-        argv => {
+        (argv) => {
             checkProjectPomProperties(argv.branch);
         }
     )
