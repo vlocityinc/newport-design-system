@@ -12,9 +12,9 @@ import cancelButtonLabel from '@salesforce/label/FlowBuilderAlertModal.cancelBut
 import goToAutolayoutButtonLabel from '@salesforce/label/FlowBuilderAlertModal.goToAutolayoutButtonLabel';
 import unsupportedFeaturesHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.unsupportedFeaturesHeaderTitle';
 import unsupportedFeaturesBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.unsupportedFeaturesBodyTextLabel';
+import errorMessageDisconnectedElements from '@salesforce/label/FlowBuilderAlertModal.errorMessageDisconnectedElements';
 import errorMessageMultipleIncomingConnections from '@salesforce/label/FlowBuilderAlertModal.errorMessageMultipleIncomingConnections';
-import errorMessageFaultConnectors from '@salesforce/label/FlowBuilderAlertModal.errorMessageFaultConnectors';
-import errorMessageAdditionalUnsupportedFeature from '@salesforce/label/FlowBuilderAlertModal.errorMessageAdditionalUnsupportedFeature';
+import errorMessageStepElement from '@salesforce/label/FlowBuilderAlertModal.errorMessageStepElement';
 import continueToDebugTitle from '@salesforce/label/FlowBuilderAlertModal.continueToDebugTitle';
 
 export const LABELS = {
@@ -32,7 +32,7 @@ export const LABELS = {
     goToAutolayoutButtonLabel,
     unsupportedFeaturesHeaderTitle,
     unsupportedFeaturesBodyTextLabel,
+    errorMessageDisconnectedElements,
     errorMessageMultipleIncomingConnections,
-    errorMessageFaultConnectors,
-    errorMessageAdditionalUnsupportedFeature
+    errorMessageStepElement
 };

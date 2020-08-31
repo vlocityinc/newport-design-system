@@ -1534,9 +1534,9 @@ export default class Editor extends LightningElement {
             // From Free-Form to Auto-Layout Canvas
             if (!canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeInstance.getCurrentState()))) {
                 const unsupportedFeatureItems = [
-                    { message: LABELS.errorMessageMultipleIncomingConnections, key: 1 },
-                    { message: LABELS.errorMessageFaultConnectors, key: 2 },
-                    { message: LABELS.errorMessageAdditionalUnsupportedFeature, key: 3 }
+                    { message: LABELS.errorMessageDisconnectedElements, key: 1 },
+                    { message: LABELS.errorMessageMultipleIncomingConnections, key: 2 },
+                    { message: LABELS.errorMessageStepElement, key: 3 }
                 ];
 
                 invokeModal({
