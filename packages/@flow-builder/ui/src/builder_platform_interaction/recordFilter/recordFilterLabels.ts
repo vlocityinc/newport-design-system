@@ -87,6 +87,7 @@ const defaultFilterLogic = (recordPluralName) => {
 
 export const filterLogicOptions = (elementType, recordPluralName, recordSingularName) => {
     switch (elementType) {
+        case ELEMENT_TYPE.RECORD_CHOICE_SET:
         case ELEMENT_TYPE.RECORD_LOOKUP:
             return [
                 {
