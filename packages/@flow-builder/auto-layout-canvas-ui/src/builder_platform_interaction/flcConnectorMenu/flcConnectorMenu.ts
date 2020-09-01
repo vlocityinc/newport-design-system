@@ -1,4 +1,4 @@
-import { Guid, ElementsMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
+import { Guid, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
@@ -15,7 +15,7 @@ export default class FlcConnectorMenu extends Menu {
     childIndex!: number;
 
     @api
-    elementsMetadata: ElementsMetadata | undefined;
+    elementsMetadata: ElementMetadata[] = [];
 
     /* true if this branch can be merged, false otherwise*/
     @api

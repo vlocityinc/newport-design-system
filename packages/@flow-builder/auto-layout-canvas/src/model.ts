@@ -47,9 +47,37 @@ export interface BranchHeadNodeModel extends NodeModel {
 export interface ElementsMetadata {
     [key: string]: ElementMetadata;
 }
+
+export interface MenuItem {
+    guid: string;
+    icon: string;
+    iconContainerClass: string;
+    iconClass: string;
+    iconSize: string;
+    iconVariant: string;
+    label: string;
+    elementType: string;
+    rowClass: string;
+}
+
+export interface MenuSection {
+    guid: string;
+    heading: string;
+    items: MenuItem[];
+    label: string;
+    separator: boolean;
+}
+
 export interface ElementMetadata {
     type: ElementType;
     icon: string;
+    section: string;
+    description: string;
+    iconShape: string;
+    iconBackgroundColor: string;
+    label: string;
+    elementType: ElementType;
+    isSupported: boolean;
 }
 
 export const FAULT_INDEX = -1;

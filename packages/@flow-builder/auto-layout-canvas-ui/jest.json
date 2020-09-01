@@ -2,9 +2,8 @@
     "moduleNameMapper": {
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
-        "^(builder_platform_interaction)/storeLib$": "<rootDir>/../ui/src/builder_platform_interaction/storeLib/storeLib",
+        "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.dev.js",
         "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/../ui/src/builder_platform_interaction/zoomPanel/zoomPanel",
-        "^(builder_platform_interaction)/commonUtils$": "<rootDir>/../ui/src/builder_platform_interaction/commonUtils/commonUtils",
         "^(builder_platform_interaction)/contextLib$": "<rootDir>/../ui/src/builder_platform_interaction/contextLib/contextLib",
         "^(builder_platform_interaction)/builderTestUtils/events$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/events",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",

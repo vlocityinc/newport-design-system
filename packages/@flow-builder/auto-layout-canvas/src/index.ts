@@ -33,6 +33,8 @@ export {
     BranchHeadNodeModel,
     ElementMetadata,
     ElementsMetadata,
+    MenuItem,
+    MenuSection,
     FAULT_INDEX,
     resolveNode,
     getRootNode,

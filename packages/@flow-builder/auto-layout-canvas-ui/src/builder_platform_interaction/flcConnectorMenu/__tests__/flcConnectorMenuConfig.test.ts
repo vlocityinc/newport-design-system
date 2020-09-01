@@ -3,9 +3,11 @@ import { configureMenu } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcConnectorMenuLabels';
 
-jest.mock('builder_platform_interaction/storeLib', () => {
+jest.mock('builder_platform_interaction/sharedUtils', () => {
     return {
-        generateGuid: jest.fn(() => 1)
+        storeUtils: {
+            generateGuid: jest.fn(() => 1)
+        }
     };
 });
 

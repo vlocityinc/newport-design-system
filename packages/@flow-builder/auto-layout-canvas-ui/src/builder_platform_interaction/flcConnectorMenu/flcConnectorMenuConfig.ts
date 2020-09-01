@@ -1,13 +1,17 @@
-// @ts-nocheck
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorMenuLabels';
+
+import type { ElementMetadata, MenuSection } from 'builder_platform_interaction/autoLayoutCanvas';
+
+import { storeUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { generateGuid } = storeUtils;
 
 export const PASTE_ACTION = 'Paste';
 export const MERGE_PATH_ACTION = 'mergePath';
 
-const actionSection = {
+const actionSection: MenuSection = {
     guid: generateGuid(),
     heading: '',
     items: [],
@@ -41,15 +45,20 @@ const mergeActionItem = {
 
 /**
  * Create FLC menu configuration from the elements metadata
- * @param {Object} elementsMetadata
- * @param {Boolean} showEndElement - Whether to show the end element item
- * @param {Boolean} canMergePath - Whether to show the merge path item
- * @param {Boolean} isPasteAvailable - If paste is available
+ * @param elementsMetadata
+ * @param showEndElement - Whether to show the end element item
+ * @param canMergePath - Whether to show the merge path item
+ * @param isPasteAvailable - If paste is available
  */
-export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable, canMergePath) => {
+export const configureMenu = (
+    elementsMetadata: ElementMetadata[],
+    showEndElement: boolean,
+    isPasteAvailable: boolean,
+    canMergePath: boolean
+) => {
     const sectionDefinitionsMap = {};
 
-    let extraSections = [];
+    let extraSections: MenuSection[] = [];
     actionSection.items = [];
 
     if (isPasteAvailable || canMergePath) {
@@ -67,7 +76,7 @@ export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable
     const sections = elementsMetadata.reduce(
         (
             acc,
-            { section = null, description, icon, iconShape, iconBackgroundColor, label, elementType, type, isSupported }
+            { section, description, icon, iconShape, iconBackgroundColor, label, elementType, type, isSupported }
         ) => {
             if (section == null || (type === ElementType.END && !showEndElement)) {
                 return acc;
