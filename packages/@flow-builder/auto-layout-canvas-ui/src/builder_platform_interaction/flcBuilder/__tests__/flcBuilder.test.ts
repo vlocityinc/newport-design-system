@@ -211,6 +211,21 @@ describe('Auto Layout Canvas', () => {
             checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED, START_MENU_OPENED);
         });
 
+        it('close the node menu', async () => {
+            await closeStartMenu();
+
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            const flow = getFlow();
+
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            cmp.closeNodeOrConnectorMenu();
+            await ticks(1);
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+        });
+
         it('open the node menu', async () => {
             await closeStartMenu();
 

@@ -409,7 +409,7 @@ export default class FlcBuilder extends LightningElement {
     handleMenuPositionUpdate(event) {
         let menuInfo = this._flowRenderContext.interactionState.menuInfo!;
 
-        if (menuInfo.needToPosition) {
+        if (menuInfo != null && menuInfo.needToPosition) {
             this._animatePromise.then(() => {
                 menuInfo = { ...menuInfo, needToPosition: false };
 
