@@ -51,6 +51,15 @@ const nodeToggleMenuEvent = new ToggleMenuEvent({
     elementMetadata: { supportsMenu: true }
 });
 
+const nodeToggleMenuEvent2 = new ToggleMenuEvent({
+    guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
+    left: 702.0999755859375,
+    offsetX: 2.4000244140625,
+    top: 140,
+    type: MenuType.NODE,
+    elementMetadata: { supportsMenu: true }
+});
+
 const closeToggleMenuEvent = new ToggleMenuEvent({});
 
 jest.mock('builder_platform_interaction/zoomPanel', () => require('builder_platform_interaction_mocks/zoomPanel'));
@@ -213,6 +222,26 @@ describe('Auto Layout Canvas', () => {
             checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
         });
 
+        it('when node menu opened, click on another node closes and reopens menu', async () => {
+            await closeStartMenu();
+
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            const flow = getFlow();
+
+            // open the menu for a node
+            await dispatchEvent(flow, nodeToggleMenuEvent2);
+            checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            // open the menu for another node
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            // close the menu
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+        });
+
         it('open and close the connector menu', async () => {
             await closeStartMenu();
 
@@ -223,6 +252,24 @@ describe('Auto Layout Canvas', () => {
 
             await dispatchEvent(flow, closeToggleMenuEvent);
             checkMenusOpened(false, false);
+        });
+
+        it('when connector menu opened, click on a node closes and reopens menu', async () => {
+            await closeStartMenu();
+
+            const flow = getFlow();
+
+            // open a connector menu
+            await dispatchEvent(flow, connectorToggleMenuEvent);
+            checkMenusOpened(!NODE_MENU_OPENED, CONNECTOR_MENU_OPENED);
+
+            // open the menu for a node
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            // close the menu
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
         });
 
         it('clicking on the canvas closes the connector menu', async () => {
