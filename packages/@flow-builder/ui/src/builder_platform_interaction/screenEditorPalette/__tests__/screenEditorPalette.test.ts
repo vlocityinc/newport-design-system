@@ -132,3 +132,31 @@ describe('Screen Editor Palette', () => {
         expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
     });
 });
+
+describe('Screen Editor Palette when there are no extension types', () => {
+    it('should list all the screen fields and extensions, sorted within category', async () => {
+        expect.assertions(5);
+        const element = createComponentForTest({ screenFieldTypes, undefined });
+        await ticks(1);
+        const basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
+        expect(basePalette.data).toHaveLength(4);
+        expect(basePalette.data[0].label).toBe('Input (3)');
+        expect(basePalette.data[1].label).toBe('Number');
+        expect(basePalette.data[2].label).toBe('Text Area');
+        expect(basePalette.data[3].label).toBe('Text Input');
+    });
+});
+
+describe('Screen Editor Palette when there are no screen field types', () => {
+    it('should list all the screen fields and extensions, sorted within category', async () => {
+        expect.assertions(5);
+        const element = createComponentForTest({ undefined, extensionTypes });
+        await ticks(1);
+        const basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
+        expect(basePalette.data).toHaveLength(4);
+        expect(basePalette.data[0].label).toBe('Input (1)');
+        expect(basePalette.data[1].label).toBe('File Upload');
+        expect(basePalette.data[2].label).toBe('Custom (1)');
+        expect(basePalette.data[3].label).toBe('Custom Comp');
+    });
+});
