@@ -15,7 +15,8 @@ validations:
       command: 'yarn ci:lint'
     - name: 'Unit Tests'
       command: 'yarn test:unit'
-
+    - name: 'Code Coverage'
+      command: 'yarn test:unit:ci:coverage'
 core:
     module_name: 'ui-interaction-builder-components'
     version_property_name: 'ui-interaction-builder-components.version'
