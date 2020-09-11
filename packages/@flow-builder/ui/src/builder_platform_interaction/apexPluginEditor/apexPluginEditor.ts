@@ -106,7 +106,7 @@ export default class ApexPluginEditor extends LightningElement {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
-            emptyInputsBody: format(this.labels.emptyInputsBody, this.labels.apexPluginTypeLabel),
+            emptyInputsBody: this.labels.thisActionHasNoInputBody,
             sortInputs: true,
             sortOutputs: true,
             inputs,
@@ -114,7 +114,7 @@ export default class ApexPluginEditor extends LightningElement {
             warnings,
             storeOutputAutomatically: false, // automatic output handling are not supported for apex plugin
             automaticOutputHandlingSupported: false, // automatic output handling are not supported for apex plugin
-            emptyInputsOutputsBody: format(this.labels.emptyInputsOutputsBody, this.labels.apexPluginTypeLabel),
+            emptyInputsOutputsBody: this.labels.thisActionHasNoInputOutputBody,
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }

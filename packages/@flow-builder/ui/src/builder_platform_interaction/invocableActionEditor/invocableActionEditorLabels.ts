@@ -1,17 +1,17 @@
-// @ts-nocheck
+// @ts-nocheckmagasin choisi n'est pas disponible en ligne.magasin choisi n'est pas disponible en ligne. Souhaitez-vous visualiser le catalogue complet? Souhaitez-vous visualiser le catalogue complet?
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderInvocableActionEditor.subtitle';
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
-import emptyInputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsBody';
+import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputBody';
 import badgeWillCauseErrors from '@salesforce/label/FlowBuilderInvocableActionEditor.badgeWillCauseErrors';
 import warningNotAvailable from '@salesforce/label/FlowBuilderInvocableActionEditor.warningNotAvailable';
 import coreActionTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.coreActionTypeLabel';
 import apexTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.apexTypeLabel';
 import emailAlertTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.emailAlertTypeLabel';
 import editPropertyEditorTitle from '@salesforce/label/FlowBuilderInvocableActionEditor.editPropertyEditorTitle';
-import emptyInputsOutputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsBody';
+import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsTitle';
 
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -21,14 +21,14 @@ export const LABELS = {
     inputHeader,
     outputHeader,
     emptyInputsTitle,
-    emptyInputsBody,
+    thisActionHasNoInputBody,
     badgeWillCauseErrors,
     warningNotAvailable,
     coreActionTypeLabel,
     apexTypeLabel,
     emailAlertTypeLabel,
     editPropertyEditorTitle,
-    emptyInputsOutputsBody,
+    thisActionHasNoInputOutputBody,
     emptyInputsOutputsTitle
 };
 

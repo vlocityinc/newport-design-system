@@ -240,7 +240,7 @@ export default class SubflowEditor extends LightningElement {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
-            emptyInputsBody: format(this.labels.emptyInputsBody, this.labels.subflowTypeLabel),
+            emptyInputsBody: this.labels.thisFlowHasNoInputBody,
             sortInputs: true,
             sortOutputs: true,
             inputs,
@@ -248,7 +248,7 @@ export default class SubflowEditor extends LightningElement {
             warnings,
             storeOutputAutomatically,
             automaticOutputHandlingSupported,
-            emptyInputsOutputsBody: format(this.labels.emptyInputsOutputsBody, this.labels.subflowTypeLabel),
+            emptyInputsOutputsBody: this.labels.thisFlowHasNoInputOutputBody,
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }

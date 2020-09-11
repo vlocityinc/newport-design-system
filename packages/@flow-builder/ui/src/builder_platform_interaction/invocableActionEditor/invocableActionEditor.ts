@@ -282,7 +282,7 @@ export default class InvocableActionEditor extends LightningElement {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
-            emptyInputsBody: format(this.labels.emptyInputsBody, ACTION_TYPE_LABEL[this.elementType]),
+            emptyInputsBody: this.labels.thisActionHasNoInputBody,
             sortInputs: true,
             sortOutputs: true,
             inputs,
@@ -290,7 +290,7 @@ export default class InvocableActionEditor extends LightningElement {
             warnings,
             storeOutputAutomatically,
             automaticOutputHandlingSupported,
-            emptyInputsOutputsBody: format(this.labels.emptyInputsOutputsBody, ACTION_TYPE_LABEL[this.elementType]),
+            emptyInputsOutputsBody: this.labels.thisActionHasNoInputOutputBody,
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }

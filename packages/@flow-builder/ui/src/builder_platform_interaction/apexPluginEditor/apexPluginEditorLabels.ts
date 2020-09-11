@@ -4,12 +4,13 @@ import subtitle from '@salesforce/label/FlowBuilderApexPluginEditor.subtitle';
 import inputHeader from '@salesforce/label/FlowBuilderApexPluginEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderApexPluginEditor.outputHeader';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
-import emptyInputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsBody';
+import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputBody';
 import badgeWillCauseErrors from '@salesforce/label/FlowBuilderApexPluginEditor.badgeWillCauseErrors';
 import warningNotAvailable from '@salesforce/label/FlowBuilderApexPluginEditor.warningNotAvailable';
 import apexPluginTypeLabel from '@salesforce/label/FlowBuilderApexPluginEditor.apexPluginTypeLabel';
+import thisApexPluginTypeLabel from '@salesforce/label/FlowBuilderApexPluginEditor.thisApexPluginTypeLabel';
 import editPropertyEditorTitle from '@salesforce/label/FlowBuilderApexPluginEditor.editPropertyEditorTitle';
-import emptyInputsOutputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsBody';
+import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsTitle';
 
 export const LABELS = {
@@ -17,11 +18,12 @@ export const LABELS = {
     inputHeader,
     outputHeader,
     emptyInputsTitle,
-    emptyInputsBody,
+    thisActionHasNoInputBody,
     badgeWillCauseErrors,
     warningNotAvailable,
     apexPluginTypeLabel,
+    thisApexPluginTypeLabel,
     editPropertyEditorTitle,
-    emptyInputsOutputsBody,
+    thisActionHasNoInputOutputBody,
     emptyInputsOutputsTitle
 };
