@@ -1,4 +1,4 @@
-// @ts-nocheckmagasin choisi n'est pas disponible en ligne.magasin choisi n'est pas disponible en ligne. Souhaitez-vous visualiser le catalogue complet? Souhaitez-vous visualiser le catalogue complet?
+// @ts-nocheck
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderInvocableActionEditor.subtitle';
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
