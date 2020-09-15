@@ -480,6 +480,7 @@ export function invokeDebugEditor(attributes) {
 
     const flowName = attributes.flowDevName;
     const flowId = attributes.flowId;
+    const rerun = attributes.rerun;
 
     showDebugEditorPopover(
         'builder_platform_interaction:modalHeader',
@@ -487,7 +488,8 @@ export function invokeDebugEditor(attributes) {
         'builder_platform_interaction:modalFooter',
         {
             flowName,
-            flowId
+            flowId,
+            rerun
         },
         {
             flavor: 'small slds-modal_medium'
@@ -621,7 +623,8 @@ function showDebugEditorPopover(
     });
     const bodyPromise = createComponentPromise(cmpBody, {
         flowName: cmpAttributes.flowName,
-        flowId: cmpAttributes.flowId
+        flowId: cmpAttributes.flowId,
+        rerun: cmpAttributes.rerun
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);

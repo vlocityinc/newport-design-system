@@ -15,6 +15,7 @@ import {
     ToggleSelectionModeEvent,
     ClosePropertyEditorEvent,
     NewDebugFlowEvent,
+    RestartDebugFlowEvent,
     ToggleCanvasModeEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -345,6 +346,13 @@ export default class Toolbar extends LightningElement {
         const newDebugFlowEvent = new NewDebugFlowEvent();
         this.dispatchEvent(newDebugFlowEvent);
         logInteraction(`new-debug-button`, 'toolbar', null, 'click');
+    }
+
+    handleRestartDebug(event) {
+        event.preventDefault();
+        const restartDebugFlowEvent = new RestartDebugFlowEvent();
+        this.dispatchEvent(restartDebugFlowEvent);
+        logInteraction(`restart-debug-button`, 'toolbar', null, 'click');
     }
 
     /**

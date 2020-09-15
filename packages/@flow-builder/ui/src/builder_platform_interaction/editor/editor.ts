@@ -155,6 +155,7 @@ let storeInstance;
 const RUN = 'run';
 const DEBUG = 'debug';
 const NEWDEBUG = 'new debug';
+const RESTARTDEBUG = 'restart debug';
 
 const EDITOR = 'EDITOR';
 const APP_NAME = 'FLOW_BUILDER';
@@ -956,12 +957,13 @@ export default class Editor extends LightningElement {
         if (currentState && currentState.properties) {
             const flowDevName = currentState.properties.name;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
-            if (runOrDebug === NEWDEBUG || runOrDebug === DEBUG) {
-                if (runOrDebug === NEWDEBUG && this.useNewDebugExperience) {
+            if (runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG || runOrDebug === DEBUG) {
+                if ((runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG) && this.useNewDebugExperience) {
                     this.queueOpenFlowDebugEditor(() => {
                         return {
                             flowId: this.flowId,
                             flowDevName,
+                            rerun: runOrDebug === RESTARTDEBUG,
                             runDebugInterviewCallback: this.runDebugInterviewCallback
                         };
                     });
@@ -1212,6 +1214,9 @@ export default class Editor extends LightningElement {
         this.runOrDebugFlow(DEBUG);
     };
 
+    /**
+     * Handles the debug on canvas flow event fired byt toolbar. Opens the debug popover modal in the builder app
+     */
     handleNewDebugFlow = () => {
         if (this.properties.hasUnsavedChanges) {
             invokeModal({
@@ -1239,6 +1244,14 @@ export default class Editor extends LightningElement {
             this.runOrDebugFlow(NEWDEBUG);
         }
     };
+
+    /**
+     * Handles the Debug Again (aka restartdebugflow) even fired by the toolbar when in DEBUG MODE. Opens debug modal in builder
+     */
+    handleRestartDebugFlow = () => {
+        this.runOrDebugFlow(RESTARTDEBUG);
+    };
+
     /**
      * Handles the save flow event fired by a toolbar. Saves the flow if the flow has already been created.
      * Pops the flowProperties property editor if the flow is being saved for the first time.

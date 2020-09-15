@@ -482,5 +482,52 @@
                 }
             );
         }
+    },
+
+    testPrepopulateVariable: {
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getFlowInputOutputVariables' },
+                        answers: [
+                            {
+                                value: [
+                                    {
+                                        variables: [
+                                            {
+                                                dataType: 'String',
+                                                isCollection: false,
+                                                isInput: true,
+                                                isOutput: false,
+                                                name: 'previousInput',
+                                                value: 'previous input value' //the controller doesn't actually return this. This is the mocked previousInputs var
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function (cmp) {
+            $A.test.addWaitFor(
+                false,
+                function () {
+                    return $A.test.isActionPending('doInit');
+                },
+                function (cmp) {
+                    var inputs = cmp.find('flowInput').get('v.body');
+                    $A.test.assertTrue(inputs.length === 2, 'Output-only variable should not show up');
+                    $A.test.assertEquals(inputs[1].get('v.value'), 'previous input value');
+                    // inputs[0] is aura$expression by default, inputs.length = 2 means there is 1 input variable
+                    $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs should return true');
+                }
+            );
+        }
     }
 });

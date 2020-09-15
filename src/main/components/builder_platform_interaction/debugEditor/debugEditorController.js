@@ -1,6 +1,11 @@
 ({
     doInit: function (cmp, event, helper) {
-        helper.buildInput(cmp, cmp.get('v.flowName'));
+        if (!cmp.get('v.rerun')) {
+            helper.clearPreviousInputs();
+        } else {
+            helper.buildDebugAgainOptions(cmp);
+        }
+        helper.buildInput(cmp, cmp.get('v.flowName'), cmp.get('v.rerun'));
     },
 
     handleDebugAsUserCheck: function (cmp, event) {

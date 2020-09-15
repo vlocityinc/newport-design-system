@@ -3,6 +3,7 @@
     <!-- Public Attributes -->
     <aura:attribute name="flowName" type="String"/>
     <aura:attribute name="flowId" type="String"/>
+    <aura:attribute name="rerun" type="Boolean"/>
 
     <!-- Values for component capabilities -->
     <aura:attribute name="showIsDebugAsUserAllowed" type="Boolean" default="false"/>
@@ -12,6 +13,10 @@
     <aura:attribute name="runAsSelected" type="String"/>
     <aura:attribute name="hasInputs" type="Boolean" default="false"/>
     <aura:attribute name="displaySpinner" type="Boolean" default="true"/>
+
+    <aura:attribute name="enableRollbackCB" type="Boolean" default="false"/>
+    <aura:attribute name="runAsCB" type="Boolean" default="false"/>
+    <aura:attribute name="govLimsCB" type="Boolean" default="false"/>
 
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
@@ -28,7 +33,7 @@
         
         <lightning:input class="slds-p-bottom_small" type="checkbox" 
                 aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}" 
-                checked="false" onchange="{!c.handleDebugAsUserCheck}"
+                checked="{!v.runAsCB}" onchange="{!c.handleDebugAsUserCheck}"
                 fieldLevelHelp="{!v.runAsHelptext}" disabled="{!(!v.showIsDebugAsUserAllowed || !v.showIsDebugAsUserAllowedInNonPrd)}"/>
         
         <aura:if isTrue="{!v.showDebugAsUserLookup}">
@@ -48,10 +53,10 @@
 
         <lightning:input class="slds-p-bottom_small" type="checkbox" 
                 aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}" 
-                checked="false"/>
+                checked="{!v.enableRollbackCB}"/>
         <lightning:input class="slds-p-bottom_small" type="checkbox"
                 aura:id="isGovernorLimitsBox" label="{!$Label.FlowDebug.GovernorLimits}"
-                checked="false"/>
+                checked="{!v.govLimsCB}"/>
 
         <!-- Input Variables -->
         <div class="slds-p-top_medium">

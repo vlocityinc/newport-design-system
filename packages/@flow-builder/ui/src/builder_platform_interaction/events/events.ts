@@ -42,6 +42,7 @@ export { RedoEvent } from './toolbarEvents/redoEvent';
 export { RunFlowEvent } from './toolbarEvents/runFlowEvent';
 export { DebugFlowEvent } from './toolbarEvents/debugFlowEvent';
 export { NewDebugFlowEvent } from './toolbarEvents/newDebugFlowEvent';
+export { RestartDebugFlowEvent } from './toolbarEvents/restartDebugFlowEvent';
 export { SaveFlowEvent } from './toolbarEvents/saveFlowEvent';
 export { DiffFlowEvent } from './toolbarEvents/diffFlowEvent';
 export { ToggleCanvasModeEvent } from './toolbarEvents/toggleCanvasModeEvent';

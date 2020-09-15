@@ -11,6 +11,7 @@ import {
     EditFlowEvent,
     ToggleCanvasModeEvent,
     NewDebugFlowEvent,
+    RestartDebugFlowEvent,
     DebugFlowEvent
 } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
@@ -178,6 +179,15 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest({ showRestartRunButton: true });
         const restartRun = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
         expect(restartRun).not.toBeNull();
+    });
+
+    it('Restart Debug button should fire the restart debug event if clicked', () => {
+        const toolbarComponent = createComponentUnderTest({ showRestartRunButton: true });
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(RestartDebugFlowEvent.EVENT_NAME, eventCallback);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
+        newDebug.click();
+        expect(eventCallback).toHaveBeenCalled();
     });
 
     it('Status Icons section should be present', () => {
