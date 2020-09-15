@@ -38,6 +38,17 @@ const decisionMetadata = {
     value: 'Decision'
 };
 
+const customComponentMetadata = {
+    canHaveFaultConnector: false,
+    elementType: 'SteppedStage',
+    icon: 'standard:screen',
+    label: 'Decision',
+    section: null,
+    type: ElementType.DEFAULT,
+    value: 'SteppedStage',
+    dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode'
+};
+
 const endMetadata = {
     canHaveFaultConnector: false,
     elementType: 'End',
@@ -64,6 +75,7 @@ const createComponentUnderTest = (metadata = screenMetadata, isNodeGettingDelete
 const selectors = {
     defaultTriggerContainer: '.default-container.slds-p-around_xx-small',
     diamondTriggerContainer: '.default-container.rotate-icon-container.slds-p-around_xx-small',
+    customComponentTriggerContainer: '.slds-p-around_xx-small',
     triggerButton: 'button',
     circularTriggerButton: '.circular-icon',
     toBeDeletedButton: '.node-to-be-deleted',
@@ -85,6 +97,13 @@ describe('the button menu', () => {
     it('Renders a diamond trigger container when iconShape in metadata is diamond', () => {
         const triggerContainer = createComponentUnderTest(decisionMetadata).shadowRoot.querySelector(
             selectors.defaultTriggerContainer
+        );
+        expect(triggerContainer).not.toBeNull();
+    });
+
+    it('Renders a trigger container for a custom node component', () => {
+        const triggerContainer = createComponentUnderTest(customComponentMetadata).shadowRoot.querySelector(
+            selectors.customComponentTriggerContainer
         );
         expect(triggerContainer).not.toBeNull();
     });

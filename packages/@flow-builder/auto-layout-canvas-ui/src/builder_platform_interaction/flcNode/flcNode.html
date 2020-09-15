@@ -14,12 +14,20 @@
         <!-- Element Icon -->
         <div slot="trigger" class={rotateIconClass}>
             <lightning-icon
+                if:false={dynamicNodeConstructor}
                 alternative-text={labels.nodeIconAltText}
                 class={svgClass}
                 icon-name={nodeInfo.metadata.icon}
                 size={iconSize}
                 variant="inverse"
             ></lightning-icon>
+
+            <x-lazy
+                if:true={dynamicNodeConstructor}
+                lwc:dynamic={dynamicNodeConstructor}
+                node={nodeInfo}
+                class="component"
+            ></x-lazy>
         </div>
 
         <!-- Selection Checkbox -->
@@ -37,7 +45,7 @@
     </builder_platform_interaction-flc-button-menu>
 
     <!-- Label and Element Type -->
-    <div class={textContainerClasses}>
+    <div if:false={dynamicNodeConstructor} class={textContainerClasses}>
         <div class="text-element-label slds-text-body_regular">
             {nodeLabel}
         </div>

@@ -44,7 +44,8 @@ const mutateElements = (elements, palette) =>
                                 iconBackgroundColor,
                                 description,
                                 iconShape,
-                                iconSize
+                                iconSize,
+                                dynamicNodeComponent
                             } = nodeConfig;
 
                             if (!acc[headerLabel]) {
@@ -63,7 +64,8 @@ const mutateElements = (elements, palette) =>
                                 actionName,
                                 canHaveFaultConnector,
                                 iconShape,
-                                iconSize
+                                iconSize,
+                                dynamicNodeComponent
                             };
                             acc[headerLabel].push(item);
                         });

@@ -16,8 +16,20 @@ enum ConditionOptions {
  * Autolayout Canvas Node Component
  */
 export default class FlcNode extends LightningElement {
+    _nodeInfo;
+
     @api
-    nodeInfo;
+    get nodeInfo() {
+        return this._nodeInfo;
+    }
+
+    set nodeInfo(nodeInfo) {
+        this._nodeInfo = nodeInfo;
+
+        if (nodeInfo.metadata.dynamicNodeComponent) {
+            this.processDynamicNodeComponent(nodeInfo.metadata.dynamicNodeComponent);
+        }
+    }
 
     @api
     isSelectionMode;
@@ -115,6 +127,25 @@ export default class FlcNode extends LightningElement {
 
     get showElementType() {
         return this.nodeInfo.metadata.type !== ElementType.END;
+    }
+
+    /**
+     * Import the constructor and update the component params
+     *
+     * Note: all of this needs to happen in a single tick, otherwise the component
+     * constructor and params could be out of sync (old constructor with new params
+     * or new constructor with old params)
+     */
+    // eslint-disable-next-line @lwc/lwc/no-async-await
+    async processDynamicNodeComponent(comp: string): Promise<void> {
+        // TODD: include node attributeInfo
+
+        if (comp) {
+            // eslint-disable-next-line lwc-core/no-dynamic-import, lwc-core/no-dynamic-import-identifier
+            const module = await import(comp);
+
+            this.dynamicNodeConstructor = module.default;
+        }
     }
 
     /**

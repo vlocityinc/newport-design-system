@@ -821,7 +821,8 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 iconBackgroundColor,
                 iconName,
                 iconShape,
-                iconSize
+                iconSize,
+                dynamicNodeComponent
             }) => {
                 newElementsMetadata.push({
                     section: section.label,
@@ -834,6 +835,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     icon: iconName,
                     iconShape,
                     iconSize,
+                    dynamicNodeComponent,
                     value: elementType, // TODO: FLC remove this property and just use elementType
                     isSupported: true
                 });

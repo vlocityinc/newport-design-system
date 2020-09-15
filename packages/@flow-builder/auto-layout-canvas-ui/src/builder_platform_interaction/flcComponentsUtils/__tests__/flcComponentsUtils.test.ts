@@ -5,7 +5,8 @@ import {
     getCanvasElementDeselectionData,
     getCanvasElementDeselectionDataOnToggleOff,
     getFlcMenuData,
-    getMenuStyle
+    getMenuStyle,
+    getFlcNodeData
 } from '../flcComponentsUtils';
 
 import * as autoLayoutTestUtils from '../../../../../auto-layout-canvas/src/__tests__/testUtils.js';
@@ -983,6 +984,28 @@ describe('FLC Canvas Utils test', () => {
                 [],
                 ''
             );
+        });
+    });
+
+    describe('getFlcNodeData', () => {
+        it('does not set the dynamic node component if not present', () => {
+            const nodeRenderInfo = {
+                metadata: {}
+            };
+
+            const { dynamicNodeComponent } = getFlcNodeData(nodeRenderInfo);
+            expect(dynamicNodeComponent).not.toBeDefined();
+        });
+
+        it('sets the dynamic node component if present', () => {
+            const nodeRenderInfo = {
+                metadata: {
+                    dynamicNodeComponent: 'foo'
+                }
+            };
+
+            const { dynamicNodeComponent } = getFlcNodeData(nodeRenderInfo);
+            expect(dynamicNodeComponent).toEqual(nodeRenderInfo.metadata.dynamicNodeComponent);
         });
     });
 });

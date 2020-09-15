@@ -458,6 +458,7 @@ const getCanvasElementDeselectionDataOnToggleOff = (
 
 const CLASS_MENU_OPENED = 'menu-opened';
 const CLASS_IS_NEW = 'is-new';
+const DYNAMIC_NODE_COMPONENT = 'dynamic-node-component';
 
 function getCssStyle(cssEntries): string {
     return Object.entries(cssEntries)
@@ -541,16 +542,19 @@ function getFlcCompoundNodeData(nodeInfo: NodeRenderInfo): object {
  */
 function getFlcNodeData(nodeInfo: NodeRenderInfo) {
     const { guid, menuOpened } = nodeInfo;
+    const dynamicNodeComponent = nodeInfo.metadata.dynamicNodeComponent;
 
     const className = classSet({
-        [CLASS_MENU_OPENED]: menuOpened
+        [CLASS_MENU_OPENED]: menuOpened,
+        [DYNAMIC_NODE_COMPONENT]: !!dynamicNodeComponent
     }).toString();
 
     return {
         key: guid,
         nodeInfo,
         className,
-        style: ''
+        style: '',
+        dynamicNodeComponent
     };
 }
 

@@ -215,11 +215,14 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     get triggerContainerClass() {
-        return this.variant !== 'connector'
-            ? this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND
-                ? 'default-container rotate-icon-container slds-p-around_xx-small'
-                : 'default-container slds-p-around_xx-small'
-            : '';
+        if (this.variant === 'connector') {
+            return '';
+        }
+
+        return classSet('slds-p-around_xx-small').add({
+            'default-container': !this.elementMetadata.dynamicNodeComponent,
+            'rotate-icon-container': this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND
+        });
     }
 
     get computedAriaExpanded() {

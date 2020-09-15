@@ -78,6 +78,7 @@ export interface ElementMetadata {
     label: string;
     elementType: ElementType;
     isSupported: boolean;
+    dynamicNodeComponent?: string;
 }
 
 export const FAULT_INDEX = -1;
