@@ -57,7 +57,6 @@ const conditionOptions = [
 
 const selectors = {
     header: '.node-menu-header',
-    cancelButton: '.test-cancel-button',
     headerLabel: '.test-header-label',
     headerDescription: '.test-header-description',
     menuActionRow: '.slds-dropdown__item',
@@ -88,32 +87,6 @@ describe('Node Menu', () => {
 
         it('renders the element action contextual menu', () => {
             expect(menu).toBeDefined();
-        });
-
-        it('Should have a cancel button in the header', () => {
-            const header = menu.shadowRoot.querySelector(selectors.header);
-            const cancelButton = header.querySelector(selectors.cancelButton);
-            expect(cancelButton).not.toBeNull();
-        });
-
-        it('Should use a label for the Cancel button text', () => {
-            const header = menu.shadowRoot.querySelector(selectors.header);
-            const cancelButton = header.querySelector(selectors.cancelButton);
-            expect(cancelButton.label).toBe(LABELS.cancelLabel);
-        });
-
-        it('Should use a title for the Cancel button text', () => {
-            const header = menu.shadowRoot.querySelector(selectors.header);
-            const cancelButton = header.querySelector(selectors.cancelButton);
-            expect(cancelButton.title).toBe(LABELS.cancelTitle);
-        });
-
-        it('Clicking on the Cancel Button should dispatch CloseMenuEvent', () => {
-            const callback = jest.fn();
-            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-            const header = menu.shadowRoot.querySelector(selectors.header);
-            header.querySelector(selectors.cancelButton).click();
-            expect(callback).toHaveBeenCalled();
         });
 
         it('Should have a label in the header', () => {

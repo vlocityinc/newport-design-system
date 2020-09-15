@@ -1,6 +1,4 @@
 // @ts-nocheck
-import cancelLabel from '@salesforce/label/AlcNodeContextualMenu.cancelLabel';
-import cancelTitle from '@salesforce/label/AlcNodeContextualMenu.cancelTitle';
 import copyActionLabel from '@salesforce/label/AlcNodeContextualMenu.copyActionLabel';
 import deleteActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteActionLabel';
 import deleteBranchElementComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.deleteBranchElementComboboxLabel';
@@ -12,8 +10,6 @@ import deleteFooterActionLabel from '@salesforce/label/AlcNodeContextualMenu.del
 import deleteFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionTitle';
 
 export const LABELS = {
-    cancelLabel,
-    cancelTitle,
     copyActionLabel,
     deleteActionLabel,
     deleteBranchElementComboboxLabel,

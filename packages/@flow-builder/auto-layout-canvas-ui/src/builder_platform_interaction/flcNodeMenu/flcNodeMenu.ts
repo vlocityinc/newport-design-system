@@ -69,14 +69,6 @@ export default class FlcNodeMenu extends Menu {
     }
 
     /**
-     * Handles the click on the cancel button and closes the contextual menu
-     */
-    handleCancelButtonClick = (event) => {
-        event.stopPropagation();
-        this.dispatchEvent(new CloseMenuEvent());
-    };
-
-    /**
      * Handles the click on the action row item and dispatches the appropriate event
      */
     handleSelectNodeAction = (event) => {
