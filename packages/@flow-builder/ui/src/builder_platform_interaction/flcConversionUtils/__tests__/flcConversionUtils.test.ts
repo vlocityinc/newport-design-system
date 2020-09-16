@@ -21,6 +21,7 @@ import decisionWithNestedRightDecision from './flcUiModels/decision-with-nested-
 import decisionWithEmptyNestedDecision from './flcUiModels/decision-with-empty-nested-decision';
 import decisionWithDecisionNext from './flcUiModels/decision-with-decision-next';
 import updatedElementConfig from './flcUiModels/updated-element-config';
+import testCaseW8010546 from './flcUiModels/test-case-W-8010546';
 
 import ffcSanity from './ffcUiModels/sanity';
 import ffcElementWithFault from './ffcUiModels/element-with-fault';
@@ -725,6 +726,20 @@ describe('flc conversion utils', () => {
                         }
                     ];
                     assertRoundTripFromAutoLayoutCanvas(decisionWithChildOnNonDefaultOutcomeNextIsEnd, endConnectors);
+                });
+                describe('with testCaseW8010546', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(testCaseW8010546, endConnectors, true);
                 });
                 describe('with one child on each branch, followed by a screen element', () => {
                     const endConnectors = [

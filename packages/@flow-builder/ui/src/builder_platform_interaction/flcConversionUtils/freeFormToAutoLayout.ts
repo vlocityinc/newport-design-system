@@ -330,15 +330,18 @@ function updateMergeElementDominator(
  * @param branchingGuid - the branching element's guid
  * @return the merge guid for the branching element
  */
-function findMerge(conversionInfos, branchingGuid) {
+function findMerge(conversionInfos: StringKeyedMap<ConversionInfo>, branchingGuid: Guid) {
     while (branchingGuid !== ELEMENT_TYPE.ROOT_ELEMENT) {
         const ancestorInfo = conversionInfos[branchingGuid];
         if (ancestorInfo == null) {
             return null;
         }
-        const { mergeGuid } = ancestorInfo;
+        const { mergeGuid, isLoop } = ancestorInfo;
 
-        if (mergeGuid != null) {
+        if (isLoop) {
+            /* W-8010546: loop never merges */
+            return null;
+        } else if (mergeGuid != null) {
             return mergeGuid;
         }
 
