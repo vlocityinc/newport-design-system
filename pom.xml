@@ -7,7 +7,7 @@
     <version>230-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.2922</aura.version>
+        <aura.version>0.6000.2923</aura.version>
         <lwc.api.version>0.230.3</lwc.api.version>
         <lwc.version>1.8.1</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

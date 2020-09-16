@@ -20,4 +20,16 @@ export default class WelcomeMatBody extends LightningElement {
         this.createCallback(this.processType, this.triggerType, true);
         this.closeCallback();
     };
+
+    handleKeyDownOnFreeFormCanvas(event) {
+        if (event.key === 'Enter') {
+            this.createFreeFormCanvas();
+        }
+    }
+
+    handleKeyDownOnAutoLayoutCanvas(event) {
+        if (event.key === 'Enter') {
+            this.createAutoLayoutCanvas();
+        }
+    }
 }
