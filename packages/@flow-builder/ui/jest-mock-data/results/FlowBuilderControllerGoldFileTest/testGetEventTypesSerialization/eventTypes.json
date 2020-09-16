@@ -8,6 +8,13 @@
   "qualifiedApiName" : "BatchApexErrorEvent"
 },
     {
+  "description" : "ConsentEvent",
+  "eventType" : "StandardPlatformEvent",
+  "fieldsToNull" : [ ],
+  "label" : "Consent Change Standard Event",
+  "qualifiedApiName" : "ConsentEvent"
+},
+    {
   "description" : "FlowExecutionErrorEvent",
   "eventType" : "StandardPlatformEvent",
   "fieldsToNull" : [ ],

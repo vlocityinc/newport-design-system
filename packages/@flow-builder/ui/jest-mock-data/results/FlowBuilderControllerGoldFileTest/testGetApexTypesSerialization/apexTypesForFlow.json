@@ -263,26 +263,6 @@
   }
 },
     {
-  "durableId" : "ApexContainsOnlyASingleSObject",
-  "fieldsToNull" : [ ],
-  "name" : "ApexContainsOnlyASingleSObject",
-  "properties" : {
-    "done" : true,
-    "entityTypeName" : "FlowApexClassPropertyDesc",
-    "records" : [ {
-      "durableId" : "ApexContainsOnlyASingleSObject.account",
-      "fieldsToNull" : [ ],
-      "isCollection" : false,
-      "name" : "account",
-      "objectType" : "account",
-      "parentId" : "ApexContainsOnlyASingleSObject",
-      "type" : "SObject"
-    } ],
-    "size" : 1,
-    "totalSize" : 1
-  }
-},
-    {
   "durableId" : "ApexContainsOnlyAnSObjectCollection",
   "fieldsToNull" : [ ],
   "name" : "ApexContainsOnlyAnSObjectCollection",
@@ -296,6 +276,26 @@
       "name" : "accounts",
       "objectType" : "account",
       "parentId" : "ApexContainsOnlyAnSObjectCollection",
+      "type" : "SObject"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  }
+},
+    {
+  "durableId" : "ApexContainsOnlyASingleSObject",
+  "fieldsToNull" : [ ],
+  "name" : "ApexContainsOnlyASingleSObject",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "ApexContainsOnlyASingleSObject.account",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "account",
+      "objectType" : "account",
+      "parentId" : "ApexContainsOnlyASingleSObject",
       "type" : "SObject"
     } ],
     "size" : 1,
