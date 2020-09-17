@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
-import { blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils/events';
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -113,15 +112,6 @@ describe('the button menu', () => {
         expect(button).not.toBeNull();
     });
 
-    it('should call send the blur event ', () => {
-        const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener('blur', callback);
-        button.dispatchEvent(blurEvent);
-        expect(callback).toHaveBeenCalled();
-    });
-
     it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', () => {
         const cmp = createComponentUnderTest(screenMetadata, true);
         const button = cmp.shadowRoot.querySelector(selectors.toBeDeletedButton);
@@ -165,12 +155,27 @@ describe('the button menu', () => {
         expect(callback).not.toHaveBeenCalled();
     });
 
-    it('should send a focus event on focus', () => {
-        const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
-        const callback = jest.fn();
-        cmp.addEventListener('focus', callback);
-        button.dispatchEvent(focusEvent);
-        expect(callback).toHaveBeenCalled();
+    it('Regular element should have tabindex equal to 0', () => {
+        const button = createComponentUnderTest(screenMetadata).shadowRoot.querySelector(selectors.triggerButton);
+        expect(button.tabIndex).toEqual(0);
+    });
+
+    it('End element should have tabindex equal to -1', () => {
+        const button = createComponentUnderTest(endMetadata).shadowRoot.querySelector(selectors.endElement);
+        expect(button.tabIndex).toEqual(-1);
+    });
+
+    it('In Selection Mode regular element should have tabindex equal to -1', () => {
+        const button = createComponentUnderTest(screenMetadata, false, true).shadowRoot.querySelector(
+            selectors.triggerButton
+        );
+        expect(button.tabIndex).toEqual(-1);
+    });
+
+    it('In Selection Mode end element should have tabindex equal to -1', () => {
+        const button = createComponentUnderTest(endMetadata, false, true).shadowRoot.querySelector(
+            selectors.endElement
+        );
+        expect(button.tabIndex).toEqual(-1);
     });
 });

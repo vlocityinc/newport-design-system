@@ -1,17 +1,11 @@
 <template>
     <div class={triggerContainerClass}>
         <button
-            accesskey={computedAccessKey}
-            aria-expanded={computedAriaExpanded}
-            aria-haspopup="true"
+            aria-haspopup="dialog"
             class={computedButtonClass}
-            disabled={disabled}
-            title={computedTitle}
+            tabindex={computedTabIndex}
             type="button"
-            value={value}
-            onblur={handleBlur}
             onclick={handleButtonClick}
-            onfocus={handleFocus}
             onkeydown={handleButtonKeyDown}
             onmousedown={handleButtonMouseDown}
         >
