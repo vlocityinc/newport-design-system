@@ -483,13 +483,29 @@ function deleteElement(
 
             if (headElement) {
                 if (next != null) {
-                    const tailElement = findLastElement(headElement, state);
-                    tailElement.next = next;
-                    linkElement(state, tailElement);
+                    let tailElement = findLastElement(headElement, state);
+
+                    // In case the tail element is an End element, delete the end element
+                    // and connect End element's previous element to 'next'
+                    if (tailElement.elementType === END) {
+                        delete state[tailElement.guid];
+                        if (tailElement.prev) {
+                            // Setting End element's previous element as the tail element
+                            tailElement = state[tailElement.prev];
+                        }
+                    }
+
+                    // Need to check in the store for the case when End element is the only element in the branch
+                    if (tailElement && state[tailElement.guid]) {
+                        tailElement.next = next;
+                        linkElement(state, tailElement);
+                    }
                 }
                 deleteBranchHeadProperties(headElement);
             }
-            nextElement = headElement;
+
+            // Need to check in the store for the case when End element is the only element in the branch
+            nextElement = headElement && state[headElement.guid];
         } else if (childIndexToKeep === DELETE_ALL) {
             addEndElement = areAllBranchesTerminals(element as ParentNodeModel, state) && element.next == null;
         }

@@ -373,6 +373,127 @@ describe('modelUtils', () => {
             ).toMatchSnapshot();
         });
 
+        it('persisting a terminated branch that has a regular element and an end element', () => {
+            const firstElement = {
+                guid: 'first-element',
+                prev: null,
+                next: 'branch-element'
+            };
+
+            const branchElement = {
+                guid: 'branch-element',
+                prev: 'first-element',
+                next: 'last-element',
+                children: ['branch-head-one', null, null]
+            };
+
+            const branchHeadElement = {
+                guid: 'branch-head-one',
+                prev: null,
+                next: 'branch-one-end',
+                childIndex: 0,
+                parent: 'branch-element',
+                isTerminal: true
+            };
+
+            const branchOneEnd = {
+                guid: 'branch-one-end',
+                prev: 'branch-head-one',
+                next: null,
+                elementType: 'END_ELEMENT'
+            };
+
+            const lastElement = {
+                guid: 'last-element',
+                prev: 'branch-element',
+                next: null
+            };
+
+            const elements = flowModelFromElements([
+                firstElement,
+                branchElement,
+                branchHeadElement,
+                branchOneEnd,
+                lastElement
+            ]);
+
+            const expectedState = {
+                state: {
+                    'first-element': {
+                        guid: 'first-element',
+                        prev: null,
+                        next: 'branch-head-one',
+                        isTerminal: false
+                    },
+                    'branch-head-one': {
+                        guid: 'branch-head-one',
+                        prev: 'first-element',
+                        next: 'last-element'
+                    },
+                    'last-element': {
+                        guid: 'last-element',
+                        prev: 'branch-head-one',
+                        next: null
+                    }
+                },
+                addEndElement: false
+            };
+
+            expect(deleteElement(elements, branchElement, 0, getSubElementGuids)).toEqual(expectedState);
+        });
+
+        it('persisting a terminated branch that has end element as branch head', () => {
+            const firstElement = {
+                guid: 'first-element',
+                prev: null,
+                next: 'branch-element'
+            };
+
+            const branchElement = {
+                guid: 'branch-element',
+                prev: 'first-element',
+                next: 'last-element',
+                children: ['branch-head-one', null, null]
+            };
+
+            const branchHeadElement = {
+                guid: 'branch-head-one',
+                prev: null,
+                next: null,
+                childIndex: 0,
+                parent: 'branch-element',
+                isTerminal: true,
+                elementType: 'END_ELEMENT'
+            };
+
+            const lastElement = {
+                guid: 'last-element',
+                prev: 'branch-element',
+                next: null
+            };
+
+            const elements = flowModelFromElements([firstElement, branchElement, branchHeadElement, lastElement]);
+
+            const expectedState = {
+                state: {
+                    'first-element': {
+                        guid: 'first-element',
+                        prev: null,
+                        next: 'last-element',
+                        isTerminal: false
+                    },
+                    'last-element': {
+                        guid: 'last-element',
+                        prev: 'first-element',
+                        next: null
+                    }
+                },
+                addEndElement: false
+            };
+
+            expect(deleteElement(elements, branchElement, 0, getSubElementGuids)).toEqual(expectedState);
+        });
+
         it('deletes inline element', () => {
             const firstElement = {
                 guid: 'first-element',
