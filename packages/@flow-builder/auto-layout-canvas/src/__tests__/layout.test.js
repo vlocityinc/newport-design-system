@@ -11,6 +11,7 @@ import {
     getFlowWithTwoFaults,
     createFlow,
     createFlowRenderContext,
+    getFlowWithDynamicNodeComponent,
     BRANCH_ELEMENT,
     LOOP_ELEMENT,
     END_ELEMENT
@@ -96,6 +97,10 @@ describe('layout', () => {
 
             const flowModel = createFlow([branchElement]);
             calculateLayoutAndAssert(createFlowRenderContext({ flowModel }));
+        });
+
+        it('flow with dynamic node component', () => {
+            calculateLayoutAndAssert(getFlowWithDynamicNodeComponent());
         });
     });
 });

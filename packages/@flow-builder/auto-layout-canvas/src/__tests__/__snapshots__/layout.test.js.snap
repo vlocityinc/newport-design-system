@@ -455,6 +455,62 @@ Object {
 }
 `;
 
+exports[`layout calculateLayout flow with dynamic node component 1`] = `
+Object {
+  "end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 240,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 288,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "screen-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 120,
+    },
+    "prevLayout": undefined,
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
 exports[`layout calculateLayout flow with empty decision 1`] = `
 Object {
   "branch-guid": Object {

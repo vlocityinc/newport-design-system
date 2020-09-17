@@ -18,7 +18,8 @@ import {
     NodeLayout,
     NodeLayoutMap,
     getBranchLayoutKey,
-    InteractionMenuInfo
+    InteractionMenuInfo,
+    Dimension
 } from './flowRendererUtils';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
@@ -211,6 +212,15 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
             : 0;
 
     let height = branchingInfo.h;
+
+    // For dynamically rendered nodes, use the rendered height as the basis for height calculations
+    // shifted for half the icon size due to the difference between layout and display coordinates
+    const dynamicDimensions: Dimension | undefined =
+        context.dynamicNodeDimensionMap && context.dynamicNodeDimensionMap.get(nodeModel.guid);
+    if (dynamicDimensions) {
+        const halfIconSize = layoutConfig.node.icon.h / 2;
+        height = dynamicDimensions.h - halfIconSize;
+    }
 
     const isBranchingAllTerminals =
         elementType === ElementType.BRANCH && areAllBranchesTerminals(nodeModel as ParentNodeModel, flowModel);

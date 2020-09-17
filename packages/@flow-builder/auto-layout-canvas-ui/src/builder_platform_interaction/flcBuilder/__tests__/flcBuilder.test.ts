@@ -139,6 +139,7 @@ describe('Auto Layout Canvas', () => {
     const getNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-node-menu');
     const getStartNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-node-start-menu');
     const getConnectorMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-flc-connector-menu');
+    const getSpinner = () => cmp.shadowRoot.querySelector('div.slds-spinner_container');
 
     const checkMenusOpened = (isNodeMenuOpened, isConnectorMenuOpened, isStartMenuOpened = false) => {
         expect(getNodeMenu() != null).toBe(isNodeMenuOpened);
@@ -323,6 +324,27 @@ describe('Auto Layout Canvas', () => {
 
             // check that opening a menu zooms out
             checkZoomToView();
+        });
+    });
+
+    describe('spinner', () => {
+        it('is shown on initial load if there are unrendered dynamic node components', async () => {
+            expect(getSpinner()).not.toBeNull();
+        });
+
+        it('is not shown if dynamic node components have been rendered', async () => {
+            const flow = getFlow();
+
+            const event = new CustomEvent('noderesize', {
+                detail: {
+                    guid: '837e0692-6f17-4d5c-ba5d-854851d31f99',
+                    width: 48,
+                    height: 100
+                }
+            });
+            await dispatchEvent(flow, event);
+
+            expect(getSpinner()).toBeNull();
         });
     });
 });

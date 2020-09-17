@@ -9,7 +9,8 @@ import {
     getFlowWithDecisionWithOneElementOnLeftBranchContext,
     getFlowWithEmptyLoopContext,
     getFlowWithTwoFaults,
-    getSimpleFlowContext
+    getSimpleFlowContext,
+    getFlowWithDynamicNodeComponent
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -40,6 +41,9 @@ describe('flowRenderer', () => {
         });
         it('flow with two faults', () => {
             renderAndAssert(getFlowWithTwoFaults());
+        });
+        it('flow with dynamic node component', () => {
+            renderAndAssert(getFlowWithDynamicNodeComponent());
         });
 
         describe('with menu', () => {

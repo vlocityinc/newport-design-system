@@ -118,6 +118,22 @@ const flowModel = {
         elementType: 'END_ELEMENT',
         value: 'END_ELEMENT',
         text: 'END_ELEMENT'
+    },
+    '837e0692-6f17-4d5c-ba5d-854851d31f99': {
+        guid: '837e0692-6f17-4d5c-ba5d-854851d31f99',
+        name: 'STEPPED_STAGE',
+        description: '',
+        next: null,
+        prev: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
+        label: null,
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        elementType: 'steppedstage',
+        value: 'steppedstage',
+        text: 'steppedstage'
     }
 };
 
@@ -231,6 +247,19 @@ const elementsMetadata = [
         elementType: 'END_ELEMENT',
         type: 'end',
         canHaveFaultConnector: false
+    },
+    {
+        section: 'Interaction',
+        type: 'steppedstage',
+        icon: 'standard:screen',
+        label: 'steppedStage',
+        value: 'steppedstage',
+        elementType: 'steppedstage',
+        description: 'stepped stage desc',
+        canHaveFaultConnector: false,
+        supportsMenu: true,
+        isSupported: true,
+        dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode'
     }
 ];
 

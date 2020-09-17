@@ -15,7 +15,8 @@ import {
     NodeRenderInfo,
     FlowRenderContext,
     FlowRenderInfo,
-    FlowInteractionState
+    FlowInteractionState,
+    Dimension
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import {
@@ -25,7 +26,12 @@ import {
     ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
 
-import { FlcSelectionEvent, FlcCreateConnectionEvent, ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import {
+    FlcSelectionEvent,
+    FlcCreateConnectionEvent,
+    ToggleMenuEvent,
+    NodeResizeEvent
+} from 'builder_platform_interaction/flcEvents';
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
 
 import {
@@ -113,6 +119,13 @@ export default class FlcBuilder extends LightningElement {
 
     /** pending interaction state to be processed in the next render cycle */
     _pendingInteractionState: FlowInteractionState | null = null;
+
+    // Number of nodes which require dynamic rendering upon initial load
+    // If this is > 0, then a spinner will be shown until all dynamic nodes
+    // have rendered and the canvas layout is complete
+    //
+    // Note: this is only used for the initial render
+    dynamicNodeCountAtLoad = 0;
 
     @track
     isZoomToView = true;
@@ -225,6 +238,19 @@ export default class FlcBuilder extends LightningElement {
         const [x, y] = this.offsets;
 
         return `margin-left: ${x}px; margin-top: ${y}px`;
+    }
+
+    /**
+     * Spinner shown if all dynamic node components have not rendered
+     * We need to wait for them since the layout will not be valid until they are done
+     *
+     * This should never return true after initial render
+     */
+    get showSpinner(): boolean {
+        return (
+            !this._flowRenderContext ||
+            this.dynamicNodeCountAtLoad > this._flowRenderContext.dynamicNodeDimensionMap.size
+        );
     }
 
     // TODO to be fix in @W-7865113. This function was used in both flc-node-menu and flc-node-start-menu to replace menu.elementMetadata
@@ -373,6 +399,21 @@ export default class FlcBuilder extends LightningElement {
             this.rerender = this.disableDebounce ? this.rerender : debounce(this.rerender, 10);
             this._flowRenderContext = this.createInitialFlowRenderContext();
             this._scale = MAX_ZOOM;
+
+            // Note the number of dynamic node components we have.  A spinner will be shown
+            // until they've all rendered
+            const nodes: { elementType: string }[] = Object.values(this._flowModel);
+
+            let count = 0;
+            nodes.forEach((node) => {
+                if (this._flowRenderContext.elementsMetadata[node.elementType].dynamicNodeComponent) {
+                    count++;
+                }
+            });
+
+            this.dynamicNodeCountAtLoad = count;
+            // Add dynamic dimensions for any custom node elements
+            this._flowRenderContext.dynamicNodeDimensionMap = new Map<Guid, Dimension>();
         }
 
         this._flowRenderContext = Object.assign(this._flowRenderContext, flowRenderContext);
@@ -741,5 +782,29 @@ export default class FlcBuilder extends LightningElement {
         this.closeNodeOrConnectorMenu();
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
+    };
+
+    /**
+     * Add the dimension information for the guid to dynamicNodeDimensionMap
+     * Which will be used during flow rendering to ensure layout respects
+     * the dimensions of nodes with dynamicNodeComponents
+     * @param event
+     */
+    handleDynamicNodeRender = (event: NodeResizeEvent) => {
+        event.stopPropagation();
+
+        this._flowRenderContext.dynamicNodeDimensionMap.set(event.detail.guid, {
+            w: event.detail.width,
+            h: event.detail.height
+        });
+
+        // Wait for all dynamic components from the initial load to render (and thuws have dimensions)
+        // before calculating layout.
+        //
+        // When new dynamic node component nodes are added later, the flow render context is
+        // updated immediately
+        if (this._flowRenderContext.dynamicNodeDimensionMap.size >= this.dynamicNodeCountAtLoad) {
+            this.updateFlowRenderContext();
+        }
     };
 }

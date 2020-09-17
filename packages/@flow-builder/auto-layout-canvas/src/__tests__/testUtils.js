@@ -151,7 +151,8 @@ function createFlowRenderContext(custom) {
         layoutConfig,
         progress: 1,
         nodeLayoutMap: {},
-        isDeletingBranch: false
+        isDeletingBranch: false,
+        dynamicNodeDimensionMap: new Map()
     };
 
     return { ...defaultFlowRenderContext, ...custom };
@@ -317,6 +318,18 @@ function getFlowWithTwoFaults() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithDynamicNodeComponent() {
+    const flowModel = createFlow([SCREEN_ELEMENT_GUID]);
+    const context = createFlowRenderContext({ flowModel });
+
+    context.dynamicNodeDimensionMap[SCREEN_ELEMENT_GUID] = {
+        width: 100,
+        height: 200
+    };
+
+    return context;
+}
+
 export {
     BRANCH_ELEMENT_GUID,
     END_ELEMENT_GUID,
@@ -339,5 +352,6 @@ export {
     getSimpleFlowContext,
     getFlowWithDecisionWithEndedLeftBranchContext,
     getFlowWithTwoFaults,
+    getFlowWithDynamicNodeComponent,
     createFlow
 };

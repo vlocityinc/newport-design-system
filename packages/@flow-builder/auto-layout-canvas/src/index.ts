@@ -21,7 +21,9 @@ import {
     FlowRenderInfo,
     FlowRenderContext,
     getBranchLayoutKey,
-    FlowInteractionState
+    FlowInteractionState,
+    NodeDimensionMap,
+    Dimension
 } from './flowRendererUtils';
 
 export {
@@ -84,5 +86,7 @@ export {
     FlowRenderInfo,
     Geometry,
     FlowRenderContext,
-    FlowInteractionState
+    FlowInteractionState,
+    NodeDimensionMap,
+    Dimension
 };

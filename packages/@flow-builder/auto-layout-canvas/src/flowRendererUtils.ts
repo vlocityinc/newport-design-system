@@ -31,6 +31,8 @@ export interface NodeLayoutMap {
     [key: string]: NodeLayout;
 }
 
+export type NodeDimensionMap = Map<Guid, Dimension>;
+
 export interface FlowRenderContext {
     flowModel: FlowModel;
     nodeLayoutMap: NodeLayoutMap;
@@ -40,6 +42,7 @@ export interface FlowRenderContext {
     layoutConfig: LayoutConfig;
     isFault: boolean;
     isDeletingBranch: boolean;
+    dynamicNodeDimensionMap: NodeDimensionMap;
 }
 
 export interface InteractionMenuInfo {
@@ -83,6 +86,7 @@ export interface NodeRenderInfo {
     isTerminal: boolean;
     toBeDeleted: boolean;
     node?: NodeModel;
+    dynamicNodeComponent?: string;
 }
 
 export interface Dimension {

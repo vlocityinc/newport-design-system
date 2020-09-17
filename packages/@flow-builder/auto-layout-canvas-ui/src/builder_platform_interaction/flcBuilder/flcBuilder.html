@@ -1,4 +1,8 @@
 <template>
+    <div if:true={showSpinner} class="slds-spinner_container">
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </div>
+
     <div
         class="canvas"
         style={canvasStyle}
@@ -18,6 +22,7 @@
                     is-selection-mode={isSelectionMode}
                     is-reconnecting={isReconnecting}
                     onflcselectdeselectnode={handleNodeSelectionDeselection}
+                    onnoderesize={handleDynamicNodeRender}
                 >
                 </builder_platform_interaction-flc-flow>
 
