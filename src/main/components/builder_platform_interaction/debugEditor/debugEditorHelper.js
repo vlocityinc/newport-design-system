@@ -73,7 +73,8 @@
                     value: value,
                     isInput: argu.isInput,
                     isOutput: argu.isOutput,
-                    isCollection: argu.isCollection
+                    isCollection: argu.isCollection,
+                    objectType: argu.objectType
                 });
             }
         }
@@ -182,7 +183,8 @@
                       isRequired: false,
                       helpText: null,
                       errorMessage: null,
-                      triggerUpdate: false
+                      triggerUpdate: false,
+                      value: argument.value
                   }
                 : {
                       name: argument.name,

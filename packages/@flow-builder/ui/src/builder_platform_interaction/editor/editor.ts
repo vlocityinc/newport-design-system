@@ -957,18 +957,18 @@ export default class Editor extends LightningElement {
         if (currentState && currentState.properties) {
             const flowDevName = currentState.properties.name;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
-            if (runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG || runOrDebug === DEBUG) {
-                if ((runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG) && this.useNewDebugExperience) {
-                    this.queueOpenFlowDebugEditor(() => {
-                        return {
-                            flowId: this.flowId,
-                            flowDevName,
-                            rerun: runOrDebug === RESTARTDEBUG,
-                            runDebugInterviewCallback: this.runDebugInterviewCallback
-                        };
-                    });
-                    return;
-                }
+            if ((runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG) && this.useNewDebugExperience) {
+                this.queueOpenFlowDebugEditor(() => {
+                    return {
+                        flowId: this.flowId,
+                        flowDevName,
+                        rerun: runOrDebug === RESTARTDEBUG,
+                        runDebugInterviewCallback: this.runDebugInterviewCallback
+                    };
+                });
+                return;
+            }
+            if (runOrDebug === DEBUG) {
                 url = `${url}?flow__debug=true`;
             }
         }
