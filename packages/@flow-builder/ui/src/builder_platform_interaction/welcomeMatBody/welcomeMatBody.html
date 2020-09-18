@@ -19,7 +19,7 @@
                                             value="visual-picker-left"
                                             name="visual-picker-left"
                                             onclick={createFreeFormCanvas}
-                                            onkeydown={handleKeyDownOnFreeFormCanvas}
+                                            onfocus={handleFocusOnFreeForm}
                                         />
                                         <label for="visual-picker-left">
                                             <span
@@ -67,7 +67,7 @@
                                             value="visual-picker-right"
                                             name="visual-picker-right"
                                             onclick={createAutoLayoutCanvas}
-                                            onkeydown={handleKeyDownOnAutoLayoutCanvas}
+                                            onfocus={handleFocusOnAutoLayout}
                                         />
                                         <label for="visual-picker-right">
                                             <span

@@ -1,6 +1,10 @@
 import { createElement } from 'lwc';
 import WelcomeMatBody from 'builder_platform_interaction/welcomeMatBody';
 
+jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
+    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
+);
+
 const createCallback = jest.fn();
 const closeCallback = jest.fn();
 
@@ -44,6 +48,40 @@ describe('Welcome Mat Body Actions', () => {
         const welcomeMatBody = createComponentUnderTest();
         const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
         input.click();
+        expect(closeCallback).toHaveBeenCalled();
+    });
+
+    it('Pressing Enter key when focus is on Freeform Canvas tile should fire createCallback with false as the last param', () => {
+        const welcomeMatBody = createComponentUnderTest();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-left"]');
+        input.focus();
+        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        expect(createCallback).toHaveBeenCalled();
+        expect(createCallback.mock.calls[0][2]).toBeFalsy();
+    });
+
+    it('Pressing Enter key when focus is on Freeform Canvas tile should fire closeCallback', () => {
+        const welcomeMatBody = createComponentUnderTest();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-left"]');
+        input.focus();
+        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        expect(closeCallback).toHaveBeenCalled();
+    });
+
+    it('Pressing Enter key when focus is on Autolayout Canvas tile should fire createCallback with true as the last param', () => {
+        const welcomeMatBody = createComponentUnderTest();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
+        input.focus();
+        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        expect(createCallback).toHaveBeenCalled();
+        expect(createCallback.mock.calls[0][2]).toBeTruthy();
+    });
+
+    it('Pressing Enter key when focus is on Autolayout Canvas tile should fire closeCallback', () => {
+        const welcomeMatBody = createComponentUnderTest();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
+        input.focus();
+        welcomeMatBody.keyboardInteractions.execute('entercommand');
         expect(closeCallback).toHaveBeenCalled();
     });
 });
