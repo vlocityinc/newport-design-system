@@ -4,7 +4,12 @@ import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch, loadFlow } from '../integrationTestUtils';
+import {
+    resetState,
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch,
+    setupStateForFlow
+} from '../integrationTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
@@ -336,10 +341,10 @@ describe('Loop Editor with processType supporting automatic output', () => {
             colVariableLightningCombobox.dispatchEvent(blurEvent);
             await ticks(50);
 
-            expect(loopVariableLightningCombobox.items).toHaveLength(3);
+            expect(loopVariableLightningCombobox.items).toHaveLength(2);
             expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
-            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(3);
-            expect(loopVariableLightningCombobox.items[1].items[1]).toMatchObject({
+            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
+            expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject({
                 dataType: 'SObject',
                 subtype: 'Account',
                 text: accountVariable.name,
@@ -420,9 +425,8 @@ describe('Loop Editor with processType supporting automatic output', () => {
 describe('Loop Editor collection variable', () => {
     let loopNode, loopElement, collectionVariableCombobox;
     beforeAll(async () => {
-        const store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        const store = await setupStateForFlow(flowWithAllElements);
         translateFlowToUIAndDispatch(flowWithAllElements, store);
-        loadFlow(flowWithAllElements, store);
     });
     afterAll(() => {
         resetState();
@@ -435,11 +439,11 @@ describe('Loop Editor collection variable', () => {
         collectionVariableCombobox = getCollectionVariableCombobox(loopElement);
     });
     it.each`
-        collection                                       | expectedErrorMessage
-        ${'{!apexCall_anonymous_accounts}'}              | ${null}
-        ${'{!apexCall_anonymous_strings}'}               | ${null}
-        ${'{!apexCall_anonymous_apex_collection}'}       | ${'FlowBuilderCombobox.genericErrorMessage'}
-        ${'{!lightningCompWithAccountsOutput.accounts}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+        collection                                               | expectedErrorMessage
+        ${'{!apexCall_anonymous_accounts}'}                      | ${null}
+        ${'{!apexCall_anonymous_strings}'}                       | ${null}
+        ${'{!apexCall_anonymous_apex_collection}'}               | ${'FlowBuilderCombobox.genericErrorMessage'}
+        ${'{!apexComplexTypeTwoVariable.testOne.acctListField}'} | ${null}
     `('error for "$collection should be : $expectedErrorMessage', async ({ collection, expectedErrorMessage }) => {
         await typeReferenceOrValueInCombobox(collectionVariableCombobox, collection);
         expect(collectionVariableCombobox.errorMessage).toEqual(expectedErrorMessage);

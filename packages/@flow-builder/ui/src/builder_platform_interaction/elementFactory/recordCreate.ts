@@ -22,7 +22,7 @@ import {
 } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { referenceToVariable, getFirstRecordOnlyFromVariable } from './commonFactoryUtils/cludUtil';
+import { getVariableOrField } from './commonFactoryUtils/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
@@ -70,16 +70,9 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
         if (inputReference) {
             // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
             // we can calculate getFirstRecordOnly
-            const variable = referenceToVariable(inputReference, elements);
-            if (variable) {
-                const getFirstRecordOnlyFromVariableAndReference: boolean | undefined = getFirstRecordOnlyFromVariable(
-                    variable,
-                    inputReference
-                );
-                getFirstRecordOnly =
-                    getFirstRecordOnlyFromVariableAndReference !== undefined
-                        ? getFirstRecordOnlyFromVariableAndReference
-                        : true;
+            const variableOrField = getVariableOrField(inputReference, elements);
+            if (variableOrField) {
+                getFirstRecordOnly = !variableOrField.isCollection;
             } else {
                 complete = false;
             }

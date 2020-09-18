@@ -2,11 +2,9 @@
 import {
     writableElementsSelector,
     readableElementsSelector,
-    collectionElementsSelector,
-    byTypeWritableElementsSelector,
-    sObjectOrSObjectCollectionByEntitySelector,
     isOrCanContainsObjectOrSObjectCollectionSelector,
-    choiceSelector
+    choiceSelector,
+    isOrCanContainSelector
 } from 'builder_platform_interaction/selectors';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getScreenElement } from './resourceUtils';
@@ -24,7 +22,6 @@ import { getScreenElement } from './resourceUtils';
  * @property {boolean} isCollection        true if using selector to retrieve collection variables
  * @property {String} dataType             data type for menu data items
  * @property {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
- * @property {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  */
 
 // TODO: all of this regarding filtering & selectors will be revisited with W-5462144
@@ -53,25 +50,6 @@ function sobjectSelector(sObjectSelectorConfig) {
 
 /**
  * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
- * @param {Object} elementType          the element type this expression builder lives in
- * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type for menu data items
- * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
- * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
- * @returns {FilterInformation}
- */
-function sObjectOrByTypeElements(isCollection, dataType, entityName, sObjectSelector) {
-    return {
-        selector: isCollection
-            ? collectionElementsSelector
-            : sObjectSelector
-            ? sObjectOrSObjectCollectionByEntitySelector({ entityName })
-            : byTypeWritableElementsSelector(dataType)
-    };
-}
-
-/**
- * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @param {Boolean} choices             optional: should this menu data only contain choices
  * @param {String} dataType             data type for menu data items
  * @returns {FilterInformation}
@@ -86,6 +64,18 @@ function screenSelectors(shouldBeWritable, choices, dataType) {
 
     return {
         selector: choices ? choiceSelector(dataType) : readableElementsSelector
+    };
+}
+
+function loopSelector({ isCollection, dataType, entityName }) {
+    return {
+        selector: isOrCanContainSelector({
+            isCollection,
+            dataType,
+            entityName,
+            allowTraversal: isCollection,
+            elementType: isCollection ? undefined : ELEMENT_TYPE.VARIABLE
+        })
     };
 }
 
@@ -104,8 +94,8 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices }) =>
         screenSelectors(shouldBeWritable, choices, dataType),
-    [ELEMENT_TYPE.LOOP]: ({ isCollection, dataType, entityName, sObjectSelector }) =>
-        sObjectOrByTypeElements(isCollection, dataType, entityName, sObjectSelector)
+    [ELEMENT_TYPE.LOOP]: ({ isCollection, dataType, entityName }) =>
+        loopSelector({ isCollection, dataType, entityName })
 };
 
 const CLUD_ELEMENT_TYPES = [

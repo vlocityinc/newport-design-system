@@ -11,8 +11,8 @@ import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { getVariableOrField } from './commonFactoryUtils/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.LOOP;
 const maxConnections = 2;
@@ -44,9 +44,7 @@ export function createLoop(loop = {}, { elements } = Store.getStore().getCurrent
     if (storeOutputAutomatically && collectionReference) {
         // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements is set and
         // we can calculate dataType and subtype
-        const loopedCollection =
-            getElementByGuidFromState({ elements }, collectionReference) ||
-            getElementByDevNameFromState({ elements }, collectionReference);
+        const loopedCollection = getVariableOrField(collectionReference, elements);
         if (loopedCollection) {
             ({ dataType, subtype } = loopedCollection);
         } else {

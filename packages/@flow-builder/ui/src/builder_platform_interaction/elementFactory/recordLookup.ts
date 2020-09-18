@@ -24,7 +24,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { referenceToVariable, getFirstRecordOnlyFromVariable } from './commonFactoryUtils/cludUtil';
+import { getVariableOrField } from './commonFactoryUtils/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;
@@ -92,16 +92,9 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
     let getFirstRecordOnly = true;
     // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
     // we can calculate getFirstRecordOnly
-    const variable = referenceToVariable(outputReference, elements);
-    if (variable) {
-        const getFirstRecordOnlyFromVariableAndReference: boolean | undefined = getFirstRecordOnlyFromVariable(
-            variable,
-            outputReference
-        );
-        getFirstRecordOnly =
-            getFirstRecordOnlyFromVariableAndReference !== undefined
-                ? getFirstRecordOnlyFromVariableAndReference
-                : true;
+    const variableOrField = getVariableOrField(outputReference, elements);
+    if (variableOrField) {
+        getFirstRecordOnly = !variableOrField.isCollection;
     } else {
         complete = false;
     }

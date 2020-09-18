@@ -4,7 +4,6 @@ import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ComboboxStateChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
-import { sObjectOrSObjectCollectionByEntitySelector } from 'builder_platform_interaction/selectors';
 import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -37,12 +36,6 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
-jest.mock('builder_platform_interaction/selectors', () => {
-    return {
-        sObjectOrSObjectCollectionByEntitySelector: jest.fn()
-    };
-});
-
 describe('sobject-or-sobject-collection-picker', () => {
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
@@ -53,7 +46,6 @@ describe('sobject-or-sobject-collection-picker', () => {
     describe('base resource picker', () => {
         let ferovPicker, sobjectOrSobjectCollectionPicker;
         beforeAll(() => {
-            sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([]));
             sobjectOrSobjectCollectionPicker = createComponentUnderTest();
             ferovPicker = getFerovResourcePicker(sobjectOrSobjectCollectionPicker);
         });
@@ -70,11 +62,6 @@ describe('sobject-or-sobject-collection-picker', () => {
     });
 
     describe('sobject variables', () => {
-        beforeAll(() => {
-            sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest.fn().mockReturnValue([store.accountSObjectVariable])
-            );
-        });
         it('should set the value', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({
@@ -87,11 +74,6 @@ describe('sobject-or-sobject-collection-picker', () => {
     });
 
     describe('sobject collection variables', () => {
-        beforeAll(() => {
-            sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
-            );
-        });
         it('should set the value', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({
@@ -104,11 +86,6 @@ describe('sobject-or-sobject-collection-picker', () => {
     });
 
     describe('sobject and sobject collection variables', () => {
-        beforeAll(() => {
-            sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
-            );
-        });
         it('should set the value as sobject collection variable', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({

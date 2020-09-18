@@ -8,14 +8,18 @@ import {
     createLoopMetadataObject
 } from '../loop';
 import {
-    autolaunchedFlowUIModel,
-    loopAccountAutomaticOutput,
+    flowWithAllElementsUIModel,
+    loopOnAccountAutoOutput,
     loopOnTextCollectionManualOutput,
-    loopOnTextCollectionAutomaticOutput,
-    loopOnApexTypeCollectionAutoOutput
-} from 'mock/storeDataAutolaunched';
+    loopOnTextCollectionAutoOutput,
+    loopOnApexAutoOutput,
+    loopOnNestedApexTypeAutoOutput,
+    loopOnSobjectCollectionInApexTypeAutoOutput,
+    loopOnScreenCompSObjectCollAutoOutput,
+    loopOnLocalActionSobjectCollInApexAutoOutput
+} from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import {
     DUPLICATE_ELEMENT_XY_OFFSET,
@@ -25,6 +29,8 @@ import {
     duplicateCanvasElement,
     baseCanvasElementsArrayToMap
 } from '../base/baseElement';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('../base/baseElement');
@@ -36,6 +42,20 @@ createPastedCanvasElement
     .mockName('createPastedCanvasElementMock');
 duplicateCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').duplicateCanvasElement);
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
+
+jest.mock('builder_platform_interaction/flowExtensionLib', () =>
+    require('builder_platform_interaction_mocks/flowExtensionLib')
+);
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getEntity: (objectType) => {
+            return { apiName: objectType.charAt(0).toUpperCase() + objectType.slice(1) };
+        }
+    };
+});
 
 describe('loop factory', () => {
     describe('create loop', () => {
@@ -81,36 +101,50 @@ describe('loop factory', () => {
         });
         describe('existing loop with auto output', () => {
             beforeAll(() => {
-                Store.setMockState(autolaunchedFlowUIModel);
+                setApexClasses(apexTypesForFlow);
+                Store.setMockState(flowWithAllElementsUIModel);
             });
             afterAll(() => {
                 Store.resetStore();
+                setApexClasses(null);
             });
             it.each`
                 element
-                ${loopAccountAutomaticOutput}
-                ${loopOnTextCollectionAutomaticOutput}
-                ${loopOnApexTypeCollectionAutoOutput}
+                ${loopOnAccountAutoOutput}
+                ${loopOnTextCollectionAutoOutput}
+                ${loopOnApexAutoOutput}
+                ${loopOnNestedApexTypeAutoOutput}
+                ${loopOnSobjectCollectionInApexTypeAutoOutput}
+                ${loopOnScreenCompSObjectCollAutoOutput}
+                ${loopOnLocalActionSobjectCollInApexAutoOutput}
             `('$element.name should have storeOutputAutomatically : true', ({ element }) => {
                 const createdLoop = createLoop(element);
 
                 expect(createdLoop.storeOutputAutomatically).toBe(true);
             });
             it.each`
-                loop                                   | dataType
-                ${loopAccountAutomaticOutput}          | ${'SObject'}
-                ${loopOnTextCollectionAutomaticOutput} | ${'String'}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}
+                loop                                            | dataType
+                ${loopOnAccountAutoOutput}                      | ${'SObject'}
+                ${loopOnTextCollectionAutoOutput}               | ${'String'}
+                ${loopOnApexAutoOutput}                         | ${'Apex'}
+                ${loopOnNestedApexTypeAutoOutput}               | ${'SObject'}
+                ${loopOnSobjectCollectionInApexTypeAutoOutput}  | ${'SObject'}
+                ${loopOnScreenCompSObjectCollAutoOutput}        | ${'SObject'}
+                ${loopOnLocalActionSobjectCollInApexAutoOutput} | ${'SObject'}
             `('$loop.name should have dataType: $dataType', ({ loop, dataType }) => {
                 const createdLoop = createLoop(loop);
 
                 expect(createdLoop.dataType).toBe(dataType);
             });
             it.each`
-                loop                                   | subtype
-                ${loopAccountAutomaticOutput}          | ${'Account'}
-                ${loopOnTextCollectionAutomaticOutput} | ${null}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'ApexComplexTypeTestOne216'}
+                loop                                            | subtype
+                ${loopOnAccountAutoOutput}                      | ${'Account'}
+                ${loopOnTextCollectionAutoOutput}               | ${null}
+                ${loopOnApexAutoOutput}                         | ${'ApexComplexTypeTestOne216'}
+                ${loopOnNestedApexTypeAutoOutput}               | ${'Account'}
+                ${loopOnSobjectCollectionInApexTypeAutoOutput}  | ${'Account'}
+                ${loopOnScreenCompSObjectCollAutoOutput}        | ${'Account'}
+                ${loopOnLocalActionSobjectCollInApexAutoOutput} | ${'Account'}
             `('$loop.name should have subtype: $subtype', ({ loop, subtype }) => {
                 const createdLoop = createLoop(loop);
 
@@ -176,37 +210,47 @@ describe('loop factory', () => {
 
     describe('create duplicate loop', () => {
         beforeAll(() => {
-            Store.setMockState(autolaunchedFlowUIModel);
+            setApexClasses(apexTypesForFlow);
+            Store.setMockState(flowWithAllElementsUIModel);
         });
         afterAll(() => {
             Store.resetStore();
+            setApexClasses(null);
         });
         describe('automatic output', () => {
             it.each`
                 element
-                ${loopAccountAutomaticOutput}
-                ${loopOnTextCollectionAutomaticOutput}
-                ${loopOnApexTypeCollectionAutoOutput}
+                ${loopOnAccountAutoOutput}
+                ${loopOnTextCollectionAutoOutput}
+                ${loopOnApexAutoOutput}
             `('$element.name should have storeOutputAutomatically : true', ({ element }) => {
                 const createdLoop = createDuplicateLoop(element);
 
                 expect(createdLoop.duplicatedElement.storeOutputAutomatically).toBe(true);
             });
             it.each`
-                loop                                   | dataType
-                ${loopAccountAutomaticOutput}          | ${'SObject'}
-                ${loopOnTextCollectionAutomaticOutput} | ${'String'}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}
+                loop                                            | dataType
+                ${loopOnAccountAutoOutput}                      | ${'SObject'}
+                ${loopOnTextCollectionAutoOutput}               | ${'String'}
+                ${loopOnApexAutoOutput}                         | ${'Apex'}
+                ${loopOnNestedApexTypeAutoOutput}               | ${'SObject'}
+                ${loopOnSobjectCollectionInApexTypeAutoOutput}  | ${'SObject'}
+                ${loopOnScreenCompSObjectCollAutoOutput}        | ${'SObject'}
+                ${loopOnLocalActionSobjectCollInApexAutoOutput} | ${'SObject'}
             `('$loop.name should have dataType: $dataType', ({ loop, dataType }) => {
                 const createdLoop = createDuplicateLoop(loop);
 
                 expect(createdLoop.duplicatedElement.dataType).toBe(dataType);
             });
             it.each`
-                loop                                   | subtype
-                ${loopAccountAutomaticOutput}          | ${'Account'}
-                ${loopOnTextCollectionAutomaticOutput} | ${null}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'ApexComplexTypeTestOne216'}
+                loop                                            | subtype
+                ${loopOnAccountAutoOutput}                      | ${'Account'}
+                ${loopOnTextCollectionAutoOutput}               | ${null}
+                ${loopOnApexAutoOutput}                         | ${'ApexComplexTypeTestOne216'}
+                ${loopOnNestedApexTypeAutoOutput}               | ${'Account'}
+                ${loopOnSobjectCollectionInApexTypeAutoOutput}  | ${'Account'}
+                ${loopOnScreenCompSObjectCollAutoOutput}        | ${'Account'}
+                ${loopOnLocalActionSobjectCollInApexAutoOutput} | ${'Account'}
             `('$loop.name should have subtype: $subtype', ({ loop, subtype }) => {
                 const createdLoop = createDuplicateLoop(loop);
 
@@ -237,9 +281,13 @@ describe('loop factory', () => {
             describe('No elements passed', () => {
                 it.each`
                     element
-                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopAccountAutomaticOutput')}
-                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnTextAutomaticOutput')}
-                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnApexTypeCollectionAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnAccountAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnTextCollectionAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnApexAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnNestedApexTypeAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnSobjectCollectionInApexTypeAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnScreenCompSObjectCollAutoOutput')}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnLocalActionSobjectCollInApexAutoOutput')}
                 `(
                     '$element.name should have INCOMPLETE_ELEMENT property set to true and type should not be set',
                     ({ element }) => {
@@ -253,16 +301,26 @@ describe('loop factory', () => {
                 );
             });
             describe('Elements passed', () => {
+                beforeAll(() => {
+                    setApexClasses(apexTypesForFlow);
+                });
+                afterAll(() => {
+                    setApexClasses(null);
+                });
                 it.each`
-                    element                                                                                 | dataType     | subtype
-                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopAccountAutomaticOutput')}         | ${'SObject'} | ${'Account'}
-                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnTextAutomaticOutput')}          | ${'String'}  | ${null}
-                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnApexTypeCollectionAutoOutput')} | ${'Apex'}    | ${'ApexComplexTypeTestOne216'}
+                    element                                                                                              | dataType     | subtype
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnAccountAutoOutput')}                      | ${'SObject'} | ${'Account'}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnTextCollectionAutoOutput')}               | ${'String'}  | ${null}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnApexAutoOutput')}                         | ${'Apex'}    | ${'ApexComplexTypeTestOne216'}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnNestedApexTypeAutoOutput')}               | ${'SObject'} | ${'Account'}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnSobjectCollectionInApexTypeAutoOutput')}  | ${'SObject'} | ${'Account'}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnScreenCompSObjectCollAutoOutput')}        | ${'SObject'} | ${'Account'}
+                    ${getMetadataFlowElementByName(flowWithAllElements, 'loopOnLocalActionSobjectCollInApexAutoOutput')} | ${'SObject'} | ${'Account'}
                 `(
                     '$element.name should have { storeOutputAutomatically : true, dataType : ${dataType}, subtype : ${subtype} }',
                     ({ element, dataType, subtype }) => {
                         const result = createLoopWithConnectors(element, {
-                            elements: autolaunchedFlowUIModel.elements
+                            elements: flowWithAllElementsUIModel.elements
                         });
                         const loopElement = Object.values(result.elements)[0];
                         expect(loopElement.storeOutputAutomatically).toBe(true);
@@ -298,10 +356,14 @@ describe('loop factory', () => {
         });
         it.each`
             element
-            ${loopAccountAutomaticOutput}
+            ${loopOnAccountAutoOutput}
             ${loopOnTextCollectionManualOutput}
-            ${loopOnTextCollectionAutomaticOutput}
-            ${loopOnApexTypeCollectionAutoOutput}
+            ${loopOnTextCollectionAutoOutput}
+            ${loopOnApexAutoOutput}
+            ${loopOnNestedApexTypeAutoOutput}
+            ${loopOnSobjectCollectionInApexTypeAutoOutput}
+            ${loopOnScreenCompSObjectCollAutoOutput}
+            ${loopOnLocalActionSobjectCollInApexAutoOutput}
         `('$element.name does not set storeOutputAutomatically', ({ element }) => {
             const createdLoop = createLoopMetadataObject(element);
 
@@ -309,10 +371,14 @@ describe('loop factory', () => {
         });
         it.each`
             element
-            ${loopAccountAutomaticOutput}
+            ${loopOnAccountAutoOutput}
             ${loopOnTextCollectionManualOutput}
-            ${loopOnTextCollectionAutomaticOutput}
-            ${loopOnApexTypeCollectionAutoOutput}
+            ${loopOnTextCollectionAutoOutput}
+            ${loopOnApexAutoOutput}
+            ${loopOnNestedApexTypeAutoOutput}
+            ${loopOnSobjectCollectionInApexTypeAutoOutput}
+            ${loopOnScreenCompSObjectCollAutoOutput}
+            ${loopOnLocalActionSobjectCollInApexAutoOutput}
         `('$element.name does not set dataType', ({ element }) => {
             const createdLoop = createLoopMetadataObject(element);
 
@@ -320,10 +386,14 @@ describe('loop factory', () => {
         });
         it.each`
             element
-            ${loopAccountAutomaticOutput}
+            ${loopOnAccountAutoOutput}
             ${loopOnTextCollectionManualOutput}
-            ${loopOnTextCollectionAutomaticOutput}
-        `('does not set subtype', ({ element }) => {
+            ${loopOnTextCollectionAutoOutput}
+            ${loopOnNestedApexTypeAutoOutput}
+            ${loopOnSobjectCollectionInApexTypeAutoOutput}
+            ${loopOnScreenCompSObjectCollAutoOutput}
+            ${loopOnLocalActionSobjectCollInApexAutoOutput}
+        `('$element.name does not set subtype', ({ element }) => {
             const createdLoop = createLoopMetadataObject(element);
 
             expect(createdLoop.subtype).toBeUndefined();

@@ -3,7 +3,7 @@ import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder
 import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 
-export const referenceToVariable = (reference: string, elements: any) => {
+const referenceToVariable = (reference: string, elements: any) => {
     const complexGuid = sanitizeGuid(reference);
     return (
         getElementByGuidFromState({ elements }, complexGuid.guidOrLiteral) ||
@@ -12,14 +12,18 @@ export const referenceToVariable = (reference: string, elements: any) => {
     );
 };
 
-export const getFirstRecordOnlyFromVariable = (
-    variable: { isCollection: boolean },
-    reference: string
-): boolean | undefined => {
+/**
+ * Looks for the corresponding variable or field corresponding to the given reference
+ * @param reference a reference such as variableApiName, variableGuid, variableApiName.field1.field2, variableGuid.field1
+ * @param elements elements in which we're looking for the variable or field
+ * @returns the corresponding variable or field if found, undefined otherwise
+ */
+export const getVariableOrField = (reference: string, elements: any): any => {
     const complexGuid = sanitizeGuid(reference);
+    const variable = referenceToVariable(reference, elements);
     if (variable !== undefined && complexGuid !== undefined) {
         if (!complexGuid.fieldNames || complexGuid.fieldNames.length === 0) {
-            return !variable.isCollection;
+            return variable;
         }
         let fields = retrieveResourceComplexTypeFields(variable);
         if (fields) {
@@ -39,7 +43,7 @@ export const getFirstRecordOnlyFromVariable = (
                     ? fields[complexGuid.fieldNames[complexGuid.fieldNames.length - 1]]
                     : undefined;
             }
-            return referencedField ? !referencedField.isCollection : undefined;
+            return referencedField;
         }
     }
     return undefined;

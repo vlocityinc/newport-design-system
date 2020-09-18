@@ -39,3 +39,7 @@ export const getCachedExtension = jest
     .mockImplementation((extensionName, dynamicTypeMappings) =>
         mockGetCachedExtensionImplementation(extensionName, dynamicTypeMappings)
     );
+
+export const getAllCachedExtensionTypes = flowExtensionLib.getAllCachedExtensionTypes;
+export const COMPONENT_INSTANCE = flowExtensionLib.COMPONENT_INSTANCE;
+export const EXTENSION_TYPE_SOURCE = flowExtensionLib.EXTENSION_TYPE_SOURCE;

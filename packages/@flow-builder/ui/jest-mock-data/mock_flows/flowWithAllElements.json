@@ -1090,6 +1090,50 @@
                 "assignNextValueToReference": "stringVariable",
                 "collectionReference": "stringCollectionVariable1",
                 "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnNestedApexTypeAutoOutput",
+                "description": "",
+                "label": "loopOnNestedApexTypeAutoOutput",
+                "locationX": 327,
+                "locationY": 306.3125,
+                "elementSubtype": null,
+                "assignNextValueToReference": null,
+                "collectionReference": "apexComplexTypeTwoVariable.testOne.acctListField",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnSobjectCollectionInApexTypeAutoOutput",
+                "description": "",
+                "label": "loopOnSobjectCollectionInApexTypeAutoOutput",
+                "locationX": 735,
+                "locationY": 506.3125,
+                "elementSubtype": null,
+                "assignNextValueToReference": null,
+                "collectionReference": "apexComplexTypeVariable.acctListField",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnScreenCompSObjectCollAutoOutput",
+                "description": "",
+                "label": "loopOnScreenCompSObjectCollAutoOutput",
+                "locationX": 884,
+                "locationY": 334.3125,
+                "elementSubtype": null,
+                "assignNextValueToReference": null,
+                "collectionReference": "lightningCompWithAccountsOutput.accounts",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnLocalActionSobjectCollInApexAutoOutput",
+                "description": "",
+                "label": "loopOnLocalActionSobjectCollInApexAutoOutput",
+                "locationX": 1032,
+                "locationY": 333.3125,
+                "elementSubtype": null,
+                "assignNextValueToReference": null,
+                "collectionReference": "actionCallLC_apex_with_sobject_auto.apexWithSObject.acctListField",
+                "iterationOrder": "Asc"
             }
         ],
         "screens": [

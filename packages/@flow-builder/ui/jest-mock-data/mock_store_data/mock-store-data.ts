@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { flowWithAllElementsUIModel } from './flowWithAllElementsUIModel';
 import { elementsForPropertyEditors } from './elementsForPropertyEditors';
 export * from './flowWithAllElementsUIModel';
@@ -112,6 +111,17 @@ export const subflowAutomaticOutput = getElementByName('subflowAutomaticOutput')
 export const screenWithAddress = getElementByName('screenWithAddress');
 export const screenWithAddressAddress = getElementByName('Address');
 export const loopOnAccountAutoOutput = getElementByName('loopOnAccountAutoOutput');
+export const loopOnTextCollectionManualOutput = getElementByName('loopOnTextCollection');
+export const loopOnTextCollectionAutoOutput = getElementByName('loopOnTextCollectionAutoOutput');
+export const loopOnApexAutoOutput = getElementByName('loopOnApexAutoOutput');
+export const loopOnNestedApexTypeAutoOutput = getElementByName('loopOnNestedApexTypeAutoOutput');
+export const loopOnSobjectCollectionInApexTypeAutoOutput = getElementByName(
+    'loopOnSobjectCollectionInApexTypeAutoOutput'
+);
+export const loopOnScreenCompSObjectCollAutoOutput = getElementByName('loopOnScreenCompSObjectCollAutoOutput');
+export const loopOnLocalActionSobjectCollInApexAutoOutput = getElementByName(
+    'loopOnLocalActionSobjectCollInApexAutoOutput'
+);
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

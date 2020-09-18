@@ -4,16 +4,14 @@ export {
     filteredElementsSelector,
     readableElementsSelector,
     writableElementsSelector,
-    collectionElementsSelector,
-    byTypeWritableElementsSelector,
-    sObjectOrSObjectCollectionByEntitySelector,
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,
     apexScalarVariablesSelector,
     componentInstanceScreenFieldsSelector,
     byElementTypeElementsSelector,
     isOrCanContainsObjectOrSObjectCollectionSelector,
-    canContainSObjectElements
+    canContainSObjectElements,
+    isOrCanContainSelector
 } from './menuDataSelector';
 
 export { apexClassesSelector } from './peripheralDataSelectors';

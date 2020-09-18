@@ -1,10 +1,10 @@
 // @ts-nocheck
 import {
     getSObjectOrSObjectCollectionByEntityElements,
-    byTypeWritableElementsSelector,
     byElementTypeElementsSelector,
     writableElementsSelector,
-    getCanContainSObjectElements
+    getCanContainSObjectElements,
+    isOrCanContainSelector
 } from '../menuDataSelector';
 import {
     apexCallAutomaticAnonymousStringOutput,
@@ -35,6 +35,9 @@ import {
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
@@ -106,7 +109,10 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         getDeletableEntities: () => {
             return mockDeleteableEntities;
         },
-        getEntity: jest.fn()
+        getEntity: (objectType) => {
+            return { apiName: objectType.charAt(0).toUpperCase() + objectType.slice(1) };
+        },
+        getFieldsForEntity: jest.fn()
     };
 });
 
@@ -281,12 +287,6 @@ describe('menuDataSelector', () => {
             expect(results).toEqual([opportunitySObjectCollectionVariable]);
         });
     });
-    describe('byTypeWritableElementsSelector', () => {
-        it('should only retrieve writable variables of the given type', () => {
-            const filteredElements = byTypeWritableElementsSelector(stringVariable.dataType)(STORE_INSTANCE);
-            expect(filteredElements).toEqual([stringVariable]);
-        });
-    });
 
     describe('writableElementsSelector', () => {
         it('returns only writable elements', () => {
@@ -448,6 +448,15 @@ describe('getCanContainSObjectElements', () => {
                 expect(result).toHaveLength(1);
                 expect(result[0]).toHaveProperty('name', localActionApexDoesContainsSObjectAutomaticOutput.name);
             });
+            it('does return collection of given entity name', () => {
+                const result = getCanContainSObjectElements([apexComplexTypeTwoVariable], {
+                    sobjectCollectionCriterion: SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION,
+                    entityName: 'Account'
+                });
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty('name', apexComplexTypeTwoVariable.name);
+            });
         });
         describe('Both single values and collections', () => {
             it('does return flow extensions that only have an SObject collection in automatic', () => {
@@ -474,6 +483,312 @@ describe('getCanContainSObjectElements', () => {
                 expect(result).toHaveLength(1);
                 expect(result[0]).toHaveProperty('name', localActionApexDoesContainsSObjectAutomaticOutput.name);
             });
+        });
+    });
+});
+describe('isOrCanContainSelector', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+        setApexClasses(apexTypesForFlow);
+    });
+    afterAll(() => {
+        Store.resetStore();
+        setApexClasses();
+    });
+    const toSortedNames = (result) => {
+        return result.map(({ name }) => name).sort();
+    };
+    describe('collection', () => {
+        it('returns only collection with allowTraversal false', () => {
+            const result = isOrCanContainSelector({ isCollection: true, allowTraversal: false })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'apexCall_anonymous_accounts',
+                'apexCall_anonymous_apex_collection',
+                'apexCall_anonymous_strings',
+                'apexComplexTypeCollectionVariable',
+                'apexSampleCollectionVariable',
+                'caseSObjectCollectionVariable',
+                'dateCollectionVariable',
+                'getAccountsAutomaticWithFieldsAndFilters',
+                'lookupRecordCollectionAutomaticOutput',
+                'opportunitySObjectCollectionVariable',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2'
+            ]);
+        });
+        it('returns only collection of given entity name with allowTraversal false', () => {
+            const result = isOrCanContainSelector({ isCollection: true, allowTraversal: false, entityName: 'Account' })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'apexCall_anonymous_accounts',
+                'getAccountsAutomaticWithFieldsAndFilters',
+                'lookupRecordCollectionAutomaticOutput'
+            ]);
+        });
+        it('returns only collection of given datatype with allowTraversal false', () => {
+            const result = isOrCanContainSelector({ isCollection: true, dataType: 'String', allowTraversal: false })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'apexCall_anonymous_strings',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2'
+            ]);
+        });
+        it('returns only collection of given elementType with allowTraversal false', () => {
+            const result = isOrCanContainSelector({
+                isCollection: true,
+                elementType: ELEMENT_TYPE.VARIABLE,
+                allowTraversal: false
+            })(flowWithAllElementsUIModel);
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'apexComplexTypeCollectionVariable',
+                'apexSampleCollectionVariable',
+                'caseSObjectCollectionVariable',
+                'dateCollectionVariable',
+                'opportunitySObjectCollectionVariable',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2'
+            ]);
+        });
+        it('returns collection and object that contain a collection with allowTraversal true', () => {
+            const result = isOrCanContainSelector({ isCollection: true, allowTraversal: true })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_anonymous_accounts',
+                'apexCall_anonymous_apex_collection',
+                'apexCall_anonymous_strings',
+                'apexComplexTypeCollectionVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'apexSampleCollectionVariable',
+                'caseSObjectCollectionVariable',
+                'dateCollectionVariable',
+                'getAccountsAutomaticWithFieldsAndFilters',
+                'lightningCompWithAccountsOutput',
+                'lookupRecordCollectionAutomaticOutput',
+                'loopOnApexAutoOutput',
+                'opportunitySObjectCollectionVariable',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2'
+            ]);
+        });
+        it('returns collection and object that contain a collection of given entity name with allowTraversal true', () => {
+            const result = isOrCanContainSelector({ isCollection: true, allowTraversal: true, entityName: 'Account' })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_anonymous_accounts',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'getAccountsAutomaticWithFieldsAndFilters',
+                'lightningCompWithAccountsOutput',
+                'lookupRecordCollectionAutomaticOutput',
+                'loopOnApexAutoOutput'
+            ]);
+        });
+        it('returns collection and objects that contain a collection of given dataType with allowTraversal true', () => {
+            const result = isOrCanContainSelector({ isCollection: true, dataType: 'String', allowTraversal: true })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_anonymous_strings',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'loopOnApexAutoOutput',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2'
+            ]);
+        });
+        it('returns collection and object that contain a collection of given elementType allowTraversal true', () => {
+            const result = isOrCanContainSelector({
+                isCollection: true,
+                elementType: ELEMENT_TYPE.VARIABLE,
+                allowTraversal: true
+            })(flowWithAllElementsUIModel);
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'apexComplexTypeCollectionVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'apexSampleCollectionVariable',
+                'caseSObjectCollectionVariable',
+                'dateCollectionVariable',
+                'opportunitySObjectCollectionVariable',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2'
+            ]);
+        });
+    });
+    describe('single', () => {
+        it('returns only single values with allowTraversal false', () => {
+            const result = isOrCanContainSelector({ isCollection: false, allowTraversal: false })({
+                elements: { apexCallAccountAutomaticOutput, apexComplexTypeVariable, caseSObjectCollectionVariable }
+            });
+
+            expect(toSortedNames(result)).toEqual(['apexCall_account_automatic_output', 'apexComplexTypeVariable']);
+        });
+        it('returns only single values of given entity name with allowTraversal false', () => {
+            const result = isOrCanContainSelector({
+                isCollection: false,
+                allowTraversal: false,
+                entityName: 'Account'
+            })({
+                elements: {
+                    apexCallAccountAutomaticOutput,
+                    accountSObjectVariable,
+                    apexComplexTypeVariable,
+                    caseSObjectCollectionVariable
+                }
+            });
+
+            expect(toSortedNames(result)).toEqual(['accountSObjectVariable']);
+        });
+        it('returns only single values of given datatype with allowTraversal false', () => {
+            const result = isOrCanContainSelector({ isCollection: false, dataType: 'String', allowTraversal: false })({
+                elements: {
+                    apexCallAccountAutomaticOutput,
+                    apexComplexTypeVariable,
+                    stringVariable,
+                    caseSObjectCollectionVariable
+                }
+            });
+
+            expect(toSortedNames(result)).toEqual(['stringVariable']);
+        });
+        it('returns only single values of given elementType with allowTraversal false', () => {
+            const result = isOrCanContainSelector({
+                isCollection: false,
+                elementType: ELEMENT_TYPE.VARIABLE,
+                allowTraversal: false
+            })(flowWithAllElementsUIModel);
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectVariable',
+                'apexCarVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyASingleSObjectVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'apexSampleVariable',
+                'campaignSObjectVariable',
+                'caseSObjectVariable',
+                'contactSObjectVariable',
+                'currencyVariable',
+                'dateVariable',
+                'feedItemVariable',
+                'numberVariable',
+                'opportunitySObjectVariable',
+                'stringVariable',
+                'vAccountId',
+                'vAccountIdFromCreate'
+            ]);
+        });
+        it('returns single values and object that contain a single value of given entity name with allowTraversal true', () => {
+            const result = isOrCanContainSelector({ isCollection: false, allowTraversal: true, entityName: 'Account' })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectVariable',
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_account_automatic_output',
+                'apexCall_anonymous_account',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyASingleSObjectVariable',
+                'getAccountAutoWithFields',
+                'lightningCompWithAccountOutput',
+                'lookupRecordAutomaticOutput',
+                'loopOnAccountAutoOutput',
+                'loopOnApexAutoOutput',
+                'loopOnLocalActionSobjectCollInApexAutoOutput',
+                'loopOnNestedApexTypeAutoOutput',
+                'loopOnScreenCompSObjectCollAutoOutput',
+                'loopOnSobjectCollectionInApexTypeAutoOutput'
+            ]);
+        });
+        it('returns single values and object that contain a single value of given dataType with allowTraversal true', () => {
+            const result = isOrCanContainSelector({ isCollection: false, dataType: 'String', allowTraversal: true })(
+                flowWithAllElementsUIModel
+            );
+
+            expect(toSortedNames(result)).toEqual([
+                'actionCallAutomaticOutput',
+                'actionCallLC_apex_no_sobject_auto',
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_Car_automatic_output',
+                'apexCall_String_automatic_output',
+                'apexCall_anonymous_string',
+                'apexCarVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'createAccountWithAutomaticOutput',
+                'emailScreenFieldAutomaticOutput',
+                'lightningCompWithAccountOutput',
+                'lightningCompWithNoAccountOutput',
+                'loopOnApexAutoOutput',
+                'loopOnTextCollectionAutoOutput',
+                'recordChoiceSet',
+                'stringConstant',
+                'stringVariable',
+                'textFormula',
+                'textTemplate1',
+                'textTemplate2',
+                'vAccountId',
+                'vAccountIdFromCreate'
+            ]);
+        });
+        it('returns single values and object that contain a single value of given elementType allowTraversal true', () => {
+            const result = isOrCanContainSelector({
+                isCollection: false,
+                elementType: ELEMENT_TYPE.VARIABLE,
+                allowTraversal: true
+            })(flowWithAllElementsUIModel);
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectVariable',
+                'apexCarVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyASingleSObjectVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'apexSampleVariable',
+                'campaignSObjectVariable',
+                'caseSObjectVariable',
+                'contactSObjectVariable',
+                'currencyVariable',
+                'dateVariable',
+                'feedItemVariable',
+                'numberVariable',
+                'opportunitySObjectVariable',
+                'stringVariable',
+                'vAccountId',
+                'vAccountIdFromCreate'
+            ]);
         });
     });
 });

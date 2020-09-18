@@ -20,6 +20,8 @@ import { contactRequestFlowUIModel } from 'mock/storeDataContactrequest';
 
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import { fieldServiceMobileFlowUIModel } from 'mock/storeDataFieldServiceMobile';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
@@ -64,6 +66,16 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
+);
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getEntity: (objectType) => {
+            return { apiName: objectType.charAt(0).toUpperCase() + objectType.slice(1) };
+        }
+    };
+});
+jest.mock('builder_platform_interaction/flowExtensionLib', () =>
+    require('builder_platform_interaction_mocks/flowExtensionLib')
 );
 
 /**
@@ -246,6 +258,12 @@ describe('Flow Translator', () => {
         });
     });
     describe('Screen flow with all elements', () => {
+        beforeAll(() => {
+            setApexClasses(apexTypesForFlow);
+        });
+        afterAll(() => {
+            setApexClasses();
+        });
         it('returns expected ui model', () => {
             uiFlow = translateFlowToUIModel(flowWithAllElements);
             expect(uiFlow).toEqualGoldObject(

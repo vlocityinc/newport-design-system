@@ -11,7 +11,6 @@ import {
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './loopEditorLabels';
 import {
@@ -140,7 +139,6 @@ export default class LoopEditor extends LightningElement {
         return {
             elementType: ELEMENT_TYPE.LOOP,
             dataType: collectionVariableDataType,
-            sObjectSelector: collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value,
             entityName: this._collectionVariable ? this._collectionVariable.subtype : null
         };
     }
@@ -152,7 +150,10 @@ export default class LoopEditor extends LightningElement {
             this.loopElement.collectionReference.error,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
-            LOOPVARIABLE_DISABLED
+            LOOPVARIABLE_DISABLED,
+            '',
+            true,
+            true
         );
     }
 
