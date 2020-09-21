@@ -63,6 +63,10 @@ $b2b-table-border: $palette-gray-5;
 	width: 3rem;
 }
 
+.nds-b2b-text-wrap {
+	word-wrap: break-word;
+}
+
 .nds-b2b-table_checkbox {
 	.nds-checkbox {
 		.nds-checkbox_faux {
