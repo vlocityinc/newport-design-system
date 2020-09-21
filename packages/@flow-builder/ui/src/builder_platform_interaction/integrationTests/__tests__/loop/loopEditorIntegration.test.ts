@@ -444,15 +444,17 @@ describe('Loop Editor collection variable', () => {
         ${'{!apexCall_anonymous_strings}'}                       | ${null}
         ${'{!apexCall_anonymous_apex_collection}'}               | ${'FlowBuilderCombobox.genericErrorMessage'}
         ${'{!apexComplexTypeTwoVariable.testOne.acctListField}'} | ${null}
+        ${'{!apexComplexTypeTwoVariable.testOne.acct}'}          | ${'FlowBuilderCombobox.genericErrorMessage'}
     `('error for "$collection should be : $expectedErrorMessage', async ({ collection, expectedErrorMessage }) => {
         await typeReferenceOrValueInCombobox(collectionVariableCombobox, collection);
         expect(collectionVariableCombobox.errorMessage).toEqual(expectedErrorMessage);
     });
     it.each`
-        collection                                           | expectedItem
-        ${'Accounts from apexCall_anonymous_accounts'}       | ${{ displayText: '{!apexCall_anonymous_accounts}' }}
-        ${'Text Collection from apexCall_anonymous_strings'} | ${{ displayText: '{!apexCall_anonymous_strings}' }}
+        collection                                                    | expectedItem
+        ${['Accounts from apexCall_anonymous_accounts']}              | ${{ displayText: '{!apexCall_anonymous_accounts}' }}
+        ${['Text Collection from apexCall_anonymous_strings']}        | ${{ displayText: '{!apexCall_anonymous_strings}' }}
+        ${['apexComplexTypeTwoVariable', 'testOne', 'acctListField']} | ${{ displayText: '{!apexComplexTypeTwoVariable.testOne.acctListField}' }}
     `('can select $collection as a collection variable', async ({ collection, expectedItem }) => {
-        await expectCanSelectInCombobox(collectionVariableCombobox, 'text', [collection], expectedItem);
+        await expectCanSelectInCombobox(collectionVariableCombobox, 'text', collection, expectedItem);
     });
 });

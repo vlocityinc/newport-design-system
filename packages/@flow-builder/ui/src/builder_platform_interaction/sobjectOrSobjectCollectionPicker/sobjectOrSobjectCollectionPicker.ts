@@ -136,7 +136,8 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
                     }
                 ]
             },
-            sObjectSelectorConfig: {
+            selectorConfig: {
+                dataType: 'SObject',
                 sobjectCollectionCriterion: this.state.sobjectCollectionCriterion,
                 entityName: this.state.recordEntityName,
                 createable: this.createable,

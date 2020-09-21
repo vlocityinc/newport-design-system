@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import RecordSobjectAndQueryFields from 'builder_platform_interaction/recordSobjectAndQueryFields';
-import { isOrCanContainsObjectOrSObjectCollectionSelector } from 'builder_platform_interaction/selectors';
+import { isOrCanContainSelector } from 'builder_platform_interaction/selectors';
 import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -40,7 +40,7 @@ const createComponentUnderTest = (props) => {
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn()
+        isOrCanContainSelector: jest.fn()
     };
 });
 
@@ -51,9 +51,7 @@ describe('record-store-fields', () => {
     afterAll(() => {
         Store.resetStore();
     });
-    isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
-        jest.fn().mockReturnValue([store.accountSObjectVariable])
-    );
+    isOrCanContainSelector.mockReturnValue(jest.fn().mockReturnValue([store.accountSObjectVariable]));
     describe('sobject resource picker and fields', () => {
         let recordSobjectAndQueryFields;
 

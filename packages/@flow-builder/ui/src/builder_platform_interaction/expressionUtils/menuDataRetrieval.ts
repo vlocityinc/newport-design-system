@@ -42,7 +42,7 @@ import {
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
-import { canContainSObjectElements } from 'builder_platform_interaction/selectors';
+import { canElementContain } from 'builder_platform_interaction/selectors';
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -131,19 +131,14 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
  * @param {boolean} showComplexObjectsForFields   true if fields are allowed here - complex types should be shown so that users can drill down to fields
- * @param {Object}  sObjectSelectorConfig if set, means that to figure out whether or not an element is allowed, we only rely on this config (select only sobject or element that contains sobject with the given settings (isCollection, creatable/queryable/updateable/deleteable, ...))
+ * @param {Object}  selectorConfig if set, means that to figure out whether or not an element is allowed, we only rely on this config (select only element or element that contains fields that fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...))
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(
-    allowedParamTypes,
-    element,
-    showComplexObjectsForFields = false,
-    sObjectSelectorConfig?
-) {
-    // allowedParamTypes that comes along sObjectSelectorConfig are only used for validation of manual entered fields.
-    // menu data only relies on on the sobject selector config
-    if (sObjectSelectorConfig) {
-        return canContainSObjectElements(element, sObjectSelectorConfig);
+export function isElementAllowed(allowedParamTypes, element, showComplexObjectsForFields = false, selectorConfig?) {
+    // allowedParamTypes that comes along selectorConfig are only used for validation of manual entered fields.
+    // menu data only relies on the  selector config
+    if (selectorConfig) {
+        return canElementContain(element, selectorConfig);
     }
 
     if (!allowedParamTypes) {
@@ -435,7 +430,7 @@ const isWritable = (field) => {
  * @param {boolean} [options.shouldBeWritable] true if fields must be writable
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
  * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
- * @param {Object}  [options.sObjectSelectorConfig] if set, means that we need to select only sobject or element that contain sobject with the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @param {Object}  [options.selectorConfig] if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
  * @returns {MenuItem[]} array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
@@ -448,19 +443,19 @@ export function filterFieldsForChosenElement(
         shouldBeWritable = false,
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
-        sObjectSelectorConfig,
+        selectorConfig,
         allowSObjectFields
     } = {}
 ) {
     if (fields) {
-        if (sObjectSelectorConfig) {
+        if (selectorConfig) {
             allowSObjectFieldsTraversal = false;
         }
         return Object.values(fields)
             .filter((field) => {
                 return (
                     (shouldBeWritable ? isWritable(field) : true) &&
-                    isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, sObjectSelectorConfig)
+                    isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, selectorConfig)
                 );
             })
             .reduce(
@@ -478,7 +473,7 @@ export function filterFieldsForChosenElement(
             )
             .filter((field) =>
                 // filter a second time because several menu items may be generated, some of them possibly not with the expected dataType
-                isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, sObjectSelectorConfig)
+                isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, selectorConfig)
             )
             .sort((menuItem1, menuItem2) => {
                 // display elements with children first

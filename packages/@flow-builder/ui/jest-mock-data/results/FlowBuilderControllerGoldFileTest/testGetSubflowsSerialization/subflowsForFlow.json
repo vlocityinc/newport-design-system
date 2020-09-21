@@ -22,6 +22,11 @@
     },
     {
       "masterLabel":"FTest-TestFileBasedInactive",
+      "fullName":"FtestSfdcOnly__TestFileBasedInactiveA",
+      "description":"FTEST - File Based Flow Basic"
+    },
+    {
+      "masterLabel":"FTest-TestFileBasedInactive",
       "fullName":"FtestSfdcOnly__TestFileBasedInactive",
       "description":"FTEST - File Based Flow Basic"
     },

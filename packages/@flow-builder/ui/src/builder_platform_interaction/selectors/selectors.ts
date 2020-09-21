@@ -9,8 +9,7 @@ export {
     apexScalarVariablesSelector,
     componentInstanceScreenFieldsSelector,
     byElementTypeElementsSelector,
-    isOrCanContainsObjectOrSObjectCollectionSelector,
-    canContainSObjectElements,
+    canElementContain,
     isOrCanContainSelector
 } from './menuDataSelector';
 

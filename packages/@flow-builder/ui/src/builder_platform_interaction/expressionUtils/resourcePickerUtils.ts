@@ -9,7 +9,7 @@ import { getStoreElements } from './storeElementsFilter';
  * @param {Object} entityFields fields of selected
  * @param {boolean} [options.shouldBeWritable] true if fields must be writable
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
- * @param {Object}  [options.sObjectSelectorConfig] if set, means that we need to select only sobject or element that contain sobject with the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @param {Object}  [options.selectorConfig] if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
  * @returns {MenuItem[]} array of alphabetized menu items
  */
 const getFieldMenuData = (
@@ -20,7 +20,7 @@ const getFieldMenuData = (
         allowSObjectFields = true,
         allowSObjectFieldsTraversal = true,
         shouldBeWritable = false,
-        sObjectSelectorConfig,
+        selectorConfig,
         showMultiPicklistGlobalVariables = false
     } = {}
 ) => {
@@ -30,7 +30,7 @@ const getFieldMenuData = (
         showSubText: true,
         allowSObjectFieldsTraversal,
         shouldBeWritable,
-        sObjectSelectorConfig,
+        selectorConfig,
         allowSObjectFields
     };
     if (entityFields) {
@@ -114,7 +114,7 @@ export const getMenuData = (
             allowSObjectFields,
             allowSObjectFieldsTraversal,
             shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
-            sObjectSelectorConfig: elementConfig && elementConfig.sObjectSelectorConfig,
+            selectorConfig: elementConfig && elementConfig.selectorConfig,
             showMultiPicklistGlobalVariables: forFormula
         });
     }

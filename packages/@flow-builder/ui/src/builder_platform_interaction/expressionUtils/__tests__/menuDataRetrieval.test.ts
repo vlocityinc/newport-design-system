@@ -152,9 +152,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         writableElementsSelector: jest.fn(),
-        isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn(),
+        isOrCanContainSelector: jest.fn(),
         readableElementsSelector: jest.fn(),
-        canContainSObjectElements: jest.fn().mockImplementation((element) => {
+        canElementContain: jest.fn().mockImplementation((element) => {
             return element.dataType === 'sobject';
         })
     };
@@ -211,7 +211,7 @@ describe('Menu data retrieval', () => {
     });
     afterEach(() => {
         selectorsMock.writableElementsSelector.mockReset();
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReset();
+        selectorsMock.isOrCanContainSelector.mockReset();
         selectorsMock.readableElementsSelector.mockReset();
     });
     it('should sort alphabetically by category', () => {
@@ -385,12 +385,10 @@ describe('Menu data retrieval', () => {
         expect(primitivesNoObjects).toHaveLength(0);
     });
     it('should have only sobject variables', () => {
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
-            jest.fn().mockReturnValue([store.accountSObjectVariable])
-        );
+        selectorsMock.isOrCanContainSelector.mockReturnValue(jest.fn().mockReturnValue([store.accountSObjectVariable]));
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            sObjectSelectorConfig: {
+            selectorConfig: {
                 queryable: true
             }
         });
@@ -399,12 +397,12 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariable.guid);
     });
     it('should have only sobject collection variables', () => {
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
+        selectorsMock.isOrCanContainSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            sObjectSelectorConfig: {
+            selectorConfig: {
                 queryable: true
             }
         });
@@ -413,12 +411,12 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].items[0].value).toEqual(store.accountSObjectCollectionVariable.guid);
     });
     it('should have one sobject variable and one sobject collection variable', () => {
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
+        selectorsMock.isOrCanContainSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            sObjectSelectorConfig: {
+            selectorConfig: {
                 queryable: true
             }
         });
@@ -432,12 +430,10 @@ describe('Menu data retrieval', () => {
         expect(menuData[2].items[0].value).toEqual(store.accountSObjectVariable.guid);
     });
     it('should have only sobject variables (record Update)', () => {
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
-            jest.fn().mockReturnValue([store.accountSObjectVariable])
-        );
+        selectorsMock.isOrCanContainSelector.mockReturnValue(jest.fn().mockReturnValue([store.accountSObjectVariable]));
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
-            sObjectSelectorConfig: {
+            selectorConfig: {
                 queryable: true
             }
         });
@@ -446,12 +442,12 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariable.guid);
     });
     it('should have only sobject collection variables  (record Update)', () => {
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
+        selectorsMock.isOrCanContainSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
-            sObjectSelectorConfig: {
+            selectorConfig: {
                 queryable: true
             }
         });
@@ -489,13 +485,13 @@ describe('Menu data retrieval', () => {
 
     describe('disableHasNext', () => {
         it('should set hasNext to false for all menu items when true', () => {
-            selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
+            selectorsMock.isOrCanContainSelector.mockReturnValue(
                 jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
             );
             const menuData = getElementsForMenuData(
                 {
                     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-                    sObjectSelectorConfig: {
+                    selectorConfig: {
                         queryable: true
                     }
                 },
@@ -510,13 +506,13 @@ describe('Menu data retrieval', () => {
         });
 
         it('should not manipulate hasNext for all menu items when false', () => {
-            selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
+            selectorsMock.isOrCanContainSelector.mockReturnValue(
                 jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
             );
             const menuData = getElementsForMenuData(
                 {
                     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-                    sObjectSelectorConfig: {
+                    selectorConfig: {
                         queryable: true
                     }
                 },
@@ -528,7 +524,7 @@ describe('Menu data retrieval', () => {
             expect(menuData[1].items[0].hasNext).toBeFalsy();
             expect(menuData[2].items[0].hasNext).toBeTruthy();
         });
-        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockClear();
+        selectorsMock.isOrCanContainSelector.mockClear();
     });
     describe('RHS menuData', () => {
         it('should have active picklist values in menu data when LHS is picklist field', () => {
@@ -933,14 +929,15 @@ describe('Menu data retrieval', () => {
                 })
             );
         });
-        it('returns only sobject or can contain sobject elements when sobjectSelectorConfig is set', () => {
+        it('returns only sobject or can contain sobject elements when selectorConfig is set', () => {
             const parentMenuItem = store.lightningCompAutomaticOutputContainsAccountExtension;
             const fields = {
                 ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
             };
 
             const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
-                sObjectSelectorConfig: {
+                selectorConfig: {
+                    dataType: 'SObject',
                     sObjectCollectionCriterion: 'SOBJECT'
                 }
             });
@@ -953,14 +950,15 @@ describe('Menu data retrieval', () => {
                 })
             );
         });
-        it('does not set hasNext when sobjectSelectorConfig is set', () => {
+        it('does not set hasNext when selectorConfig is set', () => {
             const parentMenuItem = store.lightningCompAutomaticOutputContainsAccountExtension;
             const fields = {
                 ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
             };
 
             const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
-                sObjectSelectorConfig: {
+                selectorConfig: {
+                    dataType: 'SObject',
                     sObjectCollectionCriterion: 'SOBJECT'
                 }
             });

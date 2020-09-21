@@ -86,7 +86,7 @@ describe('resourcePickerUtils', () => {
                 allowSObjectFieldsTraversal: true,
                 showAsFieldReference: true,
                 showSubText: true,
-                sObjectSelectorConfig: null,
+                selectorConfig: null,
                 shouldBeWritable: false
             });
         });
@@ -106,7 +106,7 @@ describe('resourcePickerUtils', () => {
                 showAsFieldReference: true,
                 showSubText: true,
                 allowSObjectFieldsTraversal: true,
-                sObjectSelectorConfig: null,
+                selectorConfig: null,
                 shouldBeWritable: false
             });
         });

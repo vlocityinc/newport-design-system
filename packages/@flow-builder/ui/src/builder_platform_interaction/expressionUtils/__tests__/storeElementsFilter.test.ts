@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
         writableElementsSelector: jest.fn(() => {
             return mockWritableElement;
         }),
-        isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn(() => () => {
+        isOrCanContainSelector: jest.fn(() => () => {
             return mockSobjectElement;
         }),
         readableElementsSelector: jest.fn(() => {
@@ -62,10 +62,10 @@ describe('get store elements', () => {
 
         expect(menuData.length).toBeGreaterThan(10);
     });
-    it('Should rely on sobject selector if sobject selector config is set', () => {
+    it('Should rely on selector if selector config is set', () => {
         expect(
             getStoreElements(jest.fn(), {
-                sObjectSelectorConfig: {}
+                selectorConfig: {}
             })
         ).toEqual(mockSobjectElement);
     });
@@ -100,16 +100,13 @@ describe('get store elements', () => {
             ${ELEMENT_TYPE.RECORD_UPDATE} | ${false}         | ${mockReadableElement} | ${'readable'}
             ${ELEMENT_TYPE.RECORD_DELETE} | ${true}          | ${mockWritableElement} | ${'writable'}
             ${ELEMENT_TYPE.RECORD_DELETE} | ${false}         | ${mockReadableElement} | ${'readable'}
-        `(
-            'Should return $message element with no sobject selector config',
-            ({ elementType, shouldBeWritable, expected }) => {
-                expect(
-                    getStoreElements(jest.fn(), {
-                        elementType,
-                        shouldBeWritable
-                    })
-                ).toEqual(expected);
-            }
-        );
+        `('Should return $message element with no selector config', ({ elementType, shouldBeWritable, expected }) => {
+            expect(
+                getStoreElements(jest.fn(), {
+                    elementType,
+                    shouldBeWritable
+                })
+            ).toEqual(expected);
+        });
     });
 });

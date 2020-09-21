@@ -31,10 +31,11 @@ const LOOPVAR_REQUIRED = true;
 const LOOPVARIABLE_DISABLED = false;
 
 const COLLECTION_VAR_ELEMENT_CONFIG = {
-    elementType: ELEMENT_TYPE.LOOP,
-    isCollection: true,
     // whether or not apex collection from anonymous automatic outputs are allowed
-    allowsApexCollAnonymousAutoOutput: false
+    allowsApexCollAnonymousAutoOutput: false,
+    selectorConfig: {
+        isCollection: true
+    }
 };
 
 export default class LoopEditor extends LightningElement {
@@ -137,9 +138,12 @@ export default class LoopEditor extends LightningElement {
     get loopVariableElementConfig() {
         const collectionVariableDataType = this._collectionVariable ? this._collectionVariable.dataType : null;
         return {
-            elementType: ELEMENT_TYPE.LOOP,
-            dataType: collectionVariableDataType,
-            entityName: this._collectionVariable ? this._collectionVariable.subtype : null
+            selectorConfig: {
+                dataType: collectionVariableDataType,
+                entityName: this._collectionVariable ? this._collectionVariable.subtype : null,
+                elementType: ELEMENT_TYPE.VARIABLE,
+                allowTraversal: false
+            }
         };
     }
 
@@ -208,6 +212,10 @@ export default class LoopEditor extends LightningElement {
         this.loopElement = loopReducer(this.loopElement, event);
     }
 
+    errorMessageFromCollectionValueAndIsMergeField = (loopCollectionValue: string, isMergeField: boolean): string => {
+        return loopCollectionValue === null && isMergeField === true ? LABELS.genericErrorMessage : null;
+    };
+
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
         this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
@@ -232,9 +240,13 @@ export default class LoopEditor extends LightningElement {
         // update collectionVariable and loopVariableErrorMessage
         const loopCollectionValue = event.detail.item ? event.detail.item.value : null;
         const loopVariableValue = getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
+        const loopCollectionErrorMessage =
+            event.detail.error === null
+                ? this.errorMessageFromCollectionValueAndIsMergeField(loopCollectionValue, event.detail.isMergeField)
+                : event.detail.error;
         const loopCollectionChangedEvent = new LoopCollectionChangedEvent(
             loopCollectionValue,
-            event.detail.error,
+            loopCollectionErrorMessage,
             loopVariableValue,
             loopVarErrorMessage
         );

@@ -2,7 +2,6 @@
 import {
     writableElementsSelector,
     readableElementsSelector,
-    isOrCanContainsObjectOrSObjectCollectionSelector,
     choiceSelector,
     isOrCanContainSelector
 } from 'builder_platform_interaction/selectors';
@@ -10,18 +9,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getScreenElement } from './resourceUtils';
 
 /**
- * @typedef FilterInformation
- * @property {Function} selector    the selector that can be used to get items for this filter from the store
- * @property {boolean} isWritable  whether or not everything allowed by this filter must be writable
- */
-
-/**
  * @typedef ElementFilterConfig
  * @property {boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @property {string}  elementType         the element type this expression builder lives in
- * @property {boolean} isCollection        true if using selector to retrieve collection variables
- * @property {String} dataType             data type for menu data items
- * @property {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @property {Object} selectorConfig       configuration of the selector (e.g. dataType, entityName, isCollection etc...)
  */
 
 // TODO: all of this regarding filtering & selectors will be revisited with W-5462144
@@ -31,21 +22,7 @@ import { getScreenElement } from './resourceUtils';
  * @returns {FilterInformation}
  */
 function writableOrReadableElement(shouldBeWritable) {
-    return {
-        selector: shouldBeWritable ? writableElementsSelector : readableElementsSelector,
-        isWritable: shouldBeWritable
-    };
-}
-
-/**
- * @param {Object} sObjectSelectorConfig  if using selector to retrieve sobject/sobject collection variables, contain options to retrieve sobject (e.g. isCollection, queryable/creatable/updatable/deleteable, entityName, ...)
- * @returns {FilterInformation}
- */
-function sobjectSelector(sObjectSelectorConfig) {
-    return {
-        selector: isOrCanContainsObjectOrSObjectCollectionSelector(sObjectSelectorConfig),
-        isWritable: false
-    };
+    return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
 }
 
 /**
@@ -55,28 +32,7 @@ function sobjectSelector(sObjectSelectorConfig) {
  * @returns {FilterInformation}
  */
 function screenSelectors(shouldBeWritable, choices, dataType) {
-    if (shouldBeWritable) {
-        return {
-            selector: writableElementsSelector,
-            isWritable: shouldBeWritable
-        };
-    }
-
-    return {
-        selector: choices ? choiceSelector(dataType) : readableElementsSelector
-    };
-}
-
-function loopSelector({ isCollection, dataType, entityName }) {
-    return {
-        selector: isOrCanContainSelector({
-            isCollection,
-            dataType,
-            entityName,
-            allowTraversal: isCollection,
-            elementType: isCollection ? undefined : ELEMENT_TYPE.VARIABLE
-        })
-    };
+    return shouldBeWritable ? writableElementsSelector : choices ? choiceSelector(dataType) : readableElementsSelector;
 }
 
 const filterInformationProviderMap = {
@@ -93,9 +49,7 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices }) =>
-        screenSelectors(shouldBeWritable, choices, dataType),
-    [ELEMENT_TYPE.LOOP]: ({ isCollection, dataType, entityName }) =>
-        loopSelector({ isCollection, dataType, entityName })
+        screenSelectors(shouldBeWritable, choices, dataType)
 };
 
 const CLUD_ELEMENT_TYPES = [
@@ -106,10 +60,12 @@ const CLUD_ELEMENT_TYPES = [
 ];
 
 function getFilterInformation(config = {}) {
-    const { elementType, shouldBeWritable, sObjectSelectorConfig } = config;
-    if (sObjectSelectorConfig) {
-        return sobjectSelector(sObjectSelectorConfig);
+    const { elementType, shouldBeWritable, selectorConfig } = config;
+
+    if (selectorConfig) {
+        return isOrCanContainSelector(selectorConfig);
     }
+
     if (CLUD_ELEMENT_TYPES.includes(elementType)) {
         return writableOrReadableElement(shouldBeWritable);
     }
@@ -158,7 +114,7 @@ export function flattenElements(screenElement) {
 export function getStoreElements(storeInstance, config) {
     let elements = [];
 
-    const { selector } = getFilterInformation(config);
+    const selector = getFilterInformation(config);
     if (selector) {
         elements = selector(storeInstance);
     }

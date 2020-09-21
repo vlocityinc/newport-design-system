@@ -212,7 +212,7 @@ export const getCanContainSObjectElements = (elements, retrieveOptions) => {
  * @param {Object} an element
  * @param {Object} a set of additional requirements on the SObject (e.g. isCollection, createable/queryable/deleteable/queryable, ...)
  */
-export const canContainSObjectElements = (element, retrieveOptions) => {
+const canElementContainSObject = (element, retrieveOptions) => {
     const filterOnCanContainSObjectElement = getCanContainSObjectElements({ element }, retrieveOptions);
     return filterOnCanContainSObjectElement && filterOnCanContainSObjectElement.length > 0;
 };
@@ -238,13 +238,30 @@ const getCanContainElements = (elements, retrieveOptions) => {
 };
 
 /**
+ * Checks if a single element is or can contain an element corresponding to the retrieve options
+ * @param {Object} an element
+ * @param {Object} a requirements on the element (e.g. isCollection, dataType, createable/queryable/deleteable/queryable, ...)
+ */
+export const canElementContain = (element, retrieveOptions) => {
+    if (retrieveOptions && (retrieveOptions.dataType === 'SObject' || retrieveOptions.entityName)) {
+        return canElementContainSObject(element, retrieveOptions);
+    }
+    const filtered = getCanContainElements({ element }, retrieveOptions);
+    return filtered && filtered.length > 0;
+};
+
+/**
  * Selects: SObject, SObject collection, elements which outputs contain SObject, apex variable with SObject field
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  */
-export const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions) => {
+const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions) => {
     return createSelector([elementsSelector], (elements) => getCanContainSObjectElements(elements, retrieveOptions));
 };
 
+/**
+ * Selects: Elements, Elements collection, elements which outputs contain elements, apex variable with element field that corresponds to the options
+ * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... elements, elements of a given data type etc...
+ */
 export const isOrCanContainSelector = (retrieveOptions: {
     isCollection?: any;
     dataType: any;
@@ -253,10 +270,8 @@ export const isOrCanContainSelector = (retrieveOptions: {
     allowTraversal?: any;
     elementType: any;
 }) => {
-    retrieveOptions.allowTraversal =
-        retrieveOptions.allowTraversal === undefined ? true : retrieveOptions.allowTraversal;
     if (retrieveOptions.dataType === 'SObject' || retrieveOptions.entityName) {
-        return retrieveOptions.allowTraversal
+        return retrieveOptions.allowTraversal === undefined || retrieveOptions.allowTraversal
             ? isOrCanContainsObjectOrSObjectCollectionSelector(retrieveOptions)
             : createSelector([elementsSelector], (elements) =>
                   getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions)
@@ -268,8 +283,10 @@ export const isOrCanContainSelector = (retrieveOptions: {
 /**
  * @typedef {Object} RetrieveOptions
  *
- * @property {Boolean} allSObjectsAndSObjectCollections - true to retrieve both sObject and sObject collection variables.
+ * @property {SOBJECT_OR_SOBJECT_COLLECTION_FILTER} sobjectCollectionCriterion - One of SOBJECT, SOBJECT_COLLECTION, SOBJECT_OR_SOBJECT_COLLECTION
  * @property {Boolean} isCollection - true to retrieve only sObject collection variables. It's ignored if there is allSObjectsAndSObjectCollections property.
+ * @property {String} dataType - filter by data type.
+ * @property {String} elementType - filter by element type.
  * @property {String} entityName - filter by entity name.
  * @property {Boolean} queryable - true to retrieve only queryable sObject
  * @property {Boolean} createable - true to retrieve only createable sObject
