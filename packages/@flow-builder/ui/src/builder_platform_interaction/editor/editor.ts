@@ -230,6 +230,9 @@ export default class Editor extends LightningElement {
         }
     }
 
+    @api
+    interviewId;
+
     @track
     flowStatus;
 

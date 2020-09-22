@@ -12,6 +12,11 @@
         type="String"
         description="The id of the flow definition associated with the flow we are loading"
     />
+    <aura:attribute
+        name="interviewId"
+        type="String"
+        description="The guid of the saved flow interview to debug in the builder"
+    />
     <aura:attribute name="builderType" type="String" description="Flow builder type: FlowBuilder, JourneyBuilder etc" />
     <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
 
@@ -32,6 +37,7 @@
             <builder_platform_interaction:container
                 flowId="{!v.flowId}"
                 flowDefId="{!v.flowDefId}"
+                interviewId="{!v.interviewId}"
                 builderType="{!v.builderType}"
                 builderConfig="{!v.builderConfig}"
             ></builder_platform_interaction:container>
