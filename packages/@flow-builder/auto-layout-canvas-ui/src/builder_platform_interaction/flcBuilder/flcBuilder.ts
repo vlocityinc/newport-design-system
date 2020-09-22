@@ -406,7 +406,8 @@ export default class FlcBuilder extends LightningElement {
 
             let count = 0;
             nodes.forEach((node) => {
-                if (this._flowRenderContext.elementsMetadata[node.elementType].dynamicNodeComponent) {
+                const metadata = this._flowRenderContext.elementsMetadata[node.elementType];
+                if (metadata && metadata.dynamicNodeComponent) {
                     count++;
                 }
             });
