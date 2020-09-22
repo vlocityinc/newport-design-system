@@ -20,7 +20,7 @@ const moduleNameMapper = {
     './src/demo-app/stubs/siteforceQuarterbackLibrary.js',
   '^@salesforce/label/(.+)$': './src/demo-app/labels/$1.js',
   '^@salesforce/loader$': './src/demo-app/stubs/loader.js',
-  '^(builder_platform_interaction)/(.+)$': './build//$1/$2/$2.js',
+  '^(builder_platform_interaction)/(.+)$': '../../src/main/modules/$1/$2/$2.js',
   '^(contentbuilder)/(.+)$': './src/$1/$2/$2.js',
   '^lightning/(.+)$':
     '../../node_modules/lwc-components-lightning/src/lightning/$1/$1.js',
