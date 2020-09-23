@@ -19,13 +19,12 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
             apiName: 'label',
             dataType: 'string',
             description: 'The label that appears above the email field.',
-            hasDefaultValue: true,
+            hasDefaultValue: false,
             isRequired: true,
             label: 'Label',
             isInput: true,
             isOutput: true,
-            maxOccurs: 1,
-            defaultValue: 'Email'
+            maxOccurs: 1
         },
         {
             apiName: 'placeholder',

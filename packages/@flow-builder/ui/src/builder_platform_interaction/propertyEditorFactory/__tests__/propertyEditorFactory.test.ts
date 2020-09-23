@@ -9,7 +9,9 @@ import {
     stringConstant,
     textTemplate1,
     textTemplate2,
-    elementsForPropertyEditors
+    elementsForPropertyEditors,
+    emailScreenField,
+    emailScreenFieldAutomaticOutput
 } from 'mock/storeData';
 import { goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -36,7 +38,9 @@ describe('propertyEditorFactory', () => {
                 accountSObjectVariable,
                 textTemplate1,
                 textTemplate2,
-                stringConstant
+                stringConstant,
+                emailScreenField,
+                emailScreenFieldAutomaticOutput
             ];
             const actualElementsForPropertyEditors = elements.reduce((acc, element) => {
                 acc[element.name] = getElementForPropertyEditor(element);

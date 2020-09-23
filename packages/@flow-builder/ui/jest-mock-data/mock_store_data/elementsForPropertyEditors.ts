@@ -270,5 +270,235 @@ export const elementsForPropertyEditors = {
             value: '38f77648-3c7e-4431-8403-239492238623',
             error: null
         }
+    },
+    emailScreenField: {
+        guid: 'ee652516-7b62-402f-88a2-1ab887b55072',
+        name: {
+            value: 'emailScreenField',
+            error: null
+        },
+        choiceReferences: [],
+        defaultValue: {
+            value: '',
+            error: null
+        },
+        defaultValueIndex: {
+            value: '0fa2da7a-22de-4045-ab83-711522e52bb6',
+            error: null
+        },
+        validationRule: {
+            formulaExpression: {
+                value: null,
+                error: null
+            },
+            errorMessage: {
+                value: null,
+                error: null
+            }
+        },
+        extensionName: {
+            value: 'flowruntime:email',
+            error: null
+        },
+        fieldType: {
+            value: 'ComponentInstance',
+            error: null
+        },
+        fieldText: {
+            value: '',
+            error: null
+        },
+        helpText: {
+            value: '',
+            error: null
+        },
+        inputParameters: [
+            {
+                rowIndex: '27851956-e853-43e1-8349-bc22d62aa5a4',
+                name: {
+                    value: 'label',
+                    error: null
+                },
+                value: {
+                    value: 'emailScreenField',
+                    error: null
+                },
+                valueDataType: {
+                    value: 'String',
+                    error: null
+                }
+            },
+            {
+                rowIndex: 'ecbe8d3c-4fed-4cc0-a4f5-15a731f63c71',
+                name: {
+                    value: 'placeholder',
+                    error: null
+                },
+                value: {
+                    value: 'your email',
+                    error: null
+                },
+                valueDataType: {
+                    value: 'String',
+                    error: null
+                }
+            }
+        ],
+        isNewField: false,
+        isRequired: true,
+        outputParameters: [],
+        scale: {
+            value: '0',
+            error: null
+        },
+        type: {
+            name: {
+                value: 'flowruntime:email',
+                error: null
+            },
+            fieldType: {
+                value: 'ComponentInstance',
+                error: null
+            },
+            label: {
+                value: 'flowruntime:email',
+                error: null
+            },
+            icon: {
+                value: 'standard:lightning_component',
+                error: null
+            },
+            source: {
+                value: 'local',
+                error: null
+            }
+        },
+        elementType: 'SCREEN_FIELD',
+        visibilityRule: {
+            conditions: [],
+            conditionLogic: {
+                value: 'no_conditions',
+                error: null
+            }
+        },
+        fields: [],
+        storeOutputAutomatically: false
+    },
+    emailScreenFieldAutomaticOutput: {
+        guid: '2f8795f3-2c27-42d9-ae84-0a53bbedd3a6',
+        name: {
+            value: 'emailScreenFieldAutomaticOutput',
+            error: null
+        },
+        choiceReferences: [],
+        dataType: {
+            value: 'LightningComponentOutput',
+            error: null
+        },
+        defaultValue: {
+            value: '',
+            error: null
+        },
+        defaultValueIndex: {
+            value: '960c344c-31bb-41b5-ad56-63ba96f239d8',
+            error: null
+        },
+        validationRule: {
+            formulaExpression: {
+                value: null,
+                error: null
+            },
+            errorMessage: {
+                value: null,
+                error: null
+            }
+        },
+        extensionName: {
+            value: 'flowruntime:email',
+            error: null
+        },
+        fieldType: {
+            value: 'ComponentInstance',
+            error: null
+        },
+        fieldText: {
+            value: '',
+            error: null
+        },
+        helpText: {
+            value: '',
+            error: null
+        },
+        inputParameters: [
+            {
+                rowIndex: 'fa417651-1251-4c86-8200-30dc2ed6849c',
+                name: {
+                    value: 'label',
+                    error: null
+                },
+                value: {
+                    value: 'emailScreenFieldAutomaticOutput',
+                    error: null
+                },
+                valueDataType: {
+                    value: 'String',
+                    error: null
+                }
+            },
+            {
+                rowIndex: '7e331ab0-6782-4244-93b3-5bbcdad069e4',
+                name: {
+                    value: 'placeholder',
+                    error: null
+                },
+                value: {
+                    value: 'your email address',
+                    error: null
+                },
+                valueDataType: {
+                    value: 'String',
+                    error: null
+                }
+            }
+        ],
+        isNewField: false,
+        isRequired: true,
+        outputParameters: [],
+        scale: {
+            value: '0',
+            error: null
+        },
+        type: {
+            name: {
+                value: 'flowruntime:email',
+                error: null
+            },
+            fieldType: {
+                value: 'ComponentInstance',
+                error: null
+            },
+            label: {
+                value: 'flowruntime:email',
+                error: null
+            },
+            icon: {
+                value: 'standard:lightning_component',
+                error: null
+            },
+            source: {
+                value: 'local',
+                error: null
+            }
+        },
+        elementType: 'SCREEN_FIELD',
+        visibilityRule: {
+            conditions: [],
+            conditionLogic: {
+                value: 'no_conditions',
+                error: null
+            }
+        },
+        fields: [],
+        storeOutputAutomatically: true
     }
 };
