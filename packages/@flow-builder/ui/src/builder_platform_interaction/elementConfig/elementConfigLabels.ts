@@ -143,6 +143,7 @@ import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
 import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
+import editTimeTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTimeTriggerLabel';
 import editObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectLabel';
 import editTriggerObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerObjectLabel';
 import editObjectAndFiltersLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectAndFiltersLabel';
@@ -311,6 +312,7 @@ export const LABELS = {
     editPicklistChoiceSetLabel,
     editStartElementLabel,
     editTriggerLabel,
+    editTimeTriggerLabel,
     editObjectLabel,
     editTriggerObjectLabel,
     editObjectAndFiltersLabel,

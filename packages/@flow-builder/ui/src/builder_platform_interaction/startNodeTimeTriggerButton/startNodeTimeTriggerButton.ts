@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './startNodeTimeTriggerButtonLabels';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
 
 export default class startNodeTimeTriggerButton extends LightningElement {
     @api
@@ -21,8 +23,10 @@ export default class startNodeTimeTriggerButton extends LightningElement {
         return false;
     }
 
-    // TODO
     handleObjectClick = (event) => {
         event.stopPropagation();
+        const canvasElementGUID = this.node.guid;
+        const editElementEvent = new EditElementEvent(canvasElementGUID, EDIT_START_TIME_TRIGGERS);
+        this.dispatchEvent(editElementEvent);
     };
 }

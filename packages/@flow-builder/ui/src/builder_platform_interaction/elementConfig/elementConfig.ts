@@ -114,6 +114,7 @@ import {
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
 export const EDIT_START_JOURNEY_CONTEXT = 'editStartJourneyContext';
+export const EDIT_START_TIME_TRIGGERS = 'editStartTimeTriggers';
 
 /**
  * @constant
@@ -168,7 +169,8 @@ export const elementTypeToConfigMap = {
             [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: 'builder_platform_interaction:platformEventEditor',
             [EDIT_START_RECORD_CHANGE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_SCHEDULE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
-            [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor'
+            [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
+            [EDIT_START_TIME_TRIGGERS]: 'builder_platform_interaction:timeTriggerEditor'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
@@ -198,7 +200,8 @@ export const elementTypeToConfigMap = {
             editPlatform: LABELS.editPlatformLabel,
             editObject: LABELS.editObjectLabel,
             editTriggerObjectLabel: LABELS.editTriggerObjectLabel,
-            editObjectAndFiltersLabel: LABELS.editObjectAndFiltersLabel
+            editObjectAndFiltersLabel: LABELS.editObjectAndFiltersLabel,
+            editTimeTrigger: LABELS.editTimeTriggerLabel
         }
     },
     [ELEMENT_TYPE.SUBFLOW]: {

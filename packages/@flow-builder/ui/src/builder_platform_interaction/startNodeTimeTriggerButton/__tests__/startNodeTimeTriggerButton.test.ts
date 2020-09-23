@@ -2,6 +2,10 @@
 import { createElement } from 'lwc';
 import StartNodeTimeTriggerButton from 'builder_platform_interaction/startNodeTimeTriggerButton';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { startElementWithAccountAndNoCondition } from 'mock/storeDataAutolaunched';
+import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
     const element = createElement('builder_platform_interaction-start-node-time-trigger-button', {
@@ -59,6 +63,22 @@ describe('When flow trigger Type is RECORD_CHANGED', () => {
             expect(
                 runQuerySelector(startNodeTimeTriggerButtonEditor, selectors.timeTriggerButtonText).textContent
             ).toBe('FlowBuilderCanvasElement.startElementSetTimeTrigger');
+        });
+    });
+
+    it('Checks if an EditElementEvent is dispatched with editStartTimeTriggers mode when Set Time Trigger button is clicked', async () => {
+        expect.assertions(2);
+        startNodeTimeTriggerButtonEditor = setupComponentUnderTest(startElementWithAccountAndNoCondition);
+        const callback = jest.fn();
+        startNodeTimeTriggerButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
+        startNodeTimeTriggerButtonEditor.shadowRoot.querySelector(selectors.startTimeTrigger).click();
+        await ticks(1);
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                canvasElementGUID: startNodeTimeTriggerButtonEditor.node.guid,
+                mode: EDIT_START_TIME_TRIGGERS
+            }
         });
     });
 });
