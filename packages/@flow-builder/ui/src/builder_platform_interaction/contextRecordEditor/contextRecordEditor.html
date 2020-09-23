@@ -62,6 +62,10 @@
             </builder_platform_interaction-record-filter>
             <div class="slds-border_top" if:true={showRequireRecordChangeOptions}>
                 <div class="slds-form_stacked slds-p-around_small slds-no-flex">
+                    <label class="slds-form-element__legend slds-form-element__label"
+                        >{labels.requireRecordChangeOption}</label
+                    >
+                    <lightning-helptext content={labels.requireChangeOptionsHelptext}></lightning-helptext>
                     <lightning-radio-group
                         name="requireRecordChangeOptionsRadioGroup"
                         label={labels.requireRecordChangeOption}
@@ -69,6 +73,7 @@
                         value={requireRecordChangeOption}
                         onchange={handleRequireRecordChangeOptionOnChange}
                         class="slds-m-top_x-small executeWhenOption"
+                        variant="label-hidden"
                     >
                     </lightning-radio-group>
                 </div>

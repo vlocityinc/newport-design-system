@@ -61,7 +61,9 @@
     </builder_platform_interaction-condition-list>
 
     <div if:true={showOutcomeExecutionOptions} class="slds-p-top_small">
-        <div class="slds-border_top slds-form_stacked slds-no-flex">
+        <div class="slds-border_top slds-p-top_x-small slds-form_stacked slds-no-flex">
+            <label class="slds-form-element__legend slds-form-element__label">{labels.executeOutcomeWhen}</label>
+            <lightning-helptext content={labels.outcomeExecuteWhenOptionsHelptext}></lightning-helptext>
             <lightning-radio-group
                 if:true={showOutcomeExecutionOptionsSelector}
                 name="outcomeExecutionOptionsRadioGroup"
@@ -70,6 +72,7 @@
                 value={outcomeExecutionOption}
                 onchange={handleOutcomeExecutionOptionOnChange}
                 class="slds-m-top_x-small executeWhenOption"
+                variant="label-hidden"
             >
             </lightning-radio-group>
         </div>

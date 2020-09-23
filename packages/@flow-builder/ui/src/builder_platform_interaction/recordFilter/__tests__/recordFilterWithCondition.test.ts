@@ -231,7 +231,7 @@ describe('record-filter', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ON_DML })
             );
-            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaRunFlow');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteria');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');

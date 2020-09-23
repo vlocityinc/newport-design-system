@@ -10,7 +10,7 @@ import requireRecordChangeOption from '@salesforce/label/FlowBuilderRecordEditor
 import everyTimeConditionsMet from '@salesforce/label/FlowBuilderRecordEditor.everyTimeConditionsMet';
 import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderRecordEditor.onlyWhenChangesMeetConditions';
 import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES } from 'builder_platform_interaction/flowMetadata';
-
+import requireChangeOptionsHelptext from '@salesforce/label/FlowBuilderRecordEditor.requireChangeOptionsHelptext';
 export const LABELS = {
     chooseObjectAndRecord,
     contextObjectHeader,
@@ -19,7 +19,8 @@ export const LABELS = {
     filterRecordsDescription,
     object,
     objectPlaceholder,
-    requireRecordChangeOption
+    requireRecordChangeOption,
+    requireChangeOptionsHelptext
 };
 
 export const requireRecordChangeOptions = () => {

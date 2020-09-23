@@ -141,6 +141,25 @@ export const filterLogicOptions = (elementType, recordPluralName, recordSingular
                     label: LABELS.customConditionLogicLabel
                 }
             ];
+        case ELEMENT_TYPE.START_ON_DML:
+            return [
+                {
+                    value: CONDITION_LOGIC.NO_CONDITIONS,
+                    label: LABELS.filterNoCriteria
+                },
+                {
+                    value: CONDITION_LOGIC.AND,
+                    label: LABELS.andConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.OR,
+                    label: LABELS.orConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                    label: LABELS.customConditionLogicLabel
+                }
+            ];
         default:
             return defaultFilterLogic(recordPluralName);
     }

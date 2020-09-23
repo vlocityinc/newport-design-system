@@ -16,6 +16,7 @@ import rhsLabel from '@salesforce/label/FlowBuilderConditionList.rhsLabel';
 import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutcomeWhen';
 import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
 import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderOutcome.onlyWhenChangesMeetConditions';
+import outcomeExecuteWhenOptionsHelptext from '@salesforce/label/FlowBuilderOutcome.outcomeExecuteWhenOptionsHelptext';
 
 export const LABELS = {
     outcomeDetailsHeader,
@@ -33,7 +34,8 @@ export const LABELS = {
     rhsLabel,
     executeOutcomeWhen,
     everyTimeConditionsMet,
-    onlyWhenChangesMeetConditions
+    onlyWhenChangesMeetConditions,
+    outcomeExecuteWhenOptionsHelptext
 };
 
 export const EXECUTE_OUTCOME_WHEN_OPTION_VALUES = {

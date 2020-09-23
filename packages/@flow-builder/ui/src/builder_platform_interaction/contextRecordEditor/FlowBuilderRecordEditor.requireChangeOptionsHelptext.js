@@ -1,0 +1,1 @@
+export default 'This flow is triggered via a record-update. This setting allows you to only trigger the flow once when a specific change happens, rather than every time these conditions evaluate to true. If you select this option, the flow will not execute if the record-update only contains changes unrelated to these conditions.';
