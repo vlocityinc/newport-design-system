@@ -10,6 +10,7 @@ import {
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 
 const addRecordFilter = (recordChoice) => {
     const path = ['filters', recordChoice.filters.length];
@@ -73,6 +74,8 @@ const manageUpdateProperty = (recordChoice, action) => {
         } else if (action.payload.value !== CONDITION_LOGIC.NO_CONDITIONS && recordChoice.filters.length === 0) {
             recordChoice = addRecordFilter(recordChoice, action);
         }
+    } else if (action.payload.propertyName === 'sortOrder' && action.payload.value === SORT_ORDER.NOT_SORTED) {
+        recordChoice.sortField.error = null;
     }
 
     // Validate

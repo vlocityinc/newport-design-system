@@ -2,6 +2,7 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 
 describe('Record Choice Set Reducer', () => {
     const recordChoiceObject = {
@@ -110,6 +111,24 @@ describe('Record Choice Set Reducer', () => {
 
             it('filters should be set to empty array', () => {
                 expect(resultObj.filters).toHaveLength(0);
+            });
+        });
+
+        describe('reset sortField validation errors when sortOrder is set to NotSorted', () => {
+            recordChoiceObject.sortField.error = 'A valid value expected';
+            const action = {
+                type: PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                payload: {
+                    propertyName: 'sortOrder',
+                    value: SORT_ORDER.NOT_SORTED,
+                    error: null,
+                    doValidateProperty: true
+                }
+            };
+            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
+
+            it('errors in sortField should be null', () => {
+                expect(resultObj.sortField.error).toEqual(null);
             });
         });
     });
