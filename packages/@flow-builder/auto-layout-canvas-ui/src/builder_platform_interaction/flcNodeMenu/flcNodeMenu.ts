@@ -5,7 +5,8 @@ import {
     HighlightPathsToDeleteEvent,
     DeleteElementFaultEvent,
     AddElementFaultEvent,
-    CloseMenuEvent
+    CloseMenuEvent,
+    ClearHighlightedPathEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
@@ -104,6 +105,17 @@ export default class FlcNodeMenu extends Menu {
         if (closeMenu) {
             this.dispatchEvent(new CloseMenuEvent());
         }
+    };
+
+    /**
+     * Handles the onclick event on the back button, and updates the contextualMenuMode to base mode.
+     * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
+     * on the deletion path.
+     */
+    handleBackButtonClick = (event) => {
+        event.stopPropagation();
+        this.contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+        this.dispatchEvent(new ClearHighlightedPathEvent());
     };
 
     /**

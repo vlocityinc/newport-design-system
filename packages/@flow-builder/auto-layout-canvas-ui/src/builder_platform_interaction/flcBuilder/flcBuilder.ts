@@ -4,6 +4,7 @@ import {
     toggleFlowMenu,
     closeFlowMenu,
     updateDeletionPathInfo,
+    clearDeletionPathInfo,
     calculateFlowLayout,
     getDefaultLayoutConfig,
     animate,
@@ -608,6 +609,18 @@ export default class FlcBuilder extends LightningElement {
         }
     };
 
+    /**
+     * Clears the deletionPathInfo from the interaction state that in turn clears the highlighted
+     * path on the canvas
+     */
+    handleClearHighlightedPath = () => {
+        const interactionState = clearDeletionPathInfo(this._flowRenderContext.interactionState);
+        this.updateFlowRenderContext({ interactionState });
+    };
+
+    /**
+     * Highlights the path to be deleted
+     */
     handleHighlightPathsToDelete = (event) => {
         const interactionState = updateDeletionPathInfo(
             event.detail.elementGuidToDelete,

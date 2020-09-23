@@ -84,4 +84,12 @@ function updateDeletionPathInfo(
     return { ...interactionState, deletionPathInfo };
 }
 
-export { isMenuOpened, toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo };
+/**
+ * Clears the deletionPathInfo in interactionState
+ * @param interactionState - The flow interaction state
+ */
+function clearDeletionPathInfo(interactionState: FlowInteractionState): FlowInteractionState {
+    return { ...interactionState, deletionPathInfo: null };
+}
+
+export { isMenuOpened, toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo, clearDeletionPathInfo };

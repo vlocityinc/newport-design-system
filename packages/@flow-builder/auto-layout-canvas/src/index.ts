@@ -4,7 +4,7 @@ import { assertInDev } from './assertUtils';
 
 import { animate } from './animate';
 import { renderFlow } from './flowRenderer';
-import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo } from './interactionUtils';
+import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo, clearDeletionPathInfo } from './interactionUtils';
 import { calculateFlowLayout } from './layout';
 import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 import { Geometry } from './svgUtils';
@@ -72,6 +72,7 @@ export {
     toggleFlowMenu,
     closeFlowMenu,
     updateDeletionPathInfo,
+    clearDeletionPathInfo,
     getDefaultLayoutConfig,
     calculateFlowLayout,
     getBranchLayoutKey,

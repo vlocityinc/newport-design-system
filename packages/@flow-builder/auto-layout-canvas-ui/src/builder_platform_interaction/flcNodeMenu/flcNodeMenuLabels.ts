@@ -1,6 +1,8 @@
 // @ts-nocheck
 import copyActionLabel from '@salesforce/label/AlcNodeContextualMenu.copyActionLabel';
 import deleteActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteActionLabel';
+import backButtonAlternativeText from '@salesforce/label/AlcNodeContextualMenu.backButtonAlternativeText';
+import backButtonTitle from '@salesforce/label/AlcNodeContextualMenu.backButtonTitle';
 import deleteBranchElementComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.deleteBranchElementComboboxLabel';
 import addFaultActionLabel from '@salesforce/label/AlcNodeContextualMenu.addFaultActionLabel';
 import deleteFaultActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteFaultActionLabel';
@@ -12,6 +14,8 @@ import deleteFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.del
 export const LABELS = {
     copyActionLabel,
     deleteActionLabel,
+    backButtonAlternativeText,
+    backButtonTitle,
     deleteBranchElementComboboxLabel,
     addFaultActionLabel,
     deleteFaultActionLabel,

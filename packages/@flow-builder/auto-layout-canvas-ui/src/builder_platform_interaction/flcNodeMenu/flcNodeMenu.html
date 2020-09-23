@@ -3,9 +3,25 @@
         <builder_platform_interaction-flc-menu>
             <div class="node-menu-header slds-border_bottom slds-dropdown__header" role="separator" slot="header">
                 <div class="slds-m-top_large">
-                    <h3 class="slds-text-heading_small slds-truncate test-header-label">
-                        {menuConfiguration.header.label}
-                    </h3>
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_1-of-6">
+                            <lightning-button-icon
+                                if:true={isDeleteBranchElementMode}
+                                alternative-text={labels.backButtonAlternativeText}
+                                class="slds-float_left test-back-button"
+                                icon-name="utility:back"
+                                title={labels.backButtonTitle}
+                                variant="bare"
+                                onclick={handleBackButtonClick}
+                            >
+                            </lightning-button-icon>
+                        </div>
+                        <div class="slds-col slds-size_4-of-6">
+                            <h3 class="slds-text-heading_small slds-truncate test-header-label">
+                                {menuConfiguration.header.label}
+                            </h3>
+                        </div>
+                    </div>
                     <p class="slds-text-body_regular slds-truncate test-header-description">
                         {descriptionHeader}
                     </p>
@@ -24,11 +40,8 @@
                         >
                             <a role="menuitem" tabindex="0">
                                 <span class="slds-media__figure slds-m-right_x-small">
-                                    <lightning-icon
-                                        icon-name={action.icon}
-                                        size="x-small"
-                                        variant={action.iconVariant}
-                                    ></lightning-icon>
+                                    <lightning-icon icon-name={action.icon} size="x-small" variant={action.iconVariant}>
+                                    </lightning-icon>
                                 </span>
                                 <span class="slds-media__body">
                                     {action.label}

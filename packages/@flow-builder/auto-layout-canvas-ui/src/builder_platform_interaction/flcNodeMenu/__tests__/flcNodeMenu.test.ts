@@ -2,10 +2,15 @@
 import { createElement } from 'lwc';
 import FlcNodeMenu from 'builder_platform_interaction/flcNodeMenu';
 import { CopySingleElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { HighlightPathsToDeleteEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
+import {
+    HighlightPathsToDeleteEvent,
+    CloseMenuEvent,
+    ClearHighlightedPathEvent
+} from 'builder_platform_interaction/flcEvents';
 import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 
 const dummySimpleElement = {
     guid: 'simpleElementGuid',
@@ -59,9 +64,11 @@ const selectors = {
     header: '.node-menu-header',
     headerLabel: '.test-header-label',
     headerDescription: '.test-header-description',
+    menuActionList: '.slds-dropdown__divst',
     menuActionRow: '.slds-dropdown__item',
     menuActionRowIcon: 'lightning-icon',
     menuActionRowLabel: '.slds-media__body',
+    backButton: '.test-back-button',
     conditionPicker: 'lightning-combobox',
     footer: '.test-footer',
     footerButton: 'lightning-button'
@@ -281,6 +288,56 @@ describe('Node Menu', () => {
 
         it('Clicking the Delete Action should not dispatch CloseMenuEvent', () => {
             expect(closeMenuCallback).not.toHaveBeenCalled();
+        });
+
+        it('Clicking on the Delete Action should reveal the back button', () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            expect(backButton).not.toBeNull();
+        });
+
+        it('Back button should have the right alternativeText', () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            expect(backButton.alternativeText).toBe(LABELS.backButtonAlternativeText);
+        });
+
+        it('Back button should have the right icon name', () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            expect(backButton.iconName).toBe('utility:back');
+        });
+
+        it('Back button should have the right title', () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            expect(backButton.title).toBe(LABELS.backButtonTitle);
+        });
+
+        it('Back button should have the right variant', () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            expect(backButton.variant).toBe('bare');
+        });
+
+        it('Clicking on the Back Button should dispatch ClearHighlightedPathEvent', () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            const clearHighlightedPathCallback = jest.fn();
+            menu.addEventListener(ClearHighlightedPathEvent.EVENT_NAME, clearHighlightedPathCallback);
+            backButton.click();
+            expect(clearHighlightedPathCallback).toHaveBeenCalled();
+        });
+
+        it('Clicking on the Back Button should go back to base menu and reveal the list of action rows', async () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            backButton.click();
+            await ticks(1);
+            const actionList = menu.shadowRoot.querySelector(selectors.menuActionList);
+            expect(actionList).not.toBeNull();
+        });
+
+        it('Clicking on the Back Button should go back to base footer', async () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            backButton.click();
+            await ticks(1);
+            const footer = menu.shadowRoot.querySelector(selectors.footer);
+            const editButton = footer.querySelector(selectors.footerButton);
+            expect(editButton.label).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextLabel);
         });
 
         it('Clicking on the Delete Action should reveal the path picking combobox', () => {
