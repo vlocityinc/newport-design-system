@@ -193,6 +193,7 @@
             "builder_platform_interaction/sortLib": ["./src/builder_platform_interaction/sortLib/sortLib.ts"],
             "builder_platform_interaction/stageEditor": ["./src/builder_platform_interaction/stageEditor/stageEditor.ts"],
             "builder_platform_interaction/startNodeContextButton": ["./src/builder_platform_interaction/startNodeContextButton/startNodeContextButton.ts"],
+            "builder_platform_interaction/startNodeTimeTriggerButton": ["./src/builder_platform_interaction/startNodeTimeTriggerButton/startNodeTimeTriggerButton.ts"],
             "builder_platform_interaction/startNodeTriggerButton": ["./src/builder_platform_interaction/startNodeTriggerButton/startNodeTriggerButton.ts"],
             "builder_platform_interaction/statusIcon": ["./src/builder_platform_interaction/statusIcon/statusIcon.ts"],
             "builder_platform_interaction/statusIconSummary": ["./src/builder_platform_interaction/statusIconSummary/statusIconSummary.ts"],

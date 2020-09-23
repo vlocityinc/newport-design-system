@@ -1,0 +1,19 @@
+<template>
+    <!--TIME TRIGGER-->
+    <div tabindex="0" class="start-time-trigger slds-border_top" onclick={handleObjectClick}>
+        <!--UNSET TIME TRIGGER-->
+        <div if:false={isTimeTriggerSet} class={unsetStartButtonClasses}>
+            <lightning-icon
+                icon-name="utility:add"
+                class="slds-current-color slds-m-right_x-small"
+                size="xx-small"
+            ></lightning-icon>
+            <span>
+                {setTimeTiggerLabel}
+            </span>
+        </div>
+        <!--CONFIGURED TIME TRIGGER-->
+        <!--TODO-->
+        <div></div>
+    </div>
+</template>

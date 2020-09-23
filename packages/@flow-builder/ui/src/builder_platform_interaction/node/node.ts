@@ -382,6 +382,10 @@ export default class Node extends LightningElement {
         }
     }
 
+    get isTimeTrigger() {
+        return isRecordChangeTriggerType(this.node.triggerType);
+    }
+
     render() {
         // Has to be the StartElement and set a processType i.e. not NBA
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT && getProcessType()) {

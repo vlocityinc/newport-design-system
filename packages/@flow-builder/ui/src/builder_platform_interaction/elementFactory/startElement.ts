@@ -26,8 +26,10 @@ const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
 const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
-const BEFORE_AFTER_SAVE_Y_OFFSET = 181;
-const SCHEDULED_Y_OFFSET = 204;
+const BEFORE_AFTER_SAVE_Y_OFFSET = 216;
+const BEFORE_AFTER_SAVE_FILTER_Y_OFFSET = 239;
+const SCHEDULED_Y_OFFSET = 181;
+const SCHEDULED_FILTER_Y_OFFSET = 204;
 const PLATFORM_Y_OFFSET = 122;
 const DEFAULT_Y_OFFSET = 86;
 
@@ -41,12 +43,15 @@ export function findStartYOffset(startElement: object): number {
         case AFTER_SAVE:
         case BEFORE_SAVE:
         case BEFORE_DELETE:
+            if (startElement.filters && startElement.filters.length > 0) {
+                return BEFORE_AFTER_SAVE_FILTER_Y_OFFSET;
+            }
             return BEFORE_AFTER_SAVE_Y_OFFSET;
         case SCHEDULED:
             if (startElement.filters && startElement.filters.length > 0) {
-                return SCHEDULED_Y_OFFSET;
+                return SCHEDULED_FILTER_Y_OFFSET;
             }
-            return BEFORE_AFTER_SAVE_Y_OFFSET;
+            return SCHEDULED_Y_OFFSET;
         case PLATFORM_EVENT:
             return PLATFORM_Y_OFFSET;
         default:
