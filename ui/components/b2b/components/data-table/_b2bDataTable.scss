@@ -185,12 +185,26 @@ $b2b-table-border: $palette-gray-5;
 		width: $spacing-large;
 		top: $spacing-x-small;
 	}
+	.nds-b2b-map-btn{
+		position: absolute;
+		right: 1rem;
+		.nds-b2b-map-top{
+			margin-top: 8rem;
+		}
+	  }
 }
 
 @media (max-width: #{(map-get($breakpoints, 'medium'))}) {
 	.nds-b2b-table_cell {
 		flex: 0 0 100%;
 	}	
+	.nds-b2b-map-btn{
+		position: absolute;
+		right: 1rem;
+		.nds-b2b-map-top{
+			margin-top: 8rem;
+		}
+	  }
 }
 
 @media (min-width: #{(map-get($breakpoints, $table-view-switch))}) {
