@@ -1,12 +1,9 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenEditor from 'builder_platform_interaction/screenEditor';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { flowWithSectionsAndColumns } from 'mock/flows/flowWithSectionsAndColumns';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { initializeAuraFetch } from '../../serverDataTestUtils';
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -14,8 +11,7 @@ import {
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { resetState, translateFlowToUIAndDispatch } from '../../integrationTestUtils';
-import { initializeLoader } from 'builder_platform_interaction/preloadLib';
+import { setupState, resetState, loadFlow } from '../../integrationTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -26,7 +22,8 @@ const SELECTORS = {
 
 const SCREEN_FIELD_TITLES = {
     SECTION: 'FlowBuilderScreenEditor.fieldTypeLabelSection',
-    TEXT: 'FlowBuilderScreenEditor.fieldTypeLabelTextField'
+    TEXT: 'FlowBuilderScreenEditor.fieldTypeLabelTextField',
+    EMAIL: 'Email'
 };
 
 const createComponentUnderTest = (props) => {
@@ -50,24 +47,36 @@ const getExtensionPropertiesEditorElement = (screenEditor) => {
     );
 };
 
-const getCanvasElement = (screenEditor) => {
+const getInputFieldPropertiesEditorElement = (screenEditor) => {
+    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
+        SELECTORS.SCREEN_INPUT_FIELD_PROPERTIES_EDITOR
+    );
+};
+
+const getSectionFieldPropertiesEditorElement = (screenEditor) => {
+    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
+        SELECTORS.SCREEN_SECTION_FIELD_PROPERTIES_EDITOR
+    );
+};
+
+const getScreenEditorCanvas = (screenEditor) => {
     return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
 };
 
-const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
-    const screenEditorCanvas = getCanvasElement(screenEditor);
-    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    let elementAddress;
-    screenEditorHighlight.forEach((element) => {
-        if (element.title === elementTitle) {
-            elementAddress = element;
+const getFieldElementInScreenEditorCanvas = (screenEditor, elementTitle) => {
+    const screenEditorCanvas = getScreenEditorCanvas(screenEditor);
+    const screenEditorHighlights = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
+    let element;
+    screenEditorHighlights.forEach((screenEditorHighlight) => {
+        if (screenEditorHighlight.title === elementTitle) {
+            element = screenEditorHighlight;
         }
     });
-    return elementAddress.shadowRoot.querySelector('div');
+    return element.shadowRoot.querySelector('div');
 };
 
-const getCanvasSectionElement = (screenEditor, sectionTitle) => {
-    const screenEditorCanvas = getCanvasElement(screenEditor);
+const getSectionElementInScreenEditorCanvas = (screenEditor, sectionTitle) => {
+    const screenEditorCanvas = getScreenEditorCanvas(screenEditor);
     let result = screenEditorCanvas;
     const screenEditorHighlights = result.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
     result = null;
@@ -85,11 +94,9 @@ const getCanvasSectionElement = (screenEditor, sectionTitle) => {
     return result;
 };
 
-const getScreenFieldElementInSection = (section, elementTitle) => {
-    const screenCanvas = section.shadowRoot.querySelector(SELECTORS.SCREEN_CANVAS);
-    let result = screenCanvas;
-    const screenEditorHighlights = result.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    result = null;
+const getScreenFieldElementInColumn = (column, elementTitle) => {
+    const screenEditorHighlights = column.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
+    let result = null;
     for (const element of screenEditorHighlights) {
         if (element.title === elementTitle) {
             result = element;
@@ -102,76 +109,106 @@ const getScreenFieldElementInSection = (section, elementTitle) => {
     return result;
 };
 
+const getScreenFieldElementInSection = (section, elementTitle) => {
+    const columns = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS);
+    let result = null;
+    for (const column of columns) {
+        result = getScreenFieldElementInColumn(column, elementTitle);
+        if (result) {
+            return result;
+        }
+    }
+
+    return result;
+};
+
 describe('ScreenEditor', () => {
     let screenNode, store;
     let screenEditor;
-    describe('Existing flow with a Screen that has address screen field and Section containing slider screen field ', () => {
+    describe('Existing Screen containing screen fields, including two sections, each in turn containing nested screen fields', () => {
         beforeAll(async () => {
-            store = Store.getStore(reducer);
-            initializeAuraFetch();
-            initializeLoader(store);
-            translateFlowToUIAndDispatch(flowWithSectionsAndColumns, store);
+            store = setupState();
+            await loadFlow(flowWithAllElements, store);
         });
         afterAll(() => {
             resetState();
         });
-        describe('Get Screen Editor and click on address field', () => {
-            beforeEach(async () => {
-                /*
-                    Layout of Screen1
-                    - Section1
+        beforeEach(async () => {
+            /*
+                Layout of ScreenWithSection
+                - Section1
+                    - Column1
                         - Slider
-                    - Address
-                */
-                const element = getElementByDevName('Screen1');
-                screenNode = getElementForPropertyEditor(element);
-                screenEditor = createComponentUnderTest({
-                    node: screenNode,
-                    processType: FLOW_PROCESS_TYPE.FLOW
-                });
-                await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
-                addressElement.click();
-                await ticks(50);
+                - Number
+                - Section2
+                    - Column1
+                        - Text
+                    - Column2
+                        - Email
+                - Address
+            */
+            const element = getElementByDevName('ScreenWithSection');
+            screenNode = getElementForPropertyEditor(element);
+            screenEditor = createComponentUnderTest({
+                node: screenNode,
+                processType: FLOW_PROCESS_TYPE.FLOW
             });
-            it('Get Address Extension', async () => {
-                const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
-                await ticks(1);
-                expect(extensionPropertiesEditor).toBeDefined();
-            });
-            it('Get the Slider screen field in section in screen', async () => {
-                const section = getCanvasSectionElement(screenEditor, 'Screen1_Section1');
-                const slider = getScreenFieldElementInSection(section, 'Slider');
-                await ticks(1);
-                expect(slider).not.toBeNull();
-            });
+            await ticks(50);
         });
-        describe('Get the second screen in the flow', () => {
-            beforeEach(async () => {
-                /*
-                    Layout of Screen2
-                        - Number
-                        - Section1
-                            - Text - Email
-                        - Address
-                */
-                const element = getElementByDevName('Screen2');
-                screenNode = getElementForPropertyEditor(element);
-                screenEditor = createComponentUnderTest({
-                    node: screenNode,
-                    processType: FLOW_PROCESS_TYPE.FLOW
-                });
-                await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
-                addressElement.click();
-                await ticks(50);
-            });
-            it('Get the text screen field in section in Screen2', async () => {
-                const section = getCanvasSectionElement(screenEditor, 'Screen2_Section1');
-                const text = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.TEXT);
-                await ticks(1);
-                expect(text).not.toBeNull();
-            });
+        it('Select the Address screen field and verify the extension properties editor', async () => {
+            const addressElement = getFieldElementInScreenEditorCanvas(screenEditor, 'Address');
+            expect(addressElement).not.toBeNull();
+            addressElement.click();
+            await ticks(50);
+            const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
+            expect(extensionPropertiesEditor).toBeDefined();
+        });
+        it('Select the first Section and verify the section properties editor', async () => {
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section1');
+            section.click();
+            await ticks(50);
+            const sectionPropertiesEditor = getSectionFieldPropertiesEditorElement(screenEditor);
+            expect(sectionPropertiesEditor).toBeDefined();
+        });
+        it('Select the Slider screen field in the first section and verify the extension properties editor', async () => {
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section1');
+            const slider = getScreenFieldElementInSection(section, 'Slider');
+            expect(slider).not.toBeNull();
+            slider.click();
+            await ticks(50);
+            const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
+            expect(extensionPropertiesEditor).toBeDefined();
+        });
+        it('Select the Text screen field in the first Column in the second Section and verify the input properties editor', async () => {
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
+            const text = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.TEXT);
+            expect(text).not.toBeNull();
+            text.click();
+            await ticks(50);
+            const inputFieldPropertiesEditor = getInputFieldPropertiesEditorElement(screenEditor);
+            expect(inputFieldPropertiesEditor).toBeDefined();
+        });
+        it('Select the Email screen field in the second Column in the second Section and verify the extension properties editor', async () => {
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
+            const email = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.EMAIL);
+            expect(email).not.toBeNull();
+            email.click();
+            await ticks(50);
+            const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
+            expect(extensionPropertiesEditor).toBeDefined();
+        });
+        it('Add a Column to the second Section and verify the canvas is updated accordingly', async () => {
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
+            section.click();
+            await ticks(50);
+            let columns = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS);
+            expect(columns).toHaveLength(2);
+            const sectionPropertiesEditor = getSectionFieldPropertiesEditorElement(screenEditor);
+            const addButton = deepQuerySelector(sectionPropertiesEditor, [SELECTORS.LIST, 'lightning-button']);
+            addButton.click();
+            await ticks(50);
+            columns = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS);
+            expect(columns).toHaveLength(3);
         });
     });
 });

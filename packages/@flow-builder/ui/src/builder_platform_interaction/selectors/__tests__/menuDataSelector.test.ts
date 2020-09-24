@@ -748,6 +748,7 @@ describe('isOrCanContainSelector', () => {
                 'apexComplexTypeVariable',
                 'createAccountWithAutomaticOutput',
                 'emailScreenFieldAutomaticOutput',
+                'email_2',
                 'lightningCompWithAccountOutput',
                 'lightningCompWithNoAccountOutput',
                 'loopOnApexAutoOutput',
@@ -758,6 +759,7 @@ describe('isOrCanContainSelector', () => {
                 'textFormula',
                 'textTemplate1',
                 'textTemplate2',
+                'text_2',
                 'vAccountId',
                 'vAccountIdFromCreate'
             ]);

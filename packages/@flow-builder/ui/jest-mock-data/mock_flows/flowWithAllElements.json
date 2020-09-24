@@ -1277,6 +1277,190 @@
                 "helpText": "",
                 "showFooter": true,
                 "showHeader": true
+            },
+            {
+                "name": "ScreenWithSection",
+                "description": "",
+                "label": "ScreenWithSection",
+                "locationX": 161,
+                "locationY": 637,
+                "pausedText": "",
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "RegionContainer",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "ScreenWithSection_Section1",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [
+                            {
+                                "choiceReferences": [],
+                                "fieldText": "",
+                                "fieldType": "Region",
+                                "helpText": "",
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "value": {
+                                            "stringValue": "12"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "ScreenWithSection_Section1_Column1",
+                                "outputParameters": [],
+                                "scale": 0,
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "fieldText": "",
+                                        "fieldType": "ComponentInstance",
+                                        "helpText": "",
+                                        "inputParameters": [
+                                            {
+                                                "name": "label",
+                                                "value": {
+                                                    "stringValue": "slider_1"
+                                                }
+                                            }
+                                        ],
+                                        "isRequired": true,
+                                        "name": "slider_1",
+                                        "outputParameters": [],
+                                        "scale": 0,
+                                        "fields": [],
+                                        "storeOutputAutomatically": true,
+                                        "extensionName": "flowruntime:slider"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataType": "Number",
+                        "fieldText": "number_2",
+                        "fieldType": "InputField",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "number_2",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": []
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "RegionContainer",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "ScreenWithSection_Section2",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [
+                            {
+                                "choiceReferences": [],
+                                "fieldText": "",
+                                "fieldType": "Region",
+                                "helpText": "",
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "ScreenWithSection_Section2_Column1",
+                                "outputParameters": [],
+                                "scale": 0,
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "dataType": "String",
+                                        "fieldText": "text_2",
+                                        "fieldType": "InputField",
+                                        "helpText": "",
+                                        "inputParameters": [],
+                                        "isRequired": false,
+                                        "name": "text_2",
+                                        "outputParameters": [],
+                                        "scale": 0,
+                                        "fields": []
+                                    }
+                                ]
+                            },
+                            {
+                                "choiceReferences": [],
+                                "fieldText": "",
+                                "fieldType": "Region",
+                                "helpText": "",
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "ScreenWithSection_Section2_Column2",
+                                "outputParameters": [],
+                                "scale": 0,
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "fieldText": "",
+                                        "fieldType": "ComponentInstance",
+                                        "helpText": "",
+                                        "inputParameters": [
+                                            {
+                                                "name": "label",
+                                                "value": {
+                                                    "stringValue": "email_2"
+                                                }
+                                            }
+                                        ],
+                                        "isRequired": true,
+                                        "name": "email_2",
+                                        "outputParameters": [],
+                                        "scale": 0,
+                                        "fields": [],
+                                        "storeOutputAutomatically": true,
+                                        "extensionName": "flowruntime:email"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "name": "address_2",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "storeOutputAutomatically": true,
+                        "extensionName": "flowruntime:address"
+                    }
+                ],
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "helpText": "",
+                "showFooter": true,
+                "showHeader": true
             }
         ],
         "stages": [

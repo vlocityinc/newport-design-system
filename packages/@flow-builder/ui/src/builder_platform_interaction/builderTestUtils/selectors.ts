@@ -59,6 +59,8 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     SCREEN_EDITOR_HIGHLIGHT: 'builder_platform_interaction-screen-editor-highlight',
     SCREEN_EXTENSION_ATTRIBUTE_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor',
     SCREEN_EXTENSION_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-extension-properties-editor',
+    SCREEN_INPUT_FIELD_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-input-field-properties-editor',
+    SCREEN_SECTION_FIELD_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-section-field-properties-editor',
     SCREEN_PALETTE: 'builder_platform_interaction-screen-editor-palette',
     SCREEN_PROPERTIES_EDITOR_CONTAINER: 'builder_platform_interaction-screen-properties-editor-container',
     SCREEN_PROPERTY_FIELD_EDITOR: 'builder_platform_interaction-screen-property-field',
