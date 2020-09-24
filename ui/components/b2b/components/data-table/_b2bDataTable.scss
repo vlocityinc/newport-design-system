@@ -16,6 +16,16 @@ $b2b-table-border: $palette-gray-5;
 	}
 }
 
+.nds-b2b-search-records {
+    display: inline-block;
+    width: 84%;
+    margin-right: 0.625rem;
+}
+
+.nds-b2b-upload-btn {
+  margin-bottom: 0.25rem;
+}
+
 .nds-b2b-table_cell {
 	padding: $spacing-small $spacing-x-small;
 	vertical-align: top;
