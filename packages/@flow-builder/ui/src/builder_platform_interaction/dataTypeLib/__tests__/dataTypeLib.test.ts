@@ -47,6 +47,8 @@ const dataTypes = [
     'actionOutput'
 ];
 
+const numberDataTypes = ['decimal', 'double', 'int', 'percent'];
+
 describe('dataTypeLib', () => {
     describe('getDataTypeLabel', () => {
         it('throws an error when given an invalid data type api name', () => {
@@ -135,6 +137,11 @@ describe('dataTypeLib', () => {
     describe('getFlowDataType', () => {
         test.each([undefined, null])('Passing with dataType %s', (dataType) => {
             expect(getFlowDataType(dataType)).not.toBeDefined();
+        });
+    });
+    describe('getFlowDataType for types matching flow number type', () => {
+        it('should return a flow Number type', () => {
+            numberDataTypes.forEach((dataType) => expect(getFlowDataType(dataType)).toEqual('Number'));
         });
     });
 });

@@ -134,7 +134,7 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: ['multipicklist'],
     [FLOW_DATA_TYPE.DATE_TIME.value]: ['datetime', 'time'],
     [FLOW_DATA_TYPE.DATE.value]: ['date'],
-    [FLOW_DATA_TYPE.NUMBER.value]: ['double', 'int', 'percent'],
+    [FLOW_DATA_TYPE.NUMBER.value]: ['double', 'int', 'percent', 'decimal'],
     [FLOW_DATA_TYPE.BOOLEAN.value]: ['boolean'],
     [FLOW_DATA_TYPE.CURRENCY.value]: ['currency'],
     [FLOW_DATA_TYPE.SOBJECT.value]: ['sobject'],
