@@ -16,10 +16,10 @@ import {
     numberVariable,
     stringConstant,
     stringVariable,
-    assignmentElement
+    assignmentElement,
+    flowWithAllElementsUIModel
 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils');
@@ -44,7 +44,8 @@ const selectors = {
     footerButtons: 'lightning-button',
     addnewresource: '.new-resource-button',
     searchInput: 'lightning-input',
-    leftPanelResources: 'builder_platform_interaction-left-panel-resources'
+    leftPanelResources: 'builder_platform_interaction-left-panel-resources',
+    divParentResourcesTabNewResources: 'lightning-tabset lightning-tab div.slds-p-around_small'
 };
 
 const getSectionItem = (sections, { sectionLabel, elementGuid }) => {
@@ -70,6 +71,15 @@ describe('left-panel', () => {
     });
     afterAll(() => {
         Store.resetStore();
+    });
+    describe('CSS padding', () => {
+        it('displays correctly the new resource padding', () => {
+            const leftPanelComponent = createComponentUnderTest();
+            const parentDivNewResource = leftPanelComponent.shadowRoot.querySelector(
+                selectors.divParentResourcesTabNewResources
+            );
+            expect(parentDivNewResource).not.toBeNull();
+        });
     });
     describe('element classes', () => {
         it('when in Flow Resource List view - the panel should match the transition layout classes.', async () => {

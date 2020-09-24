@@ -1,9 +1,9 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import { PaletteItemChevronClickedEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import Palette from 'builder_platform_interaction/palette';
 import { LABELS } from '../paletteLabels';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 
 jest.mock('builder_platform_interaction/sharedUtils');
 
@@ -13,7 +13,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-const createComponentUnderTest = (data, detailsButton, showLocatorIcon = 'false') => {
+const createComponentUnderTest = (data, detailsButton?, showLocatorIcon = false) => {
     const el = createElement('builder_platform_interaction-palette', {
         is: Palette
     });
@@ -53,26 +53,7 @@ const verifyToggle = async (palette, selector) => {
 
 describe('Palette', () => {
     describe('section toggle', () => {
-        const ELEMENT_DATA = [
-            {
-                guid: 'myGuid1',
-                label: 'myLabel',
-                _children: [
-                    {
-                        elementType: 'Variable',
-                        guid: 'myGuid2',
-                        label: 'myLabel',
-                        iconName: 'myIconName'
-                    },
-                    {
-                        elementType: 'Variable',
-                        guid: 'myGuid3',
-                        label: 'myLabel',
-                        iconName: 'myIconName'
-                    }
-                ]
-            }
-        ];
+        const ELEMENT_DATA = [MOCK_RESOURCE_PALETTE_ITEM];
 
         // TODO: Temporary assertion count until we can initialize sections as
         // collapsed.

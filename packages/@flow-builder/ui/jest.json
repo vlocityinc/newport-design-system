@@ -18,6 +18,7 @@
         "^mock/flowExtensionsData": "<rootDir>/jest-mock-data/mock_flow_extensions_data/mock-flow-extensions-data",
         "^mock/resourceDetailsData": "<rootDir>/jest-mock-data/mock_resource_details_data/mock-resource-details-data",
         "^mock/apexTypesData": "<rootDir>/jest-mock-data/mock_apex_types_data/mock-apex-types-data",
+        "^mock/paletteData": "<rootDir>/jest-mock-data/mock_palette_data/mock-palette-data",
         "^mock/templates": "<rootDir>/jest-mock-data/mock_templates_data/mock-templates-data",
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^serverData/(.+)/(.+)$": "<rootDir>/jest-mock-data/results/FlowBuilderControllerGoldFileTest/test$1Serialization/$2",

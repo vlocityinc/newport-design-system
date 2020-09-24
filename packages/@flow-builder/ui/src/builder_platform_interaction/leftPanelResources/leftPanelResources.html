@@ -1,10 +1,7 @@
 <template>
     <div class="slds-grid slds-grid_vertical left-panel-resources-scroll">
         <div class="slds-col slds-grow">
-            <h3
-                if:true={showNonCanvasElementsLabel}
-                class="slds-text-title_caps slds-p-vertical_small slds-p-left_small"
-            >
+            <h3 if:true={showNonCanvasElementsLabel} class="slds-text-title_caps slds-p-bottom_small slds-p-left_small">
                 {labels.nonCanvasElementsText}
             </h3>
             <builder_platform_interaction-palette
@@ -16,7 +13,7 @@
                 onpaletteitemchevronclicked={handleNonCanvasElementChevronClicked}
             >
             </builder_platform_interaction-palette>
-            <h3 if:true={showCanvasElementsLabel} class="slds-text-title_caps slds-p-vertical_small slds-p-left_small">
+            <h3 if:true={showCanvasElementsLabel} class={computedCanvasElementsSectionTitleClass}>
                 {labels.canvasElementsText}
             </h3>
             <builder_platform_interaction-palette

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
+import { classSet } from 'lightning/utils';
 import { LABELS } from './leftPanelResourcesLabels';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
@@ -30,6 +31,17 @@ export default class LeftPanelResources extends LightningElement {
 
     get showCanvasElementsLabel() {
         return this.canvasElements.length > 0;
+    }
+
+    /**
+     * Add specific padding class for elements section header
+     * depending on resources section header existence
+     */
+    get computedCanvasElementsSectionTitleClass() {
+        return classSet('slds-text-title_caps slds-p-left_small').add({
+            'slds-p-vertical_small': this.showNonCanvasElementsLabel,
+            'slds-p-bottom_small': !this.showNonCanvasElementsLabel
+        });
     }
 
     renderedCallback() {
