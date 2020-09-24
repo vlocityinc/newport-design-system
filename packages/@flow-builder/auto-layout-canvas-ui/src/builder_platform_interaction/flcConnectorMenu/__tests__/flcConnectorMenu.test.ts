@@ -65,7 +65,7 @@ jest.mock('../flcConnectorMenuConfig', () => {
                         label: 'Interaction'
                     },
                     {
-                        guid: 1,
+                        guid: 2,
                         heading: 'Logic',
                         items: [
                             {
@@ -84,7 +84,7 @@ jest.mock('../flcConnectorMenuConfig', () => {
                             {
                                 description: 'Create End',
                                 elementType: 'End',
-                                guid: 1,
+                                guid: 2,
                                 icon: 'utility:stop',
                                 iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
                                 iconClass: 'background-red end-element-svg',
