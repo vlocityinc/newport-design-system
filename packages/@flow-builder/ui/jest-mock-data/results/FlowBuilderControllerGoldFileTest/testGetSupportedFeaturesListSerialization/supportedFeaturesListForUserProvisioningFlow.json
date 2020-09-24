@@ -3,6 +3,7 @@
     "StoreOutputAutomatically",
     "LookupTraversal",
     "IsDebugAsUserAllowedInNonPrd",
-    "GlobalVariables"
+    "GlobalVariables",
+    "TransactionControlledActions"
   ]
 }

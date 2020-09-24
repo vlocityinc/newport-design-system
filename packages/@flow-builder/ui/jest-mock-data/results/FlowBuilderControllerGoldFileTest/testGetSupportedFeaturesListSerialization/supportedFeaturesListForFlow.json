@@ -5,6 +5,7 @@
     "LookupTraversal",
     "DynamicTypes",
     "IsDebugAsUserAllowedInNonPrd",
-    "GlobalVariables"
+    "GlobalVariables",
+    "TransactionControlledActions"
   ]
 }

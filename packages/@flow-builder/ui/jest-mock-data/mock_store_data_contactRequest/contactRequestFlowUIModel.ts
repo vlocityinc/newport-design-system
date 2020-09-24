@@ -2,8 +2,8 @@
 // To update contactRequestFlowUIModel from contactRequestFlow, run flowTranslator.test.js and follow instructions
 export const contactRequestFlowUIModel = {
     elements: {
-        'ade42d1f-d120-4ff9-9888-c202b289571c': {
-            guid: 'ade42d1f-d120-4ff9-9888-c202b289571c',
+        '07fd2a44-4192-4709-888d-8ccc18cb4580': {
+            guid: '07fd2a44-4192-4709-888d-8ccc18cb4580',
             description: '',
             locationX: 80,
             locationY: 53,
@@ -19,10 +19,10 @@ export const contactRequestFlowUIModel = {
             triggerType: 'None',
             filterLogic: 'and',
             object: '',
-            objectIndex: '6cb9b58e-4246-44c0-85a9-8f7d32172da6',
+            objectIndex: '4c1d2c56-9528-42a8-9de2-9bdf12e87a1b',
             filters: [
                 {
-                    rowIndex: 'a733e74b-1a25-43dc-b43c-d126c849023d',
+                    rowIndex: '703162a5-d48f-40b6-b52e-ec4e1944ba34',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
@@ -31,8 +31,8 @@ export const contactRequestFlowUIModel = {
             ],
             doesRequireRecordChangedToMeetCriteria: false
         },
-        '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b': {
-            guid: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b',
+        '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3': {
+            guid: '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
             name: 'decision',
             description: '',
             label: 'decision',
@@ -47,7 +47,7 @@ export const contactRequestFlowUIModel = {
             },
             childReferences: [
                 {
-                    childReference: 'be979456-fe7c-4fa6-be9f-e388ea78dd33'
+                    childReference: 'a4451815-988d-4f17-883d-64b6ad9fab7e'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -56,15 +56,15 @@ export const contactRequestFlowUIModel = {
             availableConnections: [
                 {
                     type: 'REGULAR',
-                    childReference: 'be979456-fe7c-4fa6-be9f-e388ea78dd33'
+                    childReference: 'a4451815-988d-4f17-883d-64b6ad9fab7e'
                 },
                 {
                     type: 'DEFAULT'
                 }
             ]
         },
-        'be979456-fe7c-4fa6-be9f-e388ea78dd33': {
-            guid: 'be979456-fe7c-4fa6-be9f-e388ea78dd33',
+        'a4451815-988d-4f17-883d-64b6ad9fab7e': {
+            guid: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
             name: 'outcome',
             label: 'outcome',
             elementType: 'OUTCOME',
@@ -72,8 +72,8 @@ export const contactRequestFlowUIModel = {
             conditionLogic: 'and',
             conditions: [
                 {
-                    rowIndex: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
-                    leftHandSide: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.CloneSourceId',
+                    rowIndex: 'fc408daa-3152-46bf-8733-c1083018292b',
+                    leftHandSide: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717.CloneSourceId',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: 'EqualTo'
@@ -81,8 +81,8 @@ export const contactRequestFlowUIModel = {
             ],
             doesRequireRecordChangedToMeetCriteria: false
         },
-        'b93ea139-c9df-49cb-a42e-52c5f496ab07': {
-            guid: 'b93ea139-c9df-49cb-a42e-52c5f496ab07',
+        '6d690706-908c-4d94-9513-1b219301b4c5': {
+            guid: '6d690706-908c-4d94-9513-1b219301b4c5',
             name: 'accountID',
             description: '',
             elementType: 'Variable',
@@ -91,14 +91,14 @@ export const contactRequestFlowUIModel = {
             isOutput: false,
             dataType: 'String',
             subtype: null,
-            subtypeIndex: '8573e2d4-ccfb-4701-be66-e38b54ba7375',
+            subtypeIndex: '90246d76-2818-4059-b0fd-425e241f8708',
             scale: 2,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9'
+            defaultValueIndex: 'e682f03e-925a-4d84-adc3-f1c5ceea0201'
         },
-        '3f70f36b-030f-4b90-ba09-866642ba5d4b': {
-            guid: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
+        '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
+            guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
             name: 'vAccountBillingAddress',
             description: '',
             elementType: 'Variable',
@@ -107,14 +107,14 @@ export const contactRequestFlowUIModel = {
             isOutput: false,
             dataType: 'String',
             subtype: null,
-            subtypeIndex: 'cf5e6188-117a-47c0-a493-7ed460484c87',
+            subtypeIndex: '2e01b9c4-5144-4db2-9543-7899c5c34329',
             scale: 2,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: '6afc7b95-a112-4bd0-99e6-4114704080f2'
+            defaultValueIndex: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab'
         },
-        '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929': {
-            guid: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
+        'bf05168b-6bd9-483a-8ea8-5e4d73a1c717': {
+            guid: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
             name: 'vMyTestAccount',
             description: '',
             elementType: 'Variable',
@@ -123,14 +123,14 @@ export const contactRequestFlowUIModel = {
             isOutput: false,
             dataType: 'SObject',
             subtype: 'Account',
-            subtypeIndex: 'ecf6b72e-f33e-48a4-a58c-bdcc87a80e40',
+            subtypeIndex: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1',
             scale: 2,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: '3147a31d-26a3-408c-b00b-a31983df0da5'
+            defaultValueIndex: '4968239c-5e3d-45ee-9339-f575c917e223'
         },
-        'eb19f518-e185-488c-a5b2-9107036766f4': {
-            guid: 'eb19f518-e185-488c-a5b2-9107036766f4',
+        'ed85c895-feb5-45cb-b486-49cfd9da8e20': {
+            guid: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
             name: 'vAccounts',
             description: '',
             elementType: 'Variable',
@@ -139,14 +139,14 @@ export const contactRequestFlowUIModel = {
             isOutput: false,
             dataType: 'SObject',
             subtype: 'Account',
-            subtypeIndex: '70926b3b-6a78-4e62-a62b-0c6d4c4ca910',
+            subtypeIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
             scale: 2,
             defaultValue: null,
             defaultValueDataType: null,
-            defaultValueIndex: '34eaa6ff-765e-4c12-8635-b00f6c7f2c34'
+            defaultValueIndex: '7f4ddba5-e41b-456b-b686-94b257cc9914'
         },
-        'ba8a8e41-3944-4099-9655-065f054e811f': {
-            guid: 'ba8a8e41-3944-4099-9655-065f054e811f',
+        '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be': {
+            guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
             name: 'getAccountWithFields',
             description: 'Get account with fields and sort',
             label: 'Get Account With Fields and filters',
@@ -160,24 +160,24 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true
             },
             object: 'Account',
-            objectIndex: '4afdbe2b-6b5a-4da3-887d-5b755f53b64e',
+            objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
             outputAssignments: [
                 {
-                    rowIndex: '88a32730-b8ce-4cdd-b44c-9ad6bd1992e9',
+                    rowIndex: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820',
                     leftHandSide: 'Account.Id',
-                    rightHandSide: 'b93ea139-c9df-49cb-a42e-52c5f496ab07'
+                    rightHandSide: '6d690706-908c-4d94-9513-1b219301b4c5'
                 },
                 {
-                    rowIndex: '48cb0159-3cde-48ad-9877-644e3cc4b5e9',
+                    rowIndex: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
                     leftHandSide: 'Account.BillingAddress',
-                    rightHandSide: '3f70f36b-030f-4b90-ba09-866642ba5d4b'
+                    rightHandSide: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
                 }
             ],
             assignNullValuesIfNoRecordsFound: true,
             filterLogic: 'and',
             filters: [
                 {
-                    rowIndex: '56095468-2459-481d-b084-04a05babcb22',
+                    rowIndex: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
                     leftHandSide: 'Account.Name',
                     rightHandSide: 'MyTestAccount',
                     rightHandSideDataType: 'String',
@@ -197,14 +197,14 @@ export const contactRequestFlowUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '97a7048c-7323-4356-93c4-30995cf2c8c7',
+            outputReferenceIndex: '04e1c283-fc0b-4928-a495-89d956368769',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
-        '76bbf8c2-9a5e-4a03-a84f-a518866d7963': {
-            guid: '76bbf8c2-9a5e-4a03-a84f-a518866d7963',
+        '956ee0bf-ff21-44f4-9917-65676160e094': {
+            guid: '956ee0bf-ff21-44f4-9917-65676160e094',
             name: 'get_Account_with_sObject',
             description: '',
             label: 'get Account with sObject',
@@ -218,13 +218,13 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true
             },
             object: 'Account',
-            objectIndex: 'f08f384a-8e8f-40d3-8009-f8e1fb16eac4',
-            outputReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
+            objectIndex: '69030d84-1e7f-49c3-ad89-ddc4db69050a',
+            outputReference: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
             assignNullValuesIfNoRecordsFound: true,
             filterLogic: 'and',
             filters: [
                 {
-                    rowIndex: 'fcf61595-af2e-4982-9607-5de1c2819fab',
+                    rowIndex: 'a8368340-a386-4406-9118-02389237ad54',
                     leftHandSide: 'Account.Name',
                     rightHandSide: 'myTestAccount',
                     rightHandSideDataType: 'String',
@@ -234,11 +234,11 @@ export const contactRequestFlowUIModel = {
             queriedFields: [
                 {
                     field: 'Id',
-                    rowIndex: 'c518ac20-1202-42a6-ac3d-cfc8b707f4c3'
+                    rowIndex: '2bf626b1-9430-49ca-ad02-a75241931b16'
                 },
                 {
                     field: 'BillingAddress',
-                    rowIndex: '1283ede6-414b-45a2-851a-1b113f26bffd'
+                    rowIndex: '6e77e9cf-2492-44ca-a088-ee4b8159d478'
                 }
             ],
             sortOrder: 'NotSorted',
@@ -253,14 +253,14 @@ export const contactRequestFlowUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
+            outputReferenceIndex: 'dd4270aa-df83-4942-ac0f-37ce8072ccaa',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
-        'b8c16d53-6fcd-458c-b3e6-51f2658308bc': {
-            guid: 'b8c16d53-6fcd-458c-b3e6-51f2658308bc',
+        '90da6513-4272-44d6-9f80-4cfc29acc5a3': {
+            guid: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
             name: 'get_Accounts',
             description: '',
             label: 'get Accounts',
@@ -274,13 +274,13 @@ export const contactRequestFlowUIModel = {
                 isSelectable: true
             },
             object: 'Account',
-            objectIndex: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f',
-            outputReference: 'eb19f518-e185-488c-a5b2-9107036766f4',
+            objectIndex: 'd6c3ef6f-7fc6-4cf7-a440-9ff753bb8c0f',
+            outputReference: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
             assignNullValuesIfNoRecordsFound: true,
             filterLogic: 'and',
             filters: [
                 {
-                    rowIndex: '97e556fe-63c0-4426-9421-b3dc0d5a74aa',
+                    rowIndex: '40c11213-36c0-451e-a5aa-8790aee02559',
                     leftHandSide: 'Account.Name',
                     rightHandSide: 'myT',
                     rightHandSideDataType: 'String',
@@ -290,11 +290,11 @@ export const contactRequestFlowUIModel = {
             queriedFields: [
                 {
                     field: 'Id',
-                    rowIndex: '8e3cf25f-1ce2-48c8-9634-b192b94ae230'
+                    rowIndex: 'e62ce284-ccf2-46af-8446-c0a110a4bba0'
                 },
                 {
                     field: 'BillingAddress',
-                    rowIndex: 'e9417fd7-2e24-495f-a4af-6ca687957ef6'
+                    rowIndex: '34ff5f58-8d99-470d-a755-a2aa0dc69f59'
                 }
             ],
             sortOrder: 'NotSorted',
@@ -309,14 +309,14 @@ export const contactRequestFlowUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '37c4575e-32f8-46d9-aeea-737953c256b2',
+            outputReferenceIndex: '5c075fad-735a-4628-9e51-495d3292d153',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: false,
             variableAndFieldMapping: 'manual'
         },
-        'd050fa16-f494-4685-a87f-3c68666d1ba8': {
-            guid: 'd050fa16-f494-4685-a87f-3c68666d1ba8',
+        'bb597c66-db1e-4636-85b6-31f89b320bd4': {
+            guid: 'bb597c66-db1e-4636-85b6-31f89b320bd4',
             name: 'screenWithAddress',
             description: '',
             label: 'screenWithAddress',
@@ -338,18 +338,18 @@ export const contactRequestFlowUIModel = {
             showHeader: true,
             childReferences: [
                 {
-                    childReference: '9ded932c-cb00-42a7-bbfc-dddb4c2903fd'
+                    childReference: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8'
                 }
             ],
             elementType: 'Screen',
             maxConnections: 1
         },
-        '9ded932c-cb00-42a7-bbfc-dddb4c2903fd': {
-            guid: '9ded932c-cb00-42a7-bbfc-dddb4c2903fd',
+        '700b8f1c-98eb-48ea-90f0-35e1a864a1a8': {
+            guid: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
             name: 'Address',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '2d1ada73-88e9-4cf4-a814-dcba8d517104',
+            defaultValueIndex: 'e653d56e-898d-4e69-87c3-07338d100647',
             validationRule: {
                 formulaExpression: null,
                 errorMessage: null
@@ -382,12 +382,12 @@ export const contactRequestFlowUIModel = {
     },
     connectors: [],
     canvasElements: [
-        'ade42d1f-d120-4ff9-9888-c202b289571c',
-        '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b',
-        'ba8a8e41-3944-4099-9655-065f054e811f',
-        '76bbf8c2-9a5e-4a03-a84f-a518866d7963',
-        'b8c16d53-6fcd-458c-b3e6-51f2658308bc',
-        'd050fa16-f494-4685-a87f-3c68666d1ba8'
+        '07fd2a44-4192-4709-888d-8ccc18cb4580',
+        '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
+        '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+        '956ee0bf-ff21-44f4-9917-65676160e094',
+        '90da6513-4272-44d6-9f80-4cfc29acc5a3',
+        'bb597c66-db1e-4636-85b6-31f89b320bd4'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,

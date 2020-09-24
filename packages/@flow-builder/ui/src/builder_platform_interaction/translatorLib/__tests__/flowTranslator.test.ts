@@ -284,8 +284,6 @@ describe('Flow Translator', () => {
     it('returns expected ui model for an autolaunched flow', () => {
         uiFlow = translateFlowToUIModel(autolaunchedFlow);
         store.dispatch(updateFlow(uiFlow));
-        uiFlow = translateFlowToUIModel(autolaunchedFlow);
-        store.dispatch(updateFlow(uiFlow));
 
         expect(uiFlow).toEqualGoldObject(
             autolaunchedFlowUIModel,
@@ -295,8 +293,6 @@ describe('Flow Translator', () => {
     it('returns expected ui model for a contact request flow', () => {
         uiFlow = translateFlowToUIModel(contactRequestFlow);
         store.dispatch(updateFlow(uiFlow));
-        uiFlow = translateFlowToUIModel(contactRequestFlow);
-        store.dispatch(updateFlow(uiFlow));
 
         expect(uiFlow).toEqualGoldObject(
             contactRequestFlowUIModel,
@@ -304,8 +300,6 @@ describe('Flow Translator', () => {
         );
     });
     it('returns expected ui model for a field service mobile flow', () => {
-        uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
-        store.dispatch(updateFlow(uiFlow));
         uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
         store.dispatch(updateFlow(uiFlow));
 
