@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './zoomPanelLabels';
@@ -20,13 +20,44 @@ export default class ZoomPanel extends LightningElement {
     isMarqueeModeOn!: boolean;
 
     @api
-    isZoomOutDisabled!: boolean;
-
-    @api
     isZoomToView!: boolean;
 
     @api
-    isZoomInDisabled!: boolean;
+    get isZoomOutDisabled(): boolean {
+        return this.zoomOutDisabled;
+    }
+
+    set isZoomOutDisabled(newValue: boolean) {
+        if (this.zoomOutClicked && newValue) {
+            this.template.querySelector('.expandButton').focus();
+            this.zoomOutClicked = false;
+        }
+        this.zoomOutDisabled = newValue;
+    }
+
+    @api
+    get isZoomInDisabled(): boolean {
+        return this.zoomInDisabled;
+    }
+
+    set isZoomInDisabled(newValue: boolean) {
+        if (this.zoomInClicked && newValue) {
+            this.template.querySelector('.zoomOutButton').focus();
+            this.zoomInClicked = false;
+        }
+        this.zoomInDisabled = newValue;
+    }
+
+    @track
+    zoomOutDisabled!: boolean;
+
+    @track
+    zoomInDisabled!: boolean;
+
+    zoomtoViewClicked = false;
+    zoomToFitClicked = false;
+    zoomInClicked = false;
+    zoomOutClicked = false;
 
     get labels() {
         return LABELS;
@@ -49,6 +80,9 @@ export default class ZoomPanel extends LightningElement {
     handleZoomOutClick = (event: Event) => {
         event.stopPropagation();
 
+        this.zoomOutClicked = true;
+        // It's possible that the user clicked the fitButton multiple times in a row that doesn't trigger a renderCallback
+        this.zoomToFitClicked = false;
         const action = ZOOM_ACTION.ZOOM_OUT;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
@@ -61,10 +95,12 @@ export default class ZoomPanel extends LightningElement {
     handleZoomToFitClick = (event: Event) => {
         event.stopPropagation();
 
+        this.zoomToFitClicked = true;
         const action = ZOOM_ACTION.ZOOM_TO_FIT;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
         logInteraction(`zoom-to-fit-button`, 'zoom-panel', null, 'click');
+        this.template.querySelector('.fitButton').focus();
     };
 
     /**
@@ -73,6 +109,7 @@ export default class ZoomPanel extends LightningElement {
     handleZoomToViewClick = (event: Event) => {
         event.stopPropagation();
 
+        this.zoomToViewClicked = true;
         const action = ZOOM_ACTION.ZOOM_TO_VIEW;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
@@ -85,9 +122,20 @@ export default class ZoomPanel extends LightningElement {
     handleZoomInClick = (event: Event) => {
         event.stopPropagation();
 
+        this.zoomInClicked = true;
         const action = ZOOM_ACTION.ZOOM_IN;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
         logInteraction(`zoom-in-button`, 'zoom-panel', null, 'click');
     };
+
+    renderedCallback() {
+        if (this.zoomToViewClicked) {
+            this.template.querySelector('.fitButton').focus();
+        } else if (this.zoomToFitClicked) {
+            this.template.querySelector('.expandButton').focus();
+        }
+        this.zoomToFitClicked = false;
+        this.zoomToViewClicked = false;
+    }
 }

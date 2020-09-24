@@ -435,6 +435,17 @@ export default class Canvas extends LightningElement {
         }
     };
 
+    /**
+     * Swallowing the zoomPanel mouse up and down
+     */
+    handleZoomPanelMouseUp = (event) => {
+        event.stopPropagation();
+    };
+
+    handleZoomPanelMouseDown = (event) => {
+        event.stopPropagation();
+    };
+
     /* ********************** */
     /*     Helper Methods     */
     /* ********************** */
@@ -632,7 +643,6 @@ export default class Canvas extends LightningElement {
             this.isZoomOutDisabled =
                 this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE;
             this.isZoomToView = this.isZoomInDisabled = this.innerCanvasArea.style.transform === 'scale(1)';
-
             if (
                 (this.isZoomOutDisabled ||
                     this.isZoomInDisabled ||
