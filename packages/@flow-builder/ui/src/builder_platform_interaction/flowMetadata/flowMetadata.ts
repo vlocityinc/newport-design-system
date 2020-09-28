@@ -1,4 +1,9 @@
 // @ts-nocheck
+export const START_ELEMENT_LOCATION = {
+    x: 50,
+    y: 50
+};
+
 export const FLOW_PROCESS_TYPE = {
     ACTION_CADENCE_FLOW: 'ActionCadenceFlow',
     ACTION_PLAN: 'ActionPlan',
@@ -345,15 +350,30 @@ export function isSectionOrColumn(element) {
     );
 }
 
-export function forEachMetadataFlowElement(metadata, callback) {
+export function forEachMetadataFlowElement(metadata, startElementReference, callback) {
     const metadataKeys = Object.values(METADATA_KEY);
     for (let i = 0, metadataKeysLen = metadataKeys.length; i < metadataKeysLen; i++) {
         const metadataKey = metadataKeys[i];
-        const metadataElements = metadataKey === METADATA_KEY.START ? [metadata[metadataKey]] : metadata[metadataKey];
+
+        let metadataElements;
+        // Checking if we have a startElementReference. If we do then create a dummy start element so the overlap code will work
+        if (metadataKey === METADATA_KEY.START && startElementReference) {
+            metadataElements = [dummyStartElement(startElementReference)];
+        } else {
+            metadataElements = metadataKey === METADATA_KEY.START ? [metadata[metadataKey]] : metadata[metadataKey];
+        }
         const metadataElementsLen = metadataElements ? metadataElements.length : 0;
         for (let j = 0; j < metadataElementsLen; j++) {
             const metadataElement = metadataElements[j];
             callback(metadataElement, metadataKey);
         }
     }
+}
+
+function dummyStartElement(startElementReference: string): object {
+    return {
+        connector: { targetReference: startElementReference },
+        locationX: START_ELEMENT_LOCATION.x,
+        locationY: START_ELEMENT_LOCATION.y
+    };
 }

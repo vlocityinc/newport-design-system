@@ -55,7 +55,7 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
         isSystemElement: (elementType) => {
             return elementType === 'ROOT_ELEMENT' || elementType === 'END_ELEMENT' || elementType === 'START_ELEMENT';
         },
-        forEachMetadataFlowElement: (metadata, callback) => {
+        forEachMetadataFlowElement: (metadata, startReference, callback) => {
             metadata.dummyMetadata.forEach((e) => callback(e, 'dummyMetadata'));
             callback(metadata.startElement, 'start');
         }

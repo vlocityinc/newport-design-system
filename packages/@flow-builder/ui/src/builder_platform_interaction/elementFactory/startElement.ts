@@ -4,7 +4,8 @@ import {
     FLOW_TRIGGER_FREQUENCY,
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
-    CONDITION_LOGIC
+    CONDITION_LOGIC,
+    START_ELEMENT_LOCATION
 } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
 import { createStartElementConnector, createConnectorObjects } from './connector';
@@ -18,10 +19,6 @@ import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 
-export const START_ELEMENT_LOCATION = {
-    x: 50,
-    y: 50
-};
 const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 

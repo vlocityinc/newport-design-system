@@ -261,7 +261,7 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
         storeElements = {};
         storeConnectors = [];
         // eslint-disable-next-line no-loop-func
-        forEachMetadataFlowElement(metadata, (metadataElement, metadataKey) => {
+        forEachMetadataFlowElement(metadata, startElementReference, (metadataElement, metadataKey) => {
             let elementsAndConnectors = map.get(metadataElement);
             if (!elementsAndConnectors || areElementsIncomplete(elementsAndConnectors.elements)) {
                 // here

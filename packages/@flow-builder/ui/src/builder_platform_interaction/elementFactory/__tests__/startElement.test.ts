@@ -2,11 +2,15 @@
 import {
     createStartElement,
     createStartElementWithConnectors,
-    createStartElementMetadataObject,
-    START_ELEMENT_LOCATION
+    createStartElementMetadataObject
 } from '../startElement';
 import { baseCanvasElementMetadataObject } from '../base/baseMetadata';
-import { CONDITION_LOGIC, FLOW_TRIGGER_SAVE_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    CONDITION_LOGIC,
+    FLOW_TRIGGER_SAVE_TYPE,
+    FLOW_TRIGGER_TYPE,
+    START_ELEMENT_LOCATION
+} from 'builder_platform_interaction/flowMetadata';
 
 const startElementReference = 'assignment1';
 

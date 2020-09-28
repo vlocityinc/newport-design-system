@@ -6,7 +6,7 @@ import { forEachMetadataFlowElement } from 'builder_platform_interaction/flowMet
  */
 export const getMetadataFlowElementByName = (flow, name) => {
     let result;
-    forEachMetadataFlowElement(flow.metadata, (metadataElement) => {
+    forEachMetadataFlowElement(flow.metadata, undefined, (metadataElement) => {
         if (name === metadataElement.name) {
             result = metadataElement;
         }
