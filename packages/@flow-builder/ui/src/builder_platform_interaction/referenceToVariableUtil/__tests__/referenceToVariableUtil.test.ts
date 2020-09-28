@@ -8,7 +8,7 @@ import {
     accountSObjectVariable
 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from '../../commonFactoryUtils/referenceToVariableUtil';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { setApexClasses, getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';

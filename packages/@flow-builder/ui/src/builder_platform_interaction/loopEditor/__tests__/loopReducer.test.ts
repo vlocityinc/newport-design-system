@@ -34,7 +34,7 @@ describe('Loop-reducer', () => {
                     loopVariableErrorMessage: null
                 }
             };
-            const resultObj = loopReducer(originalState, event);
+            const resultObj = loopReducer(originalState, event, { VARIABLE_GUID: { isCollection: true } });
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(null);
             expect(resultObj.assignNextValueToReference.value).toEqual(null);

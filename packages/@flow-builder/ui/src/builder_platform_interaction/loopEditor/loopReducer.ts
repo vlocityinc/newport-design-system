@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
-import { getRules, loopValidation } from './loopValidation';
+import { validate, loopValidation } from './loopValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 
 const LOOP_PROPERTIES = {
@@ -9,10 +9,10 @@ const LOOP_PROPERTIES = {
     LOOP_VARIABLE: 'assignNextValueToReference'
 };
 
-const loopPropertyChanged = (state, event) => {
+const loopPropertyChanged = (state, event, elements) => {
     event.detail.error =
         event.detail.error === null
-            ? loopValidation.validateProperty(event.detail.propertyName, event.detail.value)
+            ? loopValidation(elements).validateProperty(event.detail.propertyName, event.detail.value)
             : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: {
@@ -22,12 +22,12 @@ const loopPropertyChanged = (state, event) => {
     });
 };
 
-const loopCollectionChangedEvent = (state, event) => {
+const loopCollectionChangedEvent = (state, event, elements) => {
     const newCollectionValue = event.detail.collectionValue ? event.detail.collectionValue : null;
     const newLoopVariableValue = event.detail.loopVariableValue ? event.detail.loopVariableValue : null;
     const newCollectionError =
         event.detail.collectionError === null
-            ? loopValidation.validateProperty(LOOP_PROPERTIES.COLLECTION_VARIABLE, newCollectionValue)
+            ? loopValidation(elements).validateProperty(LOOP_PROPERTIES.COLLECTION_VARIABLE, newCollectionValue)
             : event.detail.collectionError;
     const newLoopVariableError = event.detail.loopVariableErrorMessage ? event.detail.loopVariableErrorMessage : null;
 
@@ -53,14 +53,14 @@ const loopCollectionChangedEvent = (state, event) => {
  * @param {Event} event - object containing type and payload
  * @returns {Object} Loop - updated Loop
  */
-export const loopReducer = (state, event) => {
+export const loopReducer = (state, event, elements) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return loopPropertyChanged(state, event);
         case LoopCollectionChangedEvent.EVENT_NAME:
-            return loopCollectionChangedEvent(state, event);
+            return loopCollectionChangedEvent(state, event, elements);
         case VALIDATE_ALL: {
-            return loopValidation.validateAll(state, getRules(state));
+            return validate(state, elements);
         }
         default:
             return state;

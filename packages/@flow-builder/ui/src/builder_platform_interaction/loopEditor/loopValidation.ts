@@ -1,17 +1,26 @@
-// @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
+
 /**
  * @constant additionalRules - map of propertyName to validation rules
+ * @param elements elements of the flow
  * @type {Object}
  */
-const additionalRules = {
-    label: [ValidationRules.shouldNotBeNullOrUndefined],
-    name: [ValidationRules.shouldNotBeNullOrUndefined],
-    collectionReference: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
+const additionalRules = (elements = {}) => {
+    return {
+        label: [ValidationRules.shouldNotBeNullOrUndefined],
+        name: [ValidationRules.shouldNotBeNullOrUndefined],
+        collectionReference: [
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.shouldNotBeNullOrUndefined,
+            ValidationRules.shouldReferenceACollection(elements)
+        ]
+    };
 };
 
-export const loopValidation = new Validation(additionalRules);
+export const loopValidation = (elements = {}) => {
+    return new Validation(additionalRules(elements));
+};
 
 /**
  * Validate the assignNextValueToReference item.
@@ -30,8 +39,11 @@ const validateAssignNextValueToReference = (assignNextValueToReferenceIndex) => 
  * @param {Object} state get the assignNextValueToReferenceIndex & collectionReferenceIndex from the loop
  * @returns {Object} the overridden rules
  */
-export const getRules = ({ assignNextValueToReferenceIndex, collectionReferenceIndex, storeOutputAutomatically }) => {
-    const overrideRules = Object.assign({}, loopValidation.finalizedRules);
+const getRules = (
+    { assignNextValueToReferenceIndex, collectionReferenceIndex, storeOutputAutomatically },
+    elements
+) => {
+    const overrideRules = Object.assign({}, loopValidation(elements).finalizedRules);
 
     if (!storeOutputAutomatically) {
         overrideRules.assignNextValueToReference = validateAssignNextValueToReference(assignNextValueToReferenceIndex);
@@ -39,4 +51,8 @@ export const getRules = ({ assignNextValueToReferenceIndex, collectionReferenceI
 
     overrideRules.collectionReference.push(ValidationRules.validateResourcePicker(collectionReferenceIndex));
     return overrideRules;
+};
+
+export const validate = (state, elements) => {
+    return loopValidation(elements).validateAll(state, getRules(state, elements));
 };

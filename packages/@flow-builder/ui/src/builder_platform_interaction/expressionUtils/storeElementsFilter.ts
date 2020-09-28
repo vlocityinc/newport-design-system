@@ -69,7 +69,7 @@ function getFilterInformation(config = {}) {
     if (CLUD_ELEMENT_TYPES.includes(elementType)) {
         return writableOrReadableElement(shouldBeWritable);
     }
-    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](config) : {};
+    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](config) : undefined;
 }
 
 /*

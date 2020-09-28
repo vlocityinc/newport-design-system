@@ -85,6 +85,13 @@ describe('get store elements', () => {
             ])
         );
     });
+    it('returns an empty array when element type does not have a filter', () => {
+        expect(
+            getStoreElements(jest.fn(), {
+                elementType: ELEMENT_TYPE.CONSTANT
+            })
+        ).toEqual([]);
+    });
 
     describe('CLUD elements', () => {
         beforeAll(() => {

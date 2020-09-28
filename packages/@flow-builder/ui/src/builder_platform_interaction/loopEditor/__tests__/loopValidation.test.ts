@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import LoopEditor from '../loopEditor';
-import { loopValidation, getRules } from '../loopValidation';
+import { validate } from '../loopValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { loopReducer } from '../loopReducer';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
@@ -23,9 +23,8 @@ function createComponentForTest(node) {
     return el;
 }
 
-const validate = (node) => {
-    const rules = getRules(node);
-    return getErrorsFromHydratedElement(loopValidation.validateAll(node, rules));
+const validateLoop = (node, elements) => {
+    return getErrorsFromHydratedElement(validate(node, elements));
 };
 
 describe('Loop Validation', () => {
@@ -43,7 +42,7 @@ describe('Loop Validation', () => {
         });
         it('node is valid, returns no errors', () => {
             const loopEditor = createComponentForTest(loopForPropertyEditor);
-            const errors = validate(loopEditor.node);
+            const errors = validateLoop(loopEditor.node, Store.getStore().getCurrentState().elements);
             expect(errors).toHaveLength(0);
         });
     });
@@ -54,7 +53,7 @@ describe('Loop Validation', () => {
         });
         it('it returns no errors', () => {
             const loopEditor = createComponentForTest(loopForPropertyEditor);
-            const errors = validate(loopEditor.node);
+            const errors = validateLoop(loopEditor.node, Store.getStore().getCurrentState().elements);
             expect(errors).toHaveLength(0);
         });
         it('Switching from advanced (manual) to automatic mode should not cause validation errors', () => {
@@ -65,8 +64,8 @@ describe('Loop Validation', () => {
                 }
             };
             const originalState = loopForPropertyEditor;
-            const newState = loopReducer(originalState, event);
-            const errors = validate(newState);
+            const newState = loopReducer(originalState, event, {});
+            const errors = validateLoop(newState, Store.getStore().getCurrentState().elements);
             expect(errors).toHaveLength(0);
         });
     });

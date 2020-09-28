@@ -50,6 +50,19 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
+    const referenceMap = {
+        collection: { label: 'aCollection', isCollection: true },
+        singleValue: { label: 'I am not a collection', isCollection: false },
+        noCollectionFlag: { label: 'I don t have an isCollection' }
+    };
+    return {
+        getVariableOrField: jest.fn().mockImplementation((reference) => {
+            return referenceMap[reference];
+        })
+    };
+});
+
 beforeAll(() => {
     Store.setMockState(flowWithAllElementsUIModel);
 });
@@ -369,7 +382,7 @@ describe('isValidTextWithMergeFields', () => {
     });
 });
 
-describe('isValideResourceTextArea', () => {
+describe('isValidResourceTextArea', () => {
     it('calls isValidTextWithMergeFields and disables global constants and allows collection variables ', () => {
         const text = 'some text';
         rules.isValidResourcedTextArea(text);
@@ -377,6 +390,22 @@ describe('isValideResourceTextArea', () => {
             allowGlobalConstants: false,
             allowCollectionVariables: true
         });
+    });
+});
+
+describe('shouldReferenceACollection', () => {
+    const shouldReferenceACollectionFunc = rules.shouldReferenceACollection({});
+    it('is valid when reference is collection', () => {
+        expect(shouldReferenceACollectionFunc('collection')).toBeNull();
+    });
+    it('is not valid when reference is not a collection', () => {
+        expect(shouldReferenceACollectionFunc('singeValue')).toEqual(LABELS.enterValidValue);
+    });
+    it('is not valid when reference has no isCollection flag', () => {
+        expect(shouldReferenceACollectionFunc('noCollectionFlag')).toEqual(LABELS.enterValidValue);
+    });
+    it('is not valid when reference does not exist', () => {
+        expect(shouldReferenceACollectionFunc('IDontExist')).toEqual(LABELS.enterValidValue);
     });
 });
 

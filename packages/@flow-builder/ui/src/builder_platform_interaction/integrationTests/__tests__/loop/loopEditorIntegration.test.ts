@@ -353,6 +353,25 @@ describe('Loop Editor with processType supporting automatic output', () => {
                 value: accountVariable.guid
             });
         });
+        it('shows only sObject variables of the same type as the sObject selected in the collection variable with traversal', async () => {
+            const accountVariable = getElementByDevName('accountVariable');
+            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!apexComplexTypeVariable.acctListField}`));
+            await ticks(50);
+            colVariableLightningCombobox.dispatchEvent(blurEvent);
+            await ticks(50);
+
+            expect(loopVariableLightningCombobox.items).toHaveLength(2);
+            expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
+            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
+            expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject({
+                dataType: 'SObject',
+                subtype: 'Account',
+                text: accountVariable.name,
+                subText: 'Account',
+                displayText: `{!${accountVariable.name}}`,
+                value: accountVariable.guid
+            });
+        });
         it('updates the display text after the user changes the value of the variable to another valid value', async () => {
             colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${textCollection.name}}`));
             await ticks(50);
@@ -445,6 +464,7 @@ describe('Loop Editor collection variable', () => {
         ${'{!apexCall_anonymous_apex_collection}'}               | ${'FlowBuilderCombobox.genericErrorMessage'}
         ${'{!apexComplexTypeTwoVariable.testOne.acctListField}'} | ${null}
         ${'{!apexComplexTypeTwoVariable.testOne.acct}'}          | ${'FlowBuilderCombobox.genericErrorMessage'}
+        ${'{!apexComplexTypeTwoVariable}'}                       | ${'FlowBuilderCombobox.genericErrorMessage'}
     `('error for "$collection should be : $expectedErrorMessage', async ({ collection, expectedErrorMessage }) => {
         await typeReferenceOrValueInCombobox(collectionVariableCombobox, collection);
         expect(collectionVariableCombobox.errorMessage).toEqual(expectedErrorMessage);

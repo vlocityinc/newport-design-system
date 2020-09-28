@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { isUndefinedOrNull, format } from 'builder_platform_interaction/commonUtils';
 import { isDevNameInStore, isOrderNumberInStore } from 'builder_platform_interaction/storeUtils';
@@ -6,6 +5,8 @@ import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS as labels } from './validationRulesLabels';
 import { validateLHS, validateRHS, validatePicker } from 'builder_platform_interaction/expressionValidator';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -330,7 +331,7 @@ export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {string|null} errorString or null
  */
-export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
+export const isUniqueDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: string[] = []) => {
     return isDevNameInStore(nameToBeTested, listOfGuidsToSkip) ? LABELS.fieldNotUnique : null;
 };
 
@@ -380,4 +381,19 @@ export const isValidResourcedTextArea = (text) => {
         allowCollectionVariables: true
     })(text);
 };
+
+/**
+ * Validates that the given reference exists and is a collection
+ * @param elements the elements where to look for the reference
+ * @returns a function that accepts a reference to be validated and returns null if the reference corresponds to a collection, enterValidValue error message otherwise
+ */
+export const shouldReferenceACollection = (elements: FlowModel) => {
+    return (reference: string): boolean => {
+        const variableOrField = getVariableOrField(reference, elements);
+        return variableOrField && variableOrField.isCollection !== undefined && variableOrField.isCollection
+            ? null
+            : LABELS.enterValidValue;
+    };
+};
+
 /** Exported Validation Rules End **/

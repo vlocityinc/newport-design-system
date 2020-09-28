@@ -24,7 +24,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from './commonFactoryUtils/referenceToVariableUtil';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;

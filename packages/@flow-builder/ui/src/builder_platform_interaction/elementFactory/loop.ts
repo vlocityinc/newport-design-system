@@ -12,7 +12,7 @@ import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { getVariableOrField } from './commonFactoryUtils/referenceToVariableUtil';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.LOOP;
 const maxConnections = 2;

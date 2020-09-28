@@ -17,6 +17,8 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
@@ -100,7 +102,7 @@ export default class LoopEditor extends LightningElement {
      */
     @api validate() {
         const event = { type: VALIDATE_ALL };
-        this.loopElement = loopReducer(this.loopElement, event);
+        this.loopElement = loopReducer(this.loopElement, event, Store.getStore().getCurrentState().elements);
         return getErrorsFromHydratedElement(this.loopElement);
     }
 
@@ -140,7 +142,18 @@ export default class LoopEditor extends LightningElement {
         return {
             selectorConfig: {
                 dataType: collectionVariableDataType,
-                entityName: this._collectionVariable ? this._collectionVariable.subtype : null,
+                entityName:
+                    collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value
+                        ? this._collectionVariable
+                            ? this._collectionVariable.subtype
+                            : null
+                        : null,
+                subtype:
+                    collectionVariableDataType !== FLOW_DATA_TYPE.SOBJECT.value
+                        ? this._collectionVariable
+                            ? this._collectionVariable.subtype
+                            : null
+                        : null,
                 elementType: ELEMENT_TYPE.VARIABLE,
                 allowTraversal: false
             }
@@ -209,7 +222,7 @@ export default class LoopEditor extends LightningElement {
 
     handleEvent(event) {
         event.stopPropagation();
-        this.loopElement = loopReducer(this.loopElement, event);
+        this.loopElement = loopReducer(this.loopElement, event, Store.getStore().getCurrentState().elements);
     }
 
     errorMessageFromCollectionValueAndIsMergeField = (loopCollectionValue: string, isMergeField: boolean): string => {
@@ -250,7 +263,11 @@ export default class LoopEditor extends LightningElement {
             loopVariableValue,
             loopVarErrorMessage
         );
-        this.loopElement = loopReducer(this.loopElement, loopCollectionChangedEvent);
+        this.loopElement = loopReducer(
+            this.loopElement,
+            loopCollectionChangedEvent,
+            Store.getStore().getCurrentState().elements
+        );
     }
 
     handleLoopVariablePropertyChanged(event) {
@@ -279,7 +296,11 @@ export default class LoopEditor extends LightningElement {
             loopVariableValue,
             loopVariableError
         );
-        this.loopElement = loopReducer(this.loopElement, loopVariableChangedEvent);
+        this.loopElement = loopReducer(
+            this.loopElement,
+            loopVariableChangedEvent,
+            Store.getStore().getCurrentState().elements
+        );
     }
 
     handleLoopIterationOrderChanged(event) {
@@ -289,7 +310,11 @@ export default class LoopEditor extends LightningElement {
             event.detail.value,
             null
         );
-        this.loopElement = loopReducer(this.loopElement, iterationOrderChangedEvent);
+        this.loopElement = loopReducer(
+            this.loopElement,
+            iterationOrderChangedEvent,
+            Store.getStore().getCurrentState().elements
+        );
     }
 
     /* **************************** */

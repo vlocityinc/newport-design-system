@@ -76,7 +76,7 @@ export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listO
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
  */
-export const isDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
+export const isDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: string[] = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = getDuplicateDevNameElements(elements, nameToBeTested, listOfGuidsToSkip) || [];
