@@ -91,7 +91,6 @@ $b2b-table-border: $palette-gray-5;
 		}
 
 		& [type=checkbox]:indeterminate ~ .nds-checkbox_faux {
-			//background-color: $blue-background-primary;
 			background-color: $white;
 
 			&:after {
