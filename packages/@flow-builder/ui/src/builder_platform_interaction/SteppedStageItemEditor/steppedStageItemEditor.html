@@ -1,0 +1,63 @@
+<template>
+    <div if:true={element}>
+        <div class={styleForLabelDescription}>
+            <builder_platform_interaction-label-description
+                label={element.label}
+                dev-name={element.name}
+                description={element.description}
+                guid={element.guid}
+                onpropertychanged={handlePropertyChangedEvent}
+                mode={mode}
+                editor-params={editorParams}
+            >
+            </builder_platform_interaction-label-description>
+        </div>
+    </div>
+
+    <lightning-accordion
+        allow-multiple-sections-open
+        active-section-name={openSections}
+        class="slds-has-divider slds-p-top_none"
+    >
+        <lightning-accordion-section name="startSection" label="Define How Step Starts">
+            <lightning-radio-group
+                label="The Step Starts"
+                name="stepStart"
+                value={stepStartValue}
+                options={stepStartOptions}
+                onchange={handleStepStartChanged}
+                required
+            >
+            </lightning-radio-group>
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="stepImplementationSection" label="Choose Flow To Run">
+            <!--            <builder_platform_interaction-base-callout-editor-->
+            <!--                label-description-config={subflowNode}-->
+            <!--                element-type={elementType}-->
+            <!--                mode={mode}-->
+            <!--                subtitle={subtitle}-->
+            <!--                runinmode={runInMode}-->
+            <!--                parameter-list-config={parameterListConfig}-->
+            <!--                display-spinner={displaySpinner}-->
+            <!--                onpropertychanged={handlePropertyChangedEvent}-->
+            <!--                ondeleteparameteritem={handlePropertyChangedEvent}-->
+            <!--                onupdateparameteritem={handlePropertyChangedEvent}-->
+            <!--                onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}-->
+            <!--            >-->
+            <!--            </builder_platform_interaction-base-callout-editor>-->
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="finishSection" label="How Step Is Finished">
+            <lightning-radio-group
+                label="The Step Finishes"
+                name="stepFinish"
+                value={stepFinishValue}
+                options={stepFinishOptions}
+                onchange={handleStepFinishChanged}
+                required
+            >
+            </lightning-radio-group>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

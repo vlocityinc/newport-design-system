@@ -24,7 +24,9 @@ import {
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT,
     UPDATE_CANVAS_ELEMENT_LOCATION,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+    ADD_STEPPED_STAGE_WITH_STEPS,
+    MODIFY_STEPPED_STAGE_WITH_STEPS
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
@@ -95,6 +97,8 @@ export default function elementsReducer(state = {}, action) {
         case MODIFY_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
+        case ADD_STEPPED_STAGE_WITH_STEPS:
+        case MODIFY_STEPPED_STAGE_WITH_STEPS:
             return _addOrUpdateCanvasElementWithChildElements(
                 state,
                 action.payload.canvasElement,

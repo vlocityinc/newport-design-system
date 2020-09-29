@@ -4,6 +4,7 @@ enum ElementType {
     END = 'end',
     LOOP = 'loop',
     BRANCH = 'branch',
+    STEPPED_STAGE = 'steppedstage',
     DEFAULT = 'default'
 }
 

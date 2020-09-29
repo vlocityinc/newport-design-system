@@ -362,7 +362,8 @@ export default class FlcBuilder extends LightningElement {
             },
             elementsMetadata: elementsMetadataMap,
             layoutConfig: { ...getDefaultLayoutConfig() },
-            isDeletingBranch: false
+            isDeletingBranch: false,
+            dynamicNodeDimensionMap: new Map<Guid, Dimension>()
         } as FlowRenderContext;
     }
 
@@ -414,8 +415,6 @@ export default class FlcBuilder extends LightningElement {
             });
 
             this.dynamicNodeCountAtLoad = count;
-            // Add dynamic dimensions for any custom node elements
-            this._flowRenderContext.dynamicNodeDimensionMap = new Map<Guid, Dimension>();
         }
 
         this._flowRenderContext = Object.assign(this._flowRenderContext, flowRenderContext);

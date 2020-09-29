@@ -19,6 +19,7 @@ export * from './recordDelete';
 export * from './screen';
 export * from './screenField';
 export * from './startElement';
+export * from './steppedStage';
 export * from './endElement';
 export * from './subflow';
 export * from './variable';

@@ -15,7 +15,8 @@ import {
     FlowElement,
     CanvasElementConfig,
     BaseCanvasElement,
-    CanvasElement
+    CanvasElement,
+    FlowConnector
 } from 'builder_platform_interaction/flowModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
@@ -379,12 +380,16 @@ export function createCondition(condition: any = {}) {
  * @return {ChildElement}
  */
 export function baseChildElement(childElement: any = {}, elementType): ChildElement {
-    if (elementType !== ELEMENT_TYPE.OUTCOME && elementType !== ELEMENT_TYPE.WAIT_EVENT) {
-        throw new Error('baseChildElement should only be used for outcomes and wait events');
+    if (
+        elementType !== ELEMENT_TYPE.OUTCOME &&
+        elementType !== ELEMENT_TYPE.WAIT_EVENT &&
+        elementType !== ELEMENT_TYPE.STAGE_STEP
+    ) {
+        throw new Error('baseChildElement should only be used for outcomes, wait events, and stage steps');
     } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
         throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
     }
-    const newChildElement = baseElement(childElement);
+    const newChildElement: ChildElement = baseElement(childElement) as ChildElement;
     const { label = '' } = childElement;
     return Object.assign(newChildElement, {
         label,
@@ -393,7 +398,7 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     });
 }
 
-export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) {
+export function baseCanvasElementsArrayToMap(elementList: FlowElement[] = [], connectors: FlowConnector[] = []) {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
         connectors

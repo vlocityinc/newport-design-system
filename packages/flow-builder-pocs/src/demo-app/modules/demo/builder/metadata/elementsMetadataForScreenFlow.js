@@ -136,5 +136,21 @@ export default [
         elementType: ELEMENT_TYPE.START_ELEMENT,
         description: null,
         canHaveFaultConnector: false
-    }
+    },
+    // Technically not allowed in a screen flow. Added so we can work on App Processes
+    // off-core
+    // TODO: Support different process types off-core
+    {
+        section: 'Interaction',
+        type: ElementType.STEPPED_STAGE,
+        icon: 'standard:screen',
+        label: 'steppedStage',
+        value: ELEMENT_TYPE.STEPPED_STAGE,
+        elementType: ELEMENT_TYPE.STEPPED_STAGE,
+        description: screenComponentDescription,
+        canHaveFaultConnector: false,
+        supportsMenu: true,
+        isSupported: true,
+        dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
+    },
 ];

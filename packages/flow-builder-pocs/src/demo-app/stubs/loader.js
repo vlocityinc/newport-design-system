@@ -7,11 +7,11 @@
  */
 
 // TODO: reintroduce with SteppedStage PR
-// import SteppedStageNode from 'builder_platform_interaction/steppedStageNode';
+import SteppedStageNode from 'builder_platform_interaction/steppedStageNode';
 
 
 const moduleMap = new Map([
-    // ['builder_platform_interaction/steppedStageNode', SteppedStageNode],
+    ['builder_platform_interaction/steppedStageNode', SteppedStageNode],
 ]);
 
 export function load(moduleName) {

@@ -54,6 +54,9 @@ export const UPDATE_RECORD_LOOKUP = 'UPDATE_RECORD_LOOKUP';
 export const ADD_SCREEN_WITH_FIELDS = 'ADD_SCREEN_WITH_FIELDS';
 export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
 
+export const ADD_STEPPED_STAGE_WITH_STEPS = 'ADD_STEPPED_STAGE_WITH_STEPS';
+export const MODIFY_STEPPED_STAGE_WITH_STEPS = 'MODIFY_STEPPED_STAGE_WITH_STEPS';
+
 export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
 
 export const UPDATE_INLINE_RESOURCE_PROPERTIES = 'UPDATE_INLINE_RESOURCE_PROPERTIES';
@@ -89,6 +92,8 @@ export const CLEAR_CANVAS_DECORATION = 'CLEAR_CANVAS_DECORATION';
 export const UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE = 'UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE';
 
 export const UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY = 'UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY';
+
+export const ADD_STEP_TO_STAGE = 'ADD_STEP_TO_STAGE';
 
 /**
  * Helper function to create actions.
@@ -205,6 +210,8 @@ export const addElement = (payload) => {
                 return createAction(ADD_WAIT_WITH_WAIT_EVENTS, payload);
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
                 return createAction(ADD_SCREEN_WITH_FIELDS, payload);
+            case ELEMENT_TYPE.STEPPED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
+                return createAction(ADD_STEPPED_STAGE_WITH_STEPS, payload);
             case ELEMENT_TYPE.START_ELEMENT:
                 return createAction(ADD_START_ELEMENT, payload);
             case ELEMENT_TYPE.END_ELEMENT:
@@ -249,6 +256,8 @@ export const updateElement = (payload) => {
                 return createAction(UPDATE_RECORD_LOOKUP, payload);
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
                 return createAction(MODIFY_SCREEN_WITH_FIELDS, payload);
+            case ELEMENT_TYPE.STEPPED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
+                return createAction(MODIFY_STEPPED_STAGE_WITH_STEPS, payload);
             default:
                 if (payload.isCanvasElement) {
                     return createAction(UPDATE_CANVAS_ELEMENT, payload);
@@ -426,3 +435,9 @@ export const updateFlowOnCanvasModeToggle = (payload: object): object =>
  */
 export const updateIsAutoLayoutCanvasProperty = (payload: boolean): object =>
     createAction(UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY, payload);
+
+/**
+ * Action for adding a Step to a stage from the canvas
+ * @returns {Object} action - addStepToStage action
+ */
+export const addStepToStage = createAction(ADD_STEP_TO_STAGE);

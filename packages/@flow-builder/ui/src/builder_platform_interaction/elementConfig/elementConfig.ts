@@ -108,7 +108,15 @@ import {
     createPastedApexCall,
     createPastedApexPlugin,
     createPastedEmailAlert,
-    createPastedLoop
+    createPastedLoop,
+    createSteppedStageMetadataObject,
+    createSteppedStageWithItems,
+    createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
+    createItem,
+    createSteppedStageWithItemReferences
+    // TODO: Next app Process SteppedStage PR
+    //    createPastedSteppedStage,
+    //    createDuplicateSteppedStage,
 } from 'builder_platform_interaction/elementFactory';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
@@ -982,6 +990,60 @@ export const elementTypeToConfigMap = {
             editModal: ''
         }
     },
+    [ELEMENT_TYPE.STEPPED_STAGE]: {
+        descriptor: 'builder_platform_interaction:steppedStageEditor',
+        nodeConfig: {
+            iconName: 'standard:screen',
+            utilityIconName: 'utility:screen',
+            dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.STEPPED_STAGE],
+            maxConnections: 1,
+            section: LABELS.flowInteractionComponentsLabel,
+            description: LABELS.steppedStageComponentDescription
+        },
+        modalSize: MODAL_SIZE.LARGE,
+        metadataKey: METADATA_KEY.STEPPED_STAGES,
+        labels: {
+            singular: LABELS.steppedStageSingularLabel,
+            plural: LABELS.steppedStagePluralLabel,
+            leftPanel: LABELS.steppedStageComponentLabel,
+            newModal: LABELS.newSteppedStageLabel,
+            editModal: LABELS.editSteppedStageLabel
+        },
+        childReferenceKey: {
+            singular: getChildReferencesKeys().singular,
+            plural: getChildReferencesKeys().plural
+        },
+        canvasElement: true,
+        nonHydratableProperties: [],
+        bodyCssClass: 'slds-scrollable_none',
+        factory: {
+            propertyEditor: createSteppedStageWithItems,
+            // TODO: future PR
+            pasteElement: null, // createPastedSteppedStage,
+            // TODO: future PR
+            duplicateElement: null, // createDuplicateSteppedStage,
+            closePropertyEditor: createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
+            uiToFlow: createSteppedStageMetadataObject,
+            flowToUi: createSteppedStageWithItemReferences
+        }
+    },
+    [ELEMENT_TYPE.STAGE_STEP]: {
+        // A step in a stage is not a canvas element, but is a first class element
+        descriptor: 'builder_platform_interaction:stageStepEditor',
+        nodeConfig: {
+            iconName: 'standard:stagestep',
+            utilityIconName: 'utility:stagestep'
+        },
+        labels: {
+            singular: LABELS.stageStepSingularLabel,
+            plural: LABELS.stageStepPluralLabel
+        },
+        isChildElement: true,
+        factory: {
+            propertyEditor: createItem
+        }
+    },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
         descriptor: 'builder_platform_interaction:defaultEditor',
@@ -1069,7 +1131,7 @@ export function isChildElement(elementType) {
     return !!getConfigForElementType(elementType).isChildElement;
 }
 
-export function getChildReferencesKeys() {
+export function getChildReferencesKeys(): { singular: string; plural: string } {
     return {
         singular: 'childReference',
         plural: 'childReferences'

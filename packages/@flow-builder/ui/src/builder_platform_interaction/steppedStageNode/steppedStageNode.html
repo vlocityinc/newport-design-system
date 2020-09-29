@@ -1,0 +1,19 @@
+<template>
+    <div>
+        Stage
+        <div>
+            <template for:each={steps} for:item="step">
+                <div key={step}>{step}</div>
+            </template>
+
+            <div onclick={handleAddStep}>
+                <lightning-icon
+                    icon-name="utility:add"
+                    class="slds-current-color slds-m-right_x-small"
+                    size="xx-small"
+                ></lightning-icon>
+                Add New Step
+            </div>
+        </div>
+    </div>
+</template>

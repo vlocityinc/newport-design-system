@@ -810,11 +810,13 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
 
 describe('Base child element function', () => {
     it('throws an Error if no element type specified', () => {
-        expect(() => baseChildElement()).toThrow('baseChildElement should only be used for outcomes and wait events');
+        expect(() => baseChildElement()).toThrow(
+            'baseChildElement should only be used for outcomes, wait events, and stage steps'
+        );
     });
     it('throws an Error if invalid element type specified', () => {
         expect(() => baseChildElement(childElement, ELEMENT_TYPE.ACTION_CALL)).toThrow(
-            'baseChildElement should only be used for outcomes and wait events'
+            'baseChildElement should only be used for outcomes, wait events, and stage steps'
         );
     });
     it('returns a new child element object when existing resource child element is passed as argument', () => {

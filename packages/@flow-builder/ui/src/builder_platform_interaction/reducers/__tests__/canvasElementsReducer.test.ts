@@ -7,7 +7,8 @@ import {
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
     ADD_WAIT_WITH_WAIT_EVENTS,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+    ADD_STEPPED_STAGE_WITH_STEPS
 } from 'builder_platform_interaction/actions';
 
 const elementToRemove = {
@@ -140,11 +141,26 @@ describe('canvas-elements-reducer', () => {
         expect(newCanvasElementState[2]).toEqual(guid);
     });
 
-    it('with state set to undefined & action type is ADD_WAIT_WITH_WAIT_EVENTS should return teh array with only the new decision added', () => {
+    it('with state set to undefined & action type is ADD_WAIT_WITH_WAIT_EVENTS should return teh array with only the new wait event added', () => {
         const guid = '123';
 
         const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {
             type: ADD_WAIT_WITH_WAIT_EVENTS,
+            payload: {
+                canvasElement: { guid }
+            }
+        });
+        expect(newCanvasElementState).not.toBe(oldCanvasElementsState[0]);
+        expect(newCanvasElementState).toHaveLength(3);
+
+        expect(newCanvasElementState[2]).toEqual(guid);
+    });
+
+    it('with state set to undefined & action type is ADD_STEPPED_STAGE_WITH_STEPS should return teh array with only the new stage added', () => {
+        const guid = '123';
+
+        const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {
+            type: ADD_STEPPED_STAGE_WITH_STEPS,
             payload: {
                 canvasElement: { guid }
             }
