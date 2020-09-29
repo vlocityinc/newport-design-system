@@ -1,0 +1,14 @@
+.nds-hero-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 30rem) { 
+
+  .nds-hero {
+    display: none;
+  }
+  .nds-hero-mobile {
+    display: block;
+  }
+
+}
