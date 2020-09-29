@@ -14,4 +14,41 @@
         border-bottom: none;
     }
 
+    .nds-button_brand {
+        background-color: $biscay;
+        border-color: $biscay;
+    }
+
+    &_button {
+        position: absolute; 
+        right: 1rem;
+    }
+
+    .nds-button_icon {
+        display: none;
+        padding-left: .25rem;
+        padding-right: 0rem;
+    }
+
+    .nds-button__icon {
+        fill: $white;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 76rem) {
+
+    .nds-communities-search {
+
+        .nds-button_icon {
+            display: block;
+        }
+
+        .nds-button_text {
+            display: none;
+        }
+    }
+
 }

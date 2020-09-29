@@ -12,7 +12,11 @@
     &_heading {
       padding-bottom: .25rem;
       font-weight: 500;
-      font-size: $font-size-10;
+      font-size: $font-size-9;
+    }
+
+    &__search-col {
+      padding-top: 1rem;
     }
 
     .nds-text-body_medium {
@@ -26,15 +30,15 @@
 @media screen and (max-width: 76rem) {
   .nds-communities-search-card {
     display: block;
-    padding: 2rem 1rem 2rem 1rem;
+    padding: 3rem 1rem 2rem 1rem;
     text-align: center;
-
-    &__info-col {
-      padding: 0 2rem 0 2rem;
-    }
 
     &_heading {
       font-size: $font-size-8;
+    }
+
+    &__info-col {
+      padding: 0 2rem 0 2rem;
     }
 
     &__search-col {
