@@ -1,0 +1,17 @@
+/**
+ * @summary Initializes a footer for community with more than one section that lists label / action pairs
+ *
+ * @name nds-footer-communities
+ * @selector .nds-footer-communities
+ * @modifier
+ */
+ .nds-communities-search {
+    background: $white;
+    border-color: $white; 
+    box-shadow: none;
+
+    .nds-input {
+        border-bottom: none;
+    }
+
+}
