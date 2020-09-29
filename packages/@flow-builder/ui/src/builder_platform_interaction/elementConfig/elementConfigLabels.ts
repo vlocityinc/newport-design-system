@@ -167,6 +167,17 @@ import newWaitLabel from '@salesforce/label/FlowBuilderElementConfig.newWaitLabe
 import newStepLabel from '@salesforce/label/FlowBuilderElementConfig.newStepLabel';
 import newElementHeaderPrefix from '@salesforce/label/FlowBuilderCommonPropertyEditor.newElementHeaderPrefix';
 import editButtonLabel from '@salesforce/label/FlowBuilderResourceDetailsPanel.editButtonLabel';
+import steppedStageComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.steppedStageComponentDescription';
+import steppedStageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageSingularLabel';
+import steppedStagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStagePluralLabel';
+import steppedStageComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.steppedStageComponentLabel';
+import newSteppedStageLabel from '@salesforce/label/FlowBuilderElementConfig.newSteppedStageLabel';
+import editSteppedStageLabel from '@salesforce/label/FlowBuilderElementConfig.editSteppedStageLabel';
+import steppedStageItemSingularLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemSingularLabel';
+import steppedStageItemPluralLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemPluralLabel';
+import steppedStageItemComponentLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemComponentLabel';
+import newSteppedStageItemLabel from '@salesforce/label/FlowBuilderElementConfig.newSteppedStageItemLabel';
+import editSteppedStageItemLabel from '@salesforce/label/FlowBuilderElementConfig.editSteppedStageItemLabel';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -335,5 +346,16 @@ export const LABELS = {
     newWaitLabel,
     newStepLabel,
     newElementHeaderPrefix,
-    editButtonLabel
+    editButtonLabel,
+    steppedStageComponentDescription,
+    steppedStageSingularLabel,
+    steppedStagePluralLabel,
+    steppedStageComponentLabel,
+    newSteppedStageLabel,
+    editSteppedStageLabel,
+    steppedStageItemSingularLabel,
+    steppedStageItemPluralLabel,
+    steppedStageItemComponentLabel,
+    newSteppedStageItemLabel,
+    editSteppedStageItemLabel
 };
