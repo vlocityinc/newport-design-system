@@ -26,11 +26,20 @@ storiesOf(`${base}`, module)
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-communities-search nds-card nds-grid nds-grid_wrap nds-p-around_small">
-    <div class="nds-form-element nds-m-right_small">
+    <div class="nds-form-element nds-m-right_small nds-size_7-of-8">
         <div class="nds-form-element__control">
-            <input type="text" id="text-input-id-1" class="nds-input" placeholder="Enter Your Zip">
+            <input type="text" id="text-input-id-1" class="nds-input" placeholder="Enter Your Zip" />
         </div>
     </div>
-    <button class="nds-button nds-button_brand">Find an Agent</button>
+    <div class="nds-communities-search_button">
+        <button class="nds-button_text nds-button nds-button_brand">Find an Agent</button>
+        <button class="nds-button nds-button_brand nds-button_icon nds-button_icon-border-filled"
+            aria-haspopup="true">
+            <svg class="nds-button__icon" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            </svg>
+            <span class="nds-assistive-text">Find an Agent</span>
+        </button>
+    </div>
 </div>`);
 });

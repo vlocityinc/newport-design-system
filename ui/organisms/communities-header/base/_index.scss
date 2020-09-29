@@ -1,0 +1,161 @@
+/**
+ * @summary Initializes a footer for community with more than one section that lists label / action pairs
+ *
+ * @name nds-footer-communities
+ * @selector .nds-footer-communities
+ * @modifier
+ */
+ .nds-footer-communities{
+  background-color: $biscay;
+  min-height: 36rem;
+  color: #fff;
+  padding: 5.5rem 8rem 8rem 7rem;
+
+    /**
+    * @summary Class that contains the body of the footer
+    *
+    * @name nds-footer-communities_body
+    * @selector .nds-footer-communities_body
+    * @modifier
+    */
+    &_body {
+      min-height: 10rem;
+
+      .nds-accordion__list-item {
+        border-top: 0;
+      }
+
+      .nds-accordion__section {
+        padding: 0 1rem 1rem 1.75rem;
+      }
+    
+      .nds-accordion__summary-heading {
+        display: none;
+      }
+
+      .nds-is-open 
+      .nds-accordion__summary {
+        margin-bottom: 0;
+      }
+
+
+        /**
+        * @summary Styles coloumn header
+        *
+        * @name nds-text-heading_medium  
+        * @selector .nds-text-heading_medium
+        * @modifier
+        */
+        .nds-text-heading_medium {
+          font-weight: 700;
+          font-size: $font-size-5;
+          padding-bottom: $spacing-xx-large;
+        }
+
+      /**
+      * @summary Styles cell action text nds-action_text
+      *
+      * @name nds-action_text 
+      * @selector .nds-action_text
+      * @modifier
+      */
+      .nds-action_text {
+        font-weight: 100;
+      }
+
+      /**
+      * @summary Styles column divider
+      *
+      * @name nds-divider_vertical
+      * @selector .nds-divider_vertical
+      * @modifier
+      */
+      .nds-divider {
+        opacity: 26%; 
+        background: white; 
+        height: auto; 
+        width: .1rem;
+      }
+
+      li:last-child {
+        .nds-divider {
+          display: none;
+        }
+     }
+
+  }
+
+  &_col-content {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+  }
+
+}
+
+@media screen and (max-width: 76rem) {
+  .nds-footer-communities {
+    padding: 0 0 3rem 0;
+    min-height: 0;
+
+    &_body {
+      display: block;
+    }
+
+    &_col-content {
+      visibility: hidden;
+      opacity: 0;
+      height: 0;
+    }
+
+    .nds-accordion__section {
+      padding: 0;
+    }
+
+    .nds-accordion__summary {
+      width: 100%;
+
+      .nds-footer-communities_col-header {
+        display: none;
+      }
+      .nds-accordion__summary-heading {
+        display: block;
+        padding-left: 1rem;
+        padding-right: .75rem;
+
+        .nds-button__icon {
+          fill: $white;
+        }
+      }
+    }
+
+    .nds-accordion__content {
+      padding-left: 3rem; 
+      padding-right: .75rem;
+    }
+
+    .nds-accordion__list-item {
+      display: block;
+    }
+
+    .nds-text-heading_medium {
+      padding-bottom: 1.75rem; 
+      padding-top: 1.75rem;
+      padding-left: .575rem;
+      font-weight: 400;
+      font-size: $font-size-4;
+    }
+
+    .nds-action_text {
+      font-size: $font-size-4;
+    }
+
+    .nds-divider {
+        opacity: 26%; 
+        background: white; 
+        height: 1px; 
+        width: auto;
+    }
+
+  }
+}
