@@ -10,7 +10,8 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_TAB: 'lightning-tab',
     LIGHTNING_TEXTAREA: 'lightning-textarea',
     LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation',
-    LIGHTNING_PILL: 'lightning-pill'
+    LIGHTNING_PILL: 'lightning-pill',
+    LIGHTNING_PICKLIST: 'lightning-picklist'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {
@@ -20,7 +21,9 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
     CALLOUT_EDITOR_CONTAINER: 'builder_platform_interaction-callout-editor-container',
     COMBOBOX: 'builder_platform_interaction-combobox',
+    COMPONENT_VISIBILITY: 'builder_platform_interaction-component-visibility',
     CONDITION_LIST: 'builder_platform_interaction-condition-list',
+    CONDITION_LIST_ITEM: 'builder_platform_interaction-condition-list-item',
     CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor',
     DATA_TYPE_PICKER: 'builder_platform_interaction-data-type-picker',
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
@@ -59,11 +62,13 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     SCREEN_EDITOR_HIGHLIGHT: 'builder_platform_interaction-screen-editor-highlight',
     SCREEN_EXTENSION_ATTRIBUTE_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor',
     SCREEN_EXTENSION_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-extension-properties-editor',
+    SCREEN_CHOICE_FIELD_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-choice-field-properties-editor',
     SCREEN_INPUT_FIELD_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-input-field-properties-editor',
     SCREEN_SECTION_FIELD_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-section-field-properties-editor',
     SCREEN_PALETTE: 'builder_platform_interaction-screen-editor-palette',
     SCREEN_PROPERTIES_EDITOR_CONTAINER: 'builder_platform_interaction-screen-properties-editor-container',
     SCREEN_PROPERTY_FIELD_EDITOR: 'builder_platform_interaction-screen-property-field',
+    SCREEN_COMPONENT_VISIBILITY_SECTION: 'builder_platform_interaction-screen-component-visibility-section',
     SOBJECT_OR_SOBJECT_COLLECTION_PICKER: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
     SUBFLOW_EDITOR: 'builder_platform_interaction-subflow-editor',
     USE_ADVANCED_OPTIONS_CHECKBOX: 'builder_platform_interaction-use-advanced-options-checkbox',

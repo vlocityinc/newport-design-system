@@ -737,6 +737,7 @@ describe('isOrCanContainSelector', () => {
             );
 
             expect(toSortedNames(result)).toEqual([
+                'accounts',
                 'actionCallAutomaticOutput',
                 'actionCallLC_apex_no_sobject_auto',
                 'actionCallLC_apex_with_sobject_auto',
@@ -753,6 +754,7 @@ describe('isOrCanContainSelector', () => {
                 'lightningCompWithNoAccountOutput',
                 'loopOnApexAutoOutput',
                 'loopOnTextCollectionAutoOutput',
+                'other',
                 'recordChoiceSet',
                 'stringConstant',
                 'stringVariable',

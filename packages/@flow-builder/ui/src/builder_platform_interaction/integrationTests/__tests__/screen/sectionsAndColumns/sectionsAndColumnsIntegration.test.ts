@@ -11,7 +11,8 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
-    blurEvent
+    blurEvent,
+    changeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setupState, resetState, loadFlow } from '../../integrationTestUtils';
@@ -20,13 +21,15 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS,
     SCREEN_FIELD: 'builder_platform_interaction-screen-field',
-    SCREEN_SECTION_FIELD: 'builder_platform_interaction-screen-section-field'
+    SCREEN_SECTION_FIELD: 'builder_platform_interaction-screen-section-field',
+    SCREEN_CHOICE_FIELD: 'builder_platform_interaction-screen-choice-field'
 };
 
 const SCREEN_FIELD_TITLES = {
     SECTION: 'FlowBuilderScreenEditor.fieldTypeLabelSection',
     TEXT: 'FlowBuilderScreenEditor.fieldTypeLabelTextField',
     NUMBER: 'FlowBuilderScreenEditor.fieldTypeLabelNumber',
+    PICKLIST: 'FlowBuilderScreenEditor.fieldTypeLabelPicklist',
     EMAIL: 'Email'
 };
 
@@ -48,6 +51,12 @@ const getScreenPropertiesEditorContainerElement = (screenEditor) => {
 const getExtensionPropertiesEditorElement = (screenEditor) => {
     return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
         SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
+    );
+};
+
+const getChoicePropertiesEditorElement = (screenEditor) => {
+    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
+        SELECTORS.SCREEN_CHOICE_FIELD_PROPERTIES_EDITOR
     );
 };
 
@@ -127,7 +136,7 @@ const getScreenFieldElementInSection = (section, elementTitle) => {
 };
 
 const getApiNameElementInPropertiesEditor = (propertiesEditor) => {
-    return deepQuerySelector(propertiesEditor, [SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR, 'lightning-input']);
+    return deepQuerySelector(propertiesEditor, [SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR, SELECTORS.LIGHTNING_INPUT]);
 };
 
 describe('ScreenEditor', () => {
@@ -153,6 +162,7 @@ describe('ScreenEditor', () => {
                         - Text
                     - Column2
                         - Email
+                        - Picklist (DropdownBox)
                 - Address
             */
             const element = getElementByDevName('ScreenWithSection');
@@ -259,6 +269,72 @@ describe('ScreenEditor', () => {
             await ticks(50);
             columns = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS);
             expect(columns).toHaveLength(3);
+        });
+        it('Select the Picklist screen field in the second Column in the second Section and verify the choice properties editor', async () => {
+            expect.assertions(4);
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
+            const picklist = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
+            expect(picklist).not.toBeNull();
+            const canvas = getScreenEditorCanvas(screenEditor);
+            canvas.dispatchEvent(createScreenElementSelectedEvent(picklist.screenElement));
+            await ticks(50);
+            const choicePropertiesEditor = getChoicePropertiesEditorElement(screenEditor);
+            expect(choicePropertiesEditor).not.toBeNull();
+            const propertyFields = choicePropertiesEditor.shadowRoot.querySelectorAll(
+                SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
+            );
+            expect(propertyFields).toHaveLength(4);
+            const groupedCombobox = deepQuerySelector(propertyFields[1], [
+                SELECTORS.FEROV_RESOURCE_PICKER,
+                SELECTORS.BASE_RESOURCE_PICKER,
+                SELECTORS.COMBOBOX,
+                SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+            ]);
+            expect(groupedCombobox.value).toEqual('{!recordChoiceSet}');
+        });
+        it('Select the Picklist screen field, change its default value and verify the change on the canvas', async () => {
+            expect.assertions(2);
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
+            const picklist = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
+            const canvas = getScreenEditorCanvas(screenEditor);
+            canvas.dispatchEvent(createScreenElementSelectedEvent(picklist.screenElement));
+            await ticks(50);
+            const choicePropertiesEditor = getChoicePropertiesEditorElement(screenEditor);
+            const propertyFields = choicePropertiesEditor.shadowRoot.querySelectorAll(
+                SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
+            );
+            const combobox = propertyFields[0].shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+            expect(combobox.value).toEqual('');
+            const otherChoice = getElementByDevName('other');
+            combobox.dispatchEvent(changeEvent(otherChoice.guid));
+            combobox.dispatchEvent(blurEvent);
+            await ticks(50);
+            const secondColumn = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS)[1];
+            const secondField = secondColumn.shadowRoot.querySelectorAll(SELECTORS.SCREEN_FIELD)[1];
+            const lightningPicklist = deepQuerySelector(secondField, [
+                SELECTORS.SCREEN_CHOICE_FIELD,
+                SELECTORS.LIGHTNING_PICKLIST
+            ]);
+            expect(lightningPicklist.value).toEqual(otherChoice.guid);
+        });
+        it('Select the Picklist screen field and verify the CFV rule is correct', async () => {
+            expect.assertions(4);
+            const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
+            const picklist = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
+            const canvas = getScreenEditorCanvas(screenEditor);
+            canvas.dispatchEvent(createScreenElementSelectedEvent(picklist.screenElement));
+            await ticks(50);
+            const choicePropertiesEditor = getChoicePropertiesEditorElement(screenEditor);
+            const conditionListItem = deepQuerySelector(choicePropertiesEditor, [
+                SELECTORS.SCREEN_COMPONENT_VISIBILITY_SECTION,
+                SELECTORS.COMPONENT_VISIBILITY,
+                SELECTORS.CONDITION_LIST_ITEM
+            ]);
+            expect(conditionListItem).not.toBeNull();
+            const slider = getElementByDevName('slider_1');
+            expect(conditionListItem.condition.leftHandSide.value).toEqual(slider.guid + '.value');
+            expect(conditionListItem.condition.operator.value).toEqual('GreaterThanOrEqualTo');
+            expect(conditionListItem.condition.rightHandSide.value).toEqual('50');
         });
     });
 });

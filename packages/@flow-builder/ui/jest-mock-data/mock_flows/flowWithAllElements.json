@@ -1435,6 +1435,32 @@
                                         "fields": [],
                                         "storeOutputAutomatically": true,
                                         "extensionName": "flowruntime:email"
+                                    },
+                                    {
+                                        "choiceReferences": ["recordChoiceSet", "other"],
+                                        "dataType": "String",
+                                        "fieldText": "Accounts",
+                                        "fieldType": "DropdownBox",
+                                        "helpText": "",
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "name": "accounts",
+                                        "outputParameters": [],
+                                        "scale": 0,
+                                        "fields": [],
+                                        "visibilityRule": {
+                                            "conditionLogic": "and",
+                                            "conditions": [
+                                                {
+                                                    "leftValueReference": "slider_1.value",
+                                                    "rightValue": {
+                                                        "numberValue": "50"
+                                                    },
+                                                    "operator": "GreaterThanOrEqualTo"
+                                                }
+                                            ]
+                                        },
+                                        "defaultSelectedChoiceReference": null
                                     }
                                 ]
                             }
@@ -1478,6 +1504,19 @@
                 "description": "",
                 "dataType": "Number",
                 "choiceText": "Choice 1"
+            },
+            {
+                "name": "other",
+                "description": "",
+                "dataType": "String",
+                "choiceText": "Other",
+                "userInput": {
+                    "isRequired": false,
+                    "promptText": "Please specify"
+                },
+                "value": {
+                    "stringValue": "other"
+                }
             }
         ],
         "dynamicChoiceSets": [
