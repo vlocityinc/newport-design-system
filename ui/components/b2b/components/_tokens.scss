@@ -6,6 +6,7 @@ $b2b-product-item-min-width: 21rem !default;
 $b2b-popover-arrow-size: $square-icon-small;
 $b2b-popover-background: $palette-gray-2;
 $b2b-flyout-spacer: 2rem;
+$b2b-flex-display: flex;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
