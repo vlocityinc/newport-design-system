@@ -155,7 +155,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Log a Call",
@@ -172,7 +172,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Child Case",
@@ -189,7 +189,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Add Member",
@@ -206,7 +206,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Add Record",
@@ -223,7 +223,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Create New Task",
@@ -240,7 +240,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Log a Call",
@@ -257,7 +257,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Account",
@@ -274,7 +274,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Case",
@@ -291,7 +291,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Contact",
@@ -308,7 +308,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Event",
@@ -325,7 +325,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Group",
@@ -342,7 +342,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Lead",
@@ -359,7 +359,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Note",
@@ -376,7 +376,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Opportunity",
@@ -393,7 +393,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"New Task",
@@ -410,7 +410,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Change Date",
@@ -427,7 +427,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Edit Comments",
@@ -444,7 +444,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Change Priority",
@@ -461,7 +461,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":false,
+      "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
       "label":"Change Status",

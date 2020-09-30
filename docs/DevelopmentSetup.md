@@ -23,6 +23,9 @@ To update your node version do: `nvm install v12.16.2 && nvm use v12.16.2)`
 
 To update your yarn version do: `brew unlink yarn && brew install yarn@1.22.4`
 
+> Note: I was able to successfully use yarn v1.22.5, simply ran `brew install yarn` to get it
+> See the engines field of the package.json file for the current acceptable versions of node and yarn)
+
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
 ```sh
