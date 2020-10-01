@@ -49,7 +49,8 @@ export const FLOW_PROCESS_TYPE_FEATURE = {
     CONFIGURABLE_START: 'ConfigurableStart',
     LOOKUP_TRAVERSAL: 'LookupTraversal',
     CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility',
-    GLOBAL_VARIABLES: 'GlobalVariables'
+    GLOBAL_VARIABLES: 'GlobalVariables',
+    TRANSACTION_CONTROLLED_ACTIONS: 'TransactionControlledActions'
 };
 
 export const getProcessTypeIcon = (processType) => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
@@ -96,6 +97,20 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
     return isStoreOutputAutomaticallyAvailable
         ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
         : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+};
+
+/**
+ * This function returns true or false to indicate if the specified processType
+ * supports transaction controlled actions.
+ * @params processType
+ * @return True, False
+ */
+export const getProcessTypeTransactionControlledActionsSupport = (processType) => {
+    const isTransactionControlledActionsSupported = hasProcessTypeFeature(
+        processType,
+        FLOW_PROCESS_TYPE_FEATURE.TRANSACTION_CONTROLLED_ACTIONS
+    );
+    return isTransactionControlledActionsSupported;
 };
 
 /**

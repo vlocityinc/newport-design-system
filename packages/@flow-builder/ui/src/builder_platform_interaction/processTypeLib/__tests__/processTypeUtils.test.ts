@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getProcessTypesWithIcons } from '../processTypeUtils';
+import { getProcessTypesWithIcons, getProcessTypeTransactionControlledActionsSupport } from '../processTypeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 
@@ -33,5 +33,28 @@ describe('processTypesUtils', () => {
                 })
             ])
         );
+    });
+});
+
+jest.mock('builder_platform_interaction/systemLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
+    return {
+        getProcessFeatures: (processType) => {
+            if (processType === 'Flow') {
+                return [actual.FLOW_PROCESS_TYPE_FEATURE.TRANSACTION_CONTROLLED_ACTIONS];
+            }
+            return [];
+        }
+    };
+});
+
+describe('transaction controlled actions', () => {
+    test('When processType supports TransactionControlledActions, helper function should return true', () => {
+        const isSupported = getProcessTypeTransactionControlledActionsSupport(FLOW_PROCESS_TYPE.FLOW);
+        expect(isSupported).toBe(true);
+    });
+    test('When processType does not support TransactionControlledActions, helper function should return false', () => {
+        const isSupported = getProcessTypeTransactionControlledActionsSupport(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+        expect(isSupported).toBe(false);
     });
 });

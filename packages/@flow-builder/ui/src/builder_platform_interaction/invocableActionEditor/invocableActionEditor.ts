@@ -35,7 +35,7 @@ import { createInputParameter } from 'builder_platform_interaction/elementFactor
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
-
+import { getProcessTypeTransactionControlledActionsSupport } from 'builder_platform_interaction/processTypeLib';
 const { logInteraction } = loggingUtils;
 
 export default class InvocableActionEditor extends LightningElement {
@@ -179,6 +179,16 @@ export default class InvocableActionEditor extends LightningElement {
 
     get hideParameters() {
         return this.isNewMode && this.hasUnboundDataTypeMappings && !this._shouldCreateConfigurationEditor();
+    }
+
+    get showTransactionControlPicker() {
+        const processTypeSupportsTransactionControl = getProcessTypeTransactionControlledActionsSupport(
+            this.processTypeValue
+        );
+        const supportsTransactionControl = this.invocableActionDescriptor
+            ? this.invocableActionDescriptor.allowsTransactionControl
+            : false;
+        return processTypeSupportsTransactionControl && supportsTransactionControl;
     }
 
     fetchActionParameters() {

@@ -36,7 +36,8 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
-        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(),
+        getProcessTypeTransactionControlledActionsSupport: jest.fn()
     };
 });
 
