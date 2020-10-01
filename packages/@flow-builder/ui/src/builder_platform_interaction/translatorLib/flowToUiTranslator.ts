@@ -10,7 +10,7 @@ import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConf
 
 const NODE_LENGTH = 48;
 const START_LENGTH = 300;
-const RELEASE_226_DATE = new Date('2020-07-18T01:17:24.000+0000');
+const RELEASE_226_DATE = new Date('2021-02-15T01:17:24.000+0000');
 let START_Y_OFFSET;
 
 /**
