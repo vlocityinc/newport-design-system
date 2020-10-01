@@ -228,29 +228,6 @@ $b2b-table-border: $palette-gray-5;
 	.nds-b2b-table_cell {
 		flex: 0 0 100%;
 	}	
-	.nds-b2b-map-btn{
-		position: absolute;
-		right: 1rem;
-		.nds-b2b-map-top{
-			margin-top: 7.5rem;
-		}
-	  }
-	  .nds-b2b-panel-container {
-        & .nds-is-relative {
-            overflow: visible;
-        } 
-        .nds-b2b-panel {
-            position: absolute;
-            right: 1rem;
-            top: 22.7rem;
-            height: 30rem;
-            width: 50%;
-            z-index: 1;
-            box-shadow:none;
-            background:none;
-        }
-    }
- 
 }
 
 @media (min-width: #{(map-get($breakpoints, $table-view-switch))}) {
