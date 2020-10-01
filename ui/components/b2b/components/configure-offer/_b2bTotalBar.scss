@@ -55,10 +55,11 @@
 
     .nds-b2b-disabled-button{
       display: block;
-      color: #fff;
+      color: $white;
       font-size: 0.7rem;
       padding: 0 1rem;
       margin-top: 0.6rem;
+      pointer-events: none;
       cursor: not-allowed;
       background-color: #a7a7a7;
       width: 100%;
