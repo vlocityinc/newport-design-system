@@ -124,15 +124,21 @@ $b2b-table-border: $palette-gray-5;
 		background:none;
 	}
 }
-.nds-p-bottom_small.nds-b2b-flex {
-	display : $b2b-flex-display;
+.nds-p-bottom_small{
+	&.nds-b2b-flex {
+		display : $b2b-flex-display;
+	}
 }
-.nds-grid.nds-b2b-filter{
-	padding-left: 3rem;
+.nds-grid{
+	&.nds-b2b-filter{
+		padding-left: 3rem;
+	}
 }
-.nds-b2b-input.nds-b2b-flex-btn{
-	display: $b2b-flex-display;
-	justify-content: flex-end;
+.nds-b2b-input{
+	&.nds-b2b-flex-btn{
+		display: $b2b-flex-display;
+		justify-content: flex-end;
+	}
 }
 @media (max-width: #{(map-get($breakpoints, $table-view-switch))}) {
 	.nds-b2b-table,
