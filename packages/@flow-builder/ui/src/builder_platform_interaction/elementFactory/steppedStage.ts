@@ -209,9 +209,11 @@ export function createSteppedStageMetadataObject(steppedStage: SteppedStage, con
         return baseChildElementMetadataObject(step, config);
     });
 
-    const steppedStageWithSteps = Object.assign(steppedStage, { steps });
+    const newSteppedStage: SteppedStage = Object.assign(baseCanvasElementMetadataObject(steppedStage, config), {
+        steps
+    });
 
-    return baseCanvasElementMetadataObject(steppedStageWithSteps, config);
+    return newSteppedStage;
 }
 
 function updateItemReferences(childReferences: any[], step: SteppedStageItem): ChildReference[] {
