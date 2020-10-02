@@ -389,7 +389,12 @@ export default class Editor extends LightningElement {
     }
 
     get usePanelForPropertyEditor() {
-        return this.builderConfig && this.builderConfig.usePanelForPropertyEditor;
+        return (
+            (this.builderConfig && this.builderConfig.usePanelForPropertyEditor) ||
+            // Hardcoded for App Process PoC
+            // TODO: remove in 232: https://gus.lightning.force.com/lightning/_classic/%2Fa07B00000089r2hIAA
+            this.properties.processType === FLOW_PROCESS_TYPE.APP_PROCESS
+        );
     }
 
     get useNewDebugExperience() {
