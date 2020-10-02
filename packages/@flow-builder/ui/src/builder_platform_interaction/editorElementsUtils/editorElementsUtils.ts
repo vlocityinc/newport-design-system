@@ -45,7 +45,8 @@ const mutateElements = (elements, palette) =>
                                 description,
                                 iconShape,
                                 iconSize,
-                                dynamicNodeComponent
+                                dynamicNodeComponent,
+                                dynamicNodeComponentSelector
                             } = nodeConfig;
 
                             if (!acc[headerLabel]) {
@@ -65,7 +66,8 @@ const mutateElements = (elements, palette) =>
                                 canHaveFaultConnector,
                                 iconShape,
                                 iconSize,
-                                dynamicNodeComponent
+                                dynamicNodeComponent,
+                                dynamicNodeComponentSelector
                             };
                             acc[headerLabel].push(item);
                         });

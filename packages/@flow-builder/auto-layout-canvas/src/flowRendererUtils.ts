@@ -87,6 +87,7 @@ export interface NodeRenderInfo {
     toBeDeleted: boolean;
     node?: NodeModel;
     dynamicNodeComponent?: string;
+    dynamicNodeComponentSelector?: Function;
 }
 
 export interface Dimension {

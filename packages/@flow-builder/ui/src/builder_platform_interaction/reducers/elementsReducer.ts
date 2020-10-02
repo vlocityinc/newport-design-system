@@ -25,13 +25,15 @@ import {
     ADD_START_ELEMENT,
     UPDATE_CANVAS_ELEMENT_LOCATION,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    ADD_STEPPED_STAGE_WITH_STEPS,
-    MODIFY_STEPPED_STAGE_WITH_STEPS
+    ADD_PARENT_WITH_CHILDREN,
+    MODIFY_PARENT_WITH_CHILDREN,
+    ADD_CHILD
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getSubElementGuids } from './reducersUtils';
+import { CanvasElement, ChildElement, Guid, StoreState } from 'builder_platform_interaction/flowModel';
 
 /**
  * Reducer for elements.
@@ -97,14 +99,16 @@ export default function elementsReducer(state = {}, action) {
         case MODIFY_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-        case ADD_STEPPED_STAGE_WITH_STEPS:
-        case MODIFY_STEPPED_STAGE_WITH_STEPS:
+        case ADD_PARENT_WITH_CHILDREN:
+        case MODIFY_PARENT_WITH_CHILDREN:
             return _addOrUpdateCanvasElementWithChildElements(
                 state,
                 action.payload.canvasElement,
                 action.payload.deletedChildElementGuids,
                 action.payload.childElements
             );
+        case ADD_CHILD:
+            return _addChildElement(state, action.payload.parentGuid, action.payload.element);
         case ADD_SCREEN_WITH_FIELDS:
         case MODIFY_SCREEN_WITH_FIELDS:
             return _addOrUpdateScreenWithScreenFields(
@@ -113,6 +117,7 @@ export default function elementsReducer(state = {}, action) {
                 action.payload.deletedFields,
                 action.payload.fields
             );
+
         default:
             return state;
     }
@@ -234,6 +239,32 @@ function _addOrUpdateCanvasElementWithChildElements(
     }
 
     newState = omit(newState, deletedChildElementGuids);
+
+    return newState;
+}
+
+/**
+ * Helper function to add a child element.  Will create and add the element
+ * to its parent as needed
+ *
+ * @private
+ */
+function _addChildElement(state: StoreState, parentGuid: Guid, childElement: ChildElement): object {
+    const newState = updateProperties(state);
+
+    newState[childElement.guid] = updateProperties(newState[childElement.guid], childElement);
+
+    let parentElement: CanvasElement = newState[parentGuid];
+    parentElement = updateProperties(parentElement, {
+        childReferences: [
+            ...parentElement.childReferences,
+            {
+                childReference: childElement.guid
+            }
+        ]
+    });
+
+    newState[parentGuid] = updateProperties(newState[parentGuid], parentElement);
 
     return newState;
 }

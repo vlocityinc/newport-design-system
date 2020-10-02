@@ -5,8 +5,8 @@ const eventName = 'addelement';
 interface AddElementEventDetail {
     elementType: string;
     elementSubtype?: string;
-    locationX: 0;
-    locationY: 0;
+    locationX?: 0;
+    locationY?: 0;
     actionType?: string;
     actionName?: string;
     prev?: string;
@@ -15,7 +15,7 @@ interface AddElementEventDetail {
     childIndex?: number;
 }
 export class AddElementEvent extends CustomEvent<AddElementEventDetail> {
-    constructor(detail) {
+    constructor(detail: AddElementEventDetail) {
         super(eventName, {
             bubbles: true,
             composed: true,

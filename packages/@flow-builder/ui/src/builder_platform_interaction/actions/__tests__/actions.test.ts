@@ -7,8 +7,9 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     UPDATE_VARIABLE_CONSTANT,
     REMOVE_LAST_CREATED_INLINE_RESOURCE,
-    ADD_STEPPED_STAGE_WITH_STEPS,
-    MODIFY_STEPPED_STAGE_WITH_STEPS
+    MODIFY_PARENT_WITH_CHILDREN,
+    ADD_PARENT_WITH_CHILDREN,
+    ADD_CHILD
 } from '../actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -48,7 +49,7 @@ describe('Actions', () => {
 
             const action = updateElement(payload);
 
-            expect(action.type).toEqual(MODIFY_STEPPED_STAGE_WITH_STEPS);
+            expect(action.type).toEqual(MODIFY_PARENT_WITH_CHILDREN);
         });
     });
 
@@ -78,7 +79,18 @@ describe('Actions', () => {
 
             const action = addElement(payload);
 
-            expect(action.type).toEqual(ADD_STEPPED_STAGE_WITH_STEPS);
+            expect(action.type).toEqual(ADD_PARENT_WITH_CHILDREN);
+            expect(action.payload).toEqual(payload);
+        });
+        it('handles add SteppedStageItem', () => {
+            const payload = {
+                elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM,
+                steppedStageItem: { x: 6 }
+            };
+
+            const action = addElement(payload);
+
+            expect(action.type).toEqual(ADD_CHILD);
             expect(action.payload).toEqual(payload);
         });
     });

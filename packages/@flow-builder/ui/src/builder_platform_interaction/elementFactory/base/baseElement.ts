@@ -383,7 +383,7 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     if (
         elementType !== ELEMENT_TYPE.OUTCOME &&
         elementType !== ELEMENT_TYPE.WAIT_EVENT &&
-        elementType !== ELEMENT_TYPE.STAGE_STEP
+        elementType !== ELEMENT_TYPE.STEPPED_STAGE_ITEM
     ) {
         throw new Error('baseChildElement should only be used for outcomes, wait events, and stage steps');
     } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {

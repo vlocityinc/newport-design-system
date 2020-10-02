@@ -112,7 +112,8 @@ import {
     createSteppedStageMetadataObject,
     createSteppedStageWithItems,
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
-    createItem,
+    getSteppedStageNodeData,
+    createSteppedStageItem,
     createSteppedStageWithItemReferences
     // TODO: Next app Process SteppedStage PR
     //    createPastedSteppedStage,
@@ -995,7 +996,9 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:screen',
             utilityIconName: 'utility:screen',
+            value: 'stepped stage',
             dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
+            dynamicNodeComponentSelector: getSteppedStageNodeData,
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.STEPPED_STAGE],
             maxConnections: 1,
             section: LABELS.flowInteractionComponentsLabel,
@@ -1028,20 +1031,23 @@ export const elementTypeToConfigMap = {
             flowToUi: createSteppedStageWithItemReferences
         }
     },
-    [ELEMENT_TYPE.STAGE_STEP]: {
+    [ELEMENT_TYPE.STEPPED_STAGE_ITEM]: {
         // A step in a stage is not a canvas element, but is a first class element
-        descriptor: 'builder_platform_interaction:stageStepEditor',
+        descriptor: 'builder_platform_interaction:steppedStageItemEditor',
         nodeConfig: {
             iconName: 'standard:stagestep',
             utilityIconName: 'utility:stagestep'
         },
         labels: {
-            singular: LABELS.stageStepSingularLabel,
-            plural: LABELS.stageStepPluralLabel
+            singular: LABELS.steppedStageItemSingularLabel,
+            plural: LABELS.steppedStageItemPluralLabel,
+            leftPanel: LABELS.steppedStageItemComponentLabel,
+            newModal: LABELS.newSteppedStageItemLabel,
+            editModal: LABELS.editSteppedStageItemLabel
         },
         isChildElement: true,
         factory: {
-            propertyEditor: createItem
+            propertyEditor: createSteppedStageItem
         }
     },
     [ELEMENT_TYPE.DEFAULT]: {

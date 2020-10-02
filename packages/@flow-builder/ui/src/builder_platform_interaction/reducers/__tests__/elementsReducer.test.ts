@@ -24,7 +24,8 @@ import {
     ADD_WAIT_WITH_WAIT_EVENTS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     ADD_SCREEN_WITH_FIELDS,
-    MODIFY_SCREEN_WITH_FIELDS
+    MODIFY_SCREEN_WITH_FIELDS,
+    ADD_CHILD
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -1739,6 +1740,52 @@ describe('elements-reducer', () => {
                 payload
             });
             expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Add Child Element', () => {
+        const oldElements = { guid1: getElement('guid1', 'ass1') };
+        const addedElements = { guid2: getElement('guid2', 'ass2') };
+
+        const payload = {
+            element: getElement('guid2', 'ass2'),
+            parentGuid: oldElements.guid1.guid
+        };
+
+        it('for a parent with no existing children adds the child reference', () => {
+            oldElements.guid1.childReferences = [];
+
+            const newElementState = elementReducer(oldElements, {
+                type: ADD_CHILD,
+                payload
+            });
+
+            const parent = newElementState.guid1;
+            expect(parent.childReferences).toHaveLength(1);
+            expect(parent.childReferences[0]).toEqual({
+                childReference: payload.element.guid
+            });
+
+            expect(newElementState[payload.element.guid]).toEqual(addedElements.guid2);
+        });
+
+        it('for a parent with existing children adds the child reference', () => {
+            oldElements.guid1.childReferences = [{ childReference: 'guid3' }];
+
+            const newElementState = elementReducer(oldElements, {
+                type: ADD_CHILD,
+                payload
+            });
+
+            const parent = newElementState.guid1;
+            expect(parent.childReferences).toHaveLength(2);
+
+            expect(parent.childReferences[0]).toEqual(oldElements.guid1.childReferences[0]);
+            expect(parent.childReferences[1]).toEqual({
+                childReference: payload.element.guid
+            });
+
+            expect(newElementState[payload.element.guid]).toEqual(addedElements.guid2);
         });
     });
 

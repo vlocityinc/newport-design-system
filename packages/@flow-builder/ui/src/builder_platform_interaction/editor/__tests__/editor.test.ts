@@ -876,6 +876,26 @@ describe('property editor', () => {
             });
         });
 
+        it('addnodeevent for child element dispatches addElement with parentGuid', async () => {
+            expect.assertions(4);
+            expect(rightPanel).not.toBeNull();
+
+            const payload = {
+                elementType: 'foo',
+                parent: 'p',
+                element: { a: 1 }
+            };
+            const event = new AddNodeEvent(payload);
+
+            await ticks(1);
+            rightPanel.dispatchEvent(event);
+
+            expect(getElementForStore).toHaveBeenCalledWith(payload);
+            expect(addElement).toHaveBeenCalledWith(payload);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                value: payload
+            });
+        });
         it('updatenodeevent dispatches updateElement to the store', async () => {
             expect.assertions(4);
             expect(rightPanel).not.toBeNull();

@@ -14,8 +14,7 @@
             "builder_platform_interaction/sharedUtils": [
                 "../shared-utils/dist/types/index.d.js"
             ],
-             "builder_platform_interaction/flcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/flcEvents/flcEvents.ts"],
-                        "builder_platform_interaction/SteppedStageItemEditor": ["./src/builder_platform_interaction/SteppedStageItemEditor/SteppedStageItemEditor.ts"],
+            "builder_platform_interaction/flcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/flcEvents/flcEvents.ts"],
             "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
             "builder_platform_interaction/apexPluginEditor": ["./src/builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"],
@@ -205,6 +204,7 @@
             "builder_platform_interaction/stepEditor": ["./src/builder_platform_interaction/stepEditor/stepEditor.ts"],
             "builder_platform_interaction/steppedStageEditor": ["./src/builder_platform_interaction/steppedStageEditor/steppedStageEditor.ts"],
             "builder_platform_interaction/steppedStageNode": ["./src/builder_platform_interaction/steppedStageNode/steppedStageNode.ts"],
+            "builder_platform_interaction/steppedStageItemEditor": ["./src/builder_platform_interaction/steppedStageItemEditor/steppedStageItemEditor.ts"],
             "builder_platform_interaction/storeLib": ["./src/builder_platform_interaction/storeLib/storeLib.ts"],
             "builder_platform_interaction/storeUtils": ["./src/builder_platform_interaction/storeUtils/storeUtils.ts"],
             "builder_platform_interaction/subflowEditor": ["./src/builder_platform_interaction/subflowEditor/subflowEditor.ts"],

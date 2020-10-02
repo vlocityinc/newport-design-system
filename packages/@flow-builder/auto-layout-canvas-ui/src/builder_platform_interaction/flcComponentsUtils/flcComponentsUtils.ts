@@ -542,7 +542,7 @@ function getFlcCompoundNodeData(nodeInfo: NodeRenderInfo): object {
  */
 function getFlcNodeData(nodeInfo: NodeRenderInfo) {
     const { guid, menuOpened } = nodeInfo;
-    const dynamicNodeComponent = nodeInfo.metadata.dynamicNodeComponent;
+    const { dynamicNodeComponent, dynamicNodeComponentSelector } = nodeInfo.metadata;
 
     const className = classSet({
         [CLASS_MENU_OPENED]: menuOpened,
@@ -554,7 +554,8 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
         nodeInfo,
         className,
         style: '',
-        dynamicNodeComponent
+        dynamicNodeComponent,
+        dynamicNodeComponentSelector
     };
 }
 

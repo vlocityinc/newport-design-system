@@ -2,14 +2,20 @@
 import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import {
     createSteppedStageWithItems,
-    createItem,
+    createSteppedStageItem,
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
     createSteppedStageWithItemReferences,
-    createSteppedStageMetadataObject
+    createSteppedStageMetadataObject,
+    getSteppedStageNodeData
 } from '../steppedStage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
+
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
+commonUtils.format = jest
+    .fn()
+    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -39,7 +45,7 @@ getElementByGuid.mockImplementation((guid) => {
         return null;
     } else if (guid === existingSteppedStageGuid) {
         return existingSteppedStage;
-    } else if (guid === existingSteppedStageWithChildren) {
+    } else if (guid === existingSteppedStageWithChildren.guid) {
         return existingSteppedStageWithChildren;
     }
 
@@ -87,9 +93,7 @@ describe('SteppedStage', () => {
             it('includes items for all item references present', () => {
                 const childReferences = [{ childReference: 'a' }, { childReference: 'b' }, { childReference: 'c' }];
 
-                const stage = createSteppedStageWithItems({
-                    childReferences
-                });
+                const stage = createSteppedStageWithItems({ childReferences });
 
                 expect(stage.steps).toHaveLength(3);
                 expect(stage.steps[0].guid).toEqual(childReferences[0].childReference);
@@ -99,17 +103,17 @@ describe('SteppedStage', () => {
         });
     });
 
-    describe('createItem', () => {
+    describe('createSteppedStageItem', () => {
         beforeEach(() => {
             baseChildElement.mockClear();
         });
-        it('calls baseChildElement with elementType = STAGE_STEP', () => {
-            createItem();
-            expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.STAGE_STEP);
+        it('calls baseChildElement with elementType = STEPPED_STAGE_ITEM', () => {
+            createSteppedStageItem({});
+            expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.STEPPED_STAGE_ITEM);
         });
 
         it('calls baseChildElement with an empty object by default', () => {
-            createItem();
+            createSteppedStageItem({});
             expect(baseChildElement.mock.calls[0][0]).toEqual({});
         });
 
@@ -118,9 +122,24 @@ describe('SteppedStage', () => {
                 label: 'foo'
             };
 
-            createItem(mockItem);
+            createSteppedStageItem(mockItem);
 
             expect(baseChildElement.mock.calls[0][0]).toEqual(mockItem);
+        });
+
+        it('uses the default name and label if none provided', () => {
+            const mockItem = {
+                parent: existingSteppedStageWithChildren.guid
+            };
+
+            const item = createSteppedStageItem(mockItem);
+
+            expect(getElementByGuid).toHaveBeenCalledWith(existingSteppedStageWithChildren.guid);
+            expect(commonUtils.format).toHaveBeenCalledWith(
+                'FlowBuilderElementConfig.defaultSteppedStageItemName',
+                existingSteppedStageWithChildren.childReferences.length + 1
+            );
+            expect(item.label).toEqual('FlowBuilderElementConfig.defaultSteppedStageItemName(3)');
         });
     });
 
@@ -267,5 +286,18 @@ describe('SteppedStage', () => {
                 expect(steppedStage.steps[2].guid).toEqual(steppedStageFromStore.childReferences[2].childReference);
             });
         });
+    });
+
+    describe('getSteppedStageNodeData', () => {
+        const data = getSteppedStageNodeData(existingSteppedStageWithChildren.guid);
+        expect(data.steps).toHaveLength(2);
+
+        expect(getElementByGuid).toHaveBeenCalledTimes(3);
+        expect(getElementByGuid.mock.calls[1][0]).toEqual(
+            existingSteppedStageWithChildren.childReferences[0].childReference
+        );
+        expect(getElementByGuid.mock.calls[2][0]).toEqual(
+            existingSteppedStageWithChildren.childReferences[1].childReference
+        );
     });
 });

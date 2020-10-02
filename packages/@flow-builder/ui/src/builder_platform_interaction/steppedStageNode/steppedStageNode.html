@@ -3,7 +3,7 @@
         Stage
         <div>
             <template for:each={steps} for:item="step">
-                <div key={step}>{step}</div>
+                <div key={step.name}>{step.label}</div>
             </template>
 
             <div onclick={handleAddStep}>

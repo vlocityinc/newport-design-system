@@ -146,6 +146,7 @@ import {
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
+import { FlowElement, Guid } from 'builder_platform_interaction/flowModel';
 
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
 
@@ -175,6 +176,11 @@ const EDITOR_COMPONENT_CONFIGS = {
     RIGHT_PANEL_CONFIG: 'rightPanelConfig'
 };
 
+type NodeWithParent = {
+    elementType: ELEMENT_TYPE;
+    element: FlowElement;
+    parentGuid: Guid;
+};
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -1464,8 +1470,9 @@ export default class Editor extends LightningElement {
                 });
 
                 // For a panel, the element is created upon opening the property editor
+                // the parent guid is also passed in if a child element is being created
                 if (this.usePanelForPropertyEditor) {
-                    this.deMutateAndAddNodeCollection(node);
+                    this.deMutateAndAddNodeCollection(node, parent);
                 }
 
                 return {
@@ -1922,22 +1929,30 @@ export default class Editor extends LightningElement {
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
-     * @param {object} node - node object for the particular property editor update
      */
-    deMutateAndAddNodeCollection = (node) => {
+    deMutateAndAddNodeCollection = (node: FlowElement, parentGuid: Guid) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
-        const nodeForStore = getElementForStore(node);
+        const nodeForStore: FlowElement = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
-        this.dispatchAddElement(nodeForStore);
+
+        let payload: FlowElement | NodeWithParent = nodeForStore;
+
+        if (parentGuid) {
+            payload = {
+                elementType: nodeForStore.elementType,
+                parentGuid,
+                element: nodeForStore
+            } as NodeWithParent;
+        }
+        this.dispatchAddElement(payload);
     };
 
     /**
      * Dispatch add element event and log it
-     * @param {Object} element - element to create
      */
-    dispatchAddElement(element) {
+    dispatchAddElement(element: FlowElement | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
         logInteraction(`add-node-of-type-${element.elementType}`, 'modal', null, 'click');
     }

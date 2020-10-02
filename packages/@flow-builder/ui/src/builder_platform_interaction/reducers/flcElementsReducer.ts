@@ -14,7 +14,7 @@ import {
     ADD_FAULT,
     DELETE_FAULT,
     FLC_CREATE_CONNECTION,
-    ADD_STEPPED_STAGE_WITH_STEPS
+    ADD_PARENT_WITH_CHILDREN
 } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
@@ -98,7 +98,7 @@ export default function flcElementsReducer(state = {}, action) {
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_END_ELEMENT:
         case ADD_WAIT_WITH_WAIT_EVENTS:
-        case ADD_STEPPED_STAGE_WITH_STEPS:
+        case ADD_PARENT_WITH_CHILDREN:
             state = _addCanvasElement(state, action);
             break;
         case MODIFY_WAIT_WITH_WAIT_EVENTS:

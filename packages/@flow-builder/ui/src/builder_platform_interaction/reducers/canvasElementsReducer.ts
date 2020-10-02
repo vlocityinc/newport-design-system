@@ -9,7 +9,7 @@ import {
     ADD_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-    ADD_STEPPED_STAGE_WITH_STEPS
+    ADD_PARENT_WITH_CHILDREN
 } from 'builder_platform_interaction/actions';
 import { addItem } from 'builder_platform_interaction/dataMutationLib';
 
@@ -29,7 +29,7 @@ export default function canvasElementsReducer(state = [], action) {
             return [...state, ...Object.values(action.payload.canvasElementGuidMap)];
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
-        case ADD_STEPPED_STAGE_WITH_STEPS:
+        case ADD_PARENT_WITH_CHILDREN:
             return addItem(state, action.payload.canvasElement.guid);
         case ADD_START_ELEMENT:
         case ADD_CANVAS_ELEMENT:

@@ -4,6 +4,8 @@ import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from 
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ChildElement, CanvasElement, ChildReference, Guid } from 'builder_platform_interaction/flowModel';
 import { createConnectorObjects } from './connector';
+import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { LABELS } from './elementFactoryLabels';
 
 // TODO: should extend the same base class as other non-canvas elements
 export type SteppedStageItem = ChildElement;
@@ -21,7 +23,7 @@ export function createSteppedStageWithItems(existingStage: SteppedStage): Steppe
     const { childReferences = [] } = existingStage;
 
     newStage.steps = childReferences.map((childReference: ChildReference) => {
-        return createItem(getElementByGuid(childReference.childReference));
+        return createSteppedStageItem(getElementByGuid(childReference.childReference));
     });
 
     newStage.maxConnections = 1;
@@ -102,7 +104,7 @@ function createSteppedStageItemsWithReferences(
     let childReferences: ChildReference[] = [];
 
     for (let i = 0; i < originalItems.length; i++) {
-        const item: ChildElement = createItem(originalItems[i]);
+        const item: SteppedStageItem = createSteppedStageItem(originalItems[i]);
         items = [...items, item];
         childReferences = updateItemReferences(childReferences, item);
     }
@@ -161,8 +163,40 @@ export function createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEdit
     };
 }
 
-export function createItem(step: { label?: string; name?: string; guid?: Guid } = {}): ChildElement {
-    const childElement = baseChildElement(step, ELEMENT_TYPE.STAGE_STEP);
+type SteppedStageNodeData = {
+    steps: SteppedStageItem[];
+};
+
+/**
+ * Selector callback used for the steppedStageNode to provide data needed
+ * for dynamic rendering on the canvas
+ * @param guid
+ */
+export function getSteppedStageNodeData(guid: Guid): SteppedStageNodeData {
+    const steppedStage: SteppedStage = getElementByGuid(guid);
+
+    return {
+        steps: steppedStage.childReferences.map(
+            (ref: ChildReference): SteppedStageItem => {
+                return getElementByGuid(ref.childReference);
+            }
+        )
+    };
+}
+
+export function createSteppedStageItem(step: {
+    label?: string;
+    name?: string;
+    guid?: Guid;
+    parent?: Guid;
+}): SteppedStageItem {
+    // Default label
+    if (!step.label && step.parent) {
+        const steppedStage: SteppedStage = getElementByGuid(step.parent);
+        step.label = format(LABELS.defaultSteppedStageItemName, steppedStage.childReferences.length + 1);
+        step.name = sanitizeDevName(step.label);
+    }
+    const childElement = baseChildElement(step, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
 
     return childElement;
 }
