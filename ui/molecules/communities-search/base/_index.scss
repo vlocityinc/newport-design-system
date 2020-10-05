@@ -1,3 +1,6 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
 /**
  * @summary Initializes a footer for community with more than one section that lists label / action pairs
  *
@@ -12,6 +15,8 @@
 
     .nds-input {
         border-bottom: none;
+        font-family: SalesforceSans-Bold;
+        color: #16325C;
     }
 
     .nds-button_brand {
@@ -41,7 +46,7 @@
 @media screen and (max-width: 76rem) {
 
     .nds-communities-search {
-
+        
         .nds-button_icon {
             display: block;
         }

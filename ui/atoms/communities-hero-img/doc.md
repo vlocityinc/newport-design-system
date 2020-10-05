@@ -1,3 +1,3 @@
-# Card Carousel
+# Communities Hero Img
 
-A cool blue carousel.
+Hero Image Used for Community Page.

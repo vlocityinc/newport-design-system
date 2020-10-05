@@ -1,0 +1,43 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a card for community
+ *
+ * @name nds-communities-card 
+ * @selector .nds-communities-card
+ * @modifier
+ */
+.nds-communities-card {
+
+    .nds-item:after {
+        height: 1rem;
+        border-radius: 0;
+        background-color: white;
+    }
+
+    .nds-item {
+        .nds-button {
+            padding-left: .5rem;
+            padding-right: .5rem;
+        }
+    }
+
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-list_horizontal {
+      display: flex;
+
+      .nds-item {
+        display: none;
+      }
+
+      .nds-item:last-child {
+        display: block;
+    }
+    
+    }
+
+}
+  

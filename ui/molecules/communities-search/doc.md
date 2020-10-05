@@ -1,3 +1,3 @@
-# Communities Footer
+# Communities Search
 
-A cool blue footer.
+A search component in communities has an input + search button that converts to search icon based on screen size.

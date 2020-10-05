@@ -1,3 +1,3 @@
-# Communities Footer
+# Communities Home Page
 
-A cool blue footer.
+An example of a community home page.
