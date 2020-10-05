@@ -1,3 +1,3 @@
-# Communities Header
+# Communities header
 
-A cool blue header.
+The header for a community.

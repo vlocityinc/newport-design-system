@@ -1,14 +1,34 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Selector to hide and show mobile hero img
+ *
+ * @name nds-hero-mobile 
+ * @selector .nds-hero-mobile
+ * @modifier
+ */
 .nds-hero-mobile {
-  display: none;
+    display: none;
 }
 
-@media screen and (max-width: 30rem) { 
+/**
+ * @summary Selector to hide and show desktop hero img
+ *
+ * @name nds-hero
+ * @selector .nds-hero
+ * @modifier
+ */
+.nds-hero {
+    width: 100%;
+}
 
-  .nds-hero {
-    display: none;
-  }
-  .nds-hero-mobile {
-    display: block;
-  }
-
+@media screen and (max-width: 30rem) {
+    .nds-hero {
+        display: none;
+    }
+    .nds-hero-mobile {
+        display: block;
+        width: 100%;
+    }
 }

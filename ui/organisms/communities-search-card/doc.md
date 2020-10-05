@@ -1,3 +1,3 @@
-# Communities Search
+# Communities Search Card
 
-A cool blue search.
+In communities - a combination of the card + search

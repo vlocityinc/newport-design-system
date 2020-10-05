@@ -1,0 +1,68 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a card for community
+ *
+ * @name nds-communities-card 
+ * @selector .nds-communities-card
+ * @modifier
+ */
+.nds-communities-card {
+    background: #0070d2;
+    color: $color-text-brand-primary;
+    padding: 4rem 8rem 4rem 8rem;
+    min-height: 2rem;
+
+    .nds-text-heading_large {
+        font-size: 3.5rem;
+        font-weight: 500;
+    }
+
+    .nds-text-heading_medium {
+        padding-bottom: 0.25rem;
+        font-weight: 500;
+        font-size: $font-size-9;
+    }
+    .nds-text-body_medium {
+        font-weight: 100;
+        font-size: $font-size-5;
+    }
+
+    .nds-text-link {
+        background-color: transparent;
+        border: transparent;
+    }
+
+    .nds-button__icon {
+        height: 1rem;
+        width: 1rem;
+        fill: white;
+        margin-bottom: 0.25rem;
+    }
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-communities-card {
+        display: block;
+        text-align: center;
+
+        .nds-text-heading_large {
+            font-size: 2.5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 30rem) {
+    .nds-communities-card {
+        padding: 2rem 1rem 2rem 1rem;
+
+        .nds-text-heading_large {
+            font-size: 2.25rem;
+        }
+
+        .nds-text-heading_medium {
+            font-size: $font-size-8;
+        }
+    }
+}

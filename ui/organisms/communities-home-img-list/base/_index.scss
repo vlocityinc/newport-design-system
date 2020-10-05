@@ -1,0 +1,35 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes list content in communities page
+ *
+ * @name nds-communities-page-content_list 
+ * @selector .nds-communities-page-content_list
+ * @modifier
+ */
+.nds-communities-page-content_list {
+    color: black;
+}
+
+@media screen and (max-width: 78rem) {
+    .nds-communities-page-content_list {
+        .nds-media {
+            display: block;
+            text-align: center;
+
+            .nds-media__body {
+                display: table-footer-group;
+            }
+
+            .nds-media__figure {
+                display: table-caption;
+                margin-bottom: 6rem;
+            }
+        }
+
+        .nds-media__figure_reverse {
+            margin: 0;
+        }
+    }
+}

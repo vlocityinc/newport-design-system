@@ -1,6 +1,19 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+
+/**
+ * @summary Initializes hero for community
+ *
+ * @name nds-communities-hero
+ * @selector .nds-communities-hero
+ * @modifier
+ */
 .nds-communities-hero {
-  .nds-text-heading_large {
-    font-size: 3.5rem;
-    font-weight: 500;
+
+    .nds-communities-card {
+      background: none;
+      z-index: 0;
+    }
+  
   }
-}

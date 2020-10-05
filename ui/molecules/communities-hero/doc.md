@@ -1,3 +1,3 @@
 # Communities Header
 
-A cool blue header.
+A communities header that is composed of a hero image + text.
