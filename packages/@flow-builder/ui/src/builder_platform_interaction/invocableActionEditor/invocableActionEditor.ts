@@ -396,7 +396,7 @@ export default class InvocableActionEditor extends LightningElement {
     get elementInfo() {
         const actionInfo = { apiName: '', type: 'Action' };
         if (this.actionCallNode) {
-            actionInfo.apiName = this.actionCallNode.actionName;
+            actionInfo.apiName = this.actionCallNode.name && this.actionCallNode.name.value;
         }
         return actionInfo;
     }

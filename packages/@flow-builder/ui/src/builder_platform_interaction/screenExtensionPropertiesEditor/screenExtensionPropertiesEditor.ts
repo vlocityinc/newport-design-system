@@ -162,7 +162,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     get elementInfo() {
         const screenInfo = { apiName: '', type: 'Screen' };
         if (this._field) {
-            screenInfo.apiName = this._field.extensionName && this._field.extensionName.value;
+            screenInfo.apiName = this._field.name && this._field.name.value;
         }
         return screenInfo;
     }

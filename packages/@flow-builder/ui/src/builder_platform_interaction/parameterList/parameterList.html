@@ -10,7 +10,7 @@
         automatic-output-variables={automaticOutputVariables}
     ></builder_platform_interaction-custom-property-editor>
     <template if:false={hasConfigurationEditor}>
-        <h3 if:false={emptyInputs} class="slds-text-heading_small slds-p-around_small inputHeader">
+        <h3 if:false={emptyInputs} class="slds-text-heading_small slds-p-vertical_small inputHeader">
             {inputHeader}
         </h3>
         <div class="slds-p-horizontal_small inputs">
@@ -42,9 +42,10 @@
         </div>
     </template>
     <div if:false={emptyOutputs}>
-        <!-- Advance Option selection checkbox -->
+        <!-- Advanced Option selection checkbox -->
         <builder_platform_interaction-use-advanced-options-checkbox
             if:true={automaticOutputHandlingSupported}
+            configuration-editor={configurationEditor}
             is-advanced-mode={isAdvancedMode}
         >
         </builder_platform_interaction-use-advanced-options-checkbox>

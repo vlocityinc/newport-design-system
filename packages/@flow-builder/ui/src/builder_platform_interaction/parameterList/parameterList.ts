@@ -243,8 +243,14 @@ export default class ParameterList extends LightningElement {
     /**
      * The CSS depends on the automatic output handling supports.
      * @return {string} "slds-p-left_xx-large slds-p-right_small" : if the automatic output handling is supported
+     * @return {string}
+     * "slds-p-left_x-large slds-p-right_small" : if custom property editor exists
+     * "slds-p-left_xx-large slds-p-right_small" : if the automatic output handling is supported
      */
     get cssDivAdvancedMode() {
+        if (this.hasConfigurationEditor) {
+            return 'slds-p-left_x-large slds-p-right_small';
+        }
         return this.automaticOutputHandlingSupported ? 'slds-p-left_xx-large slds-p-right_small' : 'slds-p-right_small';
     }
 

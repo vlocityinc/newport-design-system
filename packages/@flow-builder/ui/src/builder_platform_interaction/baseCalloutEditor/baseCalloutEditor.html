@@ -29,9 +29,9 @@
                 </h2>
             </div>
         </div>
-        <div class="slds-p-top_small slds-p-left_small inputs">
+        <div if:true={showTypeMappings} class="inputs">
             <!-- TODO: Move this into its own component -->
-            <ul if:true={showTypeMappings}>
+            <ul>
                 <h3 class="slds-text-heading_small slds-p-bottom_small inputHeader">
                     {labels.dataTypeMappingsHeader}
                 </h3>
@@ -56,7 +56,7 @@
                 </template>
             </ul>
         </div>
-        <div class="slds-p-top_small">
+        <div>
             <template if:false={hideParameters}>
                 <builder_platform_interaction-parameter-list
                     inputs={parameterListConfig.inputs}

@@ -35,6 +35,19 @@ export default class UseAdvancedOptionsCheckbox extends LightningElement {
     @api
     isAdvancedMode;
 
+    @api
+    configurationEditor;
+
+    hasConfigurationEditor() {
+        return !!this.configurationEditor;
+    }
+
+    get cssDivAdvancedMode() {
+        return this.hasConfigurationEditor()
+            ? 'slds-form_stacked slds-m-top_medium'
+            : 'slds-form_stacked slds-p-left_small';
+    }
+
     /**
      * Handles selection/deselection of 'Use Advanced Options' checkbox
      * @param {Object} event - event
