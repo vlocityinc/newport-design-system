@@ -29,8 +29,7 @@ import {
     typeMergeFieldInCombobox,
     getComboboxItems,
     typeReferenceOrValueInCombobox,
-    getComboboxGroupLabel,
-    expectCanSelectInCombobox
+    getComboboxGroupLabel
 } from '../comboboxTestUtils';
 import { createVariable } from 'builder_platform_interaction/elementFactory';
 import {
@@ -554,12 +553,14 @@ describe('Assignment Editor', () => {
         const itCanSelectInLhs = (lhs, expectedItem = {}) =>
             it(`can select [${lhs}] on lhs`, async () => {
                 const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                await expectCanSelectInCombobox(lhsCombobox, 'text', lhs, expectedItem);
+                await expect(lhsCombobox).canSelectInCombobox('text', lhs);
+                expect(lhsCombobox.value).toMatchObject(expectedItem);
             });
         const itCanSelectInRhs = (rhs, expectedItem = {}) =>
             it(`can select [${rhs}] on rhs`, async () => {
                 const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                await expectCanSelectInCombobox(rhsCombobox, 'text', rhs, expectedItem);
+                await expect(rhsCombobox).canSelectInCombobox('text', rhs);
+                expect(rhsCombobox.value).toMatchObject(expectedItem);
             });
         describe('groups', () => {
             it.each`

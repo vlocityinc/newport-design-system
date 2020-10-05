@@ -28,7 +28,7 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../comboboxTestUtils';
+import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../groupedComboboxTestUtils';
 import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,

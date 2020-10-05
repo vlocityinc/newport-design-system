@@ -31,15 +31,13 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { getLhsCombobox, getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
+import { selectComboboxItemBy, getComboboxItems, typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
 import {
-    selectComboboxItemBy,
-    getComboboxItems,
-    typeReferenceOrValueInCombobox,
+    getGroupedComboboxItemBy,
     expectCanBeTraversed,
     expectCannotBeTraversed,
     expectCannotBeSelected
-} from '../comboboxTestUtils';
-import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
+} from '../groupedComboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import {
     getResourceGroupedCombobox,

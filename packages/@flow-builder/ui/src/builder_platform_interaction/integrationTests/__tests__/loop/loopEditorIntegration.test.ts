@@ -22,7 +22,7 @@ import {
     textInputEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
-import { typeReferenceOrValueInCombobox, expectCanSelectInCombobox } from '../comboboxTestUtils';
+import { typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -49,6 +49,13 @@ jest.mock(
     '@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel',
     () => {
         return { default: 'Text' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
+    () => {
+        return { default: 'Current Item from Loop {0}' };
     },
     { virtual: true }
 );
@@ -480,11 +487,15 @@ describe('Loop Editor collection variable', () => {
     });
     it.each`
         collection                                                            | expectedItem
+        ${['stringCollectionVariable1']}                                      | ${{ displayText: '{!stringCollectionVariable1}' }}
+        ${['accountSObjectCollectionVariable']}                               | ${{ displayText: '{!accountSObjectCollectionVariable}' }}
+        ${['apexComplexTypeCollectionVariable']}                              | ${{ displayText: '{!apexComplexTypeCollectionVariable}' }}
         ${['Accounts from apexCall_anonymous_accounts']}                      | ${{ displayText: '{!apexCall_anonymous_accounts}' }}
         ${['Text Collection from apexCall_anonymous_strings']}                | ${{ displayText: '{!apexCall_anonymous_strings}' }}
         ${['apexComplexTypeTwoVariable', 'testOne', 'acctListField']}         | ${{ displayText: '{!apexComplexTypeTwoVariable.testOne.acctListField}' }}
         ${['Outputs from subflowAutomaticOutput', 'accountOutputCollection']} | ${{ displayText: '{!subflowAutomaticOutput.accountOutputCollection}' }}
     `('can select $collection as a collection variable', async ({ collection, expectedItem }) => {
-        await expectCanSelectInCombobox(collectionVariableCombobox, 'text', collection, expectedItem);
+        await expect(collectionVariableCombobox).canSelectInCombobox('text', collection);
+        expect(collectionVariableCombobox.value).toMatchObject(expectedItem);
     });
 });

@@ -12,19 +12,24 @@ import {
     splitStringBySeparator,
     isReference
 } from 'builder_platform_interaction/commonUtils';
-import { getGroupedComboboxGroupLabel, selectGroupedComboboxItemBy } from './groupedComboboxTestUtils';
+import {
+    getGroupedComboboxGroupLabel,
+    selectGroupedComboboxItemBy,
+    getSelectableGroupedComboboxItems
+} from './groupedComboboxTestUtils';
+import Combobox from 'builder_platform_interaction/combobox';
 
-export const getGroupedComboboxFromCombobox = (combobox) =>
+export const getGroupedComboboxFromCombobox = (combobox: Combobox) =>
     deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 
-export const typeLiteralValueInCombobox = async (combobox, value) => {
+export const typeLiteralValueInCombobox = async (combobox: Combobox, value: string) => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     groupedCombobox.dispatchEvent(textInputEvent(value));
     await ticks(50);
     groupedCombobox.dispatchEvent(blurEvent);
 };
 
-export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
+export const typeMergeFieldInCombobox = async (combobox: Combobox, mergeField: string) => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     const parts = splitStringBySeparator(removeCurlyBraces(mergeField));
     let promise = Promise.resolve();
@@ -47,7 +52,11 @@ export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
  * @param {boolean} [clickOnPill=false] - if true we click on the combobox pill switching to merge field notation
  * @returns {Promise<void>} fulfilled promise
  */
-export const typeReferenceOrValueInCombobox = async (combobox, referenceOrValue, clickOnPill = false) => {
+export const typeReferenceOrValueInCombobox = async (
+    combobox: Combobox,
+    referenceOrValue: string,
+    clickOnPill = false
+) => {
     if (clickOnPill) {
         await clickPill(combobox);
     }
@@ -58,69 +67,83 @@ export const typeReferenceOrValueInCombobox = async (combobox, referenceOrValue,
     }
 };
 
-export const getComboboxGroupLabel = (combobox, propertyName, propertyValue) => {
+export const getComboboxGroupLabel = (combobox: Combobox, propertyName: string, propertyValue: string) => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return getGroupedComboboxGroupLabel(groupedCombobox, propertyName, propertyValue);
 };
 
-export const selectComboboxItemBy = async (combobox, propertyName, propertyValues, { blur = true } = {}) => {
+export const selectComboboxItemBy = async (
+    combobox: Combobox,
+    propertyName: string,
+    propertyValues: string[],
+    { blur = true } = {}
+) => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return selectGroupedComboboxItemBy(groupedCombobox, propertyName, propertyValues, { blur });
 };
 
-export const getComboboxItems = (combobox) => {
+export const getSelectableComboboxItems = (combobox: Combobox) => {
+    const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
+    return getSelectableGroupedComboboxItems(groupedCombobox);
+};
+
+export const getComboboxItems = (combobox: Combobox) => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return groupedCombobox.items;
 };
 
-export const expectCanSelectInCombobox = async (combobox, propertyName, propertyValues, expectedItem = {}) => {
-    const selectedItem = await selectComboboxItemBy(combobox, propertyName, propertyValues, { blur: true });
-    expect(selectedItem).toBeDefined();
-    expect(combobox.errorMessage).toBeNull();
-    expect(selectedItem).toMatchObject(expectedItem);
+// Used by comboboxMatchers.canSelectInCombobox
+const getComboboxValuesPath = (combobox: Combobox, propertyName: string) => {
+    let value = combobox.value;
+    if (typeof value === 'string') {
+        return value;
+    }
+    const result: any[] = [];
+    do {
+        result.unshift(value[propertyName]);
+        value = value.parent;
+    } while (value);
+    return result;
 };
 
-const checkHasNext = (selectedItem, expectedHasNext) => {
-    return !expectedHasNext
-        ? !selectedItem.rightIconName || selectedItem.rightIconName === ''
-        : selectedItem.rightIconName === 'utility:chevronright';
-};
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace, no-redeclare
+    namespace jest {
+        interface Matchers<R> {
+            canSelectInCombobox(propertyName: string, propertyValues: string[]): CustomMatcherResult;
+        }
+    }
+}
 
-/**
- * Verify that given propertyName property values are selectable in the given combobox and that they can be traversed (i.e. they have next value)
- * @param {Object} combobox a grouped combobox
- * @param {String} propertyName the name of the property propertyValues correspond to
- * @param {Array} propertyValues an array of value that correspond to propertyName of the menu items (e.g. ['myTraversableProperty','nextValue'])
- */
-export const expectCanBeTraversed = async (combobox, propertyName, propertyValues) => {
-    const selectedItem = await selectGroupedComboboxItemBy(combobox, propertyName, propertyValues, { blur: false });
-
-    expect(selectedItem).toBeDefined();
-    expect(checkHasNext(selectedItem, true)).toBe(true);
-};
-
-/**
- * Verify that given propertyName property values are selectable in the given combobox and that they cannot be traversed (i.e. they do not have next value)
- * @param {Object} combobox a grouped combobox
- * @param {String} propertyName the name of the property propertyValues correspond to
- * @param {Array} propertyValues an array of value that correspond to propertyName of the menu items (e.g. ['myTraversableProperty','nextValue'])
- */
-export const expectCannotBeTraversed = async (combobox, propertyName, propertyValues) => {
-    const selectedItem = await selectGroupedComboboxItemBy(combobox, propertyName, propertyValues, { blur: false });
-
-    expect(selectedItem).toBeDefined();
-    expect(checkHasNext(selectedItem, false)).toBe(true);
-};
-
-/**
- * Verify that given propertyName property values are not selectable in the given combobox
- * @param {Object} combobox a grouped combobox
- * @param {String} propertyName the name of the property propertyValues correspond to
- * @param {Array} propertyValues an array of value that correspond to propertyName of the menu items (e.g. ['myTraversableProperty','nextValue'])
- */
-export const expectCannotBeSelected = async (combobox, propertyName, propertyValues) => {
-    const itemNotToBeSelected = await selectGroupedComboboxItemBy(combobox, propertyName, propertyValues, {
-        blur: false
-    });
-    expect(itemNotToBeSelected).toBeUndefined();
-};
+expect.extend({
+    async canSelectInCombobox(combobox: Combobox, propertyName: string, propertyValues: string[]) {
+        combobox.value = '';
+        const selectedItem = await selectComboboxItemBy(combobox, propertyName, propertyValues, { blur: false });
+        if (selectedItem === undefined) {
+            const comboboxValues = getComboboxValuesPath(combobox, propertyName);
+            const selectableComboboxItems = getSelectableComboboxItems(combobox).map((item) => item[propertyName]);
+            return {
+                message: () =>
+                    `Expected ${this.utils.stringify(
+                        propertyValues
+                    )} to be selectable in the combobox. Selectable combobox items` +
+                    (comboboxValues !== '' ? ` from ${this.utils.stringify(comboboxValues)}` : '') +
+                    ` are ${this.utils.stringify(selectableComboboxItems)}`,
+                pass: false
+            };
+        }
+        if (!this.isNot && combobox.errorMessage != null) {
+            return {
+                message: () =>
+                    `Expected ${this.utils.stringify(
+                        propertyValues
+                    )} to be selectable in the combobox but there is an error message : '${combobox.errorMessage}'`,
+                pass: false
+            };
+        }
+        return {
+            message: () => `Expected ${this.utils.stringify(propertyValues)} not to be selectable in the combobox`,
+            pass: true
+        };
+    }
+});

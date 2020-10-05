@@ -35,14 +35,14 @@ import {
     getEntityResourcePicker,
     getRecordStoreOption
 } from './cludEditorTestUtils';
-import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
-import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
+    getGroupedComboboxItemBy,
     expectCanBeTraversed,
     expectCannotBeTraversed,
-    expectCannotBeSelected,
-    selectComboboxItemBy
-} from '../comboboxTestUtils';
+    expectCannotBeSelected
+} from '../groupedComboboxTestUtils';
+import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
+import { selectComboboxItemBy } from '../comboboxTestUtils';
 import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,

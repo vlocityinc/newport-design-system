@@ -9,13 +9,8 @@ import { setupState, resetState, loadFlow } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
-import {
-    typeReferenceOrValueInCombobox,
-    expectCanSelectInCombobox,
-    expectCanBeTraversed,
-    expectCannotBeSelected,
-    expectCannotBeTraversed
-} from '../comboboxTestUtils';
+import { typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
+import { expectCanBeTraversed, expectCannotBeSelected, expectCannotBeTraversed } from '../groupedComboboxTestUtils';
 
 const getLHSGroupedCombobox = (combobox) =>
     combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
@@ -81,7 +76,8 @@ describe('Decision Editor', () => {
                         it(`can select [${lhs}] on lhs`, async () => {
                             const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                             lhsCombobox.value = null;
-                            await expectCanSelectInCombobox(lhsCombobox, 'text', lhs, expectedItem);
+                            await expect(lhsCombobox).canSelectInCombobox('text', lhs);
+                            expect(lhsCombobox.value).toMatchObject(expectedItem);
                         });
                     describe('apex variables', () => {
                         itCanSelectInLhs(['apexComplexTypeVariable', 'acct'], {
