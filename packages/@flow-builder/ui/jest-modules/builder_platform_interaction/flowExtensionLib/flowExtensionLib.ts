@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as extensions from 'mock/flowExtensionsData';
 
 const flowExtensionLib = jest.requireActual('builder_platform_interaction/flowExtensionLib');

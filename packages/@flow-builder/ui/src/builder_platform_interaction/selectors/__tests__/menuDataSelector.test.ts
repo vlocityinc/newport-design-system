@@ -116,6 +116,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/subflowsLib', () => require('builder_platform_interaction_mocks/subflowsLib'));
+
 describe('menuDataSelector', () => {
     const STORE_INSTANCE = {
         elements: {
@@ -585,7 +587,34 @@ describe('isOrCanContainSelector', () => {
                 'loopOnApexAutoOutput',
                 'opportunitySObjectCollectionVariable',
                 'stringCollectionVariable1',
-                'stringCollectionVariable2'
+                'stringCollectionVariable2',
+                'subflowAutomaticOutput'
+            ]);
+        });
+        it('returns collection and object that contain a collection with allowTraversal undefined', () => {
+            const result = isOrCanContainSelector({ isCollection: true })(flowWithAllElementsUIModel);
+
+            expect(toSortedNames(result)).toEqual([
+                'accountSObjectCollectionVariable',
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_anonymous_accounts',
+                'apexCall_anonymous_apex_collection',
+                'apexCall_anonymous_strings',
+                'apexComplexTypeCollectionVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'apexSampleCollectionVariable',
+                'caseSObjectCollectionVariable',
+                'dateCollectionVariable',
+                'getAccountsAutomaticWithFieldsAndFilters',
+                'lightningCompWithAccountsOutput',
+                'lookupRecordCollectionAutomaticOutput',
+                'loopOnApexAutoOutput',
+                'opportunitySObjectCollectionVariable',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2',
+                'subflowAutomaticOutput'
             ]);
         });
         it('returns collection and object that contain a collection of given entity name with allowTraversal true', () => {
@@ -603,7 +632,8 @@ describe('isOrCanContainSelector', () => {
                 'getAccountsAutomaticWithFieldsAndFilters',
                 'lightningCompWithAccountsOutput',
                 'lookupRecordCollectionAutomaticOutput',
-                'loopOnApexAutoOutput'
+                'loopOnApexAutoOutput',
+                'subflowAutomaticOutput'
             ]);
         });
         it('returns collection and objects that contain a collection of given dataType with allowTraversal true', () => {
@@ -728,7 +758,8 @@ describe('isOrCanContainSelector', () => {
                 'loopOnLocalActionSobjectCollInApexAutoOutput',
                 'loopOnNestedApexTypeAutoOutput',
                 'loopOnScreenCompSObjectCollAutoOutput',
-                'loopOnSobjectCollectionInApexTypeAutoOutput'
+                'loopOnSobjectCollectionInApexTypeAutoOutput',
+                'subflowAutomaticOutput'
             ]);
         });
         it('returns single values and object that contain a single value of given dataType with allowTraversal true', () => {
@@ -758,6 +789,7 @@ describe('isOrCanContainSelector', () => {
                 'recordChoiceSet',
                 'stringConstant',
                 'stringVariable',
+                'subflowAutomaticOutput',
                 'textFormula',
                 'textTemplate1',
                 'textTemplate2',

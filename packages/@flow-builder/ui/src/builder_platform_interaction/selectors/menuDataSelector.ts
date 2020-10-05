@@ -243,7 +243,7 @@ const getCanContainElements = (elements, retrieveOptions) => {
  * @param {Object} a requirements on the element (e.g. isCollection, dataType, createable/queryable/deleteable/queryable, ...)
  */
 export const canElementContain = (element, retrieveOptions) => {
-    if (retrieveOptions && (retrieveOptions.dataType === 'SObject' || retrieveOptions.entityName)) {
+    if (retrieveOptions && (retrieveOptions.dataType === FLOW_DATA_TYPE.SOBJECT.value || retrieveOptions.entityName)) {
         return canElementContainSObject(element, retrieveOptions);
     }
     const filtered = getCanContainElements({ element }, retrieveOptions);
@@ -263,21 +263,23 @@ const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions) => {
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... elements, elements of a given data type etc...
  */
 export const isOrCanContainSelector = (retrieveOptions: {
-    isCollection?: any;
-    dataType: any;
+    isCollection?: boolean;
+    dataType: string;
     sObjectCollectionCriterion: any;
-    entityName: any;
-    allowTraversal?: any;
-    elementType: any;
+    entityName: string;
+    allowTraversal?: boolean;
+    elementType: string;
 }) => {
-    if (retrieveOptions.dataType === 'SObject' || retrieveOptions.entityName) {
-        return retrieveOptions.allowTraversal === undefined || retrieveOptions.allowTraversal
-            ? isOrCanContainsObjectOrSObjectCollectionSelector(retrieveOptions)
+    const clonedOptions = { ...retrieveOptions };
+    clonedOptions.allowTraversal = retrieveOptions.allowTraversal === undefined ? true : retrieveOptions.allowTraversal;
+    if (clonedOptions.dataType === FLOW_DATA_TYPE.SOBJECT.value || clonedOptions.entityName) {
+        return clonedOptions.allowTraversal === undefined || clonedOptions.allowTraversal
+            ? isOrCanContainsObjectOrSObjectCollectionSelector(clonedOptions)
             : createSelector([elementsSelector], (elements) =>
-                  getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions)
+                  getSObjectOrSObjectCollectionByEntityElements(elements, clonedOptions)
               );
     }
-    return createSelector([elementsSelector], (elements) => getCanContainElements(elements, retrieveOptions));
+    return createSelector([elementsSelector], (elements) => getCanContainElements(elements, clonedOptions));
 };
 
 /**

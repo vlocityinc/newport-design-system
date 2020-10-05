@@ -52,6 +52,13 @@ jest.mock(
     },
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText',
+    () => {
+        return { default: 'Outputs from {0}' };
+    },
+    { virtual: true }
+);
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -465,15 +472,18 @@ describe('Loop Editor collection variable', () => {
         ${'{!apexComplexTypeTwoVariable.testOne.acctListField}'} | ${null}
         ${'{!apexComplexTypeTwoVariable.testOne.acct}'}          | ${'FlowBuilderCombobox.genericErrorMessage'}
         ${'{!apexComplexTypeTwoVariable}'}                       | ${'FlowBuilderCombobox.genericErrorMessage'}
+        ${'{!subflowAutomaticOutput.accountOutputCollection}'}   | ${null}
+        ${'{!subflowAutomaticOutput.inputOutput2}'}              | ${'FlowBuilderCombobox.genericErrorMessage'}
     `('error for "$collection should be : $expectedErrorMessage', async ({ collection, expectedErrorMessage }) => {
         await typeReferenceOrValueInCombobox(collectionVariableCombobox, collection);
         expect(collectionVariableCombobox.errorMessage).toEqual(expectedErrorMessage);
     });
     it.each`
-        collection                                                    | expectedItem
-        ${['Accounts from apexCall_anonymous_accounts']}              | ${{ displayText: '{!apexCall_anonymous_accounts}' }}
-        ${['Text Collection from apexCall_anonymous_strings']}        | ${{ displayText: '{!apexCall_anonymous_strings}' }}
-        ${['apexComplexTypeTwoVariable', 'testOne', 'acctListField']} | ${{ displayText: '{!apexComplexTypeTwoVariable.testOne.acctListField}' }}
+        collection                                                            | expectedItem
+        ${['Accounts from apexCall_anonymous_accounts']}                      | ${{ displayText: '{!apexCall_anonymous_accounts}' }}
+        ${['Text Collection from apexCall_anonymous_strings']}                | ${{ displayText: '{!apexCall_anonymous_strings}' }}
+        ${['apexComplexTypeTwoVariable', 'testOne', 'acctListField']}         | ${{ displayText: '{!apexComplexTypeTwoVariable.testOne.acctListField}' }}
+        ${['Outputs from subflowAutomaticOutput', 'accountOutputCollection']} | ${{ displayText: '{!subflowAutomaticOutput.accountOutputCollection}' }}
     `('can select $collection as a collection variable', async ({ collection, expectedItem }) => {
         await expectCanSelectInCombobox(collectionVariableCombobox, 'text', collection, expectedItem);
     });
