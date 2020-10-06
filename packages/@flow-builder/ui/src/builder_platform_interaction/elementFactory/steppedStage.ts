@@ -163,25 +163,19 @@ export function createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEdit
     };
 }
 
-type SteppedStageNodeData = {
-    steps: SteppedStageItem[];
-};
-
 /**
  * Selector callback used for the steppedStageNode to provide data needed
  * for dynamic rendering on the canvas
  * @param guid
  */
-export function getSteppedStageNodeData(guid: Guid): SteppedStageNodeData {
+export function getSteps(guid: Guid): SteppedStageItem[] {
     const steppedStage: SteppedStage = getElementByGuid(guid);
 
-    return {
-        steps: steppedStage.childReferences.map(
-            (ref: ChildReference): SteppedStageItem => {
-                return getElementByGuid(ref.childReference);
-            }
-        )
-    };
+    return steppedStage.childReferences.map(
+        (ref: ChildReference): SteppedStageItem => {
+            return getElementByGuid(ref.childReference);
+        }
+    );
 }
 
 export function createSteppedStageItem(step: {

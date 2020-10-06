@@ -112,7 +112,7 @@ import {
     createSteppedStageMetadataObject,
     createSteppedStageWithItems,
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
-    getSteppedStageNodeData,
+    getSteps,
     createSteppedStageItem,
     createSteppedStageWithItemReferences
     // TODO: Next app Process SteppedStage PR
@@ -998,7 +998,7 @@ export const elementTypeToConfigMap = {
             utilityIconName: 'utility:screen',
             value: 'stepped stage',
             dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
-            dynamicNodeComponentSelector: getSteppedStageNodeData,
+            dynamicNodeComponentSelector: getSteps,
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.STEPPED_STAGE],
             maxConnections: 1,
             section: LABELS.flowInteractionComponentsLabel,

@@ -6,7 +6,7 @@ import {
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
     createSteppedStageWithItemReferences,
     createSteppedStageMetadataObject,
-    getSteppedStageNodeData
+    getSteps
 } from '../steppedStage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
@@ -288,9 +288,9 @@ describe('SteppedStage', () => {
         });
     });
 
-    describe('getSteppedStageNodeData', () => {
-        const data = getSteppedStageNodeData(existingSteppedStageWithChildren.guid);
-        expect(data.steps).toHaveLength(2);
+    describe('getSteps', () => {
+        const data = getSteps(existingSteppedStageWithChildren.guid);
+        expect(data).toHaveLength(2);
 
         expect(getElementByGuid).toHaveBeenCalledTimes(3);
         expect(getElementByGuid.mock.calls[1][0]).toEqual(

@@ -18,15 +18,27 @@ enum ConditionOptions {
 export default class FlcNode extends LightningElement {
     _nodeInfo;
 
+    private dynamicNodeConstructor: Function;
+    private dynamicNodeData: any;
+
     @api
     get nodeInfo() {
         return this._nodeInfo;
     }
 
+    /**
+     * For dynamic node components, call their dynamicNodeComponentSelector
+     * with the node guid.  This guarantees that the data refreshes on any
+     * change to the node.
+     */
     set nodeInfo(nodeInfo) {
         this._nodeInfo = nodeInfo;
 
-        if (nodeInfo.metadata.dynamicNodeComponent) {
+        if (nodeInfo && nodeInfo.metadata.dynamicNodeComponent) {
+            if (nodeInfo.metadata.dynamicNodeComponentSelector) {
+                this.dynamicNodeData = nodeInfo.metadata.dynamicNodeComponentSelector(nodeInfo.guid);
+            }
+
             this.processDynamicNodeComponent(nodeInfo.metadata.dynamicNodeComponent);
         }
     }

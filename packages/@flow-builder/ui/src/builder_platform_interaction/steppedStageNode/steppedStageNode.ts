@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/flcEvents';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { SteppedStageItem } from 'builder_platform_interaction/elementFactory';
@@ -15,21 +15,15 @@ export default class SteppedStageNode extends LightningElement {
 
     set node(node) {
         this._node = node;
-
-        // Refresh SteppedStageItem if needed
-        if (node && node.metadata.dynamicNodeComponentSelector) {
-            this.steps = node.metadata.dynamicNodeComponentSelector(node.guid).steps;
-        }
     }
 
-    @track
-    steps: SteppedStageItem[] = [];
+    @api nodeData: SteppedStageItem[] = [];
 
     width?: number;
     height?: number;
 
     /**
-     *
+     * fire a NodeResizeEvent event if the rendered size changes
      */
     renderedCallback() {
         const node: HTMLElement = this.template.querySelector('div');
