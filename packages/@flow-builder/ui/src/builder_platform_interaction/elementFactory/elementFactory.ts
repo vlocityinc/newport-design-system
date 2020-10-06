@@ -35,3 +35,4 @@ export * from './recordChoiceSet';
 export * from './picklistChoiceSet';
 export * from './emailAlert';
 export * from './apexCall';
+export * from './collectionProcessor';

@@ -28,7 +28,8 @@ export const ICONS_LARGE = {
     [ELEMENT_TYPE.RECORD_UPDATE]: '/flow/icons/large/record_update.png',
     [ELEMENT_TYPE.SCREEN]: '/flow/icons/large/screen.png',
     [ELEMENT_TYPE.SUBFLOW]: '/flow/icons/large/subflow.png',
-    [ELEMENT_TYPE.WAIT]: '/flow/icons/large/wait.png'
+    [ELEMENT_TYPE.WAIT]: '/flow/icons/large/wait.png',
+    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: '/flow/icons/large/wait.png'
 };
 
 export function preloadImages() {

@@ -15,6 +15,10 @@
     background-color: #54698d;
 }
 
+.background-orange {
+    background-color: #ff9a3c;
+}
+
 .background-gray {
     background-color: var(--lwc-colorGray8);
 }

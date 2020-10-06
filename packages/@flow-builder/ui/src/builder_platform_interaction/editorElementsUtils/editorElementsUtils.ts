@@ -27,6 +27,9 @@ const mutateElements = (elements, palette) =>
                         if (headerItem.type === 'action') {
                             return headerItem.name === el.type;
                         }
+                        if (headerItem.type === 'elementSubtype') {
+                            return headerItem.name === el.name;
+                        }
 
                         return false;
                     });

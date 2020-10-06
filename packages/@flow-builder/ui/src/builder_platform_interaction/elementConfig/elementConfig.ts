@@ -109,6 +109,11 @@ import {
     createPastedApexPlugin,
     createPastedEmailAlert,
     createPastedLoop,
+    createCollectionProcessor,
+    createPastedCollectionProcessor,
+    createDuplicateCollectionProcessor,
+    createCollectionProcessorMetadataObject,
+    createCollectionProcessorWithConnectors,
     createSteppedStageMetadataObject,
     createSteppedStageWithItems,
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
@@ -597,6 +602,36 @@ export const elementTypeToConfigMap = {
             duplicateElement: createDuplicateLoop,
             uiToFlow: createLoopMetadataObject,
             flowToUi: createLoopWithConnectors
+        }
+    },
+    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: {
+        descriptor: 'builder_platform_interaction:collectionProcessorEditor',
+        nodeConfig: {
+            iconName: 'standard:bot',
+            utilityIconName: 'utility:database',
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.COLLECTION_PROCESSOR],
+            iconBackgroundColor: 'background-orange',
+            maxConnections: 1,
+            section: LABELS.flowControlLogicLabel,
+            description: 'Collection Processor'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.COLLECTION_PROCESSORS,
+        labels: {
+            singular: LABELS.collectionProcessorSingularLabel,
+            plural: LABELS.collectionProcessorPluralLabel,
+            leftPanel: LABELS.collectionProcessorLogicDescription,
+            newModal: LABELS.newCollectionProcessorLabel,
+            editModal: LABELS.editCollectionProcessorLabel
+        },
+        canvasElement: true,
+        bodyCssClass: 'slds-p-around_none',
+        factory: {
+            propertyEditor: createCollectionProcessor,
+            pasteElement: createPastedCollectionProcessor,
+            duplicateElement: createDuplicateCollectionProcessor,
+            uiToFlow: createCollectionProcessorMetadataObject,
+            flowToUi: createCollectionProcessorWithConnectors
         }
     },
     [ELEMENT_TYPE.RECORD_CREATE]: {
