@@ -8,6 +8,7 @@
  * @selector .nds-communities-card
  * @modifier
  */
+
 .nds-communities-card {
 
     .nds-item:after {
@@ -25,19 +26,57 @@
 
 }
 
+.nds-communities_action {
+    .nds-button_link {
+        font-weight: 600;
+    }
+
+    .nds-text-heading_medium {
+        margin-top: 1.25rem;
+        margin-bottom: .5rem;
+    }
+}
+
+/**
+ * @summary Initializes action with icon and link for community
+ *
+ * @name nds-communities_action 
+ * @selector .nds-communities_action 
+ * @modifier
+ */
+.nds-communities_action {
+    color: black;
+}
+
 @media screen and (max-width: 75rem) {
     .nds-list_horizontal {
       display: flex;
 
-      .nds-item {
-        display: none;
-      }
+        .nds-item {
+            display: none;
+        }
 
-      .nds-item:last-child {
-        display: block;
-    }
-    
+        .nds-item:last-child {
+            display: block;
+        }
+        
     }
 
 }
   
+@media screen and (max-width: 30rem) {
+
+    .nds-communities_action {
+
+        .nds-icon_xx-large {
+            width: 3.5rem; 
+            height: 3.5rem;
+        }
+
+        .nds-text-heading_medium {
+            font-size: .8rem;
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+    }
+}

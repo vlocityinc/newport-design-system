@@ -79,7 +79,7 @@ return withExample(`
                         <span class="nds-context-bar__label-action nds-context-bar__app-name">
                             <div class="nds-global-header__item">
                                 <div class="nds-global-header__logo">
-                                    <img src="/assets/images/logo-noname.svg" alt="">
+                                    <img src="/assets/images/communities/logo.svg" alt="">
                                 </div>
                             </div>
                         </span>
@@ -160,53 +160,137 @@ return withExample(`
             </div>
         </div>
     </div>
-    <img class="nds-hero" alt="Cityscape Image" src="assets/images/communities/cityscape.svg" title="Community Hero" />
-    <img class="nds-hero-mobile" alt="CityScapeImage" src="assets/images/communities/cityscape-mobile.svg"
-        title="Community Hero" />
+    <div class="nds-hero-container">
+        <img class="nds-hero nds-hero-large" alt="Cityscape"
+            src="assets/images/communities/cityscape.svg" title="Community Hero" />
+        <img class="nds-hero nds-hero-small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
+            title="Community Hero" />
+    </div>
 </div>
 <div class="nds-communities-page-content">
-    <div class="nds-communities-page-content_list nds-m-bottom_xx-large">
-        <div class="nds-media nds-media_center nds-p-vertical_xx-large">
-            <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
-                <div class="nds-text-heading_large nds-m-bottom_large"><b>Home is where the ❤️ is.</b></div>
-                <div class="nds-text-heading_medium">From theft to natural disasters, whatever it is - we've got you
-                    covered.</div>
+    <div class="nds-communities-page-content_list nds-m-vertical_xx-large">
+        <div class="nds-text-align_center">
+            <div class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center"><b>Insure the things that
+                    matter most.</b></div>
+            <div class="nds-text-heading_medium nds-align_absolute-center">Policies & protection you can rely on,
+                customized for your needs.</div>
+        </div>
+        <div class="nds-communities-actions-group nds-grid nds-wrap nds-m-top_xx-large nds-p-top_large">
+            <div
+                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                <div class="nds-align_absolute-center">
+                    <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="health"
+                        src="assets/images/communities/health.svg" title="Health" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        title="Ellipse" />
+                </div>
+                <div class="nds-text-heading_medium nds-align_absolute-center"><b>Health Insurance</b></div>
+                <div class="nds-align_absolute-center">
+                    <button class="nds-button nds-button_link" label="Get a quote">Get a quote</button>
+                </div>
             </div>
-            <div class="nds-media__figure nds-media__figure_reverse nds-large-size_1-of-2 nds-size_1-of-1">
-                <span class="nds-size_1-of-1">
-                    <img alt="Person name" src="/assets/images/communities/homeinterior.svg" title="House Interior">
-                </span>
+
+            <div
+                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                <div class="nds-align_absolute-center">
+                    <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="auto"
+                        src="assets/images/communities/auto.svg" title="Auto" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        title="Ellipse" />
+                </div>
+                <div class="nds-text-heading_medium nds-align_absolute-center"><b>Auto & Property</b></div>
+                <div class="nds-align_absolute-center">
+                    <button class="nds-button nds-button_link" label="Get a quote">Get a quote</button>
+                </div>
+            </div>
+
+            <div
+                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                <div class="nds-align_absolute-center">
+                    <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="homeowners"
+                        src="assets/images/communities/homeowners.svg" title="Homeowners" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        title="Ellipse" />
+                </div>
+                <div class="nds-text-heading_medium nds-align_absolute-center"><b>Homeowners</b></div>
+                <div class="nds-align_absolute-center">
+                    <button class="nds-button nds-button_link" label="Get a quote">Get a quote</button>
+                </div>
+            </div>
+
+            <div
+                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                <div class="nds-align_absolute-center">
+                    <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="shield"
+                        src="assets/images/communities/shield.svg" title="Shield" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        title="Ellipse" />
+                </div>
+                <div class="nds-text-heading_medium nds-align_absolute-center"><b>Life Insurance</b></div>
+                <div class="nds-align_absolute-center">
+                    <button class="nds-button nds-button_link" label="Get a quote">Get a quote</button>
+                </div>
+
             </div>
         </div>
+        <div class="nds-text-align_center">
+            <div class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center"><b>What Customers Are
+                    Saying</b></div>
+            <div class="nds-text-heading_medium nds-align_absolute-center">Over 2,329 Happy Customers</div>
+        </div>
+        <div class="nds-box nds-m-around_large">Add stories</div>
 
-        <div class="nds-media nds-media_center nds-p-vertical_xx-large">
-            <div class="nds-media__figure nds-large-size_1-of-2 nds-size_1-of-1">
-                <span class="nds-size_1-of-1">
-                    <img alt="Person name" src="/assets/images/communities/autohomepage.svg" title="Auto Image">
-                </span>
+        <div class="nds-communities-home-img-list nds-m-bottom_xx-large">
+            <div class="nds-media nds-media_center nds-p-vertical_xx-large">
+                <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
+                    <div class="nds-text-heading_large nds-m-bottom_large"><b>Home is where the ❤️ is.</b></div>
+                    <div class="nds-text-heading_medium nds-m-bottom_large">From theft to natural disasters, whatever it is — we’ve got you
+                        covered.</div>
+                    <button class="nds-button nds-button_brand">Homeowners Insurance</button>
+                </div>
+                <div class="nds-media__figure nds-media__figure_reverse nds-large-size_1-of-2 nds-size_1-of-1">
+                    <span class="nds-size_1-of-1">
+                        <img alt="Home Interior" src="/assets/images/communities/homeinterior.svg" title="Home Interior">
+                    </span>
+                </div>
             </div>
-            <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
-                <div class="nds-text-heading_large nds-m-bottom_large"><b>Vroom, Vroom.</b></div>
-                <div class="nds-text-heading_medium">From accidents and windshield damage to lawsuits and more, we have
-                    affordable insurance options to
-                    protect against just about anything.</div>
+        
+            <div class="nds-media nds-media_center nds-p-vertical_xx-large">
+                <div class="nds-media__figure nds-large-size_1-of-2 nds-size_1-of-1">
+                    <span class="nds-size_1-of-1">
+                        <img alt="Person name" src="/assets/images/communities/autohomepage.svg" title="Auto Image">
+                    </span>
+                </div>
+                <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
+                    <div class="nds-text-heading_large nds-m-bottom_large"><b>Vroom, Vroom.</b></div>
+                    <div class="nds-text-heading_medium nds-m-bottom_large">From accidents and windshield damage to lawsuits and more, we have
+                        affordable insurance options to
+                        protect against just about anything.</div>
+                    <button class="nds-button nds-button_brand">Auto Insurance</button>
+                </div>
             </div>
+        
+            <div class="nds-media nds-media_center nds-p-vertical_xx-large">
+                <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
+                    <div class="nds-text-heading_large nds-m-bottom_large"><b>Protect what matters most.</b></div>
+                    <div class="nds-text-heading_medium nds-m-bottom_large">Medical insurance provides peace of mind, access to affordable health
+                        care, and a safeguard from
+                        finanacial loss for you and your family.</div>
+                    <button class="nds-button nds-button_brand">Health Insurance</button>
+                </div>
+                <div class="nds-media__figure nds-media__figure_reverse nds-large-size_1-of-2 nds-size_1-of-1">
+                    <span class="nds-size_1-of-1">
+                        <img alt="Protect Image" src="/assets/images/communities/protecthomepage.svg" title="Protect Img">
+                    </span>
+                </div>
+            </div>
+        
         </div>
 
-        <div class="nds-media nds-media_center nds-p-vertical_xx-large">
-            <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
-                <div class="nds-text-heading_large nds-m-bottom_large"><b>Protect what matters most.</b></div>
-                <div class="nds-text-heading_medium">Medical insurance provides peace of mind, access to affordable
-                    health care, and a safeguard from
-                    finanacial loss for you and your family.</div>
-            </div>
-            <div class="nds-media__figure nds-media__figure_reverse nds-large-size_1-of-2 nds-size_1-of-1">
-                <span class="nds-size_1-of-1">
-                    <img alt="Person name" src="/assets/images/communities/protecthomepage.svg" title="User avatar">
-                </span>
-            </div>
-        </div>
-
+        <div
+            class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center nds-p-top_xx-large nds-text-align_center">
+            <b>Learn more about coverage</b></div>
+        <div class="nds-box nds-m-around_large">Add Articles</div>
 
     </div>
 </div>

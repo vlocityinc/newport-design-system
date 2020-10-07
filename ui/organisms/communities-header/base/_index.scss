@@ -11,6 +11,18 @@
 .nds-communities-hero {
 
     /**
+    * @summary Initializes global navigation for community
+    *
+    * @name nds-communities-global_navigation
+    * @selector .nds-communities-global_navigation
+    * @modifier
+    */
+
+    .nds-communities-global_navigation {
+        background: transparent;
+    }
+    
+    /**
     * @summary Wraps actions 
     *
     * @name nds-context-bar__actions
@@ -18,6 +30,9 @@
     * @modifier
     */
     .nds-context-bar__actions {
+        position: absolute; 
+        right: 0; 
+        z-index: 10;
 
         /**
         * @summary Initializes a card for community
@@ -27,7 +42,8 @@
         * @modifier
         */
         .nds-communities-card {
-            padding: .5rem 3rem 0 0;
+            padding: .5rem 0 0 0;
         }
     }
+    
 }

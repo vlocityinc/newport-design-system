@@ -32,6 +32,9 @@
     .nds-text-link {
         background-color: transparent;
         border: transparent;
+        font-size: $font-size-5;
+        position: relative;
+        top: -.2rem;
     }
 
     .nds-button__icon {
@@ -46,9 +49,10 @@
     .nds-communities-card {
         display: block;
         text-align: center;
+        padding: 2rem 1rem 2rem 1rem;
 
         .nds-text-heading_large {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
         }
     }
 }

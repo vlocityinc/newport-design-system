@@ -23,6 +23,23 @@ storiesOf(`${base}`, module)
 .addDecorator(commentToHTML(scss))
 .addDecorator(withDocs(notes))
 .add('Default', () => {
+    const value = radios(label, options, defaultValue);
+    return withExample(`
+    <div class="nds-communities_action nds-large-size_1-of-4 nds-size_1-of-2">
+        <div class="nds-align_absolute-center">
+            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="auto" src="assets/images/communities/auto.svg"
+                title="Auto" />
+            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                title="Ellipse" />
+        </div>
+        <div class="nds-text-heading_medium nds-align_absolute-center"><b>Auto & Property</b></div>
+        <div class="nds-align_absolute-center">
+            <button class="nds-button nds-button_link" label="Get a quote">Get a quote</button>
+        </div>
+    </div>
+`);
+})
+.add('Global Actions List', () => {
 const value = radios(label, options, defaultValue);
 return withExample(`
 <ul class="nds-communities-card nds-list_horizontal nds-wrap nds-has-dividers_right">
