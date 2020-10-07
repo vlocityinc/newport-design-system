@@ -400,7 +400,9 @@ export default class Editor extends LightningElement {
     get useNewDebugExperience() {
         return (
             this.properties.processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
-            (!this.triggerType || this.triggerType === FLOW_TRIGGER_TYPE.NONE) &&
+            (!this.triggerType ||
+                this.triggerType === FLOW_TRIGGER_TYPE.NONE ||
+                this.triggerType === FLOW_TRIGGER_TYPE.SCHEDULED) &&
             !this.properties.isAutoLayoutCanvas
         );
     }
