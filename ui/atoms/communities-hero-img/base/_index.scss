@@ -19,14 +19,18 @@
  * @selector .nds-hero
  * @modifier
  */
-.nds-hero {
+ .nds-hero-container {
     width: 100%;
     
-    &.nds-hero-small {
-        display: none;
+    .nds-hero {
+        width: 100%;
+        
+        &.nds-hero-small {
+            display: none;
+        }
     }
-}
-
+ }
+ 
 @media screen and (max-width: 30rem) {
 
     .nds-hero-container {

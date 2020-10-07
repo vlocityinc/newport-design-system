@@ -1,0 +1,23 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+.nds-communities-articles-group {
+
+    margin: 2rem 10rem 2rem 10rem;
+}
+
+@media screen and (max-width: 78rem) {
+    .nds-communities-articles-group {
+
+        margin: 2rem 1rem 2rem 1rem;
+    }
+
+}
+
+@media screen and (max-width: 30rem) {
+
+    .nds-communities-articles-group {
+        margin: 1rem 0 0 0;
+    }
+
+}

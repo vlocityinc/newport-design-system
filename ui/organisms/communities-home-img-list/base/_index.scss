@@ -25,6 +25,11 @@
 
             .nds-media__body {
                 display: table-cell;
+                padding: 0;
+
+                .nds-text-heading_large {
+                    padding: 2rem;
+                }
             }
 
             .nds-media__figure {
