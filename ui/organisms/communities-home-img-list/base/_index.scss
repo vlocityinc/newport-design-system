@@ -10,6 +10,11 @@
  */
 .nds-communities-page-content_list {
     color: black;
+
+        .nds-text-heading_large {
+            font-size: 2.25rem;
+        }
+
 }
 
 @media screen and (max-width: 78rem) {
@@ -19,7 +24,7 @@
             text-align: center;
 
             .nds-media__body {
-                display: table-footer-group;
+                display: table-cell;
             }
 
             .nds-media__figure {

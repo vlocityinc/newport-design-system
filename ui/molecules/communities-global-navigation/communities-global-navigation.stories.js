@@ -16,7 +16,7 @@ return withExample(`<div class="nds-communities-global_navigation">
   <div class="nds-context-bar">
     <nav class="nds-context-bar__mobile" role="navigation">
       <slot name="dc-catalog-wrapper-small">
-        <svg class="nds-dc-menu-icon"> <svg height="32px" style="enable-background:new 0 0 32 32;" version="1.1"
+        <svg class="nds-dc-menu-icon"> <svg height="32px" version="1.1"
             viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
             <path
@@ -28,7 +28,7 @@ return withExample(`<div class="nds-communities-global_navigation">
               <line x1="1" y1="11" x2="11" y2="1" stroke="white" stroke-width="2"></line>
               <line x1="1" y1="1" x2="11" y2="11" stroke="white" stroke-width="2"></line>
             </svg> </svg>
-          <ul>
+          <ul for:each={name in names}>
             <li class="nds-dc-catalogMobile active" data-catalog-code="mobile">
               Mobile
             </li>
@@ -63,7 +63,7 @@ return withExample(`<div class="nds-communities-global_navigation">
         <span class="nds-context-bar__label-action nds-context-bar__app-name">
           <div class="nds-global-header__item">
             <div class="nds-global-header__logo">
-              <img src="/assets/images/logo-noname.svg" alt="">
+              <img src="/assets/images/communities/logo.svg" alt="">
             </div>
           </div>
         </span>

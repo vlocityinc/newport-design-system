@@ -79,7 +79,7 @@ return withExample(`
                         <span class="nds-context-bar__label-action nds-context-bar__app-name">
                             <div class="nds-global-header__item">
                                 <div class="nds-global-header__logo">
-                                    <img src="/assets/images/logo-noname.svg" alt="">
+                                    <img src="/assets/images/communities/logo.svg" alt="">
                                 </div>
                             </div>
                         </span>
@@ -160,9 +160,12 @@ return withExample(`
             </div>
         </div>
     </div>
-    <img class="nds-hero" alt="Cityscape Image" src="assets/images/communities/cityscape.svg" title="Community Hero" />
-    <img class="nds-hero-mobile" alt="CityScapeImage" src="assets/images/communities/cityscape-mobile.svg"
-        title="Community Hero" />
+    <div class="nds-hero-container">
+        <img class="nds-hero nds-hero-large" alt="Cityscape"
+            src="assets/images/communities/cityscape.svg" title="Community Hero" />
+        <img class="nds-hero nds-hero-small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
+            title="Community Hero" />
+    </div>
 </div>
 `);
 });

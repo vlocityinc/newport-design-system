@@ -21,14 +21,34 @@
  */
 .nds-hero {
     width: 100%;
+    
+    &.nds-hero-small {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 30rem) {
-    .nds-hero {
-        display: none;
-    }
-    .nds-hero-mobile {
-        display: block;
-        width: 100%;
+
+    .nds-hero-container {
+        overflow: hidden;
+        .nds-hero {
+
+            width: fit-content;
+            max-width: fit-content;
+            right: 6rem;
+            position: relative;
+
+            &.nds-hero-small {
+                display: block;
+                right: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            &.nds-hero-large {
+                display: none; 
+            }
+
+        }
     }
 }

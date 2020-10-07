@@ -24,7 +24,8 @@ storiesOf(`${base}`, module)
 .addDecorator(withDocs(notes))
 .add('Default', () => {
 const value = radios(label, options, defaultValue);
-return withExample(`<div class="nds-communities-card">
+return withExample(`
+<div class="nds-communities-card">
     <div class="nds-text-heading_large">Get personalized service from a local agent</div>
     <div class="nds-text-heading_medium">Find and agent today</div>
     <div class="nds-text-body_medium">Message us or give us a call at (987) 654-3210</div>
