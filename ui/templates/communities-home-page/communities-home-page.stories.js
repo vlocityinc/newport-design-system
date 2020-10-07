@@ -233,13 +233,11 @@ return withExample(`
 
             </div>
         </div>
-        <div class="nds-text-align_center">
+        <div class="nds-text-align_center nds-m-top_large">
             <div class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center"><b>What Customers Are
                     Saying</b></div>
             <div class="nds-text-heading_medium nds-align_absolute-center">Over 2,329 Happy Customers</div>
         </div>
-        <div class="nds-box nds-m-around_large">Add stories</div>
-
         <div class="nds-communities-home-img-list nds-m-bottom_xx-large">
             <div class="nds-media nds-media_center nds-p-vertical_xx-large">
                 <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
@@ -288,13 +286,46 @@ return withExample(`
         </div>
 
         <div
-            class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center nds-p-top_xx-large nds-text-align_center">
-            <b>Learn more about coverage</b></div>
-        <div class="nds-box nds-m-around_large">Add Articles</div>
+            class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center nds-p-top_large nds-text-align_center">
+            <b>Learn more about coverages</b></div>
+            <div class="nds-communities-articles-group nds-grid nds-wrap nds-m-top_large nds-align_absolute-center">
+                <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
+                    <img class="nds-communities-article_img" alt="Article"
+                        src="assets/images/communities/demo/article1.svg" title="Article" />
+                    <div class="nds-communities-article_text nds-p-around_medium">
+                        <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
+                        <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>
+                    </div>
+                </div>
+                <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
+                    <img class="nds-communities-article_img" alt="Article2"
+                        src="assets/images/communities/demo/article2.svg" title="Article2" />
+                    <div class="nds-communities-article_text nds-p-around_medium">
+                        <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
+                        <div class="nds-text-heading_small"><b>Umbrella Insurance. Do you really need it?</b></div>
+                    </div>
+                </div>
+                <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
+                    <img class="nds-communities-article_img" alt="Article3"
+                        src="assets/images/communities/demo/article3.svg" title="Article3"/>
+                    <div class="nds-communities-article_text nds-p-around_medium">
+                        <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
+                        <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>
+                    </div>
+                </div>
+                <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
+                    <img class="nds-communities-article_img" alt="Article4"
+                        src="assets/images/communities/demo/article4.svg" title="Article4" />
+                    <div class="nds-communities-article_text nds-p-around_medium">
+                        <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
+                        <div class="nds-text-heading_small"><b>Rules of the road for Safe Driving.</b></div>
+                    </div>
+                </div>
+            </div>
 
     </div>
 </div>
-<div class="nds-communities-card nds-communities-search-card nds-text-color_inverse nds-grid nds-grid_wrap">
+<div class="nds-communities-card nds-communities-search-card nds-text-color_inverse nds-grid nds-grid_wrap nds-m-top_x-large">
     <div class="nds-large-size_1-of-2 nds-p-left_x-small nds-m-bottom_large nds-m-right_small">
         <div class="nds-text-heading_medium">Find an agent today.</div>
         <div class="nds-text-body_medium">Message us or give us a call at (987) 654-3210</div>

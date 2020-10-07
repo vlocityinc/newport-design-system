@@ -1,0 +1,59 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+.nds-communities-article {
+    width: 100%; 
+    border: 1px solid #dddbda;
+    border-radius: .5rem;
+    box-shadow: -1px -1px 2px 0 rgba(22,50,92,0.08), 1px 2px 4px 0 rgba(22,50,92,0.08), 0 2px 16px 0 rgba(26,80,155,0.10);
+    overflow: hidden;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &_img {
+        max-width: 101%; 
+        width: 101%;
+    }
+
+    &_text {
+        min-height: 7.5rem;
+
+        .nds-text-title_caps {
+            color: #706E6B;
+        }
+    
+        .nds-text-heading_small {
+            color: #3E3E3C;
+        }
+    }
+
+}
+
+@media screen and (max-width: 30rem) {
+
+    .nds-communities-article {
+        display: flex;
+        padding: 1rem;
+
+        &_img {
+            border-radius: 0.5rem;
+            height: 4rem;
+            width: 4rem;
+        }
+
+        &_text {
+            min-height: 0;
+            padding-right: 0;
+            padding-top: 0; 
+            padding-bottom: 0;
+
+
+            .nds-text-title_caps {
+                margin-bottom: .25rem;
+            }
+
+        }
+    }
+}

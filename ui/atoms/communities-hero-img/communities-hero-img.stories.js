@@ -49,12 +49,6 @@ storiesOf(`${base}`, module)
         return withExample(`<div class="nds-hero-container"><img class="nds-hero" alt="Cityscape Image" src="assets/images/communities/cityscape3.svg"
             title="Cityscape"/></div>`);
     })
-    .add('Multiline Shopper Page', () => {
-        const value = radios(label, options, defaultValue);
-        return withExample(`<div class="nds-hero-container"><img class="nds-hero nds-hero-large" alt="Shopper Image" src="assets/images/communities/shopper.svg"
-            title="Community Hero"/><img class="nds-hero nds-hero-small" alt="Shopper Image" src="assets/images/communities/shopper-mobile.svg"
-            title="Community Hero"/></div>`);
-    })
     .add('Multiline Overview', () => {
         const value = radios(label, options, defaultValue);
         return withExample(`<div class="nds-hero-container"><img class="nds-hero" alt="Shopper" src="assets/images/communities/multilineoverview.svg"
