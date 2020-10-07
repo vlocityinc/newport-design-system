@@ -70,7 +70,7 @@ export function createCollectionProcessorMetadataObject(collectionProcessor, con
 
 export function createCollectionProcessorWithConnectors(collectionProcessor) {
     const newCollectionProcessor = createCollectionProcessor(collectionProcessor);
-    const connectors = createConnectorObjects(collectionProcessor, collectionProcessor.guid, null);
+    const connectors = createConnectorObjects(collectionProcessor, newCollectionProcessor.guid, null);
     const connectorCount = connectors ? connectors.length : 0;
 
     const collectionProcessorObject = Object.assign(newCollectionProcessor, { connectorCount });

@@ -447,7 +447,30 @@ export const elementTypeToConfigMap = {
             flowToUi: createAssignmentWithConnectors
         }
     },
-
+    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: {
+        descriptor: 'builder_platform_interaction:collectionProcessorEditor',
+        nodeConfig: {
+            iconName: 'standard:bot',
+            utilityIconName: 'utility:database',
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.COLLECTION_PROCESSOR],
+            maxConnections: 1,
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.collectionProcessorLogicDescription
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.COLLECTION_PROCESSOR,
+        labels: {},
+        canvasElement: true,
+        nonHydratableProperties: ['elementSubtype'],
+        bodyCssClass: 'slds-p-around_none',
+        factory: {
+            propertyEditor: createCollectionProcessor,
+            pasteElement: createPastedCollectionProcessor,
+            duplicateElement: createDuplicateCollectionProcessor,
+            uiToFlow: createCollectionProcessorMetadataObject,
+            flowToUi: createCollectionProcessorWithConnectors
+        }
+    },
     [ELEMENT_TYPE.SCREEN]: {
         descriptor: 'builder_platform_interaction:screenEditor',
         nodeConfig: {

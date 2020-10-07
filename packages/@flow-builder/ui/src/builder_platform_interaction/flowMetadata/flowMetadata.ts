@@ -75,6 +75,10 @@ export const ELEMENT_TYPE = {
     DEFAULT: 'defaultElement'
 };
 
+export const ELEMENT_SUB_TYPE = {
+    SORT_COLLECTION_PROCESSOR: 'SortCollectionProcessor'
+};
+
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',

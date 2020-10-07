@@ -34,6 +34,7 @@
             "builder_platform_interaction/choiceEditor": ["./src/builder_platform_interaction/choiceEditor/choiceEditor.ts"],
             "builder_platform_interaction/clampLib": ["./src/builder_platform_interaction/clampLib/clampLib.ts"],
             "builder_platform_interaction/clickableErrorMessage": ["./src/builder_platform_interaction/clickableErrorMessage/clickableErrorMessage.ts"],
+            "builder_platform_interaction/collectionProcessorEditor": ["./src/builder_platform_interaction/collectionProcessorEditor/collectionProcessorEditor.ts"],
             "builder_platform_interaction/combobox": ["./src/builder_platform_interaction/combobox/combobox.ts"],
             "builder_platform_interaction/comboboxCache": ["./src/builder_platform_interaction/comboboxCache/comboboxCache.ts"],
             "builder_platform_interaction/commands": ["./src/builder_platform_interaction/commands/commands.ts"],

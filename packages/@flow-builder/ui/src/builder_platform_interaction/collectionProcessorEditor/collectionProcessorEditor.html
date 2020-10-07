@@ -1,0 +1,21 @@
+<template>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        <builder_platform_interaction-label-description
+            label={collectionProcessorElement.label}
+            dev-name={collectionProcessorElement.name}
+            description={collectionProcessorElement.description}
+            guid={collectionProcessorElement.guid}
+            onpropertychanged={handlePropertyChangedEvent}
+            mode={mode}
+        >
+        </builder_platform_interaction-label-description>
+    </div>
+
+    <div if:true={hasConfigurationEditor} class="slds-m-bottom_small slds-border_top">
+        <builder_platform_interaction-custom-property-editor
+            configuration-editor={configurationEditor}
+            configuration-editor-input-variables={configurationEditorValues}
+            onconfiguration_editor_input_value_changed={handleValueChanged}
+        ></builder_platform_interaction-custom-property-editor>
+    </div>
+</template>
