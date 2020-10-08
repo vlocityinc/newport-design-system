@@ -30,7 +30,7 @@ return withExample(`
     <div class="nds-text-heading_medium">Find and agent today</div>
     <div class="nds-text-body_medium">Message us or give us a call at (987) 654-3210</div>
     <button class="nds-button nds-button_icon nds-button-inverse" aria-haspopup="true">
-        <svg class="nds-button__icon" aria-hidden="true">
+        <svg class="nds-button__icon nds-icon__small" aria-hidden="true">
             <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
         </svg>
         <span class="nds-assistive-text">Search</span>

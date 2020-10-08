@@ -2,10 +2,10 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * @summary Initializes a footer for community with more than one section that lists label / action pairs
+ * @summary Initializes a search input for community
  *
- * @name nds-footer-communities
- * @selector .nds-footer-communities
+ * @name nds-communities-search
+ * @selector .nds-communities-search
  * @modifier
  */
  .nds-communities-search {
@@ -15,8 +15,7 @@
 
     .nds-input {
         border-bottom: none;
-        font-family: SalesforceSans-Bold;
-        color: #16325C;
+        color: $biscay;
     }
 
     .nds-button_brand {
@@ -31,8 +30,8 @@
 
     .nds-button_icon {
         display: none;
-        padding-left: .25rem;
-        padding-right: 0rem;
+        padding-left: $spacing-xx-small;
+        padding-right: $spacing-none;
     }
 
     .nds-button__icon {
