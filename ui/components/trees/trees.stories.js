@@ -19,7 +19,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -30,7 +30,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -41,7 +41,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -54,7 +54,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -65,7 +65,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -78,7 +78,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -96,7 +96,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -107,7 +107,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -118,7 +118,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -131,7 +131,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -142,7 +142,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -155,7 +155,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -173,7 +173,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -184,7 +184,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -195,7 +195,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -208,7 +208,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -219,7 +219,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -232,7 +232,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -250,7 +250,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>
@@ -261,7 +261,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -272,7 +272,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -283,7 +283,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Branch</span>
             </button>
@@ -294,7 +294,7 @@ storiesOf(`${base}`, module)
               <div class="nds-tree__item">
                 <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                   <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                   </svg>
                   <span class="nds-assistive-text">Expand Tree Item</span>
                 </button>
@@ -305,7 +305,7 @@ storiesOf(`${base}`, module)
               <div class="nds-tree__item">
                 <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                   <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                   </svg>
                   <span class="nds-assistive-text">Expand Tree Item</span>
                 </button>
@@ -316,7 +316,7 @@ storiesOf(`${base}`, module)
               <div class="nds-tree__item">
                 <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
                   <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                   </svg>
                   <span class="nds-assistive-text">Expand Tree Branch</span>
                 </button>
@@ -327,7 +327,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -338,7 +338,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -349,7 +349,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -362,7 +362,7 @@ storiesOf(`${base}`, module)
               <div class="nds-tree__item">
                 <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
                   <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                   </svg>
                   <span class="nds-assistive-text">Expand Tree Branch</span>
                 </button>
@@ -373,7 +373,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -384,7 +384,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -395,7 +395,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -406,7 +406,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Branch</span>
                     </button>
@@ -417,7 +417,7 @@ storiesOf(`${base}`, module)
                       <div class="nds-tree__item">
                         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                           </svg>
                           <span class="nds-assistive-text">Expand Tree Item</span>
                         </button>
@@ -428,7 +428,7 @@ storiesOf(`${base}`, module)
                       <div class="nds-tree__item">
                         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                           </svg>
                           <span class="nds-assistive-text">Expand Tree Item</span>
                         </button>
@@ -439,7 +439,7 @@ storiesOf(`${base}`, module)
                       <div class="nds-tree__item">
                         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                           </svg>
                           <span class="nds-assistive-text">Expand Tree Item</span>
                         </button>
@@ -452,7 +452,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-tree__item">
                     <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                       </svg>
                       <span class="nds-assistive-text">Expand Tree Item</span>
                     </button>
@@ -465,7 +465,7 @@ storiesOf(`${base}`, module)
               <div class="nds-tree__item">
                 <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
                   <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
                   </svg>
                   <span class="nds-assistive-text">Expand Tree Item</span>
                 </button>
@@ -480,7 +480,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Expand Tree Branch">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Branch</span>
         </button>
@@ -491,7 +491,7 @@ storiesOf(`${base}`, module)
           <div class="nds-tree__item">
             <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
               <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
               </svg>
               <span class="nds-assistive-text">Expand Tree Item</span>
             </button>
@@ -504,7 +504,7 @@ storiesOf(`${base}`, module)
       <div class="nds-tree__item">
         <button class="nds-button nds-button_icon nds-button_icon nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Tree Item">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tree Item</span>
         </button>

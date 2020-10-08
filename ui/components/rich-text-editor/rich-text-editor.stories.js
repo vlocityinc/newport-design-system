@@ -19,7 +19,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -27,7 +27,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -35,7 +35,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -43,7 +43,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -53,7 +53,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -61,7 +61,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -69,7 +69,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -87,7 +87,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -108,7 +108,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -116,7 +116,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -124,7 +124,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -132,7 +132,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -142,7 +142,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -150,7 +150,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -158,7 +158,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -166,7 +166,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -176,7 +176,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -197,7 +197,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -205,7 +205,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -213,7 +213,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -221,7 +221,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -231,7 +231,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -239,7 +239,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -247,7 +247,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -255,7 +255,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -265,7 +265,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -381,7 +381,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -389,7 +389,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -397,7 +397,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -405,7 +405,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -415,7 +415,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -423,7 +423,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -431,7 +431,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -439,7 +439,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -449,7 +449,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -471,7 +471,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -479,7 +479,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -487,7 +487,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -495,7 +495,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -505,7 +505,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -513,7 +513,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -521,7 +521,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -529,7 +529,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -539,7 +539,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -560,7 +560,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-describedby="bold" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -568,7 +568,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -576,7 +576,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -584,7 +584,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -594,7 +594,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -602,7 +602,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -610,7 +610,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -618,7 +618,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -628,7 +628,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -659,7 +659,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -667,7 +667,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -675,7 +675,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -683,7 +683,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -693,7 +693,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -701,7 +701,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -709,7 +709,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -717,7 +717,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -727,7 +727,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -752,7 +752,7 @@ storiesOf(`${base}`, module)
                     <input type="text" class="nds-input nds-combobox__input" id="font-family" aria-controls="family-listbox" autocomplete="off" role="textbox" placeholder="Select an Option" readonly="" value="Font">
                     <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -800,7 +800,7 @@ storiesOf(`${base}`, module)
                     <input type="text" class="nds-input nds-combobox__input" id="font-size" aria-controls="size-listbox" autocomplete="off" role="textbox" placeholder="Select an Option" readonly="" tabindex="-1" value="Size">
                     <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -843,7 +843,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -851,7 +851,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -859,7 +859,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -867,7 +867,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -877,10 +877,10 @@ storiesOf(`${base}`, module)
         <li>
           <button tabindex="-1" class="nds-button nds-button_icon nds-button_icon-more nds-button_icon-more-filled" aria-haspopup="true">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#text_background_color"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#text_background_color"></use>
             </svg>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Background Color</span>
           </button>
@@ -888,10 +888,10 @@ storiesOf(`${base}`, module)
         <li>
           <button tabindex="-1" class="nds-button nds-button_icon nds-button_icon-more nds-button_icon-more-filled" aria-haspopup="true">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#text_color"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#text_color"></use>
             </svg>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Text Color</span>
           </button>
@@ -901,7 +901,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -909,7 +909,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -917,7 +917,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -925,7 +925,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -935,7 +935,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left_align_text"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left_align_text"></use>
             </svg>
             <span class="nds-assistive-text">Left Align Text</span>
           </button>
@@ -943,7 +943,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#center_align_text"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#center_align_text"></use>
             </svg>
             <span class="nds-assistive-text">Center Align Text</span>
           </button>
@@ -951,7 +951,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right_align_text"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right_align_text"></use>
             </svg>
             <span class="nds-assistive-text">Right Align Text</span>
           </button>
@@ -961,7 +961,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
             </svg>
             <span class="nds-assistive-text">Add Emoji</span>
           </button>
@@ -969,7 +969,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#image"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#image"></use>
             </svg>
             <span class="nds-assistive-text">Add Image</span>
           </button>
@@ -977,7 +977,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#link"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#link"></use>
             </svg>
             <span class="nds-assistive-text">Add Link</span>
           </button>
@@ -987,7 +987,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -1008,7 +1008,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -1016,7 +1016,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -1024,7 +1024,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -1032,7 +1032,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -1042,7 +1042,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -1050,7 +1050,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -1058,7 +1058,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -1066,7 +1066,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -1076,7 +1076,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left_align_text"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left_align_text"></use>
             </svg>
             <span class="nds-assistive-text">Left Align Text</span>
           </button>
@@ -1084,7 +1084,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#center_align_text"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#center_align_text"></use>
             </svg>
             <span class="nds-assistive-text">Center Align Text</span>
           </button>
@@ -1092,7 +1092,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right_align_text"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right_align_text"></use>
             </svg>
             <span class="nds-assistive-text">Right Align Text</span>
           </button>
@@ -1102,7 +1102,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
             </svg>
             <span class="nds-assistive-text">Add Emoji</span>
           </button>
@@ -1110,7 +1110,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#image"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#image"></use>
             </svg>
             <span class="nds-assistive-text">Add Image</span>
           </button>
@@ -1118,7 +1118,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#link"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#link"></use>
             </svg>
             <span class="nds-assistive-text">Add Link</span>
           </button>
@@ -1128,7 +1128,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#adduser"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#adduser"></use>
             </svg>
             <span class="nds-assistive-text">Add User</span>
           </button>
@@ -1138,7 +1138,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>
@@ -1159,7 +1159,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="0" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
             </svg>
             <span class="nds-assistive-text">Bold</span>
           </button>
@@ -1167,7 +1167,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
             </svg>
             <span class="nds-assistive-text">Italic</span>
           </button>
@@ -1175,7 +1175,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
             </svg>
             <span class="nds-assistive-text">Underline</span>
           </button>
@@ -1183,7 +1183,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
             </svg>
             <span class="nds-assistive-text">Strike Through</span>
           </button>
@@ -1193,7 +1193,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
             </svg>
             <span class="nds-assistive-text">Bulleted List</span>
           </button>
@@ -1201,7 +1201,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
             </svg>
             <span class="nds-assistive-text">Numbered List</span>
           </button>
@@ -1209,7 +1209,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
             </svg>
             <span class="nds-assistive-text">Indent</span>
           </button>
@@ -1217,7 +1217,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
             </svg>
             <span class="nds-assistive-text">Outdent</span>
           </button>
@@ -1227,7 +1227,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
             </svg>
             <span class="nds-assistive-text">Add Emoji</span>
           </button>
@@ -1235,7 +1235,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#image"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#image"></use>
             </svg>
             <span class="nds-assistive-text">Add Image</span>
           </button>
@@ -1243,7 +1243,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#link"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#link"></use>
             </svg>
             <span class="nds-assistive-text">Add Link</span>
           </button>
@@ -1253,7 +1253,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
             </svg>
             <span class="nds-assistive-text">Remove Formatting</span>
           </button>

@@ -27,7 +27,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-01" placeholder=" " class="nds-input">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -38,7 +38,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -47,7 +47,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -220,7 +220,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-02" placeholder=" " class="nds-input">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -231,7 +231,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -240,7 +240,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -426,7 +426,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-01" placeholder=" " class="nds-input" value="06/24/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -437,7 +437,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -446,7 +446,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -619,7 +619,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-02" placeholder=" " class="nds-input">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -630,7 +630,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -639,7 +639,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -825,7 +825,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-01" placeholder=" " class="nds-input" value="06/24/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -836,7 +836,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -845,7 +845,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -1018,7 +1018,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-02" placeholder=" " class="nds-input" value="06/27/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -1029,7 +1029,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -1038,7 +1038,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -1224,7 +1224,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-01" placeholder=" " class="nds-input" value="06/24/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -1235,7 +1235,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -1244,7 +1244,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -1417,7 +1417,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-02" placeholder=" " class="nds-input" value="06/29/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -1428,7 +1428,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -1437,7 +1437,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -1623,7 +1623,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-01" placeholder=" " class="nds-input" value="06/24/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -1634,7 +1634,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -1643,7 +1643,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -1816,7 +1816,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-02" placeholder=" " class="nds-input" value="06/30/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -1827,7 +1827,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -1836,7 +1836,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -2022,7 +2022,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-01" placeholder=" " class="nds-input" value="06/24/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -2033,7 +2033,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -2042,7 +2042,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
@@ -2215,7 +2215,7 @@ storiesOf(`${base}`, module)
               <input type="text" id="date-input-id-02" placeholder=" " class="nds-input" value="06/30/2014">
               <button class="nds-button nds-button_icon nds-input__icon nds-input__icon--right" title="Select a date">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#event"></use>
                 </svg>
                 <span class="nds-assistive-text">Select a date</span>
               </button>
@@ -2226,7 +2226,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Previous Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                       </svg>
                       <span class="nds-assistive-text">Previous Month</span>
                     </button>
@@ -2235,7 +2235,7 @@ storiesOf(`${base}`, module)
                   <div class="nds-align-middle">
                     <button class="nds-button nds-button_icon nds-button_icon-container" title="Next Month">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                       </svg>
                       <span class="nds-assistive-text">Next Month</span>
                     </button>
