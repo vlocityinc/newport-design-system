@@ -1,0 +1,32 @@
+<template>
+    <div class="slds-vertical-tabs slds-is-relative slds-grow">
+        <!-- Note: If the labels.timeTriggerListHeader string is long the + button goes to next line -->
+        <builder_platform_interaction-reorderable-vertical-navigation
+            class="slds-theme_shade slds-size_1-of-4"
+            menu-items={timeTriggersWithImmediateTrigger}
+            active-item-id={activeTimeTriggerId}
+            onitemselected={handleTimeTriggerSelected}
+            hide-footer="true"
+        >
+            <div slot="header" class="slds-grid">
+                <span class="timeTriggerListHeader">{labels.timeTriggerListHeader}</span>
+                <lightning-helptext
+                    class="slds-p-top_xx-small slds-p-left_xx-small"
+                    content={labels.timeTriggerListHelpText}
+                ></lightning-helptext>
+                <lightning-button-icon
+                    icon-name="utility:add"
+                    variant="border-filled"
+                    class="slds-p-horizontal_xx-small"
+                    onclick={handleAddTimeTrigger}
+                    title={labels.addTimeTriggerButtonLabel}
+                    alternative-text={labels.addTimeTriggerButtonLabel}
+                >
+                </lightning-button-icon>
+            </div>
+        </builder_platform_interaction-reorderable-vertical-navigation>
+        <div class="slds-size_3-of-4">
+            Right Side
+        </div>
+    </div>
+</template>

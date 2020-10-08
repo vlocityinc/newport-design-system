@@ -188,7 +188,7 @@ export const elementTypeToConfigMap: {
             [EDIT_START_RECORD_CHANGE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_SCHEDULE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
-            [EDIT_START_TIME_TRIGGERS]: 'builder_platform_interaction:timeTriggerEditor'
+            [EDIT_START_TIME_TRIGGERS]: 'builder_platform_interaction:timeTriggersEditor'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
