@@ -52,6 +52,8 @@ export const ELEMENT_TYPE = {
     LOOP: 'Loop',
     COLLECTION_PROCESSOR: 'CollectionProcessor',
     OUTCOME: 'OUTCOME',
+    TIME_TRIGGER: 'TimeTrigger',
+    START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS: 'START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS',
     RECORD_CREATE: 'RecordCreate',
     RECORD_DELETE: 'RecordDelete',
     RECORD_LOOKUP: 'RecordQuery',
@@ -84,7 +86,8 @@ export const CONNECTOR_TYPE = {
     FAULT: 'FAULT',
     DEFAULT: 'DEFAULT',
     LOOP_NEXT: 'LOOP_NEXT',
-    LOOP_END: 'LOOP_END'
+    LOOP_END: 'LOOP_END',
+    IMMEDIATE: 'IMMEDIATE'
 };
 
 export const SUB_ELEMENT_TYPE = {

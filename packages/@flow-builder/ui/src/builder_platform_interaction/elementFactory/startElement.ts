@@ -5,9 +5,16 @@ import {
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
     CONDITION_LOGIC,
+    CONNECTOR_TYPE,
     START_ELEMENT_LOCATION
 } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
+import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    baseChildElement,
+    getUpdatedChildrenAndDeletedChildrenUsingStore,
+    updateChildReferences
+} from './base/baseElement';
 import { createStartElementConnector, createConnectorObjects } from './connector';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
@@ -17,9 +24,12 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import { LABELS } from './elementFactoryLabels';
 
-const maxConnections = 1;
+let maxConnections = 1;
+
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
 const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
@@ -57,7 +67,7 @@ export function findStartYOffset(startElement: object): number {
 }
 
 /**
- * Creates a start element object in the shape expected by the store
+ * Creates a start element object on opening any start element property editor
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
@@ -72,11 +82,12 @@ export function createStartElement(startElement = {}) {
         filters = [],
         objectContainer
     } = startElement;
+    maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = startElement.schedule || startElement;
     let { recordTriggerType, frequency } = startElement.schedule || startElement;
-    let { filterLogic = CONDITION_LOGIC.AND } = startElement;
-
+    let { filterLogic = CONDITION_LOGIC.AND, timeTriggers } = startElement;
+    const { childReferences } = startElement;
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
@@ -95,11 +106,22 @@ export function createStartElement(startElement = {}) {
         }
     }
 
-    if (isRecordChangeTriggerType(triggerType) && recordTriggerType === undefined) {
-        if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_DELETE) {
-            recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.DELETE;
+    if (isRecordChangeTriggerType(triggerType)) {
+        if (recordTriggerType === undefined) {
+            if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_DELETE) {
+                recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.DELETE;
+            } else {
+                recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
+            }
+        } else if (childReferences && childReferences.length > 0) {
+            timeTriggers = childReferences.map((childReference) => {
+                const timeTrigger = createTimeTrigger(getElementByGuid(childReference.childReference));
+                return timeTrigger;
+            });
         } else {
-            recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
+            // new trigger case
+            const newTimeTrigger = createTimeTrigger();
+            timeTriggers = [newTimeTrigger];
         }
     }
 
@@ -128,7 +150,8 @@ export function createStartElement(startElement = {}) {
         subtype: object ? object : undefined,
         isCollection: object ? false : undefined,
         isAssignable: object ? true : undefined,
-        doesRequireRecordChangedToMeetCriteria: requireChangedValues
+        doesRequireRecordChangedToMeetCriteria: requireChangedValues,
+        timeTriggers
     });
 
     return newStartElement;
@@ -160,6 +183,9 @@ export function createStartElementWithConnectors(startElement = {}, startElement
  * @returns {Object} startElementMetadata the start element metadata object
  */
 export function createStartElementMetadataObject(startElement, config = {}) {
+    /* Commented code in this function will be checked in with this story:
+    W-8188232: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008ge9PIAQ/view
+    */
     if (!startElement) {
         throw new Error('startElement is not defined');
     }
@@ -177,6 +203,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
 
         filters = [],
         doesRequireRecordChangedToMeetCriteria
+        // childReferences
     } = startElement;
     let { filterLogic } = startElement;
     let recordFilters;
@@ -187,6 +214,33 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         recordFilters = [];
         filterLogic = undefined;
     }
+
+    // let timeTriggers;
+
+    // if (childReferences && childReferences.length > 0) {
+    //     timeTriggers = childReferences.map(({ childReference }) => {
+    //         const timeTrigger = getElementByGuid(childReference);
+    //         const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
+
+    //         const { type, unit, duration, offsetField } = timeTrigger;
+
+    //         // Delete this return and uncomment return below it once label is added at backend
+    //         return {
+    //             connector: metadataTimeTrigger.connector,
+    //             name: metadataTimeTrigger.name,
+    //             type,
+    //             unit,
+    //             duration,
+    //             offsetField
+    //         };
+    //         // return Object.assign(metadataTimeTrigger, {
+    //         //     type,
+    //         //     unit,
+    //         //     duration,
+    //         //     offsetField
+    //         // });
+    //     });
+    // }
 
     const schedule = startDate && startTime && frequency ? { startDate, startTime, frequency } : undefined;
 
@@ -202,6 +256,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         doesRequireRecordChangedToMeetCriteria,
         filterLogic,
         filters: recordFilters
+        // timeTriggers
     });
 }
 
@@ -232,4 +287,123 @@ function getscheduledLabel(startDate, startTime, frequency) {
     }
 
     return label;
+}
+
+export function createTimeTrigger(timeTrigger = {}) {
+    const newTimeTrigger = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
+
+    const { type, unit, duration, offsetField } = timeTrigger;
+
+    return Object.assign(newTimeTrigger, {
+        type,
+        unit,
+        duration,
+        offsetField
+    });
+}
+
+/**
+ * Creates a start element object on closing of any start property editor / when a new flow is opened for the first time which goes to store
+ * @param {Object} startElement start element object used to construct the new object
+ * @returns {Object} which contains startElement, children and ALC params
+ */
+export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
+    const newStartElement = createStartElement(startElement);
+
+    if (startElement.guid === undefined) {
+        return newStartElement;
+    }
+
+    const { timeTriggers } = startElement;
+    let childReferences = [];
+    let newTimeTriggers = [];
+
+    for (let i = 0; i < timeTriggers.length; i++) {
+        const timeTrigger = timeTriggers[i];
+        /* Remove this if clause once validation is enabled
+        W-8063106 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008cwWqIAI/view
+        */
+        if (timeTrigger.name) {
+            const newTimeTrigger = createTimeTrigger(timeTrigger);
+            childReferences = updateChildReferences(childReferences, newTimeTrigger);
+            newTimeTriggers = [...newTimeTriggers, newTimeTrigger];
+        }
+    }
+
+    maxConnections = newTimeTriggers.length + 1;
+    const {
+        newChildren,
+        deletedCanvasElementChildren,
+        deletedBranchHeadGuids
+    } = getUpdatedChildrenAndDeletedChildrenUsingStore(startElement, newTimeTriggers);
+
+    const deletedTimeTriggers = deletedCanvasElementChildren;
+    const deletedTimeTriggerGuids = deletedTimeTriggers.map((timeTrigger) => timeTrigger.guid);
+
+    let originalStartElement = getElementByGuid(startElement.guid);
+
+    if (
+        !originalStartElement ||
+        !originalStartElement.availableConnections ||
+        originalStartElement.availableConnections.length
+    ) {
+        originalStartElement = {
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.IMMEDIATE
+                }
+            ],
+            childReferences: []
+        };
+    }
+
+    const { connectorCount, availableConnections } = getConnectionProperties(
+        originalStartElement,
+        childReferences,
+        deletedTimeTriggerGuids
+    );
+    /* This code will not be exercised till Time Triggers is supported for Auto-Layout (232)
+    W-8179230 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008gWsnIAE/view
+    */
+    if (shouldUseAutoLayoutCanvas()) {
+        Object.assign(newStartElement, {
+            children: newChildren
+        });
+    }
+
+    const elementSubtype = startElement.elementSubtype;
+    Object.assign(newStartElement, {
+        childReferences,
+        elementType,
+        maxConnections,
+        connectorCount,
+        availableConnections,
+        timeTriggers: newTimeTriggers
+    });
+
+    return {
+        canvasElement: newStartElement,
+        /* This code will not be exercised till Time Triggers is supported for Auto-Layout (232)
+        W-8179230 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008gWsnIAE/view
+        */
+        deletedChildElementGuids: deletedTimeTriggerGuids,
+        childElements: newTimeTriggers,
+        deletedBranchHeadGuids,
+        //
+        elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
+        elementSubtype
+    };
+}
+
+function calculateMaxConnections(startElement) {
+    if (!startElement) {
+        throw new Error('Max connection cannot be calculated because startElement is not defined');
+    }
+    let length = 1;
+    if (startElement.timeTriggers) {
+        length = startElement.timeTriggers.length + 1;
+    } else if (startElement.childReferences) {
+        length = startElement.childReferences.length + 1;
+    }
+    return length;
 }

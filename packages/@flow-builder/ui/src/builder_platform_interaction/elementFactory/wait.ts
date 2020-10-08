@@ -568,6 +568,11 @@ function addRegularConnectorToAvailableConnections(availableConnections = [], wa
     return availableConnections;
 }
 
+/*
+TODO: Refactor Decision and Wait functions here to use common code path from base element
+W-8166314
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+ */
 function updateWaitEventReferences(childReferences = [], waitEvent) {
     if (!waitEvent || !waitEvent.guid) {
         throw new Error('Either waitEvent or waitEvent.guid is not defined');
@@ -580,7 +585,11 @@ function updateWaitEventReferences(childReferences = [], waitEvent) {
     ];
 }
 
-// TODO: Refactor Decision and Wait functions here to use common code path
+/*
+TODO: Refactor Decision and Wait functions here to use common code path from base element
+W-8166314
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+ */
 function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
     if (!originalWait) {
         throw new Error('wait is not defined');

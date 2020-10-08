@@ -16,7 +16,9 @@ import {
     CanvasElementConfig,
     BaseCanvasElement,
     CanvasElement,
-    FlowConnector
+    FlowConnector,
+    ChildReference,
+    AutoLayoutCanvasElement
 } from 'builder_platform_interaction/flowModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
@@ -383,9 +385,13 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     if (
         elementType !== ELEMENT_TYPE.OUTCOME &&
         elementType !== ELEMENT_TYPE.WAIT_EVENT &&
+        elementType !== ELEMENT_TYPE.STEPPED_STAGE_ITEM &&
+        elementType !== ELEMENT_TYPE.TIME_TRIGGER &&
         elementType !== ELEMENT_TYPE.STEPPED_STAGE_ITEM
     ) {
-        throw new Error('baseChildElement should only be used for outcomes, wait events, and stage steps');
+        throw new Error(
+            'baseChildElement should only be used for outcomes, wait events, time triggers and stage steps'
+        );
     } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
         throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
     }
@@ -431,3 +437,72 @@ export const automaticOutputHandlingSupport = (): boolean => {
     const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(processType);
     return processTypeAutomaticOutPutHandlingSupport !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 };
+
+export function updateChildReferences(
+    childReferences: ChildReference[] = [],
+    canvasElementChild: CanvasElement
+): Array<Object> {
+    if (!canvasElementChild || !canvasElementChild.guid) {
+        throw new Error('Either canvasElementChild or canvasElementChild.guid not defined');
+    }
+    return [
+        ...childReferences,
+        {
+            childReference: canvasElementChild.guid
+        }
+    ];
+}
+
+export function getUpdatedChildrenAndDeletedChildrenUsingStore(
+    originalCanvasElement: AutoLayoutCanvasElement,
+    canvasElementChildren: CanvasElement[] = []
+): Object {
+    if (!originalCanvasElement) {
+        throw new Error('Canvas Element is not defined');
+    }
+    const { guid, children } = originalCanvasElement;
+    const canvasElementFromStore = getElementByGuid(guid);
+    let canvasElementChildReferencesFromStore;
+    if (canvasElementFromStore && canvasElementFromStore.childReferences) {
+        canvasElementChildReferencesFromStore = canvasElementFromStore.childReferences.map(
+            (childReference) => childReference.childReference
+        );
+    }
+
+    const newCanvasElementChildGuids = canvasElementChildren.map((canvasElementChild) => canvasElementChild.guid);
+
+    // Initializing the new children array
+    const newChildren = new Array(newCanvasElementChildGuids.length + 1).fill(null);
+    let deletedCanvasElementChildren = [];
+    const deletedBranchHeadGuids: Array<any> = [];
+
+    if (canvasElementChildReferencesFromStore) {
+        deletedCanvasElementChildren = canvasElementChildReferencesFromStore
+            .filter((canvasElementChildReferenceGuid) => {
+                return !newCanvasElementChildGuids.includes(canvasElementChildReferenceGuid);
+            })
+            .map((childReference) => getElementByGuid(childReference));
+
+        if (shouldUseAutoLayoutCanvas() && children) {
+            // For canvas element children that previously existed, finding the associated children
+            // and putting them at the right indexes in newChildren
+            for (let i = 0; i < newCanvasElementChildGuids.length; i++) {
+                const foundAtIndex = canvasElementChildReferencesFromStore.indexOf(newCanvasElementChildGuids[i]);
+                if (foundAtIndex !== -1) {
+                    newChildren[i] = children[foundAtIndex];
+                }
+            }
+
+            // Adding the default branch's associated child to the last index of newChildren
+            newChildren[newChildren.length - 1] = children[children.length - 1];
+
+            // Getting the child associated with the deleted canvas element child
+            for (let i = 0; i < canvasElementChildReferencesFromStore.length; i++) {
+                if (!newCanvasElementChildGuids.includes(canvasElementChildReferencesFromStore[i]) && children[i]) {
+                    deletedBranchHeadGuids.push(children[i]);
+                }
+            }
+        }
+    }
+    return { newChildren, deletedCanvasElementChildren, deletedBranchHeadGuids };
+}

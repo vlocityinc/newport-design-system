@@ -359,6 +359,11 @@ function addDefaultConnectorToAvailableConnections(availableConnections = [], de
     return availableConnections;
 }
 
+/*
+TODO: Refactor Decision and Wait functions here to use common code path from base element
+W-8166314
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+ */
 function updateOutcomeReferences(childReferences = [], outcome) {
     if (!outcome || !outcome.guid) {
         throw new Error('Either outcome or outcome.guid is not defined');
@@ -371,7 +376,11 @@ function updateOutcomeReferences(childReferences = [], outcome) {
     ];
 }
 
-// TODO: Refactor Decision and Wait functions here to use common code path
+/*
+TODO: Refactor Decision and Wait functions here to use common code path from base element
+W-8166314
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+ */
 function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
     if (!originalDecision) {
         throw new Error('decision is not defined');

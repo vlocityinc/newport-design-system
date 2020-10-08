@@ -70,6 +70,8 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
 
     if (flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.DEFAULT)) {
         defaultAvailableConnection.push({ type: CONNECTOR_TYPE.DEFAULT });
+    } else if (flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.IMMEDIATE)) {
+        defaultAvailableConnection.push({ type: CONNECTOR_TYPE.IMMEDIATE });
     } else {
         additionalConnectorCount += 1;
     }

@@ -68,6 +68,7 @@ import {
     createStageMetadataObject,
     createStepMetadataObject,
     createStartElementWithConnectors,
+    createStartElementWhenUpdatingFromPropertyEditor,
     createApexPluginWithConnectors,
     createAssignmentWithConnectors,
     createConstantForStore,
@@ -116,9 +117,10 @@ import {
     createSteppedStageMetadataObject,
     createSteppedStageWithItems,
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
+    createSteppedStageWithItemReferences,
     getSteps,
-    createSteppedStageItem,
-    createSteppedStageWithItemReferences
+    createSteppedStageItem
+
     // TODO: Next app Process SteppedStage PR
     //    createPastedSteppedStage,
     //    createDuplicateSteppedStage,
@@ -205,7 +207,8 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createStartElement,
             flowToUi: createStartElementWithConnectors,
-            uiToFlow: createStartElementMetadataObject
+            uiToFlow: createStartElementMetadataObject,
+            closePropertyEditor: createStartElementWhenUpdatingFromPropertyEditor
         },
         labels: {
             singular: LABELS.startElementSingularLabel,
@@ -795,6 +798,15 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createOutcome
         }
+    },
+    [ELEMENT_TYPE.TIME_TRIGGER]: {
+        // Time Trigger is not a canvas element, but is a first class element
+
+        labels: {
+            singular: LABELS.timeTriggerSingularLabel,
+            plural: LABELS.timeTriggerPluralLabel
+        },
+        isChildElement: true
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',

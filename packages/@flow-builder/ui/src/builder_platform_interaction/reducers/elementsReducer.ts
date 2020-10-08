@@ -17,6 +17,7 @@ import {
     HIGHLIGHT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_START_WITH_TIME_TRIGGERS,
     ADD_WAIT_WITH_WAIT_EVENTS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     UPDATE_RECORD_LOOKUP,
@@ -99,6 +100,7 @@ export default function elementsReducer(state = {}, action) {
         case MODIFY_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_START_WITH_TIME_TRIGGERS:
         case ADD_PARENT_WITH_CHILDREN:
         case MODIFY_PARENT_WITH_CHILDREN:
             return _addOrUpdateCanvasElementWithChildElements(

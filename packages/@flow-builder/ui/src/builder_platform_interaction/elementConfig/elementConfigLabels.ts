@@ -52,6 +52,8 @@ import formulaSingularLabel from '@salesforce/label/FlowBuilderElementConfig.for
 import formulaPluralLabel from '@salesforce/label/FlowBuilderElementConfig.formulaPluralLabel';
 import outcomeSingularLabel from '@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel';
 import outcomePluralLabel from '@salesforce/label/FlowBuilderElementConfig.outcomePluralLabel';
+import timeTriggerSingularLabel from '@salesforce/label/FlowBuilderElementConfig.timeTriggerSingularLabel';
+import timeTriggerPluralLabel from '@salesforce/label/FlowBuilderElementConfig.timeTriggerPluralLabel';
 import flowPropertiesSingularLabel from '@salesforce/label/FlowBuilderElementConfig.flowPropertiesSingularLabel';
 import stageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stageSingularLabel';
 import stagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.stagePluralLabel';
@@ -237,6 +239,8 @@ export const LABELS = {
     formulaPluralLabel,
     outcomeSingularLabel,
     outcomePluralLabel,
+    timeTriggerSingularLabel,
+    timeTriggerPluralLabel,
     flowPropertiesSingularLabel,
     stageSingularLabel,
     stagePluralLabel,
