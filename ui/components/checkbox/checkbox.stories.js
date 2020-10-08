@@ -226,7 +226,7 @@ storiesOf(`${base}`, module)
         <div class="nds-icon_container nds-icon-utility-check nds-multi-select">
           <span class="nds-icon_container nds-icon-utility-check" title="Description of icon when needed">
             <svg class="nds-icon nds-list__icon--size" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
             </svg>
             <span class="nds-assistive-text">Description of icon</span>
           </span>
@@ -240,7 +240,7 @@ storiesOf(`${base}`, module)
         <div class="nds-icon_container nds-icon-utility-check nds-multi-select">
           <span class="nds-icon_container nds-icon-utility-check" title="Description of icon when needed">
             <svg class="nds-icon nds-list__icon--size" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
             </svg>
             <span class="nds-assistive-text">Description of icon</span>
           </span>
@@ -254,7 +254,7 @@ storiesOf(`${base}`, module)
         <div class="nds-icon_container nds-icon-utility-check nds-multi-select">
           <span class="nds-icon_container nds-icon-utility-check" title="Description of icon when needed">
             <svg class="nds-icon nds-list__icon--size" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
             </svg>
             <span class="nds-assistive-text">Description of icon</span>
           </span>
@@ -268,7 +268,7 @@ storiesOf(`${base}`, module)
         <div class="nds-icon_container nds-icon-utility-check nds-multi-select">
           <span class="nds-icon_container nds-icon-utility-check" title="Description of icon when needed">
             <svg class="nds-icon nds-list__icon--size" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
             </svg>
             <span class="nds-assistive-text">Description of icon</span>
           </span>
@@ -282,7 +282,7 @@ storiesOf(`${base}`, module)
         <div class="nds-icon_container nds-icon-utility-check nds-multi-select">
           <span class="nds-icon_container nds-icon-utility-check" title="Description of icon when needed">
             <svg class="nds-icon nds-list__icon--size" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
             </svg>
             <span class="nds-assistive-text">Description of icon</span>
           </span>

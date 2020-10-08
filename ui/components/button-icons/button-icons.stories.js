@@ -15,7 +15,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div style="padding: 0.5rem;">
   <button class="nds-button nds-button_icon" title="Provide description of action">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
     </svg>
     <span class="nds-assistive-text">Provide description of action</span>
   </button>
@@ -25,7 +25,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div style="padding: 0.5rem;">
   <button class="nds-button nds-button_icon nds-button_icon-error" title="Warning">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
     </svg>
     <span class="nds-assistive-text">Warning</span>
   </button>
@@ -35,7 +35,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div style="padding: 0.5rem;">
   <button class="nds-button nds-button_icon" disabled="" title="Provide description of action">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
     </svg>
     <span class="nds-assistive-text">Provide description of action</span>
   </button>
@@ -46,7 +46,7 @@ storiesOf(`${base}`, module)
   <div class="nds-hint-parent">
     <button class="nds-button nds-button_icon nds-button_icon" title="Provide description of action">
       <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
       </svg>
       <span class="nds-assistive-text">Provide description of action</span>
     </button>
@@ -58,7 +58,7 @@ storiesOf(`${base}`, module)
   <div style="padding: 0.5rem; background-color: rgb(22, 50, 92);">
     <button class="nds-button nds-button_icon nds-button_icon-inverse" title="Provide description of action">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
       </svg>
       <span class="nds-assistive-text">Provide description of action</span>
     </button>
@@ -70,7 +70,7 @@ storiesOf(`${base}`, module)
   <div style="padding: 0.5rem; background-color: rgb(22, 50, 92);">
     <button class="nds-button nds-button_icon nds-button_icon-inverse" disabled="" title="Provide description of action">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
       </svg>
       <span class="nds-assistive-text">Provide description of action</span>
     </button>

@@ -21,6 +21,17 @@
 
   .nds-dropdown {
     top: 100%;
+    width: max-content;
+  }
+
+  .nds-form-element, .nds-combobox__form-element {
+    .nds-dropdown.nds-dropdown_fluid {
+      width: 100%;
+    }
+  }
+
+  .nds-listbox.nds-dropdown.nds-dropdown_fluid {
+    width: 100%;
   }
 
   .nds-dropdown_bottom,

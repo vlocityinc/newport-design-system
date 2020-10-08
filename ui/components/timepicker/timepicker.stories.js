@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder=" ">
             <span class="nds-icon_container nds-icon-utility-clock nds-input__icon nds-input__icon_right" title="Description of icon when needed">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
               </svg>
               <span class="nds-assistive-text">Description of icon</span>
             </span>
@@ -33,7 +33,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-01" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -50,7 +50,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-02" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -67,7 +67,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-03" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -84,7 +84,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-04" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -101,7 +101,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-05" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -118,7 +118,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-06" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -135,7 +135,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-07" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -152,7 +152,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-08" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -169,7 +169,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-09" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -186,7 +186,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-10" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -203,7 +203,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-11" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -220,7 +220,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-12" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -252,7 +252,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder=" ">
             <span class="nds-icon_container nds-icon-utility-clock nds-input__icon nds-input__icon_right" title="Description of icon when needed">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
               </svg>
               <span class="nds-assistive-text">Description of icon</span>
             </span>
@@ -263,7 +263,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-01" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -280,7 +280,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-02" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -297,7 +297,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-03" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -314,7 +314,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-04" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -331,7 +331,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-05" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -348,7 +348,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-06" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -365,7 +365,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-07" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -382,7 +382,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-08" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -399,7 +399,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-09" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -416,7 +416,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-10" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -433,7 +433,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-11" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -450,7 +450,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-12" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -482,7 +482,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-activedescendant="listbox-option-unique-id-01" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder=" ">
             <span class="nds-icon_container nds-icon-utility-clock nds-input__icon nds-input__icon_right" title="Description of icon when needed">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
               </svg>
               <span class="nds-assistive-text">Description of icon</span>
             </span>
@@ -493,7 +493,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-01" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center nds-has-focus" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -510,7 +510,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-02" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -527,7 +527,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-03" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -544,7 +544,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-04" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -561,7 +561,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-05" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -578,7 +578,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-06" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -595,7 +595,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-07" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -612,7 +612,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-08" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -629,7 +629,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-09" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -646,7 +646,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-10" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -663,7 +663,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-11" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -680,7 +680,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-12" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -712,7 +712,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder=" " value="8:00am">
             <span class="nds-icon_container nds-icon-utility-clock nds-input__icon nds-input__icon_right" title="Description of icon when needed">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
               </svg>
               <span class="nds-assistive-text">Description of icon</span>
             </span>
@@ -723,7 +723,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-01" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -740,7 +740,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-02" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -757,7 +757,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-03" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center nds-is-selected" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -775,7 +775,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-04" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -792,7 +792,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-05" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -809,7 +809,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-06" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -826,7 +826,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-07" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -843,7 +843,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-08" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -860,7 +860,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-09" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -877,7 +877,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-10" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -894,7 +894,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-11" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">
@@ -911,7 +911,7 @@ storiesOf(`${base}`, module)
                 <span id="listbox-option-unique-id-12" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-media_center" role="option">
                   <span class="nds-media__figure">
                     <svg class="nds-icon nds-icon_x-small nds-listbox__icon-selected" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-media__body">

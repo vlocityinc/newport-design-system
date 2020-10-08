@@ -41,7 +41,7 @@ storiesOf(`${base}`, module)
   <div class="nds-progress-ring__content">
     <span class="nds-icon_container nds-icon-utility-warning" title="Warning">
       <svg class="nds-icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
       </svg>
       <span class="nds-assistive-text">Warning</span>
     </span>
@@ -58,7 +58,7 @@ storiesOf(`${base}`, module)
   <div class="nds-progress-ring__content">
     <span class="nds-icon_container nds-icon-utility-error" title="Expired">
       <svg class="nds-icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#error"></use>
       </svg>
       <span class="nds-assistive-text">Expired</span>
     </span>
@@ -75,7 +75,7 @@ storiesOf(`${base}`, module)
   <div class="nds-progress-ring__content">
     <span class="nds-icon_container nds-icon-utility-check" title="Complete">
       <svg class="nds-icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-assistive-text">Complete</span>
     </span>

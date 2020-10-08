@@ -18,7 +18,7 @@ storiesOf(`${base}`, module)
       <input type="file" class="nds-file-selector__input nds-assistive-text" accept="image/png" id="file-upload-input-01" tabindex="-1">
       <label class="nds-file-selector__body nds-file-selector__body_integrated" for="file-upload-input-01">
         <svg class="nds-file-selector__body-icon nds-icon nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
         </svg>
         <span class="nds-file-selector__text nds-file-selector__text_integrated nds-text-heading_medium nds-text-align_center">Drop Files</span>
       </label>
@@ -36,7 +36,7 @@ storiesOf(`${base}`, module)
       <input type="file" class="nds-file-selector__input nds-assistive-text" accept="image/png" id="file-upload-input-01" tabindex="-1">
       <label class="nds-file-selector__body nds-file-selector__body_integrated" for="file-upload-input-01">
         <svg class="nds-file-selector__body-icon nds-icon nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
         </svg>
         <span class="nds-file-selector__text nds-file-selector__text_integrated nds-text-heading_medium nds-text-align_center">Drop Files</span>
       </label>
@@ -54,7 +54,7 @@ storiesOf(`${base}`, module)
       <input type="file" class="nds-file-selector__input nds-assistive-text" accept="image/png" id="file-upload-input-01" tabindex="-1">
       <label class="nds-file-selector__body nds-file-selector__body_integrated" for="file-upload-input-01">
         <svg class="nds-file-selector__body-icon nds-icon nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
         </svg>
         <span class="nds-file-selector__text nds-file-selector__text_integrated nds-text-heading_medium nds-text-align_center">Drop Files</span>
       </label>
@@ -72,7 +72,7 @@ storiesOf(`${base}`, module)
       <input type="file" class="nds-file-selector__input nds-assistive-text" accept="image/png" id="file-upload-input-01" disabled="" tabindex="-1">
       <label class="nds-file-selector__body nds-file-selector__body_integrated" for="file-upload-input-01">
         <svg class="nds-file-selector__body-icon nds-icon nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#ban"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#ban"></use>
         </svg>
         <span class="nds-file-selector__text nds-file-selector__text_integrated nds-text-heading_medium nds-text-align_center">Too many files selected. Attach up to 1 file.</span>
       </label>
