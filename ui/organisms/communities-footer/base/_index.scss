@@ -11,7 +11,7 @@
  .nds-footer-communities {
     background-color: $biscay;
     min-height: 36rem;
-    color: #fff;
+    color: $white;
     padding: 5.5rem 8rem 8rem 7rem;
 
     /**
@@ -29,7 +29,7 @@
         }
 
         .nds-accordion__section {
-            padding: 0 1rem 1rem 1.75rem;
+            padding: $spacing-none $spacing-medium $spacing-medium 1.75rem;
         }
 
         .nds-accordion__summary-heading {
@@ -37,7 +37,7 @@
         }
 
         .nds-is-open .nds-accordion__summary {
-            margin-bottom: 0;
+            margin-bottom: $spacing-none;
         }
 
         /**
@@ -48,7 +48,7 @@
           * @modifier
           */
         .nds-text-heading_medium {
-            font-weight: 700;
+            font-weight: $font-weight-bold;
             font-size: $font-size-5;
             padding-bottom: $spacing-xx-large;
         }
@@ -61,7 +61,7 @@
         * @modifier
         */
         .nds-action_text {
-            font-weight: 100;
+            font-weight: $nds-communities-text-thin;
         }
 
         /**
@@ -73,7 +73,7 @@
         */
         .nds-divider {
             opacity: 26%;
-            background: white;
+            background: $white;
             height: auto;
             width: 0.1rem;
         }
@@ -85,6 +85,13 @@
         }
     }
 
+    /**
+    * @summary Class that contains the column content of the footer
+    *
+    * @name nds-footer-communities_col-content
+    * @selector .nds-footer-communities_col-content
+    * @modifier
+    */
     &_col-content {
         visibility: visible;
         opacity: 1;
@@ -94,7 +101,7 @@
 
 @media screen and (max-width: 76rem) {
     .nds-footer-communities {
-        padding: 0 0 3rem 0;
+        padding: $spacing-none $spacing-none $spacing-xx-large $spacing-none;
         min-height: 0;
 
         &_body {
@@ -108,7 +115,7 @@
         }
 
         .nds-accordion__section {
-            padding: 0;
+            padding: $spacing-none;
         }
 
         .nds-accordion__summary {
@@ -119,8 +126,8 @@
             }
             .nds-accordion__summary-heading {
                 display: block;
-                padding-left: 1rem;
-                padding-right: 0.75rem;
+                padding-left: $spacing-medium;
+                padding-right: $spacing-small;
 
                 .nds-button__icon {
                     fill: $white;
@@ -129,8 +136,8 @@
         }
 
         .nds-accordion__content {
-            padding-left: 3rem;
-            padding-right: 0.75rem;
+            padding-left: $spacing-xx-large;
+            padding-right: $spacing-small;
         }
 
         .nds-accordion__list-item {
@@ -140,7 +147,7 @@
         .nds-text-heading_medium {
             padding-bottom: 1.75rem;
             padding-top: 1.75rem;
-            padding-left: 0.575rem;
+            padding-left: $spacing-x-small;
             font-weight: 400;
             font-size: $font-size-4;
         }
@@ -151,7 +158,7 @@
 
         .nds-divider {
             opacity: 26%;
-            background: white;
+            background: $white;
             height: 1px;
             width: auto;
         }

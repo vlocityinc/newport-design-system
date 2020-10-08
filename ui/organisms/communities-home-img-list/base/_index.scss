@@ -9,7 +9,7 @@
  * @modifier
  */
 .nds-communities-page-content_list {
-    color: black;
+    color: $black-primary;
 
         .nds-text-heading_large {
             font-size: 2.25rem;
@@ -25,10 +25,10 @@
 
             .nds-media__body {
                 display: table-cell;
-                padding: 0;
+                padding: $spacing-none;
 
                 .nds-text-heading_large {
-                    padding: 2rem;
+                    padding: $spacing-x-large;
                 }
             }
 
@@ -39,7 +39,7 @@
         }
 
         .nds-media__figure_reverse {
-            margin: 0;
+            margin: $spacing-none;
         }
     }
 }

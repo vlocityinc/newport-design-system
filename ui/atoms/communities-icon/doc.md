@@ -1,3 +1,3 @@
-# Communities Hero Icon
+# Communities Icon
 
 Icon for Community Page.

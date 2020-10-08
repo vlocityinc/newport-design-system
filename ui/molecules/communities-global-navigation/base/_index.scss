@@ -12,7 +12,7 @@ $color-background-context-bar-brand-light: $white;
  */
 
 .nds-communities-global_navigation {
-  background: #0070D2;
+  background: $blue-background-primary;
   /**
   * @summary Navigation bar wrapper
   *
@@ -22,7 +22,7 @@ $color-background-context-bar-brand-light: $white;
   * @variant
   */
   .nds-context-bar {
-    background-color: transparent;
+    background-color: $transparent;
     color: $color-text-brand-primary;
     border-bottom: none;
     margin: $spacing-large;
@@ -41,7 +41,7 @@ $color-background-context-bar-brand-light: $white;
 
   .nds-context-bar__item.nds-is-active:before{
     background: $white;
-    bottom: 0;
+    bottom: $offset-none;
   }
 
   /**
@@ -57,7 +57,7 @@ $color-background-context-bar-brand-light: $white;
     fill: white; 
 
       .nds-dc-mobile-catalog-wrapper {
-        padding: 0; 
+        padding: $spacing-none; 
         border-bottom: 0;
       }
   }
@@ -69,8 +69,8 @@ $color-background-context-bar-brand-light: $white;
     margin-top: $spacing-medium;
     
     .nds-context-bar {
-      margin: 1rem;
-      padding: 0;
+      margin: $spacing-medium;
+      padding: $spacing-none;
 
       .nds-context-bar__primary {
         display: flex;
@@ -96,7 +96,7 @@ $color-background-context-bar-brand-light: $white;
     .nds-communities-global_navigation {
 
         .nds-context-bar {
-            margin: .75rem;
+            margin: $spacing-small;
         }
     }
 

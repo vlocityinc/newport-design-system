@@ -19,7 +19,7 @@
     */
 
     .nds-communities-global_navigation {
-        background: transparent;
+        background: $transparent;
     }
     
     /**
@@ -42,7 +42,7 @@
         * @modifier
         */
         .nds-communities-card {
-            padding: .5rem 0 0 0;
+            padding: $spacing-x-small $spacing-none $spacing-none $spacing-none;
         }
     }
     

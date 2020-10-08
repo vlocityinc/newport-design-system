@@ -1,3 +1,3 @@
-# Communities Home Image List
+# Communities Actions Group
 
-Home images
+Group of actions in a community

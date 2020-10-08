@@ -11,6 +11,13 @@
  */
 .nds-communities-hero {
     
+    /**
+    * @summary Initializes card for community
+    *
+    * @name nds-communities-card
+    * @selector .nds-communities-card
+    * @modifier
+    */
     .nds-communities-card {
       background: none;
       z-index: 10;

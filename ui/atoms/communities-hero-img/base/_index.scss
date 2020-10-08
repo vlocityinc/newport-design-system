@@ -2,29 +2,32 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * @summary Selector to hide and show mobile hero img
+ * @summary Initialize hero 
  *
- * @name nds-hero-mobile 
- * @selector .nds-hero-mobile
- * @modifier
- */
-.nds-hero-mobile {
-    display: none;
-}
-
-/**
- * @summary Selector to hide and show desktop hero img
- *
- * @name nds-hero
- * @selector .nds-hero
+ * @name nds-hero-container
+ * @selector .nds-hero-container
  * @modifier
  */
  .nds-hero-container {
     width: 100%;
     
+    /**
+    * @summary Selector to hide and show desktop hero img
+    *
+    * @name nds-hero
+    * @selector .nds-hero
+    * @modifier
+    */
     .nds-hero {
         width: 100%;
         
+        /**
+        * @summary Selector for a small hero img
+        *
+        * @name nds-hero-small
+        * @selector .nds-hero-small
+        * @modifier
+        */
         &.nds-hero-small {
             display: none;
         }
@@ -35,6 +38,7 @@
 
     .nds-hero-container {
         overflow: hidden;
+        
         .nds-hero {
 
             width: fit-content;
@@ -49,6 +53,13 @@
                 width: 100%;
             }
 
+            /**
+            * @summary Selector for a large hero img
+            *
+            * @name nds-hero-large
+            * @selector .nds-hero-large
+            * @modifier
+            */
             &.nds-hero-large {
                 display: none; 
             }
