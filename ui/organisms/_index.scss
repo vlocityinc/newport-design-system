@@ -1,3 +1,218 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+@import // Activity Timeline
+'activity-timeline/base/index',
+'digitalcommerce/base/index',
+
+// Action
+'action/base/index',
+
+
+// Block
+'block/base/index',
+
+// Breadcrumbs
+'breadcrumbs/base/index',
+
+// Color Picker
+'color-picker/base/index',
+'color-picker/custom-only/index',
+'color-picker/predefined-only/index',
+'color-picker/swatches-only/index',
+
+
+// Accordion
+'accordion/base/index',
+
+// Dynamic icons
+'dynamic-icons/ellie/index',
+'dynamic-icons/eq/index',
+'dynamic-icons/score/index',
+'dynamic-icons/strength/index',
+'dynamic-icons/trend/index',
+'dynamic-icons/waffle/index',
+
+// Card
+'cards/base/index',
+'cards/vpl/index',
+'cards/newport-asset-detail/index',
+
+// Edit Block
+'editblock/base/index',
+
+// Forms
+'radio-group/base/index',
+'radio-group/newport/index',
+'radio-button-group/base/index',
+'checkbox-button-group/base/index',
+'form-layout/base/index',
+'form-layout/compound/index',
+'docked-form-footer/base/index',
+
+
+// File selector
+'file-selector/base/index',
+'file-selector/newport/index',
+
+// Geolocation
+'geolocation/base/index',
+
+// Page Headers
+'page-headers/base/index',
+'page-headers/record-home/index',
+'page-headers/record-home-vertical/index',
+'page-headers/object-home/index',
+
+
+// Panels
+'panels/detail/index',
+'panels/filtering/index',
+
+// Popovers
+'popovers/base/index',
+'popovers/panels/index',
+'popovers/nubbins/index',
+'popovers/walkthrough/index',
+
+// Tooltips
+'tooltips/base/index',
+
+// Menus
+'menus/dropdown/index',
+'menus/action-overflow/index',
+
+// Picklist
+'picklist/base/index',
+
+// Combobox
+'combobox/base/index',
+'combobox/readonly/index',
+
+// Dueling Picklist
+'dueling-picklist/base/index',
+
+// Datepicker
+'datepickers/base/index',
+'datepickers/range/index',
+'timepicker/base/index',
+
+// Docked Composer
+'docked-composer/base/index',
+'docked-composer/email/index',
+
+// Docked Utility Bar
+'docked-utility-bar/base/index',
+'docked-utility-bar/utility-panel/index',
+
+// Global Header
+'global-header/base/index',
+'global-header/notifications/index',
+
+// Global Navigation
+'global-navigation/navigation-bar/index',
+
+// Publishers
+'publishers/base/index',
+'publishers/comment/index',
+
+// Discussion Feed
+'feeds/base/index',
+'feeds/comment/index',
+'feeds/post/index',
+'feeds/post-with-attachments/index',
+
+// Modal
+'modals/base/index',
+
+// Hero Buttons
+'visual-picker/coverable-content/index',
+'visual-picker/non-coverable-content/index',
+
+
+// Process
+'path/base/index',
+
+// Progress Indicator
+'progress-bar/base/index',
+'progress-indicator/base/index',
+'progress-ring/base/index',
+
+// Rich Text Editor
+'rich-text-editor/base/index',
+
+
+
+// Split view list
+'split-view/base/index',
+
+// Title
+'tiles/base/index',
+
+// Tabs
+'tabs/base/index',
+'scoped-tabs/base/index',
+'tabs/scrolling/index',
+'tabs/sub-tabs/index',
+'tabs/vpl/index',
+
+// Navigation
+'vertical-navigation/base/index',
+'vertical-navigation/expandable-section/index',
+
+// Notifications -- Toasts, Notifications, Alerts, Prompts, & Scoped
+'alert/base/index',
+'prompt/base/index',
+'toast/base/index',
+'scoped-notifications/base/index',
+'notifications/base/index',
+'toast/modal-toast/index', // keep until deprecation
+'walkthrough/header/index',
+
+// Lookup
+'lookups/base/index',
+
+// Images
+'avatar/base/index',
+'files/base/index',
+
+// Tables
+'data-tables/base/index',
+'data-tables/responsive/index',
+'data-tables/inline-edit/index',
+'data-tables/fixed-header/index',
+
+// Tree (Order matters)
+'trees/base/index',
+'trees/grid/index',
+
+// Typeahead
+'typeahead/base/index',
+
+// Expandable
+'expandable-section/base/index',
+
+// Vertical Tabs
+'vertical-tabs/base/index',
+
+// Vlocity Process Library Templates
+'vpl/common/index',
+'vpl/canvas/index',
+'vpl/vpl-table/index',
+'vpl/vpl-avatar/index',
+'vpl/vpl-nav/index',
+'vpl/vpl-timeline/index',
+
+// OmniScript
+// 'omniscript/base/index',
+
+// Knowledge component
+'knowledge/base/index',
+
+// Custom
+'b2b/base/index';
+
+
 @import 'communities-footer/base/index';
 @import 'communities-search-card/base/index';
 @import 'communities-header/base/index';
