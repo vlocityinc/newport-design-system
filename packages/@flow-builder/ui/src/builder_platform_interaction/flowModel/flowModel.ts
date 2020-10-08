@@ -28,7 +28,8 @@ export interface FlowElement {
     guid: Guid;
 
     // This is the "api name" in the property editor UI
-    name: string;
+    // optional as some elements are anonymous (start element, automatic fields...)
+    name?: string;
 
     description?: string;
 
@@ -60,6 +61,11 @@ export interface CanvasElement extends BaseCanvasElement {
 export interface ChildElement extends FlowElement {
     // This is the "label" in the property editor UI
     label?: string;
+}
+
+export interface ScreenField extends FlowElement {
+    storeOutputAutomatically?: boolean;
+    extensionName?: string;
 }
 
 export type ConnectorType = string;
@@ -98,4 +104,14 @@ export interface StoreState {
     elements: FlowElements;
     connectors: FlowConnector[];
     canvasElements: Guid[];
+}
+
+export interface ElementMetadata {
+    name?: string;
+    description?: string;
+}
+
+export interface ScreenFieldMetadata extends ElementMetadata {
+    storeOutputAutomatically?: boolean;
+    extensionName?: string;
 }

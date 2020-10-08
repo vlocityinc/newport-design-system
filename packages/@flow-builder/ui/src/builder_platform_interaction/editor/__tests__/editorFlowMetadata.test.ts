@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import Editor from '../editor';
 import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';
@@ -20,6 +19,7 @@ const createComponentUnderTest = (props) => {
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn().mockResolvedValue({}),
+        loadFieldsForExtensionsInFlowFromMetadata: jest.fn().mockResolvedValue({}),
         loadFieldsForComplexTypesInFlow: jest.fn(),
         loadReferencesIn: jest.fn().mockResolvedValue({}),
         initializeLoader: jest.fn(),

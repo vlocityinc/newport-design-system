@@ -31,6 +31,8 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
@@ -889,4 +891,12 @@ export const getConnectorsToHighlight = (canvasDecorator: object): array => {
     }
 
     return connectorsToHighlight;
+};
+
+export const screenFieldsReferencedByLoops = (flowMetadata: any): ScreenFieldMetadata[] => {
+    const loopReferences = flowMetadata.loops.map((loop) => sanitizeGuid(loop.collectionReference).guidOrLiteral);
+    return flowMetadata.screens.reduce(
+        (acc, screen) => [...acc, ...screen.fields.filter((field) => loopReferences.includes(field.name))],
+        []
+    );
 };

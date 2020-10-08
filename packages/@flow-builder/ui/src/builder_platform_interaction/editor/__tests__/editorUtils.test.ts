@@ -15,11 +15,13 @@ import {
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
     highlightCanvasElement,
-    getConnectorsToHighlight
+    getConnectorsToHighlight,
+    screenFieldsReferencedByLoops
 } from '../editorUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -1243,6 +1245,28 @@ describe('Editor Utils Test', () => {
                 { source: 'element1', childSource: 'childElement', type: CONNECTOR_TYPE.REGULAR }
             ];
             expect(getConnectorsToHighlight(canvasDecorator)).toEqual(expected);
+        });
+    });
+    describe('screenFieldsReferencedByLoops', () => {
+        it('only returns screen fields referenced by loop', () => {
+            const screenFields = screenFieldsReferencedByLoops(flowWithAllElements.metadata);
+
+            expect(screenFields).toMatchObject([
+                {
+                    choiceReferences: [],
+                    fieldText: '',
+                    fieldType: 'ComponentInstance',
+                    helpText: '',
+                    inputParameters: [],
+                    isRequired: true,
+                    name: 'lightningCompWithAccountsOutput',
+                    outputParameters: [],
+                    scale: 0,
+                    fields: [],
+                    storeOutputAutomatically: true,
+                    extensionName: 'c:sobjectCollectionOutputComp'
+                }
+            ]);
         });
     });
 });

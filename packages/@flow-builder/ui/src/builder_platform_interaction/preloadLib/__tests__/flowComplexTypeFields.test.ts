@@ -5,7 +5,8 @@ import {
     loadParametersForInvocableActionsInFlow,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadFieldsForApexClassesInFlow,
-    loadFieldsForSubflowsInFlow
+    loadFieldsForSubflowsInFlow,
+    loadFieldsForExtensionsInFlowFromMetadata
 } from '../flowComplexTypeFields';
 import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
 import {
@@ -112,6 +113,30 @@ describe('flowComplexTypeFields', () => {
         });
         it('Does not load fields for screen fields not in automatic mode', async () => {
             await loadFieldsForExtensionsInFlow(stateWithElements([screenElement, emailScreenField]));
+            expectOneCallToDescribeExtensions([]);
+        });
+    });
+    describe('loadFieldsForExtensionsInFlowFromMetadata', () => {
+        const expectOneCallToDescribeExtensions = (expectedNames) => {
+            expect(describeExtensions.mock.calls).toHaveLength(1);
+            expect(describeExtensions.mock.calls[0][0]).toEqual(expectedNames);
+        };
+        const screenElementMetadata = getMetadataFlowElementByName(flowWithAllElements, screenElement.name);
+
+        it('Load fields for screen fields in automatic output mode', async () => {
+            await loadFieldsForExtensionsInFlowFromMetadata([
+                screenElementMetadata,
+                ...screenElementMetadata.fields.filter(
+                    (screenField) => screenField.name === emailScreenFieldAutomaticOutput.name
+                )
+            ]);
+            expectOneCallToDescribeExtensions([emailScreenFieldAutomaticOutput.extensionName]);
+        });
+        it('Does not load fields for screen fields not in automatic mode', async () => {
+            await loadFieldsForExtensionsInFlowFromMetadata([
+                screenElementMetadata,
+                ...screenElementMetadata.fields.filter((screenField) => screenField.name === emailScreenField.name)
+            ]);
             expectOneCallToDescribeExtensions([]);
         });
     });

@@ -95,7 +95,8 @@ import {
     isGuardrailsEnabled,
     getToolboxElements,
     getElementsMetadata,
-    getConnectorsToHighlight
+    getConnectorsToHighlight,
+    screenFieldsReferencedByLoops
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -118,7 +119,8 @@ import {
     initializeLoader,
     loadEntity,
     loadEventType,
-    loadVersioningData
+    loadVersioningData,
+    loadFieldsForExtensionsInFlowFromMetadata
 } from 'builder_platform_interaction/preloadLib';
 import {
     ShiftFocusForwardCommand,
@@ -692,7 +694,6 @@ export default class Editor extends LightningElement {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
             // Also needed to load entity/eventType for the start element on canvas.
             this.preloadRequiredDatafromFlowMetadata(data).then(() => {
-                // double dispatch is required for loop factory (we need to get the corresponding looped variable for auto output)
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
                 if (this.properties.isAutoLayoutCanvas) {
@@ -731,6 +732,7 @@ export default class Editor extends LightningElement {
             }
         }
         promises.push(loadParametersForInvocableApexActionsInFlowFromMetadata(flowMetadata.actionCalls));
+        promises.push(loadFieldsForExtensionsInFlowFromMetadata(screenFieldsReferencedByLoops(flowMetadata)));
         return Promise.all(promises);
     }
 

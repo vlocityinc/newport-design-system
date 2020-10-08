@@ -260,7 +260,7 @@ function createDescription(name, data) {
  * @returns {Promise} - A promise to the extensions descriptions
  */
 export function describeExtensions(
-    names = [],
+    names: string[] = [],
     { background = false, disableErrorModal = false, messageForErrorModal } = {}
 ) {
     const extensionNamesToFetch = names.filter((name) => !extensionDescriptionCache[name]);

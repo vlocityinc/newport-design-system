@@ -12,6 +12,8 @@ import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMeta
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { ScreenField, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
+
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
  */
@@ -52,13 +54,7 @@ export function loadFieldsForSobjectsInFlow(state) {
 }
 
 export function loadFieldsForExtensionsInFlow(state) {
-    const extensionNames = componentInstanceScreenFieldsSelector(state)
-        .filter((screenField) => screenField.storeOutputAutomatically === true)
-        .map((screenField) => screenField.extensionName);
-    return describeExtensions(extensionNames, {
-        disableErrorModal: true,
-        background: true
-    }).catch(() => {});
+    return loadFieldsForExtensions(componentInstanceScreenFieldsSelector(state));
 }
 
 export function loadFieldsForSubflowsInFlow(state) {
@@ -95,6 +91,20 @@ export function loadParametersForInvocableApexActionsInFlowFromMetadata(actionCa
         )
     );
     return Promise.all(promises);
+}
+
+export function loadFieldsForExtensionsInFlowFromMetadata(screenFields: ScreenFieldMetadata[]): Promise<any> {
+    return loadFieldsForExtensions(screenFields);
+}
+
+function loadFieldsForExtensions(screenFields: (ScreenField | ScreenFieldMetadata)[]): Promise<any> {
+    const extensionNames = screenFields
+        .filter((screenField) => screenField.storeOutputAutomatically === true)
+        .map((screenField) => screenField.extensionName);
+    return describeExtensions(extensionNames, {
+        disableErrorModal: true,
+        background: true
+    }).catch(() => {});
 }
 
 export function loadParametersForInvocableActionsInFlow(state) {
