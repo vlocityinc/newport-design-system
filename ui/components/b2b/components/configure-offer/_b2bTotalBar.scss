@@ -38,9 +38,6 @@
       height: 1.4rem;
       width: 2.5rem;
       text-align: center;
-      &:focus{
-        outline: none;
-      }
     }
     .nds-b2b-location-button {
       display: block;
@@ -52,12 +49,30 @@
       background-color: $azure;
       width: 100%;
     }
-    
     .nds-b2b-location-button[disabled] {
       pointer-events: none;
       cursor: not-allowed;
       background-color: $disable-gray;
     }
+    &.nds-b2b-footer-btn {
+      display: $b2b-flex-display;
+      justify-content: $b2b-flex-end;
+    }
+  }
+  .nds-b2b-qty-box {
+    border: 1px solid $palette-warm-gray-5;
+    height: 1.4rem;
+    width: 2.6rem;
+    text-align: $b2b-text-center;
+  }
+  .nds-p-bottom_small {
+    &.nds-b2b-footer {
+      display: $b2b-flex-display;
+      justify-content: $b2b-flex-space-even;
+    }
+  }
+  &.nds-b2b-align-footer {
+    padding: 1.2rem 0.5rem 0.5rem 2rem;
   }
   @media screen and (min-width: 48rem) {
     padding: 1.2rem 2rem;
