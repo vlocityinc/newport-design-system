@@ -24,7 +24,7 @@ addDecorator(withDesignTokens);
 
 addParameters({
   options: {
-    name: 'Newport Design System (ins-109.0)',
+    name: 'Newport Design System (cme-109.1)',
     isFullScreen: false,
     showPanel: true,
     hierarchySeparator: /\//,
