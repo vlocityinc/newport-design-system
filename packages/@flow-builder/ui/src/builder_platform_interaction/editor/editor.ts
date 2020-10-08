@@ -64,7 +64,7 @@ import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platfo
 import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { loggingUtils, commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent, NewResourceEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -122,13 +122,6 @@ import {
     loadVersioningData,
     loadFieldsForExtensionsInFlowFromMetadata
 } from 'builder_platform_interaction/preloadLib';
-import {
-    ShiftFocusForwardCommand,
-    ShiftFocusBackwardCommand,
-    DisplayShortcutsCommand,
-    FocusOnDockingPanelCommand
-} from 'builder_platform_interaction/commands';
-import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
@@ -151,7 +144,13 @@ import {
 import { FlowElement, Guid } from 'builder_platform_interaction/flowModel';
 
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
-
+const {
+    ShiftFocusForwardCommand,
+    ShiftFocusBackwardCommand,
+    DisplayShortcutsCommand,
+    FocusOnDockingPanelCommand
+} = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 let unsubscribeStore;
 let storeInstance;
 

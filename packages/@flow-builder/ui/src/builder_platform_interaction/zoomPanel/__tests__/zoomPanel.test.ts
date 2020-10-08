@@ -1,11 +1,11 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ZoomPanel from 'builder_platform_interaction/zoomPanel';
-import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
-jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
-    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
-);
+const { KeyboardInteractions } = keyboardInteractionUtils;
+
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-zoom-panel', {

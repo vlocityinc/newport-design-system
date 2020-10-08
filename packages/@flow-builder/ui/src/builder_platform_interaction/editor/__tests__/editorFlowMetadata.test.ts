@@ -7,6 +7,8 @@ import { initializeAuraFetch } from '../../integrationTests/__tests__/serverData
 
 jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
@@ -50,12 +52,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
-
-jest.mock('builder_platform_interaction/sharedUtils');
-
-jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
-    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
-);
 
 jest.mock('builder_platform_interaction/screenFieldTypeLib', () => {
     return {

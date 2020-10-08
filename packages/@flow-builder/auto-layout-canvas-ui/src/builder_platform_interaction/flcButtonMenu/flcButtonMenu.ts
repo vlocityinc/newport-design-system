@@ -8,6 +8,10 @@ import { classSet } from 'lightning/utils';
 import { ToggleMenuEvent, MenuPositionUpdateEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { EnterCommand } = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
  * Fixed Layout Canvas Menu Button Component.
@@ -38,6 +42,10 @@ export default class FlcButtonMenu extends LightningElement {
     @api
     isCanvasReady;
 
+    // Used for testing purposes
+    @api
+    keyboardInteractions;
+
     @api
     get menuOpened() {
         return this._menuOpened;
@@ -54,6 +62,11 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     _menuOpened = false;
+
+    constructor() {
+        super();
+        this.keyboardInteractions = new KeyboardInteractions();
+    }
 
     /**
      * The size of the icon.
@@ -130,18 +143,6 @@ export default class FlcButtonMenu extends LightningElement {
         this.dispatchEvent(event);
     }
 
-    menuKeyboardInterface() {
-        const that = this;
-        return {
-            isMenuVisible() {
-                return that._menuOpened;
-            },
-            toggleMenuVisibility() {
-                that.toggleMenuVisibility();
-            }
-        };
-    }
-
     /** ***************************** Public Functions *******************************/
 
     /**
@@ -179,10 +180,28 @@ export default class FlcButtonMenu extends LightningElement {
         event.preventDefault();
     }
 
+    handleEnter() {
+        if (!this.isSelectionMode) {
+            // Opening and closing the current selected element
+            this.toggleMenuVisibility();
+        } else {
+            // Checking and unchecking the element when in selection mode
+            // The checkbox is in a slot being filled by flcnode
+            this.querySelector('.selection-checkbox').click();
+        }
+    }
+
+    setupCommandsAndShortcuts() {
+        const enterCommand = new EnterCommand(() => this.handleEnter());
+        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
+        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: ' ' });
+    }
+
     /** ***************************** Callbacks *******************************/
 
     connectedCallback() {
-        this.keyboardInterface = this.menuKeyboardInterface();
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
         this.classList.add('slds-dropdown-trigger', 'slds-dropdown-trigger_click');
     }
 
@@ -195,5 +214,9 @@ export default class FlcButtonMenu extends LightningElement {
             // fire a MenuPositionUpdateEvent if the menuOpened so that the flcBuilder knows where to position it
             this.toggleMenuVisibility(true);
         }
+    }
+
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

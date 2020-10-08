@@ -4,6 +4,8 @@ import FlcConnector from 'builder_platform_interaction/flcConnector';
 import { ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from '../flcConnectorLabels';
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
 const selectors = {
     connectorToBeDeletedSVG: '.connector-to-be-deleted',
     addElementButton: '.circle-text',

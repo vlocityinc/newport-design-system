@@ -1,15 +1,15 @@
 ({
     init: function (cmp) {
         var that = this;
-        var keyboardInteractions = new this.keyboardInteractionUtils.KeyboardInteractions();
+        var keyboardInteractions = new this.sharedUtils.keyboardInteractionUtils.KeyboardInteractions();
         // Move Focus To Editor Toolbox Command
-        var focusOnDockingPanelCommand = new this.commands.FocusOnDockingPanelCommand(function () {
+        var focusOnDockingPanelCommand = new this.sharedUtils.commands.FocusOnDockingPanelCommand(function () {
             that.handleFocusOnToolbox();
         });
         var focusOnDockingPanelShortcut = { key: 'g d' };
         keyboardInteractions.setupCommandAndShortcut(focusOnDockingPanelCommand, focusOnDockingPanelShortcut);
         // Display shortcuts Command
-        var displayShortcutsCommand = new this.commands.DisplayShortcutsCommand(function () {
+        var displayShortcutsCommand = new this.sharedUtils.commands.DisplayShortcutsCommand(function () {
             that.builderUtils.invokeKeyboardHelpDialog();
         });
         var displayShortcutKeyCombo = { key: '/' };

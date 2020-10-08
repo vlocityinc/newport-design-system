@@ -12,6 +12,7 @@ const plugins = [];
 // copied from https://git.soma.salesforce.com/aura/lightning-global/blob/master/ui-lightning-components/app_modules/resolver/module-name-mapper.js
 const moduleNameMapper = {
   '^lightning:IntlLibrary$': './src/demo-app/stubs/intlLibrary.js',
+  '^builder_framework/command$': './src/demo-app/stubs/command.js',
   '^(demo)-(.+)$': './src/demo-app/modules/$1/$2/$2.js',
   '^@label/(.+)$': './src/demo-app/labels/$1.js',
   '^(aura)$': './src/demo-app/stubs/$1.js',
@@ -86,6 +87,6 @@ module.exports = [
       file: path.resolve('build/demo-app/builder.js'),
       format: 'iife',
     },
-    plugins,
+    plugins
   },
 ];

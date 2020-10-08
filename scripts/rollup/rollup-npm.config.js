@@ -3,7 +3,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
-import { banner } from './utils';
+import { banner, external } from './utils';
 
 const modes = [
     {
@@ -33,7 +33,8 @@ function getConfig({ mode, minify }) {
                 ]
             ],
             plugins: ['@babel/plugin-proposal-object-rest-spread'],
-            comments: false
+            comments: false,
+            babelHelpers: 'bundled'
         }),
         minify && terser()
     ];
@@ -51,7 +52,7 @@ function getConfig({ mode, minify }) {
             }
         ],
         plugins,
-        external: ['instrumentation/service']
+        external
     };
 }
 

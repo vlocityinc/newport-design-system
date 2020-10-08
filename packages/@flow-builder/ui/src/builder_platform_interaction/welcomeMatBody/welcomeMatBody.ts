@@ -1,8 +1,9 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './welcomeMatBodyLabels';
-import { EnterCommand } from 'builder_platform_interaction/commands';
-import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
+const { EnterCommand } = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 const FREE_FORM_CANVAS = 'freeformCanvas';
 const AUTO_LAYOUT_CANVAS = 'autolayoutCanvas';
 

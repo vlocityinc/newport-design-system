@@ -5,6 +5,7 @@ import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEven
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-flcNode', {

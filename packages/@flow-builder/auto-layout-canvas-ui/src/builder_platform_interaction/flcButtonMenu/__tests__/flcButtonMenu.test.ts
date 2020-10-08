@@ -5,6 +5,8 @@ import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
 const startMetadata = {
     canHaveFaultConnector: false,
     elementType: 'Start',
@@ -144,6 +146,26 @@ describe('the button menu', () => {
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.click();
         expect(callback).toHaveBeenCalled();
+    });
+
+    it('pressing the enter key should dispatch the toggleMenu event if we are NOT in selection mode', () => {
+        const cmp = createComponentUnderTest();
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
+        const callback = jest.fn();
+        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+        button.focus();
+        cmp.keyboardInteractions.execute('entercommand');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('pressing the enter key should not dispatch the toggleMenu event if we are in selection mode', () => {
+        const cmp = createComponentUnderTest(screenMetadata, false, true);
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
+        const callback = jest.fn();
+        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+        button.focus();
+        cmp.keyboardInteractions.execute('entercommand');
+        expect(callback).not.toHaveBeenCalled();
     });
 
     it('should not dispatch the toggleMenu event if we are in selection mode', () => {

@@ -25,18 +25,19 @@ import {
     ZOOM_ACTION,
     MARQUEE_ACTION
 } from 'builder_platform_interaction/events';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
-import {
+import { loggingUtils, commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logPerfMarkStart, logPerfMarkEnd, logInteraction } = loggingUtils;
+const {
     ZoomInCommand,
     ZoomOutCommand,
     ZoomToFitCommand,
     ZoomToViewCommand,
     DeleteNodesCommand,
     FocusOnDockingPanelCommand
-} from 'builder_platform_interaction/commands';
-import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+} = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
-const { logPerfMarkStart, logPerfMarkEnd, logInteraction } = loggingUtils;
 /**
  * Canvas component for flow builder.
  *

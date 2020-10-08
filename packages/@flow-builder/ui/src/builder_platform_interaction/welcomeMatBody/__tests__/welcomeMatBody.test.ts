@@ -1,9 +1,7 @@
 import { createElement } from 'lwc';
 import WelcomeMatBody from 'builder_platform_interaction/welcomeMatBody';
 
-jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
-    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
-);
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createCallback = jest.fn();
 const closeCallback = jest.fn();

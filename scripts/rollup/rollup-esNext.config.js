@@ -1,4 +1,4 @@
-import { banner } from './utils';
+import { banner, external } from './utils';
 import { resolve } from 'path';
 import pluginNodeResolve from '@rollup/plugin-node-resolve';
 import pluginCommonJS from '@rollup/plugin-commonjs';
@@ -15,6 +15,6 @@ export default {
         format: 'esm',
         banner
     },
-    external: ['instrumentation/service'],
+    external,
     plugins
 };

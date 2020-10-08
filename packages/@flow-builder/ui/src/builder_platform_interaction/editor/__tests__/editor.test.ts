@@ -105,9 +105,7 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
-jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
-    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
-);
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
