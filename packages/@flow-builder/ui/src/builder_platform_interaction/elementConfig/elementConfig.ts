@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
@@ -124,6 +123,7 @@ import {
     //    createPastedSteppedStage,
     //    createDuplicateSteppedStage,
 } from 'builder_platform_interaction/elementFactory';
+import { ElementConfig } from 'builder_platform_interaction/flowModel';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
@@ -155,7 +155,9 @@ export const ICON_SHAPE = {
  *                                       respective components
  * @type {object}
  */
-export const elementTypeToConfigMap = {
+export const elementTypeToConfigMap: {
+    [p: string]: ElementConfig;
+} = {
     [ELEMENT_TYPE.FLOW_PROPERTIES]: {
         descriptor: 'builder_platform_interaction:flowPropertiesEditor',
         modalSize: MODAL_SIZE.MEDIUM,
@@ -458,8 +460,7 @@ export const elementTypeToConfigMap = {
             description: LABELS.collectionProcessorLogicDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.COLLECTION_PROCESSOR,
-        labels: {},
+        metadataKey: METADATA_KEY.COLLECTION_PROCESSORS,
         canvasElement: true,
         nonHydratableProperties: ['elementSubtype'],
         bodyCssClass: 'slds-p-around_none',
@@ -1081,9 +1082,9 @@ export const elementTypeToConfigMap = {
         factory: {
             propertyEditor: createSteppedStageWithItems,
             // TODO: future PR
-            pasteElement: null, // createPastedSteppedStage,
+            pasteElement: undefined, // createPastedSteppedStage,
             // TODO: future PR
-            duplicateElement: null, // createDuplicateSteppedStage,
+            duplicateElement: undefined, // createDuplicateSteppedStage,
             closePropertyEditor: createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createSteppedStageMetadataObject,
             flowToUi: createSteppedStageWithItemReferences
@@ -1123,24 +1124,24 @@ export const elementTypeToConfigMap = {
  * Updates the elementTypeToConfigMap to include the configuration information for element subtypes retrieved via the Service API.
  * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
-export const updateElementConfigMapWithSubtypes = (elements: Array<object>) => {
+export const updateElementConfigMapWithSubtypes = (elements: Array<ElementConfig>) => {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         if (element && element.isElementSubtype) {
-            elementTypeToConfigMap[element.name] = JSON.parse(
-                JSON.stringify(elementTypeToConfigMap[element.elementType])
+            elementTypeToConfigMap[element.name!] = JSON.parse(
+                JSON.stringify(elementTypeToConfigMap[element.elementType!])
             );
 
-            const elementToUpdate = elementTypeToConfigMap[element.name];
+            const elementToUpdate = elementTypeToConfigMap[element.name!];
             elementToUpdate.elementSubtype = element.name;
-            elementToUpdate.factory = elementTypeToConfigMap[element.elementType].factory;
-            elementToUpdate.labels.singular = element.label;
-            elementToUpdate.labels.leftPanel = element.label;
-            elementToUpdate.labels.newModal = LABELS.newElementHeaderPrefix + ' ' + element.label;
-            elementToUpdate.labels.editModal = LABELS.editButtonLabel + ' ' + element.label;
+            elementToUpdate.factory = elementTypeToConfigMap[element.elementType!].factory;
+            elementToUpdate.labels!.singular = element.label!;
+            elementToUpdate.labels!.leftPanel = element.label;
+            elementToUpdate.labels!.newModal = LABELS.newElementHeaderPrefix + ' ' + element.label;
+            elementToUpdate.labels!.editModal = LABELS.editButtonLabel + ' ' + element.label;
             elementToUpdate.color = element.color;
-            elementToUpdate.nodeConfig.iconName = element.icon;
-            elementToUpdate.nodeConfig.description = element.description;
+            elementToUpdate.nodeConfig!.iconName = element.icon!;
+            elementToUpdate.nodeConfig!.description = element.description;
             elementToUpdate.flowBuilderConfigComponent = element.flowBuilderConfigComponent;
         }
     }
@@ -1151,10 +1152,10 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<object>) => {
  * @param element - element to fetch configuration information for based on its element type or subelement type
  * @returns An object containing component config
  */
-export function getConfigForElement(element: object): object {
-    let configLookup = null;
+export function getConfigForElement(element: ElementConfig): ElementConfig {
+    let configLookup;
     if (element.isElementSubtype) {
-        configLookup = element.name;
+        configLookup = element.name!;
     } else {
         configLookup = getValueFromHydratedItem(element.elementSubtype) || element.elementType;
     }
@@ -1166,7 +1167,7 @@ export function getConfigForElement(element: object): object {
  *            map, if empty, default element is chosen
  * @returns An object containing component config
  */
-export function getConfigForElementType(elementType: string): object {
+export function getConfigForElementType(elementType: string): ElementConfig {
     if (elementType === null || elementType === undefined || !elementTypeToConfigMap[elementType]) {
         elementType = ELEMENT_TYPE.DEFAULT;
     }
@@ -1175,23 +1176,20 @@ export function getConfigForElementType(elementType: string): object {
 
 /**
  * Checks if the given element type is an element that is visible on the canvas.
- *
- * @param {String}
- *            elementType one of the values defined in ELEMENT_TYPE
+ * @param elementType - elementType one of the values defined in ELEMENT_TYPE
  * @returns {boolean} true if the given element type is a canvas element
+
  */
-export function isCanvasElement(elementType) {
+export function isCanvasElement(elementType: string) {
     return !!getConfigForElementType(elementType).canvasElement;
 }
 
 /**
  * Checks if the given element type is an top level element or not
- *
- * @param {String}
- *            elementType one of the values defined in ELEMENT_TYPE
+ * @param elementType - elementType one of the values defined in ELEMENT_TYPE
  * @returns {boolean} true if the given element type is a top level element or not.
  */
-export function isChildElement(elementType) {
+export function isChildElement(elementType: string) {
     return !!getConfigForElementType(elementType).isChildElement;
 }
 

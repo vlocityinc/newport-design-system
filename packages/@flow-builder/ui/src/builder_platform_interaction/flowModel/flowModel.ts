@@ -115,3 +115,79 @@ export interface ScreenFieldMetadata extends ElementMetadata {
     storeOutputAutomatically?: boolean;
     extensionName?: string;
 }
+
+export interface ElementConfig {
+    bodyCssClass?: string;
+    canBeDuplicated?: boolean;
+    canHaveDefaultConnector?: boolean;
+    canHaveFaultConnector?: boolean;
+    canvasElement?: boolean;
+    childReferenceKey?: { [key: string]: string };
+    color?: string;
+    description?: string;
+    descriptor?: string | Descriptor;
+    elementSubtype?: string;
+    elementType?: string;
+    factory?: Factory;
+    flowBuilderConfigComponent?: string;
+    icon?: string;
+    isChildElement?: boolean;
+    isDeletable?: boolean;
+    isElementSubtype?: boolean;
+    label?: string;
+    labels?: LabelsObject;
+    metadataFilter?: (args: any) => boolean;
+    metadataKey?: string;
+    modalSize?: string;
+    name?: string;
+    nodeConfig?: NodeConfig;
+    nonHydratableProperties?: string[];
+}
+
+interface LabelsObject {
+    singular: string;
+    plural?: string;
+    leftPanel?: string;
+    newModal?: string;
+    editModal?: string;
+    editTrigger?: string;
+    editSchedule?: string;
+    editPlatform?: string;
+    editObject?: string;
+    editTriggerObjectLabel?: string;
+    editObjectAndFiltersLabel?: string;
+    editTimeTrigger?: string;
+    connectorPickerHeader?: string;
+    connectorPickerBodyText?: string;
+    comboBoxLabel?: string;
+    [propName: string]: any;
+}
+
+interface NodeConfig {
+    canBeConnectorTarget?: boolean;
+    description?: string;
+    dragImageSrc?: string;
+    dynamicNodeComponent?: string;
+    dynamicNodeComponentSelector?: (args: any) => any;
+    iconBackgroundColor?: string;
+    iconName: string;
+    iconShape?: string;
+    iconSize?: string;
+    maxConnections?: number;
+    section?: string;
+    utilityIconName?: string;
+    value?: string;
+}
+
+interface Factory {
+    uiToFlow?: Function;
+    propertyEditor?: (args: any) => any;
+    flowToUi?: (args: any, arg2?: any) => any;
+    pasteElement?: (args: any) => any;
+    duplicateElement?: Function;
+    closePropertyEditor?: (args: any) => any;
+}
+
+interface Descriptor {
+    [p: string]: string;
+}
