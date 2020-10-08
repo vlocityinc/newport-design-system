@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
@@ -11,8 +10,10 @@ import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction
  * This class holds the full menu data, filtered menu data and handles the events combobox value changed & filter matches
  * All wrapper classes will have to implement their own logic for retrieving full menu data
  */
+
 export default class BaseResourcePicker extends LightningElement {
     static SELECTOR = 'builder_platform_interaction-base-resource-picker';
+
     /**
      * Custom error message from setCustomValidity
      */
@@ -43,7 +44,10 @@ export default class BaseResourcePicker extends LightningElement {
      * @property {ComboboxConfig}       the combobox config object
      */
     @track
-    state = { renderIncrementally: false };
+    state: { renderIncrementally: boolean; menuData: Object[] | undefined } = {
+        renderIncrementally: false,
+        menuData: undefined
+    };
 
     /**
      * The configuration object that contains the api properties of a flow combobox
@@ -62,7 +66,7 @@ export default class BaseResourcePicker extends LightningElement {
      * @param {ComboboxConfig} config the combobox config object used to initialize the resource picker's combobox
      */
     @api
-    comboboxConfig = {};
+    comboboxConfig: ComboboxConfig = {};
 
     @api
     placeholder;
@@ -119,6 +123,12 @@ export default class BaseResourcePicker extends LightningElement {
     allowedParamTypes = null;
 
     /**
+     * Supports pill display?
+     */
+    @api
+    isPillSupported = false;
+
+    /**
      * Sets the full menu data for the resource picker
      * This method should be called by the wrapper components when they want
      * to set the full menu data for the resource picker
@@ -155,9 +165,9 @@ export default class BaseResourcePicker extends LightningElement {
      * @returns {ComboboxConfig} The combobox config object
      */
     static getComboboxConfig = (
-        label,
-        placeholder,
-        errorMessage,
+        label?: string,
+        placeholder?: string,
+        errorMessage?: string,
         literalsAllowed = false,
         required = false,
         disabled = false,
@@ -165,7 +175,7 @@ export default class BaseResourcePicker extends LightningElement {
         enableFieldDrilldown = false,
         allowSObjectFields = true,
         variant = LIGHTNING_INPUT_VARIANTS.STANDARD,
-        fieldLevelHelp = undefined
+        fieldLevelHelp?: string
     ) => {
         return {
             label,
@@ -227,7 +237,7 @@ export const getComboboxConfig = ({
     enableFieldDrilldown = false,
     allowSObjectFields = true,
     variant = LIGHTNING_INPUT_VARIANTS.STANDARD,
-    fieldLevelHelp = undefined
+    fieldLevelHelp
 }) => ({
     label,
     placeholder,

@@ -65,4 +65,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     @api
     showActivityIndicator;
+
+    @api
+    isPillSupported;
 }

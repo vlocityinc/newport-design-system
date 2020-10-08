@@ -15,11 +15,8 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/processTypeLib');
 jest.mock('builder_platform_interaction/storeUtils');
-
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
 jest.mock('builder_platform_interaction/sharedUtils');
-
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     return {
         getInlineResource: jest.fn(() => {
@@ -57,7 +54,6 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         getFieldsForEntity: jest.fn()
     };
 });
-
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const mockParam = {
         paramType: 'Data',
@@ -72,7 +68,6 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         getRHSTypes: jest.fn().mockReturnValue(mockParam).mockName('getRHSTypes')
     };
 });
-
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getMenuData: jest
@@ -653,6 +648,12 @@ describe('ferov-resource-picker', () => {
             await ticks(1);
             expect(spy).toHaveBeenCalledWith('test response');
             expect(updateInlineResourceSpy).toHaveBeenCalled();
+        });
+    });
+    describe('pills', () => {
+        it('does not support pills by default', () => {
+            const baseResourcePicker = setupComponentUnderTest();
+            expect(baseResourcePicker.isPillSupported).toBe(false);
         });
     });
 });

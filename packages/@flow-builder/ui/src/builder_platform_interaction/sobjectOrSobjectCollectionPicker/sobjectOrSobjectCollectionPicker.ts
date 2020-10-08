@@ -93,6 +93,12 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     }
 
     /**
+     * Supports pill display?
+     */
+    @api
+    isPillSupported = false;
+
+    /**
      * @returns {Object|String} the value of the combobox (item or displayText)
      */
     get sobjectVariableItemOrDisplayText() {
@@ -138,8 +144,8 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
             },
             selectorConfig: {
                 dataType: 'SObject',
-                sobjectCollectionCriterion: this.state.sobjectCollectionCriterion,
-                entityName: this.state.recordEntityName,
+                sobjectCollectionCriterion: this.sobjectCollectionCriterion,
+                entityName: this.recordEntityName,
                 createable: this.createable,
                 updateable: this.updateable,
                 queryable: this.queryable,

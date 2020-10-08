@@ -1,7 +1,8 @@
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    deepQuerySelector,
+    removePill
 } from 'builder_platform_interaction/builderTestUtils';
 
 export const getBaseResourcePickerCombobox = (element) => {
@@ -11,12 +12,16 @@ export const getBaseResourcePickerCombobox = (element) => {
     ]);
 };
 
-export const getOutputResourcePickerCombobox = (outputResourcePicker) =>
-    getBaseResourcePickerCombobox(outputResourcePicker);
+export const getOutputResourcePicker = (recordEditor) =>
+    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.OUTPUT_RESOURCE_PICKER);
 
-export const getResourceCombobox = (recordEditor) =>
+export const getOutputBaseResourcePickerCombobox = (recordEditor) =>
+    getBaseResourcePickerCombobox(getOutputResourcePicker(recordEditor));
+
+export const getResourceCombobox = (recordEditor, extraParentSelectors: string[] = []) =>
     getBaseResourcePickerCombobox(
         deepQuerySelector(recordEditor, [
+            ...extraParentSelectors,
             INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER,
             INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER
         ])
@@ -48,3 +53,9 @@ export const getEntityResourcePicker = (editor) =>
 
 export const getRecordStoreOption = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
+
+export const removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox = async (element) => {
+    const combobox = getResourceCombobox(element);
+    await removePill(combobox);
+    return getResourceGroupedCombobox(element);
+};

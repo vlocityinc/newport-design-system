@@ -1,4 +1,5 @@
 import { LIGHTNING_COMPONENTS_SELECTORS, ticks, clickEvent, removeEvent } from './builderTestUtils';
+import Combobox from 'builder_platform_interaction/combobox';
 
 /**
  * Return the pill component corresponding to the given combobox
@@ -15,11 +16,11 @@ export const getComboboxPill = (combobox: any): any | null => {
 
 /**
  * Click on pill to switch to merge field notation combobox mode
- * @param {HTMLElement} combobox - current combobox
+ * @param {Combobox} combobox - current combobox
  * @returns {Promise<void>}
  */
 // eslint-disable-next-line @lwc/lwc/no-async-await
-export const clickPill = async (combobox: any): Promise<void> => {
+export const clickPill = async (combobox: Combobox): Promise<void> => {
     const pill = getComboboxPill(combobox);
     if (pill) {
         pill.dispatchEvent(clickEvent());
@@ -29,11 +30,11 @@ export const clickPill = async (combobox: any): Promise<void> => {
 
 /**
  * Remove pill to switch to merge field notation combobox mode and reset combobox menu data
- * @param {HTMLElement} combobox - current combobox
+ * @param {Combobox} combobox - current combobox
  * @returns {Promise<void>}
  */
 // eslint-disable-next-line @lwc/lwc/no-async-await
-export const removePill = async (combobox: HTMLElement): Promise<void> => {
+export const removePill = async (combobox: Combobox): Promise<void> => {
     const pill = getComboboxPill(combobox);
     if (pill) {
         pill.dispatchEvent(removeEvent());

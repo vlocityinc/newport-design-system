@@ -1483,6 +1483,39 @@ describe('Combobox', () => {
         });
     });
     describe('pill supported', () => {
+        describe('required', () => {
+            it('displays required element for required field', async () => {
+                createCombobox({ isPillSupported: true, required: true });
+                combobox.menuData = secondLevelMenuData;
+                const [comboboxItem] = secondLevelMenuData;
+                groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+                await ticks(1);
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+                expect(combobox).toMatchSnapshot();
+            });
+            it('does NOT display required element for non required field', async () => {
+                createCombobox({ isPillSupported: true });
+                combobox.menuData = secondLevelMenuData;
+                const [comboboxItem] = secondLevelMenuData;
+                groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+                await ticks(1);
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+                expect(combobox).toMatchSnapshot();
+            });
+        });
+        it('does not display pill if disabled', async () => {
+            createCombobox({ isPillSupported: true });
+            combobox.menuData = secondLevelMenuData;
+            const [comboboxItem] = secondLevelMenuData;
+            groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+            await ticks(1);
+            combobox.disabled = true;
+            groupedCombobox.dispatchEvent(blurEvent);
+            await ticks(1);
+            expect(combobox.hasPill).toBe(false);
+        });
         describe('Property sanity checks', () => {
             beforeAll(() => {
                 createCombobox({ isPillSupported: true });

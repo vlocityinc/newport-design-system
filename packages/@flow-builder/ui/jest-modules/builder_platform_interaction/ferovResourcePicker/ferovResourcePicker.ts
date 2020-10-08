@@ -48,4 +48,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     setCustomValidity = jest.fn();
+
+    @api
+    isPillSupported;
 }

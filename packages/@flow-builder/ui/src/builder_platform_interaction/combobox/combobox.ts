@@ -111,6 +111,9 @@ export const MENU_DATA_PAGE_SIZE = 50;
  * @fires NewResourceEvent
  */
 export default class Combobox extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-combobox';
+    labels = LABELS;
+
     /**
      * @typedef {Object} Pill - a pill
      * @property {string} iconName - icon name (eg: utility:text)
@@ -124,6 +127,7 @@ export default class Combobox extends LightningElement {
      * @property {number} currentMenuLength - Total number of items in a flattened current menu.
      * @property {boolean} disabled - disabled status
      * @property {Pill} pill - pill object
+     * @property {Boolean} hasPill - is in pill mode?
      */
     @track
     state: State = {
@@ -293,6 +297,10 @@ export default class Combobox extends LightningElement {
             }
         } else {
             if (!itemOrDisplayText && this.state.displayText) {
+                if (this.state.pill && !this.hasPillError) {
+                    this.state.pill = null;
+                }
+
                 if (this._mergeFieldLevel > 1) {
                     this.fireFetchMenuDataEvent();
                 } else {
@@ -480,6 +488,12 @@ export default class Combobox extends LightningElement {
     }
 
     /**
+     * Child of a {@link BaseExpressionBuilder} component?
+     */
+    @api
+    hasBaseExpressionBuilderParent = false;
+
+    /**
      * Returns the literal value of the combobox (could be different from the displayed value)
      */
     get literalValue() {
@@ -504,10 +518,14 @@ export default class Combobox extends LightningElement {
 
         if (!this._initialyRendered) {
             this._initialyRendered = true;
-            this._createPill();
+            if (this.hasBaseExpressionBuilderParent) {
+                this._createPill();
+            }
         } else if (this._isPillRemoved) {
             this._isPillRemoved = false;
             this._groupedComboboxFocus();
+        } else if (!this._isPillClicked && !this._itemSelected && !this.hasBaseExpressionBuilderParent) {
+            this._createPill();
         }
     }
 
@@ -565,6 +583,14 @@ export default class Combobox extends LightningElement {
     @api
     get pill(): Pill | null {
         return this.state.pill;
+    }
+
+    /**
+     * has Pill?
+     */
+    @api
+    get hasPill(): boolean {
+        return this.isPillSupported && !!this.state.pill;
     }
 
     @api
@@ -739,6 +765,8 @@ export default class Combobox extends LightningElement {
      * @param {Object} event - Event fired from grouped-combobox
      */
     handleSelect(event) {
+        this._itemSelected = true;
+
         if (event.detail.value === COMBOBOX_NEW_RESOURCE_VALUE) {
             this._isNewInlineResourceSelected = true;
             this.fireNewResourceEvent();
@@ -854,6 +882,7 @@ export default class Combobox extends LightningElement {
     handlePillClick(event: CustomEvent): void {
         event.stopPropagation();
         event.preventDefault();
+        this._isPillClicked = true;
         this._removePill(false);
     }
 
@@ -1196,6 +1225,7 @@ export default class Combobox extends LightningElement {
     private _createPill(): void {
         if (
             this.isPillSupported &&
+            !this.disabled &&
             this._isMergeField &&
             !this.pill &&
             this._item &&
@@ -1207,6 +1237,7 @@ export default class Combobox extends LightningElement {
                 iconName: this._item.iconName
             };
             this._isPillRemoved = false;
+            this._isPillClicked = false;
         }
     }
 

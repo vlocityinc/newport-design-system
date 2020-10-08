@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import OutputResourcePicker from '../outputResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -11,7 +10,6 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     return {
         getInlineResource: jest.fn(() => {
@@ -19,7 +17,6 @@ jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
         })
     };
 });
-
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         updateInlineResourceProperties: jest.fn(() => 'test response')
@@ -99,6 +96,7 @@ describe('output-resource-picker', () => {
         it('exists', async () => {
             const outputResourcePicker = setupComponentUnderTest(props);
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+            // @ts-ignore
             Store.setMockState({
                 properties: {
                     lastInlineResourceRowIndex: idx,
@@ -117,6 +115,7 @@ describe('output-resource-picker', () => {
                 placeholder: 'FlowBuilderCombobox.outputPlaceholder'
             };
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+            // @ts-ignore
             Store.setMockState({
                 properties: {
                     lastInlineResourceRowIndex: idx,
@@ -131,6 +130,7 @@ describe('output-resource-picker', () => {
         it('has the value set', async () => {
             props.value = 'testValue';
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+            // @ts-ignore
             Store.setMockState({
                 properties: {
                     lastInlineResourceRowIndex: idx,
@@ -147,6 +147,7 @@ describe('output-resource-picker', () => {
         props.value = 'foo';
         setupComponentUnderTest(props);
         const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+        // @ts-ignore
         Store.setMockState({
             properties: {
                 lastInlineResourceRowIndex: idx,
@@ -176,15 +177,18 @@ describe('output-resource-picker', () => {
             value: 'accVar.Name',
             parent: parentRecordVar
         };
+        // @ts-ignore
         normalizeFEROV.mockReturnValueOnce({
             itemOrDisplayText: {
                 value: 'accVar.Name',
                 parent: parentRecordVar
             }
         });
+        // @ts-ignore
         getMenuItemForField.mockReturnValueOnce(props.value);
         setupComponentUnderTest(props);
         const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+        // @ts-ignore
         Store.setMockState({
             properties: {
                 lastInlineResourceRowIndex: idx,
@@ -213,6 +217,7 @@ describe('output-resource-picker', () => {
         const enableFieldDrilldown = (props.comboboxConfig.enableFieldDrilldown = true);
         setupComponentUnderTest(props);
         const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+        // @ts-ignore
         Store.setMockState({
             properties: {
                 lastInlineResourceRowIndex: idx,
@@ -240,6 +245,7 @@ describe('output-resource-picker', () => {
     it('uses rule service and expression utils to retrieve fer data', async () => {
         setupComponentUnderTest(props);
         const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+        // @ts-ignore
         Store.setMockState({
             properties: {
                 lastInlineResourceRowIndex: idx,
@@ -268,6 +274,7 @@ describe('output-resource-picker', () => {
         it('calls getRHSTypes with the right arguments', async () => {
             setupComponentUnderTest(props);
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+            // @ts-ignore
             Store.setMockState({
                 properties: {
                     lastInlineResourceRowIndex: idx,
@@ -275,6 +282,7 @@ describe('output-resource-picker', () => {
                 }
             });
             await ticks(1);
+            // @ts-ignore
             const populateParamTypesFn = getMenuData.mock.calls[0][2];
             populateParamTypesFn();
             expect(getRHSTypes).toHaveBeenCalledWith(
@@ -290,6 +298,7 @@ describe('output-resource-picker', () => {
         it('normalizes value when changing value', async () => {
             const outputResourcePicker = setupComponentUnderTest(props);
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+            // @ts-ignore
             Store.setMockState({
                 properties: {
                     lastInlineResourceRowIndex: idx,
@@ -305,6 +314,7 @@ describe('output-resource-picker', () => {
         it('normalizes value when changing combobox config', async () => {
             const outputResourcePicker = setupComponentUnderTest(props);
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+            // @ts-ignore
             Store.setMockState({
                 properties: {
                     lastInlineResourceRowIndex: idx,
@@ -312,6 +322,7 @@ describe('output-resource-picker', () => {
                 }
             });
             props.comboboxConfig.type = FLOW_DATA_TYPE.STRING;
+            // @ts-ignore
             normalizeFEROV.mockClear();
             outputResourcePicker.comboboxConfig = props.comboboxConfig;
 
@@ -340,6 +351,7 @@ describe('output-resource-picker', () => {
                 const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47crr';
                 props.rowIndex = idx;
                 const spy = Store.getStore().dispatch;
+                // @ts-ignore
                 Store.setMockState({
                     properties: {
                         lastInlineResourceRowIndex: idx,
@@ -347,7 +359,7 @@ describe('output-resource-picker', () => {
                     }
                 });
                 const cmp = setupComponentUnderTest(props);
-                const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
+                const picker = cmp.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
                 picker.dispatchEvent(fetchMenuData());
 
                 await ticks(1);
@@ -357,6 +369,7 @@ describe('output-resource-picker', () => {
                 const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
                 props.rowIndex = idx;
                 const menuDataSpy = getMenuData;
+                // @ts-ignore
                 Store.setMockState({
                     properties: {
                         lastInlineResourceRowIndex: idx,
@@ -374,6 +387,7 @@ describe('output-resource-picker', () => {
                 const spy = Store.getStore().dispatch;
 
                 const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+                // @ts-ignore
                 Store.setMockState({
                     properties: {
                         inlineResourceRowIndex: idx,

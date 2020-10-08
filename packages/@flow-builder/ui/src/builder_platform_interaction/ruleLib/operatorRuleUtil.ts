@@ -341,7 +341,7 @@ export const transformOperatorsForCombobox = (operators) => {
  * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}       map of data types, element types, and object types to allowed right hand side types
  */
-export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) => {
+export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType?) => {
     // sanity checks
     if (!lhsElement || Object.keys(lhsElement).length === 0) {
         return [];

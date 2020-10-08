@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { FilterMatchesEvent } from 'builder_platform_interaction/events';
@@ -7,7 +6,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEdi
 import BaseResourcePicker from '../baseResourcePicker';
 import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
-const setupComponentUnderTest = (props) => {
+const setupComponentUnderTest = (props?: {}) => {
     const element = createElement('builder_platform_interaction-base-resource-picker', {
         is: BaseResourcePicker
     });
@@ -24,6 +23,9 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 
+const getFlowCombobox = (baseResourcePicker) =>
+    baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+
 describe('base-resource-picker', () => {
     const comboboxConfig = {
         label: 'test label',
@@ -38,7 +40,7 @@ describe('base-resource-picker', () => {
 
     it('has a static getComboboxConfig method that returns a ComboboxConfig object', () => {
         expect(BaseResourcePicker.getComboboxConfig).toEqual(expect.any(Function));
-        expect(BaseResourcePicker.getComboboxConfig('', '', '', '', '', '', '')).toMatchObject({
+        expect(BaseResourcePicker.getComboboxConfig('', '', '', false, false, false, '')).toMatchObject({
             label: expect.anything(),
             placeholder: expect.anything(),
             errorMessage: expect.anything(),
@@ -49,15 +51,14 @@ describe('base-resource-picker', () => {
         });
     });
 
-    it('contains one flow combobox', async () => {
+    it('contains one flow combobox', () => {
         const baseResourcePicker = setupComponentUnderTest({ comboboxConfig });
-        await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox).toBeDefined();
     });
 
     describe('initialized the combobox with the values inside the combobox config object', () => {
-        it('config including all values except type and errorMessage', async () => {
+        it('config including all values except type and errorMessage', () => {
             const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
             delete comboboxConfigWithoutType.type;
 
@@ -65,65 +66,61 @@ describe('base-resource-picker', () => {
                 comboboxConfig: comboboxConfigWithoutType,
                 value: 123
             });
-            await ticks(1);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
-            expect(flowCombobox.label).toEqual(comboboxConfig.label);
-            expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
-            expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
-            expect(flowCombobox.required).toEqual(comboboxConfig.required);
-            expect(flowCombobox.disabled).toEqual(comboboxConfig.disabled);
+            const flowCombobox = getFlowCombobox(baseResourcePicker);
+            expect(flowCombobox).toMatchObject({
+                label: comboboxConfig.label,
+                placeholder: comboboxConfig.placeholder,
+                literalsAllowed: comboboxConfig.literalsAllowed,
+                required: comboboxConfig.required,
+                disabled: comboboxConfig.disabled
+            });
         });
-        it('config including type', async () => {
+        it('config including type', () => {
             const baseResourcePicker = setupComponentUnderTest({
                 comboboxConfig,
                 value: 'test display text'
             });
-            await ticks(1);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+            const flowCombobox = getFlowCombobox(baseResourcePicker);
             expect(flowCombobox.type).toEqual(comboboxConfig.type);
         });
     });
 
-    it('can set the value of the flow combobox', async () => {
+    it('can set the value of the flow combobox', () => {
         const defaultValue = { value: 'testVal', displayText: 'test val' };
         const baseResourcePicker = setupComponentUnderTest({
             comboboxConfig,
             value: defaultValue
         });
-        await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox.value).toEqual(defaultValue);
     });
 
-    it('can set the displayText of the flow combobox', async () => {
+    it('can set the displayText of the flow combobox', () => {
         const defaultDisplayText = 'test display text';
         const baseResourcePicker = setupComponentUnderTest({
             comboboxConfig,
             value: defaultDisplayText
         });
-        await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox.value).toEqual(defaultDisplayText);
     });
 
-    it('can set the errorMessage of the flow combobox', async () => {
+    it('can set the errorMessage of the flow combobox', () => {
         const errorMessage = 'wrong';
         const baseResourcePicker = setupComponentUnderTest({
             comboboxConfig,
             errorMessage
         });
-        await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox.errorMessage).toEqual(errorMessage);
     });
 
-    it('sets the allowed param types on the flow combobox', async () => {
+    it('sets the allowed param types on the flow combobox', () => {
         const allowedParamTypes = { foo: { value: 'foo' } };
         const baseResourcePicker = setupComponentUnderTest({
             allowedParamTypes
         });
-        await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox.allowedParamTypes).toEqual(allowedParamTypes);
     });
 
@@ -131,7 +128,7 @@ describe('base-resource-picker', () => {
         const baseResourcePicker = setupComponentUnderTest({
             comboboxConfig
         });
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox.renderIncrementally).toBeFalsy();
 
         const fullMenuData = ['full menu data'];
@@ -147,7 +144,7 @@ describe('base-resource-picker', () => {
             });
             const fullMenuData = ['full menu data'];
             baseResourcePicker.setMenuData(fullMenuData);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+            const flowCombobox = getFlowCombobox(baseResourcePicker);
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', false));
             await ticks(1);
             expect(filterMatches).toHaveBeenCalledWith('someValue', fullMenuData, false);
@@ -158,7 +155,7 @@ describe('base-resource-picker', () => {
             const baseResourcePicker = setupComponentUnderTest({
                 comboboxConfig
             });
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+            const flowCombobox = getFlowCombobox(baseResourcePicker);
             const isMergeField = true;
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', isMergeField));
             await ticks(1);
@@ -166,7 +163,7 @@ describe('base-resource-picker', () => {
         });
     });
 
-    it('uses placeholder property, if no placeholder is in config', async () => {
+    it('uses placeholder property, if no placeholder is in config', () => {
         const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
         delete comboboxConfigWithoutType.placeholder;
 
@@ -175,18 +172,8 @@ describe('base-resource-picker', () => {
             placeholder: 'abc',
             value: 123
         });
-        await ticks(1);
-
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
         expect(flowCombobox.placeholder).not.toEqual(comboboxConfig.placeholder);
         expect(flowCombobox.placeholder).toEqual('abc');
-    });
-
-    it('does not support pill', async () => {
-        const baseResourcePicker = setupComponentUnderTest();
-        await ticks(1);
-
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
-        expect(flowCombobox.isPillSupported).toBe(false);
     });
 });

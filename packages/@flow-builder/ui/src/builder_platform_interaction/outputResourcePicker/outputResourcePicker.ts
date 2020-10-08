@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { getMenuData, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { getOutputRules, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
@@ -22,14 +21,14 @@ export default class OutputResourcePicker extends LightningElement {
     _value;
 
     @track
-    _comboboxConfig = {};
+    _comboboxConfig: ComboboxConfig = {};
 
     /**
      * The allowed param types based on the rule service
      * @type {Object}
      */
     @track
-    paramTypes = null;
+    paramTypes: {} | null = null;
 
     /**
      * A unique id for this resource picker(guid)
@@ -114,6 +113,12 @@ export default class OutputResourcePicker extends LightningElement {
      */
     @api
     elementParam;
+
+    /**
+     * Supports pill display?
+     */
+    @api
+    isPillSupported = false;
 
     /**
      * If true, hasNext will be set to true for all menu items
@@ -219,7 +224,7 @@ export default class OutputResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
-    populateMenuData = (parentItem) => {
+    populateMenuData = (parentItem?) => {
         if (this._baseResourcePicker) {
             getMenuData(
                 this.elementConfig,

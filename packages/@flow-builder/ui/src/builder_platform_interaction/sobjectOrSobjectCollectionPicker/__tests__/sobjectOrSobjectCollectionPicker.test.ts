@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -8,7 +7,7 @@ import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -19,15 +18,10 @@ const mockDefaultConfig = {
     elementType: ELEMENT_TYPE.RECORD_LOOKUP
 };
 
-const selectors = {
-    ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker'
-};
+const getFerovResourcePicker = (sobjectPickerComponent) =>
+    sobjectPickerComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
 
-const getFerovResourcePicker = (sobjectPickerComponent) => {
-    return sobjectPickerComponent.shadowRoot.querySelector(selectors.ferovResourcePicker);
-};
-
-const createComponentUnderTest = (props) => {
+const createComponentUnderTest = (props?: {}) => {
     const el = createElement('builder_platform_interaction-sobject-or-sobject-collection-picker', {
         is: SObjectOrSObjectCollectionPicker
     });
@@ -38,9 +32,11 @@ const createComponentUnderTest = (props) => {
 
 describe('sobject-or-sobject-collection-picker', () => {
     beforeAll(() => {
+        // @ts-ignore
         Store.setMockState(flowWithAllElementsUIModel);
     });
     afterAll(() => {
+        // @ts-ignore
         Store.resetStore();
     });
     describe('base resource picker', () => {
@@ -122,6 +118,12 @@ describe('sobject-or-sobject-collection-picker', () => {
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: { value: newParamValue }
             });
+        });
+    });
+    describe('pills', () => {
+        it('does not support pills by default', () => {
+            const sobjectOrSobjectCollectionPicker = createComponentUnderTest();
+            expect(sobjectOrSobjectCollectionPicker.isPillSupported).toBe(false);
         });
     });
 });

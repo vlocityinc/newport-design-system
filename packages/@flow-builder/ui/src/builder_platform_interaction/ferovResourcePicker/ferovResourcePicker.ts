@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { normalizeFEROV, getMenuData } from 'builder_platform_interaction/expressionUtils';
 import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
@@ -26,7 +25,7 @@ export default class FerovResourcePicker extends LightningElement {
     _value;
 
     @track
-    _comboboxConfig = {};
+    _comboboxConfig: ComboboxConfig = {};
 
     @track
     _elementConfig;
@@ -171,6 +170,12 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     forFormula = false;
 
+    /**
+     * Supports pill display?
+     */
+    @api
+    isPillSupported = false;
+
     get parentItem() {
         return this.value && this.value.parent;
     }
@@ -289,7 +294,6 @@ export default class FerovResourcePicker extends LightningElement {
     }
 
     /** HELPER METHODS */
-
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
         this.value = normalizedValue.itemOrDisplayText;
@@ -304,7 +308,7 @@ export default class FerovResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
-    populateMenuData = (parentItem, fields) => {
+    populateMenuData = (parentItem?, fields?) => {
         if (this._baseResourcePicker) {
             getMenuData(
                 this.elementConfig,

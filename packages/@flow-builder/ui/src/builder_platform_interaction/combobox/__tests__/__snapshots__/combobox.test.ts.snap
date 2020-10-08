@@ -98,3 +98,63 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
     </div>
 </builder_platform_interaction-combobox>
 `;
+
+exports[`Combobox pill supported required displays required element for required field 1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div>
+        <abbr
+          class="slds-required"
+          title="FlowBuilderStartEditor.requiredLabel"
+        >
+          *
+        </abbr>
+        <label
+          class="slds-form-element__label"
+        />
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
+        >
+          <lightning-pill
+            class="pill"
+          >
+            #shadow-root(open)
+              <slot />
+            <lightning-icon>
+              #shadow-root(open)
+            </lightning-icon>
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
+
+exports[`Combobox pill supported required does NOT display required element for non required field 1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div>
+        <label
+          class="slds-form-element__label"
+        />
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
+        >
+          <lightning-pill
+            class="pill"
+          >
+            #shadow-root(open)
+              <slot />
+            <lightning-icon>
+              #shadow-root(open)
+            </lightning-icon>
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
