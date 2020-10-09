@@ -27,7 +27,7 @@ const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-communities-articles-group nds-grid nds-wrap nds-m-top_large nds-align_absolute-center">
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
-        <img class="nds-communities-article_img" alt="Article"
+        <img alt="Article"
             src="assets/images/communities/demo/article1.svg" title="Article" />
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
@@ -35,7 +35,7 @@ return withExample(`
         </div>
     </div>
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
-        <img class="nds-communities-article_img" alt="Article2"
+        <img alt="Article2"
             src="assets/images/communities/demo/article2.svg" title="Article2" />
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
@@ -43,7 +43,7 @@ return withExample(`
         </div>
     </div>
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
-        <img class="nds-communities-article_img" alt="Article3"
+        <img alt="Article3"
             src="assets/images/communities/demo/article3.svg" title="Article3"/>
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
@@ -51,7 +51,7 @@ return withExample(`
         </div>
     </div>
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
-        <img class="nds-communities-article_img" alt="Article4"
+        <img alt="Article4"
             src="assets/images/communities/demo/article4.svg" title="Article4" />
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
