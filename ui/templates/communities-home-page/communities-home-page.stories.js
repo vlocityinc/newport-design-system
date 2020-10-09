@@ -148,7 +148,7 @@ return withExample(`
                         value="Enter Your Zip" />
                 </div>
             </div>
-            <div class="nds-communities-search_button">
+            <div class="nds-communities-search__button">
                 <button class="nds-button_text nds-button nds-button_brand">Find an Agent</button>
                 <button class="nds-button nds-button_brand nds-button_icon nds-button_icon-border-filled"
                     aria-haspopup="true">
@@ -441,7 +441,7 @@ return withExample(`
                         value="Enter Your Zip" />
                 </div>
             </div>
-            <div class="nds-communities-search_button">
+            <div class="nds-communities-search__button">
                 <button class="nds-button_text nds-button nds-button_brand">Find an Agent</button>
                 <button class="nds-button nds-button_brand nds-button_icon nds-button_icon-border-filled"
                     aria-haspopup="true">
