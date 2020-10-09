@@ -4,64 +4,57 @@
 /**
  * @summary Initialize hero 
  *
- * @name nds-hero-container
- * @selector .nds-hero-container
+ * @name nds-hero
+ * @selector .nds-hero
  * @modifier
  */
- .nds-hero-container {
+ .nds-hero {
     width: 100%;
-    
+
     /**
-    * @summary Selector to hide and show desktop hero img
+    * @summary Selector for a small hero img
     *
-    * @name nds-hero
-    * @selector .nds-hero
+    * @name nds-hero_small
+    * @selector .nds-hero_small
     * @modifier
     */
-    .nds-hero {
+    &_small {
+        display: none;
+    }
+    
+    > img {
         width: 100%;
-        
-        /**
-        * @summary Selector for a small hero img
-        *
-        * @name nds-hero-small
-        * @selector .nds-hero-small
-        * @modifier
-        */
-        &.nds-hero-small {
-            display: none;
-        }
     }
  }
  
 @media screen and (max-width: 30rem) {
 
-    .nds-hero-container {
+    .nds-hero {
         overflow: hidden;
+
+        /**
+        * @summary Selector for a large hero img
+        *
+        * @name nds-hero_large
+        * @selector .nds-hero_large
+        * @modifier
+        */
+        &_large {
+            display: none; 
+        }
         
-        .nds-hero {
+        >img {
 
             width: fit-content;
             max-width: fit-content;
             right: 6rem;
             position: relative;
 
-            &.nds-hero-small {
+            &.nds-hero_small {
                 display: block;
                 right: 0;
                 max-width: 100%;
                 width: 100%;
-            }
-
-            /**
-            * @summary Selector for a large hero img
-            *
-            * @name nds-hero-large
-            * @selector .nds-hero-large
-            * @modifier
-            */
-            &.nds-hero-large {
-                display: none; 
             }
 
         }
