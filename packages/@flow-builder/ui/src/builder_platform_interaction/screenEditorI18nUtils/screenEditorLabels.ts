@@ -1,7 +1,5 @@
-// @ts-nocheck
 /* Labels */
 import errorRequired from '@salesforce/label/FlowBuilderScreenEditor.errorRequired';
-// import reviewErrors from '@salesforce/label/FlowBuilderScreenEditor.reviewErrors';
 import screen from '@salesforce/label/FlowBuilderScreenEditor.screen';
 import screenProperties from '@salesforce/label/FlowBuilderScreenEditor.screenProperties';
 import screenTitlePlaceHolder from '@salesforce/label/FlowBuilderScreenEditor.screenTitlePlaceHolder';
@@ -11,7 +9,6 @@ import pause from '@salesforce/label/FlowBuilderScreenEditor.pause';
 import header from '@salesforce/label/FlowBuilderScreenEditor.header';
 import footer from '@salesforce/label/FlowBuilderScreenEditor.footer';
 import fieldExtensionPreviewDescription from '@salesforce/label/FlowBuilderScreenEditor.fieldExtensionPreviewDescription';
-import paletteTitle from '@salesforce/label/FlowBuilderScreenEditor.paletteTitle';
 import paletteSearch from '@salesforce/label/FlowBuilderScreenEditor.paletteSearch';
 import paletteSearchPlaceholder from '@salesforce/label/FlowBuilderScreenEditor.paletteSearchPlaceholder';
 import fieldCategoryInput from '@salesforce/label/FlowBuilderScreenEditor.fieldCategoryInput';
@@ -99,6 +96,8 @@ import elevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.eleve
 import fullWidth from '@salesforce/label/FlowBuilderScreenEditor.fullWidth';
 import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsTooltip';
 import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
+import componentsTabLabel from '@salesforce/label/FlowBuilderScreenEditor.componentsTabLabel';
+import fieldsTabLabel from '@salesforce/label/FlowBuilderScreenEditor.fieldsTabLabel';
 
 export const LABELS = {
     errorRequired,
@@ -112,7 +111,6 @@ export const LABELS = {
     header,
     footer,
     fieldExtensionPreviewDescription,
-    paletteTitle,
     paletteSearch,
     paletteSearchPlaceholder,
     errorMessage,
@@ -199,5 +197,7 @@ export const LABELS = {
     elevenOfTwelveWidth,
     fullWidth,
     columnsTooltip,
-    defaultColumnLabel
+    defaultColumnLabel,
+    componentsTabLabel,
+    fieldsTabLabel
 };

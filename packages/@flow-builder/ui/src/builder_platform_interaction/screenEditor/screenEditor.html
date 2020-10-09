@@ -2,16 +2,31 @@
     <div if:false={screen} class="slds-spinner_container">
         <lightning-spinner variant="brand" alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
     </div>
-
+    <!-- main container for editor -->
     <div if:true={screen} class="slds-grid screen-editor-container">
-        <div class="slds-size_small slds-grow-none slds-shrink-none">
-            <builder_platform_interaction-screen-editor-palette
-                screen-field-types={screenFieldTypes}
-                extension-types={extensionTypes}
-                onaddscreenfield={handleAddScreenField}
-            >
-            </builder_platform_interaction-screen-editor-palette>
+        <!-- this div is the container for the left panel-->
+        <div class="slds-size_small slds-grow-none slds-shrink-none slds-border_right">
+            <lightning-tabset>
+                <lightning-tab label={labels.componentsTabLabel} class="slds-p-around_none">
+                    <div class="tab-container">
+                        <builder_platform_interaction-screen-editor-palette
+                            screen-field-types={screenFieldTypes}
+                            extension-types={extensionTypes}
+                            onaddscreenfield={handleAddScreenField}
+                        >
+                        </builder_platform_interaction-screen-editor-palette>
+                    </div>
+                </lightning-tab>
+                <lightning-tab label={labels.fieldsTabLabel} class="slds-p-around_none">
+                    <div class="slds-scrollable_y tab-container slds-align_absolute-center">
+                        <lightning-badge label="Placeholder"></lightning-badge>
+                    </div>
+                </lightning-tab>
+            </lightning-tabset>
+            <builder_platform_interaction-button-banner label={labels.appExchangeButtonLabel} link={appExchangeLink}>
+            </builder_platform_interaction-button-banner>
         </div>
+        <!-- this div is the container for the canvas middle panel-->
         <div class="canvas-container slds-grow slds-shrink slds-scrollable_x">
             <builder_platform_interaction-screen-editor-canvas
                 class="slds-size_full"
@@ -26,6 +41,7 @@
             >
             </builder_platform_interaction-screen-editor-canvas>
         </div>
+        <!-- this div is the container for the properties right panel-->
         <div class="slds-grow-none slds-shrink-none">
             <builder_platform_interaction-screen-properties-editor-container
                 node={selectedNode}

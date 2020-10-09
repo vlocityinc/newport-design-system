@@ -6,7 +6,6 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
-import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 
 const SELECTORS = {
     FILTER_INPUT: '.palette-search-input'
@@ -16,8 +15,6 @@ export default class ScreenPalette extends LightningElement {
     @track types;
     _screenFieldTypes;
     _extensionTypes;
-
-    appExchangeLink = APP_EXCHANGE_LINK;
 
     labels = LABELS;
 
