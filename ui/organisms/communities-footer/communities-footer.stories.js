@@ -24,14 +24,14 @@ storiesOf(`${base}`, module)
 .addDecorator(withDocs(notes))
 .add('Default', () => {
 const value = radios(label, options, defaultValue);
-return withExample(`<div class="nds-footer-communities">
-    <ul class="nds-footer-communities_body nds-grid nds-grid_wrap nds-accordion">
+return withExample(`<div class="nds-communities-footer">
+    <ul class="nds-communities-footer__body nds-grid nds-grid_wrap nds-accordion">
 
         <li class="nds-accordion__list-item nds-large-size_1-of-4 nds-size_1-of-1 nds-grid nds-grid_wrap">
             <section class="nds-accordion__section nds-is-open">
                 <div class="nds-accordion__summary">
                     <div
-                        class="nds-footer-communities_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
+                        class="nds-communities-footer_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
                         Contact Us
                     </div>
                     <h3 class="nds-accordion__summary-heading">
@@ -47,9 +47,9 @@ return withExample(`<div class="nds-footer-communities">
                         </button>
                     </h3>
                 </div>
-                <div aria-hidden="true" class="nds-footer-communities_col-content nds-accordion__content"
+                <div aria-hidden="true" class="nds-communities-footer__col-content nds-accordion__content"
                     id="accordion-details-01">
-                    <ul class="nds-action nds-footer-communities__accordion-section">
+                    <ul class="nds-action nds-communities-footer__accordion-section">
                         <li class="nds-size_1-of-1 nds-item nds-action_inline nds-p-bottom_small">
                             <a role="menuitem" tabindex="0" class="nds-action_item">
                                 <span class="nds-action_text nds-text-title_caps">View or Pay My Bill</span>
@@ -85,7 +85,7 @@ return withExample(`<div class="nds-footer-communities">
             <section class="nds-accordion__section">
                 <div class="nds-accordion__summary">
                     <div
-                        class="nds-footer-communities_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
+                        class="nds-communities-footer_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
                         Shop
                     </div>
                     <h3 class="nds-accordion__summary-heading">
@@ -101,9 +101,9 @@ return withExample(`<div class="nds-footer-communities">
                         </button>
                     </h3>
                 </div>
-                <div aria-hidden="true" class="nds-footer-communities_col-content nds-accordion__content"
+                <div aria-hidden="true" class="nds-communities-footer__col-content nds-accordion__content"
                     id="accordion-details-02">
-                    <ul class="nds-action nds-footer-communities__accordion-section">
+                    <ul class="nds-action nds-communities-footer__accordion-section">
                         <li class="nds-size_1-of-1 nds-item nds-action_inline nds-p-bottom_small">
                             <a role="menuitem" tabindex="0" class="nds-action_item">
                                 <span class="nds-action_text nds-text-title_caps">Iphone 7</span>
@@ -138,7 +138,7 @@ return withExample(`<div class="nds-footer-communities">
             <section class="nds-accordion__section">
                 <div class="nds-accordion__summary">
                     <div
-                        class="nds-footer-communities_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
+                        class="nds-communities-footer_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
                         Help & Support
                     </div>
                     <h3 class="nds-accordion__summary-heading">
@@ -154,9 +154,9 @@ return withExample(`<div class="nds-footer-communities">
                         </button>
                     </h3>
                 </div>
-                <div aria-hidden="true" class="nds-footer-communities_col-content nds-accordion__content"
+                <div aria-hidden="true" class="nds-communities-footer__col-content nds-accordion__content"
                     id="accordion-details-03">
-                    <ul class="nds-action nds-footer-communities__accordion-section">
+                    <ul class="nds-action nds-communities-footer__accordion-section">
                         <li class="nds-size_1-of-1 nds-item nds-action_inline nds-p-bottom_small">
                             <a role="menuitem" tabindex="0" class="nds-action_item">
                                 <span class="nds-action_text nds-text-title_caps">Contact Us</span>
@@ -191,7 +191,7 @@ return withExample(`<div class="nds-footer-communities">
             <section class="nds-accordion__section">
                 <div class="nds-accordion__summary">
                     <div
-                        class="nds-footer-communities_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
+                        class="nds-communities-footer_col-header nds-text-title_caps nds-text-color_inverse nds-text-heading_medium">
                         Connect With AT&T
                     </div>
                     <h3 class="nds-accordion__summary-heading">
@@ -207,9 +207,9 @@ return withExample(`<div class="nds-footer-communities">
                         </button>
                     </h3>
                 </div>
-                <div aria-hidden="true" class="nds-footer-communities_col-content nds-accordion__content"
+                <div aria-hidden="true" class="nds-communities-footer__col-content nds-accordion__content"
                     id="accordion-details-04">
-                    <ul class="nds-action nds-footer-communities__accordion-section">
+                    <ul class="nds-action nds-communities-footer__accordion-section">
                         <li class="nds-size_1-of-1 nds-item nds-action_inline nds-p-bottom_small">
                             <a role="menuitem" tabindex="0" class="nds-action_item">
                                 <span class="nds-action_text nds-text-title_caps">Careers</span>

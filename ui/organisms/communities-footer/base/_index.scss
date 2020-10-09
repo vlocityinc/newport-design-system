@@ -4,11 +4,11 @@
 /**
  * @summary Initializes a footer for community with more than one section that lists label / action pairs
  *
- * @name nds-footer-communities
- * @selector .nds-footer-communities
+ * @name nds-communities-footer
+ * @selector .nds-communities-footer
  * @modifier
  */
- .nds-footer-communities {
+ .nds-communities-footer {
     background-color: $biscay;
     min-height: 36rem;
     color: $white;
@@ -17,11 +17,11 @@
     /**
       * @summary Class that contains the body of the footer
       *
-      * @name nds-footer-communities_body
-      * @selector .nds-footer-communities_body
+      * @name nds-communities-footer__body
+      * @selector .nds-communities-footer__body
       * @modifier
       */
-    &_body {
+    &__body {
         min-height: 10rem;
 
         .nds-accordion__list-item {
@@ -88,11 +88,11 @@
     /**
     * @summary Class that contains the column content of the footer
     *
-    * @name nds-footer-communities_col-content
-    * @selector .nds-footer-communities_col-content
+    * @name nds-communities-footer_col-content
+    * @selector .nds-communities-footer_col-content
     * @modifier
     */
-    &_col-content {
+    &__col-content {
         visibility: visible;
         opacity: 1;
         height: auto;
@@ -100,15 +100,16 @@
 }
 
 @media screen and (max-width: 76rem) {
-    .nds-footer-communities {
+    
+    .nds-communities-footer {
         padding: $spacing-none $spacing-none $spacing-xx-large $spacing-none;
         min-height: 0;
 
-        &_body {
+        &__body {
             display: block;
         }
 
-        &_col-content {
+        &__col-content {
             visibility: hidden;
             opacity: 0;
             height: 0;
@@ -121,7 +122,7 @@
         .nds-accordion__summary {
             width: 100%;
 
-            .nds-footer-communities_col-header {
+            .nds-communities-footer_col-header {
                 display: none;
             }
             .nds-accordion__summary-heading {
