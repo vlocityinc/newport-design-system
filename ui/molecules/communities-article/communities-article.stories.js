@@ -26,7 +26,7 @@ storiesOf(`${base}`, module)
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-communities-article nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-1">
-    <img alt="Article" src="assets/images/communities/demo/article1.svg" title="Article"/>
+    <img alt="Article" src="./assets/images/communities/demo/article1.svg" title="Article"/>
     <div class="nds-communities-article_text nds-p-around_medium">
         <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
         <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>

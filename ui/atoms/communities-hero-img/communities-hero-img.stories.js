@@ -26,8 +26,8 @@ storiesOf(`${base}`, module)
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img class="nds-hero_large" alt="Cityscape" src="assets/images/communities/cityscape.svg" title="Community Hero" />
-    <img class="nds-hero_small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
+    <img class="nds-hero_large" alt="Cityscape" src="./assets/images/communities/cityscape.svg" title="Community Hero" />
+    <img class="nds-hero_small" alt="Cityscape" src="./assets/images/communities/cityscape-mobile.svg"
         title="Community Hero" />
 </div>
 `);
@@ -36,9 +36,9 @@ return withExample(`
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img class="nds-hero_large" alt="Small Community" src="assets/images/communities/smallcommunity.svg"
+    <img class="nds-hero_large" alt="Small Community" src="./assets/images/communities/smallcommunity.svg"
         title="Claims" />
-    <img class="nds-hero_small" alt="Small Community" src="assets/images/communities/smallcommunity-mobile.svg"
+    <img class="nds-hero_small" alt="Small Community" src="./assets/images/communities/smallcommunity-mobile.svg"
         title="Claims" />
 </div>`);
 })
@@ -46,36 +46,36 @@ return withExample(`
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img class="nds-hero_large" alt="Billing" src="assets/images/communities/billing.svg" title="Billing" />
-    <img class="nds-hero_small" alt="Billing" src="assets/images/communities/billing-mobile.svg" title="Billing" />
+    <img class="nds-hero_large" alt="Billing" src="./assets/images/communities/billing.svg" title="Billing" />
+    <img class="nds-hero_small" alt="Billing" src="./assets/images/communities/billing-mobile.svg" title="Billing" />
 </div>`);
 })
 .add('Multiline Shopper Page', () => {
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img alt="Cityscape Image" src="assets/images/communities/cityscape2.svg" title="Cityscape" />
+    <img alt="Cityscape Image" src="./assets/images/communities/cityscape2.svg" title="Cityscape" />
 </div>`);
 })
 .add('Multiline Shopper Overview', () => {
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img alt="Cityscape Image" src="assets/images/communities/cityscape3.svg" title="Cityscape" />
+    <img alt="Cityscape Image" src="./assets/images/communities/cityscape3.svg" title="Cityscape" />
 </div>`);
 })
 .add('Multiline Overview', () => {
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img alt="Shopper" src="assets/images/communities/multilineoverview.svg" title="Shopper" />
+    <img alt="Shopper" src="./assets/images/communities/multilineoverview.svg" title="Shopper" />
 </div>`);
 })
 .add('Multiline Details', () => {
 const value = radios(label, options, defaultValue);
 return withExample(`
 <div class="nds-hero">
-    <img class="nds-hero_large" alt="Auto" src="assets/images/communities/autohero.svg" title="Auto" />
-    <img class="nds-hero_small" alt="Auto" src="assets/images/communities/autohero-mobile.svg" title="Auto" />
+    <img class="nds-hero_large" alt="Auto" src="./assets/images/communities/autohero.svg" title="Auto" />
+    <img class="nds-hero_small" alt="Auto" src="./assets/images/communities/autohero-mobile.svg" title="Auto" />
 </div>`);
 });
