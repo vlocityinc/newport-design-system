@@ -1,0 +1,80 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a card for community
+ *
+ * @name nds-carousel
+ * @selector .nds-carousel
+ * @modifier
+ */
+
+ .nds-carousel {
+    &__panels {
+        display: flex;
+        transition: transform .25s ease-in;
+        min-height: 0;
+    }
+
+    &__panel {
+        flex: 0 0 23%;
+        max-width: 100%;
+        margin: 1rem;
+    }
+
+    &__panel-action {
+        display: block;
+        border: 1px solid rgba(46,57,73,0.16);
+        box-shadow: 0 8px 16px 0 rgba(26,80,155,0.08);
+        position: relative;
+        max-width: 20rem;
+        border-radius: .25rem;
+        min-width: 15rem;
+
+        &:focus {
+            box-shadow: 0 0 3px #0070d2;
+            border-color: #005fb2;
+            outline: 0;
+        }
+    }
+
+    &__image {
+        overflow: hidden;
+
+        > img {
+            width: 4rem;
+            top: -1rem;
+            position: absolute;
+        }
+    }
+
+    &__content {
+        background: $white;
+        padding: .75rem;
+        text-align: center;
+        height: 6.625rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        text-align: left;
+        height: 100%;
+
+        >p {
+            color: #6E6E6E;
+            margin-top: .25rem;
+        }
+    }
+
+    &__content-title {
+        font-size: 1rem;
+        font-weight: $font-weight-bold;
+        color: $black-primary;
+    }
+
+ }
+
+@media screen and (max-width: 76rem) { 
+
+}

@@ -1,0 +1,51 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+.nds-carousel {
+    position: relative;
+
+    &__stage {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    &__indicators {
+        align-self: center;
+        margin: 0.5rem 0;
+    }
+
+    &__indicator {
+        display: inline-flex;
+        margin: 0 0.25rem;
+    }
+
+    &__indicator-action {
+        width: .5rem;
+        height: .5rem;
+        border: 1px solid #dddbda;
+        border-radius: 50%;
+        background: #D8D8D8;
+
+        &.nds-is-active {
+            background: #0070d2;
+            border-color: #0070d2;
+
+            &:hover {
+            background: #0070d2;
+            border-color: #0070d2;
+            }
+        }
+
+        &:hover {
+            background-color: #fafaf9;
+        }
+
+        &:focus {
+            box-shadow: 0 0 3px #0070d2;
+            background-color: #005fb2;
+            border-color: #005fb2;
+            outline: 0;
+        }
+    }
+}
