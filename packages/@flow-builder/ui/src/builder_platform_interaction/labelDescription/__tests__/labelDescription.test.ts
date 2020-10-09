@@ -120,18 +120,18 @@ describe('label-description', () => {
                 });
             });
 
-            it('does not fire propertyChanged event if unchanged', async () => {
+            it('fire propertyChanged event if unchanged', async () => {
                 const labelDescription = createComponentUnderTest();
 
                 await ticks(1);
-                const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                 const eventCallback = jest.fn();
                 labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                devNameLightningInput.dispatchEvent(focusoutEvent);
+                labelLightningInput.dispatchEvent(focusoutEvent);
 
-                expect(eventCallback).not.toHaveBeenCalled();
+                expect(eventCallback).toHaveBeenLastCalledWith(eventCallback.mock.calls[0][0]);
             });
 
             it('strips whitespace', async () => {
@@ -364,7 +364,7 @@ describe('label-description', () => {
                 });
             });
 
-            it('does not fire propertyChanged event if unchanged', async () => {
+            it('fires propertyChanged event if unchanged', async () => {
                 const labelDescription = createComponentUnderTest();
 
                 await ticks(1);
@@ -375,7 +375,7 @@ describe('label-description', () => {
 
                 devNameLightningInput.dispatchEvent(focusoutEvent);
 
-                expect(eventCallback).not.toHaveBeenCalled();
+                expect(eventCallback).toHaveBeenLastCalledWith(eventCallback.mock.calls[0][0]);
             });
 
             it('strips whitespace', async () => {

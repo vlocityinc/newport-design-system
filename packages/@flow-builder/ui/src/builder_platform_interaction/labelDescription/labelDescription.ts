@@ -404,10 +404,7 @@ export default class LabelDescription extends LightningElement {
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newDevName;
         }
-
-        if (this.state.devName.value !== newDevName) {
-            this.updateDevName(newDevName);
-        }
+        this.updateDevName(newDevName);
     }
 
     handleEditButtonPress() {
