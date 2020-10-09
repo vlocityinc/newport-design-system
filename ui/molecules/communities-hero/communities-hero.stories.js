@@ -32,7 +32,7 @@ return withExample(`
             <div>Get personalized service from a local agent</div>
         </div>
     </div>
-    div class="nds-hero">
+    <div class="nds-hero">
         <img class="nds-hero_large" alt="Cityscape" src="assets/images/communities/cityscape.svg" title="Community Hero" />
         <img class="nds-hero_small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
             title="Community Hero" />
