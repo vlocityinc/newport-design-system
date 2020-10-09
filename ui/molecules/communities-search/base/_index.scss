@@ -23,7 +23,14 @@
         border-color: $biscay;
     }
 
-    &_button {
+    /**
+    * @summary Search button for communities search input
+    *
+    * @name nds-communities-search__button
+    * @selector .nds-communities-search__button
+    * @modifier
+    */
+    &__button {
         position: absolute; 
         right: 1rem;
     }
