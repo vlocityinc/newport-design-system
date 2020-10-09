@@ -314,7 +314,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         return newStartElement;
     }
 
-    const { timeTriggers } = startElement;
+    const { timeTriggers = [] } = startElement;
     let childReferences = [];
     let newTimeTriggers = [];
 

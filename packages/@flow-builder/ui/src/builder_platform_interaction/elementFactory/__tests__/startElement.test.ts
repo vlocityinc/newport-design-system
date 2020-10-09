@@ -473,6 +473,15 @@ describe('Start element', () => {
             expect(result.canvasElement.children).toEqual([null, null]);
         });
 
+        it('Should not fail if timeTriggers is undefined', () => {
+            expect.assertions(1);
+            startElementFromPropertyEditor.timeTriggers = undefined;
+            shouldUseFlc(true);
+            const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
+
+            expect(result.canvasElement.children).toEqual([null]);
+        });
+
         describe('connection properties of a start element', () => {
             it('result has availableConnections', () => {
                 expect.assertions(2);
