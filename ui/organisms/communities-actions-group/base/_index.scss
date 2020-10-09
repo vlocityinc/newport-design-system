@@ -11,14 +11,14 @@
 
 .nds-communities-actions-group {
 
-    margin: $spacing-x-large 16rem $spacing-x-large 16rem;
+    margin: $spacing-x-large 16rem;
 }
 
 @media screen and (max-width: 78rem) {
 
     .nds-communities-actions-group {
 
-        margin: $spacing-x-large $spacing-medium $spacing-x-large $spacing-medium;
+        margin: $spacing-x-large $spacing-medium;
     }
 
 }
@@ -26,7 +26,7 @@
 @media screen and (max-width: 30rem) {
 
     .nds-communities-actions-group {
-        margin: $spacing-medium $spacing-none $spacing-none $spacing-none;
+        margin: $spacing-medium $spacing-none;
     }
 
 }

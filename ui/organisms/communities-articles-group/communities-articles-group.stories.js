@@ -28,7 +28,7 @@ return withExample(`
 <div class="nds-communities-articles-group nds-grid nds-wrap nds-m-top_large nds-align_absolute-center">
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
         <img alt="Article"
-            src="assets/images/communities/demo/article1.svg" title="Article" />
+            src="./assets/images/communities/demo/article1.svg" title="Article" />
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
             <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>
@@ -36,7 +36,7 @@ return withExample(`
     </div>
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
         <img alt="Article2"
-            src="assets/images/communities/demo/article2.svg" title="Article2" />
+            src="./assets/images/communities/demo/article2.svg" title="Article2" />
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
             <div class="nds-text-heading_small"><b>Umbrella Insurance. Do you really need it?</b></div>
@@ -44,7 +44,7 @@ return withExample(`
     </div>
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
         <img alt="Article3"
-            src="assets/images/communities/demo/article3.svg" title="Article3"/>
+            src="./assets/images/communities/demo/article3.svg" title="Article3"/>
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
             <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>
@@ -52,7 +52,7 @@ return withExample(`
     </div>
     <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
         <img alt="Article4"
-            src="assets/images/communities/demo/article4.svg" title="Article4" />
+            src="./assets/images/communities/demo/article4.svg" title="Article4" />
         <div class="nds-communities-article_text nds-p-around_medium">
             <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
             <div class="nds-text-heading_small"><b>Rules of the road for Safe Driving.</b></div>

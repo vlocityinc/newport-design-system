@@ -161,8 +161,8 @@ return withExample(`
         </div>
     </div>
     <div class="nds-hero">
-        <img class="nds-hero_large" alt="Cityscape" src="assets/images/communities/cityscape.svg" title="Community Hero" />
-        <img class="nds-hero_small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
+        <img class="nds-hero_large" alt="Cityscape" src="./assets/images/communities/cityscape.svg" title="Community Hero" />
+        <img class="nds-hero_small" alt="Cityscape" src="./assets/images/communities/cityscape-mobile.svg"
             title="Community Hero" />
     </div>
 </div>
@@ -178,8 +178,8 @@ return withExample(`
                 class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="health"
-                        src="assets/images/communities/health.svg" title="Health" />
-                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        src="./assets/images/communities/health.svg" title="Health" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
                         title="Ellipse" />
                 </div>
                 <div class="nds-text-heading_medium nds-align_absolute-center"><b>Health Insurance</b></div>
@@ -192,8 +192,8 @@ return withExample(`
                 class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="auto"
-                        src="assets/images/communities/auto.svg" title="Auto" />
-                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        src="./assets/images/communities/auto.svg" title="Auto" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
                         title="Ellipse" />
                 </div>
                 <div class="nds-text-heading_medium nds-align_absolute-center"><b>Auto & Property</b></div>
@@ -206,8 +206,8 @@ return withExample(`
                 class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="homeowners"
-                        src="assets/images/communities/homeowners.svg" title="Homeowners" />
-                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        src="./assets/images/communities/homeowners.svg" title="Homeowners" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
                         title="Ellipse" />
                 </div>
                 <div class="nds-text-heading_medium nds-align_absolute-center"><b>Homeowners</b></div>
@@ -220,8 +220,8 @@ return withExample(`
                 class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="shield"
-                        src="assets/images/communities/shield.svg" title="Shield" />
-                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="assets/images/communities/ellipse.svg"
+                        src="./assets/images/communities/shield.svg" title="Shield" />
+                    <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
                         title="Ellipse" />
                 </div>
                 <div class="nds-text-heading_medium nds-align_absolute-center"><b>Life Insurance</b></div>
@@ -243,7 +243,7 @@ return withExample(`
                 aria-labelledby="indicator-id-01">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="assets/images/communities/demo/icon2.png" alt="Visit App Exchange" />
+                        <img src="./assets/images/communities/demo/icon2.png" alt="Visit App Exchange" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -256,7 +256,7 @@ return withExample(`
                 aria-labelledby="indicator-id-02">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="0">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="assets/images/communities/demo/icon1.png" alt="Click to Customize" />
+                        <img src="./assets/images/communities/demo/icon1.png" alt="Click to Customize" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -269,7 +269,7 @@ return withExample(`
                 aria-labelledby="indicator-id-03">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="assets/images/communities/demo/icon2.png" alt="Download SalesforceA" />
+                        <img src="./assets/images/communities/demo/icon2.png" alt="Download SalesforceA" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -282,7 +282,7 @@ return withExample(`
                 aria-labelledby="indicator-id-04">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="assets/images/communities/demo/icon3.png" alt="Download SalesforceA" />
+                        <img src="./assets/images/communities/demo/icon3.png" alt="Download SalesforceA" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -295,7 +295,7 @@ return withExample(`
                 aria-labelledby="indicator-id-05">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="assets/images/communities/demo/icon1.png" alt="Visit App Exchange" />
+                        <img src="./assets/images/communities/demo/icon1.png" alt="Visit App Exchange" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -308,7 +308,7 @@ return withExample(`
                 aria-labelledby="indicator-id-06">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="assets/images/communities/demo/icon3.png" alt="Download SalesforceA" />
+                        <img src="./assets/images/communities/demo/icon3.png" alt="Download SalesforceA" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -394,7 +394,7 @@ return withExample(`
             <div class="nds-communities-articles-group nds-grid nds-wrap nds-m-top_large nds-align_absolute-center">
                 <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
                     <img alt="Article"
-                        src="assets/images/communities/demo/article1.svg" title="Article" />
+                        src="./assets/images/communities/demo/article1.svg" title="Article" />
                     <div class="nds-communities-article_text nds-p-around_medium">
                         <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
                         <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>
@@ -402,7 +402,7 @@ return withExample(`
                 </div>
                 <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
                     <img alt="Article2"
-                        src="assets/images/communities/demo/article2.svg" title="Article2" />
+                        src="./assets/images/communities/demo/article2.svg" title="Article2" />
                     <div class="nds-communities-article_text nds-p-around_medium">
                         <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
                         <div class="nds-text-heading_small"><b>Umbrella Insurance. Do you really need it?</b></div>
@@ -410,7 +410,7 @@ return withExample(`
                 </div>
                 <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
                     <img alt="Article3"
-                        src="assets/images/communities/demo/article3.svg" title="Article3"/>
+                        src="./assets/images/communities/demo/article3.svg" title="Article3"/>
                     <div class="nds-communities-article_text nds-p-around_medium">
                         <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
                         <div class="nds-text-heading_small"><b>How to Prevent Fires, Inside and Outside the Home.</b></div>
@@ -418,7 +418,7 @@ return withExample(`
                 </div>
                 <div class="nds-communities-article nds-large-size_1-of-5 nds-medium-size_1-of-4 nds-size_1-of-1 nds-m-around_small">
                     <img alt="Article4"
-                        src="assets/images/communities/demo/article4.svg" title="Article4" />
+                        src="./assets/images/communities/demo/article4.svg" title="Article4" />
                     <div class="nds-communities-article_text nds-p-around_medium">
                         <div class="nds-text-title_caps nds-m-bottom_small"><b>Homeowners</b></div>
                         <div class="nds-text-heading_small"><b>Rules of the road for Safe Driving.</b></div>
