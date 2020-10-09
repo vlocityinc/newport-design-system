@@ -4,42 +4,44 @@
 /**
  * @summary Initializes list content in communities page
  *
- * @name nds-communities-page-content_list 
- * @selector .nds-communities-page-content_list
+ * @name nds-communities-page-content 
+ * @selector .nds-communities-page-content
  * @modifier
  */
-.nds-communities-page-content_list {
+.nds-communities-page-content {
     color: $black-primary;
 
-        .nds-text-heading_large {
-            font-size: 2.25rem;
-        }
+    .nds-text-heading_large {
+        font-size: 2.25rem;
+    }
 
 }
 
 @media screen and (max-width: 78rem) {
-    .nds-communities-page-content_list {
-        .nds-media {
-            display: block;
-            text-align: center;
+    .nds-communities-page-content {
+        &.nds-communities-page-content__list{
+            .nds-media {
+                display: block;
+                text-align: center;
 
-            .nds-media__body {
-                display: table-cell;
-                padding: $spacing-none;
+                .nds-media__body {
+                    display: table-cell;
+                    padding: $spacing-none;
 
-                .nds-text-heading_large {
-                    padding: $spacing-x-large;
+                    .nds-text-heading_large {
+                        padding: $spacing-x-large;
+                    }
+                }
+
+                .nds-media__figure {
+                    display: table-caption;
+                    margin-bottom: 6rem;
                 }
             }
 
-            .nds-media__figure {
-                display: table-caption;
-                margin-bottom: 6rem;
+            .nds-media__figure_reverse {
+                margin: $spacing-none;
             }
-        }
-
-        .nds-media__figure_reverse {
-            margin: $spacing-none;
         }
     }
 }

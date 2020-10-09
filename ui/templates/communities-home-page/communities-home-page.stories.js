@@ -166,8 +166,7 @@ return withExample(`
             title="Community Hero" />
     </div>
 </div>
-<div class="nds-communities-page-content">
-    <div class="nds-communities-page-content_list nds-m-vertical_xx-large">
+<div class="nds-communities-page-content nds-communities-page-content__list nds-m-vertical_xx-large">
         <div class="nds-text-align_center">
             <div class="nds-text-heading_large nds-m-bottom_large nds-align_absolute-center"><b>Insure the things that
                     matter most.</b></div>
@@ -427,7 +426,7 @@ return withExample(`
                 </div>
             </div>
 
-    </div>
+
 </div>
 <div class="nds-communities-card nds-communities-search-card nds-text-color_inverse nds-grid nds-grid_wrap nds-m-top_x-large">
     <div class="nds-large-size_1-of-2 nds-p-left_x-small nds-m-bottom_large nds-m-right_small">
