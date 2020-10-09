@@ -24,7 +24,8 @@ storiesOf(`${base}`, module)
 .addDecorator(withDocs(notes))
 .add('Default', () => {
 const value = radios(label, options, defaultValue);
-return withExample(` <div class="nds-communities-page-content_list nds-m-bottom_xx-large">
+return withExample(` 
+<div class="nds-communities-page-content nds-communities-page-content__list nds-m-bottom_xx-large">
     <div class="nds-media nds-media_center nds-p-vertical_xx-large">
         <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
             <div class="nds-text-heading_large nds-m-bottom_large"><b>Home is where the ❤️ is.</b></div>
@@ -68,6 +69,5 @@ return withExample(` <div class="nds-communities-page-content_list nds-m-bottom_
             </span>
         </div>
     </div>
-
 </div>`);
 });
