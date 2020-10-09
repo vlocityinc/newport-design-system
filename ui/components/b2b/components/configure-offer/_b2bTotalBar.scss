@@ -52,6 +52,12 @@
       background-color: $azure;
       width: 100%;
     }
+    
+    .nds-b2b-location-button[disabled] {
+      pointer-events: none;
+      cursor: not-allowed;
+      background-color: $disable-gray;
+    }
   }
   @media screen and (min-width: 48rem) {
     padding: 1.2rem 2rem;
