@@ -20,15 +20,8 @@ $nds-communities-box-shadow: -1px -1px 2px 0 rgba(22,50,92,0.08), 1px 2px 4px 0 
     &:hover {
         cursor: pointer;
     }
-
-    /**
-    * @summary Selector for image of an article
-    *
-    * @name nds-communities-article_img
-    * @selector .nds-communities-article_img
-    * @modifier
-    */
-    &_img {
+    
+    > img {
         max-width: 101%; 
         width: 101%;
     }
@@ -60,7 +53,7 @@ $nds-communities-box-shadow: -1px -1px 2px 0 rgba(22,50,92,0.08), 1px 2px 4px 0 
         display: flex;
         padding: $spacing-medium;
 
-        &_img {
+        > img {
             border-radius: $border-radius-large;
             height: 4rem;
             width: 4rem;
