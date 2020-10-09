@@ -16,7 +16,7 @@ storiesOf(`${base}`, module)
   <div class="nds-split-view_container nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon nds-split-view__toggle-button nds-is-open" aria-expanded="true" aria-controls="split-view-id" title="Close Split View">
       <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">Close Split View</span>
     </button>
@@ -28,7 +28,7 @@ storiesOf(`${base}`, module)
               <div class="nds-media__figure">
                 <div class="nds-icon_container nds-icon-standard-lead">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-assistive-text">Leads</span>
                 </div>
@@ -39,7 +39,7 @@ storiesOf(`${base}`, module)
                     <span class="nds-grid nds-has-flexi-truncate nds-grid_vertical-align-center">
                       <span class="nds-truncate" title="My Leads">My Leads</span>
                       <svg class="nds-button__icon nds-button__icon_right nds-no-flex" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                     </span>
                   </button>
@@ -50,7 +50,7 @@ storiesOf(`${base}`, module)
           <div class="nds-no-flex nds-grid">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -62,10 +62,10 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container-more" aria-haspopup="true" title="Display As Split View">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
                 </svg>
                 <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">Display As Split View</span>
               </button>
@@ -73,7 +73,7 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container" title="Refresh List">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                 </svg>
                 <span class="nds-assistive-text">Refresh List</span>
               </button>
@@ -88,7 +88,7 @@ storiesOf(`${base}`, module)
             <!-- react-text: 49 -->Lead Score
             <!-- /react-text -->
             <svg class="nds-icon nds-icon_xx-small nds-icon-text-default nds-align-top" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </span>
           <span class="nds-assistive-text">- Descending</span>
@@ -165,7 +165,7 @@ storiesOf(`${base}`, module)
   <div class="nds-split-view_container nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon nds-split-view__toggle-button nds-is-open" aria-expanded="true" aria-controls="split-view-id" title="Close Split View">
       <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">Close Split View</span>
     </button>
@@ -177,7 +177,7 @@ storiesOf(`${base}`, module)
               <div class="nds-media__figure">
                 <div class="nds-icon_container nds-icon-standard-lead">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-assistive-text">Leads</span>
                 </div>
@@ -188,7 +188,7 @@ storiesOf(`${base}`, module)
                     <span class="nds-grid nds-has-flexi-truncate nds-grid_vertical-align-center">
                       <span class="nds-truncate" title="My Leads">My Leads</span>
                       <svg class="nds-button__icon nds-button__icon_right nds-no-flex" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                     </span>
                   </button>
@@ -199,7 +199,7 @@ storiesOf(`${base}`, module)
           <div class="nds-no-flex nds-grid">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -211,10 +211,10 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container-more" aria-haspopup="true" title="Display As Split View">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
                 </svg>
                 <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">Display As Split View</span>
               </button>
@@ -222,7 +222,7 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container" title="Refresh List">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                 </svg>
                 <span class="nds-assistive-text">Refresh List</span>
               </button>
@@ -237,7 +237,7 @@ storiesOf(`${base}`, module)
             <!-- react-text: 49 -->Lead Score
             <!-- /react-text -->
             <svg class="nds-icon nds-icon_xx-small nds-icon-text-default nds-align-top" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </span>
           <span class="nds-assistive-text">- Descending</span>
@@ -314,7 +314,7 @@ storiesOf(`${base}`, module)
   <div class="nds-split-view_container nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon nds-split-view__toggle-button nds-is-open" aria-expanded="true" aria-controls="split-view-id" title="Close Split View">
       <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">Close Split View</span>
     </button>
@@ -326,7 +326,7 @@ storiesOf(`${base}`, module)
               <div class="nds-media__figure">
                 <div class="nds-icon_container nds-icon-standard-lead">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-assistive-text">Leads</span>
                 </div>
@@ -337,7 +337,7 @@ storiesOf(`${base}`, module)
                     <span class="nds-grid nds-has-flexi-truncate nds-grid_vertical-align-center">
                       <span class="nds-truncate" title="My Leads">My Leads</span>
                       <svg class="nds-button__icon nds-button__icon_right nds-no-flex" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                     </span>
                   </button>
@@ -348,7 +348,7 @@ storiesOf(`${base}`, module)
           <div class="nds-no-flex nds-grid">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -360,10 +360,10 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container-more" aria-haspopup="true" title="Display As Split View">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
                 </svg>
                 <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">Display As Split View</span>
               </button>
@@ -371,7 +371,7 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container" title="Refresh List">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                 </svg>
                 <span class="nds-assistive-text">Refresh List</span>
               </button>
@@ -386,7 +386,7 @@ storiesOf(`${base}`, module)
             <!-- react-text: 49 -->Lead Score
             <!-- /react-text -->
             <svg class="nds-icon nds-icon_xx-small nds-icon-text-default nds-align-top" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </span>
           <span class="nds-assistive-text">- Descending</span>
@@ -511,7 +511,7 @@ storiesOf(`${base}`, module)
   <div class="nds-split-view_container nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon nds-split-view__toggle-button nds-is-open" aria-expanded="true" aria-controls="split-view-id" title="Close Split View">
       <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">Close Split View</span>
     </button>
@@ -523,7 +523,7 @@ storiesOf(`${base}`, module)
               <div class="nds-media__figure">
                 <div class="nds-icon_container nds-icon-standard-lead">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-assistive-text">Leads</span>
                 </div>
@@ -534,7 +534,7 @@ storiesOf(`${base}`, module)
                     <span class="nds-grid nds-has-flexi-truncate nds-grid_vertical-align-center">
                       <span class="nds-truncate" title="My Leads">My Leads</span>
                       <svg class="nds-button__icon nds-button__icon_right nds-no-flex" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                     </span>
                   </button>
@@ -545,7 +545,7 @@ storiesOf(`${base}`, module)
           <div class="nds-no-flex nds-grid">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -557,10 +557,10 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container-more" aria-haspopup="true" title="Display As Split View">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
                 </svg>
                 <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">Display As Split View</span>
               </button>
@@ -568,7 +568,7 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container" title="Refresh List">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                 </svg>
                 <span class="nds-assistive-text">Refresh List</span>
               </button>
@@ -583,7 +583,7 @@ storiesOf(`${base}`, module)
             <!-- react-text: 49 -->Lead Score
             <!-- /react-text -->
             <svg class="nds-icon nds-icon_xx-small nds-icon-text-default nds-align-top" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </span>
           <span class="nds-assistive-text">- Descending</span>
@@ -723,7 +723,7 @@ storiesOf(`${base}`, module)
   <div class="nds-split-view_container nds-is-closed">
     <button class="nds-button nds-button_icon nds-button_icon nds-split-view__toggle-button nds-is-closed" aria-expanded="false" aria-controls="split-view-id" title="Open Split View">
       <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">Open Split View</span>
     </button>
@@ -735,7 +735,7 @@ storiesOf(`${base}`, module)
               <div class="nds-media__figure">
                 <div class="nds-icon_container nds-icon-standard-lead">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-assistive-text">Leads</span>
                 </div>
@@ -746,7 +746,7 @@ storiesOf(`${base}`, module)
                     <span class="nds-grid nds-has-flexi-truncate nds-grid_vertical-align-center">
                       <span class="nds-truncate" title="My Leads">My Leads</span>
                       <svg class="nds-button__icon nds-button__icon_right nds-no-flex" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                     </span>
                   </button>
@@ -757,7 +757,7 @@ storiesOf(`${base}`, module)
           <div class="nds-no-flex nds-grid">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -769,10 +769,10 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container-more" aria-haspopup="true" title="Display As Split View">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
                 </svg>
                 <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">Display As Split View</span>
               </button>
@@ -780,7 +780,7 @@ storiesOf(`${base}`, module)
             <div class="nds-button-group">
               <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container" title="Refresh List">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
                 </svg>
                 <span class="nds-assistive-text">Refresh List</span>
               </button>
@@ -795,7 +795,7 @@ storiesOf(`${base}`, module)
             <!-- react-text: 49 -->Lead Score
             <!-- /react-text -->
             <svg class="nds-icon nds-icon_xx-small nds-icon-text-default nds-align-top" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </span>
           <span class="nds-assistive-text">- Descending</span>

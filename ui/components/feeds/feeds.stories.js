@@ -37,7 +37,7 @@ storiesOf(`${base}`, module)
               </p>
               <button class="nds-button nds-button_icon nds-button_icon-border nds-button_icon-x-small" aria-haspopup="true" title="More Options">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Options</span>
               </button>
@@ -63,7 +63,7 @@ storiesOf(`${base}`, module)
             <li class="nds-col nds-item nds-m-right_medium">
               <button title="Like this item" class="nds-button_reset nds-post__footer-action" aria-pressed="false">
                 <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-align-middle" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#like"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#like"></use>
                 </svg>
                 Like
 
@@ -72,7 +72,7 @@ storiesOf(`${base}`, module)
             <li class="nds-col nds-item nds-m-right_medium">
               <button title="Comment on this item" class="nds-button_reset nds-post__footer-action">
                 <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-align-middle" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#share_post"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#share_post"></use>
                 </svg>
 
 
@@ -83,7 +83,7 @@ storiesOf(`${base}`, module)
             <li class="nds-col nds-item nds-m-right_medium">
               <button title="Share this item" class="nds-button_reset nds-post__footer-action">
                 <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-align-middle" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#share"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#share"></use>
                 </svg>
 
 
@@ -119,7 +119,7 @@ storiesOf(`${base}`, module)
                     </p>
                     <button class="nds-button nds-button_icon nds-button_icon-border nds-button_icon-x-small" aria-haspopup="true" title="More Options">
                       <svg class="nds-button__icon" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                       </svg>
                       <span class="nds-assistive-text">More Options</span>
                     </button>
@@ -162,7 +162,7 @@ storiesOf(`${base}`, module)
               </p>
               <button class="nds-button nds-button_icon nds-button_icon-border nds-button_icon-x-small" aria-haspopup="true" title="More Options">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Options</span>
               </button>
@@ -188,7 +188,7 @@ storiesOf(`${base}`, module)
             <li class="nds-col nds-item nds-m-right_medium">
               <button title="Like this item" class="nds-button_reset nds-post__footer-action" aria-pressed="false">
                 <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-align-middle" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#like"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#like"></use>
                 </svg>
                 Like
 
@@ -197,7 +197,7 @@ storiesOf(`${base}`, module)
             <li class="nds-col nds-item nds-m-right_medium">
               <button title="Comment on this item" class="nds-button_reset nds-post__footer-action">
                 <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-align-middle" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#share_post"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#share_post"></use>
                 </svg>
 
 
@@ -208,7 +208,7 @@ storiesOf(`${base}`, module)
             <li class="nds-col nds-item nds-m-right_medium">
               <button title="Share this item" class="nds-button_reset nds-post__footer-action">
                 <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-align-middle" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#share"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#share"></use>
                 </svg>
 
 
