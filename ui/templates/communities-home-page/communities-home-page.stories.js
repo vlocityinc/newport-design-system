@@ -160,7 +160,7 @@ return withExample(`
             </div>
         </div>
     </div>
-    div class="nds-hero">
+    <div class="nds-hero">
         <img class="nds-hero_large" alt="Cityscape" src="assets/images/communities/cityscape.svg" title="Community Hero" />
         <img class="nds-hero_small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
             title="Community Hero" />
@@ -176,7 +176,7 @@ return withExample(`
         </div>
         <div class="nds-communities-actions-group nds-grid nds-wrap nds-m-top_xx-large nds-p-top_large">
             <div
-                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="health"
                         src="assets/images/communities/health.svg" title="Health" />
@@ -190,7 +190,7 @@ return withExample(`
             </div>
 
             <div
-                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="auto"
                         src="assets/images/communities/auto.svg" title="Auto" />
@@ -204,7 +204,7 @@ return withExample(`
             </div>
 
             <div
-                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="homeowners"
                         src="assets/images/communities/homeowners.svg" title="Homeowners" />
@@ -218,7 +218,7 @@ return withExample(`
             </div>
 
             <div
-                class="nds-communities_action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
+                class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
                 <div class="nds-align_absolute-center">
                     <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="shield"
                         src="assets/images/communities/shield.svg" title="Shield" />
