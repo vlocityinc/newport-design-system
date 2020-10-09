@@ -48,8 +48,9 @@ return withExample(`
                         <img src="assets/images/communities/demo/icon1.png" alt="Click to Customize" />
                     </div>
                     <div class="nds-carousel__content">
-                        <h2 class="nds-carousel__content-title">Jake P</h2>
+                        <h2 class="nds-carousel__content-title">Sally G</h2>
                         <p>The simplest and easiest insurance I’ve ever purchased, “old” insurance companies need to
+                            step into the current century!!! 👏 👏 👏 The simplest and easiest insurance I’ve ever purchased, “old” insurance companies need to
                             step into the current century!!! 👏 👏 👏</p>
                     </div>
                 </a>
