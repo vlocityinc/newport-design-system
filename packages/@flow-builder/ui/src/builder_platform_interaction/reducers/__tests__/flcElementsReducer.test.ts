@@ -307,51 +307,167 @@ describe('elements-reducer', () => {
     });
 
     describe('Modify Element With Children', () => {
-        const newDecision = {
-            guid: 'newDecision',
-            name: 'newDecision',
-            children: [null, 'screen1', null]
-        };
-
-        const originalStoreState = {
-            newDecision: {
+        describe('When adding an outcome and deleting another outcome', () => {
+            const newDecision = {
                 guid: 'newDecision',
                 name: 'newDecision',
                 children: [null, 'screen1', null]
-            },
-            screen1: {
-                guid: 'screen1',
-                name: 'screen1',
-                childIndex: 0
-            },
-            screen2: {
-                guid: 'screen2',
-                name: 'screen2',
-                childIndex: 1,
-                next: 'screen3'
-            },
-            screen3: {
-                guid: 'screen3',
-                name: 'screen3',
-                prev: 'screen2'
-            }
-        };
+            };
 
-        const updatedState = flcElementsReducer(originalStoreState, {
-            type: MODIFY_DECISION_WITH_OUTCOMES,
-            payload: { canvasElement: newDecision, deletedBranchHeadGuids: ['screen2'] }
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: [null, 'screen1', null]
+                },
+                screen1: {
+                    guid: 'screen1',
+                    name: 'screen1',
+                    childIndex: 0
+                },
+                screen2: {
+                    guid: 'screen2',
+                    name: 'screen2',
+                    childIndex: 1,
+                    next: 'screen3'
+                },
+                screen3: {
+                    guid: 'screen3',
+                    name: 'screen3',
+                    prev: 'screen2'
+                }
+            };
+
+            const updatedState = flcElementsReducer(originalStoreState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: { canvasElement: newDecision, deletedBranchHeadGuids: ['screen2'] }
+            });
+
+            it('Updates the childIndex correctly', () => {
+                expect(updatedState.screen1.childIndex).toBe(1);
+            });
+
+            it('screen2 should not be in the store', () => {
+                expect(updatedState.screen2).toBeUndefined();
+            });
+
+            it('screen3 should not be in the store', () => {
+                expect(updatedState.screen3).toBeUndefined();
+            });
         });
+        describe('When elements need to be inlined and parent next is an end element', () => {
+            const newDecision = {
+                guid: 'newDecision',
+                name: 'newDecision',
+                children: ['end1', null],
+                next: 'end2'
+            };
 
-        it('Updates the childIndex correctly', () => {
-            expect(updatedState.screen1.childIndex).toBe(1);
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: ['end1', null],
+                    next: 'end2'
+                },
+                end1: {
+                    guid: 'end1',
+                    name: 'end1',
+                    childIndex: 0,
+                    isTerminal: true
+                },
+                end2: {
+                    guid: 'end2',
+                    name: 'end2',
+                    elementType: ELEMENT_TYPE.END_ELEMENT,
+                    prev: 'newDecision'
+                }
+            };
+
+            const updatedState = flcElementsReducer(originalStoreState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: { canvasElement: newDecision, deletedBranchHeadGuids: [] }
+            });
+
+            it('end2 should be moved to the second branch', () => {
+                expect(updatedState.newDecision.children).toMatchObject(['end1', 'end2']);
+            });
+
+            it('newDecision should not have a next', () => {
+                expect(updatedState.newDecision.next).toBeNull();
+            });
+
+            it('end2 should have updated childIndex', () => {
+                expect(updatedState.end2.childIndex).toBe(1);
+            });
+
+            it('end2 should have no prev', () => {
+                expect(updatedState.end2.prev).toBeNull();
+            });
+
+            it('end2 should have isTerminal set to true', () => {
+                expect(updatedState.end2.isTerminal).toBeTruthy();
+            });
         });
+        describe('When elements need to be inlined and parent next is a regular element', () => {
+            const newDecision = {
+                guid: 'newDecision',
+                name: 'newDecision',
+                children: ['end1', null],
+                next: 'screen1'
+            };
 
-        it('screen2 should not be in the store', () => {
-            expect(updatedState.screen2).toBeUndefined();
-        });
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: ['end1', null],
+                    next: 'screen1'
+                },
+                end1: {
+                    guid: 'end1',
+                    name: 'end1',
+                    childIndex: 0,
+                    isTerminal: true
+                },
+                screen1: {
+                    guid: 'screen1',
+                    name: 'screen1',
+                    prev: 'newDecision',
+                    next: 'end2'
+                },
+                end2: {
+                    guid: 'end2',
+                    name: 'end2',
+                    elementType: ELEMENT_TYPE.END_ELEMENT,
+                    prev: 'screen1'
+                }
+            };
 
-        it('screen3 should not be in the store', () => {
-            expect(updatedState.screen3).toBeUndefined();
+            const updatedState = flcElementsReducer(originalStoreState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: { canvasElement: newDecision, deletedBranchHeadGuids: [] }
+            });
+
+            it('end2 should be moved to the second branch', () => {
+                expect(updatedState.newDecision.children).toMatchObject(['end1', 'screen1']);
+            });
+
+            it('newDecision should not have a next', () => {
+                expect(updatedState.newDecision.next).toBeNull();
+            });
+
+            it('screen1 should have updated childIndex', () => {
+                expect(updatedState.screen1.childIndex).toBe(1);
+            });
+
+            it('screen1 should have no prev', () => {
+                expect(updatedState.screen1.prev).toBeNull();
+            });
+
+            it('screen1 should have isTerminal set to true', () => {
+                expect(updatedState.screen1.isTerminal).toBeTruthy();
+            });
         });
     });
 

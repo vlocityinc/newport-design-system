@@ -62,7 +62,8 @@ export {
     reconnectBranchElement,
     DELETE_ALL,
     areAllBranchesTerminals,
-    assertAutoLayoutState
+    assertAutoLayoutState,
+    inlineBranches
 } from './modelUtils';
 
 export {

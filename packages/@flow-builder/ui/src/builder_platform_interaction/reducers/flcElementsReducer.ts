@@ -39,7 +39,8 @@ import {
     findLastElement,
     assertInDev,
     assertAutoLayoutState,
-    findFirstElement
+    findFirstElement,
+    inlineBranches
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getSubElementGuids } from './reducersUtils';
 
@@ -193,7 +194,7 @@ function _addCanvasElement(state, action) {
 }
 
 /**
- * Function to add a canvas element on the fixed canvas
+ * Function to handle modification of Canvas Element with children
  * @param {Object} state - State of elements in the store
  * @param {Object} action - Action dispatched to the store
  */
@@ -210,6 +211,12 @@ function _modifyCanvasElementWithChildren(state, action) {
     const deletedBranchHeadGuids = action.payload.deletedBranchHeadGuids;
     for (let i = 0; i < deletedBranchHeadGuids.length; i++) {
         deleteBranch(state, deletedBranchHeadGuids[i], getSubElementGuids);
+    }
+
+    // Need to inline branches in the case where after deleting an outcome all
+    // remaining branches are terminal
+    if (element.next) {
+        inlineBranches(element, state);
     }
 
     return state;

@@ -866,5 +866,6 @@ export {
     getChild,
     DELETE_ALL,
     resolveBranchHead,
-    resolveParent
+    resolveParent,
+    inlineBranches
 };
