@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
           <label class="nds-file-selector__body" for="file-upload-input-01" id="file-selector-secondary-label">
             <span class="nds-file-selector__button nds-button nds-button_neutral">
               <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
               </svg>
               Upload
 
@@ -53,7 +53,7 @@ storiesOf(`${base}`, module)
           <label class="nds-file-selector__body" for="file-upload-input-01" id="file-selector-secondary-label">
             <span class="nds-file-selector__button nds-button nds-button_neutral">
               <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
               </svg>
               Upload
 
@@ -85,7 +85,7 @@ storiesOf(`${base}`, module)
           <label class="nds-file-selector__body" for="file-upload-input-01" id="file-selector-secondary-label">
             <span class="nds-file-selector__button nds-button nds-button_neutral">
               <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
               </svg>
               Upload
 
@@ -116,7 +116,7 @@ storiesOf(`${base}`, module)
           <label class="nds-file-selector__body" for="file-upload-input-01" id="file-selector-secondary-label">
             <span class="nds-file-selector__button nds-button nds-button_neutral">
               <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
               </svg>
               Upload
 

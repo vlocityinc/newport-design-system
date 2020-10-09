@@ -15,7 +15,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="demo-only" style="height: 12rem;">
   <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Show Favorites">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
     </svg>
     <span class="nds-assistive-text">Show Favorites</span>
   </button>
@@ -31,7 +31,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             Favorite this page
 
@@ -40,7 +40,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
             </svg>
             Edit Favorites
 
@@ -55,7 +55,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="demo-only" style="height: 12rem;">
   <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Show Favorites">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
     </svg>
     <span class="nds-assistive-text">Show Favorites</span>
   </button>
@@ -71,7 +71,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             Favorite this page
 
@@ -80,7 +80,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
             </svg>
             Edit Favorites
 
@@ -95,7 +95,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="demo-only" style="height: 13rem;">
   <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Show Favorites">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
     </svg>
     <span class="nds-assistive-text">Show Favorites</span>
   </button>
@@ -113,7 +113,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -141,7 +141,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             Favorite this page
 
@@ -150,7 +150,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
             </svg>
             Edit Favorites
 
@@ -165,7 +165,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="demo-only" style="height: 27rem;">
   <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Show Favorites">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
     </svg>
     <span class="nds-assistive-text">Show Favorites</span>
   </button>
@@ -183,7 +183,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -208,7 +208,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -233,7 +233,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -258,7 +258,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -283,7 +283,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -308,7 +308,7 @@ storiesOf(`${base}`, module)
               <span class="nds-media__figure">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -336,7 +336,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             Favorite this page
 
@@ -345,7 +345,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
             </svg>
             Edit Favorites
 
@@ -360,7 +360,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="demo-only" style="height: 34rem;">
   <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Show Favorites">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
     </svg>
     <span class="nds-assistive-text">Show Favorites</span>
   </button>
@@ -375,7 +375,7 @@ storiesOf(`${base}`, module)
                 <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Favorites">
                 <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
                   <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                   </svg>
                 </span>
               </div>
@@ -391,7 +391,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -416,7 +416,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -441,7 +441,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -466,7 +466,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -491,7 +491,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -516,7 +516,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -541,7 +541,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -566,7 +566,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -591,7 +591,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -616,7 +616,7 @@ storiesOf(`${base}`, module)
                       <span class="nds-media__figure">
                         <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Description of icon</span>
                         </span>
@@ -648,7 +648,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             Favorite this page
 
@@ -657,7 +657,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_reset nds-p-vertical_xx-small nds-size_1-of-1">
             <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
             </svg>
             Edit Favorites
 

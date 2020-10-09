@@ -16,7 +16,7 @@ storiesOf(`${base}`, module)
     return withExample(`<section aria-labelledby="panel-heading-id" class="nds-popover nds-popover_panel nds-nubbin_left-top" role="dialog">
   <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-float_right nds-popover__close" title="Close dialog">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Close dialog</span>
   </button>
@@ -24,7 +24,7 @@ storiesOf(`${base}`, module)
     <header class="nds-media nds-media_center nds-m-bottom_small">
       <span class="nds-icon_container nds-icon-standard-account nds-media__figure">
         <svg class="nds-icon nds-icon_small" aria-hidden="true">
-          <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+          <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
         </svg>
       </span>
       <div class="nds-media__body">
@@ -84,7 +84,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-opportunity">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
               </svg>
               <span class="nds-assistive-text">Opportunities</span>
             </span>
@@ -126,7 +126,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-case">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
               </svg>
               <span class="nds-assistive-text">Cases</span>
             </span>

@@ -24,7 +24,7 @@ storiesOf(`${base}`, module)
   <div class="nds-docked-form-footer">
     <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-error" title="Review the Following Errors">
       <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
       </svg>
       <span class="nds-assistive-text">Review the Following Errors</span>
     </button>
@@ -38,7 +38,7 @@ storiesOf(`${base}`, module)
   <div class="nds-docked-form-footer">
     <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-error" title="Review the Following Errors">
       <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
       </svg>
       <span class="nds-assistive-text">Review the Following Errors</span>
     </button>
@@ -47,7 +47,7 @@ storiesOf(`${base}`, module)
     <section class="nds-popover nds-nubbin_bottom-left nds-theme_error" role="dialog" aria-label="Contextual title of this dialog" aria-describedby="dialog-description-01" style="position: absolute; bottom: 56px; left: 50%; margin-left: 66px; transform: translateX(-50%);">
       <button class="nds-button nds-button_icon nds-button_icon-inverse nds-button_icon-small nds-float_right nds-popover__close" title="Close">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
         </svg>
         <span class="nds-assistive-text">Close</span>
       </button>

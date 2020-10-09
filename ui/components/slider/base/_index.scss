@@ -263,3 +263,8 @@
     padding: 0;
   }
 }
+
+.nds-slider-label__slot {
+  line-height: $slider-label-slot-line-height;
+  white-space: nowrap;
+}

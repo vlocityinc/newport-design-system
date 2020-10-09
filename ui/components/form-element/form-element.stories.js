@@ -124,7 +124,7 @@ storiesOf(`${base}`, module)
   <div class="nds-form-element__icon">
     <button aria-describedby="help" class="nds-button nds-button_icon">
       <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
       </svg>
       <span class="nds-assistive-text">Help</span>
     </button>

@@ -19,7 +19,7 @@ storiesOf(`${base}`, module)
         <div class="nds-media__figure">
           <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
             <svg class="nds-icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
             </svg>
           </span>
         </div>
@@ -39,21 +39,21 @@ storiesOf(`${base}`, module)
       <button class="nds-button nds-button_stateful nds-button_neutral nds-not-selected" aria-live="assertive">
         <span class="nds-text-not-selected">
           <svg class="nds-button__icon_stateful nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
           </svg>
           Follow
 
         </span>
         <span class="nds-text-selected">
           <svg class="nds-button__icon_stateful nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
           Following
 
         </span>
         <span class="nds-text-selected-focus">
           <svg class="nds-button__icon_stateful nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           Unfollow
 
@@ -66,7 +66,7 @@ storiesOf(`${base}`, module)
         <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-button_last" aria-expanded="false">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">More Actions</span>
           </button>
@@ -85,7 +85,7 @@ storiesOf(`${base}`, module)
 
         <button class="nds-button nds-button_icon nds-button_icon" aria-haspopup="true" title="More Actions">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More Actions</span>
         </button>
