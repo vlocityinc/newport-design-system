@@ -160,10 +160,9 @@ return withExample(`
             </div>
         </div>
     </div>
-    <div class="nds-hero-container">
-        <img class="nds-hero nds-hero-large" alt="Cityscape"
-            src="assets/images/communities/cityscape.svg" title="Community Hero" />
-        <img class="nds-hero nds-hero-small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
+    div class="nds-hero">
+        <img class="nds-hero_large" alt="Cityscape" src="assets/images/communities/cityscape.svg" title="Community Hero" />
+        <img class="nds-hero_small" alt="Cityscape" src="assets/images/communities/cityscape-mobile.svg"
             title="Community Hero" />
     </div>
 </div>
