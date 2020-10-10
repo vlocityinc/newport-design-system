@@ -5,7 +5,6 @@ import {
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
     CONDITION_LOGIC,
-    CONNECTOR_TYPE,
     START_ELEMENT_LOCATION
 } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -310,7 +309,7 @@ export function createTimeTrigger(timeTrigger = {}) {
 export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     const newStartElement = createStartElement(startElement);
 
-    if (startElement.guid === undefined) {
+    if (startElement.guid === undefined || !isRecordChangeTriggerType(startElement.triggerType)) {
         return newStartElement;
     }
 
@@ -340,8 +339,10 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     const deletedTimeTriggers = deletedCanvasElementChildren;
     const deletedTimeTriggerGuids = deletedTimeTriggers.map((timeTrigger) => timeTrigger.guid);
 
-    let originalStartElement = getElementByGuid(startElement.guid);
+    const originalStartElement = getElementByGuid(startElement.guid);
 
+    /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
+     * uncomment this code
     if (
         !originalStartElement ||
         !originalStartElement.availableConnections ||
@@ -355,7 +356,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
             ],
             childReferences: []
         };
-    }
+    } */
 
     const { connectorCount, availableConnections } = getConnectionProperties(
         originalStartElement,

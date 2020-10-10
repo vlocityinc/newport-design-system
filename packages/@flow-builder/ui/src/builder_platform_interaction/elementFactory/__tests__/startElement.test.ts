@@ -391,7 +391,8 @@ describe('Start element', () => {
                         guid: 'trigger1',
                         name: 'abc'
                     }
-                ]
+                ],
+                triggerType: 'RecordAfterSave'
             };
 
             startElementFromPropertyEditorWithChildren = {
@@ -402,6 +403,7 @@ describe('Start element', () => {
                         name: 'abc'
                     }
                 ],
+                triggerType: 'RecordAfterSave',
                 children: null
             };
 
@@ -413,6 +415,7 @@ describe('Start element', () => {
                         name: 'abc'
                     }
                 ],
+                triggerType: 'RecordAfterSave',
                 children: ['screen1', 'screen2', null]
             };
         });
@@ -449,6 +452,23 @@ describe('Start element', () => {
             };
             const actualResult = createStartElementWhenUpdatingFromPropertyEditor(startElementWithoutGuid);
             expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('creates start element without available connections if not Record Triggered Flow', () => {
+            expect.assertions(1);
+            const testStartElement = {
+                locationX: 10,
+                locationY: 20,
+                filters: [],
+                object: 'Account',
+                triggerType: 'Scheduled',
+                schedule: {
+                    frequency: 'hourly',
+                    startDate: '1/1/2001',
+                    startTime: '18:00:00'
+                }
+            };
+            const actualResult = createStartElementWhenUpdatingFromPropertyEditor(testStartElement);
+            expect(actualResult.availableConnections).toEqual(undefined);
         });
 
         it('element type is START WITH MODIFIED AND DELETED TIME TRIGGERS', () => {
@@ -538,10 +558,11 @@ describe('Start element', () => {
             });
         });
 
-        describe('deleted outcomes', () => {
+        describe('deleted time triggers', () => {
             beforeEach(() => {
                 startElementFromPropertyEditor = {
                     guid: existingStartElementGuid,
+                    triggerType: 'RecordAfterSave',
                     timeTriggers: [
                         {
                             guid: 'trigger1',
