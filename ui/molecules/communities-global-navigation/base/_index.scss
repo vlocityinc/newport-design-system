@@ -1,0 +1,104 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+$color-background-context-bar-brand-light: $white;
+
+/**
+ * @summary Initializes global navigation for community
+ *
+ * @name nds-communities-global_navigation
+ * @selector .nds-communities-global_navigation
+ * @modifier
+ */
+
+.nds-communities-global_navigation {
+  background: $blue-background-primary;
+  /**
+  * @summary Navigation bar wrapper
+  *
+  * @name navigation-bar
+  * @selector .nds-context-bar
+  * @restrict div
+  * @variant
+  */
+  .nds-context-bar {
+    background-color: $transparent;
+    color: $color-text-brand-primary;
+    border-bottom: none;
+    margin: $spacing-large;
+    z-index:10;
+    font-size: $font-size-5;
+
+    .nds-global-header__logo {
+        width: 7rem;
+    }
+    
+    .nds-context-bar__label-action {
+        font-size: $font-size-5;
+    }
+
+  }
+
+  .nds-context-bar__item.nds-is-active:before{
+    background: $white;
+    bottom: $offset-none;
+  }
+
+  /**
+  * @summary Mobile navigation menur
+  *
+  * @name nds-context-bar__mobile
+  * @selector .nds-context-bar__mobile
+  * @restrict div
+  * @variant
+  */
+  .nds-context-bar__mobile {
+    display: none;
+    fill: white; 
+
+      .nds-dc-mobile-catalog-wrapper {
+        padding: $spacing-none; 
+        border-bottom: 0;
+      }
+  }
+
+}
+
+@media screen and (max-width: 76rem) {
+  .nds-communities-global_navigation {
+    margin-top: $spacing-medium;
+    
+    .nds-context-bar {
+      margin: $spacing-medium;
+      padding: $spacing-none;
+
+      .nds-context-bar__primary {
+        display: flex;
+        align-items: center;
+        margin: auto;
+        
+      }
+      .nds-context-bar__secondary {
+        display: none;
+      }
+
+      .nds-context-bar__mobile {
+        display: block;
+        width: 2rem;
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: 30rem) { 
+
+    .nds-communities-global_navigation {
+
+        .nds-context-bar {
+            margin: $spacing-small;
+        }
+    }
+
+}
+

@@ -1,0 +1,83 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a card for community
+ *
+ * @name nds-communities-card 
+ * @selector .nds-communities-card
+ * @modifier
+ */
+
+.nds-communities-card {
+
+    .nds-item:after {
+        height: 1rem;
+        border-radius: 0;
+        background-color: $white;
+    }
+
+    .nds-item {
+        .nds-button {
+            padding-left: $spacing-x-small;
+            padding-right: $spacing-x-small;
+        }
+    }
+
+}
+
+/**
+ * @summary Initializes action with icon and link for community
+ *
+ * @name nds-communities-action 
+ * @selector .nds-communities-action 
+ * @modifier
+ */
+.nds-communities-action {
+    color: $black-primary;
+
+    .nds-button_link {
+        font-weight: $font-weight-bold;
+    }
+
+    .nds-text-heading_medium {
+        margin-top: 1.25rem;
+        margin-bottom: $spacing-x-small;
+    }
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-communities-card {
+
+        &.nds-list_horizontal {
+            display: flex;
+
+            .nds-item {
+                display: none;
+            }
+
+            .nds-item:last-child {
+                display: block;
+            }
+            
+        }
+    }
+
+}
+  
+@media screen and (max-width: 30rem) {
+
+    .nds-communities-action {
+
+        .nds-icon_xx-large {
+            width: 3.5rem; 
+            height: 3.5rem;
+        }
+
+        .nds-text-heading_medium {
+            font-size: $font-size-3;
+            margin-top: $spacing-medium;
+            margin-bottom: $spacing-none;
+        }
+    }
+}
