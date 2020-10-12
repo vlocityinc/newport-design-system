@@ -32,7 +32,7 @@ import { getElementSections } from 'builder_platform_interaction/editorElementsU
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
+import { ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
@@ -893,10 +893,26 @@ export const getConnectorsToHighlight = (canvasDecorator: object): array => {
     return connectorsToHighlight;
 };
 
+const screenFieldsInSections = (screenFields: ScreenFieldMetadata[]): ScreenFieldMetadata[] => {
+    return screenFields
+        .filter((field) => field.fieldType === 'RegionContainer')
+        .reduce((acc, field) => [...acc, ...field.fields], [])
+        .reduce((acc, field) => [...acc, ...field.fields], []);
+};
+
+const allScreenFields = (screen: ScreenMetadata): ScreenFieldMetadata[] => {
+    const screenFields = screen.fields;
+    screenFields.push(...screenFieldsInSections(screenFields));
+    return screenFields;
+};
+
 export const screenFieldsReferencedByLoops = (flowMetadata: any): ScreenFieldMetadata[] => {
     const loopReferences = flowMetadata.loops.map((loop) => sanitizeGuid(loop.collectionReference).guidOrLiteral);
     return flowMetadata.screens.reduce(
-        (acc, screen) => [...acc, ...screen.fields.filter((field) => loopReferences.includes(field.name))],
+        (acc, screen) => [
+            ...acc,
+            ...allScreenFields(screen).filter((field) => field && field.name && loopReferences.includes(field.name))
+        ],
         []
     );
 };

@@ -42,7 +42,7 @@
         {
   "apiName" : "disabled",
   "dataType" : "boolean",
-  "description" : "Displays the component in a diabled state.",
+  "description" : "Displays the component in a disabled state.",
   "fieldsToNull" : [ ],
   "hasDefaultValue" : false,
   "isInput" : true,

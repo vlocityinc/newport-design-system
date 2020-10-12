@@ -111,9 +111,21 @@ export interface ElementMetadata {
     description?: string;
 }
 
+export interface NodeMetadata extends ElementMetadata {
+    label: string;
+    locationX: number;
+    locationY: number;
+}
+
+export interface ScreenMetadata extends NodeMetadata {
+    fields: ScreenFieldMetadata[];
+}
+
 export interface ScreenFieldMetadata extends ElementMetadata {
     storeOutputAutomatically?: boolean;
     extensionName?: string;
+    fieldType: string;
+    fields: ScreenFieldMetadata[];
 }
 
 export interface ElementConfig {

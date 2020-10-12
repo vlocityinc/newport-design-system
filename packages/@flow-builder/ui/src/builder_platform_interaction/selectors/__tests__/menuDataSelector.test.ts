@@ -586,6 +586,7 @@ describe('isOrCanContainSelector', () => {
                 'lookupRecordCollectionAutomaticOutput',
                 'loopOnApexAutoOutput',
                 'opportunitySObjectCollectionVariable',
+                'screenCompInSectionColumnWithSObjectCollAutoOutput',
                 'stringCollectionVariable1',
                 'stringCollectionVariable2',
                 'subflowAutomaticOutput'
@@ -612,6 +613,7 @@ describe('isOrCanContainSelector', () => {
                 'lookupRecordCollectionAutomaticOutput',
                 'loopOnApexAutoOutput',
                 'opportunitySObjectCollectionVariable',
+                'screenCompInSectionColumnWithSObjectCollAutoOutput',
                 'stringCollectionVariable1',
                 'stringCollectionVariable2',
                 'subflowAutomaticOutput'
@@ -633,6 +635,7 @@ describe('isOrCanContainSelector', () => {
                 'lightningCompWithAccountsOutput',
                 'lookupRecordCollectionAutomaticOutput',
                 'loopOnApexAutoOutput',
+                'screenCompInSectionColumnWithSObjectCollAutoOutput',
                 'subflowAutomaticOutput'
             ]);
         });
@@ -757,8 +760,10 @@ describe('isOrCanContainSelector', () => {
                 'loopOnApexAutoOutput',
                 'loopOnLocalActionSobjectCollInApexAutoOutput',
                 'loopOnNestedApexTypeAutoOutput',
+                'loopOnScreenCompInSectionColl',
                 'loopOnScreenCompSObjectCollAutoOutput',
                 'loopOnSobjectCollectionInApexTypeAutoOutput',
+                'screenCompInSectionColumnWithSingleSObjectAutoOutput',
                 'subflowAutomaticOutput'
             ]);
         });
@@ -787,6 +792,8 @@ describe('isOrCanContainSelector', () => {
                 'loopOnTextCollectionAutoOutput',
                 'other',
                 'recordChoiceSet',
+                'screenCompInSectionColumnWithSingleSObjectAutoOutput',
+                'someText',
                 'stringConstant',
                 'stringVariable',
                 'subflowAutomaticOutput',

@@ -1253,17 +1253,13 @@ describe('Editor Utils Test', () => {
 
             expect(screenFields).toMatchObject([
                 {
-                    choiceReferences: [],
-                    fieldText: '',
                     fieldType: 'ComponentInstance',
-                    helpText: '',
-                    inputParameters: [],
-                    isRequired: true,
                     name: 'lightningCompWithAccountsOutput',
-                    outputParameters: [],
-                    scale: 0,
-                    fields: [],
-                    storeOutputAutomatically: true,
+                    extensionName: 'c:sobjectCollectionOutputComp'
+                },
+                {
+                    fieldType: 'ComponentInstance',
+                    name: 'screenCompInSectionColumnWithSObjectCollAutoOutput',
                     extensionName: 'c:sobjectCollectionOutputComp'
                 }
             ]);

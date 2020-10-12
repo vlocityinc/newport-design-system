@@ -1134,6 +1134,17 @@
                 "assignNextValueToReference": null,
                 "collectionReference": "actionCallLC_apex_with_sobject_auto.apexWithSObject.acctListField",
                 "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnScreenCompInSectionColl",
+                "description": "",
+                "label": "loopOnScreenCompInSectionColl",
+                "locationX": 846,
+                "locationY": 510.3125,
+                "elementSubtype": null,
+                "assignNextValueToReference": null,
+                "collectionReference": "screenCompInSectionColumnWithSObjectCollAutoOutput.accounts",
+                "iterationOrder": "Asc"
             }
         ],
         "screens": [
@@ -1479,6 +1490,116 @@
                         "fields": [],
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:address"
+                    }
+                ],
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "helpText": "",
+                "showFooter": true,
+                "showHeader": true
+            },
+            {
+                "name": "screenWithSectionAndLightningComp",
+                "description": "",
+                "label": "screenWithSectionAndLightningComp",
+                "locationX": 954,
+                "locationY": 633.3125,
+                "elementSubtype": null,
+                "pausedText": "",
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataType": "String",
+                        "fieldText": "someText",
+                        "fieldType": "InputField",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "someText",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": []
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "RegionContainer",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "screenWithSectionAndLightningComp_Section1",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [
+                            {
+                                "choiceReferences": [],
+                                "fieldText": "",
+                                "fieldType": "Region",
+                                "helpText": "",
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "screenWithSectionAndLightningComp_Section1_Column1",
+                                "outputParameters": [],
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "fieldText": "",
+                                        "fieldType": "ComponentInstance",
+                                        "helpText": "",
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "name": "screenCompInSectionColumnWithSingleSObjectAutoOutput",
+                                        "outputParameters": [],
+                                        "scale": 0,
+                                        "fields": [],
+                                        "storeOutputAutomatically": true,
+                                        "extensionName": "c:HelloWorld"
+                                    }
+                                ]
+                            },
+                            {
+                                "choiceReferences": [],
+                                "fieldText": "",
+                                "fieldType": "Region",
+                                "helpText": "",
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "screenWithSectionAndLightningComp_Section1_Column2",
+                                "outputParameters": [],
+                                "scale": 0,
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "fieldText": "",
+                                        "fieldType": "ComponentInstance",
+                                        "helpText": "",
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "name": "screenCompInSectionColumnWithSObjectCollAutoOutput",
+                                        "outputParameters": [],
+                                        "scale": 0,
+                                        "fields": [],
+                                        "storeOutputAutomatically": true,
+                                        "extensionName": "c:sobjectCollectionOutputComp"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
                 "allowBack": true,
