@@ -17,22 +17,9 @@
                     tab-index={tabIndex}
                     selected={headerSelected}
                 >
-                    <div slot="screen-element" class="slds-grid slds-grow">
-                        <!-- Screen config has errors -->
-                        <div if:true={screenConfigurationHasErrors} class="slds-grow slds-border_bottom">
-                            <builder_platform_interaction-screen-field-card
-                                class="slds-grow"
-                                title={labels.invalidScreen}
-                                error
-                            >
-                            </builder_platform_interaction-screen-field-card>
-                        </div>
-
+                    <div if:false={screenConfigurationHasErrors} slot="screen-element" class="slds-grid slds-grow">
                         <!-- Screen config is fine -->
-                        <div
-                            if:false={screenConfigurationHasErrors}
-                            class="slds-card__header slds-grid slds-grow slds-border_bottom"
-                        >
+                        <div class="slds-card__header slds-grid slds-grow slds-border_bottom">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small">
                                 <div class="slds-media__body">
                                     <h2>
@@ -50,6 +37,17 @@
                                     size="small"
                                 ></lightning-button-icon>
                             </div>
+                        </div>
+                    </div>
+                    <div if:true={screenConfigurationHasErrors} slot="screen-element" class="slds-grid slds-grow">
+                        <!-- Screen config has errors -->
+                        <div class="slds-grow slds-border_bottom">
+                            <builder_platform_interaction-screen-field-card
+                                class="slds-grow"
+                                title={labels.invalidScreen}
+                                error
+                            >
+                            </builder_platform_interaction-screen-field-card>
                         </div>
                     </div>
                 </builder_platform_interaction-screen-editor-highlight>
