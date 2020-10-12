@@ -7,6 +7,8 @@ import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
 const metaData = [
     {
         section: 'Interaction',
@@ -106,6 +108,7 @@ jest.mock('../flcConnectorMenuConfig', () => {
 
 const selectors = {
     listboxItem: '.slds-listbox__item',
+    listboxItemDiv: 'div[role="option"]',
     decisionIconSpan: '.rotate-icon-container.slds-icon-standard-decision',
     decisionIcon: '.rotate-icon-svg',
     endIcon: '.background-red.end-element-svg'
@@ -226,5 +229,45 @@ describe('connector menu', () => {
         const cmp = createComponentUnderTest();
         const endElementIcon = cmp.shadowRoot.querySelector(selectors.endIcon);
         expect(endElementIcon.variant).toBe('inverse');
+    });
+
+    it('Focus should move correctly to the next row on arrow down', () => {
+        const cmp = createComponentUnderTest();
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        listItems[0].focus();
+        const callback = jest.fn();
+        listItems[1].addEventListener('focus', callback);
+        cmp.keyboardInteractions.execute('arrowdown');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Focus should move correctly to the previous row on arrow up', () => {
+        const cmp = createComponentUnderTest();
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        listItems[1].focus();
+        const callback = jest.fn();
+        listItems[0].addEventListener('focus', callback);
+        cmp.keyboardInteractions.execute('arrowup');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Focus should move correctly to the first row on arrow down on the last row', () => {
+        const cmp = createComponentUnderTest();
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        listItems[listItems.length - 1].focus();
+        const callback = jest.fn();
+        listItems[0].addEventListener('focus', callback);
+        cmp.keyboardInteractions.execute('arrowdown');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Focus should move correctly to the last row on arrow up on the first row', () => {
+        const cmp = createComponentUnderTest();
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        listItems[0].focus();
+        const callback = jest.fn();
+        listItems[listItems.length - 1].addEventListener('focus', callback);
+        cmp.keyboardInteractions.execute('arrowup');
+        expect(callback).toHaveBeenCalled();
     });
 });

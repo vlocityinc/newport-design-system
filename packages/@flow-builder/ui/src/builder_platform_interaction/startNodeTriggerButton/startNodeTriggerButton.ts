@@ -1,13 +1,16 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 import { LABELS } from './startNodeTriggerButtonLabels';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { ArrowDown, ArrowUp } = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
 export default class startNodeTriggerButton extends LightningElement {
     @api
@@ -128,8 +131,9 @@ export default class startNodeTriggerButton extends LightningElement {
         }
     }
 
-    getNodeConfig() {
-        return getConfigForElementType(this.node.elementType).nodeConfig;
+    constructor() {
+        super();
+        this.keyboardInteractions = new KeyboardInteractions();
     }
 
     handleTriggerClick = (event) => {
@@ -139,4 +143,30 @@ export default class startNodeTriggerButton extends LightningElement {
         const editElementEvent = new EditElementEvent(canvasElementGUID, this.node.triggerType);
         this.dispatchEvent(editElementEvent);
     };
+
+    /**
+     * Helper function to dispatch the ArrowKeyDownEvent event that'll be handled
+     * in flcNodeStartMenu
+     * @param key - The arrow key pressed
+     */
+    handleArrowKeyDown(key) {
+        const arrowKeyDownEvent = new ArrowKeyDownEvent(key);
+        this.dispatchEvent(arrowKeyDownEvent);
+    }
+
+    setupCommandsAndShortcuts() {
+        const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
+        const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
+        this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
+        this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
+    }
+
+    connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
+    }
+
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
+    }
 }

@@ -13,6 +13,11 @@ import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } fro
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType, DELETE_ALL } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './flcNodeMenuLabels';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
+
+const { ArrowDown, ArrowUp } = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
  * The node menu overlay, displayed when clicking on a node.
@@ -29,6 +34,10 @@ export default class FlcNodeMenu extends Menu {
 
     @api
     elementHasFault;
+
+    // Used for testing purposes
+    @api
+    keyboardInteractions;
 
     @track
     contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
@@ -69,6 +78,22 @@ export default class FlcNodeMenu extends Menu {
         return this.menuConfiguration.header.description;
     }
 
+    constructor() {
+        super();
+        this.keyboardInteractions = new KeyboardInteractions();
+    }
+
+    /**
+     * Handles the onclick event on the back button, and updates the contextualMenuMode to base mode.
+     * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
+     * on the deletion path.
+     */
+    handleBackButtonClick = (event) => {
+        event.stopPropagation();
+        this.contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+        this.dispatchEvent(new ClearHighlightedPathEvent());
+    };
+
     /**
      * Handles the click on the action row item and dispatches the appropriate event
      */
@@ -108,17 +133,6 @@ export default class FlcNodeMenu extends Menu {
     };
 
     /**
-     * Handles the onclick event on the back button, and updates the contextualMenuMode to base mode.
-     * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
-     * on the deletion path.
-     */
-    handleBackButtonClick = (event) => {
-        event.stopPropagation();
-        this.contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
-        this.dispatchEvent(new ClearHighlightedPathEvent());
-    };
-
-    /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
      */
     handleComboboxChange = (event) => {
@@ -150,6 +164,32 @@ export default class FlcNodeMenu extends Menu {
         }
     };
 
+    /**
+     * Helper function to move the focus correctly when using arrow keys in the contextual menu
+     * @param key - the key pressed (arrowDown or arrowUp)
+     */
+    handleArrowKeyDown(key) {
+        const currentItemInFocus = this.template.activeElement;
+        // Need this check in case the current item in focus is something other than the list item
+        // (eg. back button or footer button)
+        if (currentItemInFocus && currentItemInFocus.role === 'menuitem') {
+            const items = Array.from(this.template.querySelectorAll('a[role="menuitem"]')) as any;
+            moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
+        }
+    }
+
+    setupCommandsAndShortcuts() {
+        const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
+        const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
+        this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
+        this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
+    }
+
+    connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
+    }
+
     renderedCallback() {
         if (!this._isRendered && this.menuConfiguration.footer) {
             // Setting the slds-button_stretch class on the footer button the make it extend
@@ -160,5 +200,9 @@ export default class FlcNodeMenu extends Menu {
                 this._isRendered = true;
             }
         }
+    }
+
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

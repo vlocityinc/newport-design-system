@@ -161,13 +161,13 @@ export default class FlcButtonMenu extends LightningElement {
 
         if (!this.isSelectionMode) {
             this.toggleMenuVisibility();
-        }
 
-        // Focus on the button even if the browser doesn't do it by default
-        // (the behavior differs between Chrome, Safari, Firefox). Focus should not be moved to
-        // End Element
-        if (this.variant === 'connector' || this.elementMetadata.type !== ElementType.END) {
-            this.focusOnButton();
+            // Focus on the button even if the browser doesn't do it by default
+            // (the behavior differs between Chrome, Safari, Firefox). Focus should not be moved to
+            // End Element
+            if (this.variant === 'connector' || this.elementMetadata.type !== ElementType.END) {
+                this.focusOnButton();
+            }
         }
     }
 

@@ -15,11 +15,18 @@
                 <builder_platform_interaction-start-node-trigger-button
                     if:true={hasTrigger}
                     node={startData}
+                    onarrowkeydown={handleTriggerButtonArrowKeyDown}
                 ></builder_platform_interaction-start-node-trigger-button>
                 <builder_platform_interaction-start-node-context-button
                     if:true={hasContext}
                     node={startData}
+                    onarrowkeydown={handleContextButtonArrowKeyDown}
                 ></builder_platform_interaction-start-node-context-button>
+                <builder_platform_interaction-start-node-time-trigger-button
+                    if:true={hasTimeTrigger}
+                    node={startData}
+                    onarrowkeydown={handleTimeTriggerButtonArrowKeyDown}
+                ></builder_platform_interaction-start-node-time-trigger-button>
             </div>
         </builder_platform_interaction-flc-menu>
     </div>

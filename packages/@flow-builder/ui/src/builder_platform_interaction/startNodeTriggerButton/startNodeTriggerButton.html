@@ -1,8 +1,13 @@
 <template>
     <!--TRIGGER/SCHEDULE-->
-    <div class="slds-border_top test-trigger-button" style="background-color: white;" onclick={handleTriggerClick}>
+    <div
+        tabindex="0"
+        class="slds-border_top test-trigger-button"
+        style="background-color: white;"
+        onclick={handleTriggerClick}
+    >
         <!--UNSET TRIGGER/SCHEDULE-->
-        <div if:false={isSetTrigger} tabindex="0" class={unsetStartButtonClasses}>
+        <div if:false={isSetTrigger} class={unsetStartButtonClasses}>
             <!--icon-->
             <lightning-icon
                 icon-name="utility:add"

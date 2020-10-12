@@ -9,3 +9,5 @@ export { ShiftFocusForwardCommand } from './shiftFocusForward';
 export { ShiftFocusBackwardCommand } from './shiftFocusBackward';
 export { FocusOnDockingPanelCommand } from './focusOnDockingPanel';
 export { EnterCommand } from './enterCommand';
+export { ArrowDown } from './arrowDown';
+export { ArrowUp } from './arrowUp';

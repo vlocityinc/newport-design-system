@@ -6,6 +6,11 @@ import { CloseMenuEvent, PasteEvent, MergeWithExistingPathEvent } from 'builder_
 import Menu from 'builder_platform_interaction/menu';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
+
+const { ArrowDown, ArrowUp } = commands;
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -37,6 +42,10 @@ export default class FlcConnectorMenu extends Menu {
     @api
     hasEndElement!: boolean;
 
+    // Used for testing purposes
+    @api
+    keyboardInteractions;
+
     get menuConfiguration() {
         return configureMenu(
             this.elementsMetadata,
@@ -48,6 +57,11 @@ export default class FlcConnectorMenu extends Menu {
 
     get labels(): Labels {
         return LABELS;
+    }
+
+    constructor() {
+        super();
+        this.keyboardInteractions = new KeyboardInteractions();
     }
 
     handleSelectMenuItem(event) {
@@ -75,5 +89,33 @@ export default class FlcConnectorMenu extends Menu {
                     })
                 );
         }
+    }
+
+    /**
+     * Helper function to move the focus correctly when using arrow keys in the contextual menu
+     * @param key - the key pressed (arrowDown or arrowUp)
+     */
+    handleArrowKeyDown(key) {
+        const currentItemInFocus = this.template.activeElement;
+        if (currentItemInFocus) {
+            const items = Array.from(this.template.querySelectorAll('div[role="option"]')) as any;
+            moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
+        }
+    }
+
+    setupCommandsAndShortcuts() {
+        const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
+        const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
+        this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
+        this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
+    }
+
+    connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
+    }
+
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

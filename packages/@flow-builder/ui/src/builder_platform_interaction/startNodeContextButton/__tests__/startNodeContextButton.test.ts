@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import StartNodeContextButton from 'builder_platform_interaction/startNodeContextButton';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
 import { startElementWithAccountAndNoCondition } from 'mock/storeDataAutolaunched';
 
@@ -37,6 +37,8 @@ jest.mock(
     }
 );
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
 const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
     const element = createElement('builder_platform_interaction-start-node-context-button', {
         is: StartNodeContextButton
@@ -63,6 +65,26 @@ const selectors = {
 const runQuerySelector = (context, selector) => {
     return context.shadowRoot.querySelector(selector);
 };
+
+describe('Focus Management', () => {
+    it('Should fire ArrowKeyDownEvent with the right key on pressing arrow down key', () => {
+        const startNodeContextButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.SCHEDULED);
+        const callback = jest.fn();
+        startNodeContextButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
+        startNodeContextButtonEditor.keyboardInteractions.execute('arrowdown');
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.key).toBe('arrowDown');
+    });
+
+    it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
+        const startNodeContextButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.SCHEDULED);
+        const callback = jest.fn();
+        startNodeContextButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
+        startNodeContextButtonEditor.keyboardInteractions.execute('arrowup');
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.key).toBe('arrowUp');
+    });
+});
 
 describe('When flow trigger Type is SCHEDULED', () => {
     let startNodeContextButtonEditor;

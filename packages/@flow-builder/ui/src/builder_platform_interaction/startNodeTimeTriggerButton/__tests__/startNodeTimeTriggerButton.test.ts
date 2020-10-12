@@ -2,10 +2,12 @@
 import { createElement } from 'lwc';
 import StartNodeTimeTriggerButton from 'builder_platform_interaction/startNodeTimeTriggerButton';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { EditElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { startElementWithAccountAndNoCondition } from 'mock/storeDataAutolaunched';
 import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
     const element = createElement('builder_platform_interaction-start-node-time-trigger-button', {
@@ -29,6 +31,26 @@ const selectors = {
 const runQuerySelector = (context, selector) => {
     return context.shadowRoot.querySelector(selector);
 };
+
+describe('Focus Management', () => {
+    it('Should fire ArrowKeyDownEvent with the right key on pressing arrow down key', () => {
+        const startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+        const callback = jest.fn();
+        startNodeTimeTriggerButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('arrowdown');
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.key).toBe('arrowDown');
+    });
+
+    it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
+        const startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+        const callback = jest.fn();
+        startNodeTimeTriggerButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('arrowup');
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0].detail.key).toBe('arrowUp');
+    });
+});
 
 describe('When flow trigger Type is RECORD_CHANGED', () => {
     let startNodeTimeTriggerButtonEditor;
