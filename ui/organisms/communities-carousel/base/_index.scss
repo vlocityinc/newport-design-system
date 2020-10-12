@@ -1,0 +1,93 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+/**
+ * @summary Initiates a carousel component
+ *
+ * @name nds-carousel
+ * @selector .nds-carousel
+ * @modifier
+ */
+.nds-carousel {
+    position: relative;
+
+    /**
+    * @summary Main stage for carousel's tab-panels and tab-list inidicators
+    *
+    * @name nds-carousel__stage
+    * @selector .nds-carousel__stage
+    * @modifier
+    */
+    &__stage {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /**
+    * @summary List element that contains the carousel's tab-list inidicators
+    *
+    * @name nds-carousel__indicators
+    * @selector .nds-carousel__indicators
+    * @modifier
+    */
+    &__indicators {
+        align-self: center;
+        margin: $spacing-x-small $spacing-none;
+    }
+
+    /**
+    * @summary Carousel's tab-list inidicator items
+    *
+    * @name nds-carousel__indicator
+    * @selector .nds-carousel__indicator
+    * @modifier
+    */
+    &__indicator {
+        display: inline-flex;
+        margin: $spacing-none $spacing-xx-small;
+    }
+
+    /**
+    * @summary Actionable element inside of each tab-list indicator
+    *
+    * @name nds-carousel__indicator-action
+    * @selector .nds-carousel__indicator-action
+    * @modifier
+    */
+    &__indicator-action {
+        width: .5rem;
+        height: .5rem;
+        border: $border-width-thin solid $newport-border-gray;
+        border-radius: $border-radius-large;
+        background: $light-silver;
+
+        /**
+        * @summary Active state notifying the tab that its current panel is active
+        *
+        * @name nds-is-active
+        * @selector .nds-is-active
+        * @modifier
+        */
+        &.nds-is-active {
+            background: $blue-background-primary;
+            border-color: $blue-border-primary;
+
+            &:hover {
+            background: $blue-background-primary;
+            border-color: $blue-border-primary;
+            }
+        }
+
+        &:hover {
+            background-color: $palette-gray-2;
+        }
+
+        &:focus {
+            box-shadow: 0 0 3px $blue-background-primary;
+            background-color: $blue-background-secondary;
+            border-color: $blue-border-secondary;
+            outline: 0;
+        }
+    }
+}
