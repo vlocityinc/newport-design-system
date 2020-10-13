@@ -472,6 +472,20 @@ describe('screenField', () => {
                     typeValue: 'Asset'
                 });
             });
+            it('ScreenField with empty manual value should be filtered to not appear in the output parameter list', () => {
+                const screenField = componentAutomaticScreenFieldStore();
+                screenField.storeOutputAutomatically = false;
+                screenField.outputParameters = [
+                    {
+                        name: 'value',
+                        rowIndex: '60441777-29c3-42ed-935c-adf0b0176f0a',
+                        value: '',
+                        valueDataType: 'reference'
+                    }
+                ];
+                const actualResult = createScreenFieldMetadataObject(screenField);
+                expect(actualResult.outputParameters).toHaveLength(0);
+            });
         });
         describe('LC screen field (automatic output handling not supported)', () => {
             beforeAll(() => {

@@ -306,7 +306,7 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     // constant in screenEditorFieldTypesUtils
     let newScreenField = {
         name: undefined,
-        isRequired: type.dataType === 'Boolean' ? true : false,
+        isRequired: type.dataType === 'Boolean',
         defaultValue: '',
         dataType: type.dataType,
         extensionName: type.name,
@@ -401,9 +401,9 @@ export function createScreenFieldMetadataObject(screenField) {
             storeOutputAutomatically = undefined;
             dataType = undefined;
         } else {
-            outputParameters = outputParameters.map((outputParameter) =>
-                createOutputParameterMetadataObject(outputParameter)
-            );
+            outputParameters = outputParameters
+                .filter((outputParameter) => outputParameter.value)
+                .map((outputParameter) => createOutputParameterMetadataObject(outputParameter));
             storeOutputAutomatically = undefined;
         }
         dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
