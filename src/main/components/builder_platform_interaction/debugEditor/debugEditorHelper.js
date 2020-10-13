@@ -1,3 +1,4 @@
+/*eslint-disable*/
 ({
     /**
      * Call out to FlowBuilderController and construct debug modal with input vars
@@ -30,8 +31,9 @@
         var content = cmp.find('flowInput');
         var body = content.get('v.body');
         var hasInputs = false;
-        for (var i = 0; i < data.variables.length; i++) {
-            var currentVar = rerun && this.previousInputs.length > 0 ? this.previousInputs[i] : data.variables[i];
+        var prevOrDefaultInputs = rerun && this.previousInputs.length > 0 ? this.previousInputs : data.variables;
+        for (var i = 0; i < prevOrDefaultInputs.length; i++) {
+            var currentVar = prevOrDefaultInputs[i];
             var childComp = this._createSimpleInput(currentVar);
             if (childComp) {
                 // undefined for unsupported input types

@@ -1,4 +1,13 @@
 /* eslint-disable */
+
+/**
+ * This is unit testing class using the Javascript testing framework
+ * Chapter 6 for aura testing: https://mohan-chinnappan-n.github.io/books/lx/docs/aura_oss.pdf
+ *
+ * How to run the (in web browser- you may be prompted to login)
+ * - Test suite: localhost:6109/builder_platform_interaction/debugEditor.cmp?aura.mode=jstest
+ * - Single test: localhost:6109/builder_platform_interaction/debugEditor.cmp?aura.mode=jstest&test=testName
+ */
 ({
     mocks: [
         {
@@ -485,6 +494,9 @@
     },
 
     testPrepopulateVariable: {
+        attributes: {
+            rerun: true
+        },
         mocks: [
             {
                 type: 'ACTION',
@@ -522,9 +534,69 @@
                 },
                 function (cmp) {
                     var inputs = cmp.find('flowInput').get('v.body');
-                    $A.test.assertTrue(inputs.length === 2, 'Output-only variable should not show up');
+                    $A.test.assertTrue(inputs.length === 2, 'One input variable only');
                     $A.test.assertEquals(inputs[1].get('v.value'), 'previous input value');
                     // inputs[0] is aura$expression by default, inputs.length = 2 means there is 1 input variable
+                    $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs should return true');
+                }
+            );
+        }
+    },
+
+    /**
+     * Test that the debug again modal renders successfully when there is a collection variable
+     * Added another input variable for control testing
+     */
+    testDebugAgainCollectionVariable: {
+        attributes: {
+            rerun: true
+        },
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getFlowInputOutputVariables' },
+                        answers: [
+                            {
+                                value: [
+                                    {
+                                        variables: [
+                                            {
+                                                dataType: 'String',
+                                                isCollection: true,
+                                                isInput: true,
+                                                isOutput: false,
+                                                name: 'previousInput'
+                                            },
+                                            {
+                                                dataType: 'SObject',
+                                                isCollection: false,
+                                                isInput: true,
+                                                isOutput: false,
+                                                name: 'some_account',
+                                                objectType: 'Account'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function (cmp) {
+            $A.test.addWaitFor(
+                false,
+                function () {
+                    return $A.test.isActionPending('doInit');
+                },
+                function (cmp) {
+                    var inputs = cmp.find('flowInput').get('v.body');
+                    $A.test.assertTrue(inputs.length === 2, 'Collection variable should not show up');
+                    // inputs[0] is aura$expression by default, inputs.length = 1 means there are no input variables
                     $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs should return true');
                 }
             );
