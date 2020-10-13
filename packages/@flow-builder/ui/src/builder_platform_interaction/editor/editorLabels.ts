@@ -15,6 +15,7 @@ import unsupportedFeaturesBodyTextLabel from '@salesforce/label/FlowBuilderAlert
 import errorMessageDisconnectedElements from '@salesforce/label/FlowBuilderAlertModal.errorMessageDisconnectedElements';
 import errorMessageMultipleIncomingConnections from '@salesforce/label/FlowBuilderAlertModal.errorMessageMultipleIncomingConnections';
 import errorMessageStepElement from '@salesforce/label/FlowBuilderAlertModal.errorMessageStepElement';
+import errorMessageTimeTriggers from '@salesforce/label/FlowBuilderAlertModal.errorMessageTimeTriggers';
 import continueToDebugTitle from '@salesforce/label/FlowBuilderAlertModal.continueToDebugTitle';
 
 export const LABELS = {
@@ -34,5 +35,6 @@ export const LABELS = {
     unsupportedFeaturesBodyTextLabel,
     errorMessageDisconnectedElements,
     errorMessageMultipleIncomingConnections,
-    errorMessageStepElement
+    errorMessageStepElement,
+    errorMessageTimeTriggers
 };

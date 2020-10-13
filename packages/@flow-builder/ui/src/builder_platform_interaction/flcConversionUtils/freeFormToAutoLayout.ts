@@ -120,6 +120,11 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Strin
     const { elements, connectors } = storeState;
     const startElement = findStartElement(elements);
 
+    // If a start element has childReferences (scheduled time triggers) set, then it can't be converted
+    if (startElement.childReferences && startElement.childReferences.length > 0) {
+        throw new Error('Cannot convert a flow with time triggers (other than Immediate trigger)');
+    }
+
     // creates a ConversionInfo for each element
     const conversionInfos = Object.values(elements).reduce(
         (infos: StringKeyedMap<ConversionInfo>, element: FlowElement) => {

@@ -229,6 +229,12 @@ describe('flc conversion utils', () => {
             assertCanConvertToAutoLayoutCanvas(storeState);
         });
 
+        it('with start node that has empty childReferences array', () => {
+            const storeState = storeStateFromConnectors([]);
+            storeState.elements.start.childReferences = [];
+            assertCanConvertToAutoLayoutCanvas(storeState);
+        });
+
         it('fault', () => {
             const connectors = [
                 { source: 'start', target: 'action' },
@@ -343,6 +349,16 @@ describe('flc conversion utils', () => {
     });
 
     describe('cant convert Free Form Flow with', () => {
+        it('with start node that has set childReferences', () => {
+            const storeState = storeStateFromConnectors([]);
+            storeState.elements.start.childReferences = [
+                {
+                    childReference: 't1'
+                }
+            ];
+            assertCanConvertToAutoLayoutCanvas(storeState, false);
+        });
+
         it('with orphan node', () => {
             const storeState = storeStateFromConnectors([]);
             storeState.elements.orphan = { guid: 'orphan', isCanvasElement: true };
