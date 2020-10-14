@@ -1,3 +1,8 @@
-export const CommandRegistry = {};
-export const KeyboardShortcutServiceImpl = {};
+export const CommandRegistry = class {
+    registerCommands() {}
+};
+export const KeyboardShortcutServiceImpl = class {
+    registerCommands() {}
+    registerShortcuts() {}
+};
 
