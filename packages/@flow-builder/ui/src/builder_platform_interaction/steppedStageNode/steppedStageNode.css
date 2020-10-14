@@ -1,0 +1,43 @@
+.stepped-stage-node {
+    width: 300px;
+}
+
+.main {
+    transform: translateY(-24px);
+    margin-top: var(--lwc-spacingXxxSmall, 0.125rem);
+    border: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorder, --lwc-colorGray5);
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    font-size: var(--lwc-fontSize2, 0.75rem);
+    background: #fafafb;
+    box-shadow: var(--lwc-shadowDropDown, 0 2px 3px 0 rgba(0, 0, 0, 0.16));
+}
+
+lightning-icon {
+    position: relative;
+    z-index: 10;
+}
+
+.background-dark {
+    background-color: #195594;
+}
+
+.header {
+    text-align: center;
+    color: black;
+}
+
+.items-header {
+    color: white;
+    text-align: initial;
+}
+
+.items-section {
+    background: white;
+}
+
+.item {
+    text-align: initial;
+}
+.item:not(:first-child) {
+    border-top: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorder, rgb(221, 219, 218));
+}

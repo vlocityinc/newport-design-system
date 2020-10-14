@@ -1,12 +1,25 @@
 import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/flcEvents';
-import { AddElementEvent } from 'builder_platform_interaction/events';
+import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { SteppedStageItem } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { LABELS } from './steppedStageNodeLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class SteppedStageNode extends LightningElement {
+    labels = LABELS;
+
     private _node?: NodeRenderInfo;
+    private items: SteppedStageItem[] = [];
+
+    private itemsHeader?: string;
+
+    private width?: number;
+    private height?: number;
+
+    @api
+    isSelectionMode?: boolean;
 
     @api
     get node() {
@@ -15,15 +28,20 @@ export default class SteppedStageNode extends LightningElement {
 
     set node(node) {
         this._node = node;
+
+        // Refresh SteppedStageItem if needed
+        if (node && node.metadata.dynamicNodeComponentSelector) {
+            this.items = node.metadata.dynamicNodeComponentSelector(node.guid);
+
+            this.itemsHeader =
+                this.items.length === 1
+                    ? this.labels.steppedStageItemHeaderSingular
+                    : format(this.labels.steppedStageItemHeaderPlural, this.items.length);
+        }
     }
 
-    @api nodeData: SteppedStageItem[] = [];
-
-    width?: number;
-    height?: number;
-
     /**
-     * fire a NodeResizeEvent event if the rendered size changes
+     * Fires a NodeResizeEvent if the dimensions change after rendering
      */
     renderedCallback() {
         const node: HTMLElement = this.template.querySelector('div');
@@ -41,14 +59,54 @@ export default class SteppedStageNode extends LightningElement {
         }
     }
 
-    handleAddStep(event: MouseEvent) {
+    /**
+     * Adding SteppedStageItem directly from canvas
+     * @param event
+     */
+    handleAddItem(event: MouseEvent) {
         event.preventDefault();
         event.stopPropagation();
 
-        const addStepEvent = new AddElementEvent({
+        const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM,
-            parent: this.node?.guid
+            parent: this.node && this.node.guid
         });
-        this.dispatchEvent(addStepEvent);
+        this.dispatchEvent(addItemEvent);
+    }
+
+    /**
+     * Open property editor for child element directly from canvas
+     * @param event
+     */
+    handleOpenItemPropertyEditor(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const target: HTMLElement = event.currentTarget as HTMLElement;
+        if (!this.isSelectionMode) {
+            this.dispatchEvent(new EditElementEvent(target && target.dataset.itemGuid));
+        }
+    }
+
+    /**
+     * Deleting SteppedStageItem directly from canvas
+     * @param event
+     */
+    handleDeleteItem(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        event.stopPropagation();
+        const target: HTMLElement = event.currentTarget as HTMLElement;
+        if (!this.isSelectionMode && target.dataset.itemGuid) {
+            this.dispatchEvent(
+                new DeleteElementEvent(
+                    [target.dataset.itemGuid],
+                    ELEMENT_TYPE.STEPPED_STAGE_ITEM,
+                    undefined,
+                    this.node && this.node.guid
+                )
+            );
+        }
     }
 }

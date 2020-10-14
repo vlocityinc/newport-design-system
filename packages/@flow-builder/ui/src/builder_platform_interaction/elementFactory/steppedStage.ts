@@ -1,7 +1,7 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseCanvasElementsArrayToMap, baseChildElement } from './base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from './base/baseMetadata';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import { ChildElement, CanvasElement, ChildReference, Guid } from 'builder_platform_interaction/flowModel';
 import { createConnectorObjects } from './connector';
 import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
@@ -21,6 +21,13 @@ const elementType = ELEMENT_TYPE.STEPPED_STAGE;
 export function createSteppedStageWithItems(existingStage: SteppedStage): SteppedStage {
     const newStage: SteppedStage = baseCanvasElement(existingStage) as SteppedStage;
     const { childReferences = [] } = existingStage;
+
+    if (!existingStage.label) {
+        const steppedStageCount = getElementsForElementType(ELEMENT_TYPE.STEPPED_STAGE).length;
+
+        newStage.label = format(LABELS.defaultSteppedStageName, steppedStageCount + 1);
+        newStage.name = sanitizeDevName(newStage.label);
+    }
 
     newStage.steps = childReferences.map((childReference: ChildReference) => {
         return createSteppedStageItem(getElementByGuid(childReference.childReference));
@@ -185,6 +192,9 @@ export function createSteppedStageItem(step: {
     parent?: Guid;
 }): SteppedStageItem {
     // Default label
+    // TODO: This is an incomplete version of the logic needed for full proeprty editor
+    // in panel support.  for example, this does not currently prevent duplicate guids
+    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000007Q6YUIA0/view
     if (!step.label && step.parent) {
         const steppedStage: SteppedStage = getElementByGuid(step.parent);
         step.label = format(LABELS.defaultSteppedStageItemName, steppedStage.childReferences.length + 1);

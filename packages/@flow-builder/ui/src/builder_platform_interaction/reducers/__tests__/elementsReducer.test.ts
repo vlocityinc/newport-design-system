@@ -25,9 +25,10 @@ import {
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS,
-    ADD_CHILD
+    ADD_CHILD,
+    DELETE_CHILDREN
 } from 'builder_platform_interaction/actions';
-import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     stringVariable,
     textTemplate1,
@@ -647,6 +648,75 @@ describe('elements-reducer', () => {
                 payload
             });
             expect(newElementState).toEqual(newProperties);
+        });
+    });
+
+    describe('Delete children', () => {
+        const steppedStageItem1 = {
+            name: 'ssi1',
+            label: 'ssi 1',
+            description: 'ssi1 1',
+            guid: 'ssi1',
+            elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM
+        };
+        const steppedStageItem2 = {
+            name: 'ssi2',
+            label: 'ssi 2',
+            description: 'ssi1 2',
+            guid: 'ssi2',
+            elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM
+        };
+
+        const steppedStage = {
+            name: 'ss1',
+            label: 'ss 1',
+            description: 'ss 1',
+            guid: 'ss1',
+            elementType: ELEMENT_TYPE.STEPPED_STAGE,
+            childReferences: [{ childReference: steppedStageItem1.guid }, { childReference: steppedStageItem2.guid }]
+        };
+
+        const originalState = {
+            ss1: steppedStage,
+            ssi1: steppedStageItem1,
+            ssi2: steppedStageItem2
+        };
+
+        it('deletes a single child', () => {
+            const payload = {
+                selectedElements: [steppedStageItem1],
+                parentGUID: steppedStage.guid
+            };
+
+            const newElementState = elementReducer(originalState, {
+                type: DELETE_CHILDREN,
+                payload
+            });
+
+            const steppedStageWithOneChild = Object.assign(steppedStage, {
+                childReferences: [{ childReference: steppedStageItem2.guid }]
+            });
+            expect(newElementState).toEqual({
+                ss1: steppedStageWithOneChild,
+                ssi2: steppedStageItem2
+            });
+        });
+
+        it('deletes multiple children', () => {
+            const payload = {
+                selectedElements: [steppedStageItem1, steppedStageItem2],
+                parentGUID: steppedStage.guid
+            };
+
+            const newElementState = elementReducer(originalState, {
+                type: DELETE_CHILDREN,
+                payload
+            });
+
+            const steppedStageWithNoChild = Object.assign(steppedStage, {
+                childReferences: []
+            });
+            expect(newElementState).toEqual({ ss1: steppedStageWithNoChild });
         });
     });
 

@@ -1,5 +1,9 @@
 // @ts-nocheck
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import {
+    getElementByGuid,
+    getElementsForElementType,
+    shouldUseAutoLayoutCanvas
+} from 'builder_platform_interaction/storeUtils';
 import {
     createSteppedStageWithItems,
     createSteppedStageItem,
@@ -11,6 +15,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -21,7 +26,10 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
         isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        shouldUseAutoLayoutCanvas: jest.fn(),
+        getElementsForElementType: jest.fn(() => {
+            return [];
+        })
     };
 });
 
@@ -87,6 +95,16 @@ describe('SteppedStage', () => {
             const steppedStage = createSteppedStageWithItems(existingSteppedStage);
 
             expect(steppedStage.elementType).toEqual(ELEMENT_TYPE.STEPPED_STAGE);
+        });
+
+        it('default name/label', () => {
+            const steppedStage = createSteppedStageWithItems({});
+
+            expect(getElementsForElementType).toHaveBeenCalledWith(ELEMENT_TYPE.STEPPED_STAGE);
+
+            const defaultLabel = 'FlowBuilderElementConfig.defaultSteppedStageName(1)';
+            expect(steppedStage.label).toEqual(defaultLabel);
+            expect(steppedStage.name).toEqual(sanitizeDevName(defaultLabel));
         });
 
         describe('items', () => {

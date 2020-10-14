@@ -406,6 +406,30 @@ describe('Editor Utils Test', () => {
                 payload
             });
         });
+
+        it('dispatch deleteElement action with selected element and parentGUID when parentGUID present', () => {
+            const guid = canvasElement1.guid;
+            const parentGuid = 'foo';
+
+            const payload = {
+                selectedElements: [canvasElement1],
+                elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM,
+                childIndexToKeep: undefined,
+                connectorsToDelete: [],
+                parentGUID: parentGuid
+            };
+
+            getElementsToBeDeleted(storeInstance, {
+                selectedElementGUID: [guid],
+                selectedElementType: payload.elementType,
+                parentGUID: parentGuid
+            });
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'deleteElement',
+                payload
+            });
+        });
     });
 
     describe('getSaveType function', () => {

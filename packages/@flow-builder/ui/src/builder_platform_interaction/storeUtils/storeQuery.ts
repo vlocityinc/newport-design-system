@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FlowElement, FlowElementType } from 'builder_platform_interaction/flowModel';
 
 export const getElementByGuidFromState = ({ elements }, guid) => elements[guid];
 
@@ -154,4 +155,20 @@ export const shouldUseAutoLayoutCanvas = (): boolean => {
         return currentStoreState.properties.isAutoLayoutCanvas;
     }
     return false;
+};
+
+/**
+ * Fetches all elements of a given element type
+ */
+export const getElementsForElementType = (elementType: FlowElementType): FlowElement[] => {
+    return <FlowElement[]>Object.values(Store.getStore().getCurrentState().elements).reduce(
+        (elements: FlowElement[], element: FlowElement): FlowElement[] => {
+            if (element.elementType === elementType) {
+                elements.push(element);
+            }
+
+            return elements;
+        },
+        []
+    );
 };

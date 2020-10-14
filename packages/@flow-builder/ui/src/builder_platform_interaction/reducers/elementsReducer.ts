@@ -28,7 +28,8 @@ import {
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
     ADD_PARENT_WITH_CHILDREN,
     MODIFY_PARENT_WITH_CHILDREN,
-    ADD_CHILD
+    ADD_CHILD,
+    DELETE_CHILDREN
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
@@ -73,6 +74,8 @@ export default function elementsReducer(state = {}, action) {
             return _deleteAndUpdateElements(state, action.payload.selectedElements, action.payload.connectorsToDelete);
         case ADD_CONNECTOR:
             return _updateElementOnAddConnection(state, action.payload);
+        case DELETE_CHILDREN:
+            return _deleteChildElements(state, action.payload.parentGUID, action.payload.selectedElements);
         case DELETE_RESOURCE:
             if (
                 action.payload.selectedElements &&
@@ -264,6 +267,28 @@ function _addChildElement(state: StoreState, parentGuid: Guid, childElement: Chi
                 childReference: childElement.guid
             }
         ]
+    });
+
+    newState[parentGuid] = updateProperties(newState[parentGuid], parentElement);
+
+    return newState;
+}
+
+/**
+ * Helper function to delete child elements. Removes the children from the parent
+ *
+ * @private
+ */
+function _deleteChildElements(state: StoreState, parentGuid: Guid, childElements: ChildElement[]): StoreState {
+    let newState = updateProperties(state);
+
+    const childGuids: Guid[] = childElements.map((child) => child.guid);
+
+    newState = <StoreState>omit(newState, childGuids);
+
+    let parentElement: CanvasElement = newState[parentGuid];
+    parentElement = updateProperties(parentElement, {
+        childReferences: parentElement.childReferences.filter((ref) => !childGuids.includes(ref.childReference))
     });
 
     newState[parentGuid] = updateProperties(newState[parentGuid], parentElement);

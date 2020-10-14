@@ -152,7 +152,7 @@ const {
 } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 let unsubscribeStore;
-let storeInstance;
+let storeInstance: Store;
 
 const RUN = 'run';
 const DEBUG = 'debug';

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import {
     addElement,
+    deleteElements,
     removeLastCreatedInlineResource,
     updateElement,
     ADD_DECISION_WITH_OUTCOMES,
@@ -9,7 +10,8 @@ import {
     REMOVE_LAST_CREATED_INLINE_RESOURCE,
     MODIFY_PARENT_WITH_CHILDREN,
     ADD_PARENT_WITH_CHILDREN,
-    ADD_CHILD
+    ADD_CHILD,
+    DELETE_CHILDREN
 } from '../actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -91,6 +93,17 @@ describe('Actions', () => {
             const action = addElement(payload);
 
             expect(action.type).toEqual(ADD_CHILD);
+            expect(action.payload).toEqual(payload);
+        });
+        it('handles delete child', () => {
+            const payload = {
+                parentGUID: 'foo',
+                elementType: 'bar'
+            };
+
+            const action = deleteElements(payload);
+
+            expect(action.type).toEqual(DELETE_CHILDREN);
             expect(action.payload).toEqual(payload);
         });
     });

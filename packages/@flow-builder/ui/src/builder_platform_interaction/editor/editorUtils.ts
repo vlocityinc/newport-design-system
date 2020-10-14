@@ -11,10 +11,10 @@ import {
 } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { SaveFlowEvent } from 'builder_platform_interaction/events';
+import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
@@ -31,8 +31,8 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
+import { FlowElementType, Guid, ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
@@ -93,18 +93,19 @@ const deletableCanvasElements = (canvasElements = []) => {
 /**
  * Helper method to delete the selected elements or invoke delete alert modal
  *
- * @param {Object} storeInstance instance of the store
- * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
- * @param {Object[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
- * @param {String} elementType - Type of the element being deleted
- * @param {Number} childIndexToKeep - The child branch you want to persist when deleting a branch element in Auto-Layout Canvas
+ * @param storeInstance instance of the store
+ * @param selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
+ * @param connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
+ * @param elementType - Type of the element being deleted
+ * @param childIndexToKeep - The child branch you want to persist when deleting a branch element in Auto-Layout Canvas
  */
 const doDeleteOrInvokeAlert = (
-    storeInstance,
-    selectedElementGUIDs,
-    connectorsToDelete,
-    elementType,
-    childIndexToKeep
+    storeInstance: Store,
+    selectedElementGUIDs: Guid[],
+    connectorsToDelete: Object[],
+    elementType: FlowElementType,
+    childIndexToKeep?: number,
+    parentGUID?: Guid
 ) => {
     const currentState = storeInstance.getCurrentState();
     const storeElements = currentState.elements;
@@ -114,14 +115,17 @@ const doDeleteOrInvokeAlert = (
         (element) => selectedElementGUIDs.indexOf(element.guid) !== -1
     );
 
-    if (!usedByElements || usedByElements.length === 0) {
+    const usedOnlyByParent: boolean = usedByElements.length === 1 && usedByElements[0].guid === parentGUID;
+
+    if (!usedByElements || usedByElements.length === 0 || usedOnlyByParent) {
         // Deleting the elements that are not being referenced anywhere else
         storeInstance.dispatch(
             deleteElements({
                 selectedElements,
                 connectorsToDelete,
                 elementType,
-                childIndexToKeep
+                childIndexToKeep,
+                parentGUID
             })
         );
     } else {
@@ -151,8 +155,8 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
  * @param {Object} containing selected Element GUID, type and childIndexToKeep (only when deleting a branch element in Auto-Layout Canvas)
  */
 export const getElementsToBeDeleted = (
-    storeInstance,
-    { selectedElementGUID, selectedElementType, childIndexToKeep }
+    storeInstance: Store,
+    { selectedElementGUID, selectedElementType, childIndexToKeep, parentGUID }: DeleteElementEventDetail
 ) => {
     const isMultiElementDelete = !selectedElementGUID;
     const currentState = storeInstance.getCurrentState();
@@ -173,7 +177,8 @@ export const getElementsToBeDeleted = (
             canvasElementGuidsToDelete,
             connectorsToDelete,
             selectedElementType,
-            childIndexToKeep
+            childIndexToKeep,
+            parentGUID
         );
     }
 };

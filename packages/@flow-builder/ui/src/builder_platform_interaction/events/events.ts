@@ -50,6 +50,7 @@ export { AddElementEvent } from './elementEvents/addElementEvent';
 export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
 export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
+export { DeleteElementEventDetail } from './elementEvents/deleteElementEvent';
 export { PaletteItemClickedEvent } from './paletteEvents/paletteItemClickedEvent';
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';

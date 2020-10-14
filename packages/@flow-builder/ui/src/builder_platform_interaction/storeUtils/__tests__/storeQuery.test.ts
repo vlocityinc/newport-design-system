@@ -3,11 +3,13 @@ import {
     getElementByDevName,
     getDuplicateDevNameElements,
     isExecuteOnlyWhenChangeMatchesConditionsPossible,
-    shouldUseAutoLayoutCanvas
+    shouldUseAutoLayoutCanvas,
+    getElementsForElementType
 } from '../storeQuery';
 import { assignmentElement } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -103,5 +105,39 @@ describe('shouldUseAutoLayoutCanvas', () => {
         });
         const result = shouldUseAutoLayoutCanvas();
         expect(result).toBeTruthy();
+    });
+});
+
+describe('getElementsForElementType', () => {
+    it('returns an empty array if no elements for the type found', () => {
+        Store.setMockState({
+            elements: {}
+        });
+
+        const results: FlowElement[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
+        expect(results).toHaveLength(0);
+    });
+
+    it('returns an array of only the elements of element type', () => {
+        const screen1 = {
+            guid: 'screen1',
+            elementType: ELEMENT_TYPE.SCREEN
+        };
+
+        const screen2 = {
+            guid: 'screen2',
+            elementType: ELEMENT_TYPE.SCREEN
+        };
+
+        Store.setMockState({
+            elements: {
+                screen1,
+                ss1: { guid: 'ss1', elementType: ELEMENT_TYPE.STEPPED_STAGE },
+                screen2
+            }
+        });
+
+        const results: FlowElement[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
+        expect(results).toEqual([screen1, screen2]);
     });
 });

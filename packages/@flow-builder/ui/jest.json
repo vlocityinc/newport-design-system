@@ -26,6 +26,7 @@
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.esNext.js",
         "^builder_platform_interaction/flcBuilder$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/flcBuilder/flcBuilder.ts",
+        "^builder_platform_interaction/flcEvents$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/flcEvents/flcEvents.ts",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
         "^(builder_framework)/(.+)$": "<rootDir>/../shared-utils/jest-modules/$1/$2/$2",
 

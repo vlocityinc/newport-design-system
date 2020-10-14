@@ -60,6 +60,7 @@ export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
 export const ADD_PARENT_WITH_CHILDREN = 'ADD_PARENT_WITH_CHILDREN';
 export const MODIFY_PARENT_WITH_CHILDREN = 'MODIFY_PARENT_WITH_CHILDREN';
 export const ADD_CHILD = 'ADD_CHILD';
+export const DELETE_CHILDREN = 'DELETE_CHILDREN';
 
 export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
 
@@ -308,6 +309,8 @@ export const deleteElements = (payload) => {
                 !payload.elementType
             ) {
                 action = createAction(DELETE_ELEMENT, payload);
+            } else if (payload.parentGUID) {
+                action = createAction(DELETE_CHILDREN, payload);
             } else {
                 // Added to support strategy builder non-canvas elements
                 action = createAction(DELETE_RESOURCE, payload);
