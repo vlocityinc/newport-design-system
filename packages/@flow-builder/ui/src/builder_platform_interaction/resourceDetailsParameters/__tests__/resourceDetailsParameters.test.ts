@@ -3,7 +3,6 @@ import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { mockSubmitForApprovalActionParameters, mockLocalActionParameters } from 'mock/calloutData';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
 import {
     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
@@ -15,6 +14,8 @@ import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtension
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
+import { submitForApprovalActionDetails as mockSubmitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
 
 const createComponentUnderTest = (resourceDetails) => {
     const el = createElement('builder_platform_interaction-resource-details-parameters', {
@@ -30,7 +31,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionParameters))
+    fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionDetails))
 }));
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
@@ -249,7 +250,9 @@ describe('Resource Details parameters', () => {
         describe('"Local action" in automatic outputs mode', () => {
             describe('No fetch exception', () => {
                 beforeAll(() => {
-                    fetchDetailsForInvocableAction.mockImplementation(() => Promise.resolve(mockLocalActionParameters));
+                    fetchDetailsForInvocableAction.mockImplementation(() =>
+                        Promise.resolve(localActionSampleActionDetails)
+                    );
                 });
                 beforeEach(() => {
                     resourceDetailsParametersComponent = createComponentUnderTest(

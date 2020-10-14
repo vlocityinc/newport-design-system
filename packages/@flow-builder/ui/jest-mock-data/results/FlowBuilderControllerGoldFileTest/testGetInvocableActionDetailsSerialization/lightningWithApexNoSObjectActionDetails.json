@@ -1,0 +1,37 @@
+{
+  "lightningWithApexNoSObjectActionDetails":{
+    "configurationEditor":null,
+    "parameters":[
+      {
+        "isRequired":false,
+        "isInput":true,
+        "dataType":"Apex",
+        "description":null,
+        "label":"ApexWithoutSObject",
+        "isOutput":false,
+        "name":"apexWithoutSObject",
+        "apexClass":"Car",
+        "maxOccurs":1,
+        "id":null,
+        "isSystemGeneratedOutput":false,
+        "durableId":"component-c:LightningComponentWithApexNoSObject-input-apexWithoutSObject",
+        "sobjectType":null
+      },
+      {
+        "isRequired":false,
+        "isInput":false,
+        "dataType":"Apex",
+        "description":null,
+        "label":"ApexWithoutSObject",
+        "isOutput":true,
+        "name":"apexWithoutSObject",
+        "apexClass":"Car",
+        "maxOccurs":1,
+        "id":null,
+        "isSystemGeneratedOutput":false,
+        "durableId":"component-c:LightningComponentWithApexNoSObject-output-apexWithoutSObject",
+        "sobjectType":null
+      }
+    ]
+  }
+}

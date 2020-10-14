@@ -48,6 +48,9 @@ import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
 import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAutoLaunchedFlow.json';
 import { supportedElementsForFlow } from 'serverData/GetSupportedElements/supportedElementsForFlow.json';
 import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedElements/supportedElementsForAutoLaunchedFlow.json';
+import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
+import { lightningWithApexNoSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexNoSObjectActionDetails.json';
+import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexContainsSObjectActionDetails.json';
 
 const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -188,7 +191,12 @@ const allAuraActions = {
         },
         'submit-submit': submitForApprovalActionDetails,
         'chatterPost-chatterPost': chatterPostActionDetails,
-        'quickAction-Case.LogACall': logACallActionDetails
+        'quickAction-Case.LogACall': logACallActionDetails,
+        component: {
+            'c:localActionSample': localActionSampleActionDetails,
+            'c:LightningComponentWithApexNoSObject': lightningWithApexNoSObjectActionDetails,
+            'c:LightningWithApexContainsSObject': lightningWithApexContainsSObjectActionDetails
+        }
     }),
     'c.getFlowExtensionListParams': getFlowExtensionListParams(flowExtensionListParams),
     'c.getFlowExtensionDetails': getFlowExtensionDetails(flowExtensionDetails),

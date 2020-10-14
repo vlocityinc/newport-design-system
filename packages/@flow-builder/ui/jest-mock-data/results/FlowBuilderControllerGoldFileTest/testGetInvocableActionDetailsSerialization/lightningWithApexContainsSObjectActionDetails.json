@@ -1,0 +1,37 @@
+{
+  "lightningWithApexContainsSObjectActionDetails":{
+    "configurationEditor":null,
+    "parameters":[
+      {
+        "isRequired":false,
+        "isInput":true,
+        "dataType":"Apex",
+        "description":null,
+        "label":"ApexWithSObject",
+        "isOutput":false,
+        "name":"apexWithSObject",
+        "apexClass":"ApexComplexTypeTestOne216",
+        "maxOccurs":1,
+        "id":null,
+        "isSystemGeneratedOutput":false,
+        "durableId":"component-c:LightningWithApexContainsSObject-input-apexWithSObject",
+        "sobjectType":null
+      },
+      {
+        "isRequired":false,
+        "isInput":false,
+        "dataType":"Apex",
+        "description":null,
+        "label":"ApexWithSObject",
+        "isOutput":true,
+        "name":"apexWithSObject",
+        "apexClass":"ApexComplexTypeTestOne216",
+        "maxOccurs":1,
+        "id":null,
+        "isSystemGeneratedOutput":false,
+        "durableId":"component-c:LightningWithApexContainsSObject-output-apexWithSObject",
+        "sobjectType":null
+      }
+    ]
+  }
+}

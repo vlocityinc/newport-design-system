@@ -38,6 +38,57 @@
       "iconId":null,
       "allowsTransactionControl":false,
       "iconName":null,
+      "description":null,
+      "label":"LightningComponentWithApexNoSObject",
+      "type":"component",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"c:LightningComponentWithApexNoSObject",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"component-c:LightningComponentWithApexNoSObject"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"LightningWithApexContainsSObject",
+      "type":"component",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"c:LightningWithApexContainsSObject",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"component-c:LightningWithApexContainsSObject"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":null,
+      "label":"localActionSample",
+      "type":"component",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"c:localActionSample",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"component-c:localActionSample"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "description":"Test component used for testing local action in flow",
       "label":"interactiontest:helloLocalActionTest",
       "type":"component",

@@ -1,15 +1,15 @@
 // @ts-nocheck
 import ResourceDetailsParametersActionConfig from '../resourceDetailsParametersAction';
-import { mockSubmitForApprovalActionParameters } from 'mock/calloutData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { submitForApprovalActionDetails as mockSubmitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionParameters))
+    fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionDetails))
 }));
 
 describe('resource-details-parameters-action', () => {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getAccountFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexAnonymousOutputActionDetails.json';
 import { getAccountNameFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountNameFromApexAnonymousOutputActionDetails.json';
 import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';
@@ -9,83 +8,19 @@ import { getAccountsFromApexAnonymousOutputActionDetails } from 'serverData/GetI
 import { getAccountsNamesFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsNamesFromApexAnonymousOutputActionDetails.json';
 import { getCarFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarFromApexActionDetails.json';
 import { getCarsFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarsFromApexActionDetails.json';
+import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
+import { lightningWithApexNoSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexNoSObjectActionDetails.json';
+import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexContainsSObjectActionDetails.json';
 
 let notLoadedActionKey;
 
-// TODO This evil stuff needs to be removed when W-7013783 is fixed
-const lightningWithApexContainsSObjectDetails = {
-    configurationEditor: null,
-    parameters: [
-        {
-            isRequired: false,
-            isInput: true,
-            dataType: 'Apex',
-            description: null,
-            label: 'ApexWithSObject',
-            isOutput: false,
-            name: 'apexWithSObject',
-            apexClass: 'ApexComplexTypeTestOne216',
-            maxOccurs: 1,
-            id: null,
-            isSystemGeneratedOutput: false,
-            durableId: 'component-c:LightningWithApexContainsSObject-input-apexWithSObject',
-            sobjectType: null
-        },
-        {
-            isRequired: false,
-            isInput: false,
-            dataType: 'Apex',
-            description: null,
-            label: 'ApexWithSObject',
-            isOutput: true,
-            name: 'apexWithSObject',
-            apexClass: 'ApexComplexTypeTestOne216',
-            maxOccurs: 1,
-            id: null,
-            isSystemGeneratedOutput: false,
-            durableId: 'component-c:LightningWithApexContainsSObject-output-apexWithSObject',
-            sobjectType: null
-        }
-    ]
-};
-
-const lightningWithApexDoesNotContainSObjectDetails = {
-    configurationEditor: null,
-    parameters: [
-        {
-            isRequired: false,
-            isInput: true,
-            dataType: 'Apex',
-            description: null,
-            label: 'ApexWithoutSObject',
-            isOutput: false,
-            name: 'apexWithoutSObject',
-            apexClass: 'Car',
-            maxOccurs: 1,
-            id: null,
-            isSystemGeneratedOutput: false,
-            durableId: 'component-c:LightningComponentWithApexNoSObject-input-apexWithoutSObject',
-            sobjectType: null
-        },
-        {
-            isRequired: false,
-            isInput: false,
-            dataType: 'Apex',
-            description: null,
-            label: 'ApexWithoutSObject',
-            isOutput: true,
-            name: 'apexWithoutSObject',
-            apexClass: 'Car',
-            maxOccurs: 1,
-            id: null,
-            isSystemGeneratedOutput: false,
-            durableId: 'component-c:LightningComponentWithApexNoSObject-output-apexWithoutSObject',
-            sobjectType: null
-        }
-    ]
-};
-
-const mockImplementationForGetDetailsForInvocableAction = ({ actionName, actionType }) => {
+const mockImplementationForGetDetailsForInvocableAction = ({
+    actionName,
+    actionType
+}: {
+    actionName: string;
+    actionType: string;
+}) => {
     const key = `${actionType}-${actionName}`;
     switch (key) {
         case notLoadedActionKey:
@@ -111,15 +46,23 @@ const mockImplementationForGetDetailsForInvocableAction = ({ actionName, actionT
         case 'apex-ApexTypeCollectionAction':
             return getCarsFromApexActionDetails;
         case 'component-c:LightningWithApexContainsSObject':
-            return lightningWithApexContainsSObjectDetails;
+            return lightningWithApexContainsSObjectActionDetails;
         case 'component-c:LightningComponentWithApexNoSObject':
-            return lightningWithApexDoesNotContainSObjectDetails;
+            return lightningWithApexNoSObjectActionDetails;
+        case 'component-c:localActionSample':
+            return localActionSampleActionDetails;
         default:
             return undefined;
     }
 };
 
-const mockImplementationForGetParametersForInvocableAction = ({ actionName, actionType }) => {
+const mockImplementationForGetParametersForInvocableAction = ({
+    actionName,
+    actionType
+}: {
+    actionName: string;
+    actionType: string;
+}) => {
     const actionDetails = mockImplementationForGetDetailsForInvocableAction({
         actionName,
         actionType
@@ -127,28 +70,32 @@ const mockImplementationForGetParametersForInvocableAction = ({ actionName, acti
     return actionDetails ? actionDetails.parameters : actionDetails;
 };
 
-export const getParametersForInvocableAction = jest.fn().mockImplementation(({ actionName, actionType }) =>
-    mockImplementationForGetParametersForInvocableAction({
-        actionName,
-        actionType
-    })
-);
+export const getParametersForInvocableAction = jest
+    .fn()
+    .mockImplementation(({ actionName, actionType }: { actionName: string; actionType: string }) =>
+        mockImplementationForGetParametersForInvocableAction({
+            actionName,
+            actionType
+        })
+    );
 
-export const fetchDetailsForInvocableAction = jest.fn().mockImplementation(({ actionName, actionType }) => {
-    const result = mockImplementationForGetDetailsForInvocableAction({
-        actionName,
-        actionType
+export const fetchDetailsForInvocableAction = jest
+    .fn()
+    .mockImplementation(({ actionName, actionType }: { actionName: string; actionType: string }) => {
+        const result = mockImplementationForGetDetailsForInvocableAction({
+            actionName,
+            actionType
+        });
+        if (!result) {
+            return Promise.reject(`Cannot load details for invocable action ${actionType}-${actionName}`);
+        }
+        return Promise.resolve(result);
     });
-    if (!result) {
-        return Promise.reject(`Cannot load details for invocable action ${actionType}-${actionName}`);
-    }
-    return Promise.resolve(result);
-});
 
 /**
  * To fake that the given action is not yet loaded
  * @param {*} action
  */
-export const setNotLoadedAction = ({ actionType, actionName } = {}) => {
+export const setNotLoadedAction = ({ actionType, actionName }: { actionName?: string; actionType?: string } = {}) => {
     notLoadedActionKey = `${actionType}-${actionName}`;
 };
