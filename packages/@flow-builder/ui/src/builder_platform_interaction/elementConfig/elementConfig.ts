@@ -38,7 +38,7 @@ import {
     createStep,
     createPicklistChoiceSet,
     createRecordChoiceSet,
-    createStartElement,
+    createStartElementForPropertyEditor,
     createApexCall,
     createDuplicateApexCall,
     createEmailAlert,
@@ -205,7 +205,7 @@ export const elementTypeToConfigMap: {
         canBeDuplicated: false,
         metadataKey: METADATA_KEY.START,
         factory: {
-            propertyEditor: createStartElement,
+            propertyEditor: createStartElementForPropertyEditor,
             flowToUi: createStartElementWithConnectors,
             uiToFlow: createStartElementMetadataObject,
             closePropertyEditor: createStartElementWhenUpdatingFromPropertyEditor

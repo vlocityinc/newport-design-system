@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import {
-    createStartElement,
+    createStartElementForPropertyEditor,
     createStartElementWithConnectors,
     createStartElementMetadataObject,
     createTimeTrigger,
@@ -146,7 +146,7 @@ describe('Start element', () => {
         };
         it('with empty base start element object', () => {
             expect.assertions(1);
-            const actualResult = createStartElement();
+            const actualResult = createStartElementForPropertyEditor();
             expect(actualResult).toMatchObject(expectedResult);
         });
         it('with empty base start element object and triggerType = RecordBeforeSave', () => {
@@ -154,14 +154,14 @@ describe('Start element', () => {
             startElement.triggerType = 'RecordBeforeSave';
             expectedResult.triggerType = 'RecordBeforeSave';
             expectedResult.recordTriggerType = 'Create';
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
         it('with empty base start element object and triggerType = RecordAfterSave', () => {
             expect.assertions(1);
             startElement.triggerType = 'RecordAfterSave';
             expectedResult.triggerType = 'RecordAfterSave';
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
         it('with empty base start element object and triggerType = RecordBeforeDelete', () => {
@@ -169,7 +169,7 @@ describe('Start element', () => {
             startElement.triggerType = 'RecordBeforeDelete';
             expectedResult.triggerType = 'RecordBeforeDelete';
             expectedResult.recordTriggerType = 'Delete';
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
         it('with empty base start element object and triggerType = Scheduled', () => {
@@ -177,7 +177,7 @@ describe('Start element', () => {
             startElement.triggerType = 'Scheduled';
             expectedResult.triggerType = 'Scheduled';
             expectedResult.recordTriggerType = undefined;
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -225,7 +225,7 @@ describe('Start element', () => {
                 elementType: 'START_ELEMENT',
                 maxConnections: 1
             };
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
 
@@ -264,7 +264,7 @@ describe('Start element', () => {
                 elementType: 'START_ELEMENT',
                 maxConnections: 1
             };
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
         it('with non-empty start element object when trigger type is RecordAfterSave and recordTriggerType is set and no child references', () => {
@@ -302,7 +302,7 @@ describe('Start element', () => {
                     }
                 ]
             };
-            const actualResult = createStartElement(startElement);
+            const actualResult = createStartElementForPropertyEditor(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
         it('with non-empty start element object when trigger type is RecordAfterSave and recordTriggerType is set and 3 child references', () => {
@@ -313,7 +313,7 @@ describe('Start element', () => {
                 { childReference: MOCK_GUID }
             ];
 
-            const testStartElement = createStartElement({
+            const testStartElement = createStartElementForPropertyEditor({
                 childReferences,
                 triggerType: 'RecordAfterSave',
                 recordTriggerType: 'Create'

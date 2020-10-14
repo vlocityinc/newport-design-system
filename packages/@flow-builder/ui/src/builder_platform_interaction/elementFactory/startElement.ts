@@ -70,7 +70,7 @@ export function findStartYOffset(startElement: Start): number {
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-export function createStartElement(startElement: Start = {} as Start) {
+function createStartElement(startElement: Start) {
     const newStartElement = baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
@@ -84,8 +84,7 @@ export function createStartElement(startElement: Start = {} as Start) {
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = startElement.schedule || startElement;
     let { recordTriggerType, frequency } = startElement.schedule || startElement;
-    let { filterLogic = CONDITION_LOGIC.AND, timeTriggers } = startElement;
-    const { childReferences } = startElement;
+    let { filterLogic = CONDITION_LOGIC.AND } = startElement;
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
@@ -111,21 +110,13 @@ export function createStartElement(startElement: Start = {} as Start) {
             } else {
                 recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
             }
-        } else if (childReferences && childReferences.length > 0) {
-            timeTriggers = childReferences.map((childReference) => {
-                return createTimeTrigger(getElementByGuid(childReference.childReference));
-            });
-        } else {
-            // new trigger case
-            const newTimeTrigger = createTimeTrigger(<TimeTrigger>{});
-            timeTriggers = [newTimeTrigger];
         }
     }
 
     const requireChangedValues = startElement.doesRequireRecordChangedToMeetCriteria;
     const recordFilters = createRecordFilters(filters, object);
 
-    Object.assign(newStartElement, {
+    return Object.assign(newStartElement, {
         elementType,
         locationX,
         locationY,
@@ -147,10 +138,37 @@ export function createStartElement(startElement: Start = {} as Start) {
         subtype: object ? object : undefined,
         isCollection: object ? false : undefined,
         isAssignable: object ? true : undefined,
-        doesRequireRecordChangedToMeetCriteria: requireChangedValues,
-        timeTriggers
+        doesRequireRecordChangedToMeetCriteria: requireChangedValues
     });
+}
 
+/**
+ * Creates a start element object on opening any start element property editor
+ * @param {Object} startElement start element object used to construct the new object
+ * @returns {Object} startElement the new start element object
+ */
+export function createStartElementForPropertyEditor(startElement: Start = {} as Start) {
+    const newStartElement = createStartElement(startElement);
+
+    const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
+    const { childReferences } = startElement;
+    let timeTriggers: TimeTrigger[] = [];
+
+    if (isRecordChangeTriggerType(triggerType)) {
+        if (childReferences && childReferences.length > 0) {
+            timeTriggers = childReferences.map((childReference) => {
+                const timeTrigger = createTimeTrigger(getElementByGuid(childReference.childReference));
+                return timeTrigger;
+            });
+        } else {
+            // new trigger case
+            const newTimeTrigger = createTimeTrigger(<TimeTrigger>{});
+            timeTriggers = [newTimeTrigger];
+        }
+        return Object.assign(newStartElement, {
+            timeTriggers
+        });
+    }
     return newStartElement;
 }
 
@@ -307,7 +325,21 @@ export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
 export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     const newStartElement = createStartElement(startElement);
 
-    if (startElement.guid === undefined || !isRecordChangeTriggerType(startElement.triggerType)) {
+    // Start element is initialized here when flow trigger type is selected from new flow modal
+    if (startElement.guid === undefined) {
+        if (isRecordChangeTriggerType(startElement.triggerType)) {
+            /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
+            uncomment this code */
+            const timeTriggerProperties = {
+                // availableConnections: [
+                //     {
+                //         type: CONNECTOR_TYPE.IMMEDIATE
+                //     }
+                // ],
+                // childReferences: []
+            };
+            return Object.assign(newStartElement, timeTriggerProperties);
+        }
         return newStartElement;
     }
 
@@ -338,23 +370,6 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
     const originalStartElement = getElementByGuid(startElement.guid);
 
-    /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
-     * uncomment this code
-    if (
-        !originalStartElement ||
-        !originalStartElement.availableConnections ||
-        originalStartElement.availableConnections.length
-    ) {
-        originalStartElement = {
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.IMMEDIATE
-                }
-            ],
-            childReferences: []
-        };
-    } */
-
     const { connectorCount, availableConnections } = getConnectionProperties(
         originalStartElement,
         childReferences,
@@ -375,8 +390,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         elementType,
         maxConnections,
         connectorCount,
-        availableConnections,
-        timeTriggers: newTimeTriggers
+        availableConnections
     });
 
     return {
