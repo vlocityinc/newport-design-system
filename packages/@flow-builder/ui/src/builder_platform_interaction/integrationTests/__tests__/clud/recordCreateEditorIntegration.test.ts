@@ -974,7 +974,7 @@ describe('Record Create Editor', () => {
                     expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
                 }
             );
-            describe('pills', async () => {
+            describe('pills', () => {
                 describe('typing', () => {
                     describe('errors', () => {
                         it.each`
