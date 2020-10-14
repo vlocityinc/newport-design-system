@@ -18,6 +18,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
 import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import { TimeTrigger } from 'builder_platform_interaction/flowModel';
 
 const startElementReference = 'assignment1';
 
@@ -331,7 +332,7 @@ describe('Start element', () => {
         });
         it('calls baseChildElement with elementType = TimeTrigger and an empty time trigger by default', () => {
             expect.assertions(2);
-            createTimeTrigger();
+            createTimeTrigger(<TimeTrigger>{});
             expect(baseChildElement.mock.calls[0][0]).toEqual({});
             expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.TIME_TRIGGER);
         });
@@ -422,6 +423,7 @@ describe('Start element', () => {
 
         it('includes the return value of a call to baseCanvasElement', () => {
             expect.assertions(1);
+
             createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
 
             expect(baseCanvasElement).toHaveBeenCalledWith(startElementFromPropertyEditor);
@@ -492,7 +494,6 @@ describe('Start element', () => {
 
             expect(result.canvasElement.children).toEqual([null, null]);
         });
-
         it('Should not fail if timeTriggers is undefined', () => {
             expect.assertions(1);
             startElementFromPropertyEditor.timeTriggers = undefined;

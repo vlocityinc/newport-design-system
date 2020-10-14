@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_FREQUENCY,
@@ -26,6 +25,7 @@ import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import { LABELS } from './elementFactoryLabels';
+import { ChildElement, ChildReference, Start, TimeTrigger } from 'builder_platform_interaction/flowModel';
 
 let maxConnections = 1;
 
@@ -44,7 +44,7 @@ const DEFAULT_Y_OFFSET = 86;
  * @param startElement start element metadata structure
  * @returns Y offset
  */
-export function findStartYOffset(startElement: object): number {
+export function findStartYOffset(startElement: Start): number {
     switch (startElement.triggerType) {
         case AFTER_SAVE:
         case BEFORE_SAVE:
@@ -70,9 +70,8 @@ export function findStartYOffset(startElement: object): number {
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-export function createStartElement(startElement = {}) {
+export function createStartElement(startElement: Start = {} as Start) {
     const newStartElement = baseCanvasElement(startElement);
-
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
@@ -114,17 +113,16 @@ export function createStartElement(startElement = {}) {
             }
         } else if (childReferences && childReferences.length > 0) {
             timeTriggers = childReferences.map((childReference) => {
-                const timeTrigger = createTimeTrigger(getElementByGuid(childReference.childReference));
-                return timeTrigger;
+                return createTimeTrigger(getElementByGuid(childReference.childReference));
             });
         } else {
             // new trigger case
-            const newTimeTrigger = createTimeTrigger();
+            const newTimeTrigger = createTimeTrigger(<TimeTrigger>{});
             timeTriggers = [newTimeTrigger];
         }
     }
 
-    const requireChangedValues = !!startElement.doesRequireRecordChangedToMeetCriteria;
+    const requireChangedValues = startElement.doesRequireRecordChangedToMeetCriteria;
     const recordFilters = createRecordFilters(filters, object);
 
     Object.assign(newStartElement, {
@@ -163,12 +161,12 @@ export function createStartElement(startElement = {}) {
  * @param {string} startElementReference guid/name of the first element in the flow
  * @returns {Object} startElement the start element object
  */
-export function createStartElementWithConnectors(startElement = {}, startElementReference) {
+export function createStartElementWithConnectors(startElement: Start, startElementReference) {
     const newStartElement = createStartElement(startElement);
 
     const connectors = startElementReference
         ? createStartElementConnector(newStartElement.guid, startElementReference)
-        : createConnectorObjects(startElement, newStartElement.guid);
+        : createConnectorObjects(startElement, newStartElement.guid, undefined);
     const connectorCount = connectors.length;
     Object.assign(newStartElement, { connectorCount });
 
@@ -288,8 +286,8 @@ function getscheduledLabel(startDate, startTime, frequency) {
     return label;
 }
 
-export function createTimeTrigger(timeTrigger = {}) {
-    const newTimeTrigger = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
+export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
+    const newTimeTrigger: ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
 
     const { type, unit, duration, offsetField } = timeTrigger;
 
@@ -314,8 +312,8 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     }
 
     const { timeTriggers = [] } = startElement;
-    let childReferences = [];
-    let newTimeTriggers = [];
+    let childReferences: ChildReference[] = [];
+    let newTimeTriggers: TimeTrigger[] = [];
 
     for (let i = 0; i < timeTriggers.length; i++) {
         const timeTrigger = timeTriggers[i];
@@ -336,8 +334,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         deletedBranchHeadGuids
     } = getUpdatedChildrenAndDeletedChildrenUsingStore(startElement, newTimeTriggers);
 
-    const deletedTimeTriggers = deletedCanvasElementChildren;
-    const deletedTimeTriggerGuids = deletedTimeTriggers.map((timeTrigger) => timeTrigger.guid);
+    const deletedTimeTriggerGuids = deletedCanvasElementChildren.map((timeTrigger) => timeTrigger.guid);
 
     const originalStartElement = getElementByGuid(startElement.guid);
 

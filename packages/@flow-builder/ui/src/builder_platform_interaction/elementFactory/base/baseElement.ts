@@ -16,9 +16,10 @@ import {
     CanvasElementConfig,
     BaseCanvasElement,
     CanvasElement,
+    AutoLayoutCanvasElement,
     FlowConnector,
     ChildReference,
-    AutoLayoutCanvasElement
+    Guid
 } from 'builder_platform_interaction/flowModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
@@ -440,8 +441,8 @@ export const automaticOutputHandlingSupport = (): boolean => {
 
 export function updateChildReferences(
     childReferences: ChildReference[] = [],
-    canvasElementChild: CanvasElement
-): Array<Object> {
+    canvasElementChild: FlowElement
+): ChildReference[] {
     if (!canvasElementChild || !canvasElementChild.guid) {
         throw new Error('Either canvasElementChild or canvasElementChild.guid not defined');
     }
@@ -455,8 +456,8 @@ export function updateChildReferences(
 
 export function getUpdatedChildrenAndDeletedChildrenUsingStore(
     originalCanvasElement: AutoLayoutCanvasElement,
-    canvasElementChildren: CanvasElement[] = []
-): Object {
+    canvasElementChildren: FlowElement[] = []
+): { newChildren: ChildElement[]; deletedCanvasElementChildren: ChildElement[]; deletedBranchHeadGuids: Guid[] } {
     if (!originalCanvasElement) {
         throw new Error('Canvas Element is not defined');
     }

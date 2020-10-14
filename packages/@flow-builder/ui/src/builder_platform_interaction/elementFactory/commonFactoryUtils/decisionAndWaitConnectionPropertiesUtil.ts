@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ChildReference, Guid } from 'builder_platform_interaction/flowModel';
 
 /**
  * Helper function to get an array of all child references that have connectors associated with them
@@ -98,7 +99,11 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  * @returns {{connectorCount: Number, availableConnections: Object[]}} - availableConnections and connectorCount of the
  * updated element along with the deletedChildElementGuids
  */
-export function getConnectionProperties(originalCanvasElement, newChildReferences = [], deletedChildElementGuids = []) {
+export function getConnectionProperties(
+    originalCanvasElement,
+    newChildReferences: ChildReference[] = [],
+    deletedChildElementGuids: Guid[] = []
+) {
     let connectorCount = 0;
     let availableConnections = [];
 

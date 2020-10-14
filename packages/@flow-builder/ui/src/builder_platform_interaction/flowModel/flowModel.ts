@@ -68,6 +68,49 @@ export interface ScreenField extends FlowElement {
     extensionName?: string;
 }
 
+export interface BaseCanvasElementWithFilter extends BaseCanvasElement {
+    filters?: Object[];
+    filterLogic?: Filter[];
+}
+
+interface Filter {
+    field: string;
+    operator: string;
+    value: {} | string;
+}
+
+export interface Start extends BaseCanvasElementWithFilter {
+    doesRequireRecordChangedToMeetCriteria: boolean;
+    triggerType?: string;
+    object: string;
+    objectIndex?: string;
+    objectContainer?: string;
+    schedule: Schedule;
+    scheduledPaths: object[];
+    timeTriggers: TimeTrigger[];
+    isAssignable?: boolean;
+    isCollection?: boolean;
+    childReferences?: ChildReference[];
+}
+
+interface Schedule {
+    startDate: string;
+    startTime: StartTime;
+    recordTriggerType?: string;
+    frequency: string;
+}
+
+interface StartTime {
+    timeInMillis?: number;
+}
+
+export interface TimeTrigger extends ChildElement {
+    type?: string;
+    unit: string;
+    duration: string;
+    offsetField: string;
+}
+
 export type ConnectorType = string;
 
 export interface AvailableConnection {
