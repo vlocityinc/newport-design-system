@@ -29,7 +29,7 @@ storiesOf(`${base}`, module)
     aria-labelledby="indicator-id-01">
     <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
         <div class="nds-carousel__image nds-align_absolute-center">
-            <img src="./assets/images/communities/demo/icon1.png" alt="Visit App Exchange" />
+            <img src="./assets/images/communities/demo/icon.png" alt="Visit App Exchange" />
         </div>
         <div class="nds-carousel__content">
             <h2 class="nds-carousel__content-title">Jake P</h2>
