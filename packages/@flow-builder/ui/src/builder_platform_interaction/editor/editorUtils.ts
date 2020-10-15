@@ -23,7 +23,7 @@ import {
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
     baseCanvasElement,
-    createStartElement as createBasicStartElement
+    createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement
 } from 'builder_platform_interaction/elementFactory';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
