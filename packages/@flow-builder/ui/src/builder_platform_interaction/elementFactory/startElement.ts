@@ -326,8 +326,8 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     const newStartElement = createStartElement(startElement);
 
     // Start element is initialized here when flow trigger type is selected from new flow modal
-    if (startElement.guid === undefined) {
-        if (isRecordChangeTriggerType(startElement.triggerType)) {
+    if (isRecordChangeTriggerType(startElement.triggerType)) {
+        if (startElement.guid === undefined) {
             /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
             uncomment this code */
             const timeTriggerProperties = {
@@ -340,6 +340,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
             };
             return Object.assign(newStartElement, timeTriggerProperties);
         }
+    } else {
         return newStartElement;
     }
 
