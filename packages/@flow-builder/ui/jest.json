@@ -54,7 +54,7 @@
             "../../../node_modules/jest-html-reporter",
             {
                 "pageTitle": "ui-interaction-builder-components Jest tests report",
-                "outputPath": "../../../jest-report/index.html",
+                "outputPath": "<rootDir>/../../../jest-report/index.html",
                 "includeFailureMsg": true
             }
         ]
