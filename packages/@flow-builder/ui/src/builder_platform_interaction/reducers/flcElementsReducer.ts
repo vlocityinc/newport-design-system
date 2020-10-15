@@ -201,10 +201,33 @@ function _addCanvasElement(state, action) {
 function _modifyCanvasElementWithChildren(state, action) {
     let element = _getElementFromActionPayload(action.payload);
     element = state[element.guid];
-
     for (let i = 0; i < element.children.length; i++) {
         if (element.children[i]) {
             state[element.children[i]].childIndex = i;
+        }
+    }
+
+    // If shouldAddEndElement is true and newEndElementIdx exists, add an end element
+    // to the right position of children. If shouldAddEndElement is true and newEndElementIdx
+    // is undefined, add an end element as element's next
+    if (action.payload.shouldAddEndElement) {
+        if (action.payload.newEndElementIdx !== undefined) {
+            const endElement = createEndElement({
+                parent: element.guid,
+                childIndex: action.payload.newEndElementIdx,
+                prev: null,
+                next: null,
+                isTerminal: true
+            });
+            addElementToState(endElement, state);
+            element.children[action.payload.newEndElementIdx] = endElement.guid;
+        } else {
+            const endElement = createEndElement({
+                prev: element.guid,
+                next: null
+            });
+            addElementToState(endElement, state);
+            element.next = endElement.guid;
         }
     }
 

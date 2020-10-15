@@ -37,6 +37,8 @@ const newDecisionGuid = 'newDecision';
 const existingDecisionGuid = 'existingDecision';
 const decisionWithChildrenGuid = 'newDecisionWithChildren';
 const existingDecisionWithChildrenGuid = 'existingDecisionWithChildren';
+const existingDecisionWithAllTerminatedChildrenGuid = 'existingDecisionWithAllTerminatedChildrenGuid';
+const existingDecisionWithNoneTerminatedChildrenGuid = 'existingDecisionWithNoneTerminatedChildrenGuid';
 
 const existingDecision = {
     guid: existingDecisionGuid,
@@ -47,6 +49,33 @@ const existingDecisionWithChildren = {
     childReferences: [{ childReference: 'existingOutcome1' }, { childReference: 'existingOutcome2' }],
     children: ['screen1', 'screen2', null]
 };
+const existingDecisionWithAllTerminatedChildren = {
+    guid: existingDecisionWithAllTerminatedChildrenGuid,
+    childReferences: [{ childReference: 'outcome1' }],
+    children: ['end1', 'end2']
+};
+const existingDecisionWithNoneTerminatedChildren = {
+    guid: existingDecisionWithNoneTerminatedChildrenGuid,
+    childReferences: [{ childReference: 'outcome1' }],
+    children: ['end1', 'end2']
+};
+
+const endElement1 = {
+    guid: 'end1',
+    isTerminal: true
+};
+const endElement2 = {
+    guid: 'end2',
+    isTerminal: true
+};
+const endElement3 = {
+    guid: 'end3',
+    isTerminal: false
+};
+const endElement4 = {
+    guid: 'end4',
+    isTerminal: false
+};
 
 getElementByGuid.mockImplementation((guid) => {
     if (guid === newDecisionGuid || guid === decisionWithChildrenGuid) {
@@ -55,6 +84,20 @@ getElementByGuid.mockImplementation((guid) => {
         return existingDecision;
     } else if (guid === existingDecisionWithChildrenGuid) {
         return existingDecisionWithChildren;
+    } else if (guid === existingDecisionWithAllTerminatedChildrenGuid) {
+        return existingDecisionWithAllTerminatedChildren;
+    } else if (guid === existingDecisionWithNoneTerminatedChildrenGuid) {
+        return existingDecisionWithNoneTerminatedChildren;
+    } else if (guid === 'end1') {
+        return endElement1;
+    } else if (guid === 'end2') {
+        return endElement2;
+    } else if (guid === 'end3') {
+        return endElement3;
+    } else if (guid === 'end4') {
+        return endElement4;
+    } else if (guid === null) {
+        return undefined;
     }
 
     return {
@@ -317,6 +360,9 @@ describe('decision', () => {
         let decisionFromPropertyEditor;
         let decisionFromPropertyEditorWithChildren;
         let existingDecisionFromPropertyEditorWithChildren;
+        let existingDecisionFromPropertyEditorWithAllTerminatedChildren;
+        let existingDecisionFromPropertyEditorWithThreeOutcomes;
+        let existingDecisionFromPropertyEditorWithNoneTerminatedChildren;
 
         beforeEach(() => {
             shouldUseFlc(false);
@@ -349,6 +395,85 @@ describe('decision', () => {
                 ],
                 children: ['screen1', 'screen2', null]
             };
+
+            existingDecisionFromPropertyEditorWithAllTerminatedChildren = {
+                guid: existingDecisionWithAllTerminatedChildrenGuid,
+                outcomes: [
+                    {
+                        guid: 'outcome1'
+                    },
+                    {
+                        guid: 'outcome2'
+                    }
+                ],
+                children: ['end1', 'end2']
+            };
+
+            existingDecisionFromPropertyEditorWithNoneTerminatedChildren = {
+                guid: existingDecisionWithNoneTerminatedChildrenGuid,
+                outcomes: [
+                    {
+                        guid: 'outcome1'
+                    },
+                    {
+                        guid: 'outcome2'
+                    }
+                ],
+                children: ['end3', 'end4']
+            };
+
+            existingDecisionFromPropertyEditorWithThreeOutcomes = {
+                guid: existingDecisionWithAllTerminatedChildrenGuid,
+                outcomes: [
+                    {
+                        guid: 'outcome1'
+                    },
+                    {
+                        guid: 'outcome2'
+                    },
+                    {
+                        guid: 'outcome3'
+                    }
+                ],
+                children: ['end1', 'end2']
+            };
+        });
+
+        it('sets shouldAddEndElement to true when all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                existingDecisionFromPropertyEditorWithAllTerminatedChildren
+            );
+            expect(shouldAddEndElement).toBeTruthy();
+        });
+
+        it('sets shouldAddEndElement to false when not all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                existingDecisionFromPropertyEditorWithNoneTerminatedChildren
+            );
+            expect(shouldAddEndElement).toBeFalsy();
+        });
+
+        it('sets newEndElementIdx to the right index to add end element when all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const { newEndElementIdx } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                existingDecisionFromPropertyEditorWithAllTerminatedChildren
+            );
+            expect(newEndElementIdx).toEqual(1);
+        });
+
+        it('sets newEndElementIdx to undefined, shouldAddEndElement as false when adding multiple outcomes from property editor and all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const {
+                shouldAddEndElement,
+                newEndElementIdx
+            } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                existingDecisionFromPropertyEditorWithThreeOutcomes
+            );
+            expect.assertions(2);
+            expect(newEndElementIdx).toBeUndefined();
+            expect(shouldAddEndElement).toBeTruthy();
         });
 
         it('includes the return value of a call to baseCanvasElement', () => {

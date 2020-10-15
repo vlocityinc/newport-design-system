@@ -469,6 +469,95 @@ describe('elements-reducer', () => {
                 expect(updatedState.screen1.isTerminal).toBeTruthy();
             });
         });
+
+        describe('When adding an end element', () => {
+            const newDecision = {
+                guid: 'newDecision',
+                name: 'newDecision',
+                children: ['end1', null, 'end2']
+            };
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: ['end1', null, 'end2']
+                },
+                end1: {
+                    guid: 'end1',
+                    name: 'end1',
+                    childIndex: 0
+                },
+                end2: {
+                    guid: 'end2',
+                    name: 'end2',
+                    childIndex: 2
+                }
+            };
+            it('adds an end element to the correct index when shouldAddEndElement is true and newEndElementIdx exists', () => {
+                const shouldAddEndElement = true;
+                const newEndElementIdx = 1;
+                const newState = flcElementsReducer(originalStoreState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        canvasElement: newDecision,
+                        deletedBranchHeadGuids: [],
+                        shouldAddEndElement,
+                        newEndElementIdx
+                    }
+                });
+                expect.assertions(2);
+                expect(createEndElement).toHaveBeenCalledWith({
+                    parent: 'newDecision',
+                    childIndex: 1,
+                    prev: null,
+                    next: null,
+                    isTerminal: true
+                });
+                expect(newState['end-element-guid']).toBeDefined();
+            });
+
+            it('adds an end element to current elements next when shouldAddEndElement is true and newEndElementIdx exists', () => {
+                const shouldAddEndElement = true;
+                const newState = flcElementsReducer(originalStoreState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        canvasElement: newDecision,
+                        deletedBranchHeadGuids: [],
+                        shouldAddEndElement
+                    }
+                });
+                expect.assertions(3);
+                expect(createEndElement).toHaveBeenCalledWith({
+                    prev: 'newDecision',
+                    next: null
+                });
+                expect(newState['end-element-guid'].prev).toBe('newDecision');
+                expect(newState.newDecision.next).toBe('end-element-guid');
+            });
+
+            it('adds an end element properly when shouldAddEndElement is true and newEndElementIdx is 0', () => {
+                const shouldAddEndElement = true;
+                const newEndElementIdx = 0;
+                const newState = flcElementsReducer(originalStoreState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        canvasElement: newDecision,
+                        deletedBranchHeadGuids: [],
+                        shouldAddEndElement,
+                        newEndElementIdx
+                    }
+                });
+                expect.assertions(2);
+                expect(createEndElement).toHaveBeenCalledWith({
+                    parent: 'newDecision',
+                    childIndex: 0,
+                    prev: null,
+                    next: null,
+                    isTerminal: true
+                });
+                expect(newState['end-element-guid']).toBeDefined();
+            });
+        });
     });
 
     describe('Selection/Deselection of an Element', () => {

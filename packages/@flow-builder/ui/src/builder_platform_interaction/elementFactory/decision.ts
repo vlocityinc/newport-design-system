@@ -175,10 +175,13 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     }
 
     const maxConnections = newOutcomes.length + 1;
-    const { newChildren, deletedOutcomes, deletedBranchHeadGuids } = getUpdatedChildrenAndDeletedOutcomesUsingStore(
-        decision,
-        newOutcomes
-    );
+    const {
+        newChildren,
+        deletedOutcomes,
+        deletedBranchHeadGuids,
+        shouldAddEndElement,
+        newEndElementIdx
+    } = getUpdatedChildrenAndDeletedOutcomesUsingStore(decision, newOutcomes);
     const deletedOutcomeGuids = deletedOutcomes.map((outcome) => outcome.guid);
 
     let originalDecision = getElementByGuid(decision.guid);
@@ -222,7 +225,9 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         childElements: newOutcomes,
         deletedBranchHeadGuids,
         elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
-        elementSubtype
+        elementSubtype,
+        shouldAddEndElement,
+        newEndElementIdx
     };
 }
 
@@ -401,6 +406,8 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
     let deletedOutcomes = [];
     const deletedBranchHeadGuids = [];
 
+    let shouldAddEndElement = false;
+    let newEndElementIdx;
     if (outcomeReferencesFromStore) {
         deletedOutcomes = outcomeReferencesFromStore
             .filter((outcomeReferenceGuid) => {
@@ -408,6 +415,7 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
             })
             .map((childReference) => getElementByGuid(childReference));
 
+        const netNewOutcomeIndexes = [];
         if (shouldUseAutoLayoutCanvas()) {
             // For outcomes that previously existed, finding the associated children
             // and putting them at the right indexes in newChildren
@@ -415,11 +423,35 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
                 const foundAtIndex = outcomeReferencesFromStore.indexOf(newOutcomeGuids[i]);
                 if (foundAtIndex !== -1) {
                     newChildren[i] = children[foundAtIndex];
+                } else {
+                    netNewOutcomeIndexes.push(i);
                 }
             }
 
             // Adding the default branch's associated child to the last index of newChildren
             newChildren[newChildren.length - 1] = children[children.length - 1];
+            // Check if all existing branches are terminal or not
+            let areAllExistingBranchesTerminal = true;
+            for (let i = 0; i < newChildren.length; i++) {
+                if (!netNewOutcomeIndexes.includes(i)) {
+                    const child = getElementByGuid(newChildren[i]);
+                    if (child && !child.isTerminal) {
+                        areAllExistingBranchesTerminal = false;
+                    }
+                }
+            }
+
+            // If all exsiting branches are terminal, then add an end element as needed
+            if (areAllExistingBranchesTerminal && netNewOutcomeIndexes.length > 0) {
+                shouldAddEndElement = true;
+                if (netNewOutcomeIndexes.length === 1) {
+                    // If only one outcome is added, an end element needs to be added
+                    // to children at the correct index
+                    newEndElementIdx = netNewOutcomeIndexes[0];
+                }
+                // If multiple outcomes are added, an end element needs to be added as
+                // decision's next, this case is handled in flcElementsReducer
+            }
 
             // Getting the child associated with the deleted outcome
             for (let i = 0; i < outcomeReferencesFromStore.length; i++) {
@@ -429,5 +461,5 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
             }
         }
     }
-    return { newChildren, deletedOutcomes, deletedBranchHeadGuids };
+    return { newChildren, deletedOutcomes, deletedBranchHeadGuids, shouldAddEndElement, newEndElementIdx };
 }
