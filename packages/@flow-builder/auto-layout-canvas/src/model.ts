@@ -58,6 +58,8 @@ export interface MenuItem {
     label: string;
     elementType: string;
     rowClass: string;
+    value?: string;
+    dataType?: string;
 }
 
 export interface MenuSection {

@@ -274,20 +274,13 @@ export default class LoopEditor extends LightningElement {
         event.stopPropagation();
         let loopVariableError = event.detail.error ? event.detail.error : null;
         const loopVariableValue = event.detail.item ? event.detail.item.value : null;
-        const isDataTypeErrorMessageApplied =
-            getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LABELS.loopVariableErrorMessage;
-        const isLoopVariableValueChanged =
-            loopVariableValue === getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
-        const isDataTypeChanged = this.getLoopVariableDataType() !== this.getCollectionVariableDataType();
-        const isSubtypeChanged = this.getLoopVariableSubtype() !== this.getCollectionVariableSubtype();
+        const newLoopVariable = getResourceByUniqueIdentifier(loopVariableValue);
+        const isDataTypeDifferentFromCollectionDataType =
+            newLoopVariable && newLoopVariable.dataType !== this.getCollectionVariableDataType();
+        const isSubtypeDifferentFromCollectionSubtype =
+            newLoopVariable && newLoopVariable.subtype !== this.getCollectionVariableSubtype();
 
-        if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSubtypeChanged)) {
-            // set datatype mismatch error message for loopVariable
-            loopVariableError = LABELS.loopVariableErrorMessage;
-        }
-
-        if (loopVariableError === null && isDataTypeErrorMessageApplied && isLoopVariableValueChanged) {
-            // preserve data type mismatch error if it already exists, otherwise it will be removed.
+        if (isDataTypeDifferentFromCollectionDataType || isSubtypeDifferentFromCollectionSubtype) {
             loopVariableError = LABELS.loopVariableErrorMessage;
         }
         this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
