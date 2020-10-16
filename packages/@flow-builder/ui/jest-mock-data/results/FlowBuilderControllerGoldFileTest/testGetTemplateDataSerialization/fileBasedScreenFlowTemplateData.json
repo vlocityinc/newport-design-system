@@ -150,7 +150,7 @@
     "locationX" : 50,
     "locationY" : 50,
     "processMetadataValues" : [ ],
-    "timeTriggers" : [ ]
+    "scheduledPaths" : [ ]
   },
   "status" : "Active",
   "steppedStages" : [ ],

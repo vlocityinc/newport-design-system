@@ -104,6 +104,57 @@
     },
     {
       "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"A raptor testing component",
+      "label":"LWC Test Component",
+      "type":"component",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"interactiontest:lwcFieldServiceMobileTestComponent",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"component-interactiontest:lwcFieldServiceMobileTestComponent"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"A raptor testing component",
+      "label":"LWC Test Component",
+      "type":"component",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"interactiontest:lwcLocalActionTestComponent",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"component-interactiontest:lwcLocalActionTestComponent"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"A raptor testing component",
+      "label":"LWC Test Component",
+      "type":"component",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"interactiontest:lwcSurveysTestComponent",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"component-interactiontest:lwcSurveysTestComponent"
+    },
+    {
+      "iconId":null,
       "allowsTransactionControl":true,
       "iconName":null,
       "description":"Request contact from support on behalf of the customer. Use a screen to let customers provide their contact details and describe their issue.",

@@ -59,6 +59,20 @@
       "attributes":null,
       "classification":"Node",
       "elementType":"Start"
+    },
+    {
+      "labelEdit":"Edit Sort",
+      "isElementSubtype":true,
+      "color":"iconName",
+      "name":"SortCollectionProcessor",
+      "icon":"#ff8000",
+      "description":"Used for sorting Collection Variables",
+      "label":"Sort",
+      "labelNew":"New Sort",
+      "classification":"Node",
+      "elementType":"CollectionProcessor",
+      "labelPlural":"Sorts",
+      "configComponent":"configurationName"
     }
   ]
 }

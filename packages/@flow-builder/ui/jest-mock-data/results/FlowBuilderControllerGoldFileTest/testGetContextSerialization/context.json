@@ -44,7 +44,7 @@
       "locationY" : 50,
       "object" : "MarketAudienceMember",
       "processMetadataValues" : [ ],
-      "timeTriggers" : [ ],
+      "scheduledPaths" : [ ],
       "triggerType" : "ScheduledJourney"
     },
     "steppedStages" : [ ],
