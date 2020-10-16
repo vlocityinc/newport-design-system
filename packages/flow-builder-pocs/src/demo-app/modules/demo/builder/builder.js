@@ -6,7 +6,7 @@ import { addElement, addElementFault, deleteElementFault, updateFlow, deleteElem
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createStartElementWithConnectors, createEndElement } from 'builder_platform_interaction/elementFactory';
+import { createStartElementForPropertyEditor, createEndElement } from 'builder_platform_interaction/elementFactory';
 
 import {
     convertToAutoLayoutCanvas,
@@ -114,7 +114,7 @@ export default class Builder extends LightningElement {
 
     createStartElement() {
         storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(true));
-        storeInstance.dispatch(addElement(createStartElementWithConnectors({})));
+        storeInstance.dispatch(addElement(createStartElementForPropertyEditor({})));
     }
 
     handleAddElement(addEvent) {
