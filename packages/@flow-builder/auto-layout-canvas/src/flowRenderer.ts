@@ -312,7 +312,7 @@ function createNextConnector(
     let prevHeight;
 
     if (menuInfo != null && menuInfo.type === MenuType.NODE && menuInfo.key === node.guid) {
-        if (interactionState.menuInfo != null || interactionState.closingMenu) {
+        if (interactionState.menuInfo != null) {
             addAlign = VerticalAlign.BOTTOM;
         } else {
             const { prevLayout } = nodeLayoutMap[node.guid];
@@ -322,10 +322,7 @@ function createNextConnector(
                 prevHeight -= prevLayout.joinOffsetY;
             }
         }
-    } else if (
-        ((menuInfo === null || menuInfo.key !== node.guid) && mainVariant === ConnectorVariant.DEFAULT) ||
-        mainVariant === ConnectorVariant.BRANCH_TAIL
-    ) {
+    } else if ((menuInfo === null || menuInfo.key !== node.guid) && mainVariant === ConnectorVariant.DEFAULT) {
         addAlign = VerticalAlign.BOTTOM;
     }
 
