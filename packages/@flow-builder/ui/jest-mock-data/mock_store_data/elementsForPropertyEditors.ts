@@ -381,6 +381,7 @@ export const elementsForPropertyEditors = {
             }
         },
         fields: [],
+        inputsNextBehavior: 'Remember',
         storeOutputAutomatically: false
     },
     emailScreenFieldAutomaticOutput: {
@@ -498,6 +499,7 @@ export const elementsForPropertyEditors = {
             }
         },
         fields: [],
+        inputsNextBehavior: 'Remember',
         storeOutputAutomatically: true
     }
 };

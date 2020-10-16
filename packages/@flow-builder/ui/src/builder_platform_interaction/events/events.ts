@@ -1,4 +1,3 @@
-// @ts-nocheck
 /*
  * Contains all custom event classes
  */
@@ -104,3 +103,4 @@ export { ConfigurationEditorTypeMappingChangeEvent } from './configurationEditor
 export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
 export { ArrowKeyDownEvent } from './arrowKeyDownEvent';
+export { InputsNextBehaviorChangeEvent } from './inputsNextBehaviorChangeEvent';

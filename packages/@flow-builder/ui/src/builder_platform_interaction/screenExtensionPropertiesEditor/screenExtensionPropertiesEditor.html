@@ -69,37 +69,49 @@
                     >
                         <builder_platform_interaction-screen-component-visibility-section field={field}>
                         </builder_platform_interaction-screen-component-visibility-section>
-                    </lightning-accordion>
 
-                    <!--  validation text -->
-
-                    <div if:true={isAdvancedCheckboxDisplayed} class="slds-m-top_small">
-                        <builder_platform_interaction-use-advanced-options-checkbox
-                            is-advanced-mode={isAdvancedMode}
-                            onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
-                        >
-                        </builder_platform_interaction-use-advanced-options-checkbox>
-                    </div>
-                    <div if:true={isManualOutputDisplayed} class="slds-m-bottom_small slds-m-top_small">
-                        <h3 class="slds-p-left_medium" style="font-size: 3; font-weight: bold;">
-                            {labels.extensionOutputsHeader}
-                        </h3>
-                        <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
-                            <template for:each={state.outputParameters} for:item="param" for:index="index">
-                                <builder_platform_interaction-screen-extension-attribute-editor
-                                    key={param.key}
-                                    row-index={param.rowIndex}
-                                    index={index}
-                                    descriptor={param.descriptor}
-                                    attribute={param.attribute}
-                                    attribute-index={param.index}
-                                    attribute-type="output"
-                                    disabled={param.disabled}
+                        <lightning-accordion-section name="advanced" label={labels.extensionAdvanced}>
+                            <div if:true={isAdvancedCheckboxDisplayed} class="slds-m-top_small">
+                                <builder_platform_interaction-use-advanced-options-checkbox
+                                    is-advanced-mode={isAdvancedMode}
+                                    onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
                                 >
-                                </builder_platform_interaction-screen-extension-attribute-editor>
-                            </template>
-                        </div>
-                    </div>
+                                </builder_platform_interaction-use-advanced-options-checkbox>
+                            </div>
+                            <div if:true={isManualOutputDisplayed} class="slds-m-bottom_small slds-m-top_small">
+                                <h3 class="slds-p-left_medium" style="font-size: 3; font-weight: bold;">
+                                    {labels.extensionOutputsHeader}
+                                </h3>
+                                <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
+                                    <template for:each={state.outputParameters} for:item="param" for:index="index">
+                                        <builder_platform_interaction-screen-extension-attribute-editor
+                                            key={param.key}
+                                            row-index={param.rowIndex}
+                                            index={index}
+                                            descriptor={param.descriptor}
+                                            attribute={param.attribute}
+                                            attribute-index={param.index}
+                                            attribute-type="output"
+                                            disabled={param.disabled}
+                                        >
+                                        </builder_platform_interaction-screen-extension-attribute-editor>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="slds-text-heading_small slds-p-vertical_small">
+                                {labels.extensionInputsNextBehaviorSubtitle}
+                            </div>
+                            <div class="slds-text-body_regular">{labels.extensionInputsNextBehaviorDescription}</div>
+                            <lightning-radio-group
+                                name="radioButtonGroup"
+                                options={inputsNextBehaviorOptions}
+                                value={field.inputsNextBehavior}
+                                onchange={handleInputsNextBehaviorChange}
+                            >
+                            </lightning-radio-group>
+                        </lightning-accordion-section>
+                    </lightning-accordion>
                 </template>
             </div>
         </div>

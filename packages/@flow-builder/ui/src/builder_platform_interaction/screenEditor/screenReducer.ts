@@ -26,7 +26,8 @@ import {
     DeleteConditionEvent,
     UpdateConditionEvent,
     UseAdvancedOptionsSelectionChangedEvent,
-    DynamicTypeMappingChangeEvent
+    DynamicTypeMappingChangeEvent,
+    InputsNextBehaviorChangeEvent
 } from 'builder_platform_interaction/events';
 import { createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
@@ -47,6 +48,7 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields
@@ -859,6 +861,13 @@ const useAdvancedOptionsSelectionChanged = (state, selectedNode, { useAdvancedOp
     return updateFieldInScreen(state, selectedNode, updatedField);
 };
 
+const setInputsNextBehaviorOption = (state: State, selectedNode: Node, option: InputsNextBehaviorOption) => {
+    const updatedField = updateProperties(selectedNode, {
+        inputsNextBehavior: option
+    });
+    return updateFieldInScreen(state, selectedNode, updatedField);
+};
+
 /**
  * Screen reducer function, performs changes and validation on a screen and returns the updated (new) screen element
  * @param {object} state - element / screen node
@@ -915,6 +924,9 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case DynamicTypeMappingChangeEvent.EVENT_NAME:
             return setDynamicTypeMappingTypeValue(state, selectedNode, event);
+
+        case InputsNextBehaviorChangeEvent.EVENT_NAME:
+            return setInputsNextBehaviorOption(state, selectedNode, event.detail.option);
 
         default:
             return state;

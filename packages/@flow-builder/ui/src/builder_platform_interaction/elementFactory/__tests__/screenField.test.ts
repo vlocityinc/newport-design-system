@@ -10,7 +10,7 @@ import {
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
-import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
+import { getColumnFieldType, InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
 import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 
@@ -83,7 +83,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     });
 });
 
-const componentAutomaticScreenFieldMetadata = () => ({
+const componentAutomaticOutputScreenFieldMetadata = () => ({
     choiceReferences: [],
     extensionName: 'flowruntime:email',
     fields: [],
@@ -116,6 +116,12 @@ const componentAutomaticScreenFieldMetadata = () => ({
     scale: 0,
     storeOutputAutomatically: true
 });
+
+const componentAutomaticOutputScreenFieldMetadataWithRecalculateInputsNextBehavior = () => {
+    const comp = componentAutomaticOutputScreenFieldMetadata();
+    comp.inputsNextBehavior = InputsNextBehaviorOption.RECALCULCATE;
+    return comp;
+};
 
 const componentScreenFieldEmailMetadata = () => ({
     choiceReferences: [],
@@ -197,7 +203,7 @@ const componentScreenFieldEmailStore = () => ({
     }
 });
 
-const componentAutomaticScreenFieldStore = () => ({
+const componentAutomaticOutputScreenFieldStore = () => ({
     guid: '06001014-dce2-4206-add3-d73bdcc38174',
     name: 'myEmail',
     choiceReferences: [],
@@ -249,6 +255,12 @@ const componentAutomaticScreenFieldStore = () => ({
     },
     storeOutputAutomatically: true
 });
+
+const componentAutomaticOutputScreenFieldStoreWithRemembersInputsNextBehavior = () => {
+    const comp = componentAutomaticOutputScreenFieldStore();
+    comp.inputsNextBehavior = InputsNextBehaviorOption.REMEMBER;
+    return comp;
+};
 
 const sectionScreenFieldStore = () => ({
     guid: 'section',
@@ -329,12 +341,18 @@ describe('screenField', () => {
                 });
             });
         });
+        describe('"inputsNextBehavior"', () => {
+            it('defaut value is Recalculate', () => {
+                const actualResult = createEmptyScreenFieldOfType('flowruntime:email');
+                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.RECALCULCATE);
+            });
+        });
     });
     describe('screenField flow metadata => UI model', () => {
         describe('LC screen field with automatic output handling', () => {
             let screenFieldMetadata;
             beforeEach(() => {
-                screenFieldMetadata = componentAutomaticScreenFieldMetadata();
+                screenFieldMetadata = componentAutomaticOutputScreenFieldMetadata();
                 getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             });
             it('has no common mutable object with screen field metadata passed as parameter', () => {
@@ -363,6 +381,19 @@ describe('screenField', () => {
                     typeName: 'T',
                     typeValue: 'Asset'
                 });
+            });
+        });
+        describe('"inputsNextBehavior"', () => {
+            it('is translated as "Remember" when not set', () => {
+                const screenFieldMetadata = componentAutomaticOutputScreenFieldMetadataWithRecalculateInputsNextBehavior();
+                delete screenFieldMetadata.inputsNextBehavior;
+                const actualResult = createScreenField(screenFieldMetadata);
+                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.REMEMBER);
+            });
+            it('value is preserved when set', () => {
+                const screenFieldMetadata = componentAutomaticOutputScreenFieldMetadataWithRecalculateInputsNextBehavior();
+                const actualResult = createScreenField(screenFieldMetadata);
+                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.RECALCULCATE);
             });
         });
         describe('LC screen field (automatic output handling not supported)', () => {
@@ -454,17 +485,17 @@ describe('screenField', () => {
                 getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             });
             it('converts to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
+                const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
 
-                expect(actualResult).toMatchObject(componentAutomaticScreenFieldMetadata());
+                expect(actualResult).toMatchObject(componentAutomaticOutputScreenFieldMetadata());
             });
             it('has no common mutable object with screen field from store passed as parameter', () => {
-                const screenFieldStore = componentAutomaticScreenFieldStore();
+                const screenFieldStore = componentAutomaticOutputScreenFieldStore();
                 const actualResult = createScreenFieldMetadataObject(screenFieldStore);
                 expect(actualResult).toHaveNoCommonMutableObjectWith(screenFieldStore);
             });
             it('has dynamic type mappings', () => {
-                const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
+                const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
                 expect(actualResult).toHaveProperty('dataTypeMappings');
                 expect(actualResult.dataTypeMappings).toHaveLength(1);
                 expect(actualResult.dataTypeMappings[0]).toEqual({
@@ -473,7 +504,7 @@ describe('screenField', () => {
                 });
             });
             it('ScreenField with empty manual value should be filtered to not appear in the output parameter list', () => {
-                const screenField = componentAutomaticScreenFieldStore();
+                const screenField = componentAutomaticOutputScreenFieldStore();
                 screenField.storeOutputAutomatically = false;
                 screenField.outputParameters = [
                     {
@@ -498,7 +529,7 @@ describe('screenField', () => {
                 expect(actualResult).not.toHaveProperty('dataTypeMappings');
             });
             it('convert to flow metadata should remove the storeOutputAutomatically if processType does not support it', () => {
-                const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
+                const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
                 expect(actualResult).toMatchObject(componentScreenFieldEmailMetadata());
                 expect(actualResult.storeOutputAutomatically).not.toBeDefined();
             });
@@ -511,6 +542,14 @@ describe('screenField', () => {
             it('convert to flow metadata', () => {
                 const actualResult = createScreenFieldMetadataObject(screenFieldStore);
                 expect(actualResult).toMatchObject(sectionScreenFieldMetadata());
+            });
+        });
+        describe('"inputsNextBehavior"', () => {
+            it('is properly saved in flow metadata when set', () => {
+                const actualResult = createScreenFieldMetadataObject(
+                    componentAutomaticOutputScreenFieldStoreWithRemembersInputsNextBehavior()
+                );
+                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.REMEMBER);
             });
         });
     });

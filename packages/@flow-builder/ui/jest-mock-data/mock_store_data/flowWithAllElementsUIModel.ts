@@ -2636,6 +2636,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2684,6 +2685,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: false,
             childReferences: []
         },
@@ -2720,6 +2722,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2756,6 +2759,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2792,6 +2796,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2857,6 +2862,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2938,6 +2944,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3173,6 +3180,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3345,6 +3353,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3450,6 +3459,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3526,6 +3536,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: true,
             childReferences: []
         },

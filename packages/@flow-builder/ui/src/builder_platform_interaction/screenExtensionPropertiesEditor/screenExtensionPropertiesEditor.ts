@@ -16,10 +16,15 @@ import {
     swapUidsForDevNames
 } from 'builder_platform_interaction/translatorLib';
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
-import { DynamicTypeMappingChangeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import {
+    DynamicTypeMappingChangeEvent,
+    PropertyChangedEvent,
+    InputsNextBehaviorChangeEvent
+} from 'builder_platform_interaction/events';
 import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
+import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Dynamic property editor for screen extensions.
@@ -96,6 +101,14 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         dynamicTypeMappings: [],
         storeOutputAutomatically: undefined
     };
+
+    inputsNextBehaviorOptions = [
+        {
+            label: LABELS.extensionInputsNextBehaviorRecalculateDescription,
+            value: InputsNextBehaviorOption.RECALCULCATE
+        },
+        { label: LABELS.extensionInputsNextBehaviorRememberDescription, value: InputsNextBehaviorOption.REMEMBER }
+    ];
 
     get isAdvancedCheckboxDisplayed() {
         return this.isAutomaticOutputHandlingSupported && this.hasOutputs;
@@ -327,6 +340,11 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
                 isConfigurable: false
             })
         );
+    }
+
+    handleInputsNextBehaviorChange(event: CustomEvent) {
+        event.stopPropagation();
+        this.dispatchEvent(new InputsNextBehaviorChangeEvent(event.detail.value));
     }
 
     _shouldCreateConfigurationEditor() {

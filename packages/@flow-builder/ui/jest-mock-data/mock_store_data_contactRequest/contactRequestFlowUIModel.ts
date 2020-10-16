@@ -376,6 +376,7 @@ export const contactRequestFlowUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: false,
             childReferences: []
         }

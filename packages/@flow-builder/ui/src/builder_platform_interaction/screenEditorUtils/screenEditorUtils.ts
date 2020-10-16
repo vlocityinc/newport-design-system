@@ -40,6 +40,11 @@ export const HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS = 'highlight-frame-allow-events'
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 export const FRAME_DIV_SELECTOR = '.highlight-frame';
 
+export enum InputsNextBehaviorOption {
+    REMEMBER = 'Remember',
+    RECALCULCATE = 'Recalculate'
+}
+
 export function isScreen(element) {
     return element && element.elementType && element.elementType === ELEMENT_TYPE.SCREEN;
 }

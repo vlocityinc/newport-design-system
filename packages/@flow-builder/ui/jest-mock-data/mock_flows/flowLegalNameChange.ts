@@ -887,7 +887,8 @@ export const flowLegalNameChange = {
                         ],
                         scale: 0,
                         fields: [],
-                        extensionName: 'forceContent:fileUpload'
+                        extensionName: 'forceContent:fileUpload',
+                        inputsNextBehavior: 'Remember'
                     }
                 ],
                 allowBack: true,

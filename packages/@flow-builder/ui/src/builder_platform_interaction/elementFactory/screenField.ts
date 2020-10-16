@@ -26,6 +26,7 @@ import { createValidationRuleObject } from './base/baseValidationInput';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
+import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -55,7 +56,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         storeOutputAutomatically,
         visibilityRule,
         dynamicTypeMappings,
-        fields
+        fields,
+        inputsNextBehavior
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -77,6 +79,9 @@ export function createScreenField(screenField = {}, isNewField = false) {
             outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
         }
         fields = [];
+        if (inputsNextBehavior == null) {
+            inputsNextBehavior = isNewField ? InputsNextBehaviorOption.RECALCULCATE : InputsNextBehaviorOption.REMEMBER;
+        }
     } else {
         storeOutputAutomatically = undefined;
         type = getScreenFieldType(screenField);
@@ -159,7 +164,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
             elementType,
             defaultSelectedChoiceReference,
             visibilityRule,
-            fields
+            fields,
+            inputsNextBehavior
         },
         dynamicTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
@@ -319,7 +325,8 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
             errorMessage: ''
         },
         storeOutputAutomatically: automaticOutputHandlingSupport(),
-        fields: []
+        fields: [],
+        inputsNextBehavior: undefined
     };
 
     // Add a single default column for section fields
@@ -361,7 +368,8 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultSelectedChoiceReference,
         visibilityRule,
         dynamicTypeMappings,
-        childReferences
+        childReferences,
+        inputsNextBehavior
     } = screenField;
     let {
         dataType,
@@ -436,7 +444,8 @@ export function createScreenFieldMetadataObject(screenField) {
             name,
             outputParameters,
             scale,
-            fields
+            fields,
+            inputsNextBehavior
         },
         dataTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},

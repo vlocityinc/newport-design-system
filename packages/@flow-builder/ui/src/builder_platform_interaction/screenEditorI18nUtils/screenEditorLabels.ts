@@ -98,6 +98,11 @@ import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsToo
 import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
 import componentsTabLabel from '@salesforce/label/FlowBuilderScreenEditor.componentsTabLabel';
 import fieldsTabLabel from '@salesforce/label/FlowBuilderScreenEditor.fieldsTabLabel';
+import extensionAdvanced from '@salesforce/label/FlowBuilderScreenEditor.extensionAdvanced';
+import extensionInputsNextBehaviorSubtitle from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorSubtitle';
+import extensionInputsNextBehaviorDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorDescription';
+import extensionInputsNextBehaviorRememberDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorRememberDescription';
+import extensionInputsNextBehaviorRecalculateDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorRecalculateDescription';
 
 export const LABELS = {
     errorRequired,
@@ -199,5 +204,10 @@ export const LABELS = {
     columnsTooltip,
     defaultColumnLabel,
     componentsTabLabel,
-    fieldsTabLabel
+    fieldsTabLabel,
+    extensionAdvanced,
+    extensionInputsNextBehaviorSubtitle,
+    extensionInputsNextBehaviorDescription,
+    extensionInputsNextBehaviorRememberDescription,
+    extensionInputsNextBehaviorRecalculateDescription
 };

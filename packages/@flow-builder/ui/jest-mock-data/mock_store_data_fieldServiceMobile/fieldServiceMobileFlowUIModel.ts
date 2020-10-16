@@ -453,6 +453,7 @@ export const fieldServiceMobileFlowUIModel = {
                 conditions: []
             },
             fields: [],
+            inputsNextBehavior: 'Remember',
             storeOutputAutomatically: false,
             childReferences: []
         }
