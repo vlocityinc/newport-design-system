@@ -41,7 +41,6 @@ export default class BaseResourcePicker extends LightningElement {
      * the state of the resource picker containing the current item, displayText, and the menu data
      * @typedef {Object} resourcePickerState
      * @property {Object[]} menuData    the current menu data held by the combobox, not necessarily the full menu data
-     * @property {ComboboxConfig}       the combobox config object
      */
     @track
     state: { renderIncrementally: boolean; menuData: Object[] | undefined } = {
@@ -50,20 +49,7 @@ export default class BaseResourcePicker extends LightningElement {
     };
 
     /**
-     * The configuration object that contains the api properties of a flow combobox
-     * @typedef {Object} ComboboxConfig
-     * @property {String} label the flow combobox label
-     * @property {String} placeholder the flow combobox placeholder
-     * @property {String} errorMessage the error message to be displayed on error
-     * @property {String} literalsAllowed Pass the string 'true' if literals are allowed 'false' otherwise
-     * @property {Boolean} required true if required field, false otherwise
-     * @property {Boolean} disabled true if disabled field, false otherwise
-     * @property {String} type the data type of the flow combobox, needed for validation
-     */
-
-    /**
      * Object with properties used to configure the flow combobox
-     * @param {ComboboxConfig} config the combobox config object used to initialize the resource picker's combobox
      */
     @api
     comboboxConfig: ComboboxConfig = {};
@@ -167,7 +153,7 @@ export default class BaseResourcePicker extends LightningElement {
     static getComboboxConfig = (
         label?: string,
         placeholder?: string,
-        errorMessage?: string,
+        errorMessage?: string | null,
         literalsAllowed = false,
         required = false,
         disabled = false,

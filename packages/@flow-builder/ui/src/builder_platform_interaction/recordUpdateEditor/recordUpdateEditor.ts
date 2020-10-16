@@ -7,7 +7,6 @@ import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { ENTITY_TYPE, fetchFieldsForEntity, getUpdateableEntities } from 'builder_platform_interaction/sobjectLib';
-import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
@@ -63,14 +62,6 @@ export default class RecordUpdateEditor extends LightningElement {
         const event = { type: VALIDATE_ALL };
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
         return getErrorsFromHydratedElement(this.state.recordUpdateElement);
-    }
-
-    get filterElementType() {
-        return SUB_ELEMENT_TYPE.RECORD_UPDATE_FILTER_ITEM;
-    }
-
-    get assignentFieldElementType() {
-        return SUB_ELEMENT_TYPE.RECORD_UPDATE_ASSIGNMENT_FIELD;
     }
 
     get assignmentTitle() {

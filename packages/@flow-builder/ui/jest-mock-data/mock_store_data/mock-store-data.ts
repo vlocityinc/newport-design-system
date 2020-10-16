@@ -42,6 +42,7 @@ export const lookupRecordAutomaticOutput = getElementByName('lookupRecordAutomat
 export const lookupRecordCollectionAutomaticOutput = getElementByName('lookupRecordCollectionAutomaticOutput');
 export const lookupRecordCollectionManualOutput = getElementByName('lookupAccountsManual');
 export const getAccountSeparateFieldsWithFilters = getElementByName('getAccountSeparateFieldsWithFilters');
+export const updateAccountWithFilter = getElementByName('updateAccountWithFilter');
 export const lookupRecordAutomaticOutputWithFields = getElementByName('getAccountAutoWithFields');
 export const getAccountsAutomaticWithFieldsAndFilters = getElementByName('getAccountsAutomaticWithFieldsAndFilters');
 export const getAccountManualOutputIntoApexVariable = getElementByName('get_account_into_apex_variable');
