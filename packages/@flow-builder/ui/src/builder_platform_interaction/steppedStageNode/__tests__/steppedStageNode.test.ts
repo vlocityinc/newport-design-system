@@ -56,7 +56,7 @@ describe('Stepped-Stage-Node', () => {
 
         const step = steppedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}']`);
 
-        const event = new MouseEvent('dblclick');
+        const event = new MouseEvent('click');
         step.dispatchEvent(event);
 
         expect(cb.mock.calls[0][0].detail.canvasElementGUID).toEqual(itemGuid);

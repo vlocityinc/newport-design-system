@@ -1,7 +1,7 @@
 <template>
     <div class="stepped-stage-node">
         <lightning-icon
-            icon-name="utility:jump_to_right"
+            icon-name="standard:sales_path"
             size="large"
             variant="inverse"
             class="background-dark icon__container_square"
@@ -13,36 +13,45 @@
             >
                 {node.label}
             </h3>
-            <div class="items-header background-dark slds-p-around_small slds-border_bottom">
+            <div class="items-header background-light slds-p-around_small slds-border_bottom">
                 {itemsHeader}
             </div>
             <div class="items-section slds-p-top_x-small">
-                <template for:each={items} for:item="item">
-                    <div
-                        key={item.name}
-                        data-item-guid={item.guid}
-                        class="item slds-p-horizontal_x-small slds-p-vertical_x-small"
-                        ondblclick={handleOpenItemPropertyEditor}
-                    >
-                        <lightning-icon
-                            icon-name="standard:screen"
-                            size="medium"
-                            class="slds-m-right_x-small"
-                        ></lightning-icon>
-                        <span class="slds-truncate">{item.label}</span>
-                        <button
-                            class="slds-button slds-float_right slds-m-top_x-small"
-                            onclick={handleDeleteItem}
+                <div>
+                    <template for:each={items} for:item="item">
+                        <div
+                            key={item.name}
                             data-item-guid={item.guid}
+                            class="item slds-p-horizontal_x-small slds-clearfix"
+                            onclick={handleOpenItemPropertyEditor}
                         >
-                            <lightning-icon key={item.name} icon-name="utility:delete" size="xx-small"></lightning-icon>
-                        </button>
-                    </div>
-                </template>
+                            <lightning-icon
+                                icon-name="standard:screen"
+                                size="medium"
+                                class="slds-float_left slds-m-right_small background-dark"
+                            ></lightning-icon>
+                            <div class="slds-float_left">
+                                <div class="slds-p-vertical_xxx-small slds-truncate">{item.stepTypeLabel}</div>
+                                <span class="slds-truncate itemLabel">{item.label}</span>
+                            </div>
 
+                            <button
+                                class="slds-button slds-float_right slds-m-top_x-small"
+                                onclick={handleDeleteItem}
+                                data-item-guid={item.guid}
+                            >
+                                <lightning-icon
+                                    key={item.name}
+                                    icon-name="utility:delete"
+                                    size="xx-small"
+                                ></lightning-icon>
+                            </button>
+                        </div>
+                    </template>
+                </div>
                 <button
                     onclick={handleAddItem}
-                    class="slds-size_4-of-5 slds-m-horizontal_x-small slds-button slds-button_neutral slds-m-bottom_small add-item"
+                    class="slds-m-horizontal_small slds-button slds-button_neutral slds-m-bottom_small slds-m-top_medium add-item"
                 >
                     <lightning-icon
                         icon-name="utility:add"

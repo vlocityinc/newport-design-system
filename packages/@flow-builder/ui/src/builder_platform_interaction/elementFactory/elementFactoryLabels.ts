@@ -16,6 +16,7 @@ import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanva
 import endElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.endElementSingularLabel';
 import defaultSteppedStageName from '@salesforce/label/FlowBuilderElementConfig.defaultSteppedStageName';
 import defaultSteppedStageItemName from '@salesforce/label/FlowBuilderElementConfig.defaultSteppedStageItemName';
+import workStepLabel from '@salesforce/label/FlowBuilderElementConfig.workStepLabel';
 
 export const LABELS = {
     emptyDefaultOutcomeLabel,
@@ -34,5 +35,6 @@ export const LABELS = {
     startElementRecordCreatedUpdated,
     endElementSingularLabel,
     defaultSteppedStageName,
-    defaultSteppedStageItemName
+    defaultSteppedStageItemName,
+    workStepLabel
 };

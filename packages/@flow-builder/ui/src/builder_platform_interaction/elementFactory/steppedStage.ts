@@ -8,7 +8,10 @@ import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtil
 import { LABELS } from './elementFactoryLabels';
 
 // TODO: should extend the same base class as other non-canvas elements
-export type SteppedStageItem = ChildElement;
+export interface SteppedStageItem extends ChildElement {
+    // TODO: W-8051764 - This will become required
+    stepTypeLabel?: string;
+}
 
 export interface SteppedStage extends CanvasElement {
     steps: SteppedStageItem[];
@@ -180,7 +183,11 @@ export function getSteps(guid: Guid): SteppedStageItem[] {
 
     return steppedStage.childReferences.map(
         (ref: ChildReference): SteppedStageItem => {
-            return getElementByGuid(ref.childReference);
+            return {
+                ...getElementByGuid(ref.childReference),
+                // TODO: W-8051764: This will eventually need to be dynamic based on the step type
+                stepTypeLabel: LABELS.workStepLabel
+            };
         }
     );
 }
@@ -190,6 +197,7 @@ export function createSteppedStageItem(step: {
     name?: string;
     guid?: Guid;
     parent?: Guid;
+    stepTypeLabel?: string;
 }): SteppedStageItem {
     // Default label
     // TODO: This is an incomplete version of the logic needed for full proeprty editor
@@ -200,7 +208,7 @@ export function createSteppedStageItem(step: {
         step.label = format(LABELS.defaultSteppedStageItemName, steppedStage.childReferences.length + 1);
         step.name = sanitizeDevName(step.label);
     }
-    const childElement = baseChildElement(step, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
+    const childElement = <SteppedStageItem>baseChildElement(step, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
 
     return childElement;
 }

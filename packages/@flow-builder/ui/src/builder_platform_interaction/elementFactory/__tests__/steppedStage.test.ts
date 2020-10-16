@@ -307,15 +307,23 @@ describe('SteppedStage', () => {
     });
 
     describe('getSteps', () => {
-        const data = getSteps(existingSteppedStageWithChildren.guid);
-        expect(data).toHaveLength(2);
+        it('returns all items for the SteppedStage', () => {
+            const data = getSteps(existingSteppedStageWithChildren.guid);
+            expect(data).toHaveLength(2);
 
-        expect(getElementByGuid).toHaveBeenCalledTimes(3);
-        expect(getElementByGuid.mock.calls[1][0]).toEqual(
-            existingSteppedStageWithChildren.childReferences[0].childReference
-        );
-        expect(getElementByGuid.mock.calls[2][0]).toEqual(
-            existingSteppedStageWithChildren.childReferences[1].childReference
-        );
+            expect(getElementByGuid).toHaveBeenCalledTimes(3);
+            expect(getElementByGuid.mock.calls[1][0]).toEqual(
+                existingSteppedStageWithChildren.childReferences[0].childReference
+            );
+            expect(getElementByGuid.mock.calls[2][0]).toEqual(
+                existingSteppedStageWithChildren.childReferences[1].childReference
+            );
+        });
+        it('sets the label to WorkStep for all steps', () => {
+            const workStepLabel = 'FlowBuilderElementConfig.workStepLabel';
+            const data = getSteps(existingSteppedStageWithChildren.guid);
+            expect(data[0].stepTypeLabel).toEqual(workStepLabel);
+            expect(data[1].stepTypeLabel).toEqual(workStepLabel);
+        });
     });
 });
