@@ -37,6 +37,8 @@ export interface FlowElement {
     dataType?: Datatype;
 
     isCanvasElement?: boolean;
+
+    connector?: FlowConnector;
 }
 
 export interface BaseCanvasElement extends FlowElement {
@@ -80,18 +82,24 @@ interface Filter {
     value: {} | string;
 }
 
-export interface Start extends BaseCanvasElementWithFilter {
+interface Start extends BaseCanvasElementWithFilter {
     doesRequireRecordChangedToMeetCriteria: boolean;
     triggerType?: string;
     object: string;
     objectIndex?: string;
     objectContainer?: string;
     schedule: Schedule;
-    scheduledPaths: object[];
-    timeTriggers: TimeTrigger[];
     isAssignable?: boolean;
     isCollection?: boolean;
+}
+
+export interface StartUi extends Start {
+    timeTriggers?: TimeTrigger[];
     childReferences?: ChildReference[];
+}
+
+export interface StartFlow extends Start {
+    scheduledPaths?: TimeTrigger[];
 }
 
 interface Schedule {
@@ -106,10 +114,10 @@ interface StartTime {
 }
 
 export interface TimeTrigger extends ChildElement {
-    type?: string;
-    unit: string;
-    duration: string;
-    offsetField: string;
+    timeSource: string;
+    offsetUnit: string;
+    offsetNumber: number;
+    recordField?: string;
 }
 
 export type ConnectorType = string;

@@ -295,10 +295,10 @@ describe('Start element', () => {
                 recordTriggerType: 'Create',
                 timeTriggers: [
                     {
-                        unit: undefined,
-                        type: undefined,
-                        duration: undefined,
-                        offsetField: undefined
+                        offsetUnit: undefined,
+                        timeSource: undefined,
+                        offsetNumber: undefined,
+                        recordField: undefined
                     }
                 ]
             };
@@ -341,9 +341,9 @@ describe('Start element', () => {
             expect.assertions(2);
             const existingTimeTrigger = {
                 name: 'Trigger1',
-                unit: 'Days',
-                type: 'RuleTrigger',
-                duration: -20
+                offsetUnit: 'Days',
+                timeSource: 'RecordTriggerEvent',
+                offsetNumber: -20
             };
 
             const newTimeTrigger = createTimeTrigger(existingTimeTrigger);
@@ -354,6 +354,54 @@ describe('Start element', () => {
     });
 
     describe('createStartElementWithConnector function', () => {
+        let startElementFromFlow;
+        beforeEach(() => {
+            startElementFromFlow = {
+                triggerType: undefined,
+                guid: existingStartElementGuid,
+                scheduledPaths: [
+                    {
+                        name: MOCK_NAMES.name1,
+                        guid: MOCK_NAMES.name1,
+                        offsetUnit: 'Days',
+                        timeSource: 'RecordTriggerEvent',
+                        offsetNumber: -20,
+                        recordField: undefined
+                    },
+                    {
+                        name: MOCK_NAMES.name2,
+                        guid: MOCK_NAMES.name2,
+                        offsetUnit: 'Days',
+                        timeSource: 'RecordTriggerEvent',
+                        offsetNumber: -20,
+                        recordField: undefined
+                    },
+                    {
+                        name: MOCK_NAMES.name3,
+                        guid: MOCK_NAMES.name3,
+                        offsetUnit: 'Days',
+                        timeSource: 'RecordTriggerEvent',
+                        offsetNumber: -20,
+                        recordField: undefined
+                    }
+                ]
+            };
+        });
+        it('includes the return value of a call to baseCanvasElement', () => {
+            expect.assertions(1);
+            createStartElementWithConnectors(startElementFromFlow);
+
+            expect(baseCanvasElement).toHaveBeenCalledWith(startElementFromFlow);
+        });
+
+        it('element type is START ELEMENT', () => {
+            expect.assertions(1);
+            const result = createStartElementWithConnectors(startElementFromFlow);
+
+            const startElement = result.elements[existingStartElementGuid];
+            expect(startElement.elementType).toEqual(ELEMENT_TYPE.START_ELEMENT);
+        });
+
         it('returns new start element with connector having target as start element reference', () => {
             expect.assertions(1);
             const { connectors } = createStartElementWithConnectors({}, startElementReference);
@@ -368,6 +416,47 @@ describe('Start element', () => {
             });
             const target = connectors[0].target;
             expect(target).toBe('foo');
+        });
+
+        describe('time triggers', () => {
+            it('childReferences and availableConnections are not present on start for non record triggered flow', () => {
+                expect.assertions(2);
+                startElementFromFlow.triggerType = 'Scheduled';
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                expect(result.childReferences).toBe(undefined);
+                expect(result.availableConnections).toBe(undefined);
+            });
+            it('start element includes child references for all scheduled paths present for Record Trigger Flows', () => {
+                expect.assertions(4);
+                startElementFromFlow.triggerType = 'RecordAfterSave';
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                const startElement = result.elements[existingStartElementGuid];
+                expect(startElement.childReferences).toHaveLength(3);
+                expect(startElement.childReferences[0].childReference).toEqual(
+                    startElementFromFlow.scheduledPaths[0].guid
+                );
+                expect(startElement.childReferences[1].childReference).toEqual(
+                    startElementFromFlow.scheduledPaths[1].guid
+                );
+                expect(startElement.childReferences[2].childReference).toEqual(
+                    startElementFromFlow.scheduledPaths[2].guid
+                );
+            });
+
+            it('are included in element map for all scheduled paths present', () => {
+                expect.assertions(3);
+                startElementFromFlow.triggerType = 'RecordAfterSave';
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                expect(result.elements[startElementFromFlow.scheduledPaths[0].guid]).toMatchObject(
+                    startElementFromFlow.scheduledPaths[0]
+                );
+                expect(result.elements[startElementFromFlow.scheduledPaths[1].guid]).toMatchObject(
+                    startElementFromFlow.scheduledPaths[1]
+                );
+                expect(result.elements[startElementFromFlow.scheduledPaths[2].guid]).toMatchObject(
+                    startElementFromFlow.scheduledPaths[2]
+                );
+            });
         });
     });
 
@@ -864,31 +953,29 @@ describe('Start element', () => {
                     rowIndex: MOCK_GUID
                 }
             ];
-            /* Commented code in this function will be checked in with this story:
-            W-8188232: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008ge9PIAQ/view
-            */
-            // describe('time triggers', () => {
-            //     it('start element includes time triggers for all time trigger child references present', () => {
-            //         expect.assertions(4);
-            //         startElement.childReferences = [
-            //             {
-            //                 childReference: MOCK_NAMES.name1
-            //             },
-            //             {
-            //                 childReference: MOCK_NAMES.name2
-            //             },
-            //             {
-            //                 childReference: MOCK_NAMES.name3
-            //             }
-            //         ];
-            //         const actualResult = createStartElementMetadataObject(startElement);
 
-            //         expect(actualResult.timeTriggers).toHaveLength(3);
-            //         expect(actualResult.timeTriggers[0].name).toEqual(startElement.childReferences[0].childReference);
-            //         expect(actualResult.timeTriggers[1].name).toEqual(startElement.childReferences[1].childReference);
-            //         expect(actualResult.timeTriggers[2].name).toEqual(startElement.childReferences[2].childReference);
-            //     });
-            // });
+            describe('time triggers', () => {
+                it('start element includes time triggers for all time trigger child references present', () => {
+                    expect.assertions(4);
+                    startElement.childReferences = [
+                        {
+                            childReference: MOCK_NAMES.name1
+                        },
+                        {
+                            childReference: MOCK_NAMES.name2
+                        },
+                        {
+                            childReference: MOCK_NAMES.name3
+                        }
+                    ];
+                    const actualResult = createStartElementMetadataObject(startElement);
+
+                    expect(actualResult.scheduledPaths).toHaveLength(3);
+                    expect(actualResult.scheduledPaths[0].name).toEqual(startElement.childReferences[0].childReference);
+                    expect(actualResult.scheduledPaths[1].name).toEqual(startElement.childReferences[1].childReference);
+                    expect(actualResult.scheduledPaths[2].name).toEqual(startElement.childReferences[2].childReference);
+                });
+            });
             describe('With filter logic = no_conditions', () => {
                 it('should have filterLogic = undefined', () => {
                     expect.assertions(1);

@@ -549,6 +549,11 @@ function addFaultConnectorToAvailableConnections(availableConnections = [], wait
     return availableConnections;
 }
 
+/*
+TODO: Refactor Decision and Wait functions here to use common code path from connectorUtils
+W-8166314
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+ */
 function addRegularConnectorToAvailableConnections(availableConnections = [], waitEvent) {
     if (!availableConnections || !waitEvent || !waitEvent.name) {
         throw new Error('Either availableConnections or wait event is not defined');

@@ -38,7 +38,7 @@ export const createConnector = (source, childSource, target, label, type, isSele
  *
  * @returns {Array} connectors    array of connector objects for the given canvas element
  */
-export const createConnectorObjects = (element, elementGuid, parentGuid) => {
+export const createConnectorObjects = (element, elementGuid, parentGuid, immediateConnector = false) => {
     const connectors = [];
 
     // Create regular connectors if they exist on the element
@@ -46,14 +46,11 @@ export const createConnectorObjects = (element, elementGuid, parentGuid) => {
         const source = parentGuid ? parentGuid : elementGuid;
         const childSource = parentGuid ? elementGuid : null;
         const label = parentGuid ? element.label : null;
+        /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
+            change connector here to IMMEDIATE */
+        const connectorType = immediateConnector ? /* Change this */ CONNECTOR_TYPE.REGULAR : CONNECTOR_TYPE.REGULAR;
 
-        const connector = createConnector(
-            source,
-            childSource,
-            element.connector.targetReference,
-            label,
-            CONNECTOR_TYPE.REGULAR
-        );
+        const connector = createConnector(source, childSource, element.connector.targetReference, label, connectorType);
         connectors.push(connector);
     } else if (element.connectors) {
         // Step elements have an array of connectors
@@ -180,6 +177,14 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
                 Object.assign(connectorMetadata, {
                     defaultConnector,
                     defaultConnectorLabel
+                });
+                break;
+            }
+
+            case CONNECTOR_TYPE.IMMEDIATE: {
+                const immediateConnector = createConnectorMetadataObject(connector);
+                Object.assign(connectorMetadata, {
+                    connector: immediateConnector
                 });
                 break;
             }

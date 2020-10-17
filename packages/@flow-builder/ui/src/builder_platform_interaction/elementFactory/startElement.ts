@@ -4,7 +4,8 @@ import {
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
     CONDITION_LOGIC,
-    START_ELEMENT_LOCATION
+    START_ELEMENT_LOCATION,
+    CONNECTOR_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -14,7 +15,8 @@ import {
     updateChildReferences
 } from './base/baseElement';
 import { createStartElementConnector, createConnectorObjects } from './connector';
-import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import { addRegularConnectorToAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from './base/baseMetadata';
 import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -25,7 +27,14 @@ import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import { LABELS } from './elementFactoryLabels';
-import { ChildElement, ChildReference, Start, TimeTrigger } from 'builder_platform_interaction/flowModel';
+import {
+    AvailableConnection,
+    ChildElement,
+    ChildReference,
+    StartFlow,
+    StartUi,
+    TimeTrigger
+} from 'builder_platform_interaction/flowModel';
 
 let maxConnections = 1;
 
@@ -44,7 +53,7 @@ const DEFAULT_Y_OFFSET = 86;
  * @param startElement start element metadata structure
  * @returns Y offset
  */
-export function findStartYOffset(startElement: Start): number {
+export function findStartYOffset(startElement: StartUi): number {
     switch (startElement.triggerType) {
         case AFTER_SAVE:
         case BEFORE_SAVE:
@@ -66,11 +75,11 @@ export function findStartYOffset(startElement: Start): number {
 }
 
 /**
- * Creates a start element object on opening any start element property editor
+ * Creates a start element object
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-function createStartElement(startElement: Start) {
+function createStartElement(startElement: StartFlow | StartUi) {
     const newStartElement = baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
@@ -147,7 +156,7 @@ function createStartElement(startElement: Start) {
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-export function createStartElementForPropertyEditor(startElement: Start = {} as Start) {
+export function createStartElementForPropertyEditor(startElement: StartUi = {} as StartUi) {
     const newStartElement = createStartElement(startElement);
 
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
@@ -179,15 +188,51 @@ export function createStartElementForPropertyEditor(startElement: Start = {} as 
  * @param {string} startElementReference guid/name of the first element in the flow
  * @returns {Object} startElement the start element object
  */
-export function createStartElementWithConnectors(startElement: Start, startElementReference) {
+export function createStartElementWithConnectors(startElement: StartFlow, startElementReference) {
     const newStartElement = createStartElement(startElement);
 
-    const connectors = startElementReference
-        ? createStartElementConnector(newStartElement.guid, startElementReference)
-        : createConnectorObjects(startElement, newStartElement.guid, undefined);
-    const connectorCount = connectors.length;
-    Object.assign(newStartElement, { connectorCount });
+    let connectorCount, connectors;
+    const { triggerType } = startElement;
+    if (!isRecordChangeTriggerType(triggerType)) {
+        // Creates a REGULAR connector from startElement
+        connectors = startElementReference
+            ? createStartElementConnector(newStartElement.guid, startElementReference)
+            : createConnectorObjects(startElement, newStartElement.guid, undefined, false);
+    } else {
+        // Creates an IMMEDIATE connector from startElement (Therefore,immediateConnector is passed as true here)
+        connectors = createConnectorObjects(startElement, newStartElement.guid, undefined, true);
+        let childReferences: ChildReference[] = [],
+            availableConnections: AvailableConnection[] = [],
+            timeTriggers: TimeTrigger[] = [];
+        const { scheduledPaths = [] } = startElement;
 
+        for (let i = 0; i < scheduledPaths.length; i++) {
+            const scheduledPath = scheduledPaths[i];
+            const timeTrigger = createTimeTrigger(scheduledPath);
+            const connector = createConnectorObjects(scheduledPath, timeTrigger.guid, newStartElement.guid);
+            timeTriggers = [...timeTriggers, timeTrigger];
+            // updating child references
+            childReferences = updateChildReferences(childReferences, timeTrigger);
+            availableConnections = addRegularConnectorToAvailableConnections(availableConnections, scheduledPath);
+            // connector is an array. FIX it.
+            connectors = [...connectors, ...connector];
+        }
+        availableConnections = addImmediateConnectorToAvailableConnections(availableConnections, startElement);
+        connectorCount = connectors ? connectors.length : 0;
+        maxConnections = calculateMaxConnections(startElement);
+
+        Object.assign(newStartElement, {
+            childReferences,
+            elementType,
+            connectorCount,
+            maxConnections,
+            availableConnections
+        });
+        return baseCanvasElementsArrayToMap([newStartElement, ...timeTriggers], connectors);
+    }
+
+    connectorCount = connectors ? connectors.length : 0;
+    Object.assign(newStartElement, { connectorCount });
     return baseCanvasElementsArrayToMap([newStartElement], connectors);
 }
 
@@ -217,8 +262,8 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         frequency,
 
         filters = [],
-        doesRequireRecordChangedToMeetCriteria
-        // childReferences
+        doesRequireRecordChangedToMeetCriteria,
+        childReferences
     } = startElement;
     let { filterLogic } = startElement;
     let recordFilters;
@@ -230,32 +275,23 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         filterLogic = undefined;
     }
 
-    // let timeTriggers;
+    let scheduledPaths;
 
-    // if (childReferences && childReferences.length > 0) {
-    //     timeTriggers = childReferences.map(({ childReference }) => {
-    //         const timeTrigger = getElementByGuid(childReference);
-    //         const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
+    if (childReferences && childReferences.length > 0) {
+        scheduledPaths = childReferences.map(({ childReference }) => {
+            const timeTrigger = getElementByGuid(childReference);
+            const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
 
-    //         const { type, unit, duration, offsetField } = timeTrigger;
+            const { timeSource, offsetUnit, offsetNumber, recordField } = timeTrigger;
 
-    //         // Delete this return and uncomment return below it once label is added at backend
-    //         return {
-    //             connector: metadataTimeTrigger.connector,
-    //             name: metadataTimeTrigger.name,
-    //             type,
-    //             unit,
-    //             duration,
-    //             offsetField
-    //         };
-    //         // return Object.assign(metadataTimeTrigger, {
-    //         //     type,
-    //         //     unit,
-    //         //     duration,
-    //         //     offsetField
-    //         // });
-    //     });
-    // }
+            return Object.assign(metadataTimeTrigger, {
+                timeSource,
+                offsetUnit,
+                offsetNumber,
+                recordField
+            });
+        });
+    }
 
     const schedule = startDate && startTime && frequency ? { startDate, startTime, frequency } : undefined;
 
@@ -270,8 +306,8 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
         doesRequireRecordChangedToMeetCriteria,
         filterLogic,
-        filters: recordFilters
-        // timeTriggers
+        filters: recordFilters,
+        scheduledPaths
     });
 }
 
@@ -307,13 +343,13 @@ function getscheduledLabel(startDate, startTime, frequency) {
 export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
     const newTimeTrigger: ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
 
-    const { type, unit, duration, offsetField } = timeTrigger;
+    const { timeSource, offsetUnit, offsetNumber, recordField } = timeTrigger;
 
     return Object.assign(newTimeTrigger, {
-        type,
-        unit,
-        duration,
-        offsetField
+        timeSource,
+        offsetUnit,
+        offsetNumber,
+        recordField
     });
 }
 
@@ -415,8 +451,31 @@ function calculateMaxConnections(startElement) {
     let length = 1;
     if (startElement.timeTriggers) {
         length = startElement.timeTriggers.length + 1;
+    } else if (startElement.scheduledPaths) {
+        length = startElement.scheduledPaths.length + 1;
     } else if (startElement.childReferences) {
         length = startElement.childReferences.length + 1;
     }
     return length;
+}
+
+function addImmediateConnectorToAvailableConnections(
+    availableConnections: AvailableConnection[] = [],
+    startElement: StartUi
+) {
+    if (!availableConnections || !startElement) {
+        throw new Error('Either availableConnections or start Element is not defined');
+    }
+    const { connector } = startElement;
+    if (!connector) {
+        return [
+            ...availableConnections,
+            {
+                /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
+                change connector here to IMMEDIATE */
+                type: CONNECTOR_TYPE.DEFAULT
+            }
+        ];
+    }
+    return availableConnections;
 }
