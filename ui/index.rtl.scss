@@ -24,6 +24,10 @@ $dir: rtl;
 @import 'components/index';
 @import 'components/omniscript/base/index';
 @import 'utilities/index';
+@import 'atoms/index';
+@import 'molecules/index';
+@import 'organisms/index';
+@import 'templates/index';
 
 // Print
 @import 'vendor/html5boilerplate-print';

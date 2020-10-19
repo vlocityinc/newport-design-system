@@ -28,9 +28,9 @@ return withExample(`
 <div class="nds-communities-actions-group nds-grid nds-wrap nds-m-top_large">
     <div class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
         <div class="nds-align_absolute-center">
-            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="health" src="./assets/images/communities/health.svg"
+            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="health" src="./assets/images/communities/demo/auto.svg"
                 title="Health"/>
-            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
+            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/demo/ellipse.svg"
                 title="Ellipse" />
         </div>
         <div class="nds-text-heading_medium nds-align_absolute-center"><b>Health Insurance</b></div>
@@ -41,9 +41,9 @@ return withExample(`
 
     <div class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
         <div class="nds-align_absolute-center">
-            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="auto" src="./assets/images/communities/auto.svg"
+            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="auto" src="./assets/images/communities/demo/auto.svg"
                 title="Auto" />
-            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
+            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/demo/ellipse.svg"
                 title="Ellipse" />
         </div>
         <div class="nds-text-heading_medium nds-align_absolute-center"><b>Auto & Property</b></div>
@@ -54,9 +54,9 @@ return withExample(`
 
     <div class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
         <div class="nds-align_absolute-center">
-            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="homeowners" src="./assets/images/communities/homeowners.svg"
+            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="homeowners" src="./assets/images/communities/demo/auto.svg"
                 title="Homeowners" />
-            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
+            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/demo/ellipse.svg"
                 title="Ellipse" />
         </div>
         <div class="nds-text-heading_medium nds-align_absolute-center"><b>Homeowners</b></div>
@@ -67,9 +67,9 @@ return withExample(`
 
     <div class="nds-communities-action nds-large-size_1-of-4 nds-medium-size_1-of-4 nds-size_1-of-2 nds-m-bottom_large">
         <div class="nds-align_absolute-center">
-            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="shield" src="./assets/images/communities/shield.svg"
+            <img class="nds-icon nds-icon_xx-large nds-is-absolute" alt="shield" src="./assets/images/communities/demo/auto.svg"
                 title="Shield" />
-            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/ellipse.svg"
+            <img class="nds-icon nds-icon_xx-large" alt="ellipse" src="./assets/images/communities/demo/ellipse.svg"
                 title="Ellipse" />
         </div>
         <div class="nds-text-heading_medium nds-align_absolute-center"><b>Life Insurance</b></div>
