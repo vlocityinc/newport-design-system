@@ -63,7 +63,7 @@ return withExample(`<div class="nds-communities-global_navigation">
         <span class="nds-context-bar__label-action nds-context-bar__app-name">
           <div class="nds-global-header__item">
             <div class="nds-global-header__logo">
-              <img src="/assets/images/communities/logo.svg" alt="">
+              <img src="/assets/images/communities/demo/logo.png" alt="">
             </div>
           </div>
         </span>

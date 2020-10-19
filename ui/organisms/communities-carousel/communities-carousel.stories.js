@@ -32,7 +32,7 @@ return withExample(`
                 aria-labelledby="indicator-id-01">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="./assets/images/communities/demo/icon2.png" alt="Visit App Exchange" />
+                        <img src="./assets/images/communities/demo/icon.png" alt="Visit App Exchange" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -45,7 +45,7 @@ return withExample(`
                 aria-labelledby="indicator-id-02">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="0">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="./assets/images/communities/demo/icon1.png" alt="Click to Customize" />
+                        <img src="./assets/images/communities/demo/icon.png" alt="Click to Customize" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Sally G</h2>
@@ -59,7 +59,7 @@ return withExample(`
                 aria-labelledby="indicator-id-03">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="./assets/images/communities/demo/icon2.png" alt="Download SalesforceA" />
+                        <img src="./assets/images/communities/demo/icon.png" alt="Download SalesforceA" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -72,7 +72,7 @@ return withExample(`
                 aria-labelledby="indicator-id-04">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="./assets/images/communities/demo/icon3.png" alt="Download SalesforceA" />
+                        <img src="./assets/images/communities/demo/icon.png" alt="Download SalesforceA" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -85,7 +85,7 @@ return withExample(`
                 aria-labelledby="indicator-id-05">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="./assets/images/communities/demo/icon1.png" alt="Visit App Exchange" />
+                        <img src="./assets/images/communities/demo/icon.png" alt="Visit App Exchange" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>
@@ -98,7 +98,7 @@ return withExample(`
                 aria-labelledby="indicator-id-06">
                 <a href="javascript:void(0);" class="nds-carousel__panel-action nds-text-link_reset" tabindex="-1">
                     <div class="nds-carousel__image nds-align_absolute-center">
-                        <img src="./assets/images/communities/demo/icon3.png" alt="Download SalesforceA" />
+                        <img src="./assets/images/communities/demo/icon.png" alt="Download SalesforceA" />
                     </div>
                     <div class="nds-carousel__content">
                         <h2 class="nds-carousel__content-title">Jake P</h2>

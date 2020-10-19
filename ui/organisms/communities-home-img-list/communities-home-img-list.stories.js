@@ -35,7 +35,7 @@ return withExample(`
         </div>
         <div class="nds-media__figure nds-media__figure_reverse nds-large-size_1-of-2 nds-size_1-of-1">
             <span class="nds-size_1-of-1">
-                <img alt="Home Interior" src="/assets/images/communities/homeinterior.svg" title="Home Interior">
+                <img alt="Home Interior" src="/assets/images/communities/demo/article.png" title="Home Interior">
             </span>
         </div>
     </div>
@@ -43,7 +43,7 @@ return withExample(`
     <div class="nds-media nds-media_center nds-p-vertical_xx-large">
         <div class="nds-media__figure nds-large-size_1-of-2 nds-size_1-of-1">
             <span class="nds-size_1-of-1">
-                <img alt="Person name" src="/assets/images/communities/autohomepage.svg" title="Auto Image">
+                <img alt="Person name" src="/assets/images/communities/demo/article.png" title="Auto Image">
             </span>
         </div>
         <div class="nds-media__body nds-large-size_1-of-2 nds-size_1-of-1 nds-p-around_xx-large">
@@ -65,7 +65,7 @@ return withExample(`
         </div>
         <div class="nds-media__figure nds-media__figure_reverse nds-large-size_1-of-2 nds-size_1-of-1">
             <span class="nds-size_1-of-1">
-                <img alt="Protect Image" src="/assets/images/communities/protecthomepage.svg" title="Protect Img">
+                <img alt="Protect Image" src="/assets/images/communities/demo/article.png" title="Protect Img">
             </span>
         </div>
     </div>
