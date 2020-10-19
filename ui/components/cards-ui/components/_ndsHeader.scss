@@ -1,0 +1,122 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary This is NdsHeader.
+ *
+ * @name base
+ * @selector 
+ * @restrict
+ * @variant
+ * @required
+ * @support dev-ready
+ */
+
+ .nds-page-header {
+    padding: 1rem;
+    border-bottom: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    background: #f3f2f2;
+    background-clip: padding-box;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #dddbda;
+  }
+  .nds-page-header__row {
+    display: flex;
+  }
+  .nds-page-header__col-title {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+  .nds-media {
+    display: flex;
+    align-items: flex-start;
+  }
+  .nds-media__figure {
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+  }
+  .nds-media_body {
+    flex: 1;
+    min-width: 0;
+  }
+  .nds-page-header__name {
+    display: inline-flex;
+    padding-right: 0.5rem;
+    max-width: 100%;
+  }
+  .nds-page-header__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.25;
+    display: block;
+  }
+  .nds-truncate {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nds-page-header__col-actions {
+    align-self: flex-start;
+    flex: none;
+    padding-bottom: 0.25rem;
+    vertical-align: top;
+  }
+  .nds-page-header__controls {
+    display: flex;
+  }
+  .nds-page-header__control {
+    margin-left: 0.25rem;
+  }
+  .nds-page-header__col-meta {
+    align-self: center;
+    flex: 1 1 auto;
+    vertical-align: middle;
+  }
+  .nds-page-header__meta-text {
+    font-size: 0.875rem;
+  }
+  .nds-page-header__row_gutters {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+  .nds-page-header__col-details {
+    flex: 1 1 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100%;
+  }
+  .nds-page-header__detail-row {
+    margin: 0.75rem -1rem -1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0 0.25rem 0.25rem;
+    background-color: white;
+    position: relative;
+    z-index: 2;
+    display: flex;
+  }
+  .nds-page-header__detail-block {
+    padding-right: 2rem;
+    padding-left: 2rem;
+    max-width: 25%;
+    display: list-item;
+  }
+  .nds-text-title {
+    font-size: 0.75rem;
+    line-height: 1.25;
+    color: #706e6b;
+  }
+  .nds-page-header__name-title {
+    min-width: 0;
+  }
+  .nds-page-header {
+    .nds-page-header__reset-padding {
+      padding-left: 0;
+      padding-right: 4rem;
+    }
+    .nds-page-header__flex-wrap-wrap {
+      flex-wrap: wrap;
+    }
+  }
+  

@@ -148,3 +148,10 @@
 .nds-radio [type='radio']+.nds-radio__label .nds-radio--faux {
   margin-#{$right}: 0.25rem;
 }
+
+.nds-form-element__control {
+	span.nds-radio {
+		padding-left: 1.5rem;
+		text-indent: -1.5rem;
+	}
+}

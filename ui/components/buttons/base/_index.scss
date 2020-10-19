@@ -376,3 +376,17 @@ svg.nds-button__icon {
 .nds-button_stretch {
     width: 100%;
 }
+
+.nds-button[disabled] {
+  * {
+    pointer-events: none;
+  }
+}
+
+.nds-button {
+  &:disabled {
+    * {
+      pointer-events: none;
+    }
+  }
+}

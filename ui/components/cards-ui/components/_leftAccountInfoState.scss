@@ -1,0 +1,125 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary This is a Left Account Info State.
+ *
+ * @name base
+ * @selector nds-table-account-info
+ * @restrict
+ * @variant
+ * @required
+ * @support dev-ready
+ */
+
+ .nds-table-account-info {
+    .nds-max-medium-table--stacked {
+      td {
+        &:before {
+          padding-bottom: 0.25rem;
+        }
+      }
+      th {
+        &:before {
+          padding-bottom: 0.25rem;
+        }
+      }
+    }
+    .nds-max-medium-table--stacked-horizontal {
+      border: 0;
+      thead {
+        position: absolute !important;
+        margin: -1px !important;
+        border: 0 !important;
+        padding: 0 !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+        clip: rect(0 0 0 0) !important;
+      }
+      th {
+        border-top: 0;
+        display: block;
+        padding: 0.75rem;
+        max-width: 100%;
+        width: 100%;
+        clear: both;
+        white-space: normal;
+        overflow: hidden;
+        text-align: left;
+        &:before {
+          font-size: 0.75rem;
+          line-height: 1.25;
+          color: #54698d;
+          text-transform: uppercase;
+          letter-spacing: 0.0625rem;
+          display: block;
+          padding-bottom: 0.25rem;
+          content: attr(data-label);
+        }
+      }
+      tr {
+        display: block;
+        border-top: 2px solid #d8dde6;
+        > td {
+          &:first-child {
+            padding: 0.75rem;
+          }
+          &:last-child {
+            padding: 0.75rem;
+          }
+        }
+      }
+      td {
+        display: block;
+        padding: 0.75rem;
+        max-width: 100%;
+        width: 100%;
+        clear: both;
+        white-space: normal;
+        overflow: hidden;
+        text-align: left;
+        &:before {
+          font-size: 0.75rem;
+          line-height: 1.25;
+          color: #54698d;
+          text-transform: uppercase;
+          letter-spacing: 0.0625rem;
+          display: block;
+          padding-bottom: 0.25rem;
+          content: attr(data-label);
+        }
+      }
+      th.nds-truncate {
+        max-width: 100%;
+      }
+      td.nds-truncate {
+        max-width: 100%;
+      }
+      &:not(.nds-no-row-hover) {
+        tbody {
+          tr {
+            &:hover {
+              td {
+                background-color: inherit !important;
+                box-shadow: none !important;
+              }
+              th {
+                background-color: inherit !important;
+                box-shadow: none !important;
+              }
+            }
+          }
+        }
+      }
+      .nds-is-interactive {
+        .nds-button {
+          visibility: visible;
+        }
+      }
+      .nds-cell-shrink {
+        width: auto;
+      }
+    }
+  }
+  

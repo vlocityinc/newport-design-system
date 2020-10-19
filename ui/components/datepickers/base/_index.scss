@@ -125,6 +125,16 @@
   &__month {
     font-size: $font-size-small;
   }
+  .nds-dropdown-trigger_click {
+    &:focus {
+      outline: none;
+    }
+  }
+
+  input[type=date] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
 }
 
 /**
@@ -135,4 +145,5 @@
  */
 .nds-disabled-text {
   color: $color-text-button-default-disabled;
+  pointer-events: none;
 }
