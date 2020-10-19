@@ -103,4 +103,5 @@ export { ConfigurationEditorTypeMappingChangeEvent } from './configurationEditor
 export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
 export { ArrowKeyDownEvent } from './arrowKeyDownEvent';
+export { UpdateSortOptionItemEvent } from './updateSortOptionItemEvent';
 export { InputsNextBehaviorChangeEvent } from './inputsNextBehaviorChangeEvent';

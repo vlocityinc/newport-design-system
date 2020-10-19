@@ -1,0 +1,74 @@
+<template>
+    <div if:true={isSobject}>
+        <builder_platform_interaction-row
+            show-prefix
+            item-prefix={itemPrefix}
+            item-index={optionIndex}
+            show-delete={showDelete}
+        >
+            <div slot="rowBody">
+                <div
+                    class="slds-m-left_x-large slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                >
+                    <builder_platform_interaction-field-picker
+                        label={labels.sortByField}
+                        placeholder={labels.sortByFieldPlaceholder}
+                        value={sortField}
+                        error-message={errorMessage}
+                        fields={menuDataFields}
+                        oncomboboxstatechanged={handleFieldChanged}
+                        show-activity-indicator={loadingFields}
+                        required
+                        class="slds-col slds-grow"
+                    >
+                    </builder_platform_interaction-field-picker>
+                    <div class="slds-col slds-grow slds-m-left_small">
+                        <div>
+                            <lightning-combobox
+                                label={labels.sortOrder}
+                                value={sortOrder}
+                                options={sortOrderOptions}
+                                onchange={handleSortOrderChanged}
+                                dropdown-alignment="auto"
+                            >
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-p-top_small">
+                            <lightning-input
+                                type="checkbox"
+                                name="nullsFirst"
+                                label={labels.nullsFirst}
+                                checked={nullsFirst}
+                                onchange={handleNullsFirstPropertyChange}
+                                field-level-help={labels.nullsFirstHelpText}
+                            >
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </builder_platform_interaction-row>
+    </div>
+    <div if:false={isSobject} class="slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small">
+        <lightning-combobox
+            label={labels.sortOrder}
+            value={sortOrder}
+            options={sortOrderOptions}
+            onchange={handleSortOrderChanged}
+            dropdown-alignment="auto"
+            required={required}
+            class="slds-col slds-grow"
+        >
+        </lightning-combobox>
+        <lightning-input
+            type="checkbox"
+            name="nullsFirst"
+            class="slds-col slds-grow slds-m-top_large slds-p-top_xx-small nullsFirst"
+            label={labels.sortEmpty}
+            checked={nullsFirst}
+            field-level-help={labels.nullsFirstHelpText}
+            onchange={handleNullsFirstPropertyChange}
+        >
+        </lightning-input>
+    </div>
+</template>
