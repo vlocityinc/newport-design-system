@@ -1,0 +1,103 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary This is a Left Account Info State.
+ *
+ * @name base
+ * @selector nds-data-table
+ * @restrict
+ * @variant
+ * @required
+ * @support dev-ready
+ */
+
+ .nds-data-table {
+    display: table;
+    .nds-data-table-head-cell {
+      background-color: rgb(250, 250, 249);
+      color: rgb(81, 79, 77);
+      font-weight: 400;
+      line-height: normal;
+      white-space: nowrap;
+      text-align: left;
+    }
+    .nds-data-table-row-cell {
+      padding: 0.25rem 0.5rem;
+      white-space: nowrap;
+      position: relative;
+      .nds-draggable-icon {
+        cursor: -webkit-grab;
+        cursor: grab;
+        &:active {
+          cursor: -webkit-grabbing;
+          cursor: grabbing;
+        }
+      }
+    }
+  }
+  .nds-data-table-head {
+    display: table-header-group;
+  }
+  .nds-data-table-row {
+    display: table-row;
+    counter-increment: row-number;
+  }
+  .nds-data-table-body {
+    display: table-row-group;
+    .nds-data-table-row {
+      &:hover {
+        background-color: #eee;
+      }
+    }
+  }
+  .nds-data-table-head-cell {
+    display: table-cell;
+  }
+  .nds-data-table-row-cell {
+    display: table-cell;
+    vertical-align: top;
+    .nds-icon-width {
+      width: 0.1%;
+    }
+  }
+  .nds-table_header-fixed {
+    .nds-data-table-head-cell {
+      position: static;
+      padding: 0;
+      border-top: 0;
+    }
+    .nds-data-table-body {
+      border: 0;
+    }
+  }
+  .nds-table_bordered {
+    .nds-data-table-row-cell {
+      border-top: 1px solid rgb(221, 219, 218);
+    }
+  }
+  .nds-data-table-head-cell.nds-icon-width {
+    width: 0.1%;
+  }
+  .nds-data-table-row-cell.nds-icon-width {
+    width: 0.1%;
+  }
+  .nds-border-top-20-lightgray {
+    border-top: 20px solid lightgray;
+  }
+  .nds-border-top-none {
+    border-top: none;
+  }
+  .nds-border-bottom-20-lightgray {
+    border-bottom: 20px solid lightgray;
+  }
+  .nds-border-bottom-none {
+    border-bottom: none;
+  }
+  .nds-anchor-tag-color {
+    color: #006dcc;
+  }
+  .nds-data-table-row.nds-hide {
+    display: none;
+  }
+  
