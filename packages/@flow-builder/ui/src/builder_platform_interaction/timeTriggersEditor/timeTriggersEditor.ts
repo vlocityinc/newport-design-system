@@ -1,6 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './timeTriggersEditorLabels';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { timeTriggersReducer } from './timeTriggersReducer';
 
 const EMPTY_TIME_TRIGGER_LABEL = LABELS.emptyTimeTriggerLabel;
 
@@ -90,9 +92,8 @@ export default class TimeTriggersEditor extends LightningElement {
     }
 
     addTimeTrigger() {
-        // TODO: We'll uncomment this when we do the reducer work as part of W-8030277
-        // const event = { type: PROPERTY_EDITOR_ACTION.ADD_START_ELEMENT_TIME_TRIGGER };
-        // this.startElement = timeTriggersEditorReducer(this.startElement, event);
+        const event = new CustomEvent(PROPERTY_EDITOR_ACTION.ADD_START_ELEMENT_TIME_TRIGGER, {});
+        this.startElement = timeTriggersReducer(this.startElement, event);
     }
 
     get activeTimeTrigger() {

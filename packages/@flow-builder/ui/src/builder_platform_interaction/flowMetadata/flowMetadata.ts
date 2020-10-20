@@ -207,6 +207,10 @@ export const TIME_OPTION = {
     HOURS_BEFORE: 'HoursBefore'
 };
 
+/**
+ * Acceptable values for Schedule Path offset units
+ * @type {{hours, days}}
+ */
 export const SCHEDULED_PATH_OFFSET_UNIT = {
     DAYS: 'Days',
     HOURS: 'Hours'
