@@ -906,7 +906,7 @@ const screenFieldsInSections = (screenFields: ScreenFieldMetadata[]): ScreenFiel
 };
 
 const allScreenFields = (screen: ScreenMetadata): ScreenFieldMetadata[] => {
-    const screenFields = screen.fields;
+    const screenFields = [...screen.fields];
     screenFields.push(...screenFieldsInSections(screenFields));
     return screenFields;
 };

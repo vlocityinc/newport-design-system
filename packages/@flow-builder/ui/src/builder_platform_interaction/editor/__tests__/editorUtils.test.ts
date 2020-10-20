@@ -22,6 +22,7 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowM
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -120,7 +121,9 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeLib');
     return {
+        deepCopy: actual.deepCopy,
         generateGuid: jest.fn().mockImplementation(() => {
             return 'rand_guid';
         })
@@ -1287,6 +1290,13 @@ describe('Editor Utils Test', () => {
                     extensionName: 'c:sobjectCollectionOutputComp'
                 }
             ]);
+        });
+        it('does not alter original metadata', () => {
+            const originalMetadata = deepCopy(flowWithAllElements.metadata);
+
+            screenFieldsReferencedByLoops(flowWithAllElements.metadata);
+
+            expect(flowWithAllElements.metadata).toEqual(originalMetadata);
         });
     });
 });

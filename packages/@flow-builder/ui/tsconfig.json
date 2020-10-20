@@ -209,7 +209,6 @@
             "builder_platform_interaction/subflowsLib": ["./src/builder_platform_interaction/subflowsLib/subflowsLib.ts"],
             "builder_platform_interaction/systemLib": ["./src/builder_platform_interaction/systemLib/systemLib.ts"],
             "builder_platform_interaction/textTemplateEditor": ["./src/builder_platform_interaction/textTemplateEditor/textTemplateEditor.ts"],
-            "builder_platform_interaction/timeTrigger": ["./src/builder_platform_interaction/timeTrigger/timeTrigger.ts"],
             "builder_platform_interaction/timeTriggersEditor": ["./src/builder_platform_interaction/timeTriggersEditor/timeTriggersEditor.ts"],
             "builder_platform_interaction/toolbar": ["./src/builder_platform_interaction/toolbar/toolbar.ts"],
             "builder_platform_interaction/toolbarStatusIcons": ["./src/builder_platform_interaction/toolbarStatusIcons/toolbarStatusIcons.ts"],
