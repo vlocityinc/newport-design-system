@@ -45,7 +45,8 @@ export const SERVER_ACTION_TYPE = {
     GET_TRIGGER_TYPE_INFO: 'getTriggerTypeInfo',
     GET_PALETTE: 'getPalette',
     GET_VERSIONING_INFO: 'getVersioningInfo',
-    RUN_DEBUG: 'runDebug'
+    RUN_DEBUG: 'runDebug',
+    RETRIEVE_INTERVIEW_HISTORY: 'retrieveInterviewHistory'
 };
 
 const actionConfig = {
@@ -91,7 +92,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: 'c.getTriggerTypeInfo',
     [SERVER_ACTION_TYPE.GET_PALETTE]: 'c.getPalette',
     [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: 'c.getVersioningInfo',
-    [SERVER_ACTION_TYPE.RUN_DEBUG]: 'c.runDebugInterview'
+    [SERVER_ACTION_TYPE.RUN_DEBUG]: 'c.runDebugInterview',
+    [SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY]: 'c.retrieveInterviewHistory'
 };
 
 let auraFetch;

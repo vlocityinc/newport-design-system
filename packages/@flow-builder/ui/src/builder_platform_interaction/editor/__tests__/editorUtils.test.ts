@@ -16,7 +16,8 @@ import {
     getConnectorToDuplicate,
     highlightCanvasElement,
     getConnectorsToHighlight,
-    screenFieldsReferencedByLoops
+    screenFieldsReferencedByLoops,
+    debugInterviewResponseCallback
 } from '../editorUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
@@ -96,7 +97,16 @@ jest.mock('builder_platform_interaction/actions', () => {
                 type: 'highlightOnCanvas',
                 payload
             };
-        })
+        }),
+        decorateCanvas: jest.fn().mockImplementation((payload) => {
+            return {
+                type: 'decorateCanvas',
+                payload
+            };
+        }),
+        clearCanvasDecoration: {
+            type: 'clearCanvasDecoration'
+        }
     };
 });
 
@@ -1297,6 +1307,104 @@ describe('Editor Utils Test', () => {
             screenFieldsReferencedByLoops(flowWithAllElements.metadata);
 
             expect(flowWithAllElements.metadata).toEqual(originalMetadata);
+        });
+    });
+
+    describe('debugInterviewResponseCallback function', () => {
+        let storeInstance;
+        let dispatch;
+
+        beforeEach(() => {
+            dispatch = jest.fn();
+            storeInstance = {
+                dispatch
+            };
+        });
+
+        it('constructs the debug data object for debug panel correctly', () => {
+            const startTime = new Date();
+            const endTime = new Date();
+            const data = [
+                {
+                    interviewStatus: 'finished',
+                    debugTrace: 'testTrace',
+                    errors: 'testErrors',
+                    startInterviewTime: startTime,
+                    endInterviewTime: endTime
+                },
+                {}
+            ];
+
+            const debugData = debugInterviewResponseCallback(data, storeInstance, false);
+            expect(debugData).toMatchObject({
+                interviewStatus: 'finished',
+                debugTrace: 'testTrace',
+                error: 'testErrors',
+                startInterviewTime: startTime,
+                endInterviewTime: endTime
+            });
+        });
+
+        it('fires the canvas decorate action if no errors or unsaved changes', () => {
+            const data = [
+                {
+                    interviewStatus: 'finished',
+                    debugTrace: 'testTrace',
+                    errors: '',
+                    startInterviewTime: new Date(),
+                    endInterviewTime: new Date()
+                },
+                {}
+            ];
+            debugInterviewResponseCallback(data, storeInstance, false);
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'decorateCanvas',
+                payload: {
+                    connectorsToHighlight: [
+                        {
+                            source: 'startGuid',
+                            type: 'REGULAR'
+                        }
+                    ]
+                }
+            });
+        });
+
+        it('fires the clear canvas decoration action if there are errors', () => {
+            const data = [
+                {
+                    interviewStatus: 'error',
+                    debugTrace: '',
+                    errors: 'errors',
+                    startInterviewTime: new Date(),
+                    endInterviewTime: new Date()
+                },
+                {}
+            ];
+            debugInterviewResponseCallback(data, storeInstance, false);
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'clearCanvasDecoration'
+            });
+        });
+
+        it('fires the clear canvas decoration action if there unsaved changes', () => {
+            const data = [
+                {
+                    interviewStatus: 'finished',
+                    debugTrace: 'testTrace',
+                    errors: '',
+                    startInterviewTime: new Date(),
+                    endInterviewTime: new Date()
+                },
+                {}
+            ];
+            debugInterviewResponseCallback(data, storeInstance, true);
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'clearCanvasDecoration'
+            });
         });
     });
 });

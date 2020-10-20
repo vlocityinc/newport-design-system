@@ -44,7 +44,6 @@ import {
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
     SELECTION_ON_FIXED_CANVAS,
-    decorateCanvas,
     clearCanvasDecoration,
     updateFlowOnCanvasModeToggle,
     updateIsAutoLayoutCanvasProperty,
@@ -95,8 +94,8 @@ import {
     isGuardrailsEnabled,
     getToolboxElements,
     getElementsMetadata,
-    getConnectorsToHighlight,
-    screenFieldsReferencedByLoops
+    screenFieldsReferencedByLoops,
+    debugInterviewResponseCallback
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -237,9 +236,6 @@ export default class Editor extends LightningElement {
         }
     }
 
-    @api
-    interviewId;
-
     @track
     flowStatus;
 
@@ -253,8 +249,11 @@ export default class Editor extends LightningElement {
     bottomCutOrCopiedGuid = null;
     currentFlowId;
     currentFlowDefId;
+    interviewGUID;
     runDebugUrl;
     isFlowServerCallInProgress = false;
+    isRetrieveInterviewHistoryCallInProgress = false;
+    retrieveInterviewHistoryResponse;
 
     originalFlowLabel;
     originalFlowDescription;
@@ -289,7 +288,8 @@ export default class Editor extends LightningElement {
         showFlowMetadataSpinner: false,
         showPropertyEditorSpinner: false,
         showDebugSpinner: false,
-        showAutoLayoutSpinner: false
+        showAutoLayoutSpinner: false,
+        showRetrieveInterviewHistorySpinner: false
     };
 
     @track
@@ -490,6 +490,36 @@ export default class Editor extends LightningElement {
     }
 
     @api
+    get interviewId() {
+        return this.interviewGUID;
+    }
+
+    set interviewId(interviewGUID) {
+        if (interviewGUID) {
+            this.interviewGUID = interviewGUID;
+            const params = {
+                interviewGUID,
+                flowVersionId: this.currentFlowId
+            };
+
+            fetch(
+                SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY,
+                ({ data, error }) => {
+                    this.isRetrieveInterviewHistoryCallInProgress = false;
+                    this.retrieveInterviewHistoryResponse = { data, error };
+                },
+                params,
+                {
+                    background: true
+                }
+            );
+
+            this.isRetrieveInterviewHistoryCallInProgress = true;
+            this.spinners.showRetrieveInterviewHistorySpinner = true;
+        }
+    }
+
+    @api
     get flowDefId() {
         return this.currentFlowDefId;
     }
@@ -504,7 +534,8 @@ export default class Editor extends LightningElement {
             this.spinners.showPropertyEditorSpinner ||
             this.spinners.showDebugSpinner ||
             this.processTypeLoading ||
-            this.spinners.showAutoLayoutSpinner
+            this.spinners.showAutoLayoutSpinner ||
+            this.spinners.showRetrieveInterviewHistorySpinner
         );
     }
 
@@ -918,29 +949,15 @@ export default class Editor extends LightningElement {
                         // Handle server exception here if something is needed beyond our automatic server error popup
                     } else {
                         // Setup the debug data object for the debug panel, and switch to debug mode
-                        const endInterviewTime = new Date();
                         this.builderMode = BUILDER_MODE.DEBUG_MODE;
-                        const interviewStatus = data && data[0] && data[0].interviewStatus;
-                        const debugTrace = data && data[0] && data[0].debugTrace;
-                        const debugError = data && data[0] && data[0].errors;
-                        this.debugData = {
-                            interviewStatus,
-                            debugTrace,
-                            error: debugError,
-                            startInterviewTime,
-                            endInterviewTime
-                        };
-                        // Highlight connectors on the canvas if no errors in the debug run, and no unsaved changes in the current flow
-                        if (!debugError && !this.properties.hasUnsavedChanges) {
-                            const canvasDecorator = data[1];
-                            if (canvasDecorator) {
-                                const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
-                                storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
-                            }
-                        } else {
-                            // Else, clear any existing highlights on the canvas
-                            storeInstance.dispatch(clearCanvasDecoration);
-                        }
+                        const endInterviewTime = new Date();
+                        const response = debugInterviewResponseCallback(
+                            data,
+                            storeInstance,
+                            this.properties.hasUnsavedChanges
+                        );
+                        this.debugData = Object.assign(response, { startInterviewTime, endInterviewTime });
+
                         this.clearUndoRedoStack();
                     }
                     this.spinners.showDebugSpinner = false;
@@ -2060,6 +2077,25 @@ export default class Editor extends LightningElement {
                 this.hasNotBeenSaved = false;
             }
             this.disableSave = false;
+        }
+
+        if (
+            !this.isFlowServerCallInProgress &&
+            !this.isRetrieveInterviewHistoryCallInProgress &&
+            this.spinners.showRetrieveInterviewHistorySpinner
+        ) {
+            try {
+                const { data, error } = this.retrieveInterviewHistoryResponse;
+                if (!error) {
+                    this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                    this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
+                    this.clearUndoRedoStack();
+                }
+                this.spinners.showRetrieveInterviewHistorySpinner = false;
+            } catch (e) {
+                this.spinners.showRetrieveInterviewHistorySpinner = false;
+                throw e;
+            }
         }
     }
 

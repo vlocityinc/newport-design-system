@@ -7,7 +7,9 @@ import {
     updatePropertiesAfterSaveFailed,
     highlightOnCanvas,
     addElement,
-    updateElement
+    updateElement,
+    decorateCanvas,
+    clearCanvasDecoration
 } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
@@ -920,4 +922,47 @@ export const screenFieldsReferencedByLoops = (flowMetadata: any): ScreenFieldMet
         ],
         []
     );
+};
+
+/**
+ * Helper function contruct debug data object needed for debug panel from service response and to fire the canvas decorator actions
+ * @param data Debug service response data containing interview results and canvas decorator
+ * @param storeInstance Current store instance
+ * @param hasUnsavedChanges Indicates whether there are any currently unsaved changes on the Flow
+ */
+export const debugInterviewResponseCallback = (
+    data: Array,
+    storeInstance: Store,
+    hasUnsavedChanges: boolean
+): Object => {
+    // Setup the debug data object for the debug panel
+    const interviewData = (data && data[0]) || {};
+    const {
+        interviewStatus,
+        debugTrace,
+        errors,
+        // TODO remove the new Date() initialization below when Engine team adds the new start / end time properties to the response
+        startInterviewTime = new Date(),
+        endInterviewTime = new Date()
+    } = interviewData;
+
+    // Highlight connectors on the canvas if no errors in the debug run, and no unsaved changes in the current flow
+    if (!errors && !hasUnsavedChanges) {
+        const canvasDecorator = data[1];
+        if (canvasDecorator) {
+            const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
+            storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+        }
+    } else {
+        // Else, clear any existing highlights on the canvas
+        storeInstance.dispatch(clearCanvasDecoration);
+    }
+
+    return {
+        interviewStatus,
+        debugTrace,
+        error: errors,
+        startInterviewTime,
+        endInterviewTime
+    };
 };
