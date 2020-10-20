@@ -72,11 +72,6 @@
       "description":"Create self-service forms to collect contact details.",
       "label":"Contact Request Flow",
       "processType":"ContactRequestFlow"
-    },
-    {
-      "description":"Create a new flow for use in Recommendation Strategy.",
-      "label":"Recommendation Strategy",
-      "processType":"RecommendationStrategy"
     }
   ]
 }
