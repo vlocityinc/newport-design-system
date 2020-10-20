@@ -13,7 +13,10 @@ import {
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
     START_ELEMENT_LOCATION,
-    CONNECTOR_TYPE
+    CONNECTOR_TYPE,
+    TIME_OPTION,
+    SCHEDULED_PATH_TIME_SOURCE_TYPE,
+    SCHEDULED_PATH_OFFSET_UNIT
 } from 'builder_platform_interaction/flowMetadata';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
@@ -61,9 +64,9 @@ baseCanvasElementMetadataObject.mockImplementation((element) => {
 
 baseChildElementMetadataObject.mockImplementation((child) => {
     let name;
-    if (child.guid === MOCK_NAMES.name1) {
+    if (child.name === MOCK_NAMES.name1) {
         name = MOCK_NAMES.name1;
-    } else if (child.guid === MOCK_NAMES.name2) {
+    } else if (child.name === MOCK_NAMES.name2) {
         name = MOCK_NAMES.name2;
     } else {
         name = MOCK_NAMES.name3;
@@ -80,6 +83,27 @@ getElementByGuid.mockImplementation((guid) => {
         return existingStartElement;
     } else if (guid === existingStartElementWithChildrenGuid) {
         return existingStartElementWithChildren;
+    } else if (guid === MOCK_NAMES.name1) {
+        return {
+            name: MOCK_NAMES.name1,
+            offsetNumber: 20,
+            offsetUnit: TIME_OPTION.DAYS_AFTER,
+            timeSource: 'abc'
+        };
+    } else if (guid === MOCK_NAMES.name2) {
+        return {
+            name: MOCK_NAMES.name2,
+            offsetNumber: 20,
+            offsetUnit: TIME_OPTION.DAYS_BEFORE,
+            timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT
+        };
+    } else if (guid === MOCK_NAMES.name3) {
+        return {
+            name: MOCK_NAMES.name3,
+            offsetNumber: 20,
+            offsetUnit: TIME_OPTION.HOURS_BEFORE,
+            timeSource: 'abc'
+        };
     }
     return {
         guid
@@ -297,8 +321,7 @@ describe('Start element', () => {
                     {
                         offsetUnit: undefined,
                         timeSource: undefined,
-                        offsetNumber: undefined,
-                        recordField: undefined
+                        offsetNumber: undefined
                     }
                 ]
             };
@@ -341,9 +364,9 @@ describe('Start element', () => {
             expect.assertions(2);
             const existingTimeTrigger = {
                 name: 'Trigger1',
-                offsetUnit: 'Days',
-                timeSource: 'RecordTriggerEvent',
-                offsetNumber: -20
+                offsetUnit: TIME_OPTION.DAYS_BEFORE,
+                timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
+                offsetNumber: 20
             };
 
             const newTimeTrigger = createTimeTrigger(existingTimeTrigger);
@@ -363,26 +386,26 @@ describe('Start element', () => {
                     {
                         name: MOCK_NAMES.name1,
                         guid: MOCK_NAMES.name1,
-                        offsetUnit: 'Days',
-                        timeSource: 'RecordTriggerEvent',
+                        offsetUnit: SCHEDULED_PATH_OFFSET_UNIT.DAYS,
+                        timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
                         offsetNumber: -20,
                         recordField: undefined
                     },
                     {
                         name: MOCK_NAMES.name2,
                         guid: MOCK_NAMES.name2,
-                        offsetUnit: 'Days',
-                        timeSource: 'RecordTriggerEvent',
-                        offsetNumber: -20,
+                        offsetUnit: SCHEDULED_PATH_OFFSET_UNIT.HOURS,
+                        timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
+                        offsetNumber: 20,
                         recordField: undefined
                     },
                     {
                         name: MOCK_NAMES.name3,
                         guid: MOCK_NAMES.name3,
-                        offsetUnit: 'Days',
-                        timeSource: 'RecordTriggerEvent',
-                        offsetNumber: -20,
-                        recordField: undefined
+                        offsetUnit: SCHEDULED_PATH_OFFSET_UNIT.DAYS,
+                        timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD,
+                        offsetNumber: 20,
+                        recordField: 'ABC'
                     }
                 ]
             };
@@ -447,15 +470,27 @@ describe('Start element', () => {
                 expect.assertions(3);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
                 const result = createStartElementWithConnectors(startElementFromFlow);
-                expect(result.elements[startElementFromFlow.scheduledPaths[0].guid]).toMatchObject(
-                    startElementFromFlow.scheduledPaths[0]
-                );
-                expect(result.elements[startElementFromFlow.scheduledPaths[1].guid]).toMatchObject(
-                    startElementFromFlow.scheduledPaths[1]
-                );
-                expect(result.elements[startElementFromFlow.scheduledPaths[2].guid]).toMatchObject(
-                    startElementFromFlow.scheduledPaths[2]
-                );
+                expect(result.elements[startElementFromFlow.scheduledPaths[0].guid]).toMatchObject({
+                    name: MOCK_NAMES.name1,
+                    guid: MOCK_NAMES.name1,
+                    offsetUnit: TIME_OPTION.DAYS_BEFORE,
+                    timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
+                    offsetNumber: 20
+                });
+                expect(result.elements[startElementFromFlow.scheduledPaths[1].guid]).toMatchObject({
+                    name: MOCK_NAMES.name2,
+                    guid: MOCK_NAMES.name2,
+                    offsetUnit: TIME_OPTION.HOURS_AFTER,
+                    timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
+                    offsetNumber: 20
+                });
+                expect(result.elements[startElementFromFlow.scheduledPaths[2].guid]).toMatchObject({
+                    name: MOCK_NAMES.name3,
+                    guid: MOCK_NAMES.name3,
+                    offsetUnit: TIME_OPTION.DAYS_AFTER,
+                    timeSource: 'ABC',
+                    offsetNumber: 20
+                });
             });
         });
     });
@@ -971,9 +1006,27 @@ describe('Start element', () => {
                     const actualResult = createStartElementMetadataObject(startElement);
 
                     expect(actualResult.scheduledPaths).toHaveLength(3);
-                    expect(actualResult.scheduledPaths[0].name).toEqual(startElement.childReferences[0].childReference);
-                    expect(actualResult.scheduledPaths[1].name).toEqual(startElement.childReferences[1].childReference);
-                    expect(actualResult.scheduledPaths[2].name).toEqual(startElement.childReferences[2].childReference);
+                    expect(actualResult.scheduledPaths[0]).toMatchObject({
+                        name: MOCK_NAMES.name1,
+                        offsetNumber: 20,
+                        offsetUnit: SCHEDULED_PATH_OFFSET_UNIT.DAYS,
+                        timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD,
+                        recordField: 'abc'
+                    });
+                    expect(actualResult.scheduledPaths[1]).toMatchObject({
+                        name: MOCK_NAMES.name2,
+                        offsetNumber: -20,
+                        offsetUnit: SCHEDULED_PATH_OFFSET_UNIT.DAYS,
+                        timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT
+                    });
+
+                    expect(actualResult.scheduledPaths[2]).toMatchObject({
+                        name: MOCK_NAMES.name3,
+                        offsetNumber: -20,
+                        offsetUnit: SCHEDULED_PATH_OFFSET_UNIT.HOURS,
+                        timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD,
+                        recordField: 'abc'
+                    });
                 });
             });
             describe('With filter logic = no_conditions', () => {

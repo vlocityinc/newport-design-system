@@ -5,7 +5,10 @@ import {
     FLOW_TRIGGER_SAVE_TYPE,
     CONDITION_LOGIC,
     START_ELEMENT_LOCATION,
-    CONNECTOR_TYPE
+    CONNECTOR_TYPE,
+    TIME_OPTION,
+    SCHEDULED_PATH_OFFSET_UNIT,
+    SCHEDULED_PATH_TIME_SOURCE_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -219,7 +222,6 @@ export function createStartElementWithConnectors(startElement: StartFlow, startE
         }
         availableConnections = addImmediateConnectorToAvailableConnections(availableConnections, startElement);
         connectorCount = connectors ? connectors.length : 0;
-        maxConnections = calculateMaxConnections(startElement);
 
         Object.assign(newStartElement, {
             childReferences,
@@ -282,7 +284,26 @@ export function createStartElementMetadataObject(startElement, config = {}) {
             const timeTrigger = getElementByGuid(childReference);
             const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
 
-            const { timeSource, offsetUnit, offsetNumber, recordField } = timeTrigger;
+            let recordField;
+
+            let { timeSource, offsetUnit, offsetNumber } = timeTrigger;
+
+            if (offsetUnit === TIME_OPTION.HOURS_BEFORE) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.HOURS;
+                offsetNumber *= -1;
+            } else if (offsetUnit === TIME_OPTION.HOURS_AFTER) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.HOURS;
+            } else if (offsetUnit === TIME_OPTION.DAYS_BEFORE) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.DAYS;
+                offsetNumber *= -1;
+            } else if (offsetUnit === TIME_OPTION.DAYS_AFTER) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.DAYS;
+            }
+
+            if (timeSource !== SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT) {
+                recordField = timeSource;
+                timeSource = SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD;
+            }
 
             return Object.assign(metadataTimeTrigger, {
                 timeSource,
@@ -343,13 +364,34 @@ function getscheduledLabel(startDate, startTime, frequency) {
 export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
     const newTimeTrigger: ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
 
-    const { timeSource, offsetUnit, offsetNumber, recordField } = timeTrigger;
+    const { recordField } = timeTrigger;
+
+    let { timeSource, offsetUnit, offsetNumber } = timeTrigger;
+
+    // When converting from scheduledPath to timeTrigger
+    if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.HOURS) {
+        if (offsetNumber >= 0) {
+            offsetUnit = TIME_OPTION.HOURS_AFTER;
+        } else {
+            offsetUnit = TIME_OPTION.HOURS_BEFORE;
+            offsetNumber *= -1;
+        }
+    } else if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.DAYS) {
+        if (offsetNumber >= 0) {
+            offsetUnit = TIME_OPTION.DAYS_AFTER;
+        } else {
+            offsetUnit = TIME_OPTION.DAYS_BEFORE;
+            offsetNumber *= -1;
+        }
+    }
+    if (timeSource === SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD) {
+        timeSource = recordField!;
+    }
 
     return Object.assign(newTimeTrigger, {
         timeSource,
         offsetUnit,
-        offsetNumber,
-        recordField
+        offsetNumber
     });
 }
 

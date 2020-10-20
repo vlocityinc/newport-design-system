@@ -200,6 +200,23 @@ export const WAIT_TIME_EVENT_OFFSET_UNIT = {
     DAYS: 'Days'
 };
 
+export const TIME_OPTION = {
+    DAYS_AFTER: 'DaysAfter',
+    DAYS_BEFORE: 'DaysBefore',
+    HOURS_AFTER: 'HoursAfter',
+    HOURS_BEFORE: 'HoursBefore'
+};
+
+export const SCHEDULED_PATH_OFFSET_UNIT = {
+    DAYS: 'Days',
+    HOURS: 'Hours'
+};
+
+export const SCHEDULED_PATH_TIME_SOURCE_TYPE = {
+    RECORD_FIELD: 'RecordField',
+    RECORD_TRIGGER_EVENT: 'RecordTriggerEvent'
+};
+
 /**
  * All the input and output parameter names for various event types.
  * Note: We might need additional parameters for standard event.
