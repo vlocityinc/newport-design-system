@@ -25,4 +25,4 @@ It is generally better to use flowWithAllElements.json or autolaunchedFlow.json
 You can add more elements to these flows : follow instructions at jest-mock-data/mock_flows/readme.txt
 
 Note :
-A good integration test sample is assignmentEditorIntegration.test.js
+A good integration test sample is assignmentEditorIntegration.test.ts

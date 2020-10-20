@@ -1,6 +1,4 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenEditor from 'builder_platform_interaction/screenEditor';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -13,27 +11,20 @@ import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    checkboxChangeEvent,
-    deepQuerySelector
+    checkboxChangeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { translateFlowToUIAndDispatch } from '../../integrationTestUtils';
+import {
+    createComponentUnderTest,
+    getCanvasScreenFieldElement,
+    getExtensionPropertiesEditorElement
+} from '../../screenEditorTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS
-};
-
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-screen-editor', {
-        is: ScreenEditor
-    });
-    if (props) {
-        Object.assign(el, props);
-    }
-    document.body.appendChild(el);
-    return el;
 };
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = FLOW_PROCESS_TYPE.FLOW;
@@ -61,20 +52,6 @@ jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
 );
 
-const getScreenPropertiesEditorContainerElement = (screenEditor) => {
-    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
-};
-
-const getCanvasElement = (screenEditor) => {
-    return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
-};
-
-const getExtensionPropertiesEditorElement = (screenEditor) => {
-    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
-        SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
-    );
-};
-
 const getAdvancedOptionsCheckbox = (screenEditor) => {
     return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector(
         SELECTORS.USE_ADVANCED_OPTIONS_CHECKBOX
@@ -87,18 +64,6 @@ const getAdvancedOptionsCheckboxLightningInput = (screenEditor) => {
 
 const getTitleFromExtensionPropertiesEditorElement = (screenEditor) => {
     return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector('h3');
-};
-
-const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
-    const screenEditorCanvas = getCanvasElement(screenEditor);
-    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    let elementAddress;
-    screenEditorHighlight.forEach((element) => {
-        if (element.title === elementTitle) {
-            elementAddress = element;
-        }
-    });
-    return elementAddress.shadowRoot.querySelector('div');
 };
 
 describe('ScreenEditor', () => {

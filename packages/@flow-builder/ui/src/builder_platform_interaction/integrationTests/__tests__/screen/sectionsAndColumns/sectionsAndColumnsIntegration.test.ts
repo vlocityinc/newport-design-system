@@ -1,6 +1,4 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenEditor from 'builder_platform_interaction/screenEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -16,6 +14,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setupState, resetState, loadFlow } from '../../integrationTestUtils';
+import { createComponentUnderTest, getExtensionPropertiesEditorElement } from '../../screenEditorTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -33,25 +32,8 @@ const SCREEN_FIELD_TITLES = {
     EMAIL: 'Email'
 };
 
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-screen-editor', {
-        is: ScreenEditor
-    });
-    if (props) {
-        Object.assign(el, props);
-    }
-    document.body.appendChild(el);
-    return el;
-};
-
 const getScreenPropertiesEditorContainerElement = (screenEditor) => {
     return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
-};
-
-const getExtensionPropertiesEditorElement = (screenEditor) => {
-    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
-        SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
-    );
 };
 
 const getChoicePropertiesEditorElement = (screenEditor) => {

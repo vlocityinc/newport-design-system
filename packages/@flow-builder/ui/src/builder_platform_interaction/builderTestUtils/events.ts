@@ -81,7 +81,7 @@ export const removeEvent = (): CustomEvent => {
 export const lightningRadioGroupChangeEvent = (newValue) => {
     return new CustomEvent('change', {
         detail: {
-            newValue
+            value: newValue
         },
         composed: true,
         bubbles: true,

@@ -2,12 +2,7 @@ import { createElement } from 'lwc';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    setupStateForFlow,
-    resetState,
-    translateFlowToUIAndDispatch,
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
-} from '../integrationTestUtils';
+import { setupStateForFlow, resetState, FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from '../integrationTestUtils';
 import {
     ticks,
     deepQuerySelector,
@@ -110,8 +105,7 @@ const getFerToFerovExpressionBuilder = (assignment) =>
 describe('Assignment Editor', () => {
     let assignment, expressionBuilder;
     beforeAll(async () => {
-        const store = await setupStateForFlow(flowWithAllElements);
-        translateFlowToUIAndDispatch(flowWithAllElements, store);
+        await setupStateForFlow(flowWithAllElements);
     });
     afterAll(() => {
         resetState();

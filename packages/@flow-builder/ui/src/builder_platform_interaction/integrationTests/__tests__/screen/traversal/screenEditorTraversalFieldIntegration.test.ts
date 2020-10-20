@@ -1,6 +1,4 @@
 // @ts-nocheck
-import { createElement } from 'lwc';
-import ScreenEditor from 'builder_platform_interaction/screenEditor';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -18,47 +16,15 @@ import {
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { selectGroupedComboboxItemBy } from '../../groupedComboboxTestUtils';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
+import {
+    createComponentUnderTest,
+    getCanvasScreenFieldElement,
+    getExtensionPropertiesEditorElement
+} from '../../screenEditorTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS
-};
-
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-screen-editor', {
-        is: ScreenEditor
-    });
-    if (props) {
-        Object.assign(el, props);
-    }
-    document.body.appendChild(el);
-    return el;
-};
-
-const getScreenPropertiesEditorContainerElement = (screenEditor) => {
-    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
-};
-
-const getCanvasElement = (screenEditor) => {
-    return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
-};
-
-const getExtensionPropertiesEditorElement = (screenEditor) => {
-    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
-        SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
-    );
-};
-
-const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
-    const screenEditorCanvas = getCanvasElement(screenEditor);
-    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    let elementAddress;
-    screenEditorHighlight.forEach((element) => {
-        if (element.title === elementTitle) {
-            elementAddress = element;
-        }
-    });
-    return elementAddress.shadowRoot.querySelector('div');
 };
 
 const getCombobox = (extensionPropertiesEditor) => {
