@@ -199,16 +199,24 @@ export function createSteppedStageItem(step: {
     parent?: Guid;
     stepTypeLabel?: string;
 }): SteppedStageItem {
+    const baseStep = { ...step };
+
     // Default label
     // TODO: This is an incomplete version of the logic needed for full proeprty editor
     // in panel support.  for example, this does not currently prevent duplicate guids
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000007Q6YUIA0/view
-    if (!step.label && step.parent) {
+    if (!baseStep.label && baseStep.parent) {
         const steppedStage: SteppedStage = getElementByGuid(step.parent);
-        step.label = format(LABELS.defaultSteppedStageItemName, steppedStage.childReferences.length + 1);
-        step.name = sanitizeDevName(step.label);
+        baseStep.label = format(LABELS.defaultSteppedStageItemName, steppedStage.childReferences.length + 1);
+        baseStep.name = sanitizeDevName(baseStep.label);
     }
-    const childElement = <SteppedStageItem>baseChildElement(step, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
+
+    // Currently, we only have one step type
+    if (!baseStep.stepTypeLabel) {
+        baseStep.stepTypeLabel = LABELS.workStepLabel;
+    }
+
+    const childElement = <SteppedStageItem>baseChildElement(baseStep, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
 
     return childElement;
 }

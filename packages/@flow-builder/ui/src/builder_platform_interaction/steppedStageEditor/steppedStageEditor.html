@@ -12,35 +12,5 @@
             >
             </builder_platform_interaction-label-description>
         </div>
-
-        <lightning-accordion
-            allow-multiple-sections-open
-            active-section-name={openSections}
-            class="slds-has-divider slds-p-top_none"
-        >
-            <lightning-accordion-section name="startSection" label="Define How Stage Starts">
-                <lightning-radio-group
-                    label="The Stage Starts"
-                    name="stageStart"
-                    value={stageStartValue}
-                    options={stageStartOptions}
-                    onchange={handleStageStartChanged}
-                    required
-                >
-                </lightning-radio-group>
-            </lightning-accordion-section>
-
-            <lightning-accordion-section name="finishSection" label="How Stage Is Finished">
-                <lightning-radio-group
-                    label="The Stage Finishes"
-                    name="stageFinish"
-                    value={stageFinishValue}
-                    options={stageFinishOptions}
-                    onchange={handleStageFinishChanged}
-                    required
-                >
-                </lightning-radio-group>
-            </lightning-accordion-section>
-        </lightning-accordion>
     </div>
 </template>

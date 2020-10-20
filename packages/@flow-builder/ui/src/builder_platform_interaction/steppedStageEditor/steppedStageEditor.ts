@@ -39,54 +39,11 @@ export default class SteppedStageEditor extends LightningElement {
         return this.element;
     }
 
-    get stageStartOptions() {
-        return [
-            {
-                label: 'When Previous Stage Finishes',
-                value: 1
-            },
-            {
-                label: 'Based On Time',
-                value: 3
-            },
-            {
-                label: 'Based On Custom Conditions',
-                value: 4
-            }
-        ];
-    }
-
-    get stageStartValue() {
-        return this.stageStartOptions[0].value;
-    }
-
-    get stageFinishOptions() {
-        return [
-            {
-                label: 'When All Steps Are Completed',
-                value: 1
-            },
-            {
-                label: 'Based On Custom Conditions',
-                value: 4
-            }
-        ];
-    }
-
-    get stageFinishValue() {
-        return this.stageFinishOptions[0].value;
-    }
-
-    get openSections() {
-        return ['startSection', 'finishSection'];
-    }
-
     /**
      * public api function to run the rules from stage validation library
      * @returns list of errors
      */
     @api validate(): object {
-        // const event = { type: VALIDATE_ALL };
         return getErrorsFromHydratedElement(this.element);
     }
 
@@ -111,8 +68,4 @@ export default class SteppedStageEditor extends LightningElement {
 
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
-
-    handleStageStartChanged() {}
-
-    handleStageFinishChanged() {}
 }

@@ -130,9 +130,12 @@ describe('SteppedStage', () => {
             expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.STEPPED_STAGE_ITEM);
         });
 
-        it('calls baseChildElement with an empty object by default', () => {
+        it('calls baseChildElement with a step type of "work step"', () => {
+            const workStepLabel = 'FlowBuilderElementConfig.workStepLabel';
             createSteppedStageItem({});
-            expect(baseChildElement.mock.calls[0][0]).toEqual({});
+            expect(baseChildElement.mock.calls[0][0]).toEqual({
+                stepTypeLabel: workStepLabel
+            });
         });
 
         it('uses existing values when passed in an item object', () => {
@@ -142,7 +145,7 @@ describe('SteppedStage', () => {
 
             createSteppedStageItem(mockItem);
 
-            expect(baseChildElement.mock.calls[0][0]).toEqual(mockItem);
+            expect(baseChildElement.mock.calls[0][0]).toMatchObject(mockItem);
         });
 
         it('uses the default name and label if none provided', () => {
