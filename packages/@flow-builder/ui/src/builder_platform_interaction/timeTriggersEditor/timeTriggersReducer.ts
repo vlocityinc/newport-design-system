@@ -1,12 +1,13 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { timeTriggersValidation } from './timeTriggersValidation';
-import { addItem, hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { addItem, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { StoreState, TimeTrigger } from 'builder_platform_interaction/flowModel';
+import { createTimeTrigger } from 'builder_platform_interaction/elementFactory';
 
 const addTimeTrigger = (state) => {
-    const newTimeTrigger = <TimeTrigger>hydrateWithErrors({});
+    const newTimeTrigger = createTimeTrigger(<TimeTrigger>{});
 
     const timeTriggers = addItem(state.timeTriggers, newTimeTrigger);
 

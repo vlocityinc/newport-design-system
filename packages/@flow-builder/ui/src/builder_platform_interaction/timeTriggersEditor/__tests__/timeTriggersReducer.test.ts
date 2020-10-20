@@ -13,9 +13,22 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
     };
 });
 
+const mockGuid1 = 'ABC';
+
+const emptyTimeTrigger = {
+    dataType: 'Boolean',
+    elementType: 'TimeTrigger',
+    label: '',
+    guid: mockGuid1,
+    name: '',
+    offsetNumber: undefined,
+    offsetUnit: undefined,
+    timeSource: undefined
+};
+
 const originalState = {
     name: '',
-    guid: '',
+    guid: mockGuid1,
     timeTriggers: [
         {
             label: { value: 'My time trigger', error: null },
@@ -37,11 +50,17 @@ const originalState = {
 };
 
 describe('time-trigger-reducer', () => {
+    beforeEach(() => {
+        const storeLib = require('builder_platform_interaction/storeLib');
+        storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid1);
+    });
     describe('Add a new Time Trigger', () => {
         it('Should be added to the timeTriggers array', () => {
             const addTimeTriggerAction = new CustomEvent(PROPERTY_EDITOR_ACTION.ADD_START_ELEMENT_TIME_TRIGGER, {});
             const newState = timeTriggersReducer(originalState, addTimeTriggerAction);
             expect(newState.timeTriggers).toHaveLength(3);
+            expect(newState.timeTriggers[2]).toMatchObject(emptyTimeTrigger);
+            expect(newState.timeTriggers[2].offsetNumber).not.toBeDefined();
         });
     });
     describe('Remove a time trigger ', () => {
