@@ -144,6 +144,9 @@ export default class FlcBuilder extends LightningElement {
     menu;
 
     @track
+    openedWithKeyboard;
+
+    @track
     isCanvasReady;
 
     @track
@@ -537,6 +540,7 @@ export default class FlcBuilder extends LightningElement {
             ),
             { elementsMetadata: this._elementsMetadata }
         );
+        this.openedWithKeyboard = event.detail.isOpenedWithKeyboard;
 
         this.zoomForMenuDisplay(event.detail, menuButtonHalfWidth);
         this._pendingInteractionState = interactionState;

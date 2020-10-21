@@ -115,7 +115,7 @@ export default class FlcButtonMenu extends LightningElement {
         this.template.querySelector('button').focus();
     }
 
-    toggleMenuVisibility(isPositionUpdate = false) {
+    toggleMenuVisibility(isPositionUpdate = false, isOpenedWithKeyboard = false) {
         const { top, left, width, height } = this.target.getBoundingClientRect();
         const { clientWidth } = this.target;
 
@@ -135,6 +135,7 @@ export default class FlcButtonMenu extends LightningElement {
             elementMetadata,
             conditionOptionsForNode,
             isPositionUpdate,
+            isOpenedWithKeyboard,
             ...connectionInfo
         };
 
@@ -183,7 +184,7 @@ export default class FlcButtonMenu extends LightningElement {
     handleEnter() {
         if (!this.isSelectionMode) {
             // Opening and closing the current selected element
-            this.toggleMenuVisibility();
+            this.toggleMenuVisibility(false, true);
         } else {
             // Checking and unchecking the element when in selection mode
             // The checkbox is in a slot being filled by flcnode

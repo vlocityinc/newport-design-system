@@ -19,6 +19,11 @@ import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/cont
 const { ArrowDown, ArrowUp } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
+const selectors = {
+    menuItem: 'a[role="menuitem"]',
+    backButton: '.back-button'
+};
+
 /**
  * The node menu overlay, displayed when clicking on a node.
  */
@@ -34,6 +39,9 @@ export default class FlcNodeMenu extends Menu {
 
     @api
     elementHasFault;
+
+    @api
+    openedWithKeyboard;
 
     // Used for testing purposes
     @api
@@ -173,7 +181,7 @@ export default class FlcNodeMenu extends Menu {
         // Need this check in case the current item in focus is something other than the list item
         // (eg. back button or footer button)
         if (currentItemInFocus && currentItemInFocus.role === 'menuitem') {
-            const items = Array.from(this.template.querySelectorAll('a[role="menuitem"]')) as any;
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
         }
     }
@@ -198,6 +206,17 @@ export default class FlcNodeMenu extends Menu {
             if (baseButton) {
                 baseButton.classList.add('slds-button_stretch');
                 this._isRendered = true;
+            }
+        }
+        if (this.openedWithKeyboard) {
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+            if (items.length > 0) {
+                items[0].focus();
+            } else {
+                const backButton = this.template.querySelector(selectors.backButton);
+                if (backButton) {
+                    backButton.focus();
+                }
             }
         }
     }

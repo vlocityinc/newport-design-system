@@ -11,6 +11,9 @@ export default class FlcNodeStartMenu extends FlcNodeMenu {
     @api
     startData;
 
+    @api
+    openedWithKeyboard;
+
     get hasTrigger() {
         return this.elementMetadata.hasTrigger;
     }
@@ -89,4 +92,14 @@ export default class FlcNodeStartMenu extends FlcNodeMenu {
 
         this.moveFocusToButton(event.detail.key, triggerButton, contextButton);
     };
+
+    renderedCallback() {
+        if (this.openedWithKeyboard && this.hasTrigger) {
+            const triggerButton = this.template.querySelector(selectors.triggerButton);
+            // Trigger button is always the first button
+            if (triggerButton) {
+                triggerButton.shadowRoot.querySelector('div').focus();
+            }
+        }
+    }
 }

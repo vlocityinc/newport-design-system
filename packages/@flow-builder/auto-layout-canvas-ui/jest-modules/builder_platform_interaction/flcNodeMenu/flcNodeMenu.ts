@@ -13,4 +13,7 @@ export default class FlcNodeMenu extends LightningElement {
 
     @api
     elementHasFault;
+
+    @api
+    openedWithKeyboard;
 }

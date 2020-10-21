@@ -25,4 +25,7 @@ export default class FlcConnectorMenu extends LightningElement {
 
     @api
     hasEndElement;
+
+    @api
+    openedWithKeyboard;
 }

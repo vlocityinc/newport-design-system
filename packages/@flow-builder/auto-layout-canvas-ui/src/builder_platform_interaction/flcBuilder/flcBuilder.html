@@ -40,6 +40,7 @@
                             is-paste-available={isPasteAvailable}
                             elements-metadata={menu.elementsMetadata}
                             onmergewithexistingpath={handleMergeWithExistingPath}
+                            opened-with-keyboard={openedWithKeyboard}
                         ></builder_platform_interaction-flc-connector-menu>
                     </template>
                     <template if:true={showNodeMenu}>
@@ -53,6 +54,7 @@
                             style={menu.style}
                             onclearhighlightedpath={handleClearHighlightedPath}
                             onhighlightpathstodelete={handleHighlightPathsToDelete}
+                            opened-with-keyboard={openedWithKeyboard}
                         ></builder_platform_interaction-flc-node-menu>
                         <builder_platform_interaction-flc-node-start-menu
                             if:true={startMenuElement}
@@ -64,6 +66,7 @@
                             guid={menu.guid}
                             style={menu.style}
                             onhighlightpathstodelete={handleHighlightPathsToDelete}
+                            opened-with-keyboard={openedWithKeyboard}
                         ></builder_platform_interaction-flc-node-start-menu>
                     </template>
                 </div>

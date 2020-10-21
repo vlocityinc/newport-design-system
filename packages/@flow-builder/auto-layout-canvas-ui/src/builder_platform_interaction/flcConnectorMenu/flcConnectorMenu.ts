@@ -12,6 +12,10 @@ import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/cont
 const { ArrowDown, ArrowUp } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
+const selectors = {
+    menuItem: 'div[role="option"]'
+};
+
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
  */
@@ -41,6 +45,9 @@ export default class FlcConnectorMenu extends Menu {
     /* whether the end element should be shown in the menu */
     @api
     hasEndElement!: boolean;
+
+    @api
+    openedWithKeyboard;
 
     // Used for testing purposes
     @api
@@ -98,7 +105,7 @@ export default class FlcConnectorMenu extends Menu {
     handleArrowKeyDown(key) {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
-            const items = Array.from(this.template.querySelectorAll('div[role="option"]')) as any;
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key);
         }
     }
@@ -117,5 +124,14 @@ export default class FlcConnectorMenu extends Menu {
 
     disconnectedCallback() {
         this.keyboardInteractions.removeKeyDownEventListener(this.template);
+    }
+
+    renderedCallback() {
+        if (this.openedWithKeyboard) {
+            const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
+            if (items.length > 0) {
+                items[0].focus();
+            }
+        }
     }
 }

@@ -71,7 +71,7 @@ const selectors = {
     menuActionRowMenuItem: 'a[role="menuitem"]',
     menuActionRowIcon: 'lightning-icon',
     menuActionRowLabel: '.slds-media__body',
-    backButton: '.test-back-button',
+    backButton: '.back-button',
     conditionPicker: 'lightning-combobox',
     footer: '.test-footer',
     footerButton: 'lightning-button'
