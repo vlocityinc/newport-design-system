@@ -211,13 +211,13 @@ describe('Canvas container utils test', () => {
             };
             expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(false);
         });
-        it('returns false if element type is not decision, wait or loop', () => {
+        it('returns false if element type is not decision, wait, start or loop', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
                         guid1: {
                             availableConnections: ['connection1', 'connection2'],
-                            elementType: 'not decision, wait or loop'
+                            elementType: 'not decision, wait, start, or loop'
                         }
                     }
                 };
@@ -266,6 +266,22 @@ describe('Canvas container utils test', () => {
                         guid1: {
                             availableConnections: ['connection1', 'connection2'],
                             elementType: 'WAIT'
+                        }
+                    }
+                };
+            });
+            const storeInstance = {
+                getCurrentState
+            };
+            expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(true);
+        });
+        it('returns true if there are more than 1 available connections and element type is start', () => {
+            const getCurrentState = jest.fn().mockImplementation(() => {
+                return {
+                    elements: {
+                        guid1: {
+                            availableConnections: ['connection1', 'connection2'],
+                            elementType: 'START_ELEMENT'
                         }
                     }
                 };

@@ -112,7 +112,8 @@ export const shouldOpenConnectorSelectionModal = (storeInstance, sourceGuid) => 
         availableConnections.length > 1 &&
         (elementType === ELEMENT_TYPE.DECISION ||
             elementType === ELEMENT_TYPE.WAIT ||
-            elementType === ELEMENT_TYPE.LOOP)
+            elementType === ELEMENT_TYPE.LOOP ||
+            elementType === ELEMENT_TYPE.START_ELEMENT)
     ) {
         return true;
     }

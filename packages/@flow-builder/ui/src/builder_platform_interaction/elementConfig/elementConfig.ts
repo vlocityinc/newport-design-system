@@ -220,7 +220,10 @@ export const elementTypeToConfigMap: {
             editObject: LABELS.editObjectLabel,
             editTriggerObjectLabel: LABELS.editTriggerObjectLabel,
             editObjectAndFiltersLabel: LABELS.editObjectAndFiltersLabel,
-            editTimeTrigger: LABELS.editTimeTriggerLabel
+            editTimeTrigger: LABELS.editTimeTriggerLabel,
+            connectorPickerHeader: LABELS.startConnectorPickerHeader,
+            comboBoxLabel: LABELS.startConnectorPickerComboBoxLabel,
+            connectorPickerBodyText: LABELS.startConnectorPickerBodyText
         }
     },
     [ELEMENT_TYPE.SUBFLOW]: {

@@ -132,16 +132,19 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         };
 
         sortedComboboxOptions.push(loopNextComboboxOption, loopEndComboboxOption);
-    } else if (sourceElement.elementType === ELEMENT_TYPE.DECISION) {
+    } else if (
+        sourceElement.elementType === ELEMENT_TYPE.DECISION ||
+        sourceElement.elementType === ELEMENT_TYPE.START_ELEMENT
+    ) {
         // Iterating over outcomeReferences and sorting the comboboxOptions in the same order. For default outcome we
-        // push it at the end if the option exists in comboboxOptions
+        // push it at the end if the option exists in comboboxOptions, for start we push it at the front
         const defaultOutcomeComboboxOption = {};
         for (let i = 0; i < sourceElement.childReferences.length; i++) {
             comboboxOptions.map((option) => {
                 if (option.value === sourceElement.childReferences[i].childReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
-                    option.value === CONNECTOR_TYPE.DEFAULT &&
+                    (option.value === CONNECTOR_TYPE.DEFAULT || option.value === CONNECTOR_TYPE.IMMEDIATE) &&
                     Object.keys(defaultOutcomeComboboxOption).length === 0
                 ) {
                     defaultOutcomeComboboxOption.label = option.label;
@@ -152,7 +155,12 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         }
 
         if (Object.keys(defaultOutcomeComboboxOption).length === 2) {
-            sortedComboboxOptions.push(defaultOutcomeComboboxOption);
+            if (sourceElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+                sortedComboboxOptions.unshift(defaultOutcomeComboboxOption);
+            } else {
+                sortedComboboxOptions.push(defaultOutcomeComboboxOption);
+            }
+            // sortedComboboxOptions.push(defaultOutcomeComboboxOption);
         }
         // TODO: Refactor this when the connector utils are refactored:
         // W-5478126 https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005ajm1IAA/view
@@ -222,6 +230,8 @@ export const getLabelAndValueForConnectorPickerOptions = (
         label = LABELS.loopNextComboBoxOption;
     } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_END) {
         label = LABELS.loopEndComboBoxOption;
+    } else if (availableConnectionType === CONNECTOR_TYPE.IMMEDIATE) {
+        label = LABELS.immediateConnectorLabel;
     }
 
     return {
@@ -260,6 +270,8 @@ export const createNewConnector = (
         label = LABELS.loopNextConnectorLabel;
     } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_END) {
         label = LABELS.loopEndConnectorLabel;
+    } else if (valueFromCombobox === CONNECTOR_TYPE.IMMEDIATE) {
+        label = LABELS.immediateConnectorLabel;
     } else {
         type = CONNECTOR_TYPE.REGULAR;
         label = elements[valueFromCombobox].label;

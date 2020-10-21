@@ -466,6 +466,15 @@ describe('Start element', () => {
                 );
             });
 
+            it('start element includes immediate connector in availableConnections for Record Trigger Flows', () => {
+                expect.assertions(2);
+                startElementFromFlow.triggerType = 'RecordAfterSave';
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                const startElement = result.elements[existingStartElementGuid];
+                expect(startElement.availableConnections).toHaveLength(4);
+                expect(startElement.availableConnections[3].type).toEqual('IMMEDIATE');
+            });
+
             it('are included in element map for all scheduled paths present', () => {
                 expect.assertions(3);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
@@ -503,6 +512,7 @@ describe('Start element', () => {
         };
 
         let startElementFromPropertyEditor;
+        let newStartElement;
         let startElementFromPropertyEditorWithChildren;
         let existingStartElementFromPropertyEditorWithChildren;
 
@@ -517,6 +527,11 @@ describe('Start element', () => {
                         name: 'abc'
                     }
                 ],
+                triggerType: 'RecordAfterSave'
+            };
+
+            newStartElement = {
+                elementType: 'START_ELEMENT',
                 triggerType: 'RecordAfterSave'
             };
 
@@ -633,6 +648,15 @@ describe('Start element', () => {
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.canvasElement.availableConnections).toHaveLength(1);
                 expect(result.canvasElement.availableConnections[0]).toEqual({
+                    type: CONNECTOR_TYPE.IMMEDIATE
+                });
+            });
+
+            it('result has availableConnections of immediate for a new flow', () => {
+                expect.assertions(2);
+                const result = createStartElementWhenUpdatingFromPropertyEditor(newStartElement);
+                expect(result.availableConnections).toHaveLength(1);
+                expect(result.availableConnections[0]).toEqual({
                     type: CONNECTOR_TYPE.IMMEDIATE
                 });
             });

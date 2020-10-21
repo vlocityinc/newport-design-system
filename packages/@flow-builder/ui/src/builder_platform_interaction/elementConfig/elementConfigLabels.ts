@@ -186,6 +186,9 @@ import steppedStageItemPluralLabel from '@salesforce/label/FlowBuilderElementCon
 import steppedStageItemComponentLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemComponentLabel';
 import newSteppedStageItemLabel from '@salesforce/label/FlowBuilderElementConfig.newSteppedStageItemLabel';
 import editSteppedStageItemLabel from '@salesforce/label/FlowBuilderElementConfig.editSteppedStageItemLabel';
+import startConnectorPickerComboBoxLabel from '@salesforce/label/FlowBuilderConnectorPicker.startConnectorPickerComboBoxLabel';
+import startConnectorPickerBodyText from '@salesforce/label/FlowBuilderConnectorPicker.startConnectorPickerBodyText';
+import startConnectorPickerHeader from '@salesforce/label/FlowBuilderConnectorPicker.startConnectorPickerHeader';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -373,5 +376,8 @@ export const LABELS = {
     steppedStageItemPluralLabel,
     steppedStageItemComponentLabel,
     newSteppedStageItemLabel,
-    editSteppedStageItemLabel
+    editSteppedStageItemLabel,
+    startConnectorPickerHeader,
+    startConnectorPickerBodyText,
+    startConnectorPickerComboBoxLabel
 };

@@ -46,9 +46,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid, immedia
         const source = parentGuid ? parentGuid : elementGuid;
         const childSource = parentGuid ? elementGuid : null;
         const label = parentGuid ? element.label : null;
-        /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
-            change connector here to IMMEDIATE */
-        const connectorType = immediateConnector ? /* Change this */ CONNECTOR_TYPE.REGULAR : CONNECTOR_TYPE.REGULAR;
+        const connectorType = immediateConnector ? CONNECTOR_TYPE.IMMEDIATE : CONNECTOR_TYPE.REGULAR;
 
         const connector = createConnector(source, childSource, element.connector.targetReference, label, connectorType);
         connectors.push(connector);

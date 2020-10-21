@@ -406,15 +406,13 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     // Start element is initialized here when flow trigger type is selected from new flow modal
     if (isRecordChangeTriggerType(startElement.triggerType)) {
         if (startElement.guid === undefined) {
-            /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
-            uncomment this code */
             const timeTriggerProperties = {
-                // availableConnections: [
-                //     {
-                //         type: CONNECTOR_TYPE.IMMEDIATE
-                //     }
-                // ],
-                // childReferences: []
+                availableConnections: [
+                    {
+                        type: CONNECTOR_TYPE.IMMEDIATE
+                    }
+                ],
+                childReferences: []
             };
             return Object.assign(newStartElement, timeTriggerProperties);
         }
@@ -513,9 +511,7 @@ function addImmediateConnectorToAvailableConnections(
         return [
             ...availableConnections,
             {
-                /* TODO: When the core team implements W-8062780 and W-8030308, then they'll need to
-                change connector here to IMMEDIATE */
-                type: CONNECTOR_TYPE.DEFAULT
+                type: CONNECTOR_TYPE.IMMEDIATE
             }
         ];
     }

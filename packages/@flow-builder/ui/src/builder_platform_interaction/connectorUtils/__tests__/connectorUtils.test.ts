@@ -104,6 +104,44 @@ describe('Connector Utils', () => {
             ]);
         });
 
+        it('Sorting options in connector picker for Start Element', () => {
+            const sourceElement = {
+                elementType: ELEMENT_TYPE.START_ELEMENT,
+                childReferences: [{ childReference: 'outcome1' }, { childReference: 'outcome2' }]
+            };
+            const comboboxOptions = [
+                {
+                    label: 'outcome 2',
+                    value: 'outcome2'
+                },
+                {
+                    label: 'immediate',
+                    value: CONNECTOR_TYPE.IMMEDIATE
+                },
+                {
+                    label: 'outcome 1',
+                    value: 'outcome1'
+                }
+            ];
+
+            const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+
+            expect(sortedOptions).toEqual([
+                {
+                    label: 'immediate',
+                    value: CONNECTOR_TYPE.IMMEDIATE
+                },
+                {
+                    label: 'outcome 1',
+                    value: 'outcome1'
+                },
+                {
+                    label: 'outcome 2',
+                    value: 'outcome2'
+                }
+            ]);
+        });
+
         it('Sorting options in connector picker for Wait Element', () => {
             const sourceElement = {
                 elementType: ELEMENT_TYPE.WAIT,
@@ -190,6 +228,12 @@ describe('Connector Utils', () => {
                 label: LABELS.loopEndComboBoxOption,
                 value: CONNECTOR_TYPE.LOOP_END
             });
+            expect(
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, null, CONNECTOR_TYPE.IMMEDIATE)
+            ).toEqual({
+                label: LABELS.immediateConnectorLabel,
+                value: CONNECTOR_TYPE.IMMEDIATE
+            });
         });
 
         it('Creating new connector object from connector-picker combobox', () => {
@@ -264,6 +308,17 @@ describe('Connector Utils', () => {
                 type: CONNECTOR_TYPE.REGULAR,
                 label: 'Outcome 1',
                 childSource: 'outcome1',
+                config: {
+                    isSelected: false
+                }
+            });
+            expect(createNewConnector(elements, 'start1', 'assignment_2', CONNECTOR_TYPE.IMMEDIATE)).toEqual({
+                guid: 'CONNECTOR_1',
+                source: 'start1',
+                target: 'assignment_2',
+                type: CONNECTOR_TYPE.IMMEDIATE,
+                label: LABELS.immediateConnectorLabel,
+                childSource: undefined,
                 config: {
                     isSelected: false
                 }
