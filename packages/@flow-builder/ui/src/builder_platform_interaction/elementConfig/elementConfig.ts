@@ -190,7 +190,7 @@ export const elementTypeToConfigMap: {
             [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_TIME_TRIGGERS]: 'builder_platform_interaction:timeTriggersEditor'
         },
-        modalSize: MODAL_SIZE.MEDIUM,
+        modalSize: MODAL_SIZE.LARGE,
         nodeConfig: {
             iconName: 'utility:right',
             iconShape: ICON_SHAPE.CIRCLE,

@@ -1,0 +1,64 @@
+<template>
+    <div class="slds-vertical-tabs">
+        <div class="slds-size_5-of-6">
+            <h3 class="slds-p-horizontal_small slds-shrink-none slds-grid_vertical-align-start">
+                <div class="slds-text-color_weak slds-text-body_small slds-p-left_small slds-m-vertical_x-small">
+                    {labels.scheduledPathDescription}
+                </div>
+            </h3>
+            <div class="slds-m-top_x-large slds-p-horizontal_medium">
+                <div class="slds-grid slds-m-bottom_x-small">
+                    <h3 class="slds-text-title_caps">
+                        <span class="slds-truncate">{labels.scheduledPathDetailsHeader}</span>
+                    </h3>
+                </div>
+                <div>
+                    <builder_platform_interaction-label-description
+                        name-label={labels.pathLabel}
+                        label={timeTrigger.label}
+                        dev-name={timeTrigger.name}
+                        guid={timeTrigger.guid}
+                        onpropertychanged={handlePropertyChanged}
+                        hide-description="true"
+                        class="labelDescriptionField"
+                    ></builder_platform_interaction-label-description>
+                </div>
+                <div>
+                    <lightning-combobox
+                        label={labels.timeSourceComboboxLabel}
+                        options={timeSourceComboboxOptions}
+                        value={timeSourceValue}
+                        onchange={handleTimeSourceValueChanged}
+                        class="timeSourceCombobox slds-size_2-of-5"
+                        dropdown-alignment="auto"
+                        required
+                    ></lightning-combobox>
+                </div>
+
+                <div>
+                    <div
+                        class="slds-form slds-form_compound slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small"
+                    >
+                        <lightning-input
+                            label={labels.offsetNumberLabel}
+                            value={offsetNumberValue}
+                            type="number"
+                            required
+                            onfocusout={handleOffsetNumberChanged}
+                            class="offsetNumberInput prompt-text slds-col slds-size_2-of-7 slds-m-right_small"
+                        ></lightning-input>
+                        <lightning-combobox
+                            label={labels.offsetUnitAndDirectionComboboxLabel}
+                            options={TIME_OPTIONS}
+                            value={offsetUnitValue}
+                            onchange={handleoffsetUnitValueChanged}
+                            dropdown-alignment="auto"
+                            required
+                            class="offsetUnitAndDirectionCombobox slds-size_2-of-7"
+                        ></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -26,7 +26,11 @@
             </div>
         </builder_platform_interaction-reorderable-vertical-navigation>
         <div class="slds-size_3-of-4">
-            Right Side
+            <builder_platform_interaction-time-trigger
+                time-trigger={activeTimeTrigger}
+                object={node.object}
+                record-trigger-type={node.recordTriggerType}
+            ></builder_platform_interaction-time-trigger>
         </div>
     </div>
 </template>

@@ -11,6 +11,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         getErrorsFromHydratedElement: jest.fn(() => {
             return ['some error'];
         }),
+        getValueFromHydratedItem: jest.fn(),
         updateProperties: actual.updateProperties
     };
 });
