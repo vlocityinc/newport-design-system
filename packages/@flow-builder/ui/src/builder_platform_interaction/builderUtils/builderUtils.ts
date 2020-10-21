@@ -484,6 +484,8 @@ export function invokeDebugEditor(attributes) {
 
     const flowName = attributes.flowDevName;
     const flowId = attributes.flowId;
+    const processType = attributes.processType;
+    const triggerType = attributes.triggerType;
     const rerun = attributes.rerun;
 
     showDebugEditorPopover(
@@ -493,6 +495,8 @@ export function invokeDebugEditor(attributes) {
         {
             flowName,
             flowId,
+            processType,
+            triggerType,
             rerun
         },
         {
@@ -628,6 +632,8 @@ function showDebugEditorPopover(
     const bodyPromise = createComponentPromise(cmpBody, {
         flowName: cmpAttributes.flowName,
         flowId: cmpAttributes.flowId,
+        processType: cmpAttributes.processType,
+        triggerType: cmpAttributes.triggerType,
         rerun: cmpAttributes.rerun
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {

@@ -6,18 +6,24 @@
      * @param {String} flowName
      * @param {Boolean} rerun, whether this is a debug rerun
      */
-    buildInput: function (cmp, flowName, rerun) {
+    buildInput: function (cmp, flowName, processType, triggerType, rerun) {
         this.getDebugRunAsValidation(cmp);
-        var action = cmp.get('c.getFlowInputOutputVariables');
-        action.setParams({ flowName: flowName });
-        action.setCallback(this, function (response) {
-            var state = response.getState();
-            if (state === 'SUCCESS') {
-                this.buildInputVarComponents(cmp, response.getReturnValue()[0], rerun);
-            }
-            cmp.set('v.displaySpinner', false);
-        });
-        $A.enqueueAction(action);
+
+        if (processType === 'AutoLaunchedFlow' && triggerType === 'Scheduled') {
+            cmp.set('v.shouldHasInputs', false);
+        } else {
+            var action = cmp.get('c.getFlowInputOutputVariables');
+            action.setParams({ flowName: flowName });
+            action.setCallback(this, function (response) {
+                var state = response.getState();
+                if (state === 'SUCCESS') {
+                    this.buildInputVarComponents(cmp, response.getReturnValue()[0], rerun);
+                }
+                cmp.set('v.displaySpinner', false);
+            });
+            $A.enqueueAction(action);
+            cmp.set('v.shouldHasInputs', true);
+        }
     },
 
     /**

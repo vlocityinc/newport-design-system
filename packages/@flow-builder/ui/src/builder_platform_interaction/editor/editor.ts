@@ -996,6 +996,8 @@ export default class Editor extends LightningElement {
                     return {
                         flowId: this.flowId,
                         flowDevName,
+                        processType: this.properties.processType,
+                        triggerType: this.triggerType,
                         rerun: runOrDebug === RESTARTDEBUG,
                         runDebugInterviewCallback: this.runDebugInterviewCallback
                     };

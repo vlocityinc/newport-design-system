@@ -5,7 +5,13 @@
         } else {
             helper.buildDebugAgainOptions(cmp);
         }
-        helper.buildInput(cmp, cmp.get('v.flowName'), cmp.get('v.rerun'));
+        helper.buildInput(
+            cmp,
+            cmp.get('v.flowName'),
+            cmp.get('v.processType'),
+            cmp.get('v.triggerType'),
+            cmp.get('v.rerun')
+        );
     },
 
     handleDebugAsUserCheck: function (cmp, event) {

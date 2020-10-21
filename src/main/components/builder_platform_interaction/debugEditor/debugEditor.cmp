@@ -3,6 +3,8 @@
     <!-- Public Attributes -->
     <aura:attribute name="flowName" type="String"/>
     <aura:attribute name="flowId" type="String"/>
+    <aura:attribute name="processType" type="String"/>
+    <aura:attribute name="triggerType" type="String"/>
     <aura:attribute name="rerun" type="Boolean"/>
 
     <!-- Values for component capabilities -->
@@ -11,6 +13,7 @@
     <aura:attribute name="showDebugAsUserLookup" type="Boolean" default="false"/> 
     <aura:attribute name="runAsHelptext" type="String"/>
     <aura:attribute name="runAsSelected" type="String"/>
+    <aura:attribute name="shouldHasInputs" type="Boolean" default="true"/>
     <aura:attribute name="hasInputs" type="Boolean" default="false"/>
     <aura:attribute name="displaySpinner" type="Boolean" default="true"/>
 
@@ -58,23 +61,24 @@
                 aura:id="isGovernorLimitsBox" label="{!$Label.FlowDebug.GovernorLimits}"
                 checked="{!v.govLimsCB}"/>
 
-        <!-- Input Variables -->
-        <div class="slds-p-top_medium">
-            <h2>{#$Label.FlowDebug.InputValues}</h2>
-        </div>
-
-        <aura:if isTrue="{!v.displaySpinner}">
-            <div class="outer-div slds-p-top_medium">
-                <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
+        <aura:if isTrue="{!v.shouldHasInputs}">
+            <!-- Input Variables -->
+            <div class="slds-p-top_medium">
+                <h2>{#$Label.FlowDebug.InputValues}</h2>
             </div>
-            <aura:set attribute="else">
-                <aura:if isTrue="{!v.hasInputs}">
-                    <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
-                    <aura:set attribute="else">
-                        <div aura:id="inputValuesNone" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
-                    </aura:set>
-                </aura:if>
-            </aura:set>
+            <aura:if isTrue="{!v.displaySpinner}">
+                <div class="outer-div slds-p-top_medium">
+                    <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
+                </div>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.hasInputs}">
+                        <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
+                        <aura:set attribute="else">
+                            <div aura:id="inputValuesNone" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
         </aura:if>
 
         <div class="slds-is-relative">
