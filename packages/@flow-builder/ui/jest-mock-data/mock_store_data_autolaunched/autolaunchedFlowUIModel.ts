@@ -14,7 +14,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -52,7 +53,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'chatterPost',
             actionName: 'chatterPost',
@@ -97,7 +99,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -147,7 +150,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -318,7 +322,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
@@ -365,7 +370,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'ade42d1f-d120-4ff9-9888-c202b289571c',
@@ -398,7 +404,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
             assignNextValueToReferenceIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
@@ -429,7 +436,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b',
@@ -462,7 +470,8 @@ export const autolaunchedFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'b93ea139-c9df-49cb-a42e-52c5f496ab07',

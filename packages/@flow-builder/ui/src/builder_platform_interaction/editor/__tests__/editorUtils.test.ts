@@ -16,6 +16,7 @@ import {
     getConnectorToDuplicate,
     highlightCanvasElement,
     getConnectorsToHighlight,
+    getElementsWithError,
     screenFieldsReferencedByLoops,
     debugInterviewResponseCallback
 } from '../editorUtils';
@@ -1284,6 +1285,54 @@ describe('Editor Utils Test', () => {
             expect(getConnectorsToHighlight(canvasDecorator)).toEqual(expected);
         });
     });
+
+    describe('getElementsWithError function', () => {
+        it('returns empty [] when no other decorators are passed in', () => {
+            expect(getElementsWithError({})).toEqual([]);
+        });
+
+        it('returns filtered objects with right properties using the canvas decorator', () => {
+            const canvasDecorator = {
+                decoratedElements: [
+                    {
+                        elementApiName: 'element1',
+                        decoratedConnectors: [
+                            {
+                                connectorType: CONNECTOR_TYPE.REGULAR
+                            }
+                        ],
+                        decorationType: null
+                    },
+                    {
+                        elementApiName: 'element2',
+                        decoratedConnectors: [
+                            {
+                                connectorType: CONNECTOR_TYPE.FAULT
+                            }
+                        ],
+                        decorationType: 'ERROR'
+                    },
+                    {
+                        elementApiName: 'element3',
+                        decoratedConnectors: null,
+                        decorationType: 'ERROR'
+                    }
+                ]
+            };
+            const expected = [
+                {
+                    elementName: 'element2',
+                    decorationType: 'ERROR'
+                },
+                {
+                    elementName: 'element3',
+                    decorationType: 'ERROR'
+                }
+            ];
+            expect(getElementsWithError(canvasDecorator)).toEqual(expected);
+        });
+    });
+
     describe('screenFieldsReferencedByLoops', () => {
         it('only returns screen fields referenced by loop', () => {
             const screenFields = screenFieldsReferencedByLoops(flowWithAllElements.metadata);
@@ -1366,7 +1415,8 @@ describe('Editor Utils Test', () => {
                             source: 'startGuid',
                             type: 'REGULAR'
                         }
-                    ]
+                    ],
+                    elementsToDecorate: []
                 }
             });
         });

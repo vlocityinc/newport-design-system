@@ -30,7 +30,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'wait-element-guid': {
@@ -45,7 +46,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -80,7 +82,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'outcome-element-guid': {

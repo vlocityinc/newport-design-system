@@ -60,6 +60,10 @@ export default class Node extends LightningElement {
 
     currentNodeLabel = null;
 
+    get labels() {
+        return LABELS;
+    }
+
     getNodeConfig() {
         return getConfigForElement(this.node).nodeConfig;
     }
@@ -76,31 +80,35 @@ export default class Node extends LightningElement {
         return this.getNodeConfig().iconShape;
     }
 
+    getAdditionalClasses() {
+        let classes = '';
+        if (this.node.config.isSelected) {
+            classes = `${classes} selected`;
+        }
+
+        if (this.node.config.hasError) {
+            classes = `${classes} has-error`;
+        }
+
+        return classes;
+    }
+
     get nodeLocation() {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
     }
 
     get nodeClasses() {
         let classes = 'icon-section slds-align_absolute-center';
-
         if (this.getIconShape() === ICON_SHAPE.DIAMOND) {
             classes = `${classes} decision-icon-section`;
         }
 
-        if (this.node.config.isSelected) {
-            classes = `${classes} selected`;
-        }
-
-        return classes;
+        return `${classes} ${this.getAdditionalClasses()}`;
     }
 
     get startBoxClasses() {
-        let classes = 'start-node-box';
-
-        if (this.node.config.isSelected) {
-            classes = `${classes} selected`;
-        }
-        return classes;
+        const classes = 'start-node-box';
+        return `${classes} ${this.getAdditionalClasses()}`;
     }
 
     get rotateIconClass() {
@@ -146,16 +154,16 @@ export default class Node extends LightningElement {
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
             switch (this.node.triggerType) {
                 case NONE:
-                    return LABELS.nodeIconTitleStartDefault;
+                    return this.labels.nodeIconTitleStartDefault;
                 case SCHEDULED:
                 case SCHEDULED_JOURNEY:
-                    return LABELS.nodeIconTitleStartScheduled;
+                    return this.labels.nodeIconTitleStartScheduled;
                 default:
                     return '';
             }
         }
 
-        return format(LABELS.nodeIconTitle, getConfigForElement(this.node).labels.singular, this.node.label);
+        return format(this.labels.nodeIconTitle, getConfigForElement(this.node).labels.singular, this.node.label);
     }
 
     get startIconFlowType() {
@@ -180,20 +188,12 @@ export default class Node extends LightningElement {
         return undefined;
     }
 
-    get endPointTitle() {
-        return LABELS.endPointTitle;
-    }
-
-    get endPointA11yTitle() {
-        return LABELS.endPointTitleA11yText;
-    }
-
-    get nodeIconA11yTitle() {
-        return LABELS.nodeIconA11yText;
-    }
-
     get trashCanAlternativeText() {
-        return format(LABELS.trashCanAlternativeText, getConfigForElement(this.node).labels.singular, this.node.label);
+        return format(
+            this.labels.trashCanAlternativeText,
+            getConfigForElement(this.node).labels.singular,
+            this.node.label
+        );
     }
 
     get nodeLabel() {
@@ -224,6 +224,10 @@ export default class Node extends LightningElement {
 
         if (this.node.config.isSelected) {
             classes = `${classes} node-selected`;
+        }
+
+        if (this.node.config.hasError) {
+            classes = `${classes} node-has-error`;
         }
 
         return classes;

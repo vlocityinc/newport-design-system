@@ -12,7 +12,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -43,7 +44,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -157,7 +159,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             object: '',
@@ -190,7 +193,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'a733e74b-1a25-43dc-b43c-d126c849023d',
@@ -246,7 +250,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
@@ -302,7 +307,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '7ab29c0c-3dbf-4f99-a94c-311ef891973f',
@@ -360,7 +366,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
             assignNextValueToReferenceIndex: 'dd4270aa-df83-4942-ac0f-37ce8072ccaa',
@@ -391,7 +398,8 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             allowBack: true,
             allowFinish: true,

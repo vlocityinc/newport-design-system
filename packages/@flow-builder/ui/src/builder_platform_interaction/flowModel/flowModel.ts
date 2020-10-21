@@ -14,6 +14,7 @@ export interface CanvasElementConfig {
     isHighlighted: boolean;
     isSelectable: boolean;
     isSelected: boolean;
+    hasError: boolean;
 }
 export interface FlowConnectorConfig {
     isSelected: boolean;

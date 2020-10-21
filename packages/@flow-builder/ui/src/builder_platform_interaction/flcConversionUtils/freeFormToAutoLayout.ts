@@ -675,7 +675,7 @@ function createAutoLayoutElements(elements: FlowElements): FlowElements {
 
         if (canvasElement.isCanvasElement) {
             // Resetting the config for all Canvas Elements
-            canvasElement.config = { isSelected: false, isHighlighted: false, isSelectable: true };
+            canvasElement.config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false };
             if (canvasElement.locationX != null) {
                 canvasElement.locationX = 0;
             }

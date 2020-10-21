@@ -17,7 +17,12 @@ import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_intera
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_TYPE,
+    CONNECTOR_TYPE,
+    DECORATION_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
     updateElementConfigMapWithSubtypes
@@ -900,6 +905,26 @@ export const getConnectorsToHighlight = (canvasDecorator: object): array => {
     return connectorsToHighlight;
 };
 
+/**
+ * Function to return an array of decorated elements with decorationType as ERROR
+ * @param canvasDecorator canvas decorator object returned from the server
+ */
+export const getElementsWithError = (canvasDecorator: object): Array<object> => {
+    let elementsToDecorate = [];
+    if (canvasDecorator && canvasDecorator.decoratedElements) {
+        elementsToDecorate = canvasDecorator.decoratedElements
+            .filter((decoratedElement) => decoratedElement.decorationType === DECORATION_TYPE.ERROR)
+            .map((decoratedElement) => {
+                return {
+                    elementName: decoratedElement.elementApiName,
+                    decorationType: decoratedElement.decorationType
+                };
+            });
+    }
+
+    return elementsToDecorate;
+};
+
 const screenFieldsInSections = (screenFields: ScreenFieldMetadata[]): ScreenFieldMetadata[] => {
     return screenFields
         .filter((field) => field.fieldType === 'RegionContainer')
@@ -951,7 +976,8 @@ export const debugInterviewResponseCallback = (
         const canvasDecorator = data[1];
         if (canvasDecorator) {
             const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
-            storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+            const elementsToDecorate = getElementsWithError(canvasDecorator);
+            storeInstance.dispatch(decorateCanvas({ connectorsToHighlight, elementsToDecorate }));
         }
     } else {
         // Else, clear any existing highlights on the canvas

@@ -12,7 +12,7 @@
                     onclick={handleNodeClick}
                     ondblclick={handleDblClick}
                 >
-                    <span class="hiddenText">{nodeIconA11yTitle}</span>
+                    <span class="hiddenText">{labels.nodeIconA11yText}</span>
                     <builder_platform_interaction-element-icon
                         icon-name={iconName}
                         icon-size={iconSize}
@@ -27,11 +27,11 @@
             <!--End Point-->
             <button
                 if:true={hasAvailableConnections}
-                title={endPointTitle}
+                title={labels.endPointTitle}
                 tabindex="0"
                 class="end-point slds-is-absolute"
             >
-                <span class="hiddenText">{endPointA11yTitle}</span>
+                <span class="hiddenText">{labels.endPointTitleA11yText}</span>
             </button>
 
             <!--Trash can-->
@@ -45,6 +45,17 @@
                 class="trash-can slds-is-absolute slds-button-icon_small"
                 onclick={handleTrashClick}
             ></lightning-button-icon>
+
+            <!--Error icon-->
+            <lightning-icon
+                if:true={node.config.hasError}
+                icon-name="utility:error"
+                variant="error"
+                size="xx-small"
+                alternative-text={labels.errorIconAlternativeText}
+                title={labels.errorIconTitle}
+                class="error-icon slds-is-absolute slds-button-icon_small"
+            ></lightning-icon>
         </div>
 
         <!--Label and description-->

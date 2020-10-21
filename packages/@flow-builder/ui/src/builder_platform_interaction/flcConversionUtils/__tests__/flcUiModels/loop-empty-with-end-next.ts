@@ -10,7 +10,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -46,7 +47,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReferenceIndex: 'a908350c-409c-4d2f-bbd3-b9c61e5932b9',
             collectionReference: '9b6730a5-ad83-46b9-80f0-f8bc2acb22ac',
@@ -71,7 +73,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         root: {

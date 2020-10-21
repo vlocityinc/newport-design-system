@@ -62,7 +62,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -92,7 +93,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Wait',
@@ -110,7 +112,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -140,7 +143,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Screen',
@@ -156,7 +160,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             availableConnections: [{ type: 'REGULAR', childReference: 'decision-outcome1-guid' }, { type: 'DEFAULT' }],
             childReferences: [{ childReference: 'decision-outcome1-guid' }],
@@ -186,7 +191,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'Screen',
             maxConnections: 1,

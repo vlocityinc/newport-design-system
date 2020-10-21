@@ -519,7 +519,8 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
             ffcStoreState.elements[element.guid].config = {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             };
         }
 

@@ -26,9 +26,11 @@ import {
     ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_CHILD,
-    DELETE_CHILDREN
+    DELETE_CHILDREN,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
-import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONNECTOR_TYPE, ELEMENT_TYPE, DECORATION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     stringVariable,
     textTemplate1,
@@ -57,13 +59,14 @@ const getElement = (guid, name) => {
     };
 };
 
-const getElementWithConfigProp = (guid, isCanvasElement, isSelected, isHighlighted) => {
+const getElementWithConfigProp = (guid, isCanvasElement, isSelected, isHighlighted, hasError = false) => {
     return {
         guid,
         isCanvasElement,
         config: {
             isSelected,
-            isHighlighted
+            isHighlighted,
+            hasError
         }
     };
 };
@@ -1873,6 +1876,85 @@ describe('elements-reducer', () => {
 
             const newElementState = elementReducer(oldElements, {});
             expect(newElementState).toEqual(oldElements);
+        });
+    });
+
+    describe('Decorate Canvas tests', () => {
+        const oldElements = {
+            element1: {
+                guid: 'element1',
+                isCanvasElement: true,
+                name: 'element1Name',
+                config: { isSelected: false, isHighlighted: false, hasError: false }
+            },
+            element2: {
+                guid: 'element2',
+                isCanvasElement: true,
+                name: 'element2Name',
+                config: { isSelected: false, isHighlighted: false, hasError: false }
+            },
+            element3: {
+                guid: 'element3',
+                isCanvasElement: true,
+                name: 'element3Name',
+                config: { isSelected: false, isHighlighted: false, hasError: true }
+            }
+        };
+        const newElementState = elementReducer(oldElements, {
+            type: DECORATE_CANVAS,
+            payload: {
+                elementsToDecorate: [
+                    {
+                        elementName: 'element1Name',
+                        decorationType: DECORATION_TYPE.ERROR
+                    },
+                    {
+                        elementName: 'element2Name',
+                        decorationType: DECORATION_TYPE.ERROR
+                    }
+                ]
+            }
+        });
+
+        it('element1 should have hasError as true', () => {
+            expect(newElementState.element1.config.hasError).toBeTruthy();
+        });
+
+        it('element2 should have hasError as true', () => {
+            expect(newElementState.element2.config.hasError).toBeTruthy();
+        });
+
+        it('element3 should have hasError as false', () => {
+            expect(newElementState.element3.config.hasError).toBeFalsy();
+        });
+    });
+
+    describe('Clear Canvas Decoration tests', () => {
+        const oldElements = {
+            element1: {
+                guid: 'element1',
+                isCanvasElement: true,
+                name: 'element1Name',
+                config: { isSelected: false, isHighlighted: false, hasError: true }
+            },
+            element2: {
+                guid: 'element2',
+                isCanvasElement: true,
+                name: 'element2Name',
+                config: { isSelected: false, isHighlighted: false, hasError: true }
+            }
+        };
+        const newElementState = elementReducer(oldElements, {
+            type: CLEAR_CANVAS_DECORATION,
+            payload: {}
+        });
+
+        it('element1 should have hasError as false', () => {
+            expect(newElementState.element1.config.hasError).toBeFalsy();
+        });
+
+        it('element2 should have hasError as false', () => {
+            expect(newElementState.element2.config.hasError).toBeFalsy();
         });
     });
 });

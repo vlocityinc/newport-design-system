@@ -18,6 +18,7 @@ Object {
       "null",
     ],
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -56,6 +57,7 @@ Object {
       "screen-right-element-guid",
     ],
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -109,6 +111,7 @@ Object {
   "screen-left-element-guid": Object {
     "childIndex": 0,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -142,6 +145,7 @@ Object {
   "screen-right-element-guid": Object {
     "childIndex": 1,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -175,6 +179,7 @@ Object {
   "start-element-guid": Object {
     "childIndex": 0,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -226,6 +231,7 @@ Object {
       "null",
     ],
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -246,6 +252,7 @@ Object {
   },
   "end-element-guid (decision-element-guid)": Object {
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -277,6 +284,7 @@ Object {
       "null",
     ],
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -347,6 +355,7 @@ Object {
   "start-element-guid": Object {
     "childIndex": 0,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -394,6 +403,7 @@ Object {
       "screen-right-element-guid",
     ],
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -452,6 +462,7 @@ Object {
   "screen-left-element-guid": Object {
     "childIndex": 0,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -485,6 +496,7 @@ Object {
   "screen-right-element-guid": Object {
     "childIndex": 1,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -518,6 +530,7 @@ Object {
   "start-element-guid": Object {
     "childIndex": 0,
     "config": Object {
+      "hasError": false,
       "isHighlighted": false,
       "isSelectable": true,
       "isSelected": false,
@@ -586,6 +599,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -621,6 +635,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -676,6 +691,7 @@ Object {
         "end-element-guid (decision-element-guid::1)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -697,6 +713,7 @@ Object {
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -712,6 +729,7 @@ Object {
     "end-element-guid (decision-element-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -757,6 +775,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -834,6 +853,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -866,6 +886,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -918,6 +939,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -983,6 +1005,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1018,6 +1041,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1097,6 +1121,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1132,6 +1157,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1160,6 +1186,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1250,6 +1277,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1285,6 +1313,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1313,6 +1342,7 @@ Object {
     },
     "screen-left-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1341,6 +1371,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1414,6 +1445,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1449,6 +1481,7 @@ Object {
     },
     "screen-left-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1477,6 +1510,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1556,6 +1590,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1588,6 +1623,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1640,6 +1676,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1736,6 +1773,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1760,6 +1798,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1795,6 +1834,7 @@ Object {
     },
     "screen-left-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1823,6 +1863,7 @@ Object {
     },
     "screen-right-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1851,6 +1892,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1963,6 +2005,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -1987,6 +2030,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2039,6 +2083,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2067,6 +2112,7 @@ Object {
     },
     "screen1-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2095,6 +2141,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2207,6 +2254,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2231,6 +2279,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2283,6 +2332,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2311,6 +2361,7 @@ Object {
     },
     "screen1-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2339,6 +2390,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2440,6 +2492,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2475,6 +2528,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2503,6 +2557,7 @@ Object {
     },
     "screen-left-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2531,6 +2586,7 @@ Object {
     },
     "screen-right-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2559,6 +2615,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2703,6 +2760,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2727,6 +2785,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2751,6 +2810,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2773,6 +2833,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2845,6 +2906,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2873,6 +2935,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2953,6 +3016,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -2988,6 +3052,7 @@ Object {
     },
     "screen-left-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3016,6 +3081,7 @@ Object {
     },
     "screen-right-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3044,6 +3110,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3106,6 +3173,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3127,6 +3195,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3222,6 +3291,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3243,6 +3313,7 @@ Object {
     },
     "loop-for-each-screen-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3271,6 +3342,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3373,6 +3445,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3394,6 +3467,7 @@ Object {
     },
     "loop-for-each-screen-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3422,6 +3496,7 @@ Object {
     },
     "screen-after-last-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3450,6 +3525,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3541,6 +3617,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3568,6 +3645,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3603,6 +3681,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3683,6 +3762,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3712,6 +3792,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3733,6 +3814,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3803,6 +3885,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3836,6 +3919,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3864,6 +3948,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3915,6 +4000,7 @@ Object {
   "elements": Object {
     "screen-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3943,6 +4029,7 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -3982,6 +4069,7 @@ Object {
   "elements": Object {
     "start-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4029,6 +4117,7 @@ Object {
         "nested-decision-element-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4050,6 +4139,7 @@ Object {
     "end-element-guid (screen-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4064,6 +4154,7 @@ Object {
     "end-element-guid (screen2-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4088,6 +4179,7 @@ Object {
         "null",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4157,6 +4249,7 @@ Object {
     },
     "screen-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4188,6 +4281,7 @@ Object {
     "screen2-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4221,6 +4315,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4280,6 +4375,7 @@ Object {
         "end-element-guid (decision-element-guid::1)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4301,6 +4397,7 @@ Object {
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4316,6 +4413,7 @@ Object {
     "end-element-guid (decision-element-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4361,6 +4459,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4412,6 +4511,7 @@ Object {
         "nested-decision-element-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4433,6 +4533,7 @@ Object {
     "end-element-guid (nested-decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4448,6 +4549,7 @@ Object {
     "end-element-guid (screen-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4477,6 +4579,7 @@ Object {
         "null",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4546,6 +4649,7 @@ Object {
     },
     "screen-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4577,6 +4681,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4633,6 +4738,7 @@ Object {
         "decision-next-element-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4672,6 +4778,7 @@ Object {
         "end-element-guid (decision-next-element-guid::1)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4695,6 +4802,7 @@ Object {
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4710,6 +4818,7 @@ Object {
     "end-element-guid (decision-next-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4725,6 +4834,7 @@ Object {
     "end-element-guid (decision-next-element-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4787,6 +4897,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4862,6 +4973,7 @@ Object {
         "end-element-guid (decision-element-guid::3)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4883,6 +4995,7 @@ Object {
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4898,6 +5011,7 @@ Object {
     "end-element-guid (decision-element-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4913,6 +5027,7 @@ Object {
     "end-element-guid (decision-element-guid::2)": Object {
       "childIndex": 2,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -4928,6 +5043,7 @@ Object {
     "end-element-guid (decision-element-guid::3)": Object {
       "childIndex": 3,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5007,6 +5123,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5063,6 +5180,7 @@ Object {
         "nested-decision-element-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5084,6 +5202,7 @@ Object {
     "end-element-guid (decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5099,6 +5218,7 @@ Object {
     "end-element-guid (nested-decision-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5114,6 +5234,7 @@ Object {
     "end-element-guid (nested-decision-element-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5147,6 +5268,7 @@ Object {
         "end-element-guid (nested-decision-element-guid::1)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5217,6 +5339,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5268,6 +5391,7 @@ Object {
         "nested-decision-element-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5289,6 +5413,7 @@ Object {
     "end-element-guid (screen-after-decision-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5313,6 +5438,7 @@ Object {
         "null",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5382,6 +5508,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5413,6 +5540,7 @@ Object {
     "screen1-after-decision-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5446,6 +5574,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5497,6 +5626,7 @@ Object {
         "screen-right-element-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5518,6 +5648,7 @@ Object {
     "end-element-guid (screen-after-decision-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5561,6 +5692,7 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5592,6 +5724,7 @@ Object {
     "screen-left-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5625,6 +5758,7 @@ Object {
     "screen-right-element-guid": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5658,6 +5792,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5700,6 +5835,7 @@ Object {
     "end-element-guid (fault-element-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5715,6 +5851,7 @@ Object {
     "end-element-guid (fault-element-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5730,6 +5867,7 @@ Object {
     "end-element-guid (record-create-element-guid::0)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5762,6 +5900,7 @@ Object {
         "end-element-guid (fault-element-guid::1)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5806,6 +5945,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5843,6 +5983,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5877,6 +6018,7 @@ Object {
     "end-element-guid (fault-element-guid::0)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5891,6 +6033,7 @@ Object {
     "end-element-guid (record-create-element-guid::0)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5913,6 +6056,7 @@ Object {
       ],
       "childIndex": -1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5942,6 +6086,7 @@ Object {
         },
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -5979,6 +6124,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6028,6 +6174,7 @@ Object {
     "end-element-guid (loop-element-guid::1)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6055,6 +6202,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6092,6 +6240,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6149,6 +6298,7 @@ Object {
     "end-element-guid (screen-after-last-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6173,6 +6323,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6209,6 +6360,7 @@ Object {
     },
     "screen-after-last-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6240,6 +6392,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6297,6 +6450,7 @@ Object {
     "end-element-guid (screen-after-last-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6317,6 +6471,7 @@ Object {
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6341,6 +6496,7 @@ Object {
     "loop-for-each-screen-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6386,6 +6542,7 @@ Object {
     },
     "screen-after-last-element-guid": Object {
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6417,6 +6574,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6459,6 +6617,7 @@ Object {
     "end-element-guid (start-element-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6486,6 +6645,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6538,6 +6698,7 @@ Object {
         "end-element-guid (decision-for-outcome3-guid::1)",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6588,6 +6749,7 @@ Object {
     "end-element-guid (decision-for-outcome3-guid::0)": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6603,6 +6765,7 @@ Object {
     "end-element-guid (decision-for-outcome3-guid::1)": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6618,6 +6781,7 @@ Object {
     "end-element-guid (fault-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6632,6 +6796,7 @@ Object {
     "end-element-guid (screen-for-outcome1-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6646,6 +6811,7 @@ Object {
     "end-element-guid (screen-for-outcome2-guid:)": Object {
       "childIndex": "null",
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6660,6 +6826,7 @@ Object {
     "fault-guid": Object {
       "childIndex": -1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6740,6 +6907,7 @@ Object {
     "screen-for-outcome1-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6773,6 +6941,7 @@ Object {
     "screen-for-outcome2-guid": Object {
       "childIndex": 1,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6796,6 +6965,7 @@ Object {
     "start-element-guid": Object {
       "childIndex": 0,
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,
@@ -6842,6 +7012,7 @@ Object {
         "decision-for-outcome3-guid",
       ],
       "config": Object {
+        "hasError": false,
         "isHighlighted": false,
         "isSelectable": true,
         "isSelected": false,

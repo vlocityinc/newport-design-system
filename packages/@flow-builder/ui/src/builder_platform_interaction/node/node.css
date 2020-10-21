@@ -36,7 +36,17 @@
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
 }
 
-.decision-icon-section.selected .rotate-icon .icon {
+/* Note: Do not change the order of .selected and .hasError css.
+* This is to prevent the element in error from being marked in blue highlight
+* upon clicking in debug mode.
+*/
+.icon-section.has-error .icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBackgroundError), 0 0 6px 3px var(--lwc-colorBackgroundError);
+}
+
+.decision-icon-section.selected .rotate-icon .icon,
+.decision-icon-section.has-error .rotate-icon .icon {
     transform: scale(1.0909);
 }
 
@@ -97,6 +107,11 @@
 .trash-can {
     top: -27px;
     left: 50px;
+}
+
+.error-icon {
+    top: -27px;
+    left: -16px;
 }
 
 .text-container {

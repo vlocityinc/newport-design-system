@@ -29,13 +29,16 @@ import {
     ADD_PARENT_WITH_CHILDREN,
     MODIFY_PARENT_WITH_CHILDREN,
     ADD_CHILD,
-    DELETE_CHILDREN
+    DELETE_CHILDREN,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getSubElementGuids } from './reducersUtils';
 import { CanvasElement, ChildElement, Guid, StoreState } from 'builder_platform_interaction/flowModel';
+import { DECORATION_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Reducer for elements.
@@ -122,6 +125,10 @@ export default function elementsReducer(state = {}, action) {
                 action.payload.deletedFields,
                 action.payload.fields
             );
+        case DECORATE_CANVAS:
+            return _decorateCanvasElements(state, action.payload.elementsToDecorate);
+        case CLEAR_CANVAS_DECORATION:
+            return _clearCanvasDecoration(state);
 
         default:
             return state;
@@ -212,7 +219,8 @@ function _deselectElement(selectedElement, state) {
         state[selectedElement.guid] = Object.assign({}, selectedElement, {
             config: {
                 isSelected: false,
-                isHighlighted: selectedElement.config.isHighlighted
+                isHighlighted: selectedElement.config.isHighlighted,
+                hasError: selectedElement.config.hasError
             }
         });
     }
@@ -457,7 +465,8 @@ function _selectCanvasElement(elements, selectedGUID) {
                     newState[guid] = updateProperties(element, {
                         config: {
                             isSelected: true,
-                            isHighlighted: element.config.isHighlighted
+                            isHighlighted: element.config.isHighlighted,
+                            hasError: element.config.hasError
                         }
                     });
                     hasStateChanged = true;
@@ -466,7 +475,8 @@ function _selectCanvasElement(elements, selectedGUID) {
                 newState[guid] = updateProperties(element, {
                     config: {
                         isSelected: false,
-                        isHighlighted: false
+                        isHighlighted: false,
+                        hasError: element.config.hasError
                     }
                 });
                 hasStateChanged = true;
@@ -492,7 +502,8 @@ function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
         newState[guid] = updateProperties(newState[guid], {
             config: {
                 isSelected: true,
-                isHighlighted: newState[guid].config.isHighlighted
+                isHighlighted: newState[guid].config.isHighlighted,
+                hasError: newState[guid].config.hasError
             }
         });
         hasStateChanged = true;
@@ -503,7 +514,8 @@ function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
         newState[guid] = updateProperties(newState[guid], {
             config: {
                 isSelected: false,
-                isHighlighted: newState[guid].config.isHighlighted
+                isHighlighted: newState[guid].config.isHighlighted,
+                hasError: newState[guid].config.hasError
             }
         });
         hasStateChanged = true;
@@ -528,7 +540,8 @@ function _toggleCanvasElement(elements, selectedGUID) {
         newState[selectedGUID] = updateProperties(newState[selectedGUID], {
             config: {
                 isSelected: !element.config.isSelected,
-                isHighlighted: element.config.isHighlighted
+                isHighlighted: element.config.isHighlighted,
+                hasError: element.config.hasError
             }
         });
     }
@@ -557,7 +570,8 @@ function _deselectCanvasElements(elements) {
             newState[guid] = updateProperties(element, {
                 config: {
                     isSelected: false,
-                    isHighlighted: false
+                    isHighlighted: false,
+                    hasError: element.config.hasError
                 }
             });
             hasStateChanged = true;
@@ -586,7 +600,8 @@ function _highlightCanvasElement(elements, elementGuid) {
                     newState[guid] = updateProperties(element, {
                         config: {
                             isSelected: element.config.isSelected,
-                            isHighlighted: true
+                            isHighlighted: true,
+                            hasError: element.config.hasError
                         }
                     });
                 }
@@ -594,7 +609,8 @@ function _highlightCanvasElement(elements, elementGuid) {
                 newState[guid] = updateProperties(element, {
                     config: {
                         isSelected: element.config.isSelected,
-                        isHighlighted: false
+                        isHighlighted: false,
+                        hasError: element.config.hasError
                     }
                 });
             }
@@ -720,4 +736,87 @@ function _filterAvailableConnections(element, childSourceGUID, connectorType) {
             );
         }
     }
+}
+
+/**
+ * Helper function to calculate if hasError property on the element needs to be updated or not
+ *
+ * @param element - element to be updated
+ * @param elementsToDecorate - array of elements that need to be decorated
+ */
+function _shouldUpdateHasError(element: object, elementsToDecorate: Array<object>) {
+    for (let i = 0; i < elementsToDecorate.length; i++) {
+        const { elementName, decorationType } = elementsToDecorate[i];
+        if (elementName === element.name && decorationType === DECORATION_TYPE.ERROR) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Function to update the hasError property. Setting the property to true for elements included in
+ * elementsToDecorate. And setting it to false for anything else if needed.
+ *
+ * @param elements - store state
+ * @param elementsToDecorate - array of elements that need to be decorated
+ */
+function _decorateCanvasElements(elements: object, elementsToDecorate: Array<object>) {
+    const newState = updateProperties(elements);
+    let hasStateChanged = false;
+
+    Object.keys(elements).forEach((guid) => {
+        const element = newState[guid];
+        if (_shouldUpdateHasError(element, elementsToDecorate)) {
+            if (!element.config.hasError) {
+                newState[guid] = updateProperties(element, {
+                    config: {
+                        isSelected: element.config.isSelected,
+                        isHighlighted: element.config.isHighlighted,
+                        hasError: true
+                    }
+                });
+                hasStateChanged = true;
+            }
+        } else if (element.config && element.config.hasError) {
+            // Resetting any other element's hasError if needed. This would be the case
+            // when user tries to debug again and an error is found in a different element
+            newState[guid] = updateProperties(element, {
+                config: {
+                    isSelected: element.config.isSelected,
+                    isHighlighted: element.config.isHighlighted,
+                    hasError: false
+                }
+            });
+            hasStateChanged = true;
+        }
+    });
+
+    return hasStateChanged ? newState : elements;
+}
+
+/**
+ * Function to clear the canvas decoration state
+ *
+ * @param elements - store state
+ */
+function _clearCanvasDecoration(elements: object) {
+    const newState = updateProperties(elements);
+    let hasStateChanged = false;
+    Object.keys(elements).map((guid) => {
+        const element = newState[guid];
+        if (element && element.config && element.config.hasError) {
+            newState[guid] = updateProperties(element, {
+                config: {
+                    isSelected: element.config.isSelected,
+                    isHighlighted: element.config.isHighlighted,
+                    hasError: false
+                }
+            });
+            hasStateChanged = true;
+        }
+        return guid;
+    });
+    return hasStateChanged ? newState : elements;
 }

@@ -4,6 +4,10 @@ export const START_ELEMENT_LOCATION = {
     y: 50
 };
 
+export const DECORATION_TYPE = {
+    ERROR: 'ERROR'
+};
+
 export const FLOW_PROCESS_TYPE = {
     ACTION_CADENCE_FLOW: 'ActionCadenceFlow',
     ACTION_PLAN: 'ActionPlan',

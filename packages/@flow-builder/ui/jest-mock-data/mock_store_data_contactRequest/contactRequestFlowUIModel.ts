@@ -12,7 +12,8 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -43,7 +44,8 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -157,7 +159,8 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
@@ -215,7 +218,8 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '69030d84-1e7f-49c3-ad89-ddc4db69050a',
@@ -271,7 +275,8 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'd6c3ef6f-7fc6-4cf7-a440-9ff753bb8c0f',
@@ -327,7 +332,8 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             allowBack: true,
             allowFinish: true,

@@ -43,7 +43,9 @@ const canvasElement = {
     availableConnections: ['connector1', 'connector2'],
     config: {
         isSelected: true,
-        isHighlighted: false
+        isHighlighted: false,
+        isSelectable: true,
+        hasError: false
     }
 };
 
@@ -123,7 +125,9 @@ describe('Base canvas element function', () => {
             isCanvasElement: true,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
             }
         };
         const actualResult = baseCanvasElement();
@@ -140,7 +144,9 @@ describe('Base canvas element function', () => {
             isCanvasElement: true,
             config: {
                 isSelected: true,
-                isHighlighted: false
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
             }
         };
         const actualResult = baseCanvasElement(canvasElement);
@@ -157,7 +163,8 @@ describe('Base canvas element function', () => {
             isCanvasElement: true,
             config: {
                 isSelected: true,
-                isHighlighted: false
+                isHighlighted: false,
+                hasError: false
             }
         };
         const actualResult = baseCanvasElement(canvasElement);
@@ -175,7 +182,8 @@ describe('Base canvas element function', () => {
             config: {
                 isSelected: false,
                 isSelectable: true,
-                isHighlighted: false
+                isHighlighted: false,
+                hasError: false
             },
             next: null,
             prev: null
@@ -195,8 +203,9 @@ describe('Base canvas element function', () => {
             isCanvasElement: true,
             config: {
                 isSelected: true,
-                isSelectable: undefined,
-                isHighlighted: false
+                isSelectable: true,
+                isHighlighted: false,
+                hasError: false
             },
             next: null,
             prev: null
@@ -241,7 +250,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen2',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'pastedScreen1',
                 next: 'pastedDecision1'
             });
@@ -268,7 +277,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'pastedScreen2',
                 next: 'pastedScreen4',
                 children: ['pastedScreen3', null]
@@ -297,7 +306,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen3',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: null,
                 next: null,
                 parent: 'pastedDecision1',
@@ -337,7 +346,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'startElement',
                 next: 'pastedScreen2',
                 children: [null, null]
@@ -365,7 +374,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'startElement',
                 next: 'pastedScreen2',
                 children: [null, null]
@@ -395,7 +404,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'startElement',
                 next: 'pastedScreen2',
                 children: [null, null]
@@ -424,7 +433,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: null,
                 next: 'pastedScreen2',
                 children: [null, null],
@@ -453,7 +462,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen2',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'pastedDecision1',
                 next: 'screen1'
             });
@@ -491,7 +500,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toEqual({
                 guid: 'pastedPause1',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: 'pause2',
                 next: 'end2',
                 fault: 'pastedPause2'
@@ -521,7 +530,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toEqual({
                 guid: 'pastedPause2',
-                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
                 prev: null,
                 next: null,
                 parent: 'pastedPause1',
@@ -546,7 +555,7 @@ describe('Duplicate Base Canvas Element Function', () => {
         name: 'Assignment1_0',
         locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
         locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-        config: { isSelected: true, isHighlighted: false },
+        config: { isSelected: true, isHighlighted: false, hasError: false },
         connectorCount: 0,
         maxConnections: 1,
         elementType: ELEMENT_TYPE.ASSIGNMENT
@@ -615,7 +624,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 name: 'Decision1_0',
                 locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
                 locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-                config: { isSelected: true, isHighlighted: false },
+                config: { isSelected: true, isHighlighted: false, hasError: false },
                 connectorCount: 0,
                 maxConnections: 2,
                 elementType: ELEMENT_TYPE.DECISION,
@@ -709,7 +718,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 name: 'Screen1_0',
                 locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
                 locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-                config: { isSelected: true, isHighlighted: false },
+                config: { isSelected: true, isHighlighted: false, hasError: false },
                 connectorCount: 0,
                 maxConnections: 1,
                 elementType: ELEMENT_TYPE.SCREEN,
@@ -784,7 +793,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 name: 'Screen1_0',
                 locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
                 locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-                config: { isSelected: true, isHighlighted: false },
+                config: { isSelected: true, isHighlighted: false, hasError: false },
                 connectorCount: 0,
                 maxConnections: 1,
                 elementType: ELEMENT_TYPE.SCREEN,

@@ -30,7 +30,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'decision-element-guid': {
@@ -57,7 +58,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'nested-decision-element-guid': {
@@ -87,7 +89,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'screen-left-element-guid': {
@@ -100,7 +103,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -133,7 +137,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -165,7 +170,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'end-element-guid (screen-right-element-guid)': {
@@ -177,7 +183,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'end-element-guid (decision-element-guid)': {
@@ -192,7 +199,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'outcome-element-guid': {

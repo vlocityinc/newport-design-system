@@ -12,7 +12,7 @@ export interface NodeModel {
     label: string;
     elementType: string;
     maxConnections: number;
-    config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean };
+    config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean; hasError: boolean };
 
     childReferences?: Array<{ childReference: string }>;
     defaultConnectorLabel?: string;

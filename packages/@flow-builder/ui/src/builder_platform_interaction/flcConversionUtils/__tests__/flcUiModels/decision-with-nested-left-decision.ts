@@ -30,7 +30,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'decision-element-guid': {
@@ -57,7 +58,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'nested-decision-element-guid': {
@@ -87,7 +89,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'screen1-after-decision-element-guid': {
@@ -100,7 +103,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -133,7 +137,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -162,7 +167,8 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             }
         },
         'outcome-element-guid': {

@@ -49,10 +49,10 @@ export function createAvailableConnection(availableConnection: { type?: string }
 }
 
 function createCanvasElementConfig(
-    config = { isSelected: false, isHighlighted: false, isSelectable: true }
+    config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false }
 ): CanvasElementConfig {
-    const { isSelected, isHighlighted, isSelectable } = config;
-    return { isSelected, isHighlighted, isSelectable };
+    const { isSelected, isHighlighted, isSelectable, hasError } = config;
+    return { isSelected, isHighlighted, isSelectable, hasError };
 }
 
 /**
@@ -127,7 +127,7 @@ export function createPastedCanvasElement(
     childIndex
 ): CanvasElement {
     const pastedCanvasElement = Object.assign(duplicatedElement, {
-        config: { isSelected: false, isHighlighted: false, isSelectable: true },
+        config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         prev: canvasElementGuidMap[duplicatedElement.prev] || null,
         next: canvasElementGuidMap[duplicatedElement.next] || null
     });
@@ -192,7 +192,7 @@ export function duplicateCanvasElement(canvasElement, newGuid, newName): { dupli
         name: newName,
         locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
         locationY: locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-        config: { isSelected: true, isHighlighted: false },
+        config: { isSelected: true, isHighlighted: false, hasError: false },
         connectorCount: 0,
         maxConnections,
         elementType

@@ -11,7 +11,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -42,7 +43,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'quickAction',
             actionName: 'LogACall',
@@ -74,7 +76,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'chatterPost',
             actionName: 'chatterPost',
@@ -119,7 +122,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'component',
             actionName: 'c:localActionSample',
@@ -164,7 +168,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'quickAction',
             actionName: 'Case.LogACall',
@@ -203,7 +208,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'getAccounts',
@@ -239,7 +245,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'externalService',
             actionName: 'BankServiceNew.addAccount',
@@ -271,7 +278,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'emailAlert',
             actionName: 'Account.my_email_alert',
@@ -310,7 +318,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'InvocableGetAccountName',
@@ -353,7 +362,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'generateDraftAccount',
@@ -392,7 +402,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'generateDraftAccount',
@@ -424,7 +435,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'GetAccountName',
@@ -456,7 +468,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'GetAccounts',
@@ -492,7 +505,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'InvocableGetAccountsNames',
@@ -528,7 +542,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'GetCarAction',
@@ -567,7 +582,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'apex',
             actionName: 'ApexTypeCollectionAction',
@@ -603,7 +619,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'component',
             actionName: 'c:LightningComponentWithApexNoSObject',
@@ -635,7 +652,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             actionType: 'component',
             actionName: 'c:LightningWithApexContainsSObject',
@@ -667,7 +685,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignmentItems: [
                 {
@@ -693,7 +712,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignmentItems: [
                 {
@@ -726,7 +746,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -776,7 +797,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             childReferences: [
                 {
@@ -1279,7 +1301,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             flowName: 'flowWithActiveAndLatest',
             inputAssignments: [
@@ -1308,7 +1331,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'cf176378-9ab0-436f-a161-079057c789f4',
@@ -1356,7 +1380,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'aa0ba870-d79b-48cb-a7ec-bc9441a7b635',
@@ -1404,7 +1429,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: '',
             objectIndex: 'e713f058-3d86-43ff-9da6-c8cd70863c95',
@@ -1436,7 +1462,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: '',
             objectIndex: '652434b1-40e0-404e-9e4d-e6864e4f8bdb',
@@ -1468,7 +1495,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: '',
             objectIndex: '0d21d5a2-6e85-4023-8e2b-846d05bfb367',
@@ -1500,7 +1528,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: '',
             objectIndex: '096f6fc9-8bb1-4738-9365-5e8fd66eaa14',
@@ -1532,7 +1561,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             object: '',
@@ -1565,7 +1595,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '9fa9376a-5212-49a1-980b-ddca1dd82388',
@@ -1612,7 +1643,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '16a960f8-b2e1-4481-aac8-cf744c4bf266',
@@ -1659,7 +1691,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: '2e27b2ec-9bb9-493d-9151-d9022471680f',
@@ -1715,7 +1748,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'c7027d6d-66ae-440f-b340-0c652eaebe79',
@@ -1778,7 +1812,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'd6542367-8e40-4576-95aa-3baa12d98ac7',
@@ -1838,7 +1873,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             object: 'Account',
             objectIndex: 'd51b4de8-82af-4bac-a2ec-3780738278d4',
@@ -1909,7 +1945,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             object: 'Account',
@@ -1962,7 +1999,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             object: 'Account',
@@ -2015,7 +2053,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             object: 'Account',
@@ -2068,7 +2107,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             inputReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
             inputReferenceIndex: '3b362fa9-ea82-47fe-85f4-25406e719a72',
@@ -2101,7 +2141,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             inputReference: '',
             inputReferenceIndex: '494033a5-d654-4f68-9c22-7712eaa87073',
@@ -2156,7 +2197,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             inputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
             inputReferenceIndex: 'af83b78a-15c7-4381-b2a8-e254552cfeab',
@@ -2198,7 +2240,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             inputReference: '',
             inputReferenceIndex: '7f3aa0ed-17d0-4a43-b89a-395d3d6e609d',
@@ -2261,7 +2304,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '888dc04a-b0c7-49af-804a-8af6951151a0',
@@ -2294,7 +2338,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '8f54aa39-0bda-422e-a4ad-3e2ac0155234',
@@ -2327,7 +2372,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'bf86df65-a565-4f4c-9a88-3785f2785230',
@@ -2360,7 +2406,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             assignNextValueToReference: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
             assignNextValueToReferenceIndex: '30a1ebac-fff2-4a83-b844-7f0a8faf33b9',
@@ -2391,7 +2438,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             assignNextValueToReference: null,
@@ -2425,7 +2473,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             assignNextValueToReference: null,
@@ -2459,7 +2508,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             assignNextValueToReference: null,
@@ -2493,7 +2543,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             assignNextValueToReference: null,
@@ -2527,7 +2578,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             assignNextValueToReference: null,
@@ -2561,7 +2613,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             allowBack: true,
             allowFinish: true,
@@ -2812,7 +2865,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             allowBack: true,
             allowFinish: true,
@@ -2878,7 +2932,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             allowBack: true,
             allowFinish: true,
@@ -3369,7 +3424,8 @@ export const flowWithAllElementsUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                isSelectable: true
+                isSelectable: true,
+                hasError: false
             },
             elementSubtype: null,
             allowBack: true,
