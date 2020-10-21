@@ -12,11 +12,31 @@ import {
     caseSObjectCollectionVariable,
     stringVariable
 } from 'mock/storeData';
+import { getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
+    return {
+        FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
+        getProcessTypeAutomaticOutPutHandlingSupport: (processType) => {
+            return processType === 'Flow' ? 'Supported' : 'Unsupported';
+        }
+    };
+});
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
+    return {
+        updateProperties: actual.updateProperties,
+        getValueFromHydratedItem: actual.getValueFromHydratedItem,
+        sanitizeGuid: actual.sanitizeGuid,
+        getErrorFromHydratedItem: jest.fn()
+    };
+});
 
 const IAMERRORED = 'IAMERRORED';
 const VARIABLE = 'VARIABLE_GUID';
@@ -37,6 +57,8 @@ function createComponentForTest() {
     const el = createElement('builder_platform_interaction-loop-editor', {
         is: LoopEditor
     });
+
+    Object.assign(el, { processType: FLOW_PROCESS_TYPE.FLOW });
     document.body.appendChild(el);
     return el;
 }
@@ -82,6 +104,11 @@ describe('loop-editor', () => {
             locationY: 123
         };
     });
+    const variableToMenuItem = (variable: any): MenuItem => {
+        const menuItem: MenuItem = variable;
+        menuItem.value = variable.guid;
+        return menuItem;
+    };
     it('handles the property changed event and updates the property', async () => {
         const loopElement = createComponentForTest();
         loopElement.node = noErrorState;
@@ -117,12 +144,22 @@ describe('loop-editor', () => {
         expect(loopElement.node.collectionReference.value).toBe(VARIABLE);
         expect(loopElement.node.collectionReference.error).toBe(IAMERRORED);
     });
+    it('does not deal with loop variable error message when selecting a collection and using automatic output', async () => {
+        const loopElement = createComponentForTest();
+        Object.assign(noErrorState, {
+            storeOutputAutomatically: true,
+            collectionReference: caseSObjectCollectionVariable
+        });
+        loopElement.node = noErrorState;
+        await ticks(1);
+
+        const event = new ComboboxStateChangedEvent(variableToMenuItem(stringCollectionVariable1), VARIABLE, null);
+        getCollectionFerovResourcePicker(loopElement).dispatchEvent(event);
+
+        await ticks(1);
+        expect(getErrorFromHydratedItem).not.toHaveBeenCalled();
+    });
     describe('loop variable combobox', () => {
-        const variableToMenuItem = (variable: any): MenuItem => {
-            const menuItem: MenuItem = variable;
-            menuItem.value = variable.guid;
-            return menuItem;
-        };
         it('is on error when loop collection is set to a different type', async () => {
             const loopElement = createComponentForTest();
             Object.assign(noErrorState.assignNextValueToReference, { value: accountSObjectVariable.guid });

@@ -131,7 +131,7 @@ const getCollectionVariableGroupedComboboxElement = (loopEditor) =>
     deepQuerySelector(getCollectionVariableCombobox(loopEditor), [SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 
 describe('Loop Editor with processType does not support automatic output', () => {
-    let loopElement;
+    let loopElementComponent;
     let store;
     let loopNode;
     beforeAll(async () => {
@@ -143,29 +143,29 @@ describe('Loop Editor with processType does not support automatic output', () =>
     });
     beforeEach(async () => {
         const loopNodeEmpty = getElementForPropertyEditor(newLoopElement);
-        loopElement = createComponentForTest(loopNodeEmpty, FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE);
+        loopElementComponent = createComponentForTest(loopNodeEmpty, FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE);
         await ticks(50);
     });
     describe('Adding new element', () => {
         it('loop variable is disabled when creating a new loop', async () => {
             await ticks(50);
             // collection variable is enabled
-            const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElement);
+            const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
             expect(colVariableLightningCombobox.disabled).toBeFalsy();
             // loop variable is disabled initially when a new loop is
             // created
-            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
+            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
             expect(loopVariableLightningCombobox.disabled).toBeTruthy();
         });
         it('loop variable is enabled after the collection variable is set to a valid value', async () => {
             const vAccounts = getElementByDevName('vAccounts');
-            const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElement);
+            const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
             colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${vAccounts.name}}`));
             await ticks(50);
             colVariableLightningCombobox.dispatchEvent(blurEvent);
             await ticks(50);
             // loop variable should be enabled now
-            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
+            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
             expect(loopVariableLightningCombobox.disabled).toBeFalsy();
         });
     });
@@ -174,11 +174,11 @@ describe('Loop Editor with processType does not support automatic output', () =>
         beforeEach(async () => {
             const element = getElementByDevName('myLoopOnAccount');
             loopNode = getElementForPropertyEditor(element);
-            loopElement = createComponentForTest(loopNode);
+            loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
             vMyTestAccount = getElementByDevName('vMyTestAccount');
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElement);
+            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
+            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
         });
         it('is correctly loaded, with no error, for an existing loop', () => {
             expect(loopVariableLightningCombobox.inputText).toBe(`{!${vMyTestAccount.name}}`);
@@ -189,13 +189,13 @@ describe('Loop Editor with processType does not support automatic output', () =>
             colVariableLightningCombobox.dispatchEvent(blurEvent);
             await ticks(50);
             // loop variable should be still disabled
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
+            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
             expect(loopVariableLightningCombobox.disabled).toBeTruthy();
         });
         it('becomes disabled after the collection variable is set from a valid value to an invalid one', async () => {
             // first check that the loop variable is enabled
             expect(loopVariableLightningCombobox.disabled).toBeFalsy();
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElement);
+            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
             colVariableLightningCombobox.dispatchEvent(textInputEvent('nonExistentVariable'));
             colVariableLightningCombobox.dispatchEvent(blurEvent);
             await ticks(50);
@@ -206,7 +206,7 @@ describe('Loop Editor with processType does not support automatic output', () =>
             expect(loopVariableLightningCombobox).not.toBeNull();
         });
         it('notification info should not be visible', () => {
-            expect(getNotificationDiv(loopElement)).toBeNull();
+            expect(getNotificationDiv(loopElementComponent)).toBeNull();
         });
     });
 });
@@ -222,82 +222,102 @@ describe('Loop Editor with processType supporting automatic output', () => {
         resetState();
     });
     describe('name and dev name', () => {
-        let loopElement;
+        let loopElementComponent;
         beforeEach(async () => {
             const element = getElementByDevName('loopAccountAutomaticOutput');
             loopNode = getElementForPropertyEditor(element);
-            loopElement = createComponentForTest(loopNode);
+            loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
         });
         it('do not change devName if it already exists after the user modifies the name', async () => {
             const newLabel = 'new label';
             await ticks(50);
-            const labelInput = getLabelDescriptionLabelElement(loopElement);
+            const labelInput = getLabelDescriptionLabelElement(loopElementComponent);
             labelInput.value = newLabel;
             labelInput.dispatchEvent(focusoutEvent);
             await ticks(50);
-            expect(loopElement.node.label.value).toBe(newLabel);
+            expect(loopElementComponent.node.label.value).toBe(newLabel);
         });
         it('modify the dev name', async () => {
             const newDevName = 'newName';
             await ticks(50);
-            const devNameInput = getLabelDescriptionNameElement(loopElement);
+            const devNameInput = getLabelDescriptionNameElement(loopElementComponent);
             devNameInput.value = newDevName;
             devNameInput.dispatchEvent(focusoutEvent);
             await ticks(50);
-            expect(loopElement.node.name.value).toBe(newDevName);
+            expect(loopElementComponent.node.name.value).toBe(newDevName);
         });
         it('displays error if name is cleared', async () => {
             const newLabel = '';
             await ticks(50);
-            const labelInput = getLabelDescriptionLabelElement(loopElement);
+            const labelInput = getLabelDescriptionLabelElement(loopElementComponent);
             labelInput.value = newLabel;
             labelInput.dispatchEvent(focusoutEvent);
             await ticks(50);
-            expect(loopElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+            expect(loopElementComponent.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
         it('displays error if devName is cleared', async () => {
             const newDevName = '';
             await ticks(50);
-            const devNameInput = getLabelDescriptionNameElement(loopElement);
+            const devNameInput = getLabelDescriptionNameElement(loopElementComponent);
             devNameInput.value = newDevName;
             devNameInput.dispatchEvent(focusoutEvent);
             await ticks(50);
-            expect(loopElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+            expect(loopElementComponent.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });
     describe('Add new element - automatic output supported', () => {
-        let loopElement;
+        let loopElementComponent;
         beforeEach(async () => {
             const loopNodeEmpty = getElementForPropertyEditor(newLoopElement);
-            loopElement = createComponentForTest(loopNodeEmpty);
+            loopElementComponent = createComponentForTest(loopNodeEmpty);
             await ticks(50);
         });
         it('loop variable is no visible', async () => {
-            const loopVariableLightningCombobox = getLoopVariableResourcePicker(loopElement);
+            const loopVariableLightningCombobox = getLoopVariableResourcePicker(loopElementComponent);
             expect(loopVariableLightningCombobox).toBeNull();
         });
         it('notification info should be visible', () => {
-            expect(getNotificationDiv(loopElement)).not.toBeNull();
+            expect(getNotificationDiv(loopElementComponent)).not.toBeNull();
         });
     });
-    describe('element from the store - exist before', () => {
-        let loopElement,
-            textVariable,
-            loopVariableLightningCombobox,
-            colVariableLightningCombobox,
-            accounts,
-            textCollection;
+    describe('element from the store - OA', () => {
+        let loopElementComponent, loopVariableLightningCombobox;
+        beforeEach(async () => {
+            const element = getElementByDevName('loopAccountAutomaticOutput');
+            loopNode = getElementForPropertyEditor(element);
+            loopElementComponent = createComponentForTest(loopNode);
+            await ticks(50);
+            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
+        });
+        it('loop variable text box is not displayed', () => {
+            expect(loopVariableLightningCombobox).toBeNull();
+        });
+        it('notification info should be displayed', () => {
+            expect(getNotificationDiv(loopElementComponent)).not.toBeNull();
+        });
+    });
+});
+describe('Loop with manual output', () => {
+    let loopElementComponent, loopNode, loopVariableLightningCombobox, colVariableLightningCombobox;
+    describe('loop on text collection', () => {
+        let textCollection, accounts, textVariable;
+        beforeAll(async () => {
+            await setupStateForFlow(autolaunchedFlow);
+        });
+        afterAll(() => {
+            resetState();
+        });
         beforeEach(async () => {
             accounts = getElementByDevName('accounts');
             textCollection = getElementByDevName('textCollection');
             const element = getElementByDevName('loopOnTextCollection');
             loopNode = getElementForPropertyEditor(element);
-            loopElement = createComponentForTest(loopNode);
+            loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
             textVariable = getElementByDevName('textVariable');
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElement);
+            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
+            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
         });
         describe('loop variable', () => {
             it('is correctly loaded, with no error, for an existing loop', () => {
@@ -309,13 +329,13 @@ describe('Loop Editor with processType supporting automatic output', () => {
                 colVariableLightningCombobox.dispatchEvent(blurEvent);
                 await ticks(50);
                 // loop variable should be still disabled
-                loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
+                loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
                 expect(loopVariableLightningCombobox.disabled).toBeTruthy();
             });
             it('becomes disabled after the collection variable is set from a valid value to an invalid one', async () => {
                 // first check that the loop variable is enabled
                 expect(loopVariableLightningCombobox.disabled).toBeFalsy();
-                colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElement);
+                colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
                 colVariableLightningCombobox.dispatchEvent(textInputEvent('nonExistentVariable'));
                 colVariableLightningCombobox.dispatchEvent(blurEvent);
                 await ticks(50);
@@ -435,28 +455,33 @@ describe('Loop Editor with processType supporting automatic output', () => {
             expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
         });
         it('notification info should not be display', () => {
-            expect(getNotificationDiv(loopElement)).toBeNull();
+            expect(getNotificationDiv(loopElementComponent)).toBeNull();
         });
     });
-    describe('element from the store - OA', () => {
-        let loopElement, loopVariableLightningCombobox;
+    describe('loop on complex merge field', () => {
+        beforeAll(async () => {
+            await setupStateForFlow(flowWithAllElements);
+        });
+        afterAll(() => {
+            resetState();
+        });
         beforeEach(async () => {
-            const element = getElementByDevName('loopAccountAutomaticOutput');
+            const element = getElementByDevName('loopOnComplexMergeFieldManualOutput');
             loopNode = getElementForPropertyEditor(element);
-            loopElement = createComponentForTest(loopNode);
+            loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
+            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
+            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
         });
-        it('loop variable text box is not displayed', () => {
-            expect(loopVariableLightningCombobox).toBeNull();
-        });
-        it('notification info should be display', () => {
-            expect(getNotificationDiv(loopElement)).not.toBeNull();
+        it('does not show an error if the user click outside of the combobox', async () => {
+            loopVariableLightningCombobox.dispatchEvent(blurEvent);
+            await ticks(50);
+            expect(loopVariableLightningCombobox.validity).not.toBeDefined();
         });
     });
 });
 describe('Loop Editor collection variable', () => {
-    let loopNode, loopElement, collectionVariableCombobox;
+    let loopNode, loopElementComponent, collectionVariableCombobox;
     beforeAll(async () => {
         const store = await setupStateForFlow(flowWithAllElements);
         translateFlowToUIAndDispatch(flowWithAllElements, store);
@@ -467,9 +492,9 @@ describe('Loop Editor collection variable', () => {
     beforeEach(async () => {
         const element = getElementByDevName('loopOnAccountAutoOutput');
         loopNode = getElementForPropertyEditor(element);
-        loopElement = createComponentForTest(loopNode);
+        loopElementComponent = createComponentForTest(loopNode);
         await ticks(50);
-        collectionVariableCombobox = getCollectionVariableCombobox(loopElement);
+        collectionVariableCombobox = getCollectionVariableCombobox(loopElementComponent);
     });
     it.each`
         collection                                               | expectedErrorMessage

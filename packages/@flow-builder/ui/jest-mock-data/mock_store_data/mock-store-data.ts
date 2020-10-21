@@ -113,6 +113,7 @@ export const screenWithAddress = getElementByName('screenWithAddress');
 export const screenWithAddressAddress = getElementByName('Address');
 export const loopOnAccountAutoOutput = getElementByName('loopOnAccountAutoOutput');
 export const loopOnTextCollectionManualOutput = getElementByName('loopOnTextCollection');
+export const loopOnComplexMergeFieldManualOutput = getElementByName('loopOnComplexMergeFieldManualOutput');
 export const loopOnTextCollectionAutoOutput = getElementByName('loopOnTextCollectionAutoOutput');
 export const loopOnApexAutoOutput = getElementByName('loopOnApexAutoOutput');
 export const loopOnNestedApexTypeAutoOutput = getElementByName('loopOnNestedApexTypeAutoOutput');

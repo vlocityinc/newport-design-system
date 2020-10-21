@@ -271,7 +271,7 @@ export const elementsForPropertyEditors = {
         }
     },
     emailScreenField: {
-        guid: '27851956-e853-43e1-8349-bc22d62aa5a4',
+        guid: 'd59e0052-78b7-4ec0-bf89-27757c00baed',
         name: {
             value: 'emailScreenField',
             error: null
@@ -282,7 +282,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         defaultValueIndex: {
-            value: '452941fc-4972-44df-b34d-a821bb32e800',
+            value: '474faea1-942d-4f0f-8c81-8429fc131dcf',
             error: null
         },
         validationRule: {
@@ -313,7 +313,7 @@ export const elementsForPropertyEditors = {
         },
         inputParameters: [
             {
-                rowIndex: 'd59e0052-78b7-4ec0-bf89-27757c00baed',
+                rowIndex: 'bf865980-57a7-4599-a65e-2e37eb0263a4',
                 name: {
                     value: 'label',
                     error: null
@@ -328,7 +328,7 @@ export const elementsForPropertyEditors = {
                 }
             },
             {
-                rowIndex: 'e2363ac3-537d-4b28-afac-ae787b18687e',
+                rowIndex: 'e7f854a4-bb08-4fe7-9528-5f6686e56286',
                 name: {
                     value: 'placeholder',
                     error: null
@@ -385,7 +385,7 @@ export const elementsForPropertyEditors = {
         storeOutputAutomatically: false
     },
     emailScreenFieldAutomaticOutput: {
-        guid: 'fa417651-1251-4c86-8200-30dc2ed6849c',
+        guid: 'ee652516-7b62-402f-88a2-1ab887b55072',
         name: {
             value: 'emailScreenFieldAutomaticOutput',
             error: null
@@ -400,7 +400,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         defaultValueIndex: {
-            value: '5a7f1472-d64c-4b45-adde-b52b93262693',
+            value: '0fa2da7a-22de-4045-ab83-711522e52bb6',
             error: null
         },
         validationRule: {
@@ -431,7 +431,7 @@ export const elementsForPropertyEditors = {
         },
         inputParameters: [
             {
-                rowIndex: 'ee652516-7b62-402f-88a2-1ab887b55072',
+                rowIndex: '27851956-e853-43e1-8349-bc22d62aa5a4',
                 name: {
                     value: 'label',
                     error: null
@@ -446,7 +446,7 @@ export const elementsForPropertyEditors = {
                 }
             },
             {
-                rowIndex: '98a764f1-b847-44c2-b27c-b1d15f4857ca',
+                rowIndex: 'ecbe8d3c-4fed-4cc0-a4f5-15a731f63c71',
                 name: {
                     value: 'placeholder',
                     error: null

@@ -1145,6 +1145,17 @@
                 "assignNextValueToReference": null,
                 "collectionReference": "screenCompInSectionColumnWithSObjectCollAutoOutput.accounts",
                 "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnComplexMergeFieldManualOutput",
+                "description": "",
+                "label": "loopOnComplexMergeFieldManualOutput",
+                "locationX": 666,
+                "locationY": 455.3125,
+                "elementSubtype": null,
+                "assignNextValueToReference": "accountSObjectVariable",
+                "collectionReference": "apexComplexTypeVariable.acctListField",
+                "iterationOrder": "Asc"
             }
         ],
         "screens": [
@@ -1180,6 +1191,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:email"
                     },
@@ -1207,6 +1219,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "extensionName": "flowruntime:email"
                     },
                     {
@@ -1220,6 +1233,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "storeOutputAutomatically": true,
                         "extensionName": "c:HelloWorld"
                     },
@@ -1234,6 +1248,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "storeOutputAutomatically": true,
                         "extensionName": "c:noSobjectOutputComp"
                     },
@@ -1248,6 +1263,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "storeOutputAutomatically": true,
                         "extensionName": "c:sobjectCollectionOutputComp"
                     }
@@ -1278,6 +1294,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:address"
                     }
@@ -1344,6 +1361,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
+                                        "inputsNextBehavior": "Remember",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "flowruntime:slider"
                                     }
@@ -1444,6 +1462,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
+                                        "inputsNextBehavior": "Remember",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "flowruntime:email"
                                     },
@@ -1488,6 +1507,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsNextBehavior": "Remember",
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:address"
                     }
@@ -1560,6 +1580,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
+                                        "inputsNextBehavior": "Remember",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "c:HelloWorld"
                                     }
@@ -1594,6 +1615,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
+                                        "inputsNextBehavior": "Remember",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "c:sobjectCollectionOutputComp"
                                     }

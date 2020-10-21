@@ -19,6 +19,7 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
@@ -79,7 +80,10 @@ export default class LoopEditor extends LightningElement {
     set node(newValue) {
         this.loopElement = newValue || {};
         this._collectionVariable = this.loopElement.collectionReference.value
-            ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.collectionReference))
+            ? getVariableOrField(
+                  this.loopElement.collectionReference.value,
+                  Store.getStore().getCurrentState().elements
+              )
             : null;
         this.loopVariableState = this.loopElement.assignNextValueToReference.value
             ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.assignNextValueToReference))
@@ -229,9 +233,7 @@ export default class LoopEditor extends LightningElement {
         return loopCollectionValue === null && isMergeField === true ? LABELS.genericErrorMessage : null;
     };
 
-    handleCollectionVariablePropertyChanged(event) {
-        event.stopPropagation();
-        this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
+    loopVariableErrorMessage(eventError: string): string {
         let loopVarErrorMessage = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference);
         const isDataTypeChanged = this.getLoopVariableDataType() !== this.getCollectionVariableDataType();
         const isSubtypeChanged = this.getLoopVariableSubtype() !== this.getCollectionVariableSubtype();
@@ -240,19 +242,29 @@ export default class LoopEditor extends LightningElement {
             // set datatype mismatch error message for loopVariable
             loopVarErrorMessage = LABELS.loopVariableErrorMessage;
         } else if (
-            event.detail.error !== null &&
+            eventError !== null &&
             this.loopElement.assignNextValueToReference.error === LABELS.loopVariableErrorMessage
         ) {
             // If loopCollection has error then clear datatypemismatch error message for loopVariable
             loopVarErrorMessage = null;
         }
+        return loopVarErrorMessage;
+    }
 
+    handleCollectionVariablePropertyChanged(event) {
+        event.stopPropagation();
+        this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
+        const loopVarErrorMessage = this.isAutomaticOutputNotSupported
+            ? this.loopVariableErrorMessage(event.detail.error)
+            : null;
         // enable or disable loop variable
         this.isLoopVariableDisabled = this._collectionVariable === null;
 
         // update collectionVariable and loopVariableErrorMessage
         const loopCollectionValue = event.detail.item ? event.detail.item.value : null;
-        const loopVariableValue = getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
+        const loopVariableValue = this.isAutomaticOutputNotSupported
+            ? getValueFromHydratedItem(this.loopElement.assignNextValueToReference)
+            : null;
         const loopCollectionErrorMessage =
             event.detail.error === null
                 ? this.errorMessageFromCollectionValueAndIsMergeField(loopCollectionValue, event.detail.isMergeField)
