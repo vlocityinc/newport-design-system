@@ -9,8 +9,6 @@ import { usedBy } from 'builder_platform_interaction/usedByLib';
 export default class ClickableMessage extends LightningElement {
     @api info;
 
-    warningLabel = 'Warning';
-
     handleClickErrorMessage() {
         if (this.elementApiName) {
             const element: any = getElementByDevName(this.elementApiName);
@@ -87,6 +85,11 @@ export default class ClickableMessage extends LightningElement {
 
     get errorMessage() {
         const currentErrorType: string = errorTypeMap[this.errorCode];
+        // Error info from Strategy Builder is in different shape, error message is in info.message,
+        // add a type check here to make sure error message gets returned correctly
+        if (this.info && typeof this.info.message === 'string') {
+            return this.info.message;
+        }
         if (!this.elementApiName || !currentErrorType || currentErrorType === errorType.NO_API_NAME_ERROR) {
             return this.info.message.message;
         }

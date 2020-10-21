@@ -317,9 +317,7 @@ describe('wait', () => {
                 conditions: [mockCondition1, mockCondition2],
                 dataType: 'sfdc'
             };
-
             createWaitEvent(mockWaitEvent);
-
             expect(baseChildElement.mock.calls[0][0]).toEqual(mockWaitEvent);
         });
 

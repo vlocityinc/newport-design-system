@@ -190,7 +190,7 @@ describe('clickableErrorMessage', () => {
                 }
             });
             const li = errorMsgComponentWithNoApi.shadowRoot.querySelector(selectors.li);
-            const expected = 'Warning: ' + errorMsgComponentWithNoApi.info.message.message;
+            const expected = errorMsgComponentWithNoApi.info.message.message;
             expect(li.textContent).toEqual(expected);
         });
         it('presents error message without modification for error not exist in the errorTypeMap', () => {
@@ -204,7 +204,17 @@ describe('clickableErrorMessage', () => {
                 }
             });
             const li = errorMsgComponentWithNoApi.shadowRoot.querySelector(selectors.li);
-            const expected = 'Warning: ' + errorMsgComponentWithNoApi.info.message.message;
+            const expected = errorMsgComponentWithNoApi.info.message.message;
+            expect(li.textContent).toEqual(expected);
+        });
+        it('presents error message correctly when error is from Strategy Builder', () => {
+            const errorMsgComponentFromStrategyBuilder = createComponentUnderTest({
+                info: {
+                    message: 'some error message from strategy builder'
+                }
+            });
+            const li = errorMsgComponentFromStrategyBuilder.shadowRoot.querySelector(selectors.li);
+            const expected = errorMsgComponentFromStrategyBuilder.info.message;
             expect(li.textContent).toEqual(expected);
         });
     });
