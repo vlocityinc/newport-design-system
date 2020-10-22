@@ -6,7 +6,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './screenEditorAutomaticFieldPlaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 
 const SUPPORTED_DATATYPES = [
     FLOW_DATA_TYPE.STRING.value,
@@ -145,7 +145,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 description: myField.label,
                 elementType: guid,
                 guid,
-                iconName: 'utility:rows',
+                iconName: getDataTypeIcons(myField.dataType, 'utility'),
                 iconBackgroundColor: '',
                 label: myField.label,
                 fieldTypeName: ''

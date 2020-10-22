@@ -8,24 +8,27 @@
         <div class="slds-size_small slds-grow-none slds-shrink-none slds-border_right">
             <lightning-tabset>
                 <lightning-tab label={labels.componentsTabLabel} class="slds-p-around_none">
-                    <div class="tab-container">
+                    <div class="tab-container-components">
                         <builder_platform_interaction-screen-editor-palette
                             screen-field-types={screenFieldTypes}
                             extension-types={extensionTypes}
                             onaddscreenfield={handleAddScreenField}
                         >
                         </builder_platform_interaction-screen-editor-palette>
+                        <builder_platform_interaction-button-banner
+                            label={labels.appExchangeButtonLabel}
+                            link={appExchangeLink}
+                        >
+                        </builder_platform_interaction-button-banner>
                     </div>
                 </lightning-tab>
                 <lightning-tab label={labels.fieldsTabLabel} class="slds-p-around_none">
-                    <div class="slds-scrollable_y tab-container">
+                    <div class="slds-scrollable_y tab-container-automaticfields">
                         <builder_platform_interaction-screen-editor-automatic-field-palette>
                         </builder_platform_interaction-screen-editor-automatic-field-palette>
                     </div>
                 </lightning-tab>
             </lightning-tabset>
-            <builder_platform_interaction-button-banner label={labels.appExchangeButtonLabel} link={appExchangeLink}>
-            </builder_platform_interaction-button-banner>
         </div>
         <!-- this div is the container for the canvas middle panel-->
         <div class="canvas-container slds-grow slds-shrink slds-scrollable_x">
