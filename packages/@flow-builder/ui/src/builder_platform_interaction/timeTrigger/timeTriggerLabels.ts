@@ -9,12 +9,10 @@ import timeOptionHoursAfterLabel from '@salesforce/label/FlowBuilderTimeTrigger.
 import timeOptionHoursBeforeLabel from '@salesforce/label/FlowBuilderTimeTrigger.timeOptionHoursBeforeLabel';
 import pathLabel from '@salesforce/label/FlowBuilderTimeTrigger.pathLabel';
 import scheduledPathDescription from '@salesforce/label/FlowBuilderTimeTrigger.scheduledPathDescription';
-import hoverTriggerCreated from '@salesforce/label/FlowBuilderCanvasElement.hoverTriggerCreated';
-import hoverTriggerUpdated from '@salesforce/label/FlowBuilderCanvasElement.hoverTriggerUpdated';
-import hoverTriggerDeleted from '@salesforce/label/FlowBuilderCanvasElement.hoverTriggerDeleted';
-import hoverTriggerCreatedOrUpdated from '@salesforce/label/FlowBuilderCanvasElement.hoverTriggerCreatedOrUpdated';
-import recordTriggerEventValueLabel from '@salesforce/label/FlowBuilderTimeTrigger.recordTriggerEventValueLabel';
-import recordTriggerEventLabel from '@salesforce/label/FlowBuilderTimeTrigger.recordTriggerEventLabel';
+import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
+import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
+import startElementRecordDeleted from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordDeleted';
+import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
 
 export const LABELS = {
     pathLabel,
@@ -27,10 +25,8 @@ export const LABELS = {
     timeOptionDaysBeforeLabel,
     timeOptionHoursAfterLabel,
     timeOptionHoursBeforeLabel,
-    hoverTriggerCreated,
-    hoverTriggerUpdated,
-    hoverTriggerDeleted,
-    hoverTriggerCreatedOrUpdated,
-    recordTriggerEventValueLabel,
-    recordTriggerEventLabel
+    startElementRecordCreated,
+    startElementRecordUpdated,
+    startElementRecordDeleted,
+    startElementRecordCreatedUpdated
 };

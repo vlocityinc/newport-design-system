@@ -3,7 +3,7 @@ import { LABELS } from './timeTriggerLabels';
 import { getEntity, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_TRIGGER_SAVE_TYPE, RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 
@@ -34,24 +34,12 @@ export default class TimeTrigger extends LightningElement {
         }
     ];
 
-    RECORD_TRIGGER_TYPE: { label: string; value: string }[] = [
-        {
-            label: this.labels.hoverTriggerCreated,
-            value: FLOW_TRIGGER_SAVE_TYPE.CREATE
-        },
-        {
-            label: this.labels.hoverTriggerUpdated,
-            value: FLOW_TRIGGER_SAVE_TYPE.UPDATE
-        },
-        {
-            label: this.labels.hoverTriggerDeleted,
-            value: FLOW_TRIGGER_SAVE_TYPE.DELETE
-        },
-        {
-            label: this.labels.hoverTriggerCreatedOrUpdated,
-            value: FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
-        }
-    ];
+    RECORD_TRIGGER_EVENT_LABEL_LOOKUP = {
+        [FLOW_TRIGGER_SAVE_TYPE.CREATE]: this.labels.startElementRecordCreated,
+        [FLOW_TRIGGER_SAVE_TYPE.UPDATE]: this.labels.startElementRecordUpdated,
+        [FLOW_TRIGGER_SAVE_TYPE.DELETE]: this.labels.startElementRecordDeleted,
+        [FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE]: this.labels.startElementRecordCreatedUpdated
+    };
 
     get timeSourceValue() {
         return getValueFromHydratedItem(this.timeTrigger.timeSource);
@@ -80,10 +68,12 @@ export default class TimeTrigger extends LightningElement {
         const eventDateOptions: { label: string; value: string }[] = [];
         if (this.object && this.object.value) {
             const entity = getEntity(getValueFromHydratedItem(this.object));
-            const trigger = this.getTrigger(getValueFromHydratedItem(this.recordTriggerType));
             eventDateOptions.push({
-                label: format(LABELS.recordTriggerEventLabel, entity.apiName, trigger),
-                value: LABELS.recordTriggerEventValueLabel
+                label: format(
+                    this.RECORD_TRIGGER_EVENT_LABEL_LOOKUP[getValueFromHydratedItem(this.recordTriggerType)],
+                    entity.apiName
+                ),
+                value: RECORD_TIGGER_EVENT
             });
             fetchFieldsForEntity(entity.apiName)
                 .then((fields) => {
@@ -102,15 +92,6 @@ export default class TimeTrigger extends LightningElement {
                 });
         }
         return [];
-    }
-
-    /**
-     * Retrieve the value for trigger type for composing the UI message
-     * @returns trigger type
-     */
-    getTrigger(recTriggerType: string): string | undefined {
-        const triggerType = this.RECORD_TRIGGER_TYPE.find((element) => element.value === recTriggerType);
-        return triggerType ? triggerType.label : undefined;
     }
 
     handlePropertyChanged(event) {

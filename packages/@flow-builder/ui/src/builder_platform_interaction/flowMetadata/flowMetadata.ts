@@ -8,6 +8,8 @@ export const DECORATION_TYPE = {
     ERROR: 'ERROR'
 };
 
+export const RECORD_TIGGER_EVENT = 'RecordTriggerEvent';
+
 export const FLOW_PROCESS_TYPE = {
     ACTION_CADENCE_FLOW: 'ActionCadenceFlow',
     ACTION_PLAN: 'ActionPlan',
