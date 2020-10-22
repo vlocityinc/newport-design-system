@@ -22,6 +22,8 @@ import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json'
 import { fieldServiceMobileFlowUIModel } from 'mock/storeDataFieldServiceMobile';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
@@ -306,6 +308,15 @@ describe('Flow Translator', () => {
         expect(uiFlow).toEqualGoldObject(
             fieldServiceMobileFlowUIModel,
             'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel'
+        );
+    });
+    it('returns expected ui model for a record triggered flow', () => {
+        uiFlow = translateFlowToUIModel(recordTriggeredFlow);
+        store.dispatch(updateFlow(uiFlow));
+
+        expect(uiFlow).toEqualGoldObject(
+            recordTriggeredFlowUIModel,
+            'recordTriggeredFlowUIModel in mock_store_data_recordTriggered/recordTriggeredFlowUIModel'
         );
     });
 });

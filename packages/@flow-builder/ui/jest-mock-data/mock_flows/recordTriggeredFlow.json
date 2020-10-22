@@ -1,0 +1,70 @@
+{
+    "metadata": {
+        "start": {
+            "locationX": 170,
+            "locationY": 53,
+            "triggerType": "RecordAfterSave",
+            "object": "Account",
+            "recordTriggerType": "Update",
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filterLogic": "and",
+            "filters": [
+                {
+                    "field": "BillingCity",
+                    "operator": "EqualTo",
+                    "value": {
+                        "stringValue": "San Francisco"
+                    }
+                }
+            ],
+            "scheduledPaths": [
+                {
+                    "name": "myTimeTrigger2DaysBefore",
+                    "label": "myTimeTrigger2DaysBefore",
+                    "timeSource": "RecordField",
+                    "offsetUnit": "Days",
+                    "offsetNumber": -2,
+                    "recordField": "CreatedDate"
+                },
+                {
+                    "name": "myTimeTriggerHoursAfter",
+                    "label": "myTimeTriggerHoursAfter",
+                    "timeSource": "RecordField",
+                    "offsetUnit": "Hours",
+                    "offsetNumber": 4,
+                    "recordField": "LastModifiedDate"
+                }
+            ]
+        },
+        "description": "",
+        "interviewLabel": "RecordTriggeredFlow {!$Flow.CurrentDateTime}",
+        "isTemplate": false,
+        "label": "RecordTriggeredFlow",
+        "processMetadataValues": [
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "FREE_FORM_CANVAS"
+                }
+            }
+        ],
+        "processType": "AutoLaunchedFlow",
+        "runInMode": null,
+        "status": "InvalidDraft",
+        "apiVersion": 51
+    },
+    "fullName": "RecordTriggeredFlow",
+    "versionNumber": 1
+}

@@ -5,6 +5,7 @@
         "^mock/storeDataAutolaunched$": "<rootDir>/jest-mock-data/mock_store_data_autolaunched/mock-store-data-autolaunched",
         "^mock/storeDataContactrequest$": "<rootDir>/jest-mock-data/mock_store_data_contactRequest/mock-store-data-contactrequest",
         "^mock/storeDataFieldServiceMobile$": "<rootDir>/jest-mock-data/mock_store_data_fieldServiceMobile/mock-store-data-fieldServiceMobile",
+        "^mock/storeDataRecordTriggered$": "<rootDir>/jest-mock-data/mock_store_data_recordTriggered/mock-store-data-recordTriggered",
         "^mock/comboboxData$": "<rootDir>/jest-mock-data/mock_combobox_data/mock-combobox-data",
         "^mock/globalVariableData$": "<rootDir>/jest-mock-data/mock_global_variable_data/mock-global-variables",
         "^mock/actionSelectorData$": "<rootDir>/jest-mock-data/mock_action_selector_data/mock-action-selector-data",
