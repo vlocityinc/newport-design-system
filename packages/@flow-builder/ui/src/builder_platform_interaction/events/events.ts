@@ -104,4 +104,7 @@ export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
 export { ArrowKeyDownEvent } from './arrowKeyDownEvent';
 export { UpdateSortOptionItemEvent } from './updateSortOptionItemEvent';
+export { AddSortOptionItemEvent } from './addSortOptionItemEvent';
+export { DeleteSortOptionItemEvent } from './deleteSortOptionItemEvent';
+export { UpdateSortCollectionOutputEvent } from './updateSortCollectionOutputEvent';
 export { InputsNextBehaviorChangeEvent } from './inputsNextBehaviorChangeEvent';

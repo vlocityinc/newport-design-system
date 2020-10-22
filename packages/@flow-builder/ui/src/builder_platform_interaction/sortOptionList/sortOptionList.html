@@ -1,0 +1,35 @@
+<template>
+    <div if:true={isSobject} class="slds-p-top_small slds-size_3-of-4">
+        <builder_platform_interaction-list
+            items={sortOptions}
+            onaddlistitem={handleAddSortOption}
+            ondeletelistitem={handleDeleteSortOption}
+            add-label={labels.addButton}
+            max-items={maxSortFields}
+        >
+            <div slot="listBody">
+                <template for:each={sortOptions} for:item="sortOption" for:index="optionIndex" slot="listBody">
+                    <div class="slds-list__item slds-is-relative" key={sortOption.rowIndex}>
+                        <builder_platform_interaction-sort-option-item
+                            option-index={optionIndex}
+                            record-entity-name={recordEntityName}
+                            sort-field={sortOption.sortField.value}
+                            sort-order={sortOption.sortOrder.value}
+                            nulls-last={sortOption.nullsLast}
+                            error-message={sortOption.sortField.error}
+                            is-sobject
+                            show-delete={showDelete}
+                        ></builder_platform_interaction-sort-option-item>
+                    </div>
+                </template>
+            </div>
+        </builder_platform_interaction-list>
+    </div>
+    <div if:false={isSobject} class="slds-p-top_small slds-size_3-of-4">
+        <builder_platform_interaction-sort-option-item
+            sort-order={primitiveSortOption.sortOrder.value}
+            nulls-last={primitiveSortOption.nullsLast}
+        >
+        </builder_platform_interaction-sort-option-item>
+    </div>
+</template>

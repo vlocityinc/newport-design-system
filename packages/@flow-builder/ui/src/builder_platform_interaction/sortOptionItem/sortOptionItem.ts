@@ -16,7 +16,7 @@ const SORT_ORDER_OPTIONS = [
     }
 ];
 /**
- * a combobox to retrieve a list of deduped fields to prevent selection of the same field twice.
+ * a combobox to retrieve a list of fields.
  */
 export default class SortOptionItem extends LightningElement {
     @api
