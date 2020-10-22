@@ -387,7 +387,7 @@ export default class Node extends LightningElement {
     }
 
     get isTimeTrigger() {
-        return isRecordChangeTriggerType(this.node.triggerType);
+        return isRecordChangeTriggerType(this.node.triggerType) && this.node.object;
     }
 
     render() {
