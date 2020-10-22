@@ -710,6 +710,15 @@ export default class Editor extends LightningElement {
         }
     }
 
+    canConvertToAutoLayoutCheck() {
+        if (!canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeInstance.getCurrentState()))) {
+            logInteraction('editor', 'editor', { operationStatus: 'open in auto-canvas failed' }, '');
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Callback which gets executed once we get the flow from java controller
      *
@@ -727,8 +736,13 @@ export default class Editor extends LightningElement {
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
                 if (this.properties.isAutoLayoutCanvas) {
-                    this.spinners.showAutoLayoutSpinner = true;
-                    this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
+                    if (this.canConvertToAutoLayoutCheck()) {
+                        this.spinners.showAutoLayoutSpinner = true;
+                        this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
+                    } else {
+                        // @W-8249637: fallback to free form if we can't convert to auto-layout
+                        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(false));
+                    }
                 }
 
                 if (!data.metadata) {
