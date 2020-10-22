@@ -319,8 +319,8 @@ describe('Start element', () => {
                 recordTriggerType: 'Create',
                 timeTriggers: [
                     {
-                        offsetUnit: undefined,
-                        timeSource: undefined,
+                        offsetUnit: '',
+                        timeSource: '',
                         offsetNumber: undefined
                     }
                 ]

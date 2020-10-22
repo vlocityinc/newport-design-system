@@ -366,7 +366,7 @@ export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
 
     const { recordField } = timeTrigger;
 
-    let { timeSource, offsetUnit, offsetNumber } = timeTrigger;
+    let { timeSource = '', offsetUnit = '', offsetNumber } = timeTrigger;
 
     // When converting from scheduledPath to timeTrigger
     if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.HOURS) {

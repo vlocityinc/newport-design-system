@@ -3,8 +3,13 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { LABELS } from './timeTriggersEditorLabels';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { timeTriggersReducer } from './timeTriggersReducer';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 const EMPTY_TIME_TRIGGER_LABEL = LABELS.emptyTimeTriggerLabel;
+
+const SELECTORS = {
+    TIME_TRIGGER: 'builder_platform_interaction-time-trigger'
+};
 
 export default class TimeTriggersEditor extends LightningElement {
     @track activeTimeTriggerId;
@@ -33,7 +38,7 @@ export default class TimeTriggersEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
-        return null;
+        return [];
     }
 
     // getter and setter for nodes don't work well with mixins
@@ -77,9 +82,6 @@ export default class TimeTriggersEditor extends LightningElement {
         const timeTriggers = this.startElement.timeTriggers;
         this.activeTimeTriggerId = timeTriggers[timeTriggers.length - 1].guid;
 
-        /* TODO: Uncomment this when we implement the inner time trigger editor component
-         * as part of W-8057952
-
         // Focus on the newly selected time trigger ( focus on the name/label field )
         const timeTrigger = this.template.querySelector(SELECTORS.TIME_TRIGGER);
         // Set focus even if the timeTrigger component is not currently present
@@ -88,7 +90,13 @@ export default class TimeTriggersEditor extends LightningElement {
         }
 
         this.shouldFocus = true;
-        */
+    }
+
+    /** * @param event - property changed event coming from time trigger component */
+    handlePropertyChangedEvent(event: CustomEvent) {
+        event.stopPropagation();
+        this.startElement = timeTriggersReducer(this.startElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
     addTimeTrigger() {

@@ -22,8 +22,8 @@ const emptyTimeTrigger = {
     guid: mockGuid1,
     name: '',
     offsetNumber: undefined,
-    offsetUnit: undefined,
-    timeSource: undefined
+    offsetUnit: '',
+    timeSource: ''
 };
 
 const originalState = {

@@ -7,6 +7,10 @@ import { FLOW_TRIGGER_SAVE_TYPE, RECORD_TIGGER_EVENT } from 'builder_platform_in
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 
+const SELECTORS = {
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+};
+
 export default class TimeTrigger extends LightningElement {
     @api timeTrigger;
     @api object;
@@ -14,6 +18,12 @@ export default class TimeTrigger extends LightningElement {
 
     labels = LABELS;
     timeSourceOptions: { label: string; value: string }[] = [];
+
+    /** Focus the label field of the label description component */
+    @api focus() {
+        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        labelDescription.focus();
+    }
 
     TIME_OPTIONS: { label: string; value: string }[] = [
         {

@@ -2,7 +2,7 @@
     <div class="slds-vertical-tabs slds-is-relative slds-grow">
         <!-- Note: If the labels.timeTriggerListHeader string is long the + button goes to next line -->
         <builder_platform_interaction-reorderable-vertical-navigation
-            class="slds-theme_shade slds-size_1-of-4"
+            class="slds-theme_shade slds-size_1-of-6"
             menu-items={timeTriggersWithImmediateTrigger}
             active-item-id={activeTimeTriggerId}
             onitemselected={handleTimeTriggerSelected}
@@ -10,10 +10,6 @@
         >
             <div slot="header" class="slds-grid">
                 <span class="timeTriggerListHeader">{labels.timeTriggerListHeader}</span>
-                <lightning-helptext
-                    class="slds-p-top_xx-small slds-p-left_xx-small"
-                    content={labels.timeTriggerListHelpText}
-                ></lightning-helptext>
                 <lightning-button-icon
                     icon-name="utility:add"
                     variant="border-filled"
@@ -25,11 +21,12 @@
                 </lightning-button-icon>
             </div>
         </builder_platform_interaction-reorderable-vertical-navigation>
-        <div class="slds-size_3-of-4">
+        <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
             <builder_platform_interaction-time-trigger
                 time-trigger={activeTimeTrigger}
                 object={node.object}
                 record-trigger-type={node.recordTriggerType}
+                onpropertychanged={handlePropertyChangedEvent}
             ></builder_platform_interaction-time-trigger>
         </div>
     </div>
