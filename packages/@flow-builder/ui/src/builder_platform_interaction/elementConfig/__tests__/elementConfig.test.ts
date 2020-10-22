@@ -72,7 +72,7 @@ describe('element-config', () => {
                     color: 'test_color',
                     icon: 'test_icon',
                     description: 'test_description',
-                    flowBuilderConfigComponent: 'test_flowBuilderConfigComponent'
+                    configComponent: 'test_flowBuilderConfigComponent'
                 }
             ];
             updateElementConfigMapWithSubtypes(elements);

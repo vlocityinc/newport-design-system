@@ -24,7 +24,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
         elementTypeToConfigMap: {
             SortCollectionProcessor: {
-                flowBuilderConfigComponent: 'sortEditor'
+                configComponent: 'sortEditor'
             }
         }
     };

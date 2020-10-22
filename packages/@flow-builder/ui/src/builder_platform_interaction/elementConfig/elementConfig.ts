@@ -1159,7 +1159,7 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<ElementConfig
             elementToUpdate.color = element.color;
             elementToUpdate.nodeConfig!.iconName = element.icon!;
             elementToUpdate.nodeConfig!.description = element.description;
-            elementToUpdate.flowBuilderConfigComponent = element.flowBuilderConfigComponent;
+            elementToUpdate.configComponent = element.configComponent;
         }
     }
 };

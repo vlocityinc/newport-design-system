@@ -195,7 +195,7 @@ export interface ElementConfig {
     elementSubtype?: string;
     elementType?: string;
     factory?: Factory;
-    flowBuilderConfigComponent?: string;
+    configComponent?: string;
     icon?: string;
     isChildElement?: boolean;
     isDeletable?: boolean;

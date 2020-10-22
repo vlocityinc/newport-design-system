@@ -63,7 +63,7 @@ export default class CollectionProcessorEditor extends LightningElement {
         this.hasConfigurationEditor = true;
         this.collectionProcessorSubtype = this.collectionProcessorElement.elementSubtype;
         this.configurationEditor = {
-            name: elementTypeToConfigMap[this.collectionProcessorSubtype].flowBuilderConfigComponent
+            name: elementTypeToConfigMap[this.collectionProcessorSubtype].configComponent
         };
     }
 
