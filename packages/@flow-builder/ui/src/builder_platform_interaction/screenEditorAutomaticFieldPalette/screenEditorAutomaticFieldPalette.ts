@@ -87,7 +87,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         if (this.state.recordVariable !== event.detail.value) {
             this.state.recordVariable = event.detail.value;
             this.sobjectPickerErrorMessage = event.detail.error;
-            if (this.state.recordVariable !== '') {
+            if (this.state.recordVariable !== '' && this.sobjectPickerErrorMessage == null) {
                 this.updateFields();
                 this.showNoItemsIllustration = false;
             } else {

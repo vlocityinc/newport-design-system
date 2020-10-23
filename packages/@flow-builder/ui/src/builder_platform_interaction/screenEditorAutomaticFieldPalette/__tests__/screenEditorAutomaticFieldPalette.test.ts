@@ -107,5 +107,14 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getBasePalette(element)).not.toBeNull();
         });
+        it('SObjectReferenceChangedEvent with error should keep illustration visible', async () => {
+            const sObjectReferenceChangedEventwithError = new SObjectReferenceChangedEvent(
+                'myCrazyValue',
+                'Enter a valid value.'
+            );
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEventwithError);
+            await ticks(1);
+            expect(getNoItemToShowIllustration(element)).not.toBeNull();
+        });
     });
 });
