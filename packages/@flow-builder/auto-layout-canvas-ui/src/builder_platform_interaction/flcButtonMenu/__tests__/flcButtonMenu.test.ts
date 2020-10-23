@@ -5,7 +5,11 @@ import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands });
+});
 
 const startMetadata = {
     canHaveFaultConnector: false,

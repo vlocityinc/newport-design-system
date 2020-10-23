@@ -1,0 +1,12 @@
+export const ZoomInCommand = jest.fn();
+export const ZoomOutCommand = jest.fn();
+export const ZoomToFitCommand = jest.fn();
+export const ZoomToViewCommand = jest.fn();
+export const DeleteNodesCommand = jest.fn();
+export const DisplayShortcutsCommand = jest.fn();
+export const ShiftFocusForwardCommand = jest.fn();
+export const ShiftFocusBackwardCommand = jest.fn();
+export const FocusOnDockingPanelCommand = jest.fn();
+export const EnterCommand = jest.fn();
+export const ArrowDown = jest.fn();
+export const ArrowUp = jest.fn();

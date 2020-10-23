@@ -7,7 +7,11 @@ import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands });
+});
 
 const metaData = [
     {

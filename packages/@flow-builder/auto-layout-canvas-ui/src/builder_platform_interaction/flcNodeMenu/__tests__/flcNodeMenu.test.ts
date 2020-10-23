@@ -12,7 +12,11 @@ import { LABELS } from '../flcNodeMenuLabels';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands });
+});
 
 const dummySimpleElement = {
     guid: 'simpleElementGuid',

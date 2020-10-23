@@ -6,7 +6,11 @@ import { DeleteElementEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const commands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands });
+});
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

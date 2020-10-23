@@ -21,6 +21,7 @@
         "^mock/apexTypesData": "<rootDir>/jest-mock-data/mock_apex_types_data/mock-apex-types-data",
         "^mock/paletteData": "<rootDir>/jest-mock-data/mock_palette_data/mock-palette-data",
         "^mock/templates": "<rootDir>/jest-mock-data/mock_templates_data/mock-templates-data",
+        "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",
         "^builder_platform_interaction_mocks/sharedUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^serverData/(.+)/(.+)$": "<rootDir>/jest-mock-data/results/FlowBuilderControllerGoldFileTest/test$1Serialization/$2",

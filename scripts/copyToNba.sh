@@ -35,7 +35,10 @@ mkdir -p $UI_INTERACTION_BUILDER_COMPONENTS_COPY/src
 
 # copy built files over
 cp -r src/main/modules/builder_platform_interaction $UI_INTERACTION_BUILDER_COMPONENTS_COPY/src
-cp -r packages/@flow-builder/ui/build/jest-modules $UI_INTERACTION_BUILDER_COMPONENTS_COPY
-cp -r packages/@flow-builder/ui/build/jest-mock-data $UI_INTERACTION_BUILDER_COMPONENTS_COPY
+cp -r packages/@flow-builder/ui/build/ui/jest-modules $UI_INTERACTION_BUILDER_COMPONENTS_COPY
+cp -r packages/@flow-builder/ui/build/ui/jest-mock-data $UI_INTERACTION_BUILDER_COMPONENTS_COPY
+
+# copy shared utils jest-modules
+cp -r packages/@flow-builder/shared-utils/build/esNext/jest-modules/builder_platform_interaction/* $UI_INTERACTION_BUILDER_COMPONENTS_COPY/jest-modules/builder_platform_interaction
 
 p4 reconcile -c $CL -e -a -d $UI_INTERACTION_BUILDER_COMPONENTS_COPY/...
