@@ -39,8 +39,6 @@ import recordDeleteSingularLabel from '@salesforce/label/FlowBuilderElementConfi
 import recordDeletePluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordDeletePluralLabel';
 import recordUpdateSingularLabel from '@salesforce/label/FlowBuilderElementConfig.recordUpdateSingularLabel';
 import recordUpdatePluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordUpdatePluralLabel';
-import collectionProcessorSingularLabel from '@salesforce/label/FlowBuilderElementConfig.collectionProcessorSingularLabel';
-import collectionProcessorPluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionProcessorPluralLabel';
 import startElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.startElementSingularLabel';
 import variableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.variableSingularLabel';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
@@ -96,7 +94,6 @@ import decisionLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElem
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
 import assignmentLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.assignmentLogicDescription';
 import loopLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicDescription';
-import collectionProcessorLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.collectionProcessorLogicDescription';
 import createDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationDescription';
 import updateDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationDescription';
 import lookupDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.lookupDataOperationDescription';
@@ -133,7 +130,6 @@ import editRecordCreateLabel from '@salesforce/label/FlowBuilderElementConfig.ed
 import editRecordDeleteLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordDeleteLabel';
 import editRecordUpdateLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordUpdateLabel';
 import editRecordLookupLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordLookupLabel';
-import editCollectionProcessorLabel from '@salesforce/label/FlowBuilderElementConfig.editCollectionProcessorLabel';
 import editEmailAlertLabel from '@salesforce/label/FlowBuilderElementConfig.editEmailAlertLabel';
 import editApexActionLabel from '@salesforce/label/FlowBuilderElementConfig.editApexActionLabel';
 import editApexActionPluginLabel from '@salesforce/label/FlowBuilderElementConfig.editApexActionPluginLabel';
@@ -166,7 +162,6 @@ import newRecordCreateLabel from '@salesforce/label/FlowBuilderElementConfig.new
 import newRecordDeleteLabel from '@salesforce/label/FlowBuilderElementConfig.newRecordDeleteLabel';
 import newRecordUpdateLabel from '@salesforce/label/FlowBuilderElementConfig.newRecordUpdateLabel';
 import newRecordLookupLabel from '@salesforce/label/FlowBuilderElementConfig.newRecordLookupLabel';
-import newCollectionProcessorLabel from '@salesforce/label/FlowBuilderElementConfig.newCollectionProcessorLabel';
 import newEmailAlertLabel from '@salesforce/label/FlowBuilderElementConfig.newEmailAlertLabel';
 import newApexActionLabel from '@salesforce/label/FlowBuilderElementConfig.newApexActionLabel';
 import newApexActionPluginLabel from '@salesforce/label/FlowBuilderElementConfig.newApexActionPluginLabel';
@@ -230,8 +225,6 @@ export const LABELS = {
     recordDeletePluralLabel,
     recordUpdateSingularLabel,
     recordUpdatePluralLabel,
-    collectionProcessorSingularLabel,
-    collectionProcessorPluralLabel,
     variableSingularLabel,
     variablePluralLabel,
     constantSingularLabel,
@@ -287,7 +280,6 @@ export const LABELS = {
     waitLogicDescription,
     assignmentLogicDescription,
     loopLogicDescription,
-    collectionProcessorLogicDescription,
     createDataOperationDescription,
     updateDataOperationDescription,
     lookupDataOperationDescription,
@@ -320,7 +312,6 @@ export const LABELS = {
     editAssignmentLabel,
     editDecisionLabel,
     editLoopLabel,
-    editCollectionProcessorLabel,
     editRecordCreateLabel,
     editRecordDeleteLabel,
     editRecordUpdateLabel,
@@ -357,7 +348,6 @@ export const LABELS = {
     newRecordDeleteLabel,
     newRecordUpdateLabel,
     newRecordLookupLabel,
-    newCollectionProcessorLabel,
     newEmailAlertLabel,
     newApexActionLabel,
     newApexActionPluginLabel,

@@ -458,18 +458,22 @@ export const elementTypeToConfigMap: {
     [ELEMENT_TYPE.COLLECTION_PROCESSOR]: {
         descriptor: 'builder_platform_interaction:collectionProcessorEditor',
         nodeConfig: {
-            iconName: 'standard:bot',
-            utilityIconName: 'utility:database',
+            iconName: '',
+            utilityIconName: '',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.COLLECTION_PROCESSOR],
             maxConnections: 1,
             section: LABELS.flowControlLogicLabel,
-            description: LABELS.collectionProcessorLogicDescription
+            description: ''
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.COLLECTION_PROCESSORS,
         canvasElement: true,
         nonHydratableProperties: ['elementSubtype'],
         bodyCssClass: 'slds-p-around_none',
+        labels: {
+            singular: '',
+            plural: ''
+        },
         factory: {
             propertyEditor: createCollectionProcessor,
             pasteElement: createPastedCollectionProcessor,
@@ -633,36 +637,6 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateLoop,
             uiToFlow: createLoopMetadataObject,
             flowToUi: createLoopWithConnectors
-        }
-    },
-    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: {
-        descriptor: 'builder_platform_interaction:collectionProcessorEditor',
-        nodeConfig: {
-            iconName: 'standard:bot',
-            utilityIconName: 'utility:database',
-            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.COLLECTION_PROCESSOR],
-            iconBackgroundColor: 'background-orange',
-            maxConnections: 1,
-            section: LABELS.flowControlLogicLabel,
-            description: 'Collection Processor'
-        },
-        modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.COLLECTION_PROCESSORS,
-        labels: {
-            singular: LABELS.collectionProcessorSingularLabel,
-            plural: LABELS.collectionProcessorPluralLabel,
-            leftPanel: LABELS.collectionProcessorLogicDescription,
-            newModal: LABELS.newCollectionProcessorLabel,
-            editModal: LABELS.editCollectionProcessorLabel
-        },
-        canvasElement: true,
-        bodyCssClass: 'slds-p-around_none',
-        factory: {
-            propertyEditor: createCollectionProcessor,
-            pasteElement: createPastedCollectionProcessor,
-            duplicateElement: createDuplicateCollectionProcessor,
-            uiToFlow: createCollectionProcessorMetadataObject,
-            flowToUi: createCollectionProcessorWithConnectors
         }
     },
     [ELEMENT_TYPE.RECORD_CREATE]: {
@@ -1141,7 +1115,7 @@ export const elementTypeToConfigMap: {
  * Updates the elementTypeToConfigMap to include the configuration information for element subtypes retrieved via the Service API.
  * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
-export const updateElementConfigMapWithSubtypes = (elements: Array<ElementConfig>) => {
+export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         if (element && element.isElementSubtype) {
@@ -1153,9 +1127,10 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<ElementConfig
             elementToUpdate.elementSubtype = element.name;
             elementToUpdate.factory = elementTypeToConfigMap[element.elementType!].factory;
             elementToUpdate.labels!.singular = element.label!;
-            elementToUpdate.labels!.leftPanel = element.label;
-            elementToUpdate.labels!.newModal = LABELS.newElementHeaderPrefix + ' ' + element.label;
-            elementToUpdate.labels!.editModal = LABELS.editButtonLabel + ' ' + element.label;
+            elementToUpdate.labels!.plural = element.labelPlural!;
+            elementToUpdate.labels!.leftPanel = element.label!;
+            elementToUpdate.labels!.newModal = element.labelNew!;
+            elementToUpdate.labels!.editModal = element.labelEdit!;
             elementToUpdate.color = element.color;
             elementToUpdate.nodeConfig!.iconName = element.icon!;
             elementToUpdate.nodeConfig!.description = element.description;
