@@ -103,6 +103,9 @@ import extensionInputsNextBehaviorSubtitle from '@salesforce/label/FlowBuilderSc
 import extensionInputsNextBehaviorDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorDescription';
 import extensionInputsNextBehaviorRememberDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorRememberDescription';
 import extensionInputsNextBehaviorRecalculateDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorRecalculateDescription';
+import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
+import errorScreenMissingExtension from '@salesforce/label/FlowBuilderAlertModal.errorMessageScreenMissingExtension';
+import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 
 export const LABELS = {
     errorRequired,
@@ -209,5 +212,8 @@ export const LABELS = {
     extensionInputsNextBehaviorSubtitle,
     extensionInputsNextBehaviorDescription,
     extensionInputsNextBehaviorRememberDescription,
-    extensionInputsNextBehaviorRecalculateDescription
+    extensionInputsNextBehaviorRecalculateDescription,
+    errorTitle,
+    errorScreenMissingExtension,
+    okayButtonLabel
 };

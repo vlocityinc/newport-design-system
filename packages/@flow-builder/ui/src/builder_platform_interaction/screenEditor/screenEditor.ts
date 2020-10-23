@@ -19,7 +19,7 @@ import { hidePopover } from 'builder_platform_interaction/builderUtils';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
 import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
-import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
+import { APP_EXCHANGE_LINK, format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -161,6 +161,24 @@ export default class ScreenEditor extends LightningElement {
                 this.screen = null;
                 Promise.resolve().then(() => {
                     this.screen = processScreenExtensionTypes(rawScreen);
+                    // if any screen extension type is missing, show them as error
+                    if (this.screen.error) {
+                        invokeModal({
+                            headerData: {
+                                headerTitle: LABELS.errorTitle
+                            },
+                            bodyData: {
+                                bodyTextOne: format(LABELS.errorScreenMissingExtension, this.screen.error)
+                            },
+                            footerData: {
+                                buttonOne: {
+                                    buttonVariant: 'Brand',
+                                    buttonLabel: LABELS.okayButtonLabel
+                                }
+                            }
+                        });
+                        this.screen.error = null;
+                    }
                 });
             })
             .catch((error) => {

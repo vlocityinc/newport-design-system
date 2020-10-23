@@ -1,5 +1,8 @@
 // @ts-nocheck
-import { processRequiredParamsForExtensionsInScreen } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    processRequiredParamsForExtensionsInScreen,
+    processScreenExtensionTypes
+} from 'builder_platform_interaction/screenEditorUtils';
 import { createTestScreen, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -41,7 +44,8 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
                     dataType: undefined,
                     label: 'Fake Component 1',
                     icon: 'utility:type_tool',
-                    category: 'Input'
+                    category: 'Input',
+                    source: 'local'
                 },
                 {
                     name: 'c:fakeCmpName2',
@@ -62,6 +66,12 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
                 });
             });
             return cachedExtensions;
+        },
+        getCachedExtensionType(fieldName) {
+            if (fieldName !== 'localExtension') {
+                return fieldName;
+            }
+            return undefined;
         },
         EXTENSION_TYPE_SOURCE: actual.EXTENSION_TYPE_SOURCE
     };
@@ -97,5 +107,28 @@ describe('processRequiredParamsForExtensionsInScreen function', () => {
         expect(fields[9].inputParameters[1]).toBeDefined();
         expect(fields[9].inputParameters[1].name).toBeDefined();
         expect(fields[9].inputParameters[1].name.value).toBe('c:fakeCmpName1input1');
+    });
+});
+
+describe('processScreenExtensionTypes function', () => {
+    let screen;
+    beforeEach(() => {
+        screen = createTestScreen('Screen1', null);
+    });
+    it('extension available in local but not from server', () => {
+        const lcField = createTestScreenField('lcfield1', 'Extension', 'localExtension');
+        screen.fields.push(lcField);
+        processScreenExtensionTypes(screen);
+        expect(screen.error).toBeDefined();
+        const fields = screen.fields;
+        expect(fields[0].name.error).toBeDefined();
+    });
+    it('extension component available in local and retrieved from server', () => {
+        const lcField1 = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName1');
+        screen.fields.push(lcField1);
+        processScreenExtensionTypes(screen);
+        expect(screen.error).toBeUndefined();
+        const fields = screen.fields;
+        expect(fields[0].name.error).toBe(null);
     });
 });

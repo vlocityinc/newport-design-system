@@ -86,12 +86,15 @@ const getDescriptorForExtension = (extName: string): any => {
 
 const getGenericTypesForExtension = (extName: string) => {
     if (extName) {
+        let extensionGenericTypes;
         const extension: any = getCachedExtensionType(extName);
         if (extension) {
-            return extension.genericTypes;
+            extensionGenericTypes = extension.genericTypes;
+        } else {
+            extensionGenericTypes = null;
         }
+        return extensionGenericTypes;
     }
-
     throw new Error('Flow extension not found ' + extName);
 };
 

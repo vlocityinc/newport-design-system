@@ -9,6 +9,7 @@ import {
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isExtensionField } from './screenEditorFieldTypeUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
@@ -76,11 +77,25 @@ export function extendFlowExtensionScreenField(field) {
  */
 export function processScreenExtensionTypes(screen) {
     const extensionFields = getAllChildExtensionFields(screen);
+    const missingExtensionFields = [];
+    let missingExtension = false;
     for (const field of extensionFields) {
         if (field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
-            field.type = getCachedExtensionType(field.type.name);
+            const cachedExtensionType = getCachedExtensionType(field.type.name);
+            // If the extension type is not retrieved from server due to extension non-availability or missing perm,
+            // then set error for the missing extension field and  proceed with the local field.type
+            if (!cachedExtensionType) {
+                field.name.error = LABELS.invalidScreenfield;
+                missingExtension = true;
+                missingExtensionFields.push(field.type.name);
+            }
+            field.type = cachedExtensionType ? cachedExtensionType : field.type;
             extendFlowExtensionScreenField(field);
         }
+    }
+    // set the screen error for the missing extension types, this is used in the error modal
+    if (missingExtension) {
+        screen.error = missingExtensionFields;
     }
 
     return screen;
