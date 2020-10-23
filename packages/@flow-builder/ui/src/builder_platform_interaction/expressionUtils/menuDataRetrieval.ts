@@ -421,21 +421,21 @@ const isWritable = (field) => {
 
 /**
  * Filters list of fields based on allowed types and returns them in combobox-friendly shape
- * @param {Object} chosenElement The parent chosen element
- * @param {Array} fields Array of the fields to be filtered
- * @param {Object} options
- * @param {Object} [options.allowedParamTypes]  If present, is used to determine if each element is valid for this menuData
- * @param {boolean} [options.showAsFieldReference] show display text as field reference
- * @param {boolean} [options.showSubText] show sub text
- * @param {boolean} [options.shouldBeWritable] true if fields must be writable
- * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
- * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
- * @param {Object}  [options.selectorConfig] if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
- * @returns {MenuItem[]} array of alphabetized menu items
+ * @param chosenElement The parent chosen element
+ * @param fields Array of the fields to be filtered
+ * @param options
+ * [options.allowedParamTypes]  If present, is used to determine if each element is valid for this menuData
+ * [options.showAsFieldReference] show display text as field reference
+ * [options.showSubText] show sub text
+ * [options.shouldBeWritable] true if fields must be writable
+ * [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
+ * [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
+ * [options.selectorConfig] if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @returns array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
-    chosenElement,
-    fields,
+    chosenElement: Object,
+    fields: Object,
     {
         allowedParamTypes = null,
         showAsFieldReference = true,
@@ -446,7 +446,7 @@ export function filterFieldsForChosenElement(
         selectorConfig,
         allowSObjectFields
     } = {}
-) {
+): Array<Object> {
     if (fields) {
         if (selectorConfig) {
             allowSObjectFieldsTraversal = false;

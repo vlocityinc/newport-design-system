@@ -169,15 +169,15 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String[]} fields  fields that will populate the LHS menu data
+     * @param fields  fields that will populate the LHS menu data
      */
-    set lhsFields(fields) {
+    set lhsFields(fields: Object) {
         this.state[LHS_FIELDS] = fields;
         this.setLhsMenuData();
     }
 
     @api
-    get lhsFields() {
+    get lhsFields(): Object {
         return this.state[LHS_FIELDS];
     }
 
@@ -978,11 +978,11 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String} value       a guid or a literal or a merge field starting by a GUID (resource) or a literal.field
-     * @param {Object[]} fields    fields populating the relevant menu data, if there are any
-     * @returns {Object}           Object representing the field or the FER represented by the guid
+     * @param value  a guid or a literal or a merge field starting by a GUID (resource) or a literal.field
+     * @param fields fields populating the relevant menu data, if there are any
+     * @returns Object representing the field or the FER represented by the guid
      */
-    getElementOrField(value, fields) {
+    getElementOrField(value: String, fields: Object): Object {
         const fieldNames = sanitizeGuid(value).fieldNames;
         if (fieldNames) {
             const fieldName = fieldNames[fieldNames.length - 1];
