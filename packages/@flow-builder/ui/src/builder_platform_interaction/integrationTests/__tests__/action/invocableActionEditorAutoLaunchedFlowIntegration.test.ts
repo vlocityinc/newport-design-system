@@ -14,10 +14,10 @@ import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from 
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
-    getAutomaticOutputAdvancedOptionCheckbox,
-    getAutomaticOutputAdvancedOptionComponent,
-    getOutputParameterItems,
-    getParameterListOutputDiv,
+    getAutomaticOutputAdvancedOptionCheckboxFromAcc,
+    getAutomaticOutputAdvancedOptionComponentFromAcc,
+    getOutputParameterItemsFromAcc,
+    getAdvancedAccordionOutputDiv,
     verifyOutputParameter
 } from '../baseCalloutEditorTestUtils';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
@@ -135,33 +135,33 @@ describe('Invocable Action Editor', () => {
             coreActionElement = createComponentForTest(actionNode);
         });
         it('"useAdvancedOptionsComponent" should be display', () => {
-            const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponent(coreActionElement);
+            const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponentFromAcc(coreActionElement);
             expect(advancedOptionComponent).not.toBeNull();
         });
         it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
-            const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(coreActionElement);
+            const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(false);
         });
         it('should have the output parameter displayed', () => {
-            const parameterListOutputDiv = getParameterListOutputDiv(coreActionElement);
+            const parameterListOutputDiv = getAdvancedAccordionOutputDiv(coreActionElement);
             expect(parameterListOutputDiv).toBeNull();
         });
         describe('modify from automatic to advanced', () => {
             beforeEach(async () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(coreActionElement);
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
                 advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
                 await ticks(50);
             });
             it('"useAdvancedOptionsCheckbox" should checked', () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(coreActionElement);
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');
                 expect(advancedOptionCheckbox.checked).toBe(true);
             });
             it('should have the output parameter displayed', () => {
-                const outputParameters = getOutputParameterItems(coreActionElement);
+                const outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
                 expect(outputParameters).toHaveLength(1);
                 verifyOutputParameter(outputParameters[0], 'Feed Item ID', null);
             });

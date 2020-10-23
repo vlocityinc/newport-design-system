@@ -3,6 +3,8 @@ import { createElement } from 'lwc';
 import InvocableActionEditor from '../invocableActionEditor';
 import { mockActions } from 'mock/calloutData';
 import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
+import { logACallActionDetaild as mockActionDetailsNoOutputs } from 'serverData/GetInvocableActionDetails/logACallActionDetails.json';
+
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
@@ -16,10 +18,18 @@ import {
     ConfigurationEditorPropertyDeleteEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    untilNoFailure,
+    ticks,
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
-import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
+import {
+    getProcessTypeAutomaticOutPutHandlingSupport,
+    getProcessTypeTransactionControlledActionsSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn()
@@ -75,6 +85,7 @@ const defaultNode = {
     locationX: 358,
     locationY: 227,
     name: { value: 'Post_to_Chatter', error: null },
+    flowTransactionModel: { value: FLOW_TRANSACTION_MODEL.AUTOMATIC, error: null },
     inputParameters: [
         {
             rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
@@ -123,7 +134,7 @@ const actionWithAutomaticOutputNode = {
     description: { value: 'This is a description', error: null },
     elementType: ELEMENT_TYPE.ACTION_CALL,
     guid: '66b95c2c-468d-466b-baaf-5ad964be585e',
-    isCanvasElemen: true,
+    isCanvasElement: true,
     label: { value: 'Post to Chatter', error: null },
     locationX: 358,
     locationY: 227,
@@ -155,6 +166,35 @@ const actionWithAutomaticOutputNode = {
             valueDataType: 'String'
         }
     ],
+    outputParameters: [
+        {
+            rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
+            name: {
+                value: 'feedItemId',
+                error: null
+            },
+            value: {
+                value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
+                error: null
+            },
+            valueDataType: 'reference'
+        }
+    ]
+};
+
+const actionWithNoOutputNode = {
+    actionName: { value: 'sendEmail', error: null },
+    actionType: { value: 'sendEmail', error: null },
+    description: { value: 'This is a description', error: null },
+    elementType: ELEMENT_TYPE.ACTION_CALL,
+    guid: '66b95c2c-468d-466b-baaf-5ad964be585e',
+    isCanvasElement: true,
+    label: { value: 'Send Email', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'Send_Email', error: null },
+    storeOutputAutomatically: true,
+    inputParameters: [],
     outputParameters: []
 };
 
@@ -166,7 +206,13 @@ const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
 };
 
 const selectors = {
-    baseCalloutEditor: 'builder_platform_interaction-base-callout-editor'
+    baseCalloutEditor: 'builder_platform_interaction-base-callout-editor',
+    parameterList: 'builder_platform_interaction-parameter-list',
+    advancedSettingsAccordion: 'builder_platform_interaction-use-advanced-settings-accordion',
+    transactionControlPicker: 'builder_platform_interaction-transaction-control-picker',
+    outputHeader: '.outputHeader',
+    parameterItem: 'builder_platform_interaction-parameter-item',
+    divOutputs: '.outputs'
 };
 
 let mockActionDetailsPromise = Promise.resolve(mockActionDetails);
@@ -212,6 +258,20 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 const getBaseCalloutEditor = (actionEditor) => {
     return actionEditor.shadowRoot.querySelector(selectors.baseCalloutEditor);
+};
+
+const getAdvancedSettingsAccordion = (actionEditor) => {
+    return actionEditor.shadowRoot.querySelector(selectors.advancedSettingsAccordion);
+};
+
+const getParameterList = (baseCalloutEditor) => {
+    return baseCalloutEditor.shadowRoot.querySelector(selectors.parameterList);
+};
+
+const getOutputsDiv = (parameterList) => parameterList.shadowRoot.querySelector(selectors.divOutputs);
+const getOutputHeader = (parameterList) => parameterList.shadowRoot.querySelector(selectors.outputHeader);
+const getOutputParameterItems = (parameterList) => {
+    return parameterList.shadowRoot.querySelector(selectors.divOutputs).querySelectorAll(selectors.parameterItem);
 };
 
 describe('Invocable Action editor', () => {
@@ -264,6 +324,36 @@ describe('Invocable Action editor', () => {
                 detail: { node: actionEditorCmp.getNode() }
             })
         );
+    });
+    it('value of flow transaction model should be automatic ', () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        expect(actionEditorCmp.getNode().flowTransactionModel.value).toBe(FLOW_TRANSACTION_MODEL.AUTOMATIC);
+    });
+
+    it('property changed event updates the value of flow transactionModel', async () => {
+        expect.assertions(2);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new PropertyChangedEvent(
+            'flowTransactionModel',
+            FLOW_TRANSACTION_MODEL.CURRENT_TRANSACTION,
+            null
+        );
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+        expect(actionEditorCmp.getNode().flowTransactionModel.value).toBe(FLOW_TRANSACTION_MODEL.CURRENT_TRANSACTION);
     });
     it('update parameter event dispatches an UpdateNodeEvent', async () => {
         expect.assertions(1);
@@ -444,6 +534,164 @@ describe('Invocable Action editor', () => {
         });
         it('Should change storeOutputAutomatically to false if the process type does not support automatic output', () => {
             expect(invocableActionEditor.node.storeOutputAutomatically).toBe(false);
+        });
+    });
+
+    describe('Transaction Controlled Actions and Automatic Output Handling is supported. Action has output parameters', () => {
+        let invocableActionEditor, baseCalloutEditor, parameterList;
+        beforeEach(() => {
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
+            getProcessTypeTransactionControlledActionsSupport.mockReturnValue(true);
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
+            baseCalloutEditor = getBaseCalloutEditor(invocableActionEditor);
+            parameterList = getParameterList(baseCalloutEditor);
+        });
+        it('show transaction control picker is true', () => {
+            const baseCalloutEditorCmp = getBaseCalloutEditor(invocableActionEditor);
+            expect(baseCalloutEditorCmp.showTransactionControlPicker).toBe(true);
+        });
+        it('Should show advanced settings accordion', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            expect(advancedSettingsAccordion).not.toBeNull();
+        });
+        it('Should display transaction control picker', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            const transactionControlPicker = advancedSettingsAccordion.shadowRoot.querySelector(
+                selectors.transactionControlPicker
+            );
+            expect(transactionControlPicker).not.toBeNull();
+        });
+        it('Should display the Advanced Checkbox', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(advancedSettingsAccordion);
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(false);
+        });
+        it('Does not display the output div', () => {
+            const outputsDiv = getOutputsDiv(parameterList);
+            expect(outputsDiv).toBeNull();
+        });
+    });
+
+    describe('Transaction Controlled Actions are not supported but automatic output handling is supported. Action has outputs', () => {
+        let invocableActionEditor, baseCalloutEditor, parameterList;
+        beforeEach(() => {
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
+            getProcessTypeTransactionControlledActionsSupport.mockReturnValue(false);
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
+            baseCalloutEditor = getBaseCalloutEditor(invocableActionEditor);
+            parameterList = getParameterList(baseCalloutEditor);
+        });
+        it('show transaction control picker is false', () => {
+            const baseCalloutEditorCmp = getBaseCalloutEditor(invocableActionEditor);
+            expect(baseCalloutEditorCmp.showTransactionControlPicker).toBe(false);
+        });
+        it('Should not display transaction control picker', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            const transactionControlPicker = advancedSettingsAccordion.shadowRoot.querySelector(
+                selectors.transactionControlPicker
+            );
+            expect(transactionControlPicker).toBeNull();
+        });
+        it('Should display the accordion', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            expect(advancedSettingsAccordion).not.toBeNull();
+        });
+        it('Should display the Advanced Checkbox', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(advancedSettingsAccordion);
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(false);
+        });
+        it('Does not display the output div', () => {
+            const outputsDiv = getOutputsDiv(parameterList);
+            expect(outputsDiv).toBeNull();
+        });
+    });
+
+    describe('Transaction Controlled Actions are supported but automatic output handling is not supported. Action has output parameters ', () => {
+        let invocableActionEditor, baseCalloutEditor, parameterList;
+        beforeEach(() => {
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
+            getProcessTypeTransactionControlledActionsSupport.mockReturnValue(true);
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
+            baseCalloutEditor = getBaseCalloutEditor(invocableActionEditor);
+            parameterList = getParameterList(baseCalloutEditor);
+        });
+        it('show transaction control picker is true', () => {
+            const baseCalloutEditorCmp = getBaseCalloutEditor(invocableActionEditor);
+            expect(baseCalloutEditorCmp.showTransactionControlPicker).toBe(true);
+        });
+        it('Should display the accordion', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            expect(advancedSettingsAccordion).not.toBeNull();
+        });
+        it('Should display transaction control picker', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            const transactionControlPicker = advancedSettingsAccordion.shadowRoot.querySelector(
+                selectors.transactionControlPicker
+            );
+            expect(transactionControlPicker).not.toBeNull();
+        });
+        it('Should not display the Advanced Checkbox Component', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            const advancedOptionComponent = getUseAdvancedOptionComponent(advancedSettingsAccordion);
+            expect(advancedOptionComponent).toBeNull();
+        });
+        it('should contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).not.toBeNull();
+        });
+        it('contains output parameters in outputs div', () => {
+            const parameterItems = getOutputParameterItems(parameterList);
+            expect(parameterItems).not.toBeNull();
+        });
+    });
+
+    describe('Transaction Controlled Actions and automatic output handling are not supported. Action has output parameters ', () => {
+        let invocableActionEditor, baseCalloutEditor, parameterList;
+        beforeEach(() => {
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
+            getProcessTypeTransactionControlledActionsSupport.mockReturnValue(false);
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
+            baseCalloutEditor = getBaseCalloutEditor(invocableActionEditor);
+            parameterList = getParameterList(baseCalloutEditor);
+        });
+        it('show Transaction control picker is false', () => {
+            const baseCalloutEditorCmp = getBaseCalloutEditor(invocableActionEditor);
+            expect(baseCalloutEditorCmp.showTransactionControlPicker).toBe(false);
+        });
+        it('Should not display the accordion', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            expect(advancedSettingsAccordion).toBeNull();
+        });
+        it('should contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).not.toBeNull();
+        });
+        it('contains output parameters in outputs div', () => {
+            const parameterItems = getOutputParameterItems(parameterList);
+            expect(parameterItems).not.toBeNull();
+        });
+    });
+
+    describe('Transaction Controlled Actions and automatic output handling is not supported. No output parameters', () => {
+        let invocableActionEditor;
+        beforeEach(() => {
+            mockActionDetailsPromise = Promise.resolve(mockActionDetailsNoOutputs);
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
+            getProcessTypeTransactionControlledActionsSupport.mockReturnValue(false);
+            invocableActionEditor = createComponentUnderTest(actionWithNoOutputNode);
+        });
+        it('show Transaction control picker is false', () => {
+            const baseCalloutEditorCmp = getBaseCalloutEditor(invocableActionEditor);
+            expect(baseCalloutEditorCmp.showTransactionControlPicker).toBe(false);
+        });
+        it('Should not display the accordion', () => {
+            const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
+            expect(advancedSettingsAccordion).toBeNull();
         });
     });
 });

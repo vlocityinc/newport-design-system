@@ -36,6 +36,7 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
 import { getProcessTypeTransactionControlledActionsSupport } from 'builder_platform_interaction/processTypeLib';
+
 const { logInteraction } = loggingUtils;
 
 export default class InvocableActionEditor extends LightningElement {
@@ -288,6 +289,7 @@ export default class InvocableActionEditor extends LightningElement {
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         const storeOutputAutomatically = this.actionCallNode.storeOutputAutomatically;
         const automaticOutputHandlingSupported = isAutomaticOutputHandlingSupported(this.processTypeValue);
+        const flowTransactionModel = getValueFromHydratedItem(this.actionCallNode.flowTransactionModel);
         return {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
@@ -295,6 +297,7 @@ export default class InvocableActionEditor extends LightningElement {
             emptyInputsBody: this.labels.thisActionHasNoInputBody,
             sortInputs: true,
             sortOutputs: true,
+            flowTransactionModel,
             inputs,
             outputs,
             warnings,
@@ -303,6 +306,25 @@ export default class InvocableActionEditor extends LightningElement {
             emptyInputsOutputsBody: this.labels.thisActionHasNoInputOutputBody,
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
+    }
+
+    get showAdvancedCheckboxInAccordion() {
+        const outputs = this.actionCallNode ? this.actionCallNode.outputParameters : [];
+        const automaticOutputHandlingSupported = isAutomaticOutputHandlingSupported(this.processTypeValue);
+        return automaticOutputHandlingSupported && !(outputs.length === 0);
+    }
+
+    get showAccordion() {
+        return this.showAdvancedCheckboxInAccordion || this.showTransactionControlPicker;
+    }
+
+    /**
+     * This helper method will help to determine if we need to display output paramters from parameterList component
+     * in case of invocable action editor.
+     */
+    get displayOutputParams() {
+        const outputs = this.actionCallNode ? this.actionCallNode.outputParameters : [];
+        return !isAutomaticOutputHandlingSupported(this.processTypeValue) && !(outputs.length === 0);
     }
 
     /**

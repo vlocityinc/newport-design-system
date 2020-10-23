@@ -1,0 +1,46 @@
+<template>
+    <div class="accordion-container">
+        <lightning-accordion allow-multiple-sections-open active-section-name="advancedAccordion">
+            <lightning-accordion-section name="advancedAccordion" label={labels.advancedAccordionLabel}>
+                <div if:true={showOutputSection}>
+                    <!-- Advance Option selection checkbox -->
+                    <builder_platform_interaction-use-advanced-options-checkbox
+                        if:true={automaticOutputHandlingSupported}
+                        is-advanced-mode={isAdvancedMode}
+                        use-custom-label={labels.useAdvancedOptionsInAccordionLabel}
+                    >
+                    </builder_platform_interaction-use-advanced-options-checkbox>
+                    <div if:true={isAdvancedMode} class={cssDivAdvancedMode}>
+                        <h3 class="slds-text-heading_small slds-p-around_small outputHeader">
+                            {outputHeader}
+                        </h3>
+                        <div class="slds-p-horizontal_small outputs">
+                            <ul>
+                                <template for:each={sortedOutputsWithWarnings} for:item="output" for:index="index">
+                                    <builder_platform_interaction-parameter-item
+                                        item={output.item}
+                                        key={output.item.rowIndex}
+                                        is-input="false"
+                                        item-index={index}
+                                        element-type={elementType}
+                                        warning-badge={output.warning.warningBadge}
+                                        warning-message={output.warning.warningMessage}
+                                        show-delete={output.warning.shouldBeDeleted}
+                                        hide-parameter-icon={output.warning.hideIcon}
+                                    >
+                                    </builder_platform_interaction-parameter-item>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div if:true={showTransactionControlPicker}>
+                    <builder_platform_interaction-transaction-control-picker
+                        flow-transaction-model={flowTransactionModel}
+                    >
+                    </builder_platform_interaction-transaction-control-picker>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </div>
+</template>

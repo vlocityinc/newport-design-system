@@ -42,7 +42,7 @@
             </div>
         </div>
     </template>
-    <div if:false={emptyOutputs}>
+    <div if:true={showOutputParam}>
         <!-- Advanced Option selection checkbox -->
         <builder_platform_interaction-use-advanced-options-checkbox
             if:true={automaticOutputHandlingSupported}

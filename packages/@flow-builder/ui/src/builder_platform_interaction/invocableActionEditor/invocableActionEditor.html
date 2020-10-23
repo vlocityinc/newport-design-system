@@ -22,6 +22,21 @@
         onconfiguration_editor_input_value_deleted={handlePropertyChangedEvent}
         configuration-editor-type-mappings={configurationEditorTypeMappings}
         automatic-output-variables={automaticOutputVariables}
+        show-transaction-control-picker={showTransactionControlPicker}
+        display-output-params={displayOutputParams}
     >
     </builder_platform_interaction-base-callout-editor>
+    <div if:true={showAccordion}>
+        <builder_platform_interaction-use-advanced-settings-accordion
+            parameter-list-config={parameterListConfig}
+            show-transaction-control-picker={showTransactionControlPicker}
+            element-type={elementType}
+            configuration-editor={configurationEditor}
+            onpropertychanged={handlePropertyChangedEvent}
+            onupdateparameteritem={handlePropertyChangedEvent}
+            ondeleteparameteritem={handlePropertyChangedEvent}
+            onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+        >
+        </builder_platform_interaction-use-advanced-settings-accordion>
+    </div>
 </template>

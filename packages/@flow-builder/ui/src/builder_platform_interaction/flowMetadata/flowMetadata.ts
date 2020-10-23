@@ -357,6 +357,12 @@ export const FLOW_TRIGGER_FREQUENCY = {
     WEEKLY: 'Weekly'
 };
 
+export const FLOW_TRANSACTION_MODEL = {
+    AUTOMATIC: 'Automatic',
+    NEW_TRANSACTION: 'NewTransaction',
+    CURRENT_TRANSACTION: 'CurrentTransaction'
+};
+
 export const EXECUTE_OUTCOME_WHEN_OPTION_VALUES = {
     EVERY_TIME_CONDITION_MET: 'trueEveryTime',
     ONLY_WHEN_CHANGES_MEET_CONDITIONS: 'trueOnChangeOnly'

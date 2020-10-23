@@ -243,7 +243,8 @@ export const mockActions = [
         label: 'Post to Chatter',
         type: 'chatterPost',
         durableId: 'chatterPost-chatterPost',
-        category: 'System'
+        category: 'System',
+        allowsTransactionControl: true
     },
     {
         isStandard: true,

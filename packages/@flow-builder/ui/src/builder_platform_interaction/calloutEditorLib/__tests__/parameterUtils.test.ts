@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { compareParamsByRequired, compareParamsByLabel } from '../parameterUtils';
+import { compareParamsByRequired, compareParamsByLabel } from 'builder_platform_interaction/calloutEditorLib';
 
 describe('compareParamsByRequired', () => {
     it('sorts params by isRequired', () => {

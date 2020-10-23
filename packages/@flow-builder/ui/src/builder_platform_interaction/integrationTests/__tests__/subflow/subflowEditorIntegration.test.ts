@@ -65,7 +65,7 @@ const createComponentForTest = (node, mode) => {
 
 const itSkip = it.skip;
 
-describe('Subflow Editor with automatic ouput', () => {
+describe('Subflow Editor with automatic output', () => {
     let store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);

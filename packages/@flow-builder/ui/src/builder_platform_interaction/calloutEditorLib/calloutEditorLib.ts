@@ -5,3 +5,4 @@ export * from './calloutReducer';
 export * from './actionCallOrApexPluginRules';
 export * from './parameterListWarnings';
 export * from './mergeWarningType';
+export * from './parameterUtils';

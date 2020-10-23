@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { compareParamsByRequired, compareParamsByLabel } from './parameterUtils';
+import { compareParamsByRequired, compareParamsByLabel } from 'builder_platform_interaction/calloutEditorLib';
 import { multiComparator } from 'builder_platform_interaction/sortLib';
 import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 
@@ -87,6 +87,9 @@ export default class ParameterList extends LightningElement {
      */
     @api
     automaticOutputVariables;
+
+    @api
+    displayOutputParams;
 
     /**
      * List of input ParameterItem
@@ -252,6 +255,14 @@ export default class ParameterList extends LightningElement {
             return 'slds-p-left_x-large slds-p-right_small';
         }
         return this.automaticOutputHandlingSupported ? 'slds-p-left_xx-large slds-p-right_small' : 'slds-p-right_small';
+    }
+
+    /**
+     * This helper method helps to determine if we need to show output parameter in case of invocable action editor
+     * and other components that uses this component.
+     */
+    get showOutputParam() {
+        return this.displayOutputParams && !this.emptyOutputs;
     }
 
     /**

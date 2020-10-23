@@ -31,6 +31,10 @@ const getParameterList = (actionEditor) => {
     return getBaseCalloutElement(actionEditor).shadowRoot.querySelector(SELECTORS.PARAMETER_LIST);
 };
 
+const getAdvancedAccordion = (actionEditor) => {
+    return actionEditor.shadowRoot.querySelector(SELECTORS.USE_ADVANCED_SETTINGS_ACCORDION);
+};
+
 export const getInputParameterItems = (actionEditor) => {
     return getParameterList(actionEditor)
         .shadowRoot.querySelector(SELECTORS.INPUT_DIV)
@@ -41,8 +45,16 @@ export const getParameterListOutputDiv = (actionEditor) => {
     return getParameterList(actionEditor).shadowRoot.querySelector(SELECTORS.OUTPUT_DIV);
 };
 
+export const getAdvancedAccordionOutputDiv = (actionEditor) => {
+    return getAdvancedAccordion(actionEditor).shadowRoot.querySelector(SELECTORS.OUTPUT_DIV);
+};
+
 export const getOutputParameterItems = (actionEditor) => {
     return getParameterListOutputDiv(actionEditor).querySelectorAll(SELECTORS.PARAMETER_ITEM);
+};
+
+export const getOutputParameterItemsFromAcc = (actionEditor) => {
+    return getAdvancedAccordionOutputDiv(actionEditor).querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
 const getFerovResourcePicker = (parameterItem) => {
@@ -186,4 +198,23 @@ export const getAutomaticOutputAdvancedOptionCheckbox = (actionEditor) => {
 export const getAutomaticOutputAdvancedOptionComponent = (actionEditor) => {
     const parameterList = getParameterList(actionEditor);
     return getUseAdvancedOptionComponent(parameterList);
+};
+/**
+ * Helper method to get the automatic advanced option checkbox from the accordion. This is
+ * for handling automation outputs via invocable action editor
+ * @param actionEditor
+ */
+export const getAutomaticOutputAdvancedOptionCheckboxFromAcc = (actionEditor) => {
+    const advancedAccordion = getAdvancedAccordion(actionEditor);
+    return getAdvancedOptionCheckbox(advancedAccordion);
+};
+
+/**
+ * Helper method to get the automatic advanced option component from the accordion. This is
+ * for handling automation outputs via invocable action editor
+ * @param actionEditor
+ */
+export const getAutomaticOutputAdvancedOptionComponentFromAcc = (actionEditor) => {
+    const advancedAccordion = getAdvancedAccordion(actionEditor);
+    return getUseAdvancedOptionComponent(advancedAccordion);
 };

@@ -38,6 +38,13 @@ export default class UseAdvancedOptionsCheckbox extends LightningElement {
     @api
     configurationEditor;
 
+    @api
+    useCustomLabel;
+
+    get advancedOptionsLabel() {
+        return this.useCustomLabel ? this.useCustomLabel : this.labels.useAdvancedOptionsLabel;
+    }
+
     hasConfigurationEditor() {
         return !!this.configurationEditor;
     }

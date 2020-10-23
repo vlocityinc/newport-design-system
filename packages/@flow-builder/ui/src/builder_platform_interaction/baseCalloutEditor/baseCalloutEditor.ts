@@ -37,6 +37,9 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     configurationEditorTypeMappings;
 
+    @api
+    displayOutputParams;
+
     labels = LABELS;
 
     /**
@@ -144,6 +147,12 @@ export default class BaseCalloutEditor extends LightningElement {
 
     @api
     automaticOutputVariables;
+
+    /**
+     * Checks if transaction control picker can be displayed based on the process type
+     */
+    @api
+    showTransactionControlPicker;
 
     @api
     validate() {

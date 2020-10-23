@@ -5,14 +5,16 @@ import { LABELS } from '../useAdvancedOptionsCheckboxLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { ticks, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
-function createComponentForTest(isAdvancedMode) {
+function createComponentForTest(isAdvancedMode, useCustomLabel) {
     const el = createElement('builder_platform_interaction-use-advanced-options-checkbox', {
         is: UseAdvancedOptionsCheckbox
     });
-    Object.assign(el, { isAdvancedMode });
+    Object.assign(el, { isAdvancedMode, useCustomLabel });
     document.body.appendChild(el);
     return el;
 }
+
+const newCustomLabel = 'New Custom Label';
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
@@ -42,6 +44,10 @@ describe('Use-advanced-options-checkbox', () => {
         beforeEach(() => {
             useAdvancedOptionsCheckboxElement = createComponentForTest(true);
         });
+        it('Should use the default label', () => {
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
+            expect(advancedOptionCheckbox.label).toBe(LABELS.useAdvancedOptionsLabel);
+        });
         it('should display an alert', async () => {
             const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
             advancedOptionCheckbox.dispatchEvent(new ToggleOffChangeEvent());
@@ -59,7 +65,11 @@ describe('Use-advanced-options-checkbox', () => {
     });
     describe('On check', () => {
         beforeEach(() => {
-            useAdvancedOptionsCheckboxElement = createComponentForTest(false);
+            useAdvancedOptionsCheckboxElement = createComponentForTest(false, newCustomLabel);
+        });
+        it('Should use the custom label', () => {
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
+            expect(advancedOptionCheckbox.label).toBe(newCustomLabel);
         });
         it('should not display an alert', async () => {
             const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);

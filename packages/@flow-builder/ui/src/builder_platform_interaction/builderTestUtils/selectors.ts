@@ -74,6 +74,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     SUBFLOW_EDITOR: 'builder_platform_interaction-subflow-editor',
     TIME_TRIGGER: 'builder_platform_interaction-time-trigger',
     USE_ADVANCED_OPTIONS_CHECKBOX: 'builder_platform_interaction-use-advanced-options-checkbox',
+    USE_ADVANCED_SETTINGS_ACCORDION: 'builder_platform_interaction-use-advanced-settings-accordion',
     VARIABLE_AND_FIELD_MAPPING_COMPONENT: 'builder_platform_interaction-record-lookup-variable-and-field-mapping',
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',

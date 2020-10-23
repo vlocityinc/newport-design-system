@@ -85,7 +85,8 @@ export const autolaunchedFlowUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'Automatic'
         },
         '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
             guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',

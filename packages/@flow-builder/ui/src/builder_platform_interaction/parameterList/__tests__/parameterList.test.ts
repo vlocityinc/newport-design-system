@@ -84,11 +84,16 @@ const defaultOutputParameters = [
     }
 ];
 
-const defaultParameterList = (storeOutputAutomatically = false, automaticOutputHandlingSupported = false) => ({
+const defaultParameterList = (
+    storeOutputAutomatically = false,
+    automaticOutputHandlingSupported = false,
+    displayOutputParams = true
+) => ({
     inputs: defaultInputParameters,
     outputs: defaultOutputParameters,
     storeOutputAutomatically,
-    automaticOutputHandlingSupported
+    automaticOutputHandlingSupported,
+    displayOutputParams
 });
 
 const parameterListWithInputs = (storeOutputAutomatically = false, automaticOutputHandlingSupported = false) => ({
@@ -170,7 +175,8 @@ function createComponentForTest({
     sortOutputs = true,
     storeOutputAutomatically = false,
     automaticOutputHandlingSupported = false,
-    configurationEditor
+    configurationEditor,
+    displayOutputParams = true
 } = {}) {
     const el = createElement('builder_platform_interaction-parameter-list', {
         is: ParameterList
@@ -189,7 +195,8 @@ function createComponentForTest({
         sortOutputs,
         storeOutputAutomatically,
         automaticOutputHandlingSupported,
-        configurationEditor
+        configurationEditor,
+        displayOutputParams
     });
     document.body.appendChild(el);
     return el;
@@ -295,7 +302,7 @@ describe('parameter-list', () => {
     describe('Automatic output handling supported', () => {
         let parameterList;
         beforeEach(() => {
-            parameterList = createComponentForTest(defaultParameterList(true, true));
+            parameterList = createComponentForTest(defaultParameterList(true, true, true));
         });
         it('contains input parameters in inputs div', () => {
             const parameterItems = getInputParameterItems(parameterList);
@@ -481,6 +488,20 @@ describe('parameter-list', () => {
                 error: undefined,
                 rowIndex: undefined
             });
+        });
+    });
+    describe('When display output parameters is disabled for action editor', () => {
+        let parameterList;
+        beforeEach(() => {
+            parameterList = createComponentForTest(defaultParameterList(false, true, false));
+        });
+        it('Should not display the Use Advanced Option checkbox', () => {
+            const advancedOptionCheckbox = getUseAdvancedOptionComponent(parameterList);
+            expect(advancedOptionCheckbox).toBeNull();
+        });
+        it('should not contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).toBeNull();
         });
     });
 });

@@ -52,7 +52,8 @@ export const flowLegalNameChange = {
                         assignToReference: 'vFeedItemID'
                     }
                 ],
-                storeOutputAutomatically: false
+                storeOutputAutomatically: false,
+                flowTransactionModel: 'Automatic'
             }
         ],
         assignments: [
