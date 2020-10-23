@@ -17,7 +17,6 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     ticks,
     changeEvent,
     removePill,
@@ -28,7 +27,11 @@ import {
     getEntityResourcePickerChildGroupedComboboxComponent,
     getEntityResourcePicker,
     getBaseResourcePickerCombobox,
-    getRecordVariablePickerChildComboboxComponent
+    getRecordVariablePickerChildComboboxComponent,
+    getSObjectOrSObjectCollectionPicker,
+    getRecordStoreOption,
+    getRecordFilter,
+    getRecordInputOutputAssignments
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
@@ -99,25 +102,21 @@ describe('Record Update Editor', () => {
         });
         it('does not change "dev name" if it already exists after the user modifies the "label"', async () => {
             const newLabel = 'new label';
-            changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
-            await ticks(1);
+            await changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
             expect(recordUpdateComponent.node.label.value).toBe(newLabel);
             expect(recordUpdateComponent.node.name.value).toBe(recordUpdateNode.name.value);
         });
         it('modifies the "dev name"', async () => {
             const newDevName = 'newDevName';
-            changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
-            await ticks(1);
+            await changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
             expect(recordUpdateComponent.node.name.value).toBe(newDevName);
         });
         it('displays error if the "label" is cleared', async () => {
-            changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), '');
-            await ticks(1);
+            await changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), '');
             expect(recordUpdateComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
         it('displays error if the "dev name" is cleared', async () => {
-            changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), '');
-            await ticks(1);
+            await changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), '');
             expect(recordUpdateComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });
@@ -134,10 +133,7 @@ describe('Record Update Editor', () => {
         describe('store options', () => {
             let storeOptions;
             beforeEach(() => {
-                storeOptions = getChildComponent(
-                    recordUpdateComponent,
-                    INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
-                );
+                storeOptions = getRecordStoreOption(recordUpdateComponent);
             });
             it('should be displayed', () => {
                 expect(storeOptions).not.toBeNull();
@@ -149,10 +145,7 @@ describe('Record Update Editor', () => {
         describe('Record Variable or Record Collection Variable picker', () => {
             let recordVariablePicker;
             beforeEach(() => {
-                recordVariablePicker = getChildComponent(
-                    recordUpdateComponent,
-                    INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
-                );
+                recordVariablePicker = getSObjectOrSObjectCollectionPicker(recordUpdateComponent);
             });
             it('should be displayed', () => {
                 expect(recordVariablePicker).not.toBeNull();
@@ -196,10 +189,7 @@ describe('Record Update Editor', () => {
         });
         describe('default Filter', () => {
             it('should be all (Conditions are Met)', async () => {
-                const recordStoreElement = getChildComponent(
-                    recordUpdateComponent,
-                    INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
-                );
+                const recordStoreElement = getRecordStoreOption(recordUpdateComponent);
                 recordStoreElement.dispatchEvent(new RecordStoreOptionChangedEvent(false, '', false));
                 await ticks(1);
                 const entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
@@ -212,10 +202,7 @@ describe('Record Update Editor', () => {
                     displayText: 'Contract',
                     value: 'Contract'
                 });
-                const recordFilter = getChildComponent(
-                    recordUpdateComponent,
-                    INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
-                );
+                const recordFilter = getRecordFilter(recordUpdateComponent);
                 expect(recordFilter.filterLogic.value).toBe(CONDITION_LOGIC.AND);
             });
         });
@@ -233,10 +220,7 @@ describe('Record Update Editor', () => {
             describe('store options', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(
-                        recordUpdateComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
-                    );
+                    storeOptions = getRecordStoreOption(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
@@ -248,10 +232,7 @@ describe('Record Update Editor', () => {
             describe('Record Variable or Record Collection Variable picker', () => {
                 let recordVariablePicker;
                 beforeEach(() => {
-                    recordVariablePicker = getChildComponent(
-                        recordUpdateComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
-                    );
+                    recordVariablePicker = getSObjectOrSObjectCollectionPicker(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
                     expect(recordVariablePicker).not.toBeNull();
@@ -407,10 +388,7 @@ describe('Record Update Editor', () => {
             describe('store options', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(
-                        recordUpdateComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
-                    );
+                    storeOptions = getRecordStoreOption(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
@@ -452,9 +430,7 @@ describe('Record Update Editor', () => {
                         await ticks(1);
                     });
                     it('should NOT display record filters', () => {
-                        expect(
-                            getChildComponent(recordUpdateComponent, INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
-                        ).toBeNull();
+                        expect(getRecordFilter(recordUpdateComponent)).toBeNull();
                     });
                     it('should display invalid entry error', () => {
                         expect(recordUpdateComponent.node.object.error).toBe(
@@ -480,22 +456,14 @@ describe('Record Update Editor', () => {
                         expect(recordUpdateComponent.node.object.error).toBeNull();
                     });
                     it('should display record filters', () => {
-                        expect(
-                            getChildComponent(recordUpdateComponent, INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
-                        ).not.toBeNull();
+                        expect(getRecordFilter(recordUpdateComponent)).not.toBeNull();
                     });
                     it('should display 1 filters item', () => {
-                        filterItems = getChildComponent(
-                            recordUpdateComponent,
-                            INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
-                        ).filterItems;
+                        filterItems = getRecordFilter(recordUpdateComponent).filterItems;
                         expect(filterItems).toHaveLength(1);
                     });
                     it('should display the filters item LHS/Operator/RHS', () => {
-                        filterItems = getChildComponent(
-                            recordUpdateComponent,
-                            INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
-                        ).filterItems;
+                        filterItems = getRecordFilter(recordUpdateComponent).filterItems;
                         expect(filterItems[0]).toMatchObject(newFilterItem());
                     });
                 });
@@ -508,9 +476,7 @@ describe('Record Update Editor', () => {
                         await ticks(1);
                     });
                     it('should NOT display record filters', () => {
-                        expect(
-                            getChildComponent(recordUpdateComponent, INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
-                        ).toBeNull();
+                        expect(getRecordFilter(recordUpdateComponent)).toBeNull();
                     });
                     it('should display required value error', () => {
                         expect(recordUpdateComponent.node.object.error).toBe(
@@ -522,10 +488,7 @@ describe('Record Update Editor', () => {
             describe('Record Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(
-                        recordUpdateComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
-                    );
+                    recordFilter = getRecordFilter(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
@@ -580,10 +543,7 @@ describe('Record Update Editor', () => {
                 let inputAssignments;
                 let fieldToFerovExpressionBuilder;
                 beforeEach(() => {
-                    inputAssignments = getChildComponent(
-                        recordUpdateComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS
-                    );
+                    inputAssignments = getRecordInputOutputAssignments(recordUpdateComponent);
                     fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
                 });
                 it('should be displayed', () => {

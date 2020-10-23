@@ -1,8 +1,11 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordDeleteEditor from '../recordDeleteEditor';
-import * as storeMockedData from 'mock/storeData';
-import { AddElementEvent, EditElementEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import {
+    AddElementEvent,
+    EditElementEvent,
+    PropertyChangedEvent,
+    SObjectReferenceChangedEvent
+} from 'builder_platform_interaction/events';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     RecordStoreOptionChangedEvent,
@@ -10,10 +13,9 @@ import {
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { flowWithAllElementsUIModel, accountSObjectVariable, elementsForPropertyEditors } from 'mock/storeData';
+import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -23,72 +25,83 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
 
-const createComponentForTest = (node, mode) => {
+const createComponentForTest = (props) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
-    Object.assign(el, { node, mode });
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 };
-const MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d',
-    SELECTORS = {
-        sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
-        entityResourcePicker: 'builder_platform_interaction-entity-resource-picker',
-        recordFilter: 'builder_platform_interaction-record-filter',
-        recordStoreOption: 'builder_platform_interaction-record-store-options'
-    };
 
-const defaultRecordDeleteElement = () => ({
-    description: { value: '', error: null },
-    elementType: ELEMENT_TYPE.RECORD_DELETE,
-    guid: MOCK_GUID,
-    isCanvasElement: true,
-    label: { value: '', error: null },
-    name: { value: '', error: null },
-    inputReference: { value: '', error: null },
-    inputReferenceIndex: { value: 'guid', error: null },
-    object: { value: '', error: null },
-    objectIndex: { value: 'guid', error: null },
-    filters: [],
-    useSobject: true
-});
-
-const recordDeleteElementWithSObject = () => ({
-    description: { value: '', error: null },
-    elementType: ELEMENT_TYPE.RECORD_DELETE,
-    guid: MOCK_GUID,
-    isCanvasElement: true,
-    label: { value: 'record delete editor with sobject', error: null },
-    locationX: 358,
-    locationY: 227,
-    name: { value: 'record_delete_editor_with_sobject', error: null },
-    inputReference: {
-        value: storeMockedData.accountSObjectVariable.guid,
+const newRecordDeleteElement = {
+    guid: '560d2014-6a3b-4547-a025-7a4b4fb57233',
+    name: {
+        value: '',
         error: null
     },
-    inputReferenceIndex: { value: 'guid', error: null },
-    filters: [],
-    object: { value: '', error: null },
-    objectIndex: { value: 'guid', error: null },
-    useSobject: true
-});
-
-const recordDeleteElementWithFields = () => ({
-    description: { value: '', error: null },
-    elementType: ELEMENT_TYPE.RECORD_DELETE,
-    guid: MOCK_GUID,
+    description: {
+        value: '',
+        error: null
+    },
+    label: {
+        value: '',
+        error: null
+    },
+    locationX: 531,
+    locationY: 36,
     isCanvasElement: true,
-    label: { value: 'record delete editor with fields', error: null },
-    locationX: 358,
-    locationY: 227,
-    name: { value: 'record_delete_editor_with_fields', error: null },
-    filterLogic: { value: CONDITION_LOGIC.AND, error: null },
+    connectorCount: 0,
+    config: {
+        isSelected: false,
+        isHighlighted: false,
+        isSelectable: true,
+        hasError: false
+    },
+    elementSubtype: {
+        value: null,
+        error: null
+    },
+    inputReference: {
+        value: '',
+        error: null
+    },
+    inputReferenceIndex: {
+        value: '7095ef66-8f20-4628-978e-f336c23af792',
+        error: null
+    },
+    object: {
+        value: '',
+        error: null
+    },
+    objectIndex: {
+        value: 'c5a72d22-a4a6-4867-b98f-3089de6098af',
+        error: null
+    },
+    filterLogic: {
+        value: 'and',
+        error: null
+    },
     filters: [],
-    inputReference: { value: '', error: null },
-    inputReferenceIndex: { value: 'guid', error: null },
-    object: { value: 'account', error: null },
-    objectIndex: { value: 'guid', error: null },
-    useSobject: false
-});
+    maxConnections: 2,
+    availableConnections: [
+        {
+            type: 'REGULAR'
+        },
+        {
+            type: 'FAULT'
+        }
+    ],
+    elementType: 'RecordDelete',
+    dataType: {
+        value: 'Boolean',
+        error: null
+    },
+    useSobject: true
+};
+
+const {
+    deleteAccount: recordDeleteElementWithSObject,
+    deleteAccountWithFilters: recordDeleteElementWithFields
+} = elementsForPropertyEditors;
 
 const filterElement = {
     leftHandSide: { value: 'Account.Id', error: null },
@@ -100,104 +113,148 @@ const filterElement = {
 };
 
 // Mocking out the fetch function to return Account fields
-jest.mock('builder_platform_interaction/serverDataLib', () => {
-    return {
-        fetchOnce: () => {
-            return Promise.resolve(mockAccountFields);
-        },
-        SERVER_ACTION_TYPE: jest.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
-    };
-});
+jest.mock('builder_platform_interaction/serverDataLib', () => ({
+    fetchOnce: () => Promise.resolve(mockAccountFields),
+    SERVER_ACTION_TYPE: jest.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
+}));
 
 const getSObjectOrSObjectCollectionPicker = (recordDeleteEditor) =>
-    recordDeleteEditor.shadowRoot.querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
+    recordDeleteEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 const getEntityResourcePicker = (recordDeleteEditor) =>
-    recordDeleteEditor.shadowRoot.querySelector(SELECTORS.entityResourcePicker);
+    recordDeleteEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
 const getRecordStoreOption = (recordDeleteEditor) =>
-    recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordStoreOption);
-const getRecordFilter = (recordDeleteEditor) => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordFilter);
+    recordDeleteEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
+const getRecordFilter = (recordDeleteEditor) =>
+    recordDeleteEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
 
 describe('Record delete editor', () => {
     let recordDeleteEditor;
     beforeAll(() => {
+        // @ts-ignore
         Store.setMockState(flowWithAllElementsUIModel);
     });
     afterAll(() => {
+        // @ts-ignore
         Store.resetStore();
     });
-    describe('record delete editor with default values (added from palette)', () => {
-        beforeEach(() => {
-            recordDeleteEditor = createComponentForTest(defaultRecordDeleteElement(), AddElementEvent.EVENT_NAME);
+    describe('Add new element', () => {
+        beforeAll(() => {
+            recordDeleteEditor = createComponentForTest({
+                node: newRecordDeleteElement,
+                mode: AddElementEvent.EVENT_NAME
+            });
         });
-        test('contains an entity resource picker for sobject', () => {
+        test('displays the sobject or sobject collection picker', () => {
             expect(getSObjectOrSObjectCollectionPicker(recordDeleteEditor)).not.toBeNull();
         });
-        test('contains an record store option component', () => {
+        test('displays the record store option', () => {
             expect(getRecordStoreOption(recordDeleteEditor)).not.toBeNull();
         });
-        test('entity resource picker ("object") should not be visible', () => {
+        test('does NOT display the entity resource picker', () => {
             expect(getEntityResourcePicker(recordDeleteEditor)).toBeNull();
         });
-        test('record filter (filters) should not be visible', () => {
+        test('does NOT display the record filter', () => {
             expect(getRecordFilter(recordDeleteEditor)).toBeNull();
         });
     });
-
-    describe('record delete editor using sObject', () => {
-        beforeEach(() => {
-            recordDeleteEditor = createComponentForTest(recordDeleteElementWithSObject(), EditElementEvent.EVENT_NAME);
-        });
-        describe('Edit existing record element', () => {
-            test('Selected sObject should be the same', () => {
+    describe('Existing element', () => {
+        describe('using sObject', () => {
+            beforeAll(() => {
+                recordDeleteEditor = createComponentForTest({
+                    node: recordDeleteElementWithSObject,
+                    mode: EditElementEvent.EVENT_NAME
+                });
+            });
+            it('does NOT display the "EntityResourcePicker" component', () => {
+                expect(getEntityResourcePicker(recordDeleteEditor)).toBeNull();
+            });
+            it('displays "RecordStoreOption" component', () => {
+                expect(getRecordStoreOption(recordDeleteEditor)).not.toBeNull();
+            });
+            it('displays "SObjectOrSObjectCollectionPicker" component', () => {
+                expect(getSObjectOrSObjectCollectionPicker(recordDeleteEditor)).not.toBeNull();
+            });
+            it('displays selected sObject', () => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
+                expect(sObjectOrSObjectCollectionPicker.value).toBe(accountSObjectVariable.guid);
+            });
+            describe('Handle Events', () => {
+                it('"SObjectReferenceChangedEvent" should change the selected sobject)', async () => {
+                    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
+                    sObjectOrSObjectCollectionPicker.dispatchEvent(
+                        new SObjectReferenceChangedEvent(accountSObjectVariable.guid)
+                    );
+                    await ticks(1);
+                    expect(sObjectOrSObjectCollectionPicker.value).toBe(accountSObjectVariable.guid);
+                });
+                it('"RecordStoreOptionChangedEvent" changing to non sobject mode should set the useSobject to false', async () => {
+                    getRecordStoreOption(recordDeleteEditor).dispatchEvent(
+                        new RecordStoreOptionChangedEvent(false, 'sObjectVariable', false)
+                    );
+                    await ticks(1);
+                    expect(recordDeleteEditor.getNode().useSobject).toBe(false);
+                });
             });
         });
-        describe('Handle Events', () => {
-            test('handle "inputReference" changes', async () => {
-                const event = new SObjectReferenceChangedEvent(storeMockedData.accountSObjectVariable.guid, null);
-                let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
-                sObjectOrSObjectCollectionPicker.dispatchEvent(event);
-                await ticks(1);
-                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
+        describe('using fields', () => {
+            beforeEach(() => {
+                recordDeleteEditor = createComponentForTest({
+                    node: recordDeleteElementWithFields,
+                    mode: EditElementEvent.EVENT_NAME
+                });
             });
-        });
-    });
-
-    describe('record delete editor using fields', () => {
-        beforeEach(() => {
-            recordDeleteEditor = createComponentForTest(recordDeleteElementWithFields(), EditElementEvent.EVENT_NAME);
-        });
-        test('entity resource picker should be visible & sObject picker should not be visible', () => {
-            expect(getEntityResourcePicker(recordDeleteEditor)).not.toBeNull();
-        });
-
-        describe('Handle Events', () => {
-            test('change number record to store to All records, sObject picker should changed', async () => {
-                const event = new RecordStoreOptionChangedEvent(true, '', false);
-                getRecordStoreOption(recordDeleteEditor).dispatchEvent(event);
-                await ticks(1);
-                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toHaveLength(0);
+            it('displays the "EntityResourcePicker" component', () => {
+                expect(getEntityResourcePicker(recordDeleteEditor)).not.toBeNull();
             });
-            test('handle "UpdateRecordFilterEvent" should update the filter element', async () => {
-                const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
-                getRecordFilter(recordDeleteEditor).dispatchEvent(updateRecordFilterEvent);
-                await ticks(1);
-                expect(recordDeleteEditor.node.filters[0]).toMatchObject(filterElement);
+            it('does NOT display "SObjectOrSObjectCollectionPicker" component', () => {
+                expect(getSObjectOrSObjectCollectionPicker(recordDeleteEditor)).toBeNull();
             });
-            test('handle "AddRecordFilterEvent" should add a filter element', async () => {
-                const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
-                getRecordFilter(recordDeleteEditor).dispatchEvent(addRecordFilterEvent);
-                await ticks(1);
-                expect(recordDeleteEditor.node.filters).toHaveLength(1);
+            it('displays "RecordStoreOption" component', () => {
+                expect(getRecordStoreOption(recordDeleteEditor)).not.toBeNull();
             });
-            test('record filter fires "DeleteRecordFilterEvent"', async () => {
-                const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-                getRecordFilter(recordDeleteEditor).dispatchEvent(deleteRecordFilterEvent);
-                await ticks(1);
-                expect(recordDeleteEditor.node.filters).toHaveLength(0);
+            it('sets useSobject to false', () => {
+                expect(recordDeleteEditor.getNode().useSobject).toBe(false);
+            });
+            describe('Handle Events', () => {
+                it('"RecordStoreOptionChangedEvent" changing to sobject mode should set the useSobject to true', async () => {
+                    getRecordStoreOption(recordDeleteEditor).dispatchEvent(
+                        new RecordStoreOptionChangedEvent(true, 'sObjectVariable', false)
+                    );
+                    await ticks(1);
+                    expect(recordDeleteEditor.getNode().useSobject).toBe(true);
+                });
+                it('"UpdateRecordFilterEvent" should update the filter element', async () => {
+                    getRecordFilter(recordDeleteEditor).dispatchEvent(new UpdateRecordFilterEvent(0, filterElement));
+                    await ticks(1);
+                    expect(recordDeleteEditor.getNode().filters[0]).toMatchObject(filterElement);
+                });
+                it('"AddRecordFilterEvent" should add a filter element', async () => {
+                    getRecordFilter(recordDeleteEditor).dispatchEvent(new AddRecordFilterEvent());
+                    await ticks(1);
+                    expect(recordDeleteEditor.getNode().filters).toHaveLength(
+                        recordDeleteElementWithFields.filters.length + 1
+                    );
+                });
+                it('"DeleteRecordFilterEvent" should delete a filter', async () => {
+                    getRecordFilter(recordDeleteEditor).dispatchEvent(new DeleteRecordFilterEvent(0));
+                    await ticks(1);
+                    expect(recordDeleteEditor.getNode().filters).toHaveLength(
+                        recordDeleteElementWithFields.filters.length - 1
+                    );
+                });
+                it('"FilterLogic" change update filter logic and left untouched filters', async () => {
+                    const newFilterLogic = '1 AND 2 AND 3';
+                    const { filters: oldFilters } = recordDeleteEditor.getNode();
+                    getRecordFilter(recordDeleteEditor).dispatchEvent(
+                        new PropertyChangedEvent('filterLogic', newFilterLogic)
+                    );
+                    await ticks(1);
+                    expect(recordDeleteEditor.getNode().filterLogic).toEqual({
+                        value: newFilterLogic,
+                        error: null
+                    });
+                    expect(recordDeleteEditor.getNode().filters).toEqual(oldFilters);
+                });
             });
         });
     });

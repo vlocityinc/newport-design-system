@@ -11,7 +11,9 @@ import {
     textTemplate2,
     elementsForPropertyEditors,
     emailScreenField,
-    emailScreenFieldAutomaticOutput
+    emailScreenFieldAutomaticOutput,
+    deleteAccountWithFilters,
+    deleteAccount
 } from 'mock/storeData';
 import { goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -40,7 +42,9 @@ describe('propertyEditorFactory', () => {
                 textTemplate2,
                 stringConstant,
                 emailScreenField,
-                emailScreenFieldAutomaticOutput
+                emailScreenFieldAutomaticOutput,
+                deleteAccountWithFilters,
+                deleteAccount
             ];
             const actualElementsForPropertyEditors = elements.reduce((acc, element) => {
                 acc[element.name] = getElementForPropertyEditor(element);

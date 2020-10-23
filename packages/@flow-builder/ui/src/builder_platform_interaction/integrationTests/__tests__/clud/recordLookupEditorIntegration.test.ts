@@ -121,42 +121,34 @@ describe('Record Lookup Editor', () => {
                 recordLookupNode = getElementForPropertyEditor(element);
                 recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
             });
-            it('do not change devName if it already exists after the user modifies the name', () => {
+            it('do not change devName if it already exists after the user modifies the name', async () => {
                 newLabel = 'new label';
                 const labelInput = getLabelDescriptionLabelElement(recordLookupElement);
-                changeInputValue(labelInput, newLabel);
-                return resolveRenderCycles(() => {
-                    expect(recordLookupElement.node.label.value).toBe(newLabel);
-                    expect(recordLookupElement.node.name.value).toBe('lookupRecordOutputReference');
-                });
+                await changeInputValue(labelInput, newLabel);
+                expect(recordLookupElement.node.label.value).toBe(newLabel);
+                expect(recordLookupElement.node.name.value).toBe('lookupRecordOutputReference');
             });
-            it('modify the dev name', () => {
+            it('modify the dev name', async () => {
                 newDevName = 'newName';
                 const devNameInput = getLabelDescriptionNameElement(recordLookupElement);
-                changeInputValue(devNameInput, newDevName);
-                return resolveRenderCycles(() => {
-                    expect(recordLookupElement.node.name.value).toBe(newDevName);
-                });
+                await changeInputValue(devNameInput, newDevName);
+                expect(recordLookupElement.node.name.value).toBe(newDevName);
             });
-            it('display error if name is cleared', () => {
+            it('display error if name is cleared', async () => {
                 newLabel = '';
                 const labelInput = getLabelDescriptionLabelElement(recordLookupElement);
-                changeInputValue(labelInput, newLabel);
-                return resolveRenderCycles(() => {
-                    expect(recordLookupElement.node.label.error).toBe(
-                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                    );
-                });
+                await changeInputValue(labelInput, newLabel);
+                expect(recordLookupElement.node.label.error).toBe(
+                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                );
             });
-            it('display error if devName is cleared', () => {
+            it('display error if devName is cleared', async () => {
                 newDevName = '';
                 const devNameInput = getLabelDescriptionNameElement(recordLookupElement);
-                changeInputValue(devNameInput, newDevName);
-                return resolveRenderCycles(() => {
-                    expect(recordLookupElement.node.name.error).toBe(
-                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                    );
-                });
+                await changeInputValue(devNameInput, newDevName);
+                expect(recordLookupElement.node.name.error).toBe(
+                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                );
             });
         });
         describe('Add new element', () => {

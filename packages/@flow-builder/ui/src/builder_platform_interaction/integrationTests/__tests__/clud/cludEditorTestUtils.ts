@@ -58,6 +58,15 @@ export const getEntityResourcePicker = (editor) =>
 export const getRecordStoreOption = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
 
+export const getSObjectOrSObjectCollectionPicker = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+
+export const getRecordFilter = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
+
+export const getRecordInputOutputAssignments = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+
 export const removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox = async (element) => {
     const combobox = getResourceCombobox(element);
     await removePill(combobox);

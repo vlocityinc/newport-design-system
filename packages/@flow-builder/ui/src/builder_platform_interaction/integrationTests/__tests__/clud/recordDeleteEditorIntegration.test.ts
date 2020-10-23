@@ -13,40 +13,92 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { EditElementEvent } from 'builder_platform_interaction/events';
-import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import {
-    getResourceGroupedCombobox,
     getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent,
     getEntityResourcePicker,
-    getBaseResourcePickerCombobox
+    getBaseResourcePickerCombobox,
+    removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox,
+    getResourceCombobox,
+    getRecordStoreOption,
+    getSObjectOrSObjectCollectionPicker,
+    getRecordFilter,
+    getRecordVariablePickerChildComboboxComponent
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
     changeEvent,
+    clickPill,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
+    removePill,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../groupedComboboxTestUtils';
+import {
+    expectCanBeTraversed,
+    expectCannotBeTraversed,
+    expectCannotBeSelected,
+    getGroupedComboboxItemBy
+} from '../groupedComboboxTestUtils';
 import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
     getFilterCustomConditionLogicInput,
     newFilterItem
 } from '../recordFilterTestUtils';
+import { selectComboboxItemBy, typeLiteralValueInCombobox, typeMergeFieldInCombobox } from '../comboboxTestUtils';
 
-const createComponentForTest = (node, mode?, processType?) => {
+jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', () => ({ default: 'Outputs from {0}' }), {
+    virtual: true
+});
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordCreateIdAsResourceText',
+    () => ({ default: '{0}Id from {1}' }),
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
+    () => ({ default: '{0} from {1}' }),
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
+    () => {
+        return { default: 'Current Item from Loop {0}' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText',
+    () => {
+        return { default: '{0}' };
+    },
+    { virtual: true }
+);
+
+const SELECTORS = { ABBR: 'ABBR' };
+
+const createComponentForTest = (props) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
-    Object.assign(el, { node, processType, mode });
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 };
 
+const expectCanBeTraversedInResourcePicker = async (textValues, sObjectOrSObjectCollectionPicker) => {
+    await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+};
+const expectCannotBeTraversedInResourcePicker = async (textValues, sObjectOrSObjectCollectionPicker) => {
+    await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+};
+const expectCannotBeSelectedInResourcePicker = async (textValues, sObjectOrSObjectCollectionPicker) => {
+    await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
+};
+
 describe('Record Delete Editor', () => {
-    let recordDeleteNode, store;
     beforeAll(async () => {
-        store = await setupStateForFlow(flowWithAllElements);
+        const store = await setupStateForFlow(flowWithAllElements);
         translateFlowToUIAndDispatch(flowWithAllElements, store);
     });
     afterAll(() => {
@@ -54,140 +106,130 @@ describe('Record Delete Editor', () => {
     });
     describe('Add new element', () => {
         let recordDeleteComponent;
+
         beforeEach(() => {
-            recordDeleteNode = getElementForPropertyEditor({
+            const recordDeleteNode = getElementForPropertyEditor({
                 elementType: ELEMENT_TYPE.RECORD_DELETE,
                 isNewElement: true
             });
-            recordDeleteComponent = createComponentForTest(recordDeleteNode);
+            recordDeleteComponent = createComponentForTest({ node: recordDeleteNode });
         });
-        describe('Filtering (store options)', () => {
-            let storeOptions;
-            beforeEach(() => {
-                storeOptions = getChildComponent(
-                    recordDeleteComponent,
-                    INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
-                );
+        describe('store options', () => {
+            it('"useSobject" should be true', () => {
+                expect(recordDeleteComponent.getNode().useSobject).toBe(true);
             });
             it('should be displayed', () => {
-                expect(storeOptions).not.toBeNull();
+                expect(getRecordStoreOption(recordDeleteComponent)).not.toBeNull();
             });
-            it('value should be "firstRecord" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
-                expect(storeOptions.numberOfRecordsToStore).toBe('firstRecord');
+            it('"numberOfRecordsToStore" should be "firstRecord" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
+                expect(getRecordStoreOption(recordDeleteComponent).numberOfRecordsToStore).toBe('firstRecord');
             });
         });
-        describe('Record Variable or Record Collection Variable picker', () => {
-            let recordVariablePicker;
+        describe('"SObjectOrSObjectCollectionPicker"', () => {
+            let sObjectOrSObjectCollectionPicker;
             beforeEach(() => {
-                recordVariablePicker = getChildComponent(
-                    recordDeleteComponent,
-                    INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
-                );
+                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteComponent);
             });
             it('should be displayed', () => {
-                expect(recordVariablePicker).not.toBeNull();
+                expect(sObjectOrSObjectCollectionPicker).not.toBeNull();
             });
             it('value should be an empty string', () => {
-                expect(recordVariablePicker.value).toBe('');
+                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
             });
-        });
-    });
-    describe('Working with sObject', () => {
-        let recordDeleteComponent, sObjectOrSObjectCollectionPicker;
-        const expectCanBeTraversedInResourcePicker = async (textValues) => {
-            await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
-        };
-        const expectCannotBeTraversedInResourcePicker = async (textValues) => {
-            await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
-        };
-        const expectCannotBeSelectedInResourcePicker = async (textValues) => {
-            await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
-        };
-        beforeEach(() => {
-            const element = getElementByDevName('deleteAccount');
-            recordDeleteNode = getElementForPropertyEditor(element);
-            recordDeleteComponent = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
-            sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordDeleteComponent);
-        });
-        it('contains sobject collection', async () => {
-            await expectCannotBeTraversedInResourcePicker(['accountSObjectCollectionVariable']);
-        });
-        it('contains single sobject, no traversal', async () => {
-            await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
-        });
-        it('contains apex that only contains a single sobject', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexContainsOnlyASingleSObjectVariable']);
-        });
-        it('contains apex that only contains an SObject collection', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexContainsOnlyAnSObjectCollectionVariable']);
-        });
-        it('contains complex apex type and shows up only sobject or sobject collection fields', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
-            await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
-        });
-        it('contains elements that contains apex that contains sobject and shows only sobject (single or collection) fields up. Sobject fields should not be traversable', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
-            await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acct']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acctListField']);
-            await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
-        });
-        it('does not contain element that is not sobject or does not contain sobject', async () => {
-            await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
+            describe('pills', () => {
+                it('should have no pill displayed', () => {
+                    const combobox = getRecordVariablePickerChildComboboxComponent(sObjectOrSObjectCollectionPicker);
+                    expect(combobox.hasPill).toBe(false);
+                });
+                describe('events', () => {
+                    it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
+                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                            sObjectOrSObjectCollectionPicker
+                        );
+                        await typeMergeFieldInCombobox(combobox, '{!accountSObjectCollectionVariable}');
+                        expect(combobox.hasPill).toBe(true);
+                        expect(combobox.pill).toEqual({
+                            iconName: 'utility:sobject',
+                            label: 'accountSObjectCollectionVariable'
+                        });
+                    });
+                    it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display no pill but error message (once pill has been cleared))', async () => {
+                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                            sObjectOrSObjectCollectionPicker
+                        );
+                        await typeLiteralValueInCombobox(combobox, 'literalitis');
+                        expect(combobox.hasPill).toBe(false);
+                        expect(combobox.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
+                    });
+                    it('select and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
+                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                            sObjectOrSObjectCollectionPicker
+                        );
+                        await selectComboboxItemBy(combobox, 'text', ['accountSObjectCollectionVariable']);
+                        expect(combobox.hasPill).toBe(true);
+                        expect(combobox.pill).toEqual({
+                            iconName: 'utility:sobject',
+                            label: 'accountSObjectCollectionVariable'
+                        });
+                    });
+                });
+            });
         });
     });
     describe('Existing element', () => {
         let recordDeleteComponent;
-        describe('Working with sObject', () => {
-            afterAll(() => {
-                store.dispatch({ type: 'INIT' });
-            });
-            beforeEach(() => {
+        describe('Using sObject', () => {
+            let recordDeleteNode;
+            beforeAll(() => {
                 const element = getElementByDevName('deleteAccount');
                 recordDeleteNode = getElementForPropertyEditor(element);
-                recordDeleteComponent = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
             });
-            describe('Filtering (store options)', () => {
-                let storeOptions;
-                beforeEach(() => {
-                    storeOptions = getChildComponent(
-                        recordDeleteComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
-                    );
+            beforeEach(() => {
+                recordDeleteComponent = createComponentForTest({
+                    node: recordDeleteNode,
+                    processType: 'Flow',
+                    mode: EditElementEvent.EVENT_NAME
+                });
+            });
+            describe('store options', () => {
+                it('"useSobject" should be true', () => {
+                    expect(recordDeleteComponent.getNode().useSobject).toBe(true);
                 });
                 it('should be displayed', () => {
-                    expect(storeOptions).not.toBeNull();
+                    expect(getRecordStoreOption(recordDeleteComponent)).not.toBeNull();
                 });
                 it('value should be "firstRecord" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
-                    expect(storeOptions.numberOfRecordsToStore).toBe('firstRecord');
+                    expect(getRecordStoreOption(recordDeleteComponent).numberOfRecordsToStore).toBe('firstRecord');
                 });
             });
-            describe('Record Variable or Record Collection Variable picker', () => {
-                let recordVariablePicker;
+            describe('"SObjectOrSObjectCollectionPicker"', () => {
+                let sObjectOrSObjectCollectionPicker;
                 beforeEach(() => {
-                    recordVariablePicker = getChildComponent(
-                        recordDeleteComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
-                    );
+                    sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteComponent);
                 });
                 it('should be displayed', () => {
-                    expect(recordVariablePicker).not.toBeNull();
+                    expect(sObjectOrSObjectCollectionPicker).not.toBeNull();
                 });
-                it('Selected value is correctly displayed', () => {
-                    expect(recordVariablePicker.value).toBe(recordDeleteNode.inputReference.value);
+                it('displays selected value', () => {
+                    expect(sObjectOrSObjectCollectionPicker.value).toBe(recordDeleteNode.inputReference.value);
                 });
-                it('Should contain "New Resource" entry', async () => {
-                    const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
+                it('contains "New Resource" entry', async () => {
+                    const combobox = getResourceCombobox(recordDeleteComponent);
+                    await removePill(combobox);
+                    const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(
+                        sObjectOrSObjectCollectionPicker
+                    );
                     await ticks(1);
                     expect(
                         getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
                     ).toBeDefined();
                 });
-                it('Should contain all record variables', () => {
-                    const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker)
-                        .items;
+                it('contains all record variables', async () => {
+                    const combobox = getResourceCombobox(recordDeleteComponent);
+                    await removePill(combobox);
+                    const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(
+                        sObjectOrSObjectCollectionPicker
+                    ).items;
                     expect(comboboxItems).toEqual(
                         expect.arrayContaining([
                             expect.objectContaining({
@@ -201,30 +243,226 @@ describe('Record Delete Editor', () => {
                         ])
                     );
                 });
-            });
-        });
-        describe('Working with fields', () => {
-            afterAll(() => {
-                store.dispatch({ type: 'INIT' });
-            });
-            beforeEach(() => {
-                const element = getElementByDevName('deleteAccountWithFilters');
-                recordDeleteNode = getElementForPropertyEditor(element);
-                recordDeleteComponent = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
-            });
-            describe('Filtering (store options)', () => {
-                let storeOptions;
-                beforeEach(() => {
-                    storeOptions = getChildComponent(
-                        recordDeleteComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
+                it('contains sobject collection', async () => {
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCannotBeTraversedInResourcePicker(
+                        ['accountSObjectCollectionVariable'],
+                        sObjectOrSObjectCollectionPicker
                     );
                 });
+                it('contains single sobject, no traversal', async () => {
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCannotBeTraversedInResourcePicker(
+                        ['accountSObjectVariable'],
+                        sObjectOrSObjectCollectionPicker
+                    );
+                });
+                it('contains apex that only contains a single sobject', async () => {
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCanBeTraversedInResourcePicker(
+                        ['apexContainsOnlyASingleSObjectVariable'],
+                        sObjectOrSObjectCollectionPicker
+                    );
+                });
+                it('contains apex that only contains an SObject collection', async () => {
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCanBeTraversedInResourcePicker(
+                        ['apexContainsOnlyAnSObjectCollectionVariable'],
+                        sObjectOrSObjectCollectionPicker
+                    );
+                });
+                it('contains complex apex type and shows up only sobject or sobject collection fields', async () => {
+                    const recordVariablePicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable'], recordVariablePicker);
+                    await expectCannotBeTraversedInResourcePicker(
+                        ['apexComplexTypeVariable', 'acct'],
+                        recordVariablePicker
+                    );
+                    await expectCannotBeTraversedInResourcePicker(
+                        ['apexComplexTypeVariable', 'acctListField'],
+                        recordVariablePicker
+                    );
+                    await expectCannotBeSelectedInResourcePicker(
+                        ['apexComplexTypeVariable', 'name'],
+                        recordVariablePicker
+                    );
+                });
+                it('contains elements that contains apex that contains sobject and shows only sobject (single or collection) fields up. Sobject fields should not be traversable', async () => {
+                    const recordVariablePicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable'], recordVariablePicker);
+                    await expectCanBeTraversedInResourcePicker(
+                        ['apexComplexTypeTwoVariable', 'testOne'],
+                        recordVariablePicker
+                    );
+                    await expectCannotBeTraversedInResourcePicker(
+                        ['apexComplexTypeTwoVariable', 'testOne', 'acct'],
+                        recordVariablePicker
+                    );
+                    await expectCannotBeTraversedInResourcePicker(
+                        ['apexComplexTypeTwoVariable', 'testOne', 'acctListField'],
+                        recordVariablePicker
+                    );
+                    await expectCannotBeSelectedInResourcePicker(
+                        ['apexComplexTypeTwoVariable', 'str'],
+                        recordVariablePicker
+                    );
+                });
+                it('does not contain element that is not sobject or does not contain sobject', async () => {
+                    const recordVariablePicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
+                        recordDeleteComponent
+                    );
+                    await expectCannotBeSelectedInResourcePicker(['apexCarVariable'], recordVariablePicker);
+                });
+                describe('pills', () => {
+                    it('displays a pill with the selected value', async () => {
+                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                            sObjectOrSObjectCollectionPicker
+                        );
+                        expect(combobox.hasPill).toBe(true);
+                        expect(combobox.pill).toEqual({
+                            iconName: 'utility:sobject',
+                            label: 'accountSObjectVariable'
+                        });
+                    });
+                    it('displays "abbr" element as it is a required field', async () => {
+                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                            sObjectOrSObjectCollectionPicker
+                        );
+
+                        const abbrElement = combobox.shadowRoot.querySelector(SELECTORS.ABBR);
+                        expect(abbrElement).not.toBeNull();
+                    });
+                    describe('events', () => {
+                        it('displays empty combobox and no pill when pill is cleared', async () => {
+                            const combobox = getRecordVariablePickerChildComboboxComponent(
+                                sObjectOrSObjectCollectionPicker
+                            );
+                            expect(combobox.hasPill).toBe(true);
+                            await removePill(combobox);
+                            expect(combobox.hasPill).toBe(false);
+                            expect(combobox.value).toEqual('');
+                        });
+                        it('switches to mergeField notation when clicking on "sobjectOrSobjectCollectionPicker" pill', async () => {
+                            const combobox = getRecordVariablePickerChildComboboxComponent(
+                                sObjectOrSObjectCollectionPicker
+                            );
+                            expect(combobox.hasPill).toBe(true);
+                            await clickPill(combobox);
+                            expect(combobox.hasPill).toBe(false);
+                            expect(combobox.value.displayText).toEqual('{!accountSObjectVariable}');
+                        });
+                        describe('typing', () => {
+                            describe('errors', () => {
+                                it.each`
+                                    resourcePickerMergefieldValue   | errorMessage
+                                    ${'{!accountSObjectVariable2}'} | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                                    ${'{!accountSObjectVariable'}   | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                    ${'{!accountSObjectVariable.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                    ${'literalitis'}                | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                                `(
+                                    'When typing "$resourcePickerMergefieldValue" error message should be: $errorMessage',
+                                    async ({ resourcePickerMergefieldValue, errorMessage }) => {
+                                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                                            sObjectOrSObjectCollectionPicker
+                                        );
+                                        await removePill(combobox);
+                                        await typeMergeFieldInCombobox(combobox, resourcePickerMergefieldValue);
+                                        expect(combobox.hasPill).toBe(false);
+                                        expect(combobox.errorMessage).toEqual(errorMessage);
+                                    }
+                                );
+                            });
+                            describe('NO errors', () => {
+                                it.each`
+                                    resourcePickerMergefieldValue                 | expectedPill
+                                    ${'{!accountSObjectVariable}'}                | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
+                                    ${'{!apexComplexTypeVariable.acct}'}          | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                                    ${'{!subflowAutomaticOutput.accountOutput}'}  | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                    ${'{!lookupRecordAutomaticOutput}'}           | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
+                                    ${'{!apexCall_anonymous_account}'}            | ${{ iconName: 'utility:sobject', label: 'Account from apexCall_anonymous_account' }}
+                                    ${'{!loopOnAccountAutoOutput}'}               | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                    ${'{!accountSObjectCollectionVariable}'}      | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
+                                    ${'{!apexComplexTypeVariable.acct}'}          | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                                    ${'{!lookupRecordCollectionAutomaticOutput}'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                    ${'{!apexCall_anonymous_accounts}'}           | ${{ iconName: 'utility:sobject', label: 'Accounts from apexCall_anonymous_accounts' }}
+                                `(
+                                    'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
+                                    async ({ resourcePickerMergefieldValue, expectedPill }) => {
+                                        const combobox = getRecordVariablePickerChildComboboxComponent(
+                                            sObjectOrSObjectCollectionPicker
+                                        );
+                                        await removePill(combobox);
+                                        await typeMergeFieldInCombobox(combobox, resourcePickerMergefieldValue);
+                                        expect(combobox.hasPill).toBe(true);
+                                        expect(combobox.pill).toEqual(expectedPill);
+                                    }
+                                );
+                            });
+                        });
+                        describe('selecting', () => {
+                            it.each`
+                                resourcePickerValue                                      | expectedPill
+                                ${'accountSObjectVariable'}                              | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
+                                ${'apexComplexTypeVariable.acct'}                        | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                                ${'Outputs from subflowAutomaticOutput.accountOutput'}   | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                ${'Account from lookupRecordAutomaticOutput'}            | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
+                                ${'Account from apexCall_anonymous_account'}             | ${{ iconName: 'utility:sobject', label: 'Account from apexCall_anonymous_account' }}
+                                ${'Current Item from Loop loopOnAccountAutoOutput'}      | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
+                                ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                ${'Accounts from apexCall_anonymous_accounts'}           | ${{ iconName: 'utility:sobject', label: 'Accounts from apexCall_anonymous_accounts' }}
+                                ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
+                            `(
+                                'When selecting "$resourcePickerValue" pill should be: $expectedPill',
+                                async ({ resourcePickerValue, expectedPill }) => {
+                                    const combobox = getRecordVariablePickerChildComboboxComponent(
+                                        sObjectOrSObjectCollectionPicker
+                                    );
+                                    await removePill(combobox);
+                                    await selectComboboxItemBy(combobox, 'text', resourcePickerValue.split('.'));
+                                    expect(combobox.hasPill).toBe(true);
+                                    expect(combobox.pill).toEqual(expectedPill);
+                                }
+                            );
+                        });
+                    });
+                });
+            });
+        });
+        describe('Using fields', () => {
+            let recordDeleteNode;
+            beforeAll(() => {
+                const element = getElementByDevName('deleteAccountWithFilters');
+                recordDeleteNode = getElementForPropertyEditor(element);
+            });
+            beforeEach(() => {
+                recordDeleteComponent = createComponentForTest({
+                    node: recordDeleteNode,
+                    processType: 'Flow',
+                    mode: EditElementEvent.EVENT_NAME
+                });
+            });
+            describe('store options', () => {
+                it('"useSobject" should be false', () => {
+                    expect(recordDeleteComponent.getNode().useSobject).toBe(false);
+                });
                 it('should be displayed', () => {
-                    expect(storeOptions).not.toBeNull();
+                    expect(getRecordStoreOption(recordDeleteComponent)).not.toBeNull();
                 });
                 it('value should be "allRecords" (ie: "Specify conditions")', () => {
-                    expect(storeOptions.numberOfRecordsToStore).toBe('allRecords');
+                    expect(getRecordStoreOption(recordDeleteComponent).numberOfRecordsToStore).toBe('allRecords');
                 });
             });
             describe('Entity resource picker', () => {
@@ -238,7 +476,7 @@ describe('Record Delete Editor', () => {
                 it('selected entity is correctly displayed', () => {
                     expect(entityResourcePicker.value.displayText).toBe(recordDeleteNode.object.value);
                 });
-                it('only deleteable entities available', async () => {
+                it('only deletable entities available', async () => {
                     // see mock-entity.js (deletable = true)
                     // Disable render-incrementally on combobox so groupedCombobox gets full menu data
                     const combobox = getBaseResourcePickerCombobox(entityResourcePicker);
@@ -340,10 +578,7 @@ describe('Record Delete Editor', () => {
             describe('Record Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(
-                        recordDeleteComponent,
-                        INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
-                    );
+                    recordFilter = getRecordFilter(recordDeleteComponent);
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();

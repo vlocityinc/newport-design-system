@@ -382,7 +382,9 @@ export default class Combobox extends LightningElement {
         this.state.showActivityIndicator = false;
         if (this._waitingForMenuDataDropDown) {
             const combobox = this.getGroupedCombobox();
-            combobox.focusAndOpenDropdownIfNotEmpty();
+            if (combobox) {
+                combobox.focusAndOpenDropdownIfNotEmpty();
+            }
             this._waitingForMenuDataDropDown = false;
         }
     }

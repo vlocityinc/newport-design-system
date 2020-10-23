@@ -9,7 +9,8 @@ import {
     focusoutEvent,
     textInputEvent,
     blurEvent,
-    lightningRadioGroupChangeEvent
+    lightningRadioGroupChangeEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
@@ -55,9 +56,10 @@ export const changeComboboxValue = (combobox, newValue) => {
     combobox.dispatchEvent(blurEvent);
 };
 
-export const changeInputValue = (input, newValue) => {
+export const changeInputValue = async (input, newValue) => {
     input.value = newValue;
     input.dispatchEvent(focusoutEvent);
+    await ticks(1);
 };
 
 export const changeLightningRadioGroupValue = (lightningRadioGroup, newValue) => {

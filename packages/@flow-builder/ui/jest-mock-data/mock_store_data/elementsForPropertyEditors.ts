@@ -501,5 +501,185 @@ export const elementsForPropertyEditors = {
         fields: [],
         inputsNextBehavior: 'Remember',
         storeOutputAutomatically: true
+    },
+    deleteAccountWithFilters: {
+        guid: 'ceda6ea2-c50f-49b7-9945-9d7ed8544f4b',
+        name: {
+            value: 'deleteAccountWithFilters',
+            error: null
+        },
+        description: {
+            value: '',
+            error: null
+        },
+        label: {
+            value: 'deleteAccountWithFilters',
+            error: null
+        },
+        locationX: 1213,
+        locationY: 832,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        inputReference: {
+            value: '',
+            error: null
+        },
+        inputReferenceIndex: {
+            value: '494033a5-d654-4f68-9c22-7712eaa87073',
+            error: null
+        },
+        object: {
+            value: 'Account',
+            error: null
+        },
+        objectIndex: {
+            value: 'c85e0459-8b6f-4540-99e7-d388a35ee4ba',
+            error: null
+        },
+        filterLogic: {
+            value: '1 AND 2 OR 3',
+            error: null
+        },
+        filters: [
+            {
+                rowIndex: '336b0818-ff06-47c3-9e85-3b6fe4a10c5b',
+                leftHandSide: {
+                    value: 'Account.BillingCity',
+                    error: null
+                },
+                rightHandSide: {
+                    value: 'San Francisco',
+                    error: null
+                },
+                rightHandSideDataType: {
+                    value: 'String',
+                    error: null
+                },
+                operator: {
+                    value: 'EqualTo',
+                    error: null
+                }
+            },
+            {
+                rowIndex: '1a934031-6241-4115-9514-61184d4c5b75',
+                leftHandSide: {
+                    value: 'Account.BillingCountry',
+                    error: null
+                },
+                rightHandSide: {
+                    value: 'USA',
+                    error: null
+                },
+                rightHandSideDataType: {
+                    value: 'String',
+                    error: null
+                },
+                operator: {
+                    value: 'EqualTo',
+                    error: null
+                }
+            },
+            {
+                rowIndex: '48d95e2c-7c52-4423-b36a-86c4790064a5',
+                leftHandSide: {
+                    value: 'Account.Name',
+                    error: null
+                },
+                rightHandSide: {
+                    value: 'SalesForce',
+                    error: null
+                },
+                rightHandSideDataType: {
+                    value: 'String',
+                    error: null
+                },
+                operator: {
+                    value: 'EqualTo',
+                    error: null
+                }
+            }
+        ],
+        maxConnections: 2,
+        availableConnections: [
+            {
+                type: 'REGULAR'
+            },
+            {
+                type: 'FAULT'
+            }
+        ],
+        elementType: 'RecordDelete',
+        dataType: {
+            value: 'Boolean',
+            error: null
+        },
+        useSobject: false
+    },
+    deleteAccount: {
+        guid: 'c62fed4b-ced5-4d6f-8a8f-5f5f5c525309',
+        name: {
+            value: 'deleteAccount',
+            error: null
+        },
+        description: {
+            value: '',
+            error: null
+        },
+        label: {
+            value: 'deleteAccount',
+            error: null
+        },
+        locationX: 955,
+        locationY: 469.359375,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        inputReference: {
+            value: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+            error: null
+        },
+        inputReferenceIndex: {
+            value: '3b362fa9-ea82-47fe-85f4-25406e719a72',
+            error: null
+        },
+        object: {
+            value: '',
+            error: null
+        },
+        objectIndex: {
+            value: '7d45ed5b-7cfd-40e1-8028-23a7e1026335',
+            error: null
+        },
+        filterLogic: {
+            value: 'and',
+            error: null
+        },
+        filters: [],
+        maxConnections: 2,
+        availableConnections: [
+            {
+                type: 'REGULAR'
+            },
+            {
+                type: 'FAULT'
+            }
+        ],
+        elementType: 'RecordDelete',
+        dataType: {
+            value: 'Boolean',
+            error: null
+        },
+        useSobject: true
     }
 };

@@ -124,6 +124,8 @@ export const loopOnScreenCompSObjectCollAutoOutput = getElementByName('loopOnScr
 export const loopOnLocalActionSobjectCollInApexAutoOutput = getElementByName(
     'loopOnLocalActionSobjectCollInApexAutoOutput'
 );
+export const deleteAccount = getElementByName('deleteAccount');
+export const deleteAccountWithFilters = getElementByName('deleteAccountWithFilters');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
