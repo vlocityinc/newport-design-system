@@ -1,0 +1,98 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes hero for community
+ *
+ * @name nds-communities-policy-card
+ * @selector .nds-communities-policy-card
+ * @modifier
+ */
+.nds-communities-policy-card {
+    .nds-text-heading_large {
+        font-size: $font-size-7;
+        font-weight: $font-weight-medium-bold;
+        color: $palette-gray-11;
+    }
+
+    .nds-text-body_medium {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-light;
+    }
+    .nds-text-body_medium_bold {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-medium-bold;
+    }
+    /**
+    * @summary Initializes status for community
+    *
+    * @name nds-communities-status-toast
+    * @selector .nds-communities-status-toast
+    * @modifier
+    */
+
+    .nds-communities-status-toast {
+        border-radius: $border-radius-medium;
+        font-size: $font-size-5;
+        max-width: 100px;
+        text-align: $text-align-center;
+        &_navy {
+            background-color: $biscay;
+            color: $white;
+        }
+        &_positive {
+            background-color: $emerald;
+            color: $white;
+        }
+        &_grey {
+            background-color: $geyser-gray;
+            color: $white;
+        }
+        &_caution {
+            background-color: $neon-carrot;
+            color: $white;
+        }
+        &_failed {
+            background-color: $newport-color-error;
+            color: $white;
+        }
+    }
+    .nds-communities-menu-mobile {
+        .nds-dropdown-trigger.nds-dropdown-trigger_click {
+            display: block;
+        }
+        button.nds-button.vlocity-btn {
+            min-width: 100%;
+            text-align: $text-align-left;
+            padding: $spacing-x-small $spacing-medium;
+            font-size: $font-size-5;
+            color:$palette-gray-11;
+            :last-child {
+                float: right;
+            }
+        }
+        li.nds-dropdown__item {
+            font-size: $font-size-5;
+        }
+        .nds-dropdown_actions {
+            margin-top: $spacing-small;
+            min-width: 100%;
+            max-width: 100%;
+            border-radius: $border-radius-medium;
+            a {
+                color: $palette-gray-11;
+            }
+        }
+    }
+
+    @media screen and (max-width: 30rem) {
+        .nds-communities-policy-state {
+            border-bottom: $border-width-thin solid $newport-color-grey-shaded;
+        }
+        .nds-communities-status-toast {
+            margin-top: $spacing-medium;
+        }
+    }
+}
