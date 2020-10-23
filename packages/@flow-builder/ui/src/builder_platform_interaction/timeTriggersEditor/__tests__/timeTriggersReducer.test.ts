@@ -16,14 +16,14 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
 const mockGuid1 = 'ABC';
 
 const emptyTimeTrigger = {
-    dataType: 'Boolean',
+    dataType: { value: 'Boolean', error: null },
     elementType: 'TimeTrigger',
-    label: '',
+    label: { value: '', error: null },
     guid: mockGuid1,
-    name: '',
+    name: { value: '', error: null },
     offsetNumber: undefined,
-    offsetUnit: '',
-    timeSource: ''
+    offsetUnit: { value: '', error: null },
+    timeSource: { value: '', error: null }
 };
 
 const originalState = {
