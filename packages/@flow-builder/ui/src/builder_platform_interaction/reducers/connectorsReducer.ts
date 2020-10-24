@@ -10,6 +10,7 @@ import {
     MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
+    MODIFY_START_WITH_TIME_TRIGGERS,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
@@ -55,6 +56,7 @@ export default function connectorsReducer(state = [], action) {
             );
         case MODIFY_DECISION_WITH_OUTCOMES:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_START_WITH_TIME_TRIGGERS:
             return _deleteAndUpdateConnectorsForChildElements(
                 state,
                 action.payload.canvasElement.guid,

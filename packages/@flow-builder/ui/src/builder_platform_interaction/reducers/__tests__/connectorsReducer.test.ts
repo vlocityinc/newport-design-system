@@ -10,6 +10,7 @@ import {
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
+    MODIFY_START_WITH_TIME_TRIGGERS,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
@@ -531,6 +532,51 @@ describe('connectors-reducer', () => {
                         payload: payloadWithDeletedWaitEventWithConnection
                     })
                 ).toEqual([connectorsState[1]]);
+            });
+        });
+    });
+
+    describe('MODIFY_START_WITH_TIME_TRIGGERS', () => {
+        describe('with modified time trigger label', () => {
+            it('with no connections does nothing', () => {
+                const payloadWithModifiedTimeTriggerButNoConnection = {
+                    canvasElement: {},
+                    childElements: [
+                        {
+                            guid: 'timeTriggerWithNoConnection'
+                        }
+                    ],
+                    deletedChildElementGuids: []
+                };
+
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        payload: payloadWithModifiedTimeTriggerButNoConnection
+                    })
+                ).toEqual(connectorsState);
+            });
+
+            it('with connection associatd with time trigger updates the connection label', () => {
+                const newLabel = 'new label!';
+
+                const payloadWithModifiedTimeTriggerWithConnection = {
+                    canvasElement: {},
+                    childElements: [
+                        {
+                            guid: 'childGuid1',
+                            label: newLabel
+                        }
+                    ],
+                    deletedChildElementGuids: []
+                };
+
+                const updatedConnectors = reducer(connectorsState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload: payloadWithModifiedTimeTriggerWithConnection
+                });
+
+                expect(updatedConnectors[0].label).toEqual(newLabel);
             });
         });
     });
