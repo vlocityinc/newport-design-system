@@ -25,37 +25,13 @@
         color: $palette-gray-11;
         font-weight: $font-weight-medium-bold;
     }
-    /**
-    * @summary Initializes status for community
-    *
-    * @name nds-communities-status-toast
-    * @selector .nds-communities-status-toast
-    * @modifier
-    */
-
-    .nds-communities-status-toast {
-        border-radius: $border-radius-medium;
-        font-size: $font-size-5;
-        max-width: 100px;
-        text-align: $text-align-center;
-        &_navy {
-            background-color: $biscay;
-            color: $white;
-        }
-        &_positive {
-            background-color: $emerald;
-            color: $white;
-        }
-      
-        &_caution {
-            background-color: $neon-carrot;
-            color: $white;
-        }
-        &_failed {
-            background-color: $newport-color-error;
-            color: $white;
-        }
-    }
+   /**
+ * @summary Initializes hero for community
+ *
+ * @name nds-communities-menu-mobile
+ * @selector .nds-communities-menu-mobile
+ * @modifier
+ */
     .nds-communities-menu-mobile {
         .nds-dropdown-trigger.nds-dropdown-trigger_click {
             display: block;

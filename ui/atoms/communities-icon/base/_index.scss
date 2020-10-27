@@ -25,28 +25,3 @@
     height: 5rem;
 }
 
-/**
-* @summary Selector for an -icon icon
-*
-* @name nds-communities-icon
-* @selector .nds-communities-icon
-* @modifier
-*/
-.nds-communities-icon {
-    background-repeat: none;
-    &_auto{
-        background-image: url(../images/communities/auto.svg);
-    }
-    &_auto-accident{
-        background-image: url(../images/communities/incident.svg);
-    }
-    &_flooding{
-        background-image: url(../images/communities/flooding.svg);
-    }
-    &_glass{
-        background-image: url(../images/communities/glass.svg);
-    }
-    &_homeowners{
-        background-image: url(../images/communities/homeowners.svg);
-    }
-}
