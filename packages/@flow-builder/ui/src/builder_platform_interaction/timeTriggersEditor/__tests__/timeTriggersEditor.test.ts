@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import TimeTriggersEditor from 'builder_platform_interaction/timeTriggersEditor';
 import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { UpdateNodeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
@@ -36,11 +37,17 @@ describe('Time Triggers Editor', () => {
             timeTriggers: [
                 {
                     guid: 'timeTrigger1',
-                    label: { value: '' }
+                    label: { value: '' },
+                    offsetNumber: 1,
+                    offsetUnit: { value: TIME_OPTION.DAYS_AFTER, error: null },
+                    timeSource: { value: '', error: null }
                 },
                 {
                     guid: 'timeTrigger2',
-                    label: { value: '' }
+                    label: { value: '' },
+                    offsetNumber: 2,
+                    offsetUnit: { value: TIME_OPTION.DAYS_BEFORE, error: null },
+                    timeSource: { value: '', error: null }
                 }
             ]
         };

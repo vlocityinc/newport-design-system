@@ -285,17 +285,19 @@ export function createStartElementMetadataObject(startElement, config = {}) {
             const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
 
             let recordField;
+            const { offsetNumber } = timeTrigger;
+            let { timeSource, offsetUnit } = timeTrigger;
 
-            let { timeSource, offsetUnit, offsetNumber } = timeTrigger;
+            let offsetNumberAsNumber = Number(offsetNumber);
 
             if (offsetUnit === TIME_OPTION.HOURS_BEFORE) {
                 offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.HOURS;
-                offsetNumber *= -1;
+                offsetNumberAsNumber *= -1;
             } else if (offsetUnit === TIME_OPTION.HOURS_AFTER) {
                 offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.HOURS;
             } else if (offsetUnit === TIME_OPTION.DAYS_BEFORE) {
                 offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.DAYS;
-                offsetNumber *= -1;
+                offsetNumberAsNumber *= -1;
             } else if (offsetUnit === TIME_OPTION.DAYS_AFTER) {
                 offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.DAYS;
             }
@@ -308,7 +310,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
             return Object.assign(metadataTimeTrigger, {
                 timeSource,
                 offsetUnit,
-                offsetNumber,
+                offsetNumber: offsetNumberAsNumber,
                 recordField
             });
         });
@@ -366,24 +368,29 @@ export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
 
     const { recordField } = timeTrigger;
 
-    let { timeSource = '', offsetUnit = '', offsetNumber } = timeTrigger;
+    let { timeSource = '', offsetUnit = '', offsetNumber = '' } = timeTrigger;
 
     // When converting from scheduledPath to timeTrigger
-    if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.HOURS) {
-        if (offsetNumber >= 0) {
-            offsetUnit = TIME_OPTION.HOURS_AFTER;
-        } else {
-            offsetUnit = TIME_OPTION.HOURS_BEFORE;
-            offsetNumber *= -1;
+    if (offsetNumber !== '') {
+        let offsetNumberAsNumber = Number(offsetNumber);
+        if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.HOURS) {
+            if (offsetNumberAsNumber >= 0) {
+                offsetUnit = TIME_OPTION.HOURS_AFTER;
+            } else {
+                offsetUnit = TIME_OPTION.HOURS_BEFORE;
+                offsetNumberAsNumber *= -1;
+            }
+        } else if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.DAYS) {
+            if (offsetNumberAsNumber >= 0) {
+                offsetUnit = TIME_OPTION.DAYS_AFTER;
+            } else {
+                offsetUnit = TIME_OPTION.DAYS_BEFORE;
+                offsetNumberAsNumber *= -1;
+            }
         }
-    } else if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.DAYS) {
-        if (offsetNumber >= 0) {
-            offsetUnit = TIME_OPTION.DAYS_AFTER;
-        } else {
-            offsetUnit = TIME_OPTION.DAYS_BEFORE;
-            offsetNumber *= -1;
-        }
+        offsetNumber = offsetNumberAsNumber.toString();
     }
+
     if (timeSource === SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD) {
         timeSource = recordField!;
     }
@@ -426,14 +433,9 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
     for (let i = 0; i < timeTriggers.length; i++) {
         const timeTrigger = timeTriggers[i];
-        /* Remove this if clause once validation is enabled
-        W-8063106 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008cwWqIAI/view
-        */
-        if (timeTrigger.name) {
-            const newTimeTrigger = createTimeTrigger(timeTrigger);
-            childReferences = updateChildReferences(childReferences, newTimeTrigger);
-            newTimeTriggers = [...newTimeTriggers, newTimeTrigger];
-        }
+        const newTimeTrigger = createTimeTrigger(timeTrigger);
+        childReferences = updateChildReferences(childReferences, newTimeTrigger);
+        newTimeTriggers = [...newTimeTriggers, newTimeTrigger];
     }
 
     maxConnections = newTimeTriggers.length + 1;

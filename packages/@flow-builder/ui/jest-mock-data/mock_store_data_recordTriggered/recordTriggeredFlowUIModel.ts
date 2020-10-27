@@ -67,7 +67,7 @@ export const recordTriggeredFlowUIModel = {
             dataType: 'Boolean',
             timeSource: 'CreatedDate',
             offsetUnit: 'DaysBefore',
-            offsetNumber: 2
+            offsetNumber: '2'
         },
         'fc408daa-3152-46bf-8733-c1083018292b': {
             guid: 'fc408daa-3152-46bf-8733-c1083018292b',
@@ -77,7 +77,7 @@ export const recordTriggeredFlowUIModel = {
             dataType: 'Boolean',
             timeSource: 'LastModifiedDate',
             offsetUnit: 'HoursAfter',
-            offsetNumber: 4
+            offsetNumber: '4'
         }
     },
     connectors: [],

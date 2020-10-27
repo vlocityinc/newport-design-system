@@ -1,7 +1,39 @@
 import { Validation } from 'builder_platform_interaction/validation';
 import { Guid } from 'builder_platform_interaction/flowModel';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
+/**
+ * @constant additionalRules - map of propertyName to validation rules
+ * @type {Object}
+ */
+export const additionalRules = {
+    offsetUnit: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
+    timeSource: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
+    offsetNumber: [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldBeANumber,
+        ValidationRules.shouldBeAPositiveIntegerOrZero
+    ],
+    label: [ValidationRules.shouldNotBeBlank],
+    name: [ValidationRules.shouldNotBeBlank]
+};
 class TimeTriggersValidation extends Validation {
+    /**
+     * @param {Object} nodeElement - node element data passed as an object.
+     * @param {Object} overrideRules - if passed, will override the default rules.
+     * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
+     */
+    validateAll(nodeElement, overrideRules) {
+        if (nodeElement.timeTriggers) {
+            const timeTriggers = nodeElement.timeTriggers.map((timeTrigger) => {
+                return super.validateAll(timeTrigger, overrideRules);
+            });
+            nodeElement = updateProperties(nodeElement, { timeTriggers });
+        }
+        return super.validateAll(nodeElement, overrideRules);
+    }
+
     /**
      * Method to check if devname is unique locally amongst all other time trigger.
      * @param state - overall state of decision node
@@ -14,25 +46,19 @@ class TimeTriggersValidation extends Validation {
         devNameToBeValidate: string,
         currentTimeTriggerGuid: Guid
     ): string | null => {
-        const stateGuidToDevName = [
-            {
-                guid: state.guid,
-                name: state.name.value
-            }
-        ];
         const timeTriggerssDevNameToGuidList = state.timeTriggers.map((timeTrigger) => {
             return {
                 guid: timeTrigger.guid,
                 name: timeTrigger.name.value
             };
         });
-        const finalListOfGuidToDevNames = stateGuidToDevName.concat(timeTriggerssDevNameToGuidList);
         return this.validateDevNameUniquenessLocally(
-            finalListOfGuidToDevNames,
+            timeTriggerssDevNameToGuidList,
             devNameToBeValidate,
             currentTimeTriggerGuid
         );
     };
 }
 
-export const timeTriggersValidation = new TimeTriggersValidation();
+// @ts-ignore
+export const timeTriggersValidation = new TimeTriggersValidation(additionalRules);

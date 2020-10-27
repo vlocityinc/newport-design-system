@@ -21,7 +21,7 @@ const emptyTimeTrigger = {
     label: { value: '', error: null },
     guid: mockGuid1,
     name: { value: '', error: null },
-    offsetNumber: undefined,
+    offsetNumber: { value: '', error: null },
     offsetUnit: { value: '', error: null },
     timeSource: { value: '', error: null }
 };
@@ -60,7 +60,7 @@ describe('time-trigger-reducer', () => {
             const newState = timeTriggersReducer(originalState, addTimeTriggerAction);
             expect(newState.timeTriggers).toHaveLength(3);
             expect(newState.timeTriggers[2]).toMatchObject(emptyTimeTrigger);
-            expect(newState.timeTriggers[2].offsetNumber).not.toBeDefined();
+            expect(newState.timeTriggers[2].offsetNumber.value).toBe('');
         });
     });
     describe('Remove a time trigger ', () => {

@@ -321,7 +321,7 @@ describe('Start element', () => {
                     {
                         offsetUnit: '',
                         timeSource: '',
-                        offsetNumber: undefined
+                        offsetNumber: ''
                     }
                 ]
             };
@@ -366,7 +366,7 @@ describe('Start element', () => {
                 name: 'Trigger1',
                 offsetUnit: TIME_OPTION.DAYS_BEFORE,
                 timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
-                offsetNumber: 20
+                offsetNumber: '20'
             };
 
             const newTimeTrigger = createTimeTrigger(existingTimeTrigger);
@@ -496,21 +496,21 @@ describe('Start element', () => {
                     guid: MOCK_NAMES.name1,
                     offsetUnit: TIME_OPTION.DAYS_BEFORE,
                     timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
-                    offsetNumber: 20
+                    offsetNumber: '20'
                 });
                 expect(result.elements[startElementFromFlow.scheduledPaths[1].guid]).toMatchObject({
                     name: MOCK_NAMES.name2,
                     guid: MOCK_NAMES.name2,
                     offsetUnit: TIME_OPTION.HOURS_AFTER,
                     timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
-                    offsetNumber: 20
+                    offsetNumber: '20'
                 });
                 expect(result.elements[startElementFromFlow.scheduledPaths[2].guid]).toMatchObject({
                     name: MOCK_NAMES.name3,
                     guid: MOCK_NAMES.name3,
                     offsetUnit: TIME_OPTION.DAYS_AFTER,
                     timeSource: 'ABC',
-                    offsetNumber: 20
+                    offsetNumber: '20'
                 });
             });
         });

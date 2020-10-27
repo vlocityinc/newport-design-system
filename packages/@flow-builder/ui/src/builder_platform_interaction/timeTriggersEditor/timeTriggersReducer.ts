@@ -1,6 +1,6 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { timeTriggersValidation } from './timeTriggersValidation';
+import { timeTriggersValidation, additionalRules } from './timeTriggersValidation';
 import { addItem, hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { StoreState, TimeTrigger } from 'builder_platform_interaction/flowModel';
@@ -70,7 +70,7 @@ export const timeTriggersReducer = (state: StoreState, event: CustomEvent): Stor
         case PROPERTY_EDITOR_ACTION.UPDATE_START_ELEMENT_TIME_TRIGGER:
             return state;
         case VALIDATE_ALL:
-            return timeTriggersValidation.validateAll(state, undefined);
+            return timeTriggersValidation.validateAll(state, additionalRules);
         default:
             return state;
     }

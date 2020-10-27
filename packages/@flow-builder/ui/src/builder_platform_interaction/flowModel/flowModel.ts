@@ -117,7 +117,7 @@ interface StartTime {
 export interface TimeTrigger extends ChildElement {
     timeSource: string;
     offsetUnit: string;
-    offsetNumber: number;
+    offsetNumber: string;
     recordField?: string;
 }
 

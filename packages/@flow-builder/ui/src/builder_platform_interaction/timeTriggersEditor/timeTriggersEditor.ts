@@ -4,6 +4,7 @@ import { LABELS } from './timeTriggersEditorLabels';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { timeTriggersReducer } from './timeTriggersReducer';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 const EMPTY_TIME_TRIGGER_LABEL = LABELS.emptyTimeTriggerLabel;
 
@@ -38,7 +39,9 @@ export default class TimeTriggersEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
-        return [];
+        const event = <CustomEvent>{ type: VALIDATE_ALL };
+        this.startElement = timeTriggersReducer(this.startElement, event);
+        return getErrorsFromHydratedElement(this.startElement);
     }
 
     // getter and setter for nodes don't work well with mixins

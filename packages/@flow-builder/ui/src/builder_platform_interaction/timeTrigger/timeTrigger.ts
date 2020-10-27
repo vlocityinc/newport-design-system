@@ -8,7 +8,10 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 import { format } from 'builder_platform_interaction/commonUtils';
 
 const SELECTORS = {
-    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
+    TIME_SOURCE_COMBOBOX: '.timeSourceCombobox',
+    OFFSET_NUMBER_INPUT: '.offsetNumberInput',
+    OFFSET_UNIT: '.offsetUnitAndDirectionCombobox'
 };
 
 export default class TimeTrigger extends LightningElement {
@@ -76,6 +79,7 @@ export default class TimeTrigger extends LightningElement {
      */
     updateTimeSourceOptions() {
         const eventDateOptions: { label: string; value: string }[] = [];
+
         if (this.object && this.object.value) {
             const entity = getEntity(getValueFromHydratedItem(this.object));
             eventDateOptions.push({
@@ -102,6 +106,45 @@ export default class TimeTrigger extends LightningElement {
                 });
         }
         return [];
+    }
+
+    renderedCallback() {
+        const timeSourceCombobox = this.template.querySelector(SELECTORS.TIME_SOURCE_COMBOBOX);
+        this.resetError(timeSourceCombobox, this.timeTrigger.timeSource.error);
+        this.setInputErrorMessage(timeSourceCombobox, this.timeTrigger.timeSource.error);
+
+        const offsetNumberInput = this.template.querySelector(SELECTORS.OFFSET_NUMBER_INPUT);
+        this.resetError(offsetNumberInput, this.timeTrigger.offsetNumber.error);
+        this.setInputErrorMessage(offsetNumberInput, this.timeTrigger.offsetNumber.error);
+
+        const offsetUnitCombobox = this.template.querySelector(SELECTORS.OFFSET_UNIT);
+        this.resetError(offsetUnitCombobox, this.timeTrigger.offsetUnit.error);
+        this.setInputErrorMessage(offsetUnitCombobox, this.timeTrigger.offsetUnit.error);
+    }
+
+    /**
+     * Reset the error of the input
+     * The lightning-input component does not provide an easy way to reset errors
+     * We need to remove requiredness (our only constraint) and report validity
+     * Then put the constraint back to its prevous state
+     */
+    resetError(element, error) {
+        if (element && !error) {
+            element.required = false;
+            element.setCustomValidity('');
+            element.showHelpMessageIfInvalid();
+        }
+    }
+
+    /** Sets the CustomValidity if there is a valid error message.
+     * @param element - the input component
+     * @param error - the current error of the element
+     */
+    setInputErrorMessage(element, error) {
+        if (element && error) {
+            element.setCustomValidity(error);
+            element.showHelpMessageIfInvalid();
+        }
     }
 
     handlePropertyChanged(event) {
