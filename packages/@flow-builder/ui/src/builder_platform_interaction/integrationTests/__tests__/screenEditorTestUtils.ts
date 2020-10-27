@@ -47,3 +47,25 @@ export const getExtensionPropertiesEditorElement = (screenEditor) => {
         SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
     );
 };
+
+export const getTabsetForPalette = (screenEditor) => {
+    return screenEditor.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TABSET);
+};
+
+export const getComponentsPaletteInFirstTab = (screenEditor) => {
+    const tabset = getTabsetForPalette(screenEditor);
+    const componentsTab = tabset.shadowRoot.querySelector('slot').assignedNodes()[0];
+    return componentsTab.shadowRoot
+        .querySelector('slot')
+        .assignedNodes()[0]
+        .querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_PALETTE);
+};
+
+export const getAutomaticFieldsPaletteInSecondTab = (screenEditor) => {
+    const tabset = getTabsetForPalette(screenEditor);
+    const automaticFieldsTab = tabset.shadowRoot.querySelector('slot').assignedNodes()[1];
+    return automaticFieldsTab.shadowRoot
+        .querySelector('slot')
+        .assignedNodes()[0]
+        .querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELDS_PALETTE);
+};
