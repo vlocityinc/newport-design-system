@@ -191,7 +191,7 @@ export function createStartElementForPropertyEditor(startElement: StartUi = {} a
  * @param {string} startElementReference guid/name of the first element in the flow
  * @returns {Object} startElement the start element object
  */
-export function createStartElementWithConnectors(startElement: StartFlow, startElementReference) {
+export function createStartElementWithConnectors(startElement: StartFlow = {} as StartFlow, startElementReference) {
     const newStartElement = createStartElement(startElement);
 
     let connectorCount, connectors;

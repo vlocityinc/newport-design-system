@@ -441,6 +441,18 @@ describe('Start element', () => {
             expect(target).toBe('foo');
         });
 
+        it('returns empty start element when null is passed in', () => {
+            expect.assertions(6);
+            const result = createStartElementWithConnectors();
+            expect(result.childReferences).toBe(undefined);
+            expect(result.availableConnections).toBe(undefined);
+            expect(result.connectors).toBeDefined();
+            expect(result.elements).toBeDefined();
+            const startElement = result.elements[undefined];
+            expect(startElement.elementType).toEqual(ELEMENT_TYPE.START_ELEMENT);
+            expect(startElement.triggerType).toEqual('None');
+        });
+
         describe('time triggers', () => {
             it('childReferences and availableConnections are not present on start for non record triggered flow', () => {
                 expect.assertions(2);
