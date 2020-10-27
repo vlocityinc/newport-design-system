@@ -116,5 +116,11 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getNoItemToShowIllustration(element)).not.toBeNull();
         });
+        it('Search pattern should be reset after sObject change', async () => {
+            element.searchPattern = 'name';
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(element.searchPattern).toEqual('');
+        });
     });
 });

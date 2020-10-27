@@ -53,7 +53,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     @track
     state = {
         recordVariable: '',
-        entityFields: {}
+        entityFields: {},
+        searchPattern: ''
     };
 
     get searchInputPlaceholder(): String {
@@ -78,6 +79,15 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         return this.state.entityFields;
     }
 
+    @api
+    get searchPattern() {
+        return this.state.searchPattern;
+    }
+
+    set searchPattern(pattern) {
+        this.state.searchPattern = pattern;
+    }
+
     /**
      * Handler for "SObjectReference" element property changes
      * @param {object} event
@@ -85,6 +95,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     handleSObjectReferenceChangedEvent(event: CustomEvent) {
         event.stopPropagation();
         if (this.state.recordVariable !== event.detail.value) {
+            this.state.searchPattern = '';
             this.state.recordVariable = event.detail.value;
             this.sobjectPickerErrorMessage = event.detail.error;
             if (this.state.recordVariable !== '' && this.sobjectPickerErrorMessage == null) {
@@ -177,7 +188,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handleSearch(event) {
         const filterValue = event.target.value;
-        const pattern = filterValue ? filterValue.trim() : undefined;
-        this.buildModel(pattern);
+        this.state.searchPattern = filterValue ? filterValue.trim() : '';
+        this.buildModel(this.state.searchPattern);
     }
 }
