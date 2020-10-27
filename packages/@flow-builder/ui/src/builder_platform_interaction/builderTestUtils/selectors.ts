@@ -54,6 +54,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
     RECORD_QUERY_FIELDS_COMPONENT: 'builder_platform_interaction-record-query-fields',
     REORDERABLE_VERTICAL_NAVIGATION: 'builder_platform_interaction-reorderable-vertical-navigation',
+    REORDERABLE_VERTICAL_NAVIGATION_ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
     RESOURCED_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
     RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
     RICH_LABEL: 'builder_platform_interaction-rich-label',

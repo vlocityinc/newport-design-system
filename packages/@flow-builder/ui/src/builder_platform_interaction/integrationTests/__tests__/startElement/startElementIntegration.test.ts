@@ -1,14 +1,18 @@
 // @ts-nocheck
 import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getChildComponent, resetState, setupStateForFlow } from '../integrationTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { createElement } from 'lwc';
 import contextRecordEditor from 'builder_platform_interaction/contextRecordEditor';
+import timeTriggersEditor from 'builder_platform_interaction/timeTriggersEditor';
 import {
     blurEvent,
     changeEvent,
+    deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
     textInputEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
@@ -21,6 +25,14 @@ import {
     getRecordGroupedComboox
 } from '../recordFilterTestUtils';
 
+const SELECTORS = {
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS,
+    TIME_SOURCE_COMBOBOX: '.timeSourceCombobox',
+    OFFSET_NUMBER_INPUT: '.offsetNumberInput',
+    OFFSET_UNIT_COMBOBOX: '.offsetUnitAndDirectionCombobox'
+};
+
 const createComponentForTest = (contextRecordEditorElement) => {
     const el = createElement('builder_platform_interaction-context-record-editor', {
         is: contextRecordEditor
@@ -28,6 +40,41 @@ const createComponentForTest = (contextRecordEditorElement) => {
     Object.assign(el, { node: contextRecordEditorElement });
     document.body.appendChild(el);
     return el;
+};
+
+const createTimeTriggerComponentForTest = (timeTriggeredEditorElement) => {
+    const el = createElement('builder_platform_interaction-time-triggers-editor', {
+        is: timeTriggersEditor
+    });
+    Object.assign(el, { node: timeTriggeredEditorElement });
+    document.body.appendChild(el);
+    return el;
+};
+
+const getReorderableVerticalNavigationItems = (timeTriggerEditor) => {
+    const verticalNavigation = deepQuerySelector(timeTriggerEditor, [SELECTORS.REORDERABLE_VERTICAL_NAVIGATION]);
+    return verticalNavigation.shadowRoot.querySelectorAll(SELECTORS.REORDERABLE_VERTICAL_NAVIGATION_ITEM);
+};
+
+const getReorderableVerticalNavigationTitle = (timeTriggerEditor, index) => {
+    const items = getReorderableVerticalNavigationItems(timeTriggerEditor);
+    return items[index].shadowRoot.querySelector('a');
+};
+
+const getAddTimeTriggerButton = (timeTriggerEditor) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.LIGHTNING_BUTTON_ICON]);
+};
+
+const getPathLabelInput = (timeTriggerEditor) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.LABEL_DESCRIPTION, '.label']);
+};
+
+const getApiNameInput = (timeTriggerEditor) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.LABEL_DESCRIPTION, '.devName']);
+};
+
+const getTimeTriggerElement = (timeTriggerEditor, cssClass) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, cssClass]);
 };
 
 describe('Start Element Editor (context record editor)', () => {
@@ -141,6 +188,116 @@ describe('Start Element Editor (context record editor)', () => {
                 expect(getFilterCustomConditionLogicInput(contextRecordComponent)).not.toBeNull();
                 expect(getFilterCustomConditionLogicInput(contextRecordComponent).value).toBe('1');
             });
+        });
+    });
+});
+
+describe('Start Element Editor (Record Triggered Flow)', () => {
+    let timeTriggerComponent;
+    let timeTriggersNode;
+    beforeAll(async () => {
+        await setupStateForFlow(recordTriggeredFlow);
+    });
+    afterAll(() => {
+        resetState();
+    });
+    beforeEach(() => {
+        const startElement = getElementByDevName('$Record');
+        timeTriggersNode = getElementForPropertyEditor(startElement);
+        timeTriggerComponent = createTimeTriggerComponentForTest(timeTriggersNode);
+    });
+    describe('Reorderable Vertical Navigation', () => {
+        it('should have 2 items', () => {
+            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(2);
+        });
+        it('should display the Path Label as link', () => {
+            let link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 0);
+            expect(link.textContent).toBe(timeTriggersNode.timeTriggers[0].label.value);
+
+            link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 1);
+            expect(link.textContent).toBe(timeTriggersNode.timeTriggers[1].label.value);
+        });
+    });
+    describe('1st  Time Trigger inner component display', () => {
+        let timeTrigger;
+        beforeEach(() => {
+            timeTrigger = timeTriggersNode.timeTriggers[0];
+        });
+        it('should be display time trigger Label in the Label description Component', () => {
+            expect(getPathLabelInput(timeTriggerComponent).value).toBe(timeTrigger.label.value);
+        });
+        it('should be display time trigger name in the Label description Component', () => {
+            expect(getApiNameInput(timeTriggerComponent).value).toBe(timeTrigger.name.value);
+        });
+        it('Should display the correct Time Source', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe(
+                timeTrigger.timeSource.value
+            );
+        });
+        it('Should display the correct Offset Number', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe(
+                timeTrigger.offsetNumber.value
+            );
+        });
+        it('Should display the correct Offset Unit', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
+                timeTrigger.offsetUnit.value
+            );
+        });
+    });
+    describe('Select 2nd  Time Trigger inner component display', () => {
+        let timeTrigger;
+        beforeEach(async () => {
+            timeTrigger = timeTriggersNode.timeTriggers[1];
+            getReorderableVerticalNavigationTitle(timeTriggerComponent, 1).click();
+            await ticks(10);
+        });
+        it('should be display time trigger Label in the Label description Component', () => {
+            expect(getPathLabelInput(timeTriggerComponent).value).toBe(timeTrigger.label.value);
+        });
+        it('should be display time trigger name in the Label description Component', () => {
+            expect(getApiNameInput(timeTriggerComponent).value).toBe(timeTrigger.name.value);
+        });
+        it('Should display the correct Time Source', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe(
+                timeTrigger.timeSource.value
+            );
+        });
+        it('Should display the correct Offset Number', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe(
+                timeTrigger.offsetNumber.value
+            );
+        });
+        it('Should display the correct Offset Unit', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
+                timeTrigger.offsetUnit.value
+            );
+        });
+    });
+    describe('new Time Trigger', () => {
+        beforeEach(async () => {
+            getAddTimeTriggerButton(timeTriggerComponent).click();
+            await ticks(10);
+        });
+        it('Should display the emptyTimeTriggerLabel in the navigation menu', () => {
+            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(3);
+            const link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 2);
+            expect(link.textContent).toBe('FlowBuilderStartEditor.emptyTimeTriggerLabel');
+        });
+        it('Label should be display in the Label description Component', () => {
+            expect(getPathLabelInput(timeTriggerComponent).value).toBe('');
+        });
+        it('Name should be display in the Label description Component', () => {
+            expect(getApiNameInput(timeTriggerComponent).value).toBe('');
+        });
+        it('Should select the correct Time Source', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe('');
+        });
+        it('Should select the correct Offset Number', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe('');
+        });
+        it('Should select the correct Offset Unit', () => {
+            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe('');
         });
     });
 });
