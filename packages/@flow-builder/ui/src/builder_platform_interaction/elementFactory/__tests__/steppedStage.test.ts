@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import {
     getElementByGuid,
     getElementsForElementType,
@@ -10,12 +11,14 @@ import {
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
     createSteppedStageWithItemReferences,
     createSteppedStageMetadataObject,
-    getSteps
+    getSteps,
+    getOtherItemsInSteppedStage
 } from '../steppedStage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { Guid } from 'builder_platform_interaction/flowModel';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -36,6 +39,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 const newSteppedStageGuid = 'newSteppedStage';
 const existingSteppedStageGuid = 'existingSteppedStage';
 const steppedStageWithChildrenGuid = 'newSteppedStageWithChildren';
+const existingSteppedStageWithOneChildGuid = 'existingSteppedStageWithOneChild';
 const existingSteppedStageWithChildrenGuid = 'existingSteppedStageWithChildren';
 
 const existingSteppedStage: SteppedStage = {
@@ -43,6 +47,11 @@ const existingSteppedStage: SteppedStage = {
     childReferences: [{ childReference: 'existingItem1' }, { childReference: 'existingItem2' }],
     steps: []
 };
+const existingSteppedStageWithOneChild = {
+    guid: existingSteppedStageWithOneChildGuid,
+    childReferences: [{ childReference: 'existingItem1' }]
+};
+
 const existingSteppedStageWithChildren = {
     guid: existingSteppedStageWithChildrenGuid,
     childReferences: [{ childReference: 'existingItem1' }, { childReference: 'existingItem2' }]
@@ -55,6 +64,11 @@ getElementByGuid.mockImplementation((guid) => {
         return existingSteppedStage;
     } else if (guid === existingSteppedStageWithChildren.guid) {
         return existingSteppedStageWithChildren;
+    } else if (guid === 'step1' || guid === 'step2' || guid === 'step3') {
+        return {
+            guid,
+            entryCriteria: []
+        };
     }
 
     return {
@@ -158,9 +172,10 @@ describe('SteppedStage', () => {
             expect(getElementByGuid).toHaveBeenCalledWith(existingSteppedStageWithChildren.guid);
             expect(commonUtils.format).toHaveBeenCalledWith(
                 'FlowBuilderElementConfig.defaultSteppedStageItemName',
-                existingSteppedStageWithChildren.childReferences.length + 1
+                existingSteppedStageWithChildren.childReferences.length + 1,
+                undefined
             );
-            expect(item.label).toEqual('FlowBuilderElementConfig.defaultSteppedStageItemName(3)');
+            expect(item.label).toEqual('FlowBuilderElementConfig.defaultSteppedStageItemName(3,)');
         });
     });
 
@@ -180,7 +195,8 @@ describe('SteppedStage', () => {
                 guid: newSteppedStageGuid,
                 steps: [
                     {
-                        guid: 'item1'
+                        guid: 'item1',
+                        entryCriteria: []
                     }
                 ]
             };
@@ -327,6 +343,37 @@ describe('SteppedStage', () => {
             const data = getSteps(existingSteppedStageWithChildren.guid);
             expect(data[0].stepTypeLabel).toEqual(workStepLabel);
             expect(data[1].stepTypeLabel).toEqual(workStepLabel);
+        });
+    });
+
+    describe('getOtherItemsInSteppedStage', () => {
+        it('throws an error if no parent found', () => {
+            const nonexistantGuid: Guid = 'foo';
+
+            expect(() => {
+                getOtherItemsInSteppedStage(nonexistantGuid);
+            }).toThrow(`No parent SteppedStage found for SteppedStageItem ${nonexistantGuid}`);
+        });
+
+        it('returns an empty array if the only step is the selected one', () => {
+            getElementsForElementType.mockImplementation(() => {
+                return [existingSteppedStageWithOneChild];
+            });
+
+            const data = getOtherItemsInSteppedStage('existingItem1');
+
+            expect(data).toHaveLength(0);
+        });
+
+        it('returns all other children', () => {
+            getElementsForElementType.mockImplementation(() => {
+                return [existingSteppedStageWithChildren];
+            });
+
+            const data = getOtherItemsInSteppedStage('existingItem1');
+
+            expect(data).toHaveLength(1);
+            expect(data[0]).toMatchObject({ guid: 'existingItem2' });
         });
     });
 });

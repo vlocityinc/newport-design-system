@@ -257,3 +257,23 @@ interface Factory {
 interface Descriptor {
     [p: string]: string;
 }
+
+export interface Condition {
+    leftValueReference?: string;
+    operator: string;
+    rightValue: {
+        stringValue: string;
+    };
+}
+
+export interface ComboboxItem {
+    type: string;
+    dataType: string;
+    text?: string;
+    subText?: string;
+    displayText: string;
+    iconName?: string | null | undefined;
+    iconAlternativeText?: string;
+    iconSize?: string;
+    value: string;
+}

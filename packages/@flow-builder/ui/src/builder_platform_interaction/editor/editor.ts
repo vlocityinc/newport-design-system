@@ -1387,8 +1387,10 @@ export default class Editor extends LightningElement {
         this.hasNotBeenSaved = false;
     };
 
-    showPropertyEditor(params, forceModal = false) {
+    async showPropertyEditor(params, forceModal = false) {
         if (this.usePanelForPropertyEditor && !forceModal) {
+            await this.handleClosePropertyEditor();
+
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
             this.propertyEditorParams.panelConfig.isLabelCollapsibleToHeader = true;

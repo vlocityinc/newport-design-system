@@ -1,9 +1,17 @@
 // @ts-nocheck
+import { Guid, Condition } from 'builder_platform_interaction/flowModel';
+
 const eventName = 'updatecondition';
 
-export class UpdateConditionEvent {
-    constructor(parentGUID, index, value) {
-        return new CustomEvent(eventName, {
+type UpdateConditionEventDetail = {
+    parentGUID: Guid;
+    index: number;
+    value: Condition;
+};
+
+export class UpdateConditionEvent extends CustomEvent<UpdateConditionEventDetail> {
+    constructor(parentGUID: Guid, index: number, value: Condition) {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

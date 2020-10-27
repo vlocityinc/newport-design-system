@@ -4,7 +4,7 @@
  */
 const eventName = 'propertychanged';
 
-export class PropertyChangedEvent {
+export class PropertyChangedEvent extends CustomEvent<{}> {
     constructor(
         propertyName: string,
         value,
@@ -14,7 +14,7 @@ export class PropertyChangedEvent {
         listIndex?: Number,
         dataType?: string | null
     ) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

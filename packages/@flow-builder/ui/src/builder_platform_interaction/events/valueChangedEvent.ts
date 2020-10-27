@@ -4,9 +4,14 @@
  */
 const eventName = 'valuechanged';
 
-export class ValueChangedEvent {
+type ValueChangedEventDetail = {
+    value?: string;
+    error?: string;
+};
+
+export class ValueChangedEvent extends CustomEvent<ValueChangedEventDetail> {
     constructor(value = null, error = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

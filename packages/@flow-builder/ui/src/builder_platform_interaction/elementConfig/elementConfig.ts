@@ -307,7 +307,7 @@ export const elementTypeToConfigMap: {
         nodeConfig: {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
-            dragImageSrc: ICONS_LARGE.ACTION_CALL,
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ACTION_CALL],
             iconBackgroundColor: 'background-navy',
             maxConnections: 2
         },
@@ -1044,8 +1044,8 @@ export const elementTypeToConfigMap: {
     [ELEMENT_TYPE.STEPPED_STAGE]: {
         descriptor: 'builder_platform_interaction:steppedStageEditor',
         nodeConfig: {
-            iconName: 'standard:screen',
-            utilityIconName: 'utility:screen',
+            iconName: 'standard:sales_path',
+            utilityIconName: 'standard:sales_path',
             value: 'stepped stage',
             dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
             dynamicNodeComponentSelector: getSteps,
@@ -1085,8 +1085,8 @@ export const elementTypeToConfigMap: {
         // A step in a stage is not a canvas element, but is a first class element
         descriptor: 'builder_platform_interaction:steppedStageItemEditor',
         nodeConfig: {
-            iconName: 'standard:stagestep',
-            utilityIconName: 'utility:stagestep'
+            iconName: 'standard:screen',
+            utilityIconName: 'utility:screen'
         },
         labels: {
             singular: LABELS.steppedStageItemSingularLabel,

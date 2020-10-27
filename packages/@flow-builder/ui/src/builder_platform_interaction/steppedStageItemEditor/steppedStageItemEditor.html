@@ -19,45 +19,47 @@
         active-section-name={openSections}
         class="slds-has-divider slds-p-top_none"
     >
-        <lightning-accordion-section name="startSection" label="Define How Step Starts">
+        <lightning-accordion-section name="startSection" label={labels.startSectionLabel}>
             <lightning-radio-group
-                label="The Step Starts"
+                label={labels.startRadioLabel}
                 name="stepStart"
-                value={stepStartValue}
+                value={selectedEntryCriteria}
                 options={stepStartOptions}
                 onchange={handleStepStartChanged}
                 required
             >
             </lightning-radio-group>
+
+            <div if:true={isStartCriteriaBasedOnStep}>
+                <builder_platform_interaction-combobox
+                    menu-data={entryCriteriaAvailableStepItems}
+                    oncomboboxstatechanged={handleEntryCriteriaItemChanged}
+                    onitemselected={handleEntryCriteriaItemChanged}
+                    label={labels.whenStepIsComplete}
+                    value={entryCriteriaSelectedItem}
+                    placeholder={labels.entryCriteriaItemsPlaceholder}
+                >
+                </builder_platform_interaction-combobox>
+            </div>
         </lightning-accordion-section>
 
-        <lightning-accordion-section name="stepImplementationSection" label="Choose Flow To Run">
-            <!--            <builder_platform_interaction-base-callout-editor-->
-            <!--                label-description-config={subflowNode}-->
-            <!--                element-type={elementType}-->
-            <!--                mode={mode}-->
-            <!--                subtitle={subtitle}-->
-            <!--                runinmode={runInMode}-->
-            <!--                parameter-list-config={parameterListConfig}-->
-            <!--                display-spinner={displaySpinner}-->
-            <!--                onpropertychanged={handlePropertyChangedEvent}-->
-            <!--                ondeleteparameteritem={handlePropertyChangedEvent}-->
-            <!--                onupdateparameteritem={handlePropertyChangedEvent}-->
-            <!--                onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}-->
-            <!--            >-->
-            <!--            </builder_platform_interaction-base-callout-editor>-->
-        </lightning-accordion-section>
-
-        <lightning-accordion-section name="finishSection" label="How Step Is Finished">
-            <lightning-radio-group
-                label="The Step Finishes"
-                name="stepFinish"
-                value={stepFinishValue}
-                options={stepFinishOptions}
-                onchange={handleStepFinishChanged}
-                required
-            >
-            </lightning-radio-group>
+        <lightning-accordion-section name="itemImplementationSection" label={labels.implementationSectionLabel}>
+            <div class="slds-grid slds-grid_align-center">
+                <builder_platform_interaction-action-selector
+                    class="slds-col slds-size_2-of-3"
+                    selected-action={selectedScreenFlow}
+                    error-message={selectedActionError}
+                    invocable-actions={availableScreenFlows}
+                    invocable-actions-fetched={screenFlowsFetched}
+                    selected-category={selectedCategory}
+                    selected-filter-by={selectedFilterBy}
+                    onactionsloaded={handleScreenFlowsLoaded}
+                    onvaluechanged={handleScreenFlowSelected}
+                    oncannotretrieveactions={handleCannotRetrieveActions}
+                    flow-process-type={processType}
+                >
+                </builder_platform_interaction-action-selector>
+            </div>
         </lightning-accordion-section>
     </lightning-accordion>
 </template>

@@ -1,9 +1,16 @@
 // @ts-nocheck
+import { Guid } from 'builder_platform_interaction/flowModel';
+
 const eventName = 'deletecondition';
 
-export class DeleteConditionEvent {
+type DeleteConditionEventDetail = {
+    parentGUID: Guid;
+    index: number;
+};
+
+export class DeleteConditionEvent extends CustomEvent<DeleteConditionEventDetail> {
     constructor(parentGUID, index) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,16 +1,22 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, baseCanvasElementsArrayToMap, baseChildElement } from './base/baseElement';
-import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from './base/baseMetadata';
+import { baseCanvasElement, baseCanvasElementsArrayToMap, baseChildElement, createCondition } from './base/baseElement';
+import {
+    baseCanvasElementMetadataObject,
+    baseChildElementMetadataObject,
+    createConditionMetadataObject
+} from './base/baseMetadata';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
-import { ChildElement, CanvasElement, ChildReference, Guid } from 'builder_platform_interaction/flowModel';
+import { ChildElement, CanvasElement, ChildReference, Guid, Condition } from 'builder_platform_interaction/flowModel';
 import { createConnectorObjects } from './connector';
 import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 
 // TODO: should extend the same base class as other non-canvas elements
 export interface SteppedStageItem extends ChildElement {
-    // TODO: W-8051764 - This will become required
-    stepTypeLabel?: string;
+    parent: Guid;
+    stepTypeLabel: string;
+    entryCriteria: Condition[];
+    entryCriteriaLogic?: string;
 }
 
 export interface SteppedStage extends CanvasElement {
@@ -90,18 +96,6 @@ export function createSteppedStageWithItems(existingStage: SteppedStage): Steppe
 //     duplicatedChildElements: object[]
 // } {
 //     throw new Error('Not yet implemented');
-// }
-
-// export function createSteppedStageWithStageStepsReferencesWhenUpdatingFromPropertyEditor(steppedStage: SteppedStage) {
-//     throw new Error('Not yet implemented');
-//
-//     // return {
-//     //     canvasElement: newDecision,
-//     //     deletedChildElementGuids: deletedOutcomeGuids,
-//     //     childElements: newOutcomes,
-//     //     deletedBranchHeadGuids,
-//     //     elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES
-//     // };
 // }
 
 function createSteppedStageItemsWithReferences(
@@ -192,22 +186,20 @@ export function getSteps(guid: Guid): SteppedStageItem[] {
     );
 }
 
-export function createSteppedStageItem(step: {
-    label?: string;
-    name?: string;
-    guid?: Guid;
-    parent?: Guid;
-    stepTypeLabel?: string;
-}): SteppedStageItem {
+export function createSteppedStageItem(step: SteppedStageItem): SteppedStageItem {
     const baseStep = { ...step };
 
     // Default label
-    // TODO: This is an incomplete version of the logic needed for full proeprty editor
+    // TODO: This is an incomplete version of the logic needed for full property editor
     // in panel support.  for example, this does not currently prevent duplicate guids
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000007Q6YUIA0/view
     if (!baseStep.label && baseStep.parent) {
         const steppedStage: SteppedStage = getElementByGuid(step.parent);
-        baseStep.label = format(LABELS.defaultSteppedStageItemName, steppedStage.childReferences.length + 1);
+        baseStep.label = format(
+            LABELS.defaultSteppedStageItemName,
+            steppedStage.childReferences.length + 1,
+            steppedStage.label
+        );
         baseStep.name = sanitizeDevName(baseStep.label);
     }
 
@@ -216,9 +208,13 @@ export function createSteppedStageItem(step: {
         baseStep.stepTypeLabel = LABELS.workStepLabel;
     }
 
-    const childElement = <SteppedStageItem>baseChildElement(baseStep, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
+    const newStep = <SteppedStageItem>baseChildElement(baseStep, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
 
-    return childElement;
+    const { entryCriteria = [] } = step;
+
+    newStep.entryCriteria = entryCriteria.map<Condition>((condition) => <Condition>createCondition(condition));
+
+    return { ...step, ...newStep };
 }
 
 export function createSteppedStageMetadataObject(steppedStage: SteppedStage, config = {}): SteppedStage {
@@ -226,7 +222,16 @@ export function createSteppedStageMetadataObject(steppedStage: SteppedStage, con
 
     const steps = childReferences.map(({ childReference }) => {
         const step = getElementByGuid(childReference);
-        return baseChildElementMetadataObject(step, config);
+        const entryCriteria: Condition[] = step.entryCriteria;
+        let entryCriteriaMetadata: any[] = [];
+        if (entryCriteria.length > 0) {
+            entryCriteriaMetadata = entryCriteria.map((condition) => createConditionMetadataObject(condition));
+        }
+
+        return {
+            ...baseChildElementMetadataObject(step, config),
+            entryCriteria: entryCriteriaMetadata
+        };
     });
 
     const newSteppedStage: SteppedStage = Object.assign(baseCanvasElementMetadataObject(steppedStage, config), {
@@ -269,4 +274,31 @@ function getDeletedStepsUsingStore(originalSteppedStage: SteppedStage, newSteps:
             .map((stepReference) => getElementByGuid(stepReference));
     }
     return { deletedSteps };
+}
+
+/**
+ * Returns all items in the parent SteppedStage *other* than the item passed in.
+ * If no parent steppedStage is found, an Error is thrown
+ * @param guid
+ */
+export function getOtherItemsInSteppedStage(guid: Guid): SteppedStageItem[] {
+    const parent: SteppedStage | null = <SteppedStage>getElementsForElementType(ELEMENT_TYPE.STEPPED_STAGE).find(
+        (steppedStage) => {
+            return (steppedStage as SteppedStage).childReferences.find((ref) => ref.childReference === guid);
+        }
+    );
+
+    if (!parent) {
+        throw Error('No parent SteppedStage found for SteppedStageItem ' + guid);
+    }
+
+    const siblingItems: SteppedStageItem[] = [];
+
+    parent.childReferences.forEach((ref) => {
+        if (ref.childReference !== guid) {
+            siblingItems.push(getElementByGuid(ref.childReference));
+        }
+    });
+
+    return siblingItems;
 }

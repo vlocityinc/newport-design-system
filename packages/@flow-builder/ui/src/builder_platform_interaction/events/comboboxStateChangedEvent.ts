@@ -4,6 +4,13 @@ import { MenuItem } from 'builder_platform_interaction/autoLayoutCanvas';
  */
 const eventName = 'comboboxstatechanged';
 
+type ComboboxStateChangedEventDetail = {
+    item: MenuItem | null;
+    displayText: string | null;
+    error: string | null;
+    isMergeField: boolean;
+};
+
 /**
  * @typedef {MenuItem} item the newly selected menu item
  * @property {String} displayText   the value displayed in the input field when this menu item is selected
@@ -11,14 +18,14 @@ const eventName = 'comboboxstatechanged';
  * @property {Boolean} isMergeField true if the displayText contains a merge field reference, false otherwise
  */
 
-export class ComboboxStateChangedEvent {
+export class ComboboxStateChangedEvent extends CustomEvent<ComboboxStateChangedEventDetail> {
     constructor(
         item: MenuItem | null,
         displayText: string | null = null,
         error: string | null = null,
         isMergeField = false
     ) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
