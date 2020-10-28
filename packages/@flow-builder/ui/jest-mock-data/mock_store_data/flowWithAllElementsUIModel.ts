@@ -62,8 +62,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'Boolean',
-            storeOutputAutomatically: false,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: false
         },
         'a4451815-988d-4f17-883d-64b6ad9fab7e': {
             guid: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
@@ -109,8 +108,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
             guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
@@ -156,8 +154,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'Boolean',
-            storeOutputAutomatically: false,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: false
         },
         '4968239c-5e3d-45ee-9339-f575c917e223': {
             guid: '4968239c-5e3d-45ee-9339-f575c917e223',
@@ -197,8 +194,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '7f4ddba5-e41b-456b-b686-94b257cc9914': {
             guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
@@ -235,8 +231,7 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: 'Account',
             isCollection: false,
-            apexClass: null,
-            flowTransactionModel: 'Automatic'
+            apexClass: null
         },
         '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be': {
             guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
@@ -269,8 +264,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '53329036-32e6-4965-a1d2-b12cd0344f99': {
             guid: '53329036-32e6-4965-a1d2-b12cd0344f99',
@@ -310,8 +304,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'EMAIL_ALERT',
             dataType: 'Boolean',
-            storeOutputAutomatically: false,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: false
         },
         '41c6da8a-c6e0-418b-8b23-9906b4adab11': {
             guid: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
@@ -355,8 +348,7 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: null,
             isCollection: false,
-            apexClass: null,
-            flowTransactionModel: 'Automatic'
+            apexClass: null
         },
         '3f1c4d9a-ea88-4c6c-85ac-6aa009601964': {
             guid: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
@@ -396,8 +388,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'Boolean',
-            storeOutputAutomatically: false,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: false
         },
         'a18b3d06-504c-4e47-9f44-6663c42703cf': {
             guid: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
@@ -430,8 +421,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '5383bf9b-8314-42bd-a51e-cbee56ec3570': {
             guid: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
@@ -464,8 +454,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '20336b8d-01e4-49eb-bb24-87deba5f6ef8': {
             guid: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
@@ -502,8 +491,7 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: 'Account',
             isCollection: true,
-            apexClass: null,
-            flowTransactionModel: 'Automatic'
+            apexClass: null
         },
         '787fd564-24db-448c-ba59-ef88c8a5cbd9': {
             guid: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
@@ -540,8 +528,7 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: null,
             isCollection: true,
-            apexClass: null,
-            flowTransactionModel: 'Automatic'
+            apexClass: null
         },
         'cc44cf67-84c7-4dc5-b851-44d57be8fa66': {
             guid: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
@@ -581,8 +568,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '86f9f34d-e2e4-45e3-a574-78ddcd669ebf': {
             guid: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
@@ -619,8 +605,7 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: null,
             isCollection: true,
-            apexClass: 'InvocableGetCars$GetCarResult',
-            flowTransactionModel: 'Automatic'
+            apexClass: 'InvocableGetCars$GetCarResult'
         },
         'a6849bcb-05b6-4898-8cc1-12ff825524c5': {
             guid: 'a6849bcb-05b6-4898-8cc1-12ff825524c5',
@@ -653,8 +638,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '3e57f4c5-fecd-4be0-83a2-3238cdda979c': {
             guid: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
@@ -687,8 +671,7 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true,
-            flowTransactionModel: 'Automatic'
+            storeOutputAutomatically: true
         },
         '7ab29c0c-3dbf-4f99-a94c-311ef891973f': {
             guid: '7ab29c0c-3dbf-4f99-a94c-311ef891973f',

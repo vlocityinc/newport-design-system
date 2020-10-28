@@ -1,10 +1,5 @@
 // @ts-nocheck
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE,
-    ACTION_TYPE,
-    FLOW_TRANSACTION_MODEL
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -48,7 +43,7 @@ const maxOccursToIsCollection = (maxOccurs) => {
 
 export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
     const newActionCall = baseCanvasElement(actionCall);
-    const { actionType = '', actionName = '', flowTransactionModel = FLOW_TRANSACTION_MODEL.AUTOMATIC } = actionCall;
+    const { actionType = '', actionName = '', flowTransactionModel } = actionCall;
     let {
         dataTypeMappings = [],
         inputParameters = [],
