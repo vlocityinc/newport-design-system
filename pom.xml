@@ -7,7 +7,7 @@
     <version>230-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.3010</aura.version>
+        <aura.version>0.6000.3017</aura.version>
         <lwc.api.version>0.230.9</lwc.api.version>
         <lwc.version>1.8.7</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,10 +17,10 @@
         <modules.compile.directory>${project.build.outputDirectory}/${component.module.dir}</modules.compile.directory>
         <component.compile.directory>${project.build.outputDirectory}/${component.dir}</component.compile.directory>
 
-        <io.takari.builder.version>0.20.7-sfdc-12</io.takari.builder.version>
+        <io.takari.builder.version>0.20.7-sfdc-16</io.takari.builder.version>
         <aura.takari.plugin.version>0.11</aura.takari.plugin.version>
-        <aura.maven.plugin.version>0.12.9</aura.maven.plugin.version>
-        <node-tool.version>0.5.10</node-tool.version>
+        <aura.maven.plugin.version>0.15.5</aura.maven.plugin.version>
+        <node-tool.version>0.5.11</node-tool.version>
     </properties>
     <repositories>
         <repository>
@@ -41,11 +41,6 @@
         <dependency>
             <groupId>org.auraframework</groupId>
             <artifactId>aura-components</artifactId>
-            <version>${aura.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.auraframework</groupId>
-            <artifactId>aura-modules</artifactId>
             <version>${aura.version}</version>
         </dependency>
         <dependency>
@@ -205,15 +200,10 @@
                     </plugin>
                     <!-- Compile aura components -->
                     <plugin>
-                        <groupId>com.salesforce.maven.plugins</groupId>
+                        <groupId>org.auraframework</groupId>
                         <artifactId>aura-takari-builder</artifactId>
-                        <version>${aura.takari.plugin.version}</version>
+                        <version>${aura.version}</version>
                         <dependencies>
-                            <dependency>
-                                <groupId>org.auraframework</groupId>
-                                <artifactId>aura-modules</artifactId>
-                                <version>${aura.version}</version>
-                            </dependency>
                             <dependency>
                                 <groupId>org.auraframework</groupId>
                                 <artifactId>aura-tools</artifactId>
@@ -302,11 +292,6 @@
                             </dependency>
                             <dependency>
                                 <groupId>org.auraframework</groupId>
-                                <artifactId>aura-modules</artifactId>
-                                <version>${aura.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.auraframework</groupId>
                                 <artifactId>aura-tools</artifactId>
                                 <version>${aura.version}</version>
                             </dependency>
@@ -314,6 +299,12 @@
                                 <groupId>com.salesforce.maven.plugins</groupId>
                                 <artifactId>aura-takari-builder</artifactId>
                                 <version>${aura.takari.plugin.version}</version>
+                                <exclusions>
+                                    <exclusion>
+                                        <groupId>org.auraframework</groupId>
+                                        <artifactId>aura-modules</artifactId>
+                                    </exclusion>
+                                </exclusions>
                             </dependency>
                         </dependencies>
                         <executions>
