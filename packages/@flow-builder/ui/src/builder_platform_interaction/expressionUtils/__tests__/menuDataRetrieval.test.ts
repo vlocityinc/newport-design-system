@@ -714,6 +714,15 @@ describe('Menu data retrieval', () => {
             });
             expect(menuData).toHaveLength(0);
         });
+        it('does not include time triggers in the result', () => {
+            const dummyTimeTrigger = {
+                elementType: 'TimeTrigger'
+            };
+            const menuData = filterAndMutateMenuData([dummyTimeTrigger], undefined, {
+                showSystemVariables: false
+            });
+            expect(menuData).toHaveLength(0);
+        });
     });
 
     describe('Event types menu data', () => {

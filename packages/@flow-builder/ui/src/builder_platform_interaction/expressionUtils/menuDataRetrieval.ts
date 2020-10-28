@@ -4,7 +4,8 @@ import {
     ELEMENT_TYPE,
     UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE,
     isSystemElement,
-    isSectionOrColumn
+    isSectionOrColumn,
+    isTimeTrigger
 } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
@@ -308,7 +309,8 @@ export function filterAndMutateMenuData(
                 // exclude the start element so that it is easier to add back as a global var below
                 !isSystemElement(element.elementType) &&
                 (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
-                !isSectionOrColumn(element)
+                !isSectionOrColumn(element) &&
+                !isTimeTrigger(element)
         )
         .map((element) => {
             const menuItem = mutateFlowResourceToComboboxShape(element);

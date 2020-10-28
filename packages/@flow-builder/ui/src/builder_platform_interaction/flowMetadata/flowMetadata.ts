@@ -397,6 +397,10 @@ export function isSectionOrColumn(element) {
     );
 }
 
+export function isTimeTrigger(element) {
+    return element.elementType === ELEMENT_TYPE.TIME_TRIGGER;
+}
+
 export function forEachMetadataFlowElement(metadata, startElementReference, callback) {
     const metadataKeys = Object.values(METADATA_KEY);
     for (let i = 0, metadataKeysLen = metadataKeys.length; i < metadataKeysLen; i++) {
