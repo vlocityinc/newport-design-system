@@ -207,8 +207,8 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
         timeTriggerComponent = createTimeTriggerComponentForTest(timeTriggersNode);
     });
     describe('Reorderable Vertical Navigation', () => {
-        it('should have 2 items', () => {
-            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(2);
+        it('should have 3 items', () => {
+            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(3);
         });
         it('should display the Path Label as link', () => {
             let link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 0);
@@ -280,7 +280,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             await ticks(10);
         });
         it('Should display the emptyTimeTriggerLabel in the navigation menu', () => {
-            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(3);
+            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(4);
             const link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 2);
             expect(link.textContent).toBe('FlowBuilderStartEditor.emptyTimeTriggerLabel');
         });

@@ -32,6 +32,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
     FIELD_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
+    ILLUSTRATION: 'builder_platform_interaction-illustration',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     LEFT_PANEL: 'builder_platform_interaction-left-panel',
     LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',

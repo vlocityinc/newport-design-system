@@ -35,6 +35,8 @@ const SELECTORS = {
 let startElementWithTwoTimeTriggers;
 let startElementWithOneTimeTriggers;
 
+const IMMEDIATE_TIME_TRIGGER_ID = 'immediateTimeTrigger';
+
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-time-triggers-editor', {
         is: TimeTriggersEditor
@@ -103,26 +105,28 @@ describe('Time Triggers Editor', () => {
     });
     describe('time triggers menu', () => {
         describe('array of menu items', () => {
-            it('contains all time triggers in order', async () => {
-                expect.assertions(3);
+            it('contains all time triggers in order including immediate time trigger at the end', () => {
+                expect.assertions(4);
                 const timeTriggersEditor = createComponentForTest(startElementWithTwoTimeTriggers);
-
-                await ticks(1);
                 const reorderableTimeTriggerNav = timeTriggersEditor.shadowRoot.querySelector(
                     INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
                 );
                 const menuItems = reorderableTimeTriggerNav.menuItems;
-
                 // menu includes the default
-                expect(menuItems).toHaveLength(2);
+                expect(menuItems).toHaveLength(3);
                 expect(menuItems[0].element).toEqual(startElementWithTwoTimeTriggers.timeTriggers[0]);
                 expect(menuItems[1].element).toEqual(startElementWithTwoTimeTriggers.timeTriggers[1]);
+                expect(menuItems[2]).toEqual({
+                    element: {
+                        guid: IMMEDIATE_TIME_TRIGGER_ID
+                    },
+                    label: 'FlowBuilderTimeTrigger.immediateTimeTriggerLabel',
+                    isDraggable: false
+                });
             });
-            it('time triggers are not draggable', async () => {
+            it('time triggers are not draggable', () => {
                 const timeTriggersEditor = createComponentForTest(startElementWithTwoTimeTriggers);
                 expect.assertions(2);
-
-                await ticks(1);
                 const reorderableTimeTriggerNav = timeTriggersEditor.shadowRoot.querySelector(
                     INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
                 );
@@ -131,11 +135,9 @@ describe('Time Triggers Editor', () => {
                 expect(menuItems[0].isDraggable).toBeFalsy();
                 expect(menuItems[1].isDraggable).toBeFalsy();
             });
-            it('shows an error icon when there is an error in the time trigger', async () => {
+            it('shows an error icon when there is an error in the time trigger', () => {
                 expect.assertions(2);
                 const timeTriggersEditor = createComponentForTest(startElementWithTwoTimeTriggers);
-
-                await ticks(1);
                 const reorderableTimeTriggerNav = timeTriggersEditor.shadowRoot.querySelector(
                     INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
                 );
@@ -234,7 +236,7 @@ describe('Time Triggers Editor', () => {
         });
     });
     describe('handlePropertyChangedEvent', () => {
-        it('property changed event dispatches an UpdateNodeEvent', async () => {
+        it('property changed event dispatches an UpdateNodeEvent', () => {
             expect.assertions(1);
             const timeTriggerEditor = createComponentForTest(startElementWithTwoTimeTriggers);
 
@@ -246,12 +248,39 @@ describe('Time Triggers Editor', () => {
                 INTERACTION_COMPONENTS_SELECTORS.TIME_TRIGGER
             );
             timeTriggers.dispatchEvent(event);
-            await ticks(1);
             expect(updateNodeCallBack).toHaveBeenCalledWith(
                 expect.objectContaining({
                     detail: { node: timeTriggerEditor.node }
                 })
             );
+        });
+    });
+    describe('default immediate time trigger', () => {
+        it('default immediate time trigger is displayed in rhs when selected in left panel', async () => {
+            expect.assertions(1);
+            const timeTriggersEditor = createComponentForTest(startElementWithTwoTimeTriggers);
+            const reorderableOutcomeNav = timeTriggersEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
+            );
+            reorderableOutcomeNav.dispatchEvent(
+                new CustomEvent('itemselected', {
+                    detail: { itemId: IMMEDIATE_TIME_TRIGGER_ID }
+                })
+            );
+            await ticks(1);
+            const immediateTimeTriggerSection = timeTriggersEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.ILLUSTRATION
+            );
+            expect(immediateTimeTriggerSection).not.toBeNull();
+        });
+        it('initial immediate time trigger does not have an error', () => {
+            const timeTriggersEditor = createComponentForTest(startElementWithTwoTimeTriggers);
+            const reorderableOutcomeNav = timeTriggersEditor.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.REORDERABLE_VERTICAL_NAVIGATION
+            );
+            const menuItems = reorderableOutcomeNav.menuItems;
+
+            expect(menuItems[2].hasErrors).toBeFalsy();
         });
     });
 });

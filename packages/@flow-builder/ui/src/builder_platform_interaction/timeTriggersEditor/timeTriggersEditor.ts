@@ -7,8 +7,8 @@ import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 const EMPTY_TIME_TRIGGER_LABEL = LABELS.emptyTimeTriggerLabel;
+const IMMEDIATE_TIME_TRIGGER_LABEL = LABELS.immediateTimeTriggerLabel;
 const IMMEDIATE_TIME_TRIGGER_ID = 'immediateTimeTrigger';
-
 const SELECTORS = {
     TIME_TRIGGER: 'builder_platform_interaction-time-trigger'
 };
@@ -60,7 +60,7 @@ export default class TimeTriggersEditor extends LightningElement {
     }
 
     get timeTriggersWithImmediateTrigger() {
-        let timeTriggersWithImmediateTrigger = [];
+        let timeTriggersWithImmediateTrigger: { element: { guid: string }; label: string; isDraggable: boolean }[] = [];
         if (this.startElement.timeTriggers) {
             timeTriggersWithImmediateTrigger = this.startElement.timeTriggers.map((timeTrigger) => {
                 return {
@@ -74,9 +74,13 @@ export default class TimeTriggersEditor extends LightningElement {
                 };
             });
         }
-
-        // TODO: Add the immediate time trigger here
-
+        timeTriggersWithImmediateTrigger.push({
+            element: {
+                guid: IMMEDIATE_TIME_TRIGGER_ID
+            },
+            label: IMMEDIATE_TIME_TRIGGER_LABEL,
+            isDraggable: false
+        });
         return timeTriggersWithImmediateTrigger;
     }
 
