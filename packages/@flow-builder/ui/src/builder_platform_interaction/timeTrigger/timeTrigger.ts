@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './timeTriggerLabels';
 import { getEntity, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_TRIGGER_SAVE_TYPE, RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -145,6 +145,16 @@ export default class TimeTrigger extends LightningElement {
             element.setCustomValidity(error);
             element.showHelpMessageIfInvalid();
         }
+    }
+
+    /**
+     * @param {object} event - Click Event to delete the time trigger
+     */
+    handleDelete(event) {
+        event.stopPropagation();
+
+        const deleteTimeTriggerEvent = new DeleteTimeTriggerEvent(this.timeTrigger.guid);
+        this.dispatchEvent(deleteTimeTriggerEvent);
     }
 
     handlePropertyChanged(event) {

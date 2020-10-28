@@ -7,6 +7,7 @@ import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 const EMPTY_TIME_TRIGGER_LABEL = LABELS.emptyTimeTriggerLabel;
+const IMMEDIATE_TIME_TRIGGER_ID = 'immediateTimeTrigger';
 
 const SELECTORS = {
     TIME_TRIGGER: 'builder_platform_interaction-time-trigger'
@@ -74,6 +75,8 @@ export default class TimeTriggersEditor extends LightningElement {
             });
         }
 
+        // TODO: Add the immediate time trigger here
+
         return timeTriggersWithImmediateTrigger;
     }
 
@@ -100,6 +103,28 @@ export default class TimeTriggersEditor extends LightningElement {
         event.stopPropagation();
         this.startElement = timeTriggersReducer(this.startElement, event);
         this.dispatchEvent(new UpdateNodeEvent(this.startElement));
+    }
+
+    /**
+     * Handles deletion and sets focus to the first time trigger or immediate time trigger (if deletion was successful)
+     * @param {object} event - deleteTimeTriggerEvent
+     */
+    handleDeleteTimeTrigger(event) {
+        event.stopPropagation();
+        const originalNumberOfTimeTriggers = this.startElement.timeTriggers.length;
+        this.startElement = timeTriggersReducer(this.startElement, event);
+        if (this.startElement.timeTriggers.length < originalNumberOfTimeTriggers) {
+            if (this.startElement.timeTriggers.length === 0) {
+                this.activeTimeTriggerId = IMMEDIATE_TIME_TRIGGER_ID;
+            } else {
+                this.activeTimeTriggerId = this.startElement.timeTriggers[0].guid;
+            }
+        }
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
+    }
+
+    get isImmediateTimeTrigger() {
+        return this.activeTimeTriggerId === IMMEDIATE_TIME_TRIGGER_ID;
     }
 
     addTimeTrigger() {

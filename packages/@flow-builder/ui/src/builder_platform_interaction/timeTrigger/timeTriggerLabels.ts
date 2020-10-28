@@ -13,6 +13,7 @@ import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElemen
 import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
 import startElementRecordDeleted from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordDeleted';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
+import deleteScheduledPathLabel from '@salesforce/label/FlowBuilderTimeTrigger.deleteScheduledPathLabel';
 
 export const LABELS = {
     pathLabel,
@@ -28,5 +29,6 @@ export const LABELS = {
     startElementRecordCreated,
     startElementRecordUpdated,
     startElementRecordDeleted,
-    startElementRecordCreatedUpdated
+    startElementRecordCreatedUpdated,
+    deleteScheduledPathLabel
 };

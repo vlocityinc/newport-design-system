@@ -2,7 +2,7 @@ import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { timeTriggersValidation, additionalRules } from './timeTriggersValidation';
 import { addItem, hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
 import { StoreState, TimeTrigger } from 'builder_platform_interaction/flowModel';
 import { createTimeTrigger } from 'builder_platform_interaction/elementFactory';
 
@@ -65,7 +65,7 @@ export const timeTriggersReducer = (state: StoreState, event: CustomEvent): Stor
             return addTimeTrigger(state);
         case PropertyChangedEvent.EVENT_NAME:
             return timeTriggerPropertyChanged(state, event);
-        case PROPERTY_EDITOR_ACTION.DELETE_START_ELEMENT_TIME_TRIGGER:
+        case DeleteTimeTriggerEvent.EVENT_NAME:
             return deleteTimeTrigger(state, event);
         case PROPERTY_EDITOR_ACTION.UPDATE_START_ELEMENT_TIME_TRIGGER:
             return state;

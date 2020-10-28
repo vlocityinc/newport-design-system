@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { timeTriggersReducer } from '../timeTriggersReducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
 
@@ -66,7 +66,7 @@ describe('time-trigger-reducer', () => {
     describe('Remove a time trigger ', () => {
         it('Should remove the selected time trigger from timeTriggers array', () => {
             const deleteTimeTriggerAction = {
-                type: PROPERTY_EDITOR_ACTION.DELETE_START_ELEMENT_TIME_TRIGGER,
+                type: DeleteTimeTriggerEvent.EVENT_NAME,
                 detail: {
                     guid: originalState.timeTriggers[0].guid
                 }

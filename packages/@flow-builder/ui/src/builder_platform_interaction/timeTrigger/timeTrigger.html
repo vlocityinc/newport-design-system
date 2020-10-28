@@ -9,6 +9,13 @@
             <h3 class="slds-text-title_caps">
                 <span class="slds-truncate">{labels.scheduledPathDetailsHeader}</span>
             </h3>
+            <lightning-button
+                label={labels.deleteScheduledPathLabel}
+                title={labels.deleteScheduledPathLabel}
+                class="slds-col_bump-left slds-shrink-none delete-time-trigger-btn"
+                onclick={handleDelete}
+            >
+            </lightning-button>
         </div>
         <div>
             <builder_platform_interaction-label-description

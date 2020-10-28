@@ -1,8 +1,8 @@
 import { createElement } from 'lwc';
 import TimeTrigger from 'builder_platform_interaction/timeTrigger';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const timeTriggerMock = {
     label: { value: 'My time trigger element', error: null },
@@ -17,7 +17,8 @@ const selectors = {
     labelAndName: INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION,
     timeSource: '.timeSourceCombobox',
     offsetNumber: '.offsetNumberInput',
-    offsetUnitAndDirection: '.offsetUnitAndDirectionCombobox'
+    offsetUnitAndDirection: '.offsetUnitAndDirectionCombobox',
+    deletePathButton: '.delete-time-trigger-btn'
 };
 
 const createComponentUnderTest = () => {
@@ -48,11 +49,13 @@ describe('TimeTrigger', () => {
             expect(timeSourceComponent[0].value).toBe(timeTriggerMock.timeSource.value);
         });
         it('has offset number field component', () => {
+            expect.assertions(2);
             const offsetNumberComponent = element.shadowRoot.querySelectorAll(selectors.offsetNumber);
             expect(offsetNumberComponent).toHaveLength(1);
             expect(offsetNumberComponent[0].value).toBe(timeTriggerMock.offsetNumber.value);
         });
         it('has offset unit field component', () => {
+            expect.assertions(2);
             const offsetUnitAndDirectionComponent = element.shadowRoot.querySelectorAll(
                 selectors.offsetUnitAndDirection
             );
@@ -68,6 +71,7 @@ describe('TimeTrigger', () => {
             element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
         });
         it('fires the property changed event when time source is changed', () => {
+            expect.assertions(2);
             const timeSourceComboBox = element.shadowRoot.querySelector(selectors.timeSource);
             timeSourceComboBox.dispatchEvent(
                 new CustomEvent('change', {
@@ -87,6 +91,7 @@ describe('TimeTrigger', () => {
             });
         });
         it('fires the property changed event when offset unit is changed', () => {
+            expect.assertions(2);
             const offsetUnitComboBox = element.shadowRoot.querySelector(selectors.offsetUnitAndDirection);
             offsetUnitComboBox.dispatchEvent(
                 new CustomEvent('change', {
@@ -106,6 +111,7 @@ describe('TimeTrigger', () => {
             });
         });
         it('fires the property changed event when offset number is changed', () => {
+            expect.assertions(2);
             const offsetNumberInput = element.shadowRoot.querySelector(selectors.offsetNumber);
             offsetNumberInput.dispatchEvent(new CustomEvent('focusout'));
             expect(eventCallback).toHaveBeenCalled();
@@ -116,6 +122,22 @@ describe('TimeTrigger', () => {
                     error: null
                 }
             });
+        });
+    });
+
+    describe('handleDelete', () => {
+        it('fires deleteTimeTriggerEvent with time trigger guid', async () => {
+            expect.assertions(1);
+            const eventCallback = jest.fn();
+            element.addEventListener(DeleteTimeTriggerEvent.EVENT_NAME, eventCallback);
+            const removeButton = element.shadowRoot.querySelector(selectors.deletePathButton);
+            removeButton.click();
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { guid: element.timeTrigger.guid }
+                })
+            );
         });
     });
 });

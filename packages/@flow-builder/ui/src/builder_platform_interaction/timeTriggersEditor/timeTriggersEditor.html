@@ -23,11 +23,17 @@
         </builder_platform_interaction-reorderable-vertical-navigation>
         <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
             <builder_platform_interaction-time-trigger
+                if:false={isImmediateTimeTrigger}
                 time-trigger={activeTimeTrigger}
                 object={node.object}
                 record-trigger-type={node.recordTriggerType}
+                ondeletetimetrigger={handleDeleteTimeTrigger}
                 onpropertychanged={handlePropertyChangedEvent}
             ></builder_platform_interaction-time-trigger>
+            <div if:true={isImmediateTimeTrigger} class="test-immediate-time-trigger">
+                <!-- TODO: Add Immediate Time Trigger Body here -->
+                Immediate Trigger - Work in Progress
+            </div>
         </div>
     </div>
 </template>
