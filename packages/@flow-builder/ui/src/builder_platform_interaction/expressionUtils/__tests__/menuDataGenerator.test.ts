@@ -25,8 +25,12 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
-import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction_mocks/systemLib';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
+import { startElement as startElementRecordTriggered } from 'mock/storeDataRecordTriggered';
+import { getStartElementFromState } from 'builder_platform_interaction/storeUtils';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataTypeLib');
@@ -54,13 +58,10 @@ jest.mock(
     { virtual: true }
 );
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        getProcessType: jest.fn().mockImplementation(() => {
-            return 'flow';
-        })
-    };
-});
+jest.mock('builder_platform_interaction/storeUtils', () => ({
+    getProcessType: jest.fn().mockImplementation(() => 'flow'),
+    getStartElementFromState: jest.fn().mockImplementation(() => undefined)
+}));
 
 let mockGetResourceCategory = true;
 const mockImplementationForGetResourceCategory = ({ elementType, dataType, isCollection, isSystemGeneratedOutput }) => {
@@ -212,29 +213,65 @@ describe('menuDataGenerator', () => {
         });
     });
     describe('getSystemAndGlobalVariableMenuData', () => {
-        // The number of global variable types from globalVariablesForFlow which also have fields
-        const NUM_GLOBAL_VARIABLE_TYPES = 6;
-        beforeEach(() => {
-            setGlobalVariables(globalVariablesForFlow);
-            setProcessTypeFeature('flow', ['GlobalVariables']);
+        describe('Global variables', () => {
+            // The number of global variable types from globalVariablesForFlow which also have fields
+            const NUM_GLOBAL_VARIABLE_TYPES = 7;
+            const NUM_SYSTEM_VARIABLES = 1; // only $Flow
+            beforeEach(() => {
+                setGlobalVariables(globalVariablesForFlow);
+                setProcessTypeFeature('flow', ['GlobalVariables']);
+            });
+            it('should not return global variables if showGlobalVariables is false', () => {
+                const menuData = getSystemAndGlobalVariableMenuData(true, false);
+                expect(menuData.length).toEqual(1);
+            });
+            it('should return global variables if showGlobalVariables is true', () => {
+                const menuData = getSystemAndGlobalVariableMenuData(true, true);
+                expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + NUM_SYSTEM_VARIABLES);
+            });
+            it('should return global variables if not supported for process type but for formula', () => {
+                setProcessTypeFeature('flow', []);
+                const menuData = getSystemAndGlobalVariableMenuData(true, true, true);
+                expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + NUM_SYSTEM_VARIABLES);
+            });
+            it('should not return global variables if not supported for process type and not for formula', () => {
+                setProcessTypeFeature('flow', []);
+                const menuData = getSystemAndGlobalVariableMenuData(true, true);
+                expect(menuData.length).toEqual(1);
+            });
         });
-        it('should not return global variables if showGlobalVariables is false', () => {
-            const menuData = getSystemAndGlobalVariableMenuData(true, false);
-            expect(menuData.length).toEqual(1);
-        });
-        it('should return global variables if showGlobalVariables is true', () => {
-            const menuData = getSystemAndGlobalVariableMenuData(true, true);
-            expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + 1);
-        });
-        it('should return global variables if not supported for process type but for formula', () => {
-            setProcessTypeFeature('flow', []);
-            const menuData = getSystemAndGlobalVariableMenuData(true, true, true);
-            expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + 1);
-        });
-        it('should not return global variables if not supported for process type and not for formula', () => {
-            setProcessTypeFeature('flow', []);
-            const menuData = getSystemAndGlobalVariableMenuData(true, true);
-            expect(menuData.length).toEqual(1);
+        describe('System variables', () => {
+            afterEach(() => {
+                getStartElementFromState.mockImplementation(() => undefined);
+            });
+            it('should return $Record__Prior if supported', () => {
+                getStartElementFromState.mockImplementation(() => startElementRecordTriggered);
+                const menuData = getSystemAndGlobalVariableMenuData(true, false);
+                expect(menuData).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            dataType: 'SObject',
+                            displayText: '{!$Record__Prior}',
+                            hasNext: true,
+                            iconName: 'utility:system_and_global_variable',
+                            subtype: 'Account',
+                            text: '$Record__Prior',
+                            value: '$Record__Prior'
+                        })
+                    ])
+                );
+            });
+            it('should not return $Record__Prior if returned variables should be writable', () => {
+                getStartElementFromState.mockImplementation(() => startElementRecordTriggered);
+                const menuData = getSystemAndGlobalVariableMenuData(true, false, false, true);
+                expect(menuData).not.toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            value: '$Record__Prior'
+                        })
+                    ])
+                );
+            });
         });
     });
     describe('getMenuItemForField', () => {

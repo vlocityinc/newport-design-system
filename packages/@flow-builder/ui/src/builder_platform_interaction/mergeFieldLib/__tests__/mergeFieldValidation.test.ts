@@ -1,19 +1,30 @@
-// @ts-nocheck
-import { Store } from 'builder_platform_interaction_mocks/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 import { datetimeParamTypes, numberParamCanBeAnything, accountParam, apexParam } from 'mock/ruleService';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import {
+    GLOBAL_CONSTANTS,
+    setSystemVariables,
+    setGlobalVariables,
+    resetSystemVariables,
+    resetGlobalVariables
+} from 'builder_platform_interaction/systemLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { setApexClasses, getApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { apexTypesForAutoLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForAutoLaunchedFlow.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { mockScreenElement } from 'mock/calloutData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const lookupScreenField = jest.requireActual('mock/storeData').lookupScreenField;
@@ -26,91 +37,6 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
-jest.mock('builder_platform_interaction/systemLib', () => {
-    const emptyString = '$GlobalConstant.EmptyString';
-    const currentDateSystemVariable = '$Flow.CurrentDate';
-    const currentStageSystemVariable = '$Flow.CurrentStage';
-    return {
-        GLOBAL_CONSTANTS: {
-            EMPTY_STRING: emptyString
-        },
-        GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
-        SYSTEM_VARIABLE_PREFIX: '$Flow',
-        SYSTEM_VARIABLE_CLIENT_PREFIX: '$Client',
-        getGlobalConstantOrSystemVariable: (id) => {
-            if (id === currentDateSystemVariable) {
-                return {
-                    apiName: 'CurrentDate',
-                    dataType: 'Date',
-                    guid: '$Flow.CurrentDate',
-                    isAssignable: false,
-                    isCollection: false,
-                    isSystemVariable: true,
-                    label: 'CurrentDate',
-                    name: '$Flow.CurrentDate',
-                    subtype: 'Flow',
-                    readOnly: true
-                };
-            }
-            if (id === currentStageSystemVariable) {
-                return {
-                    isCollection: false,
-                    isAssignable: true,
-                    dataType: 'String',
-                    elementType: 'STAGE',
-                    apiName: 'CurrentStage',
-                    guid: '$Flow.CurrentStage',
-                    label: 'CurrentStage',
-                    name: '$Flow.CurrentStage',
-                    readOnly: false,
-                    isSystemVariable: true,
-                    subtype: 'Flow'
-                };
-            }
-            if (id === emptyString) {
-                return {
-                    label: '$GlobalConstant.EmptyString',
-                    name: '$GlobalConstant.EmptyString',
-                    guid: '$GlobalConstant.EmptyString',
-                    isCollection: false,
-                    dataType: 'String',
-                    category: 'Global Constants',
-                    description: 'Equivalent to empty string (not null)'
-                };
-            }
-            return undefined;
-        },
-        getGlobalVariable: (id) => {
-            if (id === '$System.OriginDateTime') {
-                return {
-                    apiName: 'OriginDateTime',
-                    dataType: 'DateTime',
-                    guid: '$System.OriginDateTime',
-                    isAssignable: false,
-                    isCollection: false,
-                    isSystemVariable: true,
-                    label: 'OriginDateTime',
-                    name: '$System.OriginDateTime',
-                    readOnly: true
-                };
-            } else if (id === '$Setup.CustomSetting__c.CustomField__c') {
-                return {
-                    apiName: '$Setup.CustomSetting__c.CustomField__c',
-                    dataType: 'String',
-                    guid: '$Setup.CustomSetting__c.CustomField__c',
-                    isAssignable: false,
-                    isCollection: false,
-                    isSystemVariable: true,
-                    label: '$Setup.CustomSetting__c.CustomField__c',
-                    name: '$Setup.CustomSetting__c.CustomField__c',
-                    readOnly: true
-                };
-            }
-            return undefined;
-        }
-    };
-});
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
@@ -146,7 +72,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     const flowExtensionMock = require('mock/flowExtensionsData');
     return {
         getCachedExtension: jest.fn().mockImplementation((name, dynamicTypeMappings) => {
-            let result = Object.values(flowExtensionMock).find((extension) => extension.name === name);
+            let result: any = Object.values(flowExtensionMock).find((extension: any) => extension.name === name);
             if (name === 'c:lookup') {
                 // Run the actual function for <c:lookup/>
                 const applyDynamicTypeMappings = jest.requireActual('builder_platform_interaction/flowExtensionLib')
@@ -226,18 +152,30 @@ const validationError = (startIndex, endIndex, errorType, message) => ({
     message
 });
 
+const setMockState = (state) => {
+    (Store as any).setMockState(state);
+};
+
+const resetStore = () => {
+    (Store as any).resetStore();
+};
+
 describe('Merge field validation', () => {
     beforeAll(() => {
         setApexClasses(apexTypesForFlow);
+        setGlobalVariables(globalVariablesForFlow);
+        setSystemVariables(systemVariablesForFlow);
     });
     afterAll(() => {
+        resetGlobalVariables();
+        resetSystemVariables();
         setApexClasses(null);
     });
     beforeEach(() => {
-        Store.setMockState(flowWithAllElementsUIModel);
+        setMockState(flowWithAllElementsUIModel);
     });
     afterEach(() => {
-        Store.resetStore();
+        resetStore();
     });
     it('Returns a validation error when it is not a valid merge field', () => {
         const validationErrors = validateMergeField('{!stringVariable');
@@ -669,8 +607,8 @@ describe('Merge field validation', () => {
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns no validation error when it references a wait event', () => {
-            Store.resetStore();
-            Store.setMockState(autolaunchedFlowUIModel);
+            resetStore();
+            setMockState(autolaunchedFlowUIModel);
             const validationErrors = validateMergeField('{!waitEvent1}');
             expect(validationErrors).toHaveLength(0);
         });
@@ -741,7 +679,7 @@ describe('Merge field validation', () => {
                 ]);
             });
             it('Returns no validation error even for non existing LC param when the extension description is not in the cache', () => {
-                getCachedExtension.mockReturnValueOnce(undefined);
+                (getCachedExtension as jest.Mock).mockReturnValueOnce(undefined);
                 const validationErrors = validateMergeField('{!emailScreenFieldAutomaticOutput.nonExisting}');
                 expect(validationErrors).toHaveLength(0);
             });
@@ -939,12 +877,46 @@ describe('Merge field validation', () => {
     });
 });
 
-describe('Text with merge fields validation', () => {
+describe('Merge field validation (Record Triggered flow)', () => {
     beforeAll(() => {
-        Store.setMockState(flowWithAllElementsUIModel);
+        setApexClasses(apexTypesForAutoLaunchedFlow);
+        setGlobalVariables(globalVariablesForAutoLaunchedFlow);
+        setSystemVariables(systemVariablesForAutoLaunchedFlow);
     });
     afterAll(() => {
-        Store.resetStore();
+        resetGlobalVariables();
+        resetSystemVariables();
+        setApexClasses(null);
+    });
+    beforeEach(() => {
+        setMockState(recordTriggeredFlowUIModel);
+    });
+    afterEach(() => {
+        resetStore();
+    });
+    it('Returns no validation error when it references existing priorRecord field', () => {
+        const validationErrors = validateMergeField('{!$Record__Prior.Name}');
+        expect(validationErrors).toHaveLength(0);
+    });
+    it('Returns a validation error when it references non-existing priorRecord field', () => {
+        const validationErrors = validateMergeField('{!$Record__Prior.Unknown}');
+        expect(validationErrors).toEqual([
+            validationError(
+                2,
+                23,
+                'unknownMergeField',
+                `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
+            )
+        ]);
+    });
+});
+
+describe('Text with merge fields validation', () => {
+    beforeAll(() => {
+        setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        resetStore();
     });
     it('Returns no validation error when it references existing variables', () => {
         const validationErrors = validateTextWithMergeFields('{!accountSObjectVariable.Name} == {!stringVariable}');
@@ -980,7 +952,7 @@ describe('Is text with merge fields validation', () => {
 
     validationTestData.forEach((testData) => {
         it(`returns ${testData.result} for '${testData.value}'`, () => {
-            expect(isTextWithMergeFields(testData.value)).toEqual(testData.result);
+            expect(isTextWithMergeFields(testData.value as string)).toEqual(testData.result);
         });
     });
 });

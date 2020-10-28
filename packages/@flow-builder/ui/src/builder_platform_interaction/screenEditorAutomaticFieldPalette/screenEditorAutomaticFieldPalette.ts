@@ -113,8 +113,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     updateFields() {
         this.state.entityFields = {};
         if (this.state.recordVariable) {
-            const resource = getElementByGuid(this.state.recordVariable);
-            this.entityName = resource.subtype;
+            const resource = getElementByGuid(this.state.recordVariable)!;
+            this.entityName = resource.subtype!;
             fetchFieldsForEntity(this.entityName)
                 .then((fields) => {
                     this.state.entityFields = fields;

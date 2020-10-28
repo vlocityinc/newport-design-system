@@ -462,7 +462,7 @@ export function getUpdatedChildrenAndDeletedChildrenUsingStore(
         throw new Error('Canvas Element is not defined');
     }
     const { guid, children } = originalCanvasElement;
-    const canvasElementFromStore = getElementByGuid(guid);
+    const canvasElementFromStore: (FlowElement & { childReferences }) | undefined = getElementByGuid(guid);
     let canvasElementChildReferencesFromStore;
     if (canvasElementFromStore && canvasElementFromStore.childReferences) {
         canvasElementChildReferencesFromStore = canvasElementFromStore.childReferences.map(

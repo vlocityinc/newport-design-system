@@ -20,7 +20,7 @@ import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interac
  * @param {String} triggerType the current trigger type
  * @returns {Boolean} true if lookup traversal is supported, false otherwise
  */
-export const isLookupTraversalSupported = (processType: string, triggerType: string) =>
+export const isLookupTraversalSupported = (processType: string, triggerType?: string) =>
     isLookupTraversalSupportedByProcessType(processType) && isLookupTraversalSupportedByTriggerType(triggerType);
 
 /**

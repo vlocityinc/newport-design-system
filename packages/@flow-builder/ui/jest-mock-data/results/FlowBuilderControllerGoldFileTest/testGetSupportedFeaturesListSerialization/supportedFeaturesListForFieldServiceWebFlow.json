@@ -1,0 +1,8 @@
+{
+  "supportedFeaturesListForFieldServiceWebFlow":[
+    "LookupTraversal",
+    "IsDebugAsUserAllowedInNonPrd",
+    "GlobalVariables",
+    "TransactionControlledActions"
+  ]
+}

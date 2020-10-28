@@ -208,19 +208,16 @@ describe('resourcePickerUtils', () => {
                 elementType: 'Assignment'
             });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
-                elements,
-                paramTypes,
-                true,
-                true,
-                true,
-                null,
-                true,
-                true,
-                true,
-                true,
-                false
-            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+                includeNewResource: true,
+                allowGlobalConstants: true,
+                disableHasNext: true,
+                showSystemVariables: true,
+                showGlobalVariables: true,
+                allowSObjectField: true,
+                allowsApexCollAnonymousAutoOutput: true,
+                forFormula: false
+            });
         });
 
         it('Should get menu data when there is element config and we do not want new resource option', async () => {
@@ -239,19 +236,16 @@ describe('resourcePickerUtils', () => {
             );
             expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
-                elements,
-                paramTypes,
-                false,
-                true,
-                true,
-                null,
-                true,
-                true,
-                true,
-                undefined,
-                false
-            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+                includeNewResource: false,
+                allowGlobalConstants: true,
+                disableHasNext: true,
+                showSystemVariables: true,
+                showGlobalVariables: true,
+                allowSObjectField: true,
+                allowsApexCollAnonymousAutoOutput: undefined,
+                forFormula: false
+            });
         });
 
         it('should show multipicklist global variables for formula editor', async () => {
@@ -270,19 +264,16 @@ describe('resourcePickerUtils', () => {
                 }
             );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
-                elements,
-                paramTypes,
-                false,
-                true,
-                true,
-                null,
-                true,
-                true,
-                true,
-                undefined,
-                true
-            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+                includeNewResource: false,
+                allowGlobalConstants: true,
+                disableHasNext: true,
+                showSystemVariables: true,
+                showGlobalVariables: true,
+                allowSObjectField: true,
+                allowsApexCollAnonymousAutoOutput: undefined,
+                forFormula: true
+            });
         });
 
         it('should not show global variables if showGlobalVariables is false', async () => {
@@ -301,19 +292,16 @@ describe('resourcePickerUtils', () => {
                 }
             );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
-                elements,
-                paramTypes,
-                false,
-                true,
-                true,
-                null,
-                true,
-                false,
-                true,
-                undefined,
-                false
-            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
+                includeNewResource: false,
+                allowGlobalConstants: true,
+                disableHasNext: true,
+                showSystemVariables: true,
+                showGlobalVariables: false,
+                allowSObjectField: true,
+                allowsApexCollAnonymousAutoOutput: undefined,
+                forFormula: false
+            });
         });
     });
 });

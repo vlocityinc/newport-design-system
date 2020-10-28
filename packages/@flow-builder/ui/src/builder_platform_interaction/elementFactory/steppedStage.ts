@@ -39,7 +39,7 @@ export function createSteppedStageWithItems(existingStage: SteppedStage): Steppe
     }
 
     newStage.steps = childReferences.map((childReference: ChildReference) => {
-        return createSteppedStageItem(getElementByGuid(childReference.childReference));
+        return createSteppedStageItem(getElementByGuid(childReference.childReference) as any);
     });
 
     newStage.maxConnections = 1;
@@ -173,15 +173,15 @@ export function createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEdit
  * @param guid
  */
 export function getSteps(guid: Guid): SteppedStageItem[] {
-    const steppedStage: SteppedStage = getElementByGuid(guid);
+    const steppedStage = getElementByGuid<SteppedStage>(guid)!;
 
     return steppedStage.childReferences.map(
         (ref: ChildReference): SteppedStageItem => {
             return {
-                ...getElementByGuid(ref.childReference),
+                ...getElementByGuid(ref.childReference)!,
                 // TODO: W-8051764: This will eventually need to be dynamic based on the step type
                 stepTypeLabel: LABELS.workStepLabel
-            };
+            } as SteppedStageItem;
         }
     );
 }
@@ -194,7 +194,7 @@ export function createSteppedStageItem(step: SteppedStageItem): SteppedStageItem
     // in panel support.  for example, this does not currently prevent duplicate guids
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000007Q6YUIA0/view
     if (!baseStep.label && baseStep.parent) {
-        const steppedStage: SteppedStage = getElementByGuid(step.parent);
+        const steppedStage = getElementByGuid<SteppedStage>(baseStep.parent)!;
         baseStep.label = format(
             LABELS.defaultSteppedStageItemName,
             steppedStage.childReferences.length + 1,
@@ -222,7 +222,7 @@ export function createSteppedStageMetadataObject(steppedStage: SteppedStage, con
 
     const steps = childReferences.map(({ childReference }) => {
         const step = getElementByGuid(childReference);
-        const entryCriteria: Condition[] = step.entryCriteria;
+        const entryCriteria: Condition[] = (step as any).entryCriteria;
         let entryCriteriaMetadata: any[] = [];
         if (entryCriteria.length > 0) {
             entryCriteriaMetadata = entryCriteria.map((condition) => createConditionMetadataObject(condition));
@@ -256,7 +256,7 @@ function getDeletedStepsUsingStore(originalSteppedStage: SteppedStage, newSteps:
         throw new Error('Stepped stage is not defined');
     }
     const { guid } = originalSteppedStage;
-    const steppedStageFromStore = getElementByGuid(guid);
+    const steppedStageFromStore = getElementByGuid<SteppedStage>(guid);
     let stepReferencesFromStore;
     if (steppedStageFromStore) {
         stepReferencesFromStore = steppedStageFromStore.childReferences.map((ref) => ref.childReference);
@@ -296,7 +296,7 @@ export function getOtherItemsInSteppedStage(guid: Guid): SteppedStageItem[] {
 
     parent.childReferences.forEach((ref) => {
         if (ref.childReference !== guid) {
-            siblingItems.push(getElementByGuid(ref.childReference));
+            siblingItems.push(getElementByGuid<SteppedStageItem>(ref.childReference)!);
         }
     });
 

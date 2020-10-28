@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FlowElement, FlowElementType } from 'builder_platform_interaction/flowModel';
+import { FlowElement, FlowElements, FlowElementType, Guid, StartUi } from 'builder_platform_interaction/flowModel';
 
-export const getElementByGuidFromState = ({ elements }, guid) => elements[guid];
+export const getElementByGuidFromState = ({ elements }, guid: string) => elements[guid];
 
 /**
  * Fetches the element from the store for the input element guid.
@@ -11,9 +10,14 @@ export const getElementByGuidFromState = ({ elements }, guid) => elements[guid];
  * @param {string} guid for the element
  * @return {*} store element or undefined if the guid does not exists.
  */
-export const getElementByGuid = (guid) => getElementByGuidFromState(Store.getStore().getCurrentState(), guid);
+export const getElementByGuid = <T extends FlowElement>(guid: Guid): T | undefined =>
+    getElementByGuidFromState(Store.getStore().getCurrentState(), guid);
 
-export const getElementByDevNameFromState = ({ elements }, devName, caseSensitive = false) => {
+export const getElementByDevNameFromState = <T extends FlowElement>(
+    { elements }: { elements: FlowElements },
+    devName: string,
+    caseSensitive = false
+): T | undefined => {
     // TODO : add a devName => guid mapping in the store to improve perfs
     if (!caseSensitive) {
         devName = devName.toLowerCase();
@@ -25,7 +29,7 @@ export const getElementByDevNameFromState = ({ elements }, devName, caseSensitiv
                 elementName = elementName.toLowerCase();
             }
             if (elementName === devName) {
-                return elements[guid];
+                return elements[guid] as T;
             }
         }
     }
@@ -39,17 +43,20 @@ export const getElementByDevNameFromState = ({ elements }, devName, caseSensitiv
  * @param {boolean} caseSensitive true if name comparison is case sensitive (false by default)
  * @return {*} store element or undefined if the devName does not exists.
  */
-export const getElementByDevName = (devName, caseSensitive = false) =>
+export const getElementByDevName = <T extends FlowElement>(devName: string, caseSensitive = false): T | undefined =>
     getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
+
+export const getStartElementFromState = ({ elements }: { elements: FlowElements }): StartUi | undefined => {
+    const startElement = Object.values(elements).find((element) => {
+        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
+    });
+    return startElement as StartUi | undefined;
+};
 
 /**
  * Fetches the Start element from the store
  */
-export const getStartElement = (): object => {
-    return Object.values(Store.getStore().getCurrentState().elements).find((element) => {
-        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
-    });
-};
+export const getStartElement = (): StartUi | undefined => getStartElementFromState(Store.getStore().getCurrentState());
 
 /**
  * Common function to return duplicate dev name elements
@@ -58,7 +65,11 @@ export const getStartElement = (): object => {
  * @param {string[]} listOfGuidsToSkip
  * @returns {Object[]} matchingElements Object list
  */
-export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listOfGuidsToSkip = []) => {
+export const getDuplicateDevNameElements = (
+    elements: FlowElements = {},
+    nameToBeTested: string,
+    listOfGuidsToSkip: string[] = []
+) => {
     return (
         elements &&
         Object.values(elements).filter(
@@ -77,7 +88,7 @@ export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listO
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
  */
-export const isDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: string[] = []) => {
+export const isDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: Guid[] = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = getDuplicateDevNameElements(elements, nameToBeTested, listOfGuidsToSkip) || [];
@@ -91,11 +102,11 @@ export const isDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: stri
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
  */
-export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = []) => {
+export const isOrderNumberInStore = (orderNumberToBeTested: number, listOfGuidsToSkip: Guid[] = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = Object.values(elements).filter(
-        (element) => !listOfGuidsToSkip.includes(element.guid) && element.stageOrder === orderNumberToBeTested
+        (element) => !listOfGuidsToSkip.includes(element.guid) && (element as any).stageOrder === orderNumberToBeTested
     );
     return matches.length > 0;
 };
@@ -105,10 +116,7 @@ export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = 
  * @returns {String}
  */
 export const getTriggerType = () => {
-    const startElement = Object.values(Store.getStore().getCurrentState().elements).find((element) => {
-        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
-    });
-
+    const startElement = getStartElement();
     return startElement ? startElement.triggerType : undefined;
 };
 
@@ -116,10 +124,8 @@ export const getTriggerType = () => {
  * Returns the record trigger type for the current flow
  * @returns Create, CreateOrUpdate, Update, Delete
  */
-export const getRecordTriggerType = (): string => {
-    const startElement = Object.values(Store.getStore().getCurrentState().elements).find((element) => {
-        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
-    });
+export const getRecordTriggerType = () => {
+    const startElement = getStartElement();
 
     return startElement ? startElement.recordTriggerType : undefined;
 };
@@ -128,7 +134,7 @@ export const getRecordTriggerType = (): string => {
  * Evaluates if the outcome execution options should be displayed in
  * Start Element or Decision element.
  */
-export const isExecuteOnlyWhenChangeMatchesConditionsPossible = (): boolean => {
+export const isExecuteOnlyWhenChangeMatchesConditionsPossible = () => {
     const triggerType = getTriggerType();
     const saveType = getRecordTriggerType();
     return (

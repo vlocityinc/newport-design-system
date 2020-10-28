@@ -58,19 +58,16 @@ const getFerovMenuData = (
         storeInstance.getCurrentState(),
         elementConfig || { elementType: propertyEditorElementType }
     );
-    return filterAndMutateMenuData(
-        menuDataElements,
-        populateParamTypesFn(),
+    return filterAndMutateMenuData(menuDataElements, populateParamTypesFn(), {
         includeNewResource,
         allowGlobalConstants,
-        !enableFieldDrilldown,
-        null,
+        disableHasNext: !enableFieldDrilldown,
         showSystemVariables,
         showGlobalVariables,
-        allowSObjectFields,
-        elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
+        allowSObjectField: allowSObjectFields,
+        allowsApexCollAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
         forFormula
-    );
+    });
 };
 
 /**

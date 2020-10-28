@@ -14,10 +14,8 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
-
 import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
 import { contactRequestFlowUIModel } from 'mock/storeDataContactrequest';
-
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import { fieldServiceMobileFlowUIModel } from 'mock/storeDataFieldServiceMobile';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';

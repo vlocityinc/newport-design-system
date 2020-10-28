@@ -169,7 +169,7 @@ export function createStartElementForPropertyEditor(startElement: StartUi = {} a
     if (isRecordChangeTriggerType(triggerType)) {
         if (childReferences && childReferences.length > 0) {
             timeTriggers = childReferences.map((childReference) => {
-                const timeTrigger = createTimeTrigger(getElementByGuid(childReference.childReference));
+                const timeTrigger = createTimeTrigger(getElementByGuid(childReference.childReference) as TimeTrigger);
                 return timeTrigger;
             });
         } else {
@@ -281,7 +281,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
 
     if (childReferences && childReferences.length > 0) {
         scheduledPaths = childReferences.map(({ childReference }) => {
-            const timeTrigger = getElementByGuid(childReference);
+            const timeTrigger: TimeTrigger = getElementByGuid(childReference) as TimeTrigger;
             const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
 
             let recordField;

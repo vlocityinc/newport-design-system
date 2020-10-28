@@ -28,7 +28,7 @@ let currentReducer: StoreReducer;
 /**
  * contains an instance of the store
  */
-let storeInstance;
+let storeInstance: Store;
 
 /**
  * contains list of all the listeners(aka callback that needs to be executed when state changes) of the store.

@@ -31,7 +31,7 @@ import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interacti
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
 
-const MERGEFIELD_REGEX = /\{!(((\$\w+)(\.[A-Za-z0-9_:]+)+)|(\w+|\$Record)(\.[A-Za-z0-9_:]+)*)\}/g;
+const MERGEFIELD_REGEX = /\{!(((\$\w+)(\.[A-Za-z0-9_:]+)+)|(\w+|\$(Record|Record__Prior))(\.[A-Za-z0-9_:]+)*)\}/g;
 
 const MAXIMUM_NUMBER_OF_LEVELS = 10;
 
@@ -51,7 +51,7 @@ export class MergeFieldsValidation {
 
     // The allowed param types for merge field based on rule service.
     // If present, this is used to validate the element merge field.
-    allowedParamTypes = null;
+    allowedParamTypes: any = null;
 
     /**
      * Validate a merge field
@@ -105,7 +105,7 @@ export class MergeFieldsValidation {
         return mergeFieldReferenceValue.startsWith(GLOBAL_CONSTANT_PREFIX);
     }
 
-    _isSystemVariableMergeField(mergeFieldReferenceValue: string) {
+    _isSystemVariableFlowMergeField(mergeFieldReferenceValue: string) {
         return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_PREFIX + '.');
     }
 
@@ -117,30 +117,37 @@ export class MergeFieldsValidation {
         return /^\$Record/i.test(mergeFieldReferenceValue);
     }
 
+    _isSystemVariableRecordPriorMergeField(mergeFieldReferenceValue: string) {
+        return /^\$Record__Prior/i.test(mergeFieldReferenceValue);
+    }
+
     _isGlobalVariableMergeField(mergeFieldReferenceValue: string) {
         return (
             mergeFieldReferenceValue.startsWith('$') &&
             !this._isGlobalConstantMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableMergeField(mergeFieldReferenceValue) &&
+            !this._isSystemVariableFlowMergeField(mergeFieldReferenceValue) &&
             !this._isSystemVariableClientMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableRecordMergeField(mergeFieldReferenceValue)
+            !this._isSystemVariableRecordMergeField(mergeFieldReferenceValue) &&
+            !this._isSystemVariableRecordPriorMergeField(mergeFieldReferenceValue)
         );
     }
 
     _validateMergeFieldReferenceValue(mergeFieldReferenceValue: string, index: number): ValidationError[] {
+        const hasDot = mergeFieldReferenceValue.indexOf('.') !== -1;
         if (this._isGlobalConstantMergeField(mergeFieldReferenceValue)) {
             return this._validateGlobalConstant(mergeFieldReferenceValue, index);
         }
         if (this._isGlobalVariableMergeField(mergeFieldReferenceValue)) {
             return this._validateGlobalVariable(mergeFieldReferenceValue, index);
         }
-        if (this._isSystemVariableMergeField(mergeFieldReferenceValue)) {
+        if (
+            this._isSystemVariableFlowMergeField(mergeFieldReferenceValue) ||
+            this._isSystemVariableClientMergeField(mergeFieldReferenceValue) ||
+            (this._isSystemVariableRecordPriorMergeField(mergeFieldReferenceValue) && !hasDot)
+        ) {
             return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
-        if (this._isSystemVariableClientMergeField(mergeFieldReferenceValue)) {
-            return this._validateSystemVariable(mergeFieldReferenceValue, index);
-        }
-        if (mergeFieldReferenceValue.indexOf('.') !== -1) {
+        if (hasDot) {
             return this._validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index);
         }
         return this._validateElementMergeField(mergeFieldReferenceValue, index);
@@ -216,12 +223,8 @@ export class MergeFieldsValidation {
 
     _validateElementMergeField(mergeFieldReferenceValue: string, index: number) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        // fetch element from store using the devName
-        // if element is not present in store get element from screen variable as it may have been
-        // just created and not yet committed to store (user hasn't pressed 'Done' yet)
-        const element =
-            getElementByDevName(mergeFieldReferenceValue) ||
-            this._getUncommittedElement(getScreenElement(), mergeFieldReferenceValue);
+
+        const element = this._getElement(mergeFieldReferenceValue);
 
         if (!element) {
             return [validationErrors.unknownResource(mergeFieldReferenceValue, index, endIndex)];
@@ -482,25 +485,32 @@ export class MergeFieldsValidation {
         return { field: parameter };
     }
 
+    // fetch element from store using the devName
+    // if element is not present in store get element from screen variable as it may have been
+    // just created and not yet committed to store (user hasn't pressed 'Done' yet)
     _getElement(elementName: string) {
         return getElementByDevName(elementName) || this._getUncommittedElement(getScreenElement(), elementName);
+    }
+
+    _getResource(resourceName: string) {
+        return this._getElement(resourceName) || getGlobalConstantOrSystemVariable(resourceName);
     }
 
     _validateComplexTypeFieldMergeField(mergeFieldReferenceValue: string, index: number) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
-        const [elementName, ...fieldNames] = parts;
+        const [resourceName, ...fieldNames] = parts;
 
         if (fieldNames.length >= MAXIMUM_NUMBER_OF_LEVELS) {
             return [validationErrors.maximumNumberOfLevelsReached(index, endIndex)];
         }
 
-        const element = this._getElement(elementName);
+        const resource = this._getResource(resourceName);
 
-        if (!element) {
-            return [validationErrors.unknownResource(elementName, index, endIndex)];
+        if (!resource) {
+            return [validationErrors.unknownResource(resourceName, index, endIndex)];
         }
-        if (!element.dataType) {
+        if (!resource.dataType) {
             return [
                 validationErrors.invalidMergeField(
                     MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
@@ -509,13 +519,13 @@ export class MergeFieldsValidation {
                 )
             ];
         }
-        if (!isComplexType(element.dataType) || (!this.allowCollectionVariables && element.isCollection)) {
+        if (!isComplexType(resource.dataType) || (!this.allowCollectionVariables && resource.isCollection)) {
             return [validationErrors.resourceCannotBeUsedAsMergeField(mergeFieldReferenceValue, index, endIndex)];
         }
         let field;
-        if (element.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+        if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
             const { field: sobjectField, error } = this._validateSObjectMergeField(
-                element.subtype,
+                resource.subtype,
                 fieldNames,
                 index,
                 endIndex
@@ -524,9 +534,9 @@ export class MergeFieldsValidation {
                 return [error];
             }
             field = sobjectField;
-        } else if (element.dataType === FLOW_DATA_TYPE.APEX.value) {
+        } else if (resource.dataType === FLOW_DATA_TYPE.APEX.value) {
             const { field: apexField, error } = this._validateApexMergeField(
-                element.subtype,
+                resource.subtype,
                 fieldNames,
                 index,
                 endIndex
@@ -535,9 +545,9 @@ export class MergeFieldsValidation {
                 return [error];
             }
             field = apexField;
-        } else if (element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+        } else if (resource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
             const { field: lightningComponentField, error } = this._validateLightningComponentOutputMergeField(
-                element,
+                resource,
                 fieldNames,
                 index,
                 endIndex
@@ -546,9 +556,9 @@ export class MergeFieldsValidation {
                 return [error];
             }
             field = lightningComponentField;
-        } else if (element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        } else if (resource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
             const { field: actionField, error } = this._validateActionOutputMergeField(
-                element,
+                resource,
                 fieldNames,
                 index,
                 endIndex
@@ -557,9 +567,9 @@ export class MergeFieldsValidation {
                 return [error];
             }
             field = actionField;
-        } else if (element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
+        } else if (resource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
             const { field: subflowField, error } = this._validateSubflowOutputMergeField(
-                element,
+                resource,
                 fieldNames,
                 index,
                 endIndex
@@ -631,6 +641,12 @@ export function validateMergeField(
         allowCollectionVariables = false,
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true
+    }: {
+        allowGlobalConstants?: boolean;
+        allowedParamTypes?: any;
+        allowCollectionVariables?: boolean;
+        allowSObjectFieldsTraversal?: boolean;
+        allowApexTypeFieldsTraversal?: boolean;
     } = {}
 ) {
     const validation = new MergeFieldsValidation();

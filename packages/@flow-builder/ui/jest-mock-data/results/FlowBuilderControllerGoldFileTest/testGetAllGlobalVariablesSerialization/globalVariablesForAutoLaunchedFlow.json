@@ -32,6 +32,12 @@
   "name" : "$Profile"
 },
       {
+  "durableId" : "Flow-$Setup",
+  "fieldsToNull" : [ ],
+  "label" : "$Setup",
+  "name" : "$Setup"
+},
+      {
   "durableId" : "Flow-$System",
   "fieldsToNull" : [ ],
   "label" : "System",
@@ -203,6 +209,17 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$Profile"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Setup-CustomSetting__c.CustomField__c",
+  "fieldsToNull" : [ ],
+  "label" : "CustomField",
+  "name" : "CustomSetting__c.CustomField__c",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Setup"
   }
 },
       {

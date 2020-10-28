@@ -45,6 +45,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         isDevNameInStore: actual.isDevNameInStore,
         isOrderNumberInStore: actual.isOrderNumberInStore,
         getDuplicateDevNameElements: actual.getDuplicateDevNameElements,
+        getStartElement: actual.getStartElement,
+        getStartElementFromState: actual.getStartElementFromState,
         getTriggerType: jest.fn(),
         shouldUseAutoLayoutCanvas: jest.fn()
     };
@@ -896,16 +898,15 @@ describe('base expression builder', () => {
                 showLhsAsFieldReference: true,
                 lhsMustBeWritable: false
             });
-            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(
-                expect.anything(),
-                undefined,
-                true,
-                false,
-                false,
-                [],
-                true,
-                true
-            );
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
+                includeNewResource: true,
+                allowGlobalConstants: false,
+                disableHasNext: false,
+                activePicklistValues: [],
+                showSystemVariables: true,
+                showGlobalVariables: true,
+                shouldBeWritable: false
+            });
         });
         it('should not return global variables in LHS menu data if LHS is writable', () => {
             createComponentForTest({
@@ -916,16 +917,15 @@ describe('base expression builder', () => {
                 showLhsAsFieldReference: true,
                 lhsMustBeWritable: true
             });
-            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(
-                expect.anything(),
-                undefined,
-                true,
-                false,
-                false,
-                [],
-                true,
-                false
-            );
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
+                includeNewResource: true,
+                allowGlobalConstants: false,
+                disableHasNext: false,
+                activePicklistValues: [],
+                showSystemVariables: true,
+                showGlobalVariables: false,
+                shouldBeWritable: true
+            });
         });
         it('should not return global variables in LHS menu data if hideGlobalVariables is true', async () => {
             createComponentForTest({
@@ -938,16 +938,15 @@ describe('base expression builder', () => {
                 hideGlobalVariables: true
             });
             await ticks(1);
-            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(
-                expect.anything(),
-                undefined,
-                true,
-                false,
-                false,
-                [],
-                true,
-                false
-            );
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
+                includeNewResource: true,
+                allowGlobalConstants: false,
+                disableHasNext: false,
+                activePicklistValues: [],
+                showSystemVariables: true,
+                showGlobalVariables: false,
+                shouldBeWritable: false
+            });
         });
     });
     describe('RHS literals-allowed can be determined by parent', () => {

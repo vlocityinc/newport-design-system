@@ -2,11 +2,13 @@
 import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
-    getSystemVariables,
+    getSystemVariablesFromState,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
-    SYSTEM_VARIABLE_RECORD_PREFIX
+    SYSTEM_VARIABLE_RECORD_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
 } from './systemVariables';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [
     GLOBAL_CONSTANT_PREFIX,
@@ -27,14 +29,32 @@ export const isGlobalConstantOrSystemVariableId = (id) =>
 export const isSystemVariableId = (id) => !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
 export const isRecordSystemVariableIdentifier = (id) =>
     !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
+export const isRecordPriorSystemVariableIdentifier = (id) =>
+    !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX.toUpperCase();
 export const isRecordSystemVariableCompositeIdentifier = (id) =>
     !!id && typeof id === 'string' && isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
+export const isRecordPriorSystemVariableCompositeIdentifier = (id) =>
+    !!id && typeof id === 'string' && isRecordPriorSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
 export const isNonRecordGlobalResourceId = (id) =>
     !!id &&
     typeof id === 'string' &&
     removeCurlyBraces(id).startsWith('$') &&
     !isRecordSystemVariableIdentifier(id) &&
+    !isRecordSystemVariableCompositeIdentifier(id) &&
+    !isRecordPriorSystemVariableIdentifier(id) &&
+    !isRecordPriorSystemVariableCompositeIdentifier(id);
+export const isNonElementId = (id) =>
+    !!id &&
+    typeof id === 'string' &&
+    removeCurlyBraces(id).startsWith('$') &&
+    !isRecordSystemVariableIdentifier(id) &&
     !isRecordSystemVariableCompositeIdentifier(id);
+
+export const getGlobalConstantOrSystemVariableFromState = ({ elements }, id) => {
+    const reference = removeCurlyBraces(id);
+    return GLOBAL_CONSTANT_OBJECTS[reference] || getSystemVariablesFromState({ elements })[reference];
+};
+
 /**
  * Returns Global Constant or System Variable referenced by id
  *
@@ -42,8 +62,7 @@ export const isNonRecordGlobalResourceId = (id) =>
  * @returns {Object|undefined}  if the id was valid, the object it references will be returned, otherwise undefined
  */
 export const getGlobalConstantOrSystemVariable = (id) => {
-    const reference = removeCurlyBraces(id);
-    return GLOBAL_CONSTANT_OBJECTS[reference] || getSystemVariables()[reference];
+    return getGlobalConstantOrSystemVariableFromState(Store.getStore().getCurrentState(), id);
 };
 
 export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from './globalConstants';
@@ -55,9 +74,16 @@ export {
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX,
     SYSTEM_VARIABLES
 } from './systemVariables';
-export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlobalVariable } from './globalVariables';
+export {
+    setGlobalVariables,
+    getGlobalVariableTypes,
+    getGlobalVariables,
+    getGlobalVariable,
+    resetGlobalVariables
+} from './globalVariables';
 export { setProcessTypes, getProcessTypes, getProcessFeatures, setProcessTypeFeature } from './processTypes';
 export { setRunInModes, getRunInModes } from './runInModes';
 export {

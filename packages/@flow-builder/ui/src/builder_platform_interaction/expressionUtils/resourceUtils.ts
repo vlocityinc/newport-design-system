@@ -3,7 +3,8 @@ import {
     getGlobalConstantOrSystemVariable,
     getGlobalVariable,
     isRecordSystemVariableIdentifier,
-    GLOBAL_CONSTANT_OBJECTS
+    GLOBAL_CONSTANT_OBJECTS,
+    isRecordPriorSystemVariableIdentifier
 } from 'builder_platform_interaction/systemLib';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDataGenerator';
@@ -82,7 +83,9 @@ export const getResourceByUniqueIdentifier = (identifier) => {
             getGlobalVariable(identifier) ||
             getUncommittedResource(getScreenElement(), complexGuid.guidOrLiteral) ||
             (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
-                getElementByDevName(complexGuid.guidOrLiteral))
+                getElementByDevName(complexGuid.guidOrLiteral)) ||
+            (isRecordPriorSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
+                getResourceByUniqueIdentifier(complexGuid.guidOrLiteral))
         );
     }
     return null;

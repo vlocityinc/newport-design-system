@@ -1,10 +1,11 @@
 // @ts-nocheck
 import { FLOW_DATA_TYPE, getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
-    isNonRecordGlobalResourceId,
+    isNonElementId,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX,
     getGlobalVariableTypes,
     isSystemVariablesCategoryNotEmpty
 } from 'builder_platform_interaction/systemLib';
@@ -22,6 +23,7 @@ import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { isGlobalVariablesSupported } from 'builder_platform_interaction/processTypeLib';
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from './expressionUtilsLabels';
+import { getSystemVariables } from 'builder_platform_interaction/systemLib';
 
 export const MAXIMUM_NUMBER_OF_LEVELS = 10;
 
@@ -472,7 +474,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
         });
         newElement.text = getResourceLabel(resource);
         newElement.value = resource.guid;
-        isNonElement = isNonRecordGlobalResourceId(resource.guid);
+        isNonElement = isNonElementId(resource.guid);
     }
     newElement.displayText = addCurlyBraces(resource.isNewField ? resource.name.value : resource.name);
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resourceLabel, resource);
@@ -571,10 +573,11 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
     });
 };
 
-const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
+const mutateSystemAndGlobalVariablesToComboboxShape = ({ value, dataType, subtype }) => {
     return {
         value,
-        subtype: value,
+        dataType,
+        subtype,
         text: value,
         displayText: addCurlyBraces(value),
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
@@ -598,7 +601,12 @@ export const getGlobalVariableTypeComboboxItems = () => {
     if (globalVariableTypes) {
         Object.keys(globalVariableTypes).forEach((type) => {
             const globalVariable = globalVariableTypes[type];
-            typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
+            typeMenuData.push(
+                mutateSystemAndGlobalVariablesToComboboxShape({
+                    value: globalVariable.name,
+                    subtype: globalVariable.name
+                })
+            );
         });
     }
 
@@ -611,7 +619,10 @@ export const getGlobalVariableTypeComboboxItems = () => {
  * @return {MenuDataItem[]} menu data for $Flow
  */
 export const getFlowSystemVariableComboboxItem = () => {
-    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_PREFIX);
+    return mutateSystemAndGlobalVariablesToComboboxShape({
+        value: SYSTEM_VARIABLE_PREFIX,
+        subtype: SYSTEM_VARIABLE_PREFIX
+    });
 };
 
 /**
@@ -620,7 +631,10 @@ export const getFlowSystemVariableComboboxItem = () => {
  * @return {MenuDataItem[]} menu data for $Client
  */
 const getFlowSystemClientVariableComboboxItem = () =>
-    mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_CLIENT_PREFIX);
+    mutateSystemAndGlobalVariablesToComboboxShape({
+        value: SYSTEM_VARIABLE_CLIENT_PREFIX,
+        subtype: SYSTEM_VARIABLE_CLIENT_PREFIX
+    });
 
 /**
  * Menu data for system and/or global variables.
@@ -630,12 +644,31 @@ const getFlowSystemClientVariableComboboxItem = () =>
  * @param {Boolean} forFormula   if we are retrieving menu data for formula editor
  * @return {MenuData} menu data showing system variables and/or global variables
  */
-export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables, forFormula = false) => {
+export const getSystemAndGlobalVariableMenuData = (
+    showSystemVariables: boolean,
+    showGlobalVariables: boolean,
+    forFormula = false,
+    shouldBeWritable = false
+) => {
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());
         if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_CLIENT_PREFIX)) {
             categories.push(getFlowSystemClientVariableComboboxItem());
+        }
+        if (!shouldBeWritable) {
+            const recordPriorVariable = getSystemVariables(SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX)[
+                SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
+            ];
+            if (recordPriorVariable) {
+                categories.push(
+                    mutateSystemAndGlobalVariablesToComboboxShape({
+                        value: recordPriorVariable.name,
+                        dataType: recordPriorVariable.dataType,
+                        subtype: recordPriorVariable.subtype
+                    })
+                );
+            }
         }
     }
     if (showGlobalVariables && (forFormula || isGlobalVariablesSupported(getProcessType()))) {

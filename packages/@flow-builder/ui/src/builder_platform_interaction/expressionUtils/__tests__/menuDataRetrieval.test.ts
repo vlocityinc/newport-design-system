@@ -636,13 +636,9 @@ describe('Menu data retrieval', () => {
             expect(element.value).toBe(store.stageElement.guid);
         });
         it('sets hasNext true and rightIconName when hasNext enabled', () => {
-            const menuData = filterAndMutateMenuData(
-                [store.apexCallAccountAutomaticOutput],
-                undefined,
-                false,
-                false,
-                false
-            );
+            const menuData = filterAndMutateMenuData([store.apexCallAccountAutomaticOutput], undefined, {
+                disableHasNext: false
+            });
 
             const element = menuData[0].items[0];
             expect(element.hasNext).toBe(true);
@@ -650,13 +646,9 @@ describe('Menu data retrieval', () => {
             expect(element.rightIconName).not.toEqual('');
         });
         it('sets hasNext false and empty right icon when hasNext disabled', () => {
-            const menuData = filterAndMutateMenuData(
-                [store.apexCallAccountAutomaticOutput],
-                undefined,
-                false,
-                false,
-                true
-            );
+            const menuData = filterAndMutateMenuData([store.apexCallAccountAutomaticOutput], undefined, {
+                disableHasNext: true
+            });
 
             const element = menuData[0].items[0];
             expect(element.hasNext).toBe(false);
@@ -664,17 +656,10 @@ describe('Menu data retrieval', () => {
             expect(element.rightIconName).toEqual('');
         });
         it('ignores allowSObjectFields if hasNext false', () => {
-            const menuData = filterAndMutateMenuData(
-                [store.apexCallAccountAutomaticOutput],
-                undefined,
-                false,
-                false,
-                true,
-                undefined,
-                undefined,
-                undefined,
-                true
-            );
+            const menuData = filterAndMutateMenuData([store.apexCallAccountAutomaticOutput], undefined, {
+                disableHasNext: true,
+                allowSObjectField: true
+            });
 
             const element = menuData[0].items[0];
             expect(element.hasNext).toBe(false);
@@ -685,13 +670,10 @@ describe('Menu data retrieval', () => {
             const menuData = filterAndMutateMenuData(
                 [store.apexCallAccountAutomaticOutput, store.apexCallAutomaticAnonymousAccountOutput],
                 undefined,
-                false,
-                false,
-                false,
-                undefined,
-                undefined,
-                undefined,
-                false
+                {
+                    disableHasNext: false,
+                    allowSObjectField: false
+                }
             );
 
             let element = menuData[0].items[0];
@@ -713,7 +695,7 @@ describe('Menu data retrieval', () => {
                 },
                 elements: {}
             });
-            const menuData = filterAndMutateMenuData([], undefined, false, false, false, [], false);
+            const menuData = filterAndMutateMenuData([], undefined, { showSystemVariables: false });
             const element = menuData[0].items[0];
             expect(element.value).toBe('$Api');
             Store.setMockState(flowWithAllElementsUIModel);
@@ -727,15 +709,9 @@ describe('Menu data retrieval', () => {
                 elementType: 'SCREEN_FIELD',
                 fieldType: 'Region'
             };
-            const menuData = filterAndMutateMenuData(
-                [dummySection, dummyColumn],
-                undefined,
-                false,
-                false,
-                false,
-                undefined,
-                false
-            );
+            const menuData = filterAndMutateMenuData([dummySection, dummyColumn], undefined, {
+                showSystemVariables: false
+            });
             expect(menuData).toHaveLength(0);
         });
     });

@@ -79,7 +79,8 @@ jest.mock('builder_platform_interaction/systemLib', () => {
         isNonRecordGlobalResourceId: (id) => {
             return id.startsWith('$User');
         },
-        isRecordSystemVariableIdentifier: (id) => id.startsWith('$Record')
+        isRecordSystemVariableIdentifier: (id) => id.startsWith('$Record'),
+        isRecordPriorSystemVariableIdentifier: (id) => id.startsWith('$Record__Prior')
     };
 });
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {

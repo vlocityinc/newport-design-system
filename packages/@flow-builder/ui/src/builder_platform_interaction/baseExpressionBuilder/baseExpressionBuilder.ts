@@ -938,16 +938,15 @@ export default class BaseExpressionBuilder extends LightningElement {
             );
         } else {
             const menuDataElements = getStoreElements(storeInstance.getCurrentState(), config);
-            const menuData = filterAndMutateMenuData(
-                menuDataElements,
-                paramTypes,
-                !this.hideNewResource,
-                isFerov && !this.hideFerovMenuData,
-                DISABLE_HAS_NEXT,
-                picklistValues,
-                !this.hideSystemVariables,
-                !this.hideGlobalVariables && !shouldBeWritable
-            );
+            const menuData = filterAndMutateMenuData(menuDataElements, paramTypes, {
+                includeNewResource: !this.hideNewResource,
+                allowGlobalConstants: isFerov && !this.hideFerovMenuData,
+                disableHasNext: DISABLE_HAS_NEXT,
+                activePicklistValues: picklistValues,
+                showSystemVariables: !this.hideSystemVariables,
+                showGlobalVariables: !this.hideGlobalVariables && !shouldBeWritable,
+                shouldBeWritable
+            });
             updateState({
                 [fullMenuData]: menuData,
                 [filteredMenuData]: menuData

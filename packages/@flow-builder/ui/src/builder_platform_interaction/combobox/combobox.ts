@@ -28,7 +28,11 @@ import {
 } from 'builder_platform_interaction/mergeFieldLib';
 import { getPillTooltip, getPillLabel } from 'builder_platform_interaction/pillLib';
 import { getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { isNonRecordGlobalResourceId, isRecordSystemVariableIdentifier } from 'builder_platform_interaction/systemLib';
+import {
+    isNonRecordGlobalResourceId,
+    isRecordSystemVariableIdentifier,
+    isRecordPriorSystemVariableIdentifier
+} from 'builder_platform_interaction/systemLib';
 import {
     normalizeDateTime,
     createMetadataDateTime,
@@ -1461,7 +1465,11 @@ export default class Combobox extends LightningElement {
                 // Let the check proceed, if the first part is $Record. This is necessary because $Record isn't
                 // a system variable such as the others.
                 const currentMergeField = mergeFieldArray[i];
-                if (i === 0 && isRecordSystemVariableIdentifier(currentMergeField)) {
+                if (
+                    i === 0 &&
+                    (isRecordSystemVariableIdentifier(currentMergeField) ||
+                        isRecordPriorSystemVariableIdentifier(currentMergeField))
+                ) {
                     regexResult = true;
                 } else if (currentMergeField) {
                     // don't execute regex on empty strings

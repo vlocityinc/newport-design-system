@@ -933,7 +933,7 @@ describe('Record Create Editor', () => {
                 ]);
 
                 // Then
-                const expectedGuid = getElementByDevName('apexComplexTypeVariable').guid;
+                const expectedGuid = getElementByDevName('apexComplexTypeVariable')!.guid;
                 expect(selectedItem).toMatchObject({
                     displayText: '{!apexComplexTypeVariable.name}',
                     value: `${expectedGuid}.name`

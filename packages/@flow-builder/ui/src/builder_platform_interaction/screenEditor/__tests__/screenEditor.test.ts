@@ -85,7 +85,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         isDevNameInStore: jest.fn(),
         getProcessType: jest.fn(),
         getTriggerType: jest.fn(),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        shouldUseAutoLayoutCanvas: jest.fn(),
+        getStartElementFromState: jest.fn()
     };
 });
 

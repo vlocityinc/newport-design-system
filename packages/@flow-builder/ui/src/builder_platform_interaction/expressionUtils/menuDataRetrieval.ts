@@ -240,14 +240,12 @@ export function getElementsForMenuData(
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     const menuDataElements = getStoreElements(state, elementConfig);
 
-    return filterAndMutateMenuData(
-        menuDataElements,
-        allowedParamTypes,
+    return filterAndMutateMenuData(menuDataElements, allowedParamTypes, {
         includeNewResource,
         allowGlobalConstants,
         disableHasNext,
         activePicklistValues
-    );
+    });
 }
 
 const disableHasNextOnMenuItem = (menuItem) => {
@@ -284,15 +282,18 @@ const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
 export function filterAndMutateMenuData(
     menuDataElements,
     allowedParamTypes,
-    includeNewResource = false,
-    allowGlobalConstants = false,
-    disableHasNext = false,
-    activePicklistValues = [],
-    showSystemVariables = true,
-    showGlobalVariables = true,
-    allowSObjectField = true,
-    allowsApexCollAnonymousAutoOutput = true,
-    forFormula = false
+    {
+        includeNewResource = false,
+        allowGlobalConstants = false,
+        disableHasNext = false,
+        activePicklistValues = [],
+        showSystemVariables = true,
+        showGlobalVariables = true,
+        allowSObjectField = true,
+        allowsApexCollAnonymousAutoOutput = true,
+        forFormula = false,
+        shouldBeWritable = false
+    } = {}
 ) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
@@ -329,7 +330,8 @@ export function filterAndMutateMenuData(
         const systemAndGlobalVariableMenuData = getSystemAndGlobalVariableMenuData(
             systemVariablesAllowed,
             showGlobalVariables,
-            forFormula
+            forFormula,
+            shouldBeWritable
         );
         if (Array.isArray(systemAndGlobalVariableMenuData) && systemAndGlobalVariableMenuData.length) {
             systemAndGlobalVariableMenuItem = {

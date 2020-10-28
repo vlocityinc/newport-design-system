@@ -1,6 +1,6 @@
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
-import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
+import { getGlobalConstantOrSystemVariableFromState } from 'builder_platform_interaction/systemLib';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 
 const referenceToVariable = (reference: string, elements: any) => {
@@ -8,7 +8,7 @@ const referenceToVariable = (reference: string, elements: any) => {
     return (
         getElementByGuidFromState({ elements }, complexGuid.guidOrLiteral) ||
         getElementByDevNameFromState({ elements }, complexGuid.guidOrLiteral) ||
-        getGlobalConstantOrSystemVariable(complexGuid.guidOrLiteral)
+        getGlobalConstantOrSystemVariableFromState({ elements }, complexGuid.guidOrLiteral)
     );
 };
 

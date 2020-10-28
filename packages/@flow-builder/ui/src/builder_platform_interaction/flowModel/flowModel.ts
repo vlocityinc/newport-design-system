@@ -36,6 +36,8 @@ export interface FlowElement {
 
     // Maybe all elements have datatypes?  If so, remove `?`
     dataType?: Datatype;
+    subtype?: string;
+    isCollection?: boolean;
 
     isCanvasElement?: boolean;
 
@@ -91,7 +93,7 @@ interface Start extends BaseCanvasElementWithFilter {
     objectContainer?: string;
     schedule: Schedule;
     isAssignable?: boolean;
-    isCollection?: boolean;
+    recordTriggerType?: string;
 }
 
 export interface StartUi extends Start {
@@ -153,10 +155,17 @@ export interface FlowConnector {
 export type StringKeyedMap<T> = { [key: string]: T };
 export type FlowElements = StringKeyedMap<FlowElement>;
 
+interface FlowProperties {
+    isAutoLayoutCanvas: boolean;
+    processType: string;
+    [key: string]: string | undefined | null | number | boolean;
+}
+
 export interface StoreState {
     elements: FlowElements;
     connectors: FlowConnector[];
     canvasElements: Guid[];
+    properties: FlowProperties;
 }
 
 export interface ElementMetadata {

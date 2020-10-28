@@ -158,7 +158,7 @@ describe('Loop Editor with processType does not support automatic output', () =>
             expect(loopVariableLightningCombobox.disabled).toBeTruthy();
         });
         it('loop variable is enabled after the collection variable is set to a valid value', async () => {
-            const vAccounts = getElementByDevName('vAccounts');
+            const vAccounts = getElementByDevName('vAccounts')!;
             const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
             colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${vAccounts.name}}`));
             await ticks(50);
@@ -369,7 +369,7 @@ describe('Loop with manual output', () => {
             expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
         });
         it('shows only sObject variables of the same type as the sObject selected in the collection variable', async () => {
-            const accountVariable = getElementByDevName('accountVariable');
+            const accountVariable = getElementByDevName('accountVariable')!;
             colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${accounts.name}}`));
             await ticks(50);
             colVariableLightningCombobox.dispatchEvent(blurEvent);
@@ -388,7 +388,7 @@ describe('Loop with manual output', () => {
             });
         });
         it('shows only sObject variables of the same type as the sObject selected in the collection variable with traversal', async () => {
-            const accountVariable = getElementByDevName('accountVariable');
+            const accountVariable = getElementByDevName('accountVariable')!;
             colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!apexComplexTypeVariable.acctListField}`));
             await ticks(50);
             colVariableLightningCombobox.dispatchEvent(blurEvent);
@@ -415,7 +415,7 @@ describe('Loop with manual output', () => {
             expect(colVariableLightningCombobox.validity).toBeFalsy();
         });
         it('shows only variables of the same type as the collection variable', async () => {
-            const stringVariable = getElementByDevName('stringVariable');
+            const stringVariable = getElementByDevName('stringVariable')!;
             // initially the loop variable has only the "New
             // Resource" in the menu data
             expect(loopVariableLightningCombobox.items).toHaveLength(2);
