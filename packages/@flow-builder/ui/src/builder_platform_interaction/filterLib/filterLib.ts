@@ -33,7 +33,11 @@ export const labelFilter = (pattern) => {
 export const resourceFilter = (pattern) => {
     return (obj) => {
         let result = false;
-        if (obj.elementType === ELEMENT_TYPE.ROOT_ELEMENT || obj.elementType === ELEMENT_TYPE.END_ELEMENT) {
+        if (
+            obj.elementType === ELEMENT_TYPE.ROOT_ELEMENT ||
+            obj.elementType === ELEMENT_TYPE.END_ELEMENT ||
+            obj.elementType === ELEMENT_TYPE.TIME_TRIGGER
+        ) {
             result = false;
         } else if (
             booleanMatcher(obj, 'isCanvasElement', false) &&

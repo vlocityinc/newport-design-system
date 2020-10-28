@@ -142,4 +142,11 @@ describe('resourceFilter', () => {
         };
         expect(filter(element)).toEqual(false);
     });
+    it('excludes time trigger (scheduled paths) elements', () => {
+        const filter = resourceFilter();
+        const element = {
+            elementType: ELEMENT_TYPE.TIME_TRIGGER
+        };
+        expect(filter(element)).toEqual(false);
+    });
 });
