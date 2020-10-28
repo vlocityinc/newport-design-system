@@ -27,7 +27,8 @@ import {
 } from './base/baseMetadata';
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
+import { areAllBranchesTerminals } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
@@ -404,10 +405,13 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     }
 
     const maxConnections = newWaitEvents.length + 2;
-    const { newChildren, deletedWaitEvents, deletedBranchHeadGuids } = getUpdatedChildrenDeletedWaitEventsUsingStore(
-        wait,
-        newWaitEvents
-    );
+    const {
+        newChildren,
+        deletedWaitEvents,
+        deletedBranchHeadGuids,
+        shouldAddEndElement,
+        newEndElementIdx
+    } = getUpdatedChildrenDeletedWaitEventsUsingStore(wait, newWaitEvents);
     const deletedWaitEventGuids = deletedWaitEvents.map((waitEvent) => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
@@ -458,7 +462,9 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         deletedChildElementGuids: deletedWaitEventGuids,
         childElements: newWaitEvents,
         deletedBranchHeadGuids,
-        elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS
+        elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS,
+        shouldAddEndElement,
+        newEndElementIdx
     };
 }
 
@@ -615,6 +621,8 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
     let deletedWaitEvents = [];
     const deletedBranchHeadGuids = [];
 
+    let shouldAddEndElement = false;
+    let newEndElementIdx;
     if (waitEventReferencesFromStore) {
         deletedWaitEvents = waitEventReferencesFromStore
             .filter((waitEventReferenceGuid) => {
@@ -622,18 +630,38 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
             })
             .map((childReference) => getElementByGuid(childReference));
 
+        const netNewWaitEventIndexes = [];
         if (shouldUseAutoLayoutCanvas()) {
+            const areAllExistingBranchesTerminal = areAllBranchesTerminals(
+                originalWait,
+                Store.getStore().getCurrentState().elements
+            );
+
             // For wait events that previously existed, finding the associated children
             // and putting them at the right indexes in newChildren
             for (let i = 0; i < newWaitEventGuids.length; i++) {
                 const foundAtIndex = waitEventReferencesFromStore.indexOf(newWaitEventGuids[i]);
                 if (foundAtIndex !== -1) {
                     newChildren[i] = children[foundAtIndex];
+                } else {
+                    netNewWaitEventIndexes.push(i);
                 }
             }
 
             // Adding the default branch's associated child to the last index of newChildren
             newChildren[newChildren.length - 1] = children[children.length - 1];
+
+            // If all existing branches are terminal, add an end element as needed
+            if (areAllExistingBranchesTerminal && netNewWaitEventIndexes.length > 0) {
+                shouldAddEndElement = true;
+                if (netNewWaitEventIndexes.length === 1) {
+                    // If only one wait event is added, an end element needs to be added
+                    // to children at the correct index
+                    newEndElementIdx = netNewWaitEventIndexes[0];
+                }
+                // If multiple wait events are added, an end element needs to be added as
+                // wait's next, this case is handled in flcElementsReducer
+            }
 
             // Getting the child associated with the deleted wait event
             for (let i = 0; i < waitEventReferencesFromStore.length; i++) {
@@ -643,5 +671,5 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
             }
         }
     }
-    return { newChildren, deletedWaitEvents, deletedBranchHeadGuids };
+    return { newChildren, deletedWaitEvents, deletedBranchHeadGuids, shouldAddEndElement, newEndElementIdx };
 }

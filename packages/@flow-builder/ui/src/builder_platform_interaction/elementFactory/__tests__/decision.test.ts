@@ -24,6 +24,7 @@ import {
     createConditionMetadataObject
 } from '../base/baseMetadata';
 import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -32,6 +33,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const newDecisionGuid = 'newDecision';
 const existingDecisionGuid = 'existingDecision';
@@ -57,22 +60,22 @@ const existingDecisionWithAllTerminatedChildren = {
 const existingDecisionWithNoneTerminatedChildren = {
     guid: existingDecisionWithNoneTerminatedChildrenGuid,
     childReferences: [{ childReference: 'outcome1' }],
-    children: ['end1', 'end2']
+    children: ['end3', 'end4']
 };
 
-const endElement1 = {
+const end1 = {
     guid: 'end1',
     isTerminal: true
 };
-const endElement2 = {
+const end2 = {
     guid: 'end2',
     isTerminal: true
 };
-const endElement3 = {
+const end3 = {
     guid: 'end3',
     isTerminal: false
 };
-const endElement4 = {
+const end4 = {
     guid: 'end4',
     isTerminal: false
 };
@@ -89,13 +92,13 @@ getElementByGuid.mockImplementation((guid) => {
     } else if (guid === existingDecisionWithNoneTerminatedChildrenGuid) {
         return existingDecisionWithNoneTerminatedChildren;
     } else if (guid === 'end1') {
-        return endElement1;
+        return end1;
     } else if (guid === 'end2') {
-        return endElement2;
+        return end2;
     } else if (guid === 'end3') {
-        return endElement3;
+        return end3;
     } else if (guid === 'end4') {
-        return endElement4;
+        return end4;
     } else if (guid === null) {
         return undefined;
     }
@@ -357,6 +360,76 @@ describe('decision', () => {
             });
         };
 
+        const outcome1 = {
+            guid: 'outcome1',
+            name: 'outcome1'
+        };
+
+        const outcome2 = {
+            guid: 'outcome2',
+            name: 'outcome2'
+        };
+
+        const outcome3 = {
+            guid: 'outcome3',
+            name: 'outcome3'
+        };
+
+        const decision1 = {
+            guid: 'existingDecisionWithAllTerminatedChildrenGuid',
+            name: 'decision1',
+            elementType: ELEMENT_TYPE.DECISION,
+            childReferences: [
+                {
+                    childReference: 'outcome1'
+                },
+                {
+                    childReference: 'outcome2'
+                }
+            ],
+            next: null,
+            children: ['end1', 'end2'],
+            fault: null
+        };
+
+        const decision2 = {
+            guid: 'existingDecisionWithNoneTerminatedChildrenGuid',
+            name: 'decision2',
+            elementType: ELEMENT_TYPE.DECISION,
+            childReferences: [
+                {
+                    childReference: 'outcome1'
+                },
+                {
+                    childReference: 'outcome2'
+                }
+            ],
+            next: null,
+            children: ['end3', 'end4'],
+            fault: null
+        };
+
+        const mockStoreData = {
+            decision1,
+            decision2,
+            outcome1,
+            outcome2,
+            outcome3,
+            end1,
+            end2,
+            end3,
+            end4
+        };
+
+        beforeAll(() => {
+            Store.setMockState({
+                elements: mockStoreData
+            });
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
+
         let decisionFromPropertyEditor;
         let decisionFromPropertyEditorWithChildren;
         let existingDecisionFromPropertyEditorWithChildren;
@@ -594,6 +667,42 @@ describe('decision', () => {
         });
 
         describe('deleted outcomes', () => {
+            const screen1 = {
+                guid: 'screen1',
+                name: 'screen1',
+                elementType: ELEMENT_TYPE.SCREEN,
+                prev: null,
+                next: null,
+                parent: 'existingDecisionWithChildrenGuid',
+                childIndex: 0,
+                isTerminal: false
+            };
+
+            const screen2 = {
+                guid: 'screen2',
+                name: 'screen2',
+                elementType: ELEMENT_TYPE.SCREEN,
+                prev: null,
+                next: null,
+                parent: 'existingDecisionWithChildrenGuid',
+                childIndex: 1,
+                isTerminal: true
+            };
+
+            const mockStoreState = {
+                screen1,
+                screen2
+            };
+
+            beforeAll(() => {
+                Store.setMockState({
+                    elements: mockStoreState
+                });
+            });
+            afterAll(() => {
+                Store.resetStore();
+            });
+
             beforeEach(() => {
                 decisionFromPropertyEditor = {
                     guid: existingDecisionGuid,

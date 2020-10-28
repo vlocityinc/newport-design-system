@@ -21,6 +21,8 @@ import {
 } from './base/baseMetadata';
 import { LABELS } from './elementFactoryLabels';
 import { createConnectorObjects } from './connector';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { areAllBranchesTerminals } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const elementType = ELEMENT_TYPE.DECISION;
 
@@ -422,6 +424,11 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
 
         const netNewOutcomeIndexes = [];
         if (shouldUseAutoLayoutCanvas()) {
+            const areAllExistingBranchesTerminal = areAllBranchesTerminals(
+                originalDecision,
+                Store.getStore().getCurrentState().elements
+            );
+
             // For outcomes that previously existed, finding the associated children
             // and putting them at the right indexes in newChildren
             for (let i = 0; i < newOutcomeGuids.length; i++) {
@@ -435,16 +442,6 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
 
             // Adding the default branch's associated child to the last index of newChildren
             newChildren[newChildren.length - 1] = children[children.length - 1];
-            // Check if all existing branches are terminal or not
-            let areAllExistingBranchesTerminal = true;
-            for (let i = 0; i < newChildren.length; i++) {
-                if (!netNewOutcomeIndexes.includes(i)) {
-                    const child = getElementByGuid(newChildren[i]);
-                    if (child && !child.isTerminal) {
-                        areAllExistingBranchesTerminal = false;
-                    }
-                }
-            }
 
             // If all exsiting branches are terminal, then add an end element as needed
             if (areAllExistingBranchesTerminal && netNewOutcomeIndexes.length > 0) {

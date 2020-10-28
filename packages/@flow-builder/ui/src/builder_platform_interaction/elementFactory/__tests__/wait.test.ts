@@ -24,6 +24,7 @@ import {
     getParametersPropertyName
 } from '../wait';
 import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const newWaitGuid = 'newWait';
 const existingWaitGuid = 'existingWait';
@@ -63,6 +64,37 @@ const emptyParameterValueWaitEvent = {
         p4: { name: 'p4', value: 0 }
     }
 };
+const existingWaitWithAllTerminatedChildrenGuid = 'existingWaitWithAllTerminatedChildrenGuid';
+const existingWaitWithAllTerminatedChildren = {
+    guid: existingWaitWithAllTerminatedChildrenGuid,
+    childReferences: [{ childReference: 'waitEvent1' }],
+    children: ['end1', 'end2']
+};
+const existingWaitWithNoneTerminatedChildrenGuid = 'existingDecisionWithNoneTerminatedChildrenGuid';
+const existingWaitWithNoneTerminatedChildren = {
+    guid: existingWaitWithNoneTerminatedChildrenGuid,
+    childReferences: [{ childReference: 'waitEvent1' }],
+    children: ['end3', 'end4']
+};
+
+const end1 = {
+    guid: 'end1',
+    isTerminal: true
+};
+const end2 = {
+    guid: 'end2',
+    isTerminal: true
+};
+const end3 = {
+    guid: 'end3',
+    isTerminal: false
+};
+const end4 = {
+    guid: 'end4',
+    isTerminal: false
+};
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -82,6 +114,20 @@ getElementByGuid.mockImplementation((guid) => {
         return emptyParameterValueWaitEvent;
     } else if (guid === existingWaitWithChildrenGuid) {
         return existingWaitWithChildren;
+    } else if (guid === existingWaitWithAllTerminatedChildrenGuid) {
+        return existingWaitWithAllTerminatedChildren;
+    } else if (guid === existingWaitWithNoneTerminatedChildrenGuid) {
+        return existingWaitWithNoneTerminatedChildren;
+    } else if (guid === 'end1') {
+        return end1;
+    } else if (guid === 'end2') {
+        return end2;
+    } else if (guid === 'end3') {
+        return end3;
+    } else if (guid === 'end4') {
+        return end4;
+    } else if (guid === null) {
+        return undefined;
     }
 
     return {
@@ -442,9 +488,82 @@ describe('wait', () => {
             });
         };
 
+        const waitEvent1 = {
+            guid: 'waitEvent1',
+            name: 'waitEvent1'
+        };
+
+        const waitEvent2 = {
+            guid: 'waitEvent2',
+            name: 'waitEvent2'
+        };
+
+        const waitEvent3 = {
+            guid: 'waitEvent3',
+            name: 'waitEvent3'
+        };
+
+        const wait1 = {
+            guid: 'existingWaitWithAllTerminatedChildrenGuid',
+            name: 'wait1',
+            elementType: ELEMENT_TYPE.WAIT,
+            childReferences: [
+                {
+                    childReference: 'waitEvent1'
+                },
+                {
+                    childReference: 'waitEvent2'
+                }
+            ],
+            next: null,
+            children: ['end1', 'end2'],
+            fault: null
+        };
+
+        const wait2 = {
+            guid: 'existingWaitWithNoneTerminatedChildrenGuid',
+            name: 'wait1',
+            elementType: ELEMENT_TYPE.WAIT,
+            childReferences: [
+                {
+                    childReference: 'waitEvent1'
+                },
+                {
+                    childReference: 'waitEvent2'
+                }
+            ],
+            next: null,
+            children: ['end3', 'end4'],
+            fault: null
+        };
+
+        const mockStoreData = {
+            wait1,
+            wait2,
+            waitEvent1,
+            waitEvent2,
+            waitEvent3,
+            end1,
+            end2,
+            end3,
+            end4
+        };
+
+        beforeAll(() => {
+            Store.setMockState({
+                elements: mockStoreData
+            });
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
+
         let waitFromPropertyEditor;
         let waitFromPropertyEditorWithChildren;
         let existingWaitFromPropertyEditorWithChildren;
+        let existingWaitFromPropertyEditorWithAllTerminatedChildren;
+        let existingWaitFromPropertyEditorWithThreeWaitEvents;
+        let existingWaitFromPropertyEditorWithNoneTerminatedChildren;
 
         beforeEach(() => {
             shouldUseFlc(false);
@@ -477,6 +596,48 @@ describe('wait', () => {
                 ],
                 children: ['screen1', 'screen2', null]
             };
+
+            existingWaitFromPropertyEditorWithAllTerminatedChildren = {
+                guid: existingWaitWithAllTerminatedChildrenGuid,
+                waitEvents: [
+                    {
+                        guid: 'waitEvent1'
+                    },
+                    {
+                        guid: 'waitEvent2'
+                    }
+                ],
+                children: ['end1', 'end2']
+            };
+
+            existingWaitFromPropertyEditorWithNoneTerminatedChildren = {
+                guid: existingWaitWithNoneTerminatedChildrenGuid,
+                waitEvents: [
+                    {
+                        guid: 'waitEvent1'
+                    },
+                    {
+                        guid: 'waitEvent2'
+                    }
+                ],
+                children: ['end3', 'end4']
+            };
+
+            existingWaitFromPropertyEditorWithThreeWaitEvents = {
+                guid: existingWaitWithAllTerminatedChildrenGuid,
+                waitEvents: [
+                    {
+                        guid: 'waitEvent1'
+                    },
+                    {
+                        guid: 'waitEvent2'
+                    },
+                    {
+                        guid: 'waitEvent3'
+                    }
+                ],
+                children: ['end1', 'end2']
+            };
         });
 
         it('includes the return value of a call to baseCanvasElement', () => {
@@ -504,6 +665,43 @@ describe('wait', () => {
             );
 
             expect(result.canvasElement.children).toEqual([null, null]);
+        });
+
+        it('sets shouldAddEndElement to true when all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const { shouldAddEndElement } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                existingWaitFromPropertyEditorWithAllTerminatedChildren
+            );
+            expect(shouldAddEndElement).toBeTruthy();
+        });
+
+        it('sets shouldAddEndElement to false when not all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const { shouldAddEndElement } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                existingWaitFromPropertyEditorWithNoneTerminatedChildren
+            );
+            expect(shouldAddEndElement).toBeFalsy();
+        });
+
+        it('sets newEndElementIdx to the right index to add end element when all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const { newEndElementIdx } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                existingWaitFromPropertyEditorWithAllTerminatedChildren
+            );
+            expect(newEndElementIdx).toEqual(1);
+        });
+
+        it('sets newEndElementIdx to undefined, shouldAddEndElement as false when adding multiple wait events from property editor and all existing children are on the terminating branch', () => {
+            shouldUseFlc(true);
+            const {
+                shouldAddEndElement,
+                newEndElementIdx
+            } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                existingWaitFromPropertyEditorWithThreeWaitEvents
+            );
+            expect.assertions(2);
+            expect(newEndElementIdx).toBeUndefined();
+            expect(shouldAddEndElement).toBeTruthy();
         });
 
         describe('defaultConnectorLabel', () => {
@@ -590,6 +788,42 @@ describe('wait', () => {
         });
 
         describe('deleted waitEvents', () => {
+            const screen1 = {
+                guid: 'screen1',
+                name: 'screen1',
+                elementType: ELEMENT_TYPE.SCREEN,
+                prev: null,
+                next: null,
+                parent: 'existingWaitWithChildrenGuid',
+                childIndex: 0,
+                isTerminal: false
+            };
+
+            const screen2 = {
+                guid: 'screen2',
+                name: 'screen2',
+                elementType: ELEMENT_TYPE.SCREEN,
+                prev: null,
+                next: null,
+                parent: 'existingWaitWithChildrenGuid',
+                childIndex: 1,
+                isTerminal: true
+            };
+
+            const mockStoreState = {
+                screen1,
+                screen2
+            };
+
+            beforeAll(() => {
+                Store.setMockState({
+                    elements: mockStoreState
+                });
+            });
+            afterAll(() => {
+                Store.resetStore();
+            });
+
             beforeEach(() => {
                 waitFromPropertyEditor = {
                     guid: existingWaitGuid,
@@ -629,7 +863,6 @@ describe('wait', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
                     existingWaitFromPropertyEditorWithChildren
                 );
-
                 expect(result.canvasElement.children).toEqual(['screen1', null]);
             });
 
