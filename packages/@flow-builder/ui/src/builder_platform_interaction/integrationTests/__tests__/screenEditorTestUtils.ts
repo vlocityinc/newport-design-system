@@ -69,3 +69,10 @@ export const getAutomaticFieldsPaletteInSecondTab = (screenEditor) => {
         .assignedNodes()[0]
         .querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELDS_PALETTE);
 };
+
+export const getRecordVariablePickerChildComboboxComponent = (parentComponent) =>
+    deepQuerySelector(parentComponent, [
+        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+    ]);

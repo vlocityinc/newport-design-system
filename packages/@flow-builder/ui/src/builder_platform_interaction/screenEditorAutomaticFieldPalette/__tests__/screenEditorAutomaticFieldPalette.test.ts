@@ -2,7 +2,7 @@ import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/scre
 import { createElement } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { SObjectReferenceChangedEvent, RemoveMergeFieldPillEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import * as storeMockedData from 'mock/storeData';
 import { accountFields as mockAccountField } from 'serverData/GetFieldsForEntity/accountFields.json';
@@ -72,6 +72,7 @@ describe('Screen editor automatic field palette', () => {
         const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
             storeMockedData.accountSObjectVariable.guid
         );
+        const removeMergeFieldPillEvent = new RemoveMergeFieldPillEvent({}, true);
         it('SObjectReferenceChangedEvent should update properly recordVariable', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
@@ -97,7 +98,7 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(element.paletteData[1]._children).toHaveLength(67);
         });
-        it('SObjectReferenceChangedEvent should hide not items to show illustration', async () => {
+        it('SObjectReferenceChangedEvent should hide no items to show illustration', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(getNoItemToShowIllustration(element)).toBeNull();
@@ -106,6 +107,16 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(getBasePalette(element)).not.toBeNull();
+        });
+        it('RemoveMergeFieldPillEvent should hide base palette', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEvent);
+            await ticks(1);
+            expect(getBasePalette(element)).toBeNull();
+        });
+        it('RemoveMergeFieldPillEvent should show no items to show illustration', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEvent);
+            await ticks(1);
+            expect(getNoItemToShowIllustration(element)).not.toBeNull();
         });
         it('SObjectReferenceChangedEvent with error should keep illustration visible', async () => {
             const sObjectReferenceChangedEventwithError = new SObjectReferenceChangedEvent(

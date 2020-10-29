@@ -6,8 +6,12 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     createComponentUnderTest,
     getComponentsPaletteInFirstTab,
-    getAutomaticFieldsPaletteInSecondTab
+    getAutomaticFieldsPaletteInSecondTab,
+    getRecordVariablePickerChildComboboxComponent
 } from '../../screenEditorTestUtils';
+import { typeMergeFieldInCombobox } from '../../comboboxTestUtils';
+
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 describe('ScreenEditor automatic fields', () => {
     let screenNode;
@@ -28,11 +32,31 @@ describe('ScreenEditor automatic fields', () => {
                     processType: FLOW_PROCESS_TYPE.FLOW
                 });
             });
-            it('should contain in first tab the components palette', async () => {
+            it('should contain in first tab the components palette', () => {
                 expect(getComponentsPaletteInFirstTab(screenEditor)).not.toBeNull();
             });
-            it('should contain in second tab the automatic field palette', async () => {
+            it('should contain in second tab the automatic field palette', () => {
                 expect(getAutomaticFieldsPaletteInSecondTab(screenEditor)).not.toBeNull();
+            });
+            it('should be able to select accountSObjectVariable in sObject picker', async () => {
+                const autoFieldPalette = getAutomaticFieldsPaletteInSecondTab(screenEditor);
+                const sObjectPicker = autoFieldPalette.shadowRoot.querySelector(
+                    INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
+                );
+                const combobox = getRecordVariablePickerChildComboboxComponent(sObjectPicker);
+                await typeMergeFieldInCombobox(combobox, '{!accountSObjectVariable}');
+                expect(combobox.hasPill).toBe(true);
+                expect(combobox.errorMessage).toEqual(null);
+            });
+            it('should not be able to select apexContainsOnlyASingleSObjectVariable in sObject picker', async () => {
+                const autoFieldPalette = getAutomaticFieldsPaletteInSecondTab(screenEditor);
+                const sObjectPicker = autoFieldPalette.shadowRoot.querySelector(
+                    INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
+                );
+                const combobox = getRecordVariablePickerChildComboboxComponent(sObjectPicker);
+                await typeMergeFieldInCombobox(combobox, '{!apexContainsOnlyASingleSObjectVariable}');
+                expect(combobox.hasPill).toBe(false);
+                expect(combobox.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
             });
         });
     });

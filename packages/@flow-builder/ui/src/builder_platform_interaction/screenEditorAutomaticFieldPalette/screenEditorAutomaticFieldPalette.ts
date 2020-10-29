@@ -191,4 +191,11 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         this.state.searchPattern = filterValue ? filterValue.trim() : '';
         this.buildModel(this.state.searchPattern);
     }
+
+    /**
+     * Show no item illustration when SObject picker is cleared with pill (X) click
+     */
+    handleSObjectCleared() {
+        this.showNoItemsIllustration = true;
+    }
 }
