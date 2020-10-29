@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { copyAndUpdateDebugTraceObject, convertElementTypeToTitleCase, formatDateHelper } from '../debugUtils';
+import { copyAndUpdateDebugTraceObject, makeElementTitle, formatDateHelper } from '../debugUtils';
 import { LABELS } from '../debugUtilsLabels';
 import { pausedInterview } from 'mock/debugResponse/mock-paused-interview';
 import { completedInterviewWithErrors } from 'mock/debugResponse/mock-completed-interview-errors';
@@ -19,7 +19,8 @@ describe('debug utils', () => {
 
         it('should display interview started info', () => {
             expect(updatedDebugTraceObject[0].title).toMatch(completedInterview.debugTrace[0].lines[0]);
-            expect(updatedDebugTraceObject[0].debugInfo).toContain(LABELS.interviewStartedAt);
+            const startedLines = updatedDebugTraceObject[0].lines;
+            expect(startedLines[startedLines.length - 1]).toContain(LABELS.interviewStartedAt);
         });
 
         it('should display the completed info', () => {
@@ -29,7 +30,7 @@ describe('debug utils', () => {
         });
 
         it('should display debug info header', () => {
-            const expectedHeader = convertElementTypeToTitleCase(completedInterview.debugTrace[1].lines[0]);
+            const expectedHeader = makeElementTitle(completedInterview.debugTrace[1]);
             expect(updatedDebugTraceObject[1].title).toMatch(expectedHeader);
         });
     });
@@ -47,7 +48,7 @@ describe('debug utils', () => {
 
         it('should display accurate duration', () => {
             const len = updatedDebugTraceObject.length;
-            const lastTrace = updatedDebugTraceObject[len - 1].debugInfo.split('\\n');
+            const lastTrace = updatedDebugTraceObject[len - 1].lines;
             const calculatedDurationInMs = (
                 (completedInterviewWithErrors.endInterviewTime.getTime() -
                     completedInterviewWithErrors.startInterviewTime.getTime()) /
@@ -67,26 +68,8 @@ describe('debug utils', () => {
             const len = updatedDebugTraceObject.length;
             expect(len).toBe(pausedInterview.debugTrace.length + 1);
             expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewPausedHeader);
-            expect(updatedDebugTraceObject[len - 1].debugInfo).toMatch(LABELS.interviewPaused);
+            expect(updatedDebugTraceObject[len - 1].lines[0]).toMatch(LABELS.interviewPaused);
         });
-    });
-
-    it('test all cap to title case', () => {
-        const input = 'POST TO CHATTER: actionName';
-        const output = convertElementTypeToTitleCase(input);
-        expect(output).toStrictEqual('Post To Chatter: actionName');
-    });
-
-    it('test element error title', () => {
-        const elementError = 'Error element decision (FlowDecision).';
-        const output = convertElementTypeToTitleCase(elementError);
-        expect(output).toStrictEqual(elementError);
-    });
-
-    it('test rollback title', () => {
-        const rollbackTitle = 'Rollback';
-        const output = convertElementTypeToTitleCase(rollbackTitle);
-        expect(output).toStrictEqual(rollbackTitle);
     });
 
     it('test date formatter', () => {

@@ -1,3 +1,8 @@
+/**
+ * contains the jsonified RunInterviewResult object returned by FlowBuilderController.runDebugInterview
+ *
+ * This is an interview that hasn't run yet, but errored out before starting
+ */
 export const errorInterview = {
     interviewStatus: 'ERROR',
     error: ['The selected user does not have permission to run this flow.'],

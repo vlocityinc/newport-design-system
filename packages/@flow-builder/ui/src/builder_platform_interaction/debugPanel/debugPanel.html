@@ -16,7 +16,8 @@
             >
                 <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title}>
                     <builder_platform_interaction-debug-panel-body
-                        raw-text={trace.debugInfo}
+                        lines={trace.lines}
+                        error={trace.error}
                         title={trace.title}
                     ></builder_platform_interaction-debug-panel-body>
                 </lightning-accordion-section>

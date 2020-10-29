@@ -1,10 +1,11 @@
 <template>
-    <template for:each={textObj} for:item="currText">
-        <template if:false={currText.isTitle} key={currText.id}>
+    <template for:each={textObj} for:item="curLine">
+        <template if:false={curLine.isSubTitle} key={curLine.id}>
+            <!-- warning icon for null/not found -->
             <div
-                if:true={currText.isWarn}
+                if:true={curLine.isWarn}
                 class="custom-builder-baseCallOutEditor__mode-info slds-grid"
-                key={currText.id}
+                key={curLine.id}
             >
                 <lightning-icon
                     class="warning"
@@ -15,23 +16,25 @@
                 ></lightning-icon>
                 <lightning-formatted-rich-text
                     class="withIcon"
-                    value={currText.value}
+                    value={curLine.value}
                     disable-linkify="true"
                 ></lightning-formatted-rich-text>
             </div>
-            <div if:false={currText.isWarn} key={currText.id}>
+            <!-- Regular debug text -->
+            <div if:false={curLine.isWarn} key={curLine.id}>
                 <lightning-formatted-rich-text
-                    if:false={currText.isError}
+                    if:false={curLine.isError}
                     class="normal"
-                    key={currText.id}
-                    value={currText.value}
+                    key={curLine.id}
+                    value={curLine.value}
                     disable-linkify="true"
                 ></lightning-formatted-rich-text>
-                <div if:true={currText.isError} key={currText.id}>
-                    <div key={currText.id} class="helptext slds-p-top_medium"></div>
-                    <div class="slds-box" key={currText.id}>
-                        <div key={currText.id}>
-                            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid" key={currText.id}>
+                <!-- error occurred/element box -->
+                <div if:true={curLine.isError} key={curLine.id}>
+                    <div key={curLine.id} class="helptext slds-p-top_medium"></div>
+                    <div class="slds-box" key={curLine.id}>
+                        <div key={curLine.id}>
+                            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid" key={curLine.id}>
                                 <lightning-icon
                                     class="error"
                                     icon-name="utility:error"
@@ -39,23 +42,24 @@
                                     variant="error"
                                     size="xx-small"
                                 ></lightning-icon>
-                                <p class="slds-text-color_weak withIcon sub-title">{currText.bold}</p>
+                                <p class="slds-text-color_weak withIcon sub-title">{curLine.bold}</p>
                             </div>
                             <lightning-formatted-rich-text
                                 class="box"
-                                value={currText.value}
+                                value={curLine.value}
                                 disable-linkify="true"
                             ></lightning-formatted-rich-text>
                         </div>
                     </div>
-                    <div key={currText.id} class="helptext slds-p-top_medium"></div>
+                    <div key={curLine.id} class="helptext slds-p-top_medium"></div>
                 </div>
             </div>
         </template>
-        <template if:true={currText.isTitle} key={currText.id}>
-            <div key={currText.id} class="slds-p-top_xx-small"></div>
-            <p class="sub-title slds-text-color_weak" key={currText.id}>{currText.value}</p>
-            <div key={currText.id} class="helptext slds-p-top_xx-small"></div>
+        <!-- subtitles in the debug card -->
+        <template if:true={curLine.isSubTitle} key={curLine.id}>
+            <div key={curLine.id} class="slds-p-top_xx-small"></div>
+            <p class="sub-title slds-text-color_weak" key={curLine.id}>{curLine.value}</p>
+            <div key={curLine.id} class="helptext slds-p-top_xx-small"></div>
         </template>
     </template>
 </template>

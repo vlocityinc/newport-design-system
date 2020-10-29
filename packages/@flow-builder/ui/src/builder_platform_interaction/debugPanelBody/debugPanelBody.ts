@@ -6,7 +6,6 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  * This is the debug panel body that shows the debug run info inside each accordion on
  * builder canvas (debugMode)
  *
- * - Splits rawText by newline characters
  * - Strings with "Error Occurred:" or "Error element" titles recieve an error box
  * - Warning icon appears when a variable is null or (null) and "Failed to find record"
  * - Governor limit info recieves one "Governor Limit Info" title
@@ -16,18 +15,19 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 const NULL = '^[^ ]+ = null$';
 const EQUALSNULL = '^[^ ]+ ' + LABELS.equals + ' null$';
 const NULLPARENS = '(null)';
-const NEWLINE = '\\n';
 
 /* Labels with "{0}" or "{1}" need to be replaced" for proper checking */
-const ERROR = LABELS.faultMess.replace('{0}', '');
+const ERROR_OCCURRED = LABELS.faultMess.replace('{0}', '');
 const DML = LABELS.dml.replace(/\{0\}|\{1\}/, '[0-9]+');
 const DMLROW = LABELS.dmlRow.replace(/\{0\}|\{1\}/, '[0-9]+');
 const SOQL = LABELS.soql.replace(/\{0\}|\{1\}/, '[0-9]+');
 const SOQLROW = LABELS.soqlRow.replace(/\{0\}|\{1\}/, '[0-9]+');
-const ERRBODY = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
+const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
 
 export default class debugPanelBody extends LightningElement {
-    @api rawText;
+    @api lines;
+
+    @api error;
 
     @api title;
 
@@ -40,42 +40,46 @@ export default class debugPanelBody extends LightningElement {
      * booleans to indicate if it will be need special formatting
      */
     getDebugInfoBody() {
-        const splitText = this.rawText.split(NEWLINE);
         let needsGovTitle = true;
         let obj = [{}];
 
         /* removes empty object in array */
         obj = obj.splice(1);
 
-        if (this.title.includes(ERRBODY)) {
-            obj.push(this.formatErrorBody(splitText));
+        /* element error will take up an entire card */
+        if (this.title.includes(ELEMENT_ERR_TITLE)) {
+            obj.push(this.formatErrorMessage());
             return obj;
         }
 
-        for (let i = 0; i < splitText.length; i++) {
-            let curr = splitText[i].replace(/\\"/g, '');
+        for (let i = 0; i < this.lines.length; i++) {
+            let curr = this.lines[i].replace(/\\"/g, '');
             curr = curr.trim();
 
-            if (curr.includes(ERROR)) {
-                obj.push(this.formatErrorMessage(curr));
-            } else if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
-                const temp = { value: curr, isTitle: false, isWarn: false, isError: false, id: generateGuid() };
+            if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
+                const temp = { value: curr, isSubTitle: false, isWarn: false, isError: false, id: generateGuid() };
 
                 if (curr === LABELS.resultLabel || curr === LABELS.inputLabel) {
-                    temp.isTitle = true;
+                    temp.isSubTitle = true;
                 } else if (curr.charAt(curr.length - 1) === ':') {
                     temp.value = curr.slice(0, -1);
-                    temp.isTitle = true;
+                    temp.isSubTitle = true;
                 } else if (this.needsWarningIcon(curr)) {
                     temp.isWarn = true;
                 } else if (needsGovTitle && this.isGovLimit(curr)) {
                     needsGovTitle = false;
-                    obj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false, id: generateGuid() });
+                    obj.push({ value: LABELS.govInfo, isSubTitle: true, isWarn: false, id: generateGuid() });
                 }
 
                 obj.push(temp);
             }
         }
+
+        /* different from element error, this adds the fault detail at the end of debug card */
+        if (this.error) {
+            obj.push(this.formatErrorMessage());
+        }
+
         return obj;
     }
 
@@ -84,39 +88,19 @@ export default class debugPanelBody extends LightningElement {
      * - All text is placed in an error box
      * - "Error Occurred:" portion is set as the title
      */
-    formatErrorMessage(currString) {
-        const boldEnd = currString.indexOf(':') + 1;
-        return {
-            bold: currString.substring(0, boldEnd),
-            value: currString.substring(boldEnd),
-            isTitle: false,
-            isWarn: false,
-            isError: true,
-            id: generateGuid()
-        };
-    }
-
-    /**
-     * Handles error messages with a header that begins with "Error element"
-     * - All text is placed in an error box
-     * - "Error Occurred:" portion is added as the title inside the error box
-     */
-    formatErrorBody(splitText) {
-        const temp = {
-            bold: ERROR,
-            value: '',
-            isTitle: false,
-            isWarn: false,
-            isError: true,
-            id: generateGuid()
-        };
-        for (let i = 0; i < splitText.length; i++) {
-            if (splitText[i] !== '') {
-                const curr = splitText[i].replace(/\\"/g, '"');
-                temp.value = temp.value + '\n' + curr;
-            }
+    formatErrorMessage() {
+        let errorSubtitleEnd = 0;
+        if (this.error.includes(ERROR_OCCURRED)) {
+            errorSubtitleEnd = this.error.indexOf(':') + 1;
         }
-        return temp;
+        return {
+            bold: ERROR_OCCURRED,
+            value: this.error.substring(errorSubtitleEnd),
+            isSubTitle: false,
+            isWarn: false,
+            isError: true,
+            id: generateGuid()
+        };
     }
 
     /* Checks if a string is a gov limit info */

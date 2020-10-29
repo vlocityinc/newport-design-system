@@ -7,6 +7,7 @@ import interviewErrorAt from '@salesforce/label/FlowBuilderDebugPanel.interviewE
 import interviewStartHeader from '@salesforce/label/DebugLogEmail.StartHeader';
 import interviewPaused from '@salesforce/label/FlowBuilderDebugPanel.interviewPaused';
 import interviewPausedHeader from '@salesforce/label/FlowBuilderDebugPanel.interviewPausedHeader';
+import errorBody from '@salesforce/label/InteractionRuntimeError.ErrorBody';
 
 export const LABELS = {
     interviewFinishHeader,
@@ -17,5 +18,6 @@ export const LABELS = {
     interviewErrorAt,
     interviewStartHeader,
     interviewPaused,
-    interviewPausedHeader
+    interviewPausedHeader,
+    errorBody
 };

@@ -17,81 +17,82 @@ const SELECTORS = {
 };
 const TITLE = 'Test Title';
 const NORMALINPUT = {
-    rawText: 'Admin User (005xx000001X7ib) started the flow interview',
+    lines: ['Admin User (005xx000001X7ib) started the flow interview'],
     title: TITLE
 };
 const varEqualsNull = {
-    rawText: '{!var4} ' + LABELS.equals + ' null',
+    lines: ['{!var4} ' + LABELS.equals + ' null'],
     title: TITLE
 };
 const varEqualSignNull = {
-    rawText: 'var4 = null',
+    lines: ['var4 = null'],
     title: TITLE
 };
 const failedFind = {
-    rawText: LABELS.failedFind,
+    lines: [LABELS.failedFind],
     title: TITLE
 };
 const varNameIsNull = {
-    rawText: 'null = text',
+    lines: ['null = text'],
     title: TITLE
 };
 const nullPartofString = {
-    rawText: '{!var} = nullify',
+    lines: ['{!var} = nullify'],
     title: TITLE
 };
 const nullPartofStringAtEnd = {
-    rawText: '{!var} = annull',
+    lines: ['{!var} = annull'],
     title: TITLE
 };
 
 const nullAtEnd = {
-    rawText: 'emailBody = this is null',
+    lines: ['emailBody = this is null'],
     title: TITLE
 };
 
 const twoEquals = {
-    rawText: 'emailBody = this = null',
+    lines: ['emailBody = this = null'],
     title: TITLE
 };
 
 const errorOccurredString = {
-    rawText: LABELS.faultMess + ': something happened',
+    error: LABELS.faultMess + ': something happened',
+    lines: ['some config values'],
     title: TITLE,
     expectedNormal: 'something happened'
 };
 const errorElementTitle = {
-    rawText: 'The flow failed because something happened',
+    error: 'The flow failed because something happened',
     title: LABELS.errorBody
 };
 const resultLabelString = {
-    rawText: 'var = hello\\n' + LABELS.resultLabel,
+    lines: ['var = hello', LABELS.resultLabel],
     title: 'ASSIGNMENT: assign'
 };
 const stringEndsWithColon = {
-    rawText: 'Find all Task records where:',
+    lines: ['Find all Task records where:'],
     title: 'FAST LOOKUP: lookup',
     expected: 'Find all Task records where'
 };
 const endWithColonWhitespave = {
-    rawText: 'Find all Task records where:     ',
+    lines: ['Find all Task records where:     '],
     title: 'FAST LOOKUP: lookup',
     expected: 'Find all Task records where'
 };
 const governorLimitsSoql = {
-    rawText: LABELS.soql.replace(/\{0\}|\{1\}/, '100'),
+    lines: [LABELS.soql.replace(/\{0\}|\{1\}/, '100')],
     title: TITLE
 };
 const governorLimitsSoqlRow = {
-    rawText: LABELS.soqlRow.replace(/\{0\}|\{1\}/, '100'),
+    lines: [LABELS.soqlRow.replace(/\{0\}|\{1\}/, '100')],
     title: TITLE
 };
 const governorLimitsDml = {
-    rawText: LABELS.dml.replace(/\{0\}|\{1\}/, 9),
+    lines: [LABELS.dml.replace(/\{0\}|\{1\}/, 9)],
     title: TITLE
 };
 const governorLimitsDmlRow = {
-    rawText: LABELS.dmlRow.replace(/\{0\}|\{1\}/, '100'),
+    lines: [LABELS.dmlRow.replace(/\{0\}|\{1\}/, '100')],
     title: TITLE
 };
 describe('GovernorLimits cases check:', () => {
@@ -105,7 +106,7 @@ describe('GovernorLimits cases check:', () => {
             expect(normal).not.toBeNull();
 
             const text = normal.value;
-            expect(text).toContain(governorLimitsSoql.rawText);
+            expect(text).toContain(governorLimitsSoql.lines);
         });
         it('has Element Governor Limits Info as the title', () => {
             const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
@@ -124,7 +125,7 @@ describe('GovernorLimits cases check:', () => {
             expect(normal).not.toBeNull();
 
             const text = normal.value;
-            expect(text).toContain(governorLimitsSoqlRow.rawText);
+            expect(text).toContain(governorLimitsSoqlRow.lines);
         });
         it('has Element Governor Limits Info as the title', () => {
             const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
@@ -143,7 +144,7 @@ describe('GovernorLimits cases check:', () => {
             expect(normal).not.toBeNull();
 
             const text = normal.value;
-            expect(text).toContain(governorLimitsDml.rawText);
+            expect(text).toContain(governorLimitsDml.lines);
         });
         it('has Element Governor Limits Info as the title', () => {
             const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
@@ -162,7 +163,7 @@ describe('GovernorLimits cases check:', () => {
             expect(normal).not.toBeNull();
 
             const text = normal.value;
-            expect(text).toContain(governorLimitsDmlRow.rawText);
+            expect(text).toContain(governorLimitsDmlRow.lines);
         });
         it('has Element Governor Limits Info as the title', () => {
             const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
@@ -258,7 +259,7 @@ describe('debug-panel-body', () => {
             expect(temp).not.toBeNull();
 
             const text = temp.value;
-            expect(text).toContain(errorElementTitle.rawText);
+            expect(text).toContain(errorElementTitle.error);
         });
         it('has error icon in error box', () => {
             const icon = debugPanelBody.shadowRoot.querySelector(SELECTORS.ERROR);
