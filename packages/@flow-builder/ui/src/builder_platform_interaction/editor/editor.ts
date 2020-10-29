@@ -252,6 +252,7 @@ export default class Editor extends LightningElement {
     interviewGUID;
     runDebugUrl;
     isFlowServerCallInProgress = false;
+    flowRetrieveError;
     isRetrieveInterviewHistoryCallInProgress = false;
     retrieveInterviewHistoryResponse;
 
@@ -729,7 +730,10 @@ export default class Editor extends LightningElement {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
             this.spinners.showFlowMetadataSpinner = false;
+            this.isFlowServerCallInProgress = false;
+            this.flowRetrieveError = error;
         } else {
+            this.flowRetrieveError = null;
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
             // Also needed to load entity/eventType for the start element on canvas.
             this.preloadRequiredDatafromFlowMetadata(data).then(() => {
@@ -2104,7 +2108,7 @@ export default class Editor extends LightningElement {
         ) {
             try {
                 const { data, error } = this.retrieveInterviewHistoryResponse;
-                if (!error) {
+                if (!error && !this.flowRetrieveError) {
                     this.builderMode = BUILDER_MODE.DEBUG_MODE;
                     this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
                     this.clearUndoRedoStack();
