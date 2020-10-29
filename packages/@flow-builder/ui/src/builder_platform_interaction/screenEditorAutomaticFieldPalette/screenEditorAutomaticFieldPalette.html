@@ -27,27 +27,29 @@
         </div>
 
         <!-- filtering input and list of fields -->
-        <div class="slds-p-horizontal_small slds-p-vertical_x-small" if:false={showNoItemIllustrationContainer}>
+        <div class="slds-p-vertical_x-small" if:false={showNoItemIllustrationContainer}>
             <!-- error div if fields are not loaded properly -->
             <div if:true={showErrorMessageRelatedToFieldFetching} class="error">
                 <span>{labels.fieldsLoadingError}</span>
             </div>
             <!-- container for search field and palette -->
             <div if:false={showErrorMessageRelatedToFieldFetching}>
-                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
-                    <input
-                        id="filter-input"
-                        type="text"
-                        class="slds-input palette-search-input"
-                        placeholder={searchInputPlaceholder}
-                        oninput={handleSearch}
-                        value={state.searchPattern}
-                    />
-                    <lightning-icon
-                        class="slds-input__icon slds-input__icon_left"
-                        icon-name="utility:search"
-                        size="xx-small"
-                    ></lightning-icon>
+                <div class="slds-p-horizontal_small">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                        <input
+                            id="filter-input"
+                            type="text"
+                            class="slds-input palette-search-input"
+                            placeholder={searchInputPlaceholder}
+                            oninput={handleSearch}
+                            value={state.searchPattern}
+                        />
+                        <lightning-icon
+                            class="slds-input__icon slds-input__icon_left"
+                            icon-name="utility:search"
+                            size="xx-small"
+                        ></lightning-icon>
+                    </div>
                 </div>
                 <builder_platform_interaction-palette
                     data={paletteData}
