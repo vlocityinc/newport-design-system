@@ -7,7 +7,7 @@
      * @param {Boolean} rerun, whether this is a debug rerun
      */
     buildInput: function (cmp, flowName, processType, triggerType, rerun) {
-        this.getDebugRunAsValidation(cmp);
+        this.getDebugRunAsValidation(cmp, processType, triggerType);
 
         if (processType === 'AutoLaunchedFlow' && triggerType === 'Scheduled') {
             cmp.set('v.shouldHasInputs', false);
@@ -96,21 +96,26 @@
      * Set showIsDebugAsUserAllowedInNonPrd - is this an inactive org? Only inactive orgs can run as
      * @param {Aura} cmp, the debug modal
      */
-    getDebugRunAsValidation: function (cmp) {
-        var action = cmp.get('c.debugRunAsValidation');
-        var flowDevName = cmp.get('v.flowName');
-        var flowVersionId = cmp.get('v.flowId');
-        action.setParams({ flowVersionId: flowVersionId, flowDevName: flowDevName });
-        action.setCallback(this, function (response) {
-            var state = response.getState();
-            if (state === 'SUCCESS') {
-                var validationMap = response.getReturnValue();
-                cmp.set('v.showIsDebugAsUserAllowed', validationMap['showIsDebugAsUserAllowed']);
-                cmp.set('v.showIsDebugAsUserAllowedInNonPrd', validationMap['showIsDebugAsUserAllowedInNonPrd']);
-            }
-            this.setRunAsHelptext(cmp);
-        });
-        $A.enqueueAction(action);
+    getDebugRunAsValidation: function (cmp, processType, triggerType) {
+        if (processType === 'AutoLaunchedFlow' && triggerType === 'Scheduled') {
+            cmp.set('v.shouldHasDebugAsUser', false);
+        } else {
+            cmp.set('v.shouldHasDebugAsUser', true);
+            var action = cmp.get('c.debugRunAsValidation');
+            var flowDevName = cmp.get('v.flowName');
+            var flowVersionId = cmp.get('v.flowId');
+            action.setParams({ flowVersionId: flowVersionId, flowDevName: flowDevName });
+            action.setCallback(this, function (response) {
+                var state = response.getState();
+                if (state === 'SUCCESS') {
+                    var validationMap = response.getReturnValue();
+                    cmp.set('v.showIsDebugAsUserAllowed', validationMap['showIsDebugAsUserAllowed']);
+                    cmp.set('v.showIsDebugAsUserAllowedInNonPrd', validationMap['showIsDebugAsUserAllowedInNonPrd']);
+                }
+                this.setRunAsHelptext(cmp);
+            });
+            $A.enqueueAction(action);
+        }
     },
 
     /**

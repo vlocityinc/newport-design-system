@@ -8,6 +8,7 @@
     <aura:attribute name="rerun" type="Boolean"/>
 
     <!-- Values for component capabilities -->
+    <aura:attribute name="shouldHasDebugAsUser" type="Boolean" default="true"/>
     <aura:attribute name="showIsDebugAsUserAllowed" type="Boolean" default="false"/>
     <aura:attribute name="showIsDebugAsUserAllowedInNonPrd" type="Boolean" default="true"/>
     <aura:attribute name="showDebugAsUserLookup" type="Boolean" default="false"/> 
@@ -34,25 +35,27 @@
             <h2>{#$Label.FlowDebug.FlowProperties}</h2>
         </div>
         
-        <lightning:input class="slds-p-bottom_small" type="checkbox" 
+        <aura:if isTrue="{!v.shouldHasDebugAsUser}">
+            <lightning:input class="slds-p-bottom_small" type="checkbox" 
                 aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}" 
                 checked="{!v.runAsCB}" onchange="{!c.handleDebugAsUserCheck}"
                 fieldLevelHelp="{!v.runAsHelptext}" disabled="{!(!v.showIsDebugAsUserAllowed || !v.showIsDebugAsUserAllowedInNonPrd)}"/>
-        
-        <aura:if isTrue="{!v.showDebugAsUserLookup}">
-		    <div class="slds-p-bottom_small" name="debugAsUserList">
-                  <forceSearch:inputLookupDesktop
-                            aura:id="debugAsUserList"
-                            label="{!$Label.FlowDebug.RunThisFlowAs}"
-                            entities="[{ name: 'User' }]"
-                            maxRows="5"
-                            enableCreateNew="false" 
-                            maxValues="1"
-                            source="Event"      
-                            displayErrorOnBlur="false"
-                            values="{!v.runAsSelected}"/>
-		    </div>
-		</aura:if>
+                
+            <aura:if isTrue="{!v.showDebugAsUserLookup}">
+                <div class="slds-p-bottom_small" name="debugAsUserList">
+                    <forceSearch:inputLookupDesktop
+                        aura:id="debugAsUserList"
+                        label="{!$Label.FlowDebug.RunThisFlowAs}"
+                        entities="[{ name: 'User' }]"
+                        maxRows="5"
+                        enableCreateNew="false" 
+                        maxValues="1"
+                        source="Event"      
+                        displayErrorOnBlur="false"
+                        values="{!v.runAsSelected}"/>
+                </div>
+            </aura:if>
+        </aura:if>
 
         <lightning:input class="slds-p-bottom_small" type="checkbox" 
                 aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}" 

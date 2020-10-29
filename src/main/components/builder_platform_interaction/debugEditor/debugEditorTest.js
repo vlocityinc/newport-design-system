@@ -77,6 +77,43 @@
         }
     },
 
+    testDebugAsUserHiddenInScheduledFlow: {
+        attributes: {
+            processType: 'AutoLaunchedFlow',
+            triggerType: 'Scheduled'
+        },
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'debugRunAsValidation' },
+                        answers: [
+                            {
+                                value: {
+                                    showIsDebugAsUserAllowed: true,
+                                    showIsDebugAsUserAllowedInNonPrd: true
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function (cmp) {
+            $A.test.addWaitFor(
+                false,
+                function () {
+                    return $A.test.isActionPending('doInit');
+                },
+                function (cmp) {
+                    $A.test.assertUndefinedOrNull(cmp.find('isDebugAsUserAllowedBox'), 'Should not show checkbox');
+                }
+            );
+        }
+    },
+
     testToggleCheckboxes: {
         test: function (cmp) {
             cmp.find('isDebugAsUserAllowedBox').set('v.checked', true);
