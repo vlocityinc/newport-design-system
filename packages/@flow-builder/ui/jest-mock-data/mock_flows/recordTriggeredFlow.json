@@ -36,6 +36,74 @@
                 }
             ]
         },
+        "assignments": [
+            {
+                "name": "assign",
+                "description": "",
+                "label": "assign",
+                "locationX": 623,
+                "locationY": 403,
+                "elementSubtype": null,
+                "assignmentItems": [
+                    {
+                        "assignToReference": "$Record.Description",
+                        "operator": "Add",
+                        "value": {
+                            "elementReference": "$Record__Prior.AnnualRevenue"
+                        }
+                    }
+                ]
+            }
+        ],
+        "variables": [
+            {
+                "name": "accountSObjectVariable",
+                "description": "",
+                "objectType": "Account",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "stringVariable",
+                "description": "",
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            }
+        ],
+        "decisions": [
+            {
+                "name": "decision",
+                "description": "",
+                "label": "decision",
+                "locationX": 815,
+                "locationY": 408,
+                "elementSubtype": null,
+                "rules": [
+                    {
+                        "name": "outcome",
+                        "label": "outcome",
+                        "conditions": [
+                            {
+                                "leftValueReference": "$Record__Prior.Name",
+                                "rightValue": {
+                                    "stringValue": "theAccount"
+                                },
+                                "operator": "EqualTo"
+                            }
+                        ],
+                        "conditionLogic": "and",
+                        "doesRequireRecordChangedToMeetCriteria": false
+                    }
+                ],
+                "defaultConnectorLabel": "Default Outcome"
+            }
+        ],
         "description": "",
         "interviewLabel": "RecordTriggeredFlow {!$Flow.CurrentDateTime}",
         "isTemplate": false,

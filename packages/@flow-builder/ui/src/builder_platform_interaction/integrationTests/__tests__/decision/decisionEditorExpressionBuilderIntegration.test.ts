@@ -1,15 +1,16 @@
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { validateExpression, getLhsCombobox, getOperatorCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
+import {
+    getLhsCombobox,
+    getOperatorCombobox,
+    getRhsCombobox,
+    getExpressionTester
+} from '../expressionBuilderTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { getComboboxPill, removeEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
-import {
-    resetState,
-    translateFlowToUIAndDispatch,
-    setupStateForFlow,
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
-} from '../integrationTestUtils';
+import { resetState, setupStateForFlow, FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from '../integrationTestUtils';
 import { selectComboboxItemBy, typeMergeFieldInCombobox, typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
@@ -27,8 +28,7 @@ jest.mock(
 describe('Decision Editor expression builder', () => {
     let expressionBuilder;
     beforeAll(async () => {
-        const store = await setupStateForFlow(flowWithAllElements);
-        translateFlowToUIAndDispatch(flowWithAllElements, store);
+        await setupStateForFlow(flowWithAllElements);
     });
     beforeEach(() => {
         const element = getElementByDevName('decision');
@@ -40,7 +40,9 @@ describe('Decision Editor expression builder', () => {
         resetState();
     });
     describe('Validation', () => {
-        test.each`
+        const testExpression = getExpressionTester(() => expressionBuilder);
+        // eslint-disable-next-line no-unused-expressions
+        testExpression.each`
             lhs                                                          | operator         | rhs                            | rhsErrorMessage
             ${'{!accountSObjectVariable.BillingLatitude}'}               | ${'EqualTo'}     | ${'500.0'}                     | ${undefined}
             ${'{!accountSObjectVariable.BillingLatitude}'}               | ${'EqualTo'}     | ${'my string'}                 | ${'FlowBuilderCombobox.numberErrorMessage'}
@@ -55,15 +57,7 @@ describe('Decision Editor expression builder', () => {
             ${'{!loopOnApexAutoOutput}'}                                 | ${'WasVisited'}  | ${'{!$GlobalConstant.True}'}   | ${undefined}
             ${'{!loopOnApexAutoOutput.name}'}                            | ${'EqualTo'}     | ${'myString'}                  | ${undefined}
             ${'{!loopOnTextCollection}'}                                 | ${'WasVisited'}  | ${'{!$GlobalConstant.True}'}   | ${undefined}
-        `('"$lhs $operator $rhs" should be $rhsErrorMessage', async ({ lhs, operator, rhs, rhsErrorMessage }) => {
-            expect(
-                await validateExpression(expressionBuilder, {
-                    lhs,
-                    operator,
-                    rhs
-                })
-            ).toEqual({ rhsErrorMessage });
-        });
+        `;
         it('can select account field of apex type', async () => {
             // Given
             const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
@@ -271,5 +265,30 @@ describe('Decision Editor expression builder', () => {
                 });
             });
         });
+    });
+});
+describe('Decision Editor expression builder for record triggered flow', () => {
+    let expressionBuilder;
+    beforeAll(async () => {
+        await setupStateForFlow(recordTriggeredFlow);
+    });
+    beforeEach(() => {
+        const element = getElementByDevName('decision');
+        const decisionForPropertyEditor = getElementForPropertyEditor(element);
+        const decisionEditor = createComponentForTest(decisionForPropertyEditor);
+        expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
+    });
+    afterAll(() => {
+        resetState();
+    });
+    describe('Validation', () => {
+        const testExpression = getExpressionTester(() => expressionBuilder);
+        // eslint-disable-next-line no-unused-expressions
+        testExpression.each`
+            lhs                                                          | operator         | rhs                            | rhsErrorMessage
+            ${'{!$Record__Prior.BillingLatitude}'}                       | ${'EqualTo'}     | ${'500.0'}                     | ${undefined}
+            ${'{!$Record__Prior.BillingLatitude}'}                       | ${'EqualTo'}     | ${'my string'}                 | ${'FlowBuilderCombobox.numberErrorMessage'}
+            ${'{!$Record.Name}'}                                         | ${'EqualTo'}     | ${'{!$Record__Prior.Name}'}    | ${undefined}
+        `;
     });
 });

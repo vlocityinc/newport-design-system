@@ -15,7 +15,7 @@ import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { getMenuItemForField } from '../menuDataGenerator';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { setSystemVariables } from 'builder_platform_interaction_mocks/systemLib';
+import { setSystemVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     GLOBAL_CONSTANTS,
     GLOBAL_CONSTANT_OBJECTS,
@@ -30,6 +30,7 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {
@@ -89,10 +90,10 @@ jest.mock('../menuDataGenerator', () => {
 });
 
 describe('ResourceUtils', () => {
-    beforeAll(() => {
+    beforeEach(() => {
         Store.setMockState(flowWithAllElementsUIModel);
     });
-    afterAll(() => {
+    afterEach(() => {
         Store.resetStore();
     });
     describe('normalizeFEROV', () => {
@@ -218,6 +219,12 @@ describe('ResourceUtils', () => {
     });
 
     describe('resource retrieval', () => {
+        beforeAll(() => {
+            setSystemVariables(systemVariables);
+        });
+        afterAll(() => {
+            resetSystemVariables();
+        });
         it('getResourceByUniqueIdentifier should return element by guid', () => {
             expect(getResourceByUniqueIdentifier(store.accountSObjectVariable.guid)).toEqual(
                 store.accountSObjectVariable
@@ -238,6 +245,15 @@ describe('ResourceUtils', () => {
             const retrievedResource = getResourceByUniqueIdentifier('e1b88c4a-1a78-42d2-8057-93e2401bbdd4');
             expect(retrievedResource.name.value).toEqual('dt1');
             setScreenElement(undefined);
+        });
+        it('getResourceByUniqueIdentifier should return $Record__Prior system variable when unique identifier starts with $Record__Prior', () => {
+            Store.setMockState(recordTriggeredFlowUIModel);
+            const resource = getResourceByUniqueIdentifier('$Record__Prior.Name');
+            expect(resource).toMatchObject({
+                dataType: 'SObject',
+                guid: '$Record__Prior',
+                name: '$Record__Prior'
+            });
         });
     });
 

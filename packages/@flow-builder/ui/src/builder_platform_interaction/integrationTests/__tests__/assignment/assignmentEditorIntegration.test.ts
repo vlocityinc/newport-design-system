@@ -12,12 +12,14 @@ import {
     removeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import {
     validateExpression,
     getLhsCombobox,
     getRhsCombobox,
     selectOperator,
-    getOperatorCombobox
+    getOperatorCombobox,
+    getExpressionTester
 } from '../expressionBuilderTestUtils';
 import {
     selectComboboxItemBy,
@@ -103,52 +105,37 @@ const getFerToFerovExpressionBuilder = (assignment) =>
     deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER]);
 
 describe('Assignment Editor', () => {
-    let assignment, expressionBuilder;
+    let assignment, assignmentForPropertyEditor, expressionBuilder;
     beforeAll(async () => {
         await setupStateForFlow(flowWithAllElements);
+        const assignmentElement = getElementByDevName('assignment1');
+        assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
     });
     afterAll(() => {
         resetState();
     });
-    beforeEach(async () => {
-        const assignmentElement = getElementByDevName('assignment1');
-        const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
+    beforeEach(() => {
         assignment = createComponentForTest(assignmentForPropertyEditor);
         expressionBuilder = getFerToFerovExpressionBuilder(assignment);
     });
     describe('Validation', () => {
-        const testExpression = {
-            each: (strings, ...keys) => {
-                it.each(strings, ...keys)(
-                    'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
-                    async ({ lhs, operator, rhs, rhsErrorMessage }) => {
-                        expect(
-                            await validateExpression(expressionBuilder, {
-                                lhs,
-                                operator,
-                                rhs
-                            })
-                        ).toEqual({ rhsErrorMessage });
-                    }
-                );
-                // just to workaround no-unused-expressions for template tag
-                return () => undefined;
-            }
-        };
+        const testExpression = getExpressionTester(() => expressionBuilder);
         describe('When LHS is a picklist', () => {
+            // eslint-disable-next-line no-unused-expressions
             testExpression.each`
             lhs                                            | operator    | rhs                                                     | rhsErrorMessage
             ${'{!accountSObjectVariable.AccountSource}'}   | ${'Assign'} | ${'Advertisement'}                                      | ${undefined}
             ${'{!accountSObjectVariable.AccountSource}'}   | ${'Assign'} | ${'NotAPicklistValue'}                                  | ${undefined}
-            `();
+            `;
         });
         describe('When LHS is a number', () => {
+            // eslint-disable-next-line no-unused-expressions
             testExpression.each`
             lhs                                            | operator    | rhs                                                     | rhsErrorMessage
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'500.0'}                                              | ${undefined}
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'not a number'}                                       | ${'FlowBuilderCombobox.numberErrorMessage'}
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Add'}    | ${'{!accountSObjectVariable.Name}'}                     | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-            `();
+            `;
         });
         describe('cross-object field references', () => {
             it('does not allow a merge field with more than 10 levels', async () => {
@@ -180,11 +167,12 @@ describe('Assignment Editor', () => {
                 ).toEqual({});
             });
             describe('When rhs is a cross-Object Field Reference using Polymorphic Relationships', () => {
+                // eslint-disable-next-line no-unused-expressions
                 testExpression.each`
                 lhs                                            | operator    | rhs                                                     | rhsErrorMessage
                 ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
                 ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.Name}'}            | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-                `();
+                `;
             });
             describe('Operator reset when changing LHS value if new value does not support previous operator', () => {
                 let lhsCombobox;
@@ -239,6 +227,7 @@ describe('Assignment Editor', () => {
             });
         });
         describe('When using Apex types on LHS or RHS', () => {
+            // eslint-disable-next-line no-unused-expressions
             testExpression.each`
             lhs                                             | operator    | rhs                                                     | rhsErrorMessage
             ${'{!apexCall_Car_automatic_output.car}'}       | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
@@ -248,7 +237,7 @@ describe('Assignment Editor', () => {
             ${'{!apexComplexTypeVariable.acct}'}            | ${'Assign'} | ${'{!accountSObjectVariable}'}                          | ${undefined}
             ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!apexComplexTypeVariable.acct}'}                    | ${undefined}
             ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!apexComplexTypeVariable.doesNotExist}'}            | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
-            `();
+            `;
             it('can traverse more than 2 levels in the LHS', async () => {
                 const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 expect(await selectComboboxItemBy(lhsCombobox, 'text', ['apexCarVariable', 'wheel'])).toMatchObject({
@@ -281,6 +270,7 @@ describe('Assignment Editor', () => {
             });
         });
         describe('Automatic handling mode', () => {
+            // eslint-disable-next-line no-unused-expressions
             testExpression.each`
             lhs                                                | operator    | rhs                                                                                    | rhsErrorMessage
             ${'{!stringVariable}'}                             | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
@@ -295,7 +285,15 @@ describe('Assignment Editor', () => {
             ${'{!subflowAutomaticOutput.carOutput.wheel.type}'}| ${'Assign'} | ${'myString'}                                                                          | ${undefined}
             ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!subflowAutomaticOutput.accountOutput.BillingLatitude}'}                           | ${undefined}
             ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!subflowAutomaticOutput.accountOutput.Name}'}                                      | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-            `();
+            `;
+        });
+        describe('$Record__Prior is not available for screen flows', () => {
+            // eslint-disable-next-line no-unused-expressions
+            testExpression.each`
+            lhs                                             | operator    | rhs                                    | rhsErrorMessage
+            ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!$Record__Prior}'}                 | ${'FlowBuilderCombobox.genericErrorMessage'}
+            ${'{!stringVariable}'}                          | ${'Assign'} | ${'{!$Record__Prior.Name}'}            | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+            `;
         });
     });
     describe('Inline Resource creation', () => {
@@ -655,6 +653,45 @@ describe('Assignment Editor', () => {
                 await typeReferenceOrValueInCombobox(lhsCombobox, '{!loopOnTextCollectionManualOutput}');
                 expect(lhsCombobox.errorMessage).toBe('FlowBuilderMergeFieldValidation.unknownResource');
             });
+        });
+    });
+});
+describe('Assignment Editor for record triggered flow', () => {
+    beforeAll(async () => {
+        await setupStateForFlow(recordTriggeredFlow);
+    });
+    afterAll(() => {
+        resetState();
+    });
+    describe('Validation', () => {
+        let assignmentForPropertyEditor, expressionBuilder;
+        const testExpression = getExpressionTester(() => expressionBuilder);
+        beforeAll(() => {
+            const assignmentElement = getElementByDevName('assign');
+            assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
+        });
+        beforeEach(() => {
+            const assignment = createComponentForTest(assignmentForPropertyEditor);
+            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
+        });
+        describe('$Record__Prior is not allowed on LHS', () => {
+            it.each`
+                lhs                        | expectedErrorMessage
+                ${'{!Record__Prior}'}      | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                ${'{!Record__Prior.Name}'} | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+            `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
+                expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+            });
+        });
+        describe('When using $Record__Prior on RHS', () => {
+            // eslint-disable-next-line no-unused-expressions
+            testExpression.each`
+                lhs                                             | operator    | rhs                                    | rhsErrorMessage
+                ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!$Record__Prior}'}                 | ${undefined}
+                ${'{!stringVariable}'}                          | ${'Assign'} | ${'{!$Record__Prior.Name}'}            | ${undefined}
+            `;
         });
     });
 });

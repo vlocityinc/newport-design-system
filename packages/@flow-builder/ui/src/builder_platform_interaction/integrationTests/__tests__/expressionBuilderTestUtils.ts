@@ -74,7 +74,10 @@ export const getLhsCombobox = async (expressionBuilder: HTMLElement, clickOnPill
 export const getRhsCombobox = async (expressionBuilder: HTMLElement, clickOnPill = false): Promise<Combobox> =>
     getCombobox(expressionBuilder, EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX, clickOnPill);
 
-export const validateExpression = async (expressionBuilder, { lhs, rhs, operator }) => {
+export const validateExpression = async (
+    expressionBuilder,
+    { lhs, rhs, operator }: { lhs: string; rhs: string; operator: string }
+) => {
     const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
     await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
     if (lhsCombobox.errorMessage) {
@@ -93,3 +96,34 @@ export const validateExpression = async (expressionBuilder, { lhs, rhs, operator
     }
     return {};
 };
+
+/**
+ * Get an expression tester
+ *
+ * Can be used that way :
+ * const testExpression = getExpressionTester(() => expressionBuilder);
+ *
+ * testExpression.each`
+ *   lhs                                            | operator    | rhs                                                     | rhsErrorMessage
+ *   ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'500.0'}                                              | ${undefined}
+ *   ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'not a number'}                                       | ${'FlowBuilderCombobox.numberErrorMessage'}
+ *   `;
+ *
+ * @param expressionBuilderProvider Function that provides the expression builder
+ */
+export const getExpressionTester = (expressionBuilderProvider: () => any) => ({
+    each: (strings: TemplateStringsArray, ...keys: (string | undefined)[]) => {
+        it.each(strings, ...keys)(
+            'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
+            async ({ lhs, operator, rhs, rhsErrorMessage }) => {
+                expect(
+                    await validateExpression(expressionBuilderProvider(), {
+                        lhs,
+                        operator,
+                        rhs
+                    })
+                ).toEqual({ rhsErrorMessage });
+            }
+        );
+    }
+});

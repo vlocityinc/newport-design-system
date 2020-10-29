@@ -139,10 +139,23 @@ describe('sanitizeGuid', () => {
             fieldNames: ['Name']
         });
     });
+    it('returns guid and fields for $Record__Prior field', () => {
+        const result = sanitizeGuid('$Record__Prior.Name');
+        expect(result).toEqual({
+            guidOrLiteral: '$Record__Prior',
+            fieldNames: ['Name']
+        });
+    });
     it('returns $Record as guidOrLiteral', () => {
         const result = sanitizeGuid('$Record');
         expect(result).toEqual({
             guidOrLiteral: '$Record'
+        });
+    });
+    it('returns $Record__Prior as guidOrLiteral', () => {
+        const result = sanitizeGuid('$Record__Prior');
+        expect(result).toEqual({
+            guidOrLiteral: '$Record__Prior'
         });
     });
 });

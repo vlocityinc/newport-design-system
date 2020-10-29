@@ -78,10 +78,126 @@ export const recordTriggeredFlowUIModel = {
             timeSource: 'LastModifiedDate',
             offsetUnit: 'HoursAfter',
             offsetNumber: '4'
+        },
+        '6d690706-908c-4d94-9513-1b219301b4c5': {
+            guid: '6d690706-908c-4d94-9513-1b219301b4c5',
+            name: 'assign',
+            description: '',
+            label: 'assign',
+            locationX: 623,
+            locationY: 403,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            elementSubtype: null,
+            assignmentItems: [
+                {
+                    rowIndex: '90246d76-2818-4059-b0fd-425e241f8708',
+                    leftHandSide: '$Record.Description',
+                    rightHandSide: '$Record__Prior.AnnualRevenue',
+                    rightHandSideDataType: 'reference',
+                    operator: 'Add'
+                }
+            ],
+            maxConnections: 1,
+            elementType: 'Assignment'
+        },
+        'e682f03e-925a-4d84-adc3-f1c5ceea0201': {
+            guid: 'e682f03e-925a-4d84-adc3-f1c5ceea0201',
+            name: 'decision',
+            description: '',
+            label: 'decision',
+            locationX: 815,
+            locationY: 408,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            elementSubtype: null,
+            childReferences: [
+                {
+                    childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
+                }
+            ],
+            defaultConnectorLabel: 'Default Outcome',
+            elementType: 'Decision',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR',
+                    childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
+                },
+                {
+                    type: 'DEFAULT'
+                }
+            ]
+        },
+        '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
+            guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
+            name: 'outcome',
+            label: 'outcome',
+            elementType: 'OUTCOME',
+            dataType: 'Boolean',
+            conditionLogic: 'and',
+            conditions: [
+                {
+                    rowIndex: '2e01b9c4-5144-4db2-9543-7899c5c34329',
+                    leftHandSide: '$Record__Prior.Name',
+                    rightHandSide: 'theAccount',
+                    rightHandSideDataType: 'String',
+                    operator: 'EqualTo'
+                }
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
+        },
+        'fe30ada4-6781-4ffd-84d1-9efbadaa29ab': {
+            guid: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+            name: 'accountSObjectVariable',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'SObject',
+            subtype: 'Account',
+            subtypeIndex: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
+            scale: 2,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1'
+        },
+        '4968239c-5e3d-45ee-9339-f575c917e223': {
+            guid: '4968239c-5e3d-45ee-9339-f575c917e223',
+            name: 'stringVariable',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'String',
+            subtype: null,
+            subtypeIndex: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
+            scale: 2,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0'
         }
     },
     connectors: [],
-    canvasElements: ['07fd2a44-4192-4709-888d-8ccc18cb4580'],
+    canvasElements: [
+        '07fd2a44-4192-4709-888d-8ccc18cb4580',
+        '6d690706-908c-4d94-9513-1b219301b4c5',
+        'e682f03e-925a-4d84-adc3-f1c5ceea0201'
+    ],
     properties: {
         canOnlySaveAsNewDefinition: false,
         description: '',

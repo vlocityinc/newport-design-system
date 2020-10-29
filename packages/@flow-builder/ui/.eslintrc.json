@@ -77,7 +77,11 @@
                     "@typescript-eslint/no-namespace": [
                         "**/builder_platform_interaction/integrationTests/__tests__/comboboxTestUtils.ts"
                     ],
-                    "no-redeclare": ["**/builder_platform_interaction/integrationTests/__tests__/comboboxTestUtils.ts"]
+                    "no-redeclare": ["**/builder_platform_interaction/integrationTests/__tests__/comboboxTestUtils.ts"],
+                    "no-unused-expressions": [
+                        "**/builder_platform_interaction/integrationTests/__tests__/assignment/assignmentEditorIntegration.test.ts",
+                        "**/builder_platform_interaction/integrationTests/__tests__/decision/decisionEditorExpressionBuilderIntegration.test.ts"
+                    ]
                 }
             }
         ]

@@ -19,6 +19,7 @@ import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -126,13 +127,37 @@ describe('mergeField', () => {
             afterAll(() => {
                 Store.resetStore();
             });
-            it('resolves record system variable identifier', async () => {
+            it('resolves $Record system variable identifier', async () => {
                 const resolved = await resolveReferenceFromIdentifier('$Record.BillingAddress');
 
                 expect(resolved).toEqual([
                     expect.objectContaining({
                         dataType: 'SObject',
                         name: '$Record',
+                        subtype: 'Account'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'BillingAddress',
+                        dataType: 'String'
+                    })
+                ]);
+            });
+        });
+        describe('record__Prior system variable identifier', () => {
+            beforeEach(() => {
+                Store.resetStore();
+                Store.setMockState(recordTriggeredFlowUIModel);
+            });
+            afterAll(() => {
+                Store.resetStore();
+            });
+            it('resolves $Record__Prior system variable identifier', async () => {
+                const resolved = await resolveReferenceFromIdentifier('$Record__Prior.BillingAddress');
+
+                expect(resolved).toEqual([
+                    expect.objectContaining({
+                        dataType: 'SObject',
+                        name: '$Record__Prior',
                         subtype: 'Account'
                     }),
                     expect.objectContaining({
