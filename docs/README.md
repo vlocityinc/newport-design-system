@@ -52,3 +52,9 @@ jenkinsfile_path: Jenkinsfile
 ## Troubleshooting FAQ
 
 https://salesforce.quip.com/z8xpAys68qkw
+
+## Support on Slack
+
+For any CI build related issues, please post to our slack [automation-builder-ci-support](https://platformcloud.slack.com/archives/C018MEDNTRU) channel after reading the Troubleshooting FAQ.
+
+For general git questions, please post to our [move-builder-to-git](https://platformcloud.slack.com/archives/CQH866GSZ) channel.

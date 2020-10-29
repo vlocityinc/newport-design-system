@@ -1,0 +1,36 @@
+{
+    "elements": {
+        "b73b99db-cf3e-4531-8e3b-da00398ca599": {
+            "guid": "b73b99db-cf3e-4531-8e3b-da00398ca599",
+            "description": "",
+            "locationX": -126,
+            "locationY": 0,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "hasError": false,
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true
+            },
+            "elementType": "START_ELEMENT",
+            "maxConnections": 1,
+            "triggerType": "None",
+            "filterLogic": "and",
+            "object": "",
+            "objectIndex": "dd0f8025-340a-469f-a675-401c8e7498b0",
+            "filters": [
+                {
+                    "rowIndex": "f822e002-45d3-4017-86a2-05605fd2541e",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ]
+        }
+    },
+    "canvasElements": ["b73b99db-cf3e-4531-8e3b-da00398ca599"],
+    "connectors": [],
+    "peripheralData": {}
+}

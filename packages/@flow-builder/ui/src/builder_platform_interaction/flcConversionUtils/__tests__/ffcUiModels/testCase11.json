@@ -1,0 +1,147 @@
+{
+    "elements": {
+        "3d30d093-ab10-4761-ac7c-45ca5748b66b": {
+            "guid": "3d30d093-ab10-4761-ac7c-45ca5748b66b",
+            "description": "",
+            "locationX": -126,
+            "locationY": 0,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "elementType": "START_ELEMENT",
+            "maxConnections": 1,
+            "triggerType": "None",
+            "filterLogic": "and",
+            "object": "",
+            "objectIndex": "982d2203-0e20-4fd7-946e-0632b01a989f",
+            "filters": [
+                {
+                    "rowIndex": "862ebc9b-0d48-4d62-8a92-8820bcc8522d",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ]
+        },
+        "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc": {
+            "guid": "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc",
+            "name": "",
+            "description": "",
+            "label": "NULL",
+            "locationX": 0,
+            "locationY": 158,
+            "isCanvasElement": true,
+            "connectorCount": 2,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "defaultConnectorLabel": "DEFAULT",
+            "childReferences": [
+                {
+                    "childReference": "26334520-cfd1-4ac2-8b1d-9ac0aeaab42f"
+                }
+            ],
+            "elementType": "Decision",
+            "maxConnections": 2,
+            "availableConnections": []
+        },
+        "31ad4b51-9762-47ba-992a-ffc4d06c9bd6": {
+            "guid": "31ad4b51-9762-47ba-992a-ffc4d06c9bd6",
+            "name": "",
+            "description": "",
+            "label": "NULL",
+            "locationX": 0,
+            "locationY": 374,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignNextValueToReference": "",
+            "assignNextValueToReferenceIndex": "3e9405d9-0925-4c08-8c50-b1203788286f",
+            "collectionReference": "",
+            "collectionReferenceIndex": "c402a57e-8514-4fbf-a553-50206b7b4b21",
+            "iterationOrder": "Asc",
+            "maxConnections": 2,
+            "availableConnections": [
+                {
+                    "type": "LOOP_NEXT"
+                },
+                {
+                    "type": "LOOP_END"
+                }
+            ],
+            "elementType": "Loop",
+            "storeOutputAutomatically": true
+        },
+        "26334520-cfd1-4ac2-8b1d-9ac0aeaab42f": {
+            "guid": "26334520-cfd1-4ac2-8b1d-9ac0aeaab42f",
+            "name": "",
+            "label": "NULL",
+            "elementType": "OUTCOME",
+            "dataType": "Boolean",
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "rowIndex": "5ed4a64f-f030-4d0a-8f0c-34b50ff900d9",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "doesRequireRecordChangedToMeetCriteria": false
+        }
+    },
+    "canvasElements": [
+        "3d30d093-ab10-4761-ac7c-45ca5748b66b",
+        "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc",
+        "31ad4b51-9762-47ba-992a-ffc4d06c9bd6"
+    ],
+    "connectors": [
+        {
+            "guid": "3d30d093-ab10-4761-ac7c-45ca5748b66b -> 68f3f2ce-fcf0-444f-996e-9203ae6ef5fc",
+            "source": "3d30d093-ab10-4761-ac7c-45ca5748b66b",
+            "target": "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc",
+            "label": "NULL",
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc -> 31ad4b51-9762-47ba-992a-ffc4d06c9bd6",
+            "source": "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc",
+            "childSource": "26334520-cfd1-4ac2-8b1d-9ac0aeaab42f",
+            "target": "31ad4b51-9762-47ba-992a-ffc4d06c9bd6",
+            "type": "REGULAR",
+            "label": "NULL",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc -> 31ad4b51-9762-47ba-992a-ffc4d06c9bd6",
+            "source": "68f3f2ce-fcf0-444f-996e-9203ae6ef5fc",
+            "target": "31ad4b51-9762-47ba-992a-ffc4d06c9bd6",
+            "label": "DEFAULT",
+            "type": "DEFAULT",
+            "config": {
+                "isSelected": false
+            }
+        }
+    ],
+    "peripheralData": {}
+}

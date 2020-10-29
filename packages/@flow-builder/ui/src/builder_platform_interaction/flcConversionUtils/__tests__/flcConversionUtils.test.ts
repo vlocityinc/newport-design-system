@@ -23,22 +23,35 @@ import decisionWithDecisionNext from './flcUiModels/decision-with-decision-next'
 import updatedElementConfig from './flcUiModels/updated-element-config';
 import testCaseW8010546 from './flcUiModels/test-case-W-8010546';
 
-import ffcSanity from './ffcUiModels/sanity';
-import ffcElementWithFault from './ffcUiModels/element-with-fault';
-import ffcElementWithFaultWithDecisionHead from './ffcUiModels/element-with-fault-with-decision-head';
-import ffcDecisionEmpty from './ffcUiModels/decision-empty';
-import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision';
-import ffcDecisionWithScreenOnEachBranchAndScreenMerge from './ffcUiModels/decision-with-screen-on-each-branch-and-screen-merge';
-import ffcDecisionWithDecisionNext from './ffcUiModels/decision-with-decision-next';
-import ffcDecisionWithNestedEmptyDecision from './ffcUiModels/decision-with-nested-empty-decision';
-import ffcLoopWithForEachAndAfterLast from './ffcUiModels/loop-with-for-each-and-after-last';
-import ffcLoopEmptyWithAfterLast from './ffcUiModels/loop-empty-with-after-last';
-import ffcLoopEmpty from './ffcUiModels/loop-empty';
-import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen';
-import ffcComplex1 from './ffcUiModels/complex1';
-import ffcDecisionWithMultipleOutcomes from './ffcUiModels/decision-with-multiple-outcomes';
-import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault';
-import ffcUpdatedElementConfig from './ffcUiModels/updated-element-config';
+import ffcSanity from './ffcUiModels/sanity.json';
+import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
+import ffcElementWithFaultWithDecisionHead from './ffcUiModels/element-with-fault-with-decision-head.json';
+import ffcDecisionEmpty from './ffcUiModels/decision-empty.json';
+import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision.json';
+import ffcDecisionWithScreenOnEachBranchAndScreenMerge from './ffcUiModels/decision-with-screen-on-each-branch-and-screen-merge.json';
+import ffcDecisionWithDecisionNext from './ffcUiModels/decision-with-decision-next.json';
+import ffcDecisionWithNestedEmptyDecision from './ffcUiModels/decision-with-nested-empty-decision.json';
+import ffcLoopWithForEachAndAfterLast from './ffcUiModels/loop-with-for-each-and-after-last.json';
+import ffcLoopEmptyWithAfterLast from './ffcUiModels/loop-empty-with-after-last.json';
+import ffcLoopEmpty from './ffcUiModels/loop-empty.json';
+import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen.json';
+import ffcComplex1 from './ffcUiModels/complex1.json';
+import ffcDecisionWithMultipleOutcomes from './ffcUiModels/decision-with-multiple-outcomes.json';
+import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault.json';
+import ffcUpdatedElementConfig from './ffcUiModels/updated-element-config.json';
+
+import ffcTestCase01 from './ffcUiModels/testCase01.json';
+import ffcTestCase02 from './ffcUiModels/testCase02.json';
+import ffcTestCase03 from './ffcUiModels/testCase03.json';
+import ffcTestCase04 from './ffcUiModels/testCase04.json';
+import ffcTestCase05 from './ffcUiModels/testCase05.json';
+import ffcTestCase06 from './ffcUiModels/testCase06.json';
+import ffcTestCase07 from './ffcUiModels/testCase07.json';
+import ffcTestCase08 from './ffcUiModels/testCase08.json';
+import ffcTestCase09 from './ffcUiModels/testCase09.json';
+import ffcTestCase10 from './ffcUiModels/testCase10.json';
+import ffcTestCase11 from './ffcUiModels/testCase11.json';
+import ffcTestCase12 from './ffcUiModels/testCase12.json';
 
 import {
     convertToFreeFormCanvas,
@@ -146,11 +159,18 @@ function storeStateFromConnectors(connectors) {
     }
 
     elements.start.elementType = ELEMENT_TYPE.START_ELEMENT;
-    return { elements, connectors };
+    return { elements, connectors, canvasElements: Object.values(elements).map((ele) => ele.guid) };
 }
 
 function translateNulls(uiModel) {
-    return JSON.parse(JSON.stringify(uiModel, (key, value) => (value == null ? 'null' : value)));
+    const replacer = (k, v) => {
+        if (v == null) {
+            return k !== 'parent' && k !== 'childIndex' ? 'NULL' : undefined;
+        }
+        return v;
+    };
+
+    return JSON.parse(JSON.stringify(uiModel, replacer, ''));
 }
 
 function assertConsolidatedEndConnectors(elements) {
@@ -158,7 +178,9 @@ function assertConsolidatedEndConnectors(elements) {
 }
 
 function assertCanConvertToAutoLayoutCanvas(storeState, canConvert = true) {
-    expect(canConvertToAutoLayoutCanvas(storeState)).toEqual(canConvert);
+    expect(translateNulls(canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeState)))).toEqual(
+        translateNulls(canConvert)
+    );
 }
 
 function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors) {
@@ -175,10 +197,10 @@ function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors) 
         );
 
         if (expectedEndConnectors != null) {
-            expect(endConnectors).toEqual(expectedEndConnectors);
+            expect(translateNulls(endConnectors)).toEqual(translateNulls(expectedEndConnectors));
         }
 
-        expect(ffcUiModel).toMatchSnapshot();
+        expect(translateNulls(ffcUiModel)).toMatchSnapshot();
     });
 
     it('to Auto Layout Canvas', () => {
@@ -188,11 +210,11 @@ function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors) 
             options
         );
 
-        expect(roundTripAlcUiModel).toEqual(alcUiModel);
+        expect(translateNulls(roundTripAlcUiModel)).toEqual(translateNulls(alcUiModel));
     });
 }
 
-function assertRoundTripFromFreeFormCanvas(ffcUiModel) {
+function assertRoundTripFromFreeFormCanvas(ffcUiModel, coords = startElementCoords) {
     let alcUiModel;
 
     it('from Free Form Canvas', () => {
@@ -203,10 +225,12 @@ function assertRoundTripFromFreeFormCanvas(ffcUiModel) {
 
     it('to Free Form Canvas', () => {
         const roundTripFfcUiModel = sortCanvasElementsAndConnectors(
-            removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(deepCopy(alcUiModel), startElementCoords))
+            removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(deepCopy(alcUiModel), coords))
         );
 
-        expect(roundTripFfcUiModel).toEqual(sortCanvasElementsAndConnectors(ffcUiModel));
+        expect(translateNulls(roundTripFfcUiModel)).toEqual(
+            translateNulls(sortCanvasElementsAndConnectors(ffcUiModel))
+        );
     });
 }
 
@@ -416,18 +440,54 @@ describe('flc conversion utils', () => {
                     { source: 'n2', target: 'merge' }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
                 assertCanConvertToAutoLayoutCanvas(storeState, false);
             });
-            it('with connector back to decision', () => {
+
+            it('with cross connector example 2', () => {
                 const connectors = [
                     { source: 'start', target: 'if' },
-                    { source: 'if', target: 'n1' },
-                    { source: 'if', target: 'n2' },
-                    { source: 'n1', target: 'if' }
+                    { source: 'if', target: 'if2' },
+                    { source: 'if', target: 'merge' },
+                    { source: 'if2', target: 'n1' },
+                    { source: 'if2', target: 'n2' },
+                    { source: 'n1', target: 'merge2' },
+                    { source: 'n2', target: 'merge2' },
+                    { source: 'n2', target: 'merge' }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
+                storeState.elements.if2.elementType = ELEMENT_TYPE.DECISION;
                 assertCanConvertToAutoLayoutCanvas(storeState, false);
             });
+
+            it('with cross connector example 3', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'merge' },
+                    { source: 'if', target: 'if2' },
+                    { source: 'if2', target: 'n1' },
+                    { source: 'if2', target: 'n2' },
+                    { source: 'n1', target: 'merge2' },
+                    { source: 'n2', target: 'merge2' },
+                    { source: 'n2', target: 'merge' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
+                storeState.elements.if2.elementType = ELEMENT_TYPE.DECISION;
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+        });
+
+        it('with connector back to decision', () => {
+            const connectors = [
+                { source: 'start', target: 'if' },
+                { source: 'if', target: 'n1' },
+                { source: 'if', target: 'n2' },
+                { source: 'n1', target: 'if' }
+            ];
+            const storeState = storeStateFromConnectors(connectors);
+            assertCanConvertToAutoLayoutCanvas(storeState, false);
         });
 
         describe('loop', () => {
@@ -463,12 +523,13 @@ describe('flc conversion utils', () => {
             it('with ended branch', () => {
                 const connectors = [
                     { source: 'start', target: 'loop' },
-                    { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
+                    { source: 'loop', target: 's1', type: 'LOOP_NEXT' },
                     { source: 'loop', target: 'n2', type: 'LOOP_END' }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
                 storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
+                storeState.elements.s1.connectorCount = 0;
+
                 assertCanConvertToAutoLayoutCanvas(storeState, false);
             });
 
@@ -527,7 +588,7 @@ describe('flc conversion utils', () => {
                     )
                 );
 
-                expect(ffcUiModel).toMatchSnapshot();
+                expect(translateNulls(ffcUiModel)).toMatchSnapshot();
             });
         });
         describe('round trip from Free Form', () => {
@@ -583,6 +644,45 @@ describe('flc conversion utils', () => {
                 });
                 describe('empty', () => {
                     assertRoundTripFromFreeFormCanvas(ffcLoopEmpty);
+                });
+            });
+            describe('test cases', () => {
+                const coords = [0, 0];
+                describe('ffcTestCase01', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase01, coords);
+                });
+                describe('ffcTestCase02', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase02, coords);
+                });
+                describe('ffcTestCase03', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase03, coords);
+                });
+                describe('ffcTestCase04', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase04, coords);
+                });
+                describe('ffcTestCase05', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase05, coords);
+                });
+                describe('ffcTestCase06', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase06, coords);
+                });
+                describe('ffcTestCase07', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase07, coords);
+                });
+                describe('ffcTestCase08', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase08, coords);
+                });
+                describe('ffcTestCase09', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase09, coords);
+                });
+                describe('ffcTestCase10', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase10, coords);
+                });
+                describe('ffcTestCase11', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase11, coords);
+                });
+                describe('ffcTestCase12', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcTestCase12, coords);
                 });
             });
         });

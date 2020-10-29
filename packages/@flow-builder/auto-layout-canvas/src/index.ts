@@ -63,7 +63,9 @@ export {
     DELETE_ALL,
     areAllBranchesTerminals,
     assertAutoLayoutState,
-    inlineBranches
+    inlineBranches,
+    resolveParent,
+    resolveBranchHead
 } from './modelUtils';
 
 export {

@@ -2,7 +2,7 @@
   "invocableActionsForAutoLaunchedFlow":[
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Activates a session-based permission set for the running user.",
       "label":"Activate Session-Based Permission Set",
@@ -19,7 +19,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Post to the feed for a specific record, user, or Chatter group.",
       "label":"Post to Chatter",
@@ -36,7 +36,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Choose Price Book",
       "label":"Choose Price Book",
@@ -53,7 +53,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Request contact from support on behalf of the customer. Use a screen to let customers provide their contact details and describe their issue.",
       "label":"Create Customer Contact Request",
@@ -70,7 +70,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Create Service Report",
       "label":"Create Service Report from a standard or custom template.",
@@ -87,7 +87,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Send custom notifications to recipients through desktop or mobile",
       "label":"Send Custom Notification",
@@ -104,7 +104,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Deactivate a session-based permission set for the running user.",
       "label":"Deactivate Session-Based Permission Set",
@@ -121,7 +121,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Send an email where you specify the subject, body, and recipients.",
       "label":"Send Email",
@@ -138,7 +138,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Generate work orders from a maintenance plan.",
       "label":"Generate Work Orders",
@@ -155,7 +155,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Log a Call",
@@ -172,7 +172,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Child Case",
@@ -189,7 +189,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Add Member",
@@ -206,7 +206,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Add Record",
@@ -223,7 +223,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Create New Task",
@@ -240,7 +240,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Log a Call",
@@ -257,7 +257,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Account",
@@ -274,7 +274,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Case",
@@ -291,7 +291,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Contact",
@@ -308,7 +308,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Event",
@@ -325,7 +325,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Group",
@@ -342,7 +342,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Lead",
@@ -359,7 +359,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Note",
@@ -376,7 +376,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Opportunity",
@@ -393,7 +393,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"New Task",
@@ -410,7 +410,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Change Date",
@@ -427,7 +427,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Edit Comments",
@@ -444,7 +444,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Change Priority",
@@ -461,7 +461,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":null,
       "label":"Change Status",
@@ -478,7 +478,7 @@
     },
     {
       "iconId":null,
-      "allowsTransactionControl":true,
+      "allowsTransactionControl":false,
       "iconName":null,
       "description":"Submit a Salesforce record for approval.",
       "label":"Submit for Approval",

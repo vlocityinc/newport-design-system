@@ -8,4 +8,4 @@ packages/flow-builder-pocs/
 FlowBuilderControllerGoldFileTest/
 jest-report/
 **/tsconfig.json
-
+**/*.md

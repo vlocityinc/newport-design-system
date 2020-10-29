@@ -63,16 +63,16 @@
     {
       "labelEdit":"Edit Sort",
       "isElementSubtype":true,
-      "color":"iconName",
+      "color":"#ff8000",
       "name":"SortCollectionProcessor",
-      "icon":"#ff8000",
+      "icon":"iconName",
       "description":"Used for sorting Collection Variables",
       "label":"Sort",
       "labelNew":"New Sort",
       "classification":"Node",
       "elementType":"CollectionProcessor",
       "labelPlural":"Sorts",
-      "configComponent":"configurationName"
+      "configComponent":"builder_platform_interaction:sortEditor"
     }
   ]
 }

@@ -3,7 +3,7 @@
     "access":{
       "orgHasFlowBuilderDebug":false,
       "orgHasBeforeSaveEnabled":true,
-      "orgHasFlowScreenSections":false,
+      "orgHasFlowScreenSections":true,
       "orgHasFlowBuilderGuardrails":true
     },
     "devMode":false,
