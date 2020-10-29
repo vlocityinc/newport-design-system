@@ -433,9 +433,11 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
     for (let i = 0; i < timeTriggers.length; i++) {
         const timeTrigger = timeTriggers[i];
-        const newTimeTrigger = createTimeTrigger(timeTrigger);
-        childReferences = updateChildReferences(childReferences, newTimeTrigger);
-        newTimeTriggers = [...newTimeTriggers, newTimeTrigger];
+        if (timeTrigger.name) {
+            const newTimeTrigger = createTimeTrigger(timeTrigger);
+            childReferences = updateChildReferences(childReferences, newTimeTrigger);
+            newTimeTriggers = [...newTimeTriggers, newTimeTrigger];
+        }
     }
 
     maxConnections = newTimeTriggers.length + 1;

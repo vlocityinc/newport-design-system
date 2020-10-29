@@ -654,11 +654,12 @@ describe('Start element', () => {
             expect(result.canvasElement.children).toEqual([null]);
         });
 
-        describe('connection properties of a start element', () => {
+        describe('connection properties of a start element for record triggered flow', () => {
             it('result has availableConnections', () => {
-                expect.assertions(2);
+                expect.assertions(3);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.canvasElement.availableConnections).toHaveLength(1);
+                expect(result.canvasElement.maxConnections).toEqual(2);
                 expect(result.canvasElement.availableConnections[0]).toEqual({
                     type: CONNECTOR_TYPE.IMMEDIATE
                 });
@@ -669,6 +670,30 @@ describe('Start element', () => {
                 const result = createStartElementWhenUpdatingFromPropertyEditor(newStartElement);
                 expect(result.availableConnections).toHaveLength(1);
                 expect(result.availableConnections[0]).toEqual({
+                    type: CONNECTOR_TYPE.IMMEDIATE
+                });
+            });
+            it('result has only 1 available connection (IMMEDIATE) and 1 maxConnections for a start element with blank time trigger and no connections', () => {
+                expect.assertions(3);
+                const startElementWithBlankTimeTrigger = {
+                    guid: newStartElementGuid,
+                    timeTriggers: [
+                        {
+                            guid: MOCK_GUID,
+                            elementType: ELEMENT_TYPE.TIME_TRIGGER,
+                            name: '',
+                            label: '',
+                            offsetNumber: '',
+                            offsetUnit: '',
+                            timeSource: ''
+                        }
+                    ],
+                    triggerType: 'RecordAfterSave'
+                };
+                const result = createStartElementWhenUpdatingFromPropertyEditor(startElementWithBlankTimeTrigger);
+                expect(result.canvasElement.availableConnections).toHaveLength(1);
+                expect(result.canvasElement.maxConnections).toEqual(1);
+                expect(result.canvasElement.availableConnections[0]).toEqual({
                     type: CONNECTOR_TYPE.IMMEDIATE
                 });
             });

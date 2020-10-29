@@ -8,8 +8,8 @@
     <packaging>jar</packaging>
     <properties>
         <aura.version>0.6000.3025</aura.version>
-        <lwc.api.version>0.230.9</lwc.api.version>
-        <lwc.version>1.8.7</lwc.version>
+        <lwc.api.version>0.230.10</lwc.api.version>
+        <lwc.version>1.8.8</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <component.dir>ui-interaction-builder-components</component.dir>
