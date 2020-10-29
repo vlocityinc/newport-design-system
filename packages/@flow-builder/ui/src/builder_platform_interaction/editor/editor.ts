@@ -95,7 +95,9 @@ import {
     getToolboxElements,
     getElementsMetadata,
     screenFieldsReferencedByLoops,
-    debugInterviewResponseCallback
+    debugInterviewResponseCallback,
+    extractPropsFromStoreState,
+    CONNECTION_PROPS
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -142,7 +144,13 @@ import {
 } from 'builder_platform_interaction/flcConversionUtils';
 import { FlowElement, Guid } from 'builder_platform_interaction/flowModel';
 
-const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
+const {
+    logInteraction,
+    logPerfTransactionEnd,
+    logPerfTransactionStart,
+    setAppName,
+    logMetricsServiceErrorTransaction
+} = loggingUtils;
 const {
     ShiftFocusForwardCommand,
     ShiftFocusBackwardCommand,
@@ -714,6 +722,11 @@ export default class Editor extends LightningElement {
     canConvertToAutoLayoutCheck() {
         if (!canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeInstance.getCurrentState()))) {
             logInteraction('editor', 'editor', { operationStatus: 'open in auto-canvas failed' }, '');
+            const storeStateWithOnlyConnectionInfo = extractPropsFromStoreState(
+                storeInstance.getCurrentState(),
+                CONNECTION_PROPS
+            );
+            logMetricsServiceErrorTransaction(JSON.stringify(storeStateWithOnlyConnectionInfo));
             return false;
         }
 
