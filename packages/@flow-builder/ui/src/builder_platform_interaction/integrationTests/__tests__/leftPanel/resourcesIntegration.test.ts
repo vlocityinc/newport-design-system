@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import Editor from 'builder_platform_interaction/editor';
-import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import { resetState, translateFlowToUIAndDispatch, loadFlow } from '../integrationTestUtils';
 import {
     getChevronElement,
     getResourceDetail,
@@ -18,6 +18,8 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { initializeAuraFetch } from '../serverDataTestUtils';
 import { loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
@@ -126,6 +128,28 @@ describe('Resource tab - resource', () => {
 
         chevron = getChevronElement(leftPanel, addressComponentField.guid);
         // Check the component has also been deleted
+        expect(chevron).toBeNull();
+    });
+});
+
+// Check time trigger element is not in the left panel
+describe('Record Triggered Flow resource tab', () => {
+    let editor;
+    let leftPanel;
+    beforeEach(async () => {
+        editor = createEditorForTest();
+        const store = Store.getStore();
+        initializeAuraFetch();
+        await loadFlow(recordTriggeredFlow, store);
+        leftPanel = getLeftPanel(editor);
+    });
+    afterEach(() => {
+        resetState();
+    });
+    it('should not have time trigger element', async () => {
+        const startElement = getElementByDevName('$Record');
+        const timeTriggersNode = getElementForPropertyEditor(startElement);
+        const chevron = getChevronElement(leftPanel, timeTriggersNode.timeTriggers[0].guid);
         expect(chevron).toBeNull();
     });
 });
