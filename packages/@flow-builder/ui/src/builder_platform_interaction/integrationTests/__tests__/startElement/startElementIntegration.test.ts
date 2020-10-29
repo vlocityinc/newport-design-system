@@ -30,7 +30,9 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     TIME_SOURCE_COMBOBOX: '.timeSourceCombobox',
     OFFSET_NUMBER_INPUT: '.offsetNumberInput',
-    OFFSET_UNIT_COMBOBOX: '.offsetUnitAndDirectionCombobox'
+    OFFSET_UNIT_COMBOBOX: '.offsetUnitAndDirectionCombobox',
+    DELETE_TIME_TRIGGER_BUTTON: '.delete-time-trigger-btn',
+    IMMEDIATE_TIME_TRIGGER: '.test-immediate-time-trigger'
 };
 
 const createComponentForTest = (contextRecordEditorElement) => {
@@ -63,6 +65,14 @@ const getReorderableVerticalNavigationTitle = (timeTriggerEditor, index) => {
 
 const getAddTimeTriggerButton = (timeTriggerEditor) => {
     return deepQuerySelector(timeTriggerEditor, [SELECTORS.LIGHTNING_BUTTON_ICON]);
+};
+
+const getImmediateTimeTrigger = (timeTriggerEditor) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.IMMEDIATE_TIME_TRIGGER]);
+};
+
+const getDeleteTimeTriggerButton = (timeTriggerEditor) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.DELETE_TIME_TRIGGER_BUTTON]);
 };
 
 const getPathLabelInput = (timeTriggerEditor) => {
@@ -274,7 +284,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             );
         });
     });
-    describe('new Time Trigger', () => {
+    describe('New Time Trigger', () => {
         beforeEach(async () => {
             getAddTimeTriggerButton(timeTriggerComponent).click();
             await ticks(10);
@@ -298,6 +308,24 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
         });
         it('Should select the correct Offset Unit', () => {
             expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe('');
+        });
+    });
+    describe('Delete Time Trigger', () => {
+        it('sets the first time trigger as active when there are 3 time triggers (including immediate) and the second one is deleted', async () => {
+            expect.assertions(1);
+            getReorderableVerticalNavigationTitle(timeTriggerComponent, 1).click();
+            await ticks(1);
+            getDeleteTimeTriggerButton(timeTriggerComponent).click();
+            await ticks(1);
+            expect(getApiNameInput(timeTriggerComponent).value).toBe(timeTriggersNode.timeTriggers[0].name.value);
+        });
+        it('sets the immediate time trigger as active when all time triggers are deleted except immediate', async () => {
+            expect.assertions(1);
+            getDeleteTimeTriggerButton(timeTriggerComponent).click();
+            await ticks(1);
+            getDeleteTimeTriggerButton(timeTriggerComponent).click();
+            await ticks(1);
+            expect(getImmediateTimeTrigger(timeTriggerComponent)).not.toBe(null);
         });
     });
 });
