@@ -21,6 +21,7 @@
     <aura:attribute name="builderType" type="String" description="Type of the builder application" />
     <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
     <aura:attribute name="guardrailsParams" type="Map" default="{}" description="Params to execute guardrails" />
+    <aura:attribute name="complianceBannerEnabled" type="Boolean" description="Is Compliance Banner org perm enabled" />
 
     <!--Private Attributes-->
     <aura:attribute name="storeInstance" type="Object" description="This is instance of global store." />
@@ -77,6 +78,9 @@
 
     <div class="flow-builder-container">
         <force:toastManager global="true" />
+        <aura:if isTrue="{!v.complianceBannerEnabled}">
+            <one:systemMessage aura:id="oneSystemMessage" openUrlsInNewWindow="true" />            
+        </aura:if>
         <builder_platform_interaction:editor 
             flowId="{!v.flowId}" 
             flowDefId="{!v.flowDefId}"

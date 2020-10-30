@@ -19,6 +19,7 @@
     />
     <aura:attribute name="builderType" type="String" description="Flow builder type: FlowBuilder, JourneyBuilder etc" />
     <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
+    <aura:attribute name="complianceBannerEnabled" type="Boolean" description="Is Compliance Banner org perm enabled" />
 
     <aura:attribute name="ready" type="Boolean" access="private" description="Flag used to render the editor." />
 
@@ -40,6 +41,7 @@
                 interviewId="{!v.interviewId}"
                 builderType="{!v.builderType}"
                 builderConfig="{!v.builderConfig}"
+                complianceBannerEnabled="{!v.complianceBannerEnabled}"
             ></builder_platform_interaction:container>
         </builder_platform_interaction:guardrailsManager>
     </aura:if>

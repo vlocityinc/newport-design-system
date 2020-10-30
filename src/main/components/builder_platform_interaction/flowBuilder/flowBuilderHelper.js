@@ -21,7 +21,11 @@
             var contextLib = cmp.find('contextLib');
             contextLib.setContext(response.data);
             var builderConfig = response.data.builderConfig ? response.data.builderConfig : {};
+            var complianceBannerEnabled = response.data.access
+                ? response.data.access.orgHasComplianceBannerEnabled
+                : false;
             cmp.set('v.builderConfig', builderConfig);
+            cmp.set('v.complianceBannerEnabled', complianceBannerEnabled);
             cmp.set('v.ready', true);
         }
     }
