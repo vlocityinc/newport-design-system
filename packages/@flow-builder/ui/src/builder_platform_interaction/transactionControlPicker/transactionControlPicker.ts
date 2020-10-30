@@ -18,7 +18,7 @@ export default class TransactionControlPicker extends LightningElement {
     }
 
     set flowTransactionModel(newValue) {
-        this._flowTransactionModel = newValue || FLOW_TRANSACTION_MODEL.AUTOMATIC;
+        this._flowTransactionModel = newValue;
     }
 
     get whetherToStartTxnOptions() {

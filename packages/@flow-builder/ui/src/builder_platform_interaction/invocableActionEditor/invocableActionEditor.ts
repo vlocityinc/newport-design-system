@@ -20,10 +20,11 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent
+    SetPropertyEditorTitleEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import {
     fetchDetailsForInvocableAction,
     isAutomaticOutputHandlingSupported,
@@ -91,6 +92,18 @@ export default class InvocableActionEditor extends LightningElement {
                 ...this.actionCallNode,
                 storeOutputAutomatically: false
             };
+        }
+    }
+
+    updateFlowTransactionModel() {
+        const propName = 'flowTransactionModel';
+        let transactionModel = getValueFromHydratedItem(this.actionCallNode.flowTransactionModel);
+        // If the transaction control action is supported but there is no default value, it is set to automatic
+        // Hence Automatic radio input is selected in the UI.
+        if (!transactionModel && this.showTransactionControlPicker) {
+            transactionModel = FLOW_TRANSACTION_MODEL.AUTOMATIC;
+            const event = new PropertyChangedEvent(propName, transactionModel, null);
+            this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
         }
     }
 
@@ -261,6 +274,7 @@ export default class InvocableActionEditor extends LightningElement {
                     );
                     this.updateDataTypeMappings();
                     this.updatePropertyEditorTitle();
+                    this.updateFlowTransactionModel();
                 }
             })
             .catch(() => {
