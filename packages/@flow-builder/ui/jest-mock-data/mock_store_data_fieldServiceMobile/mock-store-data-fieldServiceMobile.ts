@@ -13,3 +13,6 @@ export const getElementByName = (name) => {
     }
     return undefined;
 };
+
+export const getAccountWithFields = getElementByName('getAccountWithFields');
+export const getAccountWithSObject = getElementByName('get_Account_with_sObject');

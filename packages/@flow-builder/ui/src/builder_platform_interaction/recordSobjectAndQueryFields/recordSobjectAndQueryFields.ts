@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSobjectAndQueryFieldsLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -8,7 +7,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     labels = LABELS;
 
     @track
-    state = {
+    state: { recordEntityName: string; outputReference: string; queriedFields: Object[]; isCollection: boolean } = {
         recordEntityName: '',
         outputReference: '',
         queriedFields: [],
@@ -95,7 +94,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     /**
      * @param {String[]} fields the selected fields
      */
-    set queriedFields(fields) {
+    set queriedFields(fields: Object[]) {
         this.state.queriedFields = fields;
     }
 
@@ -104,17 +103,23 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
         return this.state.queriedFields;
     }
 
-    get sObjectVariablePickerTitle() {
+    /**
+     * Supports pill display?
+     */
+    @api
+    isPillSupported = false;
+
+    get sObjectVariablePickerTitle(): string {
         return !this.state.isCollection
             ? format(this.labels.selectVariableToStore, this.resourceDisplayText)
             : format(this.labels.selectVariableToStoreRecords, this.resourceDisplayText);
     }
 
-    get sObjectVariablePickerLabel() {
+    get sObjectVariablePickerLabel(): string {
         return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
     }
 
-    get sObjectVariablePickerPlaceholder() {
+    get sObjectVariablePickerPlaceholder(): string {
         return !this.state.isCollection ? this.labels.searchRecords : this.labels.searchRecordCollections;
     }
 }

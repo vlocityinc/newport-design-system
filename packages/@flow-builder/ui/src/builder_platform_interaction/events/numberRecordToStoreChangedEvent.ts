@@ -1,17 +1,19 @@
-// @ts-nocheck
 const eventName = 'numberrecordtostorechanged';
 
-export class NumberRecordToStoreChangedEvent extends Event {
+type NumberRecordToStoreChangedEventDetail = {
+    getFirstRecordOnly?: boolean;
+};
+
+export class NumberRecordToStoreChangedEvent extends CustomEvent<NumberRecordToStoreChangedEventDetail> {
     constructor(getFirstRecordOnly) {
         super(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true
+            bubbles: true,
+            detail: {
+                getFirstRecordOnly
+            }
         });
-        this.detail = {
-            getFirstRecordOnly
-        };
     }
-
     static EVENT_NAME = eventName;
 }

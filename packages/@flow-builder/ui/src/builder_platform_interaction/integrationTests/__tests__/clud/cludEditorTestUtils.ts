@@ -67,8 +67,19 @@ export const getRecordFilter = (editor) =>
 export const getRecordInputOutputAssignments = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 
-export const removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox = async (element) => {
-    const combobox = getResourceCombobox(element);
+export const getRecordSobjectAndQueryFields = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
+
+export const getRecordSort = (editor) => editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_SORT);
+
+export const getRecordQueryFields = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
+
+export const getRecordNumberRecordToStore = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_NUMBER_RECORD_TO_STORE);
+
+export const removePillAndGetGroupedCombobox = async (element, extraParentSelectors: string[] = []) => {
+    const combobox = getResourceCombobox(element, extraParentSelectors);
     await removePill(combobox);
-    return getResourceGroupedCombobox(element);
+    return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };

@@ -18,7 +18,7 @@ import {
     getEntityResourcePickerChildGroupedComboboxComponent,
     getEntityResourcePicker,
     getBaseResourcePickerCombobox,
-    removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox,
+    removePillAndGetGroupedCombobox,
     getResourceCombobox,
     getRecordStoreOption,
     getSObjectOrSObjectCollectionPicker,
@@ -244,45 +244,35 @@ describe('Record Delete Editor', () => {
                     );
                 });
                 it('contains sobject collection', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCannotBeTraversedInResourcePicker(
                         ['accountSObjectCollectionVariable'],
                         sObjectOrSObjectCollectionPicker
                     );
                 });
                 it('contains single sobject, no traversal', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCannotBeTraversedInResourcePicker(
                         ['accountSObjectVariable'],
                         sObjectOrSObjectCollectionPicker
                     );
                 });
                 it('contains apex that only contains a single sobject', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCanBeTraversedInResourcePicker(
                         ['apexContainsOnlyASingleSObjectVariable'],
                         sObjectOrSObjectCollectionPicker
                     );
                 });
                 it('contains apex that only contains an SObject collection', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCanBeTraversedInResourcePicker(
                         ['apexContainsOnlyAnSObjectCollectionVariable'],
                         sObjectOrSObjectCollectionPicker
                     );
                 });
                 it('contains complex apex type and shows up only sobject or sobject collection fields', async () => {
-                    const recordVariablePicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    const recordVariablePicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable'], recordVariablePicker);
                     await expectCannotBeTraversedInResourcePicker(
                         ['apexComplexTypeVariable', 'acct'],
@@ -298,9 +288,7 @@ describe('Record Delete Editor', () => {
                     );
                 });
                 it('contains elements that contains apex that contains sobject and shows only sobject (single or collection) fields up. Sobject fields should not be traversable', async () => {
-                    const recordVariablePicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    const recordVariablePicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable'], recordVariablePicker);
                     await expectCanBeTraversedInResourcePicker(
                         ['apexComplexTypeTwoVariable', 'testOne'],
@@ -320,9 +308,7 @@ describe('Record Delete Editor', () => {
                     );
                 });
                 it('does not contain element that is not sobject or does not contain sobject', async () => {
-                    const recordVariablePicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordDeleteComponent
-                    );
+                    const recordVariablePicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCannotBeSelectedInResourcePicker(['apexCarVariable'], recordVariablePicker);
                 });
                 describe('pills', () => {

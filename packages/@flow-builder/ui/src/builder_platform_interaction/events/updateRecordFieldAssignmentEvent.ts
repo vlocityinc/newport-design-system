@@ -1,9 +1,13 @@
-// @ts-nocheck
 const eventName = 'updaterecordfieldassignment';
 
-export class UpdateRecordFieldAssignmentEvent {
-    constructor(index, value, error = null) {
-        return new CustomEvent(eventName, {
+type UpdateRecordFieldAssignmentEventDetail = {
+    index: number;
+    value: string | null;
+    error: string | null;
+};
+export class UpdateRecordFieldAssignmentEvent extends CustomEvent<UpdateRecordFieldAssignmentEventDetail> {
+    constructor(index: number, value: string | null, error: string | null = null) {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

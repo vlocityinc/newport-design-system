@@ -54,7 +54,7 @@ import {
     getRadioGroups,
     getEntityResourcePicker,
     getOutputBaseResourcePickerCombobox,
-    removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox
+    removePillAndGetGroupedCombobox
 } from './cludEditorTestUtils';
 import { getFieldToFerovExpressionBuilders } from '../recordFilterTestUtils';
 
@@ -354,7 +354,7 @@ describe('Record Create Editor', () => {
                         getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
                     ).toBeDefined();
                 });
-                describe('pills (sObjectOrSObjectCollectionPicker)', () => {
+                describe('pills', () => {
                     it('displays empty combobox and no pill when pill is cleared', async () => {
                         const combobox = await getResourceCombobox(recordCreateElement);
                         expect(combobox.hasPill).toBe(true);
@@ -639,25 +639,19 @@ describe('Record Create Editor', () => {
                     recordCreateElement = createComponentForTest(recordCreateNode);
                 });
                 it('should contain single sobject elements, and no traversal', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
                     await expectCannotBeSelectedInResourcePicker(['accountSObjectCollectionVariable']);
                 });
                 it('should contain elements that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
                     await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
                     await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
                     await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
                 });
                 it('should contain elements that contains apex that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
                     await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
                     await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acct']);
@@ -665,21 +659,15 @@ describe('Record Create Editor', () => {
                     await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
                 });
                 it('should not contain elements that are not sobject or contain no sobject', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
                 });
                 it('should not contain elements that contains only a collection of sobject', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCannotBeSelectedInResourcePicker(['apexContainsOnlyAnSObjectCollectionVariable']);
                 });
                 it('should throw validation error if selecting a non SObject from the combobox', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!apexComplexTypeVariable}');
 
                     expect(getResourceCombobox(recordCreateElement).errorMessage).toBe(
@@ -687,9 +675,7 @@ describe('Record Create Editor', () => {
                     );
                 });
                 it('should throw validation error if manually entering an SObject collection', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!accountSObjectCollectionVariable}');
 
                     expect(getResourceCombobox(recordCreateElement).errorMessage).toBe(
@@ -790,31 +776,23 @@ describe('Record Create Editor', () => {
                     recordCreateElement = createComponentForTest(recordCreateNode);
                 });
                 it('should contain sobject collection elements, and no traversal', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCannotBeTraversedInResourcePicker(['accountSObjectCollectionVariable']);
                     await expectCannotBeSelectedInResourcePicker(['accountSObjectVariable']);
                 });
                 it('should contain elements that contains sobject and shows only sobject collection fields up.', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
                     await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
                     await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'acct']);
                     await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
                 });
                 it('should not contain elements that are not sobject or contain no sobject', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
                 });
                 it('should not contain elements that contains only a single sobject', async () => {
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     await expectCannotBeSelectedInResourcePicker(['apexContainsOnlyASingleSObjectVariable']);
                 });
                 describe('pills', () => {
@@ -1080,9 +1058,7 @@ describe('Record Create Editor', () => {
                         getRadioGroups(getRecordStoreOption(recordCreateElement))[0],
                         'allRecords'
                     );
-                    sObjectOrSObjectCollectionPicker = await removePillAndGetSObjectOrSObjectCollectionPickerGroupedCombobox(
-                        recordCreateElement
-                    );
+                    sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
                     // Then
                     await expectCannotBeTraversedInResourcePicker(['vAccounts']);
                     await expectCannotBeSelectedInResourcePicker(['vMyTestAccount']);

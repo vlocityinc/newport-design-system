@@ -1,15 +1,16 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
-
 import { resetState, setupStateForFlow } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
+import {
+    NUMBER_RECORDS_TO_STORE,
+    SORT_ORDER,
+    VARIABLE_AND_FIELD_MAPPING_VALUES
+} from 'builder_platform_interaction/recordEditorLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -17,48 +18,34 @@ import {
     changeEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { getEntityResourcePicker } from './cludEditorTestUtils';
+import { getEntityResourcePicker, getRecordQueryFields, getRecordSort } from './cludEditorTestUtils';
 
-const PROCESS_TYPE_FLOW = 'Flow';
+const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
-const SELECTORS = {
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
-};
-
-const getRecordSort = (recordLookupEditor) => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
-};
-
-const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME, processType = PROCESS_TYPE_FLOW) => {
+const createComponentForTest = (
+    node,
+    mode = EditElementEvent.EVENT_NAME,
+    processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
-    node.outputReferenceIndex = { value: 'guid', error: null };
-    node.objectIndex = { value: 'guid', error: null };
-    // Assign needs to be in this order as "mode" is using the flowOutputHandling
     Object.assign(el, { node, processType, mode });
     document.body.appendChild(el);
     return el;
 };
 
-const getVariableAndFieldMappingRadioButtonGroup = (recordLookupEditor) => {
-    return deepQuerySelector(recordLookupEditor, [
-        SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT,
-        SELECTORS.LIGHTNING_RADIO_GROUP
+const getVariableAndFieldMappingRadioButtonGroup = (recordLookupEditor) =>
+    deepQuerySelector(recordLookupEditor, [
+        INTERACTION_COMPONENTS_SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
     ]);
-};
 
-const getQueryFields = (recordLookupEditor) => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
-};
-
-const getAutomaticRecordStoreOptionsRadioGroup = (recordLookupEditor) => {
-    return deepQuerySelector(recordLookupEditor, [
-        SELECTORS.RECORD_NUMBER_RECORD_TO_STORE,
-        SELECTORS.LIGHTNING_RADIO_GROUP
+const getAutomaticRecordStoreOptionsRadioGroup = (recordLookupEditor) =>
+    deepQuerySelector(recordLookupEditor, [
+        INTERACTION_COMPONENTS_SELECTORS.RECORD_NUMBER_RECORD_TO_STORE,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
     ]);
-};
 
-describe('Record Lookup Editor', () => {
+describe('Record Lookup Editor (automatic support)', () => {
     let recordLookupNode, recordLookupElement;
     beforeAll(async () => {
         await setupStateForFlow(flowWithAllElements);
@@ -67,71 +54,66 @@ describe('Record Lookup Editor', () => {
         resetState();
     });
     describe('Add new element', () => {
-        beforeEach(() => {
+        beforeAll(() => {
             recordLookupNode = getElementForPropertyEditor({
-                locationX: 10,
-                locationY: 10,
                 elementType: ELEMENT_TYPE.RECORD_LOOKUP
             });
+        });
+        beforeEach(() => {
             recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
         });
-        it('entity picker should be empty', () => {
+        it('entity picker should be displayed and no "displayText"', async () => {
             const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
-            return resolveRenderCycles(() => {
-                expect(entityResourcePicker.value.displayText).toBeUndefined();
-            });
+            expect(entityResourcePicker).not.toBeNull();
+            expect(entityResourcePicker.value.displayText).toBeUndefined();
         });
     });
     describe('Working with automatic output handling', () => {
-        beforeEach(() => {
+        beforeAll(() => {
             const element = getElementByDevName('lookupRecordAutomaticOutput');
             recordLookupNode = getElementForPropertyEditor(element);
+        });
+        beforeEach(() => {
             recordLookupElement = createComponentForTest(recordLookupNode, EditElementEvent.EVENT_NAME);
         });
         it('Variable and Field Mapping radiobutton group: Automatic should be selected', () => {
             const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
                 recordLookupElement
             );
-            expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
+            expect(variableAndFieldMappingRadioButtonGroup).not.toBeNull();
             expect(variableAndFieldMappingRadioButtonGroup.value).toBe(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC);
         });
         it('"recordQuery" fields should not be visible', () => {
-            const recordQueryFields = getQueryFields(recordLookupElement);
+            const recordQueryFields = getRecordQueryFields(recordLookupElement);
             expect(recordQueryFields).toBeNull();
         });
         it('record store option should have "Only the first record"', () => {
             const recordStoreOptionsRadioGroup = getAutomaticRecordStoreOptionsRadioGroup(recordLookupElement);
-            return resolveRenderCycles(() => {
-                expect(recordStoreOptionsRadioGroup.value).toBe('firstRecord');
-            });
+            expect(recordStoreOptionsRadioGroup.value).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
         });
         it('sortField and SortOrder should be correctly displayed', () => {
             const recordSortElement = getRecordSort(recordLookupElement);
-            return resolveRenderCycles(() => {
-                expect(recordSortElement.sortOrder).toBe('NotSorted');
-            });
+            expect(recordSortElement.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
         });
         describe('Select Automatic with flow on the variable And Field Mapping Radio Button Group', () => {
             let variableAndFieldMappingRadioButtonGroup;
-            beforeEach(() => {
+            beforeEach(async () => {
                 variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
                     recordLookupElement
                 );
                 variableAndFieldMappingRadioButtonGroup.dispatchEvent(
                     changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS)
                 );
+                await ticks(1);
             });
             it('Variable and Field Mapping radiobutton group: Automatic should be selected', () => {
-                variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                    recordLookupElement
-                );
-                expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
+                expect(variableAndFieldMappingRadioButtonGroup).not.toBeNull();
                 expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
                     VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
                 );
             });
             it('Query fields should be displayed', () => {
-                const recordQueryFields = getQueryFields(recordLookupElement);
+                const recordQueryFields = getRecordQueryFields(recordLookupElement);
                 expect(recordQueryFields.queriedFields[0].field.value).toBe('Id');
                 expect(recordQueryFields.queriedFields[1].field.value).toBe('');
                 expect(recordQueryFields.queriedFields[2]).toBeUndefined();
@@ -139,20 +121,17 @@ describe('Record Lookup Editor', () => {
         });
         describe('Select Manual on the variable And Field Mapping Radio Button Group', () => {
             let variableAndFieldMappingRadioButtonGroup;
-            beforeEach(() => {
+            beforeEach(async () => {
                 variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
                     recordLookupElement
                 );
                 variableAndFieldMappingRadioButtonGroup.dispatchEvent(
                     changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                 );
+                await ticks(1);
             });
             it('Variable and Field Mapping radiobutton group: Automatic should be selected', async () => {
-                await ticks(1);
-                variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                    recordLookupElement
-                );
-                expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
+                expect(variableAndFieldMappingRadioButtonGroup).not.toBeNull();
                 expect(variableAndFieldMappingRadioButtonGroup.value).toBe(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL);
             });
         });

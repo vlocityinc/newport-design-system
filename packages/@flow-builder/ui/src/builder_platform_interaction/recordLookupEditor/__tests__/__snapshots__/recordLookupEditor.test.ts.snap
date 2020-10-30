@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`record-lookup-editor Process type NOT supporting the automatic mode Adding element After entity (object) is selected check UI - child components displayed or not (snapshot) 1`] = `
+exports[`record-lookup-editor (Process type NOT supporting automatic mode) Adding element After entity (object) is selected check UI - child components displayed or not (snapshot) 1`] = `
 <builder_platform_interaction-record-lookup-editor>
   #shadow-root(open)
     <div
@@ -296,7 +296,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
 </builder_platform_interaction-record-lookup-editor>
 `;
 
-exports[`record-lookup-editor Process type NOT supporting the automatic mode Adding element check UI - child components displayed or not (snapshot) 1`] = `
+exports[`record-lookup-editor (Process type NOT supporting automatic mode) Adding element check UI - child components displayed or not (snapshot) 1`] = `
 <builder_platform_interaction-record-lookup-editor>
   #shadow-root(open)
     <div
@@ -385,7 +385,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
 </builder_platform_interaction-record-lookup-editor>
 `;
 
-exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Fields mode) no actions check UI - child components displayed or not (snapshot) 1`] = `
+exports[`record-lookup-editor (Process type NOT supporting automatic mode) Existing element with fields check UI - child components displayed or not (snapshot) 1`] = `
 <builder_platform_interaction-record-lookup-editor>
   #shadow-root(open)
     <div
@@ -785,7 +785,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
 </builder_platform_interaction-record-lookup-editor>
 `;
 
-exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Sobject mode) No actions check UI - child components displayed or not (snapshot) 1`] = `
+exports[`record-lookup-editor (Process type NOT supporting automatic mode) Existing element with sobject Handle Events invalid "object" check UI - child components displayed or not (snapshot) 1`] = `
 <builder_platform_interaction-record-lookup-editor>
   #shadow-root(open)
     <div
@@ -813,9 +813,191 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                 >
                   <span
                     class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                    title="get Account with sObject"
+                    title="get_Account_with_sObject"
                   >
-                    get Account with sObject
+                    get_Account_with_sObject
+                  </span>
+                  <span
+                    class="slds-col slds-truncate"
+                    title="(get_Account_with_sObject)"
+                  >
+                    (get_Account_with_sObject)
+                  </span>
+                </span>
+                <span>
+                  <lightning-button-icon
+                    class="test-edit-button slds-m-left_xx-small slds-align_center"
+                  >
+                    #shadow-root(open)
+                  </lightning-button-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <div>
+                      <lightning-grouped-combobox>
+                        #shadow-root(open)
+                          <lightning-base-combobox>
+                            #shadow-root(open)
+                              <input />
+                          </lightning-base-combobox>
+                          <lightning-base-combobox
+                            data-id="lookup"
+                          >
+                            #shadow-root(open)
+                              <input />
+                          </lightning-base-combobox>
+                      </lightning-grouped-combobox>
+                    </div>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor (Process type NOT supporting automatic mode) Existing element with sobject Handle Events remove "object" check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div>
+            <div>
+              <div
+                class="test-read-only-info slds-grid slds-p-bottom_small"
+              >
+                <span
+                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
+                >
+                  <span
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title="get_Account_with_sObject"
+                  >
+                    get_Account_with_sObject
+                  </span>
+                  <span
+                    class="slds-col slds-truncate"
+                    title="(get_Account_with_sObject)"
+                  >
+                    (get_Account_with_sObject)
+                  </span>
+                </span>
+                <span>
+                  <lightning-button-icon
+                    class="test-edit-button slds-m-left_xx-small slds-align_center"
+                  >
+                    #shadow-root(open)
+                  </lightning-button-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <div>
+                      <lightning-grouped-combobox>
+                        #shadow-root(open)
+                          <lightning-base-combobox>
+                            #shadow-root(open)
+                              <input />
+                          </lightning-base-combobox>
+                          <lightning-base-combobox
+                            data-id="lookup"
+                          >
+                            #shadow-root(open)
+                              <input />
+                          </lightning-base-combobox>
+                      </lightning-grouped-combobox>
+                    </div>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor (Process type NOT supporting automatic mode) Existing element with sobject check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div>
+            <div>
+              <div
+                class="test-read-only-info slds-grid slds-p-bottom_small"
+              >
+                <span
+                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
+                >
+                  <span
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title="get_Account_with_sObject"
+                  >
+                    get_Account_with_sObject
                   </span>
                   <span
                     class="slds-col slds-truncate"
@@ -1186,188 +1368,6 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               </builder_platform_interaction-record-query-fields>
             </div>
         </builder_platform_interaction-record-sobject-and-query-fields>
-      </div>
-    </div>
-</builder_platform_interaction-record-lookup-editor>
-`;
-
-exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Sobject mode) invalid "object" check UI - child components displayed or not (snapshot) 1`] = `
-<builder_platform_interaction-record-lookup-editor>
-  #shadow-root(open)
-    <div
-      class="slds-p-horizontal_small slds-p-top_small"
-    >
-      FlowBuilderRecordEditor.recordLookupTitle
-    </div>
-    <div
-      class="slds-p-horizontal_small slds-p-top_small"
-    >
-      <builder_platform_interaction-label-description>
-        #shadow-root(open)
-          <span
-            class="slds-hide"
-          >
-            HACK TO FORCE RERENDER:
-          </span>
-          <div>
-            <div>
-              <div
-                class="test-read-only-info slds-grid slds-p-bottom_small"
-              >
-                <span
-                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
-                >
-                  <span
-                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                    title="get Account with sObject"
-                  >
-                    get Account with sObject
-                  </span>
-                  <span
-                    class="slds-col slds-truncate"
-                    title="(get_Account_with_sObject)"
-                  >
-                    (get_Account_with_sObject)
-                  </span>
-                </span>
-                <span>
-                  <lightning-button-icon
-                    class="test-edit-button slds-m-left_xx-small slds-align_center"
-                  >
-                    #shadow-root(open)
-                  </lightning-button-icon>
-                </span>
-              </div>
-            </div>
-          </div>
-      </builder_platform_interaction-label-description>
-    </div>
-    <div
-      class="slds-m-bottom_small slds-border_top"
-    >
-      <h3
-        class="slds-text-heading_small slds-p-around_small"
-      >
-        FlowBuilderRecordEditor.getRecordsOfObjectType
-      </h3>
-      <div
-        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
-      >
-        <builder_platform_interaction-entity-resource-picker>
-          #shadow-root(open)
-            <builder_platform_interaction-base-resource-picker>
-              #shadow-root(open)
-                <builder_platform_interaction-combobox>
-                  #shadow-root(open)
-                    <div>
-                      <lightning-grouped-combobox>
-                        #shadow-root(open)
-                          <lightning-base-combobox>
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                          <lightning-base-combobox
-                            data-id="lookup"
-                          >
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                      </lightning-grouped-combobox>
-                    </div>
-                </builder_platform_interaction-combobox>
-            </builder_platform_interaction-base-resource-picker>
-        </builder_platform_interaction-entity-resource-picker>
-      </div>
-    </div>
-</builder_platform_interaction-record-lookup-editor>
-`;
-
-exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Sobject mode) remove "object" check UI - child components displayed or not (snapshot) 1`] = `
-<builder_platform_interaction-record-lookup-editor>
-  #shadow-root(open)
-    <div
-      class="slds-p-horizontal_small slds-p-top_small"
-    >
-      FlowBuilderRecordEditor.recordLookupTitle
-    </div>
-    <div
-      class="slds-p-horizontal_small slds-p-top_small"
-    >
-      <builder_platform_interaction-label-description>
-        #shadow-root(open)
-          <span
-            class="slds-hide"
-          >
-            HACK TO FORCE RERENDER:
-          </span>
-          <div>
-            <div>
-              <div
-                class="test-read-only-info slds-grid slds-p-bottom_small"
-              >
-                <span
-                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
-                >
-                  <span
-                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                    title="get Account with sObject"
-                  >
-                    get Account with sObject
-                  </span>
-                  <span
-                    class="slds-col slds-truncate"
-                    title="(get_Account_with_sObject)"
-                  >
-                    (get_Account_with_sObject)
-                  </span>
-                </span>
-                <span>
-                  <lightning-button-icon
-                    class="test-edit-button slds-m-left_xx-small slds-align_center"
-                  >
-                    #shadow-root(open)
-                  </lightning-button-icon>
-                </span>
-              </div>
-            </div>
-          </div>
-      </builder_platform_interaction-label-description>
-    </div>
-    <div
-      class="slds-m-bottom_small slds-border_top"
-    >
-      <h3
-        class="slds-text-heading_small slds-p-around_small"
-      >
-        FlowBuilderRecordEditor.getRecordsOfObjectType
-      </h3>
-      <div
-        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
-      >
-        <builder_platform_interaction-entity-resource-picker>
-          #shadow-root(open)
-            <builder_platform_interaction-base-resource-picker>
-              #shadow-root(open)
-                <builder_platform_interaction-combobox>
-                  #shadow-root(open)
-                    <div>
-                      <lightning-grouped-combobox>
-                        #shadow-root(open)
-                          <lightning-base-combobox>
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                          <lightning-base-combobox
-                            data-id="lookup"
-                          >
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                      </lightning-grouped-combobox>
-                    </div>
-                </builder_platform_interaction-combobox>
-            </builder_platform_interaction-base-resource-picker>
-        </builder_platform_interaction-entity-resource-picker>
       </div>
     </div>
 </builder_platform_interaction-record-lookup-editor>

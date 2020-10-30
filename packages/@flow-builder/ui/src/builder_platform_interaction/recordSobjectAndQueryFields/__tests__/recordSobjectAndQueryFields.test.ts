@@ -1,68 +1,129 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import RecordSobjectAndQueryFields from 'builder_platform_interaction/recordSobjectAndQueryFields';
-import { isOrCanContainSelector } from 'builder_platform_interaction/selectors';
-import * as store from 'mock/storeData';
+
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { flowWithAllElementsUIModel, accountSObjectVariable, accountSObjectCollectionVariable } from 'mock/storeData';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const mockDefaultConfig = {
-    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+const newSObjectConfig = {
     recordEntityName: 'Account',
     outputReference: '',
-    queriedFields: [{ field: { value: '', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_1' }]
+    isCollection: false,
+    queriedFields: [],
+    queryable: true
+};
+const newSObjectCollectionConfig = { ...newSObjectConfig, isCollection: true };
+const queriedFields = [
+    {
+        field: {
+            value: 'Id',
+            error: null
+        },
+        rowIndex: '0e039142-2edf-4134-801f-48aa609daf60'
+    },
+    {
+        field: {
+            value: 'BillingCity',
+            error: null
+        },
+        rowIndex: '52765eb5-c6c6-4116-9b33-cd88fc0bede4'
+    },
+    {
+        field: {
+            value: 'BillingCountry',
+            error: null
+        },
+        rowIndex: '12673078-abe2-41c9-a9af-5a1672fd6b1d'
+    }
+];
+const existingSObjectConfig = {
+    recordEntityName: 'Account',
+    outputReference: accountSObjectVariable.guid,
+    isCollection: false,
+    queryable: true,
+    queriedFields
+};
+const existingSObjectCollectionConfig = {
+    ...existingSObjectConfig,
+    isCollection: true,
+    outputReference: accountSObjectCollectionVariable.guid
 };
 
-const selectors = {
-    sobjectPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    fieldsList: 'builder_platform_interaction-record-query-fields'
-};
+const getSObjectSObjectCollectionPicker = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+const getRecordQueryFields = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
 
-const getSObjectPicker = (recordStoreFieldsComponent) => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.sobjectPicker);
-};
-
-const getFieldList = (recordStoreFieldsComponent) => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.fieldsList);
-};
-
-const createComponentUnderTest = (props) => {
+const createComponentUnderTest = (props?: {}) => {
     const el = createElement('builder_platform_interaction-record-sobject-and-query-fields', {
         is: RecordSobjectAndQueryFields
     });
-    Object.assign(el, mockDefaultConfig, props);
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 };
 
-jest.mock('builder_platform_interaction/selectors', () => {
-    return {
-        isOrCanContainSelector: jest.fn()
-    };
-});
-
-describe('record-store-fields', () => {
+describe('record-sobject-and-query-fields', () => {
     beforeAll(() => {
+        // @ts-ignore
         Store.setMockState(flowWithAllElementsUIModel);
     });
     afterAll(() => {
+        // @ts-ignore
         Store.resetStore();
     });
-    isOrCanContainSelector.mockReturnValue(jest.fn().mockReturnValue([store.accountSObjectVariable]));
-    describe('sobject resource picker and fields', () => {
-        let recordSobjectAndQueryFields;
-
-        it('contains an sObject resource picker', () => {
-            recordSobjectAndQueryFields = createComponentUnderTest();
-            expect(getSObjectPicker(recordSobjectAndQueryFields)).not.toBeNull();
+    describe('new Element', () => {
+        describe('"SObjectSObjectCollectionPicker" and "RecordSQueryFields"', () => {
+            describe.each([
+                ['', newSObjectConfig],
+                ['collection ', newSObjectCollectionConfig]
+            ])('for SObject %sconfig', (collectionHeader, config) => {
+                let recordSobjectAndQueryFields;
+                beforeEach(() => {
+                    recordSobjectAndQueryFields = createComponentUnderTest(config);
+                });
+                it('contains an "SObjectSObjectCollectionPicker" displaying an empty value', () => {
+                    const sobjectOrSobjectCollectionPicker = getSObjectSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    expect(sobjectOrSobjectCollectionPicker).not.toBeNull();
+                    expect(sobjectOrSobjectCollectionPicker.value).toEqual('');
+                });
+                it('does NOT show "RecordSQueryFields"', () => {
+                    expect(getRecordQueryFields(recordSobjectAndQueryFields)).toBeNull();
+                });
+            });
         });
-
-        it('do not show fields list if outputReference is not set', () => {
-            recordSobjectAndQueryFields = createComponentUnderTest();
-            expect(getFieldList(recordSobjectAndQueryFields)).toBeNull();
+    });
+    describe('Existing Element', () => {
+        describe('"SObjectSObjectCollectionPicker" and "RecordSQueryFields"', () => {
+            describe.each([
+                ['', existingSObjectConfig],
+                ['collection ', existingSObjectCollectionConfig]
+            ])('for SObject %sconfig', (collectionHeader, config) => {
+                let recordSobjectAndQueryFields;
+                beforeEach(() => {
+                    recordSobjectAndQueryFields = createComponentUnderTest(config);
+                });
+                it('contains an "SObjectSObjectCollectionPicker" displaying the "outputReference" value', () => {
+                    const sobjectOrSobjectCollectionPicker = getSObjectSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    expect(sobjectOrSobjectCollectionPicker).not.toBeNull();
+                    expect(sobjectOrSobjectCollectionPicker.value).toEqual(config.outputReference);
+                });
+                it('does show "RecordSQueryFields" and have correct "queriedFields"', () => {
+                    const recordQueryFields = getRecordQueryFields(recordSobjectAndQueryFields);
+                    expect(recordQueryFields).not.toBeNull();
+                    expect(recordQueryFields.queriedFields).toEqual(queriedFields);
+                });
+            });
         });
+    });
+    it('does NOT support pills by default', () => {
+        const recordSobjectAndQueryFields = createComponentUnderTest();
+        expect(recordSobjectAndQueryFields.isPillSupported).toBe(false);
     });
 });

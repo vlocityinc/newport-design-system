@@ -30,6 +30,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
     FER_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-fer-to-ferov-expression-builder',
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
+    FIELD_PICKER: 'builder_platform_interaction-field-picker',
     FIELD_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
     ILLUSTRATION: 'builder_platform_interaction-illustration',

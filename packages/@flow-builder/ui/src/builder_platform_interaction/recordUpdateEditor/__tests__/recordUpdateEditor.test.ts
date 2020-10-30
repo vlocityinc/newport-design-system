@@ -1,24 +1,25 @@
 import { createElement } from 'lwc';
 import RecordUpdateEditor from '../recordUpdateEditor';
-import { accountSObjectVariable, updateAccountWithFilter } from 'mock/storeData';
-import { PropertyChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { accountSObjectVariable, flowWithAllElementsUIModel, updateAccountWithFilter } from 'mock/storeData';
+import {
+    AddRecordFieldAssignmentEvent,
+    AddRecordFilterEvent,
+    DeleteRecordFieldAssignmentEvent,
+    DeleteRecordFilterEvent,
+    PropertyChangedEvent,
+    RecordStoreOptionChangedEvent,
+    SObjectReferenceChangedEvent,
+    UpdateRecordFieldAssignmentEvent,
+    UpdateRecordFilterEvent
+} from 'builder_platform_interaction/events';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import {
-    RecordStoreOptionChangedEvent,
-    AddRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    AddRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent
-} from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -270,7 +271,7 @@ describe('record-update-editor', () => {
             describe('Handle Events', () => {
                 it('"RecordStoreOptionChangedEvent" change number record to store to All records, sObject picker should changed', async () => {
                     getRecordStoreOption(recordUpdateEditor).dispatchEvent(
-                        new RecordStoreOptionChangedEvent(true, '', false)
+                        new RecordStoreOptionChangedEvent(true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false)
                     );
                     await ticks(1);
                     const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);

@@ -1,7 +1,5 @@
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
-
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getChildComponent,
@@ -16,7 +14,6 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -24,7 +21,9 @@ import {
     blurEvent,
     textInputEvent,
     changeEvent,
-    ticks
+    ticks,
+    removePill,
+    clickPill
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
@@ -33,7 +32,12 @@ import {
     getResourceCombobox,
     getRadioGroups,
     getEntityResourcePicker,
-    getRecordStoreOption
+    getRecordStoreOption,
+    removePillAndGetGroupedCombobox,
+    getRecordFilter,
+    getRecordSobjectAndQueryFields,
+    getRecordSort,
+    getRecordInputOutputAssignments
 } from './cludEditorTestUtils';
 import {
     getGroupedComboboxItemBy,
@@ -42,7 +46,7 @@ import {
     expectCannotBeSelected
 } from '../groupedComboboxTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
-import { selectComboboxItemBy } from '../comboboxTestUtils';
+import { selectComboboxItemBy, typeMergeFieldInCombobox } from '../comboboxTestUtils';
 import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
@@ -50,51 +54,71 @@ import {
     newFilterItem
 } from '../recordFilterTestUtils';
 
-const getRecordSobjectAndQueryFieldElement = (recordLookupEditor) =>
-    recordLookupEditor.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
-    );
 const getSObjectOrSObjectCollectionPicker = (recordLookupEditor) =>
-    getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
+    getRecordSobjectAndQueryFields(recordLookupEditor).shadowRoot.querySelector(
         INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
     );
 const getSobjectAndFieldsElement = (recordLookupEditor) =>
-    getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
+    getRecordSobjectAndQueryFields(recordLookupEditor).shadowRoot.querySelector(
         INTERACTION_COMPONENTS_SELECTORS.RECORD_QUERY_FIELDS_COMPONENT
     );
-const getRecordFilter = (recordLookupEditor) =>
-    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
-const getRecordSort = (recordLookupEditor) =>
-    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_SORT);
-const getInputOutputAssignments = (recordLookupEditor) =>
-    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+
 const getAllRecordFieldPickerRows = (recordStoreFieldsComponent) =>
     recordStoreFieldsComponent.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER_ROW);
 
-const getEntityResourcePickerComboboxElement = (entityResourcePicker) => {
-    return deepQuerySelector(entityResourcePicker, [
+const getEntityResourcePickerComboboxElement = (entityResourcePicker) =>
+    deepQuerySelector(entityResourcePicker, [
         INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
         INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
-};
 
 const getRecordObjectAndQueryFieldResourceGroupedCombobox = (editor) =>
-    getResourceGroupedCombobox(getRecordSobjectAndQueryFieldElement(editor));
+    getResourceGroupedCombobox(getRecordSobjectAndQueryFields(editor));
 
-const createComponentForTest = (
-    node,
-    mode = EditElementEvent.EVENT_NAME,
-    flowOutputHandling = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
-) => {
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText',
+    () => {
+        return { default: 'Outputs from {0}' };
+    },
+    { virtual: true }
+);
+jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', () => ({ default: 'Outputs from {0}' }), {
+    virtual: true
+});
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordCreateIdAsResourceText',
+    () => ({ default: '{0}Id from {1}' }),
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
+    () => ({ default: '{0} from {1}' }),
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
+    () => {
+        return { default: 'Current Item from Loop {0}' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText',
+    () => {
+        return { default: '{0}' };
+    },
+    { virtual: true }
+);
+
+const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
-    node.outputReferenceIndex = { value: 'guid', error: null };
-    node.objectIndex = { value: 'guid', error: null };
-    // Assign needs to be in this order as "mode" is using the flowOutputHandling
-    Object.assign(el, { node, flowOutputHandling, mode });
+    Object.assign(el, { node, mode });
     document.body.appendChild(el);
     return el;
 };
+const SELECTORS = { ABBR: 'abbr' };
 
 describe('Record Lookup Editor', () => {
     let recordLookupNode, recordLookupComponent, sObjectOrSObjectCollectionPicker;
@@ -116,19 +140,21 @@ describe('Record Lookup Editor', () => {
         });
         describe('name and dev name', () => {
             let recordLookupElement, newLabel, newDevName;
-            beforeEach(() => {
+            beforeAll(() => {
                 const element = getElementByDevName('lookupRecordOutputReference');
                 recordLookupNode = getElementForPropertyEditor(element);
+            });
+            beforeEach(() => {
                 recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
             });
-            it('do not change devName if it already exists after the user modifies the name', async () => {
+            it('does not change devName if it already exists after the user modifies the name', async () => {
                 newLabel = 'new label';
                 const labelInput = getLabelDescriptionLabelElement(recordLookupElement);
                 await changeInputValue(labelInput, newLabel);
                 expect(recordLookupElement.node.label.value).toBe(newLabel);
                 expect(recordLookupElement.node.name.value).toBe('lookupRecordOutputReference');
             });
-            it('modify the dev name', async () => {
+            it('modifies the dev name', async () => {
                 newDevName = 'newName';
                 const devNameInput = getLabelDescriptionNameElement(recordLookupElement);
                 await changeInputValue(devNameInput, newDevName);
@@ -152,43 +178,187 @@ describe('Record Lookup Editor', () => {
             });
         });
         describe('Add new element', () => {
-            let recordLookupElement;
-            beforeEach(() => {
+            it('entity picker should be empty', () => {
                 recordLookupNode = getElementForPropertyEditor({
-                    locationX: 10,
-                    locationY: 10,
                     elementType: ELEMENT_TYPE.RECORD_LOOKUP
                 });
-                recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
-            });
-            it('entity picker should be empty', () => {
+                const recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
                 const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
-                return resolveRenderCycles(() => {
-                    expect(entityResourcePicker.value.displayText).toBeUndefined();
-                });
+                expect(entityResourcePicker.value.displayText).toBeUndefined();
             });
         });
         describe('Existing element', () => {
             describe('Working with sObject', () => {
-                beforeEach(() => {
+                let getGroupedCombobox;
+                beforeAll(() => {
                     const element = getElementByDevName('lookupRecordOutputReference');
                     recordLookupNode = getElementForPropertyEditor(element);
+                });
+                beforeEach(() => {
                     recordLookupComponent = createComponentForTest(recordLookupNode);
+                    getGroupedCombobox = removePillAndGetGroupedCombobox.bind(null, recordLookupComponent, [
+                        INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
+                    ]);
                 });
-                it('Selected entity is correctly displayed ', () => {
-                    const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
-                    expect(entityResourcePicker.value.displayText).toBe(recordLookupComponent.node.object.value);
+                describe('SObjectOrSObjectCollectionPicker', () => {
+                    it('Selected sObject is correctly displayed ', () => {
+                        const sObjectPicker = getSObjectOrSObjectCollectionPicker(recordLookupComponent);
+                        expect(sObjectPicker.value).toBe(recordLookupComponent.node.outputReference.value);
+                    });
+                    it('contains "New Resource"', async () => {
+                        const groupedCombobox = await removePillAndGetGroupedCombobox(recordLookupComponent, [
+                            INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
+                        ]);
+                        expect(
+                            getGroupedComboboxItemBy(
+                                groupedCombobox,
+                                'text',
+                                'FlowBuilderExpressionUtils.newResourceLabel'
+                            )
+                        ).toBeDefined();
+                    });
+
+                    it('shows account variables up, no traversal', async () => {
+                        sObjectOrSObjectCollectionPicker = await getGroupedCombobox();
+                        await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
+                    });
+                    it('shows variable containing account up, only single account field', async () => {
+                        sObjectOrSObjectCollectionPicker = await getGroupedCombobox();
+                        await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
+                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
+                        await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
+                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
+                    });
+                    it('does not show non account variable up', async () => {
+                        sObjectOrSObjectCollectionPicker = await getGroupedCombobox();
+                        await expectCannotBeSelectedInResourcePicker(['caseSObjectVariable']);
+                    });
+                    it('does not show account collection variable up', async () => {
+                        sObjectOrSObjectCollectionPicker = await getGroupedCombobox();
+                        await expectCannotBeSelectedInResourcePicker(['accountSObjectCollectionVariable']);
+                    });
+                    it('should contain elements that contains apex that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
+                        sObjectOrSObjectCollectionPicker = await getGroupedCombobox();
+                        await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
+                        await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
+                        await expectCannotBeTraversedInResourcePicker([
+                            'apexComplexTypeTwoVariable',
+                            'testOne',
+                            'acct'
+                        ]);
+                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'listOfTestOne']);
+                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
+                    });
+                    it('has validation error when manually entering a non account variable', async () => {
+                        sObjectOrSObjectCollectionPicker = await getGroupedCombobox();
+                        changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!caseSObjectVariable}');
+                        await ticks(1);
+                        expect(
+                            getResourceCombobox(getRecordSobjectAndQueryFields(recordLookupComponent)).errorMessage
+                        ).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
+                    });
                 });
-                it('Selected sObject is correctly displayed ', () => {
-                    const sObJectPicker = getSObjectOrSObjectCollectionPicker(recordLookupComponent);
-                    expect(sObJectPicker.value).toBe(recordLookupComponent.node.outputReference.value);
+                describe('pills', () => {
+                    let combobox;
+                    beforeEach(() => {
+                        combobox = getResourceCombobox(recordLookupComponent, [
+                            INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
+                        ]);
+                    });
+                    it('displays a pill with the selected value', async () => {
+                        expect(combobox.hasPill).toBe(true);
+                        expect(combobox.pill).toEqual({
+                            iconName: 'utility:sobject',
+                            label: 'accountSObjectVariable'
+                        });
+                    });
+                    it('displays "abbr" element as it is a required field', async () => {
+                        const abbrElement = combobox.shadowRoot.querySelector(SELECTORS.ABBR);
+                        expect(abbrElement).not.toBeNull();
+                    });
+                    describe('events', () => {
+                        describe('events', () => {
+                            it('displays empty combobox and no pill when pill is cleared', async () => {
+                                expect(combobox.hasPill).toBe(true);
+                                await removePill(combobox);
+                                expect(combobox.hasPill).toBe(false);
+                                expect(combobox.value).toEqual('');
+                            });
+                            it('switches to mergeField notation when clicking on "sobjectOrSobjectCollectionPicker" pill', async () => {
+                                expect(combobox.hasPill).toBe(true);
+                                await clickPill(combobox);
+                                expect(combobox.hasPill).toBe(false);
+                                expect(combobox.value.displayText).toEqual('{!accountSObjectVariable}');
+                            });
+                            describe('typing', () => {
+                                describe('errors', () => {
+                                    it.each`
+                                        sobjectPickerMergefieldValue    | errorMessage
+                                        ${'{!accountSObjectVariable2}'} | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                                        ${'{!accountSObjectVariable'}   | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                        ${'{!accountSObjectVariable.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                        ${'literalitis'}                | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                                    `(
+                                        'When typing "$sobjectPickerMergefieldValue" error message should be: $errorMessage',
+                                        async ({ sobjectPickerMergefieldValue, errorMessage }) => {
+                                            await removePill(combobox);
+                                            await typeMergeFieldInCombobox(combobox, sobjectPickerMergefieldValue);
+                                            expect(combobox.hasPill).toBe(false);
+                                            expect(combobox.errorMessage).toEqual(errorMessage);
+                                        }
+                                    );
+                                });
+                                describe('NO errors', () => {
+                                    it.each`
+                                        sobjectPickerMergefieldValue                 | expectedPill
+                                        ${'{!accountSObjectVariable}'}               | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
+                                        ${'{!subflowAutomaticOutput.accountOutput}'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                        ${'{!lookupRecordAutomaticOutput}'}          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
+                                        ${'{!loopOnAccountAutoOutput}'}              | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                        ${'{!apexComplexTypeVariable.acct}'}         | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                                    `(
+                                        'When typing "$sobjectPickerMergefieldValue" pill should be: $expectedPill',
+                                        async ({ sobjectPickerMergefieldValue, expectedPill }) => {
+                                            await removePill(combobox);
+                                            await typeMergeFieldInCombobox(combobox, sobjectPickerMergefieldValue);
+                                            expect(combobox.hasPill).toBe(true);
+                                            expect(combobox.pill).toEqual(expectedPill);
+                                        }
+                                    );
+                                });
+                            });
+                            describe('selecting', () => {
+                                it.each`
+                                    sobjectPickerValue                                     | expectedPill
+                                    ${'accountSObjectVariable'}                            | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
+                                    ${'apexComplexTypeVariable.acct'}                      | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                                    ${'Outputs from subflowAutomaticOutput.accountOutput'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                    ${'Account from lookupRecordAutomaticOutput'}          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
+                                    ${'Current Item from Loop loopOnAccountAutoOutput'}    | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                `(
+                                    'When selecting "$sobjectPickerValue" pill should be: $expectedPill',
+                                    async ({ sobjectPickerValue, expectedPill }) => {
+                                        await removePill(combobox);
+                                        await selectComboboxItemBy(combobox, 'text', sobjectPickerValue.split('.'));
+                                        expect(combobox.hasPill).toBe(true);
+                                        expect(combobox.pill).toEqual(expectedPill);
+                                    }
+                                );
+                            });
+                        });
+                    });
                 });
-                it('remove selected entity should hide filter, sort, store option and query fields', () => {
-                    const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
-                    const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                    changeComboboxValue(comboboxElement, '');
-                    return resolveRenderCycles(() => {
-                        expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
+                describe('EntityResourcePicker', () => {
+                    it('Selected entity is correctly displayed ', () => {
+                        const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                        expect(entityResourcePicker.value.displayText).toBe(recordLookupComponent.node.object.value);
+                    });
+                    it('remove selected entity should hide filter, sort, store option and query fields', async () => {
+                        const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                        const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
+                        changeComboboxValue(comboboxElement, '');
+                        await ticks(1);
+                        expect(getRecordSobjectAndQueryFields(recordLookupComponent)).toBeNull();
                         expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
                         expect(getRecordFilter(recordLookupComponent)).toBeNull();
                         expect(getRecordSort(recordLookupComponent)).toBeNull();
@@ -196,13 +366,12 @@ describe('Record Lookup Editor', () => {
                             FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                         );
                     });
-                });
-                it('Enter an invalid value in the entity resource picker should not display other element but should display an error', () => {
-                    const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
-                    const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                    changeComboboxValue(comboboxElement, 'invalidValue');
-                    return resolveRenderCycles(() => {
-                        expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
+                    it('Enter an invalid value in the entity resource picker should not display other element but should display an error', async () => {
+                        const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                        const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
+                        changeComboboxValue(comboboxElement, 'invalidValue');
+                        await ticks(1);
+                        expect(getRecordSobjectAndQueryFields(recordLookupComponent)).toBeNull();
                         expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
                         expect(getRecordFilter(recordLookupComponent)).toBeNull();
                         expect(getRecordSort(recordLookupComponent)).toBeNull();
@@ -210,14 +379,13 @@ describe('Record Lookup Editor', () => {
                             FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
                         );
                     });
-                });
-                it('Enter a valid value in the entity resource picker should not display an error', () => {
-                    const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
-                    const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                    changeComboboxValue(comboboxElement, 'Case');
-                    return resolveRenderCycles(() => {
+                    it('Enter a valid value in the entity resource picker should not display an error', async () => {
+                        const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                        const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
+                        changeComboboxValue(comboboxElement, 'Case');
+                        await ticks(1);
                         expect(recordLookupComponent.node.object.error).toBeNull();
-                        expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).not.toBeNull();
+                        expect(getRecordSobjectAndQueryFields(recordLookupComponent)).not.toBeNull();
                         expect(getRecordStoreOption(recordLookupComponent)).not.toBeNull();
                         expect(getRecordFilter(recordLookupComponent)).not.toBeNull();
                         expect(getRecordSort(recordLookupComponent)).not.toBeNull();
@@ -262,95 +430,138 @@ describe('Record Lookup Editor', () => {
                 });
                 it('sortField and SortOrder should be correctly displayed', () => {
                     const recordSortElement = getRecordSort(recordLookupComponent);
-                    return resolveRenderCycles(() => {
-                        expect(recordSortElement.sortOrder).toBe('Asc');
-                        expect(recordSortElement.selectedField).toBe('AnnualRevenue');
-                    });
+                    expect(recordSortElement.sortOrder).toBe('Asc');
+                    expect(recordSortElement.selectedField).toBe('AnnualRevenue');
                 });
                 it('record store option should have "Only the first record" and "Together in a record variable" selected', () => {
                     const recordStoreElement = getRecordStoreOption(recordLookupComponent);
-                    return resolveRenderCycles(() => {
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
-                        expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
-                        expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(true);
-                    });
-                });
-                it('SObject Or SObject Collection Picker contains "New Resource"', () => {
-                    const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(
-                        recordLookupComponent
-                    );
-                    return resolveRenderCycles(() => {
-                        expect(
-                            getGroupedComboboxItemBy(
-                                rhsGroupedCombobox,
-                                'text',
-                                'FlowBuilderExpressionUtils.newResourceLabel'
-                            )
-                        ).toBeDefined();
-                    });
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
+                    expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
+                    expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(true);
                 });
             });
             describe('Working with sObject Collection', () => {
-                beforeEach(() => {
+                beforeAll(() => {
                     const element = getElementByDevName('getAccountsAutomaticWithFieldsAndFilters');
                     recordLookupNode = getElementForPropertyEditor(element);
+                });
+                beforeEach(() => {
                     recordLookupComponent = createComponentForTest(recordLookupNode);
                 });
-                it('record store option should have "All records" selected and the second radio group element should be hidden', () => {
+                it('record store option should have "All records" selected and the second radio group element should be hidden', async () => {
                     const recordStoreElement = getRecordStoreOption(recordLookupComponent);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
-                    return resolveRenderCycles(() => {
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
-                        expect(radioGroupElements).toHaveLength(1);
-                    });
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
+                    expect(radioGroupElements).toHaveLength(1);
                 });
-                it('The variable vAccountCollection should be displayed', () => {
-                    const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
-                        recordLookupComponent
-                    );
-                    return resolveRenderCycles(() => {
+                describe('SObjectOrSObjectCollectionPicker', () => {
+                    it('displays variable vAccountCollection', () => {
+                        const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
+                            recordLookupComponent
+                        );
                         expect(sObjectOrSObjectCollectionPickerElement.value).toBe(
                             recordLookupComponent.node.outputReference.value
                         );
                     });
-                });
-                it('SObject Or SObject Collection Picker contains "New Resource"', () => {
-                    const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(
-                        recordLookupComponent
-                    );
-                    return resolveRenderCycles(() => {
+                    it('contains "New Resource"', () => {
+                        const groupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(
+                            recordLookupComponent
+                        );
                         expect(
                             getGroupedComboboxItemBy(
-                                rhsGroupedCombobox,
+                                groupedCombobox,
                                 'text',
                                 'FlowBuilderExpressionUtils.newResourceLabel'
                             )
                         ).toBeDefined();
                     });
-                });
-                describe('Filter logic change from all condition to custom', () => {
-                    it('Custom condition logic input should be displayed with AND operator', async () => {
-                        getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
-                            changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
-                        );
-                        await ticks(1);
-                        expect(getFilterCustomConditionLogicInput(recordLookupComponent)).not.toBeNull();
-                        expect(getFilterCustomConditionLogicInput(recordLookupComponent).value).toBe('1 AND 2');
+                    describe('pills', () => {
+                        let combobox;
+                        beforeEach(() => {
+                            combobox = getResourceCombobox(recordLookupComponent, [
+                                INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
+                            ]);
+                        });
+                        describe('typing', () => {
+                            describe('errors', () => {
+                                it.each`
+                                    sobjectPickerMergefieldValue                 | errorMessage
+                                    ${'{!accountSObjectVariable}'}               | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                    ${'{!accountSObjectVariable2}'}              | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                                    ${'{!accountSObjectVariable'}                | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                    ${'{!accountSObjectVariable.}'}              | ${'FlowBuilderCombobox.genericErrorMessage'}
+                                    ${'{!apexComplexTypeVariable.doesNotExist}'} | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
+                                    ${'literalitis'}                             | ${'FlowBuilderMergeFieldValidation.unknownResource'}
+                                `(
+                                    'When typing "$sobjectPickerMergefieldValue" error message should be: $errorMessage',
+                                    async ({ sobjectPickerMergefieldValue, errorMessage }) => {
+                                        await typeMergeFieldInCombobox(combobox, sobjectPickerMergefieldValue);
+                                        expect(combobox.hasPill).toBe(false);
+                                        expect(combobox.errorMessage).toEqual(errorMessage);
+                                    }
+                                );
+                            });
+                            describe('NO errors', () => {
+                                it.each`
+                                    sobjectPickerMergefieldValue                           | expectedPill
+                                    ${'{!accountSObjectCollectionVariable}'}               | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
+                                    ${'{!subflowAutomaticOutput.accountOutputCollection}'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutputCollection' }}
+                                    ${'{!apexComplexTypeVariable.acctListField}'}          | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
+                                    ${'{!lookupRecordCollectionAutomaticOutput}'}          | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                `(
+                                    'When typing "$sobjectPickerMergefieldValue" pill should be: $expectedPill',
+                                    async ({ sobjectPickerMergefieldValue, expectedPill }) => {
+                                        await typeMergeFieldInCombobox(combobox, sobjectPickerMergefieldValue);
+                                        expect(combobox.hasPill).toBe(true);
+                                        expect(combobox.pill).toEqual(expectedPill);
+                                    }
+                                );
+                            });
+                        });
+                        describe('selecting', () => {
+                            it.each`
+                                sobjectPickerValue                                       | expectedPill
+                                ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
+                                ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
+                            `(
+                                'When selecting "$sobjectPickerValue" pill should be: $expectedPill',
+                                async ({ sobjectPickerValue, expectedPill }) => {
+                                    await selectComboboxItemBy(combobox, 'text', sobjectPickerValue.split('.'));
+                                    expect(combobox.hasPill).toBe(true);
+                                    expect(combobox.pill).toEqual(expectedPill);
+                                }
+                            );
+                        });
                     });
                 });
-                describe('Filter logic change to any condition then custom', () => {
-                    it('Custom condition logic input should be displayed with OR operator', async () => {
-                        getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
-                            changeEvent(CONDITION_LOGIC.OR)
-                        );
-                        await ticks(1);
-                        getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
-                            changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
-                        );
-                        await ticks(1);
-                        const filterCustomConditionLogic = getFilterCustomConditionLogicInput(recordLookupComponent);
-                        expect(filterCustomConditionLogic).not.toBeNull();
-                        expect(filterCustomConditionLogic.value).toBe('1 OR 2');
+                describe('Filter logic', () => {
+                    describe('Filter logic change from all condition to custom', () => {
+                        it('Custom condition logic input should be displayed with AND operator', async () => {
+                            getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                                changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
+                            );
+                            await ticks(1);
+                            expect(getFilterCustomConditionLogicInput(recordLookupComponent)).not.toBeNull();
+                            expect(getFilterCustomConditionLogicInput(recordLookupComponent).value).toBe('1 AND 2');
+                        });
+                    });
+                    describe('Filter logic change to any condition then custom', () => {
+                        it('Custom condition logic input should be displayed with OR operator', async () => {
+                            getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                                changeEvent(CONDITION_LOGIC.OR)
+                            );
+                            await ticks(1);
+                            getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                                changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
+                            );
+                            await ticks(1);
+                            const filterCustomConditionLogic = getFilterCustomConditionLogicInput(
+                                recordLookupComponent
+                            );
+                            expect(filterCustomConditionLogic).not.toBeNull();
+                            expect(filterCustomConditionLogic.value).toBe('1 OR 2');
+                        });
                     });
                 });
             });
@@ -363,70 +574,59 @@ describe('Record Lookup Editor', () => {
                 it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                     const recordStoreElement = getRecordStoreOption(recordLookupComponent);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
-                    return resolveRenderCycles(() => {
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
-                        expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
-                        expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElements).toHaveLength(2);
-                    });
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
+                    expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
+                    expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
+                    expect(radioGroupElements).toHaveLength(2);
                 });
                 it('Selected entity is correctly displayed ', () => {
-                    return resolveRenderCycles(() => {
-                        const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
-                        expect(entityResourcePicker.value.displayText).toBe(recordLookupComponent.node.object.value);
-                    });
+                    const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                    expect(entityResourcePicker.value.displayText).toBe(recordLookupComponent.node.object.value);
                 });
-                it('remove selected entity should hide filter, sort, store option and query fields', () => {
+                it('remove selected entity should hide filter, sort, store option and query fields', async () => {
                     const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                     comboboxElement.dispatchEvent(textInputEvent(''));
                     comboboxElement.dispatchEvent(blurEvent);
-                    return resolveRenderCycles(() => {
-                        expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
-                        expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
-                        expect(getRecordFilter(recordLookupComponent)).toBeNull();
-                        expect(getRecordSort(recordLookupComponent)).toBeNull();
-                        expect(recordLookupComponent.node.object.error).toBe(
-                            FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                        );
-                    });
+                    await ticks(1);
+                    expect(getRecordSobjectAndQueryFields(recordLookupComponent)).toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBe(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                    );
                 });
-                it('Enter an invalid value in the entity resource picker should not display other element but should display an error', () => {
+                it('Enter an invalid value in the entity resource picker should not display other element but should display an error', async () => {
                     const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                     comboboxElement.dispatchEvent(textInputEvent('invalidValue'));
                     comboboxElement.dispatchEvent(blurEvent);
-                    return resolveRenderCycles(() => {
-                        expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
-                        expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
-                        expect(getRecordFilter(recordLookupComponent)).toBeNull();
-                        expect(getRecordSort(recordLookupComponent)).toBeNull();
-                        expect(recordLookupComponent.node.object.error).toBe(
-                            FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
-                        );
-                    });
+                    await ticks(1);
+                    expect(getRecordSobjectAndQueryFields(recordLookupComponent)).toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBe(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
+                    );
                 });
-                it('Enter an valid value in the entity resource picker should not display an error', () => {
+                it('Enter an valid value in the entity resource picker should not display an error', async () => {
                     const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                     comboboxElement.dispatchEvent(textInputEvent('Case'));
                     comboboxElement.dispatchEvent(blurEvent);
-                    return resolveRenderCycles(() => {
-                        return resolveRenderCycles(() => {
-                            expect(recordLookupComponent.node.object.error).toBeNull();
-                            expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).not.toBeNull();
-                            expect(getRecordStoreOption(recordLookupComponent)).not.toBeNull();
-                            expect(getRecordFilter(recordLookupComponent)).not.toBeNull();
-                            expect(getRecordSort(recordLookupComponent)).not.toBeNull();
-                        });
-                    });
+                    await ticks(1);
+                    expect(recordLookupComponent.node.object.error).toBeNull();
+                    expect(getRecordSobjectAndQueryFields(recordLookupComponent)).not.toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).not.toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).not.toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).not.toBeNull();
                 });
                 it('sortField and SortOrder should be correctly displayed', () => {
                     const recordSortElement = getRecordSort(recordLookupComponent);
-                    return resolveRenderCycles(() => {
-                        expect(recordSortElement.sortOrder).toBe('Asc');
-                        expect(recordSortElement.selectedField).toBe('Name');
-                    });
+                    expect(recordSortElement.sortOrder).toBe('Asc');
+                    expect(recordSortElement.selectedField).toBe('Name');
                 });
                 describe('Filter', () => {
                     let recordFilter, fieldToFerovExpressionBuilders;
@@ -478,23 +678,21 @@ describe('Record Lookup Editor', () => {
                             baseExpressionBuilderComponent,
                             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
                         );
-                        return resolveRenderCycles(() => {
-                            expect(operatorsComboboxComponent.options).toHaveLength(6);
-                            expect(operatorsComboboxComponent.options).toEqual(
-                                expect.arrayContaining([
-                                    expect.objectContaining({ value: 'EqualTo' }),
-                                    expect.objectContaining({
-                                        value: 'NotEqualTo'
-                                    }),
-                                    expect.objectContaining({
-                                        value: 'StartsWith'
-                                    }),
-                                    expect.objectContaining({ value: 'Contains' }),
-                                    expect.objectContaining({ value: 'EndsWith' }),
-                                    expect.objectContaining({ value: 'IsNull' })
-                                ])
-                            );
-                        });
+                        expect(operatorsComboboxComponent.options).toHaveLength(6);
+                        expect(operatorsComboboxComponent.options).toEqual(
+                            expect.arrayContaining([
+                                expect.objectContaining({ value: 'EqualTo' }),
+                                expect.objectContaining({
+                                    value: 'NotEqualTo'
+                                }),
+                                expect.objectContaining({
+                                    value: 'StartsWith'
+                                }),
+                                expect.objectContaining({ value: 'Contains' }),
+                                expect.objectContaining({ value: 'EndsWith' }),
+                                expect.objectContaining({ value: 'IsNull' })
+                            ])
+                        );
                     });
                     it('does not display LHS/RHS pill as literal values used', () => {
                         const baseExpressionBuilderComponent = getBaseExpressionBuilder(
@@ -542,7 +740,7 @@ describe('Record Lookup Editor', () => {
                 describe('Output Assignments', () => {
                     let outputAssignments, fieldToFerovExpressionBuilder;
                     beforeEach(() => {
-                        outputAssignments = getInputOutputAssignments(recordLookupComponent);
+                        outputAssignments = getRecordInputOutputAssignments(recordLookupComponent);
                         fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(outputAssignments);
                     });
                     it('should be displayed', () => {
@@ -561,65 +759,13 @@ describe('Record Lookup Editor', () => {
                     });
                 });
             });
-            describe('assign variables', () => {
-                describe('Sobject or Sobject collection picker', () => {
-                    beforeEach(() => {
-                        const element = getElementByDevName('lookupRecordOutputReference');
-                        recordLookupNode = getElementForPropertyEditor(element);
-                        recordLookupComponent = createComponentForTest(
-                            recordLookupNode,
-                            EditElementEvent.EVENT_NAME,
-                            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-                        );
-                        sObjectOrSObjectCollectionPicker = getRecordObjectAndQueryFieldResourceGroupedCombobox(
-                            recordLookupComponent
-                        );
-                    });
-                    it('shows account variables up, no traversal', async () => {
-                        await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
-                    });
-                    it('shows variable containing account up, only single account field', async () => {
-                        await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
-                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
-                        await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
-                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
-                    });
-                    it('does not show non account variable up', async () => {
-                        await expectCannotBeSelectedInResourcePicker(['caseSObjectVariable']);
-                    });
-                    it('does not show account collection variable up', async () => {
-                        await expectCannotBeSelectedInResourcePicker(['accountSObjectCollectionVariable']);
-                    });
-                    it('should contain elements that contains apex that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
-                        await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
-                        await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
-                        await expectCannotBeTraversedInResourcePicker([
-                            'apexComplexTypeTwoVariable',
-                            'testOne',
-                            'acct'
-                        ]);
-                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'listOfTestOne']);
-                        await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
-                    });
-                    it('throws validation error when manually entering a non account variable', () => {
-                        changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!caseSObjectVariable}');
-
-                        expect(
-                            getResourceCombobox(getRecordSobjectAndQueryFieldElement(recordLookupComponent))
-                                .errorMessage
-                        ).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
-                    });
-                });
-            });
+        });
+        describe('Assign to Apex variable', () => {
             describe('Record store options', () => {
                 it('is set to All Records for multiple records into an apex variable', () => {
                     const element = getElementByDevName('get_accounts_into_apex_variable');
                     recordLookupNode = getElementForPropertyEditor(element);
-                    recordLookupComponent = createComponentForTest(
-                        recordLookupNode,
-                        EditElementEvent.EVENT_NAME,
-                        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-                    );
+                    recordLookupComponent = createComponentForTest(recordLookupNode, EditElementEvent.EVENT_NAME);
 
                     const recordStoreElement = getRecordStoreOption(recordLookupComponent);
 
@@ -628,11 +774,7 @@ describe('Record Lookup Editor', () => {
                 it('is set to first record for single record into an apex variable', () => {
                     const element = getElementByDevName('get_account_into_apex_variable');
                     recordLookupNode = getElementForPropertyEditor(element);
-                    recordLookupComponent = createComponentForTest(
-                        recordLookupNode,
-                        EditElementEvent.EVENT_NAME,
-                        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-                    );
+                    recordLookupComponent = createComponentForTest(recordLookupNode, EditElementEvent.EVENT_NAME);
 
                     const recordStoreElement = getRecordStoreOption(recordLookupComponent);
 
@@ -642,7 +784,7 @@ describe('Record Lookup Editor', () => {
         });
     });
     // W-7656897
-    describe('flow which does not support automatic output', () => {
+    describe('Flow that does NOT support automatic output', () => {
         beforeAll(async () => {
             await setupStateForFlow(fieldServiceMobileFlow);
         });
@@ -653,14 +795,7 @@ describe('Record Lookup Editor', () => {
             beforeAll(() => {
                 const element = getElementByDevName('get_Accounts');
                 recordLookupNode = getElementForPropertyEditor(element);
-                recordLookupComponent = createComponentForTest(
-                    recordLookupNode,
-                    EditElementEvent.EVENT_NAME,
-                    FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
-                );
-                sObjectOrSObjectCollectionPicker = getRecordObjectAndQueryFieldResourceGroupedCombobox(
-                    recordLookupComponent
-                );
+                recordLookupComponent = createComponentForTest(recordLookupNode, EditElementEvent.EVENT_NAME);
             });
             it('is updated when switching to multiple', async () => {
                 // When
@@ -670,7 +805,10 @@ describe('Record Lookup Editor', () => {
                 );
 
                 // Then
-                ticks(50);
+                await ticks(1);
+                sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordLookupComponent, [
+                    INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
+                ]);
                 await expectCannotBeTraversedInResourcePicker(['vAccounts']);
                 await expectCannotBeSelectedInResourcePicker(['vMyTestAccount']);
             });

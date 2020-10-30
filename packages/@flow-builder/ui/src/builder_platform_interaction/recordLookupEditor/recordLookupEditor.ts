@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from './recordLookupReducer';
 import { ENTITY_TYPE, fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
@@ -6,7 +5,13 @@ import { LABELS, NUMBER_RECORDS_OPTIONS, WAY_TO_STORE_FIELDS_OPTIONS } from './r
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { AddElementEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import {
+    AddElementEvent,
+    NumberRecordToStoreChangedEvent,
+    PropertyChangedEvent,
+    UpdateRecordFieldAssignmentEvent,
+    VariableAndFieldMappingChangedEvent
+} from 'builder_platform_interaction/events';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     NUMBER_RECORDS_TO_STORE,
@@ -19,7 +24,6 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -28,8 +32,20 @@ export default class RecordLookupEditor extends LightningElement {
      * Internal state for the editor
      */
     @track
-    state = {
-        recordLookupElement: {},
+    state: {
+        recordLookupElement: {
+            object;
+            getFirstRecordOnly?;
+            outputAssignments?: [];
+            outputReference?: { value: string; error?: string | null };
+            assignNullValuesIfNoRecordsFound?: boolean;
+            wayToStoreFields?;
+            variableAndFieldMapping?;
+            sortField: { value?: string; error?: string | null };
+        };
+        fields: {};
+    } = {
+        recordLookupElement: { object: '', sortField: {} },
         fields: {}
     };
 
@@ -147,7 +163,6 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * set the entity name (object) and load fields accordingly
      * @param {string} newValue - new entity name
      */
     set recordEntityName(newValue) {
@@ -194,13 +209,6 @@ export default class RecordLookupEditor extends LightningElement {
      */
     get isCollection() {
         return !this.state.recordLookupElement.getFirstRecordOnly;
-    }
-
-    /**
-     * @returns {SOBJECT_OR_SOBJECT_COLLECTION_FILTER} whether we should return only sobject, sobject collection or both
-     */
-    get sobjectCollectionCriterion() {
-        return getSObjectOrSObjectCollectionFilter(this.isCollection);
     }
 
     /**
@@ -402,18 +410,18 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Handle output assignments change and via reducer update element's state accordingly
-     * @param {Object} event - event
+     * @param event - event
      */
-    handleRecordInputOutputAssignmentsChanged(event) {
+    handleRecordInputOutputAssignmentsChanged(event: UpdateRecordFieldAssignmentEvent) {
         event.stopPropagation();
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
      * Handle number of record changed
-     * @param {Object} event - event
+     * @param event - event
      */
-    handleNumberRecordsToStoreChange(event) {
+    handleNumberRecordsToStoreChange(event: NumberRecordToStoreChangedEvent) {
         event.stopPropagation();
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
@@ -433,24 +441,32 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * Handles selection of Variable and field mapping
-     * @param {Object} event - event
+     * @param event - event
      */
-    handleVariableAndFieldMappingChange(event) {
+    handleVariableAndFieldMappingChange(event: VariableAndFieldMappingChangedEvent) {
         event.stopPropagation();
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
-     * Instantiates property changed event based to handle property change and updating via element's reducer state accordingly
-     * @param {string} propertyName - name of the property changed
-     * @param {Object|string|boolean} newValue - new value to be passed to property
-     * @param {string} error - error on property
-     * @param {boolean} ignoreValidate - true if we do not want to have specific property validation
-     * @param {Object|string|boolean} oldValue - property's previous value
+     * Instantiates property changed event to handle property change and updates via element's reducer state accordingly
+     * @param propertyName - name of the property changed
+     * @param newValue - new value to be passed to property
+     * @param error - error on property
+     * @param ignoreValidate - true if we do not want to have specific property validation
+     * @param oldValue - property's previous value
      */
-    updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
-        propChangedEvent.detail.ignoreValidate = ignoreValidate;
+    updateProperty(propertyName: string, newValue, error: string | null, ignoreValidate: boolean, oldValue?: string) {
+        const propChangedEvent = new PropertyChangedEvent(
+            propertyName,
+            newValue,
+            error,
+            null,
+            oldValue,
+            undefined,
+            undefined,
+            ignoreValidate
+        );
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, propChangedEvent);
     }
 }

@@ -1,10 +1,8 @@
-// @ts-nocheck
 import {
     NUMBER_RECORDS_TO_STORE,
     WAY_TO_STORE_FIELDS,
     VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
-/* Labels */
 import getRecordsOfObjectType from '@salesforce/label/FlowBuilderRecordEditor.getRecordsOfObjectType';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';

@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* Labels */
 import selectVariableToStore from '@salesforce/label/FlowBuilderRecordEditor.selectVariableToStore';
 import selectVariableToStoreRecords from '@salesforce/label/FlowBuilderRecordEditor.selectVariableToStoreRecords';
 import searchRecords from '@salesforce/label/FlowBuilderRecordEditor.searchRecords';

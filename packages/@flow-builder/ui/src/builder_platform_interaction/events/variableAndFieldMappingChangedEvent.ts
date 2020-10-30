@@ -1,10 +1,16 @@
-// @ts-nocheck
 /**
  * Used by recordLookupVariableAndFieldMapping and record lookup editor to indicate that the variableandfieldmapping value has changed.
  */
+
+import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
+
 const eventName = 'variableandfieldmappingchanged';
 
-export class VariableAndFieldMappingChangedEvent extends Event {
+type VariableAndFieldMappingChangedEventDetail = {
+    variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES;
+};
+
+export class VariableAndFieldMappingChangedEvent extends CustomEvent<VariableAndFieldMappingChangedEventDetail> {
     /**
      * @param {String} the selected value of variableAndFieldMapping, can be manual, automatic, manuallySelectFields
      */
@@ -12,11 +18,11 @@ export class VariableAndFieldMappingChangedEvent extends Event {
         super(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true
+            bubbles: true,
+            detail: {
+                variableAndFieldMapping
+            }
         });
-        this.detail = {
-            variableAndFieldMapping
-        };
     }
 
     static EVENT_NAME = eventName;

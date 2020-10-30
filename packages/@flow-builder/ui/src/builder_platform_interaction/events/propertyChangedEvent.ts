@@ -4,7 +4,18 @@
  */
 const eventName = 'propertychanged';
 
-export class PropertyChangedEvent extends CustomEvent<{}> {
+type PropertyChangedEventDetail = {
+    propertyName: string;
+    value;
+    error: string | null;
+    guid?: string | null;
+    oldValue?: string;
+    listIndex?: Number;
+    dataType?: string | null;
+    ignoreValidate?: boolean;
+};
+
+export class PropertyChangedEvent extends CustomEvent<PropertyChangedEventDetail> {
     constructor(
         propertyName: string,
         value,
@@ -12,7 +23,8 @@ export class PropertyChangedEvent extends CustomEvent<{}> {
         guid?: string | null,
         oldValue?: string,
         listIndex?: Number,
-        dataType?: string | null
+        dataType?: string | null,
+        ignoreValidate = false
     ) {
         super(eventName, {
             cancelable: false,
@@ -25,7 +37,8 @@ export class PropertyChangedEvent extends CustomEvent<{}> {
                 guid,
                 oldValue,
                 listIndex,
-                dataType
+                dataType,
+                ignoreValidate
             }
         });
     }

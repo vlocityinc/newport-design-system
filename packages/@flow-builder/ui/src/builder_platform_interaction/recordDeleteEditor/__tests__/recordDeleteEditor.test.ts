@@ -2,20 +2,19 @@ import { createElement } from 'lwc';
 import RecordDeleteEditor from '../recordDeleteEditor';
 import {
     AddElementEvent,
-    EditElementEvent,
-    PropertyChangedEvent,
-    SObjectReferenceChangedEvent
-} from 'builder_platform_interaction/events';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import {
-    RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
+    EditElementEvent,
+    PropertyChangedEvent,
+    RecordStoreOptionChangedEvent,
+    SObjectReferenceChangedEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel, accountSObjectVariable, elementsForPropertyEditors } from 'mock/storeData';
+import { accountSObjectVariable, elementsForPropertyEditors, flowWithAllElementsUIModel } from 'mock/storeData';
 import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -189,7 +188,7 @@ describe('Record delete editor', () => {
                 });
                 it('"RecordStoreOptionChangedEvent" changing to non sobject mode should set the useSobject to false', async () => {
                     getRecordStoreOption(recordDeleteEditor).dispatchEvent(
-                        new RecordStoreOptionChangedEvent(false, 'sObjectVariable', false)
+                        new RecordStoreOptionChangedEvent(false, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false)
                     );
                     await ticks(1);
                     expect(recordDeleteEditor.getNode().useSobject).toBe(false);
@@ -218,7 +217,7 @@ describe('Record delete editor', () => {
             describe('Handle Events', () => {
                 it('"RecordStoreOptionChangedEvent" changing to sobject mode should set the useSobject to true', async () => {
                     getRecordStoreOption(recordDeleteEditor).dispatchEvent(
-                        new RecordStoreOptionChangedEvent(true, 'sObjectVariable', false)
+                        new RecordStoreOptionChangedEvent(true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false)
                     );
                     await ticks(1);
                     expect(recordDeleteEditor.getNode().useSobject).toBe(true);

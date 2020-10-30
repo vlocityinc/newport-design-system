@@ -2,10 +2,10 @@ import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
 import { AddElementEvent, EditElementEvent, RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import {
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    getChildComponent,
     changeComboboxValue,
     changeInputValue,
+    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
+    getChildComponent,
     resetState,
     setupStateForFlow,
     translateFlowToUIAndDispatch
@@ -16,22 +16,22 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    ticks,
     changeEvent,
+    clickPill,
+    LIGHTNING_COMPONENTS_SELECTORS,
     removePill,
-    clickPill
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import {
-    getRecordVariablePickerChildGroupedComboboxComponent,
-    getEntityResourcePickerChildGroupedComboboxComponent,
-    getEntityResourcePicker,
     getBaseResourcePickerCombobox,
-    getRecordVariablePickerChildComboboxComponent,
-    getSObjectOrSObjectCollectionPicker,
-    getRecordStoreOption,
+    getEntityResourcePicker,
+    getEntityResourcePickerChildGroupedComboboxComponent,
     getRecordFilter,
-    getRecordInputOutputAssignments
+    getRecordInputOutputAssignments,
+    getRecordStoreOption,
+    getRecordVariablePickerChildComboboxComponent,
+    getRecordVariablePickerChildGroupedComboboxComponent,
+    getSObjectOrSObjectCollectionPicker
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
@@ -41,6 +41,7 @@ import {
     newFilterItem
 } from '../recordFilterTestUtils';
 import { selectComboboxItemBy, typeLiteralValueInCombobox, typeMergeFieldInCombobox } from '../comboboxTestUtils';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 const SELECTORS = { ABBR: 'abbr' };
 
@@ -190,7 +191,9 @@ describe('Record Update Editor', () => {
         describe('default Filter', () => {
             it('should be all (Conditions are Met)', async () => {
                 const recordStoreElement = getRecordStoreOption(recordUpdateComponent);
-                recordStoreElement.dispatchEvent(new RecordStoreOptionChangedEvent(false, '', false));
+                recordStoreElement.dispatchEvent(
+                    new RecordStoreOptionChangedEvent(false, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false)
+                );
                 await ticks(1);
                 const entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
                 changeComboboxValue(
