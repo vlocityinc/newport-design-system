@@ -1,3 +1,4 @@
+/*eslint-disable*/
 ({
     doInit: function (cmp, event, helper) {
         if (!cmp.get('v.rerun')) {
@@ -33,7 +34,7 @@
     getDebugInput: function (cmp, event, helper) {
         var debugInput = {
             inputs: helper.readAllInputs(cmp),
-            runAs: cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
+            runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             debugAsUserId: cmp.getDebugAsUserId(),
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
             governorLimits: cmp.find('isGovernorLimitsBox').get('v.checked')

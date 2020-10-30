@@ -231,12 +231,12 @@
      */
     storePreviousDebugOptions: function (cmp) {
         var selectedUser = null;
-        if (cmp.get('v.showDebugAsUserLookup')) {
+        if (cmp.get('v.shouldHasDebugAsUser') && cmp.get('v.showDebugAsUserLookup')) {
             // if checked, retrieve runAsUser
             selectedUser = cmp.get('v.runAsSelected');
         }
         this.previousOptions = {
-            runAs: cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
+            runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             runAsSelected: selectedUser,
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
             governorLimits: cmp.find('isGovernorLimitsBox').get('v.checked')
