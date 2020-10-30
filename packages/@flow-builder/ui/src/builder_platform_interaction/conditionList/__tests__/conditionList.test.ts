@@ -12,7 +12,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../conditionListLabels';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { focusoutEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const listWithThreeConditionals = {
     containerElementType: ELEMENT_TYPE.DECISION,
@@ -252,6 +252,33 @@ describe('Condition List', () => {
                 const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
 
                 expect(customLogicInput.value).toEqual(listWithThreeConditionals.conditionLogic.value);
+            });
+            it('does not fire PropertyChangedEvent during custom logic input focusout without conditions', async () => {
+                const conditionsList = Object.assign({}, listWithThreeConditionals);
+                conditionsList.conditionLogic = { value: '1' };
+                conditionsList.conditions = [];
+                const element = createComponentUnderTest(conditionsList);
+
+                await ticks(1);
+                const eventCallback = jest.fn();
+                element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
+                customLogicInput.dispatchEvent(focusoutEvent);
+
+                expect(eventCallback).not.toHaveBeenCalled();
+            });
+            it('fires PropertyChangedEvent during custom logic input focusout with conditions', async () => {
+                const element = createComponentUnderTest(listWithThreeConditionals);
+
+                await ticks(1);
+                const eventCallback = jest.fn();
+                element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
+                customLogicInput.dispatchEvent(focusoutEvent);
+
+                expect(eventCallback).toHaveBeenCalled();
             });
 
             describe('default value', () => {

@@ -181,8 +181,10 @@ export default class ConditionList extends LightningElement {
     handleCustomLogicFocusOut(event) {
         const value = event.target.value;
 
-        const propertyChangedEvent = new PropertyChangedEvent('conditionLogic', value, null, this.parentGuid);
-        this.dispatchEvent(propertyChangedEvent);
+        if (this.state.conditions && this.state.conditions.length > 0) {
+            const propertyChangedEvent = new PropertyChangedEvent('conditionLogic', value, null, this.parentGuid);
+            this.dispatchEvent(propertyChangedEvent);
+        }
     }
 
     /**
