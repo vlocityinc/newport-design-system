@@ -57,6 +57,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         searchPattern: ''
     };
 
+    get sObjectPickerRowIndex(): String {
+        return generateGuid();
+    }
+
     get searchInputPlaceholder(): String {
         return format(LABELS.filterFieldsPlaceHolderLabel, this.entityName);
     }
