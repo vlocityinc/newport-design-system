@@ -1990,6 +1990,9 @@ export default class Editor extends LightningElement {
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
+     * @param node The element to add
+     * @param parentGuid Needed when adding a non-canvas child element (SteppedStageItem, Outcome, etc...)
+     * directly from the canvas so we know where to add it
      */
     deMutateAndAddNodeCollection = (node: FlowElement, parentGuid: Guid) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
@@ -2000,7 +2003,8 @@ export default class Editor extends LightningElement {
 
         let payload: FlowElement | NodeWithParent = nodeForStore;
 
-        if (parentGuid) {
+        // This is a non-canvas child element being added directly on the canvas
+        if (!nodeForStore.canvasElement && parentGuid) {
             payload = {
                 elementType: nodeForStore.elementType,
                 parentGuid,
