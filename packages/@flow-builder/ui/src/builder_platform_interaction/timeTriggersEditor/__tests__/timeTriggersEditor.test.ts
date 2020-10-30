@@ -120,7 +120,7 @@ describe('Time Triggers Editor', () => {
                     element: {
                         guid: IMMEDIATE_TIME_TRIGGER_ID
                     },
-                    label: 'FlowBuilderTimeTrigger.immediateTimeTriggerLabel',
+                    label: 'FlowBuilderStartEditor.immediateTimeTriggerLabel',
                     isDraggable: false
                 });
             });
