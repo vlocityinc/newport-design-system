@@ -195,7 +195,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Show no item illustration when SObject picker is cleared with pill (X) click
      */
-    handleSObjectCleared() {
-        this.showNoItemsIllustration = true;
+    handlePillRemoved(event) {
+        event.stopPropagation();
+        this.showNoItemsIllustration = event.detail.resetMenuDataAndDisplayText;
     }
 }

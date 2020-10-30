@@ -72,7 +72,8 @@ describe('Screen editor automatic field palette', () => {
         const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
             storeMockedData.accountSObjectVariable.guid
         );
-        const removeMergeFieldPillEvent = new RemoveMergeFieldPillEvent({}, true);
+        const removeMergeFieldPillEventWithXClick = new RemoveMergeFieldPillEvent({}, true);
+        const removeMergeFieldPillEventWithoutXClick = new RemoveMergeFieldPillEvent({}, false);
         it('SObjectReferenceChangedEvent should update properly recordVariable', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
@@ -108,15 +109,23 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getBasePalette(element)).not.toBeNull();
         });
-        it('RemoveMergeFieldPillEvent should hide base palette', async () => {
-            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEvent);
+        it('RemoveMergeFieldPillEvent when X is clicked should hide base palette', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEventWithXClick);
             await ticks(1);
             expect(getBasePalette(element)).toBeNull();
         });
-        it('RemoveMergeFieldPillEvent should show no items to show illustration', async () => {
-            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEvent);
+        it('RemoveMergeFieldPillEvent when X is clicked should show no items to show illustration', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEventWithXClick);
             await ticks(1);
             expect(getNoItemToShowIllustration(element)).not.toBeNull();
+        });
+        it('RemoveMergeFieldPillEvent when pill value is clicked should not show no items to show illustration', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEventWithoutXClick);
+            await ticks(1);
+            expect(getNoItemToShowIllustration(element)).toBeNull();
         });
         it('SObjectReferenceChangedEvent with error should keep illustration visible', async () => {
             const sObjectReferenceChangedEventwithError = new SObjectReferenceChangedEvent(
