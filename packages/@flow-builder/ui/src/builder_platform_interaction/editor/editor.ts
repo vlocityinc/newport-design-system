@@ -1418,18 +1418,19 @@ export default class Editor extends LightningElement {
         }
     }
 
-    queueOpenPropertyEditor = (paramsProvider, forceModal) => {
+    queueOpenPropertyEditor = async (paramsProvider, forceModal) => {
         this.spinners.showPropertyEditorSpinner = true;
-        Promise.all(this.propertyEditorBlockerCalls)
-            .then(() => {
-                this.spinners.showPropertyEditorSpinner = false;
-                this.propertyEditorBlockerCalls = [];
-                this.showPropertyEditor(paramsProvider(), forceModal);
-            })
-            .catch(() => {
-                // we don't open the property editor because at least one promise was rejected
-                this.spinners.showPropertyEditorSpinner = false;
-            });
+
+        try {
+            await Promise.all(this.propertyEditorBlockerCalls);
+
+            this.spinners.showPropertyEditorSpinner = false;
+            this.propertyEditorBlockerCalls = [];
+            this.showPropertyEditor(await paramsProvider(), forceModal);
+        } catch (e) {
+            // we don't open the property editor because at least one promise was rejected
+            this.spinners.showPropertyEditorSpinner = false;
+        }
     };
 
     /**
@@ -1512,7 +1513,7 @@ export default class Editor extends LightningElement {
                 return;
             }
 
-            this.queueOpenPropertyEditor(() => {
+            this.queueOpenPropertyEditor(async () => {
                 // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
                 // has been resolved
                 const node = getElementForPropertyEditor({
@@ -1532,7 +1533,7 @@ export default class Editor extends LightningElement {
                 // For a panel, the element is created upon opening the property editor
                 // the parent guid is also passed in if a child element is being created
                 if (this.usePanelForPropertyEditor) {
-                    this.deMutateAndAddNodeCollection(node, parent);
+                    await this.deMutateAndAddNodeCollection(node, parent);
                 }
 
                 return {
