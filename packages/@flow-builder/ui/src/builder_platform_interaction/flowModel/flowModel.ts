@@ -75,34 +75,54 @@ export interface ScreenField extends FlowElement {
 }
 
 export interface BaseCanvasElementWithFilter extends BaseCanvasElement {
-    filters?: Object[];
-    filterLogic?: Filter[];
+    filters?: Filter[];
+    filterLogic?: string;
 }
 
 interface Filter {
-    field: string;
+    rowIndex: Guid;
+    leftHandSide: string;
+    rightHandSide: string;
+    rightHandSideDataType: string;
     operator: string;
-    value: {} | string;
 }
 
-interface Start extends BaseCanvasElementWithFilter {
+interface ElementReferenceOrValueMetadata {
+    booleanValue: boolean;
+    dateTimeValue: Date;
+    dateValue: Date;
+    elementReference: string;
+    numberValue: number;
+    stringValue: string;
+}
+interface RecordFilterMetadata {
+    field: string;
+    operator: string;
+    value: ElementReferenceOrValueMetadata;
+}
+
+export interface StartUi extends BaseCanvasElementWithFilter, Schedule {
     doesRequireRecordChangedToMeetCriteria: boolean;
     triggerType?: string;
     object: string;
     objectIndex?: string;
     objectContainer?: string;
-    schedule: Schedule;
     isAssignable?: boolean;
     recordTriggerType?: string;
-}
-
-export interface StartUi extends Start {
     timeTriggers?: TimeTrigger[];
     childReferences?: ChildReference[];
 }
 
-export interface StartFlow extends Start {
-    scheduledPaths?: TimeTrigger[];
+export interface StartMetadata extends NodeMetadata {
+    connector: FlowConnector;
+    filters?: RecordFilterMetadata[];
+    filterLogic: string;
+    object?: string;
+    recordTriggerType?: string;
+    schedule: Schedule;
+    triggerType?: string;
+    scheduledPaths?: ScheduledPathMetadata[];
+    doesRequireRecordChangedToMeetCriteria?: boolean;
 }
 
 interface Schedule {
@@ -117,6 +137,12 @@ interface StartTime {
 }
 
 export interface TimeTrigger extends ChildElement {
+    timeSource: string;
+    offsetUnit: string;
+    offsetNumber: string;
+}
+
+export interface ScheduledPathMetadata extends ElementMetadata {
     timeSource: string;
     offsetUnit: string;
     offsetNumber: string;

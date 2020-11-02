@@ -34,7 +34,8 @@ import {
     AvailableConnection,
     ChildElement,
     ChildReference,
-    StartFlow,
+    ScheduledPathMetadata,
+    StartMetadata,
     StartUi,
     TimeTrigger
 } from 'builder_platform_interaction/flowModel';
@@ -82,20 +83,19 @@ export function findStartYOffset(startElement: StartUi): number {
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-function createStartElement(startElement: StartFlow | StartUi) {
+function createStartElement(startElement: StartUi | StartMetadata) {
     const newStartElement = baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
         object = '',
-        objectIndex = generateGuid(),
-        filters = [],
-        objectContainer
+        filters = []
     } = startElement;
+    const { objectIndex = generateGuid(), objectContainer } = <StartUi>startElement;
     maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
-    const { startDate, startTime } = startElement.schedule || startElement;
-    let { recordTriggerType, frequency } = startElement.schedule || startElement;
+    const { startDate, startTime } = (startElement as StartMetadata).schedule || startElement;
+    let { recordTriggerType, frequency } = (startElement as StartMetadata).schedule || startElement;
     let { filterLogic = CONDITION_LOGIC.AND } = startElement;
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
@@ -191,7 +191,10 @@ export function createStartElementForPropertyEditor(startElement: StartUi = {} a
  * @param {string} startElementReference guid/name of the first element in the flow
  * @returns {Object} startElement the start element object
  */
-export function createStartElementWithConnectors(startElement: StartFlow = {} as StartFlow, startElementReference) {
+export function createStartElementWithConnectors(
+    startElement: StartMetadata = {} as StartMetadata,
+    startElementReference
+) {
     const newStartElement = createStartElement(startElement);
 
     let connectorCount, connectors;
@@ -244,7 +247,7 @@ export function createStartElementWithConnectors(startElement: StartFlow = {} as
  * @param {Object} config configuration used to translate to the metadata object
  * @returns {Object} startElementMetadata the start element metadata object
  */
-export function createStartElementMetadataObject(startElement, config = {}) {
+export function createStartElementMetadataObject(startElement: StartUi, config = {}) {
     /* Commented code in this function will be checked in with this story:
     W-8188232: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008ge9PIAQ/view
     */
@@ -363,10 +366,10 @@ function getscheduledLabel(startDate, startTime, frequency) {
     return label;
 }
 
-export function createTimeTrigger(timeTrigger: TimeTrigger): TimeTrigger {
+export function createTimeTrigger(timeTrigger: TimeTrigger | ScheduledPathMetadata): TimeTrigger {
     const newTimeTrigger: ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
 
-    const { recordField } = timeTrigger;
+    const { recordField } = <ScheduledPathMetadata>timeTrigger;
 
     let { timeSource = '', offsetUnit = '', offsetNumber = '' } = timeTrigger;
 
@@ -505,7 +508,7 @@ function calculateMaxConnections(startElement) {
 
 function addImmediateConnectorToAvailableConnections(
     availableConnections: AvailableConnection[] = [],
-    startElement: StartUi
+    startElement: StartMetadata
 ) {
     if (!availableConnections || !startElement) {
         throw new Error('Either availableConnections or start Element is not defined');
