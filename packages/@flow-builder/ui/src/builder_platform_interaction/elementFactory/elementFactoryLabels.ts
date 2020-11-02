@@ -17,6 +17,7 @@ import endElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.
 import defaultSteppedStageName from '@salesforce/label/FlowBuilderElementConfig.defaultSteppedStageName';
 import defaultSteppedStageItemName from '@salesforce/label/FlowBuilderElementConfig.defaultSteppedStageItemName';
 import workStepLabel from '@salesforce/label/FlowBuilderElementConfig.workStepLabel';
+import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 
 export const LABELS = {
     emptyDefaultOutcomeLabel,
@@ -36,5 +37,6 @@ export const LABELS = {
     endElementSingularLabel,
     defaultSteppedStageName,
     defaultSteppedStageItemName,
-    workStepLabel
+    workStepLabel,
+    immediateConnectorLabel
 };

@@ -45,7 +45,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid, immedia
     if (element.connector && element.connector.targetReference) {
         const source = parentGuid ? parentGuid : elementGuid;
         const childSource = parentGuid ? elementGuid : null;
-        const label = parentGuid ? element.label : null;
+        const label = immediateConnector ? LABELS.immediateConnectorLabel : parentGuid ? element.label : null;
         const connectorType = immediateConnector ? CONNECTOR_TYPE.IMMEDIATE : CONNECTOR_TYPE.REGULAR;
 
         const connector = createConnector(source, childSource, element.connector.targetReference, label, connectorType);

@@ -23,6 +23,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
 import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import { TimeTrigger } from 'builder_platform_interaction/flowModel';
+import { LABELS } from '../elementFactoryLabels';
 
 const startElementReference = 'assignment1';
 
@@ -640,6 +641,16 @@ describe('Start element', () => {
                     timeSource: 'ABC',
                     offsetNumber: '20'
                 });
+            });
+            it('first connector from Start is of IMMEDIATE connector type with immediate connector label for Record Trigger Flow', () => {
+                expect.assertions(2);
+                startElementFromFlow.triggerType = 'RecordAfterSave';
+                startElementFromFlow.connector = {
+                    targetReference: MOCK_NAMES.name1
+                };
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                expect(result.connectors[0].label).toEqual(LABELS.immediateConnectorLabel);
+                expect(result.connectors[0].type).toEqual(CONNECTOR_TYPE.IMMEDIATE);
             });
         });
     });
