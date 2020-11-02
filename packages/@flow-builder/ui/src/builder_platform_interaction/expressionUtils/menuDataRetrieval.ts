@@ -372,7 +372,7 @@ export function filterAndMutateMenuData(
 
     // Sort menu items in the Global Variables menu group
     if (systemAndGlobalVariableMenuItem && systemAndGlobalVariableMenuItem.items) {
-        systemAndGlobalVariableMenuItem.items.sort((a, b) => a.displayText - b.displayText);
+        systemAndGlobalVariableMenuItem.items.sort((item1, item2) => item1.text.localeCompare(item2.text));
     }
 
     // Add picklist values to the top of the menu under the Picklist Values category

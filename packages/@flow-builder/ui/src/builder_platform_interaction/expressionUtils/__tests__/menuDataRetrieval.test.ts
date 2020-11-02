@@ -28,9 +28,9 @@ import { getEventTypes, fetchFieldsForEntity } from 'builder_platform_interactio
 import {
     setSystemVariables,
     setGlobalVariables,
+    getSystemVariables,
     setProcessTypeFeature
-} from 'builder_platform_interaction_mocks/systemLib';
-import { getSystemVariables } from 'builder_platform_interaction/systemLib';
+} from 'builder_platform_interaction/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
@@ -722,6 +722,22 @@ describe('Menu data retrieval', () => {
                 showSystemVariables: false
             });
             expect(menuData).toHaveLength(0);
+        });
+        it('should sort global/system variables alphabetically', () => {
+            setProcessTypeFeature('Flow', ['GlobalVariables']);
+            setGlobalVariables(globalVariablesForFlow);
+            setSystemVariables(systemVariables);
+            const menuData = filterAndMutateMenuData([]);
+            expect(menuData[0].items.map((item) => item.text)).toEqual([
+                '$Api',
+                '$Flow',
+                '$Organization',
+                '$Profile',
+                '$Setup',
+                '$System',
+                '$User',
+                '$UserRole'
+            ]);
         });
     });
 
