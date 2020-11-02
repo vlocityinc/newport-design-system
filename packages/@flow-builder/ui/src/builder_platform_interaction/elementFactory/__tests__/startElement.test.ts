@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import {
+    shouldSupportTimeTriggers,
     createStartElementForPropertyEditor,
     createStartElementWithConnectors,
     createStartElementMetadataObject,
@@ -142,6 +143,133 @@ getConnectionProperties.mockImplementation(() => {
 describe('Start element', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
+    describe('shouldSupportTimeTriggers function', () => {
+        describe('When triggerType is AFTER_SAVE', () => {
+            let startElement;
+
+            beforeEach(() => {
+                startElement = {
+                    triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE
+                };
+            });
+
+            it('No object is defined', () => {
+                expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+            });
+
+            describe('recordTriggerType is Create', () => {
+                beforeEach(() => {
+                    startElement.object = 'Account';
+                    startElement.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
+                });
+
+                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                });
+
+                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                });
+
+                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                });
+
+                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                });
+            });
+
+            describe('recordTriggerType is Update', () => {
+                beforeEach(() => {
+                    startElement.object = 'Account';
+                    startElement.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
+                });
+
+                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+
+                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+
+                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                });
+
+                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+            });
+
+            describe('recordTriggerType is CreateAndUpdate', () => {
+                beforeEach(() => {
+                    startElement.object = 'Account';
+                    startElement.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
+                });
+
+                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+
+                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+
+                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                });
+
+                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+            });
+        });
+
+        it('When triggerType is BEFORE_SAVE', () => {
+            const startElement = {
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.CREATE,
+                object: 'Account'
+            };
+            expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+        });
+
+        it('When triggerType is BEFORE_DELETE', () => {
+            const startElement = {
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
+                object: 'Account'
+            };
+            expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+        });
+    });
+
     describe('createStartElement function', () => {
         let startElement = {
             locationX: START_ELEMENT_LOCATION.x,

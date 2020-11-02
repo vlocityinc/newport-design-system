@@ -79,6 +79,25 @@ export function findStartYOffset(startElement: StartUi): number {
 }
 
 /**
+ * Helper function to figure out if time triggers are supported or not.
+ * Time Triggers are only supported in the following scenarios when an object is defined:
+ * 1) For After_Save trigger type:
+ *      a) Create - Time Triggers are always available
+ *      b) Update/CreateAndUpdate - Time Triggers are only available when
+ *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
+ * @param startElement start element metadata structure
+ */
+export function shouldSupportTimeTriggers(startElement: StartUi) {
+    return (
+        startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
+        startElement.object &&
+        (startElement.recordTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
+            (startElement.doesRequireRecordChangedToMeetCriteria &&
+                startElement.filterLogic !== CONDITION_LOGIC.NO_CONDITIONS))
+    );
+}
+
+/**
  * Creates a start element object
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
