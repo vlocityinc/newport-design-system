@@ -256,7 +256,8 @@ describe('menuDataGenerator', () => {
                             iconName: 'utility:system_and_global_variable',
                             subtype: 'Account',
                             text: '$Record__Prior',
-                            value: '$Record__Prior'
+                            value: '$Record__Prior',
+                            subText: 'Account'
                         })
                     ])
                 );

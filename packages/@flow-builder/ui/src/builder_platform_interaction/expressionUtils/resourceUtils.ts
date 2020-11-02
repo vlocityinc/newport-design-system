@@ -4,7 +4,8 @@ import {
     getGlobalVariable,
     isRecordSystemVariableIdentifier,
     GLOBAL_CONSTANT_OBJECTS,
-    isRecordPriorSystemVariableIdentifier
+    isRecordPriorSystemVariableIdentifier,
+    SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX
 } from 'builder_platform_interaction/systemLib';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDataGenerator';
@@ -176,19 +177,32 @@ const normalizeMenuItemChildField = (parentMenuItem, fieldNames, { allowSObjectF
 };
 
 /**
+ * A reserved identifier is an identifier that cannot be used as literal.
+ */
+const isReservedIdentifier = (identifier: string) => {
+    // TODO : W-8315169
+    // $Record__Prior is reserved because otherwise $Record__Prior would be a valid literal and there would be no error
+    // when we switch from a recordTriggerType that support $Record_Prior to a recordTriggerType that don't for a record triggered flow
+    return identifier === SYSTEM_VARIABLE_RECORD_PRIOR_PREFIX;
+};
+
+/**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
  * @param {String} identifier    used to identify value, could be GUID or literal
  * @returns {Item}               value in format displayable by combobox
  */
-export const normalizeFEROV = (identifier, { allowSObjectFieldsTraversal = true } = {}) => {
+export const normalizeFEROV = (identifier: string, { allowSObjectFieldsTraversal = true } = {}) => {
     let result = { itemOrDisplayText: identifier };
     const elementOrResource = getResourceByUniqueIdentifier(identifier);
+    const { guidOrLiteral, fieldNames } = sanitizeGuid(identifier);
     if (!elementOrResource) {
+        if (isReservedIdentifier(guidOrLiteral)) {
+            result.itemOrDisplayText = addCurlyBraces(identifier);
+        }
         return result;
     }
     const elementOrResourceMenuItem = mutateFlowResourceToComboboxShape(elementOrResource);
-    const { fieldNames } = sanitizeGuid(identifier);
     if (fieldNames) {
         const normalizedChildField = normalizeMenuItemChildField(elementOrResourceMenuItem, fieldNames, {
             allowSObjectFieldsTraversal

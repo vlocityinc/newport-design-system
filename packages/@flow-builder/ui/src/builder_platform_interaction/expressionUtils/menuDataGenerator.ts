@@ -586,7 +586,8 @@ const mutateSystemAndGlobalVariablesToComboboxShape = ({ value, dataType, subtyp
         iconSize: ICON_SIZE,
         rightIconName: RIGHT_ICON_NAME,
         rightIconSize: ICON_SIZE,
-        iconAlternativeText: LABELS.systemGlobalVariableCategoryIconAltText
+        iconAlternativeText: LABELS.systemGlobalVariableCategoryIconAltText,
+        subText: dataType === SOBJECT_TYPE ? subtype : undefined
     };
 };
 

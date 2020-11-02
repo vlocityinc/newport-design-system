@@ -28,12 +28,14 @@ import {
     typeReferenceOrValueInCombobox,
     getComboboxGroupLabel
 } from '../comboboxTestUtils';
-import { createVariable } from 'builder_platform_interaction/elementFactory';
+import { createVariable, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
 import {
     addNewResourceEventListener,
     removeNewResourceEventListener,
     setNextInlineResource
 } from '../inlineResourceTestUtils';
+import { getStartElement } from 'builder_platform_interaction/storeUtils';
+import { updateElement } from 'builder_platform_interaction/actions';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true
@@ -657,8 +659,9 @@ describe('Assignment Editor', () => {
     });
 });
 describe('Assignment Editor for record triggered flow', () => {
+    let store;
     beforeAll(async () => {
-        await setupStateForFlow(recordTriggeredFlow);
+        store = await setupStateForFlow(recordTriggeredFlow);
     });
     afterAll(() => {
         resetState();
@@ -671,8 +674,8 @@ describe('Assignment Editor for record triggered flow', () => {
             assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
         });
         beforeEach(() => {
-            const assignment = createComponentForTest(assignmentForPropertyEditor);
-            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
+            const assignmentComponent = createComponentForTest(assignmentForPropertyEditor);
+            expressionBuilder = getFerToFerovExpressionBuilder(assignmentComponent);
         });
         describe('$Record__Prior is not allowed on LHS', () => {
             it.each`
@@ -692,6 +695,33 @@ describe('Assignment Editor for record triggered flow', () => {
                 ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!$Record__Prior}'}                 | ${undefined}
                 ${'{!stringVariable}'}                          | ${'Assign'} | ${'{!$Record__Prior.Name}'}            | ${undefined}
             `;
+        });
+    });
+    describe('Validation on "Done"', () => {
+        let assignmentForPropertyEditor;
+        const updateRecordTriggerType = (recordTriggerType: string) => {
+            const startElement = getStartElement();
+            const updatedStartElement = createStartElementForPropertyEditor(
+                Object.assign(startElement, { recordTriggerType })
+            );
+            store.dispatch(updateElement(updatedStartElement));
+        };
+        beforeAll(() => {
+            const assignmentElement = getElementByDevName('assign');
+            assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
+        });
+        test('No validation error when the start element is not modified via its record trigger type', () => {
+            const assignmentComponent = createComponentForTest(assignmentForPropertyEditor);
+            const errors = assignmentComponent.validate();
+            expect(errors).toEqual([]);
+        });
+        test('there should be a validation error when we switch from a recordTriggerType where $Record__Prior is supported to a recordTriggerType where it is not supported', () => {
+            updateRecordTriggerType('Create');
+            const assignmentComponent = createComponentForTest(assignmentForPropertyEditor);
+            const errors = assignmentComponent.validate();
+            expect(errors).toEqual([
+                { errorString: 'FlowBuilderMergeFieldValidation.unknownResource', key: 'rightHandSide' }
+            ]);
         });
     });
 });
