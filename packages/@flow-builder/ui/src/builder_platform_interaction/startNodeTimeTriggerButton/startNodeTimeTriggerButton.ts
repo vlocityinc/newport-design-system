@@ -4,6 +4,7 @@ import { LABELS } from './startNodeTimeTriggerButtonLabels';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const { ArrowDown, ArrowUp } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
@@ -19,16 +20,35 @@ export default class startNodeTimeTriggerButton extends LightningElement {
     keyboardInteractions;
 
     get unsetStartButtonClasses() {
-        return 'unset-start-button slds-p-vertical_x-small slds-p-horizontal_medium';
+        return 'unset-start-button slds-p-vertical_x-small slds-p-horizontal_medium slds-truncate';
     }
 
-    get setTimeTiggerLabel() {
-        return LABELS.startElementSetTimeTrigger;
+    get startButtonClasses() {
+        return 'start-button-time-trigger slds-p-vertical_x-small slds-p-horizontal_medium';
     }
 
-    // TODO
-    get isTimeTriggerSet() {
-        return false;
+    get addScheduledPathsLabel() {
+        return LABELS.startElementAddScheduledPathsLabel;
+    }
+
+    get editLabel() {
+        return LABELS.startElementEdit;
+    }
+
+    get hasScheduledPaths() {
+        return this.node.childReferences && this.node.childReferences.length > 0;
+    }
+
+    get scheduledPathsLabel() {
+        return LABELS.startElementScheduledPaths;
+    }
+
+    get scheduledPathsAmount() {
+        return this.node.childReferences.length + 1;
+    }
+
+    get scheduledPathsTitle() {
+        return format(LABELS.startElementScheduledPathsTitle, this.node.childReferences.length + 1);
     }
 
     constructor() {

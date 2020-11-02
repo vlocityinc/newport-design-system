@@ -4,6 +4,7 @@ import StartNodeTimeTriggerButton from 'builder_platform_interaction/startNodeTi
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { startElementWithAccountAndNoCondition } from 'mock/storeDataAutolaunched';
+import { startElement } from 'mock/storeDataRecordTriggered';
 import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -12,6 +13,22 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     const commands = require('builder_platform_interaction/sharedUtils/commands');
     return Object.assign({}, sharedUtils, { commands });
 });
+
+jest.mock(
+    '@salesforce/label/FlowBuilderCanvasElement.startElementAddScheduledPathsLabel',
+    () => ({ default: 'Add Scheduled Paths (Optional)' }),
+    {
+        virtual: true
+    }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderCanvasElement.startElementScheduledPaths',
+    () => ({ default: 'Scheduled Paths: ' }),
+    {
+        virtual: true
+    }
+);
 
 const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
     const element = createElement('builder_platform_interaction-start-node-time-trigger-button', {
@@ -58,37 +75,30 @@ describe('Focus Management', () => {
 
 describe('When flow trigger Type is RECORD_CHANGED', () => {
     let startNodeTimeTriggerButtonEditor;
-    describe(' non configured time trigger for BEFORE_SAVE', () => {
-        beforeEach(() => {
-            startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+    describe(' AFTER_SAVE', () => {
+        describe(' non configured time trigger for AFTER_SAVE', () => {
+            beforeEach(() => {
+                startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.AFTER_SAVE);
+            });
+            it('Checks if non configured time trigger button rendered text correctly', () => {
+                expect.assertions(1);
+                expect(
+                    runQuerySelector(startNodeTimeTriggerButtonEditor, selectors.timeTriggerButtonText).textContent
+                ).toBe('Add Scheduled Paths (Optional)');
+            });
         });
-        it('Checks if non configured time trigger button rendered text correctly', () => {
-            expect.assertions(1);
-            expect(
-                runQuerySelector(startNodeTimeTriggerButtonEditor, selectors.timeTriggerButtonText).textContent
-            ).toBe('FlowBuilderCanvasElement.startElementSetTimeTrigger');
-        });
-    });
-    describe(' non configured time trigger for BEFORE_DELETE', () => {
-        beforeEach(() => {
-            startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.BEFORE_DELETE);
-        });
-        it('Checks if non configured time trigger button rendered text correctly', () => {
-            expect.assertions(1);
-            expect(
-                runQuerySelector(startNodeTimeTriggerButtonEditor, selectors.timeTriggerButtonText).textContent
-            ).toBe('FlowBuilderCanvasElement.startElementSetTimeTrigger');
-        });
-    });
-    describe(' non configured time trigger for AFTER_SAVE', () => {
-        beforeEach(() => {
-            startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.AFTER_SAVE);
-        });
-        it('Checks if non configured time trigger button rendered text correctly', () => {
-            expect.assertions(1);
-            expect(
-                runQuerySelector(startNodeTimeTriggerButtonEditor, selectors.timeTriggerButtonText).textContent
-            ).toBe('FlowBuilderCanvasElement.startElementSetTimeTrigger');
+        describe(' configured time trigger for AFTER_SAVE', () => {
+            beforeEach(() => {
+                startNodeTimeTriggerButtonEditor = setupComponentUnderTest(startElement, FLOW_TRIGGER_TYPE.AFTER_SAVE);
+            });
+            describe(' with 2 childReferences', () => {
+                it('Checks if configured time trigger button rendered text correctly', () => {
+                    expect.assertions(1);
+                    expect(
+                        runQuerySelector(startNodeTimeTriggerButtonEditor, selectors.timeTriggerButtonText).textContent
+                    ).toBe('Scheduled Paths: 3');
+                });
+            });
         });
     });
 

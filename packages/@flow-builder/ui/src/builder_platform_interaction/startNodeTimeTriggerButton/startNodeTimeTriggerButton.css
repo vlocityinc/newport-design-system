@@ -18,3 +18,22 @@
     color: var(--lwc-colorTextLinkHover);
     cursor: pointer;
 }
+
+.start-button-time-trigger:active {
+    position: relative;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.start-button-time-trigger:hover {
+    background-color: var(--lwc-colorGray3);
+    cursor: pointer;
+}
+
+.text-labels-bold {
+    font-weight: var(--lwc-fontWeightBold);
+    font-size: var(--lwc-fontSize3);
+}
+
+.edit {
+    color: var(--lwc-brandAccessible, rgb(0, 112, 210));
+}
