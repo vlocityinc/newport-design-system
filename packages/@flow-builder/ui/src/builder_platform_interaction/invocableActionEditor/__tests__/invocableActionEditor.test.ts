@@ -85,7 +85,7 @@ const defaultNode = {
     locationX: 358,
     locationY: 227,
     name: { value: 'Post_to_Chatter', error: null },
-    flowTransactionModel: { value: FLOW_TRANSACTION_MODEL.AUTOMATIC, error: null },
+    flowTransactionModel: { value: null, error: null },
     inputParameters: [
         {
             rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
@@ -325,14 +325,6 @@ describe('Invocable Action editor', () => {
             })
         );
     });
-    it('value of flow transaction model should be automatic ', () => {
-        expect.assertions(1);
-        const actionEditorCmp = createComponentUnderTest(defaultNode, {
-            isNewMode: false
-        });
-        expect(actionEditorCmp.getNode().flowTransactionModel.value).toBe(FLOW_TRANSACTION_MODEL.AUTOMATIC);
-    });
-
     it('property changed event updates the value of flow transactionModel', async () => {
         expect.assertions(2);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
@@ -542,7 +534,9 @@ describe('Invocable Action editor', () => {
         beforeEach(() => {
             getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             getProcessTypeTransactionControlledActionsSupport.mockReturnValue(true);
-            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode, {
+                isNewMode: false
+            });
             baseCalloutEditor = getBaseCalloutEditor(invocableActionEditor);
             parameterList = getParameterList(baseCalloutEditor);
         });
@@ -571,6 +565,11 @@ describe('Invocable Action editor', () => {
         it('Does not display the output div', () => {
             const outputsDiv = getOutputsDiv(parameterList);
             expect(outputsDiv).toBeNull();
+        });
+        it('value of flow transaction model should be current transaction for existing actions ', () => {
+            expect(invocableActionEditor.getNode().flowTransactionModel.value).toBe(
+                FLOW_TRANSACTION_MODEL.CURRENT_TRANSACTION
+            );
         });
     });
 
@@ -616,7 +615,9 @@ describe('Invocable Action editor', () => {
         beforeEach(() => {
             getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
             getProcessTypeTransactionControlledActionsSupport.mockReturnValue(true);
-            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode, {
+                isNewMode: true
+            });
             baseCalloutEditor = getBaseCalloutEditor(invocableActionEditor);
             parameterList = getParameterList(baseCalloutEditor);
         });
@@ -647,6 +648,9 @@ describe('Invocable Action editor', () => {
         it('contains output parameters in outputs div', () => {
             const parameterItems = getOutputParameterItems(parameterList);
             expect(parameterItems).not.toBeNull();
+        });
+        it('value of flow transaction model should be automatic for new actions ', () => {
+            expect(invocableActionEditor.getNode().flowTransactionModel.value).toBe(FLOW_TRANSACTION_MODEL.AUTOMATIC);
         });
     });
 

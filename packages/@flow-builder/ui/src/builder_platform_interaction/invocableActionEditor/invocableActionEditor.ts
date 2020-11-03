@@ -98,10 +98,13 @@ export default class InvocableActionEditor extends LightningElement {
     updateFlowTransactionModel() {
         const propName = 'flowTransactionModel';
         let transactionModel = getValueFromHydratedItem(this.actionCallNode.flowTransactionModel);
-        // If the transaction control action is supported but there is no default value, it is set to automatic
-        // Hence Automatic radio input is selected in the UI.
+        // if process type and actions allow transaction control setting and if transaction model isn't set
+        // Scenario 1: if it is new action, set it to automatic by default
+        // Scenario 2: if it existing action, set it to current by default
         if (!transactionModel && this.showTransactionControlPicker) {
-            transactionModel = FLOW_TRANSACTION_MODEL.AUTOMATIC;
+            transactionModel = this.isNewMode
+                ? FLOW_TRANSACTION_MODEL.AUTOMATIC
+                : FLOW_TRANSACTION_MODEL.CURRENT_TRANSACTION;
             const event = new PropertyChangedEvent(propName, transactionModel, null);
             this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
         }
