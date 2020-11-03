@@ -570,7 +570,7 @@ describe('Record Delete Editor', () => {
                     expect(recordFilter).not.toBeNull();
                 });
                 it('filter type', () => {
-                    expect(recordFilter.filterLogic).toMatchObject({ error: null, value: '1 AND 2 OR 3' });
+                    expect(recordFilter.filterLogic).toMatchObject({ error: null, value: '(1 AND 2) OR 3' });
                 });
                 it('number of filters', () => {
                     expect(recordFilter.filterItems).toHaveLength(3);
@@ -606,7 +606,7 @@ describe('Record Delete Editor', () => {
                 });
                 it('Custom condition logic input should be displayed', () => {
                     expect(getFilterCustomConditionLogicInput(recordDeleteComponent)).not.toBeNull();
-                    expect(getFilterCustomConditionLogicInput(recordDeleteComponent).value).toBe('1 AND 2 OR 3');
+                    expect(getFilterCustomConditionLogicInput(recordDeleteComponent).value).toBe('(1 AND 2) OR 3');
                 });
                 describe('Condition logic change', () => {
                     it('Custom condition logic input should not be displayed', async () => {

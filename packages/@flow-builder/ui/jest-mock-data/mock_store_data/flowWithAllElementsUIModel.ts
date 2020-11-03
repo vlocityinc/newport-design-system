@@ -2148,7 +2148,7 @@ export const flowWithAllElementsUIModel = {
             inputReferenceIndex: '494033a5-d654-4f68-9c22-7712eaa87073',
             object: 'Account',
             objectIndex: 'c85e0459-8b6f-4540-99e7-d388a35ee4ba',
-            filterLogic: '1 AND 2 OR 3',
+            filterLogic: '(1 AND 2) OR 3',
             filters: [
                 {
                     rowIndex: '336b0818-ff06-47c3-9e85-3b6fe4a10c5b',
@@ -2287,7 +2287,7 @@ export const flowWithAllElementsUIModel = {
                     operator: 'EqualTo'
                 }
             ],
-            filterLogic: '1 AND 2 OR 3',
+            filterLogic: '(1 AND 2) OR 3',
             object: 'Account',
             objectIndex: '42935e07-8378-4994-9dfe-34d987e80fac',
             dataType: 'Boolean'

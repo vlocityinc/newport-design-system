@@ -497,7 +497,7 @@ describe('Record Update Editor', () => {
                     expect(recordFilter).not.toBeNull();
                 });
                 it('should have filter logic equals to "and"', () => {
-                    expect(recordFilter.filterLogic).toMatchObject({ error: null, value: '1 AND 2 OR 3' });
+                    expect(recordFilter.filterLogic).toMatchObject({ error: null, value: '(1 AND 2) OR 3' });
                 });
                 it('should have a number of filters equals to 2', () => {
                     expect(recordFilter.filterItems).toHaveLength(3);

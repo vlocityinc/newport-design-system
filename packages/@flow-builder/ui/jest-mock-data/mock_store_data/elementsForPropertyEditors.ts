@@ -543,7 +543,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         filterLogic: {
-            value: '1 AND 2 OR 3',
+            value: '(1 AND 2) OR 3',
             error: null
         },
         filters: [

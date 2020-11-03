@@ -974,7 +974,7 @@
                 "locationX": 1213,
                 "locationY": 832,
                 "object": "Account",
-                "filterLogic": "1 AND 2 OR 3",
+                "filterLogic": "(1 AND 2) OR 3",
                 "filters": [
                     {
                         "field": "BillingCity",
@@ -1038,7 +1038,7 @@
                         }
                     }
                 ],
-                "filterLogic": "1 AND 2 OR 3",
+                "filterLogic": "(1 AND 2) OR 3",
                 "object": "Account",
                 "inputAssignments": [
                     {
