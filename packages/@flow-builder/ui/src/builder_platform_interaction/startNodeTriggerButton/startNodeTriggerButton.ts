@@ -76,14 +76,10 @@ export default class startNodeTriggerButton extends LightningElement {
         }
         // Platform Event
         if (this.node.triggerType === PLATFORM_EVENT) {
-            const eventTypes = getEventTypes(MANAGED_SETUP);
-            if (eventTypes) {
-                for (const item of eventTypes) {
-                    if (item.qualifiedApiName === this.node.object) {
-                        return item.label;
-                    }
-                }
-            }
+            const item = getEventTypes(MANAGED_SETUP).find(
+                (menuItem) => menuItem.qualifiedApiName === this.node.object
+            );
+            return item ? item.label : this.node.object;
         }
         // Scheduled Flow
         return this.node.label;
