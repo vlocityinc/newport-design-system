@@ -24,13 +24,13 @@ storiesOf(`${base}`, module)
 .addDecorator(withDocs(notes))
 .add('Default', () => {
 const value = radios(label, options, defaultValue);
-return withExample(`<img class="nds-icon nds-icon_x-large" alt="auto" src="./assets/images/communities/demo/auto.svg"
+return withExample(`<img class="nds-icon nds-icon_x-large" alt="auto" src="./assets/images/communities/icons/auto.svg"
     title="Auto" />`);
 })
 .add('Icon With Background', () => {
 const value = radios(label, options, defaultValue);
 return withExample(`
-<img class="nds-icon nds-icon_x-large nds-is-absolute" alt="auto" src="./assets/images/communities/demo/auto.svg"
+<img class="nds-icon nds-icon_x-large nds-is-absolute" alt="auto" src="./assets/images/communities/icons/auto.svg"
     title="Auto" />
-<img class="nds-icon nds-icon_x-large" alt="ellipse" src="./assets/images/communities/demo/ellipse.svg" title="Ellipse" />`);
+<img class="nds-icon nds-icon_x-large" alt="ellipse" src="./assets/images/communities/icons/ellipse.svg" title="Ellipse" />`);
 });
