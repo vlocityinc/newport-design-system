@@ -9,8 +9,6 @@
  * @modifier
  */
  .nds-hero {
-    width: 100%;
-
     /**
     * @summary Selector for a small hero img
     *
@@ -18,20 +16,17 @@
     * @selector .nds-hero_small
     * @modifier
     */
+    .block-container{
+        max-width: 80rem;
+        margin: 0 auto;
+     }
     &_small {
         display: none;
-    }
-    
-     img {
-        width: 100%;
     }
  }
  
 @media screen and (max-width: 30rem) {
-
     .nds-hero {
-        overflow: hidden;
-
         /**
         * @summary Selector for a large hero img
         *
@@ -42,21 +37,8 @@
         &_large {
             display: none; 
         }
-        
-        img {
-
-            width: fit-content;
-            max-width: fit-content;
-            right: 6rem;
-            position: relative;
-
             &.nds-hero_small {
                 display: block;
-                right: 0;
-                max-width: 100%;
-                width: 100%;
             }
-
-        }
     }
 }

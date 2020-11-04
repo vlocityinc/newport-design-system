@@ -12,7 +12,7 @@
     background-color: $biscay;
     min-height: 36rem;
     color: $white;
-    padding: 5.5rem 8rem 8rem 7rem;
+    padding: 5.5rem 0rem 8rem 0rem;
 
     /**
       * @summary Class that contains the body of the footer
@@ -97,10 +97,41 @@
         opacity: 1;
         height: auto;
     }
+    &.ins-footer-mobile{
+        display:none;
+        .label-color-onexpand{
+            color:$color-text-brand-primary;
+        }
+        .blockSlot{
+            margin-left:$font-size-x-large-a;
+        }
+        .blockLabel:before{
+            content: "-";
+        font-size: $font-size-x-large-a;
+        margin-right: 15px;
+        position: relative;
+        top: 2px;
+        font-weight: bold;
+        }
+        .blockLabel.label-color-onexpand:before{
+        content: "+";
+            }
+        .nds-icon{
+            display:none;
+        }
+    }
 }
-
+@media screen and (max-width: 767px) {
+    .nds-communities-footer {
+    &.ins-footer-mobile{
+        display:block;
+    }
+}
+}
 @media screen and (max-width: 76rem) {
-    
+    .ins-footer-mobile{
+        display:none;
+    }
     .nds-communities-footer {
         padding: $spacing-none $spacing-none $spacing-xx-large $spacing-none;
         min-height: 0;
