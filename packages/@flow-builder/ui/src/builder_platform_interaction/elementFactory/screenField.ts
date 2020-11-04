@@ -30,6 +30,8 @@ import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEdi
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
+const INPUTS_NEXT_BEHAVIOR_NEW_FIELD_DEFAULT = InputsNextBehaviorOption.REMEMBER;
+
 export function createScreenField(screenField = {}, isNewField = false) {
     const newScreenField = baseElement(screenField);
     const {
@@ -80,7 +82,9 @@ export function createScreenField(screenField = {}, isNewField = false) {
         }
         fields = [];
         if (inputsNextBehavior == null) {
-            inputsNextBehavior = isNewField ? InputsNextBehaviorOption.RECALCULCATE : InputsNextBehaviorOption.REMEMBER;
+            inputsNextBehavior = isNewField
+                ? INPUTS_NEXT_BEHAVIOR_NEW_FIELD_DEFAULT
+                : InputsNextBehaviorOption.REMEMBER;
         }
     } else {
         storeOutputAutomatically = undefined;

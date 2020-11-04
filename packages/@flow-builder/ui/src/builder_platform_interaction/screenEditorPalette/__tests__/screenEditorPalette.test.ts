@@ -67,13 +67,16 @@ const screenFieldTypes = [
     }
 ];
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
-    SCREEN_EDITOR_GUIDS: {
-        PALETTE: 'palette'
-    },
-
-    setDragFieldValue: () => {}
-}));
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
+    return {
+        SCREEN_EDITOR_GUIDS: {
+            PALETTE: 'palette'
+        },
+        setDragFieldValue: () => {},
+        InputsNextBehaviorOption: actual.InputsNextBehaviorOption
+    };
+});
 
 describe('Screen Editor Palette', () => {
     let element;

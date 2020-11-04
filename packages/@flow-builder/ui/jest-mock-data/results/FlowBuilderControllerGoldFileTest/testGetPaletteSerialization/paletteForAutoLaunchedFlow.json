@@ -32,6 +32,10 @@
           {
             "name":"Loop",
             "type":"element"
+          },
+          {
+            "name":"SortCollectionProcessor",
+            "type":"elementSubtype"
           }
         ]
       },

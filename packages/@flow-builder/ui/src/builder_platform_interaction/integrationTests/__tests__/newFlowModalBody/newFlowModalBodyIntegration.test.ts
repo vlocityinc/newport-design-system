@@ -116,8 +116,8 @@ describe('new Flow Modal Body', () => {
                     const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
                     const templateList = getTemplateList(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(5);
-                    // 5 = Blanks(AutoLaunched + BeforeSave + Scheduled + FlowByValue) + 1 template
+                    expect(templateItems).toHaveLength(7);
+                    // 7 = Blanks(AutoLaunched + BeforeSave + Scheduled + FlowByValue) + 3 templates
 
                     const templateItemTitles = Array.from(templateItems).map((templateItem) =>
                         getTemplateItemTitle(templateItem)

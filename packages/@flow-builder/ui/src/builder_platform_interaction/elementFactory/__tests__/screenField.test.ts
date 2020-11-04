@@ -342,9 +342,9 @@ describe('screenField', () => {
             });
         });
         describe('"inputsNextBehavior"', () => {
-            it('defaut value is Recalculate', () => {
+            it('defaut value is Remember', () => {
                 const actualResult = createEmptyScreenFieldOfType('flowruntime:email');
-                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.RECALCULCATE);
+                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.REMEMBER);
             });
         });
     });

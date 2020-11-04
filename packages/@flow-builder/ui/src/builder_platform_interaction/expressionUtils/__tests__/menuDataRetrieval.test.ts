@@ -124,7 +124,8 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         getFlowDataTypeByName: actual.getFlowDataTypeByName,
         getIconNameFromDataType: jest.fn().mockImplementation(() => {
             return 'standard:email';
-        })
+        }),
+        InputsNextBehaviorOption: actual.InputsNextBehaviorOption
     };
 });
 

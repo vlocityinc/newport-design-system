@@ -3,6 +3,16 @@
     {
       "Status":"Active",
       "IsTemplate":true,
+      "ProcessType":"AutoLaunchedFlow",
+      "IsSwingFlow":false,
+      "Description":null,
+      "EnumOrID":"cg_retail__SampleActivityRecommendFlow-1",
+      "Label":"Activity Recommendation Flow",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
       "ProcessType":"Flow",
       "IsSwingFlow":false,
       "Description":null,
@@ -58,6 +68,16 @@
       "Description":"Removed custom field references",
       "EnumOrID":"setup_service_experience__Verify_Cust-1",
       "Label":"Verify Identity",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"AutoLaunchedFlow",
+      "IsSwingFlow":false,
+      "Description":null,
+      "EnumOrID":"cg_retail__SampleVisitRecommendation-1",
+      "Label":"Visit_Recommendataion_Flow",
       "VersionNumber":1
     }
   ]
