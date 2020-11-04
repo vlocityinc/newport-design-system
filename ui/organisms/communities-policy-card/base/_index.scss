@@ -8,7 +8,7 @@
  * @selector .nds-communities-policy-card
  * @modifier
  */
-.nds-communities-policy-card {
+ .nds-communities-policy-card {
     .nds-text-heading_large {
         font-size: $font-size-7;
         font-weight: $font-weight-medium-bold;
@@ -25,7 +25,28 @@
         color: $palette-gray-11;
         font-weight: $font-weight-medium-bold;
     }
-   /**
+    .nds-article-image {
+        img {
+            height: 4rem;
+            border-radius: $border-radius-medium;
+        }
+    }
+    .nds-timeline__item.nds-timeline__media {
+        &::before {
+            top: 55%;
+            left: 22.2%;
+        }
+        .activity-circle {
+            width: 1rem;
+            height: 1rem;
+            position: absolute;
+            background: #006aff;
+            border-radius: 50%;
+            text-align: center;
+            left: 21.5%;
+        }
+    }
+    /**
  * @summary Initializes hero for community
  *
  * @name nds-communities-menu-mobile
@@ -41,7 +62,7 @@
             text-align: $text-align-left;
             padding: $spacing-x-small $spacing-medium;
             font-size: $font-size-5;
-            color:$palette-gray-11;
+            color: $palette-gray-11;
             :last-child {
                 float: right;
             }
@@ -59,6 +80,14 @@
             }
         }
     }
+    @media only screen and (min-width: 30rem) {
+        .nds-community-field-hide-desktop {
+            display: none;
+        }
+        .nds-community-hide-mobile-container {
+            display: none;
+        }
+    }
 
     @media screen and (max-width: 30rem) {
         .nds-communities-policy-state {
@@ -66,6 +95,9 @@
         }
         .nds-communities-status-toast {
             margin-top: $spacing-medium;
+        }
+        .nds-community-field-hide-mobile {
+            display: none;
         }
     }
 }
