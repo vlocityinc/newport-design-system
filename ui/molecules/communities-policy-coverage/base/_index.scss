@@ -1,6 +1,14 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
+/**
+ * @summary Initializes coverage for policy in a community
+ *
+ * @name nds-communities-coverage
+ * @selector .nds-communities-coverage
+ * @modifier
+ */
+ .nds-
 .nds-communities-coverage {
     border-bottom: $border-width-thin solid $color-border;
 
@@ -9,16 +17,37 @@
     }
 }
 
+/**
+ * @summary Initializes coverage for policy item
+ *
+ * @name nds-communities-policy-item
+ * @selector .nds-communities-policy-item
+ * @modifier
+ */
 .nds-communities-policy-item {
 
     .nds-communities {
 
+        /**
+        * @summary Stules coverage custom icon
+        *
+        * @name nds-communities-custom-icon
+        * @selector .nds-communities-custom-icon
+        * @modifier
+        */
         &-custom-icon {
             padding: $spacing-x-small;
             width: 3rem;
             height: 3rem;
         }
 
+        /**
+        * @summary Styles coverage for policy item
+        *
+        * @name nds-communities-policy-item-coverages-container
+        * @selector .nds-communities-policy-item-coverages-container
+        * @modifier
+        */
         &-policy-item-coverages-container {
             width: 100%;
 
@@ -27,6 +56,13 @@
             }
         }
 
+        /**
+        * @summary Styles coverage for policy item attribute category
+        *
+        * @name nds-communities-policy-item_category
+        * @selector .nds-communities-policy-item_category
+        * @modifier
+        */
         &-policy-item_category {
             position: relative; 
             left: -2.1rem;
