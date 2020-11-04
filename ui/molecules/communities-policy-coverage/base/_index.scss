@@ -8,7 +8,6 @@
  * @selector .nds-communities-coverage
  * @modifier
  */
- .nds-
 .nds-communities-coverage {
     border-bottom: $border-width-thin solid $color-border;
 
@@ -25,11 +24,9 @@
  * @modifier
  */
 .nds-communities-policy-item {
-
     .nds-communities {
-
         /**
-        * @summary Stules coverage custom icon
+        * @summary Styles coverage custom icon
         *
         * @name nds-communities-custom-icon
         * @selector .nds-communities-custom-icon
@@ -64,19 +61,17 @@
         * @modifier
         */
         &-policy-item_category {
-            position: relative; 
+            position: relative;
             left: -2.1rem;
         }
     }
-} 
+}
 
 @media screen and (max-width: 75rem) {
-
     .nds-communities-policy-item {
         padding-bottom: $spacing-x-small;
 
         .nds-communities {
-
             &-custom-icon {
                 display: none;
             }
@@ -91,9 +86,7 @@
         }
 
         .nds-text-heading_small {
-            font-size: .9rem;
+            font-size: 0.9rem;
         }
-
     }
-    
 }

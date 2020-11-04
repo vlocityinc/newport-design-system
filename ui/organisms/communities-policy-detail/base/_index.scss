@@ -1,19 +1,18 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-  /**
-    * @summary Initalizes a policy item styling in community
-    *
-    * @name nds-communities-policy-item
-    * @selector .nds-communities-policy-item
-    * @modifier
-    */
+/**
+* @summary Initalizes a policy item styling in community
+*
+* @name nds-communities-policy-item
+* @selector .nds-communities-policy-item
+* @modifier
+*/
 .nds-communities-policy-item {
     font-family: SalesforceSans-Regular;
     color: $palette-gray-11;
 
     .nds-communities {
-
         /**
         * @summary Title for a policy item
         *
@@ -57,7 +56,7 @@
         * @modifier
         */
         &-custom-img {
-            width: 4rem; 
+            width: 4rem;
             height: 4rem;
         }
 
@@ -82,7 +81,6 @@
         &-icon_container {
             border-radius: $border-radius-circle;
         }
-
 
         /**
         * @summary Styles for icon item
@@ -175,7 +173,7 @@
         * @selector .nds-communities-header-content
         * @modifier
         */
-        &-title-container  {
+        &-title-container {
             line-height: 2rem;
         }
 
@@ -240,25 +238,19 @@
             position: relative;
             top: -0.25rem;
         }
-
     }
 
     .nds-text-link:hover {
         cursor: pointer;
     }
-    
 }
 
-
 @media screen and (max-width: 75rem) {
-
     .nds-communities-policy-item {
-
         .nds-communities-price-tooltip {
             bottom: 2rem;
             right: 0;
             left: -1rem;
         }
-
     }
-}
+}    
