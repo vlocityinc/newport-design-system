@@ -1,0 +1,22 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a agent card for community
+ *
+ * @name nds-communities-billing
+ * @selector .nds-communities-billing
+ * @modifier
+ */
+ .nds-communities-billing {
+    .nds-communities-billing_amountDue{
+        font-size:$font-size-xxx-large;
+    } 
+    .nds-action_item{
+        display:block;
+        .nds-action_text{
+            text-align:$text-align-center;
+            display:inherit;
+        }
+    }
+}
