@@ -1,0 +1,4 @@
+.link-text {
+    word-break: break-word;
+    hyphens: auto;
+}
