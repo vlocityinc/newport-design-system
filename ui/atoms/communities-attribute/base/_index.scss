@@ -8,8 +8,7 @@
  * @selector .nds-communities-attr
  * @modifier
  */
-.nds-communities-attr {
-
+ .nds-communities-attr {
     /**
     * @summary styles an attribute label for a community
     *
@@ -50,9 +49,7 @@
 }
 
 @media screen and (max-width: 75rem) {
-
     .nds-communities-attr {
-
         &.nds-communities-attr_coverage {
             padding: $spacing-none;
             margin: $spacing-none;
