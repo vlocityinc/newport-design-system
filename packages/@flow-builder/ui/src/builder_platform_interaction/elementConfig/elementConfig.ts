@@ -1131,7 +1131,7 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
             elementToUpdate.labels!.leftPanel = element.label!;
             elementToUpdate.labels!.newModal = element.labelNew!;
             elementToUpdate.labels!.editModal = element.labelEdit!;
-            elementToUpdate.color = element.color;
+            elementToUpdate.nodeConfig!.iconBackgroundColor = element.color;
             elementToUpdate.nodeConfig!.iconName = element.icon!;
             elementToUpdate.nodeConfig!.description = element.description;
             elementToUpdate.configComponent = element.configComponent;
