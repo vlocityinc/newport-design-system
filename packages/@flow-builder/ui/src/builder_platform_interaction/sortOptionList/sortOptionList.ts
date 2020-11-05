@@ -3,14 +3,7 @@ import { LABELS } from './sortOptionListLabels';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { AddSortOptionItemEvent, DeleteSortOptionItemEvent } from 'builder_platform_interaction/events';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { Guid } from 'builder_platform_interaction/flowModel';
-
-type SortOption = {
-    sortField: { value: string | null; error: string | null };
-    sortOrder: { value: string | null; error: string | null };
-    nullsLast: boolean;
-    rowIndex?: Guid | null;
-};
+import { SortOption } from 'builder_platform_interaction/sortEditorLib';
 
 export default class SortOptionList extends LightningElement {
     labels = LABELS;
@@ -32,6 +25,9 @@ export default class SortOptionList extends LightningElement {
     @api
     maxSortFields = 3;
 
+    @api
+    queriedFields;
+
     /**
      * @param entityName the selected entity name
      */
@@ -40,7 +36,7 @@ export default class SortOptionList extends LightningElement {
     }
 
     @api
-    get recordEntityName() {
+    get recordEntityName(): string {
         return this._recordEntityName;
     }
 
@@ -54,14 +50,14 @@ export default class SortOptionList extends LightningElement {
     }
 
     @api
-    get sortOptions() {
+    get sortOptions(): SortOption[] {
         return this._sortOptions;
     }
 
     /**
      * get the sortOrder and nullsLast when sorting on primitive collections
      */
-    get primitiveSortOption() {
+    get primitiveSortOption(): SortOption {
         if (!this.isSobject && this.sortOptions.length > 0) {
             return this.sortOptions[0];
         }
@@ -75,7 +71,7 @@ export default class SortOptionList extends LightningElement {
     /**
      * show delete icon button
      */
-    get showDelete() {
+    get showDelete(): boolean {
         return this.isSobject && this._sortOptions.length > 1;
     }
 

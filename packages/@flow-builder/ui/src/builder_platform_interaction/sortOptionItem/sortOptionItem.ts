@@ -37,6 +37,9 @@ export default class SortOptionItem extends LightningElement {
     @api
     showDelete = false;
 
+    @api
+    queriedFields;
+
     /**
      * the value of the sort order dropdown.
      */
@@ -88,13 +91,19 @@ export default class SortOptionItem extends LightningElement {
             return;
         }
         this.menuDataFields = Object.keys(this._entityFields)
-            .filter((field) => {
-                return this._entityFields[field].sortable;
-            })
+            .filter((field) => this.isSortableField(field))
             .reduce((menuData, fieldName) => {
                 menuData[fieldName] = this._entityFields[fieldName];
                 return menuData;
             }, {});
+    }
+
+    isSortableField(field) {
+        let isSortable = this._entityFields[field].sortable;
+        isSortable = this.queriedFields
+            ? isSortable && this.queriedFields.findIndex((queriedField) => queriedField.field === field) !== -1
+            : isSortable;
+        return isSortable;
     }
 
     get sortOrderOptions() {

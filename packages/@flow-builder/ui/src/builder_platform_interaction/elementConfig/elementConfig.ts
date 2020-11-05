@@ -1,4 +1,10 @@
-import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    METADATA_KEY,
+    ELEMENT_TYPE,
+    COLLECTION_PROCESSOR_SUB_TYPE,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
@@ -468,11 +474,11 @@ export const elementTypeToConfigMap: {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.COLLECTION_PROCESSORS,
         canvasElement: true,
-        nonHydratableProperties: ['elementSubtype'],
+        nonHydratableProperties: ['elementSubtype', 'collectionProcessorType'],
         bodyCssClass: 'slds-p-around_none',
         labels: {
-            singular: '',
-            plural: ''
+            singular: LABELS.collectionProcessorSingularLabel,
+            plural: LABELS.collectionProcessorPluralLabel
         },
         factory: {
             propertyEditor: createCollectionProcessor,
@@ -1098,6 +1104,26 @@ export const elementTypeToConfigMap: {
         isChildElement: true,
         factory: {
             propertyEditor: createSteppedStageItem
+        }
+    },
+    /**
+     * Currently, when the flowBuilder app is loaded - the canvas loads prior to the leftPanel.
+     * Unlike the configuration for the base element types, which is hardcoded in the elementConfig.ts
+     * and is therefore available at the time of loading of the canvas, the subtype configuration is received
+     * from the service at the time of loading the leftPanel. Due to this there was issue in loading a flow
+     * which had been saved with collection processor subtypes. We would need to fix the subtype framework to be able
+     * to handle this case. For now, we are ok to add basic sort configuration here.
+     * But once the subtypes f/w fix is in place - this would need to be removed.
+     */
+    [COLLECTION_PROCESSOR_SUB_TYPE.SORT]: {
+        nodeConfig: {
+            iconName: 'standard:sort',
+            utilityIconName: 'utility:sort'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.sortSingularLabel,
+            plural: LABELS.sortPluralLabel
         }
     },
     [ELEMENT_TYPE.DEFAULT]: {

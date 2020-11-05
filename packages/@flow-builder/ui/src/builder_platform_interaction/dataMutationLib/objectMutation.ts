@@ -102,7 +102,7 @@ export const stringToPath = (string) => {
  * @param {Object}          value the value to be set at the path
  * @returns {Object}              the new object with the updated vaue
  */
-export const set = (obj = {}, path = [], value = undefined) => {
+export const set = (obj: object = {}, path: string[] | string = [], value: object | undefined) => {
     const keys = stringToPath(path);
     const retObj = setValue(obj, keys, value);
     return retObj;

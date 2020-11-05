@@ -5,7 +5,7 @@ import {
     createCollectionProcessorMetadataObject,
     createPastedCollectionProcessor
 } from '../collectionProcessor';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 const defaultCollectionProcessorElement = {
@@ -26,6 +26,7 @@ const defaultCollectionProcessorElement = {
 
 const testCollectionProcessorElement = {
     elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR,
+    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT,
     description: 'testElementDesc',
     name: 'collectionProcessor1',
     guid: 'testGUID',
@@ -37,7 +38,10 @@ const testCollectionProcessorElement = {
     config: {
         isSelected: false
     },
-    connectorCount: 0
+    connectorCount: 0,
+    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', nullsLast: true }],
+    limit: null,
+    collectionReference: 'collectionRef'
 };
 
 const testCollectionProcessorMetadataElement = {
@@ -45,7 +49,11 @@ const testCollectionProcessorMetadataElement = {
     name: 'collectionProcessor1',
     label: 'collectionProcessor1label',
     locationX: 10,
-    locationY: 10
+    locationY: 10,
+    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', nullsLast: true }],
+    limit: null,
+    collectionReference: 'collectionRef',
+    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => {

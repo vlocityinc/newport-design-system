@@ -4,7 +4,7 @@ import CollectionProcessorEditor from '../collectionProcessorEditor';
 const MOCK_GUID = '93f65bd6-d0ab-4e75-91b1-a8599dee54ed';
 
 const storedCollectionProcessor = {
-    collectionProcessorType: undefined,
+    collectionProcessorType: 'SortCollectionProcessor',
     collectionReference: undefined,
     config: { isSelected: false, isHighlighted: false, isSelectable: true },
     connectorCount: 0,

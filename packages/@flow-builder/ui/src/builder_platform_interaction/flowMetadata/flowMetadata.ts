@@ -83,10 +83,6 @@ export enum ELEMENT_TYPE {
     DEFAULT = 'defaultElement'
 }
 
-export const ELEMENT_SUB_TYPE = {
-    SORT_COLLECTION_PROCESSOR: 'SortCollectionProcessor'
-};
-
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',
@@ -376,6 +372,10 @@ export const START_ELEMENT_FIELDS = {
     START_TIME: 'startTime',
     FILTER_LOGIC: 'filterLogic',
     REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
+};
+
+export const COLLECTION_PROCESSOR_SUB_TYPE = {
+    SORT: 'SortCollectionProcessor'
 };
 
 export function isSystemElement(elementType) {

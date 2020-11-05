@@ -109,3 +109,5 @@ export { DeleteSortOptionItemEvent } from './deleteSortOptionItemEvent';
 export { UpdateSortCollectionOutputEvent } from './updateSortCollectionOutputEvent';
 export { InputsNextBehaviorChangeEvent } from './inputsNextBehaviorChangeEvent';
 export { DeleteTimeTriggerEvent } from './deleteTimeTriggerEvent';
+export { CollectionReferenceChangedEvent } from './collectionReferenceChangedEvent';
+export { UpdateCollectionProcessorEvent } from './updateCollectionProcessorEvent';

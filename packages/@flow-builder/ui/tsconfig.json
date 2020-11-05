@@ -193,6 +193,7 @@
             "builder_platform_interaction/sobjectLib": ["./src/builder_platform_interaction/sobjectLib/sobjectLib.ts"],
             "builder_platform_interaction/sobjectOrSobjectCollectionPicker": ["./src/builder_platform_interaction/sobjectOrSobjectCollectionPicker/sobjectOrSobjectCollectionPicker.ts"],
             "builder_platform_interaction/sortCollectionOutput": ["./src/builder_platform_interaction/sortCollectionOutput/sortCollectionOutput.ts"],
+            "builder_platform_interaction/sortEditor": ["./src/builder_platform_interaction/sortEditor/sortEditor.ts"],
             "builder_platform_interaction/sortEditorLib": ["./src/builder_platform_interaction/sortEditorLib/sortEditorLib.ts"],
             "builder_platform_interaction/sortLib": ["./src/builder_platform_interaction/sortLib/sortLib.ts"],
             "builder_platform_interaction/sortOptionItem": ["./src/builder_platform_interaction/sortOptionItem/sortOptionItem.ts"],

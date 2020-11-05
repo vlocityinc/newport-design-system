@@ -83,5 +83,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
     WAIT_PLATFORM_EVENT: 'builder_platform_interaction-wait-platform-event',
     WAIT_TIME_EVENT: 'builder_platform_interaction-wait-time-event',
-    SORT_OPTION_ITEM: 'builder_platform_interaction-sort-option-item'
+    SORT_OPTION_ITEM: 'builder_platform_interaction-sort-option-item',
+    SORT_OPTION_LIST: 'builder_platform_interaction-sort-option-list',
+    SORT_COLLECTION_OUTPUT: 'builder_platform_interaction-sort-collection-output'
 };

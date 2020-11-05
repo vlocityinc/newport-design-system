@@ -1,7 +1,7 @@
 import { collectionProcessorValidation } from './collectionProcessorValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
 import { StoreState } from 'builder_platform_interaction/flowModel';
 
 const collectionProcessorPropertyChanged = (state, event) => {
@@ -17,6 +17,16 @@ const collectionProcessorPropertyChanged = (state, event) => {
     });
 };
 
+const updateCollectionProcessor = (state, event) => {
+    const element = event.detail.element;
+    for (const prop of Object.keys(element)) {
+        state = updateProperties(state, {
+            [prop]: element[prop]
+        });
+    }
+    return state;
+};
+
 /**
  * Collection processor reducer function runs validation rules and returns back the updated element
  * @param state - collectionsProcessor node
@@ -27,10 +37,11 @@ export const collectionProcessorReducer = (state: StoreState, event: CustomEvent
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return collectionProcessorPropertyChanged(state, event);
+        case UpdateCollectionProcessorEvent.EVENT_NAME:
+            return updateCollectionProcessor(state, event);
         case VALIDATE_ALL: {
             return collectionProcessorValidation.validateAll(state, null);
         }
-
         default:
             return state;
     }

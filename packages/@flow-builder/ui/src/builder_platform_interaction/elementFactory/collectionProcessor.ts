@@ -6,18 +6,54 @@ import {
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createSortOption, createSortOptionMetadataObject } from './sortOption';
 
 const elementType = ELEMENT_TYPE.COLLECTION_PROCESSOR;
 const maxConnections = 1;
 
 export function createCollectionProcessor(collectionProcessor?) {
     const newCollectionProcessor = baseCanvasElement(collectionProcessor);
-    const collectionProcessorObject = Object.assign(newCollectionProcessor, {
-        maxConnections,
-        elementType
+    if (collectionProcessor) {
+        return Object.assign(newCollectionProcessor, createCollectionProcessorItem(collectionProcessor));
+    }
+    return Object.assign(newCollectionProcessor, {
+        elementType,
+        maxConnections
     });
-    return collectionProcessorObject;
+}
+
+function createCollectionProcessorItem(collectionProcessor) {
+    const collectionProcessorType = collectionProcessor.collectionProcessorType
+        ? collectionProcessor.collectionProcessorType
+        : collectionProcessor.elementSubtype;
+    const { collectionReference = null } = collectionProcessor;
+    switch (collectionProcessorType) {
+        case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
+            let { sortOptions } = collectionProcessor;
+            if (sortOptions && sortOptions.length > 0) {
+                sortOptions = sortOptions.map((sortOption) => createSortOption(sortOption));
+            } else {
+                const newSortOption = createSortOption();
+                sortOptions = [newSortOption];
+            }
+            return {
+                collectionReference,
+                collectionProcessorType,
+                limit: collectionProcessor.limit ? collectionProcessor.limit.toString() : null,
+                sortOptions,
+                elementType,
+                maxConnections
+            };
+        }
+        default:
+            return {
+                collectionReference,
+                collectionProcessorType,
+                elementType,
+                maxConnections
+            };
+    }
 }
 
 /**
@@ -64,8 +100,28 @@ export function createCollectionProcessorMetadataObject(collectionProcessor, con
     if (!collectionProcessor) {
         throw new Error('collectionProcessor is not defined');
     }
+    const { collectionReference = null, collectionProcessorType } = collectionProcessor;
+    const newCollectionProcessor = baseCanvasElementMetadataObject(collectionProcessor, config);
+    const item = createCollectionProcessorItemMetadataObject(collectionProcessorType, collectionProcessor);
+    return Object.assign(newCollectionProcessor, { collectionReference, collectionProcessorType }, item);
+}
 
-    return baseCanvasElementMetadataObject(collectionProcessor, config);
+function createCollectionProcessorItemMetadataObject(collectionProcessorType, collectionProcessor) {
+    switch (collectionProcessorType) {
+        case COLLECTION_PROCESSOR_SUB_TYPE.SORT: {
+            const limit = collectionProcessor.limit;
+            let { sortOptions } = collectionProcessor;
+            if (sortOptions && sortOptions.length > 0) {
+                sortOptions = sortOptions.map((sortOption) => createSortOptionMetadataObject(sortOption));
+            } else {
+                const newSortOption = createSortOptionMetadataObject();
+                sortOptions = [newSortOption];
+            }
+            return { limit, sortOptions };
+        }
+        default:
+            return {};
+    }
 }
 
 export function createCollectionProcessorWithConnectors(collectionProcessor) {
