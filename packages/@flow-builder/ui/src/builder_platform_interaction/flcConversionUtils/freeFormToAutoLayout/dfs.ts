@@ -224,11 +224,13 @@ function visitNodeEnd(ctx: DfsContext, elementInfo: ConversionInfo) {
 function processConnectors(ctx: DfsContext, elementInfo: ConversionInfo) {
     const { outs, fault } = elementInfo;
 
-    elementInfo.edgeTypes = outs.map((out) => processConnector(ctx, elementInfo, out));
-
+    // need to process the fault first so that the following elements are
+    // created under a fault context
     if (fault) {
         elementInfo.faultEdgeType = processConnector(ctx, elementInfo, fault);
     }
+
+    elementInfo.edgeTypes = outs.map((out) => processConnector(ctx, elementInfo, out));
 }
 
 /**
@@ -330,8 +332,10 @@ function checkIntervals(ctx: DfsContext) {
         // when entering a loop, create an interval that encloses all the loop elements
         const isFirstLoopElement = ins.length === 1 && ins[0].type === CONNECTOR_TYPE.LOOP_NEXT;
         if (isFirstLoopElement) {
+            const loopElement = conversionInfos[ins[0].source];
+
             // get all the topo orders of the loop elements that loop back to the loop header
-            const topoOrders = ins.map((conn) => {
+            const topoOrders = loopElement.ins.map((conn) => {
                 const { source, type } = conn;
                 const sourceElement = conversionInfos[source];
                 if (sourceElement.dfsEnd! <= dfsEnd! && type !== CONNECTOR_TYPE.LOOP_END) {
@@ -374,6 +378,28 @@ function checkIntervals(ctx: DfsContext) {
 
             for (const out of outs) {
                 const targetTopoSortIndex = conversionInfos[out.target].topologicalSortIndex!;
+
+                // if we loop back, check that we are not inside a branching interval
+                if (targetTopoSortIndex < i) {
+                    let intervalsCount = 0;
+
+                    for (let j = intervalStack.length - 1; j >= 0; j--) {
+                        const [start] = intervalStack[j];
+
+                        // check we are inside the loop
+                        if (start > targetTopoSortIndex) {
+                            intervalsCount++;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    // the loop interval is always present, so must be > 1
+                    if (intervalsCount > 1) {
+                        throw new Error('loop back while in branching interval');
+                    }
+                }
+
                 if (!(targetTopoSortIndex <= innermostInterval[1] || targetTopoSortIndex > outermostInterval[1])) {
                     throw new Error('invalid target in intervals');
                 }

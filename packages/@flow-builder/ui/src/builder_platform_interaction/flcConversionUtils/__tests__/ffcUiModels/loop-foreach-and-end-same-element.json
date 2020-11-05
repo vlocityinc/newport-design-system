@@ -1,0 +1,169 @@
+{
+    "elements": {
+        "ac50efc7-d4b5-4c23-9d27-ab343b9922a1": {
+            "guid": "ac50efc7-d4b5-4c23-9d27-ab343b9922a1",
+            "description": "",
+            "locationX": 877,
+            "locationY": 48,
+            "isCanvasElement": true,
+            "connectorCount": 1,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "elementType": "START_ELEMENT",
+            "maxConnections": 1,
+            "triggerType": "None",
+            "filterLogic": "and",
+            "object": "",
+            "objectIndex": "1ea3bac3-e6b4-4a34-802d-647a4e4212a2",
+            "filters": [
+                {
+                    "rowIndex": "a1954440-1161-44d2-ab33-58936f626572",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "doesRequireRecordChangedToMeetCriteria": false
+        },
+        "ae32ef37-3d2c-42f6-ba32-ac1fdb92d351": {
+            "guid": "ae32ef37-3d2c-42f6-ba32-ac1fdb92d351",
+            "name": "loop",
+            "description": "",
+            "label": "loop",
+            "locationX": 1003,
+            "locationY": 206,
+            "isCanvasElement": true,
+            "connectorCount": 2,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignNextValueToReference": null,
+            "assignNextValueToReferenceIndex": "8da43089-c17d-495c-951a-e83689123766",
+            "collectionReference": "09afbe9b-845d-44ff-8f40-67fce6cb1556",
+            "collectionReferenceIndex": "a17fb4db-f2c1-4025-8f68-811c56945fd5",
+            "iterationOrder": "Asc",
+            "maxConnections": 2,
+            "availableConnections": [],
+            "elementType": "Loop",
+            "storeOutputAutomatically": true,
+            "dataType": "SObject",
+            "subtype": "Account"
+        },
+        "c19f3e4f-a2c2-4932-bde4-5e056357ea7f": {
+            "guid": "c19f3e4f-a2c2-4932-bde4-5e056357ea7f",
+            "name": "s1",
+            "description": "",
+            "label": "s1",
+            "locationX": 1001,
+            "locationY": 648,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "hasError": false
+            },
+            "allowBack": true,
+            "allowFinish": true,
+            "allowPause": true,
+            "helpText": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true,
+            "childReferences": [],
+            "elementType": "Screen",
+            "maxConnections": 1
+        },
+        "09afbe9b-845d-44ff-8f40-67fce6cb1556": {
+            "guid": "09afbe9b-845d-44ff-8f40-67fce6cb1556",
+            "name": "loopvar",
+            "description": "",
+            "elementType": "Variable",
+            "isCollection": true,
+            "isInput": false,
+            "isOutput": false,
+            "dataType": "SObject",
+            "subtype": "Account",
+            "subtypeIndex": "5850c19d-563b-45ca-b933-a306b4c2c7e2",
+            "scale": 0,
+            "defaultValue": null,
+            "defaultValueDataType": null,
+            "defaultValueIndex": "2066beed-4f93-4189-b893-988aafef66dd"
+        },
+        "c5a5843a-7aa4-4123-bc24-db9171ddf819": {
+            "guid": "c5a5843a-7aa4-4123-bc24-db9171ddf819",
+            "name": "END_ELEMENT",
+            "description": "",
+            "label": "End",
+            "locationX": 0,
+            "locationY": 0,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "elementType": "END_ELEMENT",
+            "value": "END_ELEMENT",
+            "text": "END_ELEMENT"
+        }
+    },
+    "canvasElements": [
+        "ac50efc7-d4b5-4c23-9d27-ab343b9922a1",
+        "ae32ef37-3d2c-42f6-ba32-ac1fdb92d351",
+        "c19f3e4f-a2c2-4932-bde4-5e056357ea7f",
+        "c5a5843a-7aa4-4123-bc24-db9171ddf819"
+    ],
+    "connectors": [
+        {
+            "guid": "a456cb85-d9bc-46ff-95cf-9387f8c50c69",
+            "source": "ac50efc7-d4b5-4c23-9d27-ab343b9922a1",
+            "target": "ae32ef37-3d2c-42f6-ba32-ac1fdb92d351",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "aa601c48-7eac-4bc9-9224-1b1042bdbd1d",
+            "source": "ae32ef37-3d2c-42f6-ba32-ac1fdb92d351",
+            "target": "c19f3e4f-a2c2-4932-bde4-5e056357ea7f",
+            "label": "For Each Item",
+            "type": "LOOP_NEXT",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "3f028d6a-afc6-43da-a13e-7b9b268301dc",
+            "source": "ae32ef37-3d2c-42f6-ba32-ac1fdb92d351",
+            "target": "c19f3e4f-a2c2-4932-bde4-5e056357ea7f",
+            "label": "After Last Item",
+            "type": "LOOP_END",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "70d96db0-61d4-45d3-befe-2c46fa175c0e",
+            "source": "c19f3e4f-a2c2-4932-bde4-5e056357ea7f",
+            "target": "c5a5843a-7aa4-4123-bc24-db9171ddf819",
+            "label": null,
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        }
+    ]
+}

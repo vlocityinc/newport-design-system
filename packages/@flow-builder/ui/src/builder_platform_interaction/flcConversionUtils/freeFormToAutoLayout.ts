@@ -473,6 +473,9 @@ export function consolidateEndConnectors(elements: FlowElements): FlowElements {
 /**
  * Converts a Free Form Canvas UI model to an Auto Layout Canvas UI model
  *
+ * See this document for a more detailed explanation of the algorithm:
+ * https://salesforce.quip.com/vm20ApWXnE62
+ *
  * @param storeState - A Free Form Canvas UI model
  * @param options - Conversion options
  *

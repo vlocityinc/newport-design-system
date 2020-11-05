@@ -53,6 +53,10 @@ import ffcTestCase10 from './ffcUiModels/testCase10.json';
 import ffcTestCase11 from './ffcUiModels/testCase11.json';
 import ffcTestCase12 from './ffcUiModels/testCase12.json';
 
+import ffcLoopWithNestedLoopBack from './ffcUiModels/loop-with-nested-branch-that-loops-back.json';
+import ffcNextAndFaultSameElement from './ffcUiModels/element-with-next-and-fault-pointing-to-same-element.json';
+import ffcLoopForEachAndEndSameElement from './ffcUiModels/loop-foreach-and-end-same-element.json';
+
 import {
     convertToFreeFormCanvas,
     convertToAutoLayoutCanvas,
@@ -373,6 +377,18 @@ describe('flc conversion utils', () => {
     });
 
     describe('cant convert Free Form Flow with', () => {
+        it('next and fault same element', () => {
+            assertCanConvertToAutoLayoutCanvas(ffcNextAndFaultSameElement, false);
+        });
+
+        it('loop for each and end same element', () => {
+            assertCanConvertToAutoLayoutCanvas(ffcLoopForEachAndEndSameElement, false);
+        });
+
+        it('loop with nested loop back', () => {
+            assertCanConvertToAutoLayoutCanvas(ffcLoopWithNestedLoopBack, false);
+        });
+
         it('with start node that has set childReferences', () => {
             const storeState = storeStateFromConnectors([]);
             storeState.elements.start.childReferences = [

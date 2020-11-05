@@ -11,7 +11,8 @@ type FlowCheckType =
     | 'endInLoop' /* if an end was found in a loop */
     | 'backEdge' /* if a back edge goto was found */
     | 'crossBoundary' /* if a cross boundrary goto was found */
-    | 'branchMergeNesting'; /* if an invalid [branchingGuid - mergingGuid] matching was found */
+    | 'branchMergeNesting' /* if an invalid [branchingGuid - mergingGuid] matching was found */
+    | 'loopNextAndEndTheSame'; /* if a loop's next and end connectors point to the same element */
 
 const unsupportedElementTypes = [ELEMENT_TYPE.STEP] as string[];
 
@@ -71,6 +72,9 @@ function validateEdgeTypes(conversionInfos: ConversionInfos, elementInfo: Conver
     }
 }
 
+function areLoopNextAndEndTheSame(outs: FlowConnector[]) {
+    return outs.length === 2 && outs[0].target === outs[1].target;
+}
 /**
  * Validates the conversion infos
  *
@@ -104,13 +108,17 @@ export function validateConversionInfos(elements: FlowElements, conversionInfos:
                 executionContext,
                 mergeGuid,
                 branchingGuid,
-                elementGuid
+                elementGuid,
+                isLoop,
+                outs
             } = elementInfo;
 
             validateEdgeTypes(conversionInfos, elementInfo);
             const expectedReachedCount = ins.length;
 
-            if (reachedCount !== expectedReachedCount) {
+            if (isLoop && areLoopNextAndEndTheSame(outs)) {
+                failFlowCheck('loopNextAndEndTheSame');
+            } else if (reachedCount !== expectedReachedCount) {
                 // The number of times a node was reached by dfs should be the equal to the
                 // count of inbound connectors for that node
                 failFlowCheck('reachedCount');
