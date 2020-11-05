@@ -4,7 +4,8 @@ import alwaysStartNewTxnLabel from '@salesforce/label/TransactionControlPicker.a
 import alwaysStartNewTxnDescLabel from '@salesforce/label/TransactionControlPicker.alwaysStartNewTxnDescLabel';
 import automaticallyChooseLabel from '@salesforce/label/TransactionControlPicker.automaticallyChooseLabel';
 import automaticallyChooseDescLabel from '@salesforce/label/TransactionControlPicker.automaticallyChooseDescLabel';
-import whetherToStartNewTxnLabel from '@salesforce/label/TransactionControlPicker.whetherToStartNewTxnLabel';
+import transactionControlLabel from '@salesforce/label/TransactionControlPicker.transactionControlLabel';
+import infoBubbleHelpText from '@salesforce/label/TransactionControlPicker.infoBubbleHelpText';
 
 export const LABELS = {
     alwaysContExistingTxnLabel,
@@ -13,5 +14,6 @@ export const LABELS = {
     alwaysStartNewTxnDescLabel,
     automaticallyChooseLabel,
     automaticallyChooseDescLabel,
-    whetherToStartNewTxnLabel
+    transactionControlLabel,
+    infoBubbleHelpText
 };

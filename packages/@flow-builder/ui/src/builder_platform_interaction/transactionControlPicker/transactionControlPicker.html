@@ -4,9 +4,15 @@
             <fieldset class="slds-form-element">
                 <legend class="slds-form-element__legend slds-form-element__label">
                     <div class="slds-align-top">
-                        {labels.whetherToStartNewTxnLabel}
+                        {labels.transactionControlLabel}
                     </div>
                 </legend>
+                <div slot="actions">
+                    <lightning-helptext
+                        class="slds-list_inline slds-m-left_small"
+                        content={labels.infoBubbleHelpText}
+                    ></lightning-helptext>
+                </div>
                 <div class="slds-form-element__control">
                     <template for:each={whetherToStartTxnOptions} for:item="option">
                         <span class="slds-radio" key={option.value}>
