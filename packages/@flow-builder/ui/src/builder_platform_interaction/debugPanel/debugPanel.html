@@ -4,7 +4,11 @@
     </div>
     <div class="slds-panel__body slds-scrollable--y">
         <div if:true={hasErrors} class="error">
-            {errorMessage}
+            <lightning-formatted-rich-text
+                value={errorMessage}
+                disable-linkify="true"
+                class="errorMsg"
+            ></lightning-formatted-rich-text>
         </div>
         <!-- if there's an error, there will be no debugData.debugTraces-->
         <template for:each={debugTraces} for:item="trace">

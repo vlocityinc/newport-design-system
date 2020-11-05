@@ -20,10 +20,10 @@ const createComponentUnderTest = (debugData) => {
 describe('Debug Panel', () => {
     it('should display error when run fails', () => {
         const panel = createComponentUnderTest(errorInterview);
-        const errorText = panel.shadowRoot.querySelector('.error');
+        const errorText = panel.shadowRoot.querySelector('.errorMsg');
         expect(errorText).not.toBeUndefined();
 
-        const text = errorText.textContent;
+        const text = errorText.value[0];
         expect(text).toContain(errorInterview.error);
     });
 });
