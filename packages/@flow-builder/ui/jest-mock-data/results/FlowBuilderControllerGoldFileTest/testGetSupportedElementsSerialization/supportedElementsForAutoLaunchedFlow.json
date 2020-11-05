@@ -63,9 +63,9 @@
     {
       "labelEdit":"Edit Sort",
       "isElementSubtype":true,
-      "color":"#ff8000",
+      "color":"background-orange",
       "name":"SortCollectionProcessor",
-      "icon":"iconName",
+      "icon":"standard:sort",
       "description":"Used for sorting Collection Variables",
       "label":"Sort",
       "labelNew":"New Sort",

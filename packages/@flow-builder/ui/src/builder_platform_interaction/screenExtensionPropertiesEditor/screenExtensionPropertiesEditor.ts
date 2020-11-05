@@ -103,11 +103,11 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     };
 
     inputsNextBehaviorOptions = [
+        { label: LABELS.extensionInputsNextBehaviorRememberDescription, value: InputsNextBehaviorOption.REMEMBER },
         {
             label: LABELS.extensionInputsNextBehaviorRecalculateDescription,
             value: InputsNextBehaviorOption.RECALCULCATE
-        },
-        { label: LABELS.extensionInputsNextBehaviorRememberDescription, value: InputsNextBehaviorOption.REMEMBER }
+        }
     ];
 
     get isAdvancedCheckboxDisplayed() {
