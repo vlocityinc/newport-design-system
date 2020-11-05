@@ -9,7 +9,7 @@ import {
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { findStartYOffset } from 'builder_platform_interaction/elementFactory';
+import { findStartYOffset, shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
 import { supportsChildren, flcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
 import { findStartElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
@@ -228,6 +228,10 @@ function toCanvasElement(elements: FlowElements, alcCanvasElement: AutoLayoutCan
     const supportsMultipleConnectors = supportsChildren(alcCanvasElement) || elementConfig.canHaveFaultConnector;
     let maxConnections = 1;
 
+    if (alcCanvasElement.elementType === ELEMENT_TYPE.START_ELEMENT && shouldSupportTimeTriggers(alcCanvasElement)) {
+        availableConnections.push({ type: CONNECTOR_TYPE.IMMEDIATE });
+    }
+
     if (alcCanvasElement.elementType === ELEMENT_TYPE.LOOP) {
         if (isEndElementOrNull(elements, alcCanvasElement.children![0])) {
             availableConnections.push({ type: CONNECTOR_TYPE.LOOP_NEXT });
@@ -382,7 +386,7 @@ function convertBranchToFreeForm(
     let alcElement = alcBranchHeadElement;
 
     while (alcElement != null) {
-        const { fault, guid, next } = alcElement;
+        const { fault, guid, next, elementType } = alcElement;
 
         // create an ffc element from the alc element and add it to the storeState
         const canvasElement = toCanvasElement(alcElementsMap, alcElement);
@@ -416,7 +420,15 @@ function convertBranchToFreeForm(
             // if next null, then the last element of the branch will connect to ancestorNext
             const targetNext = next != null ? next : ancestorNext;
             if (targetNext != null) {
-                addConnector(alcElementsMap, guid, targetNext, ffcStoreState);
+                if (
+                    elementType &&
+                    elementType === ELEMENT_TYPE.START_ELEMENT &&
+                    shouldSupportTimeTriggers(alcElement)
+                ) {
+                    addConnector(alcElementsMap, guid, targetNext, ffcStoreState, CONNECTOR_TYPE.IMMEDIATE);
+                } else {
+                    addConnector(alcElementsMap, guid, targetNext, ffcStoreState, CONNECTOR_TYPE.REGULAR);
+                }
             }
         }
 

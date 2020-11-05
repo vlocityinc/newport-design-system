@@ -22,6 +22,7 @@ import decisionWithEmptyNestedDecision from './flcUiModels/decision-with-empty-n
 import decisionWithDecisionNext from './flcUiModels/decision-with-decision-next';
 import updatedElementConfig from './flcUiModels/updated-element-config';
 import testCaseW8010546 from './flcUiModels/test-case-W-8010546';
+import oneAssignmentInTimeTrigger from './flcUiModels/one-assignment-in-time-trigger';
 
 import ffcSanity from './ffcUiModels/sanity.json';
 import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
@@ -65,7 +66,13 @@ import {
     addEndElementsAndConnectorsTransform,
     consolidateEndConnectors
 } from '../flcConversionUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    CONNECTOR_TYPE,
+    FLOW_TRIGGER_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
 
 const CANVAS_WIDTH = 1024;
 const startElementCoords = [CANVAS_WIDTH / 2 - 24, 48];
@@ -98,7 +105,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                 extraProps
             );
         },
-        findStartYOffset
+        findStartYOffset,
+        shouldSupportTimeTriggers: jest.fn()
     };
 });
 
@@ -135,6 +143,10 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         shouldUseAutoLayoutCanvas: jest.fn()
     };
+});
+
+shouldSupportTimeTriggers.mockImplementation((startElement) => {
+    return startElement.guid === 'time-trigger-start-element-guid';
 });
 
 function sortCanvasElementsAndConnectors({ elements, canvasElements, connectors }) {
@@ -1057,6 +1069,23 @@ describe('flc conversion utils', () => {
                     assertRoundTripFromAutoLayoutCanvas(loopWithNestedLoop, endConnectors);
                 });
             });
+        });
+    });
+
+    describe('convert record triggered flow with single trigger', () => {
+        it('can convert to Free Form Flow', () => {
+            const storeState = storeStateFromConnectors([]);
+            storeState.elements.start.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+            storeState.elements.start.object = 'Account';
+            storeState.elements.start.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
+            assertCanConvertToAutoLayoutCanvas(storeState, true);
+        });
+        it('creates connector with default label (immediate)', () => {
+            const ffUiModel = convertToFreeFormCanvas(oneAssignmentInTimeTrigger, [0, 0]);
+            const connector = ffUiModel.connectors.find((conn) => {
+                return conn.guid === 'time-trigger-start-element-guid -> assignment-element-guid';
+            });
+            expect(connector.type).toBe(CONNECTOR_TYPE.IMMEDIATE);
         });
     });
 });
