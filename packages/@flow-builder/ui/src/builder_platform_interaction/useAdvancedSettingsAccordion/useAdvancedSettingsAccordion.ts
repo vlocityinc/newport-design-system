@@ -1,11 +1,9 @@
 import { LightningElement, api } from 'lwc';
 import advancedAccordionLabel from '@salesforce/label/FlowBuilderRecordEditor.advancedAccordionLabel';
-import useAdvancedOptionsInAccordionLabel from '@salesforce/label/FlowBuilderRecordEditor.useAdvancedOptionsInAccordionLabel';
 import { compareParamsByLabel } from 'builder_platform_interaction/calloutEditorLib';
 
 export const LABELS = {
-    advancedAccordionLabel,
-    useAdvancedOptionsInAccordionLabel
+    advancedAccordionLabel
 };
 
 export default class UseAdvancedSettingsAccordion extends LightningElement {
