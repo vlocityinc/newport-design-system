@@ -262,7 +262,6 @@ export default class Editor extends LightningElement {
     isFlowServerCallInProgress = false;
     flowRetrieveError;
     isRetrieveInterviewHistoryCallInProgress = false;
-    retrieveInterviewHistoryResponse;
     hideDebugAgainButton = false;
 
     originalFlowLabel;
@@ -350,6 +349,9 @@ export default class Editor extends LightningElement {
 
     @track
     palette = null;
+
+    @track
+    retrieveInterviewHistoryResponse = {};
 
     processTypeLoading = false;
 
