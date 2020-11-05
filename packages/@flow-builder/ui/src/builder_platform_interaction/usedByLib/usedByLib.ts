@@ -39,17 +39,18 @@ export function usedBy(
             .reduce((acc, key) => {
                 if (!updatedElementGuids.includes(key)) {
                     const element = elements[key];
-                    // This can be moved into a helper function later to check the elements with special rules
-                    // that only find the references based on certain keys (e.g cfv for screen section)
-                    if (element && element.fieldType !== 'RegionContainer' && element.fieldType !== 'Region') {
-                        const elementGuidsReferenced = findReference(updatedElementGuids, element);
-                        if (elementGuidsReferenced && elementGuidsReferenced.size > 0) {
-                            const usedByElement = createUsedByElement({
-                                element,
-                                elementGuidsReferenced: [...elementGuidsReferenced]
-                            });
-                            return [...acc, usedByElement];
-                        }
+                    const elementGuidsReferenced = findReference(
+                        updatedElementGuids,
+                        element,
+                        new Set(),
+                        getKeysToIgnoreByElementType(element.elementType)
+                    );
+                    if (elementGuidsReferenced && elementGuidsReferenced.size > 0) {
+                        const usedByElement = createUsedByElement({
+                            element,
+                            elementGuidsReferenced: [...elementGuidsReferenced]
+                        });
+                        return [...acc, usedByElement];
                     }
                 }
                 return acc;
@@ -161,6 +162,19 @@ export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
 }
 
 /**
+ * This function is used by the usedBy function to determine which properties of particular elementType
+ * should be skipped when searching for references across the elements currently stored in the data model.
+ * @param elementType The type of the element in which we are searching for references
+ * @returns Returns the keys (property names) to be skipped for the given elementType
+ */
+function getKeysToIgnoreByElementType(elementType: String): String[] {
+    const keysToIgnore: String[] = [];
+    if (elementType === ELEMENT_TYPE.SCREEN_FIELD) {
+        keysToIgnore.push('fields');
+    }
+    return keysToIgnore;
+}
+/**
  * This function gets all the nested children element guids
  * (e.g if a section/column is deleted, will also get its children's guids)
  * @param {Object} element list of elements
@@ -208,28 +222,36 @@ function insertChildReferences(elementGuids, elements) {
 
 /**
  * This function is called recursively to find if a list of elements are referenced in the object.
- * @param {String[]} elementGuids list of elementGuids to be matched
- * @param {Object} object object to be searched
- * @param {String[]} elementGuidsReferenced set of element guids which are being referenced in an element
- * @returns {Boolean} true if elementGuids is used in the object
+ * @param elementGuids list of elementGuids to be matched
+ * @param object object to be searched
+ * @param elementGuidsReferenced set of element guids which are being referenced in an element
+ * @param keysToIgnore set of properties that should be skipped when searching for references across the object
+ * @returns list of elementGuids referenced in the object
  */
-function findReference(elementGuids, object, elementGuidsReferenced = new Set()) {
+function findReference(
+    elementGuids: String[],
+    object: Object,
+    elementGuidsReferenced: Set = new Set(),
+    keysToIgnore: String[] = []
+): Set {
     if (Array.isArray(object)) {
         const objectLength = object && object.length;
         for (let index = 0; index < objectLength; index += 1) {
-            findReference(elementGuids, object[index], elementGuidsReferenced);
+            findReference(elementGuids, object[index], elementGuidsReferenced, keysToIgnore);
         }
     } else if (isPlainObject(object)) {
         const keys = Object.keys(object);
         const keysLength = keys && keys.length;
         for (let index = 0; index < keysLength; index += 1) {
             const key = keys[index];
-            const value = getValueFromHydratedItem(object[key]);
-            if (shouldCallSwapFunction(object, key, value)) {
-                const newElementGuidsReferenced = matchElement(elementGuids, object, key, value);
-                updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced);
-            } else if (typeof value !== 'number') {
-                findReference(elementGuids, value, elementGuidsReferenced);
+            if (!keysToIgnore.includes(key)) {
+                const value = getValueFromHydratedItem(object[key]);
+                if (shouldCallSwapFunction(object, key, value)) {
+                    const newElementGuidsReferenced = matchElement(elementGuids, object, key, value);
+                    updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced);
+                } else if (typeof value !== 'number') {
+                    findReference(elementGuids, value, elementGuidsReferenced, keysToIgnore);
+                }
             }
         }
     }

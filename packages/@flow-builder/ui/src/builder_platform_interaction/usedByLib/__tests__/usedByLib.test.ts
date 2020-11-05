@@ -264,6 +264,71 @@ const elements = {
     }
 };
 
+const elementsFromScreenEditor = {
+    SCREEN_FIELD_1: {
+        name: 'SCREEN FIELD 1',
+        guid: 'SCREEN_FIELD_1',
+        elementType: ELEMENT_TYPE.SCREEN_FIELD
+    },
+    SCREEN_FIELD_2: {
+        name: 'SCREEN FIELD 2',
+        guid: 'SCREEN_FIELD_2',
+        elementType: ELEMENT_TYPE.SCREEN_FIELD
+    },
+    SECTION_FIELD_1: {
+        name: 'SECTION FIELD 1',
+        guid: 'SECTION_FIELD_1',
+        elementType: ELEMENT_TYPE.SCREEN_FIELD,
+        conditions: [
+            {
+                leftValueReference: 'SCREEN_FIELD_1',
+                operator: 'EqualTo',
+                rightValue: {
+                    stringValue: 'foo'
+                }
+            }
+        ],
+        fields: [
+            {
+                label: 'COLUMN FIELD 1',
+                guid: 'COLUMN_FIELD_1',
+                elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                fields: [
+                    {
+                        label: 'SCREEN FIELD 3',
+                        guid: 'SCREEN_FIELD_3',
+                        elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                        conditions: [
+                            {
+                                leftValueReference: 'SCREEN_FIELD_2',
+                                operator: 'EqualTo',
+                                rightValue: {
+                                    stringValue: 'foo'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    SCREEN_FIELD_3: {
+        guid: 'SCREEN_FIELD_3',
+        name: 'SCREEN FIELD 3',
+        conditions: [
+            {
+                leftValueReference: 'SCREEN_FIELD_2',
+                operator: 'EqualTo',
+                rightValue: {
+                    stringValue: 'foo'
+                }
+            }
+        ]
+    },
+    guid: 'SCREEN_3',
+    elementType: ELEMENT_TYPE.SCREEN
+};
+
 describe('Used by library', () => {
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
@@ -383,7 +448,7 @@ describe('Used by library', () => {
         expect(actualResult).toMatchObject(expectedResult);
     });
     it('should not delete the section/column/screen field element when it is referenced in screen element with the nested structure', () => {
-        const elementGuids = ['SECTION_FIELD_1', 'COLUMN_FIELD_1', 'SCREEN_FIELD_1'];
+        const elementGuids = ['SECTION_FIELD_1', 'COLUMN_FIELD_1', 'SCREEN_FIELD_3'];
         const expectedResult = [
             {
                 guid: 'SCREEN_2',
@@ -391,6 +456,30 @@ describe('Used by library', () => {
             }
         ];
         const actualResult = usedBy(elementGuids, elements);
+        expect(actualResult).toMatchObject(expectedResult);
+    });
+    it('should return the referenced screen field element and the section referencing it when the section is using the screen field in cfv rule', () => {
+        expect.assertions(1);
+        const elementGuids = ['SCREEN_FIELD_1'];
+        const expectedResult = [
+            {
+                guid: 'SECTION_FIELD_1',
+                elementGuidsReferenced: ['SCREEN_FIELD_1']
+            }
+        ];
+        const actualResult = usedBy(elementGuids, elementsFromScreenEditor);
+        expect(actualResult).toMatchObject(expectedResult);
+    });
+    it('should return the referenced screen field element and the field referencing it, but not the section in which the referencing screen field is nested', () => {
+        expect.assertions(1);
+        const elementGuids = ['SCREEN_FIELD_2'];
+        const expectedResult = [
+            {
+                guid: 'SCREEN_FIELD_3',
+                elementGuidsReferenced: ['SCREEN_FIELD_2']
+            }
+        ];
+        const actualResult = usedBy(elementGuids, elementsFromScreenEditor);
         expect(actualResult).toMatchObject(expectedResult);
     });
     it('returns an array of object including any childReferences if an element is referenced and has child references', () => {

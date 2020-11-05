@@ -5,6 +5,10 @@ import { query, changeEvent } from 'builder_platform_interaction/builderTestUtil
 import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { AddListItemEvent, DeleteListItemEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 const SELECTORS = {
     LIST: 'builder_platform_interaction-list',
     LIST_BODY: 'div[slot="listBody"]',

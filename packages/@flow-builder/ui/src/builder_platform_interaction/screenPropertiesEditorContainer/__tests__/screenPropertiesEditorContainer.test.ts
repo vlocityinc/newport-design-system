@@ -29,6 +29,10 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-properties-editor-container', {
         is: ScreenEditorPropertiesEditorContainer
