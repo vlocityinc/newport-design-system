@@ -12,7 +12,7 @@
     background-color: $biscay;
     min-height: 36rem;
     color: $white;
-    padding: 5.5rem 0rem 8rem 0rem;
+    padding: 5.5rem $spacing-none;
 
     /**
       * @summary Class that contains the body of the footer
@@ -108,9 +108,9 @@
         .blockLabel:before{
             content: "-";
         font-size: $font-size-x-large-a;
-        margin-right: 15px;
+        margin-right: $spacing-medium;
         position: relative;
-        top: 2px;
+        top: .1rem;
         font-weight: bold;
         }
         .blockLabel.label-color-onexpand:before{
@@ -129,9 +129,6 @@
 }
 }
 @media screen and (max-width: 76rem) {
-    .ins-footer-mobile{
-        display:none;
-    }
     .nds-communities-footer {
         padding: $spacing-none $spacing-none $spacing-xx-large $spacing-none;
         min-height: 0;
