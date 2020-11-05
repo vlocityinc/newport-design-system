@@ -9,36 +9,10 @@
  * @modifier
  */
  .nds-hero {
-    /**
-    * @summary Selector for a small hero img
-    *
-    * @name nds-hero_small
-    * @selector .nds-hero_small
-    * @modifier
-    */
     .block-container{
         max-width: 80rem;
-        margin: 0 auto;
+        margin: $spacing-none auto;
      }
-    &_small {
-        display: none;
-    }
  }
  
-@media screen and (max-width: 30rem) {
-    .nds-hero {
-        /**
-        * @summary Selector for a large hero img
-        *
-        * @name nds-hero_large
-        * @selector .nds-hero_large
-        * @modifier
-        */
-        &_large {
-            display: none; 
-        }
-            &.nds-hero_small {
-                display: block;
-            }
-    }
-}
+

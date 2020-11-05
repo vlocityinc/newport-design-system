@@ -27,7 +27,7 @@
     }
     .nds-article-image {
         img {
-            height: 4rem;
+            height: $spacing-xxx-large;
             border-radius: $border-radius-medium;
         }
     }
@@ -37,23 +37,24 @@
             left: 22.2%;
         }
         .activity-circle {
-            width: 1rem;
-            height: 1rem;
+            width: $spacing-medium;
+            height: $spacing-medium;
             position: absolute;
-            background: #006aff;
-            border-radius: 50%;
-            text-align: center;
+            background: $dodger-blue;
+            border-radius: $border-radius-circle;
+            text-align: $text-align-center;
             left: 21.5%;
         }
     }
     /**
- * @summary Initializes hero for community
+ * @summary Initializes hero for community 
  *
  * @name nds-communities-menu-mobile
  * @selector .nds-communities-menu-mobile
  * @modifier
  */
     .nds-communities-menu-mobile {
+        background: $blue-background-primary;
         .nds-dropdown-trigger.nds-dropdown-trigger_click {
             display: block;
         }
@@ -63,6 +64,7 @@
             padding: $spacing-x-small $spacing-medium;
             font-size: $font-size-5;
             color: $palette-gray-11;
+            border-radius: $border-radius-large;
             :last-child {
                 float: right;
             }
@@ -74,30 +76,17 @@
             margin-top: $spacing-small;
             min-width: 100%;
             max-width: 100%;
-            border-radius: $border-radius-medium;
             a {
                 color: $palette-gray-11;
             }
         }
     }
-    @media only screen and (min-width: 30rem) {
-        .nds-community-field-hide-desktop {
-            display: none;
-        }
-        .nds-community-hide-mobile-container {
-            display: none;
-        }
-    }
-
     @media screen and (max-width: 30rem) {
         .nds-communities-policy-state {
             border-bottom: $border-width-thin solid $newport-color-grey-shaded;
         }
         .nds-communities-status-toast {
             margin-top: $spacing-medium;
-        }
-        .nds-community-field-hide-mobile {
-            display: none;
         }
     }
 }
