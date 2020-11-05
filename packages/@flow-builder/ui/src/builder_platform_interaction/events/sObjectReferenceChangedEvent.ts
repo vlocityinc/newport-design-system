@@ -1,7 +1,8 @@
+// @ts-nocheck
 const eventName = 'sobjectreferencechanged';
 
 export class SObjectReferenceChangedEvent {
-    constructor(value, error: string | null = null) {
+    constructor(value, error = null) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,

@@ -19,7 +19,7 @@ import { hidePopover } from 'builder_platform_interaction/builderUtils';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
 import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
-import { APP_EXCHANGE_LINK, format } from 'builder_platform_interaction/commonUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -34,7 +34,6 @@ export default class ScreenEditor extends LightningElement {
     processTypeValue = '';
 
     labels = LABELS;
-    appExchangeLink = APP_EXCHANGE_LINK;
 
     /**
      * Screen node getter

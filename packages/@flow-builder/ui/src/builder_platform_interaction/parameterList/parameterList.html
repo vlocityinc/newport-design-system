@@ -32,13 +32,12 @@
                 </template>
             </ul>
             <div if:true={emptyInputsWithOutputs} class="emptyInputsMessage">
-                <builder_platform_interaction-illustration
+                <builder_platform_interaction-gone-camping
                     class="goneCamping"
                     title={emptyInputsTitle}
                     body={emptyInputsBody}
-                    illustration="goneCamping"
                 >
-                </builder_platform_interaction-illustration>
+                </builder_platform_interaction-gone-camping>
             </div>
         </div>
     </template>
@@ -76,12 +75,11 @@
         </div>
     </div>
     <div if:true={emptyInputsAndOutputs} class="emptyInputsOutputsMessage">
-        <builder_platform_interaction-illustration
+        <builder_platform_interaction-gone-camping
             class="goneCamping"
             title={emptyInputsOutputsTitle}
             body={emptyInputsOutputsBody}
-            illustration="goneCamping"
         >
-        </builder_platform_interaction-illustration>
+        </builder_platform_interaction-gone-camping>
     </div>
 </template>

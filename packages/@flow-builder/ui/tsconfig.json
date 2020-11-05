@@ -86,6 +86,7 @@
             "builder_platform_interaction/flowStatus": ["./src/builder_platform_interaction/flowStatus/flowStatus.ts"],
             "builder_platform_interaction/formulaEditor": ["./src/builder_platform_interaction/formulaEditor/formulaEditor.ts"],
             "builder_platform_interaction/getTemplatesTile": ["./src/builder_platform_interaction/getTemplatesTile/getTemplatesTile.ts"],
+            "builder_platform_interaction/goneCamping": ["./src/builder_platform_interaction/goneCamping/goneCamping.ts"],
             "builder_platform_interaction/guardrails": ["./src/builder_platform_interaction/guardrails/guardrails.ts"],
             "builder_platform_interaction/header": ["./src/builder_platform_interaction/header/header.ts"],
             "builder_platform_interaction/illustration": ["./src/builder_platform_interaction/illustration/illustration.ts"],

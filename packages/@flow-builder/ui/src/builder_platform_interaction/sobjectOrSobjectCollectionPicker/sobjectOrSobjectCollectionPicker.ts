@@ -53,9 +53,6 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     @api
     queryable;
 
-    @api
-    disableFieldDrilldown = false;
-
     element = undefined;
 
     /**
@@ -118,7 +115,6 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     /**
      * create the combobox config
      */
-    @api
     get sobjectVariableComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.label,
@@ -128,7 +124,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
             true,
             false,
             FLOW_DATA_TYPE.SOBJECT.value,
-            !this.disableFieldDrilldown, // enableFieldDrilldown
+            true, // enableFieldDrilldown
             false // allowSObjectFields
         );
     }

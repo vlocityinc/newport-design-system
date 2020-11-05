@@ -50,24 +50,6 @@ describe('sobject-or-sobject-collection-picker', () => {
             expect(ferovPicker).not.toBeNull();
         });
 
-        it('creates proper sobjectVariableComboboxConfig when disableFieldDrilldown set as false', () => {
-            sobjectOrSobjectCollectionPicker.disableFieldDrilldown = false;
-            expect(sobjectOrSobjectCollectionPicker.sobjectVariableComboboxConfig.enableFieldDrilldown).toBe(true);
-        });
-
-        it('creates proper sobjectVariableComboboxConfig when disableFieldDrilldown set as true', () => {
-            sobjectOrSobjectCollectionPicker.disableFieldDrilldown = true;
-            expect(sobjectOrSobjectCollectionPicker.sobjectVariableComboboxConfig.enableFieldDrilldown).toBe(false);
-        });
-
-        it('defaults disableFieldDrilldown to false', () => {
-            const el = createElement('builder_platform_interaction-sobject-or-sobject-collection-picker', {
-                is: SObjectOrSObjectCollectionPicker
-            });
-            document.body.appendChild(el);
-            expect(el.disableFieldDrilldown).toBe(false);
-        });
-
         it('defaults sObjectCollectionCriterion to SOBJECT', () => {
             expect(sobjectOrSobjectCollectionPicker.sobjectCollectionCriterion).toBe(
                 SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT
