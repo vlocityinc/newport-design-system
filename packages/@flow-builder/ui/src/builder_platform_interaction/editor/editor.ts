@@ -263,6 +263,7 @@ export default class Editor extends LightningElement {
     flowRetrieveError;
     isRetrieveInterviewHistoryCallInProgress = false;
     retrieveInterviewHistoryResponse;
+    hideDebugAgainButton = false;
 
     originalFlowLabel;
     originalFlowDescription;
@@ -590,6 +591,10 @@ export default class Editor extends LightningElement {
 
     get showRightPanel() {
         return this.showPropertyEditorRightPanel || this.showDebugPanel;
+    }
+
+    get showDebugAgainButton() {
+        return this.toolbarConfig.showRestartRunButton && !this.hideDebugAgainButton;
     }
 
     get debugTraces() {
@@ -981,6 +986,7 @@ export default class Editor extends LightningElement {
                     } else {
                         // Setup the debug data object for the debug panel, and switch to debug mode
                         this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                        this.hideDebugAgainButton = false;
                         const endInterviewTime = new Date();
                         const response = debugInterviewResponseCallback(
                             data,
@@ -2128,6 +2134,7 @@ export default class Editor extends LightningElement {
                 const { data, error } = this.retrieveInterviewHistoryResponse;
                 if (!error && !this.flowRetrieveError) {
                     this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                    this.hideDebugAgainButton = true;
                     this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
                     this.clearUndoRedoStack();
                 }
