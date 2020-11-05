@@ -48,6 +48,7 @@ export class MergeFieldsValidation {
     allowCollectionVariables = false;
     allowSObjectFieldsTraversal = true;
     allowApexTypeFieldsTraversal = true;
+    ignoreGlobalVariables = false;
 
     // The allowed param types for merge field based on rule service.
     // If present, this is used to validate the element merge field.
@@ -138,7 +139,10 @@ export class MergeFieldsValidation {
             return this._validateGlobalConstant(mergeFieldReferenceValue, index);
         }
         if (this._isGlobalVariableMergeField(mergeFieldReferenceValue)) {
-            return this._validateGlobalVariable(mergeFieldReferenceValue, index);
+            if (!this.ignoreGlobalVariables) {
+                return this._validateGlobalVariable(mergeFieldReferenceValue, index);
+            }
+            return [];
         }
         if (
             this._isSystemVariableFlowMergeField(mergeFieldReferenceValue) ||
@@ -615,11 +619,12 @@ export class MergeFieldsValidation {
  */
 export function validateTextWithMergeFields(
     textWithMergeFields: string,
-    { allowGlobalConstants = true, allowCollectionVariables = false } = {}
+    { allowGlobalConstants = true, allowCollectionVariables = false, ignoreGlobalVariables = false } = {}
 ) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
     validation.allowCollectionVariables = allowCollectionVariables;
+    validation.ignoreGlobalVariables = ignoreGlobalVariables;
 
     const results: ValidationError[] = [];
     let match: RegExpExecArray | null;

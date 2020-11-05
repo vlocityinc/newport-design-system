@@ -922,6 +922,16 @@ describe('Text with merge fields validation', () => {
         const validationErrors = validateTextWithMergeFields('{!accountSObjectVariable.Name} == {!stringVariable}');
         expect(validationErrors).toHaveLength(0);
     });
+    it('Returns validation errors when there are invalid global variables', () => {
+        const validationErrors = validateTextWithMergeFields('{!$Blah.blah} == {!stringVariable}');
+        expect(validationErrors).toEqual([validationError(2, 11, 'invalidGlobalVariable', 'Enter a valid value.')]);
+    });
+    it('Returns no validation error when there are invalid global variables, if ignoreGlobalVariables is true', () => {
+        const validationErrors = validateTextWithMergeFields('{!$Blah.blah} == {!stringVariable}', {
+            ignoreGlobalVariables: true
+        });
+        expect(validationErrors).toHaveLength(0);
+    });
 });
 
 describe('Is text with merge fields validation', () => {

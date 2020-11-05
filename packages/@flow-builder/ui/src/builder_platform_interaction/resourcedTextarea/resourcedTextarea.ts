@@ -152,7 +152,8 @@ export default class ResourcedTextarea extends LightningElement {
 
         const options = {
             allowGlobalConstants: false,
-            allowCollectionVariables: true
+            allowCollectionVariables: true,
+            ignoreGlobalVariables: this.forFormula
         };
         const errors = validateTextWithMergeFields(val, options);
         // TODO: The screenEditor expects just an error message while the

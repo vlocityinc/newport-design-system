@@ -218,4 +218,49 @@ describe('Events from the textarea', () => {
         textarea.dispatchEvent(new CustomEvent('blur'));
         expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
     });
+
+    it('Should validate global variables by default', () => {
+        const resourcedTextarea = createComponentUnderTest({
+            value: '{!unknownMergeField}'
+        });
+        resourcedTextarea.addEventListener('change', eventCallback);
+
+        const validationError = {
+            errorType: 'errorType',
+            message: 'errorMessage',
+            startIndex: 0,
+            endIndex: 0
+        };
+        validateTextWithMergeFields.mockReturnValue([validationError]);
+
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
+        textarea.dispatchEvent(new CustomEvent('blur'));
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith('{!unknownMergeField}', {
+            allowCollectionVariables: true,
+            allowGlobalConstants: false,
+            ignoreGlobalVariables: false
+        });
+    });
+
+    it('Should not validate global variables in the formula editor', () => {
+        const existingText = 'Sample Text';
+        const resourcedTextarea = createComponentUnderTest({ value: existingText, forFormula: true });
+        resourcedTextarea.addEventListener('change', eventCallback);
+
+        const validationError = {
+            errorType: 'errorType',
+            message: 'errorMessage',
+            startIndex: 0,
+            endIndex: 0
+        };
+        validateTextWithMergeFields.mockReturnValue([validationError]);
+
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
+        textarea.dispatchEvent(new CustomEvent('blur'));
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith('Sample Text', {
+            allowCollectionVariables: true,
+            allowGlobalConstants: false,
+            ignoreGlobalVariables: true
+        });
+    });
 });

@@ -141,6 +141,13 @@ describe('Formula Editor', () => {
                 await ticks();
                 expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD);
             });
+            it('does not display an error if the formula contains invalid global variables', async () => {
+                const textArea = getFormulaTextArea(propertyEditor);
+                textArea.value = 'IF({!$accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
+                textArea.dispatchEvent(blurEvent);
+                await ticks();
+                expect(propertyEditor.node.expression.error).toBe(null);
+            });
         });
         describe('Resource picker', () => {
             const GROUP_LABELS = {

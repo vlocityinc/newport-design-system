@@ -383,6 +383,21 @@ export const isValidResourcedTextArea = (text) => {
 };
 
 /**
+ * Validates that the formula expression is valid
+ * TODO The reason we have separate logic here to ignore global variables,
+ * is because of W-8223654, once we have all global variables returned we
+ * can do proper validation
+ * @param {String} text the formula expression to validate
+ */
+export const isValidFormulaExpression = (text) => {
+    return isValidTextWithMergeFields({
+        allowGlobalConstants: false,
+        allowCollectionVariables: true,
+        ignoreGlobalVariables: true
+    })(text);
+};
+
+/**
  * Validates that the given reference exists and is a collection
  * @param elements the elements where to look for the reference
  * @returns a function that accepts a reference to be validated and returns null if the reference corresponds to a collection, enterValidValue error message otherwise
