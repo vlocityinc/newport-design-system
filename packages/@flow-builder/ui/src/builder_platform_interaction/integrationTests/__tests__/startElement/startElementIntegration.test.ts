@@ -7,6 +7,9 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { createElement } from 'lwc';
 import contextRecordEditor from 'builder_platform_interaction/contextRecordEditor';
 import timeTriggersEditor from 'builder_platform_interaction/timeTriggersEditor';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import {
     blurEvent,
     changeEvent,
@@ -35,6 +38,23 @@ const SELECTORS = {
     IMMEDIATE_TIME_TRIGGER: '.test-immediate-time-trigger'
 };
 
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
+    return Object.assign({}, actual, {
+        getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
+            if (entityName === 'Account') {
+                return mockAccountFields;
+            }
+            return undefined;
+        }),
+        getEntity: jest.fn().mockImplementation((apiName) => {
+            return {
+                apiName
+            };
+        })
+    });
+});
+
 const createComponentForTest = (contextRecordEditorElement) => {
     const el = createElement('builder_platform_interaction-context-record-editor', {
         is: contextRecordEditor
@@ -51,6 +71,10 @@ const createTimeTriggerComponentForTest = (timeTriggeredEditorElement) => {
     Object.assign(el, { node: timeTriggeredEditorElement });
     document.body.appendChild(el);
     return el;
+};
+
+const getSObjectField = (apiName) => {
+    return mockAccountFields[apiName];
 };
 
 const getReorderableVerticalNavigationItems = (timeTriggerEditor) => {
@@ -73,6 +97,10 @@ const getImmediateTimeTrigger = (timeTriggerEditor) => {
 
 const getDeleteTimeTriggerButton = (timeTriggerEditor) => {
     return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.DELETE_TIME_TRIGGER_BUTTON]);
+};
+
+const getTimeSourceCombobox = (timeTriggerEditor) => {
+    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.TIME_SOURCE_COMBOBOX]);
 };
 
 const getPathLabelInput = (timeTriggerEditor) => {
@@ -282,6 +310,32 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
                 timeTrigger.offsetUnit.value
             );
+        });
+    });
+    describe('Time Trigger Time Source Options', () => {
+        beforeEach(async () => {
+            getReorderableVerticalNavigationTitle(timeTriggerComponent, 0).click();
+            await ticks(10);
+        });
+        it('First Option has value Record Trigger Event', () => {
+            expect.assertions(1);
+            const timeSourceOptions = getTimeSourceCombobox(timeTriggerComponent).options;
+            expect(getValueFromHydratedItem(timeSourceOptions[0].value)).toEqual(RECORD_TIGGER_EVENT);
+        });
+        it('Other options are of type Date Fields or Date Time Fields', () => {
+            expect.assertions(3);
+            let timeSourceOptions = getTimeSourceCombobox(timeTriggerComponent).options;
+            timeSourceOptions = timeSourceOptions.slice(1);
+            const filteredOptions = timeSourceOptions.filter((timeSourceOption) => {
+                timeSourceOption = getValueFromHydratedItem(timeSourceOption.value);
+                const dataType = getSObjectField(timeSourceOption).dataType;
+                return dataType !== 'Date' && dataType !== 'DateTime';
+            });
+            expect(filteredOptions.length).toEqual(0);
+            let timeSourceOption = getValueFromHydratedItem(timeSourceOptions[1].value);
+            expect(getSObjectField(timeSourceOption).dataType).toEqual('DateTime');
+            timeSourceOption = getValueFromHydratedItem(timeSourceOptions[6].value);
+            expect(getSObjectField(timeSourceOption).dataType).toEqual('Date');
         });
     });
     describe('New Time Trigger', () => {
