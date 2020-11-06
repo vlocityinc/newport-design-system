@@ -9,3 +9,14 @@ export const errorInterview = {
     startInterviewTime: new Date('June 17, 2020 03:24:00'),
     endInterviewTime: new Date('June 17, 2020 03:25:00')
 };
+
+export const errorWithTraceInterview = {
+    interviewStatus: 'ERROR',
+    debugTrace: [
+        {
+            elementType: 'Error element null (null).',
+            error: "The flow can't run because nothing is connected to the Start element.",
+            lines: []
+        }
+    ]
+};

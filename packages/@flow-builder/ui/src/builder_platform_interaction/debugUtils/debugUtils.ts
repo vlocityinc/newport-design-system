@@ -23,21 +23,31 @@ const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim
  */
 export function copyAndUpdateDebugTraceObject(debugData) {
     const debugTraces = [];
-    debugTraces.push(getStartInterviewInfo(debugData));
-    for (let i = 1; i < debugData.debugTrace.length; i++) {
-        const trace = debugData.debugTrace[i].lines.filter((e) => {
-            return !!e;
-        });
+    // handle special case where a flow's start element is not connected to any other element
+    if (debugData.debugTrace.length === 1 && debugData.debugTrace[0].error != null) {
         debugTraces.push({
-            title: makeElementTitle(debugData.debugTrace[i]),
-            lines: trace.slice(1), // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
-            error: debugData.debugTrace[i].error,
+            title: makeElementTitle(debugData.debugTrace[0]),
+            lines: debugData.debugTrace[0].lines,
+            error: debugData.debugTrace[0].error,
             id: generateGuid()
         });
-    }
-    const end = getEndInterviewInfo(debugData);
-    if (end) {
-        debugTraces.push(end);
+    } else {
+        debugTraces.push(getStartInterviewInfo(debugData));
+        for (let i = 1; i < debugData.debugTrace.length; i++) {
+            const trace = debugData.debugTrace[i].lines.filter((e) => {
+                return !!e;
+            });
+            debugTraces.push({
+                title: makeElementTitle(debugData.debugTrace[i]),
+                lines: trace.slice(1), // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
+                error: debugData.debugTrace[i].error,
+                id: generateGuid()
+            });
+        }
+        const end = getEndInterviewInfo(debugData);
+        if (end) {
+            debugTraces.push(end);
+        }
     }
     return debugTraces;
 }

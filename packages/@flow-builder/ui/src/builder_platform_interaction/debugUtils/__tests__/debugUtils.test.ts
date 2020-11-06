@@ -4,6 +4,7 @@ import { LABELS } from '../debugUtilsLabels';
 import { pausedInterview } from 'mock/debugResponse/mock-paused-interview';
 import { completedInterviewWithErrors } from 'mock/debugResponse/mock-completed-interview-errors';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
+import { errorWithTraceInterview } from 'mock/debugResponse/mock-error-interview';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -69,6 +70,21 @@ describe('debug utils', () => {
             expect(len).toBe(pausedInterview.debugTrace.length + 1);
             expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewPausedHeader);
             expect(updatedDebugTraceObject[len - 1].lines[0]).toMatch(LABELS.interviewPaused);
+        });
+    });
+
+    describe('error interview without interview starting', () => {
+        let updatedDebugTraceObject;
+        beforeEach(() => {
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(errorWithTraceInterview);
+        });
+
+        it('should display the error message', () => {
+            const len = updatedDebugTraceObject.length;
+            expect(len).toBe(errorWithTraceInterview.debugTrace.length);
+            expect(updatedDebugTraceObject[len - 1].title).toMatch(errorWithTraceInterview.debugTrace[0].elementType);
+            expect(updatedDebugTraceObject[len - 1].error).toMatch(errorWithTraceInterview.debugTrace[0].error);
+            expect(updatedDebugTraceObject[len - 1].lines).toEqual([]);
         });
     });
 
