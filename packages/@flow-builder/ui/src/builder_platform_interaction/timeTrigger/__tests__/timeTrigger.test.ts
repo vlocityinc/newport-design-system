@@ -43,24 +43,25 @@ describe('TimeTrigger', () => {
             expect(labelAndNameComponents[0].devName.value).toBe(timeTriggerMock.name.value);
             expect(labelAndNameComponents[0].label.value).toBe(timeTriggerMock.label.value);
         });
-        it('has time source field component', () => {
+        it('has required time source field component', () => {
             const timeSourceComponent = element.shadowRoot.querySelectorAll(selectors.timeSource);
             expect(timeSourceComponent).toHaveLength(1);
             expect(timeSourceComponent[0].value).toBe(timeTriggerMock.timeSource.value);
+            expect(timeSourceComponent[0].required).toBeTruthy();
         });
-        it('has offset number field component', () => {
-            expect.assertions(2);
+        it('has required offset number field component', () => {
             const offsetNumberComponent = element.shadowRoot.querySelectorAll(selectors.offsetNumber);
             expect(offsetNumberComponent).toHaveLength(1);
             expect(offsetNumberComponent[0].value).toBe(timeTriggerMock.offsetNumber.value);
+            expect(offsetNumberComponent[0].required).toBeTruthy();
         });
-        it('has offset unit field component', () => {
-            expect.assertions(2);
+        it('has required offset unit field component', () => {
             const offsetUnitAndDirectionComponent = element.shadowRoot.querySelectorAll(
                 selectors.offsetUnitAndDirection
             );
             expect(offsetUnitAndDirectionComponent).toHaveLength(1);
             expect(offsetUnitAndDirectionComponent[0].value).toBe(timeTriggerMock.offsetUnit.value);
+            expect(offsetUnitAndDirectionComponent[0].required).toBeTruthy();
         });
     });
 

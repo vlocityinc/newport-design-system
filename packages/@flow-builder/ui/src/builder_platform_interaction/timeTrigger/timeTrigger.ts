@@ -133,6 +133,7 @@ export default class TimeTrigger extends LightningElement {
             element.required = false;
             element.setCustomValidity('');
             element.showHelpMessageIfInvalid();
+            element.required = true;
         }
     }
 
@@ -169,6 +170,34 @@ export default class TimeTrigger extends LightningElement {
         const propertyChangedEvent = new PropertyChangedEvent(
             'timeSource',
             event.detail.value,
+            null,
+            this.timeTrigger.guid
+        );
+        this.dispatchEvent(propertyChangedEvent);
+    }
+
+    /**
+     * Handles the TimeSource focus out event.
+     * Fires the propertyChangedEvent for the parent to do combobox property validation.
+     */
+    handleTimeSourceFocusOut() {
+        const propertyChangedEvent = new PropertyChangedEvent(
+            'timeSource',
+            this.timeTrigger.timeSource.value,
+            null,
+            this.timeTrigger.guid
+        );
+        this.dispatchEvent(propertyChangedEvent);
+    }
+
+    /**
+     * Handles the OffsetUnit focus out event.
+     * Fires the propertyChangedEvent for the parent to do combobox property validation.
+     */
+    handleOffsetUnitFocusOut() {
+        const propertyChangedEvent = new PropertyChangedEvent(
+            'offsetUnit',
+            this.timeTrigger.offsetUnit.value,
             null,
             this.timeTrigger.guid
         );

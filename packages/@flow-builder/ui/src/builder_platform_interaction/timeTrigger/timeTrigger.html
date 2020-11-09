@@ -33,6 +33,7 @@
                 label={labels.timeSourceComboboxLabel}
                 value={timeSourceValue}
                 onchange={handleTimeSourceValueChanged}
+                onfocusout={handleTimeSourceFocusOut}
                 class="timeSourceCombobox slds-size_2-of-5"
                 dropdown-alignment="auto"
                 options={timeSourceOptions}
@@ -55,6 +56,7 @@
                 options={TIME_OPTIONS}
                 value={offsetUnitValue}
                 onchange={handleoffsetUnitValueChanged}
+                onfocusout={handleOffsetUnitFocusOut}
                 dropdown-alignment="auto"
                 required
                 class="offsetUnitAndDirectionCombobox slds-size_2-of-7"
