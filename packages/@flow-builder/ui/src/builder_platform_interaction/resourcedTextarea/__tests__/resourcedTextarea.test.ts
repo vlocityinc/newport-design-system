@@ -243,6 +243,7 @@ describe('Events from the textarea', () => {
     });
 
     it('Should not validate global variables in the formula editor', () => {
+        expect.assertions(1);
         const existingText = 'Sample Text';
         const resourcedTextarea = createComponentUnderTest({ value: existingText, forFormula: true });
         resourcedTextarea.addEventListener('change', eventCallback);

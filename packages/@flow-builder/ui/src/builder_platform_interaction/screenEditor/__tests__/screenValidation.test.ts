@@ -65,6 +65,11 @@ describe('When field has validation enabled', () => {
             error.message
         );
     });
+
+    it('the rules for formulaExpression should be as expected', () => {
+        const rules = getRulesForField(field);
+        expect(rules.validationRule.formulaExpression[1].name).toBe('isValidFormulaExpression');
+    });
 });
 
 describe('when screen has paused text and help text', () => {

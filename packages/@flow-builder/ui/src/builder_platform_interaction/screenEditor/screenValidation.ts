@@ -305,7 +305,7 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
     rules.validationRule = {
         formulaExpression: [
             createConditionalRuleForTextProperty(field.validationRule.errorMessage),
-            ValidationRules.isValidResourcedTextArea
+            ValidationRules.isValidFormulaExpression
         ],
         errorMessage: [
             createConditionalRuleForTextProperty(field.validationRule.formulaExpression),
