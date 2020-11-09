@@ -13,7 +13,7 @@
         description="The id of the flow definition associated with the flow we are loading"
     />
     <aura:attribute
-        name="interviewId"
+        name="guid"
         type="String"
         description="The guid of the saved flow interview to debug in the builder"
     />
@@ -38,7 +38,7 @@
             <builder_platform_interaction:container
                 flowId="{!v.flowId}"
                 flowDefId="{!v.flowDefId}"
-                interviewId="{!v.interviewId}"
+                interviewGuid="{!v.guid}"
                 builderType="{!v.builderType}"
                 builderConfig="{!v.builderConfig}"
                 complianceBannerEnabled="{!v.complianceBannerEnabled}"

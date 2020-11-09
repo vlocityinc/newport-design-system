@@ -257,7 +257,7 @@ export default class Editor extends LightningElement {
     bottomCutOrCopiedGuid = null;
     currentFlowId;
     currentFlowDefId;
-    interviewGUID;
+    currentInterviewGuid;
     runDebugUrl;
     isFlowServerCallInProgress = false;
     flowRetrieveError;
@@ -502,13 +502,13 @@ export default class Editor extends LightningElement {
     }
 
     @api
-    get interviewId() {
-        return this.interviewGUID;
+    get interviewGuid() {
+        return this.currentInterviewGuid;
     }
 
-    set interviewId(interviewGUID) {
+    set interviewGuid(interviewGUID) {
         if (interviewGUID) {
-            this.interviewGUID = interviewGUID;
+            this.currentInterviewGuid = interviewGUID;
             const params = {
                 interviewGUID,
                 flowVersionId: this.currentFlowId
