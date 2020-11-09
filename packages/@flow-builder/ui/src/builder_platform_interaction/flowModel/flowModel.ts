@@ -110,7 +110,8 @@ export interface StartUi extends BaseCanvasElementWithFilter, Schedule {
     isAssignable?: boolean;
     recordTriggerType?: string;
     timeTriggers?: TimeTrigger[];
-    childReferences?: ChildReference[];
+    childReferences: ChildReference[];
+    availableConnections: AvailableConnection[];
 }
 
 export interface StartMetadata extends NodeMetadata {
@@ -123,6 +124,8 @@ export interface StartMetadata extends NodeMetadata {
     triggerType?: string;
     scheduledPaths?: ScheduledPathMetadata[];
     doesRequireRecordChangedToMeetCriteria?: boolean;
+    childReferences: ChildReference[];
+    availableConnections: AvailableConnection[];
 }
 
 interface Schedule {

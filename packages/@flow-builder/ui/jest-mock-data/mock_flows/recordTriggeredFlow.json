@@ -6,7 +6,7 @@
             "triggerType": "RecordAfterSave",
             "object": "Account",
             "recordTriggerType": "Update",
-            "doesRequireRecordChangedToMeetCriteria": false,
+            "doesRequireRecordChangedToMeetCriteria": true,
             "filterLogic": "and",
             "filters": [
                 {

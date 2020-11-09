@@ -144,9 +144,13 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
                 if (option.value === sourceElement.childReferences[i].childReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
-                    (option.value === CONNECTOR_TYPE.DEFAULT || option.value === CONNECTOR_TYPE.IMMEDIATE) &&
+                    (option.value === CONNECTOR_TYPE.DEFAULT ||
+                        option.value === CONNECTOR_TYPE.IMMEDIATE ||
+                        option.value === CONNECTOR_TYPE.REGULAR) &&
                     Object.keys(defaultOutcomeComboboxOption).length === 0
                 ) {
+                    // Adding the Regular connector type check for start element
+                    // that contains time triggers but doesn't support it
                     defaultOutcomeComboboxOption.label = option.label;
                     defaultOutcomeComboboxOption.value = option.value;
                 }
@@ -230,7 +234,13 @@ export const getLabelAndValueForConnectorPickerOptions = (
         label = LABELS.loopNextComboBoxOption;
     } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_END) {
         label = LABELS.loopEndComboBoxOption;
-    } else if (availableConnectionType === CONNECTOR_TYPE.IMMEDIATE) {
+    } else if (
+        availableConnectionType === CONNECTOR_TYPE.IMMEDIATE ||
+        availableConnectionType === CONNECTOR_TYPE.REGULAR
+    ) {
+        // Adding the Regular connector type check for start element
+        // that contains time triggers but doesn't support it.
+        // The combobox label for the same will still read "Immediate"
         label = LABELS.immediateConnectorLabel;
     }
 

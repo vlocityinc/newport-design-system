@@ -18,6 +18,7 @@ import {
 import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createConnector } from 'builder_platform_interaction/elementFactory';
+import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 
 /**
  * Reducer for connectors.
@@ -62,7 +63,9 @@ export default function connectorsReducer(state = [], action) {
                 action.payload.canvasElement.guid,
                 action.payload.canvasElement.defaultConnectorLabel,
                 action.payload.childElements,
-                action.payload.deletedChildElementGuids
+                action.payload.deletedChildElementGuids,
+                action.payload.shouldSupportTimeTriggers,
+                action.payload.startElementGuid
             );
         case DECORATE_CANVAS:
             return _highlightConnectors(
@@ -155,8 +158,10 @@ function _deleteAndUpdateConnectorsForChildElements(
     origConnectors,
     parentElementGuid,
     defaultConnectorLabel,
-    updatedElements,
-    deletedChildElementGuids
+    updatedElements = [],
+    deletedChildElementGuids = [],
+    shouldSupportTimeTriggers,
+    startElementGuid
 ) {
     const updatedElementGuidMap = new Map();
     for (let i = 0; i < updatedElements.length; i++) {
@@ -177,6 +182,27 @@ function _deleteAndUpdateConnectorsForChildElements(
                     label: defaultConnectorLabel
                 });
             }
+
+            if (connector.type === CONNECTOR_TYPE.IMMEDIATE && !shouldSupportTimeTriggers) {
+                // Updating the connector label and type from Immediate -> Regular when time triggers aren't supported
+                updatedConnector = updateProperties(connector, {
+                    label: null,
+                    type: CONNECTOR_TYPE.REGULAR
+                });
+            }
+
+            if (
+                connector.type === CONNECTOR_TYPE.REGULAR &&
+                connector.source === startElementGuid &&
+                shouldSupportTimeTriggers
+            ) {
+                // Updating the start connector label and type from Regular -> Immediate when time triggers are supported
+                updatedConnector = updateProperties(connector, {
+                    label: immediateConnectorLabel,
+                    type: CONNECTOR_TYPE.IMMEDIATE
+                });
+            }
+
             connectors.push(updatedConnector);
         } else if (updatedElement) {
             const updatedConnector = updateProperties(connector, {

@@ -206,7 +206,7 @@ export const elementTypeToConfigMap: {
             maxConnections: 1
         },
         canvasElement: true,
-        nonHydratableProperties: [],
+        nonHydratableProperties: ['childReferences'],
         isDeletable: false,
         canBeDuplicated: false,
         metadataKey: METADATA_KEY.START,

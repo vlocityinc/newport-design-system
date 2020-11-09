@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
+import { getDrawingLibInstance, CONNECTOR_OVERLAY } from 'builder_platform_interaction/drawingLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 
@@ -273,7 +273,12 @@ const _setConnectorLabel = (connector, jsPlumbConnector) => {
     }
 
     if (jsPlumbConnector.getLabel() !== connector.label) {
-        jsPlumbConnector.setLabel(connector.label);
+        if (!connector.label) {
+            // Removing the overlay in case it was previously set to something
+            jsPlumbConnector.removeOverlay(CONNECTOR_OVERLAY.LABEL);
+        } else {
+            jsPlumbConnector.setLabel(connector.label);
+        }
     }
 };
 

@@ -135,7 +135,8 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
     for (let i = 0; i < connectors.length; i++) {
         const connector = connectors[i];
         switch (connector.type) {
-            case CONNECTOR_TYPE.REGULAR: {
+            case CONNECTOR_TYPE.REGULAR:
+            case CONNECTOR_TYPE.IMMEDIATE: {
                 const connectorObject = createConnectorMetadataObject(connector);
                 if (hasMultipleRegularConnectors) {
                     const connectorObjects = connectorMetadata.connectors || [];
@@ -175,14 +176,6 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
                 Object.assign(connectorMetadata, {
                     defaultConnector,
                     defaultConnectorLabel
-                });
-                break;
-            }
-
-            case CONNECTOR_TYPE.IMMEDIATE: {
-                const immediateConnector = createConnectorMetadataObject(connector);
-                Object.assign(connectorMetadata, {
-                    connector: immediateConnector
                 });
                 break;
             }

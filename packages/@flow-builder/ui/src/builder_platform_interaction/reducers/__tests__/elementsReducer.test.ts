@@ -764,6 +764,174 @@ describe('elements-reducer', () => {
             });
             expect(newElementState).toEqual(newProperties);
         });
+
+        it('Should correctly filter out "Immediate" start connector', () => {
+            const connector = {
+                source: 'startGuid',
+                type: CONNECTOR_TYPE.IMMEDIATE
+            };
+            const oldProperties = {
+                startGuid: {
+                    name: 'Start',
+                    label: 'Start',
+                    description: 'Start',
+                    guid: 'startGuid',
+                    childReferences: [
+                        {
+                            childReference: 'timeTrigger1'
+                        }
+                    ],
+                    connectorCount: 0,
+                    availableConnections: [
+                        {
+                            type: CONNECTOR_TYPE.REGULAR,
+                            childReference: 'timeTrigger1'
+                        },
+                        {
+                            type: CONNECTOR_TYPE.IMMEDIATE
+                        }
+                    ]
+                }
+            };
+            const newProperties = {
+                startGuid: {
+                    name: 'Start',
+                    label: 'Start',
+                    description: 'Start',
+                    guid: 'startGuid',
+                    childReferences: [
+                        {
+                            childReference: 'timeTrigger1'
+                        }
+                    ],
+                    connectorCount: 1,
+                    availableConnections: [
+                        {
+                            type: CONNECTOR_TYPE.REGULAR,
+                            childReference: 'timeTrigger1'
+                        }
+                    ]
+                }
+            };
+
+            const newElementState = elementReducer(oldProperties, {
+                type: ADD_CONNECTOR,
+                payload: connector
+            });
+            expect(newElementState).toEqual(newProperties);
+        });
+
+        it('Should correctly filter out "Regular" start connector', () => {
+            const connector = {
+                source: 'startGuid',
+                type: CONNECTOR_TYPE.REGULAR
+            };
+            const oldProperties = {
+                startGuid: {
+                    name: 'Start',
+                    label: 'Start',
+                    description: 'Start',
+                    guid: 'startGuid',
+                    childReferences: [
+                        {
+                            childReference: 'timeTrigger1'
+                        }
+                    ],
+                    connectorCount: 0,
+                    availableConnections: [
+                        {
+                            type: CONNECTOR_TYPE.REGULAR,
+                            childReference: 'timeTrigger1'
+                        },
+                        {
+                            type: CONNECTOR_TYPE.REGULAR
+                        }
+                    ]
+                }
+            };
+            const newProperties = {
+                startGuid: {
+                    name: 'Start',
+                    label: 'Start',
+                    description: 'Start',
+                    guid: 'startGuid',
+                    childReferences: [
+                        {
+                            childReference: 'timeTrigger1'
+                        }
+                    ],
+                    connectorCount: 1,
+                    availableConnections: [
+                        {
+                            type: CONNECTOR_TYPE.REGULAR,
+                            childReference: 'timeTrigger1'
+                        }
+                    ]
+                }
+            };
+
+            const newElementState = elementReducer(oldProperties, {
+                type: ADD_CONNECTOR,
+                payload: connector
+            });
+            expect(newElementState).toEqual(newProperties);
+        });
+
+        it('Should correctly filter out "Regular" start connector associated with a time trigger', () => {
+            const connector = {
+                source: 'startGuid',
+                type: CONNECTOR_TYPE.REGULAR,
+                childSource: 'timeTrigger1'
+            };
+            const oldProperties = {
+                startGuid: {
+                    name: 'Start',
+                    label: 'Start',
+                    description: 'Start',
+                    guid: 'startGuid',
+                    childReferences: [
+                        {
+                            childReference: 'timeTrigger1'
+                        }
+                    ],
+                    connectorCount: 0,
+                    availableConnections: [
+                        {
+                            type: CONNECTOR_TYPE.REGULAR,
+                            childReference: 'timeTrigger1'
+                        },
+                        {
+                            type: CONNECTOR_TYPE.REGULAR
+                        }
+                    ]
+                }
+            };
+            const newProperties = {
+                startGuid: {
+                    name: 'Start',
+                    label: 'Start',
+                    description: 'Start',
+                    guid: 'startGuid',
+                    childReferences: [
+                        {
+                            childReference: 'timeTrigger1'
+                        }
+                    ],
+                    connectorCount: 1,
+                    availableConnections: [
+                        {
+                            type: CONNECTOR_TYPE.REGULAR
+                        }
+                    ]
+                }
+            };
+
+            const newElementState = elementReducer(oldProperties, {
+                type: ADD_CONNECTOR,
+                payload: connector
+            });
+            expect(newElementState).toEqual(newProperties);
+        });
     });
 
     describe('Delete Resource', () => {

@@ -104,42 +104,79 @@ describe('Connector Utils', () => {
             ]);
         });
 
-        it('Sorting options in connector picker for Start Element', () => {
+        describe('Sorting options in connector picker for Start Element', () => {
             const sourceElement = {
                 elementType: ELEMENT_TYPE.START_ELEMENT,
                 childReferences: [{ childReference: 'outcome1' }, { childReference: 'outcome2' }]
             };
-            const comboboxOptions = [
-                {
-                    label: 'outcome 2',
-                    value: 'outcome2'
-                },
-                {
-                    label: 'immediate',
-                    value: CONNECTOR_TYPE.IMMEDIATE
-                },
-                {
-                    label: 'outcome 1',
-                    value: 'outcome1'
-                }
-            ];
 
-            const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+            it('When combobox options contains Immediate connector', () => {
+                const comboboxOptions = [
+                    {
+                        label: 'outcome 2',
+                        value: 'outcome2'
+                    },
+                    {
+                        label: 'immediate',
+                        value: CONNECTOR_TYPE.IMMEDIATE
+                    },
+                    {
+                        label: 'outcome 1',
+                        value: 'outcome1'
+                    }
+                ];
 
-            expect(sortedOptions).toEqual([
-                {
-                    label: 'immediate',
-                    value: CONNECTOR_TYPE.IMMEDIATE
-                },
-                {
-                    label: 'outcome 1',
-                    value: 'outcome1'
-                },
-                {
-                    label: 'outcome 2',
-                    value: 'outcome2'
-                }
-            ]);
+                const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+
+                expect(sortedOptions).toEqual([
+                    {
+                        label: 'immediate',
+                        value: CONNECTOR_TYPE.IMMEDIATE
+                    },
+                    {
+                        label: 'outcome 1',
+                        value: 'outcome1'
+                    },
+                    {
+                        label: 'outcome 2',
+                        value: 'outcome2'
+                    }
+                ]);
+            });
+
+            it('When combobox options contains Regular connector', () => {
+                const comboboxOptions = [
+                    {
+                        label: 'outcome 2',
+                        value: 'outcome2'
+                    },
+                    {
+                        label: 'immediate',
+                        value: CONNECTOR_TYPE.REGULAR
+                    },
+                    {
+                        label: 'outcome 1',
+                        value: 'outcome1'
+                    }
+                ];
+
+                const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+
+                expect(sortedOptions).toEqual([
+                    {
+                        label: 'immediate',
+                        value: CONNECTOR_TYPE.REGULAR
+                    },
+                    {
+                        label: 'outcome 1',
+                        value: 'outcome1'
+                    },
+                    {
+                        label: 'outcome 2',
+                        value: 'outcome2'
+                    }
+                ]);
+            });
         });
 
         it('Sorting options in connector picker for Wait Element', () => {
@@ -233,6 +270,12 @@ describe('Connector Utils', () => {
             ).toEqual({
                 label: LABELS.immediateConnectorLabel,
                 value: CONNECTOR_TYPE.IMMEDIATE
+            });
+            expect(
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, null, CONNECTOR_TYPE.REGULAR)
+            ).toEqual({
+                label: LABELS.immediateConnectorLabel,
+                value: CONNECTOR_TYPE.REGULAR
             });
         });
 

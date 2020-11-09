@@ -15,6 +15,7 @@ import {
     CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 
 const connectorsState = [
     {
@@ -403,7 +404,7 @@ describe('connectors-reducer', () => {
                 ).toEqual(connectorsState);
             });
 
-            it('with connection associatd with outcome updates the connection label', () => {
+            it('with connection associated with outcome updates the connection label', () => {
                 const newLabel = 'new label!';
 
                 const payloadWithModifiedOutcomeWithConnection = {
@@ -557,7 +558,7 @@ describe('connectors-reducer', () => {
                 ).toEqual(connectorsState);
             });
 
-            it('with connection associatd with time trigger updates the connection label', () => {
+            it('with connection associated with time trigger updates the connection label', () => {
                 const newLabel = 'new label!';
 
                 const payloadWithModifiedTimeTriggerWithConnection = {
@@ -577,6 +578,79 @@ describe('connectors-reducer', () => {
                 });
 
                 expect(updatedConnectors[0].label).toEqual(newLabel);
+            });
+
+            it('should convert Immediate connector to Regular and remove the label when shouldSupportTimeTriggers is false', () => {
+                const originalConnectorState = [
+                    {
+                        type: CONNECTOR_TYPE.IMMEDIATE,
+                        label: 'Immediate',
+                        childSource: undefined
+                    }
+                ];
+
+                const payload = {
+                    canvasElement: {},
+                    shouldSupportTimeTriggers: false,
+                    startElementGuid: 'startGuid'
+                };
+
+                const updatedConnectors = reducer(originalConnectorState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload
+                });
+
+                expect(updatedConnectors[0].type).toEqual(CONNECTOR_TYPE.REGULAR);
+                expect(updatedConnectors[0].label).toBeNull();
+            });
+
+            it('should convert Regular connector to Immediate and add the label when shouldSupportTimeTriggers is true', () => {
+                const originalConnectorState = [
+                    {
+                        type: CONNECTOR_TYPE.REGULAR,
+                        label: null,
+                        childSource: undefined,
+                        source: 'startGuid'
+                    }
+                ];
+
+                const payload = {
+                    canvasElement: {},
+                    shouldSupportTimeTriggers: true,
+                    startElementGuid: 'startGuid'
+                };
+
+                const updatedConnectors = reducer(originalConnectorState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload
+                });
+
+                expect(updatedConnectors[0].type).toEqual(CONNECTOR_TYPE.IMMEDIATE);
+                expect(updatedConnectors[0].label).toEqual(immediateConnectorLabel);
+            });
+
+            it('should not convert Regular connector to Immediate when childSource is defined and shouldSupportTimeTriggers is true', () => {
+                const originalConnectorState = [
+                    {
+                        type: CONNECTOR_TYPE.REGULAR,
+                        label: null,
+                        childSource: 'childGuid',
+                        source: 'startGuid'
+                    }
+                ];
+
+                const payload = {
+                    canvasElement: {},
+                    shouldSupportTimeTriggers: true,
+                    startElementGuid: 'startGuid'
+                };
+
+                const updatedConnectors = reducer(originalConnectorState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload
+                });
+
+                expect(updatedConnectors[0].type).toEqual(CONNECTOR_TYPE.REGULAR);
             });
         });
     });

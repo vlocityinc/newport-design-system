@@ -37,10 +37,9 @@ import {
     ScheduledPathMetadata,
     StartMetadata,
     StartUi,
-    TimeTrigger
+    TimeTrigger,
+    ConnectorType
 } from 'builder_platform_interaction/flowModel';
-
-let maxConnections = 1;
 
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
@@ -87,7 +86,7 @@ export function findStartYOffset(startElement: StartUi): number {
  *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
  * @param startElement start element metadata structure
  */
-export function shouldSupportTimeTriggers(startElement: StartUi) {
+export function shouldSupportTimeTriggers(startElement: StartUi | StartMetadata) {
     return (
         startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
         startElement.object &&
@@ -111,7 +110,7 @@ function createStartElement(startElement: StartUi | StartMetadata) {
         filters = []
     } = startElement;
     const { objectIndex = generateGuid(), objectContainer } = <StartUi>startElement;
-    maxConnections = calculateMaxConnections(startElement);
+    const maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = (startElement as StartMetadata).schedule || startElement;
     let { recordTriggerType, frequency } = (startElement as StartMetadata).schedule || startElement;
@@ -169,7 +168,9 @@ function createStartElement(startElement: StartUi | StartMetadata) {
         subtype: object ? object : undefined,
         isCollection: object ? false : undefined,
         isAssignable: object ? true : undefined,
-        doesRequireRecordChangedToMeetCriteria: requireChangedValues
+        doesRequireRecordChangedToMeetCriteria: requireChangedValues,
+        childReferences: startElement.childReferences || [],
+        availableConnections: startElement.availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
     });
 }
 
@@ -200,6 +201,7 @@ export function createStartElementForPropertyEditor(startElement: StartUi = {} a
             timeTriggers
         });
     }
+
     return newStartElement;
 }
 
@@ -217,17 +219,21 @@ export function createStartElementWithConnectors(
     const newStartElement = createStartElement(startElement);
 
     let connectorCount, connectors;
-    const { triggerType } = startElement;
-    if (!isRecordChangeTriggerType(triggerType)) {
-        // Creates a REGULAR connector from startElement
+    let availableConnections: AvailableConnection[] = [];
+    if (!shouldSupportTimeTriggers(startElement)) {
+        // Creates a REGULAR connector or pushes one into the availableConnections if needed
         connectors = startElementReference
             ? createStartElementConnector(newStartElement.guid, startElementReference)
             : createConnectorObjects(startElement, newStartElement.guid, undefined, false);
+        availableConnections = addStartElementConnectorToAvailableConnections(
+            availableConnections,
+            startElement,
+            CONNECTOR_TYPE.REGULAR
+        );
     } else {
-        // Creates an IMMEDIATE connector from startElement (Therefore,immediateConnector is passed as true here)
+        // Creates an IMMEDIATE connector (Therefore,immediateConnector is passed as true here)
         connectors = createConnectorObjects(startElement, newStartElement.guid, undefined, true);
         let childReferences: ChildReference[] = [],
-            availableConnections: AvailableConnection[] = [],
             timeTriggers: TimeTrigger[] = [];
         const { scheduledPaths = [] } = startElement;
 
@@ -242,21 +248,26 @@ export function createStartElementWithConnectors(
             // connector is an array. FIX it.
             connectors = [...connectors, ...connector];
         }
-        availableConnections = addImmediateConnectorToAvailableConnections(availableConnections, startElement);
+
+        // Pushes an Immediate connector into availableConnections if needed
+        availableConnections = addStartElementConnectorToAvailableConnections(
+            availableConnections,
+            startElement,
+            CONNECTOR_TYPE.IMMEDIATE
+        );
         connectorCount = connectors ? connectors.length : 0;
 
         Object.assign(newStartElement, {
             childReferences,
             elementType,
             connectorCount,
-            maxConnections,
             availableConnections
         });
         return baseCanvasElementsArrayToMap([newStartElement, ...timeTriggers], connectors);
     }
 
     connectorCount = connectors ? connectors.length : 0;
-    Object.assign(newStartElement, { connectorCount });
+    Object.assign(newStartElement, { connectorCount, availableConnections });
     return baseCanvasElementsArrayToMap([newStartElement], connectors);
 }
 
@@ -430,22 +441,31 @@ export function createTimeTrigger(timeTrigger: TimeTrigger | ScheduledPathMetada
  * @returns {Object} which contains startElement, children and ALC params
  */
 export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
-    const newStartElement = createStartElement(startElement);
+    let newStartElement = createStartElement(startElement);
 
-    // Start element is initialized here when flow trigger type is selected from new flow modal
-    if (isRecordChangeTriggerType(startElement.triggerType)) {
-        if (startElement.guid === undefined) {
-            const timeTriggerProperties = {
-                availableConnections: [
-                    {
-                        type: CONNECTOR_TYPE.IMMEDIATE
-                    }
-                ],
-                childReferences: []
+    if (!shouldSupportTimeTriggers(startElement)) {
+        // Start element guid is undefined when creating a new flow through the new flow modal
+        if (startElement.guid !== undefined) {
+            // When updating to a start element that doesn't support time triggers, replacing the Immediate available connector
+            // with a Regular one
+            const updatedAvailableConnections = newStartElement.availableConnections.map((availableConnection) => {
+                return availableConnection.type === CONNECTOR_TYPE.IMMEDIATE
+                    ? { type: CONNECTOR_TYPE.REGULAR }
+                    : availableConnection;
+            });
+
+            newStartElement = Object.assign(newStartElement, {
+                availableConnections: updatedAvailableConnections
+            });
+
+            return {
+                canvasElement: newStartElement,
+                elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
+                shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as StartUi),
+                startElementGuid: newStartElement.guid
             };
-            return Object.assign(newStartElement, timeTriggerProperties);
         }
-    } else {
+
         return newStartElement;
     }
 
@@ -462,7 +482,6 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         }
     }
 
-    maxConnections = newTimeTriggers.length + 1;
     const {
         newChildren,
         deletedCanvasElementChildren,
@@ -491,7 +510,6 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     Object.assign(newStartElement, {
         childReferences,
         elementType,
-        maxConnections,
         connectorCount,
         availableConnections
     });
@@ -506,7 +524,9 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         deletedBranchHeadGuids,
         //
         elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
-        elementSubtype
+        elementSubtype,
+        shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as StartUi),
+        startElementGuid: newStartElement.guid
     };
 }
 
@@ -516,7 +536,12 @@ function calculateMaxConnections(startElement) {
     }
     let length = 1;
     if (startElement.timeTriggers) {
-        length = startElement.timeTriggers.length + 1;
+        // Only including defined time triggers for maxConnections calculation
+        for (let i = 0; i < startElement.timeTriggers.length; i++) {
+            if (startElement.timeTriggers[i].name) {
+                length++;
+            }
+        }
     } else if (startElement.scheduledPaths) {
         length = startElement.scheduledPaths.length + 1;
     } else if (startElement.childReferences) {
@@ -525,9 +550,10 @@ function calculateMaxConnections(startElement) {
     return length;
 }
 
-function addImmediateConnectorToAvailableConnections(
+function addStartElementConnectorToAvailableConnections(
     availableConnections: AvailableConnection[] = [],
-    startElement: StartMetadata
+    startElement: StartMetadata,
+    type: ConnectorType
 ) {
     if (!availableConnections || !startElement) {
         throw new Error('Either availableConnections or start Element is not defined');
@@ -537,7 +563,7 @@ function addImmediateConnectorToAvailableConnections(
         return [
             ...availableConnections,
             {
-                type: CONNECTOR_TYPE.IMMEDIATE
+                type
             }
         ];
     }

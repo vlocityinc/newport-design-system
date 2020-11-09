@@ -29,7 +29,13 @@ export const flowWithAllElementsUIModel = {
                     operator: ''
                 }
             ],
-            doesRequireRecordChangedToMeetCriteria: false
+            doesRequireRecordChangedToMeetCriteria: false,
+            childReferences: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                }
+            ]
         },
         '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3': {
             guid: '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',

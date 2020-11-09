@@ -583,16 +583,34 @@ describe('Start element', () => {
         });
 
         describe('time triggers', () => {
-            it('childReferences and availableConnections are not present on start for non record triggered flow', () => {
+            it('childReferences should be an empty array for non record triggered flow', () => {
+                expect.assertions(1);
+                startElementFromFlow.triggerType = 'Scheduled';
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                expect(result.elements.existingStart.childReferences).toEqual([]);
+            });
+
+            it('availableConnections should have only one regular available connection for non record triggered flow', () => {
                 expect.assertions(2);
                 startElementFromFlow.triggerType = 'Scheduled';
                 const result = createStartElementWithConnectors(startElementFromFlow);
-                expect(result.childReferences).toBe(undefined);
-                expect(result.availableConnections).toBe(undefined);
+                expect(result.elements.existingStart.availableConnections.length).toEqual(1);
+                expect(result.elements.existingStart.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
             });
+
+            it('availableConnections should be an empty array when a connector exists for flows that do not support time triggers', () => {
+                expect.assertions(1);
+                startElementFromFlow.triggerType = 'Scheduled';
+                startElementFromFlow.connector = { targetReference: 'foo' };
+                const result = createStartElementWithConnectors(startElementFromFlow);
+                expect(result.elements.existingStart.availableConnections).toEqual([]);
+            });
+
             it('start element includes child references for all scheduled paths present for Record Trigger Flows', () => {
                 expect.assertions(4);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
+                startElementFromFlow.recordTriggerType = 'Create';
+                startElementFromFlow.object = 'Account';
                 const result = createStartElementWithConnectors(startElementFromFlow);
                 const startElement = result.elements[existingStartElementGuid];
                 expect(startElement.childReferences).toHaveLength(3);
@@ -610,6 +628,8 @@ describe('Start element', () => {
             it('start element includes immediate connector in availableConnections for Record Trigger Flows', () => {
                 expect.assertions(2);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
+                startElementFromFlow.recordTriggerType = 'Create';
+                startElementFromFlow.object = 'Account';
                 const result = createStartElementWithConnectors(startElementFromFlow);
                 const startElement = result.elements[existingStartElementGuid];
                 expect(startElement.availableConnections).toHaveLength(4);
@@ -619,6 +639,8 @@ describe('Start element', () => {
             it('are included in element map for all scheduled paths present', () => {
                 expect.assertions(3);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
+                startElementFromFlow.recordTriggerType = 'Create';
+                startElementFromFlow.object = 'Account';
                 const result = createStartElementWithConnectors(startElementFromFlow);
                 expect(result.elements[startElementFromFlow.scheduledPaths[0].guid]).toMatchObject({
                     name: MOCK_NAMES.name1,
@@ -645,6 +667,8 @@ describe('Start element', () => {
             it('first connector from Start is of IMMEDIATE connector type with immediate connector label for Record Trigger Flow', () => {
                 expect.assertions(2);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
+                startElementFromFlow.recordTriggerType = 'Create';
+                startElementFromFlow.object = 'Account';
                 startElementFromFlow.connector = {
                     targetReference: MOCK_NAMES.name1
                 };
@@ -678,12 +702,16 @@ describe('Start element', () => {
                         name: 'abc'
                     }
                 ],
-                triggerType: 'RecordAfterSave'
+                triggerType: 'RecordAfterSave',
+                recordTriggerType: 'Create',
+                object: 'Account'
             };
 
             newStartElement = {
                 elementType: 'START_ELEMENT',
-                triggerType: 'RecordAfterSave'
+                triggerType: 'RecordAfterSave',
+                recordTriggerType: 'Create',
+                object: 'Account'
             };
 
             startElementFromPropertyEditorWithChildren = {
@@ -695,6 +723,8 @@ describe('Start element', () => {
                     }
                 ],
                 triggerType: 'RecordAfterSave',
+                recordTriggerType: 'Create',
+                object: 'Account',
                 children: null
             };
 
@@ -707,6 +737,8 @@ describe('Start element', () => {
                     }
                 ],
                 triggerType: 'RecordAfterSave',
+                recordTriggerType: 'Create',
+                object: 'Account',
                 children: ['screen1', 'screen2', null]
             };
         });
@@ -745,8 +777,8 @@ describe('Start element', () => {
             const actualResult = createStartElementWhenUpdatingFromPropertyEditor(startElementWithoutGuid);
             expect(actualResult).toMatchObject(expectedResult);
         });
-        it('creates start element without available connections if not Record Triggered Flow', () => {
-            expect.assertions(1);
+        it('creates start element with Regular connector in available connections if not Record Triggered Flow', () => {
+            expect.assertions(2);
             const testStartElement = {
                 locationX: 10,
                 locationY: 20,
@@ -760,7 +792,8 @@ describe('Start element', () => {
                 }
             };
             const actualResult = createStartElementWhenUpdatingFromPropertyEditor(testStartElement);
-            expect(actualResult.availableConnections).toEqual(undefined);
+            expect(actualResult.availableConnections).toHaveLength(1);
+            expect(actualResult.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
         });
 
         it('element type is START WITH MODIFIED AND DELETED TIME TRIGGERS', () => {
@@ -793,6 +826,14 @@ describe('Start element', () => {
             expect(result.canvasElement.children).toEqual([null]);
         });
 
+        it('When updating to a start element that does not support time triggers, Immediate available connector should be updated to Regular', () => {
+            expect.assertions(1);
+            startElementFromPropertyEditor.triggerType = 'Update';
+            startElementFromPropertyEditor.availableConnections = [{ type: CONNECTOR_TYPE.IMMEDIATE }];
+            const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
+            expect(result.canvasElement.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
+        });
+
         describe('connection properties of a start element for record triggered flow', () => {
             it('result has availableConnections', () => {
                 expect.assertions(3);
@@ -807,11 +848,12 @@ describe('Start element', () => {
             it('result has availableConnections of immediate for a new flow', () => {
                 expect.assertions(2);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(newStartElement);
-                expect(result.availableConnections).toHaveLength(1);
-                expect(result.availableConnections[0]).toEqual({
+                expect(result.canvasElement.availableConnections).toHaveLength(1);
+                expect(result.canvasElement.availableConnections[0]).toEqual({
                     type: CONNECTOR_TYPE.IMMEDIATE
                 });
             });
+
             it('result has only 1 available connection (IMMEDIATE) and 1 maxConnections for a start element with blank time trigger and no connections', () => {
                 expect.assertions(3);
                 const startElementWithBlankTimeTrigger = {
@@ -827,7 +869,9 @@ describe('Start element', () => {
                             timeSource: ''
                         }
                     ],
-                    triggerType: 'RecordAfterSave'
+                    triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Create',
+                    object: 'Account'
                 };
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementWithBlankTimeTrigger);
                 expect(result.canvasElement.availableConnections).toHaveLength(1);
@@ -847,6 +891,13 @@ describe('Start element', () => {
                 expect.assertions(1);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.canvasElement.maxConnections).toEqual(2);
+            });
+
+            it('When updating to a start element that supports time triggers, Regular available connector should be updated to Immediate', () => {
+                expect.assertions(1);
+                startElementFromPropertyEditor.availableConnections = [{ type: CONNECTOR_TYPE.REGULAR }];
+                const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
+                expect(result.canvasElement.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.IMMEDIATE });
             });
         });
 
@@ -888,6 +939,8 @@ describe('Start element', () => {
                 startElementFromPropertyEditor = {
                     guid: existingStartElementGuid,
                     triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Create',
+                    object: 'Account',
                     timeTriggers: [
                         {
                             guid: 'trigger1',

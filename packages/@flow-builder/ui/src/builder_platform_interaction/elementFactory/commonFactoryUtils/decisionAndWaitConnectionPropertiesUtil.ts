@@ -71,7 +71,12 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
 
     if (flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.DEFAULT)) {
         defaultAvailableConnection.push({ type: CONNECTOR_TYPE.DEFAULT });
-    } else if (flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.IMMEDIATE)) {
+    } else if (
+        flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.IMMEDIATE) ||
+        flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.REGULAR)
+    ) {
+        // Adding the Regular check to update the availableConnection type from Regular to Immediate
+        // when switching to a start element that supports time triggers
         defaultAvailableConnection.push({ type: CONNECTOR_TYPE.IMMEDIATE });
     } else {
         additionalConnectorCount += 1;

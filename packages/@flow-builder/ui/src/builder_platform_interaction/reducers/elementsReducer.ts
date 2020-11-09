@@ -724,15 +724,16 @@ function _updateAvailableConnectionsAndConnectorCount(
  * @param {String} connectorType - connector type to filter available connections on
  */
 function _filterAvailableConnections(element, childSourceGUID, connectorType) {
-    // Filter out an available connection if the child reference matches the child source element guid passed in OR if the connector type matches the connector type passed in
     if (element.availableConnections) {
         if (childSourceGUID) {
+            // Filtering out an available connection if the child reference matches the child source element guid passed in
             element.availableConnections = element.availableConnections.filter(
                 (availableConnector) => availableConnector.childReference !== childSourceGUID
             );
         } else {
+            // Filtering out an available connection if it's type matches the connectorType passed in and if it doesn't have any childReference
             element.availableConnections = element.availableConnections.filter(
-                (availableConnector) => availableConnector.type !== connectorType
+                (availableConnector) => availableConnector.type !== connectorType || availableConnector.childReference
             );
         }
     }
