@@ -9,54 +9,10 @@
  * @modifier
  */
  .nds-hero {
-    width: 100%;
-
-    /**
-    * @summary Selector for a small hero img
-    *
-    * @name nds-hero_small
-    * @selector .nds-hero_small
-    * @modifier
-    */
-    &_small {
-        display: none;
-    }
-    
-     img {
-        width: 100%;
-    }
+    .block-container{
+        max-width: 80rem;
+        margin: $spacing-none auto;
+     }
  }
  
-@media screen and (max-width: 30rem) {
 
-    .nds-hero {
-        overflow: hidden;
-
-        /**
-        * @summary Selector for a large hero img
-        *
-        * @name nds-hero_large
-        * @selector .nds-hero_large
-        * @modifier
-        */
-        &_large {
-            display: none; 
-        }
-        
-        img {
-
-            width: fit-content;
-            max-width: fit-content;
-            right: 6rem;
-            position: relative;
-
-            &.nds-hero_small {
-                display: block;
-                right: 0;
-                max-width: 100%;
-                width: 100%;
-            }
-
-        }
-    }
-}

@@ -1,0 +1,14 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a community toast 
+ *
+ * @name nds-communities-toast
+ * @selector .nds-communities-toast
+ * @modifier
+ */
+
+ .nds-communities-toast{
+     background:$color-toast-background-primary;
+ }
