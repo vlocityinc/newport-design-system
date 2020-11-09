@@ -8,7 +8,7 @@
  * @selector .nds-communities-policy-card
  * @modifier
  */
-.nds-communities-policy-card {
+ .nds-communities-policy-card {
     .nds-text-heading_large {
         font-size: $font-size-7;
         font-weight: $font-weight-medium-bold;
@@ -25,14 +25,36 @@
         color: $palette-gray-11;
         font-weight: $font-weight-medium-bold;
     }
-   /**
- * @summary Initializes hero for community
+    .nds-article-image {
+        img {
+            height: $spacing-xxx-large;
+            border-radius: $border-radius-medium;
+        }
+    }
+    .nds-timeline__item.nds-timeline__media {
+        &::before {
+            top: 55%;
+            left: 22.2%;
+        }
+        .activity-circle {
+            width: $spacing-medium;
+            height: $spacing-medium;
+            position: absolute;
+            background: $dodger-blue;
+            border-radius: $border-radius-circle;
+            text-align: $text-align-center;
+            left: 21.5%;
+        }
+    }
+    /**
+ * @summary Initializes hero for community 
  *
  * @name nds-communities-menu-mobile
  * @selector .nds-communities-menu-mobile
  * @modifier
  */
     .nds-communities-menu-mobile {
+        background: $blue-background-primary;
         .nds-dropdown-trigger.nds-dropdown-trigger_click {
             display: block;
         }
@@ -41,7 +63,8 @@
             text-align: $text-align-left;
             padding: $spacing-x-small $spacing-medium;
             font-size: $font-size-5;
-            color:$palette-gray-11;
+            color: $palette-gray-11;
+            border-radius: $border-radius-large;
             :last-child {
                 float: right;
             }
@@ -53,13 +76,11 @@
             margin-top: $spacing-small;
             min-width: 100%;
             max-width: 100%;
-            border-radius: $border-radius-medium;
             a {
                 color: $palette-gray-11;
             }
         }
     }
-
     @media screen and (max-width: 30rem) {
         .nds-communities-policy-state {
             border-bottom: $border-width-thin solid $newport-color-grey-shaded;
