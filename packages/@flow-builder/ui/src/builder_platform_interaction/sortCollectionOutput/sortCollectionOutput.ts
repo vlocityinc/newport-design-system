@@ -55,6 +55,13 @@ export default class SortCollectionOutput extends LightningElement {
         return this._limit;
     }
 
+    renderedCallback() {
+        const inputSelector = this.template.querySelector('lightning-input');
+        if (inputSelector) {
+            inputSelector.focus();
+        }
+    }
+
     get outputOptions() {
         return [
             {

@@ -87,6 +87,7 @@ export default class FlcConnectorMenu extends Menu {
                     // @ts-ignore
                     new AddElementEvent({
                         elementType: event.currentTarget.getAttribute('data-value'),
+                        elementSubtype: event.currentTarget.getAttribute('data-sub-type'),
                         locationX: 0,
                         locationY: 0,
                         prev: this.prev,

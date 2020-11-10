@@ -79,6 +79,7 @@ export interface ElementMetadata {
     iconBackgroundColor: string;
     label: string;
     elementType: ElementType;
+    elementSubtype?: string;
     isSupported: boolean;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;

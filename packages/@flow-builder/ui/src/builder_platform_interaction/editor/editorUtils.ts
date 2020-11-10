@@ -832,6 +832,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 canHaveFaultConnector,
                 description,
                 elementType,
+                elementSubtype,
                 label,
                 iconBackgroundColor,
                 iconName,
@@ -840,7 +841,7 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 dynamicNodeComponent,
                 dynamicNodeComponentSelector
             }) => {
-                newElementsMetadata.push({
+                const newElementMetadata = {
                     section: section.label,
                     canHaveFaultConnector,
                     supportsMenu: true,
@@ -855,7 +856,11 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     dynamicNodeComponentSelector,
                     value: elementType, // TODO: FLC remove this property and just use elementType
                     isSupported: true
-                });
+                };
+                if (elementSubtype) {
+                    newElementMetadata.elementSubtype = elementSubtype;
+                }
+                newElementsMetadata.push(newElementMetadata);
             }
         );
     });

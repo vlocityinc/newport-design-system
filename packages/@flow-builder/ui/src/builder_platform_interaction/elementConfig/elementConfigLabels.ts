@@ -187,8 +187,8 @@ import startConnectorPickerHeader from '@salesforce/label/FlowBuilderConnectorPi
 import sortSingularLabel from '@salesforce/label/CollectionSort.Label';
 import sortPluralLabel from '@salesforce/label/CollectionSort.LabelPlural';
 import sortDescription from '@salesforce/label/CollectionSort.Description';
-import collectionProcessorSingularLabel from '@salesforce/label/CollectionSort.LabelPlural';
-import collectionProcessorPluralLabel from '@salesforce/label/CollectionSort.LabelPlural';
+import collectionProcessorSingularLabel from '@salesforce/label/CollectionProcessor.Label';
+import collectionProcessorPluralLabel from '@salesforce/label/CollectionProcessor.LabelPlural';
 
 export const LABELS = {
     subflowSingularLabel,

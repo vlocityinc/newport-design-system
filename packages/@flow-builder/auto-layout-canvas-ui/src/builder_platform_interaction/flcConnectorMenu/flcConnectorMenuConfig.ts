@@ -76,7 +76,18 @@ export const configureMenu = (
     const sections = elementsMetadata.reduce(
         (
             acc,
-            { section, description, icon, iconShape, iconBackgroundColor, label, elementType, type, isSupported }
+            {
+                section,
+                description,
+                icon,
+                iconShape,
+                iconBackgroundColor,
+                label,
+                elementType,
+                elementSubtype,
+                type,
+                isSupported
+            }
         ) => {
             if (section == null || (type === ElementType.END && !showEndElement)) {
                 return acc;
@@ -114,7 +125,7 @@ export const configureMenu = (
 
             // Using the new isSupported property to determine what is shown in the connector menu
             if (isSupported) {
-                sectionDefinition.items.push({
+                const item: any = {
                     guid: generateGuid(),
                     description,
                     label,
@@ -125,7 +136,11 @@ export const configureMenu = (
                     iconSize,
                     iconVariant,
                     rowClass: 'slds-listbox__item'
-                });
+                };
+                if (elementSubtype) {
+                    item.elementSubtype = elementSubtype;
+                }
+                sectionDefinition.items.push(item);
             }
 
             return acc;

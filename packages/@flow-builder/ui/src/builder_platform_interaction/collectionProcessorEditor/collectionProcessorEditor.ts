@@ -50,6 +50,12 @@ export default class CollectionProcessorEditor extends LightningElement {
 
     set node(newValue) {
         this.collectionProcessorElement = newValue || {};
+        this.hasConfigurationEditor = true;
+        this.collectionProcessorSubtype = this.collectionProcessorElement.elementSubtype;
+        this.configurationEditor = {
+            name: elementTypeToConfigMap[this.collectionProcessorSubtype].configComponent
+        };
+        this.setElementInfo(this.collectionProcessorSubtype);
     }
 
     @api
@@ -73,21 +79,11 @@ export default class CollectionProcessorEditor extends LightningElement {
         const event = new CustomEvent(VALIDATE_ALL);
         this.collectionProcessorElement = collectionProcessorReducer(this.collectionProcessorElement, event);
         errors.push(...getErrorsFromHydratedElement(this.collectionProcessorElement));
-        return errors;
-    }
-
-    connectedCallback() {
-        this.hasConfigurationEditor = true;
-        this.collectionProcessorSubtype = this.collectionProcessorElement.elementSubtype;
-        this.configurationEditor = {
-            name: elementTypeToConfigMap[this.collectionProcessorSubtype].configComponent
-        };
-        this.setElementInfo(this.collectionProcessorSubtype);
-        this.hasConfigurationEditor = true;
-        this.collectionProcessorSubtype = this.collectionProcessorElement.elementSubtype;
-        this.configurationEditor = {
-            name: elementTypeToConfigMap[this.collectionProcessorSubtype].configComponent
-        };
+        // remove duplicated error
+        const errorKey = 'key';
+        return errors.filter(
+            (element, index, self) => self.findIndex((t) => t[errorKey] === element[errorKey]) === index
+        );
     }
 
     /**
