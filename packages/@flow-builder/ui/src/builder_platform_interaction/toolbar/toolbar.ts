@@ -217,7 +217,11 @@ export default class Toolbar extends LightningElement {
     }
 
     get showNewDebugButton() {
-        return this.isNewDebugSupported && this.showDebugButton;
+        return this.showDebugButton && this.isNewDebugSupported;
+    }
+
+    get showOldDebugButton() {
+        return this.showDebugButton && !this.isNewDebugSupported;
     }
 
     get currentDate() {

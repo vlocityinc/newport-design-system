@@ -127,8 +127,14 @@ describe('toolbar', () => {
         expect(debug).toBeNull();
     });
 
-    it('Debug button should be present if show debug button api property is set', () => {
-        const toolbarComponent = createComponentUnderTest({ showDebugButton: true });
+    it('Old Debug button should not be present if new debug is supported', () => {
+        const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: true });
+        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        expect(debug).toBeNull();
+    });
+
+    it('Old Debug button should be present if show debug button api property is set and new debug is not supported', () => {
+        const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: false, showDebugButton: true });
         const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
         expect(debug).not.toBeNull();
     });
