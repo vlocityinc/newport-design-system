@@ -410,6 +410,15 @@ export default class Editor extends LightningElement {
         );
     }
 
+    /**
+     * Allows the right panel to size itself to fit its content without a max-width
+     */
+    get isRightPanelVariableWidth() {
+        // Hardcoded for App Process PoC
+        // TODO: remove in 232: https://gus.lightning.force.com/lightning/_classic/%2Fa07B00000089r2hIAA
+        return this.properties.processType === FLOW_PROCESS_TYPE.APP_PROCESS;
+    }
+
     get useNewDebugExperience() {
         return (
             this.properties.processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
