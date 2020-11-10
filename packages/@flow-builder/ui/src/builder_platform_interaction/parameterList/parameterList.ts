@@ -4,6 +4,7 @@ import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction
 import { compareParamsByRequired, compareParamsByLabel } from 'builder_platform_interaction/calloutEditorLib';
 import { multiComparator } from 'builder_platform_interaction/sortLib';
 import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
+import UseAdvancedOptionsCheckbox from 'builder_platform_interaction/useAdvancedOptionsCheckbox';
 
 export default class ParameterList extends LightningElement {
     @track
@@ -263,6 +264,12 @@ export default class ParameterList extends LightningElement {
      */
     get showOutputParam() {
         return this.displayOutputParams && !this.emptyOutputs;
+    }
+
+    get advancedOptionsCheckboxDivCss() {
+        return this.configurationEditor
+            ? 'slds-form_stacked slds-m-top_medium'
+            : UseAdvancedOptionsCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS;
     }
 
     /**

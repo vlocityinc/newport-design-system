@@ -30,23 +30,15 @@ function confirmationModalParameter(event) {
 }
 
 export default class UseAdvancedOptionsCheckbox extends LightningElement {
+    static DEFAULT_INPUT_PARENT_DIV_CSS = 'slds-form_stacked slds-p-left_small';
+
     labels = LABELS;
 
     @api
     isAdvancedMode;
 
     @api
-    configurationEditor;
-
-    hasConfigurationEditor() {
-        return !!this.configurationEditor;
-    }
-
-    get cssDivAdvancedMode() {
-        return this.hasConfigurationEditor()
-            ? 'slds-form_stacked slds-m-top_medium'
-            : 'slds-form_stacked slds-p-left_small';
-    }
+    inputParentDivCss = UseAdvancedOptionsCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS;
 
     /**
      * Handles selection/deselection of 'Use Advanced Options' checkbox

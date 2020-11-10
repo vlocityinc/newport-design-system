@@ -12,6 +12,7 @@ import {
     ConfigurationEditorTypeMappingChangeEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
+import UseAdvancedOptionsCheckbox from 'builder_platform_interaction/useAdvancedOptionsCheckbox';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -342,6 +343,11 @@ describe('parameter-list', () => {
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(false);
         });
+        it('Has default styling on Use Advanced Option component', () => {
+            const useAdvancedOptionComponent = getUseAdvancedOptionComponent(parameterList);
+            const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
+            expect(inputParentDivCss.className).toBe(UseAdvancedOptionsCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS);
+        });
         it('should not contains output div header', () => {
             const outputHeader = getOutputHeader(parameterList);
             expect(outputHeader).toBeNull();
@@ -488,6 +494,11 @@ describe('parameter-list', () => {
                 error: undefined,
                 rowIndex: undefined
             });
+        });
+        it('Has overriden styling on Use Advanced Option component', () => {
+            const useAdvancedOptionComponent = getUseAdvancedOptionComponent(parameterList);
+            const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
+            expect(inputParentDivCss.className).toBe('slds-form_stacked slds-m-top_medium');
         });
     });
     describe('When display output parameters is disabled for action editor', () => {

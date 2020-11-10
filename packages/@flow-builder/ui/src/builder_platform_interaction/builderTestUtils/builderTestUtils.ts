@@ -1,4 +1,3 @@
-// @ts-nocheck
 export * from './screenEditorTestUtils';
 export * from './commonTestUtils';
 export * from './deepFindMatchers';

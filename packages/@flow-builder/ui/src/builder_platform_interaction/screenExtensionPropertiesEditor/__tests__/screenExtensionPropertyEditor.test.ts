@@ -453,6 +453,16 @@ describe('Screen Extension Properties Editor', () => {
             expect(useAdvancedOptionsCheckbox).toBeDefined();
             expect(useAdvancedOptionsCheckbox.checked).toBe(false);
         });
+        it('has empty styling on Use Advanced Option component', async () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
+            const extensionEditor = createComponentForTestWithProperties();
+
+            await Promise.resolve();
+
+            const useAdvancedOptionComponent = getUseAdvancedOptionComponent(extensionEditor);
+            const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
+            expect(inputParentDivCss.className).toBe('');
+        });
         it('does not show up Use Advanced Options when Automated Output disabled', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Unsupported');
             const extensionEditor = createComponentForTestWithProperties();
