@@ -1,4 +1,3 @@
-// @ts-nocheck
 // To update recordTriggeredFlowUIModel from recordTriggeredFlow, run flowTranslator.test.js and follow instructions
 export const recordTriggeredFlowUIModel = {
     elements: {
@@ -94,7 +93,6 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             assignmentItems: [
                 {
                     rowIndex: '90246d76-2818-4059-b0fd-425e241f8708',
@@ -122,7 +120,6 @@ export const recordTriggeredFlowUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             childReferences: [
                 {
                     childReference: '297834ec-f5c8-4128-aa38-dc437f0c6a9b'
@@ -170,7 +167,7 @@ export const recordTriggeredFlowUIModel = {
             dataType: 'SObject',
             subtype: 'Account',
             subtypeIndex: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1'
@@ -186,20 +183,65 @@ export const recordTriggeredFlowUIModel = {
             dataType: 'String',
             subtype: null,
             subtypeIndex: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0'
+        },
+        '7f4ddba5-e41b-456b-b686-94b257cc9914': {
+            guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
+            name: 'create_account_manual_output',
+            description: '',
+            label: 'create account manual output',
+            locationX: 337,
+            locationY: 373,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
+            inputAssignments: [
+                {
+                    rowIndex: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
+                    leftHandSide: 'Account.Name',
+                    rightHandSide: 'accountName',
+                    rightHandSideDataType: 'String'
+                }
+            ],
+            getFirstRecordOnly: true,
+            inputReference: '',
+            inputReferenceIndex: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'RecordCreate',
+            assignRecordIdToReference: '4968239c-5e3d-45ee-9339-f575c917e223',
+            assignRecordIdToReferenceIndex: '04e1c283-fc0b-4928-a495-89d956368769',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false
         }
     },
     connectors: [],
     canvasElements: [
         '07fd2a44-4192-4709-888d-8ccc18cb4580',
         '6d690706-908c-4d94-9513-1b219301b4c5',
-        'e682f03e-925a-4d84-adc3-f1c5ceea0201'
+        'e682f03e-925a-4d84-adc3-f1c5ceea0201',
+        '7f4ddba5-e41b-456b-b686-94b257cc9914'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,
+        definitionId: '300RM0000000Jt4YAE',
         description: '',
         elementType: 'FLOW_PROPERTIES',
         hasUnsavedChanges: false,
@@ -208,8 +250,8 @@ export const recordTriggeredFlowUIModel = {
         isLightningFlowBuilder: true,
         isTemplate: false,
         label: 'RecordTriggeredFlow',
-        lastModifiedBy: null,
-        lastModifiedDate: null,
+        lastModifiedBy: 'Admin User',
+        lastModifiedDate: '2020-11-10T14:54:47.000+0000',
         lastInlineResourceGuid: null,
         lastInlineResourcePosition: null,
         lastInlineResourceRowIndex: null,

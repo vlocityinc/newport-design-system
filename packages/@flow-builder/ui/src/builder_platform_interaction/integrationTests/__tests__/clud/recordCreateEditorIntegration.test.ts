@@ -19,6 +19,7 @@ import {
 } from 'mock/flows/flowWithCreateRecord';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getAdvancedOptionCheckbox,
@@ -116,6 +117,7 @@ jest.mock(
 
 describe('Record Create Editor', () => {
     let recordCreateNode;
+    let recordCreateElement;
     let store;
     let sObjectOrSObjectCollectionPicker;
     const expectCannotBeTraversedInResourcePicker = async (textValues) => {
@@ -144,7 +146,7 @@ describe('Record Create Editor', () => {
             });
             it('do not change devName if it already exists after the user modifies the name', async () => {
                 const newLabel = 'new label';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                recordCreateElement = createComponentForTest(recordCreateNode);
                 const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
                 labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
@@ -154,7 +156,7 @@ describe('Record Create Editor', () => {
             });
             it('modify the dev name', async () => {
                 const newDevName = 'newName';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                recordCreateElement = createComponentForTest(recordCreateNode);
                 const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
@@ -163,7 +165,7 @@ describe('Record Create Editor', () => {
             });
             it('displays error if name is cleared', async () => {
                 const newLabel = '';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                recordCreateElement = createComponentForTest(recordCreateNode);
                 const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
                 labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
@@ -174,7 +176,7 @@ describe('Record Create Editor', () => {
             });
             it('displays error if devName is cleared', async () => {
                 const newDevName = '';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                recordCreateElement = createComponentForTest(recordCreateNode);
                 const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
@@ -185,7 +187,6 @@ describe('Record Create Editor', () => {
             });
         });
         describe('Add new element', () => {
-            let recordCreateElement;
             beforeAll(() => {
                 recordCreateNode = getElementForPropertyEditor({
                     locationX: 10,
@@ -233,7 +234,6 @@ describe('Record Create Editor', () => {
         });
         describe('Existing element', () => {
             describe('Working with sObject', () => {
-                let recordCreateElement;
                 beforeAll(() => {
                     translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObject, store);
                 });
@@ -312,7 +312,6 @@ describe('Record Create Editor', () => {
                 });
             });
             describe('Working with sObject Collection', () => {
-                let recordCreateElement;
                 beforeAll(() => {
                     translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObjectCollection, store);
                 });
@@ -393,7 +392,6 @@ describe('Record Create Editor', () => {
                 });
             });
             describe('Working with fields', () => {
-                let recordCreateElement;
                 const selectEntity = async (apiName) => {
                     const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
@@ -592,7 +590,6 @@ describe('Record Create Editor', () => {
         });
     });
     describe('Working with screen flow', () => {
-        let recordCreateElement;
         beforeAll(async () => {
             store = await setupStateForFlow(flowWithAllElements);
             translateFlowToUIAndDispatch(flowWithAllElements, store);
@@ -888,12 +885,12 @@ describe('Record Create Editor', () => {
             });
         });
         describe('Working with manual output handling', () => {
-            beforeEach(async () => {
+            beforeEach(() => {
                 const element = getElementByDevName('createAccountWithAdvancedOptions');
                 recordCreateNode = getElementForPropertyEditor(element);
                 recordCreateElement = createComponentForTest(recordCreateNode);
             });
-            it('displays "outputResourcePicker" in pill mode', async () => {
+            it('displays "outputResourcePicker" in pill mode', () => {
                 const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
                 expect(outputResourcePickerCombobox.hasPill).toBe(true);
                 expect(outputResourcePickerCombobox.pill).toEqual({
@@ -1064,6 +1061,38 @@ describe('Record Create Editor', () => {
                     await expectCannotBeSelectedInResourcePicker(['vMyTestAccount']);
                 });
             });
+        });
+    });
+    describe('Working with flow with $Record prior value', () => {
+        beforeAll(async () => {
+            await setupStateForFlow(recordTriggeredFlow);
+        });
+        afterAll(() => {
+            resetState();
+        });
+        describe('Manual output handling', () => {
+            beforeEach(() => {
+                const element = getElementByDevName('create_account_manual_output');
+                recordCreateNode = getElementForPropertyEditor(element);
+                recordCreateElement = createComponentForTest(recordCreateNode);
+            });
+            it.each`
+                outputResourcePickerDisplayText     | expectedErrorMessage
+                ${'{!accountSObjectVariable.Name}'} | ${null}
+                ${'{!stringVariable}'}              | ${null}
+                ${'{!$Record.Name}'}                | ${null}
+                ${'{!$Record__Prior}'}              | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+                ${'{!$Record__Prior.Name}'}         | ${'FlowBuilderCombobox.genericErrorMessage'}
+            `(
+                'When typing "$outputResourcePickerDisplayText" error should be: $expectedErrorMessage',
+                async ({ outputResourcePickerDisplayText, expectedErrorMessage }) => {
+                    const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
+                    await removePill(outputResourcePickerCombobox);
+
+                    await typeReferenceOrValueInCombobox(outputResourcePickerCombobox, outputResourcePickerDisplayText);
+                    expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
+                }
+            );
         });
     });
 });

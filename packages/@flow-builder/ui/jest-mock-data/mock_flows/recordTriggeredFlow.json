@@ -1,4 +1,15 @@
 {
+    "createdById": "005RM000001kjoRYAQ",
+    "createdDate": "2020-11-10T14:54:45.000+0000",
+    "definitionId": "300RM0000000Jt4YAE",
+    "fieldsToNull": [],
+    "fullName": "RecordTriggeredFlow",
+    "id": "301RM0000000V2xYAE",
+    "lastModifiedBy": { "fieldsToNull": [], "name": "Admin User" },
+    "lastModifiedById": "005RM000001kjoRYAQ",
+    "lastModifiedDate": "2020-11-10T14:54:47.000+0000",
+    "manageableState": "unmanaged",
+    "masterLabel": "RecordTriggeredFlow",
     "metadata": {
         "start": {
             "locationX": 170,
@@ -43,7 +54,6 @@
                 "label": "assign",
                 "locationX": 623,
                 "locationY": 403,
-                "elementSubtype": null,
                 "assignmentItems": [
                     {
                         "assignToReference": "$Record.Description",
@@ -55,27 +65,6 @@
                 ]
             }
         ],
-        "variables": [
-            {
-                "name": "accountSObjectVariable",
-                "description": "",
-                "objectType": "Account",
-                "dataType": "SObject",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            },
-            {
-                "name": "stringVariable",
-                "description": "",
-                "dataType": "String",
-                "isCollection": false,
-                "isInput": false,
-                "isOutput": false,
-                "scale": 2
-            }
-        ],
         "decisions": [
             {
                 "name": "decision",
@@ -83,7 +72,6 @@
                 "label": "decision",
                 "locationX": 815,
                 "locationY": 408,
-                "elementSubtype": null,
                 "rules": [
                     {
                         "name": "outcome",
@@ -102,6 +90,47 @@
                     }
                 ],
                 "defaultConnectorLabel": "Default Outcome"
+            }
+        ],
+        "variables": [
+            {
+                "name": "accountSObjectVariable",
+                "description": "",
+                "objectType": "Account",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "stringVariable",
+                "description": "",
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            }
+        ],
+        "recordCreates": [
+            {
+                "name": "create_account_manual_output",
+                "description": "",
+                "label": "create account manual output",
+                "locationX": 337,
+                "locationY": 373,
+                "object": "Account",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "value": {
+                            "stringValue": "accountName"
+                        }
+                    }
+                ],
+                "storeOutputAutomatically": false,
+                "assignRecordIdToReference": "stringVariable"
             }
         ],
         "description": "",
@@ -133,6 +162,7 @@
         "status": "InvalidDraft",
         "apiVersion": 51
     },
-    "fullName": "RecordTriggeredFlow",
+    "processType": "AutoLaunchedFlow",
+    "status": "InvalidDraft",
     "versionNumber": 1
 }

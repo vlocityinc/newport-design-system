@@ -216,7 +216,8 @@ describe('resourcePickerUtils', () => {
                 showGlobalVariables: true,
                 allowSObjectField: true,
                 allowsApexCollAnonymousAutoOutput: true,
-                forFormula: false
+                forFormula: false,
+                shouldBeWritable: false
             });
         });
 
