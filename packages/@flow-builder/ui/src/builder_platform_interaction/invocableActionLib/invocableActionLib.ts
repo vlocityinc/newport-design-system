@@ -9,6 +9,12 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 let cachedDetails = [];
 let invocableActions = [];
 
+export type InvocableAction = {
+    elementType: ELEMENT_TYPE;
+    actionType: string | ValueWithError;
+    actionName: string | ValueWithError;
+};
+
 export function setInvocableActions(actions) {
     invocableActions = actions;
 }

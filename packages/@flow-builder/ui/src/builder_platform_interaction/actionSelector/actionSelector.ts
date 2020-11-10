@@ -9,6 +9,7 @@ import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericEr
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 export default class ActionSelector extends LightningElement {
     labels = LABELS;
@@ -23,6 +24,8 @@ export default class ActionSelector extends LightningElement {
     };
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
+
+    @api labelOverride: string = null;
 
     elementTypeToLabelMap = {
         [ELEMENT_TYPE.ACTION_CALL]: this.labels.actionSearchInputLabel,
@@ -146,23 +149,25 @@ export default class ActionSelector extends LightningElement {
      *
      * @param {SelectedInvocableAction|SelectedApexPlugin|SelectedSubflow} newValue the selected action
      */
-    set selectedAction(newValue) {
-        newValue = unwrap(newValue);
-        this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;
-        if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            this.state.selectedActionValue = newValue.apexClass ? newValue.apexClass : null;
-        } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-            this.state.selectedActionValue = newValue.flowName ? newValue.flowName : null;
-        } else {
-            this.state.selectedActionValue =
-                newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : null;
-        }
+    set selectedAction(newValue: any | null) {
+        if (newValue) {
+            newValue = unwrap(newValue);
+            this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;
+            if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+                this.state.selectedActionValue = newValue.apexClass ? newValue.apexClass : null;
+            } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
+                this.state.selectedActionValue = newValue.flowName ? newValue.flowName : null;
+            } else {
+                this.state.selectedActionValue =
+                    newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : null;
+            }
 
-        this.updateActionCombo();
+            this.updateActionCombo();
+        }
     }
 
     get label() {
-        return this.elementTypeToLabelMap[this.state.selectedElementType];
+        return this.labelOverride ? this.labelOverride : this.elementTypeToLabelMap[this.state.selectedElementType];
     }
 
     /**
@@ -322,7 +327,8 @@ export default class ActionSelector extends LightningElement {
                         (action) =>
                             action.isStandard ||
                             action.type === ACTION_TYPE.QUICK_ACTION ||
-                            action.type === ACTION_TYPE.COMPONENT
+                            action.type === ACTION_TYPE.COMPONENT ||
+                            action.type === ACTION_TYPE.ORCHESTRATION_CREATE_WORKITEM
                     )
                     .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
@@ -387,7 +393,7 @@ export default class ActionSelector extends LightningElement {
         event.stopPropagation();
         const selectedElementType = event.detail.value;
         const newSelectedAction = this.getSelectedActionFrom(selectedElementType, null);
-        const valueChangedEvent = new ValueChangedEvent(newSelectedAction);
+        const valueChangedEvent = new ValueChangedEvent<InvocableAction>(newSelectedAction);
         this.dispatchEvent(valueChangedEvent);
     }
 

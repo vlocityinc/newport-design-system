@@ -1,5 +1,26 @@
 // @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import { Guid } from 'builder_platform_interaction/flowModel';
+import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
+
+export type ParameterListConfig = {
+    inputHeader: string;
+    outputHeader: string;
+    emptyInputsTitle: string;
+    emptyInputsBody: string;
+    sortInputs: boolean;
+    sortOutputs: boolean;
+    flowTransactionModel: FLOW_TRANSACTION_MODEL;
+    inputs: ParameterListRowItem[];
+    outputs: ParameterListRowItem[];
+    warnings: Map<Guid, MERGE_WARNING_TYPE[]>;
+    storeOutputAutomatically: boolean;
+    automaticOutputHandlingSupported: FLOW_AUTOMATIC_OUTPUT_HANDLING;
+    emptyInputsOutputsBody: string;
+    emptyInputsOutputsTitle: string;
+};
 
 /**
  * Get the label or name of the parameter

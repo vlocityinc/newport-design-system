@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { MERGE_WARNING_TYPE } from './mergeWarningType';
+import { Guid } from 'builder_platform_interaction/flowModel';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 /**
 * @typedef {Object} LABELS
@@ -21,7 +22,7 @@ import { MERGE_WARNING_TYPE } from './mergeWarningType';
  * @param {LABELS} labels the labels
  * @return {ParameterListWarnings} the warnings
  */
-export function getParameterListWarnings(inputAssignments, outputAssignments, labels) {
+export function getParameterListWarnings(inputAssignments, outputAssignments, labels): map<Guid, MERGE_WARNING_TYPE[]> {
     const map = {};
     inputAssignments.forEach((assignment) => {
         const warning = getParameterItemWarning(assignment.warnings, labels);

@@ -6,7 +6,7 @@
                 dev-name={element.name}
                 description={element.description}
                 guid={element.guid}
-                onpropertychanged={handlePropertyChangedEvent}
+                onpropertychanged={handleLabelDescriptionPropertyChangedEvent}
                 mode={mode}
                 editor-params={editorParams}
             >
@@ -45,21 +45,49 @@
 
         <lightning-accordion-section name="itemImplementationSection" label={labels.implementationSectionLabel}>
             <div class="slds-grid slds-grid_align-center">
+                <lightning-spinner
+                    if:true={displayActionSpinner}
+                    size="medium"
+                    variant="brand"
+                    class="spinner"
+                ></lightning-spinner>
+
                 <builder_platform_interaction-action-selector
                     class="slds-col slds-size_2-of-3"
-                    selected-action={selectedScreenFlow}
+                    selected-action={selectedAction}
                     error-message={selectedActionError}
-                    invocable-actions={availableScreenFlows}
-                    invocable-actions-fetched={screenFlowsFetched}
+                    invocable-actions={availableActions}
+                    invocable-actions-fetched={isActionsFetched}
                     selected-category={selectedCategory}
                     selected-filter-by={selectedFilterBy}
-                    onactionsloaded={handleScreenFlowsLoaded}
-                    onvaluechanged={handleScreenFlowSelected}
+                    onvaluechanged={handleActionSelected}
                     oncannotretrieveactions={handleCannotRetrieveActions}
                     flow-process-type={processType}
+                    label-override={labels.actionSelectorLabel}
                 >
                 </builder_platform_interaction-action-selector>
             </div>
+
+            <builder_platform_interaction-parameter-list
+                if:true={showParameterList}
+                inputs={actionParameterListConfig.inputs}
+                outputs={actionParameterListConfig.outputs}
+                warnings={actionParameterListConfig.warnings}
+                input-header={actionParameterListConfig.inputHeader}
+                output-header={actionParameterListConfig.outputHeader}
+                element-type={actionElementType}
+                sort-inputs={actionParameterListConfig.sortInputs}
+                sort-outputs={actionParameterListConfig.sortOutputs}
+                empty-inputs-title={actionParameterListConfig.emptyInputsTitle}
+                empty-inputs-body={actionParameterListConfig.emptyInputsBody}
+                empty-inputs-outputs-title={actionParameterListConfig.emptyInputsOutputsTitle}
+                empty-inputs-outputs-body={actionParameterListConfig.emptyInputsOutputsBody}
+                store-output-automatically={actionParameterListConfig.storeOutputAutomatically}
+                automatic-output-handling-supported={actionParameterListConfig.automaticOutputHandlingSupported}
+                element-info={actionElementInfo}
+                onupdateparameteritem={handleParameterPropertyChangedEvent}
+                ondeleteparameteritem={handleParameterPropertyChangedEvent}
+            ></builder_platform_interaction-parameter-list>
         </lightning-accordion-section>
     </lightning-accordion>
 </template>

@@ -67,7 +67,8 @@ getElementByGuid.mockImplementation((guid) => {
     } else if (guid === 'step1' || guid === 'step2' || guid === 'step3') {
         return {
             guid,
-            entryCriteria: []
+            entryCriteria: [],
+            inputParameters: []
         };
     }
 

@@ -3,6 +3,7 @@ export * from './actionCall';
 export * from './apexPlugin';
 export * from './assignment';
 export { createCondition, baseCanvasElement, INCOMPLETE_ELEMENT } from './base/baseElement';
+export * from './base/baseList';
 export * from './base/dynamicChoiceSet';
 export { createFilter } from './base/baseRecordElement';
 export { createOutputAssignment } from './base/outputAssignments';

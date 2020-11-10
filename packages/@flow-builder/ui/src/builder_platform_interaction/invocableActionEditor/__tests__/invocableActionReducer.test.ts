@@ -1,10 +1,6 @@
 // @ts-nocheck
 import { invocableActionReducer } from '../invocableActionReducer';
-import {
-    MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS,
-    MERGE_WARNING_TYPE
-} from 'builder_platform_interaction/calloutEditorLib';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import {
@@ -13,6 +9,7 @@ import {
     UseAdvancedOptionsSelectionChangedEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
     const invocableActionLib = jest.requireActual('builder_platform_interaction/invocableActionLib');

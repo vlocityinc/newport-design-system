@@ -1,5 +1,9 @@
-import { LightningElement, api } from 'lwc';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { api, LightningElement } from 'lwc';
+import {
+    getErrorsFromHydratedElement,
+    getValueFromHydratedItem,
+    ValueWithError
+} from 'builder_platform_interaction/dataMutationLib';
 import {
     ComboboxStateChangedEvent,
     DeleteConditionEvent,
@@ -11,29 +15,36 @@ import {
 import { LABELS } from './steppedStageItemEditorLabels';
 import { steppedStageItemReducer } from './steppedStageItemReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getOtherItemsInSteppedStage, SteppedStageItem } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
+import {
+    getOtherItemsInSteppedStage,
+    ParameterListRowItem,
+    SteppedStageItem
+} from 'builder_platform_interaction/elementFactory';
 import { ComboboxItem } from 'builder_platform_interaction/flowModel';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import {
+    getParameterListWarnings,
+    MERGE_WITH_PARAMETERS,
+    ParameterListConfig,
+    REMOVE_UNSET_PARAMETERS
+} from 'builder_platform_interaction/calloutEditorLib';
+import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
+import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 
 enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
     ON_STEP_COMPLETE = 'on_step_complete'
 }
 
+const HIDDEN_INPUT_PARAMETER_NAMES = ['appProcessInstanceId', 'appProcessStepInstanceId'];
+
 export default class SteppedStageItemEditor extends LightningElement {
     labels = LABELS;
 
-    element;
-
-    selectedScreenFlow: {
-        elementType: ELEMENT_TYPE;
-        flowName?: string;
-    } = {
-        elementType: ELEMENT_TYPE.SUBFLOW,
-        flowName: undefined
-    };
+    element?: SteppedStageItem;
 
     selectedEntryCriteria?: ENTRY_CRITERIA;
 
@@ -41,18 +52,15 @@ export default class SteppedStageItemEditor extends LightningElement {
     entryCriteriaAvailableStepItems: ComboboxItem[] = [];
     entryCriteriaSelectedItem?: ComboboxItem;
 
-    // TODO: Should only list screen flows.  currently incxludes all flows
-    availableScreenFlows = [];
+    isActionsFetched = false;
 
-    screenFlowsFetched = false;
+    availableActions: InvocableAction[] = [];
 
-    screenFlowSelectionLabelConfig = {
-        label: 'someLabel'
-    };
+    actionElementType = ELEMENT_TYPE.ACTION_CALL;
+    actionParameterListConfig?: ParameterListConfig;
+    invocableActionParametersDescriptor?: InvocableAction;
 
-    displayScreenFlowSelectionSpinner = true;
-
-    screenFlowSelectionParameters = {};
+    displayActionSpinner = false;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -92,12 +100,16 @@ export default class SteppedStageItemEditor extends LightningElement {
     set node(newValue) {
         this.element = newValue;
 
+        if (!this.element) {
+            return;
+        }
+
         if (this.element.entryCriteria.length === 0) {
             this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STAGE_START;
         } else {
             this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STEP_COMPLETE;
         }
-        const otherItems: SteppedStageItem[] = getOtherItemsInSteppedStage(this.getNode().guid);
+        const otherItems: SteppedStageItem[] = getOtherItemsInSteppedStage(this.element.guid);
 
         this.entryCriteriaAvailableStepItems = [];
 
@@ -113,14 +125,16 @@ export default class SteppedStageItemEditor extends LightningElement {
             // This depends on steppedStageItem entry criteria always having the shape
             // "devName" "EqualTo" "Completed".  For 230, we only parse the LHS devName
             if (
-                this.element.entryCriteria.length > 0 &&
-                this.element.entryCriteria[0].leftHandSide.value === steppedStageItem.guid
+                this.element!.entryCriteria.length > 0 &&
+                this.element!.entryCriteria[0].leftHandSide!.value === steppedStageItem.guid
             ) {
                 this.entryCriteriaSelectedItem = comboboxItem;
             }
 
             this.entryCriteriaAvailableStepItems.push(comboboxItem);
         });
+
+        this.setInputParameters();
     }
 
     get isLabelCollapsibleToHeader() {
@@ -135,10 +149,15 @@ export default class SteppedStageItemEditor extends LightningElement {
     }
 
     get startCriteriaItem() {
-        if (this.element.entryCriteria.length !== 0) {
+        if (this.element && this.element.entryCriteria.length !== 0) {
+            if (!this.element.entryCriteria[0].leftHandSide) {
+                throw new Error('SteppedStageItem entry criteria must include a leftHandSide value');
+            }
+
             // This depends on steppedStageItem entry criteria always having the shape
             // "devName" "EqualTo" "Completed".  For 230, we only parse the LHS devName
-            const itemDevName: string = this.element.entryCriteria[0].leftHandSide.value;
+            const itemDevName: string =
+                this.element.entryCriteria[0].leftHandSide && this.element.entryCriteria[0].leftHandSide.value;
             return { value: getElementByDevName(itemDevName) };
         }
 
@@ -159,70 +178,199 @@ export default class SteppedStageItemEditor extends LightningElement {
         ];
     }
 
-    get stepStartValue() {
+    get stepStartValue(): string {
         return this.stepStartOptions[0].value;
     }
 
-    get openSections() {
+    get openSections(): string[] {
         return ['startSection', 'itemImplementationSection', 'finishSection'];
     }
 
-    get isStartCriteriaBasedOnStep() {
+    get isStartCriteriaBasedOnStep(): boolean {
         return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE;
     }
 
+    get showParameterList(): boolean {
+        return !!this.actionParameterListConfig;
+    }
+
+    setActionParameterListConfig() {
+        const inputs = this.filterActionInputParameters(this.element!.inputParameters);
+        const outputs = this.element!.outputParameters;
+
+        const warnings = getParameterListWarnings(inputs, outputs, this.labels);
+
+        const storeOutputAutomatically = false;
+        const automaticOutputHandlingSupported: FLOW_AUTOMATIC_OUTPUT_HANDLING =
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+        const flowTransactionModel = getValueFromHydratedItem(FLOW_TRANSACTION_MODEL.AUTOMATIC);
+        this.actionParameterListConfig = {
+            inputHeader: this.labels.inputHeader,
+            outputHeader: this.labels.outputHeader,
+            emptyInputsTitle: this.labels.emptyInputsTitle,
+            emptyInputsBody: this.labels.thisActionHasNoInputBody,
+            sortInputs: true,
+            sortOutputs: true,
+            flowTransactionModel,
+            inputs,
+            outputs,
+            warnings,
+            storeOutputAutomatically,
+            automaticOutputHandlingSupported,
+            emptyInputsOutputsBody: this.labels.thisActionHasNoInputOutputBody,
+            emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
+        };
+    }
+
+    /**
+     * Returns the information about the action element in which the configurationEditor is defined
+     */
+    get actionElementInfo() {
+        const actionInfo = { apiName: '', type: 'Action' };
+        if (this.invocableActionParametersDescriptor) {
+            actionInfo.apiName = this.invocableActionParametersDescriptor.actionName;
+            actionInfo.type = this.invocableActionParametersDescriptor.actionType;
+        }
+        return actionInfo;
+    }
+
+    get selectedAction(): InvocableAction | null {
+        if (this.element && this.element.action && this.element.action.actionName.value !== '') {
+            return {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: this.element.action.actionType.value,
+                actionName: this.element.action.actionName.value
+            };
+        }
+
+        return null;
+    }
+
     async connectedCallback() {
+        this.displayActionSpinner = true;
+
         try {
-            const subflows = await fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
+            const workitemActions = await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
                 flowProcessType: this.processType
             });
+            this.displayActionSpinner = false;
+            this.isActionsFetched = true;
+            this.availableActions = workitemActions;
 
-            this.screenFlowsFetched = true;
-            this.availableScreenFlows = subflows;
+            if (this.selectedAction) {
+                this.setInputParameters();
+            }
         } catch (err) {
-            this.screenFlowsFetched = true;
+            this.isActionsFetched = true;
+            this.displayActionSpinner = false;
         }
     }
 
     /**
-     * @param {object} event - property changed event coming from label-description component
+     * Filters out input parameters that are for engine use only.
+     * For later releases, we'll investigate excluding them on the server side
+     *
+     * @param inputParameters
      */
-    handlePropertyChangedEvent(event: PropertyChangedEvent) {
+    filterActionInputParameters(inputParameters: ParameterListRowItem[]) {
+        return inputParameters.filter((inputParameter: ParameterListRowItem) => {
+            return (
+                !HIDDEN_INPUT_PARAMETER_NAMES.includes(<string>inputParameter.name) &&
+                !HIDDEN_INPUT_PARAMETER_NAMES.includes((<ValueWithError>inputParameter.name).value)
+            );
+        });
+    }
+
+    async setInputParameters() {
+        this.displayActionSpinner = true;
+
+        let parameters: ParameterListRowItem[];
+        try {
+            parameters = (await fetchDetailsForInvocableAction(this.selectedAction!)).parameters;
+        } catch (e) {
+            this.displayActionSpinner = false;
+            return;
+        }
+
+        const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
+            detail: parameters
+        });
+
+        // Update the merged parameters
+        this.element = steppedStageItemReducer(this.element!, event);
+
+        this.setActionParameterListConfig();
+
+        this.displayActionSpinner = false;
+    }
+
+    updateNodeForFieldLevelCommit() {
+        const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS);
+        this.element = steppedStageItemReducer(this.element!, removeUnsetParamsEvent);
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
+    }
+
+    /**
+     * @param event - property changed event coming from the label description component
+     */
+    handleLabelDescriptionPropertyChangedEvent(event: PropertyChangedEvent) {
         event.stopPropagation();
 
-        this.element = steppedStageItemReducer(this.element, event);
-
+        this.element = steppedStageItemReducer(this.element!, event);
         this.dispatchEvent(new UpdateNodeEvent(this.element));
+    }
+
+    /**
+     * @param event - property changed event coming from parameter list component
+     */
+    handleParameterPropertyChangedEvent(event: PropertyChangedEvent) {
+        event.stopPropagation();
+
+        const inputParam: ParameterListRowItem | undefined = this.element!.inputParameters.find(
+            (p) => p.rowIndex === (<ParameterListRowItem>event.detail).rowIndex
+        );
+        // Only update the element if an actual change in value has occurred
+        const sanitizedValue = removeCurlyBraces(event.detail.value);
+        if (!inputParam!.value || (<ValueWithError>inputParam!.value).value !== sanitizedValue) {
+            this.element = steppedStageItemReducer(this.element!, event);
+
+            this.updateNodeForFieldLevelCommit();
+        }
     }
 
     handleStepStartChanged(event: CustomEvent) {
         this.selectedEntryCriteria = event.detail.value;
 
         if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STAGE_START) {
-            const deleteEntryCriteriaEvent = new DeleteConditionEvent(this.element.guid, 0);
+            const deleteEntryCriteriaEvent = new DeleteConditionEvent(this.element!.guid, 0);
 
-            this.element = steppedStageItemReducer(this.element, deleteEntryCriteriaEvent);
+            this.element = steppedStageItemReducer(this.element!, deleteEntryCriteriaEvent);
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }
 
-    handleScreenFlowsLoaded() {}
+    handleActionSelected(e: ValueChangedEvent) {
+        if ((<InvocableAction>e.detail.value).actionName) {
+            // Update the selected action
+            this.element = steppedStageItemReducer(this.element!, e);
 
-    handleScreenFlowSelected(e: ValueChangedEvent) {
-        // TODO in next PR
-        this.selectedScreenFlow.flowName = e.detail.value;
+            this.setInputParameters();
+
+            // Update the node in the store
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
     }
 
     handleEntryCriteriaItemChanged(e: ComboboxStateChangedEvent) {
         if (e.detail.item) {
-            const updateEntryCriteria = new UpdateConditionEvent(this.element.guid, 0, {
+            const updateEntryCriteria = new UpdateConditionEvent(this.element!.guid, 0, {
                 leftValueReference: e.detail.item.value,
                 operator: 'EqualTo',
                 rightValue: {
                     stringValue: 'Completed'
                 }
             });
-            this.element = steppedStageItemReducer(this.element, updateEntryCriteria);
+            this.element = steppedStageItemReducer(this.element!, updateEntryCriteria);
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }

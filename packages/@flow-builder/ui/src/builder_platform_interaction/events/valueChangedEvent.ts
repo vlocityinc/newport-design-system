@@ -1,16 +1,17 @@
 // @ts-nocheck
+
 /**
  * Used by components to indicate that it's value has changed
  */
 const eventName = 'valuechanged';
 
 type ValueChangedEventDetail = {
-    value?: string;
+    value?: T;
     error?: string;
 };
 
-export class ValueChangedEvent extends CustomEvent<ValueChangedEventDetail> {
-    constructor(value = null, error = null) {
+export class ValueChangedEvent extends CustomEvent<ValueChangedEventDetail<T>> {
+    constructor(value: T = null, error = null) {
         super(eventName, {
             cancelable: false,
             composed: true,

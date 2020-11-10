@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { LABELS } from '../../subflowEditor/subflowEditorLabels';
-import { MERGE_WARNING_TYPE, getParameterItemWarning } from 'builder_platform_interaction/calloutEditorLib';
+import { getParameterItemWarning } from 'builder_platform_interaction/calloutEditorLib';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 describe('subflow ParameterList warnings', () => {
     describe('getParameterItemWarning', () => {

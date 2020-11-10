@@ -1,6 +1,7 @@
 // @ts-nocheck
-import { mergeInputOutputParameters, MERGE_WARNING_TYPE } from '../calloutEditorLib';
+import { mergeInputOutputParameters } from '../calloutEditorLib';
 import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 

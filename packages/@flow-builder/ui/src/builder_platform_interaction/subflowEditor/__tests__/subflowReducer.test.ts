@@ -2,8 +2,8 @@
 import { mockSubflowVariables } from 'mock/calloutData';
 import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from '../subflowReducer';
 import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
-import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/calloutEditorLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 const originalState = {
     guid: '0302b036-6534-4213-aab1-a22f7999a4d2',

@@ -105,7 +105,8 @@ export const ACTION_TYPE = {
     QUICK_ACTION: 'quickAction',
     FLOW: 'flow',
     COMPONENT: 'component',
-    EXTERNAL_SERVICE: 'externalService'
+    EXTERNAL_SERVICE: 'externalService',
+    ORCHESTRATION_CREATE_WORKITEM: 'orchestrationCreateWorkItem'
 };
 
 export const METADATA_KEY = {
@@ -353,11 +354,11 @@ export const FLOW_TRIGGER_FREQUENCY = {
     WEEKLY: 'Weekly'
 };
 
-export const FLOW_TRANSACTION_MODEL = {
-    AUTOMATIC: 'Automatic',
-    NEW_TRANSACTION: 'NewTransaction',
-    CURRENT_TRANSACTION: 'CurrentTransaction'
-};
+export enum FLOW_TRANSACTION_MODEL {
+    AUTOMATIC = 'Automatic',
+    NEW_TRANSACTION = 'NewTransaction',
+    CURRENT_TRANSACTION = 'CurrentTransaction'
+}
 
 export const EXECUTE_OUTCOME_WHEN_OPTION_VALUES = {
     EVERY_TIME_CONDITION_MET: 'trueEveryTime',

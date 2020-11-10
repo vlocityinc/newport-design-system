@@ -1,3 +1,6 @@
+// @ts-nocheck
+import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
+
 /**
  * Used by components to indicate that a property of the business element they represent
  * has changed
@@ -15,7 +18,7 @@ type PropertyChangedEventDetail = {
     ignoreValidate?: boolean;
 };
 
-export class PropertyChangedEvent extends CustomEvent<PropertyChangedEventDetail> {
+export class PropertyChangedEvent extends CustomEvent<PropertyChangedEventDetail | ParameterListRowItem> {
     constructor(
         propertyName: string,
         value,

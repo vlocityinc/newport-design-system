@@ -2,7 +2,7 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { MERGE_WARNING_TYPE } from './mergeWarningType';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 /**
  * Get as a map. Key is the variable name, value has properties parameter,
@@ -110,7 +110,7 @@ function getMergeWarnings(parameter, paramAssigments) {
  * @param {CalloutOutputParameter[]} nodeOutputParameters the current node's output parameters, hydrated
  * @return {InputOutputParameterItems} the input and output parameter items
  */
-export function mergeInputOutputParameters(allParameters, nodeInputParameters, nodeOutputParameters) {
+export function mergeInputOutputParameters(allParameters, nodeInputParameters = [], nodeOutputParameters = []) {
     const newParameters = {};
     const inputParameters = allParameters.filter((parameter) => parameter.isInput === true);
     const outputParameters = allParameters.filter((parameter) => parameter.isInput === false);

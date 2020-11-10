@@ -73,7 +73,8 @@ describe('SteppedStageItemEditor', () => {
         name: 'someName',
         label: 'someLabel',
         description: 'someDescription',
-        entryCriteria: []
+        entryCriteria: [],
+        inputParameters: []
     };
 
     let editor;
@@ -108,7 +109,8 @@ describe('SteppedStageItemEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryCriteria: [{ leftHandSide: { value: 'nonexistentItem' } }]
+                entryCriteria: [{ leftHandSide: { value: 'nonexistentItem' } }],
+                inputParameters: []
             });
 
             const entryCriteriaItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
@@ -197,7 +199,8 @@ describe('SteppedStageItemEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryCriteria: [{ leftHandSide: { value: 'nonexistentItem' } }]
+                entryCriteria: [{ leftHandSide: { value: 'nonexistentItem' } }],
+                inputParameters: []
             };
 
             editor = createComponentUnderTest(params);

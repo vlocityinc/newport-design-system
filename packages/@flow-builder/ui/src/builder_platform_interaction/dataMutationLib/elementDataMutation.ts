@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 
+export type ValueWithError = {
+    value: string;
+    error: string;
+};
+
 const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
 
 /**

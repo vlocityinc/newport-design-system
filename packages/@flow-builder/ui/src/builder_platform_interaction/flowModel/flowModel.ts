@@ -298,6 +298,10 @@ interface Descriptor {
 
 export interface Condition {
     leftValueReference?: string;
+    leftHandSide?: {
+        value: string;
+        error?: string;
+    };
     operator: string;
     rightValue: {
         stringValue: string;

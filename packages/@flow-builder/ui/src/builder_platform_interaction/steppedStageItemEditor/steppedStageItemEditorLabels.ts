@@ -5,6 +5,14 @@ import startOptionStageStart from '@salesforce/label/FlowBuilderSteppedStageItem
 import startOptionBasedOnOtherStep from '@salesforce/label/FlowBuilderSteppedStageItemEditor.startOptionBasedOnOtherStep';
 import whenStepIsComplete from '@salesforce/label/FlowBuilderSteppedStageItemEditor.whenStepIsComplete';
 import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderSteppedStageItemEditor.startCriteriaItemsPlaceholder';
+import actionSelectorLabel from '@salesforce/label/FlowBuilderSteppedStageItemEditor.actionSelectorLabel';
+
+import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
+import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
+import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
+import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
+import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
+import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 
 export const LABELS = {
     startSectionLabel,
@@ -13,5 +21,12 @@ export const LABELS = {
     startOptionStageStart,
     startOptionBasedOnOtherStep,
     whenStepIsComplete,
-    entryCriteriaItemsPlaceholder
+    entryCriteriaItemsPlaceholder,
+    actionSelectorLabel,
+    inputHeader,
+    outputHeader,
+    emptyInputsTitle,
+    emptyInputsOutputsTitle,
+    thisActionHasNoInputBody,
+    thisActionHasNoInputOutputBody
 };

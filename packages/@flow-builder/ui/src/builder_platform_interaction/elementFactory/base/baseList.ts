@@ -1,6 +1,28 @@
 // @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getDataTypeKey } from '../ferov';
+import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { Guid } from 'builder_platform_interaction/flowModel';
+
+// @ts-nocheck
+/**
+ * @enum {string} MERGE_WARNING_TYPE
+ */
+export enum MERGE_WARNING_TYPE {
+    NOT_AVAILABLE = 'notAvailable', // variable is not available in the subflow or parameter is not available in the action or apex plugin
+    DATA_TYPE_CHANGED = 'dataTypeChanged',
+    ONLY_AVAILABLE_IN_LATEST = 'onlyAvailableInLatest',
+    ONLY_AVAILABLE_IN_ACTIVE = 'onlyAvailableInActive',
+    DUPLICATE = 'duplicate'
+}
+
+export type ParameterListRowItem = {
+    rowIndex: Guid;
+    name: string | ValueWithError;
+    value: string | ValueWithError;
+    valueDataType: string;
+    warnings?: MERGE_WARNING_TYPE[];
+};
 
 export const RHS_PROPERTY = 'rightHandSide';
 export const RHS_DATA_TYPE_PROPERTY = getDataTypeKey(RHS_PROPERTY);
@@ -60,7 +82,7 @@ export function createExpressionListRowItemWithoutOperatorAndRHSDataType(listRow
  * @param {Object} listRowItem object which is used to create new parameter list row item object. If it is not passed, then default values are used.
  * @returns {Object} new parameter list row item object
  */
-export function createParameterListRowItem(listRowItem = {}) {
+export function createParameterListRowItem(listRowItem = {}): ParameterListRowItem {
     const { name = '', value = '', valueDataType = '', rowIndex = generateGuid() } = listRowItem;
 
     return {

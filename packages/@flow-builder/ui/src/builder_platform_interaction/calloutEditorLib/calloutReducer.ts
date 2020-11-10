@@ -7,12 +7,10 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import {
-    mergeSubflowAssignmentsWithInputOutputVariables,
-    mergeInputOutputParameters,
-    MERGE_WARNING_TYPE
-} from './calloutEditorLib';
 import { swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
+import { mergeSubflowAssignmentsWithInputOutputVariables } from './subflowParametersMerger';
+import { mergeInputOutputParameters } from './actionCallOrApexPluginParametersMerger';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 export const MERGE_WITH_PARAMETERS = 'MERGE_WITH_PARAMETERS';
 export const REMOVE_UNSET_PARAMETERS = 'REMOVE_UNSET_PARAMETERS';

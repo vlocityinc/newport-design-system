@@ -10,6 +10,11 @@ import { ChildElement, CanvasElement, ChildReference, Guid, Condition } from 'bu
 import { createConnectorObjects } from './connector';
 import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter } from './outputParameter';
+import { createActionCall } from './actionCall';
+import { ParameterListRowItem } from './base/baseList';
 
 // TODO: should extend the same base class as other non-canvas elements
 export interface SteppedStageItem extends ChildElement {
@@ -17,6 +22,11 @@ export interface SteppedStageItem extends ChildElement {
     stepTypeLabel: string;
     entryCriteria: Condition[];
     entryCriteriaLogic?: string;
+    action?: InvocableAction;
+    actionName?: string;
+    actionType?: string;
+    inputParameters: ParameterListRowItem[];
+    outputParameters: ParameterListRowItem[];
 }
 
 export interface SteppedStage extends CanvasElement {
@@ -210,9 +220,21 @@ export function createSteppedStageItem(step: SteppedStageItem): SteppedStageItem
 
     const newStep = <SteppedStageItem>baseChildElement(baseStep, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
 
-    const { entryCriteria = [] } = step;
+    const { entryCriteria = [], action, inputParameters = [] } = step;
+
+    if (action) {
+        newStep.action = createActionCall(action);
+    } else {
+        newStep.action = createActionCall({
+            actionName: step.actionName,
+            actionType: step.actionType
+        });
+    }
 
     newStep.entryCriteria = entryCriteria.map<Condition>((condition) => <Condition>createCondition(condition));
+
+    newStep.inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
+    newStep.outputParameters = inputParameters.map((outputParameter) => createOutputParameter(outputParameter));
 
     return { ...step, ...newStep };
 }
@@ -221,16 +243,17 @@ export function createSteppedStageMetadataObject(steppedStage: SteppedStage, con
     const { childReferences } = steppedStage;
 
     const steps = childReferences.map(({ childReference }) => {
-        const step = getElementByGuid(childReference);
-        const entryCriteria: Condition[] = (step as any).entryCriteria;
-        let entryCriteriaMetadata: any[] = [];
-        if (entryCriteria.length > 0) {
-            entryCriteriaMetadata = entryCriteria.map((condition) => createConditionMetadataObject(condition));
-        }
+        const step: SteppedStageItem = <SteppedStageItem>getElementByGuid(childReference);
+
+        const entryCriteriaMetadata = step.entryCriteria.map((condition) => createConditionMetadataObject(condition));
+        const inputParametersMetadata = step.inputParameters.map((p) => createInputParameterMetadataObject(p));
 
         return {
             ...baseChildElementMetadataObject(step, config),
-            entryCriteria: entryCriteriaMetadata
+            entryCriteria: entryCriteriaMetadata,
+            actionName: step.action ? step.action.actionName : null,
+            actionType: step.action ? step.action.actionType : null,
+            inputParameters: inputParametersMetadata
         };
     });
 

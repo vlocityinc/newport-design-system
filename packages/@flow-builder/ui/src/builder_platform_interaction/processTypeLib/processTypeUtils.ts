@@ -38,11 +38,11 @@ const TRIGGER_TYPE_ICONS = new Map([
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE, 'utility:record_update']
 ]);
 
-export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
-    SUPPORTED: 'Supported',
-    UNSUPPORTED: 'Unsupported',
-    REQUIRED: 'Required'
-};
+export enum FLOW_AUTOMATIC_OUTPUT_HANDLING {
+    SUPPORTED = 'Supported',
+    UNSUPPORTED = 'Unsupported',
+    REQUIRED = 'Required'
+}
 
 export const FLOW_PROCESS_TYPE_FEATURE = {
     STORE_OUTPUT_AUTOMATICALLY: 'StoreOutputAutomatically',

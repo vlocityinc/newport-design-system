@@ -2,7 +2,7 @@
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { MERGE_WARNING_TYPE } from './mergeWarningType';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
 /**
  * @typedef {Object} WithWarnings
