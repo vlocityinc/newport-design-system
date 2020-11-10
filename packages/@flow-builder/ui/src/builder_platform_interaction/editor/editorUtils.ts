@@ -963,14 +963,7 @@ export const debugInterviewResponseCallback = (
 ): Object => {
     // Setup the debug data object for the debug panel
     const interviewData = (data && data[0]) || {};
-    const {
-        interviewStatus,
-        debugTrace,
-        errors,
-        // TODO remove the new Date() initialization below when Engine team adds the new start / end time properties to the response
-        startInterviewTime = new Date(),
-        endInterviewTime = new Date()
-    } = interviewData;
+    const { interviewStatus, debugTrace, errors, startInterviewTime, endInterviewTime } = interviewData;
 
     // Highlight connectors on the canvas if no errors in the debug run, and no unsaved changes in the current flow
     if (!errors && !hasUnsavedChanges) {
