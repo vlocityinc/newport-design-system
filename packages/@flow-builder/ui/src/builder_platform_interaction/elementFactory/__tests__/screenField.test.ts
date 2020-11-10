@@ -10,7 +10,7 @@ import {
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
-import { getColumnFieldType, InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
+import { getColumnFieldType, InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 
@@ -117,9 +117,9 @@ const componentAutomaticOutputScreenFieldMetadata = () => ({
     storeOutputAutomatically: true
 });
 
-const componentAutomaticOutputScreenFieldMetadataWithRecalculateInputsNextBehavior = () => {
+const componentAutomaticOutputScreenFieldMetadataWithResetValuesOnNext = () => {
     const comp = componentAutomaticOutputScreenFieldMetadata();
-    comp.inputsNextBehavior = InputsNextBehaviorOption.RECALCULCATE;
+    comp.inputsOnNextNavToAssocScrn = InputsOnNextNavToAssocScrnOption.RESET_VALUES;
     return comp;
 };
 
@@ -256,9 +256,9 @@ const componentAutomaticOutputScreenFieldStore = () => ({
     storeOutputAutomatically: true
 });
 
-const componentAutomaticOutputScreenFieldStoreWithRemembersInputsNextBehavior = () => {
+const componentAutomaticOutputScreenFieldStoreWithUseStoredValuesOnNext = () => {
     const comp = componentAutomaticOutputScreenFieldStore();
-    comp.inputsNextBehavior = InputsNextBehaviorOption.REMEMBER;
+    comp.inputsOnNextNavToAssocScrn = InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES;
     return comp;
 };
 
@@ -341,10 +341,12 @@ describe('screenField', () => {
                 });
             });
         });
-        describe('"inputsNextBehavior"', () => {
-            it('defaut value is Remember', () => {
+        describe('"inputsOnNextNavToAssocScrn"', () => {
+            it('defaut value is UseStoredValues', () => {
                 const actualResult = createEmptyScreenFieldOfType('flowruntime:email');
-                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.REMEMBER);
+                expect(actualResult.inputsOnNextNavToAssocScrn).toEqual(
+                    InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES
+                );
             });
         });
     });
@@ -383,17 +385,19 @@ describe('screenField', () => {
                 });
             });
         });
-        describe('"inputsNextBehavior"', () => {
-            it('is translated as "Remember" when not set', () => {
-                const screenFieldMetadata = componentAutomaticOutputScreenFieldMetadataWithRecalculateInputsNextBehavior();
-                delete screenFieldMetadata.inputsNextBehavior;
+        describe('"inputsOnNextNavToAssocScrn"', () => {
+            it('is translated as "UseStoredValues" when not set', () => {
+                const screenFieldMetadata = componentAutomaticOutputScreenFieldMetadataWithResetValuesOnNext();
+                delete screenFieldMetadata.inputsOnNextNavToAssocScrn;
                 const actualResult = createScreenField(screenFieldMetadata);
-                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.REMEMBER);
+                expect(actualResult.inputsOnNextNavToAssocScrn).toEqual(
+                    InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES
+                );
             });
             it('value is preserved when set', () => {
-                const screenFieldMetadata = componentAutomaticOutputScreenFieldMetadataWithRecalculateInputsNextBehavior();
+                const screenFieldMetadata = componentAutomaticOutputScreenFieldMetadataWithResetValuesOnNext();
                 const actualResult = createScreenField(screenFieldMetadata);
-                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.RECALCULCATE);
+                expect(actualResult.inputsOnNextNavToAssocScrn).toEqual(InputsOnNextNavToAssocScrnOption.RESET_VALUES);
             });
         });
         describe('LC screen field (automatic output handling not supported)', () => {
@@ -544,12 +548,14 @@ describe('screenField', () => {
                 expect(actualResult).toMatchObject(sectionScreenFieldMetadata());
             });
         });
-        describe('"inputsNextBehavior"', () => {
+        describe('"inputsOnNextNavToAssocScrn"', () => {
             it('is properly saved in flow metadata when set', () => {
                 const actualResult = createScreenFieldMetadataObject(
-                    componentAutomaticOutputScreenFieldStoreWithRemembersInputsNextBehavior()
+                    componentAutomaticOutputScreenFieldStoreWithUseStoredValuesOnNext()
                 );
-                expect(actualResult.inputsNextBehavior).toEqual(InputsNextBehaviorOption.REMEMBER);
+                expect(actualResult.inputsOnNextNavToAssocScrn).toEqual(
+                    InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES
+                );
             });
         });
     });

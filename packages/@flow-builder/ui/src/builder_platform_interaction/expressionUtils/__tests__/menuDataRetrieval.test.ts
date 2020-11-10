@@ -125,7 +125,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         getIconNameFromDataType: jest.fn().mockImplementation(() => {
             return 'standard:email';
         }),
-        InputsNextBehaviorOption: actual.InputsNextBehaviorOption
+        InputsOnNextNavToAssocScrnOption: actual.InputsOnNextNavToAssocScrnOption
     };
 });
 

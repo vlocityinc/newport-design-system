@@ -27,7 +27,7 @@ import {
     UpdateConditionEvent,
     UseAdvancedOptionsSelectionChangedEvent,
     DynamicTypeMappingChangeEvent,
-    InputsNextBehaviorChangeEvent
+    InputsOnNextNavToAssocScrnChangeEvent
 } from 'builder_platform_interaction/events';
 import { createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
@@ -48,7 +48,7 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
+import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields
@@ -861,9 +861,13 @@ const useAdvancedOptionsSelectionChanged = (state, selectedNode, { useAdvancedOp
     return updateFieldInScreen(state, selectedNode, updatedField);
 };
 
-const setInputsNextBehaviorOption = (state: State, selectedNode: Node, option: InputsNextBehaviorOption) => {
+const setInputsNextNavToAssocScrnOption = (
+    state: State,
+    selectedNode: Node,
+    option: InputsOnNextNavToAssocScrnOption
+) => {
     const updatedField = updateProperties(selectedNode, {
-        inputsNextBehavior: option
+        inputsOnNextNavToAssocScrn: option
     });
     return updateFieldInScreen(state, selectedNode, updatedField);
 };
@@ -925,8 +929,8 @@ export const screenReducer = (state, event, selectedNode) => {
         case DynamicTypeMappingChangeEvent.EVENT_NAME:
             return setDynamicTypeMappingTypeValue(state, selectedNode, event);
 
-        case InputsNextBehaviorChangeEvent.EVENT_NAME:
-            return setInputsNextBehaviorOption(state, selectedNode, event.detail.option);
+        case InputsOnNextNavToAssocScrnChangeEvent.EVENT_NAME:
+            return setInputsNextNavToAssocScrnOption(state, selectedNode, event.detail.option);
 
         default:
             return state;

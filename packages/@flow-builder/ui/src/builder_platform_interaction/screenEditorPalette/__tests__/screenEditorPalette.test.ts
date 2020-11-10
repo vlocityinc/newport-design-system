@@ -74,7 +74,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
             PALETTE: 'palette'
         },
         setDragFieldValue: () => {},
-        InputsNextBehaviorOption: actual.InputsNextBehaviorOption
+        InputsOnNextNavToAssocScrnOption: actual.InputsOnNextNavToAssocScrnOption
     };
 });
 

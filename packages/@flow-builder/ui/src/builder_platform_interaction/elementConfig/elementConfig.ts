@@ -516,7 +516,7 @@ export const elementTypeToConfigMap: {
             'defaultValueGuid',
             'valueDataType',
             'valueGuid',
-            'inputsNextBehavior'
+            'inputsOnNextNavToAssocScrn'
         ],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
@@ -1015,7 +1015,7 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createScreenField
         },
-        nonHydratableProperties: ['inputsNextBehavior']
+        nonHydratableProperties: ['inputsOnNextNavToAssocScrn']
     },
     [ELEMENT_TYPE.END_ELEMENT]: {
         nodeConfig: {

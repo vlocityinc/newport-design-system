@@ -889,7 +889,7 @@ export const flowLegalNameChange = {
                         scale: 0,
                         fields: [],
                         extensionName: 'forceContent:fileUpload',
-                        inputsNextBehavior: 'Remember'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
                     }
                 ],
                 allowBack: true,

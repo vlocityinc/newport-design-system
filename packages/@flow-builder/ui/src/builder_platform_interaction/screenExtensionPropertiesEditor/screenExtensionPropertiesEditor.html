@@ -101,14 +101,16 @@
                             </div>
 
                             <div class="slds-text-heading_small slds-p-vertical_small">
-                                {labels.extensionInputsNextBehaviorSubtitle}
+                                {labels.extensionInputsOnNextNavToAssocScrnSubtitle}
                             </div>
-                            <div class="slds-text-body_regular">{labels.extensionInputsNextBehaviorDescription}</div>
+                            <div class="slds-text-body_regular">
+                                {labels.extensionInputsOnNextNavToAssocScrnDescription}
+                            </div>
                             <lightning-radio-group
                                 name="radioButtonGroup"
-                                options={inputsNextBehaviorOptions}
-                                value={field.inputsNextBehavior}
-                                onchange={handleInputsNextBehaviorChange}
+                                options={inputsOnNextNavToAssocScrnOptions}
+                                value={field.inputsOnNextNavToAssocScrn}
+                                onchange={handleInputsOnNextNavToAssocScrnChange}
                             >
                             </lightning-radio-group>
                         </lightning-accordion-section>

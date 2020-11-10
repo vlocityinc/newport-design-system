@@ -71,7 +71,7 @@ export interface ChildElement extends FlowElement {
 export interface ScreenField extends FlowElement {
     storeOutputAutomatically?: boolean;
     extensionName?: string;
-    inputsNextBehavior?: 'Remember' | 'Recalculate';
+    inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
 }
 
 export interface BaseCanvasElementWithFilter extends BaseCanvasElement {
@@ -217,7 +217,7 @@ export interface ScreenFieldMetadata extends ElementMetadata {
     extensionName?: string;
     fieldType: string;
     fields: ScreenFieldMetadata[];
-    inputsNextBehavior?: 'Remember' | 'Recalculate';
+    inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
 }
 
 export interface ElementConfig {

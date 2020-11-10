@@ -388,7 +388,7 @@ export const contactRequestFlowUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: false,
             childReferences: []
         }

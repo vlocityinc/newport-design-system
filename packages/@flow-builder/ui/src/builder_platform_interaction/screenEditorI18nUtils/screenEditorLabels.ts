@@ -98,10 +98,10 @@ import fullWidth from '@salesforce/label/FlowBuilderScreenEditor.fullWidth';
 import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsTooltip';
 import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
 import extensionAdvanced from '@salesforce/label/FlowBuilderScreenEditor.extensionAdvanced';
-import extensionInputsNextBehaviorSubtitle from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorSubtitle';
-import extensionInputsNextBehaviorDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorDescription';
-import extensionInputsNextBehaviorRememberDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorRememberDescription';
-import extensionInputsNextBehaviorRecalculateDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsNextBehaviorRecalculateDescription';
+import extensionInputsOnNextNavToAssocScrnSubtitle from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsOnNextNavToAssocScrnSubtitle';
+import extensionInputsOnNextNavToAssocScrnDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsOnNextNavToAssocScrnDescription';
+import extensionInputsOnNextNavToAssocScrnUseStoredValuesDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsOnNextNavToAssocScrnUseStoredValuesDescription';
+import extensionInputsOnNextNavToAssocScrnResetValuesDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsOnNextNavToAssocScrnResetValuesDescription';
 import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
 import errorScreenMissingExtension from '@salesforce/label/FlowBuilderAlertModal.errorMessageScreenMissingExtension';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
@@ -207,10 +207,10 @@ export const LABELS = {
     columnsTooltip,
     defaultColumnLabel,
     extensionAdvanced,
-    extensionInputsNextBehaviorSubtitle,
-    extensionInputsNextBehaviorDescription,
-    extensionInputsNextBehaviorRememberDescription,
-    extensionInputsNextBehaviorRecalculateDescription,
+    extensionInputsOnNextNavToAssocScrnSubtitle,
+    extensionInputsOnNextNavToAssocScrnDescription,
+    extensionInputsOnNextNavToAssocScrnUseStoredValuesDescription,
+    extensionInputsOnNextNavToAssocScrnResetValuesDescription,
     errorTitle,
     errorScreenMissingExtension,
     okayButtonLabel

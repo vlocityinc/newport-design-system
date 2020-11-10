@@ -1,7 +1,7 @@
-const eventName = 'inputsnextbehaviorchanged';
+const eventName = 'inputsonnextnavtoassocscrnchanged';
 
-export class InputsNextBehaviorChangeEvent {
-    constructor(option: 'Remember' | 'Recalculate') {
+export class InputsOnNextNavToAssocScrnChangeEvent {
+    constructor(option: 'UseStoredValues' | 'ResetValues') {
         return new CustomEvent(eventName, {
             cancelable: true,
             composed: true,

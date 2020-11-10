@@ -381,7 +381,7 @@ export const elementsForPropertyEditors = {
             }
         },
         fields: [],
-        inputsNextBehavior: 'Remember',
+        inputsOnNextNavToAssocScrn: 'UseStoredValues',
         storeOutputAutomatically: false
     },
     emailScreenFieldAutomaticOutput: {
@@ -499,7 +499,7 @@ export const elementsForPropertyEditors = {
             }
         },
         fields: [],
-        inputsNextBehavior: 'Remember',
+        inputsOnNextNavToAssocScrn: 'UseStoredValues',
         storeOutputAutomatically: true
     },
     deleteAccountWithFilters: {

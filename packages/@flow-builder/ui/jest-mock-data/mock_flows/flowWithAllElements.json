@@ -1191,7 +1191,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:email"
                     },
@@ -1219,7 +1219,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "extensionName": "flowruntime:email"
                     },
                     {
@@ -1233,7 +1233,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "storeOutputAutomatically": true,
                         "extensionName": "c:HelloWorld"
                     },
@@ -1248,7 +1248,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "storeOutputAutomatically": true,
                         "extensionName": "c:noSobjectOutputComp"
                     },
@@ -1263,7 +1263,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "storeOutputAutomatically": true,
                         "extensionName": "c:sobjectCollectionOutputComp"
                     }
@@ -1294,7 +1294,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:address"
                     }
@@ -1361,7 +1361,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
-                                        "inputsNextBehavior": "Remember",
+                                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "flowruntime:slider"
                                     }
@@ -1462,7 +1462,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
-                                        "inputsNextBehavior": "Remember",
+                                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "flowruntime:email"
                                     },
@@ -1507,7 +1507,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
-                        "inputsNextBehavior": "Remember",
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:address"
                     }
@@ -1580,7 +1580,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
-                                        "inputsNextBehavior": "Remember",
+                                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "c:HelloWorld"
                                     }
@@ -1615,7 +1615,7 @@
                                         "outputParameters": [],
                                         "scale": 0,
                                         "fields": [],
-                                        "inputsNextBehavior": "Remember",
+                                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                                         "storeOutputAutomatically": true,
                                         "extensionName": "c:sobjectCollectionOutputComp"
                                     }

@@ -40,9 +40,9 @@ export const HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS = 'highlight-frame-allow-events'
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 export const FRAME_DIV_SELECTOR = '.highlight-frame';
 
-export enum InputsNextBehaviorOption {
-    REMEMBER = 'Remember',
-    RECALCULCATE = 'Recalculate'
+export enum InputsOnNextNavToAssocScrnOption {
+    USE_STORED_VALUES = 'UseStoredValues',
+    RESET_VALUES = 'ResetValues'
 }
 
 export function isScreen(element) {

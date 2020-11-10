@@ -467,7 +467,7 @@ export const fieldServiceMobileFlowUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: false,
             childReferences: []
         }

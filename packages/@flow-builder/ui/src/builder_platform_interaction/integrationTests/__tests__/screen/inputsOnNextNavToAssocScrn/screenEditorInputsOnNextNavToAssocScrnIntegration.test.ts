@@ -8,7 +8,7 @@ import {
     lightningRadioGroupChangeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
+import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import {
     createComponentUnderTest,
     getCanvasScreenFieldElement,
@@ -19,14 +19,14 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
-const getInputsNextBehaviorRadioButtons = (screenEditor) => {
+const getInputsOnNextRadioButtons = (screenEditor) => {
     return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector(SELECTORS.LIGHTNING_RADIO_GROUP);
 };
 
 describe('ScreenEditor', () => {
     let screenNode;
     let screenEditor;
-    describe('Existing flow with a screen lightning component: "Address" in REMEMBER mode', () => {
+    describe('Existing flow with a screen lightning component: "Address" in USE_STORED_VALUES mode', () => {
         beforeAll(async () => {
             await setupStateForFlow(flowWithAllElements);
         });
@@ -46,14 +46,14 @@ describe('ScreenEditor', () => {
                 addressElement.click();
                 await ticks(50);
             });
-            it('Inputs Next Behavior should be in REMEMBER mode', () => {
-                expect(getInputsNextBehaviorRadioButtons(screenEditor)).toBeDefined();
-                expect(getInputsNextBehaviorRadioButtons(screenEditor).value).toEqual(
-                    InputsNextBehaviorOption.REMEMBER
+            it('InputsOnNextNavToAssocScrn should be in USE_STORED_VALUES mode', () => {
+                expect(getInputsOnNextRadioButtons(screenEditor)).toBeDefined();
+                expect(getInputsOnNextRadioButtons(screenEditor).value).toEqual(
+                    InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES
                 );
             });
         });
-        describe('Switch from REMEMBER to RECALCULATE', () => {
+        describe('Switch from USE_STORED_VALUES to RESET_VALUES', () => {
             beforeEach(async () => {
                 const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
@@ -67,14 +67,14 @@ describe('ScreenEditor', () => {
                 await ticks(50);
             });
             it('Should update the radio group', async () => {
-                const inputsNextBehaviorRadioGroup = getInputsNextBehaviorRadioButtons(screenEditor);
-                inputsNextBehaviorRadioGroup.dispatchEvent(
-                    lightningRadioGroupChangeEvent(InputsNextBehaviorOption.RECALCULCATE)
+                const inputsOnNextRadioGroup = getInputsOnNextRadioButtons(screenEditor);
+                inputsOnNextRadioGroup.dispatchEvent(
+                    lightningRadioGroupChangeEvent(InputsOnNextNavToAssocScrnOption.RESET_VALUES)
                 );
                 await ticks(50);
-                expect(getInputsNextBehaviorRadioButtons(screenEditor)).toBeDefined();
-                expect(getInputsNextBehaviorRadioButtons(screenEditor).value).toEqual(
-                    InputsNextBehaviorOption.RECALCULCATE
+                expect(getInputsOnNextRadioButtons(screenEditor)).toBeDefined();
+                expect(getInputsOnNextRadioButtons(screenEditor).value).toEqual(
+                    InputsOnNextNavToAssocScrnOption.RESET_VALUES
                 );
             });
         });

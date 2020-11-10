@@ -627,7 +627,7 @@ export const flowCollectionServicesDemo = {
                         scale: 0,
                         fields: [],
                         extensionName: 'c:buttonNavFSC',
-                        inputsNextBehavior: 'Remember'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
                     },
                     {
                         choiceReferences: [],
@@ -648,7 +648,7 @@ export const flowCollectionServicesDemo = {
                         scale: 0,
                         fields: [],
                         extensionName: 'c:MultiShim',
-                        inputsNextBehavior: 'Remember'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
                     },
                     {
                         choiceReferences: [],
@@ -704,7 +704,7 @@ export const flowCollectionServicesDemo = {
                         scale: 0,
                         fields: [],
                         extensionName: 'c:buttonNavFSC',
-                        inputsNextBehavior: 'Remember'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
                     },
                     {
                         choiceReferences: [],
@@ -736,7 +736,7 @@ export const flowCollectionServicesDemo = {
                         scale: 0,
                         fields: [],
                         extensionName: 'c:buttonNavFSC',
-                        inputsNextBehavior: 'Remember'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
                     }
                 ],
                 allowBack: true,

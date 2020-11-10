@@ -26,11 +26,11 @@ import { createValidationRuleObject } from './base/baseValidationInput';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
-import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
+import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
-const INPUTS_NEXT_BEHAVIOR_NEW_FIELD_DEFAULT = InputsNextBehaviorOption.REMEMBER;
+const INPUTS_ON_NEXT_NAV_TO_ASSOC_SCRN_DEFAULT = InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES;
 
 export function createScreenField(screenField = {}, isNewField = false) {
     const newScreenField = baseElement(screenField);
@@ -59,7 +59,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         visibilityRule,
         dynamicTypeMappings,
         fields,
-        inputsNextBehavior
+        inputsOnNextNavToAssocScrn
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -81,10 +81,10 @@ export function createScreenField(screenField = {}, isNewField = false) {
             outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
         }
         fields = [];
-        if (inputsNextBehavior == null) {
-            inputsNextBehavior = isNewField
-                ? INPUTS_NEXT_BEHAVIOR_NEW_FIELD_DEFAULT
-                : InputsNextBehaviorOption.REMEMBER;
+        if (inputsOnNextNavToAssocScrn == null) {
+            inputsOnNextNavToAssocScrn = isNewField
+                ? INPUTS_ON_NEXT_NAV_TO_ASSOC_SCRN_DEFAULT
+                : InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES;
         }
     } else {
         storeOutputAutomatically = undefined;
@@ -169,7 +169,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             defaultSelectedChoiceReference,
             visibilityRule,
             fields,
-            inputsNextBehavior
+            inputsOnNextNavToAssocScrn
         },
         dynamicTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
@@ -330,7 +330,7 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
         },
         storeOutputAutomatically: automaticOutputHandlingSupport(),
         fields: [],
-        inputsNextBehavior: undefined
+        inputsOnNextNavToAssocScrn: undefined
     };
 
     // Add a single default column for section fields
@@ -373,7 +373,7 @@ export function createScreenFieldMetadataObject(screenField) {
         visibilityRule,
         dynamicTypeMappings,
         childReferences,
-        inputsNextBehavior
+        inputsOnNextNavToAssocScrn
     } = screenField;
     let {
         dataType,
@@ -449,7 +449,7 @@ export function createScreenFieldMetadataObject(screenField) {
             outputParameters,
             scale,
             fields,
-            inputsNextBehavior
+            inputsOnNextNavToAssocScrn
         },
         dataTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},

@@ -19,12 +19,12 @@ import { createInputParameter } from 'builder_platform_interaction/elementFactor
 import {
     DynamicTypeMappingChangeEvent,
     PropertyChangedEvent,
-    InputsNextBehaviorChangeEvent
+    InputsOnNextNavToAssocScrnChangeEvent
 } from 'builder_platform_interaction/events';
 import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
-import { InputsNextBehaviorOption } from 'builder_platform_interaction/screenEditorUtils';
+import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Dynamic property editor for screen extensions.
@@ -102,11 +102,14 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         storeOutputAutomatically: undefined
     };
 
-    inputsNextBehaviorOptions = [
-        { label: LABELS.extensionInputsNextBehaviorRememberDescription, value: InputsNextBehaviorOption.REMEMBER },
+    inputsOnNextNavToAssocScrnOptions = [
         {
-            label: LABELS.extensionInputsNextBehaviorRecalculateDescription,
-            value: InputsNextBehaviorOption.RECALCULCATE
+            label: LABELS.extensionInputsOnNextNavToAssocScrnUseStoredValuesDescription,
+            value: InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES
+        },
+        {
+            label: LABELS.extensionInputsOnNextNavToAssocScrnResetValuesDescription,
+            value: InputsOnNextNavToAssocScrnOption.RESET_VALUES
         }
     ];
 
@@ -342,9 +345,9 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         );
     }
 
-    handleInputsNextBehaviorChange(event: CustomEvent) {
+    handleInputsOnNextNavToAssocScrnChange(event: CustomEvent) {
         event.stopPropagation();
-        this.dispatchEvent(new InputsNextBehaviorChangeEvent(event.detail.value));
+        this.dispatchEvent(new InputsOnNextNavToAssocScrnChangeEvent(event.detail.value));
     }
 
     _shouldCreateConfigurationEditor() {

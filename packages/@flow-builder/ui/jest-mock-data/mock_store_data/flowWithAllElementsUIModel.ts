@@ -2728,7 +2728,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2777,7 +2777,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: false,
             childReferences: []
         },
@@ -2814,7 +2814,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2851,7 +2851,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2888,7 +2888,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2955,7 +2955,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3038,7 +3038,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3274,7 +3274,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3447,7 +3447,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3554,7 +3554,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3631,7 +3631,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            inputsNextBehavior: 'Remember',
+            inputsOnNextNavToAssocScrn: 'UseStoredValues',
             storeOutputAutomatically: true,
             childReferences: []
         },
