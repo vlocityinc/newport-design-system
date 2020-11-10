@@ -17,7 +17,7 @@
     * @modifier
     */
     .nds-communities-attr-label {
-        font-size: $font-size-5;
+        font-size: $font-size-4;
         color: $palette-gray-11;
     }
 
@@ -52,7 +52,7 @@
     .nds-communities-attr {
         &.nds-communities-attr_coverage {
             padding: $spacing-none;
-            margin: $spacing-none;
+            margin: $spacing-medium $spacing-none $spacing-none $spacing-none;
         }
 
         .nds-communities-attr-value {
