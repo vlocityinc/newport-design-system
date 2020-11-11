@@ -42,6 +42,9 @@ const decisionWithChildrenGuid = 'newDecisionWithChildren';
 const existingDecisionWithChildrenGuid = 'existingDecisionWithChildren';
 const existingDecisionWithAllTerminatedChildrenGuid = 'existingDecisionWithAllTerminatedChildrenGuid';
 const existingDecisionWithNoneTerminatedChildrenGuid = 'existingDecisionWithNoneTerminatedChildrenGuid';
+const decisionWithMergingBranchesGuid = 'decisionWithMergingBranchesGuid';
+const nestedDecisionWithMergingBranchesGuid = 'nestedDecisionWithMergingBranchesGuid';
+const decisionWithElementsOnMergingBranchesGuid = 'decisionWithElementsOnMergingBranchesGuid';
 
 const existingDecision = {
     guid: existingDecisionGuid,
@@ -62,6 +65,16 @@ const existingDecisionWithNoneTerminatedChildren = {
     childReferences: [{ childReference: 'outcome1' }],
     children: ['end3', 'end4']
 };
+const decisionWithMergingBranches = {
+    guid: decisionWithMergingBranchesGuid,
+    childReferences: [{ childReference: 'outcome1' }, { childReference: 'outcome2' }, { childReference: 'outcome3' }],
+    children: ['end1', null, null, 'end2']
+};
+const decisionWithElementsOnMergingBranches = {
+    guid: decisionWithElementsOnMergingBranchesGuid,
+    childReferences: [{ childReference: 'outcome1' }, { childReference: 'outcome2' }, { childReference: 'outcome3' }],
+    children: ['end1', 'screen3', null, 'end2']
+};
 
 const end1 = {
     guid: 'end1',
@@ -79,6 +92,14 @@ const end4 = {
     guid: 'end4',
     isTerminal: false
 };
+const mergingEnd1 = {
+    guid: 'mergingEnd1',
+    prev: decisionWithMergingBranchesGuid
+};
+const mergingEnd2 = {
+    guid: 'mergingEnd2',
+    prev: nestedDecisionWithMergingBranchesGuid
+};
 
 getElementByGuid.mockImplementation((guid) => {
     if (guid === newDecisionGuid || guid === decisionWithChildrenGuid) {
@@ -91,6 +112,10 @@ getElementByGuid.mockImplementation((guid) => {
         return existingDecisionWithAllTerminatedChildren;
     } else if (guid === existingDecisionWithNoneTerminatedChildrenGuid) {
         return existingDecisionWithNoneTerminatedChildren;
+    } else if (guid === decisionWithMergingBranchesGuid || guid === nestedDecisionWithMergingBranchesGuid) {
+        return decisionWithMergingBranches;
+    } else if (guid === decisionWithElementsOnMergingBranchesGuid) {
+        return decisionWithElementsOnMergingBranches;
     } else if (guid === 'end1') {
         return end1;
     } else if (guid === 'end2') {
@@ -99,6 +124,10 @@ getElementByGuid.mockImplementation((guid) => {
         return end3;
     } else if (guid === 'end4') {
         return end4;
+    } else if (guid === 'mergingEnd1') {
+        return mergingEnd1;
+    } else if (guid === 'mergingEnd2') {
+        return mergingEnd2;
     } else if (guid === null) {
         return undefined;
     }
@@ -759,6 +788,240 @@ describe('decision', () => {
                 );
 
                 expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
+            });
+
+            describe('deleted outcomes are on the merging branches', () => {
+                let decision;
+                beforeEach(() => {
+                    decision = {
+                        guid: decisionWithMergingBranchesGuid,
+                        outcomes: [
+                            {
+                                guid: 'outcome1'
+                            }
+                        ],
+                        children: ['end1', null, null, 'end2'],
+                        next: 'mergingEnd1'
+                    };
+                });
+
+                const decisionFromStore = {
+                    guid: decisionWithMergingBranchesGuid,
+                    outcomes: [
+                        {
+                            guid: 'outcome1'
+                        },
+                        {
+                            guid: 'outcome2'
+                        },
+                        {
+                            guid: 'outcome3'
+                        }
+                    ],
+                    children: ['end1', null, null, 'end2'],
+                    next: 'mergingEnd1'
+                };
+
+                const mockStore = {
+                    decisionFromStore,
+                    outcome1,
+                    outcome2,
+                    outcome3,
+                    end1,
+                    end2,
+                    mergingEnd1
+                };
+
+                beforeAll(() => {
+                    Store.setMockState({
+                        elements: mockStore
+                    });
+                });
+                afterAll(() => {
+                    Store.resetStore();
+                });
+
+                it('deletedBranchHeadGuids should include decisions next', () => {
+                    shouldUseFlc(true);
+                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+                    expect(result.deletedBranchHeadGuids).toEqual(['mergingEnd1']);
+                });
+
+                it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+                    shouldUseFlc(true);
+                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+                    expect.assertions(2);
+                    expect(result.canvasElement.next).toBeNull();
+                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+                });
+            });
+
+            describe('deleted outcomes are on the nested merging branches', () => {
+                let decision;
+                beforeEach(() => {
+                    decision = {
+                        guid: nestedDecisionWithMergingBranchesGuid,
+                        outcomes: [
+                            {
+                                guid: 'outcome1'
+                            }
+                        ],
+                        children: ['end1', null, null, 'end2'],
+                        next: null
+                    };
+                });
+
+                const nestedDecisionFromStore = {
+                    guid: nestedDecisionWithMergingBranchesGuid,
+                    outcomes: [
+                        {
+                            guid: 'outcome1'
+                        },
+                        {
+                            guid: 'outcome2'
+                        },
+                        {
+                            guid: 'outcome3'
+                        }
+                    ],
+                    children: ['end1', null, null, 'end2'],
+                    next: 'null'
+                };
+
+                const decisionFromStore = {
+                    guid: 'decisionGuid',
+                    outcomes: [
+                        {
+                            guid: 'outcome1'
+                        }
+                    ],
+                    children: [nestedDecisionWithMergingBranchesGuid, null],
+                    next: 'end3'
+                };
+
+                const mockStore = {
+                    decisionFromStore,
+                    nestedDecisionFromStore,
+                    outcome1,
+                    outcome2,
+                    outcome3,
+                    end1,
+                    end2,
+                    end3,
+                    mergingEnd2
+                };
+
+                beforeAll(() => {
+                    Store.setMockState({
+                        elements: mockStore
+                    });
+                });
+                afterAll(() => {
+                    Store.resetStore();
+                });
+
+                it('deletedBranchHeadGuids should be empty', () => {
+                    shouldUseFlc(true);
+                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+                    expect(result.deletedBranchHeadGuids).toEqual([]);
+                });
+
+                it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+                    shouldUseFlc(true);
+                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+                    expect.assertions(2);
+                    expect(result.canvasElement.next).toBeNull();
+                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+                });
+            });
+
+            describe('deleted outcomes are on the merging branches and there are elements before and after merging', () => {
+                let decision;
+                beforeEach(() => {
+                    decision = {
+                        guid: decisionWithElementsOnMergingBranchesGuid,
+                        outcomes: [
+                            {
+                                guid: 'outcome1'
+                            }
+                        ],
+                        children: ['end1', 'screen3', null, 'end2'],
+                        next: 'screen4'
+                    };
+                });
+
+                const screen3 = {
+                    guid: 'screen3',
+                    name: 'screen3',
+                    elementType: ELEMENT_TYPE.SCREEN,
+                    prev: null,
+                    next: null,
+                    parent: decisionWithElementsOnMergingBranchesGuid,
+                    childIndex: 1,
+                    isTerminal: false
+                };
+
+                const screen4 = {
+                    guid: 'screen4',
+                    name: 'screen4',
+                    elementType: ELEMENT_TYPE.SCREEN,
+                    prev: decisionWithElementsOnMergingBranchesGuid,
+                    next: 'mergingEnd1',
+                    childIndex: 1,
+                    isTerminal: false
+                };
+
+                const decisionFromStore = {
+                    guid: decisionWithElementsOnMergingBranchesGuid,
+                    outcomes: [
+                        {
+                            guid: 'outcome1'
+                        },
+                        {
+                            guid: 'outcome2'
+                        },
+                        {
+                            guid: 'outcome3'
+                        }
+                    ],
+                    children: ['end1', 'screen3', null, 'end2'],
+                    next: 'screen4'
+                };
+
+                const mockStore = {
+                    decisionFromStore,
+                    outcome1,
+                    outcome2,
+                    outcome3,
+                    screen3,
+                    screen4,
+                    end1,
+                    end2,
+                    mergingEnd1
+                };
+
+                beforeAll(() => {
+                    Store.setMockState({
+                        elements: mockStore
+                    });
+                });
+                afterAll(() => {
+                    Store.resetStore();
+                });
+
+                it('deletedBranchHeadGuids should include elements before and after merging', () => {
+                    shouldUseFlc(true);
+                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+                    expect(result.deletedBranchHeadGuids).toEqual(['screen3', 'screen4']);
+                });
+
+                it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+                    shouldUseFlc(true);
+                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+                    expect.assertions(2);
+                    expect(result.canvasElement.next).toBeNull();
+                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+                });
             });
         });
     });

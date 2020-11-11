@@ -231,6 +231,11 @@ function _modifyCanvasElementWithChildren(state, action) {
         }
     }
 
+    if (action.payload.shouldMarkBranchHeadAsTerminal) {
+        const branchHead = findFirstElement(element, state);
+        branchHead.isTerminal = true;
+    }
+
     const deletedBranchHeadGuids = action.payload.deletedBranchHeadGuids;
     for (let i = 0; i < deletedBranchHeadGuids.length; i++) {
         deleteBranch(state, deletedBranchHeadGuids[i], getSubElementGuids);

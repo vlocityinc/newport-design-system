@@ -182,7 +182,8 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         deletedOutcomes,
         deletedBranchHeadGuids,
         shouldAddEndElement,
-        newEndElementIdx
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
     } = getUpdatedChildrenAndDeletedOutcomesUsingStore(decision, newOutcomes);
     const deletedOutcomeGuids = deletedOutcomes.map((outcome) => outcome.guid);
 
@@ -218,7 +219,8 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         elementType,
         maxConnections,
         connectorCount,
-        availableConnections
+        availableConnections,
+        next: shouldMarkBranchHeadAsTerminal ? null : newDecision.next
     });
 
     return {
@@ -229,7 +231,8 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
         elementSubtype,
         shouldAddEndElement,
-        newEndElementIdx
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
     };
 }
 
@@ -415,6 +418,7 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
 
     let shouldAddEndElement = false;
     let newEndElementIdx;
+    let shouldMarkBranchHeadAsTerminal = false;
     if (outcomeReferencesFromStore) {
         deletedOutcomes = outcomeReferencesFromStore
             .filter((outcomeReferenceGuid) => {
@@ -461,7 +465,29 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
                     deletedBranchHeadGuids.push(children[i]);
                 }
             }
+
+            // If rest of the branches are all terminal, add decision's next to deletedBranchHeadGuids
+            let areAllNewBranchesTerminal = true;
+            for (let i = 0; i < newChildren.length; i++) {
+                const child = getElementByGuid(newChildren[i]);
+                if (!child || !child.isTerminal) {
+                    areAllNewBranchesTerminal = false;
+                }
+            }
+            if (areAllNewBranchesTerminal && deletedOutcomes.length > 0) {
+                shouldMarkBranchHeadAsTerminal = true;
+                if (originalDecision.next) {
+                    deletedBranchHeadGuids.push(originalDecision.next);
+                }
+            }
         }
     }
-    return { newChildren, deletedOutcomes, deletedBranchHeadGuids, shouldAddEndElement, newEndElementIdx };
+    return {
+        newChildren,
+        deletedOutcomes,
+        deletedBranchHeadGuids,
+        shouldAddEndElement,
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
+    };
 }

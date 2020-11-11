@@ -410,7 +410,8 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         deletedWaitEvents,
         deletedBranchHeadGuids,
         shouldAddEndElement,
-        newEndElementIdx
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
     } = getUpdatedChildrenDeletedWaitEventsUsingStore(wait, newWaitEvents);
     const deletedWaitEventGuids = deletedWaitEvents.map((waitEvent) => waitEvent.guid);
 
@@ -454,7 +455,8 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         defaultConnectorLabel,
         maxConnections,
         connectorCount,
-        availableConnections
+        availableConnections,
+        next: shouldMarkBranchHeadAsTerminal ? null : newWait.next
     });
 
     return {
@@ -464,7 +466,8 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         deletedBranchHeadGuids,
         elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS,
         shouldAddEndElement,
-        newEndElementIdx
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
     };
 }
 
@@ -623,6 +626,7 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
 
     let shouldAddEndElement = false;
     let newEndElementIdx;
+    let shouldMarkBranchHeadAsTerminal = false;
     if (waitEventReferencesFromStore) {
         deletedWaitEvents = waitEventReferencesFromStore
             .filter((waitEventReferenceGuid) => {
@@ -669,7 +673,29 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
                     deletedBranchHeadGuids.push(children[i]);
                 }
             }
+
+            // If rest of the branches are all terminal, add wait's next to deletedBranchHeadGuids
+            let areAllNewBranchesTerminal = true;
+            for (let i = 0; i < newChildren.length; i++) {
+                const child = getElementByGuid(newChildren[i]);
+                if (!child || !child.isTerminal) {
+                    areAllNewBranchesTerminal = false;
+                }
+            }
+            if (areAllNewBranchesTerminal && deletedWaitEvents.length > 0) {
+                shouldMarkBranchHeadAsTerminal = true;
+                if (originalWait.next) {
+                    deletedBranchHeadGuids.push(originalWait.next);
+                }
+            }
         }
     }
-    return { newChildren, deletedWaitEvents, deletedBranchHeadGuids, shouldAddEndElement, newEndElementIdx };
+    return {
+        newChildren,
+        deletedWaitEvents,
+        deletedBranchHeadGuids,
+        shouldAddEndElement,
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
+    };
 }

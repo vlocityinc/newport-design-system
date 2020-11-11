@@ -76,6 +76,27 @@ const existingWaitWithNoneTerminatedChildren = {
     childReferences: [{ childReference: 'waitEvent1' }],
     children: ['end3', 'end4']
 };
+const waitWithMergingBranchesGuid = 'waitWithMergingBranchesGuid';
+const waitWithMergingBranches = {
+    guid: waitWithMergingBranchesGuid,
+    childReferences: [
+        { childReference: 'waitEvent1' },
+        { childReference: 'waitEvent2' },
+        { childReference: 'waitEvent3' }
+    ],
+    children: ['end1', null, null, 'end2']
+};
+const nestedWaitWithMergingBranchesGuid = 'nestedWaitWithMergingBranchesGuid';
+const waitWithElementsOnMergingBranchesGuid = 'decisionWithElementsOnMergingBranchesGuid';
+const waitWithElementsOnMergingBranches = {
+    guid: waitWithElementsOnMergingBranchesGuid,
+    childReferences: [
+        { childReference: 'waitEvent1' },
+        { childReference: 'waitEvent2' },
+        { childReference: 'waitEvent3' }
+    ],
+    children: ['end1', 'assignment1', null, 'end2']
+};
 
 const end1 = {
     guid: 'end1',
@@ -92,6 +113,14 @@ const end3 = {
 const end4 = {
     guid: 'end4',
     isTerminal: false
+};
+const mergingEnd1 = {
+    guid: 'mergingEnd1',
+    prev: waitWithMergingBranchesGuid
+};
+const mergingEnd2 = {
+    guid: 'mergingEnd2',
+    prev: nestedWaitWithMergingBranchesGuid
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -118,6 +147,10 @@ getElementByGuid.mockImplementation((guid) => {
         return existingWaitWithAllTerminatedChildren;
     } else if (guid === existingWaitWithNoneTerminatedChildrenGuid) {
         return existingWaitWithNoneTerminatedChildren;
+    } else if (guid === waitWithMergingBranchesGuid || guid === nestedWaitWithMergingBranchesGuid) {
+        return waitWithMergingBranches;
+    } else if (guid === waitWithElementsOnMergingBranchesGuid) {
+        return waitWithElementsOnMergingBranches;
     } else if (guid === 'end1') {
         return end1;
     } else if (guid === 'end2') {
@@ -873,6 +906,240 @@ describe('wait', () => {
                 );
 
                 expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
+            });
+
+            describe('deleted wait events are on the merging branches', () => {
+                let wait;
+                beforeEach(() => {
+                    wait = {
+                        guid: waitWithMergingBranchesGuid,
+                        waitEvents: [
+                            {
+                                guid: 'waitEvent1'
+                            }
+                        ],
+                        children: ['end1', null, null, 'end2'],
+                        next: 'mergingEnd1'
+                    };
+                });
+
+                const waitFromStore = {
+                    guid: waitWithMergingBranchesGuid,
+                    waitEvents: [
+                        {
+                            guid: 'waitEvent1'
+                        },
+                        {
+                            guid: 'waitEvent2'
+                        },
+                        {
+                            guid: 'waitEvent3'
+                        }
+                    ],
+                    children: ['end1', null, null, 'end2'],
+                    next: 'mergingEnd1'
+                };
+
+                const mockStore = {
+                    waitFromStore,
+                    waitEvent1,
+                    waitEvent2,
+                    waitEvent3,
+                    end1,
+                    end2,
+                    mergingEnd1
+                };
+
+                beforeAll(() => {
+                    Store.setMockState({
+                        elements: mockStore
+                    });
+                });
+                afterAll(() => {
+                    Store.resetStore();
+                });
+
+                it('deletedBranchHeadGuids should include waits next', () => {
+                    shouldUseFlc(true);
+                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
+                    expect(result.deletedBranchHeadGuids).toEqual(['mergingEnd1']);
+                });
+
+                it('new waits next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+                    shouldUseFlc(true);
+                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
+                    expect.assertions(2);
+                    expect(result.canvasElement.next).toBeNull();
+                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+                });
+            });
+
+            describe('deleted wait events are on the nested merging branches', () => {
+                let wait;
+                beforeEach(() => {
+                    wait = {
+                        guid: nestedWaitWithMergingBranchesGuid,
+                        waitEvents: [
+                            {
+                                guid: 'waitEvent1'
+                            }
+                        ],
+                        children: ['end1', null, null, 'end2'],
+                        next: null
+                    };
+                });
+
+                const nestedWaitFromStore = {
+                    guid: nestedWaitWithMergingBranchesGuid,
+                    waitEvents: [
+                        {
+                            guid: 'waitEvent1'
+                        },
+                        {
+                            guid: 'waitEvent2'
+                        },
+                        {
+                            guid: 'waitEvent3'
+                        }
+                    ],
+                    children: ['end1', null, null, 'end2'],
+                    next: 'null'
+                };
+
+                const waitFromStore = {
+                    guid: 'waitGuid',
+                    waitEvents: [
+                        {
+                            guid: 'waitEvent1'
+                        }
+                    ],
+                    children: [nestedWaitWithMergingBranchesGuid, null],
+                    next: 'end3'
+                };
+
+                const mockStore = {
+                    waitFromStore,
+                    nestedWaitFromStore,
+                    waitEvent1,
+                    waitEvent2,
+                    waitEvent3,
+                    end1,
+                    end2,
+                    end3,
+                    mergingEnd2
+                };
+
+                beforeAll(() => {
+                    Store.setMockState({
+                        elements: mockStore
+                    });
+                });
+                afterAll(() => {
+                    Store.resetStore();
+                });
+
+                it('deletedBranchHeadGuids should be empty', () => {
+                    shouldUseFlc(true);
+                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
+                    expect(result.deletedBranchHeadGuids).toEqual([]);
+                });
+
+                it('new waits next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+                    shouldUseFlc(true);
+                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
+                    expect.assertions(2);
+                    expect(result.canvasElement.next).toBeNull();
+                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+                });
+            });
+
+            describe('deleted wait events are on the merging branches and there are elements before and after merging', () => {
+                let wait;
+                beforeEach(() => {
+                    wait = {
+                        guid: waitWithElementsOnMergingBranchesGuid,
+                        waitEvents: [
+                            {
+                                guid: 'waitEvent1'
+                            }
+                        ],
+                        children: ['end1', 'assignment1', null, 'end2'],
+                        next: 'assignment2'
+                    };
+                });
+
+                const assignment1 = {
+                    guid: 'assignment1',
+                    name: 'assignment1',
+                    elementType: ELEMENT_TYPE.ASSIGNMENT,
+                    prev: null,
+                    next: null,
+                    parent: waitWithElementsOnMergingBranchesGuid,
+                    childIndex: 1,
+                    isTerminal: false
+                };
+
+                const assignment2 = {
+                    guid: 'assignment2',
+                    name: 'assignment2',
+                    elementType: ELEMENT_TYPE.ASSIGNMENT,
+                    prev: waitWithElementsOnMergingBranchesGuid,
+                    next: 'mergingEnd1',
+                    childIndex: 1,
+                    isTerminal: false
+                };
+
+                const waitFromStore = {
+                    guid: waitWithElementsOnMergingBranchesGuid,
+                    waitEvents: [
+                        {
+                            guid: 'waitEvent1'
+                        },
+                        {
+                            guid: 'waitEvent2'
+                        },
+                        {
+                            guid: 'waitEvent3'
+                        }
+                    ],
+                    children: ['end1', 'assignment1', null, 'end2'],
+                    next: 'assignment2'
+                };
+
+                const mockStore = {
+                    waitFromStore,
+                    waitEvent1,
+                    waitEvent2,
+                    waitEvent3,
+                    assignment1,
+                    assignment2,
+                    end1,
+                    end2,
+                    mergingEnd1
+                };
+
+                beforeAll(() => {
+                    Store.setMockState({
+                        elements: mockStore
+                    });
+                });
+                afterAll(() => {
+                    Store.resetStore();
+                });
+
+                it('deletedBranchHeadGuids should include elements before and after merging', () => {
+                    shouldUseFlc(true);
+                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
+                    expect(result.deletedBranchHeadGuids).toEqual(['assignment1', 'assignment2']);
+                });
+
+                it('new waits next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+                    shouldUseFlc(true);
+                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
+                    expect.assertions(2);
+                    expect(result.canvasElement.next).toBeNull();
+                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+                });
             });
         });
     });

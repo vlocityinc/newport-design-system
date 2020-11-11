@@ -558,6 +558,54 @@ describe('elements-reducer', () => {
                 expect(newState['end-element-guid']).toBeDefined();
             });
         });
+        describe('When deleting outcomes on merging branches', () => {
+            const newDecision = {
+                guid: 'newDecision',
+                name: 'newDecision',
+                children: ['end1', null, null, 'end2'],
+                next: null
+            };
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: ['end1', null, 'end2'],
+                    next: null,
+                    prev: 'branchHead'
+                },
+                end1: {
+                    guid: 'end1',
+                    name: 'end1',
+                    childIndex: 0
+                },
+                end2: {
+                    guid: 'end2',
+                    name: 'end2',
+                    childIndex: 3
+                },
+                end3: {
+                    guid: 'end3',
+                    name: 'end3',
+                    prev: 'newDecision'
+                },
+                branchHead: {
+                    guid: 'branchHead',
+                    next: 'newDecision',
+                    isTerminal: false
+                }
+            };
+            it('sets the branch head as terminal', () => {
+                const newState = flcElementsReducer(originalStoreState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        canvasElement: newDecision,
+                        deletedBranchHeadGuids: ['end3'],
+                        shouldMarkBranchHeadAsTerminal: true
+                    }
+                });
+                expect(newState.branchHead.isTerminal).toBeTruthy();
+            });
+        });
     });
 
     describe('Selection/Deselection of an Element', () => {
