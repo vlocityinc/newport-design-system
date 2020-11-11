@@ -1230,14 +1230,17 @@ describe('Editor Utils Test', () => {
     });
 
     describe('getConnectorsToHighlight function', () => {
-        it('returns highlighted connector from start element if no other decorators are passed in', () => {
-            const expected = [{ source: 'startGuid', type: CONNECTOR_TYPE.REGULAR }];
-            expect(getConnectorsToHighlight({})).toEqual(expected);
-        });
-
         it('returns highlighted connectors for every element in the canvas decorator', () => {
             const canvasDecorator = {
                 decoratedElements: [
+                    {
+                        elementType: 'START',
+                        decoratedConnectors: [
+                            {
+                                connectorType: CONNECTOR_TYPE.REGULAR
+                            }
+                        ]
+                    },
                     {
                         elementApiName: 'element1',
                         decoratedConnectors: [
@@ -1267,6 +1270,14 @@ describe('Editor Utils Test', () => {
         it('returns highlighted connectors for elements with child sources in the canvas decorator', () => {
             const canvasDecorator = {
                 decoratedElements: [
+                    {
+                        elementType: 'START',
+                        decoratedConnectors: [
+                            {
+                                connectorType: CONNECTOR_TYPE.REGULAR
+                            }
+                        ]
+                    },
                     {
                         elementApiName: 'element1',
                         decoratedConnectors: [
@@ -1403,7 +1414,18 @@ describe('Editor Utils Test', () => {
                     startInterviewTime: new Date(),
                     endInterviewTime: new Date()
                 },
-                {}
+                {
+                    decoratedElements: [
+                        {
+                            elementType: 'START',
+                            decoratedConnectors: [
+                                {
+                                    connectorType: CONNECTOR_TYPE.REGULAR
+                                }
+                            ]
+                        }
+                    ]
+                }
             ];
             debugInterviewResponseCallback(data, storeInstance, false);
 

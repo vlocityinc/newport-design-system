@@ -21,7 +21,8 @@ import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
     CONNECTOR_TYPE,
-    DECORATION_TYPE
+    DECORATION_TYPE,
+    METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
@@ -30,7 +31,8 @@ import {
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
     baseCanvasElement,
-    createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement
+    createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement,
+    shouldSupportTimeTriggers
 } from 'builder_platform_interaction/elementFactory';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
@@ -885,21 +887,35 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
  * Helper function to construct and return the payload for connector highlighting as expected for the DECORATE_CANVAS action
  * @param canvasDecorator canvas decorator object returned from the server
  */
-export const getConnectorsToHighlight = (canvasDecorator: object): array => {
-    // Add first highlighted connector coming out of the Start element
-    const connectorsToHighlight = [{ source: getStartElement().guid, type: CONNECTOR_TYPE.REGULAR }];
+export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
+    const connectorsToHighlight = [];
     if (canvasDecorator.decoratedElements) {
         canvasDecorator.decoratedElements.forEach((element) => {
-            const storeElement = getElementByDevName(element.elementApiName);
+            let storeElement;
+            if (element.elementApiName) {
+                storeElement = getElementByDevName(element.elementApiName);
+            } else if (element.elementType && element.elementType.toLowerCase() === METADATA_KEY.START.toLowerCase()) {
+                storeElement = getStartElement();
+            }
             if (storeElement && element.decoratedConnectors) {
                 // Add highlighted connectors for the each of the elements in the decorator object
                 element.decoratedConnectors.forEach((connector) => {
+                    let connectorType;
+                    // TODO W-8380447 Start element connector type info should come from canvas decorator
+                    if (storeElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+                        connectorType =
+                            shouldSupportTimeTriggers(storeElement) && !connector.childSource
+                                ? CONNECTOR_TYPE.IMMEDIATE
+                                : CONNECTOR_TYPE.REGULAR;
+                    } else {
+                        connectorType = connector.connectorType;
+                    }
                     const childSourceElement = connector.childSource && getElementByDevName(connector.childSource);
                     if (!connector.childSource || (connector.childSource && childSourceElement)) {
                         connectorsToHighlight.push({
                             source: storeElement.guid,
                             childSource: childSourceElement && childSourceElement.guid,
-                            type: connector.connectorType
+                            type: connectorType
                         });
                     }
                 });
