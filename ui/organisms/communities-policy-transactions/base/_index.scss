@@ -1,0 +1,40 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+.nds-communities-policy {
+
+    /**
+     * @summary Styles for policy table
+     *
+     * @name nds-communities-policy-table
+     * @selector .nds-communities-policy-table
+     * @modifier
+     */
+    &-table {
+        padding: $spacing-none;
+
+        /**
+        * @summary Styles for policy table row
+        *
+        * @name nds-communities-policy-table-row
+        * @selector .nds-communities-policy-table-row
+        * @modifier
+        */
+        &-row:hover {
+            cursor: pointer;
+            background-color: $newport-card-background-light-blue;
+        }
+    }
+
+    /**
+    * @summary Styles for policy add transaction popover
+    *
+    * @name nds-communities-policy-add-transaction
+    * @selector .nds-communities-policy-add-transaction
+    * @modifier
+    */
+    &-add-transaction {
+        top: 3rem;
+        right: 0;
+    }
+}
