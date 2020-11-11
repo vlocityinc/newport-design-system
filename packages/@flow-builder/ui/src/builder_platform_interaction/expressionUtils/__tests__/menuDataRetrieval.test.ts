@@ -94,6 +94,12 @@ const parentLightningComponentScreenFieldItem = {
     value: store.emailScreenFieldAutomaticOutput.guid
 };
 
+const parentLightningComponentScreenFieldItemInSection = {
+    dataType: FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
+    displayText: 'sliderComponent',
+    value: 'region-container-1-region-2-lwc-comp'
+};
+
 const parentActionItem = {
     dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
     displayText: 'action',
@@ -199,7 +205,17 @@ jest.mock('builder_platform_interaction/subflowsLib', () => {
 
 jest.mock('../resourceUtils', () => {
     return {
-        getScreenElement: jest.fn().mockImplementation(() => mockScreenElement)
+        getScreenElement: jest.fn().mockImplementation(() => {
+            return Object.assign({}, mockScreenElement, {
+                getFieldByGUID: jest.fn().mockImplementation((guid) => {
+                    let field;
+                    if (guid === 'region-container-1-region-2-lwc-comp') {
+                        field = mockScreenElement.fields[3].fields[1].fields[1];
+                    }
+                    return field;
+                })
+            });
+        })
     };
 });
 
@@ -262,9 +278,9 @@ describe('Menu data retrieval', () => {
             },
             sampleNumberParamTypes
         );
-        expect(allowedVariables).toHaveLength(1);
-        expect(allowedVariables[0].items).toHaveLength(1);
-        expect(allowedVariables[0].items[0].displayText).toBe(addCurlyBraces(store.numberVariable.name));
+        expect(allowedVariables).toHaveLength(2);
+        expect(allowedVariables[1].items).toHaveLength(1);
+        expect(allowedVariables[1].items[0].displayText).toBe(addCurlyBraces(store.numberVariable.name));
     });
     it('should preserve devName in text & value field', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.numberVariable]);
@@ -310,7 +326,7 @@ describe('Menu data retrieval', () => {
             sampleNumberParamTypes,
             true
         );
-        expect(allowedVariables).toHaveLength(2);
+        expect(allowedVariables).toHaveLength(3);
         expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
     });
@@ -358,6 +374,9 @@ describe('Menu data retrieval', () => {
                 items: [
                     expect.objectContaining({
                         value: store.emailScreenFieldAutomaticOutput.guid
+                    }),
+                    expect.objectContaining({
+                        value: parentLightningComponentScreenFieldItemInSection.value
                     })
                 ]
             },
@@ -592,7 +611,7 @@ describe('Menu data retrieval', () => {
                 })
             );
             expect(menuData).toContainEqual(expect.objectContaining({ items: expect.any(Array) }));
-            expect(menuData[0].items).toHaveLength(2);
+            expect(menuData[1].items).toHaveLength(2);
         });
     });
     describe('entities menu data', () => {
@@ -815,6 +834,11 @@ describe('Menu data retrieval', () => {
         });
         it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
             const items = await getChildrenItemsPromise(parentLightningComponentScreenFieldItem);
+            expect(Object.keys(items)).toEqual(expect.arrayContaining(['label', 'value']));
+            expectFieldsAreComplexTypeFieldDescriptions(items);
+        });
+        it('should fetch ouput parameters for LC screen field in Sections with automatic handling', async () => {
+            const items = await getChildrenItemsPromise(parentLightningComponentScreenFieldItemInSection);
             expect(Object.keys(items)).toEqual(expect.arrayContaining(['label', 'value']));
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });

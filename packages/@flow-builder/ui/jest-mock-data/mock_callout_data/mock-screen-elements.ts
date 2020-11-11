@@ -181,6 +181,52 @@ export const mockScreenElement = {
                         },
                         {
                             elementType: 'SCREEN_FIELD',
+                            fieldType: 'ComponentInstance',
+                            guid: 'region-container-1-region-2-lwc-comp',
+                            isNewField: true,
+                            isRequired: false,
+                            name: 'slider_1',
+                            type: {
+                                name: 'flowruntime:slider',
+                                fieldType: 'ComponentInstance',
+                                label: 'flowruntime:slider',
+                                icon: 'standard:lightning_component',
+                                category: 'Input',
+                                source: 'local',
+                                description: 'Slider Component'
+                            },
+                            choiceReferences: [],
+                            dataType: 'LightningComponentOutput',
+                            defaultValue: '',
+                            defaultValueIndex: '142d47b8-8c11-4740-a8dc-60d7747a08bb',
+                            validationRule: {
+                                formulaExpression: null,
+                                errorMessage: null
+                            },
+                            extensionName: 'flowruntime:slider',
+                            fieldText: '',
+                            helpText: '',
+                            inputParameters: [
+                                {
+                                    rowIndex: '4899e1df-446e-4158-a942-9b376323c325',
+                                    name: 'label',
+                                    value: 'slider_1',
+                                    valueDataType: 'String'
+                                }
+                            ],
+                            outputParameters: [],
+                            scale: '0',
+                            visibilityRule: {
+                                conditionLogic: 'no_conditions',
+                                conditions: []
+                            },
+                            fields: [],
+                            inputsNextBehavior: 'Remember',
+                            storeOutputAutomatically: true,
+                            childReferences: []
+                        },
+                        {
+                            elementType: 'SCREEN_FIELD',
                             fieldType: 'InputField',
                             guid: 'region-container-1-region-2-input-field-2',
                             isNewField: true,
