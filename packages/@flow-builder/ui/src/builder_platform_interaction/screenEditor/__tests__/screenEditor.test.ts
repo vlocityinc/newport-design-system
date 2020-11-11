@@ -268,6 +268,19 @@ describe('Event handling on editor', () => {
         expect(screenEditorElement.node.fields[5].guid).toBe(field1.guid);
     });
 
+    it('drag a field into selected section', async () => {
+        await ticks(1);
+        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const field1 = screenEditorElement.node.fields[7];
+        let section = screenEditorElement.node.fields[8];
+        // Select section
+        canvas.dispatchEvent(createScreenElementSelectedEvent(section));
+        // drag field1 into section
+        canvas.dispatchEvent(createScreenElementMovedEvent(field1.guid, section.fields[0].guid, 0));
+        section = screenEditorElement.getSelectedNode();
+        expect(section.fields[0].fields[0].guid).toBe(field1.guid);
+    });
+
     it('width of column changed', async () => {
         await ticks(1);
         const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);

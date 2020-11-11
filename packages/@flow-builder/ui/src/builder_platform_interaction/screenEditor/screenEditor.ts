@@ -366,6 +366,8 @@ export default class ScreenEditor extends LightningElement {
     handleMoveScreenElement = (event) => {
         this.screen = screenReducer(this.screen, event);
         event.stopPropagation();
+        // selected parent node (like Section) must be updated when a field is dragged into parent
+        this.resetSelectedNode();
     };
 
     handleColumnWidthChanged = (event) => {
