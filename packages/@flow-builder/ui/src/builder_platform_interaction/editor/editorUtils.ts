@@ -967,7 +967,12 @@ export const debugInterviewResponseCallback = (
 ): Object => {
     // Setup the debug data object for the debug panel
     const interviewData = (data && data[0]) || {};
-    const { interviewStatus, debugTrace, errors, startInterviewTime, endInterviewTime } = interviewData;
+    const { interviewStatus, debugTrace, errors } = interviewData;
+
+    interviewData.startInterviewTime = new Date(interviewData.startInterviewTime);
+    interviewData.endInterviewTime = new Date(interviewData.endInterviewTime);
+    const startInterviewTime = interviewData.startInterviewTime;
+    const endInterviewTime = interviewData.endInterviewTime;
 
     // Highlight connectors on the canvas if no errors in the debug run, and no unsaved changes in the current flow
     if (!errors && !hasUnsavedChanges) {
