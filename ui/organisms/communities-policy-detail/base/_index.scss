@@ -9,7 +9,7 @@
 * @modifier
 */
 .nds-communities-policy-item {
-    font-family: SalesforceSans-Regular;
+    //font-family: SalesforceSans-Regular;
     color: $palette-gray-11;
 
     .nds-communities {
@@ -239,9 +239,12 @@
     }
 }
 
-.nds-communities-policy-list-container {
-    display: none;
+.nds-communities-policy-item-container {
+    .nds-item:last-child {
+        border-bottom: none;
+    }
 }
+
 
 @media screen and (max-width: 75rem) {
     .nds-communities-policy-item {
@@ -255,8 +258,5 @@
         .nds-communities-price-tooltip {
             top: -.15rem;
         }
-    }
-    .nds-communities-policy-list-container {
-        display: block;
     }
 }    
