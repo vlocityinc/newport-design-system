@@ -9,7 +9,7 @@
  * @modifier
  */
  .nds-hero {
-    .block-container{
+    &_containerInner{
         max-width: 80rem;
         margin: $spacing-none auto;
      }
