@@ -62,7 +62,7 @@ export default {
                     operator: ''
                 }
             ],
-            availableConnections: [{ type: 'REGULAR' }],
+            availableConnections: [],
             fault: 'fault-element-guid',
             prev: 'start-element-guid',
             next: 'end-element-guid (record-create-element-guid)'
@@ -85,9 +85,6 @@ export default {
             elementType: 'RecordCreate',
             maxConnections: 2,
             availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
                 {
                     type: 'FAULT'
                 }

@@ -16,7 +16,7 @@ import {
     modalBodyVariant,
     modalFooterVariant
 } from 'builder_platform_interaction/builderUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
     updateFlow,
@@ -95,9 +95,7 @@ import {
     getToolboxElements,
     getElementsMetadata,
     screenFieldsReferencedByLoops,
-    debugInterviewResponseCallback,
-    extractPropsFromStoreState,
-    CONNECTION_PROPS
+    debugInterviewResponseCallback
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -144,13 +142,7 @@ import {
 } from 'builder_platform_interaction/flcConversionUtils';
 import { FlowElement, Guid } from 'builder_platform_interaction/flowModel';
 
-const {
-    logInteraction,
-    logPerfTransactionEnd,
-    logPerfTransactionStart,
-    setAppName,
-    logMetricsServiceErrorTransaction
-} = loggingUtils;
+const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
 const {
     ShiftFocusForwardCommand,
     ShiftFocusBackwardCommand,
@@ -735,18 +727,17 @@ export default class Editor extends LightningElement {
         }
     }
 
-    canConvertToAutoLayoutCheck() {
-        if (!canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeInstance.getCurrentState()))) {
-            logInteraction('editor', 'editor', { operationStatus: 'open in auto-canvas failed' }, '');
-            const storeStateWithOnlyConnectionInfo = extractPropsFromStoreState(
-                storeInstance.getCurrentState(),
-                CONNECTION_PROPS
-            );
-            logMetricsServiceErrorTransaction(JSON.stringify(storeStateWithOnlyConnectionInfo));
-            return false;
-        }
-
-        return true;
+    /**
+     * Checks if we can convert to auto-layout
+     *
+     * @param gack - Whether we should gack if the check fails
+     * @return true if we can convert, false otherwise
+     */
+    canConvertToAutoLayoutCheck(gack = false) {
+        return canConvertToAutoLayoutCanvas(
+            addEndElementsAndConnectorsTransform(deepCopy(storeInstance.getCurrentState())),
+            gack
+        );
     }
 
     /**
@@ -769,7 +760,7 @@ export default class Editor extends LightningElement {
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
                 if (this.properties.isAutoLayoutCanvas) {
-                    if (this.canConvertToAutoLayoutCheck()) {
+                    if (this.canConvertToAutoLayoutCheck(true)) {
                         this.spinners.showAutoLayoutSpinner = true;
                         this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
                     } else {
@@ -1607,7 +1598,7 @@ export default class Editor extends LightningElement {
         // Subtracting 24 (half icon width) to get to that point from the center.
         const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
         const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
-            ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(flowState))
+            ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)))
             : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 48]));
 
         const payload = {
@@ -1632,8 +1623,8 @@ export default class Editor extends LightningElement {
      */
     handleToggleCanvasMode = () => {
         if (!this.properties.isAutoLayoutCanvas) {
-            // From Free-Form to Auto-Layout Canvas
-            if (!canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeInstance.getCurrentState()))) {
+            // Attempt Free-Form to Auto-Layout Canvas conversion, no-gack if fails
+            if (!this.canConvertToAutoLayoutCheck()) {
                 const unsupportedFeatureItems = [
                     { message: LABELS.errorMessageDisconnectedElements, key: 1 },
                     { message: LABELS.errorMessageMultipleIncomingConnections, key: 2 },

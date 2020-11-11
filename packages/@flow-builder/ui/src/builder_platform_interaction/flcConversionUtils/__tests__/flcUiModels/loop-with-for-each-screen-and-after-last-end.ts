@@ -1,5 +1,3 @@
-import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-
 export default {
     elements: {
         'start-element-guid': {
@@ -71,11 +69,7 @@ export default {
             collectionReferenceIndex: '2b392712-4f34-45b1-8816-2b32ddfec6fc',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.LOOP_END
-                }
-            ],
+            availableConnections: [],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',

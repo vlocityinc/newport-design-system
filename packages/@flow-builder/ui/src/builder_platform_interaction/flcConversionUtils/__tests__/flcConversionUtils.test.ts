@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 
 import sanity from './flcUiModels/sanity';
 import oneScreen from './flcUiModels/one-screen';
@@ -8,7 +9,7 @@ import decisionOneChildOnEachBranchNextIsNotEnd from './flcUiModels/decision-one
 import decisionEmptyWithScreenNext from './flcUiModels/decision-with-empty-with-screen-next';
 import emptyDecisionWithEndNext from './flcUiModels/decision-empty-with-end-next';
 import decisionWithTwoEndedBranches from './flcUiModels/decision-with-two-ended-branches';
-import decisionWithNestedDecisionWithTwoEndedBranches from './flcUiModels/decision-with-nested-decision-wth-two-ended-branches';
+import decisionWithNestedDecisionWithTwoEndedBranches from './flcUiModels/decision-with-nested-decision-with-two-ended-branches';
 import emptyLoopWithEndNext from './flcUiModels/loop-empty-with-end-next';
 import loopWithForEachScreenAndAfterLastScreen from './flcUiModels/loop-with-for-each-screen-and-after-last-screen';
 import loopWithForEachScreenAndAfterLastEnd from './flcUiModels/loop-with-for-each-screen-and-after-last-end';
@@ -77,6 +78,8 @@ import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementF
 const CANVAS_WIDTH = 1024;
 const startElementCoords = [CANVAS_WIDTH / 2 - 24, 48];
 
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const flowMetadata = require('builder_platform_interaction/flowMetadata');
     const { findStartYOffset } = jest.requireActual('builder_platform_interaction/elementFactory');
@@ -112,7 +115,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 
 jest.mock('builder_platform_interaction/connectorUtils', () => {
     return {
-        createNewConnector: (elements, source, target, type) => {
+        createNewConnector: (elements, source, target, type = 'REGULAR') => {
             return {
                 guid: `${source} -> ${target}`,
                 source,
@@ -162,16 +165,37 @@ function sortCanvasElementsAndConnectors({ elements, canvasElements, connectors 
     return { elements, canvasElements, connectors };
 }
 
+function addOutcomes(elements, ...guids) {
+    guids.forEach((guid) => {
+        elements[guid] = { guid, config: {}, elementType: 'OUTCOME' };
+    });
+}
+
+function newCanvasElement(guid) {
+    return {
+        guid,
+        isCanvasElement: true,
+        config: { isSelected: false },
+        connectorCount: 0,
+        maxConnections: 1
+    };
+}
+
 function storeStateFromConnectors(connectors) {
     const elements = {};
 
-    connectors.forEach(({ source, target }) => {
-        elements[source] = { guid: source, isCanvasElement: true };
-        elements[target] = { guid: target, isCanvasElement: true };
+    connectors.forEach((connector) => {
+        const { source, target, type } = connector;
+        elements[source] = elements[source] || newCanvasElement(source);
+        elements[target] = elements[target] || newCanvasElement(target);
+
+        elements[source].connectorCount += 1;
+
+        Object.assign(connector, createNewConnector(elements, source, target, type));
     });
 
     if (!elements.start) {
-        elements.start = { guid: 'start', isCanvasElement: true };
+        elements.start = newCanvasElement('start');
     }
 
     elements.start.elementType = ELEMENT_TYPE.START_ELEMENT;
@@ -194,9 +218,7 @@ function assertConsolidatedEndConnectors(elements) {
 }
 
 function assertCanConvertToAutoLayoutCanvas(storeState, canConvert = true) {
-    expect(translateNulls(canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeState)))).toEqual(
-        translateNulls(canConvert)
-    );
+    expect(translateNulls(canConvertToAutoLayoutCanvas(storeState))).toEqual(canConvert);
 }
 
 function assertRoundTripFromAutoLayoutCanvas(alcUiModel, expectedEndConnectors) {
@@ -282,6 +304,14 @@ describe('flc conversion utils', () => {
                 { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT }
             ];
             const storeState = storeStateFromConnectors(connectors);
+
+            Object.assign(storeState.elements.action, {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                childReferences: [],
+                maxConnections: 2,
+                availableConnections: []
+            });
+
             assertCanConvertToAutoLayoutCanvas(storeState);
         });
 
@@ -289,35 +319,91 @@ describe('flc conversion utils', () => {
             it('with two merging branches', () => {
                 const connectors = [
                     { source: 'start', target: 'if' },
-                    { source: 'if', target: 'n1' },
-                    { source: 'if', target: 'n2' },
+                    { source: 'if', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'n2', type: CONNECTOR_TYPE.DEFAULT },
                     { source: 'n1', target: 'merge' },
                     { source: 'n2', target: 'merge' }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+
+                addOutcomes(storeState.elements, 'outcome1');
+
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
+
             it('with two ended branches', () => {
                 const connectors = [
                     { source: 'start', target: 'if' },
-                    { source: 'if', target: 'n1' },
-                    { source: 'if', target: 'n2' }
+                    { source: 'if', target: 'n1', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'if', target: 'n2', type: CONNECTOR_TYPE.DEFAULT }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
+                Object.assign(storeState.elements.if, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+
+                addOutcomes(storeState.elements, 'outcome1');
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
+
             it('with nested decision', () => {
                 const connectors = [
                     { source: 'start', target: 'decision' },
-                    { source: 'decision', target: 'nested-decision' },
-                    { source: 'decision', target: 'merge' },
-                    { source: 'nested-decision', target: 'merge' },
-                    { source: 'nested-decision', target: 'merge' }
+                    {
+                        source: 'decision',
+                        target: 'nested-decision',
+                        type: CONNECTOR_TYPE.REGULAR,
+                        childSource: 'outcome1'
+                    },
+                    { source: 'decision', target: 'merge', type: CONNECTOR_TYPE.DEFAULT },
+                    {
+                        source: 'nested-decision',
+                        target: 'merge',
+                        type: CONNECTOR_TYPE.REGULAR,
+                        childSource: 'outcome2'
+                    },
+                    { source: 'nested-decision', target: 'merge', type: CONNECTOR_TYPE.DEFAULT }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.decision.elementType = ELEMENT_TYPE.DECISION;
-                storeState.elements['nested-decision'].elementType = ELEMENT_TYPE.DECISION;
+                Object.assign(storeState.elements.decision, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                Object.assign(storeState.elements['nested-decision'], {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome2'
+                        }
+                    ]
+                });
+
+                addOutcomes(storeState.elements, 'outcome1', 'outcome2');
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
         });
@@ -330,8 +416,14 @@ describe('flc conversion utils', () => {
                     { source: 'loop', target: 'n2', type: 'LOOP_END' },
                     { source: 'n1', target: 'loop' }
                 ];
+
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                Object.assign(storeState.elements.loop, {
+                    elementType: ELEMENT_TYPE.LOOP,
+                    maxConnections: 2,
+                    availableConnections: []
+                });
+
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
 
@@ -341,7 +433,12 @@ describe('flc conversion utils', () => {
                     { source: 'loop', target: 'n2', type: CONNECTOR_TYPE.LOOP_END }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                Object.assign(storeState.elements.loop, {
+                    elementType: ELEMENT_TYPE.LOOP,
+                    maxConnections: 2,
+                    availableConnections: [{ type: 'LOOP_NEXT' }]
+                });
+
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
 
@@ -351,23 +448,43 @@ describe('flc conversion utils', () => {
                     { source: 'loop', target: 'n1', type: CONNECTOR_TYPE.LOOP_NEXT },
                     { source: 'n1', target: 'loop' }
                 ];
+
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                Object.assign(storeState.elements.loop, {
+                    elementType: ELEMENT_TYPE.LOOP,
+                    maxConnections: 2,
+                    availableConnections: [{ type: 'LOOP_END' }]
+                });
 
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
 
-            it('with nested decision', () => {
+            it('with nested decision 2', () => {
                 const connectors = [
                     { source: 'start', target: 'loop' },
                     { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
                     { source: 'loop', target: 'n2', type: 'LOOP_END' },
-                    { source: 'd1', target: 'loop' },
-                    { source: 'd1', target: 'loop' }
+                    { source: 'd1', target: 'loop', type: CONNECTOR_TYPE.REGULAR, childSource: 'outcome1' },
+                    { source: 'd1', target: 'loop', type: CONNECTOR_TYPE.DEFAULT }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
+                Object.assign(storeState.elements.loop, {
+                    elementType: ELEMENT_TYPE.LOOP,
+                    maxConnections: 2,
+                    availableConnections: []
+                });
+
+                Object.assign(storeState.elements.d1, {
+                    elementType: ELEMENT_TYPE.DECISION,
+                    availableConnections: [],
+                    maxConnections: 2,
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        }
+                    ]
+                });
+                addOutcomes(storeState.elements, 'outcome1');
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
 
@@ -381,8 +498,18 @@ describe('flc conversion utils', () => {
                     { source: 's2', target: 'nestedLoop' }
                 ];
                 const storeState = storeStateFromConnectors(connectors);
-                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-                storeState.elements.nestedLoop.elementType = ELEMENT_TYPE.LOOP;
+                Object.assign(storeState.elements.loop, {
+                    elementType: ELEMENT_TYPE.LOOP,
+                    maxConnections: 2,
+                    availableConnections: [{ type: 'LOOP_END' }]
+                });
+
+                Object.assign(storeState.elements.nestedLoop, {
+                    elementType: ELEMENT_TYPE.LOOP,
+                    maxConnections: 2,
+                    availableConnections: []
+                });
+
                 assertCanConvertToAutoLayoutCanvas(storeState);
             });
         });

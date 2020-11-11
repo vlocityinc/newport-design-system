@@ -51,11 +51,7 @@ export default {
                     childReference: 'outcome-element-guid'
                 }
             ],
-            availableConnections: [
-                {
-                    type: 'DEFAULT'
-                }
-            ],
+            availableConnections: [],
             next: 'end-element-guid (decision-element-guid)',
             prev: 'start-element-guid',
             children: ['nested-decision-element-guid', null],
@@ -83,15 +79,7 @@ export default {
                     childReference: 'outcome2-element-guid'
                 }
             ],
-            availableConnections: [
-                {
-                    type: 'REGULAR',
-                    childReference: 'outcome2-element-guid'
-                },
-                {
-                    type: 'DEFAULT'
-                }
-            ],
+            availableConnections: [],
             next: null,
             prev: null,
             parent: 'decision-element-guid',

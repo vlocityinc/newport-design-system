@@ -72,7 +72,8 @@
                     ],
                     "eqeqeq": [
                         "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
-                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
+                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts",
+                        "**/builder_platform_interaction/flcConversionUtils/flcConversionUtils.ts"
                     ],
                     "@typescript-eslint/no-namespace": [
                         "**/builder_platform_interaction/integrationTests/__tests__/comboboxTestUtils.ts"

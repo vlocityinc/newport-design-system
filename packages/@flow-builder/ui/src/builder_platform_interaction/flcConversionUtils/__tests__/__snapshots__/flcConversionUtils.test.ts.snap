@@ -3,11 +3,7 @@
 exports[`flc conversion utils consolidate end connectors for decision with nested decision with two ended branches 1`] = `
 Object {
   "decision-element-guid": Object {
-    "availableConnections": Array [
-      Object {
-        "type": "DEFAULT",
-      },
-    ],
+    "availableConnections": Array [],
     "childReferences": Array [
       Object {
         "childReference": "outcome-element-guid",
@@ -216,11 +212,7 @@ Object {
 exports[`flc conversion utils consolidate end connectors for decision with nested empty decision 1`] = `
 Object {
   "decision-element-guid": Object {
-    "availableConnections": Array [
-      Object {
-        "type": "DEFAULT",
-      },
-    ],
+    "availableConnections": Array [],
     "childReferences": Array [
       Object {
         "childReference": "outcome-element-guid",
@@ -264,15 +256,7 @@ Object {
     "prev": "decision-element-guid",
   },
   "nested-decision-element-guid": Object {
-    "availableConnections": Array [
-      Object {
-        "childReference": "outcome2-element-guid",
-        "type": "REGULAR",
-      },
-      Object {
-        "type": "DEFAULT",
-      },
-    ],
+    "availableConnections": Array [],
     "childIndex": 0,
     "childReferences": Array [
       Object {
@@ -672,15 +656,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "outcome-element-guid",
@@ -4352,15 +4328,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "outcome-element-guid",
@@ -4556,12 +4524,7 @@ Object {
       "prev": "screen-element-guid",
     },
     "nested-decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome2-element-guid",
-          "type": "REGULAR",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -4716,12 +4679,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome-element-guid",
-          "type": "REGULAR",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "outcome-element-guid",
@@ -4752,15 +4710,7 @@ Object {
       "prev": "start-element-guid",
     },
     "decision-next-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome2-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -4932,23 +4882,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome1-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "childReference": "outcome2-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "childReference": "outcome3-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "outcome1-element-guid",
@@ -5158,12 +5092,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome-element-guid",
-          "type": "REGULAR",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "outcome-element-guid",
@@ -5242,15 +5171,7 @@ Object {
       "prev": "NULL",
     },
     "nested-decision-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome2-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -5868,15 +5789,7 @@ Object {
       "prev": "record-create-element-guid",
     },
     "fault-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "outcome-element-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": -1,
       "childReferences": Array [
         Object {
@@ -5927,11 +5840,7 @@ Object {
       "name": "d1out",
     },
     "record-create-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "type": "REGULAR",
-        },
-      ],
+      "availableConnections": Array [],
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -6032,9 +5941,6 @@ Object {
     "fault-element-guid": Object {
       "availableConnections": Array [
         Object {
-          "type": "REGULAR",
-        },
-        Object {
           "type": "FAULT",
         },
       ],
@@ -6064,11 +5970,7 @@ Object {
       "triggerType": "None",
     },
     "record-create-element-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "type": "REGULAR",
-        },
-      ],
+      "availableConnections": Array [],
       "config": Object {
         "hasError": false,
         "isHighlighted": false,
@@ -6173,9 +6075,6 @@ Object {
       "availableConnections": Array [
         Object {
           "type": "LOOP_NEXT",
-        },
-        Object {
-          "type": "LOOP_END",
         },
       ],
       "children": Array [
@@ -6827,15 +6726,7 @@ Object {
       "prev": "9ff9abc6-2000-4c6e-b864-b5f4dd26b563",
     },
     "8bb0f75b-511b-4f49-a9a5-143a084bf5b6": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "092db41d-22f3-4068-84ec-00fe13ddeb23",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "092db41d-22f3-4068-84ec-00fe13ddeb23",
@@ -7354,9 +7245,6 @@ Object {
       "actionName": "",
       "actionType": "",
       "availableConnections": Array [
-        Object {
-          "type": "REGULAR",
-        },
         Object {
           "type": "FAULT",
         },
@@ -8403,9 +8291,6 @@ Object {
       "actionType": "",
       "availableConnections": Array [
         Object {
-          "type": "REGULAR",
-        },
-        Object {
           "type": "FAULT",
         },
       ],
@@ -8690,12 +8575,7 @@ Object {
       },
     },
     "18be145b-2be9-4b23-8cb7-6b8faac210ef": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "d6316f35-c613-4cf4-ad12-f0a4c2e18bf9",
-          "type": "REGULAR",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": 1,
       "childReferences": Array [
         Object {
@@ -9044,17 +8924,6 @@ Object {
     },
     "8e5518ab-02a7-4d6f-9cbf-9575d2a1b254": Object {
       "availableConnections": Array [
-        Object {
-          "childReference": "34f6552d-e890-4e79-a290-5419e7e32e6a",
-          "type": "REGULAR",
-        },
-        Object {
-          "childReference": "127ce047-6fa6-4882-8137-2f5cd9ea7785",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
         Object {
           "type": "FAULT",
         },
@@ -9722,10 +9591,6 @@ Object {
     "518f3311-60b6-41be-849e-0c61e00d3aec": Object {
       "availableConnections": Array [
         Object {
-          "childReference": "ad4abb1a-4890-4c82-95ff-6f9175865cb0",
-          "type": "REGULAR",
-        },
-        Object {
           "type": "FAULT",
         },
       ],
@@ -9858,9 +9723,6 @@ Object {
       "availableConnections": Array [
         Object {
           "type": "LOOP_NEXT",
-        },
-        Object {
-          "type": "LOOP_END",
         },
       ],
       "children": Array [
@@ -10010,11 +9872,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "48a11bf5-3748-4c7c-94bf-b2bcdaf9730e": Object {
-      "availableConnections": Array [
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "d96c7b5e-8cb0-4341-968b-a88a2bd63e8b",
@@ -10099,11 +9957,7 @@ Object {
     "bf000ac7-2894-4ece-bdf4-6732dcf02bdc": Object {
       "assignNextValueToReference": "",
       "assignNextValueToReferenceIndex": "0143db73-a3b8-4344-837a-050ddcd4d740",
-      "availableConnections": Array [
-        Object {
-          "type": "LOOP_END",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": 0,
       "children": Array [
         "bcc06887-e104-480b-a7f9-aea8729f337f",
@@ -10307,15 +10161,7 @@ Object {
       "name": "",
     },
     "3c40788b-084b-4a6b-9feb-ef2a453837b8": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "9d148381-d578-4b37-878f-74dd8e3be294",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "9d148381-d578-4b37-878f-74dd8e3be294",
@@ -10346,11 +10192,7 @@ Object {
       "prev": "59401088-8554-4cdd-99c1-acccd27158ce",
     },
     "555caa7e-7e51-4fcb-b4c0-85269f4c416d": Object {
-      "availableConnections": Array [
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "1105aa0a-cfad-45cf-b373-5d1777562c79",
@@ -10850,9 +10692,6 @@ Object {
         Object {
           "type": "LOOP_NEXT",
         },
-        Object {
-          "type": "LOOP_END",
-        },
       ],
       "children": Array [
         "NULL",
@@ -11016,15 +10855,7 @@ Object {
       "triggerType": "None",
     },
     "643dada2-b1ed-4886-8df1-86b181dc24e4": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "910146ad-e822-4de0-b426-3be85e2ab57d",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childReferences": Array [
         Object {
           "childReference": "910146ad-e822-4de0-b426-3be85e2ab57d",
@@ -11159,15 +10990,7 @@ Object {
   "connectors": Array [],
   "elements": Object {
     "decision-for-outcome3-guid": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "decision-outcome1-guid",
-          "type": "REGULAR",
-        },
-        Object {
-          "type": "DEFAULT",
-        },
-      ],
+      "availableConnections": Array [],
       "childIndex": 2,
       "childReferences": Array [
         Object {

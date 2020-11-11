@@ -51,15 +51,7 @@ export default {
                     childReference: 'outcome-element-guid'
                 }
             ],
-            availableConnections: [
-                {
-                    childReference: 'outcome-element-guid',
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'DEFAULT'
-                }
-            ],
+            availableConnections: [],
             next: 'end-element-guid (decision-element-guid)',
             prev: 'start-element-guid',
             children: [null, null],

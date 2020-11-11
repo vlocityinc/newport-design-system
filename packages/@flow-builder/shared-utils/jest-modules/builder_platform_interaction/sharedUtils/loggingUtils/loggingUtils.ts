@@ -5,6 +5,7 @@
  */
 export const logPerfTransactionStart = jest.fn();
 export const logPerfTransactionEnd = jest.fn();
+export const logMetricsServiceErrorTransaction = jest.fn();
 export const logPerfMarkStart = jest.fn();
 export const logPerfMarkEnd = jest.fn();
 export const logInteraction = jest.fn();

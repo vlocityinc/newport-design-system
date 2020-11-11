@@ -12,6 +12,7 @@ import {
     resolveBranchHead,
     resolveParent
 } from 'builder_platform_interaction/autoLayoutCanvas';
+
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
@@ -335,22 +336,6 @@ function convertBranchToAutoLayout(
 
         currentElement = nextElement;
     }
-}
-
-/**
- * Checks if a flow can be converted to Auto Layout Canvas
- *
- * @param state - A Free Form Canvas UI flow state
- * @return true if can be convertd to Auto Layout Canvas
- */
-export function canConvertToAutoLayoutCanvas(storeState: StoreState) {
-    try {
-        computeAndValidateConversionInfos(storeState);
-    } catch (e) {
-        return false;
-    }
-
-    return true;
 }
 
 /**

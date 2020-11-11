@@ -51,11 +51,7 @@ export default {
             ],
             elementType: 'Decision',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'DEFAULT'
-                }
-            ],
+            availableConnections: [],
             next: 'end-element-guid (decision-element-guid)',
             prev: 'start-element-guid',
             children: ['screen-left-element-guid', null],

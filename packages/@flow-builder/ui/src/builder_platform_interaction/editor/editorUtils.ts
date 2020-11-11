@@ -16,7 +16,7 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import { generateGuid, Store, deepCopy } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
@@ -39,8 +39,7 @@ import { getElementSections } from 'builder_platform_interaction/editorElementsU
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
 import { FlowElementType, Guid, ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
-import { sanitizeGuid, pick } from 'builder_platform_interaction/dataMutationLib';
-import { FlowModel } from 'builder_platform_interaction/autoLayoutCanvas';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
@@ -990,36 +989,4 @@ export const debugInterviewResponseCallback = (
         startInterviewTime,
         endInterviewTime
     };
-};
-
-// Connection properties
-export const CONNECTION_PROPS = [
-    'guid',
-    'source',
-    'target',
-    'type',
-    'isCanvasElement',
-    'connectorCount',
-    'elementType',
-    'maxConnections',
-    'childReferences',
-    'availableConnections',
-    'childSource'
-];
-
-/**
- * Helper function to remove unwanted properties and extract wanted properties from store state
- * @param state current state of Store
- * @param pickedProps wanted properties
- */
-export const extractPropsFromStoreState = (state: FlowModel, pickedProperties: string[]): Partial<FlowModel> => {
-    const result = deepCopy(state);
-    const { elements, connectors, canvasElements } = result;
-    const newElements = Object.values(elements).reduce((eles, ele) => {
-        eles[ele.guid] = pick(ele, pickedProperties);
-        return eles;
-    }, {});
-    const newConnectors = connectors.map((conn) => pick(conn, pickedProperties));
-
-    return { elements: newElements, connectors: newConnectors, canvasElements };
 };

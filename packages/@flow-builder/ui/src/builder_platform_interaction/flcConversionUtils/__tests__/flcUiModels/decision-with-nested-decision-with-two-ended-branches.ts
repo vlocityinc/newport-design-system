@@ -51,7 +51,7 @@ export default {
             ],
             elementType: 'Decision',
             maxConnections: 2,
-            availableConnections: [{ type: 'DEFAULT' }],
+            availableConnections: [],
             next: null,
             prev: 'start-element-guid',
             children: ['nested-decision-element-guid', 'end-element-guid (decision-element-guid)'],

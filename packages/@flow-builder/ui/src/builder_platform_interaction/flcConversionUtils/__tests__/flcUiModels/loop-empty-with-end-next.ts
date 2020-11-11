@@ -55,7 +55,7 @@ export default {
             collectionReferenceIndex: '2b392712-4f34-45b1-8816-2b32ddfec6fc',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
+            availableConnections: [{ type: 'LOOP_NEXT' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
