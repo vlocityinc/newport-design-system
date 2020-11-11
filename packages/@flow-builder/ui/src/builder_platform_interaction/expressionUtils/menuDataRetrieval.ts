@@ -544,7 +544,7 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
 }
 
 function getScreenFieldElementByGuid(guid) {
-    return getElementByGuid(guid) || getScreenElement().fields.find((field) => field.guid === guid);
+    return getElementByGuid(guid) || getScreenElement().getFieldByGUID(guid);
 }
 
 /**
