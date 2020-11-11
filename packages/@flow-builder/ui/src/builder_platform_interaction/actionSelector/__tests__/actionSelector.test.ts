@@ -213,6 +213,13 @@ describe('Action selector', () => {
             await Promise.resolve();
             expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.actionSearchInputLabel');
         });
+        it('should display overridden label if provided', async () => {
+            actionSelectorComponent.labelOverride = 'foo';
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
+            await ticks();
+            expect(groupedCombobox().label).toBe(actionSelectorComponent.labelOverride);
+        });
     });
     describe('When action category changes', () => {
         beforeEach(() => {

@@ -220,7 +220,7 @@ export function createSteppedStageItem(step: SteppedStageItem): SteppedStageItem
 
     const newStep = <SteppedStageItem>baseChildElement(baseStep, ELEMENT_TYPE.STEPPED_STAGE_ITEM);
 
-    const { entryCriteria = [], action, inputParameters = [] } = step;
+    const { entryCriteria = [], action, inputParameters = [], outputParameters = [] } = step;
 
     if (action) {
         newStep.action = createActionCall(action);
@@ -234,7 +234,7 @@ export function createSteppedStageItem(step: SteppedStageItem): SteppedStageItem
     newStep.entryCriteria = entryCriteria.map<Condition>((condition) => <Condition>createCondition(condition));
 
     newStep.inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
-    newStep.outputParameters = inputParameters.map((outputParameter) => createOutputParameter(outputParameter));
+    newStep.outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
 
     return { ...step, ...newStep };
 }

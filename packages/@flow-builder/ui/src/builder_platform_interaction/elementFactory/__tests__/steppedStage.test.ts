@@ -16,9 +16,14 @@ import {
 } from '../steppedStage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
+import { ParameterListRowItem } from '../base/baseList';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { Guid } from 'builder_platform_interaction/flowModel';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { createActionCall } from '../actionCall';
+import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -68,7 +73,8 @@ getElementByGuid.mockImplementation((guid) => {
         return {
             guid,
             entryCriteria: [],
-            inputParameters: []
+            inputParameters: [<ParameterListRowItem>jest.fn()],
+            outputParameters: [<ParameterListRowItem>jest.fn(), <ParameterListRowItem>jest.fn()]
         };
     }
 
@@ -96,6 +102,27 @@ baseCanvasElementMetadataObject.mockImplementation((element) => {
 });
 baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
+});
+
+jest.mock('../actionCall');
+createActionCall.mockImplementation((action) => {
+    return Object.assign({}, action);
+});
+
+jest.mock('../inputParameter');
+createInputParameter.mockImplementation((p) => {
+    return Object.assign({}, p);
+});
+createInputParameterMetadataObject.mockImplementation((p) => {
+    return Object.assign({}, p);
+});
+
+jest.mock('../outputParameter');
+createOutputParameter.mockImplementation((p) => {
+    return Object.assign({}, p);
+});
+createOutputParameterMetadataObject.mockImplementation((p) => {
+    return Object.assign({}, p);
 });
 
 describe('SteppedStage', () => {
@@ -177,6 +204,38 @@ describe('SteppedStage', () => {
                 undefined
             );
             expect(item.label).toEqual('FlowBuilderElementConfig.defaultSteppedStageItemName(3,)');
+        });
+
+        it('uses existing action if provided', () => {
+            const mockItem = {
+                action: <InvocableAction>jest.fn()
+            };
+
+            const item = createSteppedStageItem(mockItem);
+
+            expect(item.action).toEqual(createActionCall(mockItem.action));
+        });
+
+        it('uses existing input parameters if provided', () => {
+            const mockItem = {
+                inputParameters: [<InvocableAction>jest.fn()]
+            };
+
+            const item = createSteppedStageItem(mockItem);
+
+            expect(item.inputParameters).toHaveLength(1);
+            expect(item.inputParameters[0]).toEqual(createInputParameter(mockItem.inputParameters[0]));
+        });
+
+        it('uses existing output parameters if provided', () => {
+            const mockItem = {
+                outputParameters: [<InvocableAction>jest.fn()]
+            };
+
+            const item = createSteppedStageItem(mockItem);
+
+            expect(item.outputParameters).toHaveLength(1);
+            expect(item.outputParameters[0]).toEqual(createOutputParameter(mockItem.outputParameters[0]));
         });
     });
 
@@ -320,8 +379,22 @@ describe('SteppedStage', () => {
 
                 expect(steppedStage.steps).toHaveLength(3);
                 expect(steppedStage.steps[0].guid).toEqual(steppedStageFromStore.childReferences[0].childReference);
+                expect(steppedStage.steps[0].inputParameters).toHaveLength(1);
+                expect(steppedStage.steps[0].inputParameters[0]).toEqual(
+                    createInputParameterMetadataObject(steppedStage.steps[0].inputParameters[0])
+                );
+
                 expect(steppedStage.steps[1].guid).toEqual(steppedStageFromStore.childReferences[1].childReference);
+                expect(steppedStage.steps[1].inputParameters).toHaveLength(1);
+                expect(steppedStage.steps[1].inputParameters[0]).toEqual(
+                    createInputParameterMetadataObject(steppedStage.steps[1].inputParameters[0])
+                );
+
                 expect(steppedStage.steps[2].guid).toEqual(steppedStageFromStore.childReferences[2].childReference);
+                expect(steppedStage.steps[2].inputParameters).toHaveLength(1);
+                expect(steppedStage.steps[2].inputParameters[0]).toEqual(
+                    createInputParameterMetadataObject(steppedStage.steps[2].inputParameters[0])
+                );
             });
         });
     });

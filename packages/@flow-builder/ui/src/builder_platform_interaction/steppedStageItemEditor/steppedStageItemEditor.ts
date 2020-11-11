@@ -23,7 +23,6 @@ import {
 } from 'builder_platform_interaction/elementFactory';
 import { ComboboxItem } from 'builder_platform_interaction/flowModel';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
     getParameterListWarnings,
@@ -148,22 +147,6 @@ export default class SteppedStageItemEditor extends LightningElement {
         return '';
     }
 
-    get startCriteriaItem() {
-        if (this.element && this.element.entryCriteria.length !== 0) {
-            if (!this.element.entryCriteria[0].leftHandSide) {
-                throw new Error('SteppedStageItem entry criteria must include a leftHandSide value');
-            }
-
-            // This depends on steppedStageItem entry criteria always having the shape
-            // "devName" "EqualTo" "Completed".  For 230, we only parse the LHS devName
-            const itemDevName: string =
-                this.element.entryCriteria[0].leftHandSide && this.element.entryCriteria[0].leftHandSide.value;
-            return { value: getElementByDevName(itemDevName) };
-        }
-
-        return null;
-    }
-
     get stepStartOptions() {
         return [
             {
@@ -272,7 +255,7 @@ export default class SteppedStageItemEditor extends LightningElement {
      *
      * @param inputParameters
      */
-    filterActionInputParameters(inputParameters: ParameterListRowItem[]) {
+    filterActionInputParameters(inputParameters: ParameterListRowItem[] = []): ParameterListRowItem[] {
         return inputParameters.filter((inputParameter: ParameterListRowItem) => {
             return (
                 !HIDDEN_INPUT_PARAMETER_NAMES.includes(<string>inputParameter.name) &&
@@ -317,6 +300,7 @@ export default class SteppedStageItemEditor extends LightningElement {
         event.stopPropagation();
 
         this.element = steppedStageItemReducer(this.element!, event);
+
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
@@ -349,8 +333,8 @@ export default class SteppedStageItemEditor extends LightningElement {
         }
     }
 
-    handleActionSelected(e: ValueChangedEvent) {
-        if ((<InvocableAction>e.detail.value).actionName) {
+    handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        if (e.detail.value.actionName) {
             // Update the selected action
             this.element = steppedStageItemReducer(this.element!, e);
 

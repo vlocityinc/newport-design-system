@@ -6,34 +6,58 @@ import {
     ComboboxStateChangedEvent,
     DeleteConditionEvent,
     PropertyChangedEvent,
-    UpdateConditionEvent
+    UpdateConditionEvent,
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { mockSubflows } from 'mock/calloutData';
+import { mockActions } from 'mock/calloutData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getOtherItemsInSteppedStage } from 'builder_platform_interaction/elementFactory';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 
 jest.mock('../steppedStageItemReducer', () => {
     return {
-        steppedStageItemReducer: jest.fn()
+        steppedStageItemReducer: jest.fn((item) => {
+            return item;
+        })
     };
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const mockSubflowsPromise = Promise.resolve(mockSubflows);
+const mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
         SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE,
         fetchOnce: jest.fn(() => {
-            return mockSubflowsPromise;
+            return mockActionsPromise;
         })
     };
 });
 
+const mockInputParameters = [
+    { name: { value: 'ip1' }, value: { value: 'ip1Value' }, rowIndex: 'ip1Guid' },
+    { name: { value: 'appProcessInstanceId' }, rowIndex: 'appProcessInstanceIdGuid' },
+    { name: { value: 'appProcessStepInstanceId' }, rowIndex: 'appProcessStepInstanceIdGuid' }
+];
+const mockActionDetails = {
+    parameters: mockInputParameters
+};
+
+const mockActionsDetailsPromise = Promise.resolve(mockActionDetails);
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => {
+    return {
+        fetchDetailsForInvocableAction: jest.fn(() => {
+            return mockActionsDetailsPromise;
+        })
+    };
+});
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const elementFactory = Object.assign({}, jest.requireActual('builder_platform_interaction/elementFactory'));
 
@@ -64,7 +88,8 @@ const selectors = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     ENTRY_CRITERIA_RADIO: 'lightning-radio-group',
     ENTRY_CRITERIA_ITEM: 'builder_platform_interaction-combobox',
-    ACTION_SELECTOR: 'builder_platform_interaction-action-selector'
+    ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
+    PARAMETER_LIST: 'builder_platform_interaction-parameter-list'
 };
 
 describe('SteppedStageItemEditor', () => {
@@ -74,7 +99,15 @@ describe('SteppedStageItemEditor', () => {
         label: 'someLabel',
         description: 'someDescription',
         entryCriteria: [],
-        inputParameters: []
+        action: {
+            actionName: {
+                value: 'someActionName'
+            },
+            actionType: {
+                value: 'someActionType'
+            }
+        },
+        inputParameters: mockInputParameters
     };
 
     let editor;
@@ -138,16 +171,43 @@ describe('SteppedStageItemEditor', () => {
         });
     });
 
-    describe('subflows', () => {
+    describe('input parameters', () => {
+        it('are retrieved via fetchDetailsForInvocableAction', () => {
+            expect(fetchDetailsForInvocableAction).toHaveBeenCalledWith({
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: nodeParams.action.actionType.value,
+                actionName: nodeParams.action.actionName.value
+            });
+
+            expect(steppedStageItemReducer).toHaveBeenCalledWith(
+                nodeParams,
+                new CustomEvent(MERGE_WITH_PARAMETERS, {
+                    detail: {
+                        parameters: mockInputParameters
+                    }
+                })
+            );
+        });
+
+        describe('list config', () => {
+            it('filters out app process internal input variables', () => {
+                const parameterList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
+                expect(parameterList.inputs).toHaveLength(1);
+                expect(parameterList.inputs[0]).toEqual(nodeParams.inputParameters[0]);
+            });
+        });
+    });
+
+    describe('actions', () => {
         it('fetched on connectedCallback', () => {
             expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
                 flowProcessType: editor.processType
             });
         });
 
-        it('list set from available subflows', () => {
+        it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(mockSubflows);
+            expect(actionSelector.invocableActions).toEqual(mockActions);
         });
     });
 
@@ -189,7 +249,10 @@ describe('SteppedStageItemEditor', () => {
 
                 entryCriteriaRadio.dispatchEvent(event);
 
-                expect(steppedStageItemReducer).not.toHaveBeenCalled();
+                expect(steppedStageItemReducer).not.toHaveBeenCalledWith(
+                    nodeParams,
+                    new DeleteConditionEvent(nodeParams.guid, 0)
+                );
             });
         });
 
@@ -221,6 +284,36 @@ describe('SteppedStageItemEditor', () => {
             });
 
             expect(steppedStageItemReducer).toHaveBeenCalledWith(params, event);
+        });
+
+        describe('handleParameterPropertyChangedEvent', () => {
+            it('updates input parameter on change', () => {
+                const paramList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
+
+                const updateEvent = new UpdateParameterItemEvent(
+                    true,
+                    mockInputParameters[0].rowIndex,
+                    'someName',
+                    'someNewValue'
+                );
+                paramList.dispatchEvent(updateEvent);
+
+                expect(steppedStageItemReducer).toHaveBeenCalledWith(nodeParams, updateEvent);
+            });
+
+            it('does not update input parameter if value is the same', () => {
+                const paramList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
+
+                const updateEvent = new UpdateParameterItemEvent(
+                    true,
+                    mockInputParameters[0].rowIndex,
+                    'someName',
+                    mockInputParameters[0].value.value
+                );
+                paramList.dispatchEvent(updateEvent);
+
+                expect(steppedStageItemReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
+            });
         });
     });
 });

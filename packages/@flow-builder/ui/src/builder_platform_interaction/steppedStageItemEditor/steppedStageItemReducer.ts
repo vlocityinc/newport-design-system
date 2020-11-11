@@ -35,7 +35,7 @@ const itemPropertyChanged = (state: SteppedStageItem, event: CustomEvent): Stepp
     });
 };
 
-const actionChanged = (state: SteppedStageItem, event: ValueChangedEvent): SteppedStageItem => {
+const actionChanged = (state: SteppedStageItem, event: ValueChangedEvent<InvocableAction>): SteppedStageItem => {
     if (event.detail.value) {
         // validateProperty(state, event);
 

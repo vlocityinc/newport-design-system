@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Guid } from 'builder_platform_interaction/flowModel';
-import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
+import { MERGE_WARNING_TYPE, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 /**
 * @typedef {Object} LABELS
@@ -22,7 +22,11 @@ import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory'
  * @param {LABELS} labels the labels
  * @return {ParameterListWarnings} the warnings
  */
-export function getParameterListWarnings(inputAssignments, outputAssignments, labels): map<Guid, MERGE_WARNING_TYPE[]> {
+export function getParameterListWarnings(
+    inputAssignments: ParameterListRowItem[] = [],
+    outputAssignments: ParameterListRowItem[] = [],
+    labels
+): map<Guid, MERGE_WARNING_TYPE[]> {
     const map = {};
     inputAssignments.forEach((assignment) => {
         const warning = getParameterItemWarning(assignment.warnings, labels);

@@ -10,7 +10,7 @@ type ValueChangedEventDetail = {
     error?: string;
 };
 
-export class ValueChangedEvent extends CustomEvent<ValueChangedEventDetail<T>> {
+export class ValueChangedEvent<T> extends CustomEvent<ValueChangedEventDetail<T>> {
     constructor(value: T = null, error = null) {
         super(eventName, {
             cancelable: false,
