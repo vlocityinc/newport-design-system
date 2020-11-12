@@ -36,6 +36,6 @@
 }
 
 builder_platform_interaction-zoom-panel {
-    position: absolute;
+    position: fixed;
     bottom: 0;
 }

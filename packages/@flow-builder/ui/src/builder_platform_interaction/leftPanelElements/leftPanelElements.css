@@ -4,3 +4,9 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+builder_platform_interaction-button-banner {
+    position: fixed;
+    bottom: 0;
+    width: 320px;
+}
