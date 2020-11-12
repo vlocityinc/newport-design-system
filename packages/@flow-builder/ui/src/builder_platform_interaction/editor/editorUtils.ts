@@ -32,6 +32,7 @@ import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonU
 import {
     baseCanvasElement,
     createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement,
+    getConnectionProperties,
     shouldSupportTimeTriggers
 } from 'builder_platform_interaction/elementFactory';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -152,9 +153,24 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
         triggerType !== startElement.triggerType ||
         (triggerType && startElement.triggerType === FLOW_TRIGGER_TYPE.NONE)
     ) {
-        storeInstance.dispatch(
-            updateElement(createBasicStartElement({ ...baseCanvasElement(startElement), triggerType }))
+        let deletedChildElementGuids = [];
+        if (startElement.childReferences) {
+            deletedChildElementGuids = startElement.childReferences.map((element) => {
+                return element.childReference;
+            });
+        }
+        // Order is important here, since we are resetting the start element we need to remove all the time triggers/scheduled paths and reset the available connections and connector count so that we end up with a clean and saveable start element
+        const newBaseCanvasElement = baseCanvasElement(startElement);
+        const { connectorCount, availableConnections } = getConnectionProperties(
+            startElement,
+            [],
+            deletedChildElementGuids
         );
+        newBaseCanvasElement.availableConnections = availableConnections;
+        newBaseCanvasElement.connectorCount = connectorCount;
+        const newStartElement = createBasicStartElement({ ...newBaseCanvasElement, triggerType });
+        newStartElement.deletedChildElementGuids = deletedChildElementGuids;
+        storeInstance.dispatch(updateElement(newStartElement));
     }
 };
 
