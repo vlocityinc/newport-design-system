@@ -253,7 +253,6 @@ export default class Editor extends LightningElement {
     runDebugUrl;
     isFlowServerCallInProgress = false;
     flowRetrieveError;
-    isRetrieveInterviewHistoryCallInProgress = false;
     hideDebugAgainButton = false;
 
     originalFlowLabel;
@@ -341,9 +340,6 @@ export default class Editor extends LightningElement {
 
     @track
     palette = null;
-
-    @track
-    retrieveInterviewHistoryResponse = {};
 
     processTypeLoading = false;
 
@@ -510,24 +506,6 @@ export default class Editor extends LightningElement {
     set interviewGuid(interviewGUID) {
         if (interviewGUID) {
             this.currentInterviewGuid = interviewGUID;
-            const params = {
-                interviewGUID,
-                flowVersionId: this.currentFlowId
-            };
-
-            fetch(
-                SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY,
-                ({ data, error }) => {
-                    this.isRetrieveInterviewHistoryCallInProgress = false;
-                    this.retrieveInterviewHistoryResponse = { data, error };
-                },
-                params,
-                {
-                    background: true
-                }
-            );
-
-            this.isRetrieveInterviewHistoryCallInProgress = true;
             this.spinners.showRetrieveInterviewHistorySpinner = true;
         }
     }
@@ -2127,20 +2105,29 @@ export default class Editor extends LightningElement {
             this.disableSave = false;
         }
 
-        if (
-            !this.isFlowServerCallInProgress &&
-            !this.isRetrieveInterviewHistoryCallInProgress &&
-            this.spinners.showRetrieveInterviewHistorySpinner
-        ) {
+        if (!this.isFlowServerCallInProgress && this.spinners.showRetrieveInterviewHistorySpinner) {
             try {
-                const { data, error } = this.retrieveInterviewHistoryResponse;
-                if (!error && !this.flowRetrieveError) {
-                    this.builderMode = BUILDER_MODE.DEBUG_MODE;
-                    this.hideDebugAgainButton = true;
-                    this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
-                    this.clearUndoRedoStack();
-                }
-                this.spinners.showRetrieveInterviewHistorySpinner = false;
+                const params = {
+                    interviewGUID: this.currentInterviewGuid,
+                    flowVersionId: this.currentFlowId
+                };
+
+                fetch(
+                    SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY,
+                    ({ data, error }) => {
+                        if (!error && !this.flowRetrieveError) {
+                            this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                            this.hideDebugAgainButton = true;
+                            this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
+                            this.clearUndoRedoStack();
+                        }
+                        this.spinners.showRetrieveInterviewHistorySpinner = false;
+                    },
+                    params,
+                    {
+                        background: true
+                    }
+                );
             } catch (e) {
                 this.spinners.showRetrieveInterviewHistorySpinner = false;
                 throw e;
