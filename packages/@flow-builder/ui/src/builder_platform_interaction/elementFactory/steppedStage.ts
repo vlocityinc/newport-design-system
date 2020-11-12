@@ -255,7 +255,8 @@ export function createSteppedStageMetadataObject(steppedStage: SteppedStage, con
             entryCriteria: entryCriteriaMetadata,
             actionName: step.action ? step.action.actionName : null,
             actionType: step.action ? step.action.actionType : null,
-            inputParameters: inputParametersMetadata
+            inputParameters: inputParametersMetadata,
+            description: step.description
         };
     });
 

@@ -72,6 +72,9 @@ getElementByGuid.mockImplementation((guid) => {
     } else if (guid === 'step1' || guid === 'step2' || guid === 'step3') {
         return {
             guid,
+            label: `${guid}-label`,
+            name: `${guid}-name`,
+            description: `${guid}-description`,
             entryCriteria: [],
             inputParameters: [<ParameterListRowItem>jest.fn()],
             outputParameters: [<ParameterListRowItem>jest.fn(), <ParameterListRowItem>jest.fn()]
@@ -386,18 +389,27 @@ describe('SteppedStage', () => {
 
                 expect(steppedStage.steps).toHaveLength(3);
                 expect(steppedStage.steps[0].guid).toEqual(steppedStageFromStore.childReferences[0].childReference);
+                expect(steppedStage.steps[0].label).toEqual(`${steppedStage.steps[0].guid}-label`);
+                expect(steppedStage.steps[0].name).toEqual(`${steppedStage.steps[0].guid}-name`);
+                expect(steppedStage.steps[0].description).toEqual(`${steppedStage.steps[0].guid}-description`);
                 expect(steppedStage.steps[0].inputParameters).toHaveLength(1);
                 expect(steppedStage.steps[0].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(steppedStage.steps[0].inputParameters[0])
                 );
 
                 expect(steppedStage.steps[1].guid).toEqual(steppedStageFromStore.childReferences[1].childReference);
+                expect(steppedStage.steps[1].label).toEqual(`${steppedStage.steps[1].guid}-label`);
+                expect(steppedStage.steps[1].name).toEqual(`${steppedStage.steps[1].guid}-name`);
+                expect(steppedStage.steps[1].description).toEqual(`${steppedStage.steps[1].guid}-description`);
                 expect(steppedStage.steps[1].inputParameters).toHaveLength(1);
                 expect(steppedStage.steps[1].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(steppedStage.steps[1].inputParameters[0])
                 );
 
                 expect(steppedStage.steps[2].guid).toEqual(steppedStageFromStore.childReferences[2].childReference);
+                expect(steppedStage.steps[2].label).toEqual(`${steppedStage.steps[2].guid}-label`);
+                expect(steppedStage.steps[2].name).toEqual(`${steppedStage.steps[2].guid}-name`);
+                expect(steppedStage.steps[2].description).toEqual(`${steppedStage.steps[2].guid}-description`);
                 expect(steppedStage.steps[2].inputParameters).toHaveLength(1);
                 expect(steppedStage.steps[2].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(steppedStage.steps[2].inputParameters[0])
