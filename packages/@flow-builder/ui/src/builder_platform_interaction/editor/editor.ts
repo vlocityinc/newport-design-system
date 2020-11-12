@@ -252,6 +252,7 @@ export default class Editor extends LightningElement {
     currentInterviewGuid;
     runDebugUrl;
     isFlowServerCallInProgress = false;
+    isRetrieveInterviewHistoryCallInProgress = false;
     flowRetrieveError;
     hideDebugAgainButton = false;
 
@@ -2116,8 +2117,13 @@ export default class Editor extends LightningElement {
             this.disableSave = false;
         }
 
-        if (!this.isFlowServerCallInProgress && this.spinners.showRetrieveInterviewHistorySpinner) {
+        if (
+            !this.isFlowServerCallInProgress &&
+            !this.isRetrieveInterviewHistoryCallInProgress &&
+            this.spinners.showRetrieveInterviewHistorySpinner
+        ) {
             try {
+                this.isRetrieveInterviewHistoryCallInProgress = true;
                 const params = {
                     interviewGUID: this.currentInterviewGuid,
                     flowVersionId: this.currentFlowId
@@ -2133,6 +2139,7 @@ export default class Editor extends LightningElement {
                             this.clearUndoRedoStack();
                         }
                         this.spinners.showRetrieveInterviewHistorySpinner = false;
+                        this.isRetrieveInterviewHistoryCallInProgress = false;
                     },
                     params,
                     {
@@ -2141,6 +2148,7 @@ export default class Editor extends LightningElement {
                 );
             } catch (e) {
                 this.spinners.showRetrieveInterviewHistorySpinner = false;
+                this.isRetrieveInterviewHistoryCallInProgress = false;
                 throw e;
             }
         }
