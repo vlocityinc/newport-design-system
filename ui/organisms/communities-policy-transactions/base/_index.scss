@@ -24,6 +24,17 @@
             cursor: pointer;
             background-color: $newport-card-background-light-blue;
         }
+
+        /**
+        * @summary Styles for highlighted policy table cell
+        *
+        * @name nds-communities-policy-table-cell-highlighted
+        * @selector .nds-communities-policy-table-cell-highlighted
+        * @modifier
+        */
+        &-cell-highlighted {
+            color: $newport-blue-font-color;
+        }
     }
 
     /**
@@ -36,5 +47,16 @@
     &-add-transaction {
         top: 3rem;
         right: 0;
+    }
+
+    /**
+    * @summary Styles for related transaction value
+    *
+    * @name nds-communities-policy-related-transaction-value
+    * @selector .nds-communities-policy-related-transaction-value
+    * @modifier
+    */
+    &-related-transaction-value:nth-child(-n+2) {
+        font-weight: $font-weight-bold;
     }
 }
