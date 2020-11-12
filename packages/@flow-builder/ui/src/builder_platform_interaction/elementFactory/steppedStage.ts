@@ -142,6 +142,7 @@ export function createSteppedStageWithItemReferences(stage: SteppedStage) {
     Object.assign(newStage, {
         childReferences,
         connectorCount,
+        maxConnections: 1,
         elementType
     });
 
@@ -166,7 +167,8 @@ export function createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEdit
 
     Object.assign(newSteppedStage, {
         elementType,
-        childReferences
+        childReferences,
+        maxConnections: 1
     });
 
     return {

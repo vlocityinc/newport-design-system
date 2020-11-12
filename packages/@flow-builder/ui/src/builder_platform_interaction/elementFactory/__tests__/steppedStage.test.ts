@@ -321,6 +321,13 @@ describe('SteppedStage', () => {
             expect(steppedStage.elementType).toEqual(ELEMENT_TYPE.STEPPED_STAGE);
         });
 
+        it('maxConnections = 1', () => {
+            const result = createSteppedStageWithItemReferences(steppedStageFromFlow);
+
+            const steppedStage = result.elements[existingSteppedStageGuid];
+            expect(steppedStage.maxConnections).toEqual(1);
+        });
+
         describe('SteppedStageItems', () => {
             it('includes childReferences for all items present', () => {
                 const result = createSteppedStageWithItemReferences(steppedStageFromFlow);
