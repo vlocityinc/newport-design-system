@@ -1039,7 +1039,7 @@ describe('Start element', () => {
             expect(actualResult).toMatchObject(expectedResult);
         });
 
-        it('creates start element metadata object for delete', () => {
+        it('creates start element metadata object for delete and resets doesRequireRecordChangedToMeetCriteria to false', () => {
             expect.assertions(1);
             const startElement = {
                 filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
@@ -1050,7 +1050,8 @@ describe('Start element', () => {
                 frequency: undefined,
                 startDate: undefined,
                 startTime: undefined,
-                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
+                doesRequireRecordChangedToMeetCriteria: true
             };
 
             const expectedResult = {
@@ -1063,7 +1064,8 @@ describe('Start element', () => {
                 objectContainer: undefined,
                 triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
                 recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
-                schedule: undefined
+                schedule: undefined,
+                doesRequireRecordChangedToMeetCriteria: false
             };
             const actualResult = createStartElementMetadataObject(startElement);
 

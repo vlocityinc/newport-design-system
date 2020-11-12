@@ -295,12 +295,10 @@ export function createStartElementMetadataObject(startElement: StartUi, config =
         recordTriggerType,
         startTime,
         frequency,
-
         filters = [],
-        doesRequireRecordChangedToMeetCriteria,
         childReferences
     } = startElement;
-    let { filterLogic } = startElement;
+    let { doesRequireRecordChangedToMeetCriteria, filterLogic } = startElement;
     let recordFilters;
 
     if (filters.length > 0 && filters[0].leftHandSide && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
@@ -308,6 +306,7 @@ export function createStartElementMetadataObject(startElement: StartUi, config =
     } else {
         recordFilters = [];
         filterLogic = undefined;
+        doesRequireRecordChangedToMeetCriteria = false;
     }
 
     let scheduledPaths;
