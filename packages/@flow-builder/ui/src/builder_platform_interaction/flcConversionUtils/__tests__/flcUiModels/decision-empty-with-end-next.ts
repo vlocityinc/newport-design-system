@@ -42,7 +42,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 2,
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,

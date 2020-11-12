@@ -38,7 +38,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 1,
+            connectorCount: 2,
             config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReferenceIndex: 'a908350c-409c-4d2f-bbd3-b9c61e5932b9',
             collectionReference: '9b6730a5-ad83-46b9-80f0-f8bc2acb22ac',

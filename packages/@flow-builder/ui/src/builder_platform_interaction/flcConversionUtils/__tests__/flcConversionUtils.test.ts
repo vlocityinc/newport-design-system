@@ -65,7 +65,8 @@ import {
     canConvertToAutoLayoutCanvas,
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform,
-    consolidateEndConnectors
+    consolidateEndConnectors,
+    deepEquals
 } from '../flcConversionUtils';
 import {
     ELEMENT_TYPE,
@@ -271,6 +272,50 @@ function assertRoundTripFromFreeFormCanvas(ffcUiModel, coords = startElementCoor
         );
     });
 }
+
+describe('deepEquals', () => {
+    it('passes for primitives', () => {
+        expect(deepEquals(1, 1)).toBeTruthy();
+        expect(deepEquals('abc', 'abc')).toBeTruthy();
+        expect(deepEquals(0.1, 0.1)).toBeTruthy();
+        expect(deepEquals(false, false)).toBeTruthy();
+    });
+
+    it('passes for arrays', () => {
+        expect(deepEquals([1], [1])).toBeTruthy();
+    });
+
+    it('passes for objects', () => {
+        expect(deepEquals({ guid: 'a' }, { guid: 'a' })).toBeTruthy();
+    });
+    it('passes for nested objects', () => {
+        expect(
+            deepEquals({ guid: 'a', children: [{ guid: 'b' }] }, { guid: 'a', children: [{ guid: 'b' }] })
+        ).toBeTruthy();
+    });
+
+    it('fails for diff primitives', () => {
+        expect(deepEquals(1, 2)).toBeFalsy();
+        expect(deepEquals('abc', 'ac')).toBeFalsy();
+        expect(deepEquals(0.1, null)).toBeFalsy();
+        expect(deepEquals(true, false)).toBeFalsy();
+    });
+
+    it('fails for diff arrays', () => {
+        expect(deepEquals([1], [])).toBeFalsy();
+    });
+
+    it('fails diff objects', () => {
+        expect(deepEquals({ guid: 'a' }, { guid: 'b' })).toBeFalsy();
+        expect(deepEquals({ guid: 'a', extra: true }, { guid: 'a' })).toBeFalsy();
+        expect(deepEquals({ guid: 'a' }, { guid: 'a', extra: true })).toBeFalsy();
+    });
+    it('fails for diff nested objects', () => {
+        expect(
+            deepEquals({ guid: 'a', children: [{ guid: 'b' }] }, { guid: 'a', children: [{ guid: 'c' }] })
+        ).toBeFalsy();
+    });
+});
 
 describe('flc conversion utils', () => {
     describe('consolidate end connectors', () => {
@@ -1010,6 +1055,7 @@ describe('flc conversion utils', () => {
                             config: { isSelected: false }
                         }
                     ];
+
                     assertRoundTripFromAutoLayoutCanvas(testCaseW8010546, endConnectors, true);
                 });
                 describe('with one child on each branch, followed by a screen element', () => {

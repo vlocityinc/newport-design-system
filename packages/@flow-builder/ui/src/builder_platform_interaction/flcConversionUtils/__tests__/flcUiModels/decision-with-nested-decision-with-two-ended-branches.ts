@@ -42,7 +42,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 1,
+            connectorCount: 2,
             defaultConnectorLabel: 'Default Outcome',
             childReferences: [
                 {
@@ -99,7 +99,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,
@@ -133,7 +133,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,

@@ -2,6 +2,7 @@
   "context":{
     "access":{
       "orgHasFlowBuilderDebug":false,
+      "orgHasComplianceBannerEnabled":false,
       "orgHasBeforeSaveEnabled":true,
       "orgHasFlowScreenSections":true,
       "orgHasFlowBuilderGuardrails":true

@@ -57,7 +57,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 1,
+            connectorCount: 2,
             config: {
                 isSelected: false,
                 isHighlighted: false,

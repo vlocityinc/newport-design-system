@@ -133,9 +133,13 @@ function sortCanvasElements(canvasElements) {
  * @param objB - Second object
  * @return true if the objects are equal
  */
-function deepEquals(objA, objB) {
+export function deepEquals(objA, objB) {
+    // if same primitive value or same reference value
     if (objA === objB) {
         return true;
+    } else if (typeof objA !== 'object') {
+        // return false if a primtive (ie not an array or object)
+        return false;
     }
 
     const keysA = Object.getOwnPropertyNames(objA).filter((key) => objA[key] != null);
@@ -297,6 +301,7 @@ export function addEndElementsAndConnectorsTransform(
             endElements[target] = endElement;
         }
         const sourceElement = storeState.elements[source] as CanvasElement;
+        sourceElement.connectorCount++;
         if (sourceElement.availableConnections) {
             sourceElement.availableConnections = sourceElement.availableConnections.filter((connection) => {
                 // eslint-disable-next-line eqeqeq
