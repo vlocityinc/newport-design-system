@@ -20,7 +20,7 @@ import {
     screenFieldsReferencedByLoops,
     debugInterviewResponseCallback
 } from '../editorUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -90,6 +90,12 @@ jest.mock('builder_platform_interaction/actions', () => {
         updateProperties: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'updateProperties',
+                payload
+            };
+        }),
+        updateElement: jest.fn().mockImplementation((payload) => {
+            return {
+                type: 'updateElement',
                 payload
             };
         }),
@@ -191,6 +197,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             return {
                 guid: 'startGuid'
             };
+        }),
+        shouldUseAutoLayoutCanvas: jest.fn().mockImplementation(() => {
+            return false;
         })
     };
 });
@@ -691,6 +700,54 @@ describe('Editor Utils Test', () => {
             const mocksaveFlowFn = jest.fn((saveType) => saveType);
             saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
             expect(mocksaveFlowFn.mock.results[0].value).toBe(SaveType.CREATE);
+        });
+        it('removes time triggers when saving to a different process type', () => {
+            const dispatch = jest.fn();
+            const getCurrentState = jest.fn().mockImplementation(() => {
+                return {
+                    elements: {
+                        startElement: {
+                            guid: 'startElement',
+                            elementType: ELEMENT_TYPE.START_ELEMENT,
+                            config: {
+                                isSelected: true,
+                                isHighlighted: false
+                            },
+                            childReferences: [{ childReference: '1' }],
+                            triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
+                            maxConnections: 2,
+                            connectorCount: 1
+                        },
+                        timeTrigger: {
+                            dataType: 'Boolean',
+                            elementType: ELEMENT_TYPE.TIME_TRIGGER,
+                            guid: '1',
+                            label: 'pathTest',
+                            name: 'pathTest',
+                            offsetNumber: '1',
+                            offsetUnit: 'DaysBefore',
+                            timeSource: 'RecordTriggerEvent'
+                        }
+                    }
+                };
+            });
+            const storeInstance = {
+                dispatch,
+                getCurrentState
+            };
+            const flowProperties = {
+                saveType: SaveType.CREATE,
+                processType: 'Flow',
+                triggerType: FLOW_TRIGGER_TYPE.NONE
+            };
+            const mocksaveFlowFn = jest.fn((saveType) => saveType);
+            saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
+            const deletedChildElementGuids = dispatch.mock.calls[1][0].payload.deletedChildElementGuids;
+            const maxConnections = dispatch.mock.calls[1][0].payload.canvasElement.maxConnections;
+            const connectorCount = dispatch.mock.calls[1][0].payload.canvasElement.connectorCount;
+            expect(deletedChildElementGuids).toEqual(['1']);
+            expect(maxConnections).toEqual(1);
+            expect(connectorCount).toEqual(0);
         });
     });
 
