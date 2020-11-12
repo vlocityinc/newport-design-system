@@ -106,7 +106,7 @@ export const ACTION_TYPE = {
     FLOW: 'flow',
     COMPONENT: 'component',
     EXTERNAL_SERVICE: 'externalService',
-    ORCHESTRATION_CREATE_WORKITEM: 'orchestrationCreateWorkItem'
+    CREATE_WORK_ITEM: 'createWorkItem'
 };
 
 export const METADATA_KEY = {

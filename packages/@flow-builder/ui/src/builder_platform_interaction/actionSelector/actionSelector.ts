@@ -328,7 +328,7 @@ export default class ActionSelector extends LightningElement {
                             action.isStandard ||
                             action.type === ACTION_TYPE.QUICK_ACTION ||
                             action.type === ACTION_TYPE.COMPONENT ||
-                            action.type === ACTION_TYPE.ORCHESTRATION_CREATE_WORKITEM
+                            action.type === ACTION_TYPE.CREATE_WORK_ITEM
                     )
                     .map((action) => this.getComboItemFromInvocableAction(action));
                 break;

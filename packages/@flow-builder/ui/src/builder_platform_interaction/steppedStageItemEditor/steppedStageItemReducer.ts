@@ -44,7 +44,7 @@ const actionChanged = (state: SteppedStageItem, event: ValueChangedEvent<Invocab
         return updateProperties(state, {
             action: hydrateWithErrors({
                 elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: ACTION_TYPE.ORCHESTRATION_CREATE_WORKITEM,
+                actionType: ACTION_TYPE.CREATE_WORK_ITEM,
                 actionName
             })
         });

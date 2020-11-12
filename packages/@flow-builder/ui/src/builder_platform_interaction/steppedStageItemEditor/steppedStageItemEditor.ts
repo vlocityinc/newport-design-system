@@ -265,11 +265,15 @@ export default class SteppedStageItemEditor extends LightningElement {
     }
 
     async setInputParameters() {
+        if (!this.selectedAction) {
+            return;
+        }
+
         this.displayActionSpinner = true;
 
         let parameters: ParameterListRowItem[];
         try {
-            parameters = (await fetchDetailsForInvocableAction(this.selectedAction!)).parameters;
+            parameters = (await fetchDetailsForInvocableAction(this.selectedAction)).parameters;
         } catch (e) {
             this.displayActionSpinner = false;
             return;
