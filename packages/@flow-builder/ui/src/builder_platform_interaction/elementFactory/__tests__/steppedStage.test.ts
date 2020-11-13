@@ -24,6 +24,7 @@ import { InvocableAction } from 'builder_platform_interaction/invocableActionLib
 import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -381,6 +382,36 @@ describe('SteppedStage', () => {
             createSteppedStageMetadataObject(steppedStageFromStore);
 
             expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(steppedStageFromStore, {});
+        });
+
+        describe('exit criteria', () => {
+            it('default to when all steps are completed', () => {
+                const steppedStage = createSteppedStageMetadataObject(steppedStageFromStore);
+
+                expect(steppedStage.exitCriteria[0]).toEqual({
+                    leftValueReference: steppedStageFromStore.childReferences[0].childReference,
+                    operator: RULE_OPERATOR.EQUAL_TO,
+                    rightValue: {
+                        stringValue: 'Completed'
+                    }
+                });
+
+                expect(steppedStage.exitCriteria[1]).toEqual({
+                    leftValueReference: steppedStageFromStore.childReferences[1].childReference,
+                    operator: RULE_OPERATOR.EQUAL_TO,
+                    rightValue: {
+                        stringValue: 'Completed'
+                    }
+                });
+
+                expect(steppedStage.exitCriteria[2]).toEqual({
+                    leftValueReference: steppedStageFromStore.childReferences[2].childReference,
+                    operator: RULE_OPERATOR.EQUAL_TO,
+                    rightValue: {
+                        stringValue: 'Completed'
+                    }
+                });
+            });
         });
 
         describe('steps', () => {

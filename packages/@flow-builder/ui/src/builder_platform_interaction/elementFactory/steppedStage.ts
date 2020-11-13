@@ -15,6 +15,7 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createOutputParameter } from './outputParameter';
 import { createActionCall } from './actionCall';
 import { ParameterListRowItem } from './base/baseList';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 // TODO: should extend the same base class as other non-canvas elements
 export interface SteppedStageItem extends ChildElement {
@@ -244,10 +245,22 @@ export function createSteppedStageItem(step: SteppedStageItem): SteppedStageItem
 export function createSteppedStageMetadataObject(steppedStage: SteppedStage, config = {}): SteppedStage {
     const { childReferences } = steppedStage;
 
+    const exitCriteria = childReferences.map(({ childReference }) => {
+        const step: SteppedStageItem = <SteppedStageItem>getElementByGuid(childReference);
+        return {
+            leftValueReference: step.guid,
+            operator: RULE_OPERATOR.EQUAL_TO,
+            rightValue: {
+                stringValue: 'Completed'
+            }
+        };
+    });
+
     const steps = childReferences.map(({ childReference }) => {
         const step: SteppedStageItem = <SteppedStageItem>getElementByGuid(childReference);
 
         const entryCriteriaMetadata = step.entryCriteria.map((condition) => createConditionMetadataObject(condition));
+
         const inputParametersMetadata = step.inputParameters.map((p) => createInputParameterMetadataObject(p));
 
         return {
@@ -261,7 +274,8 @@ export function createSteppedStageMetadataObject(steppedStage: SteppedStage, con
     });
 
     const newSteppedStage: SteppedStage = Object.assign(baseCanvasElementMetadataObject(steppedStage, config), {
-        steps
+        steps,
+        exitCriteria
     });
 
     return newSteppedStage;
