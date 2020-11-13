@@ -1,52 +1,47 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Guid } from 'builder_platform_interaction/flowModel';
 
 /**
  * Function to get all the nested screen fields and push them into subElementsGuids
  *
- * @param {String} childReference - Guid of the screen field
- * @param {Object} elements - current state of elements in the store
- * @return {String[]} nestedScreenFieldGuids - Array containing guids of the nested screen fields
+ * @param childReference - Guid of the child element
+ * @param elements - current state of elements in the store
+ * @return nestedChildFieldGuids - Array containing guids of the nested child fields
  */
-function _getNestedScreenFieldsToDelete(childReference, elements) {
-    const nestedScreenFieldGuids = [];
-    const screenField = elements[childReference];
-    if (screenField.childReferences) {
-        for (let i = 0; i < screenField.childReferences.length; i++) {
-            nestedScreenFieldGuids.push(screenField.childReferences[i].childReference);
-            nestedScreenFieldGuids.push(
-                ..._getNestedScreenFieldsToDelete(screenField.childReferences[i].childReference, elements)
-            );
+function _getNestedChildGuids(childReference: Guid, elements): Guid[] {
+    const nestedChildGuids: Guid[] = [];
+    const element: Element = elements[childReference];
+    if (element.childReferences) {
+        for (let i = 0; i < element.childReferences.length; i++) {
+            nestedChildGuids.push(element.childReferences[i].childReference);
+            nestedChildGuids.push(..._getNestedChildGuids(element.childReferences[i].childReference, elements));
         }
     }
 
-    return nestedScreenFieldGuids;
+    return nestedChildGuids;
 }
 
 /**
- * Returns an array of subelements guids for a given element.  For example, for a decision, return an array of all
- * outcome guids
+ * Returns an array of subelements guids for a given element.  If the element has
+ * childReferences, then those are used.
  *
- * @param {Object} node element to check for subelements
- * @param {Object} elements - current state of elements in the store
- * @return {String[]} Array of subelement guids for the given element. Can be an empty array
+ * For screens, all children are return4ed recursively
+ *
+ * @param node element to check for subelements
+ * @param elements - current state of elements in the store
+ * @return  Array of subelement guids for the given element. Can be an empty array
  */
-function getSubElementGuids(node, elements) {
+function getSubElementGuids(node, elements): Guid[] {
     const subElementsGuids = [];
 
-    if (node.elementType === ELEMENT_TYPE.DECISION) {
+    if (node.elementType === ELEMENT_TYPE.SCREEN) {
         for (let i = 0; i < node.childReferences.length; i++) {
             subElementsGuids.push(node.childReferences[i].childReference);
+            subElementsGuids.push(..._getNestedChildGuids(node.childReferences[i].childReference, elements));
         }
-    } else if (node.elementType === ELEMENT_TYPE.SCREEN) {
-        for (let i = 0; i < node.childReferences.length; i++) {
-            subElementsGuids.push(node.childReferences[i].childReference);
-            subElementsGuids.push(..._getNestedScreenFieldsToDelete(node.childReferences[i].childReference, elements));
-        }
-    } else if (node.elementType === ELEMENT_TYPE.WAIT) {
-        for (let i = 0; i < node.childReferences.length; i++) {
-            subElementsGuids.push(node.childReferences[i].childReference);
-        }
+    } else if (node.childReferences) {
+        subElementsGuids.push(...node.childReferences.map((ref) => ref.childReference));
     }
 
     return subElementsGuids;
