@@ -2141,10 +2141,7 @@ export default class Editor extends LightningElement {
                         this.spinners.showRetrieveInterviewHistorySpinner = false;
                         this.isRetrieveInterviewHistoryCallInProgress = false;
                     },
-                    params,
-                    {
-                        background: true
-                    }
+                    params
                 );
             } catch (e) {
                 this.spinners.showRetrieveInterviewHistorySpinner = false;
