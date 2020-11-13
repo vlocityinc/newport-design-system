@@ -10,7 +10,7 @@ import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
-const { EnterCommand } = commands;
+const { EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
@@ -181,7 +181,7 @@ export default class FlcButtonMenu extends LightningElement {
         event.preventDefault();
     }
 
-    handleEnter() {
+    handleSpaceOrEnter() {
         if (!this.isSelectionMode) {
             // Opening and closing the current selected element
             this.toggleMenuVisibility(false, true);
@@ -193,9 +193,10 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     setupCommandsAndShortcuts() {
-        const enterCommand = new EnterCommand(() => this.handleEnter());
+        const enterCommand = new EnterCommand(() => this.handleSpaceOrEnter());
+        const spaceCommand = new SpaceCommand(() => this.handleSpaceOrEnter());
         this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
-        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: ' ' });
+        this.keyboardInteractions.setupCommandAndShortcut(spaceCommand, { key: ' ' });
     }
 
     /** ***************************** Callbacks *******************************/

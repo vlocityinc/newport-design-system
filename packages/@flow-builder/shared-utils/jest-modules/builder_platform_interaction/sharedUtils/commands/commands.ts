@@ -8,5 +8,6 @@ export const ShiftFocusForwardCommand = jest.fn();
 export const ShiftFocusBackwardCommand = jest.fn();
 export const FocusOnDockingPanelCommand = jest.fn();
 export const EnterCommand = jest.fn();
+export const SpaceCommand = jest.fn();
 export const ArrowDown = jest.fn();
 export const ArrowUp = jest.fn();

@@ -77,7 +77,7 @@ const selectors = {
     menuActionRowLabel: '.slds-media__body',
     backButton: '.back-button',
     conditionPicker: 'lightning-combobox',
-    footer: '.test-footer',
+    footer: '.footer',
     footerButton: 'lightning-button'
 };
 
@@ -163,34 +163,81 @@ describe('Node Menu', () => {
             beforeEach(() => {
                 copyRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[0];
             });
+            describe('Clicking', () => {
+                it('Clicking on the Copy Action dispatches the CopySingleElementEvent', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
+                    copyRow.click();
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('Clicking on the Copy Action dispatches the CopySingleElementEvent', () => {
-                const callback = jest.fn();
-                menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
-                copyRow.click();
-                expect(callback).toHaveBeenCalled();
+                it('Clicking on the Copy Action dispatches the toggle menu event ', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                    copyRow.click();
+                    expect(callback).toHaveBeenCalled();
+                });
+
+                it('The copy row icon should have the right icon-name', () => {
+                    const copyIcon = copyRow.querySelector(selectors.menuActionRowIcon);
+                    expect(copyIcon.iconName).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION.icon);
+                });
+
+                it('The copy row icon should have the right variant', () => {
+                    const copyIcon = copyRow.querySelector(selectors.menuActionRowIcon);
+                    expect(copyIcon.variant).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION.iconVariant);
+                });
+
+                it('The copy row should have the right label', () => {
+                    const copyRowLabel = copyRow.querySelector(selectors.menuActionRowLabel);
+                    expect(copyRowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION.label);
+                });
             });
 
-            it('Clicking on the Copy Action dispatches the toggle menu event ', () => {
-                const callback = jest.fn();
-                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-                copyRow.click();
-                expect(callback).toHaveBeenCalled();
-            });
+            describe('Keyboard commands', () => {
+                it('Pressing enter on the Copy Action dispatches the CopySingleElementEvent', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
+                    listItems[0].focus();
+                    menu.keyboardInteractions.execute('entercommand');
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('The copy row icon should have the right icon-name', () => {
-                const copyIcon = copyRow.querySelector(selectors.menuActionRowIcon);
-                expect(copyIcon.iconName).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION.icon);
-            });
+                it('Pressing enter on the Copy Action dispatches the toggle menu event ', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                    listItems[0].focus();
+                    menu.keyboardInteractions.execute('entercommand');
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('The copy row icon should have the right variant', () => {
-                const copyIcon = copyRow.querySelector(selectors.menuActionRowIcon);
-                expect(copyIcon.variant).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION.iconVariant);
-            });
+                it('Pressing space on the Copy Action dispatches the CopySingleElementEvent', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
+                    listItems[0].focus();
+                    menu.keyboardInteractions.execute('spacecommand');
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('The copy row should have the right label', () => {
-                const copyRowLabel = copyRow.querySelector(selectors.menuActionRowLabel);
-                expect(copyRowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION.label);
+                it('Pressing space on the Copy Action dispatches the toggle menu event ', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                    listItems[0].focus();
+                    menu.keyboardInteractions.execute('spacecommand');
+                    expect(callback).toHaveBeenCalled();
+                });
             });
         });
 
@@ -200,56 +247,132 @@ describe('Node Menu', () => {
                 deleteRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1];
             });
 
-            it('Clicking on the Delete Action dispatches the DeleteElementEvent', () => {
-                const callback = jest.fn();
-                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-                deleteRow.click();
-                expect(callback).toHaveBeenCalled();
-            });
+            describe('Clicking', () => {
+                it('Clicking on the Delete Action dispatches the DeleteElementEvent', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    deleteRow.click();
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('Clicking the Delete Action should dispatch DeleteElementEvent with right details', () => {
-                const callback = jest.fn();
-                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-                deleteRow.click();
-                expect(callback.mock.calls[0][0].detail).toMatchObject({
-                    selectedElementGUID: [dummySimpleElement.guid],
-                    selectedElementType: dummySimpleElement.elementType
+                it('Clicking the Delete Action should dispatch DeleteElementEvent with right details', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    deleteRow.click();
+                    expect(callback.mock.calls[0][0].detail).toMatchObject({
+                        selectedElementGUID: [dummySimpleElement.guid],
+                        selectedElementType: dummySimpleElement.elementType
+                    });
+                });
+
+                it('Clicking the Delete Action for Loop should dispatch DeleteElementEvent with right details', () => {
+                    menu = createComponentUnderTest(dummyLoopElement);
+                    deleteRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1];
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    deleteRow.click();
+                    expect(callback.mock.calls[0][0].detail).toMatchObject({
+                        selectedElementGUID: [dummyLoopElement.guid],
+                        selectedElementType: dummyLoopElement.elementType,
+                        childIndexToKeep: 0
+                    });
+                });
+
+                it('Clicking on the Delete Action dispatches the toggle menu event ', () => {
+                    const callback = jest.fn();
+                    menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                    deleteRow.click();
+                    expect(callback).toHaveBeenCalled();
+                });
+
+                it('The delete row icon should have the right icon-name', () => {
+                    const deleteIcon = deleteRow.querySelector(selectors.menuActionRowIcon);
+                    expect(deleteIcon.iconName).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION.icon);
+                });
+
+                it('The delete row icon should have the right variant', () => {
+                    const deleteIcon = deleteRow.querySelector(selectors.menuActionRowIcon);
+                    expect(deleteIcon.variant).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION.iconVariant);
+                });
+
+                it('The delete row should have the right label', () => {
+                    const deleteRowLabel = deleteRow.querySelector(selectors.menuActionRowLabel);
+                    expect(deleteRowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION.label);
                 });
             });
 
-            it('Clicking the Delete Action for Loop should dispatch DeleteElementEvent with right details', () => {
-                menu = createComponentUnderTest(dummyLoopElement);
-                deleteRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1];
-                const callback = jest.fn();
-                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-                deleteRow.click();
-                expect(callback.mock.calls[0][0].detail).toMatchObject({
-                    selectedElementGUID: [dummyLoopElement.guid],
-                    selectedElementType: dummyLoopElement.elementType,
-                    childIndexToKeep: 0
+            describe('Keyboard Commands', () => {
+                it('Pressing enter on the Delete Action dispatches the DeleteElementEvent', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    listItems[1].focus();
+                    menu.keyboardInteractions.execute('entercommand');
+                    expect(callback).toHaveBeenCalled();
                 });
-            });
 
-            it('Clicking on the Delete Action dispatches the toggle menu event ', () => {
-                const callback = jest.fn();
-                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-                deleteRow.click();
-                expect(callback).toHaveBeenCalled();
-            });
+                it('Pressing enter on the Delete Action should dispatch DeleteElementEvent with right details', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    listItems[1].focus();
+                    menu.keyboardInteractions.execute('entercommand');
+                    expect(callback.mock.calls[0][0].detail).toMatchObject({
+                        selectedElementGUID: [dummySimpleElement.guid],
+                        selectedElementType: dummySimpleElement.elementType
+                    });
+                });
 
-            it('The delete row icon should have the right icon-name', () => {
-                const deleteIcon = deleteRow.querySelector(selectors.menuActionRowIcon);
-                expect(deleteIcon.iconName).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION.icon);
-            });
+                it('Pressing enter on the Delete Action dispatches the toggle menu event ', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                    listItems[1].focus();
+                    menu.keyboardInteractions.execute('entercommand');
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('The delete row icon should have the right variant', () => {
-                const deleteIcon = deleteRow.querySelector(selectors.menuActionRowIcon);
-                expect(deleteIcon.variant).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION.iconVariant);
-            });
+                it('Pressing space on the Delete Action dispatches the DeleteElementEvent', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    listItems[1].focus();
+                    menu.keyboardInteractions.execute('spacecommand');
+                    expect(callback).toHaveBeenCalled();
+                });
 
-            it('The delete row should have the right label', () => {
-                const deleteRowLabel = deleteRow.querySelector(selectors.menuActionRowLabel);
-                expect(deleteRowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION.label);
+                it('Pressing space on the Delete Action should dispatch DeleteElementEvent with right details', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                    listItems[1].focus();
+                    menu.keyboardInteractions.execute('spacecommand');
+                    expect(callback.mock.calls[0][0].detail).toMatchObject({
+                        selectedElementGUID: [dummySimpleElement.guid],
+                        selectedElementType: dummySimpleElement.elementType
+                    });
+                });
+
+                it('Pressing space on the Delete Action dispatches the toggle menu event ', () => {
+                    const listItems = Array.from(
+                        menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)
+                    ) as any;
+                    const callback = jest.fn();
+                    menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                    listItems[1].focus();
+                    menu.keyboardInteractions.execute('spacecommand');
+                    expect(callback).toHaveBeenCalled();
+                });
             });
         });
 

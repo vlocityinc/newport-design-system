@@ -117,4 +117,38 @@ describe('When flow trigger Type is RECORD_CHANGED', () => {
             }
         });
     });
+
+    it('Checks if an EditElementEvent is dispatched with editStartTimeTriggers mode when the enter command is used', async () => {
+        expect.assertions(2);
+        startNodeTimeTriggerButtonEditor = setupComponentUnderTest(startElementWithAccountAndNoCondition);
+        const callback = jest.fn();
+        startNodeTimeTriggerButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
+        startNodeTimeTriggerButtonEditor.shadowRoot.querySelector(selectors.startTimeTrigger).focus();
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('entercommand');
+        await ticks(1);
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                canvasElementGUID: startNodeTimeTriggerButtonEditor.node.guid,
+                mode: EDIT_START_TIME_TRIGGERS
+            }
+        });
+    });
+
+    it('Checks if an EditElementEvent is dispatched with editStartTimeTriggers mode when the space command is used', async () => {
+        expect.assertions(2);
+        startNodeTimeTriggerButtonEditor = setupComponentUnderTest(startElementWithAccountAndNoCondition);
+        const callback = jest.fn();
+        startNodeTimeTriggerButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
+        startNodeTimeTriggerButtonEditor.shadowRoot.querySelector(selectors.startTimeTrigger).focus();
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('spacecommand');
+        await ticks(1);
+        expect(callback).toHaveBeenCalled();
+        expect(callback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                canvasElementGUID: startNodeTimeTriggerButtonEditor.node.guid,
+                mode: EDIT_START_TIME_TRIGGERS
+            }
+        });
+    });
 });

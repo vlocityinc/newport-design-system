@@ -12,7 +12,7 @@ import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interactio
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
-const { ArrowDown, ArrowUp } = commands;
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
@@ -122,7 +122,9 @@ export default class startNodeContextButton extends LightningElement {
     }
 
     handleObjectClick = (event) => {
-        event.stopPropagation();
+        if (event) {
+            event.stopPropagation();
+        }
 
         const canvasElementGUID = this.node.guid;
         const editElementEvent = new EditElementEvent(canvasElementGUID, this.getContextMode());
@@ -139,9 +141,20 @@ export default class startNodeContextButton extends LightningElement {
         this.dispatchEvent(arrowKeyDownEvent);
     }
 
+    /**
+     * Helper function used during keyboard commands
+     */
+    handleSpaceOrEnter() {
+        this.handleObjectClick();
+    }
+
     setupCommandsAndShortcuts() {
         const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
         const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
+        const enterCommand = new EnterCommand(() => this.handleSpaceOrEnter());
+        const spaceCommand = new SpaceCommand(() => this.handleSpaceOrEnter());
+        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
+        this.keyboardInteractions.setupCommandAndShortcut(spaceCommand, { key: ' ' });
         this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
         this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
     }

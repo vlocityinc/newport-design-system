@@ -9,7 +9,7 @@ import { LABELS } from './flcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
 
-const { ArrowDown, ArrowUp } = commands;
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
@@ -111,9 +111,24 @@ export default class FlcConnectorMenu extends Menu {
         }
     }
 
+    /**
+     * Helper function used during keyboard commands
+     */
+    handleSpaceOrEnter() {
+        const currentItemInFocus = this.template.activeElement;
+        if (currentItemInFocus) {
+            const event = { currentTarget: currentItemInFocus.parentElement };
+            this.handleSelectMenuItem(event);
+        }
+    }
+
     setupCommandsAndShortcuts() {
         const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
         const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
+        const enterCommand = new EnterCommand(() => this.handleSpaceOrEnter());
+        const spaceCommand = new SpaceCommand(() => this.handleSpaceOrEnter());
+        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
+        this.keyboardInteractions.setupCommandAndShortcut(spaceCommand, { key: ' ' });
         this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
         this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
     }

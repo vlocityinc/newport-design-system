@@ -180,6 +180,38 @@ describe('When flow trigger Type is BEFORE_SAVE', () => {
             });
         });
     });
+
+    it('Checks if an EditElementEvent is dispatched when using the enter command', () => {
+        return Promise.resolve().then(() => {
+            const callback = jest.fn();
+            startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
+            startNodeContextButtonEditor.shadowRoot.querySelector(selectors.startContext).focus();
+            startNodeContextButtonEditor.keyboardInteractions.execute('entercommand');
+            expect(callback).toHaveBeenCalled();
+            expect(callback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    canvasElementGUID: startNodeContextButtonEditor.node.guid,
+                    mode: EDIT_START_RECORD_CHANGE_CONTEXT
+                }
+            });
+        });
+    });
+
+    it('Checks if an EditElementEvent is dispatched when using the space command', () => {
+        return Promise.resolve().then(() => {
+            const callback = jest.fn();
+            startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
+            startNodeContextButtonEditor.shadowRoot.querySelector(selectors.startContext).focus();
+            startNodeContextButtonEditor.keyboardInteractions.execute('spacecommand');
+            expect(callback).toHaveBeenCalled();
+            expect(callback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    canvasElementGUID: startNodeContextButtonEditor.node.guid,
+                    mode: EDIT_START_RECORD_CHANGE_CONTEXT
+                }
+            });
+        });
+    });
 });
 describe('When flow trigger Type is BEFORE_DELETE', () => {
     let startNodeContextButtonEditor;

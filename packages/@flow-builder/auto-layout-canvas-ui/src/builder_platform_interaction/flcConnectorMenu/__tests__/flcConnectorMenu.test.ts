@@ -151,6 +151,28 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
+    it('should dispatch add element when paste is not specified using enter command ', async () => {
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        listItems[0].focus();
+        const callback = jest.fn();
+        cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
+        cmp.keyboardInteractions.execute('entercommand');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('should dispatch add element when paste is not specified using space command ', async () => {
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        listItems[0].focus();
+        const callback = jest.fn();
+        cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
+        cmp.keyboardInteractions.execute('spacecommand');
+        expect(callback).toHaveBeenCalled();
+    });
+
     it('should dispatch paste event when paste is specified ', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [

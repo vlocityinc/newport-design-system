@@ -60,11 +60,7 @@
                     ></lightning-combobox>
                 </div>
             </div>
-            <div
-                if:true={menuConfiguration.footer}
-                class="slds-border_top slds-p-around_small test-footer"
-                slot="footer"
-            >
+            <div if:true={menuConfiguration.footer} class="slds-border_top slds-p-around_small footer" slot="footer">
                 <lightning-button
                     label={menuConfiguration.footer.buttonTextLabel}
                     icon-name={menuConfiguration.footer.buttonIcon}
