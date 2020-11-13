@@ -212,14 +212,22 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
             : 0;
 
     let height = branchingInfo.h;
+    let width = branchingInfo.w;
 
     // For dynamically rendered nodes, use the rendered height as the basis for height calculations
     // shifted for half the icon size due to the difference between layout and display coordinates
+    //
+    // width can be used as is
     const dynamicDimensions: Dimension | undefined =
         context.dynamicNodeDimensionMap && context.dynamicNodeDimensionMap.get(nodeModel.guid);
     if (dynamicDimensions) {
-        const halfIconSize = layoutConfig.node.icon.h / 2;
-        height = dynamicDimensions.h - halfIconSize;
+        const halfIconHeight = layoutConfig.node.icon.h / 2;
+        const dynamicHeight = dynamicDimensions.h - halfIconHeight;
+        height = Math.max(height, dynamicHeight);
+
+        const halfIconWidth = layoutConfig.node.icon.w / 2;
+        const dynamicWidth = dynamicDimensions.w + halfIconWidth;
+        width = Math.max(width, dynamicWidth);
     }
 
     const isBranchingAllTerminals =
@@ -261,7 +269,7 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     layoutInfo = {
         prevLayout: isNew ? undefined : cloneLayout(layoutInfo.layout),
         layout: {
-            w: Math.max(branchingInfo.w, layoutConfig.node.w),
+            w: Math.max(layoutConfig.node.w, width),
             h: height,
             y: offsetY,
             x: 0,
