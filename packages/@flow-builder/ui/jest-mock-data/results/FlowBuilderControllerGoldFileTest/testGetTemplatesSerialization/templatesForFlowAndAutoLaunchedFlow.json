@@ -1,7 +1,7 @@
 {
   "templatesForFlowAndAutoLaunchedFlow":[
     {
-      "Status":"Active",
+      "Status":"Draft",
       "IsTemplate":true,
       "ProcessType":"AutoLaunchedFlow",
       "IsSwingFlow":false,

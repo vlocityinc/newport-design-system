@@ -7,20 +7,16 @@
     <version>230-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.3045</aura.version>
+        <aura.version>0.6000.3060</aura.version>
         <lwc.api.version>0.230.10</lwc.api.version>
         <lwc.version>1.8.8</lwc.version>
+        <spring.version>5.2.8.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <component.dir>ui-interaction-builder-components</component.dir>
-        <component.module.dir>ui-interaction-builder-modules</component.module.dir>
-        <modules.compile.directory>${project.build.outputDirectory}/${component.module.dir}</modules.compile.directory>
-        <component.compile.directory>${project.build.outputDirectory}/${component.dir}</component.compile.directory>
-
-        <io.takari.builder.version>0.20.7-sfdc-16</io.takari.builder.version>
-        <aura.takari.plugin.version>0.11</aura.takari.plugin.version>
-        <aura.maven.plugin.version>0.15.5</aura.maven.plugin.version>
-        <node-tool.version>0.5.11</node-tool.version>
+        <components.directory>${project.basedir}/src/main/components</components.directory>
+        <components.package>ui-interaction-builder-components</components.package>
+        <modules.directory>${project.basedir}/src/main/modules</modules.directory>
+        <modules.package>ui-interaction-builder-modules</modules.package>
     </properties>
     <repositories>
         <repository>
@@ -53,6 +49,33 @@
         <resources>
             <resource>
                 <directory>${project.basedir}/resources</directory>
+            </resource>
+            <resource>
+                <targetPath>${components.package}</targetPath>
+                <directory>${components.directory}</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/.gitignore</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <targetPath>${modules.package}</targetPath>
+                <directory>${modules.directory}</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/.gitignore</exclude>
+                    <exclude>**/__tests__/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <!-- Copy the location.properties file to the right folder for the aura-maven-plugin autoconfiguration-->
+                <targetPath>${components.package}</targetPath>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
         <pluginManagement>
@@ -92,58 +115,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-    		Creating custom Jars for Core externalization
-			-->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-components</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/components</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>**/__tests__/*</exclude>
-                                    </excludes>
-                                </resource>
-
-                            </resources>
-                            <outputDirectory>${project.build.outputDirectory}/${component.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-module-components</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/modules</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>**/__tests__/*</exclude>
-                                    </excludes>
-                                </resource>
-
-                            </resources>
-                            <outputDirectory>${project.build.outputDirectory}/${component.module.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -158,7 +129,9 @@
     <profiles>
         <profile>
             <!--
-                Generates compiled Aura components for inclusion in a JAR file.
+                Generates compiled LWC/Aura components for inclusion in a JAR file.
+                https://salesforce.quip.com/1Q5MAH9QPsSE
+
                 This is triggered by setting the environment variable PRECOMPILE_COMPONENTS.
 
                 This step is separated from normal steps because the takari builder used by the plugin
@@ -166,25 +139,7 @@
                 unless we're generating a release JAR, we can trigger this profile and build step via
                 our Jenkinsfile.
             -->
-            <id>generate-compiled-aura-components</id>
-            <activation>
-                <property>
-                    <name>env.PRECOMPILE_COMPONENTS</name>
-                </property>
-            </activation>
-            <build></build>
-        </profile>
-        <profile>
-            <!--
-                Generates compiled LWC components for inclusion in a JAR file.
-                This is triggered by setting the environment variable PRECOMPILE_COMPONENTS.
-
-                This step is separated from normal steps because the takari builder used by the plugin
-                is not compatible with the Core build process using moduleImports. Since we don't really care
-                unless we're generating a release JAR, we can trigger this profile and build step via
-                our Jenkinsfile.
-            -->
-            <id>generate-compiled-lwc-components</id>
+            <id>generate-compiled-components</id>
             <activation>
                 <property>
                     <name>env.PRECOMPILE_LWC_COMPONENTS</name>
@@ -192,138 +147,106 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>io.takari.builder</groupId>
-                        <artifactId>takari-builder</artifactId>
-                        <version>${io.takari.builder.version}</version>
-                        <extensions>true</extensions>
-                    </plugin>
-                    <!-- Compile aura components -->
-                    <plugin>
-                        <groupId>org.auraframework</groupId>
-                        <artifactId>aura-takari-builder</artifactId>
-                        <version>${aura.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.auraframework</groupId>
-                                <artifactId>aura-tools</artifactId>
-                                <version>${aura.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.lwc</groupId>
-                                <artifactId>lwc</artifactId>
-                                <version>${lwc.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>com.salesforce.lwc</groupId>
-                                <artifactId>lwc-api</artifactId>
-                                <version>${lwc.api.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.auraframework</groupId>
-                                <artifactId>node-tool</artifactId>
-                                <version>${node-tool.version}</version>
-                                <exclusions>
-                                    <exclusion>
-                                        <groupId>org.graalvm.sdk</groupId>
-                                        <artifactId>*</artifactId>
-                                    </exclusion>
-                                    <exclusion>
-                                        <groupId>org.graalvm.truffle</groupId>
-                                        <artifactId>*</artifactId>
-                                    </exclusion>
-                                    <exclusion>
-                                        <groupId>org.graalvm.js</groupId>
-                                        <artifactId>*</artifactId>
-                                    </exclusion>
-                                    <exclusion>
-                                        <groupId>org.graalvm.regex</groupId>
-                                        <artifactId>*</artifactId>
-                                    </exclusion>
-                                </exclusions>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>compile-components</id>
-                                <goals>
-                                    <goal>component-compile</goal>
-                                </goals>
-                                <phase>process-classes</phase>
-                                <configuration>
-                                    <outputDir>
-                                        <location>${project.build.outputDirectory}/${component.dir}
-                                        </location>
-                                    </outputDir>
-                                    <componentsDir>
-                                        <location>${component.compile.directory}</location>
-                                    </componentsDir>
-                                    <beans>
-                                        <bean>test.org.auraframework.impl.adapter.ConfigAdapterImpl</bean>
-                                        <bean>configuration.LwcConfig</bean>
-                                    </beans>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>io.takari.builder</groupId>
-                        <artifactId>takari-builder</artifactId>
-                        <version>${io.takari.builder.version}</version>
-                        <extensions>true</extensions>
-                    </plugin>
-
-                    <!-- Compile LWC components -->
-                    <plugin>
-                        <groupId>org.auraframework</groupId>
-                        <artifactId>tools-maven-plugin</artifactId>
-                        <version>${aura.maven.plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.lwc</groupId>
-                                <artifactId>lwc</artifactId>
-                                <version>${lwc.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>com.salesforce.lwc</groupId>
-                                <artifactId>lwc-api</artifactId>
-                                <version>${lwc.api.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.auraframework</groupId>
-                                <artifactId>aura-tools</artifactId>
-                                <version>${aura.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>com.salesforce.maven.plugins</groupId>
-                                <artifactId>aura-takari-builder</artifactId>
-                                <version>${aura.takari.plugin.version}</version>
-                                <exclusions>
-                                    <exclusion>
-                                        <groupId>org.auraframework</groupId>
-                                        <artifactId>aura-modules</artifactId>
-                                    </exclusion>
-                                </exclusions>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>compile-modules</id>
-                                <goals>
-                                    <goal>compile-raptor</goal>
-                                </goals>
-                                <phase>process-classes</phase>
-                                <configuration>
-                                    <outputDir>${project.build.outputDirectory}/${component.module.dir}</outputDir>
-                                    <componentsDir>${modules.compile.directory}</componentsDir>
-                                    <beans>
-                                        <bean>test.org.auraframework.impl.adapter.ConfigAdapterImpl</bean>
-                                        <bean>configuration.LwcConfig</bean>
-                                    </beans>
-                                </configuration>
-                            </execution>
-                        </executions>
+                <plugin>
+                    <groupId>org.auraframework</groupId>
+                    <artifactId>aura-maven-plugin</artifactId>
+                    <version>${aura.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.lwc</groupId>
+                            <artifactId>lwc</artifactId>
+                            <version>${lwc.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.salesforce.lwc</groupId>
+                            <artifactId>lwc-api</artifactId>
+                            <version>${lwc.api.version}</version>
+                        </dependency>
+                        <!-- lock aura version to what's used everywhere else -->
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura-tools</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura-spring</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura-interfaces</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-web</artifactId>
+                            <version>${spring.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura-impl</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura-impl-expression</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.auraframework</groupId>
+                            <artifactId>aura-util</artifactId>
+                            <version>${aura.version}</version>
+                            <exclusions><exclusion><groupId>org.springframework</groupId><artifactId>*</artifactId></exclusion></exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-context</artifactId>
+                            <version>${spring.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-core</artifactId>
+                            <version>${spring.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-beans</artifactId>
+                            <version>${spring.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.google.javascript</groupId>
+                            <artifactId>closure-compiler</artifactId>
+                            <version>v20130411</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                        <id>compile-modules</id>
+                        <goals><goal>component-compile</goal></goals>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <autoConfigure>true</autoConfigure>
+                            <modulesDir>.</modulesDir>     <!-- Providing a non-empty entry to allow autoConfigure to do the actual configuration -->
+                            <outputDir>${project.build.outputDirectory}/${components.package}</outputDir>
+                            <beans>
+                                <bean>test.org.auraframework.impl.adapter.ConfigAdapterImpl</bean>
+                            </beans>
+                        </configuration>
+                        </execution>
+                    </executions>
                     </plugin>
                 </plugins>
             </build>
