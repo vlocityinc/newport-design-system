@@ -4,7 +4,7 @@ import implementationSectionLabel from '@salesforce/label/FlowBuilderSteppedStag
 import startOptionStageStart from '@salesforce/label/FlowBuilderSteppedStageItemEditor.startOptionStageStart';
 import startOptionBasedOnOtherStep from '@salesforce/label/FlowBuilderSteppedStageItemEditor.startOptionBasedOnOtherStep';
 import whenStepIsComplete from '@salesforce/label/FlowBuilderSteppedStageItemEditor.whenStepIsComplete';
-import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderSteppedStageItemEditor.startCriteriaItemsPlaceholder';
+import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderSteppedStageItemEditor.entryCriteriaItemsPlaceholder';
 import actionSelectorLabel from '@salesforce/label/FlowBuilderSteppedStageItemEditor.actionSelectorLabel';
 
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
