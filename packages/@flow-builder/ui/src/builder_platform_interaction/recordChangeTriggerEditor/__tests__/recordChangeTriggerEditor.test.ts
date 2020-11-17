@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 const SELECTORS = {
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
@@ -123,5 +124,75 @@ describe('record-change-trigger-editor', () => {
         // trigger type value and doesn't leave the start element in invalid state
         expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
         expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+    });
+
+    describe('UpdateNodeEvent', () => {
+        it('dispatched on handleTypeBeforeSave', async () => {
+            expect.assertions(1);
+            const element = createComponentForTest(
+                recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
+            );
+            const updateNodeCallback = jest.fn();
+            element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            await ticks(1);
+
+            const event = new CustomEvent('change', {
+                detail: {
+                    value: FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                }
+            });
+            query(element, SELECTORS.TRIGGER_TYPE_BEFORE_SAVE).dispatchEvent(event);
+
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: element.getNode() }
+                })
+            );
+        });
+        it('dispatched on handleTypeBeforeDelete', async () => {
+            expect.assertions(1);
+            const element = createComponentForTest(recordChangeTriggerElement(null, FLOW_TRIGGER_SAVE_TYPE.DELETE));
+
+            const updateNodeCallback = jest.fn();
+            element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            await ticks(1);
+
+            query(element, SELECTORS.SAVE_TYPE_SECTION).dispatchEvent(
+                createRecordTriggerCustomEvent(FLOW_TRIGGER_SAVE_TYPE.DELETE)
+            );
+
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: element.getNode() }
+                })
+            );
+        });
+
+        it('dispatched on handleTypeAfterSave', async () => {
+            expect.assertions(1);
+            const element = createComponentForTest(
+                recordChangeTriggerElement(FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
+            );
+
+            const updateNodeCallback = jest.fn();
+            element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            await ticks(1);
+
+            const event = new CustomEvent('change', {
+                detail: {
+                    value: FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                }
+            });
+            query(element, SELECTORS.TRIGGER_TYPE_AFTER_SAVE).dispatchEvent(event);
+
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: element.getNode() }
+                })
+            );
+        });
     });
 });

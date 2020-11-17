@@ -10,7 +10,7 @@ import {
     FLOW_TRIGGER_SAVE_TYPE,
     START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 const { BEFORE_SAVE, AFTER_SAVE, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
@@ -146,6 +146,9 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     _updateField(prop, value) {
         const event = new PropertyChangedEvent(prop, value);
         this.startElement = recordChangeTriggerReducer(this.startElement, event);
+
+        // For property editor in a panel
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
     /**
