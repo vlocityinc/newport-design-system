@@ -19,28 +19,28 @@ import {
 const mockEmptySortOption = {
     sortField: { value: null, error: null },
     sortOrder: { value: null, error: null },
-    nullsLast: true,
+    doesPutEmptyStringAndNullFirst: false,
     rowIndex: 'option'
 };
 
 const mockSortOption1 = {
     sortField: { value: 'Name', error: null },
     sortOrder: { value: 'Asc', error: null },
-    nullsLast: true,
+    doesPutEmptyStringAndNullFirst: false,
     rowIndex: 'option_1'
 };
 
 const mockSortOption2 = {
     sortField: { value: 'AccountNumber', error: null },
     sortOrder: { value: 'Asc', error: null },
-    nullsLast: true,
+    doesPutEmptyStringAndNullFirst: false,
     rowIndex: 'option_2'
 };
 
 const mockSortOption3 = {
     sortField: { value: 'PersonBirthdate', error: null },
     sortOrder: { value: 'Desc', error: null },
-    nullsLast: true,
+    doesPutEmptyStringAndNullFirst: false,
     rowIndex: 'option_3'
 };
 
@@ -94,7 +94,7 @@ const verifySortOption = (sortOptionItemCmp, sortOption) => {
     const fieldPicker = getFieldPicker(sortOptionItemCmp);
     expect(fieldPicker.value).toEqual(sortOption.sortField.value);
     expect(getCombobox(sortOptionItemCmp).value).toEqual(sortOption.sortOrder.value);
-    expect(getCheckbox(sortOptionItemCmp).checked).toEqual(!sortOption.nullsLast);
+    expect(getCheckbox(sortOptionItemCmp).checked).toEqual(sortOption.doesPutEmptyStringAndNullFirst);
 };
 
 const verifyDeleteIcon = (sortOption, disabled) => {
@@ -180,7 +180,9 @@ describe('sort-option-list', () => {
             const sortOptionsItems = getSortOptionItems(sortOptionList);
             expect(sortOptionsItems).toHaveLength(1);
             expect(getCombobox(sortOptionsItems[0]).value).toEqual(mockEmptySortOption.sortOrder.value);
-            expect(getCheckbox(sortOptionsItems[0]).checked).toEqual(!mockEmptySortOption.nullsLast);
+            expect(getCheckbox(sortOptionsItems[0]).checked).toEqual(
+                mockEmptySortOption.doesPutEmptyStringAndNullFirst
+            );
         });
     });
 

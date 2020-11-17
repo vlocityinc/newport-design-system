@@ -55,7 +55,7 @@ export default class SortOptionList extends LightningElement {
     }
 
     /**
-     * get the sortOrder and nullsLast when sorting on primitive collections
+     * get the sortOrder and doesPutEmptyStringAndNullFirst when sorting on primitive collections
      */
     get primitiveSortOption(): SortOption {
         if (!this.isSobject && this.sortOptions.length > 0) {
@@ -64,7 +64,7 @@ export default class SortOptionList extends LightningElement {
         return hydrateWithErrors({
             sortField: null,
             sortOrder: null,
-            nullsLast: true
+            doesPutEmptyStringAndNullFirst: false
         });
     }
 

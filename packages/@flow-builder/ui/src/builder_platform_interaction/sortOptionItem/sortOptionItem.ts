@@ -32,7 +32,7 @@ export default class SortOptionItem extends LightningElement {
     sortField = '';
 
     @api
-    nullsLast = false;
+    doesPutEmptyStringAndNullFirst = false;
 
     @api
     showDelete = false;
@@ -110,10 +110,6 @@ export default class SortOptionItem extends LightningElement {
         return SORT_ORDER_OPTIONS;
     }
 
-    get nullsFirst() {
-        return !this.nullsLast;
-    }
-
     get itemPrefix() {
         return format(this.labels.sortPrefix, this.optionIndex + 1);
     }
@@ -143,7 +139,12 @@ export default class SortOptionItem extends LightningElement {
      */
     handleNullsFirstPropertyChange(event: CustomEvent) {
         event.stopPropagation();
-        this.dispatchUpdateSortOptionEvent('nullsLast', this.optionIndex, !event.detail.checked, event.detail.error);
+        this.dispatchUpdateSortOptionEvent(
+            'doesPutEmptyStringAndNullFirst',
+            this.optionIndex,
+            event.detail.checked,
+            event.detail.error
+        );
     }
 
     dispatchUpdateSortOptionEvent(propertyName: string, optionIndex: number, value: any, error: string) {

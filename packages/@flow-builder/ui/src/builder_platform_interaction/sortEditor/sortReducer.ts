@@ -21,7 +21,7 @@ const emptyOptionItem = () => {
     return {
         sortField: { value: null, error: null },
         sortOrder: { value: SORT_ORDER.ASC, error: null },
-        nullsLast: true,
+        doesPutEmptyStringAndNullFirst: false,
         rowIndex: generateGuid()
     };
 };
@@ -79,7 +79,7 @@ const updateSortOptionItem = (state, event) => {
     const path = [SORT_PROPERTIES.SORT_OPTIONS, optionIndex];
     const sortOptionItemToUpdate = state[SORT_PROPERTIES.SORT_OPTIONS][optionIndex];
     let item;
-    if (propertyName !== 'nullsLast') {
+    if (propertyName !== 'doesPutEmptyStringAndNullFirst') {
         item = updateProperties(sortOptionItemToUpdate, { [propertyName]: { value, error: error ? error : null } });
     } else {
         item = updateProperties(sortOptionItemToUpdate, { [propertyName]: value });

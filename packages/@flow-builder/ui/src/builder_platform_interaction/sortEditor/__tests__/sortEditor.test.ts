@@ -23,7 +23,7 @@ const defaultEmptyElementInfo = {
         {
             sortField: { value: null, error: null },
             sortOrder: { value: 'Asc', erro: null },
-            nullsLast: true,
+            doesPutEmptyStringAndNullFirst: false,
             rowIndex: 'r1'
         }
     ]
@@ -36,13 +36,13 @@ const testElementInfoWithSObjectCollection = {
         {
             sortField: { value: 'Id', error: null },
             sortOrder: { value: 'Asc', erro: null },
-            nullsLast: true,
+            doesPutEmptyStringAndNullFirst: false,
             rowIndex: 'r1'
         },
         {
             sortField: { value: 'Name', error: null },
             sortOrder: { value: 'Desc', erro: null },
-            nullsLast: true,
+            doesPutEmptyStringAndNullFirst: false,
             rowIndex: 'r2'
         }
     ]
@@ -55,7 +55,7 @@ const testElementInfoWithStringCollection = {
         {
             sortField: { value: null, error: null },
             sortOrder: { value: 'Asc', erro: null },
-            nullsLast: true,
+            doesPutEmptyStringAndNullFirst: false,
             rowIndex: 'r1'
         }
     ]

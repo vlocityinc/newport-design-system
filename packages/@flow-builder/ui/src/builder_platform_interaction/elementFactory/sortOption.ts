@@ -7,14 +7,14 @@ export function createSortOption(sortOption?) {
     if (sortOption) {
         const sortField = sortOption.sortField;
         const sortOrder = sortOption.sortOrder;
-        const nullsLast = sortOption.nullsLast;
+        const doesPutEmptyStringAndNullFirst = sortOption.doesPutEmptyStringAndNullFirst;
         const rowIndex = generateGuid();
-        newSortOption = Object.assign({}, { sortField, sortOrder, nullsLast, rowIndex });
+        newSortOption = Object.assign({}, { sortField, sortOrder, doesPutEmptyStringAndNullFirst, rowIndex });
     } else {
         newSortOption = {
             sortField: null,
             sortOrder: SORT_ORDER.ASC,
-            nullsLast: true,
+            doesPutEmptyStringAndNullFirst: false,
             rowIndex: generateGuid()
         };
     }
@@ -28,9 +28,9 @@ export function createSortOptionMetadataObject(sortOption?) {
 
     const sortField = sortOption.sortField;
     const sortOrder = sortOption.sortOrder;
-    const nullsLast = sortOption.nullsLast;
+    const doesPutEmptyStringAndNullFirst = sortOption.doesPutEmptyStringAndNullFirst;
 
-    const newSortOption = Object.assign({}, { sortField, sortOrder, nullsLast });
+    const newSortOption = Object.assign({}, { sortField, sortOrder, doesPutEmptyStringAndNullFirst });
 
     return newSortOption;
 }

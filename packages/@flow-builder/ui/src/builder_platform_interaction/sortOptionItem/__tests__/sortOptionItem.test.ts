@@ -51,14 +51,21 @@ const createComponentUnderTest = ({
     optionIndex = 0,
     recordEntityName = 'Account',
     isSobject = true,
-    nullsLast = true,
+    doesPutEmptyStringAndNullFirst = false,
     sortField = '',
     sortOrder = ''
 } = {}) => {
     const el = createElement('builder_platform_interaction-sort-option-item', {
         is: SortOptionItem
     });
-    Object.assign(el, { optionIndex, recordEntityName, isSobject, nullsLast, sortField, sortOrder });
+    Object.assign(el, {
+        optionIndex,
+        recordEntityName,
+        isSobject,
+        doesPutEmptyStringAndNullFirst,
+        sortField,
+        sortOrder
+    });
     document.body.appendChild(el);
     return el;
 };
@@ -130,7 +137,11 @@ describe('sort-option-item', () => {
             });
             it('should check to allow null values on top', () => {
                 const nullFirstCheckbox = getNullsFirstCheckbox(
-                    createComponentUnderTest({ sortField: 'Description', sortOrder: 'Asc', nullsLast: false })
+                    createComponentUnderTest({
+                        sortField: 'Description',
+                        sortOrder: 'Asc',
+                        doesPutEmptyStringAndNullFirst: true
+                    })
                 );
                 expect(nullFirstCheckbox.checked).toBeTruthy();
             });
@@ -164,7 +175,7 @@ describe('sort-option-item', () => {
             });
             it('should check to allow null values on top', () => {
                 const nullFirstCheckbox = getNullsFirstCheckbox(
-                    createComponentUnderTest({ sortOrder: 'Asc', nullsLast: false })
+                    createComponentUnderTest({ sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: true })
                 );
                 expect(nullFirstCheckbox.checked).toBeTruthy();
             });
@@ -208,7 +219,7 @@ describe('sort-option-item', () => {
             nullFirstCheckbox.dispatchEvent(checkboxChangeEvent(checked));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: { propertyName: 'nullsLast', optionIndex: 0, value: !checked }
+                detail: { propertyName: 'doesPutEmptyStringAndNullFirst', optionIndex: 0, value: checked }
             });
         });
     });

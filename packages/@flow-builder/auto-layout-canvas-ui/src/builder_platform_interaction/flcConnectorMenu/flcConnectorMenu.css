@@ -18,6 +18,10 @@
     background-color: var(--lwc-colorBackgroundError);
 }
 
+.background-orange {
+    background-color: #ff9a3c;
+}
+
 .rotate-icon-container {
     transform: rotate(45deg);
     border-radius: var(--lwc-borderRadiusMedium);

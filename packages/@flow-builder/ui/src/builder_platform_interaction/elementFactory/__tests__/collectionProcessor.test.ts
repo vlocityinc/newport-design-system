@@ -39,7 +39,7 @@ const testCollectionProcessorElement = {
         isSelected: false
     },
     connectorCount: 0,
-    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', nullsLast: true }],
+    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: false }],
     limit: null,
     collectionReference: 'collectionRef'
 };
@@ -50,7 +50,7 @@ const testCollectionProcessorMetadataElement = {
     label: 'collectionProcessor1label',
     locationX: 10,
     locationY: 10,
-    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', nullsLast: true }],
+    sortOptions: [{ sortField: 'sortField', sortOrder: 'Asc', doesPutEmptyStringAndNullFirst: false }],
     limit: null,
     collectionReference: 'collectionRef',
     collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT

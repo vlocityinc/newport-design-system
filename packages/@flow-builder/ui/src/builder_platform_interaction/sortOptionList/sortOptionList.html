@@ -15,7 +15,7 @@
                             record-entity-name={recordEntityName}
                             sort-field={sortOption.sortField.value}
                             sort-order={sortOption.sortOrder.value}
-                            nulls-last={sortOption.nullsLast}
+                            does-put-empty-string-and-null-first={sortOption.doesPutEmptyStringAndNullFirst}
                             error-message={sortOption.sortField.error}
                             is-sobject
                             queried-fields={queriedFields}
@@ -29,7 +29,7 @@
     <div if:false={isSobject} class="slds-p-top_small slds-size_3-of-4">
         <builder_platform_interaction-sort-option-item
             sort-order={primitiveSortOption.sortOrder.value}
-            nulls-last={primitiveSortOption.nullsLast}
+            does-put-empty-string-and-null-first={primitiveSortOption.doesPutEmptyStringAndNullFirst}
         >
         </builder_platform_interaction-sort-option-item>
     </div>

@@ -14,7 +14,7 @@ export const SORT_ORDER = {
 export interface SortOption {
     sortField: { value: string | null; error: string | null };
     sortOrder: { value: string | null; error: string | null };
-    nullsLast: boolean;
+    doesPutEmptyStringAndNullFirst: boolean;
     rowIndex?: Guid;
 }
 
