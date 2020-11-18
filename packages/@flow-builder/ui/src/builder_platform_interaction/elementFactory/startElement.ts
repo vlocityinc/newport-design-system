@@ -27,7 +27,7 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import { LABELS } from './elementFactoryLabels';
 import {
@@ -481,11 +481,10 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         }
     }
 
-    const {
-        newChildren,
-        deletedCanvasElementChildren,
-        deletedBranchHeadGuids
-    } = getUpdatedChildrenAndDeletedChildrenUsingStore(startElement, newTimeTriggers);
+    const { deletedCanvasElementChildren, deletedBranchHeadGuids } = getUpdatedChildrenAndDeletedChildrenUsingStore(
+        startElement,
+        newTimeTriggers
+    );
 
     const deletedTimeTriggerGuids = deletedCanvasElementChildren.map((timeTrigger) => timeTrigger.guid);
 
@@ -499,11 +498,11 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     /* This code will not be exercised till Time Triggers is supported for Auto-Layout (232)
     W-8179230 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008gWsnIAE/view
     */
-    if (shouldUseAutoLayoutCanvas()) {
-        Object.assign(newStartElement, {
-            children: newChildren
-        });
-    }
+    // if (shouldUseAutoLayoutCanvas()) {
+    //     Object.assign(newStartElement, {
+    //         children: newChildren
+    //     });
+    // }
 
     const elementSubtype = startElement.elementSubtype;
     Object.assign(newStartElement, {

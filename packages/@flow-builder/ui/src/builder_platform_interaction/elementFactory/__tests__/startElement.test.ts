@@ -689,7 +689,6 @@ describe('Start element', () => {
         let startElementFromPropertyEditor;
         let newStartElement;
         let startElementFromPropertyEditorWithChildren;
-        let existingStartElementFromPropertyEditorWithChildren;
 
         beforeEach(() => {
             shouldUseFlc(false);
@@ -726,20 +725,6 @@ describe('Start element', () => {
                 recordTriggerType: 'Create',
                 object: 'Account',
                 children: null
-            };
-
-            existingStartElementFromPropertyEditorWithChildren = {
-                guid: existingStartElementWithChildrenGuid,
-                timeTriggers: [
-                    {
-                        guid: 'existingTrigger1',
-                        name: 'abc'
-                    }
-                ],
-                triggerType: 'RecordAfterSave',
-                recordTriggerType: 'Create',
-                object: 'Account',
-                children: ['screen1', 'screen2', null]
             };
         });
 
@@ -810,20 +795,12 @@ describe('Start element', () => {
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.START_ELEMENT);
         });
 
-        it('initializes children correctly for new start element with children', () => {
+        it('children property should not exist on the start element', () => {
             expect.assertions(1);
             shouldUseFlc(true);
             const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditorWithChildren);
 
-            expect(result.canvasElement.children).toEqual([null, null]);
-        });
-        it('Should not fail if timeTriggers is undefined', () => {
-            expect.assertions(1);
-            startElementFromPropertyEditor.timeTriggers = undefined;
-            shouldUseFlc(true);
-            const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
-
-            expect(result.canvasElement.children).toEqual([null]);
+            expect(result.canvasElement.children).toBeNull();
         });
 
         it('When updating to a start element that does not support time triggers, Immediate available connector should be updated to Regular', () => {
@@ -975,24 +952,6 @@ describe('Start element', () => {
                 expect.assertions(1);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.canvasElement.maxConnections).toEqual(2);
-            });
-
-            it('updates children property for existing start element with children', () => {
-                expect.assertions(1);
-                shouldUseFlc(true);
-                const result = createStartElementWhenUpdatingFromPropertyEditor(
-                    existingStartElementFromPropertyEditorWithChildren
-                );
-                expect(result.canvasElement.children).toEqual(['screen1', null]);
-            });
-
-            it('deletedBranchHeadGuids should include "screen2" for existing start element with children', () => {
-                expect.assertions(1);
-                shouldUseFlc(true);
-                const result = createStartElementWhenUpdatingFromPropertyEditor(
-                    existingStartElementFromPropertyEditorWithChildren
-                );
-                expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
             });
         });
     });
