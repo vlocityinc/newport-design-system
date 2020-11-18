@@ -77,3 +77,56 @@ export const completedInterviewWithErrors = {
     startInterviewTime: new Date('June 17, 2020 03:24:00'),
     endInterviewTime: new Date('June 17, 2020 03:25:00')
 };
+
+export const resumedInterviewWithErrors = {
+    interviewStatus: 'ERROR',
+    debugTrace: [
+        {
+            lines: [
+                'How the Interview Started',
+                'User User (005xx000001X9fZ) started the flow interview.',
+                'API Version for Running the Flow: 51'
+            ]
+        },
+        {
+            lines: [
+                'PAUSE: pause',
+                'The pause conditions were met for these pause configurations:',
+                'Pause Configuration: pause_anyway',
+                'Pause conditions:',
+                '',
+                'Resume event type: Alarm: Absolute Time',
+                'Base Time = {!$Flow.InterviewStartTime} (11/18/2020, 11:03 AM)',
+                'Offset Number = 0',
+                'Offset Unit = Hours',
+                'Result',
+                'Paused at 2020-11-18T19:03:46Z.',
+                'The interview was paused at 2020-11-18T19:03:46Z.'
+            ],
+            elementType: 'Pause',
+            elementApiName: 'pause'
+        },
+        {
+            lines: ['The interview was resumed at 2020-11-18T19:04:45Z by User User (005xx000001X9fZ).']
+        },
+        {
+            lines: [
+                'PAUSE: pause',
+                'The resume event occurred for the pause_anyway pause configuration. ',
+                'The following values from the resume event were stored in these flow variables:',
+                'None.'
+            ],
+            elementType: 'Pause',
+            elementApiName: 'pause'
+        },
+        {
+            lines: ['ERROR ELEMENT ASSN_BIGNUMBER (FLOWASSIGNMENT).: assn_bigNumber'],
+            error:
+                "The 'assn_bigNumber' element can't remove the item in position 99,900,000,000,000,000,000,000,000,000 of the 'numList' collection variable because the position '99,900,000,000,000,000,000,000,000,000' isn't a positive integer.",
+            elementType: 'Error element assn_bigNumber (FlowAssignment).',
+            elementApiName: 'assn_bigNumber'
+        }
+    ],
+    startInterviewTime: new Date('November 18, 2020 11:03:46'),
+    endInterviewTime: new Date('November 18 2020 11:04:45')
+};

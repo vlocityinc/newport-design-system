@@ -37,9 +37,10 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             const trace = debugData.debugTrace[i].lines.filter((e) => {
                 return !!e;
             });
+            const cardTitle = makeElementTitle(debugData.debugTrace[i]);
             debugTraces.push({
-                title: makeElementTitle(debugData.debugTrace[i]),
-                lines: trace.slice(1), // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
+                title: cardTitle,
+                lines: cardTitle !== '' ? trace.slice(1) : trace, // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
                 error: debugData.debugTrace[i].error,
                 id: generateGuid()
             });
@@ -135,6 +136,9 @@ export function formatDateHelper(dateTime) {
 export function makeElementTitle(debugTrace) {
     if (debugTrace.elementApiName && !debugTrace.elementType.includes(ELEMENT_ERR_TITLE)) {
         return debugTrace.elementType + ': ' + debugTrace.elementApiName;
+    }
+    if (!debugTrace.elementApiName && !debugTrace.elementType) {
+        return '';
     }
     return debugTrace.elementType;
 }

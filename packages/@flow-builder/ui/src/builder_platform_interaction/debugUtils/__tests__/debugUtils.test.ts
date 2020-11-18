@@ -2,7 +2,10 @@
 import { copyAndUpdateDebugTraceObject, makeElementTitle, formatDateHelper } from '../debugUtils';
 import { LABELS } from '../debugUtilsLabels';
 import { pausedInterview } from 'mock/debugResponse/mock-paused-interview';
-import { completedInterviewWithErrors } from 'mock/debugResponse/mock-completed-interview-errors';
+import {
+    completedInterviewWithErrors,
+    resumedInterviewWithErrors
+} from 'mock/debugResponse/mock-completed-interview-errors';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { errorWithTraceInterview } from 'mock/debugResponse/mock-error-interview';
 
@@ -70,6 +73,20 @@ describe('debug utils', () => {
             expect(len).toBe(pausedInterview.debugTrace.length + 1);
             expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewPausedHeader);
             expect(updatedDebugTraceObject[len - 1].lines[0]).toMatch(LABELS.interviewPaused);
+        });
+    });
+
+    describe('resumed interview', () => {
+        let updatedDebugTraceObject;
+        beforeEach(() => {
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(resumedInterviewWithErrors);
+        });
+
+        it('debug card should display with no title but with content', () => {
+            const len = updatedDebugTraceObject.length;
+            expect(len).toBe(resumedInterviewWithErrors.debugTrace.length + 1);
+            expect(updatedDebugTraceObject[2].title).toMatch('');
+            expect(updatedDebugTraceObject[2].lines[0]).toMatch(resumedInterviewWithErrors.debugTrace[2].lines[0]);
         });
     });
 
