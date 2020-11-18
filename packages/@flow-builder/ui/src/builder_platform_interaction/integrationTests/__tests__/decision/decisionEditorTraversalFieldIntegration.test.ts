@@ -1,6 +1,6 @@
 // @ts-nocheck
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import * as autoLaunchedFlowScheduledJourney from 'mock/flows/autoLaunchedFlowScheduledJourney.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
@@ -49,7 +49,7 @@ describe('Decision Editor', () => {
         describe('Trigger type is not ScheduledJourney and is set', () => {
             let expressionBuilder;
             beforeEach(async () => {
-                await loadFlow(autoLaunchedFlow, store);
+                await loadFlow(scheduleTriggeredFlow, store);
                 const element = getElementByDevName('decision');
                 decisionForPropertyEditor = getElementForPropertyEditor(element);
                 decisionEditor = createComponentForTest(decisionForPropertyEditor);

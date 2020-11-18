@@ -12,8 +12,8 @@ import { flowLegalNameChange } from 'mock/flows/flowLegalNameChange';
 import { deepFindMatchers, goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
-import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
 import { contactRequestFlowUIModel } from 'mock/storeDataContactrequest';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
@@ -282,12 +282,12 @@ describe('Flow Translator', () => {
         });
     });
     it('returns expected ui model for an autolaunched flow', () => {
-        uiFlow = translateFlowToUIModel(autolaunchedFlow);
+        uiFlow = translateFlowToUIModel(scheduleTriggeredFlow);
         store.dispatch(updateFlow(uiFlow));
 
         expect(uiFlow).toEqualGoldObject(
-            autolaunchedFlowUIModel,
-            'autolaunchedFlowUIModel in mock_store_data_autolaunched/autolaunchedFlowUIModel'
+            scheduleTriggeredFlowUIModel,
+            'scheduleTriggeredFlowUIModel in mock_store_data_scheduleTriggered/scheduleTriggeredFlowUIModel'
         );
     });
     it('returns expected ui model for a contact request flow', () => {

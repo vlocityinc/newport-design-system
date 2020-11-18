@@ -27,6 +27,12 @@
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
+  "label" : "Routing Flow",
+  "name" : "RoutingFlow"
+},
+    {
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
   "label" : "Screen Flow",
   "name" : "Flow"
 },

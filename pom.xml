@@ -7,9 +7,9 @@
     <version>230-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.3060</aura.version>
-        <lwc.api.version>0.230.10</lwc.api.version>
-        <lwc.version>1.8.8</lwc.version>
+        <aura.version>0.6000.3071</aura.version>
+        <lwc.api.version>0.230.13</lwc.api.version>
+        <lwc.version>1.9.2-230.1</lwc.version>
         <spring.version>5.2.8.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 

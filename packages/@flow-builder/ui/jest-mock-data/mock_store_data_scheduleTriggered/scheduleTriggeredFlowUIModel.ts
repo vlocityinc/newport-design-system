@@ -1,6 +1,6 @@
 // @ts-nocheck
-// To update autolaunchedFlowUIModel from autoLaunchedFlow, run flowTranslator.test.js and follow instructions
-export const autolaunchedFlowUIModel = {
+// To update scheduleTriggeredFlowUIModel from scheduleTriggeredFlow.json, run flowTranslator.test.js and follow instructions
+export const scheduleTriggeredFlowUIModel = {
     elements: {
         '07fd2a44-4192-4709-888d-8ccc18cb4580': {
             guid: '07fd2a44-4192-4709-888d-8ccc18cb4580',

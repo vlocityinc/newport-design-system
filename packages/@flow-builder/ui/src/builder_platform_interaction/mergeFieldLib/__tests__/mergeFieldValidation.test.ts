@@ -15,7 +15,7 @@ import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/user
 import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { apexTypesForAutoLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForAutoLaunchedFlow.json';
-import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { mockScreenElement } from 'mock/calloutData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -608,7 +608,7 @@ describe('Merge field validation', () => {
         });
         it('Returns no validation error when it references a wait event', () => {
             resetStore();
-            setMockState(autolaunchedFlowUIModel);
+            setMockState(scheduleTriggeredFlowUIModel);
             const validationErrors = validateMergeField('{!waitEvent1}');
             expect(validationErrors).toHaveLength(0);
         });

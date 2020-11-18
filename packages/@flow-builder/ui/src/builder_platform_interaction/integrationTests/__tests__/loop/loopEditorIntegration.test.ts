@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import LoopEditor from 'builder_platform_interaction/loopEditor';
-import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -216,7 +216,7 @@ describe('Loop Editor with processType supporting automatic output', () => {
     let loopNode;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
-        translateFlowToUIAndDispatch(autolaunchedFlow, store);
+        translateFlowToUIAndDispatch(scheduleTriggeredFlow, store);
     });
     afterAll(() => {
         resetState();
@@ -303,7 +303,7 @@ describe('Loop with manual output', () => {
     describe('loop on text collection', () => {
         let textCollection, accounts, textVariable;
         beforeAll(async () => {
-            await setupStateForFlow(autolaunchedFlow);
+            await setupStateForFlow(scheduleTriggeredFlow);
         });
         afterAll(() => {
             resetState();

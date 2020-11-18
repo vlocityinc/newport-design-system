@@ -46,11 +46,6 @@
       "description":"FTEST - File Based Flow Template Basic"
     },
     {
-      "masterLabel":"Naga_Sample_Visit_Strategy",
-      "fullName":"cg_retail__SampleVisitRecommendation",
-      "description":null
-    },
-    {
       "masterLabel":"Reset Password",
       "fullName":"setup_service_experience__Reset_Pwd",
       "description":null

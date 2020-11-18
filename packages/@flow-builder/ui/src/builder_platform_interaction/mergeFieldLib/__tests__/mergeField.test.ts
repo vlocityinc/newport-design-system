@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { resolveReferenceFromIdentifier } from '../mergeField';
 import * as mockStoreData from 'mock/storeData';
-import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { GLOBAL_CONSTANT_OBJECTS, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
@@ -122,7 +122,7 @@ describe('mergeField', () => {
         describe('record system variable identifier', () => {
             beforeEach(() => {
                 Store.resetStore();
-                Store.setMockState(autolaunchedFlowUIModel);
+                Store.setMockState(scheduleTriggeredFlowUIModel);
             });
             afterAll(() => {
                 Store.resetStore();

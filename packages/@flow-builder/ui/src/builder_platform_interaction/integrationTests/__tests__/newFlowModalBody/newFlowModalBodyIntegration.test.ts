@@ -116,8 +116,12 @@ describe('new Flow Modal Body', () => {
                     const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
                     const templateList = getTemplateList(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(7);
-                    // 7 = Blanks(AutoLaunched + BeforeSave + Scheduled + FlowByValue) + 3 templates
+                    const expectedTemplatesCount = templatesForFlowAndAutoLaunchedFlow.filter(
+                        (template) => template.ProcessType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
+                    ).length;
+                    expect(expectedTemplatesCount).toBeGreaterThan(0);
+                    expect(templateItems).toHaveLength(4 + expectedTemplatesCount);
+                    // Blanks(AutoLaunched + BeforeSave + Scheduled + FlowByValue) + number of templates
 
                     const templateItemTitles = Array.from(templateItems).map((templateItem) =>
                         getTemplateItemTitle(templateItem)

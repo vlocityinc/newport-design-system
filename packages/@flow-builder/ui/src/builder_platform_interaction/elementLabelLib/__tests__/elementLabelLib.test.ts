@@ -26,7 +26,7 @@ import {
     loopOnTextCollectionManualOutput,
     loopOnTextCollectionAutomaticOutput,
     loopOnApexTypeCollectionAutoOutput
-} from 'mock/storeDataAutolaunched';
+} from 'mock/storeDataScheduleTriggered';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';

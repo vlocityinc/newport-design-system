@@ -1,5 +1,5 @@
 // @ts-nocheck
-import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getChildComponent, resetState, setupStateForFlow } from '../integrationTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -118,7 +118,7 @@ const getTimeTriggerElement = (timeTriggerEditor, cssClass) => {
 describe('Start Element Editor (context record editor)', () => {
     let contextRecordComponent;
     beforeAll(async () => {
-        await setupStateForFlow(autoLaunchedFlow);
+        await setupStateForFlow(scheduleTriggeredFlow);
     });
     afterAll(() => {
         resetState();

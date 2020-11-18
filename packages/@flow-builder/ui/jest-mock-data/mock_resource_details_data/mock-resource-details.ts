@@ -10,7 +10,7 @@ import {
     loopAccountAutomaticOutput,
     loopOnTextCollectionAutomaticOutput,
     loopOnApexTypeCollectionAutoOutput
-} from 'mock/storeDataAutolaunched';
+} from 'mock/storeDataScheduleTriggered';
 
 /**
  * Extension (ie: Lightning component) screenfield mocked resource details in output automatic mode (email)

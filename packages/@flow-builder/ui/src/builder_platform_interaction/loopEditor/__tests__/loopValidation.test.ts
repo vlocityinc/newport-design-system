@@ -6,7 +6,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { loopReducer } from '../loopReducer';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 
@@ -30,7 +30,7 @@ const validateLoop = (node, elements) => {
 describe('Loop Validation', () => {
     let loopNode, loopForPropertyEditor;
     beforeAll(() => {
-        Store.setMockState(autolaunchedFlowUIModel);
+        Store.setMockState(scheduleTriggeredFlowUIModel);
     });
     afterAll(() => {
         Store.resetStore();

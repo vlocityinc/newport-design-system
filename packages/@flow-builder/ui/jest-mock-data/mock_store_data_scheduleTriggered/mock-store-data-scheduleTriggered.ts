@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { autolaunchedFlowUIModel } from './autolaunchedFlowUIModel';
-export * from './autolaunchedFlowUIModel';
+import { scheduleTriggeredFlowUIModel } from './scheduleTriggeredFlowUIModel';
+export * from './scheduleTriggeredFlowUIModel';
 
 export const getElementByName = (name) => {
-    const elements = autolaunchedFlowUIModel.elements;
+    const elements = scheduleTriggeredFlowUIModel.elements;
     for (const guid in elements) {
         if (elements.hasOwnProperty(guid)) {
             if (elements[guid].name === name) {

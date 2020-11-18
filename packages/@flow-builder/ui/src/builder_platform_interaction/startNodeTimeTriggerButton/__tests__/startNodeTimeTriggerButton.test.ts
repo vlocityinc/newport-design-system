@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import StartNodeTimeTriggerButton from 'builder_platform_interaction/startNodeTimeTriggerButton';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
-import { startElementWithAccountAndNoCondition } from 'mock/storeDataAutolaunched';
+import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
 import { startElement } from 'mock/storeDataRecordTriggered';
 import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

@@ -4,7 +4,7 @@ import StartNodeContextButton from 'builder_platform_interaction/startNodeContex
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
-import { startElementWithAccountAndNoCondition } from 'mock/storeDataAutolaunched';
+import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {

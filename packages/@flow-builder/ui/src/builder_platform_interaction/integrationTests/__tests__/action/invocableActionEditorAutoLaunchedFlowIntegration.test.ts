@@ -21,7 +21,7 @@ import {
     verifyOutputParameter
 } from '../baseCalloutEditorTestUtils';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import { actionPostToChatter } from 'mock/storeDataAutolaunched';
+import { actionPostToChatter } from 'mock/storeDataScheduleTriggered';
 import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
 import { chatterPostActionDetails as mockChatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';

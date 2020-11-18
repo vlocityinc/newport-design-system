@@ -61,17 +61,17 @@
       "elementType":"Start"
     },
     {
-      "labelEdit":"Edit Sort",
+      "labelEdit":"Edit Sort Collection",
       "isElementSubtype":true,
       "color":"background-orange",
       "name":"SortCollectionProcessor",
       "icon":"standard:sort",
-      "description":"Used for sorting Collection Variables",
-      "label":"Sort",
-      "labelNew":"New Sort",
+      "description":"Sort field values in a collection variable",
+      "label":"Sort Collection",
+      "labelNew":"New Sort Collection",
       "classification":"Node",
       "elementType":"CollectionProcessor",
-      "labelPlural":"Sorts",
+      "labelPlural":"Sort Collections",
       "configComponent":"builder_platform_interaction:sortEditor"
     }
   ]

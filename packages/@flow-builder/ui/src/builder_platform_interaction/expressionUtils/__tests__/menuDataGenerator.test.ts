@@ -21,7 +21,7 @@ import {
     loopOnTextCollectionManualOutput,
     loopOnTextCollectionAutomaticOutput,
     loopOnApexTypeCollectionAutoOutput
-} from 'mock/storeDataAutolaunched';
+} from 'mock/storeDataScheduleTriggered';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
