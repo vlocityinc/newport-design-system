@@ -3,6 +3,14 @@ import { createElement } from 'lwc';
 import SortOptionItem from 'builder_platform_interaction/sortOptionItem';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import {
+    setApexClasses,
+    cachePropertiesForClass,
+    getPropertiesForClass
+} from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { APEX_SORT_COMPATIBLE_TYPES } from 'builder_platform_interaction/sortEditorLib';
 import { ComboboxStateChangedEvent, UpdateSortOptionItemEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -47,24 +55,38 @@ const getSortableFields = (account) => {
     return sortableFields;
 };
 
+const getApexClassSortableFields = (apexClassProps) => {
+    const sortableFields = {};
+    const fields = Object.keys(apexClassProps);
+    fields.forEach((field) => {
+        if (
+            !apexClassProps[field].isCollection &&
+            APEX_SORT_COMPATIBLE_TYPES.includes(apexClassProps[field].dataType)
+        ) {
+            sortableFields[field] = Object.assign({}, apexClassProps[field]);
+        }
+    });
+    return sortableFields;
+};
+
 const createComponentUnderTest = ({
     optionIndex = 0,
-    recordEntityName = 'Account',
-    isSobject = true,
+    sobjectOrApexReference = { value: 'Account', isSObject: true },
     doesPutEmptyStringAndNullFirst = false,
     sortField = '',
-    sortOrder = ''
+    sortOrder = '',
+    selectedFields = ['Name', 'BillingCity']
 } = {}) => {
     const el = createElement('builder_platform_interaction-sort-option-item', {
         is: SortOptionItem
     });
     Object.assign(el, {
         optionIndex,
-        recordEntityName,
-        isSobject,
+        sobjectOrApexReference,
         doesPutEmptyStringAndNullFirst,
         sortField,
-        sortOrder
+        sortOrder,
+        selectedFields
     });
     document.body.appendChild(el);
     return el;
@@ -73,7 +95,8 @@ const createComponentUnderTest = ({
 let mockAccountFieldsPromise = Promise.resolve(accountFields);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise)
+    fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise),
+    getEntity: jest.fn().mockImplementation((entityName) => mockEntities.find(({ apiName }) => apiName === entityName))
 }));
 
 describe('sort-option-item', () => {
@@ -100,7 +123,10 @@ describe('sort-option-item', () => {
             it('retrieves fields menu data on initial load that can be sortable', () => {
                 const fieldPicker = getFieldPicker(sortOptionItem);
                 const fields = Object.keys(fieldPicker.fields);
-                expect(fields).toHaveLength(Object.keys(getSortableFields(accountFields)).length);
+                expect(fields).toHaveLength(Object.keys(getSortableFields(accountFields)).length - 2); // exclude 'Name', 'BillingCity'
+                // check 'Name' and 'BillingCity' are not in fields
+                expect(fields).toEqual(expect.not.arrayContaining(['Name']));
+                expect(fields).toEqual(expect.not.arrayContaining(['BillingCity']));
             });
 
             it('contains sort order combobox', () => {
@@ -126,19 +152,86 @@ describe('sort-option-item', () => {
 
         describe('Set the value', () => {
             it('should set field picker value', () => {
-                const fieldPicker = getFieldPicker(createComponentUnderTest({ sortField: 'Description' }));
-                expect(fieldPicker.value).toEqual('Description');
+                const fieldPicker = getFieldPicker(createComponentUnderTest({ sortField: 'BillingCity' }));
+                expect(fieldPicker.value).toEqual('BillingCity');
             });
             it('should set sort order', () => {
                 const sortOrderCombobox = getSortOrderCombobox(
-                    createComponentUnderTest({ sortField: 'Description', sortOrder: 'Asc' })
+                    createComponentUnderTest({ sortField: 'BillingCity', sortOrder: 'Asc' })
                 );
                 expect(sortOrderCombobox.value).toEqual('Asc');
             });
             it('should check to allow null values on top', () => {
                 const nullFirstCheckbox = getNullsFirstCheckbox(
                     createComponentUnderTest({
-                        sortField: 'Description',
+                        sortField: 'BillingCity',
+                        sortOrder: 'Asc',
+                        doesPutEmptyStringAndNullFirst: true
+                    })
+                );
+                expect(nullFirstCheckbox.checked).toBeTruthy();
+            });
+        });
+    });
+
+    describe('When sorting on apex collection', () => {
+        beforeAll(() => {
+            setApexClasses(apexTypesForFlow);
+            cachePropertiesForClass('ApexComplexTypeTestOne216');
+        });
+        afterAll(() => {
+            setApexClasses(null);
+        });
+        describe('Load all sortable fields', () => {
+            let sortOptionItem, apexClassProps;
+            beforeEach(() => {
+                sortOptionItem = createComponentUnderTest({
+                    sobjectOrApexReference: { value: 'ApexComplexTypeTestOne216', isApexClass: true }
+                });
+                apexClassProps = getPropertiesForClass('ApexComplexTypeTestOne216');
+            });
+            it('contains a field picker', () => {
+                const fieldPicker = getFieldPicker(sortOptionItem);
+                expect(fieldPicker).toBeDefined();
+            });
+
+            it('retrieves fields menu data on initial load that can be sortable', () => {
+                const fieldPicker = getFieldPicker(sortOptionItem);
+                const fields = Object.keys(fieldPicker.fields);
+                expect(fields).toHaveLength(Object.keys(getApexClassSortableFields(apexClassProps)).length);
+            });
+
+            it('contains sort order combobox', () => {
+                const sortOrderCombobox = getSortOrderCombobox(sortOptionItem);
+                expect(sortOrderCombobox).toBeDefined();
+            });
+
+            it('contains a checkbox to allow null values on top', () => {
+                const nullFirstCheckbox = getNullsFirstCheckbox(sortOptionItem);
+                expect(nullFirstCheckbox).toBeDefined();
+            });
+        });
+
+        describe('Set the value', () => {
+            it('should set field picker value', () => {
+                const fieldPicker = getFieldPicker(
+                    createComponentUnderTest({
+                        sobjectOrApexReference: { value: 'ApexComplexTypeTestOne216', isApexClass: true },
+                        sortField: 'name'
+                    })
+                );
+                expect(fieldPicker.value).toEqual('name');
+            });
+            it('should set sort order', () => {
+                const sortOrderCombobox = getSortOrderCombobox(
+                    createComponentUnderTest({ sortField: 'name', sortOrder: 'Asc' })
+                );
+                expect(sortOrderCombobox.value).toEqual('Asc');
+            });
+            it('should check to allow null values on top', () => {
+                const nullFirstCheckbox = getNullsFirstCheckbox(
+                    createComponentUnderTest({
+                        sortField: 'name',
                         sortOrder: 'Asc',
                         doesPutEmptyStringAndNullFirst: true
                     })
@@ -152,7 +245,7 @@ describe('sort-option-item', () => {
         describe('Empty sort option', () => {
             let sortOptionItem;
             beforeEach(() => {
-                sortOptionItem = createComponentUnderTest({ isSobject: false });
+                sortOptionItem = createComponentUnderTest({ sobjectOrApexReference: null });
             });
             it('does not contains a field picker', () => {
                 const fieldPicker = getFieldPicker(sortOptionItem);

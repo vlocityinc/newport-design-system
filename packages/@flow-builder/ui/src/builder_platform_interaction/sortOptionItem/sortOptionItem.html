@@ -1,5 +1,5 @@
 <template>
-    <div if:true={isSobject}>
+    <div if:true={isSObjectOrApexClass}>
         <builder_platform_interaction-row
             show-prefix
             item-prefix={itemPrefix}
@@ -49,7 +49,10 @@
             </div>
         </builder_platform_interaction-row>
     </div>
-    <div if:false={isSobject} class="slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small">
+    <div
+        if:false={isSObjectOrApexClass}
+        class="slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small"
+    >
         <lightning-combobox
             label={labels.sortOrder}
             value={sortOrder}

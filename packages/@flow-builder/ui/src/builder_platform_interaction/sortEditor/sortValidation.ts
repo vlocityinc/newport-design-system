@@ -18,9 +18,9 @@ const validateCollectionReference = (collectionReference, elements) => {
  * Validate the queried field.
  * @return {function} the function to be called with each queried field to return the array of rules.
  */
-const validateSortOptions = (isSObject) => {
+const validateSortOptions = (isSObjectOrApexClass) => {
     return () => {
-        if (isSObject) {
+        if (isSObjectOrApexClass) {
             return {
                 sortField: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
                 sortOrder: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
@@ -48,7 +48,7 @@ export const sortValidation = new Validation();
  * @param {boolean} nodeElement.storeOutputAutomatically - current's element is using automatic output handling
  * @return {Object} the overridden rules
  */
-export const getRules = ({ collectionReference, selectedOutput, isSObject }) => {
+export const getRules = ({ collectionReference, selectedOutput, isSObjectOrApexClass }) => {
     const overriddenRules = { ...sortValidation.finalizedRules };
     const elements = Store.getStore().getCurrentState().elements;
     // validate collectionReference
@@ -61,6 +61,6 @@ export const getRules = ({ collectionReference, selectedOutput, isSObject }) => 
         ];
     }
     // validate sort options
-    overriddenRules.sortOptions = validateSortOptions(isSObject);
+    overriddenRules.sortOptions = validateSortOptions(isSObjectOrApexClass);
     return overriddenRules;
 };

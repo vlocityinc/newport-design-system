@@ -3,6 +3,9 @@ import { createElement } from 'lwc';
 import SortOptionList from 'builder_platform_interaction/sortOptionList';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { setApexClasses, cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
@@ -44,15 +47,21 @@ const mockSortOption3 = {
     rowIndex: 'option_3'
 };
 
+const mockApexSortOption = {
+    sortField: { value: 'name', error: null },
+    sortOrder: { value: 'Asc', error: null },
+    doesPutEmptyStringAndNullFirst: false,
+    rowIndex: 'option_1'
+};
+
 const createComponentUnderTest = ({
-    recordEntityName = 'Account',
-    isSobject = true,
+    sobjectOrApexReference = { value: 'Account', isSObject: true },
     sortOptions = [mockEmptySortOption]
 } = {}) => {
     const el = createElement('builder_platform_interaction-sort-option-list', {
         is: SortOptionList
     });
-    Object.assign(el, { recordEntityName, isSobject, sortOptions });
+    Object.assign(el, { sobjectOrApexReference, sortOptions });
     document.body.appendChild(el);
     return el;
 };
@@ -71,7 +80,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 let mockAccountFieldsPromise = Promise.resolve(accountFields);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise)
+    fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise),
+    getEntity: jest.fn().mockImplementation((entityName) => mockEntities.find(({ apiName }) => apiName === entityName))
 }));
 
 const getSortOptionList = (sortOptionListComponent) =>
@@ -116,11 +126,10 @@ describe('sort-option-list', () => {
         Store.resetStore();
     });
 
-    beforeEach(() => {
-        mockAccountFieldsPromise = Promise.resolve(accountFields);
-    });
-
     describe('sorting sObject collections', () => {
+        beforeEach(() => {
+            mockAccountFieldsPromise = Promise.resolve(accountFields);
+        });
         let sortOptionList;
         it('show one empty row in sort options', () => {
             sortOptionList = createComponentUnderTest();
@@ -169,14 +178,47 @@ describe('sort-option-list', () => {
             verifyAddButton(getSortOptionList(sortOptionList), true);
         });
     });
+    describe('sorting apex collections', () => {
+        beforeAll(() => {
+            setApexClasses(apexTypesForFlow);
+            cachePropertiesForClass('ApexComplexTypeTestOne216');
+        });
+        afterAll(() => {
+            setApexClasses(null);
+        });
+        let sortOptionList;
+        it('show one empty row in sort options', () => {
+            sortOptionList = createComponentUnderTest({
+                sobjectOrApexReference: { value: 'ApexComplexTypeTestOne216', isApexClass: true }
+            });
+            const listCmp = getSortOptionList(sortOptionList);
+            expect(listCmp).not.toBeNull();
+            const sortOptions = getSortOptionItems(sortOptionList);
+            expect(sortOptions).toHaveLength(1);
+            verifySortOption(sortOptions[0], mockEmptySortOption);
+            verifyDeleteIcon(sortOptions[0], true);
+            verifyAddButton(listCmp, false);
+        });
+        it('show 1 row in options', () => {
+            sortOptionList = createComponentUnderTest({
+                sobjectOrApexReference: { value: 'ApexComplexTypeTestOne216', isApexClass: true },
+                sortOptions: [mockApexSortOption]
+            });
+            const sortOptions = getSortOptionItems(sortOptionList);
+            expect(sortOptions).toHaveLength(1);
+            verifySortOption(sortOptions[0], mockApexSortOption);
+            verifyDeleteIcon(sortOptions[0], true);
+            verifyAddButton(getSortOptionList(sortOptionList), false);
+        });
+    });
     describe('sorting primitive collections', () => {
         let sortOptionList;
         it('does not show fields', () => {
-            sortOptionList = createComponentUnderTest({ isSobject: false });
+            sortOptionList = createComponentUnderTest({ sobjectOrApexReference: null });
             expect(getSortOptionList(sortOptionList)).toBeNull();
         });
         it('only shows sort order and checkbox to allow null values on top', () => {
-            sortOptionList = createComponentUnderTest({ isSobject: false });
+            sortOptionList = createComponentUnderTest({ sobjectOrApexReference: null });
             const sortOptionsItems = getSortOptionItems(sortOptionList);
             expect(sortOptionsItems).toHaveLength(1);
             expect(getCombobox(sortOptionsItems[0]).value).toEqual(mockEmptySortOption.sortOrder.value);

@@ -3,7 +3,7 @@ import { LABELS } from './sortOptionListLabels';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { AddSortOptionItemEvent, DeleteSortOptionItemEvent } from 'builder_platform_interaction/events';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { SortOption } from 'builder_platform_interaction/sortEditorLib';
+import { SortOption, SObjectOrApexReference, isSObjectOrApexClass } from 'builder_platform_interaction/sortEditorLib';
 
 export default class SortOptionList extends LightningElement {
     labels = LABELS;
@@ -11,13 +11,7 @@ export default class SortOptionList extends LightningElement {
     _sortOptions: SortOption[] = [];
 
     @track
-    _recordEntityName = '';
-
-    /**
-     * true if sorting on sObject collections
-     */
-    @api
-    isSobject;
+    _sObjectOrApexReference: SObjectOrApexReference = { value: null };
 
     /**
      * the maximum rows
@@ -28,25 +22,35 @@ export default class SortOptionList extends LightningElement {
     @api
     queriedFields;
 
+    @track
+    selectedFields: string[] = [];
+
     /**
-     * @param entityName the selected entity name
+     * @param ref the record entity name or apex class name
      */
-    set recordEntityName(entityName: string) {
-        this._recordEntityName = entityName;
+    set sobjectOrApexReference(ref: SObjectOrApexReference) {
+        this._sObjectOrApexReference = ref;
     }
 
     @api
-    get recordEntityName(): string {
-        return this._recordEntityName;
+    get sobjectOrApexReference(): SObjectOrApexReference {
+        return this._sObjectOrApexReference;
     }
 
     /**
      * @param options the selected sort options
      */
     set sortOptions(options: SortOption[]) {
-        this._sortOptions = options;
+        this._sortOptions = options || [];
         // update tooltip on 'Add button'
         this.updateTooltip();
+        // avoid duplicated fields
+        this.selectedFields = [];
+        this._sortOptions.forEach((option) => {
+            if (option.sortField.value) {
+                this.selectedFields.push(option.sortField.value);
+            }
+        });
     }
 
     @api
@@ -54,11 +58,15 @@ export default class SortOptionList extends LightningElement {
         return this._sortOptions;
     }
 
+    get isSObjectOrApexClass() {
+        return isSObjectOrApexClass(this._sObjectOrApexReference);
+    }
+
     /**
      * get the sortOrder and doesPutEmptyStringAndNullFirst when sorting on primitive collections
      */
     get primitiveSortOption(): SortOption {
-        if (!this.isSobject && this.sortOptions.length > 0) {
+        if (!this.isSObjectOrApexClass && this.sortOptions.length > 0) {
             return this.sortOptions[0];
         }
         return hydrateWithErrors({
@@ -72,13 +80,13 @@ export default class SortOptionList extends LightningElement {
      * show delete icon button
      */
     get showDelete(): boolean {
-        return this.isSobject && this._sortOptions.length > 1;
+        return this.isSObjectOrApexClass && this._sortOptions.length > 1;
     }
 
     updateTooltip() {
         const sortList = this.template.querySelector('builder_platform_interaction-list');
         if (sortList) {
-            const addBtn = sortList.shadowRoot.querySelector('.addButton');
+            const addBtn = sortList.shadowRoot.querySelector('lightning-button');
             if (addBtn) {
                 addBtn.title =
                     this._sortOptions.length === this.maxSortFields

@@ -2,11 +2,18 @@ import { LightningElement, api, track } from 'lwc';
 import { sortReducer } from './sortReducer';
 import { LABELS } from './sortEditorLabels';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { CollectionReferenceChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
 import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
-import { SortElement, SortOption, SortOutput } from 'builder_platform_interaction/sortEditorLib';
+import {
+    SortElement,
+    SortOption,
+    SortOutput,
+    SObjectOrApexReference,
+    isSObjectOrApexClass
+} from 'builder_platform_interaction/sortEditorLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByGuidFromState } from 'builder_platform_interaction/storeUtils';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
@@ -29,8 +36,7 @@ export default class SortEditor extends LightningElement {
         sortOptions: []
     };
     @track showOptions = false;
-    @track isSobject = false;
-    @track recordEntityName = '';
+    @track sObjectOrApexReference: SObjectOrApexReference = { value: null };
     @track resourceDisplayText = '';
     @track _sortOptions: SortOption[] = [];
     @track _sortOutput: SortOutput = {
@@ -72,11 +78,23 @@ export default class SortEditor extends LightningElement {
         return LABELS;
     }
 
+    get isSObjectOrApexClass() {
+        return isSObjectOrApexClass(this.sObjectOrApexReference);
+    }
+
     updateSortOptions() {
-        if (this._collectionVariable) {
-            this.isSobject = this._collectionVariable.dataType === 'SObject';
-            this.recordEntityName = this._collectionVariable.subtype;
-            this.resourceDisplayText = this.isSobject ? this._collectionVariable.subtype : null;
+        if (
+            this._collectionVariable &&
+            (this._collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
+                this._collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value)
+        ) {
+            this.sObjectOrApexReference.value = this._collectionVariable.subtype;
+            this.resourceDisplayText = this._collectionVariable.subtype;
+            this.sObjectOrApexReference.isSObject = this._collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
+            this.sObjectOrApexReference.isApexClass = this._collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
+        } else {
+            this.sObjectOrApexReference = { value: null };
+            this.resourceDisplayText = '';
         }
         this._sortOptions = this.sortElement.sortOptions;
     }
@@ -87,7 +105,7 @@ export default class SortEditor extends LightningElement {
     }
 
     updateQueriedFields() {
-        if (this.isSobject && this._collectionVariable) {
+        if (this.isSObjectOrApexClass && this._collectionVariable) {
             const element = getElementByGuidFromState(
                 Store.getStore().getCurrentState(),
                 this._collectionVariable.guid
@@ -150,7 +168,7 @@ export default class SortEditor extends LightningElement {
             type: VALIDATE_ALL,
             collectionReference: this.sortElement.collectionReference.value,
             selectedOutput: this._sortOutput.selectedOutput.value,
-            isSObject: this.isSobject
+            isSObjectOrApexClass: this.isSObjectOrApexClass
         };
         this.sortElement = sortReducer(this.sortElement, event);
         return getErrorsFromHydratedElement(this.sortElement);

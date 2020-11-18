@@ -1,5 +1,5 @@
 <template>
-    <div if:true={isSobject} class="slds-p-top_small slds-size_3-of-4">
+    <div if:true={isSObjectOrApexClass} class="slds-p-top_small slds-size_3-of-4">
         <builder_platform_interaction-list
             items={sortOptions}
             onaddlistitem={handleAddSortOption}
@@ -12,13 +12,13 @@
                     <div class="slds-list__item slds-is-relative" key={sortOption.rowIndex}>
                         <builder_platform_interaction-sort-option-item
                             option-index={optionIndex}
-                            record-entity-name={recordEntityName}
+                            sobject-or-apex-reference={sobjectOrApexReference}
                             sort-field={sortOption.sortField.value}
                             sort-order={sortOption.sortOrder.value}
                             does-put-empty-string-and-null-first={sortOption.doesPutEmptyStringAndNullFirst}
                             error-message={sortOption.sortField.error}
-                            is-sobject
                             queried-fields={queriedFields}
+                            selected-fields={selectedFields}
                             show-delete={showDelete}
                         ></builder_platform_interaction-sort-option-item>
                     </div>
@@ -26,7 +26,7 @@
             </div>
         </builder_platform_interaction-list>
     </div>
-    <div if:false={isSobject} class="slds-p-top_small slds-size_3-of-4">
+    <div if:false={isSObjectOrApexClass} class="slds-p-top_small slds-size_3-of-4">
         <builder_platform_interaction-sort-option-item
             sort-order={primitiveSortOption.sortOrder.value}
             does-put-empty-string-and-null-first={primitiveSortOption.doesPutEmptyStringAndNullFirst}

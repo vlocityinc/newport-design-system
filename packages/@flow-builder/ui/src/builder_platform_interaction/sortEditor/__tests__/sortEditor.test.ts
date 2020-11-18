@@ -48,6 +48,19 @@ const testElementInfoWithSObjectCollection = {
     ]
 };
 
+const testElementInfoWithApexCollection = {
+    collectionReference: { value: 'apexComplexTypeCollectionVariable', error: null },
+    limit: { value: null, error: null },
+    sortOptions: [
+        {
+            sortField: { value: 'name', error: null },
+            sortOrder: { value: 'Asc', erro: null },
+            doesPutEmptyStringAndNullFirst: false,
+            rowIndex: 'r1'
+        }
+    ]
+};
+
 const testElementInfoWithStringCollection = {
     collectionReference: { value: 'stringCollectionVariable1', error: null },
     limit: { value: '3', error: null },
@@ -151,6 +164,34 @@ describe('sort-editor', () => {
                 const sortOptionList = getSortOptionsSection(sortEditor);
                 const sortOptions = getSortOptions(sortOptionList);
                 expect(sortOptions).toHaveLength(2);
+                expect(getFieldPicker(sortOptions[0])).not.toBeNull();
+            });
+            it('should have sort output section', () => {
+                expect(getSortOutputSection(sortEditor)).not.toBeNull();
+            });
+        });
+        describe('Apex Collection', () => {
+            let sortEditor;
+            beforeEach(() => {
+                sortEditor = createComponentUnderTest({ elementInfo: testElementInfoWithApexCollection });
+            });
+            it('should not be null', () => {
+                expect(sortEditor).not.toBeNull();
+            });
+            it('should have the flow collection combobox', () => {
+                expect(getFlowCollection(sortEditor)).not.toBeNull();
+            });
+            it('should have selected flow collection', () => {
+                const flowCollection = getFlowCollection(sortEditor);
+                expect(flowCollection.value.value).toEqual(testElementInfoWithApexCollection.collectionReference.value);
+            });
+            it('should have sort options section', () => {
+                expect(getSortOptionsSection(sortEditor)).not.toBeNull();
+            });
+            it('should have only one sort option', () => {
+                const sortOptionList = getSortOptionsSection(sortEditor);
+                const sortOptions = getSortOptions(sortOptionList);
+                expect(sortOptions).toHaveLength(1);
                 expect(getFieldPicker(sortOptions[0])).not.toBeNull();
             });
             it('should have sort output section', () => {

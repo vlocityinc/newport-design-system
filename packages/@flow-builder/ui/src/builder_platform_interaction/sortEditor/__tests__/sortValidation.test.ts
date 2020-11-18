@@ -69,7 +69,7 @@ describe('Sort Validation', () => {
             const errors = validate(sortEditor.elementInfo, {
                 collectionReference: sortEditor.elementInfo.collectionReference.value,
                 selectedOutput: SORT_OUTPUT_OPTION.ALL,
-                isSObject: true
+                isSObjectOrApexClass: true
             });
             expect(errors).toHaveLength(0);
         });
@@ -81,7 +81,7 @@ describe('Sort Validation', () => {
             const errors = validate(sortEditor.elementInfo, {
                 collectionReference: sortEditor.elementInfo.collectionReference.value,
                 selectedOutput: SORT_OUTPUT_OPTION.ALL,
-                isSObject: true
+                isSObjectOrApexClass: true
             });
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('collectionReference');
@@ -95,7 +95,7 @@ describe('Sort Validation', () => {
             const errors = validate(sortEditor.elementInfo, {
                 collectionReference: sortEditor.elementInfo.collectionReference.value,
                 selectedOutput: SORT_OUTPUT_OPTION.ALL,
-                isSObject: true
+                isSObjectOrApexClass: true
             });
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('sortField');
@@ -109,7 +109,7 @@ describe('Sort Validation', () => {
             const errors = validate(sortEditor.elementInfo, {
                 collectionReference: sortEditor.elementInfo.collectionReference.value,
                 selectedOutput: SORT_OUTPUT_OPTION.CUSTOM,
-                isSObject: true
+                isSObjectOrApexClass: true
             });
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('limit');
@@ -121,7 +121,7 @@ describe('Sort Validation', () => {
             const errors = validate(sortEditor.elementInfo, {
                 collectionReference: sortEditor.elementInfo.collectionReference.value,
                 selectedOutput: SORT_OUTPUT_OPTION.CUSTOM,
-                isSObject: true
+                isSObjectOrApexClass: true
             });
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('limit');

@@ -29,15 +29,29 @@ export interface SortOutput {
     limit: { value: string | null; error: string | null };
 }
 
-export const SORT_COMPATIBLE_TYPES = [
+export interface SObjectOrApexReference {
+    value: string | null;
+    isSObject?: boolean;
+    isApexClass?: boolean;
+}
+
+export const APEX_SORT_COMPATIBLE_TYPES = [
     FLOW_DATA_TYPE.BOOLEAN.value,
     FLOW_DATA_TYPE.CURRENCY.value,
     FLOW_DATA_TYPE.DATE.value,
     FLOW_DATA_TYPE.DATE_TIME.value,
     FLOW_DATA_TYPE.MULTI_PICKLIST.value,
-    FLOW_DATA_TYPE.SOBJECT.value,
     FLOW_DATA_TYPE.NUMBER.value,
     FLOW_DATA_TYPE.PICKLIST.value,
-    FLOW_DATA_TYPE.STRING.value,
-    FLOW_DATA_TYPE.MULTI_PICKLIST.value
+    FLOW_DATA_TYPE.STRING.value
 ];
+
+export const SORT_COMPATIBLE_TYPES = [
+    ...APEX_SORT_COMPATIBLE_TYPES,
+    FLOW_DATA_TYPE.SOBJECT.value,
+    FLOW_DATA_TYPE.APEX.value
+];
+
+export const isSObjectOrApexClass = (sObjectOrApexReference?: SObjectOrApexReference): boolean => {
+    return !!sObjectOrApexReference && (!!sObjectOrApexReference.isSObject || !!sObjectOrApexReference.isApexClass);
+};
