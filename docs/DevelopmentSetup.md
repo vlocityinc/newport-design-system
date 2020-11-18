@@ -4,8 +4,9 @@
 
 1. Install prerequisites
 
-Node.js (version 12.16.2)
-yarn (version >= 1.3.2)
+- Node.js (version 12.16.2)
+- yarn (version >= 1.3.2)
+- git (version >= 2.13.0 : this is necessary for [husky](https://github.com/typicode/husky/tree/master))
 
 Setup nexus/npm as described here: https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=NEXUS&title=Nexus+NPM+Repositories
 
