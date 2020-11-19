@@ -146,25 +146,17 @@ When doing development you need to configure core and point it to where you clon
   </workspace>
 ```
 
-4.  Clean, Sync, Build
-
-Before going further, make sure to stash or save any uncommitted changes you have done in core. Then clean and sync:
-
+4.  Sync, Build, Start the app
 ```sh
-blt --clean-all
-blt --sync force
+corecli core:sync ide:ide -b
 ```
-
-Make sure you don't have any files under `ui-interaction-builder-components`, if you do delete them:
-
+Once your IDE has compiled coreapp, finish the build with 
 ```sh
-rm -rf core/ui-interaction-builder-components
+corecli core:build post plsql
 ```
-
-Then build:
-
+Start the app with 
 ```sh
-blt --build
+corecli core:start
 ```
 
 ### **Important**: Branch Mismatch
