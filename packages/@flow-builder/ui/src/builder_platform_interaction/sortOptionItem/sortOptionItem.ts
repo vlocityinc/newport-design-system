@@ -9,7 +9,6 @@ import {
     isSObjectOrApexClass,
     APEX_SORT_COMPATIBLE_TYPES
 } from 'builder_platform_interaction/sortEditorLib';
-import { format } from 'builder_platform_interaction/commonUtils';
 
 const SORT_ORDER_OPTIONS = [
     {
@@ -160,7 +159,7 @@ export default class SortOptionItem extends LightningElement {
     }
 
     get itemPrefix() {
-        return format(this.labels.sortPrefix, this.optionIndex + 1);
+        return this.optionIndex > 0 ? this.labels.sortPrefix : '';
     }
 
     /**
