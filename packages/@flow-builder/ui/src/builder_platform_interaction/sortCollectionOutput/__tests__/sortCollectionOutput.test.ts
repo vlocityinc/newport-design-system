@@ -9,14 +9,13 @@ import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import { LIGHTNING_COMPONENTS_SELECTORS, changeEvent } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = ({
-    resourceDisplayText = 'Account',
     limit = { value: null, error: null },
     selectedOutput = SORT_OUTPUT_OPTION.ALL
 } = {}) => {
     const el = createElement('builder_platform_interaction-sort-collection-output', {
         is: SortCollectionOutput
     });
-    Object.assign(el, { resourceDisplayText, limit, selectedOutput });
+    Object.assign(el, { limit, selectedOutput });
     document.body.appendChild(el);
     return el;
 };

@@ -37,7 +37,6 @@ export default class SortEditor extends LightningElement {
     };
     @track showOptions = false;
     @track sObjectOrApexReference: SObjectOrApexReference = { value: null };
-    @track resourceDisplayText = '';
     @track _sortOptions: SortOption[] = [];
     @track _sortOutput: SortOutput = {
         selectedOutput: { value: null, error: null },
@@ -89,12 +88,10 @@ export default class SortEditor extends LightningElement {
                 this._collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value)
         ) {
             this.sObjectOrApexReference.value = this._collectionVariable.subtype;
-            this.resourceDisplayText = this._collectionVariable.subtype;
             this.sObjectOrApexReference.isSObject = this._collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value;
             this.sObjectOrApexReference.isApexClass = this._collectionVariable.dataType === FLOW_DATA_TYPE.APEX.value;
         } else {
             this.sObjectOrApexReference = { value: null };
-            this.resourceDisplayText = '';
         }
         this._sortOptions = this.sortElement.sortOptions;
     }
