@@ -93,8 +93,8 @@
             background-color: $solitude-light;
             height: 4rem;
             width: 4rem;
-            --sds-c-icon-color-foreground-default: $biscay;
-            --sds-c-icon-color-background: transparent;
+            fill: $biscay;
+            background: transparent;
         }
 
         /**
@@ -220,9 +220,8 @@
         * @modifier
         */
         &-icon-grandchild {
-            --sds-c-icon-color-foreground-default: #fff;
-            --sds-c-icon-color-foreground: #fff;
-            --sds-c-icon-color-background: transparent;
+            fill: #fff;
+            background: transparent;
             background-color: $blue-background-primary;
             border-color: $blue-background-primary;
         }
@@ -230,8 +229,7 @@
     }
 
     .nds-text-link {
-        --sds-c-icon-color-foreground-default: #0070d2;
-        --sds-c-icon-color-foreground: #0070d2;
+        fill: #0070d2;
     
         &:hover {
             cursor: pointer;
