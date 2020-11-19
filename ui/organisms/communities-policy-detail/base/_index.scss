@@ -32,7 +32,7 @@
         * @modifier
         */
         &-heading {
-            font-size: $font-size-4;
+            font-size: .9rem;
         }
 
         /**
@@ -248,9 +248,7 @@
 @media screen and (max-width: 75rem) {
     .nds-communities-policy-item {
         .nds-communities-price-tooltip {
-            bottom: 2rem;
-            right: 0;
-            left: -1rem;
+            top: -.15rem;
         }
     }
 }    
