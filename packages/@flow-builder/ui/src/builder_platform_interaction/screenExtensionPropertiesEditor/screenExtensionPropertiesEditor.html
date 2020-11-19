@@ -62,6 +62,30 @@
                     </template>
                 </section>
 
+                <div
+                    if:true={isManualOutputDisplayedBeforeAdvancedAccordionSection}
+                    class="slds-m-bottom_small slds-m-top_small outputBeforeAccordion"
+                >
+                    <h3 class="slds-p-left_medium" style="font-size: 3; font-weight: bold;">
+                        {labels.extensionOutputsHeader}
+                    </h3>
+                    <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
+                        <template for:each={state.outputParameters} for:item="param" for:index="index">
+                            <builder_platform_interaction-screen-extension-attribute-editor
+                                key={param.key}
+                                row-index={param.rowIndex}
+                                index={index}
+                                descriptor={param.descriptor}
+                                attribute={param.attribute}
+                                attribute-index={param.index}
+                                attribute-type="output"
+                                disabled={param.disabled}
+                            >
+                            </builder_platform_interaction-screen-extension-attribute-editor>
+                        </template>
+                    </div>
+                </div>
+
                 <template if:true={showExtraSections}>
                     <lightning-accordion
                         allow-multiple-sections-open
@@ -79,11 +103,15 @@
                                 >
                                 </builder_platform_interaction-use-advanced-options-checkbox>
                             </div>
-                            <div if:true={isManualOutputDisplayed} class="slds-m-bottom_small slds-m-top_small">
-                                <h3 class="slds-p-left_medium" style="font-size: 3; font-weight: bold;">
+
+                            <div
+                                if:true={isManualOutputDisplayedInAdvancedAccordionSection}
+                                class="slds-m-bottom_small slds-m-top_small outputInAccordion"
+                            >
+                                <h3 style="font-size: 3; font-weight: bold;">
                                     {labels.extensionOutputsHeader}
                                 </h3>
-                                <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
+                                <div class="slds-m-top_small">
                                     <template for:each={state.outputParameters} for:item="param" for:index="index">
                                         <builder_platform_interaction-screen-extension-attribute-editor
                                             key={param.key}

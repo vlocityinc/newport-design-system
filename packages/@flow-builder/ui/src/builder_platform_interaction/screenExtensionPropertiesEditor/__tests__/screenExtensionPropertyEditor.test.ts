@@ -97,7 +97,9 @@ const SELECTORS = {
     INPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
     OUTPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
     COMPONENT_VISIBILITY: 'builder_platform_interaction-screen-component-visibility-section',
-    H3: 'h3'
+    H3: 'h3',
+    OUTPUT_IN_ACCORDION: '.outputInAccordion',
+    OUTPUT_BEFORE_ACCORDION: '.outputBeforeAccordion'
 };
 
 const DESCRIPTOR_NAME = 'c:requiredAttTestComponent';
@@ -292,6 +294,19 @@ const createComponentForTestWithNoOutput = () => {
     return el;
 };
 
+const createComponentForTestInAdvancedModeWithOutput = () => {
+    const el = createElement('builder_platform_interaction-screen-extension-properties-editor', {
+        is: ScreenExtensionPropertiesEditor
+    });
+    const properties = {};
+    createField(properties, deepCopy(INPUT_PARAMETERS), deepCopy(OUTPUT_PARAMETERS), false);
+    createDescription(properties, deepCopy(DESCRIPTOR_PARAMETERS), deepCopy(DESCRIPTOR_PARAMETERS));
+    Object.assign(el, { processType: 'something' });
+    Object.assign(el, properties);
+    document.body.appendChild(el);
+    return el;
+};
+
 const runTest = async (createFieldRequired, createDescriptionRequired, propertiesProcessor, testCallback) => {
     const properties = {};
     if (createFieldRequired) {
@@ -443,44 +458,32 @@ describe('Screen Extension Properties Editor', () => {
     });
 
     describe('Automated output', () => {
-        it('shows up Use Advanced Options when Automated Output enabled', async () => {
+        it('shows up Use Advanced Options when Automated Output enabled', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
-
-            await Promise.resolve();
-
             const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(extensionEditor);
             expect(useAdvancedOptionsCheckbox).toBeDefined();
             expect(useAdvancedOptionsCheckbox.checked).toBe(false);
         });
-        it('has empty styling on Use Advanced Option component', async () => {
+        it('has empty styling on Use Advanced Option component', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
-
-            await Promise.resolve();
-
             const useAdvancedOptionComponent = getUseAdvancedOptionComponent(extensionEditor);
             const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
             expect(inputParentDivCss.className).toBe('');
         });
-        it('does not show up Use Advanced Options when Automated Output disabled', async () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Unsupported');
+        it('does not show up Use Advanced Options when Automated Output disabled', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn().mockImplementationOnce(() => 'Unsupported');
             const extensionEditor = createComponentForTestWithProperties();
-
-            await Promise.resolve();
-
             expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
         });
         it('handles use advanced option checkbox event', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
             const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
-
             await Promise.resolve();
-
             getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(expectedEvent);
             await Promise.resolve();
-
             expect(screenExtensionPropertiesEventReducer).toHaveBeenCalled();
             expect(screenExtensionPropertiesEventReducer.mock.calls[0][0]).toMatchObject({
                 outputParameters: expect.anything(),
@@ -496,19 +499,27 @@ describe('Screen Extension Properties Editor', () => {
                 useAdvancedOptions: true
             });
         });
-        it('does not show the checkbox up when screen field has no output', async () => {
+        it('does not show the checkbox up when screen field has no output', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
-
-            await ticks(1);
             expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
         });
-        it('does not show the store output variable section when screen field has no output', async () => {
+        it('does not show the store output variable section when screen field has no output', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
-
-            await ticks(1);
             expect(getStoreOutputVariableTitleElement(extensionEditor)).not.toBeDefined();
+        });
+        it('shows up output in advanced section when advanced mode enabled and automatic output is supported', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
+            const extensionEditor = createComponentForTestInAdvancedModeWithOutput();
+            expect(extensionEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_IN_ACCORDION)).not.toBeNull();
+            expect(extensionEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_BEFORE_ACCORDION)).toBeNull();
+        });
+        it('not shows up output in advanced section when advanced mode enabled and automatic output is not supported', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn().mockImplementationOnce(() => 'Unsupported');
+            const extensionEditor = createComponentForTestInAdvancedModeWithOutput();
+            expect(extensionEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_BEFORE_ACCORDION)).not.toBeNull();
+            expect(extensionEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_IN_ACCORDION)).toBeNull();
         });
     });
 

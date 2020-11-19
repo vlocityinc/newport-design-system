@@ -138,8 +138,25 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         return !this.state.storeOutputAutomatically;
     }
 
+    /**
+     * @return {boolean} true : manual output section is displayed
+     */
     get isManualOutputDisplayed() {
         return this.hasOutputs && (!this.isAutomaticOutputHandlingSupported || this.isAdvancedMode);
+    }
+
+    /**
+     * @return {boolean} true : the manual output are displayed in advanced accordion section
+     */
+    get isManualOutputDisplayedInAdvancedAccordionSection() {
+        return this.isManualOutputDisplayed && this.isAutomaticOutputHandlingSupported;
+    }
+
+    /**
+     * @return {boolean} true : the manual output are displayed before advanced accordion section
+     */
+    get isManualOutputDisplayedBeforeAdvancedAccordionSection() {
+        return this.isManualOutputDisplayed && !this.isAutomaticOutputHandlingSupported;
     }
 
     get hasUnboundDynamicTypeMappings() {
