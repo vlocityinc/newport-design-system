@@ -1,6 +1,6 @@
 ## The Work
 
-[@W-xxxxxxxx](https://gus.lightning.force.com/lightning/r/ADM_Work__c/item_number/view)
+[@W-xxxxxxxx](https://gus.my.salesforce.com/apex/ADM_WorkLocator?bugorworknumber=W-xxxxxxxx)
 
 ## Description
 
