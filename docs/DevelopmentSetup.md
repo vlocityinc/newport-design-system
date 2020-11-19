@@ -15,9 +15,10 @@ Note: If you haven't setup SSH Keys before you can look here: https://help.githu
 2. Check that you have the right versions installed:
 
 ```sh
-yarn --version && node --version
+yarn --version && node --version && git --version
 > 1.22.4
 > v12.16.2
+> git version 2.17.1
 ```
 
 To update your node version do: `nvm install v12.16.2 && nvm use v12.16.2)`
