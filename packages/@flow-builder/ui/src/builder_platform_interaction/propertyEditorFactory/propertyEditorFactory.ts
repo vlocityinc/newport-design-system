@@ -62,7 +62,7 @@ export function getElementForStore(element) {
 }
 
 /**
- *  Helper function to get non hydratable properties and hydrate an element with errors
+ * Helper function to get non hydratable properties and hydrate an element with errors
  * @param {Object} element existing element
  * @return {Object} new Element with errors
  */
