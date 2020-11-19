@@ -14,7 +14,7 @@ $nds-communities-text-thin: 100;
 .nds-communities-card {
     background: $blue-background-primary;
     color: $color-text-brand-primary;
-    padding: 4rem 8rem 4rem 8rem;
+    padding: $spacing-xxx-large $spacing-none;
     min-height: 2rem;
 
     .nds-text-heading_large {
