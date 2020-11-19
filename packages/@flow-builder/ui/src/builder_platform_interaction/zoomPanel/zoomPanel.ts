@@ -69,6 +69,7 @@ export default class ZoomPanel extends LightningElement {
     handleToggleMarqueeOn = (event: Event) => {
         event.stopPropagation();
 
+        this.zoomToFitClicked = false;
         const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
         this.dispatchEvent(toggleMarqueeOnEvent);
         logInteraction(`marquee-select-button`, 'zoom-panel', null, 'click');
@@ -122,6 +123,7 @@ export default class ZoomPanel extends LightningElement {
     handleZoomInClick = (event: Event) => {
         event.stopPropagation();
 
+        this.zoomToFitClicked = false;
         this.zoomInClicked = true;
         const action = ZOOM_ACTION.ZOOM_IN;
         const clickToZoomEvent = new ClickToZoomEvent(action);
