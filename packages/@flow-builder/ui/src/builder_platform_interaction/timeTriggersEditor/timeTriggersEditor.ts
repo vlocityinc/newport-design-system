@@ -1,10 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './timeTriggersEditorLabels';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { timeTriggersReducer } from './timeTriggersReducer';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const EMPTY_TIME_TRIGGER_LABEL = LABELS.emptyTimeTriggerLabel;
 const IMMEDIATE_TIME_TRIGGER_LABEL = LABELS.immediateTimeTriggerLabel;
@@ -57,6 +59,22 @@ export default class TimeTriggersEditor extends LightningElement {
         if (!this.activeTimeTriggerId && this.startElement.timeTriggers && this.startElement.timeTriggers.length > 0) {
             this.activeTimeTriggerId = this.startElement.timeTriggers[0].guid;
         }
+    }
+
+    // TODO: We have this exact same LOOKUP in timeTrigger.ts. We should look at moving this
+    // to a central place that both components can use.
+    RECORD_TRIGGER_TYPE_LABEL_LOOKUP = {
+        [FLOW_TRIGGER_SAVE_TYPE.CREATE]: this.labels.recordCreatedTriggerType,
+        [FLOW_TRIGGER_SAVE_TYPE.UPDATE]: this.labels.recordUpdatedTriggerType,
+        [FLOW_TRIGGER_SAVE_TYPE.DELETE]: this.labels.recordDeletedTriggerType,
+        [FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE]: this.labels.recordCreatedOrUpdatedTriggerType
+    };
+
+    get immediateTimeTriggerDetailsLabel() {
+        return format(
+            LABELS.immediateTimeTriggerDetailsDescription2,
+            this.RECORD_TRIGGER_TYPE_LABEL_LOOKUP[getValueFromHydratedItem(this.startElement.recordTriggerType)]
+        );
     }
 
     get timeTriggersWithImmediateTrigger() {

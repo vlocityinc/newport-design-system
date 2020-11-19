@@ -22,14 +22,6 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 });
 
 jest.mock(
-    '@salesforce/label/FlowBuilderCanvasElement.startElementConditionsApplied',
-    () => ({ default: '{0} applied' }),
-    {
-        virtual: true
-    }
-);
-
-jest.mock(
     '@salesforce/label/FlowBuilderCanvasElement.startElementRecordConditions',
     () => ({ default: 'Record Conditions: ' }),
     {
@@ -142,7 +134,7 @@ describe('When flow trigger Type is SCHEDULED', () => {
                     'FlowBuilderCanvasElement.startElementEdit'
                 );
                 expect(runQuerySelector(startNodeContextButtonEditor, selectors.recordConditions).textContent).toBe(
-                    'Record Conditions: 1 applied'
+                    'Record Conditions: 1'
                 );
                 expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
             });

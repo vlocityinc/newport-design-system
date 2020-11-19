@@ -2,7 +2,6 @@
 import { LightningElement, api } from 'lwc';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './startNodeContextButtonLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 import {
     EDIT_START_RECORD_CHANGE_CONTEXT,
     EDIT_START_SCHEDULE_CONTEXT,
@@ -97,8 +96,8 @@ export default class startNodeContextButton extends LightningElement {
         return LABELS.startElementRecordConditions;
     }
 
-    get conditionsAppliedLabel() {
-        return format(LABELS.startElementConditionsApplied, this.node.filters.length);
+    get conditionsLengthLabel() {
+        return this.node.filters.length;
     }
 
     constructor() {

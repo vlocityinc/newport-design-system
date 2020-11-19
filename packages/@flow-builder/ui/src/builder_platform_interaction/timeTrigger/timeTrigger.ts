@@ -54,6 +54,22 @@ export default class TimeTrigger extends LightningElement {
         [FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE]: this.labels.startElementRecordCreatedUpdated
     };
 
+    // TODO: We have this exact same LOOKUP in timeTriggersEditor.ts. We should look at moving this
+    // to a central place that both components can use.
+    RECORD_TRIGGER_TYPE_LABEL_LOOKUP = {
+        [FLOW_TRIGGER_SAVE_TYPE.CREATE]: this.labels.recordCreatedTriggerType,
+        [FLOW_TRIGGER_SAVE_TYPE.UPDATE]: this.labels.recordUpdatedTriggerType,
+        [FLOW_TRIGGER_SAVE_TYPE.DELETE]: this.labels.recordDeletedTriggerType,
+        [FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE]: this.labels.recordCreatedOrUpdatedTriggerType
+    };
+
+    get timeTriggerDescriptionLabel() {
+        return format(
+            LABELS.scheduledPathDescription,
+            this.RECORD_TRIGGER_TYPE_LABEL_LOOKUP[getValueFromHydratedItem(this.recordTriggerType)]
+        );
+    }
+
     get timeSourceValue() {
         return getValueFromHydratedItem(this.timeTrigger.timeSource);
     }

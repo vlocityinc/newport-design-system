@@ -1,7 +1,7 @@
 <template>
     <h3 class="slds-shrink-none slds-grid_vertical-align-start">
         <div class="slds-text-color_weak slds-text-body_small">
-            {labels.scheduledPathDescription}
+            {timeTriggerDescriptionLabel}
         </div>
     </h3>
     <div class="slds-m-top_x-large">
@@ -38,6 +38,7 @@
                 dropdown-alignment="auto"
                 options={timeSourceOptions}
                 required
+                placeholder={labels.timeSourcePlaceholderLabel}
             ></lightning-combobox>
         </div>
         <div

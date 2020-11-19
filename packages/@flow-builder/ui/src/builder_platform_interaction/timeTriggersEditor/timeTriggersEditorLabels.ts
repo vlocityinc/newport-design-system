@@ -4,9 +4,12 @@ import timeTriggerListHeader from '@salesforce/label/FlowBuilderStartEditor.time
 import timeTriggerListHelpText from '@salesforce/label/FlowBuilderStartEditor.timeTriggerListHelpText';
 import addTimeTriggerButtonLabel from '@salesforce/label/FlowBuilderStartEditor.addTimeTriggerButtonLabel';
 import immediateTimeTriggerLabel from '@salesforce/label/FlowBuilderStartEditor.immediateTimeTriggerLabel';
-import immediateTimeTriggerSectionDescription from '@salesforce/label/FlowBuilderTimeTrigger.immediateTimeTriggerSectionDescription';
 import immediateTimeTriggerDetailsDescription1 from '@salesforce/label/FlowBuilderTimeTrigger.immediateTimeTriggerDetailsDescription1';
 import immediateTimeTriggerDetailsDescription2 from '@salesforce/label/FlowBuilderTimeTrigger.immediateTimeTriggerDetailsDescription2';
+import recordCreatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordCreatedTriggerType';
+import recordUpdatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordUpdatedTriggerType';
+import recordCreatedOrUpdatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordCreatedOrUpdatedTriggerType';
+import recordDeletedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordDeletedTriggerType';
 
 export const LABELS = {
     emptyTimeTriggerLabel,
@@ -14,7 +17,10 @@ export const LABELS = {
     timeTriggerListHelpText,
     addTimeTriggerButtonLabel,
     immediateTimeTriggerLabel,
-    immediateTimeTriggerSectionDescription,
     immediateTimeTriggerDetailsDescription1,
-    immediateTimeTriggerDetailsDescription2
+    immediateTimeTriggerDetailsDescription2,
+    recordCreatedTriggerType,
+    recordUpdatedTriggerType,
+    recordCreatedOrUpdatedTriggerType,
+    recordDeletedTriggerType
 };

@@ -5,7 +5,6 @@ import startElementOptional from '@salesforce/label/FlowBuilderCanvasElement.sta
 import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startElementEdit';
 import startElementObject from '@salesforce/label/FlowBuilderCanvasElement.startElementObject';
 import startElementRecordConditions from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordConditions';
-import startElementConditionsApplied from '@salesforce/label/FlowBuilderCanvasElement.startElementConditionsApplied';
 
 export const LABELS = {
     startElementChooseObject,
@@ -13,6 +12,5 @@ export const LABELS = {
     startElementOptional,
     startElementEdit,
     startElementObject,
-    startElementRecordConditions,
-    startElementConditionsApplied
+    startElementRecordConditions
 };

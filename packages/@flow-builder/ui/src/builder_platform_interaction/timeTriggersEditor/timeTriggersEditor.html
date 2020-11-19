@@ -23,15 +23,10 @@
         </builder_platform_interaction-reorderable-vertical-navigation>
         <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
             <div if:true={isImmediateTimeTrigger} class="test-immediate-time-trigger">
-                <h3 class="slds-shrink-none slds-grid_vertical-align-start">
-                    <div class="slds-text-color_weak slds-text-body_small">
-                        {labels.immediateTimeTriggerSectionDescription}
-                    </div>
-                </h3>
                 <builder_platform_interaction-illustration
                     illustration="lakeMountain"
                     title={labels.immediateTimeTriggerDetailsDescription1}
-                    body={labels.immediateTimeTriggerDetailsDescription2}
+                    body={immediateTimeTriggerDetailsLabel}
                 ></builder_platform_interaction-illustration>
             </div>
             <builder_platform_interaction-time-trigger
