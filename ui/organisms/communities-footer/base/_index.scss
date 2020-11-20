@@ -12,7 +12,7 @@
     background-color: $biscay;
     min-height: 36rem;
     color: $white;
-    padding: 5.5rem 8rem 8rem 7rem;
+    padding: 5.5rem $spacing-none;
 
     /**
       * @summary Class that contains the body of the footer
@@ -97,10 +97,9 @@
         opacity: 1;
         height: auto;
     }
+   
 }
-
 @media screen and (max-width: 76rem) {
-    
     .nds-communities-footer {
         padding: $spacing-none $spacing-none $spacing-xx-large $spacing-none;
         min-height: 0;
