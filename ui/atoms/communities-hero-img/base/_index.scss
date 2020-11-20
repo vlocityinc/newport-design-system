@@ -8,11 +8,13 @@
  * @selector .nds-hero
  * @modifier
  */
+ .nds-communities-card {
  .nds-hero {
-    &_containerInner{
+    &_container-inner{
         max-width: 80rem;
         margin: $spacing-none auto;
      }
  }
+}
  
 

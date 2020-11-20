@@ -2,7 +2,7 @@
 * @selector .nds-text-heading
 * @modifier
 */
-
+.nds-communities-card {
 .nds-text {
     &-heading_large {
         font-size: $font-size-7;
@@ -47,4 +47,5 @@
 
 .nds-font-size-xxx-large {
     font-size: $font-size-xxx-large;
+}
 }
