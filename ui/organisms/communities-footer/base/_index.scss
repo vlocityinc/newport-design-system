@@ -97,36 +97,7 @@
         opacity: 1;
         height: auto;
     }
-    &.ins-footer-mobile {
-        display: none;
-        .label-color-onexpand {
-            color: $color-text-brand-primary;
-        }
-        .blockSlot {
-            margin-left: $font-size-x-large-a;
-        }
-        .blockLabel:before {
-            content: "-";
-            font-size: $font-size-x-large-a;
-            margin-right: $spacing-medium;
-            position: relative;
-            top: 0.1rem;
-            font-weight: bold;
-        }
-        .blockLabel.label-color-onexpand:before {
-            content: "+";
-        }
-        .nds-icon {
-            display: none;
-        }
-    }
-}
-@media screen and (max-width: 767px) {
-    .nds-communities-footer {
-        &.ins-footer-mobile {
-            display: block;
-        }
-    }
+   
 }
 @media screen and (max-width: 76rem) {
     .nds-communities-footer {
