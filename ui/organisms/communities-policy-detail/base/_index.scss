@@ -93,18 +93,8 @@
             background-color: $solitude-light;
             height: 4rem;
             width: 4rem;
-        }
-
-        /**
-        * @summary Styles for grandchild icon
-        *
-        * @name nds-communities-icon-grandchild
-        * @selector .nds-communities-icon-grandchild
-        * @modifier
-        */
-        &-icon-grandchild {
-            background-color: $blue-background-primary;
-            border-color: $blue-background-primary;
+            fill: $biscay;
+            background: transparent;
         }
 
         /**
@@ -200,23 +190,6 @@
         }
 
         /**
-        * @summary Styles for price tooltip
-        *
-        * @name nds-communities-price-tooltip
-        * @selector .nds-communities-price-tooltip
-        * @modifier
-        */
-        &-price-tooltip {
-            position: absolute;
-            max-width: 20rem;
-            width: max-content;
-            bottom: 2rem;
-            right: -1rem;
-            text-align: left;
-            display: none;
-        }
-
-        /**
         * @summary Styles for price icon tooltip
         *
         * @name nds-communities-price-icon
@@ -238,17 +211,50 @@
             position: relative;
             top: -0.25rem;
         }
+
+         /**
+        * @summary Styles for grandchild icon
+        *
+        * @name nds-communities-icon-grandchild
+        * @selector .nds-communities-icon-grandchild
+        * @modifier
+        */
+        &-icon-grandchild {
+            fill: #fff;
+            background: transparent;
+            background-color: $blue-background-primary;
+            border-color: $blue-background-primary;
+        }
+
     }
 
-    .nds-text-link:hover {
-        cursor: pointer;
+    .nds-text-link {
+        fill: #0070d2;
+    
+        &:hover {
+            cursor: pointer;
+        }
     }
+}
+
+.nds-communities-policy-list-container {
+    display: none;
 }
 
 @media screen and (max-width: 75rem) {
     .nds-communities-policy-item {
+        /**
+        * @summary Styles for price tooltip
+        *
+        * @name nds-communities-price-tooltip
+        * @selector .nds-communities-price-tooltip
+        * @modifier
+        */
         .nds-communities-price-tooltip {
             top: -.15rem;
         }
+    }
+    .nds-communities-policy-list-container {
+        display: block;
     }
 }    
