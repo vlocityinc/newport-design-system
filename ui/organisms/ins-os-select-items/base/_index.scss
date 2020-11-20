@@ -15,13 +15,15 @@
         border-radius: $border-radius-medium;
         box-shadow: $offset-none ($offset-x-small) + px $offset-none $offset-none $black-transparent-10;
     }
-    .nds-card--header__title {
+    .nds-card--header__title,
+    .nds-card_header__title {
         font-weight: $font-weight-regular;
     }
     .nds-selected-item-icon {
         display: none;
     }
-    .nds-card--header.nds-selected {
+    .nds-card--header.nds-selected,
+    .nds-card_header.nds-selected {
         box-shadow: ($offset-x-small) + px ($offset-x-small) + px ($offset-x-small) + px $blue-background-primary;
         .nds-selected-item-icon {
             display: block;
