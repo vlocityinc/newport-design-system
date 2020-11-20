@@ -3,6 +3,7 @@
 
 $nds-communities-text-bold: 500; 
 $nds-communities-text-thin: 100; 
+$nds-communities-box-shadow: -1px -1px 2px 0 rgba(22,50,92,0.08), 1px 2px 4px 0 rgba(22,50,92,0.08), 0 2px 16px 0 rgba(26,80,155,0.10);
 
 /**
  * @summary Initializes a card for community
@@ -43,6 +44,13 @@ $nds-communities-text-thin: 100;
     .nds-button__icon {
         fill: $white;
         margin-bottom: $spacing-xx-small;
+    }
+
+    &__bordered {
+        width: 100%; 
+        border: $border-width-thin solid $newport-border-gray;
+        border-radius: $border-radius-large;
+        box-shadow: $nds-communities-box-shadow;
     }
 }
 
