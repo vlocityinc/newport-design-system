@@ -116,7 +116,7 @@ When doing development you need to configure core and point it to where you clon
         <repository.system.validation>DISABLED</repository.system.validation>
         <modularity.enforcer.disabled>true</modularity.enforcer.disabled>
         <skipJsDoc>true</skipJsDoc>
-        <ui-interaction-builder-components.version>226-SNAPSHOT</ui-interaction-builder-components.version>
+        <ui-interaction-builder-components.version>`CURRENT_RELEASE_NUMBER`-SNAPSHOT</ui-interaction-builder-components.version>
       </properties>
     ```
 
@@ -141,7 +141,7 @@ When doing development you need to configure core and point it to where you clon
           <repository.system.validation>DISABLED</repository.system.validation>
           <modularity.enforcer.disabled>true</modularity.enforcer.disabled>
           <skipJsDoc>true</skipJsDoc>
-          <ui-interaction-builder-components.version>226-SNAPSHOT</ui-interaction-builder-components.version>
+          <ui-interaction-builder-components.version>`CURRENT_RELEASE_NUMBER`-SNAPSHOT</ui-interaction-builder-components.version>
       </properties>
   </workspace>
 ```
