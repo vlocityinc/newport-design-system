@@ -1,5 +1,12 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, baseCanvasElementsArrayToMap, baseChildElement, createCondition } from './base/baseElement';
+import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap,
+    baseChildElement,
+    createCondition,
+    createPastedCanvasElement,
+    duplicateCanvasElementWithChildElements
+} from './base/baseElement';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
@@ -64,23 +71,49 @@ export function createSteppedStageWithItems(existingStage: SteppedStage): Steppe
  *
  * @param dataForPasting - Data required to create the pasted element
  */
-// export function createPastedSteppedStage({
-//     canvasElementToPaste: SteppedStage,
-//     // newGuid,
-//     // newName,
-//     // canvasElementGuidMap,
-//     // childElementGuidMap,
-//     // childElementNameMap,
-//     // cutOrCopiedChildElements,
-//     // topCutOrCopiedGuid,
-//     // bottomCutOrCopiedGuid,
-//     // prev,
-//     // next,
-//     // parent,
-//     // childIndex
-// }): {pastedCanvasElement: SteppedStage, pastedChildElements: object[]} {
-//     throw new Error('Not yet implemented');
-// }
+export function createPastedSteppedStage({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    childElementGuidMap,
+    childElementNameMap,
+    cutOrCopiedChildElements,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}): { pastedCanvasElement: SteppedStage; pastedChildElements: Map<Guid, SteppedStageItem> } {
+    const { duplicatedElement, duplicatedChildElements } = createDuplicateSteppedStage(
+        canvasElementToPaste,
+        newGuid,
+        newName,
+        childElementGuidMap,
+        childElementNameMap,
+        cutOrCopiedChildElements
+    );
+
+    const pastedCanvasElement = <SteppedStage>(
+        createPastedCanvasElement(
+            duplicatedElement,
+            canvasElementGuidMap,
+            topCutOrCopiedGuid,
+            bottomCutOrCopiedGuid,
+            prev,
+            next,
+            parent,
+            childIndex
+        )
+    );
+    pastedCanvasElement.steps = [];
+
+    return {
+        pastedCanvasElement,
+        pastedChildElements: duplicatedChildElements
+    };
+}
 
 /**
  * Function to create the duplicate Decision element
@@ -95,19 +128,42 @@ export function createSteppedStageWithItems(existingStage: SteppedStage): Steppe
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-// export function createDuplicateSteppedStage(
-//     steppedStage: SteppedStage,
-//     newGuid: Guid,
-//     newName: string,
-//     childElementGuidMap: any,
-//     childElementNameMap: any,
-//     cutOrCopiedChildElements: object[]
-// ): {
-//     duplicatedElement: SteppedStage
-//     duplicatedChildElements: object[]
-// } {
-//     throw new Error('Not yet implemented');
-// }
+export function createDuplicateSteppedStage(
+    steppedStage: SteppedStage,
+    newGuid: Guid,
+    newName: string,
+    childElementGuidMap: any,
+    childElementNameMap: any,
+    cutOrCopiedChildElements: object[]
+): {
+    duplicatedElement: SteppedStage;
+    duplicatedChildElements: Map<Guid, SteppedStageItem>;
+} {
+    const {
+        duplicatedElement,
+        duplicatedChildElements,
+        updatedChildReferences,
+        availableConnections
+    } = duplicateCanvasElementWithChildElements(
+        steppedStage,
+        newGuid,
+        newName,
+        childElementGuidMap,
+        childElementNameMap,
+        cutOrCopiedChildElements,
+        createSteppedStageItem
+    );
+
+    const updatedDuplicatedElement = Object.assign(duplicatedElement, {
+        steps: [],
+        childReferences: updatedChildReferences,
+        availableConnections
+    });
+    return {
+        duplicatedElement: updatedDuplicatedElement,
+        duplicatedChildElements: <Map<Guid, SteppedStageItem>>duplicatedChildElements
+    };
+}
 
 function createSteppedStageItemsWithReferences(
     originalItems: SteppedStageItem[]

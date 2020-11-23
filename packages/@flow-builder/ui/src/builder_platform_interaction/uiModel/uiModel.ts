@@ -168,6 +168,7 @@ export interface ElementConfig {
     canHaveDefaultConnector?: boolean;
     canHaveFaultConnector?: boolean;
     canvasElement?: boolean;
+    areChildElementsSupported?: boolean;
     childReferenceKey?: { [key: string]: string };
     color?: string;
     description?: string;

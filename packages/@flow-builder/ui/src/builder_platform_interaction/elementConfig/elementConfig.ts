@@ -125,11 +125,9 @@ import {
     createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
     createSteppedStageWithItemReferences,
     getSteps,
-    createSteppedStageItem
-
-    // TODO: Next app Process SteppedStage PR
-    //    createPastedSteppedStage,
-    //    createDuplicateSteppedStage,
+    createSteppedStageItem,
+    createPastedSteppedStage,
+    createDuplicateSteppedStage
 } from 'builder_platform_interaction/elementFactory';
 import { ElementConfig } from 'builder_platform_interaction/uiModel';
 
@@ -1074,14 +1072,13 @@ export const elementTypeToConfigMap: {
             plural: getChildReferencesKeys().plural
         },
         canvasElement: true,
+        areChildElementsSupported: true,
         nonHydratableProperties: [],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createSteppedStageWithItems,
-            // TODO: future PR
-            pasteElement: undefined, // createPastedSteppedStage,
-            // TODO: future PR
-            duplicateElement: undefined, // createDuplicateSteppedStage,
+            pasteElement: createPastedSteppedStage,
+            duplicateElement: createDuplicateSteppedStage,
             closePropertyEditor: createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createSteppedStageMetadataObject,
             flowToUi: createSteppedStageWithItemReferences

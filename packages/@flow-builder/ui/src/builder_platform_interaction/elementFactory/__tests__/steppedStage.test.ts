@@ -12,10 +12,18 @@ import {
     createSteppedStageWithItemReferences,
     createSteppedStageMetadataObject,
     getSteps,
-    getOtherItemsInSteppedStage
+    getOtherItemsInSteppedStage,
+    createDuplicateSteppedStage,
+    createPastedSteppedStage
 } from '../steppedStage';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    baseCanvasElement,
+    baseChildElement,
+    baseCanvasElementsArrayToMap,
+    createPastedCanvasElement,
+    duplicateCanvasElementWithChildElements
+} from '../base/baseElement';
 import { ParameterListRowItem } from '../base/baseList';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
@@ -98,6 +106,46 @@ baseChildElement
         return Object.assign({}, outcome);
     })
     .mockName('baseChildElementMock');
+
+createPastedCanvasElement
+    .mockImplementation((duplicatedElement) => {
+        return duplicatedElement;
+    })
+    .mockName('createPastedCanvasElementMock');
+duplicateCanvasElementWithChildElements
+    .mockImplementation(() => {
+        const duplicatedElement = {};
+        const duplicatedChildElements = {
+            duplicatedSteppedStageItemGuid: {
+                guid: 'duplicatedSteppedStageItemGuid',
+                name: 'duplicatedSteppedStageItemName'
+            }
+        };
+        const updatedChildReferences = [
+            {
+                childReference: 'duplicatedSteppedStageItemGuid'
+            }
+        ];
+        const availableConnections = [
+            {
+                type: CONNECTOR_TYPE.DEFAULT
+            }
+        ];
+
+        return {
+            duplicatedElement,
+            duplicatedChildElements,
+            updatedChildReferences,
+            availableConnections
+        };
+    })
+    .mockName('duplicateCanvasElementWithChildElementsMock');
+baseChildElement
+    .mockImplementation((outcome) => {
+        return Object.assign({}, outcome);
+    })
+    .mockName('baseChildElementMock');
+
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
 
 jest.mock('../base/baseMetadata');
@@ -498,6 +546,75 @@ describe('SteppedStage', () => {
 
             expect(data).toHaveLength(1);
             expect(data[0]).toMatchObject({ guid: 'existingItem2' });
+        });
+    });
+
+    describe('createPastedSteppedStage function', () => {
+        const dataForPasting = {
+            canvasElementToPaste: {},
+            newGuid: 'updatedSSGuid',
+            newName: 'updatedSSName',
+            childElementGuidMap: {},
+            childElementNameMap: {},
+            cutOrCopiedChildElements: {}
+        };
+
+        const { pastedCanvasElement, pastedChildElements } = createPastedSteppedStage(dataForPasting);
+
+        it('pastedCanvasElement in the result should have the updated childReferences', () => {
+            expect(pastedCanvasElement.childReferences).toEqual([
+                {
+                    childReference: 'duplicatedSteppedStageItemGuid'
+                }
+            ]);
+        });
+        it('pastedCanvasElement has updated availableConnections', () => {
+            expect(pastedCanvasElement.availableConnections).toEqual([
+                {
+                    type: CONNECTOR_TYPE.DEFAULT
+                }
+            ]);
+        });
+        it('returns correct pastedChildElements', () => {
+            expect(pastedChildElements).toEqual({
+                duplicatedSteppedStageItemGuid: {
+                    guid: 'duplicatedSteppedStageItemGuid',
+                    name: 'duplicatedSteppedStageItemName'
+                }
+            });
+        });
+    });
+
+    describe('createDuplicateSteppedStage function', () => {
+        const { duplicatedElement, duplicatedChildElements } = createDuplicateSteppedStage(
+            {},
+            'duplicatedGuid',
+            'duplicatedName',
+            {},
+            {}
+        );
+
+        it('duplicatedElement has updated childReferences', () => {
+            expect(duplicatedElement.childReferences).toEqual([
+                {
+                    childReference: 'duplicatedSteppedStageItemGuid'
+                }
+            ]);
+        });
+        it('duplicatedElement has updated availableConnections', () => {
+            expect(duplicatedElement.availableConnections).toEqual([
+                {
+                    type: CONNECTOR_TYPE.DEFAULT
+                }
+            ]);
+        });
+        it('returns correct duplicatedChildElements', () => {
+            expect(duplicatedChildElements).toEqual({
+                duplicatedSteppedStageItemGuid: {
+                    guid: 'duplicatedSteppedStageItemGuid',
+                    name: 'duplicatedSteppedStageItemName'
+                }
+            });
         });
     });
 });

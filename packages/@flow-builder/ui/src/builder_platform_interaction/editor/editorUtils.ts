@@ -384,7 +384,8 @@ const hasChildElements = (canvasElement) => {
         canvasElement.elementType &&
         (canvasElement.elementType === ELEMENT_TYPE.SCREEN ||
             canvasElement.elementType === ELEMENT_TYPE.DECISION ||
-            canvasElement.elementType === ELEMENT_TYPE.WAIT)
+            canvasElement.elementType === ELEMENT_TYPE.WAIT ||
+            getConfigForElementType(canvasElement.elementType).areChildElementsSupported)
     );
 };
 
