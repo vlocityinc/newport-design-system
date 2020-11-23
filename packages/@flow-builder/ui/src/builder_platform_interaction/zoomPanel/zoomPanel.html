@@ -23,7 +23,8 @@
                 onclick={handleZoomOutClick}
                 ondblclick={handleZoomOutClick}
                 class="zoomOutButton"
-            ></lightning-button-icon>
+            >
+            </lightning-button-icon>
             <lightning-button-icon
                 variant="border-filled"
                 if:true={isZoomToView}
@@ -53,6 +54,7 @@
                 alternative-text={labels.zoomInTitle}
                 onclick={handleZoomInClick}
                 ondblclick={handleZoomInClick}
+                class="zoomInButton"
             ></lightning-button-icon>
         </lightning-button-group>
     </div>
