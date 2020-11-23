@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Guid } from 'builder_platform_interaction/flowModel';
+import { Guid } from 'builder_platform_interaction/uiModel';
 import { MERGE_WARNING_TYPE, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 /**

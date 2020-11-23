@@ -140,7 +140,7 @@ import {
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
-import { FlowElement, Guid } from 'builder_platform_interaction/flowModel';
+import { ElementUi, Guid } from 'builder_platform_interaction/uiModel';
 
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
 const {
@@ -178,7 +178,7 @@ const EDITOR_COMPONENT_CONFIGS = {
 
 type NodeWithParent = {
     elementType: ELEMENT_TYPE;
-    element: FlowElement;
+    element: ElementUi;
     parentGuid: Guid;
 };
 /**
@@ -1993,14 +1993,14 @@ export default class Editor extends LightningElement {
      * @param parentGuid Needed when adding a non-canvas child element (SteppedStageItem, Outcome, etc...)
      * directly from the canvas so we know where to add it
      */
-    deMutateAndAddNodeCollection = (node: FlowElement, parentGuid: Guid) => {
+    deMutateAndAddNodeCollection = (node: ElementUi, parentGuid: Guid) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
-        const nodeForStore: FlowElement = getElementForStore(node);
+        const nodeForStore: ElementUi = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
 
-        let payload: FlowElement | NodeWithParent = nodeForStore;
+        let payload: ElementUi | NodeWithParent = nodeForStore;
 
         // This is a non-canvas child element being added directly on the canvas
         if (!nodeForStore.canvasElement && parentGuid) {
@@ -2016,7 +2016,7 @@ export default class Editor extends LightningElement {
     /**
      * Dispatch add element event and log it
      */
-    dispatchAddElement(element: FlowElement | NodeWithParent) {
+    dispatchAddElement(element: ElementUi | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
         logInteraction(`add-node-of-type-${element.elementType}`, 'modal', null, 'click');
     }

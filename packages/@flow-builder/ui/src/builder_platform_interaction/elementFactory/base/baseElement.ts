@@ -12,15 +12,16 @@ import {
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
     ChildElement,
-    FlowElement,
-    CanvasElementConfig,
+    ElementUi,
     BaseCanvasElement,
+    CanvasElementConfig,
     CanvasElement,
     AutoLayoutCanvasElement,
-    FlowConnector,
+    ConnectorUi,
     ChildReference,
     Guid
-} from 'builder_platform_interaction/flowModel';
+} from 'builder_platform_interaction/uiModel';
+import { ElementMetadata } from 'builder_platform_interaction/metadataModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -35,7 +36,7 @@ export const INCOMPLETE_ELEMENT = Symbol('incomplete');
  *
  * @param resource
  */
-export function baseResource(resource: { description?: string } = {}): FlowElement {
+export function baseResource(resource: { description?: string } = {}): ElementUi {
     const newResource = baseElement(resource);
     const { description = '' } = resource;
     return Object.assign(newResource, {
@@ -83,10 +84,12 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
     Object.assign(newCanvasElement, { next, prev });
 }
 
-export function baseCanvasElement(canvasElement: any = {}): BaseCanvasElement {
+export function baseCanvasElement(canvasElement: ElementMetadata | BaseCanvasElement = {}): ElementUi {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = canvasElement;
-    let { config } = canvasElement;
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = <BaseCanvasElement>(
+        canvasElement
+    );
+    let { config } = <BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
 
     if (shouldUseAutoLayoutCanvas()) {
@@ -405,14 +408,14 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     });
 }
 
-export function baseCanvasElementsArrayToMap(elementList: FlowElement[] = [], connectors: FlowConnector[] = []) {
+export function baseCanvasElementsArrayToMap(elementList: ElementUi[] = [], connectors: ConnectorUi[] = []) {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
         connectors
     });
 }
 
-export function baseElementsArrayToMap(elementList: FlowElement[] = []) {
+export function baseElementsArrayToMap(elementList: ElementUi[] = []) {
     const elements = elementList.reduce((acc, element) => {
         return Object.assign(acc, { [element.guid]: element });
     }, {});
@@ -422,10 +425,11 @@ export function baseElementsArrayToMap(elementList: FlowElement[] = []) {
 }
 
 /*
- * TODO: This method does not return an elementType.  It should.
- *  When it does, Element.elementType should no longer be optional
+ * TODO: @W-8485367 : This function should not have any as para type
+ * but should have instead : { guid: Guid, name: string }
+ * This will imply modification to function baseResource
  */
-export function baseElement(element: any = {}): FlowElement {
+export function baseElement(element: any = {}): ElementUi {
     const { guid = generateGuid(), name = '' } = element;
     return {
         guid,
@@ -441,7 +445,7 @@ export const automaticOutputHandlingSupport = (): boolean => {
 
 export function updateChildReferences(
     childReferences: ChildReference[] = [],
-    canvasElementChild: FlowElement
+    canvasElementChild: ElementUi
 ): ChildReference[] {
     if (!canvasElementChild || !canvasElementChild.guid) {
         throw new Error('Either canvasElementChild or canvasElementChild.guid not defined');
@@ -456,13 +460,13 @@ export function updateChildReferences(
 
 export function getUpdatedChildrenAndDeletedChildrenUsingStore(
     originalCanvasElement: AutoLayoutCanvasElement,
-    canvasElementChildren: FlowElement[] = []
+    canvasElementChildren: ElementUi[] = []
 ): { newChildren: ChildElement[]; deletedCanvasElementChildren: ChildElement[]; deletedBranchHeadGuids: Guid[] } {
     if (!originalCanvasElement) {
         throw new Error('Canvas Element is not defined');
     }
     const { guid, children } = originalCanvasElement;
-    const canvasElementFromStore: (FlowElement & { childReferences }) | undefined = getElementByGuid(guid);
+    const canvasElementFromStore: (ElementUi & { childReferences }) | undefined = getElementByGuid(guid);
     let canvasElementChildReferencesFromStore;
     if (canvasElementFromStore && canvasElementFromStore.childReferences) {
         canvasElementChildReferencesFromStore = canvasElementFromStore.childReferences.map(

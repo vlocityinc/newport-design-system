@@ -22,7 +22,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
 import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
-import { TimeTrigger } from 'builder_platform_interaction/flowModel';
+import { TimeTrigger } from 'builder_platform_interaction/uiModel';
 import { LABELS } from '../elementFactoryLabels';
 
 const startElementReference = 'assignment1';

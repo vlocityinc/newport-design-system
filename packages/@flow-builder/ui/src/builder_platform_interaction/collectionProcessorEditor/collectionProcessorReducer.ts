@@ -2,7 +2,7 @@ import { collectionProcessorValidation } from './collectionProcessorValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
-import { StoreState } from 'builder_platform_interaction/flowModel';
+import { StoreState } from 'builder_platform_interaction/uiModel';
 
 const collectionProcessorPropertyChanged = (state, event) => {
     event.detail.error =

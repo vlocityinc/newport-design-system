@@ -2,7 +2,7 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './connectorUtilsLabels';
-import { FlowConnector, CanvasElement, ConnectorType } from 'builder_platform_interaction/flowModel';
+import { FlowConnector, CanvasElement, ConnectorType } from 'builder_platform_interaction/uiModel';
 
 /**
  * Helper method to get the minimum and maximum x and y coordinates of the flow
@@ -297,7 +297,7 @@ export function createEndConnector(elements: FlowElements, sourceElement: Canvas
 
 export function addRegularConnectorToAvailableConnections(
     availableConnections: AvailableConnection[] = [],
-    canvasElementChild: FlowElement
+    canvasElementChild: ElementUi
 ) {
     if (!availableConnections || !canvasElementChild || !canvasElementChild.name) {
         throw new Error('Either availableConnections or canvasElementChild is not defined');

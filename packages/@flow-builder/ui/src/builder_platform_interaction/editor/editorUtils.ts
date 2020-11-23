@@ -41,7 +41,8 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
-import { FlowElementType, Guid, ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
+import { FlowElementType, Guid } from 'builder_platform_interaction/uiModel';
+import { ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/metadataModel';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';

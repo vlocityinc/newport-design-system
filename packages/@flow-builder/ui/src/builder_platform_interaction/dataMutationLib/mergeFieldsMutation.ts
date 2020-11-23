@@ -41,18 +41,18 @@ export const sanitizeGuid = (potentialGuid: string): ComplexGuid => {
 };
 
 const guidToDevName = (guid) => {
-    const flowElement = getElementByGuid(guid);
-    if (flowElement) {
-        return flowElement.name;
+    const elementUi = getElementByGuid(guid);
+    if (elementUi) {
+        return elementUi.name;
     }
     return undefined;
 };
 
 const devNameToGuid = (devName) => {
     // not case-sensitive
-    const flowElement = getElementByDevName(devName);
-    if (flowElement) {
-        return flowElement.guid;
+    const elementUi = getElementByDevName(devName);
+    if (elementUi) {
+        return elementUi.guid;
     }
     return undefined;
 };

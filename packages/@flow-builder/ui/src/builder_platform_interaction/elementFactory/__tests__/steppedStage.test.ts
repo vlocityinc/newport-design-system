@@ -19,7 +19,7 @@ import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } fro
 import { ParameterListRowItem } from '../base/baseList';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
-import { Guid } from 'builder_platform_interaction/flowModel';
+import { Guid } from 'builder_platform_interaction/uiModel';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';

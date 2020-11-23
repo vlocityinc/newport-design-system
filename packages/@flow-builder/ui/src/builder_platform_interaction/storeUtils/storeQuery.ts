@@ -1,6 +1,6 @@
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FlowElement, FlowElements, FlowElementType, Guid, StartUi } from 'builder_platform_interaction/flowModel';
+import { ElementUi, ElementUis, ElementUiType, Guid, StartUi } from 'builder_platform_interaction/uiModel';
 
 export const getElementByGuidFromState = ({ elements }, guid: string) => elements[guid];
 
@@ -10,11 +10,11 @@ export const getElementByGuidFromState = ({ elements }, guid: string) => element
  * @param {string} guid for the element
  * @return {*} store element or undefined if the guid does not exists.
  */
-export const getElementByGuid = <T extends FlowElement>(guid: Guid): T | undefined =>
+export const getElementByGuid = <T extends ElementUi>(guid: Guid): T | undefined =>
     getElementByGuidFromState(Store.getStore().getCurrentState(), guid);
 
-export const getElementByDevNameFromState = <T extends FlowElement>(
-    { elements }: { elements: FlowElements },
+export const getElementByDevNameFromState = <T extends ElementUi>(
+    { elements }: { elements: ElementUis },
     devName: string,
     caseSensitive = false
 ): T | undefined => {
@@ -43,10 +43,10 @@ export const getElementByDevNameFromState = <T extends FlowElement>(
  * @param {boolean} caseSensitive true if name comparison is case sensitive (false by default)
  * @return {*} store element or undefined if the devName does not exists.
  */
-export const getElementByDevName = <T extends FlowElement>(devName: string, caseSensitive = false): T | undefined =>
+export const getElementByDevName = <T extends ElementUi>(devName: string, caseSensitive = false): T | undefined =>
     getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
 
-export const getStartElementFromState = ({ elements }: { elements: FlowElements }): StartUi | undefined => {
+export const getStartElementFromState = ({ elements }: { elements: ElementUis }): StartUi | undefined => {
     const startElement = Object.values(elements).find((element) => {
         return element.elementType === ELEMENT_TYPE.START_ELEMENT;
     });
@@ -66,7 +66,7 @@ export const getStartElement = (): StartUi | undefined => getStartElementFromSta
  * @returns {Object[]} matchingElements Object list
  */
 export const getDuplicateDevNameElements = (
-    elements: FlowElements = {},
+    elements: ElementUis = {},
     nameToBeTested: string,
     listOfGuidsToSkip: string[] = []
 ) => {
@@ -166,9 +166,9 @@ export const shouldUseAutoLayoutCanvas = (): boolean => {
 /**
  * Fetches all elements of a given element type
  */
-export const getElementsForElementType = (elementType: FlowElementType): FlowElement[] => {
-    return <FlowElement[]>Object.values(Store.getStore().getCurrentState().elements).reduce(
-        (elements: FlowElement[], element: FlowElement): FlowElement[] => {
+export const getElementsForElementType = (elementType: ElementUiType): ElementUi[] => {
+    return <ElementUi[]>Object.values(Store.getStore().getCurrentState().elements).reduce(
+        (elements: ElementUi[], element: ElementUi): ElementUi[] => {
             if (element.elementType === elementType) {
                 elements.push(element);
             }

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Guid } from 'builder_platform_interaction/flowModel';
+import { Guid } from 'builder_platform_interaction/uiModel';
 
 const eventName = 'deletecondition';
 

@@ -18,13 +18,13 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowM
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
     Guid,
-    FlowElement,
+    ElementUi,
     CanvasElement,
     AutoLayoutCanvasElement,
     StoreState,
-    FlowElements,
+    ElementUis,
     ConnectorType
-} from 'builder_platform_interaction/flowModel';
+} from 'builder_platform_interaction/uiModel';
 
 import { findStartElement, createRootElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
@@ -68,7 +68,7 @@ function findConnectionIndex(parentElement: NodeModel, childSource: Guid, type: 
     return parentElement[plural].findIndex((entry) => entry[singular] === childSource);
 }
 
-function isBranchingElement(element: FlowElement) {
+function isBranchingElement(element: ElementUi) {
     return supportsChildren(element) && element.elementType !== ELEMENT_TYPE.LOOP;
 }
 
@@ -86,7 +86,7 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Conve
 
     // creates a ConversionInfo for each element
     const conversionInfos = Object.values(elements).reduce(
-        (infos: Record<string, ConversionInfo>, element: FlowElement) => {
+        (infos: Record<string, ConversionInfo>, element: ElementUi) => {
             if (element.isCanvasElement) {
                 infos[element.guid] = {
                     elementGuid: element.guid,
@@ -344,7 +344,7 @@ function convertBranchToAutoLayout(
  * @param elements - The free form elements
  * @return the Auto Layout elements
  */
-function createAutoLayoutElements(elements: FlowElements): FlowModel {
+function createAutoLayoutElements(elements: ElementUis): FlowModel {
     const autoLayoutElements = Object.values(elements).reduce((elementsMap, element) => {
         const canvasElement = { ...element } as CanvasElement;
         elementsMap[element.guid] = canvasElement;
@@ -382,7 +382,7 @@ function consolidateEndConnectorsForBranch(
     elements: FlowModel,
     branchHead: BranchHeadNodeModel,
     hasNext = false
-): FlowElements {
+): ElementUis {
     let element: NodeModel | null = branchHead;
 
     while (element != null) {
@@ -444,7 +444,7 @@ function consolidateEndConnectorsForBranch(
  * @param elements - The Auto Layout Canvas elements
  * @return The consolidated Auto Layout Canvas elements
  */
-export function consolidateEndConnectors(elements: FlowElements): FlowElements {
+export function consolidateEndConnectors(elements: ElementUis): ElementUis {
     const flowModel = elements as FlowModel;
 
     const rootElement = elements[ELEMENT_TYPE.ROOT_ELEMENT] as ParentNodeModel;

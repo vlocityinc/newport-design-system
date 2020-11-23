@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Guid, FlowElementType } from 'builder_platform_interaction/flowModel';
+import { Guid, FlowElementType } from 'builder_platform_interaction/uiModel';
 
 /**
  * Due to lwc compilation this has to be a class and not an interface

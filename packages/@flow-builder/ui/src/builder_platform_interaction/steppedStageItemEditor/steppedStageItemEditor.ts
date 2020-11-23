@@ -21,7 +21,7 @@ import {
     ParameterListRowItem,
     SteppedStageItem
 } from 'builder_platform_interaction/elementFactory';
-import { ComboboxItem } from 'builder_platform_interaction/flowModel';
+import { ComboboxItem } from 'builder_platform_interaction/uiModel';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {

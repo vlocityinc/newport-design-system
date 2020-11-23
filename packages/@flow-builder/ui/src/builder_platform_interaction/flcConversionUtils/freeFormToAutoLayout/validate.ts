@@ -1,4 +1,4 @@
-import { FlowElements, FlowConnector } from 'builder_platform_interaction/flowModel';
+import { ElementUis, ConnectorUi } from 'builder_platform_interaction/uiModel';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { findStartElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { ConversionInfo, ConversionInfos, EdgeType } from './dfs';
@@ -28,7 +28,7 @@ function failFlowCheck(type: FlowCheckType) {
  * @param edgeType - The edge type for the outgoing connector
  * @throw An error if the edge is invalid
  */
-function validateEdge(conversionInfos: ConversionInfos, out: FlowConnector, edgeType: EdgeType) {
+function validateEdge(conversionInfos: ConversionInfos, out: ConnectorUi, edgeType: EdgeType) {
     const { source, target } = out;
     const sourceNode = conversionInfos[source];
     const targetNode = conversionInfos[target];
@@ -72,7 +72,7 @@ function validateEdgeTypes(conversionInfos: ConversionInfos, elementInfo: Conver
     }
 }
 
-function areLoopNextAndEndTheSame(outs: FlowConnector[]) {
+function areLoopNextAndEndTheSame(outs: ConnectorUi[]) {
     return outs.length === 2 && outs[0].target === outs[1].target;
 }
 /**
@@ -82,7 +82,7 @@ function areLoopNextAndEndTheSame(outs: FlowConnector[]) {
  * @param conversionInfos - The conversion infos
  * @throw An error when the flow can't be converted
  */
-export function validateConversionInfos(elements: FlowElements, conversionInfos: ConversionInfos) {
+export function validateConversionInfos(elements: ElementUis, conversionInfos: ConversionInfos) {
     const startElement = findStartElement(elements) as any;
 
     // If a start element has childReferences (scheduled time triggers) set, then it can't be converted

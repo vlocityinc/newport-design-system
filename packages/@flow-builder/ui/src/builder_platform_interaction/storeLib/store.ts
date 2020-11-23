@@ -3,7 +3,7 @@ import { isPlainObject } from './isPlainObject';
 import { isDevMode } from 'builder_platform_interaction/contextLib';
 import { readonly } from 'lwc';
 
-import { StoreState } from 'builder_platform_interaction/flowModel';
+import { StoreState } from 'builder_platform_interaction/uiModel';
 
 export type StoreReducer = (storeState: StoreState, action: object) => StoreState;
 

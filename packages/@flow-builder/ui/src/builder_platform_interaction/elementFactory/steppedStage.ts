@@ -6,7 +6,7 @@ import {
     createConditionMetadataObject
 } from './base/baseMetadata';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
-import { ChildElement, CanvasElement, ChildReference, Guid, Condition } from 'builder_platform_interaction/flowModel';
+import { ChildElement, CanvasElement, ChildReference, Guid, Condition } from 'builder_platform_interaction/uiModel';
 import { createConnectorObjects } from './connector';
 import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';

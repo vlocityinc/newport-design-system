@@ -131,7 +131,7 @@ import {
     //    createPastedSteppedStage,
     //    createDuplicateSteppedStage,
 } from 'builder_platform_interaction/elementFactory';
-import { ElementConfig } from 'builder_platform_interaction/flowModel';
+import { ElementConfig } from 'builder_platform_interaction/uiModel';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';

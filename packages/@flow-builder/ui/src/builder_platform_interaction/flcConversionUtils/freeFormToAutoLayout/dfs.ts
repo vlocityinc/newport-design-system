@@ -1,4 +1,4 @@
-import { Guid, FlowConnector } from 'builder_platform_interaction/flowModel';
+import { Guid, ConnectorUi } from 'builder_platform_interaction/uiModel';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 // Types of graph edges as defined here:
@@ -37,10 +37,10 @@ export interface ConversionInfo {
     readonly elementGuid: Guid;
 
     // incoming connectors
-    readonly ins: FlowConnector[];
+    readonly ins: ConnectorUi[];
 
     // outgoing connectors (except fault)
-    readonly outs: FlowConnector[];
+    readonly outs: ConnectorUi[];
 
     // if the element is branching (ie decision, wait)
     readonly isBranching: boolean;
@@ -58,7 +58,7 @@ export interface ConversionInfo {
     faultEdgeType?: EdgeType;
 
     // fault connector
-    fault?: FlowConnector;
+    fault?: ConnectorUi;
 
     // the DFS end order for the element, or null if not yet visited
     dfsStart: number | null;
@@ -140,7 +140,7 @@ function getEdgeType(source: ConversionInfo, target: ConversionInfo): EdgeType {
  *
  * @return - The edge type for the outgoing connector
  */
-function processConnector(ctx: DfsContext, node: ConversionInfo, out: FlowConnector): EdgeType {
+function processConnector(ctx: DfsContext, node: ConversionInfo, out: ConnectorUi): EdgeType {
     const { target } = out;
 
     // update an element's reachCount when we reach it
@@ -171,7 +171,7 @@ function processConnector(ctx: DfsContext, node: ConversionInfo, out: FlowConnec
  * @param out - An outgoing connector for a node
  * @return - The execution context that is entered by following the outgoing connector
  */
-function getNextExecutionContext(ctx: DfsContext, out: FlowConnector) {
+function getNextExecutionContext(ctx: DfsContext, out: ConnectorUi) {
     const { type, source } = out;
 
     let execCtxType;

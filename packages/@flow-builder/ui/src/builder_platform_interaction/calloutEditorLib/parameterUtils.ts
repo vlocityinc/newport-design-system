@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
-import { Guid } from 'builder_platform_interaction/flowModel';
+import { Guid } from 'builder_platform_interaction/uiModel';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 

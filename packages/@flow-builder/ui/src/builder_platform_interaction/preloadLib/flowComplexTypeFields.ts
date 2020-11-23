@@ -12,7 +12,8 @@ import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMeta
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
-import { ScreenField, ScreenFieldMetadata } from 'builder_platform_interaction/flowModel';
+import { ScreenField } from 'builder_platform_interaction/uiModel';
+import { ScreenFieldMetadata } from 'builder_platform_interaction/metadataModel';
 
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.

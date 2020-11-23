@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Guid } from 'builder_platform_interaction/flowModel';
+import { Guid } from 'builder_platform_interaction/uiModel';
 
 /**
  * Function to get all the nested screen fields and push them into subElementsGuids

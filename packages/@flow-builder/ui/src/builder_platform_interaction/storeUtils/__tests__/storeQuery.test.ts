@@ -114,7 +114,7 @@ describe('getElementsForElementType', () => {
             elements: {}
         });
 
-        const results: FlowElement[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
+        const results: ElementUi[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
         expect(results).toHaveLength(0);
     });
 
@@ -137,7 +137,7 @@ describe('getElementsForElementType', () => {
             }
         });
 
-        const results: FlowElement[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
+        const results: ElementUi[] = getElementsForElementType(ELEMENT_TYPE.SCREEN);
         expect(results).toEqual([screen1, screen2]);
     });
 });

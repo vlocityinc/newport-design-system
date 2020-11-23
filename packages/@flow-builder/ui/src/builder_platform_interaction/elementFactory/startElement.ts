@@ -34,12 +34,11 @@ import {
     AvailableConnection,
     ChildElement,
     ChildReference,
-    ScheduledPathMetadata,
-    StartMetadata,
     StartUi,
     TimeTrigger,
     ConnectorType
-} from 'builder_platform_interaction/flowModel';
+} from 'builder_platform_interaction/uiModel';
+import { ScheduledPathMetadata, StartMetadata } from 'builder_platform_interaction/metadataModel';
 
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
@@ -102,7 +101,7 @@ export function shouldSupportTimeTriggers(startElement: StartUi | StartMetadata)
  * @returns {Object} startElement the new start element object
  */
 function createStartElement(startElement: StartUi | StartMetadata) {
-    const newStartElement = baseCanvasElement(startElement);
+    const newStartElement: StartUi = <StartUi>baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
@@ -169,8 +168,8 @@ function createStartElement(startElement: StartUi | StartMetadata) {
         isCollection: object ? false : undefined,
         isAssignable: object ? true : undefined,
         doesRequireRecordChangedToMeetCriteria: requireChangedValues,
-        childReferences: startElement.childReferences || [],
-        availableConnections: startElement.availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
+        childReferences: (<StartUi>startElement).childReferences || [],
+        availableConnections: (<StartUi>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
     });
 }
 
@@ -460,7 +459,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
             return {
                 canvasElement: newStartElement,
                 elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
-                shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as StartUi),
+                shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement),
                 startElementGuid: newStartElement.guid
             };
         }

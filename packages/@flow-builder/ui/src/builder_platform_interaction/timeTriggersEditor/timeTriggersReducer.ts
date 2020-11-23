@@ -3,7 +3,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { timeTriggersValidation, additionalRules } from './timeTriggersValidation';
 import { addItem, hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
-import { StoreState, TimeTrigger } from 'builder_platform_interaction/flowModel';
+import { StoreState, TimeTrigger } from 'builder_platform_interaction/uiModel';
 import { createTimeTrigger } from 'builder_platform_interaction/elementFactory';
 
 const addTimeTrigger = (state) => {

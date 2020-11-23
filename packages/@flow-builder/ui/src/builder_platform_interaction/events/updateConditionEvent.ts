@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Guid, Condition } from 'builder_platform_interaction/flowModel';
+import { Guid, Condition } from 'builder_platform_interaction/uiModel';
 
 const eventName = 'updatecondition';
 

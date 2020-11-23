@@ -6,8 +6,8 @@
  */
 
 export type Guid = string;
-export type FlowElementType = string;
-export type FlowElementSubtype = string;
+export type ElementUiType = string;
+export type ElementUiSubtype = string;
 export type Datatype = string;
 
 export interface CanvasElementConfig {
@@ -16,14 +16,14 @@ export interface CanvasElementConfig {
     isSelected: boolean;
     hasError: boolean;
 }
-export interface FlowConnectorConfig {
+export interface ConnectorUiConfig {
     isSelected: boolean;
 }
 
-export interface FlowElement {
+export interface ElementUi {
     // TODO: IMPORTANT: elementType should *NOT* be optional.  Once baseElement and its usages are cleaned up to always have
     // an elementType then it should be required here
-    elementType?: FlowElementType;
+    elementType?: ElementUiType;
     label?: string | null;
 
     guid: Guid;
@@ -41,10 +41,10 @@ export interface FlowElement {
 
     isCanvasElement?: boolean;
 
-    connector?: FlowConnector;
+    connector?: ConnectorUi;
 }
 
-export interface BaseCanvasElement extends FlowElement {
+export interface BaseCanvasElement extends ElementUi {
     // This is the "label" in the property editor UI
     label: string | null;
     locationX: number;
@@ -53,7 +53,7 @@ export interface BaseCanvasElement extends FlowElement {
     isCanvasElement: boolean;
     connectorCount: number;
     config: CanvasElementConfig;
-    elementSubtype: FlowElementSubtype;
+    elementSubtype: ElementUiSubtype;
 }
 
 export interface CanvasElement extends BaseCanvasElement {
@@ -63,12 +63,12 @@ export interface CanvasElement extends BaseCanvasElement {
     maxConnections: number;
 }
 
-export interface ChildElement extends FlowElement {
+export interface ChildElement extends ElementUi {
     // This is the "label" in the property editor UI
     label?: string;
 }
 
-export interface ScreenField extends FlowElement {
+export interface ScreenField extends ElementUi {
     storeOutputAutomatically?: boolean;
     extensionName?: string;
     inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
@@ -87,20 +87,6 @@ interface Filter {
     operator: string;
 }
 
-interface ElementReferenceOrValueMetadata {
-    booleanValue: boolean;
-    dateTimeValue: Date;
-    dateValue: Date;
-    elementReference: string;
-    numberValue: number;
-    stringValue: string;
-}
-interface RecordFilterMetadata {
-    field: string;
-    operator: string;
-    value: ElementReferenceOrValueMetadata;
-}
-
 export interface StartUi extends BaseCanvasElementWithFilter, Schedule {
     doesRequireRecordChangedToMeetCriteria: boolean;
     triggerType?: string;
@@ -110,20 +96,6 @@ export interface StartUi extends BaseCanvasElementWithFilter, Schedule {
     isAssignable?: boolean;
     recordTriggerType?: string;
     timeTriggers?: TimeTrigger[];
-    childReferences: ChildReference[];
-    availableConnections: AvailableConnection[];
-}
-
-export interface StartMetadata extends NodeMetadata {
-    connector: FlowConnector;
-    filters?: RecordFilterMetadata[];
-    filterLogic: string;
-    object?: string;
-    recordTriggerType?: string;
-    schedule: Schedule;
-    triggerType?: string;
-    scheduledPaths?: ScheduledPathMetadata[];
-    doesRequireRecordChangedToMeetCriteria?: boolean;
     childReferences: ChildReference[];
     availableConnections: AvailableConnection[];
 }
@@ -143,13 +115,6 @@ export interface TimeTrigger extends ChildElement {
     timeSource: string;
     offsetUnit: string;
     offsetNumber: string;
-}
-
-export interface ScheduledPathMetadata extends ElementMetadata {
-    timeSource: string;
-    offsetUnit: string;
-    offsetNumber: string;
-    recordField?: string;
 }
 
 export type ConnectorType = string;
@@ -173,7 +138,7 @@ export interface AutoLayoutCanvasElement extends CanvasElement {
     fault?: Guid | null;
 }
 
-export interface FlowConnector {
+export interface ConnectorUi {
     source: Guid;
     target: Guid;
     type: ConnectorType;
@@ -182,42 +147,19 @@ export interface FlowConnector {
 }
 
 export type StringKeyedMap<T> = { [key: string]: T };
-export type FlowElements = StringKeyedMap<FlowElement>;
+export type ElementUis = StringKeyedMap<ElementUi>;
 
-interface FlowProperties {
+interface UiProperties {
     isAutoLayoutCanvas: boolean;
     processType: string;
     [key: string]: string | undefined | null | number | boolean;
 }
 
 export interface StoreState {
-    elements: FlowElements;
-    connectors: FlowConnector[];
+    elements: ElementUis;
+    connectors: ConnectorUi[];
     canvasElements: Guid[];
-    properties: FlowProperties;
-}
-
-export interface ElementMetadata {
-    name?: string;
-    description?: string;
-}
-
-export interface NodeMetadata extends ElementMetadata {
-    label: string;
-    locationX: number;
-    locationY: number;
-}
-
-export interface ScreenMetadata extends NodeMetadata {
-    fields: ScreenFieldMetadata[];
-}
-
-export interface ScreenFieldMetadata extends ElementMetadata {
-    storeOutputAutomatically?: boolean;
-    extensionName?: string;
-    fieldType: string;
-    fields: ScreenFieldMetadata[];
-    inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
+    properties: UiProperties;
 }
 
 export interface ElementConfig {

@@ -1,13 +1,13 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     Guid,
-    FlowElements,
-    FlowElement,
+    ElementUis,
+    ElementUi,
     CanvasElement,
-    FlowConnector,
+    ConnectorUi,
     StoreState,
     AvailableConnection
-} from 'builder_platform_interaction/flowModel';
+} from 'builder_platform_interaction/uiModel';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
@@ -27,8 +27,8 @@ const CONVERT_TO_AUTO_LAYOUT_FAILED = 'Convert to auto layout canvas failed';
  * @param storeState - The FFC UI Model
  * @return The generated end connectorss
  */
-function generateEndConnectors(elements: FlowElements): FlowConnector[] {
-    const endConnectors: FlowConnector[] = [];
+function generateEndConnectors(elements: ElementUis): ConnectorUi[] {
+    const endConnectors: ConnectorUi[] = [];
 
     Object.values(elements).forEach((element) => {
         if (element.isCanvasElement) {
@@ -101,7 +101,7 @@ const guidCompare = (obj1, obj2) => (obj1.guid >= obj2.guid ? 1 : -1);
  * @param elements - The elements
  * @return the normalized elements
  */
-function normalizeElements(elements: Record<string, FlowElement>, isAutoLayout = false) {
+function normalizeElements(elements: Record<string, ElementUi>, isAutoLayout = false) {
     const props = isAutoLayout ? autoLayoutElementProps : elementProps;
     return Object.values(deepCopy(elements))
         .map((ele: any) => pick(ele, props as any))
@@ -211,7 +211,7 @@ export function normalizeState(state: StoreState, isAutoLayout = false): any {
  */
 export function removeEndElementsAndConnectorsTransform(
     storeState: StoreState,
-    endConnectors?: FlowConnector[]
+    endConnectors?: ConnectorUi[]
 ): StoreState {
     let { elements, connectors } = storeState;
 
@@ -284,12 +284,12 @@ export function removeEndElementsAndConnectorsTransform(
  */
 export function addEndElementsAndConnectorsTransform(
     storeState: StoreState,
-    endConnectors?: FlowConnector[]
+    endConnectors?: ConnectorUi[]
 ): StoreState {
     // generate the connectors if none are provided
     endConnectors = endConnectors || generateEndConnectors(storeState.elements);
 
-    const endElements: FlowElements = {};
+    const endElements: ElementUis = {};
 
     // create the end elements from the end connectors
     endConnectors.forEach((endConnector) => {

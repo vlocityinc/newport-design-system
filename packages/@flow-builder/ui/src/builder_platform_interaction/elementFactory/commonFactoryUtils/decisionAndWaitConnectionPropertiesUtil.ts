@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ChildReference, Guid } from 'builder_platform_interaction/flowModel';
+import { ChildReference, Guid } from 'builder_platform_interaction/uiModel';
 
 /**
  * Helper function to get an array of all child references that have connectors associated with them

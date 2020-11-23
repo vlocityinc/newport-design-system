@@ -37,7 +37,7 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getSubElementGuids } from './reducersUtils';
-import { CanvasElement, ChildElement, Guid, StoreState } from 'builder_platform_interaction/flowModel';
+import { CanvasElement, ChildElement, Guid, StoreState } from 'builder_platform_interaction/uiModel';
 import { DECORATION_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**

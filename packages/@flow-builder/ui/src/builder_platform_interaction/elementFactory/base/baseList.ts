@@ -2,7 +2,7 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getDataTypeKey } from '../ferov';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { Guid } from 'builder_platform_interaction/flowModel';
+import { Guid } from 'builder_platform_interaction/uiModel';
 
 // @ts-nocheck
 /**
