@@ -5,3 +5,7 @@
 .read-only-dev-name-panel {
     font-style: italic;
 }
+
+.padRightForCloseButton {
+    padding-right: 65px;
+}
