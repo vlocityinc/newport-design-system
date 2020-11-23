@@ -2229,7 +2229,7 @@ export default class Editor extends LightningElement {
             this.createFlowFromTemplate(item, modal);
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
-        } else {
+        } else if (item) {
             // Create a blank flow of the specified process type and started by a specified trigger.
             const { processType, defaultTriggerType } = item;
             if (processType) {
