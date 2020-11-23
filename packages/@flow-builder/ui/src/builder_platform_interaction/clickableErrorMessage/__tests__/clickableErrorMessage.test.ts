@@ -28,7 +28,11 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 ],
                 doesRequireRecordChangedToMeetCriteria: false
             };
-            return name !== 'outcome' ? { guid: '1' } : outcome;
+            return name !== 'outcome'
+                ? name.startsWith('ScreenWithSection_')
+                    ? jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
+                    : { guid: '1' }
+                : outcome;
         }),
         getElementByGuid: jest.fn((guid) => {
             const decision = {
@@ -63,7 +67,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                     }
                 ]
             };
-            return guid !== '1' ? decision : {};
+            return guid === 'e8161f40-c0f6-4ad8-87ca-942a76a014f2'
+                ? decision
+                : jest.requireActual('builder_platform_interaction/storeUtils').getElementByGuid(guid);
         }),
         shouldUseAutoLayoutCanvas: jest.fn()
     };
@@ -305,6 +311,56 @@ describe('clickableErrorMessage', () => {
             });
             expect.assertions(4);
             const parent = flowWithAllElementsUIModel.elements['e8161f40-c0f6-4ad8-87ca-942a76a014f2'];
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
+            const editElementPayload = {
+                mode: editElementEvent.detail.mode,
+                canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
+        it('opens the screen when error is for Section field type', () => {
+            // create error message component with PARENT_CHILD_ERROR
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: 'ScreenWithSection_Section1',
+                        errorCode: 'PROCESSTYPE_SCREEN_FIELDTYPE_NOT_SUPPORTED',
+                        message: 'Section1 - Flow type can\'t include "RegionContainer" screen component'
+                    }
+                }
+            });
+            const parent = flowWithAllElementsUIModel.elements['865e456d-2e1d-410f-8c62-8f686238b197'];
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
+            const editElementPayload = {
+                mode: editElementEvent.detail.mode,
+                canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
+        it('opens the screen when error is for Section Column field type', () => {
+            // create error message component with PARENT_CHILD_ERROR
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: 'ScreenWithSection_Section1_Column1',
+                        errorCode: 'PROCESSTYPE_SCREEN_FIELDTYPE_NOT_SUPPORTED',
+                        message: 'Section1_Column1 - Flow type can\'t include "Region" screen component'
+                    }
+                }
+            });
+            const parent = flowWithAllElementsUIModel.elements['865e456d-2e1d-410f-8c62-8f686238b197'];
             const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
             const highlightElementPayload = { elementGuid: parent.guid };
             const editElementEvent = new EditElementEvent(parent.guid);

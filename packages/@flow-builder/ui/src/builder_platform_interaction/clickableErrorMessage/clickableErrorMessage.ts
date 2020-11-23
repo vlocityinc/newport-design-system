@@ -61,17 +61,22 @@ export default class ClickableMessage extends LightningElement {
 
     findParentElementGuid(element) {
         const usedByElements = [];
+        let parent;
         usedBy([element.guid]).forEach((el) => usedByElements.push(getElementByGuid(el.guid)));
         for (let i = 0; i < usedByElements.length; i++) {
             if (usedByElements[i].childReferences) {
                 for (let j = 0; j < usedByElements[i].childReferences.length; j++) {
                     if (usedByElements[i].childReferences[j].childReference === element.guid) {
-                        return usedByElements[i].guid;
+                        if (usedByElements[i].fieldType && usedByElements[i].fieldType === 'RegionContainer') {
+                            parent = this.findParentElementGuid(usedByElements[i]);
+                        } else {
+                            parent = usedByElements[i].guid;
+                        }
                     }
                 }
             }
         }
-        return null;
+        return parent;
     }
 
     get linkText() {
