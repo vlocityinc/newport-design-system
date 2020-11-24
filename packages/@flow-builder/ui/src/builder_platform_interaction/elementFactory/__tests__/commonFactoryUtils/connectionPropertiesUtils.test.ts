@@ -1,5 +1,8 @@
 // @ts-nocheck
-import { getConnectionProperties } from '../../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from '../../commonFactoryUtils/connectionPropertiesUtils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 describe('New Decision Element', () => {
@@ -504,5 +507,49 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
             // Since Fault Connection was originally unavailable
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
         });
+    });
+});
+
+describe('addRegularConnectorToAvailableConnections', () => {
+    const availableConnections = [];
+    it('elementChild is undefined', () => {
+        try {
+            addRegularConnectorToAvailableConnections(availableConnections, undefined);
+        } catch (e) {
+            expect(e).toBeDefined();
+            expect(e.message).toEqual(`Either elementChild or elementChild.name is not defined`);
+        }
+        expect.assertions(2);
+    });
+    it('elementChild.name is undefined', () => {
+        const elementChild = { guid: 'abc' };
+        try {
+            addRegularConnectorToAvailableConnections(availableConnections, elementChild);
+        } catch (e) {
+            expect(e).toBeDefined();
+            expect(e.message).toEqual(`Either elementChild or elementChild.name is not defined`);
+        }
+        expect.assertions(2);
+    });
+    it('regular connection is added to availableConnections if connector is not defined on elementChild', () => {
+        const elementChild = {
+            name: 'outcome1',
+            guid: 'outcome1'
+        };
+        const result = addRegularConnectorToAvailableConnections(availableConnections, elementChild);
+        expect(result.length).toEqual(1);
+        expect(result[0].type).toEqual(CONNECTOR_TYPE.REGULAR);
+    });
+    it('no connection is added to availableConnections if connector is defined on elementChild', () => {
+        const elementChild = {
+            name: 'outcome1',
+            guid: 'outcome1',
+            connector: {
+                source: 'abc',
+                target: 'bdf'
+            }
+        };
+        const result = addRegularConnectorToAvailableConnections(availableConnections, elementChild);
+        expect(result.length).toEqual(0);
     });
 });

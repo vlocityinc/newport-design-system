@@ -8,6 +8,7 @@ import {
     baseChildElement,
     baseCanvasElementsArrayToMap,
     createCondition,
+    updateChildReferences,
     DUPLICATE_ELEMENT_XY_OFFSET
 } from '../../base/baseElement';
 import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -927,5 +928,41 @@ describe('Base elements with connectors function returns a new object combining 
     it('and have same connector array in new object as connector', () => {
         const actualResult = baseCanvasElementsArrayToMap(elementList, connectors);
         expect(actualResult.connectors).toBe(connectors);
+    });
+});
+
+describe('updateChildReferences', () => {
+    const childReferences = [
+        {
+            childReference: 'abc'
+        }
+    ];
+    it('canvasElementChild is undefined', () => {
+        try {
+            updateChildReferences(childReferences, undefined);
+        } catch (e) {
+            expect(e).toBeDefined();
+            expect(e.message).toEqual(`Either canvasElementChild or canvasElementChild.guid not defined`);
+        }
+        expect.assertions(2);
+    });
+    it('canvasElementChild.guid is undefined', () => {
+        const canvasElementChild = { name: 'abc' };
+        try {
+            updateChildReferences(childReferences, canvasElementChild);
+        } catch (e) {
+            expect(e).toBeDefined();
+            expect(e.message).toEqual(`Either canvasElementChild or canvasElementChild.guid not defined`);
+        }
+        expect.assertions(2);
+    });
+    it('child reference is added and returned for a well defined canvasElementChild', () => {
+        const canvasElementChild = {
+            name: 'outcome1',
+            guid: 'outcome1'
+        };
+        const result = updateChildReferences(childReferences, canvasElementChild);
+        expect(result.length).toEqual(2);
+        expect(result[1].childReference).toEqual('outcome1');
     });
 });

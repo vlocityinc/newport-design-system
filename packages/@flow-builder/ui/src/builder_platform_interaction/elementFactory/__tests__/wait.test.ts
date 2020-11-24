@@ -23,7 +23,10 @@ import {
     isWaitTimeEventType,
     getParametersPropertyName
 } from '../wait';
-import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from '../commonFactoryUtils/connectionPropertiesUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 const newWaitGuid = 'newWait';
@@ -219,7 +222,15 @@ jest.mock('../base/baseElement', () => {
         createCondition: jest
             .fn()
             .mockImplementation((element) => Object.assign({}, element))
-            .mockName('createCondition')
+            .mockName('createCondition'),
+        updateChildReferences: jest.fn().mockImplementation((childReferences, waitEvent) => {
+            return [
+                ...childReferences,
+                {
+                    childReference: waitEvent.guid
+                }
+            ];
+        })
     };
 });
 
@@ -258,7 +269,7 @@ jest.mock('../outputParameter', () => {
     };
 });
 
-jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
+jest.mock('../commonFactoryUtils/connectionPropertiesUtils');
 getConnectionProperties.mockImplementation((originalWait) => {
     if (originalWait.hasOwnProperty('availableConnections')) {
         return {
@@ -281,6 +292,15 @@ getConnectionProperties.mockImplementation((originalWait) => {
         ],
         addFaultConnectionForWaitElement: true
     };
+});
+addRegularConnectorToAvailableConnections.mockImplementation((availableConnections, waitEvent) => {
+    return [
+        ...availableConnections,
+        {
+            type: 'REGULAR',
+            childReference: waitEvent.name
+        }
+    ];
 });
 
 describe('wait', () => {

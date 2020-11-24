@@ -13,9 +13,13 @@ import {
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap,
     baseChildElement,
-    createCondition
+    createCondition,
+    updateChildReferences
 } from './base/baseElement';
-import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from './commonFactoryUtils/connectionPropertiesUtils';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
@@ -400,7 +404,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = waitEvents[i];
         const newWaitEvent = createWaitEvent(waitEvent);
-        childReferences = updateWaitEventReferences(childReferences, newWaitEvent);
+        childReferences = updateChildReferences(childReferences, newWaitEvent);
         newWaitEvents = [...newWaitEvents, newWaitEvent];
     }
 
@@ -492,7 +496,7 @@ export function createWaitWithWaitEventReferences(wait = {}) {
         connectors = [...connectors, ...connectorsFromWaitEvent];
         newWaitEvents = [...newWaitEvents, waitEvent];
         // updating childReferences
-        childReferences = updateWaitEventReferences(childReferences, waitEvent);
+        childReferences = updateChildReferences(childReferences, waitEvent);
         // updating availableConnections
         availableConnections = addRegularConnectorToAvailableConnections(availableConnections, waitEvents[i]);
     }
@@ -559,50 +563,9 @@ function addFaultConnectorToAvailableConnections(availableConnections = [], wait
 }
 
 /*
-TODO: Refactor Decision and Wait functions here to use common code path from connectorUtils
-W-8166314
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
- */
-function addRegularConnectorToAvailableConnections(availableConnections = [], waitEvent) {
-    if (!availableConnections || !waitEvent || !waitEvent.name) {
-        throw new Error('Either availableConnections or wait event is not defined');
-    }
-    const { name, connector } = waitEvent;
-
-    if (!connector) {
-        const childReference = name;
-        return [
-            ...availableConnections,
-            {
-                type: CONNECTOR_TYPE.REGULAR,
-                childReference
-            }
-        ];
-    }
-    return availableConnections;
-}
-
-/*
 TODO: Refactor Decision and Wait functions here to use common code path from base element
-W-8166314
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
- */
-function updateWaitEventReferences(childReferences = [], waitEvent) {
-    if (!waitEvent || !waitEvent.guid) {
-        throw new Error('Either waitEvent or waitEvent.guid is not defined');
-    }
-    return [
-        ...childReferences,
-        {
-            childReference: waitEvent.guid
-        }
-    ];
-}
-
-/*
-TODO: Refactor Decision and Wait functions here to use common code path from base element
-W-8166314
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+W-8438951
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008j2K9IAI/view
  */
 function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
     if (!originalWait) {

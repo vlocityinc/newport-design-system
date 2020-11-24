@@ -21,8 +21,13 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
-import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from '../commonFactoryUtils/connectionPropertiesUtils';
+
 import { TimeTrigger } from 'builder_platform_interaction/uiModel';
+
 import { LABELS } from '../elementFactoryLabels';
 
 const startElementReference = 'assignment1';
@@ -115,7 +120,15 @@ getElementByGuid.mockImplementation((guid) => {
 jest.mock('../base/baseElement', () => {
     return Object.assign(jest.requireActual('../base/baseElement'), {
         baseChildElement: jest.fn(),
-        baseCanvasElement: jest.fn()
+        baseCanvasElement: jest.fn(),
+        updateChildReferences: jest.fn().mockImplementation((childReferences, timeTrigger) => {
+            return [
+                ...childReferences,
+                {
+                    childReference: timeTrigger.guid
+                }
+            ];
+        })
     });
 });
 baseChildElement
@@ -129,7 +142,7 @@ baseCanvasElement
     })
     .mockName('baseCanvasElementMock');
 
-jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
+jest.mock('../commonFactoryUtils/connectionPropertiesUtils');
 getConnectionProperties.mockImplementation(() => {
     return {
         connectorCount: 1,
@@ -139,6 +152,15 @@ getConnectionProperties.mockImplementation(() => {
             }
         ]
     };
+});
+addRegularConnectorToAvailableConnections.mockImplementation((availableConnections, timeTrigger) => {
+    return [
+        ...availableConnections,
+        {
+            type: 'REGULAR',
+            childReference: timeTrigger.name
+        }
+    ];
 });
 
 describe('Start element', () => {

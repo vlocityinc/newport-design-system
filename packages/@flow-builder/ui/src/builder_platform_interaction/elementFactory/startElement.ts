@@ -18,7 +18,6 @@ import {
     updateChildReferences
 } from './base/baseElement';
 import { createStartElementConnector, createConnectorObjects } from './connector';
-import { addRegularConnectorToAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from './base/baseMetadata';
 import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -28,7 +27,10 @@ import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platf
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from './commonFactoryUtils/connectionPropertiesUtils';
 import { LABELS } from './elementFactoryLabels';
 import {
     AvailableConnection,

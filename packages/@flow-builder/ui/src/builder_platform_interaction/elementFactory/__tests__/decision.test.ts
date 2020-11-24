@@ -16,14 +16,18 @@ import {
     createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseChildElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    updateChildReferences
 } from '../base/baseElement';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from '../base/baseMetadata';
-import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from '../commonFactoryUtils/connectionPropertiesUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -186,6 +190,14 @@ baseChildElement
     })
     .mockName('baseChildElementMock');
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
+updateChildReferences.mockImplementation((childReferences, ruleOrOutcome) => {
+    return [
+        ...childReferences,
+        {
+            childReference: ruleOrOutcome.guid
+        }
+    ];
+});
 
 jest.mock('../base/baseMetadata');
 baseCanvasElementMetadataObject.mockImplementation((element) => {
@@ -198,7 +210,7 @@ createConditionMetadataObject
     .mockImplementation((element) => Object.assign({}, element))
     .mockName('createConditionMetadataObject');
 
-jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
+jest.mock('../commonFactoryUtils/connectionPropertiesUtils');
 getConnectionProperties.mockImplementation(() => {
     return {
         connectorCount: 1,
@@ -209,6 +221,15 @@ getConnectionProperties.mockImplementation(() => {
         ],
         addFaultConnectionForWaitElement: false
     };
+});
+addRegularConnectorToAvailableConnections.mockImplementation((availableConnections, ruleOrOutcome) => {
+    return [
+        ...availableConnections,
+        {
+            type: 'REGULAR',
+            childReference: ruleOrOutcome.name
+        }
+    ];
 });
 
 // TODO: https://gus.my.salesforce.com/a07B0000004ihceIAA - add connector tests
@@ -1060,6 +1081,22 @@ describe('decision', () => {
 
             const decision = result.elements[existingDecisionGuid];
             expect(decision.elementType).toEqual(ELEMENT_TYPE.DECISION);
+        });
+
+        describe('available connections', () => {
+            it('available connections array is present', () => {
+                const result = createDecisionWithOutcomeReferences(decisionFromFlow);
+
+                const decision = result.elements[existingDecisionGuid];
+
+                expect(decision.availableConnections).not.toBe(null);
+            });
+            it('available connections has default connection when no default connector', () => {
+                const result = createDecisionWithOutcomeReferences(decisionFromFlow);
+
+                const availableConnections = result.elements[existingDecisionGuid].availableConnections;
+                expect(availableConnections[availableConnections.length - 1].type).toEqual(CONNECTOR_TYPE.DEFAULT);
+            });
         });
 
         describe('defaultConnectorLabel', () => {

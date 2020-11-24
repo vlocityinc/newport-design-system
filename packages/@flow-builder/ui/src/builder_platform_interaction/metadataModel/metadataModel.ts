@@ -51,7 +51,6 @@ export interface ScreenFieldMetadata extends ElementMetadata {
 }
 
 export interface StartMetadata extends NodeMetadata {
-    connector: ConnectorMetadata;
     filters?: RecordFilterMetadata[];
     filterLogic: string;
     object?: string;
@@ -60,16 +59,19 @@ export interface StartMetadata extends NodeMetadata {
     triggerType?: string;
     scheduledPaths?: ScheduledPathMetadata[];
     doesRequireRecordChangedToMeetCriteria?: boolean;
+    connector: ConnectorMetadata;
 }
 
 export interface ScheduledPathMetadata extends ElementMetadata {
+    name: string;
     timeSource: string;
     offsetUnit: string;
     offsetNumber: string;
     recordField?: string;
+    connector: ConnectorMetadata;
 }
 
-interface ConnectorMetadata extends BaseElementMetadata {
+export interface ConnectorMetadata extends BaseElementMetadata {
     targetReference: string;
 }
 

@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ChildReference, Guid } from 'builder_platform_interaction/uiModel';
+import { ConnectorMetadata } from 'builder_platform_interaction/metadataModel';
+
+import { ChildReference, Guid, AvailableConnection } from 'builder_platform_interaction/uiModel';
 
 /**
  * Helper function to get an array of all child references that have connectors associated with them
@@ -153,4 +155,34 @@ export function getConnectionProperties(
         availableConnections,
         addFaultConnectionForWaitElement
     };
+}
+
+/**
+ * Function to add regular connector to available connections
+ *
+ * @param availableConnections - original array of available connections
+ * @param elementChild - an element child like outcome, wait event
+ * or time trigger in metadata form
+ * @returns updated array of available connections
+ */
+export function addRegularConnectorToAvailableConnections(
+    availableConnections: AvailableConnection[] = [],
+    elementChild: { name: string; connector: ConnectorMetadata }
+): AvailableConnection[] {
+    if (!elementChild || !elementChild.name) {
+        throw new Error('Either elementChild or elementChild.name is not defined');
+    }
+    const { name, connector } = elementChild;
+
+    if (!connector) {
+        const childReference = name;
+        return [
+            ...availableConnections,
+            {
+                type: CONNECTOR_TYPE.REGULAR,
+                childReference
+            }
+        ];
+    }
+    return availableConnections;
 }

@@ -294,25 +294,3 @@ export const createNewConnector = (
 export function createEndConnector(elements: FlowElements, sourceElement: CanvasElement, type: ConnectorType) {
     return createNewConnector(elements, sourceElement.guid, generateGuid(), type);
 }
-
-export function addRegularConnectorToAvailableConnections(
-    availableConnections: AvailableConnection[] = [],
-    canvasElementChild: ElementUi
-) {
-    if (!availableConnections || !canvasElementChild || !canvasElementChild.name) {
-        throw new Error('Either availableConnections or canvasElementChild is not defined');
-    }
-    const { name, connector } = canvasElementChild;
-
-    if (!connector) {
-        const childReference = name;
-        return [
-            ...availableConnections,
-            {
-                type: CONNECTOR_TYPE.REGULAR,
-                childReference
-            }
-        ];
-    }
-    return availableConnections;
-}

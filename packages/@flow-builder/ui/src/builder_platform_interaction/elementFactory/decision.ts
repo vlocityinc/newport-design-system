@@ -6,9 +6,13 @@ import {
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
-    createCondition
+    createCondition,
+    updateChildReferences
 } from './base/baseElement';
-import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import {
+    getConnectionProperties,
+    addRegularConnectorToAvailableConnections
+} from './commonFactoryUtils/connectionPropertiesUtils';
 import {
     getElementByGuid,
     isExecuteOnlyWhenChangeMatchesConditionsPossible,
@@ -172,7 +176,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     for (let i = 0; i < outcomes.length; i++) {
         const outcome = outcomes[i];
         const newOutcome = createOutcome(outcome);
-        childReferences = updateOutcomeReferences(childReferences, newOutcome);
+        childReferences = updateChildReferences(childReferences, newOutcome);
         newOutcomes = [...newOutcomes, newOutcome];
     }
 
@@ -250,7 +254,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
         const connector = createConnectorObjects(rule, outcome.guid, newDecision.guid);
         outcomes = [...outcomes, outcome];
         // updating outcomeReferences
-        childReferences = updateOutcomeReferences(childReferences, outcome);
+        childReferences = updateChildReferences(childReferences, outcome);
         availableConnections = addRegularConnectorToAvailableConnections(availableConnections, rule);
         // connector is an array. FIX it.
         connectors = [...connectors, ...connector];
@@ -334,30 +338,6 @@ function calculateMaxConnections(decision) {
     return length;
 }
 
-/*
-TODO: Refactor Decision and Wait functions here to use common code path from connectorUtils
-W-8166314
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
- */
-function addRegularConnectorToAvailableConnections(availableConnections = [], outcomeOrRule) {
-    if (!availableConnections || !outcomeOrRule || !outcomeOrRule.name) {
-        throw new Error('Either availableConnections, outcome or rule is not defined');
-    }
-    const { name, connector } = outcomeOrRule;
-
-    if (!connector) {
-        const childReference = name;
-        return [
-            ...availableConnections,
-            {
-                type: CONNECTOR_TYPE.REGULAR,
-                childReference
-            }
-        ];
-    }
-    return availableConnections;
-}
-
 function addDefaultConnectorToAvailableConnections(availableConnections = [], decision) {
     if (!availableConnections || !decision) {
         throw new Error('Either availableConnections or decision is not defined');
@@ -376,25 +356,8 @@ function addDefaultConnectorToAvailableConnections(availableConnections = [], de
 
 /*
 TODO: Refactor Decision and Wait functions here to use common code path from base element
-W-8166314
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
- */
-function updateOutcomeReferences(childReferences = [], outcome) {
-    if (!outcome || !outcome.guid) {
-        throw new Error('Either outcome or outcome.guid is not defined');
-    }
-    return [
-        ...childReferences,
-        {
-            childReference: outcome.guid
-        }
-    ];
-}
-
-/*
-TODO: Refactor Decision and Wait functions here to use common code path from base element
-W-8166314
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000089yE7IAI/view
+W-8438951
+https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008j2K9IAI/view
  */
 function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
     if (!originalDecision) {
