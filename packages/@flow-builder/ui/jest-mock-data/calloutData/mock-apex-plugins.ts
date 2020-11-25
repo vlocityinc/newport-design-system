@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const mockApexPlugins = [
     {
         apexClass: 'mynamespace__lookUpAccountPlugin',
@@ -15,6 +14,7 @@ export const mockApexPlugins = [
     {
         apexClass: 'flowchat',
         fieldsToNull: [],
-        name: 'flow chat plugin'
+        name: 'flow chat plugin',
+        tag: 'chat'
     }
 ];

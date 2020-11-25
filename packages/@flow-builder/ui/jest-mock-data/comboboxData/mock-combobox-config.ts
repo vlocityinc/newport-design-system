@@ -1,6 +1,7 @@
 export const comboboxInitialConfig = {
     menuData: [
         {
+            displayText: 'New Resource',
             text: 'New Resource',
             value: '%%NewResource%%',
             iconName: 'utility:add',
@@ -10,8 +11,11 @@ export const comboboxInitialConfig = {
             label: 'SObject Variables',
             items: [
                 {
+                    iconAlternativeText: 'SObject',
                     iconSize: 'xx-small',
                     text: 'MyAccount',
+                    rightIconName: 'utility:chevronright',
+                    rightIconSize: 'xx-small',
                     subText: 'Account',
                     value: 'b4c16f3b-b29c-4f73-a561-442247440fba',
                     displayText: '{!MyAccount}',
@@ -22,8 +26,11 @@ export const comboboxInitialConfig = {
                     subtype: 'Account'
                 },
                 {
+                    iconAlternativeText: 'SObject',
                     iconSize: 'xx-small',
                     text: 'MyContact',
+                    rightIconName: 'utility:chevronright',
+                    rightIconSize: 'xx-small',
                     subText: 'Contact',
                     value: 'VAR2',
                     displayText: '{!MyContact}',
@@ -39,6 +46,7 @@ export const comboboxInitialConfig = {
             label: 'Variables',
             items: [
                 {
+                    iconAlternativeText: 'String',
                     iconSize: 'xx-small',
                     text: 'MyName',
                     subText: 'Text',
@@ -51,6 +59,7 @@ export const comboboxInitialConfig = {
                     subtype: null
                 },
                 {
+                    iconAlternativeText: 'Number',
                     iconSize: 'xx-small',
                     text: 'MyNumber2',
                     subText: 'Number',
@@ -63,6 +72,7 @@ export const comboboxInitialConfig = {
                     subtype: null
                 },
                 {
+                    iconAlternativeText: 'Date',
                     iconSize: 'xx-small',
                     text: 'StartDateVar',
                     subText: 'Date',
@@ -75,6 +85,7 @@ export const comboboxInitialConfig = {
                     subtype: null
                 },
                 {
+                    iconAlternativeText: 'Boolean',
                     iconSize: 'xx-small',
                     text: 'Is Applicable?',
                     subText: 'Boolean',
@@ -92,6 +103,9 @@ export const comboboxInitialConfig = {
             label: 'Global Constants',
             items: [
                 {
+                    iconAlternativeText: 'Boolean',
+                    iconName: 'utility:crossfilter',
+                    iconSize: 'xx-small',
                     text: '$GlobalConstant.True',
                     subText: 'True',
                     value: '$GlobalConstant.True',
@@ -102,6 +116,9 @@ export const comboboxInitialConfig = {
                     subtype: null
                 },
                 {
+                    iconAlternativeText: 'String',
+                    iconName: 'utility:text',
+                    iconSize: 'xx-small',
                     text: '$GlobalConstant.EmptyString',
                     subText: 'EmptyString',
                     value: '$GlobalConstant.EmptyString',
@@ -135,8 +152,10 @@ export const secondLevelMenuData = [
         text: 'CreatedBy',
         subText: 'Created By ID',
         displayText: '{!MyAccount.CreatedBy}',
-        iconName: 'utility:text',
+        iconAlternativeText: undefined,
+        iconName: undefined,
         iconSize: 'xx-small',
+        isCollection: false,
         value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy',
         parent: mockAccountVar,
         dataType: 'SObject',
@@ -146,28 +165,13 @@ export const secondLevelMenuData = [
         hasNext: true
     },
     {
-        type: 'option-card',
-        text: 'FirstName',
-        iconName: 'standard:account',
-        subText: 'First Name',
-        value: '{!MyAccount.FirstName}',
-        displayText: '{!MyAccount.FirstName}',
-        parent: mockAccountVar
-    },
-    {
-        type: 'option-card',
-        text: 'LastName',
-        iconName: 'standard:account',
-        subText: 'Last Name',
-        value: '{!MyAccount.LastName}',
-        displayText: '{!MyAccount.LastName}',
-        parent: mockAccountVar
-    },
-    {
+        dataType: 'Currency',
         type: 'option-card',
         text: 'AnnualRevenue',
-        iconName: 'standard:account',
+        iconAlternativeText: 'Currency',
+        iconName: 'utility:currency',
         subText: 'Annual Revenue',
+        subtype: undefined,
         value: '{!MyAccount.AnnualRevenue}',
         displayText: '{!MyAccount.AnnualRevenue}',
         parent: mockAccountVar
@@ -178,12 +182,16 @@ const accountCreatedByField = secondLevelMenuData[0];
 
 export const thirdLevelMenuData = [
     {
+        dataType: 'String',
         type: 'option-card',
         text: 'EmployeeNumber',
         subText: 'Employee Number',
+        subtype: undefined,
         displayText: '{!MyAccount.CreatedBy.EmployeeNumber}',
+        iconAlternativeText: 'String',
         iconName: 'utility:text',
         iconSize: 'xx-small',
+        isCollection: undefined,
         value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy.EmployeeNumber',
         parent: accountCreatedByField
     }
@@ -202,9 +210,18 @@ export const mockSObjectFieldFourthLevelComboboxItem = {
         }
     ],
     displayText: '{!myAccount.CreatedBy.Manager.AboutMe}',
+    iconAlternativeText: 'String',
     iconName: 'utility:text',
+    iconSize: 'xx-small',
+    isCollection: undefined,
     value: '44aa5706-a115-48ed-9b42-27ab178150b6.CreatedBy.Manager.AboutMe',
     parent: {
+        iconAlternativeText: undefined,
+        iconName: undefined,
+        iconSize: 'xx-small',
+        rightIconName: 'utility:chevronright',
+        rightIconSize: 'xx-small',
+        type: 'option-card',
         text: 'Manager',
         subText: 'Manager ID',
         displayText: '{!myAccount.CreatedBy.Manager}',
@@ -234,7 +251,13 @@ export const mockGlobalConstantEmptyStringComboboxItem = {
             text: 'Equivalent to empty string (not null)'
         }
     ],
-    dataType: 'String'
+    subtype: null,
+    hasNext: false,
+    iconAlternativeText: 'String',
+    iconName: 'utility:text',
+    iconSize: 'xx-small',
+    dataType: 'String',
+    type: 'option-card'
 };
 export const mockGlobalVariableFlowCurrentDateComboboxItem = {
     text: [
@@ -250,9 +273,18 @@ export const mockGlobalVariableFlowCurrentDateComboboxItem = {
         }
     ],
     displayText: '{!$Flow.CurrentDate}',
+    iconAlternativeText: 'Date',
+    iconSize: 'xx-small',
     iconName: 'utility:event',
+    type: 'option-card',
     value: '$Flow.CurrentDate',
     parent: {
+        dataType: undefined,
+        iconAlternativeText: 'Global variable',
+        iconSize: 'xx-small',
+        rightIconName: 'utility:chevronright',
+        rightIconSize: 'xx-small',
+        subText: undefined,
         value: '$Flow',
         subtype: '$Flow',
         text: '$Flow',
@@ -270,17 +302,25 @@ export const mockApexDefinedVariable = {
     value: '9444cfb2-70bc-411d-a466-cd0a9b3e1388',
     displayText: '{!vApexComplexTypeTestOne216}',
     subText: 'Apex-Defined',
-    category: 'APEX-DEFINED VARIABLES',
+    iconAlternativeText: 'Apex',
     iconName: 'utility:apex',
+    iconSize: 'xx-small',
+    rightIconName: 'utility:chevronright',
+    rightIconSize: 'xx-small',
     type: 'option-card',
     dataType: 'Apex',
-    subtype: 'ApexComplexTypeTestOne216'
+    subtype: 'ApexComplexTypeTestOne216',
+    hasNext: true
 };
 export const mockApexFieldSecondLevelComboboxItem = {
     text: 'booleanField',
+    type: 'option-card',
     subText: 'Boolean',
+    subtype: undefined,
     displayText: '{!vApexComplexTypeTestOne216.booleanField}',
+    iconAlternativeText: 'Boolean',
     iconName: 'utility:crossfilter',
+    iconSize: 'xx-small',
     value: '9444cfb2-70bc-411d-a466-cd0a9b3e1388.booleanField',
     parent: mockApexDefinedVariable,
     dataType: 'Boolean',
@@ -288,11 +328,16 @@ export const mockApexFieldSecondLevelComboboxItem = {
 };
 export const mockApexSObjectEntitySecondLevelComboboxItem = {
     text: 'acct',
+    type: 'option-card',
     subText: 'Record',
     displayText: '{!vApexComplexTypeTestOne216.acct}',
+    iconAlternativeText: 'SObject',
     iconName: 'utility:sobject',
+    iconSize: 'xx-small',
     value: '27059a62-ddd9-4978-ac06-f3dc18313c35.acct',
     parent: mockApexDefinedVariable,
+    rightIconName: 'utility:chevronright',
+    rightIconSize: 'xx-small',
     dataType: 'SObject',
     subtype: 'Account',
     isCollection: false,
@@ -311,8 +356,13 @@ export const mockApexFieldThirdLevelComboboxItem = {
             text: 'Annual Revenue'
         }
     ],
+    subtype: undefined,
+    type: 'option-card',
     displayText: '{!vApexComplexTypeTestOne216.acct.AnnualRevenue}',
+    iconAlternativeText: 'Currency',
     iconName: 'utility:currency',
+    iconSize: 'xx-small',
+    isCollection: undefined,
     value: '27059a62-ddd9-4978-ac06-f3dc18313c35.acct.AnnualRevenue',
     parent: {
         text: 'acct',
@@ -329,19 +379,42 @@ export const mockApexFieldThirdLevelComboboxItem = {
     textNoHighlight: 'AnnualRevenue',
     subTextNoHighlight: 'Annual Revenue'
 };
-export const mockSObjectEntitySecondLevelComboboxItem = {};
-
 const mockFeedItemVariable = {
     text: 'feedItemVariable',
     value: '5a00fe66-6b3e-4314-823d-2ddf3d15159c',
     displayText: '{!feedItemVariable}',
     subText: 'FeedItem',
     hasNext: true,
+    iconAlternativeText: 'SObject',
     iconName: 'utility:sobject',
+    iconSize: 'xx-small',
+    rightIconName: 'utility:chevronright',
+    rightIconSize: 'xx-small',
     dataType: 'SObject',
-    subtype: 'FeedItem'
+    subtype: 'FeedItem',
+    type: 'option-card'
+};
+export const mockPolymorphicSObjectEntitySecondLevelComboboxItem = {
+    iconAlternativeText: undefined,
+    iconName: undefined,
+    iconSize: 'xx-small',
+    rightIconName: 'utility:chevronright',
+    rightIconSize: 'xx-small',
+    type: 'option-card',
+    text: 'CreatedBy (User)',
+    subText: 'Created By ID',
+    displayText: '{!feedItemVariable.CreatedBy:User}',
+    value: '5a00fe66-6b3e-4314-823d-2ddf3d15159c.CreatedBy:User',
+    parent: mockFeedItemVariable,
+    dataType: 'SObject',
+    subtype: 'User',
+    isCollection: false,
+    hasNext: true
 };
 export const mockPolymorphicSObjectFieldThirdLevelComboboxItem = {
+    isCollection: undefined,
+    type: 'option-card',
+
     text: [
         {
             highlight: true,
@@ -354,25 +427,21 @@ export const mockPolymorphicSObjectFieldThirdLevelComboboxItem = {
             text: 'About Me'
         }
     ],
+    subtype: undefined,
     displayText: '{!feedItemVariable.CreatedBy:User.AboutMe}',
+    iconAlternativeText: 'String',
     iconName: 'utility:text',
+    iconSize: 'xx-small',
     value: '5a00fe66-6b3e-4314-823d-2ddf3d15159c.CreatedBy:User.AboutMe',
-    parent: {
-        text: 'CreatedBy (User)',
-        subText: 'Created By ID',
-        displayText: '{!feedItemVariable.CreatedBy:User}',
-        value: '5a00fe66-6b3e-4314-823d-2ddf3d15159c.CreatedBy:User',
-        parent: mockFeedItemVariable,
-        dataType: 'SObject',
-        subtype: 'User',
-        isCollection: false,
-        hasNext: true
-    },
+    parent: mockPolymorphicSObjectEntitySecondLevelComboboxItem,
     dataType: 'String',
     textNoHighlight: 'AboutMe',
     subTextNoHighlight: 'About Me'
 };
 export const mockPolymorphicSObjectFieldThirdLevelMultiSubTextComboboxItem = {
+    isCollection: undefined,
+    subtype: undefined,
+    type: 'option-card',
     text: [
         {
             highlight: true,
@@ -390,35 +459,18 @@ export const mockPolymorphicSObjectFieldThirdLevelMultiSubTextComboboxItem = {
         }
     ],
     displayText: '{!vFeedItem.CreatedBy:User.Name}',
+    iconAlternativeText: 'String',
     iconName: 'utility:text',
+    iconSize: 'xx-small',
     value: '30d2d542-eba9-4b66-9e8e-20515f7dd3ce.CreatedBy:User.Name',
-    parent: {
-        text: 'CreatedBy (User)',
-        subText: 'Created By ID',
-        displayText: '{!vFeedItem.CreatedBy:User}',
-        value: '30d2d542-eba9-4b66-9e8e-20515f7dd3ce.CreatedBy:User',
-        parent: mockFeedItemVariable,
-        dataType: 'SObject',
-        subtype: 'User',
-        isCollection: false,
-        hasNext: true
-    },
+    parent: mockPolymorphicSObjectEntitySecondLevelComboboxItem,
     dataType: 'String',
     textNoHighlight: 'Name',
     subTextNoHighlight: 'Full Name'
 };
-export const mockPolymorphicSObjectEntitySecondLevelComboboxItem = {
-    text: 'CreatedBy (User)',
-    subText: 'Created By ID',
-    displayText: '{!feedItemVariable.CreatedBy:User}',
-    value: '5a00fe66-6b3e-4314-823d-2ddf3d15159c.CreatedBy:User',
-    parent: mockFeedItemVariable,
-    dataType: 'SObject',
-    subtype: 'User',
-    isCollection: false,
-    hasNext: true
-};
+
 export const mockEmailScreenFieldAutoSecondLevelFieldComboboxItem = {
+    type: 'option-card',
     text: [
         {
             highlight: true,
@@ -431,8 +483,11 @@ export const mockEmailScreenFieldAutoSecondLevelFieldComboboxItem = {
             text: 'Read Only'
         }
     ],
+    subtype: undefined,
     displayText: '{!emailScreenFieldAutomaticOutput.readonly}',
+    iconAlternativeText: 'Boolean',
     iconName: 'utility:crossfilter',
+    iconSize: 'xx-small',
     value: '6de8888c-22c7-4bf8-8308-4a25ae107e30.readonly',
     parent: {
         text: 'emailScreenFieldAutomaticOutput',
@@ -440,7 +495,11 @@ export const mockEmailScreenFieldAutoSecondLevelFieldComboboxItem = {
         displayText: '{!emailScreenFieldAutomaticOutput}',
         subText: 'Email',
         hasNext: true,
+        iconAlternativeText: 'Screen component',
         iconName: 'utility:connected_apps',
+        iconSize: 'xx-small',
+        rightIconName: 'utility:chevronright',
+        rightIconSize: 'xx-small',
         type: 'option-card',
         dataType: 'LightningComponentOutput',
         subtype: null
@@ -452,10 +511,15 @@ export const mockEmailScreenFieldAutoSecondLevelFieldComboboxItem = {
 };
 
 export const mockApexCallApexClassOutputSecondLevelComboboxItem = {
+    type: 'option-card',
     text: 'car',
     subText: 'car',
     displayText: '{!apexCall_Car_automatic_output.car}',
+    iconAlternativeText: 'Apex',
     iconName: 'utility:apex',
+    iconSize: 'xx-small',
+    rightIconName: 'utility:chevronright',
+    rightIconSize: 'xx-small',
     value: '047e8f53-5716-401f-bb4a-bce1c4ffb724.car',
     parent: {
         text: [
@@ -489,7 +553,11 @@ export const mockApexCallApexClassOutputSecondLevelComboboxItem = {
             }
         ],
         hasNext: true,
+        iconAlternativeText: 'ActionOutput',
         iconName: 'utility:fallback',
+        iconSize: 'xx-small',
+        rightIconName: 'utility:chevronright',
+        rightIconSize: 'xx-small',
         type: 'option-card',
         dataType: 'ActionOutput',
         subtype: null,

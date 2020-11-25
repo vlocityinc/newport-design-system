@@ -2091,10 +2091,10 @@ describe('Combobox', () => {
                     await ticks(1);
                     expect(combobox.pill).not.toBeNull();
                     expect(combobox.pill).toEqual({
-                        iconName: 'standard:account',
-                        label: 'MyAccount > First Name'
+                        iconName: 'utility:currency',
+                        label: 'MyAccount > Annual Revenue'
                     });
-                    expect(combobox.pillTooltip).toEqual('MyAccount > First Name');
+                    expect(combobox.pillTooltip).toEqual('MyAccount > Annual Revenue');
                     expect(combobox.hasPillError).toBe(false);
                 });
                 it('removes pill on pill click event and back to merge field mode', async () => {

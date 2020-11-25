@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const mockSubflows = [
     {
         masterLabel: 'CFD - Update elements with different config',

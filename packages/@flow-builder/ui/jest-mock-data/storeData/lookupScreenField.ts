@@ -1,4 +1,3 @@
-// @ts-nocheck
 export default {
     guid: '01c85adf-a224-43ce-a6af-72d999808aad',
     name: 'lookupScreenField',

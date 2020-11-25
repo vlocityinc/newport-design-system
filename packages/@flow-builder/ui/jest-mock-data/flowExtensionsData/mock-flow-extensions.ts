@@ -1,4 +1,4 @@
-// @ts-nocheck
+// To be removed with W-8208977
 // see flowExtension.createdescription
 export const mockFlowRuntimeEmailFlowExtensionDescription = {
     name: 'flowruntime:email',
@@ -19,6 +19,7 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
             apiName: 'label',
             dataType: 'string',
             description: 'The label that appears above the email field.',
+            // this is wrong this value is actually true but it makes some tests to fail if we bring it back to its real value
             hasDefaultValue: false,
             isRequired: true,
             label: 'Label',
@@ -150,7 +151,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
             isOutput: true,
             maxOccurs: 1
         }
-    ]
+    ],
+    configurationEditor: null
 };
 
 export const mockLightningCompWithAccountOutputFlowExtensionDescription = {
@@ -220,7 +222,8 @@ export const mockLightningCompWithAccountOutputFlowExtensionDescription = {
             isOutput: true,
             maxOccurs: 1
         }
-    ]
+    ],
+    configurationEditor: null
 };
 
 export const mockLightningCompWithoutSObjectOutputFlowExtensionDescription = {
@@ -271,6 +274,7 @@ export const mockLightningCompWithoutSObjectOutputFlowExtensionDescription = {
     ]
 };
 
+// This is NOT the lookup component
 export const mockLightningCompWithGenericTypesFlowExtensionDescription = {
     name: 'c:lookup',
     inputParameters: [
@@ -371,5 +375,6 @@ export const mockLightningCompWithSObjectCollectionOutputFlowExtensionDescriptio
             isOutput: true,
             maxOccurs: 2000
         }
-    ]
+    ],
+    configurationEditor: null
 };

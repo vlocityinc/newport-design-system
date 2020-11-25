@@ -122,9 +122,6 @@ exports[`Combobox pill supported required displays required element for required
           >
             #shadow-root(open)
               <slot />
-            <lightning-icon>
-              #shadow-root(open)
-            </lightning-icon>
           </lightning-pill>
         </div>
       </div>
@@ -149,9 +146,6 @@ exports[`Combobox pill supported required does NOT display required element for 
           >
             #shadow-root(open)
               <slot />
-            <lightning-icon>
-              #shadow-root(open)
-            </lightning-icon>
           </lightning-pill>
         </div>
       </div>

@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const platformEvent1ApiName = 'PlatformEvent1__e';
 export const platformEvent1Label = 'Platform Event 1 Label';
 export const platformEventInkLevelApiName = 'InkLevel__e';

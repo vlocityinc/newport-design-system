@@ -1,4 +1,4 @@
-// @ts-nocheck
+// To be removed with W-7396556. Do not use in new tests. Use json goldfiles instead.
 export const mockAllTypesActionParameters = {
     parameters: [
         {

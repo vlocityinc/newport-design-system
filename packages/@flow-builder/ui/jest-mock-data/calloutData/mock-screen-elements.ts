@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const mockScreenElement = {
     allowBack: true,
     allowFinish: true,
