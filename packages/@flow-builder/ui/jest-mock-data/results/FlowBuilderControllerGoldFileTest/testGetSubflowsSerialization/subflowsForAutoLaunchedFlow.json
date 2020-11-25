@@ -16,11 +16,6 @@
       "description":"FTEST - File Based Flow Template Basic"
     },
     {
-      "masterLabel":"Naga_Sample_Visit_Strategy",
-      "fullName":"cg_retail__SampleVisitRecommendation",
-      "description":null
-    },
-    {
       "masterLabel":"SomeFlow",
       "fullName":"autoLaunchedFlow",
       "description":"I didn't know description is required field?!"

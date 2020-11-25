@@ -63,8 +63,6 @@ const createComponentForTest = (node, mode) => {
     return el;
 };
 
-const itSkip = it.skip;
-
 describe('Subflow Editor with automatic output', () => {
     let store;
     beforeAll(async () => {
@@ -903,7 +901,7 @@ describe('Subflow Editor', () => {
                 });
             });
             // W-5726771
-            itSkip('show error if entering the empty string constant to the String Parameter', () => {
+            it('show error if entering the empty string constant to the String Parameter', () => {
                 const stringParameterElement = findParameterElement(outputAssignments, 'inputOutputStringVar');
                 const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)));
@@ -948,7 +946,7 @@ describe('Subflow Editor', () => {
                 });
             });
             // W-5726771
-            itSkip('show error if entering the global constant to the Boolean Parameter', () => {
+            it('show error if entering the global constant to the Boolean Parameter', () => {
                 const booleanParameterElement = findParameterElement(outputAssignments, 'inputOutputBoolVar');
                 const booleanParameterCombobox = getOutputParameterComboboxElement(booleanParameterElement);
                 booleanParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)));
@@ -960,7 +958,7 @@ describe('Subflow Editor', () => {
                 });
             });
             // W-5726771
-            itSkip('show the error if entering the empty string constant for the Boolean Parameter', () => {
+            it('show the error if entering the empty string constant for the Boolean Parameter', () => {
                 const booleanParameterElement = findParameterElement(outputAssignments, 'inputOutputBoolVar');
                 const booleanParameterCombobox = getOutputParameterComboboxElement(booleanParameterElement);
                 booleanParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)));
