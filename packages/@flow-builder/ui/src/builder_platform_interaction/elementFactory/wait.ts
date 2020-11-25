@@ -14,6 +14,7 @@ import {
     baseCanvasElementsArrayToMap,
     baseChildElement,
     createCondition,
+    getUpdatedChildrenAndDeletedChildrenUsingStore,
     updateChildReferences
 } from './base/baseElement';
 import {
@@ -31,8 +32,7 @@ import {
 } from './base/baseMetadata';
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
-import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
-import { areAllBranchesTerminals } from 'builder_platform_interaction/autoLayoutCanvas';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
@@ -411,13 +411,13 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     const maxConnections = newWaitEvents.length + 2;
     const {
         newChildren,
-        deletedWaitEvents,
+        deletedCanvasElementChildren,
         deletedBranchHeadGuids,
         shouldAddEndElement,
         newEndElementIdx,
         shouldMarkBranchHeadAsTerminal
-    } = getUpdatedChildrenDeletedWaitEventsUsingStore(wait, newWaitEvents);
-    const deletedWaitEventGuids = deletedWaitEvents.map((waitEvent) => waitEvent.guid);
+    } = getUpdatedChildrenAndDeletedChildrenUsingStore(wait, newWaitEvents);
+    const deletedWaitEventGuids = deletedCanvasElementChildren.map((waitEvent) => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
 
@@ -560,105 +560,4 @@ function addFaultConnectorToAvailableConnections(availableConnections = [], wait
         ];
     }
     return availableConnections;
-}
-
-/*
-TODO: Refactor Decision and Wait functions here to use common code path from base element
-W-8438951
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008j2K9IAI/view
- */
-function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
-    if (!originalWait) {
-        throw new Error('wait is not defined');
-    }
-    const { guid, children } = originalWait;
-    const waitFromStore = getElementByGuid(guid);
-    let waitEventReferencesFromStore;
-    if (waitFromStore) {
-        waitEventReferencesFromStore = waitFromStore.childReferences.map(
-            (childReference) => childReference.childReference
-        );
-    }
-
-    const newWaitEventGuids = newWaitEvents.map((newWaitEvent) => newWaitEvent.guid);
-
-    // Initializing the new children array
-    const newChildren = new Array(newWaitEventGuids.length + 1).fill(null);
-    let deletedWaitEvents = [];
-    const deletedBranchHeadGuids = [];
-
-    let shouldAddEndElement = false;
-    let newEndElementIdx;
-    let shouldMarkBranchHeadAsTerminal = false;
-    if (waitEventReferencesFromStore) {
-        deletedWaitEvents = waitEventReferencesFromStore
-            .filter((waitEventReferenceGuid) => {
-                return !newWaitEventGuids.includes(waitEventReferenceGuid);
-            })
-            .map((childReference) => getElementByGuid(childReference));
-
-        const netNewWaitEventIndexes = [];
-        if (shouldUseAutoLayoutCanvas()) {
-            const areAllExistingBranchesTerminal = areAllBranchesTerminals(
-                originalWait,
-                Store.getStore().getCurrentState().elements
-            );
-
-            // For wait events that previously existed, finding the associated children
-            // and putting them at the right indexes in newChildren
-            for (let i = 0; i < newWaitEventGuids.length; i++) {
-                const foundAtIndex = waitEventReferencesFromStore.indexOf(newWaitEventGuids[i]);
-                if (foundAtIndex !== -1) {
-                    newChildren[i] = children[foundAtIndex];
-                } else {
-                    netNewWaitEventIndexes.push(i);
-                }
-            }
-
-            // Adding the default branch's associated child to the last index of newChildren
-            newChildren[newChildren.length - 1] = children[children.length - 1];
-
-            // If all existing branches are terminal, add an end element as needed
-            if (areAllExistingBranchesTerminal && netNewWaitEventIndexes.length > 0) {
-                shouldAddEndElement = true;
-                if (netNewWaitEventIndexes.length === 1) {
-                    // If only one wait event is added, an end element needs to be added
-                    // to children at the correct index
-                    newEndElementIdx = netNewWaitEventIndexes[0];
-                }
-                // If multiple wait events are added, an end element needs to be added as
-                // wait's next, this case is handled in flcElementsReducer
-            }
-
-            // Getting the child associated with the deleted wait event
-            for (let i = 0; i < waitEventReferencesFromStore.length; i++) {
-                if (!newWaitEventGuids.includes(waitEventReferencesFromStore[i]) && children[i]) {
-                    deletedBranchHeadGuids.push(children[i]);
-                }
-            }
-
-            // If rest of the branches are all terminal, add wait's next to deletedBranchHeadGuids
-            let areAllNewBranchesTerminal = true;
-            for (let i = 0; i < newChildren.length; i++) {
-                const child = getElementByGuid(newChildren[i]);
-                if (!child || !child.isTerminal) {
-                    areAllNewBranchesTerminal = false;
-                }
-            }
-            if (areAllNewBranchesTerminal && deletedWaitEvents.length > 0) {
-                shouldMarkBranchHeadAsTerminal = true;
-                if (originalWait.next) {
-                    deletedBranchHeadGuids.push(originalWait.next);
-                }
-            }
-        }
-    }
-    return {
-        newChildren,
-        deletedWaitEvents,
-        deletedBranchHeadGuids,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
-    };
 }

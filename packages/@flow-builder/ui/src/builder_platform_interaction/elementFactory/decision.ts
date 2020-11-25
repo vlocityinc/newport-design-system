@@ -7,6 +7,7 @@ import {
     baseChildElement,
     baseCanvasElementsArrayToMap,
     createCondition,
+    getUpdatedChildrenAndDeletedChildrenUsingStore,
     updateChildReferences
 } from './base/baseElement';
 import {
@@ -25,8 +26,6 @@ import {
 } from './base/baseMetadata';
 import { LABELS } from './elementFactoryLabels';
 import { createConnectorObjects } from './connector';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { areAllBranchesTerminals } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const elementType = ELEMENT_TYPE.DECISION;
 
@@ -183,13 +182,13 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     const maxConnections = newOutcomes.length + 1;
     const {
         newChildren,
-        deletedOutcomes,
+        deletedCanvasElementChildren,
         deletedBranchHeadGuids,
         shouldAddEndElement,
         newEndElementIdx,
         shouldMarkBranchHeadAsTerminal
-    } = getUpdatedChildrenAndDeletedOutcomesUsingStore(decision, newOutcomes);
-    const deletedOutcomeGuids = deletedOutcomes.map((outcome) => outcome.guid);
+    } = getUpdatedChildrenAndDeletedChildrenUsingStore(decision, newOutcomes);
+    const deletedOutcomeGuids = deletedCanvasElementChildren.map((outcome) => outcome.guid);
 
     let originalDecision = getElementByGuid(decision.guid);
 
@@ -352,105 +351,4 @@ function addDefaultConnectorToAvailableConnections(availableConnections = [], de
         ];
     }
     return availableConnections;
-}
-
-/*
-TODO: Refactor Decision and Wait functions here to use common code path from base element
-W-8438951
-https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008j2K9IAI/view
- */
-function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
-    if (!originalDecision) {
-        throw new Error('decision is not defined');
-    }
-    const { guid, children } = originalDecision;
-    const decisionFromStore = getElementByGuid(guid);
-    let outcomeReferencesFromStore;
-    if (decisionFromStore) {
-        outcomeReferencesFromStore = decisionFromStore.childReferences.map(
-            (childReference) => childReference.childReference
-        );
-    }
-
-    const newOutcomeGuids = newOutcomes.map((newOutcome) => newOutcome.guid);
-
-    // Initializing the new children array
-    const newChildren = new Array(newOutcomeGuids.length + 1).fill(null);
-    let deletedOutcomes = [];
-    const deletedBranchHeadGuids = [];
-
-    let shouldAddEndElement = false;
-    let newEndElementIdx;
-    let shouldMarkBranchHeadAsTerminal = false;
-    if (outcomeReferencesFromStore) {
-        deletedOutcomes = outcomeReferencesFromStore
-            .filter((outcomeReferenceGuid) => {
-                return !newOutcomeGuids.includes(outcomeReferenceGuid);
-            })
-            .map((childReference) => getElementByGuid(childReference));
-
-        const netNewOutcomeIndexes = [];
-        if (shouldUseAutoLayoutCanvas()) {
-            const areAllExistingBranchesTerminal = areAllBranchesTerminals(
-                originalDecision,
-                Store.getStore().getCurrentState().elements
-            );
-
-            // For outcomes that previously existed, finding the associated children
-            // and putting them at the right indexes in newChildren
-            for (let i = 0; i < newOutcomeGuids.length; i++) {
-                const foundAtIndex = outcomeReferencesFromStore.indexOf(newOutcomeGuids[i]);
-                if (foundAtIndex !== -1) {
-                    newChildren[i] = children[foundAtIndex];
-                } else {
-                    netNewOutcomeIndexes.push(i);
-                }
-            }
-
-            // Adding the default branch's associated child to the last index of newChildren
-            newChildren[newChildren.length - 1] = children[children.length - 1];
-
-            // If all exsiting branches are terminal, then add an end element as needed
-            if (areAllExistingBranchesTerminal && netNewOutcomeIndexes.length > 0) {
-                shouldAddEndElement = true;
-                if (netNewOutcomeIndexes.length === 1) {
-                    // If only one outcome is added, an end element needs to be added
-                    // to children at the correct index
-                    newEndElementIdx = netNewOutcomeIndexes[0];
-                }
-                // If multiple outcomes are added, an end element needs to be added as
-                // decision's next, this case is handled in flcElementsReducer
-            }
-
-            // Getting the child associated with the deleted outcome
-            for (let i = 0; i < outcomeReferencesFromStore.length; i++) {
-                if (!newOutcomeGuids.includes(outcomeReferencesFromStore[i]) && children[i]) {
-                    deletedBranchHeadGuids.push(children[i]);
-                }
-            }
-
-            // If rest of the branches are all terminal, add decision's next to deletedBranchHeadGuids
-            let areAllNewBranchesTerminal = true;
-            for (let i = 0; i < newChildren.length; i++) {
-                const child = getElementByGuid(newChildren[i]);
-                if (!child || !child.isTerminal) {
-                    areAllNewBranchesTerminal = false;
-                }
-            }
-            if (areAllNewBranchesTerminal && deletedOutcomes.length > 0) {
-                shouldMarkBranchHeadAsTerminal = true;
-                if (originalDecision.next) {
-                    deletedBranchHeadGuids.push(originalDecision.next);
-                }
-            }
-        }
-    }
-    return {
-        newChildren,
-        deletedOutcomes,
-        deletedBranchHeadGuids,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
-    };
 }

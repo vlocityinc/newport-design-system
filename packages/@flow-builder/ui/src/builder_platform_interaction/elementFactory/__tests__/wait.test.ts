@@ -223,6 +223,8 @@ jest.mock('../base/baseElement', () => {
             .fn()
             .mockImplementation((element) => Object.assign({}, element))
             .mockName('createCondition'),
+        getUpdatedChildrenAndDeletedChildrenUsingStore: jest.requireActual('../base/baseElement')
+            .getUpdatedChildrenAndDeletedChildrenUsingStore,
         updateChildReferences: jest.fn().mockImplementation((childReferences, waitEvent) => {
             return [
                 ...childReferences,

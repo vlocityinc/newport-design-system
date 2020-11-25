@@ -17,6 +17,7 @@ import {
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
+    getUpdatedChildrenAndDeletedChildrenUsingStore,
     updateChildReferences
 } from '../base/baseElement';
 import {
@@ -190,6 +191,9 @@ baseChildElement
     })
     .mockName('baseChildElementMock');
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
+getUpdatedChildrenAndDeletedChildrenUsingStore.mockImplementation(
+    jest.requireActual('../base/baseElement').getUpdatedChildrenAndDeletedChildrenUsingStore
+);
 updateChildReferences.mockImplementation((childReferences, ruleOrOutcome) => {
     return [
         ...childReferences,

@@ -21,6 +21,12 @@ import {
     ChildReference,
     Guid
 } from 'builder_platform_interaction/uiModel';
+import {
+    areAllBranchesTerminals,
+    ParentNodeModel,
+    FlowModel,
+    BranchHeadNodeModel
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { ElementMetadata } from 'builder_platform_interaction/metadataModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
@@ -461,7 +467,14 @@ export function updateChildReferences(
 export function getUpdatedChildrenAndDeletedChildrenUsingStore(
     originalCanvasElement: AutoLayoutCanvasElement,
     canvasElementChildren: ElementUi[] = []
-): { newChildren: ChildElement[]; deletedCanvasElementChildren: ChildElement[]; deletedBranchHeadGuids: Guid[] } {
+): {
+    newChildren: Guid[];
+    deletedCanvasElementChildren: ChildElement[];
+    deletedBranchHeadGuids: Guid[];
+    shouldAddEndElement: boolean;
+    newEndElementIdx: number;
+    shouldMarkBranchHeadAsTerminal: boolean;
+} {
     if (!originalCanvasElement) {
         throw new Error('Canvas Element is not defined');
     }
@@ -481,6 +494,9 @@ export function getUpdatedChildrenAndDeletedChildrenUsingStore(
     let deletedCanvasElementChildren = [];
     const deletedBranchHeadGuids: Array<any> = [];
 
+    let shouldAddEndElement = false;
+    let newEndElementIdx;
+    let shouldMarkBranchHeadAsTerminal = false;
     if (canvasElementChildReferencesFromStore) {
         deletedCanvasElementChildren = canvasElementChildReferencesFromStore
             .filter((canvasElementChildReferenceGuid) => {
@@ -488,18 +504,38 @@ export function getUpdatedChildrenAndDeletedChildrenUsingStore(
             })
             .map((childReference) => getElementByGuid(childReference));
 
+        const netNewCanvasElementChildrenIndexes: Array<any> = [];
         if (shouldUseAutoLayoutCanvas() && children) {
+            const areAllExistingBranchesTerminal = areAllBranchesTerminals(
+                originalCanvasElement as ParentNodeModel,
+                Store.getStore().getCurrentState().elements as FlowModel
+            );
+
             // For canvas element children that previously existed, finding the associated children
             // and putting them at the right indexes in newChildren
             for (let i = 0; i < newCanvasElementChildGuids.length; i++) {
                 const foundAtIndex = canvasElementChildReferencesFromStore.indexOf(newCanvasElementChildGuids[i]);
                 if (foundAtIndex !== -1) {
                     newChildren[i] = children[foundAtIndex];
+                } else {
+                    netNewCanvasElementChildrenIndexes.push(i);
                 }
             }
 
             // Adding the default branch's associated child to the last index of newChildren
             newChildren[newChildren.length - 1] = children[children.length - 1];
+
+            // If all exsiting branches are terminal, then add an end element as needed
+            if (areAllExistingBranchesTerminal && netNewCanvasElementChildrenIndexes.length > 0) {
+                shouldAddEndElement = true;
+                if (netNewCanvasElementChildrenIndexes.length === 1) {
+                    // If only one canvas element child is added, an end element needs to be added
+                    // to children at the correct index
+                    newEndElementIdx = netNewCanvasElementChildrenIndexes[0];
+                }
+                // If multiple canvas element children are added, an end element needs to be added as
+                // canvas element's next, this case is handled in flcElementsReducer
+            }
 
             // Getting the child associated with the deleted canvas element child
             for (let i = 0; i < canvasElementChildReferencesFromStore.length; i++) {
@@ -507,7 +543,29 @@ export function getUpdatedChildrenAndDeletedChildrenUsingStore(
                     deletedBranchHeadGuids.push(children[i]);
                 }
             }
+
+            // If rest of the branches are all terminal, add canvas element's next to deletedBranchHeadGuids
+            let areAllNewBranchesTerminal = true;
+            for (let i = 0; i < newChildren.length; i++) {
+                const child = getElementByGuid(newChildren[i]) as BranchHeadNodeModel;
+                if (!child || !child.isTerminal) {
+                    areAllNewBranchesTerminal = false;
+                }
+            }
+            if (areAllNewBranchesTerminal && deletedCanvasElementChildren.length > 0) {
+                shouldMarkBranchHeadAsTerminal = true;
+                if (originalCanvasElement.next) {
+                    deletedBranchHeadGuids.push(originalCanvasElement.next);
+                }
+            }
         }
     }
-    return { newChildren, deletedCanvasElementChildren, deletedBranchHeadGuids };
+    return {
+        newChildren,
+        deletedCanvasElementChildren,
+        deletedBranchHeadGuids,
+        shouldAddEndElement,
+        newEndElementIdx,
+        shouldMarkBranchHeadAsTerminal
+    };
 }
