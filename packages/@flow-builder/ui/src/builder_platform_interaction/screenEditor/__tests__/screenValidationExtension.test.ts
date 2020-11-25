@@ -34,10 +34,10 @@ describe('field from extension', () => {
         it('Error message cannot be blank', () => {
             const rules = getRulesForField(emailScreenFieldAutomaticElement);
             // Set input parameter value to empty string
-            emailScreenFieldAutomaticElement.inputParameters[0].value.value = '';
-            expect(
-                screenValidation.validateAll(emailScreenFieldAutomaticElement, rules).inputParameters[0].value.error
-            ).toBe('FlowBuilderValidation.cannotBeBlank');
+            emailScreenFieldAutomaticElement.name.value = '';
+            expect(screenValidation.validateAll(emailScreenFieldAutomaticElement, rules).name.error).toBe(
+                'FlowBuilderValidation.cannotBeBlank'
+            );
         });
     });
     describe('When field type is Section', () => {
@@ -84,16 +84,10 @@ describe('field from extension', () => {
                 ]
             };
 
-            section.fields[1].fields[0].inputParameters[0].value.value = '';
+            emailScreenFieldAutomaticElement.name.value = '';
             section = screenValidation.validateAll(section);
 
-            expect(section.fields[1].fields[0].inputParameters[0].value.error).toBe(
-                'FlowBuilderValidation.cannotBeBlank'
-            );
-            expect(section.fields[1].fields[0].inputParameters[1].value.error).toBeNull();
-
-            expect(section.fields[0].fields[0].inputParameters[0].value.error).toBeNull();
-            expect(section.fields[0].fields[0].inputParameters[1].value.error).toBeNull();
+            expect(section.fields[1].fields[0].name.error).toBe('FlowBuilderValidation.cannotBeBlank');
         });
     });
 });

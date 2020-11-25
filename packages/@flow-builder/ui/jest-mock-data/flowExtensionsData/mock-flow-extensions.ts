@@ -19,8 +19,7 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
             apiName: 'label',
             dataType: 'string',
             description: 'The label that appears above the email field.',
-            // this is wrong this value is actually true but it makes some tests to fail if we bring it back to its real value
-            hasDefaultValue: false,
+            hasDefaultValue: true,
             isRequired: true,
             label: 'Label',
             isInput: true,
