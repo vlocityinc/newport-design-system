@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const flowCollectionServicesDemo = {
     createdById: '005xx00000000tnAAA',
     createdDate: '2018-10-12T15:08:48.000+0000',
@@ -626,8 +625,9 @@ export const flowCollectionServicesDemo = {
                         ],
                         scale: 0,
                         fields: [],
-                        extensionName: 'c:buttonNavFSC',
-                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                        storeOutputAutomatically: false,
+                        extensionName: 'c:buttonNavFSC'
                     },
                     {
                         choiceReferences: [],
@@ -647,8 +647,9 @@ export const flowCollectionServicesDemo = {
                         outputParameters: [],
                         scale: 0,
                         fields: [],
-                        extensionName: 'c:MultiShim',
-                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                        storeOutputAutomatically: false,
+                        extensionName: 'c:MultiShim'
                     },
                     {
                         choiceReferences: [],
@@ -703,8 +704,9 @@ export const flowCollectionServicesDemo = {
                         ],
                         scale: 0,
                         fields: [],
-                        extensionName: 'c:buttonNavFSC',
-                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                        storeOutputAutomatically: false,
+                        extensionName: 'c:buttonNavFSC'
                     },
                     {
                         choiceReferences: [],
@@ -735,8 +737,9 @@ export const flowCollectionServicesDemo = {
                         ],
                         scale: 0,
                         fields: [],
-                        extensionName: 'c:buttonNavFSC',
-                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                        storeOutputAutomatically: false,
+                        extensionName: 'c:buttonNavFSC'
                     }
                 ],
                 allowBack: true,

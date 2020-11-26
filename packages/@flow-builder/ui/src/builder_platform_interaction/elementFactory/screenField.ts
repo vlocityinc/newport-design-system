@@ -416,7 +416,7 @@ export function createScreenFieldMetadataObject(screenField) {
             outputParameters = outputParameters
                 .filter((outputParameter) => outputParameter.value)
                 .map((outputParameter) => createOutputParameterMetadataObject(outputParameter));
-            storeOutputAutomatically = undefined;
+            storeOutputAutomatically = automaticOutputHandlingSupport() ? false : undefined;
         }
         dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
     } else if (isRegionField(screenField)) {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const flowLegalNameChange = {
     createdById: '005T1000000Dm4KIAS',
     createdDate: '2018-10-22T12:09:22.000+0000',
@@ -52,8 +51,8 @@ export const flowLegalNameChange = {
                         assignToReference: 'vFeedItemID'
                     }
                 ],
-                storeOutputAutomatically: false,
-                flowTransactionModel: 'Automatic'
+                flowTransactionModel: 'Automatic',
+                storeOutputAutomatically: false
             }
         ],
         assignments: [
@@ -888,8 +887,9 @@ export const flowLegalNameChange = {
                         ],
                         scale: 0,
                         fields: [],
-                        extensionName: 'forceContent:fileUpload',
-                        inputsOnNextNavToAssocScrn: 'UseStoredValues'
+                        inputsOnNextNavToAssocScrn: 'UseStoredValues',
+                        storeOutputAutomatically: false,
+                        extensionName: 'forceContent:fileUpload'
                     }
                 ],
                 allowBack: true,

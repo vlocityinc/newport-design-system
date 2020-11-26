@@ -83,7 +83,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     });
 });
 
-const componentAutomaticOutputScreenFieldMetadata = () => ({
+const componentScreenFieldMetadata = {
     choiceReferences: [],
     extensionName: 'flowruntime:email',
     fields: [],
@@ -113,7 +113,11 @@ const componentAutomaticOutputScreenFieldMetadata = () => ({
     isRequired: true,
     name: 'myEmail',
     outputParameters: [],
-    scale: 0,
+    scale: 0
+};
+
+const componentAutomaticOutputScreenFieldMetadata = () => ({
+    ...componentScreenFieldMetadata,
     storeOutputAutomatically: true
 });
 
@@ -484,42 +488,54 @@ describe('screenField', () => {
         });
     });
     describe('screenField UI model => flow metadata', () => {
-        describe('LC screen field with automatic output handling', () => {
+        describe('LC screen field with automatic output handling support', () => {
             beforeEach(() => {
                 getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             });
-            it('converts to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
+            describe('screen field with store output automatically', () => {
+                it('converts to flow metadata', () => {
+                    const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
 
-                expect(actualResult).toMatchObject(componentAutomaticOutputScreenFieldMetadata());
-            });
-            it('has no common mutable object with screen field from store passed as parameter', () => {
-                const screenFieldStore = componentAutomaticOutputScreenFieldStore();
-                const actualResult = createScreenFieldMetadataObject(screenFieldStore);
-                expect(actualResult).toHaveNoCommonMutableObjectWith(screenFieldStore);
-            });
-            it('has dynamic type mappings', () => {
-                const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
-                expect(actualResult).toHaveProperty('dataTypeMappings');
-                expect(actualResult.dataTypeMappings).toHaveLength(1);
-                expect(actualResult.dataTypeMappings[0]).toEqual({
-                    typeName: 'T',
-                    typeValue: 'Asset'
+                    expect(actualResult).toMatchObject(componentAutomaticOutputScreenFieldMetadata());
+                });
+                it('has no common mutable object with screen field from store passed as parameter', () => {
+                    const screenFieldStore = componentAutomaticOutputScreenFieldStore();
+                    const actualResult = createScreenFieldMetadataObject(screenFieldStore);
+                    expect(actualResult).toHaveNoCommonMutableObjectWith(screenFieldStore);
+                });
+                it('has dynamic type mappings', () => {
+                    const actualResult = createScreenFieldMetadataObject(componentAutomaticOutputScreenFieldStore());
+                    expect(actualResult).toHaveProperty('dataTypeMappings');
+                    expect(actualResult.dataTypeMappings).toHaveLength(1);
+                    expect(actualResult.dataTypeMappings[0]).toEqual({
+                        typeName: 'T',
+                        typeValue: 'Asset'
+                    });
                 });
             });
-            it('ScreenField with empty manual value should be filtered to not appear in the output parameter list', () => {
-                const screenField = componentAutomaticOutputScreenFieldStore();
-                screenField.storeOutputAutomatically = false;
-                screenField.outputParameters = [
-                    {
-                        name: 'value',
-                        rowIndex: '60441777-29c3-42ed-935c-adf0b0176f0a',
-                        value: '',
-                        valueDataType: 'reference'
-                    }
-                ];
-                const actualResult = createScreenFieldMetadataObject(screenField);
-                expect(actualResult.outputParameters).toHaveLength(0);
+            describe('screen field with manual output', () => {
+                let screenFieldWithManualOutput;
+                beforeEach(() => {
+                    screenFieldWithManualOutput = componentAutomaticOutputScreenFieldStore();
+                    screenFieldWithManualOutput.storeOutputAutomatically = false;
+                });
+                it('ScreenField with empty manual value should be filtered to not appear in the output parameter list', () => {
+                    screenFieldWithManualOutput.outputParameters = [
+                        {
+                            name: 'value',
+                            rowIndex: '60441777-29c3-42ed-935c-adf0b0176f0a',
+                            value: '',
+                            valueDataType: 'reference'
+                        }
+                    ];
+                    const actualResult = createScreenFieldMetadataObject(screenFieldWithManualOutput);
+                    expect(actualResult.outputParameters).toHaveLength(0);
+                });
+                it('convert to flow metadata', () => {
+                    const actualResult = createScreenFieldMetadataObject(screenFieldWithManualOutput);
+                    expect(actualResult).toMatchObject(componentScreenFieldMetadata);
+                    expect(actualResult.storeOutputAutomatically).toBe(false);
+                });
             });
         });
         describe('LC screen field (automatic output handling not supported)', () => {
