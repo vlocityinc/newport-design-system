@@ -66,7 +66,7 @@
       "color":"background-orange",
       "name":"SortCollectionProcessor",
       "icon":"standard:sort",
-      "description":"Sort items in a collection based on the values of a field",
+      "description":"Sort items in a collection.",
       "label":"Collection Sort",
       "labelNew":"New Collection Sort",
       "classification":"Node",
