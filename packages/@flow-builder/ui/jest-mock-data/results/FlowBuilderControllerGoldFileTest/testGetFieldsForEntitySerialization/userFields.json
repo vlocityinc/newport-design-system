@@ -1616,6 +1616,10 @@
           "value":"sq_AL"
         },
         {
+          "label":"Amharic (Ethiopia)",
+          "value":"am_ET"
+        },
+        {
           "label":"Arabic (Algeria)",
           "value":"ar_DZ"
         },
@@ -6933,30 +6937,6 @@
       "isPolymorphic":false,
       "isCustom":false
     },
-    "UserPreferencesPipelineViewHideHelpPopover":{
-      "filterable":true,
-      "apiName":"UserPreferencesPipelineViewHideHelpPopover",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "dataType":"Boolean",
-      "label":"PipelineViewHideHelpPopover",
-      "sortable":false,
-      "creatable":true,
-      "isCompound":false,
-      "sobjectName":"User",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false
-    },
     "UserPreferencesPreviewCustomTheme":{
       "filterable":true,
       "apiName":"UserPreferencesPreviewCustomTheme",
@@ -7229,6 +7209,30 @@
       "editable":true,
       "dataType":"Boolean",
       "label":"SendEmailUsingExternalService",
+      "sortable":false,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"User",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "referenceToNames":[
+
+      ],
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "isCustom":false
+    },
+    "UserPreferencesSendListEmailThroughExternalService":{
+      "filterable":true,
+      "apiName":"UserPreferencesSendListEmailThroughExternalService",
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Boolean",
+      "label":"SendListEmailThroughExternalService",
       "sortable":false,
       "creatable":true,
       "isCompound":false,
