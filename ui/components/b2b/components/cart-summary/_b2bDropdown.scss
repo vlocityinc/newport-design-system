@@ -18,10 +18,10 @@
         left: auto;
         right: 0;
     }
+}
 
-    .nds-b2b-dropdown_open & {
-        display: block;
-    }
+.via-nds .nds-b2b-dropdown_open .nds-b2b-dropdown{
+    display: block;
 }
 
 .nds-b2b-dropdown_item {
