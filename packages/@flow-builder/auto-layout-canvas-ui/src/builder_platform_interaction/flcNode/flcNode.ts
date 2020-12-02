@@ -190,7 +190,8 @@ export default class FlcNode extends LightningElement {
      */
     handleOnDblClick(event) {
         event.stopPropagation();
-        if (!this.isSelectionMode) {
+        const { type } = this.nodeInfo.metadata;
+        if (type !== ElementType.START && type !== ElementType.END && !this.isSelectionMode) {
             this.dispatchEvent(new EditElementEvent(this.nodeInfo.guid));
         }
     }

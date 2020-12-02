@@ -2,6 +2,7 @@
 import { createElement } from 'lwc';
 import FlcNode from 'builder_platform_interaction/flcNode';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
+import { EditElementEvent } from 'builder_platform_interaction/events';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
@@ -21,6 +22,7 @@ const createComponentUnderTest = (props = {}) => {
 };
 
 const selectors = {
+    buttonMenu: 'builder_platform_interaction-flc-button-menu',
     diamondIconWrapper: '.rotated-icon-radius.slds-icon-standard-decision',
     startIcon: '.background-green.slds-icon__container_circle',
     decisionIcon: '.rotate-icon-svg',
@@ -283,6 +285,66 @@ describe('FlcNode', () => {
             const flcNodeComponent = createComponentUnderTest({ nodeInfo: startLabelNodeInfo, isSelectionMode: false });
             const startTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(startTextLabel.textContent).toEqual('start description');
+        });
+    });
+
+    describe('Double clicking', () => {
+        beforeEach(() => {
+            nodeInfo = {
+                guid: 'guid',
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                metadata: {
+                    icon: 'dummyIcon',
+                    label: 'elementType',
+                    type: ElementType.DEFAULT
+                },
+                menuOpened: false
+            };
+        });
+
+        it('Double clicking on Default element should dispatch edit element event', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: false });
+            const eventCallback = jest.fn();
+            flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+            flcNodeComponent.shadowRoot
+                .querySelector(selectors.buttonMenu)
+                .dispatchEvent(new CustomEvent('dblclick', {}));
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('Double clicking on Start element should not dispatch edit element event', () => {
+            nodeInfo.metadata.type = ElementType.START;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: false });
+            const eventCallback = jest.fn();
+            flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+            flcNodeComponent.shadowRoot
+                .querySelector(selectors.buttonMenu)
+                .dispatchEvent(new CustomEvent('dblclick', {}));
+            expect(eventCallback).not.toHaveBeenCalled();
+        });
+
+        it('Double clicking on End element should not dispatch edit element event', () => {
+            nodeInfo.metadata.type = ElementType.END;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: false });
+            const eventCallback = jest.fn();
+            flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+            flcNodeComponent.shadowRoot
+                .querySelector(selectors.buttonMenu)
+                .dispatchEvent(new CustomEvent('dblclick', {}));
+            expect(eventCallback).not.toHaveBeenCalled();
+        });
+
+        it('Double clicking on Default element in Selection Mode should not dispatch edit element event', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const eventCallback = jest.fn();
+            flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+            flcNodeComponent.shadowRoot
+                .querySelector(selectors.buttonMenu)
+                .dispatchEvent(new CustomEvent('dblclick', {}));
+            expect(eventCallback).not.toHaveBeenCalled();
         });
     });
 });
