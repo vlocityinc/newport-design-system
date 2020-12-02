@@ -142,15 +142,15 @@ export default [
     // TODO: Support different process types off-core
     {
         section: 'Interaction',
-        type: ElementType.STEPPED_STAGE,
+        type: ElementType.ORCHESTRATED_STAGE,
         icon: 'standard:screen',
-        label: 'steppedStage',
-        value: ELEMENT_TYPE.STEPPED_STAGE,
-        elementType: ELEMENT_TYPE.STEPPED_STAGE,
+        label: 'orchestratedStage',
+        value: ELEMENT_TYPE.ORCHESTRATED_STAGE,
+        elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE,
         description: screenComponentDescription,
         canHaveFaultConnector: false,
         supportsMenu: true,
         isSupported: true,
-        dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
+        dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode',
     },
 ];

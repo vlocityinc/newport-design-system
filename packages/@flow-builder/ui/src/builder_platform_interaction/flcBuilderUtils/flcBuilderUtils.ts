@@ -36,8 +36,8 @@ export function getFlcElementType(elementType) {
             return ElementType.END;
         case ELEMENT_TYPE.ROOT_ELEMENT:
             return ElementType.ROOT;
-        case ELEMENT_TYPE.STEPPED_STAGE:
-            return ElementType.STEPPED_STAGE;
+        case ELEMENT_TYPE.ORCHESTRATED_STAGE:
+            return ElementType.ORCHESTRATED_STAGE;
         default:
             return ElementType.DEFAULT;
     }

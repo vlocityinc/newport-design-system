@@ -395,9 +395,9 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     if (
         elementType !== ELEMENT_TYPE.OUTCOME &&
         elementType !== ELEMENT_TYPE.WAIT_EVENT &&
-        elementType !== ELEMENT_TYPE.STEPPED_STAGE_ITEM &&
+        elementType !== ELEMENT_TYPE.STAGE_STEP &&
         elementType !== ELEMENT_TYPE.TIME_TRIGGER &&
-        elementType !== ELEMENT_TYPE.STEPPED_STAGE_ITEM
+        elementType !== ELEMENT_TYPE.STAGE_STEP
     ) {
         throw new Error(
             'baseChildElement should only be used for outcomes, wait events, time triggers and stage steps'

@@ -45,13 +45,13 @@ const decisionMetadata = {
 
 const customComponentMetadata = {
     canHaveFaultConnector: false,
-    elementType: 'SteppedStage',
+    elementType: 'OrchestratedStage',
     icon: 'standard:screen',
     label: 'Decision',
     section: null,
     type: ElementType.DEFAULT,
-    value: 'SteppedStage',
-    dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode'
+    value: 'OrchestratedStage',
+    dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode'
 };
 
 const endMetadata = {

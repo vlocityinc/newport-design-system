@@ -32,12 +32,12 @@
 
             <div if:true={isStartCriteriaBasedOnStep}>
                 <builder_platform_interaction-combobox
-                    menu-data={entryCriteriaAvailableStepItems}
+                    menu-data={entryConditionsAvailableStepItems}
                     oncomboboxstatechanged={handleEntryCriteriaItemChanged}
                     onitemselected={handleEntryCriteriaItemChanged}
                     label={labels.whenStepIsComplete}
-                    value={entryCriteriaSelectedItem}
-                    placeholder={labels.entryCriteriaItemsPlaceholder}
+                    value={entryConditionsSelectedItem}
+                    placeholder={labels.entryConditionsItemsPlaceholder}
                 >
                 </builder_platform_interaction-combobox>
             </div>

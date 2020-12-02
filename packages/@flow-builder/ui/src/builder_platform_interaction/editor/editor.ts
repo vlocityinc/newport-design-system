@@ -1990,7 +1990,7 @@ export default class Editor extends LightningElement {
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param node The element to add
-     * @param parentGuid Needed when adding a non-canvas child element (SteppedStageItem, Outcome, etc...)
+     * @param parentGuid Needed when adding a non-canvas child element (StageStep, Outcome, etc...)
      * directly from the canvas so we know where to add it
      */
     deMutateAndAddNodeCollection = (node: ElementUi, parentGuid: Guid) => {

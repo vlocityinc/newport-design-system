@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import SteppedStageItemEditor from '../steppedStageItemEditor';
-import { steppedStageItemReducer } from '../steppedStageItemReducer';
+import StageStepEditor from '../stageStepEditor';
+import { stageStepReducer } from '../stageStepReducer';
 import {
     ComboboxStateChangedEvent,
     DeleteConditionEvent,
@@ -12,15 +12,15 @@ import {
 import { mockActions } from 'mock/calloutData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getOtherItemsInSteppedStage } from 'builder_platform_interaction/elementFactory';
+import { getOtherItemsInOrchestratedStage } from 'builder_platform_interaction/elementFactory';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 
-jest.mock('../steppedStageItemReducer', () => {
+jest.mock('../stageStepReducer', () => {
     return {
-        steppedStageItemReducer: jest.fn((item) => {
+        stageStepReducer: jest.fn((item) => {
             return item;
         })
     };
@@ -61,7 +61,7 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const elementFactory = Object.assign({}, jest.requireActual('builder_platform_interaction/elementFactory'));
 
-    elementFactory.getOtherItemsInSteppedStage = jest.fn(() => {
+    elementFactory.getOtherItemsInOrchestratedStage = jest.fn(() => {
         return [
             {
                 label: 'otherItem',
@@ -76,7 +76,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-stepped-stage-item-editor', {
-        is: SteppedStageItemEditor
+        is: StageStepEditor
     });
     el.node = node;
     el.processType = 'someProcessType';
@@ -92,13 +92,13 @@ const selectors = {
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list'
 };
 
-describe('SteppedStageItemEditor', () => {
+describe('StageStepEditor', () => {
     const nodeParams = {
         guid: 'someGuid',
         name: 'someName',
         label: 'someLabel',
         description: 'someDescription',
-        entryCriteria: [],
+        entryConditions: [],
         action: {
             actionName: {
                 value: 'someActionName'
@@ -125,8 +125,8 @@ describe('SteppedStageItemEditor', () => {
 
     describe('node', () => {
         it('sets selectedEntryCriteria by default', () => {
-            const entryCriteriaRadio = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_RADIO);
-            expect(entryCriteriaRadio.value).toEqual('on_stage_start');
+            const entryConditionsRadio = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_RADIO);
+            expect(entryConditionsRadio.value).toEqual('on_stage_start');
         });
 
         it('Label Description Component', () => {
@@ -142,19 +142,19 @@ describe('SteppedStageItemEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryCriteria: [{ leftHandSide: { value: 'nonexistentItem' } }],
+                entryConditions: [{ leftHandSide: { value: 'nonexistentItem' } }],
                 inputParameters: []
             });
 
-            const entryCriteriaItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
+            const entryConditionsItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
 
-            expect(entryCriteriaItem.menuData[0].type).toEqual('option-card');
-            expect(entryCriteriaItem.menuData[0].dataType).toEqual(FLOW_DATA_TYPE.STRING.value);
-            expect(entryCriteriaItem.menuData[0].text).toEqual(getOtherItemsInSteppedStage()[0].label);
-            expect(entryCriteriaItem.menuData[0].displayText).toEqual(getOtherItemsInSteppedStage()[0].label);
-            expect(entryCriteriaItem.menuData[0].value).toEqual(getOtherItemsInSteppedStage()[0].name);
+            expect(entryConditionsItem.menuData[0].type).toEqual('option-card');
+            expect(entryConditionsItem.menuData[0].dataType).toEqual(FLOW_DATA_TYPE.STRING.value);
+            expect(entryConditionsItem.menuData[0].text).toEqual(getOtherItemsInOrchestratedStage()[0].label);
+            expect(entryConditionsItem.menuData[0].displayText).toEqual(getOtherItemsInOrchestratedStage()[0].label);
+            expect(entryConditionsItem.menuData[0].value).toEqual(getOtherItemsInOrchestratedStage()[0].name);
 
-            expect(entryCriteriaItem.value).toEqual('');
+            expect(entryConditionsItem.value).toEqual('');
         });
 
         it('sets entry criteria item selected', () => {
@@ -162,12 +162,12 @@ describe('SteppedStageItemEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryCriteria: [{ leftHandSide: { value: 'otherItemName' } }]
+                entryConditions: [{ leftHandSide: { value: 'otherItemName' } }]
             });
 
-            const entryCriteriaItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
+            const entryConditionsItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);
 
-            expect(entryCriteriaItem.value).toEqual(entryCriteriaItem.menuData[0]);
+            expect(entryConditionsItem.value).toEqual(entryConditionsItem.menuData[0]);
         });
     });
 
@@ -179,7 +179,7 @@ describe('SteppedStageItemEditor', () => {
                 actionName: nodeParams.action.actionName.value
             });
 
-            expect(steppedStageItemReducer).toHaveBeenCalledWith(
+            expect(stageStepReducer).toHaveBeenCalledWith(
                 nodeParams,
                 new CustomEvent(MERGE_WITH_PARAMETERS, {
                     detail: {
@@ -217,12 +217,12 @@ describe('SteppedStageItemEditor', () => {
             const labelDescription = editor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
             labelDescription.dispatchEvent(event);
 
-            expect(steppedStageItemReducer.mock.calls[0][0]).toEqual(nodeParams);
+            expect(stageStepReducer.mock.calls[0][0]).toEqual(nodeParams);
         });
 
         describe('handleStepStartChanged', () => {
             it('deletes entry criteria item if changing to ON_STAGE_START', () => {
-                const entryCriteriaRadio = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_RADIO);
+                const entryConditionsRadio = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_RADIO);
 
                 const event = new CustomEvent('change', {
                     detail: {
@@ -230,16 +230,13 @@ describe('SteppedStageItemEditor', () => {
                     }
                 });
 
-                entryCriteriaRadio.dispatchEvent(event);
+                entryConditionsRadio.dispatchEvent(event);
 
-                expect(steppedStageItemReducer).toHaveBeenCalledWith(
-                    nodeParams,
-                    new DeleteConditionEvent(nodeParams.guid, 0)
-                );
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new DeleteConditionEvent(nodeParams.guid, 0));
             });
 
             it('does not deletes entry criteria item if changing to ON_STEP_COMPLETE', () => {
-                const entryCriteriaRadio = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_RADIO);
+                const entryConditionsRadio = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_RADIO);
 
                 const event = new CustomEvent('change', {
                     detail: {
@@ -247,9 +244,9 @@ describe('SteppedStageItemEditor', () => {
                     }
                 });
 
-                entryCriteriaRadio.dispatchEvent(event);
+                entryConditionsRadio.dispatchEvent(event);
 
-                expect(steppedStageItemReducer).not.toHaveBeenCalledWith(
+                expect(stageStepReducer).not.toHaveBeenCalledWith(
                     nodeParams,
                     new DeleteConditionEvent(nodeParams.guid, 0)
                 );
@@ -262,7 +259,7 @@ describe('SteppedStageItemEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryCriteria: [{ leftHandSide: { value: 'nonexistentItem' } }],
+                entryConditions: [{ leftHandSide: { value: 'nonexistentItem' } }],
                 inputParameters: []
             };
 
@@ -283,7 +280,7 @@ describe('SteppedStageItemEditor', () => {
                 }
             });
 
-            expect(steppedStageItemReducer).toHaveBeenCalledWith(params, event);
+            expect(stageStepReducer).toHaveBeenCalledWith(params, event);
         });
 
         describe('handleParameterPropertyChangedEvent', () => {
@@ -298,7 +295,7 @@ describe('SteppedStageItemEditor', () => {
                 );
                 paramList.dispatchEvent(updateEvent);
 
-                expect(steppedStageItemReducer).toHaveBeenCalledWith(nodeParams, updateEvent);
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, updateEvent);
             });
 
             it('does not update input parameter if value is the same', () => {
@@ -312,7 +309,7 @@ describe('SteppedStageItemEditor', () => {
                 );
                 paramList.dispatchEvent(updateEvent);
 
-                expect(steppedStageItemReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
+                expect(stageStepReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
             });
         });
     });

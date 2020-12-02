@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { steppedStageItemReducer } from '../steppedStageItemReducer';
+import { stageStepReducer } from '../stageStepReducer';
 import { DeleteConditionEvent, PropertyChangedEvent, UpdateConditionEvent } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import {
@@ -22,7 +22,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 });
 
 const mockHydrated = {
-    entryCriteria: ['foo']
+    entryConditions: ['foo']
 };
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
@@ -44,17 +44,17 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     };
 });
 
-describe('SteppedStageItem Reducer', () => {
+describe('StageStep Reducer', () => {
     let originalState, originalStateWithEntryCriteria;
     beforeEach(() => {
         originalState = {
             guid: 'itemGuid',
-            entryCriteria: []
+            entryConditions: []
         };
 
         originalStateWithEntryCriteria = {
             guid: 'itemGuid',
-            entryCriteria: ['foo']
+            entryConditions: ['foo']
         };
     });
 
@@ -69,11 +69,11 @@ describe('SteppedStageItem Reducer', () => {
                 }
             };
 
-            const newState = steppedStageItemReducer(originalState, event);
+            const newState = stageStepReducer(originalState, event);
             expect(createCondition).toHaveBeenCalledWith(event.detail.value);
             expect(hydrateWithErrors).toHaveBeenCalledWith(mockCondition);
 
-            expect(newState.entryCriteria[0]).toEqual(mockHydrated);
+            expect(newState.entryConditions[0]).toEqual(mockHydrated);
             expect(newState).not.toBe(originalStateWithEntryCriteria);
         });
         it('replaces existing entry criteria with the new criteria', () => {
@@ -86,13 +86,13 @@ describe('SteppedStageItem Reducer', () => {
                 }
             };
 
-            const newState = steppedStageItemReducer(originalStateWithEntryCriteria, event);
+            const newState = stageStepReducer(originalStateWithEntryCriteria, event);
 
             expect(createCondition).toHaveBeenCalledWith(event.detail.value);
             expect(hydrateWithErrors).toHaveBeenCalledWith(mockCondition);
-            expect(replaceItem).toHaveBeenCalledWith(originalStateWithEntryCriteria.entryCriteria, mockHydrated, 0);
+            expect(replaceItem).toHaveBeenCalledWith(originalStateWithEntryCriteria.entryConditions, mockHydrated, 0);
 
-            expect(newState.entryCriteria[0]).toEqual(mockHydrated);
+            expect(newState.entryConditions[0]).toEqual(mockHydrated);
             expect(newState).not.toBe(originalStateWithEntryCriteria);
         });
     });
@@ -107,11 +107,11 @@ describe('SteppedStageItem Reducer', () => {
                 }
             };
 
-            const newState = steppedStageItemReducer(originalStateWithEntryCriteria, event);
+            const newState = stageStepReducer(originalStateWithEntryCriteria, event);
 
-            expect(deleteItem).toHaveBeenCalledWith(originalStateWithEntryCriteria.entryCriteria, 0);
+            expect(deleteItem).toHaveBeenCalledWith(originalStateWithEntryCriteria.entryConditions, 0);
 
-            expect(newState.entryCriteria[0]).not.toBeDefined();
+            expect(newState.entryConditions[0]).not.toBeDefined();
             expect(newState).not.toBe(originalStateWithEntryCriteria);
         });
     });
@@ -126,7 +126,7 @@ describe('SteppedStageItem Reducer', () => {
                 }
             };
 
-            const newState = steppedStageItemReducer(originalState, event);
+            const newState = stageStepReducer(originalState, event);
             const hydratedValue = {
                 value: event.detail.value,
                 error: null

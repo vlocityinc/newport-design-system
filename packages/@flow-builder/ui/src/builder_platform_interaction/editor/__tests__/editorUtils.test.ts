@@ -436,7 +436,7 @@ describe('Editor Utils Test', () => {
 
             const payload = {
                 selectedElements: [canvasElement1],
-                elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM,
+                elementType: ELEMENT_TYPE.STAGE_STEP,
                 childIndexToKeep: undefined,
                 connectorsToDelete: [],
                 parentGUID: parentGuid

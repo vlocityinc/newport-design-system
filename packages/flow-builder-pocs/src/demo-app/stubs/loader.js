@@ -6,12 +6,12 @@
  * resolved here
  */
 
-// TODO: reintroduce with SteppedStage PR
-import SteppedStageNode from 'builder_platform_interaction/steppedStageNode';
+// TODO: reintroduce with OrchestratedStage PR
+import OrchestratedStageNode from 'builder_platform_interaction/orchestratedStageNode';
 
 
 const moduleMap = new Map([
-    ['builder_platform_interaction/steppedStageNode', SteppedStageNode],
+    ['builder_platform_interaction/orchestratedStageNode', OrchestratedStageNode],
 ]);
 
 export function load(moduleName) {

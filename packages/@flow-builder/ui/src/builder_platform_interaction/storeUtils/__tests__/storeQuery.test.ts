@@ -132,7 +132,7 @@ describe('getElementsForElementType', () => {
         Store.setMockState({
             elements: {
                 screen1,
-                ss1: { guid: 'ss1', elementType: ELEMENT_TYPE.STEPPED_STAGE },
+                ss1: { guid: 'ss1', elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE },
                 screen2
             }
         });

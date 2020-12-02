@@ -1,6 +1,6 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { SteppedStage } from 'builder_platform_interaction/elementFactory';
+import { OrchestratedStage } from 'builder_platform_interaction/elementFactory';
 
 //
 // const deleteOutcome = (state, event) => {
@@ -38,7 +38,7 @@ import { SteppedStage } from 'builder_platform_interaction/elementFactory';
 // };
 //
 
-const steppedStagePropertyChanged = (state: SteppedStage, event: CustomEvent): SteppedStage => {
+const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: CustomEvent): OrchestratedStage => {
     event.detail.guid = state.guid;
 
     // TODO: validate in future WI
@@ -53,15 +53,15 @@ const steppedStagePropertyChanged = (state: SteppedStage, event: CustomEvent): S
 };
 
 /**
- * steppedStage reducer function runs validation rules and returns back the updated element state
+ * orchestratedStage reducer function runs validation rules and returns back the updated element state
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state
  */
-export const steppedStageReducer = (state: SteppedStage, event: CustomEvent): SteppedStage => {
+export const orchestratedStageReducer = (state: OrchestratedStage, event: CustomEvent): OrchestratedStage => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
-            return steppedStagePropertyChanged(state, event);
+            return orchestratedStagePropertyChanged(state, event);
         // case VALIDATE_ALL:
         // TODO: validate in future WI
         //     return decisionValidation.validateAll(state);

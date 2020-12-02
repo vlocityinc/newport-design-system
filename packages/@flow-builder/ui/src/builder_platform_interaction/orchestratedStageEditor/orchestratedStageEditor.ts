@@ -1,10 +1,10 @@
 import { LightningElement, api } from 'lwc';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { LABELS } from './steppedStageEditorLabels';
-import { steppedStageReducer } from './steppedStageReducer';
+import { LABELS } from './orchestratedStageEditorLabels';
+import { orchestratedStageReducer } from './orchestratedStageReducer';
 
-export default class SteppedStageEditor extends LightningElement {
+export default class OrchestratedStageEditor extends LightningElement {
     element;
 
     labels = LABELS;
@@ -64,7 +64,7 @@ export default class SteppedStageEditor extends LightningElement {
     handlePropertyChangedEvent(event) {
         event.stopPropagation();
 
-        this.element = steppedStageReducer(this.element, event);
+        this.element = orchestratedStageReducer(this.element, event);
 
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }

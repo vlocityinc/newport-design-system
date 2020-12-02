@@ -12,14 +12,14 @@ import {
     UpdateNodeEvent,
     ValueChangedEvent
 } from 'builder_platform_interaction/events';
-import { LABELS } from './steppedStageItemEditorLabels';
-import { steppedStageItemReducer } from './steppedStageItemReducer';
+import { LABELS } from './stageStepEditorLabels';
+import { stageStepReducer } from './stageStepReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import {
-    getOtherItemsInSteppedStage,
+    getOtherItemsInOrchestratedStage,
     ParameterListRowItem,
-    SteppedStageItem
+    StageStep
 } from 'builder_platform_interaction/elementFactory';
 import { ComboboxItem } from 'builder_platform_interaction/uiModel';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -40,16 +40,16 @@ enum ENTRY_CRITERIA {
 
 const HIDDEN_INPUT_PARAMETER_NAMES = ['appProcessInstanceId', 'appProcessStepInstanceId'];
 
-export default class SteppedStageItemEditor extends LightningElement {
+export default class StageStepEditor extends LightningElement {
     labels = LABELS;
 
-    element?: SteppedStageItem;
+    element?: StageStep;
 
     selectedEntryCriteria?: ENTRY_CRITERIA;
 
     // For step based entry criteria
-    entryCriteriaAvailableStepItems: ComboboxItem[] = [];
-    entryCriteriaSelectedItem?: ComboboxItem;
+    entryConditionsAvailableStepItems: ComboboxItem[] = [];
+    entryConditionsSelectedItem?: ComboboxItem;
 
     isActionsFetched = false;
 
@@ -103,34 +103,34 @@ export default class SteppedStageItemEditor extends LightningElement {
             return;
         }
 
-        if (this.element.entryCriteria.length === 0) {
+        if (this.element.entryConditions.length === 0) {
             this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STAGE_START;
         } else {
             this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STEP_COMPLETE;
         }
-        const otherItems: SteppedStageItem[] = getOtherItemsInSteppedStage(this.element.guid);
+        const otherItems: StageStep[] = getOtherItemsInOrchestratedStage(this.element.guid);
 
-        this.entryCriteriaAvailableStepItems = [];
+        this.entryConditionsAvailableStepItems = [];
 
-        otherItems.forEach((steppedStageItem) => {
+        otherItems.forEach((stageStep) => {
             const comboboxItem: ComboboxItem = {
                 type: 'option-card',
                 dataType: FLOW_DATA_TYPE.STRING.value,
-                text: steppedStageItem.label,
-                displayText: steppedStageItem.label || '',
-                value: steppedStageItem.name || ''
+                text: stageStep.label,
+                displayText: stageStep.label || '',
+                value: stageStep.name || ''
             };
 
-            // This depends on steppedStageItem entry criteria always having the shape
+            // This depends on stageStep entry criteria always having the shape
             // "devName" "EqualTo" "Completed".  For 230, we only parse the LHS devName
             if (
-                this.element!.entryCriteria.length > 0 &&
-                this.element!.entryCriteria[0].leftHandSide!.value === steppedStageItem.guid
+                this.element!.entryConditions.length > 0 &&
+                this.element!.entryConditions[0].leftHandSide!.value === stageStep.guid
             ) {
-                this.entryCriteriaSelectedItem = comboboxItem;
+                this.entryConditionsSelectedItem = comboboxItem;
             }
 
-            this.entryCriteriaAvailableStepItems.push(comboboxItem);
+            this.entryConditionsAvailableStepItems.push(comboboxItem);
         });
 
         this.setInputParameters();
@@ -284,7 +284,7 @@ export default class SteppedStageItemEditor extends LightningElement {
         });
 
         // Update the merged parameters
-        this.element = steppedStageItemReducer(this.element!, event);
+        this.element = stageStepReducer(this.element!, event);
 
         this.setActionParameterListConfig();
 
@@ -293,7 +293,7 @@ export default class SteppedStageItemEditor extends LightningElement {
 
     updateNodeForFieldLevelCommit() {
         const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS);
-        this.element = steppedStageItemReducer(this.element!, removeUnsetParamsEvent);
+        this.element = stageStepReducer(this.element!, removeUnsetParamsEvent);
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
@@ -303,7 +303,7 @@ export default class SteppedStageItemEditor extends LightningElement {
     handleLabelDescriptionPropertyChangedEvent(event: PropertyChangedEvent) {
         event.stopPropagation();
 
-        this.element = steppedStageItemReducer(this.element!, event);
+        this.element = stageStepReducer(this.element!, event);
 
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
@@ -320,7 +320,7 @@ export default class SteppedStageItemEditor extends LightningElement {
         // Only update the element if an actual change in value has occurred
         const sanitizedValue = removeCurlyBraces(event.detail.value);
         if (!inputParam!.value || (<ValueWithError>inputParam!.value).value !== sanitizedValue) {
-            this.element = steppedStageItemReducer(this.element!, event);
+            this.element = stageStepReducer(this.element!, event);
 
             this.updateNodeForFieldLevelCommit();
         }
@@ -332,7 +332,7 @@ export default class SteppedStageItemEditor extends LightningElement {
         if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STAGE_START) {
             const deleteEntryCriteriaEvent = new DeleteConditionEvent(this.element!.guid, 0);
 
-            this.element = steppedStageItemReducer(this.element!, deleteEntryCriteriaEvent);
+            this.element = stageStepReducer(this.element!, deleteEntryCriteriaEvent);
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }
@@ -340,7 +340,7 @@ export default class SteppedStageItemEditor extends LightningElement {
     handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
         if (e.detail.value.actionName) {
             // Update the selected action
-            this.element = steppedStageItemReducer(this.element!, e);
+            this.element = stageStepReducer(this.element!, e);
 
             this.setInputParameters();
 
@@ -358,7 +358,7 @@ export default class SteppedStageItemEditor extends LightningElement {
                     stringValue: 'Completed'
                 }
             });
-            this.element = steppedStageItemReducer(this.element!, updateEntryCriteria);
+            this.element = stageStepReducer(this.element!, updateEntryCriteria);
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }

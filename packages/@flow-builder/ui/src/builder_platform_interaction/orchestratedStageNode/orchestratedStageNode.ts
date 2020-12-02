@@ -1,17 +1,17 @@
 import { LightningElement, api } from 'lwc';
 import { NodeResizeEvent } from 'builder_platform_interaction/flcEvents';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { SteppedStageItem } from 'builder_platform_interaction/elementFactory';
+import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
-import { LABELS } from './steppedStageNodeLabels';
+import { LABELS } from './orchestratedStageNodeLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 
-export default class SteppedStageNode extends LightningElement {
+export default class OrchestratedStageNode extends LightningElement {
     labels = LABELS;
 
     private _node?: NodeRenderInfo;
-    private items: SteppedStageItem[] = [];
+    private items: StageStep[] = [];
 
     private itemsHeader?: string;
 
@@ -29,14 +29,14 @@ export default class SteppedStageNode extends LightningElement {
     set node(node) {
         this._node = node;
 
-        // Refresh SteppedStageItem if needed
+        // Refresh StageStep if needed
         if (node && node.metadata.dynamicNodeComponentSelector) {
             this.items = node.metadata.dynamicNodeComponentSelector(node.guid);
 
             this.itemsHeader =
                 this.items.length === 1
-                    ? this.labels.steppedStageItemHeaderSingular
-                    : format(this.labels.steppedStageItemHeaderPlural, this.items.length);
+                    ? this.labels.stageStepHeaderSingular
+                    : format(this.labels.stageStepHeaderPlural, this.items.length);
         }
     }
 
@@ -60,7 +60,7 @@ export default class SteppedStageNode extends LightningElement {
     }
 
     /**
-     * Adding SteppedStageItem directly from canvas
+     * Adding StageStep directly from canvas
      * @param event
      */
     handleAddItem(event: MouseEvent) {
@@ -68,7 +68,7 @@ export default class SteppedStageNode extends LightningElement {
         event.stopPropagation();
 
         const addItemEvent = new AddElementEvent({
-            elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM,
+            elementType: ELEMENT_TYPE.STAGE_STEP,
             parent: this.node && this.node.guid
         });
         this.dispatchEvent(addItemEvent);
@@ -89,7 +89,7 @@ export default class SteppedStageNode extends LightningElement {
     }
 
     /**
-     * Deleting SteppedStageItem directly from canvas
+     * Deleting StageStep directly from canvas
      * @param event
      */
     handleDeleteItem(event: MouseEvent) {
@@ -102,7 +102,7 @@ export default class SteppedStageNode extends LightningElement {
             this.dispatchEvent(
                 new DeleteElementEvent(
                     [target.dataset.itemGuid],
-                    ELEMENT_TYPE.STEPPED_STAGE_ITEM,
+                    ELEMENT_TYPE.STAGE_STEP,
                     undefined,
                     this.node && this.node.guid
                 )

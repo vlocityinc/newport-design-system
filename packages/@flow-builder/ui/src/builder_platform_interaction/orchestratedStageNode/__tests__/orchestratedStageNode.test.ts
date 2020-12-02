@@ -1,12 +1,12 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import SteppedStageNode from '../steppedStageNode';
+import OrchestratedStageNode from '../orchestratedStageNode';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-stepped-stage-node', {
-        is: SteppedStageNode
+        is: OrchestratedStageNode
     });
     el.node = node;
     document.body.appendChild(el);
@@ -18,16 +18,16 @@ const selectors = {
 };
 
 describe('Stepped-Stage-Node', () => {
-    const ssGuid = 'STEPPED_STAGE_11';
+    const ssGuid = 'ORCHESTRATED_STAGE_11';
     const itemGuid = 'someStepGuid';
-    let steppedStageElement;
+    let orchestratedStageElement;
 
     beforeEach(() => {
-        steppedStageElement = createComponentUnderTest({
-            name: 'mySteppedStageName',
-            label: 'mySteppedStageLabel',
+        orchestratedStageElement = createComponentUnderTest({
+            name: 'myOrchestratedStageName',
+            label: 'myOrchestratedStageLabel',
             description: 'myDescription',
-            elementType: ELEMENT_TYPE.STEPPED_STAGE,
+            elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE,
             guid: ssGuid,
             metadata: {
                 dynamicNodeComponentSelector: () => {
@@ -40,21 +40,21 @@ describe('Stepped-Stage-Node', () => {
 
     it('add item', () => {
         const cb = jest.fn();
-        steppedStageElement.addEventListener(AddElementEvent.EVENT_NAME, cb);
+        orchestratedStageElement.addEventListener(AddElementEvent.EVENT_NAME, cb);
 
-        const addStep = steppedStageElement.shadowRoot.querySelector(selectors.ADD_ITEM);
+        const addStep = orchestratedStageElement.shadowRoot.querySelector(selectors.ADD_ITEM);
 
         const event = new MouseEvent('click');
         addStep.dispatchEvent(event);
 
-        expect(cb.mock.calls[0][0].detail.guid).toEqual(steppedStageElement.guid);
+        expect(cb.mock.calls[0][0].detail.guid).toEqual(orchestratedStageElement.guid);
     });
 
     it('open item property editor', () => {
         const cb = jest.fn();
-        steppedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
+        orchestratedStageElement.addEventListener(EditElementEvent.EVENT_NAME, cb);
 
-        const step = steppedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}']`);
+        const step = orchestratedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}']`);
 
         const event = new MouseEvent('click');
         step.dispatchEvent(event);
@@ -64,9 +64,9 @@ describe('Stepped-Stage-Node', () => {
 
     it('delete item', () => {
         const cb = jest.fn();
-        steppedStageElement.addEventListener(DeleteElementEvent.EVENT_NAME, cb);
+        orchestratedStageElement.addEventListener(DeleteElementEvent.EVENT_NAME, cb);
 
-        const deleteButton = steppedStageElement.shadowRoot.querySelector(`button[data-item-guid='${itemGuid}']`);
+        const deleteButton = orchestratedStageElement.shadowRoot.querySelector(`button[data-item-guid='${itemGuid}']`);
 
         const event = new MouseEvent('click');
         deleteButton.dispatchEvent(event);
@@ -75,7 +75,7 @@ describe('Stepped-Stage-Node', () => {
             selectedElementGUID: [itemGuid],
             parentGUID: ssGuid,
             childIndexToKeep: undefined,
-            selectedElementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM
+            selectedElementType: ELEMENT_TYPE.STAGE_STEP
         });
     });
 });

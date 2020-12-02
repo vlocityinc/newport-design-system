@@ -41,10 +41,10 @@ describe('Actions', () => {
             expect(action.type).toEqual(UPDATE_VARIABLE_CONSTANT);
             expect(action.payload).toEqual(payload);
         });
-        it('handles modify SteppedStage with SteppedStageItems', () => {
+        it('handles modify OrchestratedStage with StageSteps', () => {
             const payload = {
-                elementType: ELEMENT_TYPE.STEPPED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS,
-                steppedStage: { x: 6 },
+                elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS,
+                orchestratedStage: { x: 6 },
                 modified: [{ a: 1 }, { b: 2 }],
                 deleted: [{ c: 3 }]
             };
@@ -72,10 +72,10 @@ describe('Actions', () => {
             expect(removeLastCreatedInlineResource.payload).toEqual({});
             expect(removeLastCreatedInlineResource.type).toBe(REMOVE_LAST_CREATED_INLINE_RESOURCE);
         });
-        it('handles add SteppedStage with SteppedStageItems', () => {
+        it('handles add OrchestratedStage with StageSteps', () => {
             const payload = {
-                elementType: ELEMENT_TYPE.STEPPED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS,
-                steppedStage: { x: 6 },
+                elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS,
+                orchestratedStage: { x: 6 },
                 modified: [{ a: 1 }, { b: 2 }]
             };
 
@@ -84,10 +84,10 @@ describe('Actions', () => {
             expect(action.type).toEqual(ADD_PARENT_WITH_CHILDREN);
             expect(action.payload).toEqual(payload);
         });
-        it('handles add SteppedStageItem', () => {
+        it('handles add StageStep', () => {
             const payload = {
-                elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM,
-                steppedStageItem: { x: 6 }
+                elementType: ELEMENT_TYPE.STAGE_STEP,
+                stageStep: { x: 6 }
             };
 
             const action = addElement(payload);

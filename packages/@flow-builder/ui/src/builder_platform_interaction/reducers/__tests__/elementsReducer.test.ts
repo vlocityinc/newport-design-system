@@ -655,40 +655,40 @@ describe('elements-reducer', () => {
     });
 
     describe('Delete children', () => {
-        const steppedStageItem1 = {
+        const stageStep1 = {
             name: 'ssi1',
             label: 'ssi 1',
             description: 'ssi1 1',
             guid: 'ssi1',
-            elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM
+            elementType: ELEMENT_TYPE.STAGE_STEP
         };
-        const steppedStageItem2 = {
+        const stageStep2 = {
             name: 'ssi2',
             label: 'ssi 2',
             description: 'ssi1 2',
             guid: 'ssi2',
-            elementType: ELEMENT_TYPE.STEPPED_STAGE_ITEM
+            elementType: ELEMENT_TYPE.STAGE_STEP
         };
 
-        const steppedStage = {
+        const orchestratedStage = {
             name: 'ss1',
             label: 'ss 1',
             description: 'ss 1',
             guid: 'ss1',
-            elementType: ELEMENT_TYPE.STEPPED_STAGE,
-            childReferences: [{ childReference: steppedStageItem1.guid }, { childReference: steppedStageItem2.guid }]
+            elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE,
+            childReferences: [{ childReference: stageStep1.guid }, { childReference: stageStep2.guid }]
         };
 
         const originalState = {
-            ss1: steppedStage,
-            ssi1: steppedStageItem1,
-            ssi2: steppedStageItem2
+            ss1: orchestratedStage,
+            ssi1: stageStep1,
+            ssi2: stageStep2
         };
 
         it('deletes a single child', () => {
             const payload = {
-                selectedElements: [steppedStageItem1],
-                parentGUID: steppedStage.guid
+                selectedElements: [stageStep1],
+                parentGUID: orchestratedStage.guid
             };
 
             const newElementState = elementReducer(originalState, {
@@ -696,19 +696,19 @@ describe('elements-reducer', () => {
                 payload
             });
 
-            const steppedStageWithOneChild = Object.assign(steppedStage, {
-                childReferences: [{ childReference: steppedStageItem2.guid }]
+            const orchestratedStageWithOneChild = Object.assign(orchestratedStage, {
+                childReferences: [{ childReference: stageStep2.guid }]
             });
             expect(newElementState).toEqual({
-                ss1: steppedStageWithOneChild,
-                ssi2: steppedStageItem2
+                ss1: orchestratedStageWithOneChild,
+                ssi2: stageStep2
             });
         });
 
         it('deletes multiple children', () => {
             const payload = {
-                selectedElements: [steppedStageItem1, steppedStageItem2],
-                parentGUID: steppedStage.guid
+                selectedElements: [stageStep1, stageStep2],
+                parentGUID: orchestratedStage.guid
             };
 
             const newElementState = elementReducer(originalState, {
@@ -716,10 +716,10 @@ describe('elements-reducer', () => {
                 payload
             });
 
-            const steppedStageWithNoChild = Object.assign(steppedStage, {
+            const orchestratedStageWithNoChild = Object.assign(orchestratedStage, {
                 childReferences: []
             });
-            expect(newElementState).toEqual({ ss1: steppedStageWithNoChild });
+            expect(newElementState).toEqual({ ss1: orchestratedStageWithNoChild });
         });
     });
 

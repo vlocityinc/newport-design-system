@@ -170,17 +170,17 @@ import newWaitLabel from '@salesforce/label/FlowBuilderElementConfig.newWaitLabe
 import newStepLabel from '@salesforce/label/FlowBuilderElementConfig.newStepLabel';
 import newElementHeaderPrefix from '@salesforce/label/FlowBuilderCommonPropertyEditor.newElementHeaderPrefix';
 import editButtonLabel from '@salesforce/label/FlowBuilderResourceDetailsPanel.editButtonLabel';
-import steppedStageComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.steppedStageComponentDescription';
-import steppedStageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageSingularLabel';
-import steppedStagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStagePluralLabel';
-import steppedStageComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.steppedStageComponentLabel';
-import newSteppedStageLabel from '@salesforce/label/FlowBuilderElementConfig.newSteppedStageLabel';
-import editSteppedStageLabel from '@salesforce/label/FlowBuilderElementConfig.editSteppedStageLabel';
-import steppedStageItemSingularLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemSingularLabel';
-import steppedStageItemPluralLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemPluralLabel';
-import steppedStageItemComponentLabel from '@salesforce/label/FlowBuilderElementConfig.steppedStageItemComponentLabel';
-import newSteppedStageItemLabel from '@salesforce/label/FlowBuilderElementConfig.newSteppedStageItemLabel';
-import editSteppedStageItemLabel from '@salesforce/label/FlowBuilderElementConfig.editSteppedStageItemLabel';
+import orchestratedStageComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.orchestratedStageComponentDescription';
+import orchestratedStageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.orchestratedStageSingularLabel';
+import orchestratedStagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.orchestratedStagePluralLabel';
+import orchestratedStageComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.orchestratedStageComponentLabel';
+import newOrchestratedStageLabel from '@salesforce/label/FlowBuilderElementConfig.newOrchestratedStageLabel';
+import editOrchestratedStageLabel from '@salesforce/label/FlowBuilderElementConfig.editOrchestratedStageLabel';
+import stageStepSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stageStepSingularLabel';
+import stageStepPluralLabel from '@salesforce/label/FlowBuilderElementConfig.stageStepPluralLabel';
+import stageStepComponentLabel from '@salesforce/label/FlowBuilderElementConfig.stageStepComponentLabel';
+import newStageStepLabel from '@salesforce/label/FlowBuilderElementConfig.newStageStepLabel';
+import editStageStepLabel from '@salesforce/label/FlowBuilderElementConfig.editStageStepLabel';
 import startConnectorPickerComboBoxLabel from '@salesforce/label/FlowBuilderConnectorPicker.startConnectorPickerComboBoxLabel';
 import startConnectorPickerBodyText from '@salesforce/label/FlowBuilderConnectorPicker.startConnectorPickerBodyText';
 import startConnectorPickerHeader from '@salesforce/label/FlowBuilderConnectorPicker.startConnectorPickerHeader';
@@ -361,17 +361,17 @@ export const LABELS = {
     newStepLabel,
     newElementHeaderPrefix,
     editButtonLabel,
-    steppedStageComponentDescription,
-    steppedStageSingularLabel,
-    steppedStagePluralLabel,
-    steppedStageComponentLabel,
-    newSteppedStageLabel,
-    editSteppedStageLabel,
-    steppedStageItemSingularLabel,
-    steppedStageItemPluralLabel,
-    steppedStageItemComponentLabel,
-    newSteppedStageItemLabel,
-    editSteppedStageItemLabel,
+    orchestratedStageComponentDescription,
+    orchestratedStageSingularLabel,
+    orchestratedStagePluralLabel,
+    orchestratedStageComponentLabel,
+    newOrchestratedStageLabel,
+    editOrchestratedStageLabel,
+    stageStepSingularLabel,
+    stageStepPluralLabel,
+    stageStepComponentLabel,
+    newStageStepLabel,
+    editStageStepLabel,
     startConnectorPickerHeader,
     startConnectorPickerBodyText,
     startConnectorPickerComboBoxLabel,

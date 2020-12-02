@@ -48,7 +48,7 @@
       "scheduledPaths" : [ ],
       "triggerType" : "ScheduledJourney"
     },
-    "steppedStages" : [ ],
+    "orchestratedStages" : [ ],
     "steps" : [ ],
     "subflows" : [ ],
     "textTemplates" : [ ],

@@ -120,14 +120,14 @@ import {
     createDuplicateCollectionProcessor,
     createCollectionProcessorMetadataObject,
     createCollectionProcessorWithConnectors,
-    createSteppedStageMetadataObject,
-    createSteppedStageWithItems,
-    createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
-    createSteppedStageWithItemReferences,
+    createOrchestratedStageMetadataObject,
+    createOrchestratedStageWithItems,
+    createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
+    createOrchestratedStageWithItemReferences,
     getSteps,
-    createSteppedStageItem,
-    createPastedSteppedStage,
-    createDuplicateSteppedStage
+    createStageStep,
+    createPastedOrchestratedStage,
+    createDuplicateOrchestratedStage
 } from 'builder_platform_interaction/elementFactory';
 import { ElementConfig } from 'builder_platform_interaction/uiModel';
 
@@ -1045,27 +1045,27 @@ export const elementTypeToConfigMap: {
             editModal: ''
         }
     },
-    [ELEMENT_TYPE.STEPPED_STAGE]: {
-        descriptor: 'builder_platform_interaction:steppedStageEditor',
+    [ELEMENT_TYPE.ORCHESTRATED_STAGE]: {
+        descriptor: 'builder_platform_interaction:orchestratedStageEditor',
         nodeConfig: {
             iconName: 'standard:sales_path',
             utilityIconName: 'standard:sales_path',
             value: 'stepped stage',
-            dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode',
+            dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode',
             dynamicNodeComponentSelector: getSteps,
-            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.STEPPED_STAGE],
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ORCHESTRATED_STAGE],
             maxConnections: 1,
             section: LABELS.flowInteractionComponentsLabel,
-            description: LABELS.steppedStageComponentDescription
+            description: LABELS.orchestratedStageComponentDescription
         },
         modalSize: MODAL_SIZE.LARGE,
-        metadataKey: METADATA_KEY.STEPPED_STAGES,
+        metadataKey: METADATA_KEY.ORCHESTRATED_STAGES,
         labels: {
-            singular: LABELS.steppedStageSingularLabel,
-            plural: LABELS.steppedStagePluralLabel,
-            leftPanel: LABELS.steppedStageComponentLabel,
-            newModal: LABELS.newSteppedStageLabel,
-            editModal: LABELS.editSteppedStageLabel
+            singular: LABELS.orchestratedStageSingularLabel,
+            plural: LABELS.orchestratedStagePluralLabel,
+            leftPanel: LABELS.orchestratedStageComponentLabel,
+            newModal: LABELS.newOrchestratedStageLabel,
+            editModal: LABELS.editOrchestratedStageLabel
         },
         childReferenceKey: {
             singular: getChildReferencesKeys().singular,
@@ -1076,31 +1076,31 @@ export const elementTypeToConfigMap: {
         nonHydratableProperties: [],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
-            propertyEditor: createSteppedStageWithItems,
-            pasteElement: createPastedSteppedStage,
-            duplicateElement: createDuplicateSteppedStage,
-            closePropertyEditor: createSteppedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
-            uiToFlow: createSteppedStageMetadataObject,
-            flowToUi: createSteppedStageWithItemReferences
+            propertyEditor: createOrchestratedStageWithItems,
+            pasteElement: createPastedOrchestratedStage,
+            duplicateElement: createDuplicateOrchestratedStage,
+            closePropertyEditor: createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
+            uiToFlow: createOrchestratedStageMetadataObject,
+            flowToUi: createOrchestratedStageWithItemReferences
         }
     },
-    [ELEMENT_TYPE.STEPPED_STAGE_ITEM]: {
+    [ELEMENT_TYPE.STAGE_STEP]: {
         // A step in a stage is not a canvas element, but is a first class element
-        descriptor: 'builder_platform_interaction:steppedStageItemEditor',
+        descriptor: 'builder_platform_interaction:stageStepEditor',
         nodeConfig: {
             iconName: 'standard:screen',
             utilityIconName: 'utility:screen'
         },
         labels: {
-            singular: LABELS.steppedStageItemSingularLabel,
-            plural: LABELS.steppedStageItemPluralLabel,
-            leftPanel: LABELS.steppedStageItemComponentLabel,
-            newModal: LABELS.newSteppedStageItemLabel,
-            editModal: LABELS.editSteppedStageItemLabel
+            singular: LABELS.stageStepSingularLabel,
+            plural: LABELS.stageStepPluralLabel,
+            leftPanel: LABELS.stageStepComponentLabel,
+            newModal: LABELS.newStageStepLabel,
+            editModal: LABELS.editStageStepLabel
         },
         isChildElement: true,
         factory: {
-            propertyEditor: createSteppedStageItem
+            propertyEditor: createStageStep
         }
     },
     /**

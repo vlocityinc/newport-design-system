@@ -121,7 +121,7 @@ const flowModel = {
     },
     '837e0692-6f17-4d5c-ba5d-854851d31f99': {
         guid: '837e0692-6f17-4d5c-ba5d-854851d31f99',
-        name: 'STEPPED_STAGE',
+        name: 'ORCHESTRATED_STAGE',
         description: '',
         next: null,
         prev: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
@@ -131,9 +131,9 @@ const flowModel = {
         isCanvasElement: true,
         connectorCount: 0,
         config: { isSelected: false, isHighlighted: false, canSelect: true },
-        elementType: 'steppedstage',
-        value: 'steppedstage',
-        text: 'steppedstage'
+        elementType: 'orchestratedstage',
+        value: 'orchestratedstage',
+        text: 'orchestratedstage'
     }
 };
 
@@ -250,16 +250,16 @@ const elementsMetadata = [
     },
     {
         section: 'Interaction',
-        type: 'steppedstage',
+        type: 'orchestratedstage',
         icon: 'standard:screen',
-        label: 'steppedStage',
-        value: 'steppedstage',
-        elementType: 'steppedstage',
+        label: 'orchestratedStage',
+        value: 'orchestratedstage',
+        elementType: 'orchestratedstage',
         description: 'stepped stage desc',
         canHaveFaultConnector: false,
         supportsMenu: true,
         isSupported: true,
-        dynamicNodeComponent: 'builder_platform_interaction/steppedStageNode'
+        dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode'
     }
 ];
 

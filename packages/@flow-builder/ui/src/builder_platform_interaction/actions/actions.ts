@@ -215,9 +215,9 @@ export const addElement = (payload) => {
                 return createAction(ADD_WAIT_WITH_WAIT_EVENTS, payload);
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
                 return createAction(ADD_SCREEN_WITH_FIELDS, payload);
-            case ELEMENT_TYPE.STEPPED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
+            case ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
                 return createAction(ADD_PARENT_WITH_CHILDREN, payload);
-            case ELEMENT_TYPE.STEPPED_STAGE_ITEM:
+            case ELEMENT_TYPE.STAGE_STEP:
                 return createAction(ADD_CHILD, payload);
             case ELEMENT_TYPE.START_ELEMENT:
                 return createAction(ADD_START_ELEMENT, payload);
@@ -265,7 +265,7 @@ export const updateElement = (payload) => {
                 return createAction(UPDATE_RECORD_LOOKUP, payload);
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
                 return createAction(MODIFY_SCREEN_WITH_FIELDS, payload);
-            case ELEMENT_TYPE.STEPPED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
+            case ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
                 return createAction(MODIFY_PARENT_WITH_CHILDREN, payload);
             default:
                 if (payload.isCanvasElement) {
