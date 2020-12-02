@@ -126,6 +126,7 @@ export const loopOnLocalActionSobjectCollInApexAutoOutput = getElementByName(
 );
 export const deleteAccount = getElementByName('deleteAccount');
 export const deleteAccountWithFilters = getElementByName('deleteAccountWithFilters');
+export const screenWithSection = getElementByName('ScreenWithSection');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

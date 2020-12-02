@@ -5,7 +5,7 @@ import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_inte
 import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { flowWithAllElementsUIModel, screenWithSection, decision2 as mockDecision } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -35,40 +35,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 : outcome;
         }),
         getElementByGuid: jest.fn((guid) => {
-            const decision = {
-                guid: 'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
-                name: 'decision',
-                description: '',
-                label: 'decision',
-                locationX: 846,
-                locationY: 472.3125,
-                isCanvasElement: true,
-                connectorCount: 0,
-                config: {
-                    isSelected: false,
-                    isHighlighted: false,
-                    isSelectable: true
-                },
-                childReferences: [
-                    {
-                        childReference: 'a8368340-a386-4406-9118-02389237ad54'
-                    }
-                ],
-                defaultConnectorLabel: 'Default Outcome',
-                elementType: 'Decision',
-                maxConnections: 2,
-                availableConnections: [
-                    {
-                        type: 'REGULAR',
-                        childReference: 'a8368340-a386-4406-9118-02389237ad54'
-                    },
-                    {
-                        type: 'DEFAULT'
-                    }
-                ]
-            };
-            return guid === 'e8161f40-c0f6-4ad8-87ca-942a76a014f2'
-                ? decision
+            return guid === mockDecision.guid
+                ? mockDecision
                 : jest.requireActual('builder_platform_interaction/storeUtils').getElementByGuid(guid);
         }),
         shouldUseAutoLayoutCanvas: jest.fn()
@@ -310,7 +278,7 @@ describe('clickableErrorMessage', () => {
                 }
             });
             expect.assertions(4);
-            const parent = flowWithAllElementsUIModel.elements['e8161f40-c0f6-4ad8-87ca-942a76a014f2'];
+            const parent = mockDecision;
             const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
             const highlightElementPayload = { elementGuid: parent.guid };
             const editElementEvent = new EditElementEvent(parent.guid);
@@ -335,7 +303,7 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            const parent = flowWithAllElementsUIModel.elements['865e456d-2e1d-410f-8c62-8f686238b197'];
+            const parent = screenWithSection;
             const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
             const highlightElementPayload = { elementGuid: parent.guid };
             const editElementEvent = new EditElementEvent(parent.guid);
@@ -360,7 +328,7 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            const parent = flowWithAllElementsUIModel.elements['865e456d-2e1d-410f-8c62-8f686238b197'];
+            const parent = screenWithSection;
             const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
             const highlightElementPayload = { elementGuid: parent.guid };
             const editElementEvent = new EditElementEvent(parent.guid);
@@ -405,7 +373,7 @@ describe('clickableErrorMessage', () => {
                 }
             });
             expect.assertions(4);
-            const parent = flowWithAllElementsUIModel.elements['e8161f40-c0f6-4ad8-87ca-942a76a014f2'];
+            const parent = mockDecision;
             const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
             const highlightElementPayload = { elementGuid: parent.guid };
             const editElementEvent = new EditElementEvent(parent.guid);
