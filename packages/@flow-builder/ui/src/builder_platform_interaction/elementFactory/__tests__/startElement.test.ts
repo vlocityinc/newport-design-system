@@ -6,6 +6,7 @@ import {
     createStartElementWithConnectors,
     createStartElementMetadataObject,
     createTimeTrigger,
+    createStartElement,
     createStartElementWhenUpdatingFromPropertyEditor
 } from '../startElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
@@ -294,6 +295,90 @@ describe('Start element', () => {
     });
 
     describe('createStartElement function', () => {
+        const startMetadata = {
+            elementType: 'START_ELEMENT'
+        };
+        const expectedResult = {
+            elementType: 'START_ELEMENT',
+            locationX: 50,
+            locationY: 50,
+            maxConnections: 1,
+            filterLogic: 'and',
+            object: '',
+            objectIndex: 'mockGuid',
+            filters: [
+                { rowIndex: 'mockGuid', leftHandSide: '', rightHandSide: '', rightHandSideDataType: '', operator: '' }
+            ],
+            childReferences: [],
+            availableConnections: [{ type: 'REGULAR' }]
+        };
+        it('with triggerType RecordAfterSave', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+            expectedResult.recordTriggerType = 'Create';
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType RecordBeforeSave', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+            expectedResult.recordTriggerType = 'Create';
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType RecordBeforeDelete', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
+            expectedResult.recordTriggerType = 'Delete';
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType Scheduled', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED;
+            expectedResult.frequency = 'Once';
+            expectedResult.recordTriggerType = undefined;
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType ScheduledJourney', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
+            expectedResult.frequency = 'Once';
+            expectedResult.recordTriggerType = undefined;
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType PlatformEvent', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.PLATFORM_EVENT;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.PLATFORM_EVENT;
+            expectedResult.frequency = undefined;
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('with triggerType None', () => {
+            expect.assertions(1);
+            startMetadata.triggerType = FLOW_TRIGGER_TYPE.NONE;
+            const actualResult = createStartElement(startMetadata);
+            expectedResult.triggerType = FLOW_TRIGGER_TYPE.NONE;
+            expectedResult.frequency = undefined;
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+    });
+
+    describe('createStartElementForPropertyEditor function', () => {
         let startElement = {
             locationX: START_ELEMENT_LOCATION.x,
             locationY: START_ELEMENT_LOCATION.y,
@@ -758,32 +843,6 @@ describe('Start element', () => {
             expect(baseCanvasElement).toHaveBeenCalledWith(startElementFromPropertyEditor);
         });
 
-        it('calls createStartElement if the start element has not been created', () => {
-            expect.assertions(1);
-            const startElementWithoutGuid = {
-                triggerType: 'RecordAfterSave'
-            };
-            const expectedResult = {
-                locationX: START_ELEMENT_LOCATION.x,
-                locationY: START_ELEMENT_LOCATION.y,
-                filters: [
-                    {
-                        leftHandSide: '',
-                        operator: '',
-                        rightHandSide: '',
-                        rightHandSideDataType: '',
-                        rowIndex: MOCK_GUID
-                    }
-                ],
-                filterLogic: CONDITION_LOGIC.AND,
-                elementType: 'START_ELEMENT',
-                maxConnections: 1,
-                triggerType: 'RecordAfterSave',
-                recordTriggerType: 'Create'
-            };
-            const actualResult = createStartElementWhenUpdatingFromPropertyEditor(startElementWithoutGuid);
-            expect(actualResult).toMatchObject(expectedResult);
-        });
         it('creates start element with Regular connector in available connections if not Record Triggered Flow', () => {
             expect.assertions(2);
             const testStartElement = {
@@ -799,8 +858,8 @@ describe('Start element', () => {
                 }
             };
             const actualResult = createStartElementWhenUpdatingFromPropertyEditor(testStartElement);
-            expect(actualResult.availableConnections).toHaveLength(1);
-            expect(actualResult.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
+            expect(actualResult.canvasElement.availableConnections).toHaveLength(1);
+            expect(actualResult.canvasElement.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
         });
 
         it('element type is START WITH MODIFIED AND DELETED TIME TRIGGERS', () => {

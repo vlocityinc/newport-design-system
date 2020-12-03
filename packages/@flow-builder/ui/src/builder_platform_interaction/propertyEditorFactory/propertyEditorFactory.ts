@@ -45,11 +45,12 @@ export function getElementForStore(element) {
     }
     // TODO: REMOVE THIS DEEP COPY ASAP W-5501173
     const elementAfterDehydrateAndUnwrap = dehydrate(deepCopy(element));
-    // const configLookup = elementSubtype && elementSubtype.value ? elementSubtype.value : elementType;
     const { factory } = getConfigForElement(element);
-    const { propertyEditor, closePropertyEditor } = factory;
+    const { initialization, propertyEditor, closePropertyEditor } = factory;
     let newElement;
-    if (closePropertyEditor) {
+    if (initialization && element.guid === undefined) {
+        newElement = initialization(elementAfterDehydrateAndUnwrap);
+    } else if (closePropertyEditor) {
         newElement = closePropertyEditor(elementAfterDehydrateAndUnwrap);
     } else if (propertyEditor) {
         newElement = propertyEditor(elementAfterDehydrateAndUnwrap);

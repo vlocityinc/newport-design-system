@@ -102,7 +102,7 @@ export function shouldSupportTimeTriggers(startElement: StartUi | StartMetadata)
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-function createStartElement(startElement: StartUi | StartMetadata) {
+export function createStartElement(startElement: StartUi | StartMetadata) {
     const newStartElement: StartUi = <StartUi>baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
@@ -444,29 +444,24 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     let newStartElement = createStartElement(startElement);
 
     if (!shouldSupportTimeTriggers(startElement)) {
-        // Start element guid is undefined when creating a new flow through the new flow modal
-        if (startElement.guid !== undefined) {
-            // When updating to a start element that doesn't support time triggers, replacing the Immediate available connector
-            // with a Regular one
-            const updatedAvailableConnections = newStartElement.availableConnections.map((availableConnection) => {
-                return availableConnection.type === CONNECTOR_TYPE.IMMEDIATE
-                    ? { type: CONNECTOR_TYPE.REGULAR }
-                    : availableConnection;
-            });
+        // When updating to a start element that doesn't support time triggers, replacing the Immediate available connector
+        // with a Regular one
+        const updatedAvailableConnections = newStartElement.availableConnections.map((availableConnection) => {
+            return availableConnection.type === CONNECTOR_TYPE.IMMEDIATE
+                ? { type: CONNECTOR_TYPE.REGULAR }
+                : availableConnection;
+        });
 
-            newStartElement = Object.assign(newStartElement, {
-                availableConnections: updatedAvailableConnections
-            });
+        newStartElement = Object.assign(newStartElement, {
+            availableConnections: updatedAvailableConnections
+        });
 
-            return {
-                canvasElement: newStartElement,
-                elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
-                shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement),
-                startElementGuid: newStartElement.guid
-            };
-        }
-
-        return newStartElement;
+        return {
+            canvasElement: newStartElement,
+            elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
+            shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement),
+            startElementGuid: newStartElement.guid
+        };
     }
 
     const { timeTriggers = [] } = startElement;

@@ -5,6 +5,8 @@
  * to typescript).  Ideally, the interfaces and the baseXXX methods are combined in to classes with constructors
  */
 
+import { StartMetadata } from 'builder_platform_interaction/metadataModel';
+
 export type Guid = string;
 export type ElementUiType = string;
 export type ElementUiSubtype = string;
@@ -227,6 +229,7 @@ interface NodeConfig {
 }
 
 interface Factory {
+    initialization?: (args: StartMetadata) => StartUi; // This is only applicable to Start element as it is a unique case.
     uiToFlow?: Function;
     propertyEditor?: (args: any) => any;
     flowToUi?: (args: any, arg2?: any) => any;
