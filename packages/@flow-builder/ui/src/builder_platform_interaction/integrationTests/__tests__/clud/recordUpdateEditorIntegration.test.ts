@@ -23,6 +23,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import {
+    getBaseExpressionBuilderRhsCombobox,
     getBaseResourcePickerCombobox,
     getEntityResourcePicker,
     getEntityResourcePickerChildGroupedComboboxComponent,
@@ -552,17 +553,36 @@ describe('Record Update Editor', () => {
                 it('should be displayed', () => {
                     expect(inputAssignments).not.toBeNull();
                 });
-                it('should display the correct number of input assignment', () => {
-                    expect(fieldToFerovExpressionBuilder).toHaveLength(1);
+                it('should display the correct number of input assignments', () => {
+                    expect(fieldToFerovExpressionBuilder).toHaveLength(2);
                 });
-                it('input assignment item LHS/Operator/RHS', () => {
-                    const baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
+                test('input assignments LHS/Operator/RHS (with pill)', () => {
+                    let baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
                     expect(baseExpressionBuilder.lhsValue).toMatchObject({
                         displayText: 'Name',
                         value: 'Account.Name'
                     });
                     expect(baseExpressionBuilder.operatorValue).toBeUndefined();
                     expect(baseExpressionBuilder.rhsValue).toBe('salesforce');
+
+                    baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[1]);
+                    expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                        displayText: 'BillingCity',
+                        value: 'Account.BillingCity'
+                    });
+                    expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+
+                    const accountSObjectVariable = getElementByDevName('accountSObjectVariable')!;
+                    expect(baseExpressionBuilder.rhsValue).toMatchObject({
+                        displayText: '{!accountSObjectVariable.BillingCity}',
+                        value: `${accountSObjectVariable.guid}.BillingCity`
+                    });
+                    const rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilder);
+                    expect(rhsCombobox.hasPill).toBe(true);
+                    expect(rhsCombobox.pill).toEqual({
+                        iconName: 'utility:text',
+                        label: 'accountSObjectVariable > Billing City'
+                    });
                 });
             });
         });

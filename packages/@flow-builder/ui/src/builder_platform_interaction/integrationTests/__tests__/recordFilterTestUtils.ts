@@ -3,9 +3,15 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
+import { getBaseExpressionBuilder } from './expressionBuilderTestUtils';
 
 export const getFieldToFerovExpressionBuilders = (parentElement) =>
     parentElement.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
+
+export const getBaseExpressionBuilderByIndex = (recordFilter, index = 0) => {
+    const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
+    return getBaseExpressionBuilder(fieldToFerovExpressionBuilderComponents[index]);
+};
 
 export const getFilterConditionLogicCombobox = (parentElement) =>
     deepQuerySelector(parentElement, [

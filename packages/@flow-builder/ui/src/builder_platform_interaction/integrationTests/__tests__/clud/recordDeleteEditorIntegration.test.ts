@@ -23,9 +23,9 @@ import {
     getRecordStoreOption,
     getSObjectOrSObjectCollectionPicker,
     getRecordFilter,
-    getRecordVariablePickerChildComboboxComponent
+    getRecordVariablePickerChildComboboxComponent,
+    getBaseExpressionBuilderRhsCombobox
 } from './cludEditorTestUtils';
-import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
     changeEvent,
     clickPill,
@@ -41,7 +41,7 @@ import {
     getGroupedComboboxItemBy
 } from '../groupedComboboxTestUtils';
 import {
-    getFieldToFerovExpressionBuilders,
+    getBaseExpressionBuilderByIndex,
     getFilterConditionLogicCombobox,
     getFilterCustomConditionLogicInput,
     newFilterItem
@@ -575,19 +575,30 @@ describe('Record Delete Editor', () => {
                 it('number of filters', () => {
                     expect(recordFilter.filterItems).toHaveLength(3);
                 });
-                it('filters item LHS/Operator/RHS', () => {
+                test('LHS/Operator/RHS (with pills)', () => {
+                    const accountSObjectVariable = getElementByDevName('accountSObjectVariable')!;
                     expect(recordFilter.filterItems[0]).toMatchObject(
-                        newFilterItem('Account.BillingCity', 'EqualTo', 'San Francisco', 'String')
+                        newFilterItem(
+                            'Account.BillingCity',
+                            'EqualTo',
+                            `${accountSObjectVariable.guid}.BillingCity`,
+                            'reference'
+                        )
                     );
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilderByIndex(recordFilter);
+                    const rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilderComponent);
+                    expect(rhsCombobox.hasPill).toBe(true);
+                    expect(rhsCombobox.pill).toEqual({
+                        iconName: 'utility:text',
+                        label: 'accountSObjectVariable > Billing City'
+                    });
+
                     expect(recordFilter.filterItems[1]).toMatchObject(
                         newFilterItem('Account.BillingCountry', 'EqualTo', 'USA', 'String')
                     );
                 });
                 it('operators available for the first filter', () => {
-                    const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
-                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(
-                        fieldToFerovExpressionBuilderComponents[0]
-                    );
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilderByIndex(recordFilter);
                     const operatorsComboboxComponent = getChildComponent(
                         baseExpressionBuilderComponent,
                         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX

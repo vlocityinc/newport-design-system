@@ -416,9 +416,14 @@ export default class Combobox extends LightningElement {
             this.state.showActivityIndicator = false;
         }
 
-        if (!this.state.disabled && wasDisabled && this._needsValidationOnEnable) {
-            this.doValidation();
-            this.fireComboboxStateChangedEvent();
+        if (!this.state.disabled && wasDisabled) {
+            if (this._needsValidationOnEnable) {
+                this.doValidation();
+                this._createPill();
+                this.fireComboboxStateChangedEvent();
+            } else {
+                this._createPill();
+            }
         }
     }
 
@@ -1246,7 +1251,6 @@ export default class Combobox extends LightningElement {
             this._isPillClicked = false;
         }
     }
-
     /**
      * Reset tracked pill field and optionally reset displayed text and menu data
      * @param {boolean} resetMenuDataAndDisplayText - resetting current displayed and built menu data?

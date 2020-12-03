@@ -55,7 +55,8 @@ import {
     getRadioGroups,
     getEntityResourcePicker,
     getOutputBaseResourcePickerCombobox,
-    removePillAndGetGroupedCombobox
+    removePillAndGetGroupedCombobox,
+    getBaseExpressionBuilderRhsCombobox
 } from './cludEditorTestUtils';
 import { getFieldToFerovExpressionBuilders } from '../recordFilterTestUtils';
 
@@ -471,7 +472,7 @@ describe('Record Create Editor', () => {
                     beforeEach(() => {
                         inputAssignments = getInputOutputAssignments(recordCreateElement);
                     });
-                    it('input Assignments should be visible and correctly displayed', () => {
+                    test('input Assignments should be visible and correctly displayed (with pill for RHS)', () => {
                         const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(inputAssignments);
                         expect(fieldToFerovExpressionBuilders).toHaveLength(2);
                         let baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
@@ -493,6 +494,14 @@ describe('Record Create Editor', () => {
                             text: 'vBillingCity',
                             type: 'option-card'
                         });
+
+                        let rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilder);
+                        expect(rhsCombobox.hasPill).toBe(true);
+                        expect(rhsCombobox.pill).toEqual({
+                            iconName: 'utility:text',
+                            label: 'vBillingCity'
+                        });
+
                         baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[1]);
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             dataType: 'String',
@@ -511,6 +520,12 @@ describe('Record Create Editor', () => {
                             subText: 'FlowBuilderDataTypes.textDataTypeLabel',
                             text: 'vName',
                             type: 'option-card'
+                        });
+                        rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilder);
+                        expect(rhsCombobox.hasPill).toBe(true);
+                        expect(rhsCombobox.pill).toEqual({
+                            iconName: 'utility:text',
+                            label: 'vName'
                         });
                     });
                     it('Removing the selected field should not change the value if the RHS has a value', async () => {

@@ -83,3 +83,6 @@ export const removePillAndGetGroupedCombobox = async (element, extraParentSelect
     await removePill(combobox);
     return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
+
+export const getBaseExpressionBuilderRhsCombobox = (baseExpressionBuilder) =>
+    baseExpressionBuilder.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX)[1];

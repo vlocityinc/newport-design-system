@@ -296,7 +296,9 @@ describe('record-update-editor', () => {
                 it('"AddRecordFieldAssignmentEvent" should add an input assignments element', async () => {
                     getInputOutputAssignments(recordUpdateEditor).dispatchEvent(new AddRecordFieldAssignmentEvent());
                     await ticks(1);
-                    expect(recordUpdateEditor.node.inputAssignments).toHaveLength(2);
+                    expect(recordUpdateEditor.node.inputAssignments).toHaveLength(
+                        updateAccountWithFilter.inputAssignments.length + 1
+                    );
                 });
                 it('"UpdateRecordFieldAssignmentEvent" should update the input assignments element', async () => {
                     const [inputAssignmentElement] = updateAccountWithFilter.inputAssignments;
@@ -311,7 +313,9 @@ describe('record-update-editor', () => {
                         new DeleteRecordFieldAssignmentEvent(0)
                     );
                     await ticks(1);
-                    expect(recordUpdateEditor.getNode().inputAssignments).toHaveLength(0);
+                    expect(recordUpdateEditor.getNode().inputAssignments).toHaveLength(
+                        updateAccountWithFilter.inputAssignments.length - 1
+                    );
                 });
                 it('record filter logic change event ("PropertyChangedEvent")', async () => {
                     getRecordFilter(recordUpdateEditor).dispatchEvent(

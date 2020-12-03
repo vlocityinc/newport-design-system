@@ -872,7 +872,7 @@
                         "field": "BillingCity",
                         "operator": "EqualTo",
                         "value": {
-                            "stringValue": "San Francisco"
+                            "elementReference": "accountSObjectVariable.BillingCity"
                         }
                     },
                     {
@@ -980,7 +980,7 @@
                         "field": "BillingCity",
                         "operator": "EqualTo",
                         "value": {
-                            "stringValue": "San Francisco"
+                            "elementReference": "accountSObjectVariable.BillingCity"
                         }
                     },
                     {
@@ -1045,6 +1045,12 @@
                         "field": "Name",
                         "value": {
                             "stringValue": "salesforce"
+                        }
+                    },
+                    {
+                        "field": "BillingCity",
+                        "value": {
+                            "elementReference": "accountSObjectVariable.BillingCity"
                         }
                     }
                 ]

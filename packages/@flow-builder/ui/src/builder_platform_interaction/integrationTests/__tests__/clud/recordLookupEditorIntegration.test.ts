@@ -37,7 +37,8 @@ import {
     getRecordFilter,
     getRecordSobjectAndQueryFields,
     getRecordSort,
-    getRecordInputOutputAssignments
+    getRecordInputOutputAssignments,
+    getBaseExpressionBuilderRhsCombobox
 } from './cludEditorTestUtils';
 import {
     getGroupedComboboxItemBy,
@@ -48,6 +49,7 @@ import {
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import { selectComboboxItemBy, typeMergeFieldInCombobox } from '../comboboxTestUtils';
 import {
+    getBaseExpressionBuilderByIndex,
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
     getFilterCustomConditionLogicInput,
@@ -628,7 +630,7 @@ describe('Record Lookup Editor', () => {
                     expect(recordSortElement.sortOrder).toBe('Asc');
                     expect(recordSortElement.selectedField).toBe('Name');
                 });
-                describe('Filter', () => {
+                describe('Filters', () => {
                     let recordFilter, fieldToFerovExpressionBuilders;
                     beforeEach(() => {
                         recordFilter = getRecordFilter(recordLookupComponent);
@@ -640,7 +642,8 @@ describe('Record Lookup Editor', () => {
                     it('number of filters', () => {
                         expect(fieldToFerovExpressionBuilders).toHaveLength(2);
                     });
-                    it('LHS/Operator/LHS values', () => {
+                    test('LHS/Operator/RHS (with pills) values ', () => {
+                        const accountSObjectVariable = getElementByDevName('accountSObjectVariable')!;
                         expect(recordFilter.filterItems[0]).toMatchObject({
                             leftHandSide: {
                                 value: 'Account.BillingCity'
@@ -649,12 +652,20 @@ describe('Record Lookup Editor', () => {
                                 value: 'EqualTo'
                             },
                             rightHandSide: {
-                                value: 'San Francisco'
+                                value: `${accountSObjectVariable.guid}.BillingCity`
                             },
                             rightHandSideDataType: {
-                                value: 'String'
+                                value: 'reference'
                             }
                         });
+                        const baseExpressionBuilderComponent = getBaseExpressionBuilderByIndex(recordFilter);
+                        const rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilderComponent);
+                        expect(rhsCombobox.hasPill).toBe(true);
+                        expect(rhsCombobox.pill).toEqual({
+                            iconName: 'utility:text',
+                            label: 'accountSObjectVariable > Billing City'
+                        });
+
                         expect(recordFilter.filterItems[1]).toMatchObject({
                             leftHandSide: {
                                 value: 'Account.BillingCountry'
@@ -696,27 +707,27 @@ describe('Record Lookup Editor', () => {
                     });
                     it('does not display LHS/RHS pill as literal values used', () => {
                         const baseExpressionBuilderComponent = getBaseExpressionBuilder(
-                            fieldToFerovExpressionBuilders[0]
+                            fieldToFerovExpressionBuilders[1]
                         );
                         const [lhsCombobox, rhsCombobox] = baseExpressionBuilderComponent.shadowRoot.querySelectorAll(
                             INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
                         );
                         expect(lhsCombobox.isPillSupported).toBe(true);
                         expect(rhsCombobox.isPillSupported).toBe(true);
-                        expect(lhsCombobox.value.displayText).toEqual('BillingCity');
+                        expect(lhsCombobox.value.displayText).toEqual('BillingCountry');
                         expect(lhsCombobox.pill).toBeNull();
-                        expect(rhsCombobox.value).toEqual('San Francisco');
+                        expect(rhsCombobox.value).toEqual('USA');
                         expect(rhsCombobox.pill).toBeNull();
                     });
                     it('does display RHS pill when RHS value changed and is no a literal', async () => {
                         const baseExpressionBuilderComponent = getBaseExpressionBuilder(
-                            fieldToFerovExpressionBuilders[0]
+                            fieldToFerovExpressionBuilders[1]
                         );
                         const [lhsCombobox, rhsCombobox] = baseExpressionBuilderComponent.shadowRoot.querySelectorAll(
                             INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
                         );
                         expect(lhsCombobox.isPillSupported).toBe(true);
-                        expect(lhsCombobox.value.displayText).toEqual('BillingCity');
+                        expect(lhsCombobox.value.displayText).toEqual('BillingCountry');
                         expect(lhsCombobox.pill).toBeNull();
                         await selectComboboxItemBy(rhsCombobox, 'text', ['stringVariable']);
                         expect(rhsCombobox.value.displayText).toEqual('{!stringVariable}');
