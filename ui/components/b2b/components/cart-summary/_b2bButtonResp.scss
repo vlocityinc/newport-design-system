@@ -1,4 +1,5 @@
 .nds-b2b-button {
+    white-space: nowrap;
     @at-root{
         button#{&}{
             white-space: nowrap;
