@@ -98,6 +98,6 @@
     "babel-eslint": "^10.0.1",
     "comment-parser": "^0.5.4",
     "gulp-clean-css": "^4.2.0",
-    "highlight.js": "^9.15.6"
+    "highlight.js": "^10.4.1"
   }
 }
