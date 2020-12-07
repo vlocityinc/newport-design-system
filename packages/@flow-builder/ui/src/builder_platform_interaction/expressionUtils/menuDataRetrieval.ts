@@ -44,6 +44,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
 import { canElementContain } from 'builder_platform_interaction/selectors';
+import { MenuItem } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -263,6 +264,13 @@ const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     );
 };
 
+const shouldDisableHasNext = (
+    menuItem: MenuItem,
+    { disableHasNext = false, allowSObjectField = true } = {}
+): boolean => {
+    return disableHasNext || (allowSObjectField === false && menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value);
+};
+
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
  * Used when subscribed to store. If subscribing to store is not needed use getElementsForMenuData.
@@ -314,9 +322,7 @@ export function filterAndMutateMenuData(
         )
         .map((element) => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
-            if (disableHasNext) {
-                disableHasNextOnMenuItem(menuItem);
-            } else if (allowSObjectField === false && menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            if (shouldDisableHasNext(menuItem, { disableHasNext, allowSObjectField })) {
                 disableHasNextOnMenuItem(menuItem);
             }
             return menuItem;
@@ -354,7 +360,7 @@ export function filterAndMutateMenuData(
     if (startElement) {
         // Create a menu item for the start element
         const startElementMenuItem = mutateFlowResourceToComboboxShape(startElement);
-        if (disableHasNext) {
+        if (shouldDisableHasNext(startElementMenuItem, { disableHasNext, allowSObjectField })) {
             disableHasNextOnMenuItem(startElementMenuItem);
         }
 

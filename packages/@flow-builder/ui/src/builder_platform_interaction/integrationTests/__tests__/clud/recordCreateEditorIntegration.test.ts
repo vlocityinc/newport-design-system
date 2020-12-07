@@ -1078,36 +1078,61 @@ describe('Record Create Editor', () => {
             });
         });
     });
-    describe('Working with flow with $Record prior value', () => {
+    describe('Working with flow with record triggered flow', () => {
         beforeAll(async () => {
             await setupStateForFlow(recordTriggeredFlow);
         });
         afterAll(() => {
             resetState();
         });
-        describe('Manual output handling', () => {
+        describe('Working with flow with $Record prior value', () => {
+            describe('Manual output handling', () => {
+                beforeEach(() => {
+                    const element = getElementByDevName('create_account_manual_output');
+                    recordCreateNode = getElementForPropertyEditor(element);
+                    recordCreateElement = createComponentForTest(recordCreateNode);
+                });
+                it.each`
+                    outputResourcePickerDisplayText     | expectedErrorMessage
+                    ${'{!accountSObjectVariable.Name}'} | ${null}
+                    ${'{!stringVariable}'}              | ${null}
+                    ${'{!$Record.Name}'}                | ${null}
+                    ${'{!$Record__Prior}'}              | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+                    ${'{!$Record__Prior.Name}'}         | ${'FlowBuilderCombobox.genericErrorMessage'}
+                `(
+                    'When typing "$outputResourcePickerDisplayText" error should be: $expectedErrorMessage',
+                    async ({ outputResourcePickerDisplayText, expectedErrorMessage }) => {
+                        const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
+                        await removePill(outputResourcePickerCombobox);
+
+                        await typeReferenceOrValueInCombobox(
+                            outputResourcePickerCombobox,
+                            outputResourcePickerDisplayText
+                        );
+                        expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
+                    }
+                );
+            });
+        });
+        describe('Sobject resource picker', () => {
             beforeEach(() => {
-                const element = getElementByDevName('create_account_manual_output');
+                const element = getElementByDevName('create_account_from_an_account');
                 recordCreateNode = getElementForPropertyEditor(element);
                 recordCreateElement = createComponentForTest(recordCreateNode);
             });
-            it.each`
-                outputResourcePickerDisplayText     | expectedErrorMessage
-                ${'{!accountSObjectVariable.Name}'} | ${null}
-                ${'{!stringVariable}'}              | ${null}
-                ${'{!$Record.Name}'}                | ${null}
-                ${'{!$Record__Prior}'}              | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-                ${'{!$Record__Prior.Name}'}         | ${'FlowBuilderCombobox.genericErrorMessage'}
-            `(
-                'When typing "$outputResourcePickerDisplayText" error should be: $expectedErrorMessage',
-                async ({ outputResourcePickerDisplayText, expectedErrorMessage }) => {
-                    const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
-                    await removePill(outputResourcePickerCombobox);
-
-                    await typeReferenceOrValueInCombobox(outputResourcePickerCombobox, outputResourcePickerDisplayText);
-                    expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
-                }
-            );
+            it('should contain single sobject elements, and no traversal', async () => {
+                sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
+                await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
+            });
+            it('should contain $Record, and no traversal', async () => {
+                sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
+                await expectCannotBeTraversedInResourcePicker(['$Record']);
+                await expectCannotBeSelectedInResourcePicker(['$Record__Prior']);
+            });
+            it('should not contain $Record Prior, and no traversal', async () => {
+                sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
+                await expectCannotBeSelectedInResourcePicker(['$Record__Prior']);
+            });
         });
     });
 });

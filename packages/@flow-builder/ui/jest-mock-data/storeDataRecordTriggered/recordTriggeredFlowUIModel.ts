@@ -230,6 +230,40 @@ export const recordTriggeredFlowUIModel = {
             assignRecordIdToReferenceIndex: '04e1c283-fc0b-4928-a495-89d956368769',
             dataType: 'Boolean',
             storeOutputAutomatically: false
+        },
+        '2f00ca0d-743f-4639-a084-272bbc548f8b': {
+            guid: '2f00ca0d-743f-4639-a084-272bbc548f8b',
+            name: 'create_account_from_an_account',
+            description: '',
+            label: 'create account from an account',
+            locationX: 105,
+            locationY: 361.3125,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            elementSubtype: null,
+            object: '',
+            objectIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
+            getFirstRecordOnly: true,
+            inputReference: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+            inputReferenceIndex: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'RecordCreate',
+            assignRecordIdToReferenceIndex: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
+            dataType: 'Boolean'
         }
     },
     connectors: [],
@@ -237,7 +271,8 @@ export const recordTriggeredFlowUIModel = {
         '07fd2a44-4192-4709-888d-8ccc18cb4580',
         '6d690706-908c-4d94-9513-1b219301b4c5',
         'e682f03e-925a-4d84-adc3-f1c5ceea0201',
-        '7f4ddba5-e41b-456b-b686-94b257cc9914'
+        '7f4ddba5-e41b-456b-b686-94b257cc9914',
+        '2f00ca0d-743f-4639-a084-272bbc548f8b'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,

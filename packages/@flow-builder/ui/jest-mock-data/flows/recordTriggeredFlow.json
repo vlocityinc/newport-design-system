@@ -131,6 +131,15 @@
                 ],
                 "storeOutputAutomatically": false,
                 "assignRecordIdToReference": "stringVariable"
+            },
+            {
+                "name": "create_account_from_an_account",
+                "description": "",
+                "label": "create account from an account",
+                "locationX": 105,
+                "locationY": 361.3125,
+                "elementSubtype": null,
+                "inputReference": "accountSObjectVariable"
             }
         ],
         "description": "",

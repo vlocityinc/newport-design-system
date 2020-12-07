@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { recordTriggeredFlowUIModel } from './recordTriggeredFlowUIModel';
 export * from './recordTriggeredFlowUIModel';
 

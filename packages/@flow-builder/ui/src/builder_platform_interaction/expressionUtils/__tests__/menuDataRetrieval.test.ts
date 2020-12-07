@@ -47,6 +47,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
+import { startElement } from 'mock/storeDataRecordTriggered';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -758,6 +759,19 @@ describe('Menu data retrieval', () => {
                 '$User',
                 '$UserRole'
             ]);
+        });
+        it('sets hasNext false on $Record when allowSObjectFields is false and disableHasNext is false', () => {
+            const menuData = filterAndMutateMenuData([startElement], undefined, {
+                disableHasNext: false,
+                allowSObjectField: false,
+                showSystemVariables: false,
+                showGlobalVariables: false
+            });
+
+            const element = menuData[0].items[0];
+            expect(element.hasNext).toBe(false);
+            expect(element.rightIconName).toBeDefined();
+            expect(element.rightIconName).toEqual('');
         });
     });
 
