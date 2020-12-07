@@ -89,6 +89,7 @@
                 <template if:true={showExtraSections}>
                     <lightning-accordion
                         allow-multiple-sections-open
+                        active-section-name={expandedSectionNames}
                         class="slds-has-divider slds-p-top_none slds-border_bottom"
                     >
                         <builder_platform_interaction-screen-component-visibility-section field={field}>

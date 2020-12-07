@@ -1,5 +1,9 @@
 <template>
-    <lightning-accordion active-section-name="columns" allow-multiple-sections-open class="slds-p-top_none">
+    <lightning-accordion
+        active-section-name={expandedSectionNames}
+        allow-multiple-sections-open
+        class="slds-p-top_none"
+    >
         <lightning-accordion-section name="columns" label={labels.columnsSectionTitle}>
             <div slot="actions">
                 <lightning-helptext

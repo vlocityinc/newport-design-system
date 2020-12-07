@@ -17,8 +17,12 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
+import {
+    hasScreenFieldVisibilityCondition,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+} from 'builder_platform_interaction/screenEditorUtils';
 
-const EXPANDED_SECTION_NAMES = ['choicesSection'];
+const CHOICES_SECTION_NAME = ['choicesSection'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 
 /*
@@ -44,7 +48,10 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get expandedSectionNames() {
-        return EXPANDED_SECTION_NAMES;
+        if (hasScreenFieldVisibilityCondition(this.field)) {
+            return [...CHOICES_SECTION_NAME, SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+        return CHOICES_SECTION_NAME;
     }
 
     handlePropertyChanged = (event) => {

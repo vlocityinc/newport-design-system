@@ -3,7 +3,11 @@ import { LightningElement, api } from 'lwc';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    LIGHTNING_INPUT_VARIANTS,
+    hasScreenFieldVisibilityCondition,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+} from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 
 /*
@@ -16,6 +20,13 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
 
     @api
     editorParams;
+
+    get expandedSectionNames() {
+        if (hasScreenFieldVisibilityCondition(this.field)) {
+            return [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+        return [];
+    }
 
     handlePropertyChanged = (event) => {
         event.stopPropagation();

@@ -8,6 +8,8 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
+export const SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME = 'componentVisibility';
+
 const FEROV_TYPES = {
     String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
     Number: ['CURRENCY', 'NUMBER', 'DECIMAL', 'FLOAT', 'DOUBLE', 'LONG', 'INT', 'INTEGER', 'SHORT', 'BYTE'],
@@ -524,6 +526,10 @@ export function getFieldChoiceData(field) {
         });
     }
     return [];
+}
+
+export function hasScreenFieldVisibilityCondition(field) {
+    return field.visibilityRule && field.visibilityRule.conditions.length > 0;
 }
 
 function getErrorFromChoice(choice) {

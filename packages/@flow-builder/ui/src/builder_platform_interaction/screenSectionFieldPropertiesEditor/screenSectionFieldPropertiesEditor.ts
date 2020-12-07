@@ -4,7 +4,11 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getColumnFieldType,
+    hasScreenFieldVisibilityCondition,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+} from 'builder_platform_interaction/screenEditorUtils';
 import {
     createAddScreenFieldEvent,
     createScreenElementDeletedEvent,
@@ -14,6 +18,8 @@ import {
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const MAX_COLUMNS = 4;
+
+const SECTION_COLUMNS_NAME = ['columns'];
 
 /*
  * Screen element property editor for section fields.
@@ -91,6 +97,13 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
 
     get maxColumns() {
         return MAX_COLUMNS;
+    }
+
+    get expandedSectionNames() {
+        if (hasScreenFieldVisibilityCondition(this.field)) {
+            return [SECTION_COLUMNS_NAME, SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+        return [SECTION_COLUMNS_NAME];
     }
 
     handleAdd(event) {

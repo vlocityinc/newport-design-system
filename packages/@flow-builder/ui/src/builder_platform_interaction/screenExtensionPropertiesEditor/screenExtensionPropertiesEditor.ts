@@ -24,7 +24,11 @@ import {
 import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
-import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    InputsOnNextNavToAssocScrnOption,
+    hasScreenFieldVisibilityCondition,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+} from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Dynamic property editor for screen extensions.
@@ -288,6 +292,13 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
             return Object.assign({}, ...outputVariables);
         }
         return {};
+    }
+
+    get expandedSectionNames() {
+        if (hasScreenFieldVisibilityCondition(this.field)) {
+            return [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+        return [];
     }
 
     /**
