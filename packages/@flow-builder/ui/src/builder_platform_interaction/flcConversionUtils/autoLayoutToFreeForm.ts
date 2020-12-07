@@ -14,23 +14,11 @@ import { supportsChildren, flcExtraProps } from 'builder_platform_interaction/fl
 import { findStartElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 
-import {
-    Guid,
-    CanvasElement,
-    ElementUi,
-    ElementUis,
-    AutoLayoutCanvasElement,
-    FlowConnector,
-    StringKeyedMap,
-    AvailableConnection,
-    StoreState
-} from 'builder_platform_interaction/uiModel';
-
 interface Position {
     x: number;
     y: number;
 }
-type ElementsPositionMap = StringKeyedMap<Position>;
+type ElementsPositionMap = UI.StringKeyedMap<Position>;
 
 function createInitialFlowRenderContext(flowModel): FlowRenderContext {
     return {
@@ -58,12 +46,12 @@ function getNodeLayoutMap(flowModel) {
  * @return the a map of the positions for the elements
  */
 function calculateElementPositions(
-    elements: UiElements,
+    elements: UI.Elements,
     startOffsetX: number,
     startOffsetY: number
-): StringKeyedMap<Position> {
+): UI.StringKeyedMap<Position> {
     const elementsPosition = {};
-    const startElement = findStartElement(elements) as AutoLayoutCanvasElement;
+    const startElement = findStartElement(elements) as UI.AutoLayoutCanvasElement;
     const nodeLayoutMap = getNodeLayoutMap(elements);
 
     // The Start Position here maps to the top-left corner of the start menu container.
@@ -75,7 +63,7 @@ function calculateElementPositions(
 
     elementsPosition[startElement.guid] = startPosition;
 
-    const firstElement = elements[startElement.next!] as AutoLayoutCanvasElement;
+    const firstElement = elements[startElement.next!] as UI.AutoLayoutCanvasElement;
 
     // Getting offsetY for the following elements. startOffsetY is at the top of the Start Contextual Menu.
     // findStartYOffset returns Start Contextual Menu heigh.
@@ -91,8 +79,8 @@ function calculateElementPositions(
 function calculateElementPositionsForBranch(
     nodeLayoutMap,
     elementsPosition: ElementsPositionMap,
-    elementsMap: UiElements,
-    element: AutoLayoutCanvasElement,
+    elementsMap: UI.Elements,
+    element: UI.AutoLayoutCanvasElement,
     offsetX: number,
     offsetY: number
 ): void {
@@ -116,7 +104,7 @@ function calculateElementPositionsForBranch(
                         nodeLayoutMap,
                         elementsPosition,
                         elementsMap,
-                        elementsMap[child] as AutoLayoutCanvasElement,
+                        elementsMap[child] as UI.AutoLayoutCanvasElement,
                         position.x + branchOffsetX,
                         position.y
                     );
@@ -130,7 +118,7 @@ function calculateElementPositionsForBranch(
                 nodeLayoutMap,
                 elementsPosition,
                 elementsMap,
-                elementsMap[element.fault] as AutoLayoutCanvasElement,
+                elementsMap[element.fault] as UI.AutoLayoutCanvasElement,
                 position.x + faultOffsetX,
                 position.y
             );
@@ -145,7 +133,7 @@ function calculateElementPositionsForBranch(
             }
         }
 
-        element = elementsMap[element.next!] as AutoLayoutCanvasElement;
+        element = elementsMap[element.next!] as UI.AutoLayoutCanvasElement;
     }
 }
 
@@ -156,7 +144,7 @@ function calculateElementPositionsForBranch(
  * @param index - The index
  * @return The child source guid
  */
-function findChildSource(parentElement: ElementUi, index: number): Guid {
+function findChildSource(parentElement: UI.Element, index: number): UI.Guid {
     const { singular, plural } = getChildReferencesKeys();
     return parentElement[plural][index][singular];
 }
@@ -172,11 +160,11 @@ function findChildSource(parentElement: ElementUi, index: number): Guid {
  * @return a connector for the branch head
  */
 function createConnectorForBranchHead(
-    elements: ElementUis,
-    parentElement: AutoLayoutCanvasElement,
+    elements: UI.Elements,
+    parentElement: UI.AutoLayoutCanvasElement,
     childIndex: number,
-    ancestorNext: Guid | null
-): FlowConnector {
+    ancestorNext: UI.Guid | null
+): UI.Connector {
     const child = parentElement.children![childIndex];
 
     const source = parentElement.guid;
@@ -184,7 +172,7 @@ function createConnectorForBranchHead(
     // that is null, the first ancestor parent's next that is not null)
     const target = child != null ? elements[child].guid : ancestorNext;
 
-    let childSource: Guid | null = null;
+    let childSource: UI.Guid | null = null;
     let type;
 
     const numChildren = parentElement.children!.length;
@@ -218,13 +206,13 @@ function createConnectorForBranchHead(
  * @param alcCanvasElement - A alc element
  * @returns A Free Form Canvas element
  */
-function toCanvasElement(elements: UiElements, alcCanvasElement: AutoLayoutCanvasElement): CanvasElement {
+function toCanvasElement(elements: UI.Elements, alcCanvasElement: UI.AutoLayoutCanvasElement): UI.CanvasElement {
     const canvasElement = { ...alcCanvasElement, connectorCount: 0 };
 
     const elementConfig = getConfigForElementType(alcCanvasElement.elementType) as any;
     const { canHaveFaultConnector } = elementConfig;
 
-    let availableConnections: AvailableConnection[] = [];
+    let availableConnections: UI.AvailableConnection[] = [];
     const supportsMultipleConnectors = supportsChildren(alcCanvasElement) || elementConfig.canHaveFaultConnector;
     let maxConnections = 1;
 
@@ -281,11 +269,11 @@ function toCanvasElement(elements: UiElements, alcCanvasElement: AutoLayoutCanva
  * @param element - A canvas element
  * @returns true if the element is an end element
  */
-function isEndElement(element: CanvasElement) {
+function isEndElement(element: UI.CanvasElement) {
     return element.elementType === ELEMENT_TYPE.END_ELEMENT;
 }
 
-function isEndElementOrNull(alcElementsMap, elementGuid: Guid | null | undefined) {
+function isEndElementOrNull(alcElementsMap, elementGuid: UI.Guid | null | undefined) {
     return elementGuid == null || isEndElement(alcElementsMap[elementGuid]);
 }
 
@@ -299,16 +287,16 @@ function isEndElementOrNull(alcElementsMap, elementGuid: Guid | null | undefined
  * @returns true if all child branches are terminals
  */
 function convertBranchingElement(
-    storeState: StoreState,
-    elements: UiElements,
-    branchingElement: AutoLayoutCanvasElement,
-    ancestorNext: Guid | null
+    storeState: UI.StoreState,
+    elements: UI.Elements,
+    branchingElement: UI.AutoLayoutCanvasElement,
+    ancestorNext: UI.Guid | null
 ) {
     ancestorNext = branchingElement.next || ancestorNext;
 
     branchingElement.children!.forEach((child, i) => {
         if (child != null) {
-            const childElement = elements[child] as AutoLayoutCanvasElement;
+            const childElement = elements[child] as UI.AutoLayoutCanvasElement;
 
             const connector = createConnectorForBranchHead(elements, branchingElement, i, null);
             storeState.connectors.push(connector);
@@ -331,15 +319,20 @@ function convertBranchingElement(
  * @returns true if all child branches are terminals
  */
 function convertLoopElement(
-    storeState: StoreState,
-    elements: UiElements,
-    loopElement: AutoLayoutCanvasElement,
-    ancestorNext: Guid | null
+    storeState: UI.StoreState,
+    elements: UI.Elements,
+    loopElement: UI.AutoLayoutCanvasElement,
+    ancestorNext: UI.Guid | null
 ) {
     const loopNext = loopElement.children![0];
     if (loopNext != null) {
         addConnector(elements, loopElement.guid, loopNext, storeState, CONNECTOR_TYPE.LOOP_NEXT);
-        convertBranchToFreeForm(storeState, elements, elements[loopNext] as AutoLayoutCanvasElement, loopElement.guid);
+        convertBranchToFreeForm(
+            storeState,
+            elements,
+            elements[loopNext] as UI.AutoLayoutCanvasElement,
+            loopElement.guid
+        );
     }
 
     ancestorNext = loopElement.next || ancestorNext;
@@ -359,10 +352,10 @@ function convertLoopElement(
  * @param type - The connector type
  */
 function addConnector(
-    alcElementsMap: UiElements,
-    source: Guid,
-    target: Guid,
-    ffcStoreState: StoreState,
+    alcElementsMap: UI.Elements,
+    source: UI.Guid,
+    target: UI.Guid,
+    ffcStoreState: UI.StoreState,
     type: string = CONNECTOR_TYPE.REGULAR
 ): void {
     const connector = createNewConnector(alcElementsMap, source, target, type);
@@ -378,10 +371,10 @@ function addConnector(
  * @param ancestorNext - The Guid of the element the control flow continues to when the branch is done
  */
 function convertBranchToFreeForm(
-    ffcStoreState: StoreState,
-    alcElementsMap: UiElements,
-    alcBranchHeadElement: AutoLayoutCanvasElement,
-    ancestorNext: Guid | null
+    ffcStoreState: UI.StoreState,
+    alcElementsMap: UI.Elements,
+    alcBranchHeadElement: UI.AutoLayoutCanvasElement,
+    ancestorNext: UI.Guid | null
 ): void {
     let alcElement = alcBranchHeadElement;
 
@@ -404,7 +397,7 @@ function convertBranchToFreeForm(
             convertBranchToFreeForm(
                 ffcStoreState,
                 alcElementsMap,
-                alcElementsMap[fault] as AutoLayoutCanvasElement,
+                alcElementsMap[fault] as UI.AutoLayoutCanvasElement,
                 null
             );
         }
@@ -433,11 +426,11 @@ function convertBranchToFreeForm(
         }
 
         const nextElement = next != null ? alcElementsMap[next] : null;
-        alcElement = nextElement as AutoLayoutCanvasElement;
+        alcElement = nextElement as UI.AutoLayoutCanvasElement;
     }
 }
 
-function assertStoreState(storeState: StoreState) {
+function assertStoreState(storeState: UI.StoreState) {
     const { elements, connectors } = storeState;
 
     Object.values(elements)
@@ -508,17 +501,17 @@ function assertStoreState(storeState: StoreState) {
  *
  * @return The Free Form Canvas UI model
  */
-export function convertToFreeFormCanvas(storeState: StoreState, startElementCoords: number[]): StoreState {
+export function convertToFreeFormCanvas(storeState: UI.StoreState, startElementCoords: number[]): UI.StoreState {
     const { elements } = storeState;
 
-    const ffcStoreState: StoreState = {
+    const ffcStoreState: UI.StoreState = {
         ...storeState,
         elements: {},
         canvasElements: [],
         connectors: []
     };
 
-    const startElement = findStartElement(elements) as AutoLayoutCanvasElement;
+    const startElement = findStartElement(elements) as UI.AutoLayoutCanvasElement;
 
     convertBranchToFreeForm(ffcStoreState, elements, startElement, null);
 
@@ -526,7 +519,7 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
     const elementsPosition = calculateElementPositions(elements, offsetX, offsetY);
 
     // add non-canvas elements to to the ffc state and reset config for all Canvas Elements
-    Object.values(elements).forEach((element: ElementUi) => {
+    Object.values(elements).forEach((element: UI.Element) => {
         if (element.isCanvasElement) {
             ffcStoreState.elements[element.guid].config = {
                 isSelected: false,
@@ -542,9 +535,9 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
     });
 
     // update the connector counts
-    Object.values(ffcStoreState.connectors).forEach((connector: FlowConnector) => {
+    Object.values(ffcStoreState.connectors).forEach((connector: UI.Connector) => {
         const { source, childSource, type } = connector;
-        const sourceElement = ffcStoreState.elements[source] as CanvasElement;
+        const sourceElement = ffcStoreState.elements[source] as UI.CanvasElement;
         if (sourceElement.availableConnections != null) {
             sourceElement.availableConnections = sourceElement.availableConnections.filter((connection) => {
                 // eslint-disable-next-line eqeqeq
@@ -556,8 +549,8 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
     });
 
     // add the element position information
-    Object.values(ffcStoreState.elements).forEach((element: ElementUi) => {
-        const canvasElement = element as CanvasElement;
+    Object.values(ffcStoreState.elements).forEach((element: UI.Element) => {
+        const canvasElement = element as UI.CanvasElement;
         const position = elementsPosition[element.guid];
         if (position != null) {
             canvasElement.locationX = position.x;

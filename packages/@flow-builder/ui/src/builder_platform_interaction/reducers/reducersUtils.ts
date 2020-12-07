@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Guid } from 'builder_platform_interaction/uiModel';
 
 /**
  * Function to get all the nested screen fields and push them into subElementsGuids
@@ -9,8 +8,8 @@ import { Guid } from 'builder_platform_interaction/uiModel';
  * @param elements - current state of elements in the store
  * @return nestedChildFieldGuids - Array containing guids of the nested child fields
  */
-function _getNestedChildGuids(childReference: Guid, elements): Guid[] {
-    const nestedChildGuids: Guid[] = [];
+function _getNestedChildGuids(childReference: UI.Guid, elements): UI.Guid[] {
+    const nestedChildGuids: UI.Guid[] = [];
     const element: Element = elements[childReference];
     if (element.childReferences) {
         for (let i = 0; i < element.childReferences.length; i++) {
@@ -32,7 +31,7 @@ function _getNestedChildGuids(childReference: Guid, elements): Guid[] {
  * @param elements - current state of elements in the store
  * @return  Array of subelement guids for the given element. Can be an empty array
  */
-function getSubElementGuids(node, elements): Guid[] {
+function getSubElementGuids(node, elements): UI.Guid[] {
     const subElementsGuids = [];
 
     if (node.elementType === ELEMENT_TYPE.SCREEN) {

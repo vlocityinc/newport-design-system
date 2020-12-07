@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { Guid } from 'builder_platform_interaction/uiModel';
 import { MERGE_WARNING_TYPE, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 /**
@@ -26,7 +25,7 @@ export function getParameterListWarnings(
     inputAssignments: ParameterListRowItem[] = [],
     outputAssignments: ParameterListRowItem[] = [],
     labels
-): map<Guid, MERGE_WARNING_TYPE[]> {
+): map<UI.Guid, MERGE_WARNING_TYPE[]> {
     const map = {};
     inputAssignments.forEach((assignment) => {
         const warning = getParameterItemWarning(assignment.warnings, labels);

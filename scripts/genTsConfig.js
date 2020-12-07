@@ -38,7 +38,7 @@ ${paths}
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types/index.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types/index.d.ts", "@types/uiModel.d.ts","@types/metadataModel.d.ts"]
 }`
     );
 })(

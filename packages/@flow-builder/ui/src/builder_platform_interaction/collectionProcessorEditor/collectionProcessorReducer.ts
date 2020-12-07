@@ -2,7 +2,6 @@ import { collectionProcessorValidation } from './collectionProcessorValidation';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent, UpdateCollectionProcessorEvent } from 'builder_platform_interaction/events';
-import { StoreState } from 'builder_platform_interaction/uiModel';
 
 const collectionProcessorPropertyChanged = (state, event) => {
     event.detail.error =
@@ -33,7 +32,7 @@ const updateCollectionProcessor = (state, event) => {
  * @param event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns  collectionProcessor - updated collectionProcessor
  */
-export const collectionProcessorReducer = (state: StoreState, event: CustomEvent): StoreState => {
+export const collectionProcessorReducer = (state: UI.StoreState, event: CustomEvent): UI.StoreState => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return collectionProcessorPropertyChanged(state, event);

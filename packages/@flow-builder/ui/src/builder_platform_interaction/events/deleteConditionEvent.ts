@@ -1,10 +1,7 @@
-// @ts-nocheck
-import { Guid } from 'builder_platform_interaction/uiModel';
-
 const eventName = 'deletecondition';
 
 type DeleteConditionEventDetail = {
-    parentGUID: Guid;
+    parentGUID: UI.Guid;
     index: number;
 };
 

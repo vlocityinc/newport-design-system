@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
-import { Guid } from 'builder_platform_interaction/uiModel';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
 
@@ -15,7 +14,7 @@ export type ParameterListConfig = {
     flowTransactionModel: FLOW_TRANSACTION_MODEL;
     inputs: ParameterListRowItem[];
     outputs: ParameterListRowItem[];
-    warnings: Map<Guid, MERGE_WARNING_TYPE[]>;
+    warnings: Map<UI.Guid, MERGE_WARNING_TYPE[]>;
     storeOutputAutomatically: boolean;
     automaticOutputHandlingSupported: FLOW_AUTOMATIC_OUTPUT_HANDLING;
     emptyInputsOutputsBody: string;

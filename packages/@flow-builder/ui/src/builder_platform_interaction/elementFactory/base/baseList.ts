@@ -2,7 +2,6 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getDataTypeKey } from '../ferov';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { Guid } from 'builder_platform_interaction/uiModel';
 
 // @ts-nocheck
 /**
@@ -17,7 +16,7 @@ export enum MERGE_WARNING_TYPE {
 }
 
 export type ParameterListRowItem = {
-    rowIndex: Guid;
+    rowIndex: UI.Guid;
     name: string | ValueWithError;
     value: string | ValueWithError;
     valueDataType: string;

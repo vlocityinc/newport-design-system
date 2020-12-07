@@ -3,11 +3,10 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { timeTriggersValidation, additionalRules } from './timeTriggersValidation';
 import { addItem, hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
-import { StoreState, TimeTrigger } from 'builder_platform_interaction/uiModel';
 import { createTimeTrigger } from 'builder_platform_interaction/elementFactory';
 
 const addTimeTrigger = (state) => {
-    let newTimeTrigger = createTimeTrigger(<TimeTrigger>{});
+    let newTimeTrigger = createTimeTrigger(<UI.TimeTrigger>{});
     newTimeTrigger = hydrateWithErrors(newTimeTrigger);
     const timeTriggers = addItem(state.timeTriggers, newTimeTrigger);
 
@@ -59,7 +58,7 @@ const timeTriggerPropertyChanged = (state, event) => {
  * @param event - object containing type and payload eg: {guid:"xyz", detail: {propertyName: '', value: '' , error: ''}}
  * @returns TimeTrigger - updated state
  */
-export const timeTriggersReducer = (state: StoreState, event: CustomEvent): StoreState => {
+export const timeTriggersReducer = (state: UI.StoreState, event: CustomEvent): UI.StoreState => {
     switch (event.type) {
         case PROPERTY_EDITOR_ACTION.ADD_START_ELEMENT_TIME_TRIGGER:
             return addTimeTrigger(state);

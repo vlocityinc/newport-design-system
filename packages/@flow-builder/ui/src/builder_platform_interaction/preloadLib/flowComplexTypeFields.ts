@@ -12,8 +12,6 @@ import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMeta
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
-import { ScreenField } from 'builder_platform_interaction/uiModel';
-import { ScreenFieldMetadata } from 'builder_platform_interaction/metadataModel';
 
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
@@ -94,11 +92,11 @@ export function loadParametersForInvocableApexActionsInFlowFromMetadata(actionCa
     return Promise.all(promises);
 }
 
-export function loadFieldsForExtensionsInFlowFromMetadata(screenFields: ScreenFieldMetadata[]): Promise<any> {
+export function loadFieldsForExtensionsInFlowFromMetadata(screenFields: Metadata.ScreenField[]): Promise<any> {
     return loadFieldsForExtensions(screenFields);
 }
 
-function loadFieldsForExtensions(screenFields: (ScreenField | ScreenFieldMetadata)[]): Promise<any> {
+function loadFieldsForExtensions(screenFields: (UI.ScreenField | Metadata.ScreenField)[]): Promise<any> {
     const extensionNames = screenFields
         .filter((screenField) => screenField.storeOutputAutomatically === true)
         .map((screenField) => screenField.extensionName);

@@ -130,7 +130,6 @@ import {
     createPastedOrchestratedStage,
     createDuplicateOrchestratedStage
 } from 'builder_platform_interaction/elementFactory';
-import { ElementConfig } from 'builder_platform_interaction/uiModel';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
@@ -163,7 +162,7 @@ export const ICON_SHAPE = {
  * @type {object}
  */
 export const elementTypeToConfigMap: {
-    [p: string]: ElementConfig;
+    [p: string]: UI.ElementConfig;
 } = {
     [ELEMENT_TYPE.FLOW_PROPERTIES]: {
         descriptor: 'builder_platform_interaction:flowPropertiesEditor',
@@ -1169,7 +1168,7 @@ export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
  * @param element - element to fetch configuration information for based on its element type or subelement type
  * @returns An object containing component config
  */
-export function getConfigForElement(element: ElementConfig): ElementConfig {
+export function getConfigForElement(element: UI.ElementConfig): UI.ElementConfig {
     let configLookup;
     if (element.isElementSubtype) {
         configLookup = element.name!;
@@ -1184,7 +1183,7 @@ export function getConfigForElement(element: ElementConfig): ElementConfig {
  *            map, if empty, default element is chosen
  * @returns An object containing component config
  */
-export function getConfigForElementType(elementType: string): ElementConfig {
+export function getConfigForElementType(elementType: string): UI.ElementConfig {
     if (elementType === null || elementType === undefined || !elementTypeToConfigMap[elementType]) {
         elementType = ELEMENT_TYPE.DEFAULT;
     }

@@ -13,7 +13,6 @@ import {
     createConditionMetadataObject
 } from './base/baseMetadata';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
-import { ChildElement, CanvasElement, ChildReference, Guid, Condition } from 'builder_platform_interaction/uiModel';
 import { createConnectorObjects } from './connector';
 import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
@@ -25,10 +24,10 @@ import { ParameterListRowItem } from './base/baseList';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 // TODO: should extend the same base class as other non-canvas elements
-export interface StageStep extends ChildElement {
-    parent: Guid;
+export interface StageStep extends UI.ChildElement {
+    parent: UI.Guid;
     stepTypeLabel: string;
-    entryConditions: Condition[];
+    entryConditions: UI.Condition[];
     entryConditionLogic?: string;
     action?: InvocableAction;
     actionName?: string;
@@ -37,9 +36,9 @@ export interface StageStep extends ChildElement {
     outputParameters: ParameterListRowItem[];
 }
 
-export interface OrchestratedStage extends CanvasElement {
+export interface OrchestratedStage extends UI.CanvasElement {
     stageSteps: StageStep[];
-    childReferences: ChildReference[];
+    childReferences: UI.ChildReference[];
 }
 
 const elementType = ELEMENT_TYPE.ORCHESTRATED_STAGE;
@@ -56,7 +55,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
         newStage.name = sanitizeDevName(newStage.label);
     }
 
-    newStage.stageSteps = childReferences.map((childReference: ChildReference) => {
+    newStage.stageSteps = childReferences.map((childReference: UI.ChildReference) => {
         return createStageStep(getElementByGuid(childReference.childReference) as any);
     });
 
@@ -85,7 +84,7 @@ export function createPastedOrchestratedStage({
     next,
     parent,
     childIndex
-}): { pastedCanvasElement: OrchestratedStage; pastedChildElements: Map<Guid, StageStep> } {
+}): { pastedCanvasElement: OrchestratedStage; pastedChildElements: Map<UI.Guid, StageStep> } {
     const { duplicatedElement, duplicatedChildElements } = createDuplicateOrchestratedStage(
         canvasElementToPaste,
         newGuid,
@@ -130,14 +129,14 @@ export function createPastedOrchestratedStage({
  */
 export function createDuplicateOrchestratedStage(
     orchestratedStage: OrchestratedStage,
-    newGuid: Guid,
+    newGuid: UI.Guid,
     newName: string,
     childElementGuidMap: any,
     childElementNameMap: any,
     cutOrCopiedChildElements: object[]
 ): {
     duplicatedElement: OrchestratedStage;
-    duplicatedChildElements: Map<Guid, StageStep>;
+    duplicatedChildElements: Map<UI.Guid, StageStep>;
 } {
     const {
         duplicatedElement,
@@ -161,7 +160,7 @@ export function createDuplicateOrchestratedStage(
     });
     return {
         duplicatedElement: updatedDuplicatedElement,
-        duplicatedChildElements: <Map<Guid, StageStep>>duplicatedChildElements
+        duplicatedChildElements: <Map<UI.Guid, StageStep>>duplicatedChildElements
     };
 }
 
@@ -169,10 +168,10 @@ function createStageStepsWithReferences(
     originalItems: StageStep[]
 ): {
     items: StageStep[];
-    childReferences: ChildReference[];
+    childReferences: UI.ChildReference[];
 } {
     let items: StageStep[] = [];
-    let childReferences: ChildReference[] = [];
+    let childReferences: UI.ChildReference[] = [];
 
     for (let i = 0; i < originalItems.length; i++) {
         const item: StageStep = createStageStep(originalItems[i]);
@@ -243,11 +242,11 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
  * for dynamic rendering on the canvas
  * @param guid
  */
-export function getSteps(guid: Guid): StageStep[] {
+export function getSteps(guid: UI.Guid): StageStep[] {
     const orchestratedStage = getElementByGuid<OrchestratedStage>(guid)!;
 
     return orchestratedStage.childReferences.map(
-        (ref: ChildReference): StageStep => {
+        (ref: UI.ChildReference): StageStep => {
             return {
                 ...getElementByGuid(ref.childReference)!,
                 // TODO: W-8051764: This will eventually need to be dynamic based on the step type
@@ -292,7 +291,9 @@ export function createStageStep(step: StageStep): StageStep {
         });
     }
 
-    newStep.entryConditions = entryConditions.map<Condition>((condition) => <Condition>createCondition(condition));
+    newStep.entryConditions = entryConditions.map<UI.Condition>(
+        (condition) => <UI.Condition>createCondition(condition)
+    );
 
     newStep.inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
     newStep.outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
@@ -347,7 +348,7 @@ export function createOrchestratedStageMetadataObject(
     return newOrchestratedStage;
 }
 
-function updateItemReferences(childReferences: any[], step: StageStep): ChildReference[] {
+function updateItemReferences(childReferences: any[], step: StageStep): UI.ChildReference[] {
     return [
         ...childReferences,
         {
@@ -387,7 +388,7 @@ function getDeletedStepsUsingStore(originalOrchestratedStage: OrchestratedStage,
  * If no parent orchestratedStage is found, an Error is thrown
  * @param guid
  */
-export function getOtherItemsInOrchestratedStage(guid: Guid): StageStep[] {
+export function getOtherItemsInOrchestratedStage(guid: UI.Guid): StageStep[] {
     const parent: OrchestratedStage | null = <OrchestratedStage>getElementsForElementType(
         ELEMENT_TYPE.ORCHESTRATED_STAGE
     ).find((orchestratedStage) => {

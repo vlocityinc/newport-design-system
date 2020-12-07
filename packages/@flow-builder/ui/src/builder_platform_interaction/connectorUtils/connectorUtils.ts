@@ -2,7 +2,6 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './connectorUtilsLabels';
-import { FlowConnector, CanvasElement, ConnectorType } from 'builder_platform_interaction/uiModel';
 
 /**
  * Helper method to get the minimum and maximum x and y coordinates of the flow
@@ -261,11 +260,11 @@ export const getLabelAndValueForConnectorPickerOptions = (
  * @return A new connector object
  */
 export const createNewConnector = (
-    elements: FlowElements,
-    sourceGuid: Guid,
-    targetGuid: Guid,
+    elements: UI.Elements,
+    sourceGuid: UI.Guid,
+    targetGuid: UI.Guid,
     valueFromCombobox: string
-): FlowConnector => {
+): UI.Connector => {
     let type = valueFromCombobox,
         label,
         childSource;
@@ -291,6 +290,6 @@ export const createNewConnector = (
     return createConnectorObject(sourceGuid, childSource, targetGuid, label, type);
 };
 
-export function createEndConnector(elements: FlowElements, sourceElement: CanvasElement, type: ConnectorType) {
+export function createEndConnector(elements: UI.Elements, sourceElement: UI.CanvasElement, type: UI.ConnectorType) {
     return createNewConnector(elements, sourceElement.guid, generateGuid(), type);
 }

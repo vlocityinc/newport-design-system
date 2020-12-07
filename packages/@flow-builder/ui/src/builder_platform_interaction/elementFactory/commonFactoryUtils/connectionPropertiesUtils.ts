@@ -1,8 +1,5 @@
 // @ts-nocheck
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ConnectorMetadata } from 'builder_platform_interaction/metadataModel';
-
-import { ChildReference, Guid, AvailableConnection } from 'builder_platform_interaction/uiModel';
 
 /**
  * Helper function to get an array of all child references that have connectors associated with them
@@ -108,8 +105,8 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  */
 export function getConnectionProperties(
     originalCanvasElement,
-    newChildReferences: ChildReference[] = [],
-    deletedChildElementGuids: Guid[] = []
+    newChildReferences: UI.ChildReference[] = [],
+    deletedChildElementGuids: UI.Guid[] = []
 ) {
     let connectorCount = 0;
     let availableConnections = [];
@@ -166,9 +163,9 @@ export function getConnectionProperties(
  * @returns updated array of available connections
  */
 export function addRegularConnectorToAvailableConnections(
-    availableConnections: AvailableConnection[] = [],
-    elementChild: { name: string; connector: ConnectorMetadata }
-): AvailableConnection[] {
+    availableConnections: UI.AvailableConnection[] = [],
+    elementChild: { name: string; connector: Metadata.Connector }
+): UI.AvailableConnection[] {
     if (!elementChild || !elementChild.name) {
         throw new Error('Either elementChild or elementChild.name is not defined');
     }

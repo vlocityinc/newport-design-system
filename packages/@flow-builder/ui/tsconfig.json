@@ -103,7 +103,6 @@
             "builder_platform_interaction/loopEditor": ["./src/builder_platform_interaction/loopEditor/loopEditor.ts"],
             "builder_platform_interaction/marqueeSelectionBox": ["./src/builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"],
             "builder_platform_interaction/mergeFieldLib": ["./src/builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"],
-            "builder_platform_interaction/metadataModel": ["./src/builder_platform_interaction/metadataModel/metadataModel.ts"],
             "builder_platform_interaction/metadataUtils": ["./src/builder_platform_interaction/metadataUtils/metadataUtils.ts"],
             "builder_platform_interaction/modalBody": ["./src/builder_platform_interaction/modalBody/modalBody.ts"],
             "builder_platform_interaction/modalBodyInternalData": ["./src/builder_platform_interaction/modalBodyInternalData/modalBodyInternalData.ts"],
@@ -220,7 +219,6 @@
             "builder_platform_interaction/transactionControlPicker": ["./src/builder_platform_interaction/transactionControlPicker/transactionControlPicker.ts"],
             "builder_platform_interaction/translatorLib": ["./src/builder_platform_interaction/translatorLib/translatorLib.ts"],
             "builder_platform_interaction/triggerTypeLib": ["./src/builder_platform_interaction/triggerTypeLib/triggerTypeLib.ts"],
-            "builder_platform_interaction/uiModel": ["./src/builder_platform_interaction/uiModel/uiModel.ts"],
             "builder_platform_interaction/undoRedoLib": ["./src/builder_platform_interaction/undoRedoLib/undoRedoLib.ts"],
             "builder_platform_interaction/useAdvancedOptionsCheckbox": ["./src/builder_platform_interaction/useAdvancedOptionsCheckbox/useAdvancedOptionsCheckbox.ts"],
             "builder_platform_interaction/useAdvancedSettingsAccordion": ["./src/builder_platform_interaction/useAdvancedSettingsAccordion/useAdvancedSettingsAccordion.ts"],
@@ -243,5 +241,5 @@
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types/index.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types/index.d.ts", "@types/uiModel.d.ts","@types/metadataModel.d.ts"]
 }

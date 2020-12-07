@@ -1,13 +1,4 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    Guid,
-    ElementUis,
-    ElementUi,
-    CanvasElement,
-    ConnectorUi,
-    StoreState,
-    AvailableConnection
-} from 'builder_platform_interaction/uiModel';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { generateGuid, deepCopy } from 'builder_platform_interaction/storeLib';
@@ -27,12 +18,12 @@ const CONVERT_TO_AUTO_LAYOUT_FAILED = 'Convert to auto layout canvas failed';
  * @param storeState - The FFC UI Model
  * @return The generated end connectorss
  */
-function generateEndConnectors(elements: ElementUis): ConnectorUi[] {
-    const endConnectors: ConnectorUi[] = [];
+function generateEndConnectors(elements: UI.Elements): UI.Connector[] {
+    const endConnectors: UI.Connector[] = [];
 
     Object.values(elements).forEach((element) => {
         if (element.isCanvasElement) {
-            const canvasElement = element as CanvasElement;
+            const canvasElement = element as UI.CanvasElement;
             if (canvasElement.availableConnections != null) {
                 // for elements that support multiple "out" connectors
 
@@ -101,7 +92,7 @@ const guidCompare = (obj1, obj2) => (obj1.guid >= obj2.guid ? 1 : -1);
  * @param elements - The elements
  * @return the normalized elements
  */
-function normalizeElements(elements: Record<string, ElementUi>, isAutoLayout = false) {
+function normalizeElements(elements: Record<string, UI.Element>, isAutoLayout = false) {
     const props = isAutoLayout ? autoLayoutElementProps : elementProps;
     return Object.values(deepCopy(elements))
         .map((ele: any) => pick(ele, props as any))
@@ -160,7 +151,7 @@ export function deepEquals(objA, objB) {
     return setB.size === 0;
 }
 
-function updateConnectorGuids(state: StoreState) {
+function updateConnectorGuids(state: UI.StoreState) {
     state.connectors.forEach((conn: any) => {
         const { source, target, type } = conn;
         const childSource = conn.childSource || '';
@@ -177,7 +168,7 @@ function updateConnectorGuids(state: StoreState) {
  * @param nextState - The next state
  * @return true if the normalized state is the same
  */
-const compareState = (prevState: StoreState, nextState: StoreState, isAutoLayout = false) => {
+const compareState = (prevState: UI.StoreState, nextState: UI.StoreState, isAutoLayout = false) => {
     return deepEquals(
         updateConnectorGuids(normalizeState(prevState, isAutoLayout)),
         updateConnectorGuids(normalizeState(nextState, isAutoLayout))
@@ -189,7 +180,7 @@ const compareState = (prevState: StoreState, nextState: StoreState, isAutoLayout
  * @param state
  * @return the normalized state
  */
-export function normalizeState(state: StoreState, isAutoLayout = false): any {
+export function normalizeState(state: UI.StoreState, isAutoLayout = false): any {
     const { elements, connectors, canvasElements } = state;
 
     return {
@@ -210,16 +201,16 @@ export function normalizeState(state: StoreState, isAutoLayout = false): any {
  * @return The flow without any end elements or connectors
  */
 export function removeEndElementsAndConnectorsTransform(
-    storeState: StoreState,
-    endConnectors?: ConnectorUi[]
-): StoreState {
+    storeState: UI.StoreState,
+    endConnectors?: UI.Connector[]
+): UI.StoreState {
     let { elements, connectors } = storeState;
 
     // remove the end connectors
     connectors = connectors.filter((connector) => {
         const { source, target, childSource, type } = connector;
         if (elements[target].elementType === ELEMENT_TYPE.END_ELEMENT) {
-            const sourceElement = elements[source] as CanvasElement;
+            const sourceElement = elements[source] as UI.CanvasElement;
             if (endConnectors != null) {
                 endConnectors.push(connector);
             }
@@ -230,7 +221,7 @@ export function removeEndElementsAndConnectorsTransform(
             // adjust the available connections
             const availableConnections = sourceElement.availableConnections;
             if (availableConnections != null) {
-                const availableConnection: AvailableConnection = { type };
+                const availableConnection: UI.AvailableConnection = { type };
                 if (childSource != null) {
                     availableConnection.childReference = childSource;
                 }
@@ -243,7 +234,7 @@ export function removeEndElementsAndConnectorsTransform(
         return true;
     });
 
-    const canvasElements: Guid[] = [];
+    const canvasElements: UI.Guid[] = [];
 
     // remove the end elements
     elements = Object.values(elements).reduce((elementsMap, element) => {
@@ -283,13 +274,13 @@ export function removeEndElementsAndConnectorsTransform(
  * @return The Free Form UIModel with end elements and connnectors
  */
 export function addEndElementsAndConnectorsTransform(
-    storeState: StoreState,
-    endConnectors?: ConnectorUi[]
-): StoreState {
+    storeState: UI.StoreState,
+    endConnectors?: UI.Connector[]
+): UI.StoreState {
     // generate the connectors if none are provided
     endConnectors = endConnectors || generateEndConnectors(storeState.elements);
 
-    const endElements: ElementUis = {};
+    const endElements: UI.Elements = {};
 
     // create the end elements from the end connectors
     endConnectors.forEach((endConnector) => {
@@ -300,7 +291,7 @@ export function addEndElementsAndConnectorsTransform(
             endElement.guid = target;
             endElements[target] = endElement;
         }
-        const sourceElement = storeState.elements[source] as CanvasElement;
+        const sourceElement = storeState.elements[source] as UI.CanvasElement;
         sourceElement.connectorCount++;
         if (sourceElement.availableConnections) {
             sourceElement.availableConnections = sourceElement.availableConnections.filter((connection) => {
@@ -331,7 +322,7 @@ export function addEndElementsAndConnectorsTransform(
  * @param gackIfFail - If we should gack if the conversion fails
  * @return true if can be convertd to Auto Layout Canvas
  */
-export function canConvertToAutoLayoutCanvas(storeState: StoreState, gackIfFail = true) {
+export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, gackIfFail = true) {
     let canConvert = false;
 
     try {
@@ -368,7 +359,7 @@ export function canConvertToAutoLayoutCanvas(storeState: StoreState, gackIfFail 
  * @param storeState - An Auto Canvas UI flow state
  * @return true if can be converted to Free From
  */
-export function canConvertToFreeFormCanvas(storeState: StoreState) {
+export function canConvertToFreeFormCanvas(storeState: UI.StoreState) {
     let canConvert = false;
 
     try {
@@ -402,9 +393,9 @@ export function canConvertToFreeFormCanvas(storeState: StoreState) {
 
 // adds conversion check to convertToAutoLayoutCanvas
 const safeConvertToAutoLayoutCanvas = (
-    storeState: StoreState,
+    storeState: UI.StoreState,
     options: Partial<ConvertToAutoLayoutCanvasOptions> = {}
-): StoreState => {
+): UI.StoreState => {
     storeState = deepCopy(storeState);
 
     if (!canConvertToAutoLayoutCanvas(storeState)) {
@@ -415,7 +406,7 @@ const safeConvertToAutoLayoutCanvas = (
 };
 
 // adds conversion check to convertToFreeFormCanvas
-const safeConvertToFreeFormCanvas = (storeState: StoreState, startElementCoords: number[]): StoreState => {
+const safeConvertToFreeFormCanvas = (storeState: UI.StoreState, startElementCoords: number[]): UI.StoreState => {
     storeState = deepCopy(storeState);
 
     // skip for now

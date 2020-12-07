@@ -8,12 +8,11 @@ import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 const { NONE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
-import { ElementUi, FlowElements, StartUi } from 'builder_platform_interaction/uiModel';
 
 /**
  * @return true iff an element can have children
  */
-export function supportsChildren(element: ElementUi) {
+export function supportsChildren(element: UI.Element) {
     const { elementType } = element;
     return (
         elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT || elementType === ELEMENT_TYPE.LOOP
@@ -109,11 +108,11 @@ export const hasContext = (triggerType) => {
  * @param elements - the guid to element map
  * @return the start element
  */
-export function findStartElement(elements: FlowElements): StartUi | BranchHeadNodeModel {
+export function findStartElement(elements: UI.Elements): UI.Start | BranchHeadNodeModel {
     return Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT)!;
 }
 
-function createElementHelper(elementType: string, guid: Guid) {
+function createElementHelper(elementType: string, guid: UI.Guid) {
     return {
         elementType,
         guid,

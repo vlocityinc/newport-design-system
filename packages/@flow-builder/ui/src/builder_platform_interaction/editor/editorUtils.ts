@@ -41,8 +41,6 @@ import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
-import { FlowElementType, Guid } from 'builder_platform_interaction/uiModel';
-import { ScreenMetadata, ScreenFieldMetadata } from 'builder_platform_interaction/metadataModel';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
@@ -112,11 +110,11 @@ const deletableCanvasElements = (canvasElements = []) => {
  */
 const doDeleteOrInvokeAlert = (
     storeInstance: Store,
-    selectedElementGUIDs: Guid[],
+    selectedElementGUIDs: UI.Guid[],
     connectorsToDelete: Object[],
-    elementType: FlowElementType,
+    elementType: UI.ElementType,
     childIndexToKeep?: number,
-    parentGUID?: Guid
+    parentGUID?: UI.Guid
 ) => {
     const currentState = storeInstance.getCurrentState();
     const storeElements = currentState.elements;
@@ -964,20 +962,20 @@ export const getElementsWithError = (canvasDecorator: object): Array<object> => 
     return elementsToDecorate;
 };
 
-const screenFieldsInSections = (screenFields: ScreenFieldMetadata[]): ScreenFieldMetadata[] => {
+const screenFieldsInSections = (screenFields: Metadata.ScreenField[]): Metadata.ScreenField[] => {
     return screenFields
         .filter((field) => field.fieldType === 'RegionContainer')
         .reduce((acc, field) => [...acc, ...field.fields], [])
         .reduce((acc, field) => [...acc, ...field.fields], []);
 };
 
-const allScreenFields = (screen: ScreenMetadata): ScreenFieldMetadata[] => {
+const allScreenFields = (screen: Metadata.Screen): Metadata.ScreenField[] => {
     const screenFields = [...screen.fields];
     screenFields.push(...screenFieldsInSections(screenFields));
     return screenFields;
 };
 
-export const screenFieldsReferencedByLoops = (flowMetadata: any): ScreenFieldMetadata[] => {
+export const screenFieldsReferencedByLoops = (flowMetadata: any): Metadata.ScreenField[] => {
     const loopReferences = flowMetadata.loops.map((loop) => sanitizeGuid(loop.collectionReference).guidOrLiteral);
     return flowMetadata.screens.reduce(
         (acc, screen) => [

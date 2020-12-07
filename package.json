@@ -54,7 +54,8 @@
         "update:syncPomToCore": "node ./scripts/pom sync -b $npm_package_config_branch",
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
         "utils:copy-to-nba": "./scripts/copyToNba.sh -b $npm_package_config_branch",
-        "postinstall": "./scripts/fix-lwc-testrunner.sh"
+        "postinstall": "./scripts/fix-lwc-testrunner.sh",
+        "genTsConfig": "node ./scripts/genTsConfig.js"
     },
     "repository": {
         "type": "git",
@@ -126,7 +127,7 @@
     "husky": {
         "hooks": {
             "pre-commit": [
-                "node ./scripts/genTsConfig.js && git add **/tsconfig.json && lint-staged "
+                "yarn genTsConfig && git add **/tsconfig.json && lint-staged "
             ],
             "pre-push": [
                 "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l"

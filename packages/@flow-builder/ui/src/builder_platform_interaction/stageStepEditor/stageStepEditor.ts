@@ -21,7 +21,6 @@ import {
     ParameterListRowItem,
     StageStep
 } from 'builder_platform_interaction/elementFactory';
-import { ComboboxItem } from 'builder_platform_interaction/uiModel';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
@@ -48,8 +47,8 @@ export default class StageStepEditor extends LightningElement {
     selectedEntryCriteria?: ENTRY_CRITERIA;
 
     // For step based entry criteria
-    entryConditionsAvailableStepItems: ComboboxItem[] = [];
-    entryConditionsSelectedItem?: ComboboxItem;
+    entryConditionsAvailableStepItems: UI.ComboboxItem[] = [];
+    entryConditionsSelectedItem?: UI.ComboboxItem;
 
     isActionsFetched = false;
 
@@ -113,7 +112,7 @@ export default class StageStepEditor extends LightningElement {
         this.entryConditionsAvailableStepItems = [];
 
         otherItems.forEach((stageStep) => {
-            const comboboxItem: ComboboxItem = {
+            const comboboxItem: UI.ComboboxItem = {
                 type: 'option-card',
                 dataType: FLOW_DATA_TYPE.STRING.value,
                 text: stageStep.label,

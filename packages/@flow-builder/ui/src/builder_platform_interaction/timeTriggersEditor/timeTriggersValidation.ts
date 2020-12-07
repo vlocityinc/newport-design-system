@@ -1,5 +1,4 @@
 import { Validation } from 'builder_platform_interaction/validation';
-import { Guid } from 'builder_platform_interaction/uiModel';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
@@ -44,7 +43,7 @@ class TimeTriggersValidation extends Validation {
     validateTimeTriggerNameUniquenessLocally = (
         state,
         devNameToBeValidate: string,
-        currentTimeTriggerGuid: Guid
+        currentTimeTriggerGuid: UI.Guid
     ): string | null => {
         const timeTriggerssDevNameToGuidList = state.timeTriggers.map((timeTrigger) => {
             return {

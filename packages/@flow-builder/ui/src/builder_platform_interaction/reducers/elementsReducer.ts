@@ -37,7 +37,6 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getSubElementGuids } from './reducersUtils';
-import { CanvasElement, ChildElement, Guid, StoreState } from 'builder_platform_interaction/uiModel';
 import { DECORATION_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
@@ -262,12 +261,12 @@ function _addOrUpdateCanvasElementWithChildElements(
  *
  * @private
  */
-function _addChildElement(state: StoreState, parentGuid: Guid, childElement: ChildElement): object {
+function _addChildElement(state: UI.StoreState, parentGuid: UI.Guid, childElement: UI.ChildElement): object {
     const newState = updateProperties(state);
 
     newState[childElement.guid] = updateProperties(newState[childElement.guid], childElement);
 
-    let parentElement: CanvasElement = newState[parentGuid];
+    let parentElement: UI.CanvasElement = newState[parentGuid];
     parentElement = updateProperties(parentElement, {
         childReferences: [
             ...parentElement.childReferences,
@@ -287,14 +286,18 @@ function _addChildElement(state: StoreState, parentGuid: Guid, childElement: Chi
  *
  * @private
  */
-function _deleteChildElements(state: StoreState, parentGuid: Guid, childElements: ChildElement[]): StoreState {
+function _deleteChildElements(
+    state: UI.StoreState,
+    parentGuid: UI.Guid,
+    childElements: UI.ChildElement[]
+): UI.StoreState {
     let newState = updateProperties(state);
 
-    const childGuids: Guid[] = childElements.map((child) => child.guid);
+    const childGuids: UI.Guid[] = childElements.map((child) => child.guid);
 
-    newState = <StoreState>omit(newState, childGuids);
+    newState = <UI.StoreState>omit(newState, childGuids);
 
-    let parentElement: CanvasElement = newState[parentGuid];
+    let parentElement: UI.CanvasElement = newState[parentGuid];
     parentElement = updateProperties(parentElement, {
         childReferences: parentElement.childReferences.filter((ref) => !childGuids.includes(ref.childReference))
     });

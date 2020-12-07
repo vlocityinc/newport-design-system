@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import {
     getElementByGuid,
     getElementsForElementType,
@@ -27,7 +26,6 @@ import {
 import { ParameterListRowItem } from '../base/baseList';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
-import { Guid } from 'builder_platform_interaction/uiModel';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
@@ -540,7 +538,7 @@ describe('OrchestratedStage', () => {
 
     describe('getOtherItemsInOrchestratedStage', () => {
         it('throws an error if no parent found', () => {
-            const nonexistantGuid: Guid = 'foo';
+            const nonexistantGuid: UI.Guid = 'foo';
 
             expect(() => {
                 getOtherItemsInOrchestratedStage(nonexistantGuid);

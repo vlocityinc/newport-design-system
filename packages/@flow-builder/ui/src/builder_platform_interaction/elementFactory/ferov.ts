@@ -4,7 +4,6 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/da
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { addCurlyBraces, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { ElementUi } from 'builder_platform_interaction/uiModel';
 
 // keys are the types we find in our ferov objects, values are flow builder ferov data types
 const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
@@ -74,7 +73,7 @@ function convertGuidToDevName(value) {
 
     const ferovObjectValueParts = splitStringBySeparator(value);
     const guid = value;
-    const elementUi: ElementUi = getElementByGuid(ferovObjectValueParts[0]);
+    const elementUi: UI.Element = getElementByGuid(ferovObjectValueParts[0]);
 
     if (elementUi) {
         ferovObjectValueParts[0] = elementUi.name;

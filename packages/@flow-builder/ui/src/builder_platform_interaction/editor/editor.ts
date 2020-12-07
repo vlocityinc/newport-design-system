@@ -140,7 +140,6 @@ import {
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
-import { ElementUi, Guid } from 'builder_platform_interaction/uiModel';
 
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
 const {
@@ -178,8 +177,8 @@ const EDITOR_COMPONENT_CONFIGS = {
 
 type NodeWithParent = {
     elementType: ELEMENT_TYPE;
-    element: ElementUi;
-    parentGuid: Guid;
+    element: UI.Element;
+    parentGuid: UI.Guid;
 };
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -1993,14 +1992,14 @@ export default class Editor extends LightningElement {
      * @param parentGuid Needed when adding a non-canvas child element (StageStep, Outcome, etc...)
      * directly from the canvas so we know where to add it
      */
-    deMutateAndAddNodeCollection = (node: ElementUi, parentGuid: Guid) => {
+    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
-        const nodeForStore: ElementUi = getElementForStore(node);
+        const nodeForStore: UI.Element = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
 
-        let payload: ElementUi | NodeWithParent = nodeForStore;
+        let payload: UI.Element | NodeWithParent = nodeForStore;
 
         // This is a non-canvas child element being added directly on the canvas
         if (!nodeForStore.canvasElement && parentGuid) {
@@ -2016,7 +2015,7 @@ export default class Editor extends LightningElement {
     /**
      * Dispatch add element event and log it
      */
-    dispatchAddElement(element: ElementUi | NodeWithParent) {
+    dispatchAddElement(element: UI.Element | NodeWithParent) {
         storeInstance.dispatch(addElement(element));
         logInteraction(`add-node-of-type-${element.elementType}`, 'modal', null, 'click');
     }

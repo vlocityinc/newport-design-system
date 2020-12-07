@@ -26,9 +26,6 @@ import {
     getConnectionProperties,
     addRegularConnectorToAvailableConnections
 } from '../commonFactoryUtils/connectionPropertiesUtils';
-
-import { TimeTrigger } from 'builder_platform_interaction/uiModel';
-
 import { LABELS } from '../elementFactoryLabels';
 
 const startElementReference = 'assignment1';
@@ -591,7 +588,7 @@ describe('Start element', () => {
         });
         it('calls baseChildElement with elementType = TimeTrigger and an empty time trigger by default', () => {
             expect.assertions(2);
-            createTimeTrigger(<TimeTrigger>{});
+            createTimeTrigger(<UI.TimeTrigger>{});
             expect(baseChildElement.mock.calls[0][0]).toEqual({});
             expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.TIME_TRIGGER);
         });

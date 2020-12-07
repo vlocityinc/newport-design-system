@@ -1,16 +1,13 @@
-// @ts-nocheck
-import { Guid, Condition } from 'builder_platform_interaction/uiModel';
-
 const eventName = 'updatecondition';
 
 type UpdateConditionEventDetail = {
-    parentGUID: Guid;
+    parentGUID: UI.Guid;
     index: number;
-    value: Condition;
+    value: UI.Condition;
 };
 
 export class UpdateConditionEvent extends CustomEvent<UpdateConditionEventDetail> {
-    constructor(parentGUID: Guid, index: number, value: Condition) {
+    constructor(parentGUID: UI.Guid, index: number, value: UI.Condition) {
         super(eventName, {
             cancelable: false,
             composed: true,

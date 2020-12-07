@@ -11,23 +11,11 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
-    ChildElement,
-    ElementUi,
-    BaseCanvasElement,
-    CanvasElementConfig,
-    CanvasElement,
-    AutoLayoutCanvasElement,
-    ConnectorUi,
-    ChildReference,
-    Guid
-} from 'builder_platform_interaction/uiModel';
-import {
     areAllBranchesTerminals,
     ParentNodeModel,
     FlowModel,
     BranchHeadNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ElementMetadata } from 'builder_platform_interaction/metadataModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -42,7 +30,7 @@ export const INCOMPLETE_ELEMENT = Symbol('incomplete');
  *
  * @param resource
  */
-export function baseResource(resource: { description?: string } = {}): ElementUi {
+export function baseResource(resource: { description?: string } = {}): UI.Element {
     const newResource = baseElement(resource);
     const { description = '' } = resource;
     return Object.assign(newResource, {
@@ -57,7 +45,7 @@ export function createAvailableConnection(availableConnection: { type?: string }
 
 function createCanvasElementConfig(
     config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false }
-): CanvasElementConfig {
+): UI.CanvasElementConfig {
     const { isSelected, isHighlighted, isSelectable, hasError } = config;
     return { isSelected, isHighlighted, isSelectable, hasError };
 }
@@ -90,12 +78,12 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
     Object.assign(newCanvasElement, { next, prev });
 }
 
-export function baseCanvasElement(canvasElement: ElementMetadata | BaseCanvasElement = {}): ElementUi {
+export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanvasElement = {}): UI.Element {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = <BaseCanvasElement>(
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = <UI.BaseCanvasElement>(
         canvasElement
     );
-    let { config } = <BaseCanvasElement>canvasElement;
+    let { config } = <UI.BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
 
     if (shouldUseAutoLayoutCanvas()) {
@@ -134,7 +122,7 @@ export function createPastedCanvasElement(
     next,
     parent,
     childIndex
-): CanvasElement {
+): UI.CanvasElement {
     const pastedCanvasElement = Object.assign(duplicatedElement, {
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         prev: canvasElementGuidMap[duplicatedElement.prev] || null,
@@ -194,9 +182,9 @@ export function createPastedCanvasElement(
  * @param {string} newName - new name for the duplicate element
  * @returns {Object} duplicated element with a new unique name and guid
  */
-export function duplicateCanvasElement(canvasElement, newGuid, newName): { duplicatedElement: CanvasElement } {
+export function duplicateCanvasElement(canvasElement, newGuid, newName): { duplicatedElement: UI.CanvasElement } {
     const { locationX, locationY, maxConnections, elementType } = canvasElement;
-    const duplicatedElement: CanvasElement = Object.assign({}, canvasElement, {
+    const duplicatedElement: UI.CanvasElement = Object.assign({}, canvasElement, {
         guid: newGuid,
         name: newName,
         locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
@@ -391,7 +379,7 @@ export function createCondition(condition: any = {}) {
  * @param {module:flowMetadata.ELEMENT_TYPE} elementType one of the values defined in ELEMENT_TYPE
  * @return {ChildElement}
  */
-export function baseChildElement(childElement: any = {}, elementType): ChildElement {
+export function baseChildElement(childElement: any = {}, elementType): UI.ChildElement {
     if (
         elementType !== ELEMENT_TYPE.OUTCOME &&
         elementType !== ELEMENT_TYPE.WAIT_EVENT &&
@@ -405,7 +393,7 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
         throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
     }
-    const newChildElement: ChildElement = baseElement(childElement) as ChildElement;
+    const newChildElement: UI.ChildElement = baseElement(childElement) as UI.ChildElement;
     const { label = '' } = childElement;
     return Object.assign(newChildElement, {
         label,
@@ -414,14 +402,14 @@ export function baseChildElement(childElement: any = {}, elementType): ChildElem
     });
 }
 
-export function baseCanvasElementsArrayToMap(elementList: ElementUi[] = [], connectors: ConnectorUi[] = []) {
+export function baseCanvasElementsArrayToMap(elementList: UI.Element[] = [], connectors: UI.Connector[] = []) {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
         connectors
     });
 }
 
-export function baseElementsArrayToMap(elementList: ElementUi[] = []) {
+export function baseElementsArrayToMap(elementList: UI.Element[] = []) {
     const elements = elementList.reduce((acc, element) => {
         return Object.assign(acc, { [element.guid]: element });
     }, {});
@@ -435,7 +423,7 @@ export function baseElementsArrayToMap(elementList: ElementUi[] = []) {
  * but should have instead : { guid: Guid, name: string }
  * This will imply modification to function baseResource
  */
-export function baseElement(element: any = {}): ElementUi {
+export function baseElement(element: any = {}): UI.Element {
     const { guid = generateGuid(), name = '' } = element;
     return {
         guid,
@@ -450,9 +438,9 @@ export const automaticOutputHandlingSupport = (): boolean => {
 };
 
 export function updateChildReferences(
-    childReferences: ChildReference[] = [],
-    canvasElementChild: ElementUi
-): ChildReference[] {
+    childReferences: UI.ChildReference[] = [],
+    canvasElementChild: UI.Element
+): UI.ChildReference[] {
     if (!canvasElementChild || !canvasElementChild.guid) {
         throw new Error('Either canvasElementChild or canvasElementChild.guid not defined');
     }
@@ -465,12 +453,12 @@ export function updateChildReferences(
 }
 
 export function getUpdatedChildrenAndDeletedChildrenUsingStore(
-    originalCanvasElement: AutoLayoutCanvasElement,
-    canvasElementChildren: ElementUi[] = []
+    originalCanvasElement: UI.AutoLayoutCanvasElement,
+    canvasElementChildren: UI.Element[] = []
 ): {
-    newChildren: Guid[];
-    deletedCanvasElementChildren: ChildElement[];
-    deletedBranchHeadGuids: Guid[];
+    newChildren: UI.Guid[];
+    deletedCanvasElementChildren: UI.ChildElement[];
+    deletedBranchHeadGuids: UI.Guid[];
     shouldAddEndElement: boolean;
     newEndElementIdx: number;
     shouldMarkBranchHeadAsTerminal: boolean;
@@ -479,7 +467,7 @@ export function getUpdatedChildrenAndDeletedChildrenUsingStore(
         throw new Error('Canvas Element is not defined');
     }
     const { guid, children } = originalCanvasElement;
-    const canvasElementFromStore: (ElementUi & { childReferences }) | undefined = getElementByGuid(guid);
+    const canvasElementFromStore: (UI.Element & { childReferences }) | undefined = getElementByGuid(guid);
     let canvasElementChildReferencesFromStore;
     if (canvasElementFromStore && canvasElementFromStore.childReferences) {
         canvasElementChildReferencesFromStore = canvasElementFromStore.childReferences.map(

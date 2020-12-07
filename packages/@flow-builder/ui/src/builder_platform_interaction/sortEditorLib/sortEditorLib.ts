@@ -1,4 +1,3 @@
-import { Guid } from 'builder_platform_interaction/uiModel';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export const SORT_OUTPUT_OPTION = {
@@ -15,7 +14,7 @@ export interface SortOption {
     sortField: { value: string | null; error: string | null };
     sortOrder: { value: string | null; error: string | null };
     doesPutEmptyStringAndNullFirst: boolean;
-    rowIndex?: Guid;
+    rowIndex?: UI.Guid;
 }
 
 export interface SortElement {

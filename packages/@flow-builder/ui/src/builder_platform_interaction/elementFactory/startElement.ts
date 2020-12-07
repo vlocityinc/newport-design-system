@@ -32,15 +32,6 @@ import {
     addRegularConnectorToAvailableConnections
 } from './commonFactoryUtils/connectionPropertiesUtils';
 import { LABELS } from './elementFactoryLabels';
-import {
-    AvailableConnection,
-    ChildElement,
-    ChildReference,
-    StartUi,
-    TimeTrigger,
-    ConnectorType
-} from 'builder_platform_interaction/uiModel';
-import { ScheduledPathMetadata, StartMetadata } from 'builder_platform_interaction/metadataModel';
 
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
@@ -57,7 +48,7 @@ const DEFAULT_Y_OFFSET = 86;
  * @param startElement start element metadata structure
  * @returns Y offset
  */
-export function findStartYOffset(startElement: StartUi): number {
+export function findStartYOffset(startElement: UI.Start): number {
     switch (startElement.triggerType) {
         case AFTER_SAVE:
         case BEFORE_SAVE:
@@ -87,7 +78,7 @@ export function findStartYOffset(startElement: StartUi): number {
  *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
  * @param startElement start element metadata structure
  */
-export function shouldSupportTimeTriggers(startElement: StartUi | StartMetadata) {
+export function shouldSupportTimeTriggers(startElement: UI.Start | Metadata.Start) {
     return (
         startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
         startElement.object &&
@@ -102,19 +93,19 @@ export function shouldSupportTimeTriggers(startElement: StartUi | StartMetadata)
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-export function createStartElement(startElement: StartUi | StartMetadata) {
-    const newStartElement: StartUi = <StartUi>baseCanvasElement(startElement);
+export function createStartElement(startElement: UI.Start | Metadata.Start) {
+    const newStartElement: UI.Start = <UI.Start>baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
         object = '',
         filters = []
     } = startElement;
-    const { objectIndex = generateGuid(), objectContainer } = <StartUi>startElement;
+    const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
-    const { startDate, startTime } = (startElement as StartMetadata).schedule || startElement;
-    let { recordTriggerType, frequency } = (startElement as StartMetadata).schedule || startElement;
+    const { startDate, startTime } = (startElement as Metadata.Start).schedule || startElement;
+    let { recordTriggerType, frequency } = (startElement as Metadata.Start).schedule || startElement;
     let { filterLogic = CONDITION_LOGIC.AND } = startElement;
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
@@ -170,8 +161,8 @@ export function createStartElement(startElement: StartUi | StartMetadata) {
         isCollection: object ? false : undefined,
         isAssignable: object ? true : undefined,
         doesRequireRecordChangedToMeetCriteria: requireChangedValues,
-        childReferences: (<StartUi>startElement).childReferences || [],
-        availableConnections: (<StartUi>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
+        childReferences: (<UI.Start>startElement).childReferences || [],
+        availableConnections: (<UI.Start>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
     });
 }
 
@@ -180,22 +171,24 @@ export function createStartElement(startElement: StartUi | StartMetadata) {
  * @param {Object} startElement start element object used to construct the new object
  * @returns {Object} startElement the new start element object
  */
-export function createStartElementForPropertyEditor(startElement: StartUi = {} as StartUi) {
+export function createStartElementForPropertyEditor(startElement: UI.Start = {} as UI.Start) {
     const newStartElement = createStartElement(startElement);
 
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { childReferences } = startElement;
-    let timeTriggers: TimeTrigger[] = [];
+    let timeTriggers: UI.TimeTrigger[] = [];
 
     if (isRecordChangeTriggerType(triggerType)) {
         if (childReferences && childReferences.length > 0) {
             timeTriggers = childReferences.map((childReference) => {
-                const timeTrigger = createTimeTrigger(getElementByGuid(childReference.childReference) as TimeTrigger);
+                const timeTrigger = createTimeTrigger(
+                    getElementByGuid(childReference.childReference) as UI.TimeTrigger
+                );
                 return timeTrigger;
             });
         } else {
             // new trigger case
-            const newTimeTrigger = createTimeTrigger(<TimeTrigger>{});
+            const newTimeTrigger = createTimeTrigger(<UI.TimeTrigger>{});
             timeTriggers = [newTimeTrigger];
         }
         return Object.assign(newStartElement, {
@@ -214,13 +207,13 @@ export function createStartElementForPropertyEditor(startElement: StartUi = {} a
  * @returns {Object} startElement the start element object
  */
 export function createStartElementWithConnectors(
-    startElement: StartMetadata = {} as StartMetadata,
+    startElement: Metadata.Start = {} as Metadata.Start,
     startElementReference
 ) {
     const newStartElement = createStartElement(startElement);
 
     let connectorCount, connectors;
-    let availableConnections: AvailableConnection[] = [];
+    let availableConnections: UI.AvailableConnection[] = [];
     if (!shouldSupportTimeTriggers(startElement)) {
         // Creates a REGULAR connector or pushes one into the availableConnections if needed
         connectors = startElementReference
@@ -234,8 +227,8 @@ export function createStartElementWithConnectors(
     } else {
         // Creates an IMMEDIATE connector (Therefore,immediateConnector is passed as true here)
         connectors = createConnectorObjects(startElement, newStartElement.guid, undefined, true);
-        let childReferences: ChildReference[] = [],
-            timeTriggers: TimeTrigger[] = [];
+        let childReferences: UI.ChildReference[] = [],
+            timeTriggers: UI.TimeTrigger[] = [];
         const { scheduledPaths = [] } = startElement;
 
         for (let i = 0; i < scheduledPaths.length; i++) {
@@ -278,7 +271,7 @@ export function createStartElementWithConnectors(
  * @param {Object} config configuration used to translate to the metadata object
  * @returns {Object} startElementMetadata the start element metadata object
  */
-export function createStartElementMetadataObject(startElement: StartUi, config = {}) {
+export function createStartElementMetadataObject(startElement: UI.Start, config = {}) {
     /* Commented code in this function will be checked in with this story:
     W-8188232: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008ge9PIAQ/view
     */
@@ -314,7 +307,7 @@ export function createStartElementMetadataObject(startElement: StartUi, config =
 
     if (childReferences && childReferences.length > 0) {
         scheduledPaths = childReferences.map(({ childReference }) => {
-            const timeTrigger: TimeTrigger = getElementByGuid(childReference) as TimeTrigger;
+            const timeTrigger: UI.TimeTrigger = getElementByGuid(childReference) as UI.TimeTrigger;
             const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
 
             let recordField;
@@ -396,10 +389,10 @@ function getscheduledLabel(startDate, startTime, frequency) {
     return label;
 }
 
-export function createTimeTrigger(timeTrigger: TimeTrigger | ScheduledPathMetadata): TimeTrigger {
-    const newTimeTrigger: ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
+export function createTimeTrigger(timeTrigger: UI.TimeTrigger | Metadata.ScheduledPath): UI.TimeTrigger {
+    const newTimeTrigger: UI.ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
 
-    const { recordField } = <ScheduledPathMetadata>timeTrigger;
+    const { recordField } = <Metadata.ScheduledPath>timeTrigger;
 
     let { timeSource = '', offsetUnit = '', offsetNumber = '' } = timeTrigger;
 
@@ -465,8 +458,8 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     }
 
     const { timeTriggers = [] } = startElement;
-    let childReferences: ChildReference[] = [];
-    let newTimeTriggers: TimeTrigger[] = [];
+    let childReferences: UI.ChildReference[] = [];
+    let newTimeTriggers: UI.TimeTrigger[] = [];
 
     for (let i = 0; i < timeTriggers.length; i++) {
         const timeTrigger = timeTriggers[i];
@@ -519,7 +512,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         //
         elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
         elementSubtype,
-        shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as StartUi),
+        shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as UI.Start),
         startElementGuid: newStartElement.guid
     };
 }
@@ -545,9 +538,9 @@ function calculateMaxConnections(startElement) {
 }
 
 function addStartElementConnectorToAvailableConnections(
-    availableConnections: AvailableConnection[] = [],
-    startElement: StartMetadata,
-    type: ConnectorType
+    availableConnections: UI.AvailableConnection[] = [],
+    startElement: Metadata.Start,
+    type: UI.ConnectorType
 ) {
     if (!availableConnections || !startElement) {
         throw new Error('Either availableConnections or start Element is not defined');

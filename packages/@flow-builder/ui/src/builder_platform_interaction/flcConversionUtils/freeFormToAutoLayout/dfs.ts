@@ -1,4 +1,3 @@
-import { Guid, ConnectorUi } from 'builder_platform_interaction/uiModel';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 // Types of graph edges as defined here:
@@ -34,13 +33,13 @@ type ExecutionContext = Readonly<{
  */
 export interface ConversionInfo {
     // the guid of the conversion info element
-    readonly elementGuid: Guid;
+    readonly elementGuid: UI.Guid;
 
     // incoming connectors
-    readonly ins: ConnectorUi[];
+    readonly ins: UI.Connector[];
 
     // outgoing connectors (except fault)
-    readonly outs: ConnectorUi[];
+    readonly outs: UI.Connector[];
 
     // if the element is branching (ie decision, wait)
     readonly isBranching: boolean;
@@ -58,7 +57,7 @@ export interface ConversionInfo {
     faultEdgeType?: EdgeType;
 
     // fault connector
-    fault?: ConnectorUi;
+    fault?: UI.Connector;
 
     // the DFS end order for the element, or null if not yet visited
     dfsStart: number | null;
@@ -70,10 +69,10 @@ export interface ConversionInfo {
     reachedCount: number;
 
     // For a "merge" element, the guid of the branching element that immediately dominates it
-    branchingGuid: Guid | null;
+    branchingGuid: UI.Guid | null;
 
     // For a branching element, the guid of the "merge" element that is immediately dominated by it (if any)
-    mergeGuid: Guid | null;
+    mergeGuid: UI.Guid | null;
 
     // the element's execution context
     executionContext: ExecutionContext | null;
@@ -140,7 +139,7 @@ function getEdgeType(source: ConversionInfo, target: ConversionInfo): EdgeType {
  *
  * @return - The edge type for the outgoing connector
  */
-function processConnector(ctx: DfsContext, node: ConversionInfo, out: ConnectorUi): EdgeType {
+function processConnector(ctx: DfsContext, node: ConversionInfo, out: UI.Connector): EdgeType {
     const { target } = out;
 
     // update an element's reachCount when we reach it
@@ -171,7 +170,7 @@ function processConnector(ctx: DfsContext, node: ConversionInfo, out: ConnectorU
  * @param out - An outgoing connector for a node
  * @return - The execution context that is entered by following the outgoing connector
  */
-function getNextExecutionContext(ctx: DfsContext, out: ConnectorUi) {
+function getNextExecutionContext(ctx: DfsContext, out: UI.Connector) {
     const { type, source } = out;
 
     let execCtxType;
@@ -239,7 +238,7 @@ function processConnectors(ctx: DfsContext, elementInfo: ConversionInfo) {
  * @param ctx - The dfs context
  * @param nodeGuid - The guid of the node to visit
  */
-function visitNode(ctx: DfsContext, nodeGuid: Guid) {
+function visitNode(ctx: DfsContext, nodeGuid: UI.Guid) {
     const { conversionInfos } = ctx;
     const elementInfo = conversionInfos[nodeGuid];
 
@@ -480,7 +479,7 @@ function computeBranchingIntervals(ctx: DfsContext) {
  * @param conversionInfos - The conversion infos
  * @param startGuid - The start node guid
  */
-export function dfs(conversionInfos: Readonly<ConversionInfos>, startGuid: Guid) {
+export function dfs(conversionInfos: Readonly<ConversionInfos>, startGuid: UI.Guid) {
     const ctx: DfsContext = {
         conversionInfos,
         timestamp: 0,

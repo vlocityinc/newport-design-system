@@ -3,9 +3,7 @@ import { isPlainObject } from './isPlainObject';
 import { isDevMode } from 'builder_platform_interaction/contextLib';
 import { readonly } from 'lwc';
 
-import { StoreState } from 'builder_platform_interaction/uiModel';
-
-export type StoreReducer = (storeState: StoreState, action: object) => StoreState;
+export type StoreReducer = (storeState: UI.StoreState, action: object) => UI.StoreState;
 
 /**
  * Library for UI state management
@@ -18,7 +16,7 @@ export type StoreReducer = (storeState: StoreState, action: object) => StoreStat
 /**
  * contains the state of the store
  */
-let currentState: StoreState;
+let currentState: UI.StoreState;
 
 /**
  * contains definition of a reducer which can used to transform state of the store
@@ -66,7 +64,7 @@ export class Store {
     /**
      * @returns the current state of the store
      */
-    getCurrentState(): StoreState {
+    getCurrentState(): UI.StoreState {
         return currentState;
     }
 

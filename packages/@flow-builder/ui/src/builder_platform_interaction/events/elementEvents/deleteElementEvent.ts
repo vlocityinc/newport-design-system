@@ -1,14 +1,12 @@
 // @ts-nocheck
-import { Guid, FlowElementType } from 'builder_platform_interaction/uiModel';
-
 /**
  * Due to lwc compilation this has to be a class and not an interface
  */
 export class DeleteElementEventDetail {
-    selectedElementGUID: Guid[];
-    selectedElementType: FlowElementType;
+    selectedElementGUID: UI.Guid[];
+    selectedElementType: UI.ElementType;
     childIndexToKeep?: number;
-    parentGUID?: Guid;
+    parentGUID?: UI.Guid;
 }
 
 /**
@@ -23,10 +21,10 @@ const eventName = 'deleteelement';
 
 export class DeleteElementEvent {
     constructor(
-        selectedElementGUID: Guid[],
-        selectedElementType: FlowElementType,
+        selectedElementGUID: UI.Guid[],
+        selectedElementType: UI.ElementType,
         childIndexToKeep?: number | null,
-        parentGUID?: Guid
+        parentGUID?: UI.Guid
     ) {
         const detail: DeleteElementEvent = {
             selectedElementGUID,

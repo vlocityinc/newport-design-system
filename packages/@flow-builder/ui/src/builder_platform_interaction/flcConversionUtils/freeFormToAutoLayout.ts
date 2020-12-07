@@ -16,20 +16,9 @@ import {
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
-import {
-    Guid,
-    ElementUi,
-    CanvasElement,
-    AutoLayoutCanvasElement,
-    StoreState,
-    ElementUis,
-    ConnectorType
-} from 'builder_platform_interaction/uiModel';
-
 import { findStartElement, createRootElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
-
 import { dfs, ConversionInfo, ConversionInfos } from './freeFormToAutoLayout/dfs';
 import { validateConversionInfos } from './freeFormToAutoLayout/validate';
 
@@ -53,7 +42,7 @@ const DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS: ConvertToAutoLayoutCanvasOp
  * @param childSource - the child source guid
  * @return the connection index in the parent
  */
-function findConnectionIndex(parentElement: NodeModel, childSource: Guid, type: ConnectorType): number {
+function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, type: UI.ConnectorType): number {
     const { maxConnections } = parentElement;
 
     if (type === CONNECTOR_TYPE.FAULT) {
@@ -68,7 +57,7 @@ function findConnectionIndex(parentElement: NodeModel, childSource: Guid, type: 
     return parentElement[plural].findIndex((entry) => entry[singular] === childSource);
 }
 
-function isBranchingElement(element: ElementUi) {
+function isBranchingElement(element: UI.Element) {
     return supportsChildren(element) && element.elementType !== ELEMENT_TYPE.LOOP;
 }
 
@@ -80,13 +69,13 @@ function isBranchingElement(element: ElementUi) {
  *
  * @throws Error when the flow can't be converted
  */
-export function computeAndValidateConversionInfos(storeState: StoreState): ConversionInfos {
+export function computeAndValidateConversionInfos(storeState: UI.StoreState): ConversionInfos {
     const { elements, connectors } = storeState;
     const startElement = findStartElement(elements) as any;
 
     // creates a ConversionInfo for each element
     const conversionInfos = Object.values(elements).reduce(
-        (infos: Record<string, ConversionInfo>, element: ElementUi) => {
+        (infos: Record<string, ConversionInfo>, element: UI.Element) => {
             if (element.isCanvasElement) {
                 infos[element.guid] = {
                     elementGuid: element.guid,
@@ -344,9 +333,9 @@ function convertBranchToAutoLayout(
  * @param elements - The free form elements
  * @return the Auto Layout elements
  */
-function createAutoLayoutElements(elements: ElementUis): FlowModel {
+function createAutoLayoutElements(elements: UI.Elements): FlowModel {
     const autoLayoutElements = Object.values(elements).reduce((elementsMap, element) => {
-        const canvasElement = { ...element } as CanvasElement;
+        const canvasElement = { ...element } as UI.CanvasElement;
         elementsMap[element.guid] = canvasElement;
 
         if (canvasElement.isCanvasElement) {
@@ -382,7 +371,7 @@ function consolidateEndConnectorsForBranch(
     elements: FlowModel,
     branchHead: BranchHeadNodeModel,
     hasNext = false
-): ElementUis {
+): UI.Elements {
     let element: NodeModel | null = branchHead;
 
     while (element != null) {
@@ -416,10 +405,10 @@ function consolidateEndConnectorsForBranch(
             const { prev, parent, childIndex } = element as BranchHeadNodeModel;
 
             if (prev != null) {
-                const prevElement = elements[prev] as AutoLayoutCanvasElement;
+                const prevElement = elements[prev] as UI.AutoLayoutCanvasElement;
                 prevElement.next = null;
             } else {
-                const parentElement = elements[parent!] as AutoLayoutCanvasElement;
+                const parentElement = elements[parent!] as UI.AutoLayoutCanvasElement;
                 parentElement.children![childIndex!] = null;
             }
             delete elements[element.guid];
@@ -444,7 +433,7 @@ function consolidateEndConnectorsForBranch(
  * @param elements - The Auto Layout Canvas elements
  * @return The consolidated Auto Layout Canvas elements
  */
-export function consolidateEndConnectors(elements: ElementUis): ElementUis {
+export function consolidateEndConnectors(elements: UI.Elements): UI.Elements {
     const flowModel = elements as FlowModel;
 
     const rootElement = elements[ELEMENT_TYPE.ROOT_ELEMENT] as ParentNodeModel;
@@ -467,9 +456,9 @@ export function consolidateEndConnectors(elements: ElementUis): ElementUis {
  * @return an Auto Layout Canvas UI model
  */
 export function convertToAutoLayoutCanvas(
-    storeState: StoreState,
+    storeState: UI.StoreState,
     options: Partial<ConvertToAutoLayoutCanvasOptions> = {}
-): StoreState {
+): UI.StoreState {
     const convertOptions: ConvertToAutoLayoutCanvasOptions = {
         ...DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS,
         ...options
