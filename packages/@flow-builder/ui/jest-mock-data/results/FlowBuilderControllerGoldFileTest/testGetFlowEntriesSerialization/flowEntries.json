@@ -2,7 +2,7 @@
   "flowEntries":[
     {
       "icon":"utility:desktop",
-      "description":"Guides users through a business process that\u2019s launched from Lightning pages, communities, quick actions, and more.",
+      "description":"Guides users through a business process that\u2019s launched from Lightning pages, Experience Cloud sites, quick actions, and more.",
       "label":"Screen Flow",
       "processType":"Flow",
       "recommended":true
@@ -72,12 +72,6 @@
       "description":"Create self-service forms to collect contact details.",
       "label":"Contact Request Flow",
       "processType":"ContactRequestFlow"
-    },
-    {
-      "icon":"utility:omni_channel",
-      "description":"Route work items to the right agents using Omni-Channel.",
-      "label":"Routing Flow",
-      "processType":"RoutingFlow"
     }
   ]
 }

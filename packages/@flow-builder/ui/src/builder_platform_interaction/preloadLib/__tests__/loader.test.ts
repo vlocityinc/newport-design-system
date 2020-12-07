@@ -74,6 +74,17 @@ describe('Loader', () => {
     describe('loading stages', () => {
         let store;
 
+        const getResolvablePromise = () => {
+            let tempResolve;
+            let tempReject;
+            const promise = new Promise((resolve, reject) => {
+                tempResolve = resolve;
+                tempReject = reject;
+            });
+            promise.resolve = tempResolve;
+            promise.reject = tempReject;
+            return promise;
+        };
         beforeEach(() => {
             store = {
                 dispatch: jest.fn()
@@ -93,22 +104,37 @@ describe('Loader', () => {
                 expect(store.dispatch).toBeCalledTimes(0);
                 expect(setApexClasses).toBeCalledTimes(0);
             });
+            it('does not resolve while apex types are not loaded', async () => {
+                const getApexTypesPromise = getResolvablePromise();
+                fetchOnce.mockImplementation((serverActionType) => {
+                    if (serverActionType === SERVER_ACTION_TYPE.GET_APEX_TYPES) {
+                        return getApexTypesPromise;
+                    }
+                    return Promise.resolve({});
+                });
+                const startPromise = makeQuerablePromise(loadOnStart());
+                loadOnProcessTypeChange('process_type_1');
+
+                // before timeout : waiting for results
+                jest.advanceTimersByTime(GET_APEX_TYPES_TIMEOUT_MS - 1000);
+                await ticks();
+                expect(startPromise.isFulfilled()).toBe(false);
+
+                // after timeout : promise is still not fulfilled
+                jest.advanceTimersByTime(1001);
+                await ticks();
+                expect(startPromise.isFulfilled()).toBe(false);
+
+                // when apex types returned by fetchOnce : promise is fulfilled
+                getApexTypesPromise.resolve({});
+                await ticks();
+                expect(startPromise.isFulfilled()).toBe(true);
+            });
         });
 
         describe('loadApexClasses', () => {
             let getApexTypesPromise;
             let loadEntitiesPromise;
-            const getResolvablePromise = () => {
-                let tempResolve;
-                let tempReject;
-                const promise = new Promise((resolve, reject) => {
-                    tempResolve = resolve;
-                    tempReject = reject;
-                });
-                promise.resolve = tempResolve;
-                promise.reject = tempReject;
-                return promise;
-            };
             beforeEach(() => {
                 getApexTypesPromise = getResolvablePromise();
                 loadEntitiesPromise = getResolvablePromise();
@@ -126,7 +152,6 @@ describe('Loader', () => {
                 loadEntities.mockImplementation(() => Promise.resolve('entities'));
             });
             it('resolves on timeout', async () => {
-                loadOnStart();
                 loadOnProcessTypeChange('process_type_1');
                 loadEntitiesPromise.resolve();
                 const loadApexTypePromise = makeQuerablePromise(loadApexClasses());
@@ -152,7 +177,6 @@ describe('Loader', () => {
                 expect(setApexClasses).toBeCalledTimes(1);
             });
             it('returns a rejected promise if getApexClasses returns an error', async () => {
-                loadOnStart();
                 loadOnProcessTypeChange('process_type_1');
                 loadEntitiesPromise.resolve();
                 const loadApexTypePromise = makeQuerablePromise(loadApexClasses());
@@ -161,7 +185,6 @@ describe('Loader', () => {
                 await expect(loadApexTypePromise).rejects.toEqual(new Error('Error while retrieving apex types'));
             });
             it('returns a rejected promise if entities could not be retrieved', async () => {
-                loadOnStart();
                 loadOnProcessTypeChange('process_type_1');
                 const loadApexTypePromise = loadApexClasses();
                 loadEntitiesPromise.reject(new Error('Error while retrieving entities'));
@@ -169,7 +192,7 @@ describe('Loader', () => {
                 await expect(loadApexTypePromise).rejects.toEqual(new Error('Error while retrieving entities'));
             });
             it('does not set apex classes until entities are loaded', async () => {
-                loadOnStart();
+                loadApexClasses();
                 loadOnProcessTypeChange('process_type_1');
                 getApexTypesPromise.resolve({});
                 await ticks();
@@ -179,6 +202,29 @@ describe('Loader', () => {
                 await ticks();
                 expect(store.dispatch).toBeCalledTimes(1);
                 expect(setApexClasses).toBeCalledTimes(1);
+            });
+            test('concurrency with loadOnStart', async () => {
+                const startPromise = makeQuerablePromise(loadOnStart());
+                loadOnProcessTypeChange('process_type_1');
+                loadEntitiesPromise.resolve();
+                const loadApexTypePromise = makeQuerablePromise(loadApexClasses());
+
+                // before timeout : waiting for results -> both promises pending
+                jest.advanceTimersByTime(GET_APEX_TYPES_TIMEOUT_MS - 1000);
+                await ticks();
+                expect(startPromise.isPending()).toBe(true);
+                expect(loadApexTypePromise.isPending()).toBe(true);
+
+                // after timeout : promise is still not fulfilled -> only loadOnStart which has no timeout is still pending
+                jest.advanceTimersByTime(1001);
+                await ticks();
+                expect(startPromise.isPending()).toBe(true);
+                expect(loadApexTypePromise.isFulfilled()).toBe(true);
+
+                // when apex types returned by fetchOnce : loadOnStart promise is fulfilled
+                getApexTypesPromise.resolve({});
+                await ticks();
+                expect(startPromise.isFulfilled()).toBe(true);
             });
         });
 

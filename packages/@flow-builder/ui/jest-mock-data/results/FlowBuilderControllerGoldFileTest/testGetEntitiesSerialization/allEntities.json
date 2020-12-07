@@ -12971,22 +12971,22 @@
       "updateable":true
     },
     {
-      "apiName":"InteractionOrchestratedStage",
+      "apiName":"InteractionSteppedStage",
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"InteractionOrchestratedStage",
-      "entityLabelPlural":"InteractionOrchestratedStage",
+      "entityLabel":"InteractionSteppedStage",
+      "entityLabelPlural":"InteractionSteppedStage",
       "queryable":true,
       "updateable":true
     },
     {
-      "apiName":"InteractionStageStep",
+      "apiName":"InteractionSteppedStageItem",
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"InteractionStageStep",
-      "entityLabelPlural":"InteractionStageSteps",
+      "entityLabel":"InteractionSteppedStageItem",
+      "entityLabelPlural":"InteractionSteppedStageItems",
       "queryable":true,
       "updateable":true
     },
@@ -12995,8 +12995,8 @@
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"InteractionStageStepParam",
-      "entityLabelPlural":"InteractionStageStepParams",
+      "entityLabel":"InteractionSteppedStageItemParam",
+      "entityLabelPlural":"InteractionSteppedStageItemParams",
       "queryable":true,
       "updateable":true
     },

@@ -474,7 +474,8 @@ export default class Editor extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then((data) => this.getHeaderUrlsCallBack(data));
         this.keyboardInteractions = new KeyboardInteractions();
         initializeLoader(storeInstance);
-        loadOnStart();
+        // W-7708069. Need to load references in Flow once we get all apex types.
+        loadOnStart().then(() => this.loadReferencesInFlow());
     }
 
     @api

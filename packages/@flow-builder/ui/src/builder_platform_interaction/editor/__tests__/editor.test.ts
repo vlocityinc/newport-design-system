@@ -37,8 +37,7 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
         loadAllSupportedFeatures: jest.fn(),
         loadFieldsForComplexTypesInFlow: jest.fn(),
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn(),
-        loadReferencesIn: jest.fn(),
-        loadOnStart: jest.fn(),
+        loadOnStart: jest.fn().mockResolvedValue({}),
         loadOnProcessTypeChange: jest.fn().mockImplementation(() => {
             return {
                 loadActionsPromise: Promise.resolve({}),
@@ -201,6 +200,11 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 jest.mock('builder_platform_interaction/screenFieldTypeLib', () => {
     return {
         setSupportedScreenFieldTypes: jest.fn()
+    };
+});
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
+    return {
+        loadReferencesIn: jest.fn().mockResolvedValue({})
     };
 });
 

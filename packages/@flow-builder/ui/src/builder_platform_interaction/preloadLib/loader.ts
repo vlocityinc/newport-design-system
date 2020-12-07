@@ -71,17 +71,18 @@ export const GET_APEX_TYPES_TIMEOUT_MS = 20000;
  * aka peripheral metadata.
  */
 class Loader {
-    store;
+    private readonly store;
 
     /** An object to be able to wait until entities are loaded */
-    entitiesLoaded = {
+    private entitiesLoaded = {
         promise: null,
         resolve: null,
         reject: null
     };
 
-    apexClassesLoaded = {
-        promise: null
+    private apexClassesLoaded = {
+        promise: null,
+        promiseWithTimeout: null
     };
 
     constructor(store) {
@@ -89,16 +90,14 @@ class Loader {
         this.createEntitiesLoadedPromise();
     }
 
-    // @api
-    loadOnStart() {
-        this.loadApexClasses();
+    public loadOnStart(): Promise<void> {
+        return this.loadApexClasses();
     }
 
-    // @api
-    loadApexClasses() {
+    public loadApexClassesWithTimeout() {
         // The returned promise will be fulfilled when either apex classes and entities are loaded or when timeout for fetching apex types is reached
-        if (!this.apexClassesLoaded.promise) {
-            this.apexClassesLoaded.promise = new Promise((resolve, reject) => {
+        if (!this.apexClassesLoaded.promiseWithTimeout) {
+            this.apexClassesLoaded.promiseWithTimeout = new Promise((resolve, reject) => {
                 // getApexTypes can take a while. See W-7690844
                 // We use a timeout so that we don't block on property editor opening for minutes
                 let timer;
@@ -109,33 +108,24 @@ class Loader {
                         GET_APEX_TYPES_TIMEOUT_MS
                     );
                 }).catch(() => resolve());
-                const fetchApexTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}, { background: true });
-                fetchApexTypesPromise
-                    .then(() => {
-                        clearTimeout(timer);
-                    })
-                    .catch(() => {});
 
-                // Load apex
-                // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
-                Promise.all([fetchApexTypesPromise, this.entitiesLoaded.promise])
+                this.loadApexClasses(timer)
                     .catch((e) => {
                         reject(e);
+                        clearTimeout(timer);
                         throw e;
                     })
-                    .then(([data]) => {
-                        this.store.dispatch(updateApexClasses(data));
-                        setApexClasses(data);
+                    .then(() => {
+                        clearTimeout(timer);
                         resolve();
                     })
                     .catch(() => {});
             });
         }
-        return this.apexClassesLoaded.promise;
+        return this.apexClassesLoaded.promiseWithTimeout;
     }
 
-    // @api
-    loadOnProcessTypeChange(flowProcessType, flowDefinitionId) {
+    public loadOnProcessTypeChange(flowProcessType, flowDefinitionId) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
         const loadActionsPromise = loadActions(flowProcessType);
@@ -150,7 +140,25 @@ class Loader {
         };
     }
 
-    loadPeripheralMetadata(flowProcessType) {
+    /**
+     * WARNING: this is subject to take a long time. Do not use in a blocking call. Rather use loadApexClasses that will timeout if it takes too long.
+     */
+    private loadApexClasses(): Promise<void> {
+        if (!this.apexClassesLoaded.promise) {
+            // Load apex
+            // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
+            this.apexClassesLoaded.promise = Promise.all([
+                fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}, { background: true }),
+                this.entitiesLoaded.promise
+            ]).then(([data]) => {
+                this.store.dispatch(updateApexClasses(data));
+                setApexClasses(data);
+            });
+        }
+        return this.apexClassesLoaded.promise;
+    }
+
+    private loadPeripheralMetadata(flowProcessType) {
         logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
         return getAuraCallback(() =>
             // TODO: Use Promise.allSettled() & Promise.finally() when supported by LWC
@@ -213,7 +221,7 @@ class Loader {
         )();
     }
 
-    createEntitiesLoadedPromise() {
+    private createEntitiesLoadedPromise() {
         this.entitiesLoaded.promise = new Promise((resolve, reject) => {
             this.entitiesLoaded.resolve = resolve;
             this.entitiesLoaded.reject = reject;
@@ -261,7 +269,7 @@ export const loadOnProcessTypeChange = (processType, flowDefinitionId?) =>
  * Load all apex classes
  * @returns {Promise} A promise that is resolved when apex classes have been loaded
  */
-export const loadApexClasses = () => loader.loadApexClasses();
+export const loadApexClasses = () => loader.loadApexClassesWithTimeout();
 
 /**
  * Load all supported features for the given list of process types
