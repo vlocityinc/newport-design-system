@@ -2,7 +2,7 @@ require('dotenv').config();
 const xml2js = require('xml2js');
 const { usage } = require('yargs');
 const fs = require('fs');
-const { log, printError, printSuccess, printHeader, printInfo } = require('./utils');
+const { log, printError, printSuccess, printHeader, printWarning } = require('./utils');
 const P4 = require('p4api').P4;
 const DEFAULT_P4PORT = 'ssl:p4proxy.soma.salesforce.com:1999';
 const chalk = require('chalk');
@@ -17,73 +17,108 @@ const getP4Port = ({ env }) => (env.P4PORT ? env.P4PORT : env.CUSTOM_P4PORT ? en
 
 const p4 = new P4({ P4PORT: getP4Port(process) });
 
-const POM_PROPERTIES_TO_CHECK = {
-    'aura.version': 'auraVersion',
-    'lwc.api.version': 'lwcApiVersion',
-    'lwc.version': 'lwcVersion'
-};
+const POM_PROPERTIES_TO_CHECK = [
+    ['aura.version'],
+    ['lwc.api.version'],
+    ['lwc.version'],
+    ['spring.version'],
+    ['google.closure-compiler.version', 'com.google.javascript', 'closure-compiler']
+];
 
-const getPomProperty = (property, pomAsJson) => pomAsJson.project.properties[0][property][0];
-const getCorePomProperties = async (branch) => {
+const PROPERTIES_FIELDS = { name: 'Property name', projectVersion: 'Project version', coreVersion: 'Core version' };
+const getCorePomXml = (branch) => {
     return p4.cmd(`print -q //app/${branch}/core/pom.xml`).then((p4Response) => {
         if (p4Response.error) {
             throw Error(p4Response.error[0].data);
         }
-        return getPropertiesFromPom(p4Response.data);
+        return getPomXml(p4Response.data);
     });
 };
-const getPropertiesFromPom = async (pomXml) => xml2js.parseStringPromise(pomXml);
-const getProjectPomProperties = async () => {
+const getPomXml = async (pomXml) => xml2js.parseStringPromise(pomXml, { explicitArray: false, ignoreAttrs: true });
+
+const getProjectPomObject = async () => {
     const pomXml = fs.readFileSync('pom.xml', 'utf-8');
-    return getPropertiesFromPom(pomXml);
+    return getPomXml(pomXml);
 };
 
-const checkProperty = (property, projectPomProperties, corePomProperties) => {
-    const projectPropertyValue = getPomProperty(property, projectPomProperties);
-    const corePropertyValue = getPomProperty(property, corePomProperties);
-    if (projectPropertyValue !== corePropertyValue) {
-        return {
-            'Property name': property,
-            'Project version': projectPropertyValue,
-            'Core version': corePropertyValue
-        };
-    }
-    return undefined;
+const buildDependenciesMap = (map, { groupId, artifactId, version }) => {
+    map[toDependencyIdentifier(groupId, artifactId)] = version;
+    return map;
+};
+
+const toDependencyIdentifier = (groupId, artifactId) => `${groupId}:${artifactId}`;
+const dependenciesSort = (dep1, dep2) => (dep1.groupId + dep1.artifactId).localeCompare(dep2.groupId + dep2.artifactId);
+
+const getProjectPomProperties = async () => {
+    const {
+        project: { properties }
+    } = await getProjectPomObject();
+    return properties;
+};
+
+const getPomProperty = (propertyName, pomProperties) => pomProperties[propertyName];
+
+const getVersionsNotInSync = async (branch) => {
+    const {
+        project: {
+            properties: corePomProperties,
+            dependencyManagement: {
+                dependencies: { dependency: corePomDependency }
+            }
+        }
+    } = await getCorePomXml(branch);
+    const corePomDependencies = corePomDependency.sort(dependenciesSort).reduce(buildDependenciesMap, {});
+
+    const projectPomProperties = await getProjectPomProperties();
+    return POM_PROPERTIES_TO_CHECK.map(([propertyName, groupId, artifactId]) => {
+        const coreVersion =
+            corePomProperties[propertyName] || corePomDependencies[toDependencyIdentifier(groupId, artifactId)];
+
+        if (coreVersion) {
+            const projectVersion = getPomProperty(propertyName, projectPomProperties);
+
+            if (!projectVersion) {
+                printWarning(`Could not get version for "${propertyName}" property in project pom.xml`);
+                return;
+            }
+            if (projectVersion !== coreVersion) {
+                return {
+                    [PROPERTIES_FIELDS.name]: propertyName,
+                    [PROPERTIES_FIELDS.projectVersion]: projectVersion,
+                    [PROPERTIES_FIELDS.coreVersion]: coreVersion
+                };
+            }
+        } else {
+            printWarning(`Could not get version for "${propertyName}" property in core pom.xml`);
+        }
+    }).filter(Boolean);
 };
 
 /**
- * Check if project pom.xml properties are in sync with whats in core
- * @param {string} branch  - branch to be checked against (eg: main)
+ * Check if project pom.xml properties are in sync with what's in core
+ * @param {string} branch - branch to be checked against (eg: main)
  * @returns {Promise<void>}
  */
 const checkProjectPomProperties = async (branch) => {
     try {
-        const projectPomProperties = await getProjectPomProperties();
-        const corePomProperties = await getCorePomProperties(branch);
+        printHeader(`Checking pom properties (${branch} branch)`);
 
-        printHeader('Checking pom properties');
-        const propertiesNotInSync = Object.keys(POM_PROPERTIES_TO_CHECK)
-            .map((property) => checkProperty(property, projectPomProperties, corePomProperties))
-            .filter(Boolean);
+        const propertiesNotInSync = await getVersionsNotInSync(branch);
 
         const hasPropertiesNotInSync = propertiesNotInSync.length > 0;
         if (hasPropertiesNotInSync) {
-            printError('The following properties are out of sync with core:');
+            printError('The following property versions are out of sync with core:');
             console.table(propertiesNotInSync);
-            printError('Run `yarn update:syncPomToCore` to update.\n');
+            printError('Run `yarn update:pom` to update.\n');
         } else {
             printSuccess('pom.xml in sync with core');
         }
         process.exit(hasPropertiesNotInSync ? 1 : 0);
     } catch (e) {
-        printError(`Error while checking pom properties : ${e.message}`);
+        printError(`Error while checking pom properties: ${e.message}`);
         process.exit(1);
     }
 };
-
-/**
- * @param {string} branch - branch to be checked against (eg: main)
- */
 
 /**
  * Syncs project pom.xml properties with what is in core
@@ -91,40 +126,40 @@ const checkProjectPomProperties = async (branch) => {
  * @returns {Promise<boolean>} fulfilled Promise with returned value true if any updates applied
  * @throws error if no version found for given property
  */
-const updatePom = async (branch) => {
-    const corePomProperties = await getCorePomProperties(branch);
-    let currentPom = fs.readFileSync('pom.xml').toString();
+const updateProjectPomProperties = async (branch) => {
+    const propertiesNotInSync = await getVersionsNotInSync(branch);
+    let projectPom = fs.readFileSync('pom.xml').toString();
     let hasSomePomUpdates = false;
-    Object.keys(POM_PROPERTIES_TO_CHECK).forEach((propertyName) => {
-        const propertyCoreValue = getPomProperty(propertyName, corePomProperties);
-        printHeader(`Syncing ${propertyName} ...`);
+    printHeader(`Syncing pom properties (${branch} branch)...`);
+    propertiesNotInSync.forEach((property) => {
+        const propertyName = property[PROPERTIES_FIELDS.name];
+        const propertyCoreVersion = property[PROPERTIES_FIELDS.coreVersion];
+
         const pomPropertyRegex = RegExp(`<${propertyName}>(.+)</${propertyName}>`);
-        const propertyMatch = pomPropertyRegex.exec(currentPom);
+        const propertyMatch = pomPropertyRegex.exec(projectPom);
         if (!propertyMatch) {
             throw new Error(`Could not get version from pom.xml for "${propertyName}"`);
         }
-        const currentPomPropertyValue = propertyMatch[1];
-        if (currentPomPropertyValue !== propertyCoreValue) {
+        const projectVersion = propertyMatch[1];
+        if (projectVersion !== propertyCoreVersion) {
             log(
                 chalk.green(
-                    'Updating',
+                    'Updated',
                     chalk.bold(`${propertyName}`),
                     'from',
-                    chalk.bold(`${currentPomPropertyValue}`),
+                    chalk.bold(`${projectVersion}`),
                     'to',
-                    chalk.green.bold(`${propertyCoreValue}`)
+                    chalk.green.bold(`${propertyCoreVersion}`)
                 )
             );
-            currentPom = currentPom.replace(
+            projectPom = projectPom.replace(
                 pomPropertyRegex,
-                `<${propertyName}>${propertyCoreValue}</${propertyName}>`
+                `<${propertyName}>${propertyCoreVersion}</${propertyName}>`
             );
             hasSomePomUpdates = true;
-        } else {
-            printInfo(`${propertyName} left unchanged (${currentPomPropertyValue})`);
         }
         if (hasSomePomUpdates) {
-            fs.writeFileSync('pom.xml', Buffer.from(currentPom));
+            fs.writeFileSync('pom.xml', Buffer.from(projectPom));
         }
     });
     return hasSomePomUpdates;
@@ -136,12 +171,16 @@ usage('Usage: $0 [options]')
         'Sync pom.xml properties with what is in core',
         () => {},
         (argv) => {
-            updatePom(argv.branch)
+            updateProjectPomProperties(argv.branch)
                 .then((hasSomeUpdates) => {
-                    printSuccess(`\nSuccessfully ${hasSomeUpdates ? 'updated' : 'synced'} pom.xml`);
+                    printSuccess(
+                        `${
+                            hasSomeUpdates ? '\nSuccessfully updated' : 'No updates needed, all properties in sync in'
+                        } pom.xml`
+                    );
                 })
                 .catch((e) => {
-                    printError(`\nFailed to sync pom.xml: ${e.message}`);
+                    printError(`Failed to sync pom.xml: ${e.message}`);
                     process.exit(1);
                 });
         }

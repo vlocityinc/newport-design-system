@@ -51,7 +51,7 @@
         "update:labels": "node ./scripts/labels/update-labels.js --labelFile ~/blt/app/$npm_package_config_branch/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/ui-interaction-builder-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/ && node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/lightning-global-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/",
         "update:lwcPomVersion": "mvn versions:update-property -Dproperty=lwc.version -DnewVersion=[$npm_package_config_lwcVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
         "update:lwcPackages": "node ./scripts/updateLwcVersions && yarn install",
-        "update:syncPomToCore": "node ./scripts/pom sync -b $npm_package_config_branch",
+        "update:pom": "node ./scripts/pom sync -b $npm_package_config_branch",
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
         "utils:copy-to-nba": "./scripts/copyToNba.sh -b $npm_package_config_branch",
         "postinstall": "./scripts/fix-lwc-testrunner.sh",
