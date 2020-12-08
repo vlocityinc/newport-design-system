@@ -101,6 +101,7 @@ export { AddNodeEvent } from './addNodeEvent';
 export { UpdateNodeEvent } from './updateNodeEvent';
 export { ConfigurationEditorTypeMappingChangeEvent } from './configurationEditorTypeMappingChangeEvent';
 export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';
+export { EditMergeFieldPillEvent } from './editMergeFieldPillEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
 export { ArrowKeyDownEvent } from './arrowKeyDownEvent';
 export { UpdateSortOptionItemEvent } from './updateSortOptionItemEvent';

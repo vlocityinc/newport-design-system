@@ -5,7 +5,8 @@ import {
     FilterMatchesEvent,
     NewResourceEvent,
     ItemSelectedEvent,
-    RemoveMergeFieldPillEvent
+    RemoveMergeFieldPillEvent,
+    EditMergeFieldPillEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction/expressionUtils';
@@ -877,24 +878,29 @@ export default class Combobox extends LightningElement {
     }
 
     /**
-     * On pill click event
-     * @param {CustomEvent} event - lightning pill component click event
+     * On pill remove event - Resets displayed text and menu data
+     * @param {CustomEvent} event - lightning pill component remove event
+     *  Fires RemoveMergeFieldPillEvent event
      */
     handlePillRemove(event: CustomEvent): void {
         event.stopPropagation();
         event.preventDefault();
-        this._removePill();
+        this._clearPill();
+        this._resetMenuDataAndDisplayText();
+        this.dispatchEvent(new RemoveMergeFieldPillEvent(this._item));
     }
 
     /**
-     * On pill remove event
-     * @param {CustomEvent} event - lightning pill component remove event
+     * On pill click event
+     * @param {CustomEvent} event - lightning pill component click event
+     * Fires EditMergeFieldPillEvent event
      */
     handlePillClick(event: CustomEvent): void {
         event.stopPropagation();
         event.preventDefault();
         this._isPillClicked = true;
-        this._removePill(false);
+        this._clearPill();
+        this.dispatchEvent(new EditMergeFieldPillEvent(this._item));
     }
 
     /* **************************** */
@@ -1252,17 +1258,11 @@ export default class Combobox extends LightningElement {
         }
     }
     /**
-     * Reset tracked pill field and optionally reset displayed text and menu data
-     * @param {boolean} resetMenuDataAndDisplayText - resetting current displayed and built menu data?
-     * Fires RemoveMergeFieldPillEvent event passing current selected item and resetMenuDataAndDisplayText flag
+     * Reset tracked pill field
      */
-    private _removePill(resetMenuDataAndDisplayText = true): void {
+    private _clearPill(): void {
         this.state.pill = null;
         this._isPillRemoved = true;
-        if (resetMenuDataAndDisplayText) {
-            this._resetMenuDataAndDisplayText();
-        }
-        this.dispatchEvent(new RemoveMergeFieldPillEvent(this._item, resetMenuDataAndDisplayText));
     }
 
     /**

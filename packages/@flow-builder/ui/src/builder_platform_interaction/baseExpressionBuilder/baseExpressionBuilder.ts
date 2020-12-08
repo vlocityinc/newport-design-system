@@ -731,21 +731,33 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.populateRhsMenuData(!!event.detail.item, event.detail.item);
     }
 
+    _lhsClearPill(item) {
+        this.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD; // empty lhs qualifies as "not a field"
+        this.state.operatorAndRhsDisabled = item === null;
+    }
+
     /**
-     * Handle RHS combobox pill removal event
+     * Handle LHS combobox pill removal event
      * @param {Object} event - {@link RemoveMergeFieldPillEvent} event
      * @param {Object} event.detail.item - combobox current selected item
-     * @param {boolean} event.detail.resetMenuDataAndDisplayText - if true combobox reset false otherwise
      */
     handleLhsRemoveMergeFieldPill(event) {
         event.stopPropagation();
-        const { item, resetMenuDataAndDisplayText } = event.detail;
         const rhsCombobox = this._getRHSCombobox();
-        this.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD; // empty lhs qualifies as "not a field"
-        if (rhsCombobox.pill && resetMenuDataAndDisplayText) {
+        if (rhsCombobox.pill) {
             rhsCombobox.resetPill();
         }
-        this.state.operatorAndRhsDisabled = item === null;
+        this._lhsClearPill(event.detail.item);
+    }
+
+    /**
+     * Handle LHS combobox pill edit event
+     * @param {Object} event - {@link EditMergeFieldPillEvent} event
+     * @param {Object} event.detail.item - combobox current selected item
+     */
+    handleLhsEditMergeFieldPill(event) {
+        event.stopPropagation();
+        this._lhsClearPill(event.detail.item);
     }
 
     /**

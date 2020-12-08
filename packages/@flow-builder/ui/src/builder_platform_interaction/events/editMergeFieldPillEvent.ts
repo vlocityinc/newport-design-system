@@ -1,18 +1,18 @@
-const eventName = 'removemergefieldpill';
+const eventName = 'editmergefieldpill';
 
-type RemoveMergeFieldPillEventDetail = {
+type EditMergeFieldPillEventDetail = {
     item?: {};
 };
 
 /**
- * Class representing a pill removal event.
+ * Class representing a pill edit event. (Basically when clicking into the pill)
  */
-export class RemoveMergeFieldPillEvent extends CustomEvent<RemoveMergeFieldPillEventDetail> {
+export class EditMergeFieldPillEvent extends CustomEvent<EditMergeFieldPillEventDetail> {
     /**
-     * Create a RemoveMergeFieldPillEvent.
+     * Create a EditMergeFieldPillEvent.
      * @param {Object} item - pill item property
      */
-    constructor(item) {
+    constructor(item: {}) {
         super(eventName, {
             cancelable: false,
             composed: true,
