@@ -14,8 +14,11 @@ import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType, DELETE_ALL } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './flcNodeMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
+import {
+    moveFocusInMenuOnArrowKeyDown,
+    setupKeyboardShortcutUtil
+} from 'builder_platform_interaction/contextualMenuUtils';
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 const selectors = {
     menuItem: 'a[role="menuitem"]',
@@ -85,7 +88,9 @@ export default class FlcNodeMenu extends Menu {
      * on the deletion path.
      */
     handleBackButtonClick = (event) => {
-        event.stopPropagation();
+        if (event) {
+            event.stopPropagation();
+        }
         this.contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
         this._hasDeleteBranchModeRendered = false;
         this._moveFocusToDeleteBranchRow = true;
@@ -109,7 +114,6 @@ export default class FlcNodeMenu extends Menu {
                     this.contextualMenuMode = CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
                     this._hasBaseModeRendered = false;
                     this._selectedConditionValue = this.conditionOptions[0].value;
-                    this.removeListener();
                     this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
                     closeMenu = false;
                 } else if (this.elementMetadata.type === ElementType.LOOP) {
@@ -148,7 +152,9 @@ export default class FlcNodeMenu extends Menu {
      * Handles the click on the Footer button and dispatches the relevant event
      */
     handleFooterButtonClick = (event) => {
-        event.stopPropagation();
+        if (event) {
+            event.stopPropagation();
+        }
         this.dispatchEvent(new CloseMenuEvent());
         if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE) {
             this.dispatchEvent(new EditElementEvent(this.guid));
@@ -179,20 +185,30 @@ export default class FlcNodeMenu extends Menu {
         if (currentItemInFocus) {
             if (currentItemInFocus.role === 'menuitem') {
                 this.handleSelectNodeAction({ currentTarget: currentItemInFocus.parentElement, fromKeyboard: true });
+            } else if (currentItemInFocus.parentElement.classList.value.includes('footer')) {
+                this.handleFooterButtonClick();
+            } else if (currentItemInFocus.classList.value.includes('back-button')) {
+                this.handleBackButtonClick();
             }
         }
     }
+
+    handleEscape() {
+        this.dispatchEvent(new CloseMenuEvent());
+    }
+
     setupCommandsAndShortcuts() {
-        const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
-        const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
-        const enterCommand = new EnterCommand(() => this.handleSpaceOrEnter());
-        const spaceCommand = new SpaceCommand(() => this.handleSpaceOrEnter());
-        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
-        this.keyboardInteractions.setupCommandAndShortcut(spaceCommand, { key: ' ' });
-        this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
-        this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
+        const keyboardCommands = {
+            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
+            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
+            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown('arrowDown')),
+            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown('arrowUp')),
+            Escape: new EscapeCommand(() => this.handleEscape())
+        };
+        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
     }
     connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
         this.setupCommandsAndShortcuts();
     }
     renderedCallback() {
@@ -208,11 +224,9 @@ export default class FlcNodeMenu extends Menu {
             this._isRendered = true;
         }
         if (this.isBaseActionMode && !this._hasBaseModeRendered) {
-            // Adding keyDownEventListeners to the rows the menu is in baseActionMode.
-            // Also setting focus on the delete branch row if entering base mode via the back button.
+            // Setting focus on the delete branch row if entering base mode via the back button.
             const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
             items.forEach((item) => {
-                this.keyboardInteractions.addKeyDownEventListener(item);
                 if (
                     this._moveFocusToDeleteBranchRow &&
                     item.parentElement.getAttribute('data-value') === ELEMENT_ACTION_CONFIG.DELETE_ACTION.value
@@ -236,13 +250,6 @@ export default class FlcNodeMenu extends Menu {
         }
     }
     disconnectedCallback() {
-        this.removeListener();
-    }
-
-    removeListener() {
-        const items = Array.from(this.template.querySelectorAll(selectors.menuItem)) as any;
-        items.forEach((item) => {
-            this.keyboardInteractions.removeKeyDownEventListener(item);
-        });
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 }

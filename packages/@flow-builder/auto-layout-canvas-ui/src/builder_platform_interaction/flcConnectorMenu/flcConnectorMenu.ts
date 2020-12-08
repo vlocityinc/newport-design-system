@@ -7,9 +7,12 @@ import Menu from 'builder_platform_interaction/menu';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-import { moveFocusInMenuOnArrowKeyDown } from 'builder_platform_interaction/contextualMenuUtils';
+import {
+    moveFocusInMenuOnArrowKeyDown,
+    setupKeyboardShortcutUtil
+} from 'builder_platform_interaction/contextualMenuUtils';
 
-const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
@@ -122,15 +125,19 @@ export default class FlcConnectorMenu extends Menu {
         }
     }
 
+    handleEscape() {
+        this.dispatchEvent(new CloseMenuEvent());
+    }
+
     setupCommandsAndShortcuts() {
-        const arrowDownCommand = new ArrowDown(() => this.handleArrowKeyDown('arrowDown'));
-        const arrowUpCommand = new ArrowUp(() => this.handleArrowKeyDown('arrowUp'));
-        const enterCommand = new EnterCommand(() => this.handleSpaceOrEnter());
-        const spaceCommand = new SpaceCommand(() => this.handleSpaceOrEnter());
-        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
-        this.keyboardInteractions.setupCommandAndShortcut(spaceCommand, { key: ' ' });
-        this.keyboardInteractions.setupCommandAndShortcut(arrowDownCommand, { key: 'ArrowDown' });
-        this.keyboardInteractions.setupCommandAndShortcut(arrowUpCommand, { key: 'ArrowUp' });
+        const keyboardCommands = {
+            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
+            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
+            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown('arrowDown')),
+            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown('arrowUp')),
+            Escape: new EscapeCommand(() => this.handleEscape())
+        };
+        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
     }
 
     connectedCallback() {

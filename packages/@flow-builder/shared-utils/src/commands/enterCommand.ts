@@ -5,6 +5,6 @@ export class EnterCommand extends BaseCommand {
      * Command used to navigate various parts of flow builder
      */
     constructor(callback) {
-        super(callback, 'entercommand', false);
+        super(callback, 'entercommand', '', false);
     }
 }

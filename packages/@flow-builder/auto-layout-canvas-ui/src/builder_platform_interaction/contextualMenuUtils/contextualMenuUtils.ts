@@ -13,4 +13,11 @@ function moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key) {
     items[nextFocusIndex].focus();
 }
 
+function setupKeyboardShortcutUtil(keyboardInteract, commands) {
+    Object.entries(commands).forEach(([shortcutKeys, command]) => {
+        keyboardInteract.setupCommandAndShortcut(command, { key: shortcutKeys });
+    });
+}
+
 export { moveFocusInMenuOnArrowKeyDown };
+export { setupKeyboardShortcutUtil };

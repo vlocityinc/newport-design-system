@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
-import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { ToggleMenuEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
@@ -173,11 +173,22 @@ describe('the button menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('pressing the enter key should not dispatch the toggleMenu event if we are in selection mode', () => {
+    it('pressing the escape key should dispatch the CloseMenuEvent event if the menu is open', () => {
+        const cmp = createComponentUnderTest();
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
+        const callback = jest.fn();
+        cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+        cmp.menuOpened = true;
+        button.focus();
+        cmp.keyboardInteractions.execute('escapecommand');
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('pressing the enter key should not dispatch the CloseMenuEvent event if we are in selection mode', () => {
         const cmp = createComponentUnderTest(screenMetadata, undefined, undefined, false, true);
         const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+        cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         button.focus();
         cmp.keyboardInteractions.execute('entercommand');
         expect(callback).not.toHaveBeenCalled();

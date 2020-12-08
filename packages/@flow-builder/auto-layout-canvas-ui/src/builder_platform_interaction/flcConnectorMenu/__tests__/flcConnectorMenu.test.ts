@@ -296,4 +296,14 @@ describe('connector menu', () => {
         cmp.keyboardInteractions.execute('arrowup');
         expect(callback).toHaveBeenCalled();
     });
+
+    it('Pressing escape while focus is on a row item should fire the CloseMenuEvent', () => {
+        const cmp = createComponentUnderTest();
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        cmp.keyboardInteractions.execute('escapecommand');
+        expect(callback).toHaveBeenCalled();
+    });
 });

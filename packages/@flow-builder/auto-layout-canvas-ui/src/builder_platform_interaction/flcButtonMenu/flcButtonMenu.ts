@@ -5,17 +5,18 @@ import { classSet } from 'lightning/utils';
 // TODO: need to fix this
 // import { handleKeyDownOnMenuItem, handleKeyDownOnMenuTrigger } from './keyboard';
 
-import { ToggleMenuEvent, MenuPositionUpdateEvent } from 'builder_platform_interaction/flcEvents';
+import { ToggleMenuEvent, MenuPositionUpdateEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 
-const { EnterCommand, SpaceCommand } = commands;
+const { EnterCommand, SpaceCommand, EscapeCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
 /**
  * Fixed Layout Canvas Menu Button Component.
- * Used by Node and Connector components to render their buttons.
+ * Used by Node and Connector components to render their buttons
  */
 export default class FlcButtonMenu extends LightningElement {
     @api
@@ -192,11 +193,19 @@ export default class FlcButtonMenu extends LightningElement {
         }
     }
 
+    handleEscape() {
+        if (this._menuOpened) {
+            this.dispatchEvent(new CloseMenuEvent());
+        }
+    }
+
     setupCommandsAndShortcuts() {
-        const enterCommand = new EnterCommand(() => this.handleSpaceOrEnter());
-        const spaceCommand = new SpaceCommand(() => this.handleSpaceOrEnter());
-        this.keyboardInteractions.setupCommandAndShortcut(enterCommand, { key: 'Enter' });
-        this.keyboardInteractions.setupCommandAndShortcut(spaceCommand, { key: ' ' });
+        const keyboardCommands = {
+            Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
+            ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
+            Escape: new EscapeCommand(() => this.handleEscape())
+        };
+        setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
     }
 
     /** ***************************** Callbacks *******************************/

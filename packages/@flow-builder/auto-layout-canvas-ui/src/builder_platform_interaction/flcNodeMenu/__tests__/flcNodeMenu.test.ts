@@ -150,6 +150,15 @@ describe('Node Menu', () => {
             menu.keyboardInteractions.execute('arrowup');
             expect(callback).toHaveBeenCalled();
         });
+
+        it('Escape should close the menu when a menu item is in focus', () => {
+            const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
+            listItems[0].focus();
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            menu.keyboardInteractions.execute('escapecommand');
+            expect(callback).toHaveBeenCalled();
+        });
     });
 
     describe('Element Action Node Menu for a Simple Element', () => {
@@ -426,6 +435,22 @@ describe('Node Menu', () => {
                 editButton.click();
                 expect(callback).toHaveBeenCalled();
             });
+
+            it('Pressing escape while focus is on the edit button fires the CloseMenuEvent', () => {
+                const callback = jest.fn();
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                editButton.focus();
+                menu.keyboardInteractions.execute('escapecommand');
+                expect(callback).toHaveBeenCalled();
+            });
+
+            it('Pressing escape while focus is on the edit button should not fire the EditElementEvent', () => {
+                const callback = jest.fn();
+                menu.addEventListener(EditElementEvent.EVENT_NAME, callback);
+                editButton.focus();
+                menu.keyboardInteractions.execute('escapecommand');
+                expect(callback).not.toHaveBeenCalled();
+            });
         });
     });
 
@@ -506,6 +531,24 @@ describe('Node Menu', () => {
             expect(editButton.label).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextLabel);
         });
 
+        it('Pressing escape while focus is on the Back Button fires the CloseMenuEvent', async () => {
+            const backButton = menu.shadowRoot.querySelector(selectors.backButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            backButton.focus();
+            menu.keyboardInteractions.execute('escapecommand');
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the combobox fires the CloseMenuEvent', async () => {
+            const combobox = menu.shadowRoot.querySelector(selectors.conditionPicker);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            combobox.focus();
+            menu.keyboardInteractions.execute('escapecommand');
+            expect(callback).toHaveBeenCalled();
+        });
+
         it('Clicking on the Delete Action should reveal the path picking combobox', () => {
             const connectorCombobox = menu.shadowRoot.querySelector(selectors.conditionPicker);
             expect(connectorCombobox).not.toBeNull();
@@ -583,6 +626,22 @@ describe('Node Menu', () => {
                         childIndexToKeep: 0
                     }
                 });
+            });
+
+            it('Pressing escape while focus is on the Delete Button fires the CloseMenuEvent', () => {
+                const callback = jest.fn();
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                deleteButton.focus();
+                menu.keyboardInteractions.execute('escapecommand');
+                expect(callback).toHaveBeenCalled();
+            });
+
+            it('Pressing escape while focus is on the Delete Button does not fire the DeleteElementEvent', () => {
+                const callback = jest.fn();
+                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                deleteButton.focus();
+                menu.keyboardInteractions.execute('escapecommand');
+                expect(callback).not.toHaveBeenCalled();
             });
 
             it('Clicking the Delete Button should dispatch CloseMenuEvent', () => {

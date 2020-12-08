@@ -2,6 +2,7 @@
 import { createElement } from 'lwc';
 import FlcNodeStartMenu from 'builder_platform_interaction/flcNodeStartMenu';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
+import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 
@@ -278,6 +279,16 @@ describe('Start Node Menu', () => {
             const button = body.querySelector(selectors.timeTriggerButton);
             expect(button).toBeNull();
         });
+
+        it('Pressing escape while focus is on the platform button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.triggerButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            button.focus();
+            menu.keyboardInteractions.execute('escapecommand');
+            expect(callback).toHaveBeenCalled();
+        });
     });
 
     describe('Screen Flow Start Menu', () => {
@@ -308,6 +319,8 @@ describe('Start Node Menu', () => {
         });
     });
 
+    // TODO: Update it as part of W-8057549
+    // ADD testing for when time triggers are added to auto layout
     describe('Record-Triggered Flow Start Menu', () => {
         let menu;
         beforeEach(() => {
@@ -385,6 +398,26 @@ describe('Start Node Menu', () => {
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent('arrowUp'));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the trigger button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            trigger.focus();
+            menu.keyboardInteractions.execute('escapecommand');
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the context button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const context = body.querySelector(selectors.contextButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            context.focus();
+            menu.keyboardInteractions.execute('escapecommand');
             expect(callback).toHaveBeenCalled();
         });
     });
@@ -466,6 +499,26 @@ describe('Start Node Menu', () => {
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent('arrowUp'));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the trigger button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            trigger.focus();
+            menu.keyboardInteractions.execute('escapecommand');
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the context button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const context = body.querySelector(selectors.contextButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            context.focus();
+            menu.keyboardInteractions.execute('escapecommand');
             expect(callback).toHaveBeenCalled();
         });
     });

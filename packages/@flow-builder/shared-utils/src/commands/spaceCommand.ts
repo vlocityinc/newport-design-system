@@ -5,6 +5,6 @@ export class SpaceCommand extends BaseCommand {
      * Command used to navigate various parts of flow builder
      */
     constructor(callback) {
-        super(callback, 'spacecommand', false);
+        super(callback, 'spacecommand', '', false);
     }
 }
