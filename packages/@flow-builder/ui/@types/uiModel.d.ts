@@ -4,49 +4,42 @@
  * and will need to be addressed via a separate refactoring (ideally as they are converted
  * to typescript).  Ideally, the interfaces and the baseXXX methods are combined in to classes with constructors
  */
-
 declare namespace UI {
-    export type Guid = string;
-    export type ElementType = string;
-    export type ElementSubtype = string;
-    export type Datatype = string;
+    type Guid = string;
+    type ElementType = string;
+    type ElementSubtype = string;
+    type Datatype = string;
 
-    export interface CanvasElementConfig {
+    interface CanvasElementConfig {
         isHighlighted: boolean;
         isSelectable: boolean;
         isSelected: boolean;
         hasError: boolean;
     }
 
-    export interface ConnectorConfig {
+    interface ConnectorConfig {
         isSelected: boolean;
     }
 
-    export interface Element {
+    interface Element {
         // TODO: IMPORTANT: elementType should *NOT* be optional.  Once baseElement and its usages are cleaned up to always have
         // an elementType then it should be required here
         elementType?: ElementType;
         label?: string | null;
-
         guid: Guid;
-
         // This is the "api name" in the property editor UI
         // optional as some elements are anonymous (start element, automatic fields...)
         name?: string;
-
         description?: string;
-
         // Maybe all elements have datatypes?  If so, remove `?`
         dataType?: Datatype;
         subtype?: string;
         isCollection?: boolean;
-
         isCanvasElement?: boolean;
-
         connector?: Connector;
     }
 
-    export interface BaseCanvasElement extends Element {
+    interface BaseCanvasElement extends Element {
         // This is the "label" in the property editor UI
         label: string | null;
         locationX: number;
@@ -58,25 +51,25 @@ declare namespace UI {
         elementSubtype: ElementSubtype;
     }
 
-    export interface CanvasElement extends BaseCanvasElement {
+    interface CanvasElement extends BaseCanvasElement {
         availableConnections?: AvailableConnection[];
         childReferences?: ChildReference[];
         elementType: string;
         maxConnections: number;
     }
 
-    export interface ChildElement extends Element {
+    interface ChildElement extends Element {
         // This is the "label" in the property editor UI
         label?: string;
     }
 
-    export interface ScreenField extends Element {
+    interface ScreenField extends Element {
         storeOutputAutomatically?: boolean;
         extensionName?: string;
         inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
     }
 
-    export interface BaseCanvasElementWithFilter extends BaseCanvasElement {
+    interface BaseCanvasElementWithFilter extends BaseCanvasElement {
         filters?: Filter[];
         filterLogic?: string;
     }
@@ -89,7 +82,7 @@ declare namespace UI {
         operator: string;
     }
 
-    export interface Start extends BaseCanvasElementWithFilter, Schedule {
+    interface Start extends BaseCanvasElementWithFilter, Schedule {
         doesRequireRecordChangedToMeetCriteria: boolean;
         triggerType?: string;
         object: string;
@@ -113,24 +106,24 @@ declare namespace UI {
         timeInMillis?: number;
     };
 
-    export interface TimeTrigger extends ChildElement {
+    interface TimeTrigger extends ChildElement {
         timeSource: string;
         offsetUnit: string;
         offsetNumber: string;
     }
 
-    export type ConnectorType = string;
+    type ConnectorType = string;
 
-    export interface AvailableConnection {
+    interface AvailableConnection {
         type: ConnectorType;
         childReference?: Guid;
     }
 
-    export interface ChildReference {
+    interface ChildReference {
         childReference: Guid;
     }
 
-    export interface AutoLayoutCanvasElement extends CanvasElement {
+    interface AutoLayoutCanvasElement extends CanvasElement {
         children?: (Guid | null)[];
         next?: Guid | null;
         prev?: Guid | null;
@@ -140,7 +133,7 @@ declare namespace UI {
         fault?: Guid | null;
     }
 
-    export interface Connector {
+    interface Connector {
         source: Guid;
         target: Guid;
         type: ConnectorType;
@@ -148,8 +141,8 @@ declare namespace UI {
         childSource?: Guid;
     }
 
-    export type StringKeyedMap<T> = { [key: string]: T };
-    export type Elements = StringKeyedMap<Element>;
+    type StringKeyedMap<T> = { [key: string]: T };
+    type Elements = StringKeyedMap<Element>;
 
     interface Properties {
         isAutoLayoutCanvas: boolean;
@@ -158,14 +151,14 @@ declare namespace UI {
         [key: string]: string | undefined | null | number | boolean;
     }
 
-    export interface StoreState {
+    interface StoreState {
         elements: Elements;
         connectors: Connector[];
         canvasElements: Guid[];
         properties: Properties;
     }
 
-    export interface ElementConfig {
+    interface ElementConfig {
         bodyCssClass?: string;
         canBeDuplicated?: boolean;
         canHaveDefaultConnector?: boolean;
@@ -244,7 +237,7 @@ declare namespace UI {
         [p: string]: string;
     }
 
-    export interface Condition {
+    interface Condition {
         leftValueReference?: string;
         leftHandSide?: {
             value: string;
@@ -256,7 +249,7 @@ declare namespace UI {
         };
     }
 
-    export interface ComboboxItem {
+    interface ComboboxItem {
         type: string;
         dataType: string;
         text?: string;

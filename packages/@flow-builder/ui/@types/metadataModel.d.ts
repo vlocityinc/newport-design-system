@@ -2,7 +2,6 @@
  * TODO: IMPORTANT: These interfaces represent the metadata.
  * This is based on https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_visual_workflow.htm
  */
-
 declare namespace Metadata {
     interface ElementReferenceOrValue {
         booleanValue: boolean;
@@ -28,22 +27,22 @@ declare namespace Metadata {
         value?: ElementReferenceOrValue;
     }
 
-    export interface Element {
+    interface Element {
         name?: string;
         description?: string;
     }
 
-    export interface Node extends Element {
+    interface Node extends Element {
         label: string;
         locationX: number;
         locationY: number;
     }
 
-    export interface Screen extends Node {
+    interface Screen extends Node {
         fields: ScreenField[];
     }
 
-    export interface ScreenField extends Element {
+    interface ScreenField extends Element {
         storeOutputAutomatically?: boolean;
         extensionName?: string;
         fieldType: string;
@@ -51,7 +50,7 @@ declare namespace Metadata {
         inputsNextBehavior?: 'Remember' | 'Recalculate';
     }
 
-    export interface Start extends Node {
+    interface Start extends Node {
         filters?: RecordFilter[];
         filterLogic: string;
         object?: string;
@@ -63,7 +62,7 @@ declare namespace Metadata {
         connector: Connector;
     }
 
-    export interface ScheduledPath extends Element {
+    interface ScheduledPath extends Element {
         name: string;
         timeSource: string;
         offsetUnit: string;
@@ -72,7 +71,7 @@ declare namespace Metadata {
         connector: Connector;
     }
 
-    export interface Connector extends BaseElement {
+    interface Connector extends BaseElement {
         targetReference: string;
     }
 
