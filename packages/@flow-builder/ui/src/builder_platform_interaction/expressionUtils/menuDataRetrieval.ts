@@ -44,7 +44,6 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
 import { canElementContain } from 'builder_platform_interaction/selectors';
-import { MenuItem } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -265,7 +264,7 @@ const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
 };
 
 const shouldDisableHasNext = (
-    menuItem: MenuItem,
+    menuItem: UI.ComboboxItem,
     { disableHasNext = false, allowSObjectField = true } = {}
 ): boolean => {
     return disableHasNext || (allowSObjectField === false && menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value);

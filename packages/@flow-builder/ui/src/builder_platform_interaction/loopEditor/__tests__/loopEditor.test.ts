@@ -4,7 +4,6 @@ import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platfor
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { MenuItem } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     stringCollectionVariable1,
     accountSObjectVariable,
@@ -40,17 +39,12 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
 
 const IAMERRORED = 'IAMERRORED';
 const VARIABLE = 'VARIABLE_GUID';
-const MENU_ITEM: MenuItem = {
-    guid: 'guid',
-    icon: 'icon',
-    iconContainerClass: 'iconContainerClass',
-    iconClass: 'iconClass',
-    iconVariant: 'iconVariant',
+const MENU_ITEM: UI.ComboboxItem = {
     iconSize: 'size',
-    label: 'label',
-    elementType: 'elementType',
-    rowClass: 'rowClass',
-    dataType: 'dataType'
+    dataType: 'dataType',
+    type: 'type',
+    displayText: 'displayText',
+    value: 'value'
 };
 
 function createComponentForTest() {
@@ -104,8 +98,8 @@ describe('loop-editor', () => {
             locationY: 123
         };
     });
-    const variableToMenuItem = (variable: any): MenuItem => {
-        const menuItem: MenuItem = variable;
+    const variableToMenuItem = (variable): UI.ComboboxItem => {
+        const menuItem: UI.ComboboxItem = variable;
         menuItem.value = variable.guid;
         return menuItem;
     };
