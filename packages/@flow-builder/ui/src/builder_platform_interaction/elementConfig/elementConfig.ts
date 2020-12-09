@@ -1116,7 +1116,8 @@ export const elementTypeToConfigMap: {
     [COLLECTION_PROCESSOR_SUB_TYPE.SORT]: {
         nodeConfig: {
             iconName: 'standard:sort',
-            utilityIconName: 'utility:sort'
+            utilityIconName: 'utility:sort',
+            iconBackgroundColor: 'background-orange'
         },
         canvasElement: true,
         labels: {
