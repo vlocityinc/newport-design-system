@@ -1,24 +1,18 @@
 pipeline:
     name: published-lwc
     github_source:
-        repo: communities/sfci-pipelines
-        branch: release
-release_branches: ['master', '226', '226-freeze']
+        repo: automation-platform/sfci-pipelines
+        branch: useHugeFlavor
+release_branches: ['master', '230', '228']
 precompile_lwc_components: true
 code_coverage_gus_team_name: 'Automation Builder Simplification'
 validations:
     - name: 'Code Compile'
       command: 'yarn build'
-    - name: 'Code Prettiness'
-      command: 'yarn ci:prettify'
-    - name: 'Code Lint'
-      command: 'yarn ci:lint'
-    - name: 'Unit Tests'
-      command: 'yarn test:unit'
-    - name: 'Code Coverage'
-      command: 'yarn test:unit:ci:coverage'
+    - name: 'Code Lint Prettify'
+      command: 'yarn ci:lint:prettify'
 core:
     module_name: 'ui-interaction-builder-components'
     version_property_name: 'ui-interaction-builder-components.version'
 build_resource_size: huge
-buildImage: ops0-artifactrepo1-0-prd.data.sfdc.net/dci/centos-sfci-nodejs:4037264
+build_image: ops0-artifactrepo1-0-prd.data.sfdc.net/dci/centos-sfci-nodejs:4037264

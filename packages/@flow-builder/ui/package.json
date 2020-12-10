@@ -13,7 +13,9 @@
         "test": "lwc-test src",
         "test:update-snapshots": "lwc-test --updateSnapshot",
         "coverage": "lwc-test src -- --coverage",
-        "lint": "eslint --max-warnings 0 src/**/*.ts"
+        "lint": "eslint --max-warnings 0 src/**/*.ts",
+        "ci:test": "yarn test -- -- --verbose false",
+        "ci:test:coverage": "yarn coverage -- --verbose false"
     },
     "files": [
         "src/builder_platform_interaction/*/!(__container__|__integration__|__perf__|__raptorMocks__|__test__|__tests__)"
