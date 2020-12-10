@@ -559,14 +559,6 @@ describe('Record Update Editor', () => {
                 test('input assignments LHS/Operator/RHS (with pill)', () => {
                     let baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
                     expect(baseExpressionBuilder.lhsValue).toMatchObject({
-                        displayText: 'Name',
-                        value: 'Account.Name'
-                    });
-                    expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                    expect(baseExpressionBuilder.rhsValue).toBe('salesforce');
-
-                    baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[1]);
-                    expect(baseExpressionBuilder.lhsValue).toMatchObject({
                         displayText: 'BillingCity',
                         value: 'Account.BillingCity'
                     });
@@ -583,6 +575,14 @@ describe('Record Update Editor', () => {
                         iconName: 'utility:text',
                         label: 'accountSObjectVariable > Billing City'
                     });
+
+                    baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[1]);
+                    expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                        displayText: 'Name',
+                        value: 'Account.Name'
+                    });
+                    expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+                    expect(baseExpressionBuilder.rhsValue).toBe('salesforce');
                 });
             });
         });

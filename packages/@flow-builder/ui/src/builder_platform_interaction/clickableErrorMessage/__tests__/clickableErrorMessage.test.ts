@@ -5,7 +5,7 @@ import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_inte
 import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel, screenWithSection, decision2 as mockDecision } from 'mock/storeData';
+import { flowWithAllElementsUIModel, screenWithSection, decision1 as mockDecision } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {

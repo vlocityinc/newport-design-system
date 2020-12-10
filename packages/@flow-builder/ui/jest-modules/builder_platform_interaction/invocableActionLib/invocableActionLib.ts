@@ -29,7 +29,7 @@ const mockImplementationForGetDetailsForInvocableAction = ({
             return chatterPostActionDetails;
         case 'quickAction-Case.LogACall':
             return logACallActionDetails;
-        case 'apex-getAccounts':
+        case 'apex-GetAccount':
             return getAccountFromApexAnonymousOutputActionDetails;
         case 'apex-InvocableGetAccountName':
             return getAccountNameFromApexAnonymousOutputActionDetails;

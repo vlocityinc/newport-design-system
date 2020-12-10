@@ -1,7 +1,7 @@
 // to update elementsForPropertyEditors from flowWithAllElementsUIModel, run propertyEditorFactory.test.js and follow instructions
 export const elementsForPropertyEditors = {
     stringVariable: {
-        guid: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
+        guid: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d',
         name: {
             value: 'stringVariable',
             error: null
@@ -23,7 +23,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         subtypeIndex: {
-            value: 'f8b3b3b3-2a93-4a2c-8630-815b2797aaa7',
+            value: '42afe63b-0744-4dec-a7e6-20c67691dd81',
             error: null
         },
         scale: 0,
@@ -36,12 +36,12 @@ export const elementsForPropertyEditors = {
             error: null
         },
         defaultValueIndex: {
-            value: 'fcf61595-af2e-4982-9607-5de1c2819fab',
+            value: '02504510-b361-4fb3-878e-81925a76160f',
             error: null
         }
     },
     numberVariable: {
-        guid: '9d11ba05-33c4-4893-87b8-9560be9557d2',
+        guid: 'c518ac20-1202-42a6-ac3d-cfc8b707f4c3',
         name: {
             value: 'numberVariable',
             error: null
@@ -63,7 +63,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         subtypeIndex: {
-            value: 'ead8ca09-bffd-47ee-93c2-7ebeaf14def2',
+            value: '1283ede6-414b-45a2-851a-1b113f26bffd',
             error: null
         },
         scale: 2,
@@ -76,12 +76,12 @@ export const elementsForPropertyEditors = {
             error: null
         },
         defaultValueIndex: {
-            value: '458ac1c7-23e7-49cc-a518-5eaf4f218a49',
+            value: 'b8c16d53-6fcd-458c-b3e6-51f2658308bc',
             error: null
         }
     },
     dateVariable: {
-        guid: '2635dcd9-5d1d-4d46-b683-eabd7059690c',
+        guid: '2d1ada73-88e9-4cf4-a814-dcba8d517104',
         name: {
             value: 'dateVariable',
             error: null
@@ -103,7 +103,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         subtypeIndex: {
-            value: '54aae715-8881-4a52-b7a9-25c385d1488e',
+            value: '76bbf8c2-9a5e-4a03-a84f-a518866d7963',
             error: null
         },
         scale: 0,
@@ -116,12 +116,12 @@ export const elementsForPropertyEditors = {
             error: null
         },
         defaultValueIndex: {
-            value: '3c8e62e5-94ba-4bf8-a9cb-6f4599e3020b',
+            value: 'f08f384a-8e8f-40d3-8009-f8e1fb16eac4',
             error: null
         }
     },
     stringCollectionVariable1: {
-        guid: '5e2803c7-a184-465c-92e3-1d29634f2114',
+        guid: 'e502e40a-7dfc-4e71-8a42-c491f86a560a',
         name: {
             value: 'stringCollectionVariable1',
             error: null
@@ -143,7 +143,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         subtypeIndex: {
-            value: 'd050fa16-f494-4685-a87f-3c68666d1ba8',
+            value: '3d47c47d-df60-4f92-85c8-71982afd9938',
             error: null
         },
         scale: 0,
@@ -156,7 +156,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         defaultValueIndex: {
-            value: '9ded932c-cb00-42a7-bbfc-dddb4c2903fd',
+            value: 'cea1a8e6-1cb0-4b2f-9549-2610c8b61f78',
             error: null
         }
     },
@@ -382,6 +382,7 @@ export const elementsForPropertyEditors = {
         },
         fields: [],
         inputsOnNextNavToAssocScrn: 'UseStoredValues',
+        dynamicTypeMappings: [],
         storeOutputAutomatically: false
     },
     emailScreenFieldAutomaticOutput: {
@@ -500,6 +501,7 @@ export const elementsForPropertyEditors = {
         },
         fields: [],
         inputsOnNextNavToAssocScrn: 'UseStoredValues',
+        dynamicTypeMappings: [],
         storeOutputAutomatically: true
     },
     deleteAccountWithFilters: {
@@ -636,7 +638,7 @@ export const elementsForPropertyEditors = {
             error: null
         },
         locationX: 955,
-        locationY: 469.359375,
+        locationY: 469,
         isCanvasElement: true,
         connectorCount: 0,
         config: {

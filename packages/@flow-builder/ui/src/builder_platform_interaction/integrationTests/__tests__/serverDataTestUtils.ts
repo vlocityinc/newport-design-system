@@ -182,7 +182,7 @@ const allAuraActions = {
         apex: {
             GetCarAction: getCarFromApexActionDetails,
             generateDraftAccount: getAccountFromApexActionDetails,
-            getAccounts: getAccountFromApexAnonymousOutputActionDetails,
+            GetAccount: getAccountFromApexAnonymousOutputActionDetails,
             InvocableGetAccountName: getAccountNameFromApexAnonymousOutputActionDetails,
             GetAccountName: getStringFromApexActionDetails,
             GetAccounts: getAccountsFromApexAnonymousOutputActionDetails,

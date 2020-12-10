@@ -161,7 +161,7 @@ describe('flowComplexTypeFields', () => {
                     actionType: 'chatterPost'
                 },
                 {
-                    actionName: 'getAccounts',
+                    actionName: 'GetAccount',
                     actionType: 'apex'
                 },
                 {
@@ -195,7 +195,7 @@ describe('flowComplexTypeFields', () => {
                 getMetadataFlowElementByName(flowWithAllElements, apexCallManualAccountOutput.name)
             ]);
             expectOneCallToFetchParametersForInvocableAction({
-                actionName: 'getAccounts',
+                actionName: 'GetAccount',
                 actionType: 'apex'
             });
         });

@@ -68,7 +68,8 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'Boolean',
-            storeOutputAutomatically: false
+            storeOutputAutomatically: false,
+            flowTransactionModel: 'CurrentTransaction'
         },
         'a4451815-988d-4f17-883d-64b6ad9fab7e': {
             guid: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
@@ -114,15 +115,16 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
         },
         '297834ec-f5c8-4128-aa38-dc437f0c6a9b': {
             guid: '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
-            name: 'localAction',
-            description: 'this is a sample local action',
-            label: 'localAction',
-            locationX: 667,
-            locationY: 661,
+            name: 'actionCallLC_apex_no_sobject_auto',
+            description: '',
+            label: 'actionCallLC apex no sobject auto',
+            locationX: 1128,
+            locationY: 367,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -132,93 +134,7 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             actionType: 'component',
-            actionName: 'c:localActionSample',
-            dataTypeMappings: [],
-            inputParameters: [
-                {
-                    rowIndex: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
-                    name: 'subject',
-                    value: 'team',
-                    valueDataType: 'String'
-                },
-                {
-                    rowIndex: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1',
-                    name: 'greeting',
-                    value: 'hello',
-                    valueDataType: 'String'
-                }
-            ],
-            outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'ActionCall',
-            dataType: 'Boolean',
-            storeOutputAutomatically: false
-        },
-        '4968239c-5e3d-45ee-9339-f575c917e223': {
-            guid: '4968239c-5e3d-45ee-9339-f575c917e223',
-            name: 'caseLogACallAutomatic',
-            description: '',
-            label: 'caseLogACallAutomatic',
-            locationX: 832,
-            locationY: 670.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            actionType: 'quickAction',
-            actionName: 'Case.LogACall',
-            dataTypeMappings: [],
-            inputParameters: [
-                {
-                    rowIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
-                    name: 'contextId',
-                    value: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
-                    valueDataType: 'reference'
-                }
-            ],
-            outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'ActionCall',
-            dataType: 'ActionOutput',
-            storeOutputAutomatically: true
-        },
-        '7f4ddba5-e41b-456b-b686-94b257cc9914': {
-            guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
-            name: 'apexCall_anonymous_account',
-            description: '',
-            label: 'apexCall anonymous account',
-            locationX: 571,
-            locationY: 34,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            actionType: 'apex',
-            actionName: 'getAccounts',
+            actionName: 'c:LightningComponentWithApexNoSObject',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
@@ -231,16 +147,47 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             maxConnections: 2,
-            elementType: 'APEX_CALL',
-            dataType: 'SObject',
+            elementType: 'ActionCall',
+            dataType: 'ActionOutput',
             storeOutputAutomatically: true,
-            isSystemGeneratedOutput: true,
-            subtype: 'Account',
-            isCollection: false,
-            apexClass: null
+            flowTransactionModel: 'CurrentTransaction'
         },
-        '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be': {
-            guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+        '2e01b9c4-5144-4db2-9543-7899c5c34329': {
+            guid: '2e01b9c4-5144-4db2-9543-7899c5c34329',
+            name: 'actionCallLC_apex_with_sobject_auto',
+            description: '',
+            label: 'actionCallLC apex with sobject auto',
+            locationX: 1248,
+            locationY: 367,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            actionType: 'component',
+            actionName: 'c:LightningWithApexContainsSObject',
+            dataTypeMappings: [],
+            inputParameters: [],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'ActionCall',
+            dataType: 'ActionOutput',
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        'fe30ada4-6781-4ffd-84d1-9efbadaa29ab': {
+            guid: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
             name: 'addAccountExternalService',
             description: '',
             label: 'addAccountExternalService',
@@ -270,55 +217,16 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
         },
-        '53329036-32e6-4965-a1d2-b12cd0344f99': {
-            guid: '53329036-32e6-4965-a1d2-b12cd0344f99',
-            name: 'emailAlertOnAccount',
+        'bf05168b-6bd9-483a-8ea8-5e4d73a1c717': {
+            guid: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
+            name: 'apexCall_account_automatic_output',
             description: '',
-            label: 'emailAlertOnAccount',
-            locationX: 406,
-            locationY: 39,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            actionType: 'emailAlert',
-            actionName: 'Account.my_email_alert',
-            dataTypeMappings: [],
-            inputParameters: [
-                {
-                    rowIndex: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
-                    name: 'SObjectRowId',
-                    value: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2.Id',
-                    valueDataType: 'reference'
-                }
-            ],
-            outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'EMAIL_ALERT',
-            dataType: 'Boolean',
-            storeOutputAutomatically: false
-        },
-        '41c6da8a-c6e0-418b-8b23-9906b4adab11': {
-            guid: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
-            name: 'apexCall_anonymous_string',
-            description: '',
-            label: 'apexCall anonymous string',
-            locationX: 742,
-            locationY: 186,
+            label: 'apexCall account automatic output',
+            locationX: 867,
+            locationY: 182,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -328,16 +236,9 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             actionType: 'apex',
-            actionName: 'InvocableGetAccountName',
+            actionName: 'generateDraftAccount',
             dataTypeMappings: [],
-            inputParameters: [
-                {
-                    rowIndex: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
-                    name: 'accountIds',
-                    value: '',
-                    valueDataType: ''
-                }
-            ],
+            inputParameters: [],
             outputParameters: [],
             availableConnections: [
                 {
@@ -349,15 +250,12 @@ export const flowWithAllElementsUIModel = {
             ],
             maxConnections: 2,
             elementType: 'APEX_CALL',
-            dataType: 'String',
+            dataType: 'ActionOutput',
             storeOutputAutomatically: true,
-            isSystemGeneratedOutput: true,
-            subtype: null,
-            isCollection: false,
-            apexClass: null
+            flowTransactionModel: 'CurrentTransaction'
         },
-        '3f1c4d9a-ea88-4c6c-85ac-6aa009601964': {
-            guid: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
+        'cc0381a7-0c64-4935-bc0c-25ecc2e958f1': {
+            guid: 'cc0381a7-0c64-4935-bc0c-25ecc2e958f1',
             name: 'apexCall_action_account_manual_output',
             description: '',
             label: 'apexCall action account manual output',
@@ -377,7 +275,7 @@ export const flowWithAllElementsUIModel = {
             inputParameters: [],
             outputParameters: [
                 {
-                    rowIndex: '2f00ca0d-743f-4639-a084-272bbc548f8b',
+                    rowIndex: '4968239c-5e3d-45ee-9339-f575c917e223',
                     name: 'generatedAccount',
                     value: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
                     valueDataType: 'reference'
@@ -394,15 +292,16 @@ export const flowWithAllElementsUIModel = {
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'Boolean',
-            storeOutputAutomatically: false
+            storeOutputAutomatically: false,
+            flowTransactionModel: 'CurrentTransaction'
         },
-        'a18b3d06-504c-4e47-9f44-6663c42703cf': {
-            guid: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
-            name: 'apexCall_account_automatic_output',
+        'ed85c895-feb5-45cb-b486-49cfd9da8e20': {
+            guid: 'ed85c895-feb5-45cb-b486-49cfd9da8e20',
+            name: 'apexCall_anonymous_account',
             description: '',
-            label: 'apexCall account automatic output',
-            locationX: 867,
-            locationY: 182.3125,
+            label: 'apexCall anonymous account',
+            locationX: 571,
+            locationY: 34,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -412,7 +311,7 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             actionType: 'apex',
-            actionName: 'generateDraftAccount',
+            actionName: 'GetAccount',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
@@ -426,49 +325,21 @@ export const flowWithAllElementsUIModel = {
             ],
             maxConnections: 2,
             elementType: 'APEX_CALL',
-            dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            dataType: 'SObject',
+            storeOutputAutomatically: true,
+            isSystemGeneratedOutput: true,
+            subtype: 'Account',
+            isCollection: false,
+            apexClass: null,
+            flowTransactionModel: 'CurrentTransaction'
         },
-        '5383bf9b-8314-42bd-a51e-cbee56ec3570': {
-            guid: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
-            name: 'apexCall_String_automatic_output',
-            description: '',
-            label: 'apexCall String automatic output',
-            locationX: 926,
-            locationY: 57.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            actionType: 'apex',
-            actionName: 'GetAccountName',
-            dataTypeMappings: [],
-            inputParameters: [],
-            outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'APEX_CALL',
-            dataType: 'ActionOutput',
-            storeOutputAutomatically: true
-        },
-        '20336b8d-01e4-49eb-bb24-87deba5f6ef8': {
-            guid: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
+        '0ecd3000-0adc-4d34-bdc1-acd331740de0': {
+            guid: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
             name: 'apexCall_anonymous_accounts',
             description: '',
             label: 'apexCall anonymous accounts',
             locationX: 1125,
-            locationY: 49.3125,
+            locationY: 49,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -497,92 +368,16 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: 'Account',
             isCollection: true,
-            apexClass: null
+            apexClass: null,
+            flowTransactionModel: 'CurrentTransaction'
         },
-        '787fd564-24db-448c-ba59-ef88c8a5cbd9': {
-            guid: '787fd564-24db-448c-ba59-ef88c8a5cbd9',
-            name: 'apexCall_anonymous_strings',
-            description: '',
-            label: 'apexCall anonymous strings',
-            locationX: 1106,
-            locationY: 209.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            actionType: 'apex',
-            actionName: 'InvocableGetAccountsNames',
-            dataTypeMappings: [],
-            inputParameters: [],
-            outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'APEX_CALL',
-            dataType: 'String',
-            storeOutputAutomatically: true,
-            isSystemGeneratedOutput: true,
-            subtype: null,
-            isCollection: true,
-            apexClass: null
-        },
-        'cc44cf67-84c7-4dc5-b851-44d57be8fa66': {
-            guid: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
-            name: 'apexCall_Car_automatic_output',
-            description: '',
-            label: 'apexCall Car automatic output',
-            locationX: 1310,
-            locationY: 72.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            actionType: 'apex',
-            actionName: 'GetCarAction',
-            dataTypeMappings: [],
-            inputParameters: [
-                {
-                    rowIndex: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
-                    name: 'names',
-                    value: 'Clio',
-                    valueDataType: 'String'
-                }
-            ],
-            outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'APEX_CALL',
-            dataType: 'ActionOutput',
-            storeOutputAutomatically: true
-        },
-        '86f9f34d-e2e4-45e3-a574-78ddcd669ebf': {
-            guid: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
+        '7f4ddba5-e41b-456b-b686-94b257cc9914': {
+            guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
             name: 'apexCall_anonymous_apex_collection',
             description: '',
             label: 'apexCall anonymous apex collection',
             locationX: 1235,
-            locationY: 218.3125,
+            locationY: 218,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -611,15 +406,16 @@ export const flowWithAllElementsUIModel = {
             isSystemGeneratedOutput: true,
             subtype: null,
             isCollection: true,
-            apexClass: 'InvocableGetCars$GetCarResult'
+            apexClass: 'InvocableGetCars$GetCarResult',
+            flowTransactionModel: 'CurrentTransaction'
         },
-        'a6849bcb-05b6-4898-8cc1-12ff825524c5': {
-            guid: 'a6849bcb-05b6-4898-8cc1-12ff825524c5',
-            name: 'actionCallLC_apex_no_sobject_auto',
+        '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be': {
+            guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
+            name: 'apexCall_anonymous_string',
             description: '',
-            label: 'actionCallLC apex no sobject auto',
-            locationX: 1128,
-            locationY: 367.3125,
+            label: 'apexCall anonymous string',
+            locationX: 742,
+            locationY: 186,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -628,8 +424,53 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            actionType: 'component',
-            actionName: 'c:LightningComponentWithApexNoSObject',
+            actionType: 'apex',
+            actionName: 'InvocableGetAccountName',
+            dataTypeMappings: [],
+            inputParameters: [
+                {
+                    rowIndex: '04e1c283-fc0b-4928-a495-89d956368769',
+                    name: 'accountIds',
+                    value: '',
+                    valueDataType: ''
+                }
+            ],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'APEX_CALL',
+            dataType: 'String',
+            storeOutputAutomatically: true,
+            isSystemGeneratedOutput: true,
+            subtype: null,
+            isCollection: false,
+            apexClass: null,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        'a193d56e-2ee7-422d-a3ff-664fc82a0fd8': {
+            guid: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
+            name: 'apexCall_anonymous_strings',
+            description: '',
+            label: 'apexCall anonymous strings',
+            locationX: 1106,
+            locationY: 209,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            actionType: 'apex',
+            actionName: 'InvocableGetAccountsNames',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
@@ -642,17 +483,22 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             maxConnections: 2,
-            elementType: 'ActionCall',
-            dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            elementType: 'APEX_CALL',
+            dataType: 'String',
+            storeOutputAutomatically: true,
+            isSystemGeneratedOutput: true,
+            subtype: null,
+            isCollection: true,
+            apexClass: null,
+            flowTransactionModel: 'CurrentTransaction'
         },
-        '3e57f4c5-fecd-4be0-83a2-3238cdda979c': {
-            guid: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
-            name: 'actionCallLC_apex_with_sobject_auto',
+        '41c6da8a-c6e0-418b-8b23-9906b4adab11': {
+            guid: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
+            name: 'apexCall_Car_automatic_output',
             description: '',
-            label: 'actionCallLC apex with sobject auto',
-            locationX: 1248,
-            locationY: 367.3125,
+            label: 'apexCall Car automatic output',
+            locationX: 1310,
+            locationY: 72,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -661,8 +507,49 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            actionType: 'component',
-            actionName: 'c:LightningWithApexContainsSObject',
+            actionType: 'apex',
+            actionName: 'GetCarAction',
+            dataTypeMappings: [],
+            inputParameters: [
+                {
+                    rowIndex: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
+                    name: 'names',
+                    value: 'Clio',
+                    valueDataType: 'String'
+                }
+            ],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'APEX_CALL',
+            dataType: 'ActionOutput',
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        '3f1c4d9a-ea88-4c6c-85ac-6aa009601964': {
+            guid: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
+            name: 'apexCall_String_automatic_output',
+            description: '',
+            label: 'apexCall String automatic output',
+            locationX: 926,
+            locationY: 57,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            actionType: 'apex',
+            actionName: 'GetAccountName',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
@@ -675,12 +562,176 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             maxConnections: 2,
+            elementType: 'APEX_CALL',
+            dataType: 'ActionOutput',
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        '2f00ca0d-743f-4639-a084-272bbc548f8b': {
+            guid: '2f00ca0d-743f-4639-a084-272bbc548f8b',
+            name: 'caseLogACallAutomatic',
+            description: '',
+            label: 'caseLogACallAutomatic',
+            locationX: 832,
+            locationY: 670,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            actionType: 'quickAction',
+            actionName: 'Case.LogACall',
+            dataTypeMappings: [],
+            inputParameters: [
+                {
+                    rowIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
+                    name: 'contextId',
+                    value: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d',
+                    valueDataType: 'reference'
+                }
+            ],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
-            storeOutputAutomatically: true
+            storeOutputAutomatically: true,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        '20336b8d-01e4-49eb-bb24-87deba5f6ef8': {
+            guid: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
+            name: 'emailAlertOnAccount',
+            description: '',
+            label: 'emailAlertOnAccount',
+            locationX: 406,
+            locationY: 39,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            actionType: 'emailAlert',
+            actionName: 'Account.my_email_alert',
+            dataTypeMappings: [],
+            inputParameters: [
+                {
+                    rowIndex: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
+                    name: 'SObjectRowId',
+                    value: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2.Id',
+                    valueDataType: 'reference'
+                }
+            ],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'EMAIL_ALERT',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false,
+            flowTransactionModel: 'CurrentTransaction'
+        },
+        'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1': {
+            guid: 'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1',
+            name: 'localAction',
+            description: 'this is a sample local action',
+            label: 'localAction',
+            locationX: 667,
+            locationY: 661,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            actionType: 'component',
+            actionName: 'c:localActionSample',
+            dataTypeMappings: [],
+            inputParameters: [
+                {
+                    rowIndex: '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
+                    name: 'subject',
+                    value: 'team',
+                    valueDataType: 'String'
+                },
+                {
+                    rowIndex: '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+                    name: 'greeting',
+                    value: 'hello',
+                    valueDataType: 'String'
+                }
+            ],
+            outputParameters: [],
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'ActionCall',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false,
+            flowTransactionModel: 'CurrentTransaction'
         },
         '7ab29c0c-3dbf-4f99-a94c-311ef891973f': {
             guid: '7ab29c0c-3dbf-4f99-a94c-311ef891973f',
+            name: 'assign_W_7251820',
+            description: '',
+            label: 'assign-W-7251820',
+            locationX: 1479,
+            locationY: 216,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            assignmentItems: [
+                {
+                    rowIndex: '85d76151-9bec-4869-b691-791baf964b4f',
+                    leftHandSide: 'aef5864b-0e6b-4c61-9fe8-a2db15831cd6.AccountNumber',
+                    rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2.AccountNumber',
+                    rightHandSideDataType: 'reference',
+                    operator: 'Assign'
+                },
+                {
+                    rowIndex: 'bb597c66-db1e-4636-85b6-31f89b320bd4',
+                    leftHandSide: 'aef5864b-0e6b-4c61-9fe8-a2db15831cd6',
+                    rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+                    rightHandSideDataType: 'reference',
+                    operator: 'Assign'
+                }
+            ],
+            maxConnections: 1,
+            elementType: 'Assignment'
+        },
+        '700b8f1c-98eb-48ea-90f0-35e1a864a1a8': {
+            guid: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
             name: 'assignment1',
             description: '',
             label: 'assignment1Label',
@@ -696,43 +747,9 @@ export const flowWithAllElementsUIModel = {
             },
             assignmentItems: [
                 {
-                    rowIndex: '85d76151-9bec-4869-b691-791baf964b4f',
-                    leftHandSide: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
-                    rightHandSide: '9d11ba05-33c4-4893-87b8-9560be9557d2',
-                    rightHandSideDataType: 'reference',
-                    operator: 'Assign'
-                }
-            ],
-            maxConnections: 1,
-            elementType: 'Assignment'
-        },
-        'bb597c66-db1e-4636-85b6-31f89b320bd4': {
-            guid: 'bb597c66-db1e-4636-85b6-31f89b320bd4',
-            name: 'assign_W_7251820',
-            description: '',
-            label: 'assign-W-7251820',
-            locationX: 1479,
-            locationY: 216.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            assignmentItems: [
-                {
-                    rowIndex: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
-                    leftHandSide: 'ac66cdf6-9167-4628-8faa-079f39e2e32b.AccountNumber',
-                    rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2.AccountNumber',
-                    rightHandSideDataType: 'reference',
-                    operator: 'Assign'
-                },
-                {
                     rowIndex: 'e653d56e-898d-4e69-87c3-07338d100647',
-                    leftHandSide: 'ac66cdf6-9167-4628-8faa-079f39e2e32b',
-                    rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+                    leftHandSide: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d',
+                    rightHandSide: 'c518ac20-1202-42a6-ac3d-cfc8b707f4c3',
                     rightHandSideDataType: 'reference',
                     operator: 'Assign'
                 }
@@ -742,11 +759,11 @@ export const flowWithAllElementsUIModel = {
         },
         '956ee0bf-ff21-44f4-9917-65676160e094': {
             guid: '956ee0bf-ff21-44f4-9917-65676160e094',
-            name: 'decision1',
+            name: 'decision',
             description: '',
-            label: 'decision1',
-            locationX: 313,
-            locationY: 801,
+            label: 'decision',
+            locationX: 1050,
+            locationY: 472,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -775,17 +792,17 @@ export const flowWithAllElementsUIModel = {
         },
         '69030d84-1e7f-49c3-ad89-ddc4db69050a': {
             guid: '69030d84-1e7f-49c3-ad89-ddc4db69050a',
-            name: 'outcome1',
-            label: 'outcome1',
+            name: 'outcome',
+            label: 'outcome',
             elementType: 'OUTCOME',
             dataType: 'Boolean',
             conditionLogic: 'and',
             conditions: [
                 {
                     rowIndex: 'dd4270aa-df83-4942-ac0f-37ce8072ccaa',
-                    leftHandSide: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
-                    rightHandSide: 'text',
-                    rightHandSideDataType: 'String',
+                    leftHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+                    rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+                    rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 }
             ],
@@ -793,11 +810,11 @@ export const flowWithAllElementsUIModel = {
         },
         'e8161f40-c0f6-4ad8-87ca-942a76a014f2': {
             guid: 'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
-            name: 'decision',
+            name: 'decision1',
             description: '',
-            label: 'decision',
-            locationX: 1050,
-            locationY: 472.3125,
+            label: 'decision1',
+            locationX: 313,
+            locationY: 801,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -826,17 +843,17 @@ export const flowWithAllElementsUIModel = {
         },
         'a8368340-a386-4406-9118-02389237ad54': {
             guid: 'a8368340-a386-4406-9118-02389237ad54',
-            name: 'outcome',
-            label: 'outcome',
+            name: 'outcome1',
+            label: 'outcome1',
             elementType: 'OUTCOME',
             dataType: 'Boolean',
             conditionLogic: 'and',
             conditions: [
                 {
                     rowIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
-                    leftHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
-                    rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
-                    rightHandSideDataType: 'reference',
+                    leftHandSide: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d',
+                    rightHandSide: 'text',
+                    rightHandSideDataType: 'String',
                     operator: 'EqualTo'
                 }
             ],
@@ -848,7 +865,7 @@ export const flowWithAllElementsUIModel = {
             description: 'a text formula',
             expression: 'IF({!d1fda889-4f3a-48cd-ba79-be4fbca04da2.AnnualRevenue} < 1000000,"Small", "Big")',
             dataType: 'String',
-            scale: 2,
+            scale: 0,
             elementType: 'Formula'
         },
         '90da6513-4272-44d6-9f80-4cfc29acc5a3': {
@@ -885,14 +902,14 @@ export const flowWithAllElementsUIModel = {
         },
         '34ff5f58-8d99-470d-a755-a2aa0dc69f59': {
             guid: '34ff5f58-8d99-470d-a755-a2aa0dc69f59',
-            name: 'apexSampleCollectionVariable',
+            name: 'apexCarVariable',
             description: '',
             elementType: 'Variable',
-            isCollection: true,
+            isCollection: false,
             isInput: false,
             isOutput: false,
             dataType: 'Apex',
-            subtype: 'MyApexClass',
+            subtype: 'Car',
             subtypeIndex: 'ade42d1f-d120-4ff9-9888-c202b289571c',
             scale: 0,
             defaultValue: null,
@@ -901,14 +918,14 @@ export const flowWithAllElementsUIModel = {
         },
         'a733e74b-1a25-43dc-b43c-d126c849023d': {
             guid: 'a733e74b-1a25-43dc-b43c-d126c849023d',
-            name: 'apexSampleVariable',
+            name: 'apexComplexTypeCollectionVariable',
             description: '',
             elementType: 'Variable',
-            isCollection: false,
+            isCollection: true,
             isInput: false,
             isOutput: false,
             dataType: 'Apex',
-            subtype: 'MyApexClass',
+            subtype: 'ApexComplexTypeTestOne216',
             subtypeIndex: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b',
             scale: 0,
             defaultValue: null,
@@ -917,14 +934,14 @@ export const flowWithAllElementsUIModel = {
         },
         'bebf0e8d-339f-4227-ab7e-84d7c15daf07': {
             guid: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
-            name: 'caseSObjectVariable',
+            name: 'apexComplexTypeTwoVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Case',
+            dataType: 'Apex',
+            subtype: 'ApexComplexTypeTestTwo216',
             subtypeIndex: 'b93ea139-c9df-49cb-a42e-52c5f496ab07',
             scale: 0,
             defaultValue: null,
@@ -933,14 +950,14 @@ export const flowWithAllElementsUIModel = {
         },
         'ebedaf4c-b899-4660-bf34-b2c569bda3c9': {
             guid: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9',
-            name: 'caseSObjectCollectionVariable',
+            name: 'apexComplexTypeVariable',
             description: '',
             elementType: 'Variable',
-            isCollection: true,
+            isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Case',
+            dataType: 'Apex',
+            subtype: 'ApexComplexTypeTestOne216',
             subtypeIndex: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
             scale: 0,
             defaultValue: null,
@@ -949,14 +966,14 @@ export const flowWithAllElementsUIModel = {
         },
         '6afc7b95-a112-4bd0-99e6-4114704080f2': {
             guid: '6afc7b95-a112-4bd0-99e6-4114704080f2',
-            name: 'contactSObjectVariable',
+            name: 'apexContainsOnlyAnSObjectCollectionVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Contact',
+            dataType: 'Apex',
+            subtype: 'ApexContainsOnlyAnSObjectCollection',
             subtypeIndex: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
             scale: 0,
             defaultValue: null,
@@ -965,14 +982,14 @@ export const flowWithAllElementsUIModel = {
         },
         '3147a31d-26a3-408c-b00b-a31983df0da5': {
             guid: '3147a31d-26a3-408c-b00b-a31983df0da5',
-            name: 'campaignSObjectVariable',
+            name: 'apexContainsOnlyASingleSObjectVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Campaign',
+            dataType: 'Apex',
+            subtype: 'ApexContainsOnlyASingleSObject',
             subtypeIndex: 'eb19f518-e185-488c-a5b2-9107036766f4',
             scale: 0,
             defaultValue: null,
@@ -981,14 +998,14 @@ export const flowWithAllElementsUIModel = {
         },
         '34eaa6ff-765e-4c12-8635-b00f6c7f2c34': {
             guid: '34eaa6ff-765e-4c12-8635-b00f6c7f2c34',
-            name: 'opportunitySObjectCollectionVariable',
+            name: 'apexSampleCollectionVariable',
             description: '',
             elementType: 'Variable',
             isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Opportunity',
+            dataType: 'Apex',
+            subtype: 'MyApexClass',
             subtypeIndex: 'ba8a8e41-3944-4099-9655-065f054e811f',
             scale: 0,
             defaultValue: null,
@@ -997,14 +1014,14 @@ export const flowWithAllElementsUIModel = {
         },
         '97a7048c-7323-4356-93c4-30995cf2c8c7': {
             guid: '97a7048c-7323-4356-93c4-30995cf2c8c7',
-            name: 'opportunitySObjectVariable',
+            name: 'apexSampleVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'SObject',
-            subtype: 'Opportunity',
+            dataType: 'Apex',
+            subtype: 'MyApexClass',
             subtypeIndex: '9b2579d0-01d3-45b0-b6b2-bb016b085511',
             scale: 0,
             defaultValue: null,
@@ -1013,30 +1030,30 @@ export const flowWithAllElementsUIModel = {
         },
         '88a32730-b8ce-4cdd-b44c-9ad6bd1992e9': {
             guid: '88a32730-b8ce-4cdd-b44c-9ad6bd1992e9',
-            name: 'currencyVariable',
-            description: 'randomDescription',
+            name: 'campaignSObjectVariable',
+            description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'Currency',
-            subtype: null,
+            dataType: 'SObject',
+            subtype: 'Campaign',
             subtypeIndex: '48cb0159-3cde-48ad-9877-644e3cc4b5e9',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'f35bd1d9-bafd-4fc9-b682-2d2557f8f796'
         },
         '88a32528-0dfa-4237-b9dd-a14c1a6d6d10': {
             guid: '88a32528-0dfa-4237-b9dd-a14c1a6d6d10',
-            name: 'dateCollectionVariable',
+            name: 'caseSObjectCollectionVariable',
             description: '',
             elementType: 'Variable',
             isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'Date',
-            subtype: null,
+            dataType: 'SObject',
+            subtype: 'Case',
             subtypeIndex: 'e5b4998c-a36e-407f-afb7-2301eda53b8d',
             scale: 0,
             defaultValue: null,
@@ -1045,14 +1062,14 @@ export const flowWithAllElementsUIModel = {
         },
         '2635dcd9-5d1d-4d46-b683-eabd7059690c': {
             guid: '2635dcd9-5d1d-4d46-b683-eabd7059690c',
-            name: 'dateVariable',
+            name: 'caseSObjectVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'Date',
-            subtype: null,
+            dataType: 'SObject',
+            subtype: 'Case',
             subtypeIndex: '54aae715-8881-4a52-b7a9-25c385d1488e',
             scale: 0,
             defaultValue: null,
@@ -1061,14 +1078,14 @@ export const flowWithAllElementsUIModel = {
         },
         'e4d3dab7-2c92-4d49-9a88-dc16a54d8ea9': {
             guid: 'e4d3dab7-2c92-4d49-9a88-dc16a54d8ea9',
-            name: 'feedItemVariable',
+            name: 'contactSObjectVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
             dataType: 'SObject',
-            subtype: 'FeedItem',
+            subtype: 'Contact',
             subtypeIndex: '8d53a0e4-6541-42d0-9ea1-665b504fd150',
             scale: 0,
             defaultValue: null,
@@ -1077,13 +1094,13 @@ export const flowWithAllElementsUIModel = {
         },
         '9d11ba05-33c4-4893-87b8-9560be9557d2': {
             guid: '9d11ba05-33c4-4893-87b8-9560be9557d2',
-            name: 'numberVariable',
-            description: '',
+            name: 'currencyVariable',
+            description: 'randomDescription',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'Number',
+            dataType: 'Currency',
             subtype: null,
             subtypeIndex: 'ead8ca09-bffd-47ee-93c2-7ebeaf14def2',
             scale: 2,
@@ -1093,13 +1110,13 @@ export const flowWithAllElementsUIModel = {
         },
         '5e2803c7-a184-465c-92e3-1d29634f2114': {
             guid: '5e2803c7-a184-465c-92e3-1d29634f2114',
-            name: 'stringCollectionVariable1',
+            name: 'dateCollectionVariable',
             description: '',
             elementType: 'Variable',
             isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'String',
+            dataType: 'Date',
             subtype: null,
             subtypeIndex: 'd050fa16-f494-4685-a87f-3c68666d1ba8',
             scale: 0,
@@ -1109,13 +1126,13 @@ export const flowWithAllElementsUIModel = {
         },
         '2d1ada73-88e9-4cf4-a814-dcba8d517104': {
             guid: '2d1ada73-88e9-4cf4-a814-dcba8d517104',
-            name: 'stringCollectionVariable2',
+            name: 'dateVariable',
             description: '',
             elementType: 'Variable',
-            isCollection: true,
+            isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'String',
+            dataType: 'Date',
             subtype: null,
             subtypeIndex: '76bbf8c2-9a5e-4a03-a84f-a518866d7963',
             scale: 0,
@@ -1125,30 +1142,30 @@ export const flowWithAllElementsUIModel = {
         },
         '756e3b06-1ee6-4f8e-82b2-ce141c9405db': {
             guid: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
-            name: 'stringVariable',
-            description: 'random description',
-            elementType: 'Variable',
-            isCollection: false,
-            isInput: false,
-            isOutput: false,
-            dataType: 'String',
-            subtype: null,
-            subtypeIndex: 'f8b3b3b3-2a93-4a2c-8630-815b2797aaa7',
-            scale: 0,
-            defaultValue: 'fooDefault',
-            defaultValueDataType: 'String',
-            defaultValueIndex: 'fcf61595-af2e-4982-9607-5de1c2819fab'
-        },
-        'c518ac20-1202-42a6-ac3d-cfc8b707f4c3': {
-            guid: 'c518ac20-1202-42a6-ac3d-cfc8b707f4c3',
-            name: 'apexCarVariable',
+            name: 'feedItemVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'Apex',
-            subtype: 'Car',
+            dataType: 'SObject',
+            subtype: 'FeedItem',
+            subtypeIndex: 'f8b3b3b3-2a93-4a2c-8630-815b2797aaa7',
+            scale: 0,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: 'fcf61595-af2e-4982-9607-5de1c2819fab'
+        },
+        'c518ac20-1202-42a6-ac3d-cfc8b707f4c3': {
+            guid: 'c518ac20-1202-42a6-ac3d-cfc8b707f4c3',
+            name: 'numberVariable',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'Number',
+            subtype: null,
             subtypeIndex: '1283ede6-414b-45a2-851a-1b113f26bffd',
             scale: 2,
             defaultValue: null,
@@ -1157,102 +1174,86 @@ export const flowWithAllElementsUIModel = {
         },
         'd7b1d0e5-68d7-4734-b1d1-01247631d93f': {
             guid: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f',
-            name: 'apexComplexTypeVariable',
+            name: 'opportunitySObjectCollectionVariable',
             description: '',
             elementType: 'Variable',
-            isCollection: false,
+            isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'Apex',
-            subtype: 'ApexComplexTypeTestOne216',
+            dataType: 'SObject',
+            subtype: 'Opportunity',
             subtypeIndex: '37c4575e-32f8-46d9-aeea-737953c256b2',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: '476ffd9b-6322-4bfa-969e-0d63bce36f32'
         },
         '97e556fe-63c0-4426-9421-b3dc0d5a74aa': {
             guid: '97e556fe-63c0-4426-9421-b3dc0d5a74aa',
-            name: 'vAccountIdFromCreate',
+            name: 'opportunitySObjectVariable',
             description: '',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'String',
-            subtype: null,
+            dataType: 'SObject',
+            subtype: 'Opportunity',
             subtypeIndex: '8e3cf25f-1ce2-48c8-9634-b192b94ae230',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'e9417fd7-2e24-495f-a4af-6ca687957ef6'
         },
         'e502e40a-7dfc-4e71-8a42-c491f86a560a': {
             guid: 'e502e40a-7dfc-4e71-8a42-c491f86a560a',
-            name: 'apexComplexTypeCollectionVariable',
+            name: 'stringCollectionVariable1',
             description: '',
             elementType: 'Variable',
             isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'Apex',
-            subtype: 'ApexComplexTypeTestOne216',
+            dataType: 'String',
+            subtype: null,
             subtypeIndex: '3d47c47d-df60-4f92-85c8-71982afd9938',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'cea1a8e6-1cb0-4b2f-9549-2610c8b61f78'
         },
         'b2eef3a8-57d5-42b7-ad31-c9923cd8a782': {
             guid: 'b2eef3a8-57d5-42b7-ad31-c9923cd8a782',
-            name: 'apexContainsOnlyASingleSObjectVariable',
+            name: 'stringCollectionVariable2',
             description: '',
             elementType: 'Variable',
-            isCollection: false,
+            isCollection: true,
             isInput: false,
             isOutput: false,
-            dataType: 'Apex',
-            subtype: 'ApexContainsOnlyASingleSObject',
+            dataType: 'String',
+            subtype: null,
             subtypeIndex: '1f6554e7-ca93-491c-979c-1e2b8fcc563f',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: '0883ba56-46a4-4420-8105-c9d17ad0183b'
         },
         'f79b5397-57f9-426b-aa00-5ef1b8b8f75d': {
             guid: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d',
-            name: 'apexContainsOnlyAnSObjectCollectionVariable',
-            description: '',
+            name: 'stringVariable',
+            description: 'random description',
             elementType: 'Variable',
             isCollection: false,
             isInput: false,
             isOutput: false,
-            dataType: 'Apex',
-            subtype: 'ApexContainsOnlyAnSObjectCollection',
+            dataType: 'String',
+            subtype: null,
             subtypeIndex: '42afe63b-0744-4dec-a7e6-20c67691dd81',
-            scale: 2,
-            defaultValue: null,
-            defaultValueDataType: null,
+            scale: 0,
+            defaultValue: 'fooDefault',
+            defaultValueDataType: 'String',
             defaultValueIndex: '02504510-b361-4fb3-878e-81925a76160f'
         },
         '26b1d461-e66e-41c7-bb0e-5c86b04280db': {
             guid: '26b1d461-e66e-41c7-bb0e-5c86b04280db',
-            name: 'apexComplexTypeTwoVariable',
-            description: '',
-            elementType: 'Variable',
-            isCollection: false,
-            isInput: false,
-            isOutput: false,
-            dataType: 'Apex',
-            subtype: 'ApexComplexTypeTestTwo216',
-            subtypeIndex: '8ca42594-136e-4ab4-b3d6-ff72c2c0dc2e',
-            scale: 2,
-            defaultValue: null,
-            defaultValueDataType: null,
-            defaultValueIndex: '4d5723fe-7d36-4044-8f59-1f6da02eacbe'
-        },
-        '41a189ff-01f4-4018-b75c-3f363b65cc42': {
-            guid: '41a189ff-01f4-4018-b75c-3f363b65cc42',
             name: 'vAccountId',
             description: '',
             elementType: 'Variable',
@@ -1261,8 +1262,24 @@ export const flowWithAllElementsUIModel = {
             isOutput: false,
             dataType: 'String',
             subtype: null,
+            subtypeIndex: '8ca42594-136e-4ab4-b3d6-ff72c2c0dc2e',
+            scale: 0,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: '4d5723fe-7d36-4044-8f59-1f6da02eacbe'
+        },
+        '41a189ff-01f4-4018-b75c-3f363b65cc42': {
+            guid: '41a189ff-01f4-4018-b75c-3f363b65cc42',
+            name: 'vAccountIdFromCreate',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'String',
+            subtype: null,
             subtypeIndex: '796969f1-a892-4b16-836e-209180057a2b',
-            scale: 2,
+            scale: 0,
             defaultValue: null,
             defaultValueDataType: null,
             defaultValueIndex: 'b3a76739-4414-41d2-984e-e44bca6402c6'
@@ -1282,7 +1299,7 @@ export const flowWithAllElementsUIModel = {
             name: 'textTemplate1',
             description: '',
             elementType: 'TextTemplate',
-            text: '<p>Hello {!756e3b06-1ee6-4f8e-82b2-ce141c9405db}</p>',
+            text: '<p>Hello {!f79b5397-57f9-426b-aa00-5ef1b8b8f75d}</p>',
             dataType: 'String',
             isViewedAsPlainText: false
         },
@@ -1301,7 +1318,7 @@ export const flowWithAllElementsUIModel = {
             description: '',
             label: 'subflowAutomaticOutput',
             locationX: 1170,
-            locationY: 507.1062469482422,
+            locationY: 507,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1325,111 +1342,13 @@ export const flowWithAllElementsUIModel = {
             storeOutputAutomatically: true,
             dataType: 'SubflowOutput'
         },
-        '013c0515-5f96-493f-bf5b-3d261350a4e6': {
-            guid: '013c0515-5f96-493f-bf5b-3d261350a4e6',
-            name: 'createAccountWithAutomaticOutput',
-            description: '',
-            label: 'createAccountWithAutomaticOutput',
-            locationX: 1350,
-            locationY: 530,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            object: 'Account',
-            objectIndex: 'cf176378-9ab0-436f-a161-079057c789f4',
-            inputAssignments: [
-                {
-                    rowIndex: '583e40d5-e735-4d8c-8f30-097d48de7ec8',
-                    leftHandSide: 'Account.Name',
-                    rightHandSide: 'my Account test',
-                    rightHandSideDataType: 'String'
-                },
-                {
-                    rowIndex: 'e41bbbb0-08ee-40bf-ab4a-810a34f151a1',
-                    leftHandSide: 'Account.BillingCountry',
-                    rightHandSide: 'France',
-                    rightHandSideDataType: 'String'
-                }
-            ],
-            getFirstRecordOnly: true,
-            inputReference: '',
-            inputReferenceIndex: '201c3554-f05a-4fff-8482-1495f16e2f8b',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'RecordCreate',
-            assignRecordIdToReference: '',
-            assignRecordIdToReferenceIndex: '27cfbe21-2aa1-4503-aa13-3677c687153d',
-            dataType: 'String',
-            storeOutputAutomatically: true
-        },
-        '58d4a602-1abb-46e4-8c10-54c225dd56af': {
-            guid: '58d4a602-1abb-46e4-8c10-54c225dd56af',
-            name: 'createAccountWithAdvancedOptions',
-            description: '',
-            label: 'createAccountWithAdvancedOptions',
-            locationX: 1059,
-            locationY: 669,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            object: 'Account',
-            objectIndex: 'aa0ba870-d79b-48cb-a7ec-bc9441a7b635',
-            inputAssignments: [
-                {
-                    rowIndex: '9189cb3c-2245-4cfb-aabe-c2e979f15c6d',
-                    leftHandSide: 'Account.Name',
-                    rightHandSide: 'my test account',
-                    rightHandSideDataType: 'String'
-                },
-                {
-                    rowIndex: '048203c3-6751-4189-b9ab-939f0ef6d7d3',
-                    leftHandSide: 'Account.BillingCountry',
-                    rightHandSide: 'France',
-                    rightHandSideDataType: 'String'
-                }
-            ],
-            getFirstRecordOnly: true,
-            inputReference: '',
-            inputReferenceIndex: '940c4a6d-ab72-4477-8d60-f9f696d2bfd7',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            maxConnections: 2,
-            elementType: 'RecordCreate',
-            assignRecordIdToReference: '97e556fe-63c0-4426-9421-b3dc0d5a74aa',
-            assignRecordIdToReferenceIndex: 'd385d33b-7ce5-4c7a-a867-690dfb63ea97',
-            dataType: 'Boolean',
-            storeOutputAutomatically: false
-        },
         'df72b5ae-20df-4ebf-9c93-3f87b91d7791': {
             guid: 'df72b5ae-20df-4ebf-9c93-3f87b91d7791',
-            name: 'createFromAnAccount',
+            name: 'create_multiple_from_apex_two_level_traversal',
             description: '',
-            label: 'createFromAnAccount',
-            locationX: 1501,
-            locationY: 533,
+            label: 'create multiple from apex two level traversal',
+            locationX: 177,
+            locationY: 297,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1440,8 +1359,8 @@ export const flowWithAllElementsUIModel = {
             },
             object: '',
             objectIndex: '652434b1-40e0-404e-9e4d-e6864e4f8bdb',
-            getFirstRecordOnly: true,
-            inputReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+            getFirstRecordOnly: false,
+            inputReference: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07.testOne.acctListField',
             inputReferenceIndex: 'b0d41663-ba7b-4020-8f88-6c83151e3a83',
             availableConnections: [
                 {
@@ -1456,13 +1375,111 @@ export const flowWithAllElementsUIModel = {
             assignRecordIdToReferenceIndex: 'a339198f-0294-4416-a67a-2782d735acad',
             dataType: 'Boolean'
         },
+        '583e40d5-e735-4d8c-8f30-097d48de7ec8': {
+            guid: '583e40d5-e735-4d8c-8f30-097d48de7ec8',
+            name: 'createAccountWithAdvancedOptions',
+            description: '',
+            label: 'createAccountWithAdvancedOptions',
+            locationX: 1059,
+            locationY: 669,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: '58d4a602-1abb-46e4-8c10-54c225dd56af',
+            inputAssignments: [
+                {
+                    rowIndex: 'aa0ba870-d79b-48cb-a7ec-bc9441a7b635',
+                    leftHandSide: 'Account.BillingCountry',
+                    rightHandSide: 'France',
+                    rightHandSideDataType: 'String'
+                },
+                {
+                    rowIndex: 'd385d33b-7ce5-4c7a-a867-690dfb63ea97',
+                    leftHandSide: 'Account.Name',
+                    rightHandSide: 'my test account',
+                    rightHandSideDataType: 'String'
+                }
+            ],
+            getFirstRecordOnly: true,
+            inputReference: '',
+            inputReferenceIndex: 'e41bbbb0-08ee-40bf-ab4a-810a34f151a1',
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'RecordCreate',
+            assignRecordIdToReference: '41a189ff-01f4-4018-b75c-3f363b65cc42',
+            assignRecordIdToReferenceIndex: '940c4a6d-ab72-4477-8d60-f9f696d2bfd7',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false
+        },
+        '9189cb3c-2245-4cfb-aabe-c2e979f15c6d': {
+            guid: '9189cb3c-2245-4cfb-aabe-c2e979f15c6d',
+            name: 'createAccountWithAutomaticOutput',
+            description: '',
+            label: 'createAccountWithAutomaticOutput',
+            locationX: 1350,
+            locationY: 530,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: 'f317c423-f755-4d64-bd4a-e218107b57db',
+            inputAssignments: [
+                {
+                    rowIndex: '1669c1f5-9872-461f-a826-b4fa64d902dd',
+                    leftHandSide: 'Account.BillingCountry',
+                    rightHandSide: 'France',
+                    rightHandSideDataType: 'String'
+                },
+                {
+                    rowIndex: '9c51615d-c61a-46f7-b26a-7157f6908b21',
+                    leftHandSide: 'Account.Name',
+                    rightHandSide: 'my Account test',
+                    rightHandSideDataType: 'String'
+                }
+            ],
+            getFirstRecordOnly: true,
+            inputReference: '',
+            inputReferenceIndex: '048203c3-6751-4189-b9ab-939f0ef6d7d3',
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            maxConnections: 2,
+            elementType: 'RecordCreate',
+            assignRecordIdToReference: '',
+            assignRecordIdToReferenceIndex: '794b3296-5246-473a-b618-584b8956809c',
+            dataType: 'String',
+            storeOutputAutomatically: true
+        },
         '5bd09db6-7e3f-41e3-a0c7-dbef33840655': {
             guid: '5bd09db6-7e3f-41e3-a0c7-dbef33840655',
-            name: 'createFromMultipleAccounts',
+            name: 'createFromAnAccount',
             description: '',
-            label: 'createFromMultipleAccounts',
-            locationX: 1508,
-            locationY: 662,
+            label: 'createFromAnAccount',
+            locationX: 1501,
+            locationY: 533,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1473,8 +1490,8 @@ export const flowWithAllElementsUIModel = {
             },
             object: '',
             objectIndex: '0d21d5a2-6e85-4023-8e2b-846d05bfb367',
-            getFirstRecordOnly: false,
-            inputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
+            getFirstRecordOnly: true,
+            inputReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
             inputReferenceIndex: '4be9885e-987b-4fab-b204-58dd28d0829c',
             availableConnections: [
                 {
@@ -1491,11 +1508,11 @@ export const flowWithAllElementsUIModel = {
         },
         '55c07deb-dcd5-45e2-ad9a-c80b7bc17362': {
             guid: '55c07deb-dcd5-45e2-ad9a-c80b7bc17362',
-            name: 'withApexDefSingleSObjectVariable',
+            name: 'createFromMultipleAccounts',
             description: '',
-            label: 'withApexDefSingleSObjectVariable',
-            locationX: 1211,
-            locationY: 668.3125,
+            label: 'createFromMultipleAccounts',
+            locationX: 1508,
+            locationY: 662,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1506,8 +1523,8 @@ export const flowWithAllElementsUIModel = {
             },
             object: '',
             objectIndex: '096f6fc9-8bb1-4738-9365-5e8fd66eaa14',
-            getFirstRecordOnly: true,
-            inputReference: 'b2eef3a8-57d5-42b7-ad31-c9923cd8a782.account',
+            getFirstRecordOnly: false,
+            inputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
             inputReferenceIndex: 'f8d71fe5-b8d5-4def-b47b-dd4aef4b47dc',
             availableConnections: [
                 {
@@ -1524,11 +1541,11 @@ export const flowWithAllElementsUIModel = {
         },
         'df134372-8b3c-4bbd-875a-7513e76bec39': {
             guid: 'df134372-8b3c-4bbd-875a-7513e76bec39',
-            name: 'withApexDefSObjectCollectionVariable',
+            name: 'withApexDefSingleSObjectVariable',
             description: '',
-            label: 'withApexDefSObjectCollectionVariable',
-            locationX: 1363,
-            locationY: 665,
+            label: 'withApexDefSingleSObjectVariable',
+            locationX: 1211,
+            locationY: 668,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1539,8 +1556,8 @@ export const flowWithAllElementsUIModel = {
             },
             object: '',
             objectIndex: 'ba867a87-724c-4775-963b-2fc43169444f',
-            getFirstRecordOnly: false,
-            inputReference: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d.accounts',
+            getFirstRecordOnly: true,
+            inputReference: '3147a31d-26a3-408c-b00b-a31983df0da5.account',
             inputReferenceIndex: 'fd3f7f93-d285-4327-ad6d-2b080ee334b2',
             availableConnections: [
                 {
@@ -1557,11 +1574,11 @@ export const flowWithAllElementsUIModel = {
         },
         'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7': {
             guid: 'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7',
-            name: 'create_multiple_from_apex_two_level_traversal',
+            name: 'withApexDefSObjectCollectionVariable',
             description: '',
-            label: 'create multiple from apex two level traversal',
-            locationX: 177,
-            locationY: 297.3125,
+            label: 'withApexDefSObjectCollectionVariable',
+            locationX: 1363,
+            locationY: 665,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1570,11 +1587,10 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             object: '',
             objectIndex: '363280ef-e5f4-414b-9988-1200b330e5cb',
             getFirstRecordOnly: false,
-            inputReference: '26b1d461-e66e-41c7-bb0e-5c86b04280db.testOne.acctListField',
+            inputReference: '6afc7b95-a112-4bd0-99e6-4114704080f2.accounts',
             inputReferenceIndex: '2e27b2ec-9bb9-493d-9151-d9022471680f',
             availableConnections: [
                 {
@@ -1589,109 +1605,13 @@ export const flowWithAllElementsUIModel = {
             assignRecordIdToReferenceIndex: 'fd01968e-736a-4bbf-9324-f6e7f915b6fe',
             dataType: 'Boolean'
         },
-        'ac66cdf6-9167-4628-8faa-079f39e2e32b': {
-            guid: 'ac66cdf6-9167-4628-8faa-079f39e2e32b',
-            name: 'lookupRecordAutomaticOutput',
-            description: '',
-            label: 'lookupRecordAutomaticOutput',
-            locationX: 467,
-            locationY: 984,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            object: 'Account',
-            objectIndex: '9fa9376a-5212-49a1-980b-ddca1dd82388',
-            filterLogic: 'no_conditions',
-            filters: [
-                {
-                    rowIndex: '26774e1d-4c9f-45f1-a426-89bad7c78eef',
-                    leftHandSide: '',
-                    rightHandSide: '',
-                    rightHandSideDataType: '',
-                    operator: ''
-                }
-            ],
-            queriedFields: null,
-            sortOrder: 'NotSorted',
-            sortField: '',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            elementType: 'RecordQuery',
-            outputReferenceIndex: 'b3ab254b-af11-4c5e-b0c5-949f27d4bccb',
-            dataType: 'SObject',
-            isCollection: false,
-            subtype: 'Account',
-            storeOutputAutomatically: true,
-            getFirstRecordOnly: true,
-            variableAndFieldMapping: 'automatic'
-        },
-        '777c097c-f3b9-4845-9418-b50d40eb2550': {
-            guid: '777c097c-f3b9-4845-9418-b50d40eb2550',
-            name: 'lookupRecordCollectionAutomaticOutput',
-            description: '',
-            label: 'lookupRecordCollectionAutomaticOutput',
-            locationX: 616,
-            locationY: 987,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            object: 'Account',
-            objectIndex: '16a960f8-b2e1-4481-aac8-cf744c4bf266',
-            filterLogic: 'no_conditions',
-            filters: [
-                {
-                    rowIndex: '554e2ae3-5e7f-4efc-9cdb-c6bc62fc7e14',
-                    leftHandSide: '',
-                    rightHandSide: '',
-                    rightHandSideDataType: '',
-                    operator: ''
-                }
-            ],
-            queriedFields: null,
-            sortOrder: 'NotSorted',
-            sortField: '',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            elementType: 'RecordQuery',
-            outputReferenceIndex: 'f6526a3c-c24b-49e8-a910-d99a8c8342b5',
-            dataType: 'SObject',
-            isCollection: true,
-            subtype: 'Account',
-            storeOutputAutomatically: true,
-            getFirstRecordOnly: false,
-            variableAndFieldMapping: 'automatic'
-        },
         '2aacf35d-91f7-42cc-a668-f0b682615d6b': {
             guid: '2aacf35d-91f7-42cc-a668-f0b682615d6b',
-            name: 'lookupRecordOutputReference',
+            name: 'get_account_into_apex_variable',
             description: '',
-            label: 'lookupRecordOutputReference',
-            locationX: 313,
-            locationY: 983,
+            label: 'get account into apex variable',
+            locationX: 157,
+            locationY: 465,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -1702,30 +1622,26 @@ export const flowWithAllElementsUIModel = {
             },
             object: 'Account',
             objectIndex: '9abf51ab-a289-45b0-853c-040be0ed9eb7',
-            outputReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
-            assignNullValuesIfNoRecordsFound: true,
-            filterLogic: 'and',
+            outputReference: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9.acct',
+            assignNullValuesIfNoRecordsFound: false,
+            filterLogic: 'no_conditions',
             filters: [
                 {
-                    rowIndex: 'db83d1da-0f30-4796-8075-843918cf6c01',
-                    leftHandSide: 'Account.BillingAddress',
-                    rightHandSide: 'San Francisco',
-                    rightHandSideDataType: 'String',
-                    operator: 'EqualTo'
+                    rowIndex: '5a93c395-dd94-498e-9383-50caf96c6748',
+                    leftHandSide: '',
+                    rightHandSide: '',
+                    rightHandSideDataType: '',
+                    operator: ''
                 }
             ],
             queriedFields: [
                 {
                     field: 'Id',
-                    rowIndex: 'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff'
-                },
-                {
-                    field: 'BillingAddress',
-                    rowIndex: '9aba628e-835b-448a-ac6b-a3764ac735b4'
+                    rowIndex: 'db83d1da-0f30-4796-8075-843918cf6c01'
                 }
             ],
-            sortOrder: 'Asc',
-            sortField: 'AnnualRevenue',
+            sortOrder: 'NotSorted',
+            sortField: '',
             maxConnections: 2,
             availableConnections: [
                 {
@@ -1742,8 +1658,61 @@ export const flowWithAllElementsUIModel = {
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
-        '8574a485-6312-4e06-820d-4b7a5f030f3a': {
-            guid: '8574a485-6312-4e06-820d-4b7a5f030f3a',
+        'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff': {
+            guid: 'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff',
+            name: 'get_accounts_into_apex_variable',
+            description: '',
+            label: 'get accounts into apex variable',
+            locationX: 166,
+            locationY: 175,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: '9aba628e-835b-448a-ac6b-a3764ac735b4',
+            outputReference: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9.acctListField',
+            assignNullValuesIfNoRecordsFound: false,
+            filterLogic: 'no_conditions',
+            filters: [
+                {
+                    rowIndex: '0dfdcc2f-0bb7-4357-80ed-337890bd89e6',
+                    leftHandSide: '',
+                    rightHandSide: '',
+                    rightHandSideDataType: '',
+                    operator: ''
+                }
+            ],
+            queriedFields: [
+                {
+                    field: 'Id',
+                    rowIndex: '0918a8eb-38a1-4294-b329-39aa5b0bbd13'
+                }
+            ],
+            sortOrder: 'NotSorted',
+            sortField: '',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            elementType: 'RecordQuery',
+            outputReferenceIndex: '016e92d2-b409-4a9d-89c0-50e637967cbc',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false,
+            getFirstRecordOnly: false,
+            variableAndFieldMapping: 'manual'
+        },
+        'b689132a-b516-47d0-9e51-03ea751c7cc9': {
+            guid: 'b689132a-b516-47d0-9e51-03ea751c7cc9',
             name: 'getAccountAutoWithFields',
             description: '',
             label: 'getAccountAutoWithFields',
@@ -1758,18 +1727,18 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             object: 'Account',
-            objectIndex: 'c7027d6d-66ae-440f-b340-0c652eaebe79',
+            objectIndex: '2ca03260-0885-4ffb-bb88-cf862f5d2cb4',
             filterLogic: 'and',
             filters: [
                 {
-                    rowIndex: 'd65a9682-db73-4ea7-8a38-9e2d8ee50d43',
+                    rowIndex: 'dc0f5b41-7ae2-4b45-9258-3a4cbacc745c',
                     leftHandSide: 'Account.BillingCity',
                     rightHandSide: 'Paris',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
                 },
                 {
-                    rowIndex: '553332e6-c579-49e7-8757-8044dd8b530f',
+                    rowIndex: '8574a485-6312-4e06-820d-4b7a5f030f3a',
                     leftHandSide: 'Account.BillingPostalCode',
                     rightHandSide: '75007',
                     rightHandSideDataType: 'String',
@@ -1779,11 +1748,11 @@ export const flowWithAllElementsUIModel = {
             queriedFields: [
                 {
                     field: 'Id',
-                    rowIndex: 'cb13b620-ebec-4c72-aff0-beebd24ef0c2'
+                    rowIndex: 'c7027d6d-66ae-440f-b340-0c652eaebe79'
                 },
                 {
                     field: 'Name',
-                    rowIndex: '9f2723ee-84ae-473a-b265-ebee9afa6697'
+                    rowIndex: '5a8a33e6-d476-45dc-b263-b3bae11ee715'
                 }
             ],
             sortOrder: 'Desc',
@@ -1798,7 +1767,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '5a8a33e6-d476-45dc-b263-b3bae11ee715',
+            outputReferenceIndex: '5041d41a-0822-4ddc-9685-8a09b840bb0d',
             dataType: 'SObject',
             isCollection: false,
             subtype: 'Account',
@@ -1806,8 +1775,80 @@ export const flowWithAllElementsUIModel = {
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manuallySelectFields'
         },
-        '8d06ba06-b0e4-4a15-ab56-651dc35a83a8': {
-            guid: '8d06ba06-b0e4-4a15-ab56-651dc35a83a8',
+        '0d02ed31-ffad-42ba-967f-5ebbbdb83dd5': {
+            guid: '0d02ed31-ffad-42ba-967f-5ebbbdb83dd5',
+            name: 'getAccountsAutomaticWithFieldsAndFilters',
+            description: 'Get Account Automatic output, with fields and filter',
+            label: 'getAccountsAutomaticWithFieldsAndFilters',
+            locationX: 460,
+            locationY: 1135,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: 'd65a9682-db73-4ea7-8a38-9e2d8ee50d43',
+            filterLogic: 'and',
+            filters: [
+                {
+                    rowIndex: '9f2723ee-84ae-473a-b265-ebee9afa6697',
+                    leftHandSide: 'Account.BillingCity',
+                    rightHandSide: 'San Francisco',
+                    rightHandSideDataType: 'String',
+                    operator: 'EqualTo'
+                },
+                {
+                    rowIndex: '8d06ba06-b0e4-4a15-ab56-651dc35a83a8',
+                    leftHandSide: 'Account.BillingCountry',
+                    rightHandSide: 'USA',
+                    rightHandSideDataType: 'String',
+                    operator: 'NotEqualTo'
+                }
+            ],
+            queriedFields: [
+                {
+                    field: 'Id',
+                    rowIndex: 'd6542367-8e40-4576-95aa-3baa12d98ac7'
+                },
+                {
+                    field: 'BillingAddress',
+                    rowIndex: '0a3d0031-d1de-4f69-9a41-c302eecc0ea5'
+                },
+                {
+                    field: 'Name',
+                    rowIndex: '76a209b0-66ab-4a14-ad73-56b02b937714'
+                },
+                {
+                    field: 'CreatedDate',
+                    rowIndex: '3606994f-008f-4e3a-a353-cc4f7fa75086'
+                }
+            ],
+            sortOrder: 'Desc',
+            sortField: 'Name',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            elementType: 'RecordQuery',
+            outputReferenceIndex: '553332e6-c579-49e7-8757-8044dd8b530f',
+            dataType: 'SObject',
+            isCollection: true,
+            subtype: 'Account',
+            storeOutputAutomatically: true,
+            getFirstRecordOnly: false,
+            variableAndFieldMapping: 'manuallySelectFields'
+        },
+        '3ce2bd36-67b8-4bc3-b144-1ba05ee7dafe': {
+            guid: '3ce2bd36-67b8-4bc3-b144-1ba05ee7dafe',
             name: 'getAccountSeparateFieldsWithFilters',
             description: 'Get account with filters, ordered by name and assign separate fields',
             label: 'getAccountSeparateFieldsWithFilters',
@@ -1822,10 +1863,10 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             object: 'Account',
-            objectIndex: 'd6542367-8e40-4576-95aa-3baa12d98ac7',
+            objectIndex: '123b2338-5cb1-4a98-966f-58a56114c1f6',
             outputAssignments: [
                 {
-                    rowIndex: '123b2338-5cb1-4a98-966f-58a56114c1f6',
+                    rowIndex: '5889818c-cb99-4524-a6fb-79c576f21d26',
                     leftHandSide: 'Account.BillingCity',
                     rightHandSide: 'Los Angeles'
                 }
@@ -1834,14 +1875,14 @@ export const flowWithAllElementsUIModel = {
             filterLogic: 'and',
             filters: [
                 {
-                    rowIndex: '3606994f-008f-4e3a-a353-cc4f7fa75086',
+                    rowIndex: '37cfa784-b1db-4323-8baa-51d1da0c010f',
                     leftHandSide: 'Account.BillingCity',
                     rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2.BillingCity',
                     rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 },
                 {
-                    rowIndex: '3ce2bd36-67b8-4bc3-b144-1ba05ee7dafe',
+                    rowIndex: 'e89486d4-cd00-4c09-b4f4-539075ae4924',
                     leftHandSide: 'Account.BillingCountry',
                     rightHandSide: 'USA',
                     rightHandSideDataType: 'String',
@@ -1861,199 +1902,19 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '0a3d0031-d1de-4f69-9a41-c302eecc0ea5',
+            outputReferenceIndex: '49bf649f-45c0-4d54-8533-93b51f9b557e',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
-        '49bf649f-45c0-4d54-8533-93b51f9b557e': {
-            guid: '49bf649f-45c0-4d54-8533-93b51f9b557e',
-            name: 'getAccountsAutomaticWithFieldsAndFilters',
-            description: 'Get Account Automatic output, with fields and filter',
-            label: 'getAccountsAutomaticWithFieldsAndFilters',
-            locationX: 460,
-            locationY: 1135,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            object: 'Account',
-            objectIndex: 'd51b4de8-82af-4bac-a2ec-3780738278d4',
-            filterLogic: 'and',
-            filters: [
-                {
-                    rowIndex: '5889818c-cb99-4524-a6fb-79c576f21d26',
-                    leftHandSide: 'Account.BillingCity',
-                    rightHandSide: 'San Francisco',
-                    rightHandSideDataType: 'String',
-                    operator: 'EqualTo'
-                },
-                {
-                    rowIndex: '7b9fc3ec-7a4b-4382-bd6b-b72405aece1f',
-                    leftHandSide: 'Account.BillingCountry',
-                    rightHandSide: 'USA',
-                    rightHandSideDataType: 'String',
-                    operator: 'NotEqualTo'
-                }
-            ],
-            queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '80b66606-d59f-4c14-a74e-c98a050c84bc'
-                },
-                {
-                    field: 'BillingAddress',
-                    rowIndex: '63212bdb-c6a5-4e99-85cf-9921d6fc834b'
-                },
-                {
-                    field: 'Name',
-                    rowIndex: '7b238465-d71b-489c-8223-425066aaf928'
-                },
-                {
-                    field: 'CreatedDate',
-                    rowIndex: '6f408b05-42aa-4ee2-8bbc-7756dcf10eac'
-                }
-            ],
-            sortOrder: 'Desc',
-            sortField: 'Name',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            elementType: 'RecordQuery',
-            outputReferenceIndex: '37cfa784-b1db-4323-8baa-51d1da0c010f',
-            dataType: 'SObject',
-            isCollection: true,
-            subtype: 'Account',
-            storeOutputAutomatically: true,
-            getFirstRecordOnly: false,
-            variableAndFieldMapping: 'manuallySelectFields'
-        },
-        '016e92d2-b409-4a9d-89c0-50e637967cbc': {
-            guid: '016e92d2-b409-4a9d-89c0-50e637967cbc',
-            name: 'get_account_into_apex_variable',
-            description: '',
-            label: 'get account into apex variable',
-            locationX: 157,
-            locationY: 465,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            elementSubtype: null,
-            object: 'Account',
-            objectIndex: '0dfdcc2f-0bb7-4357-80ed-337890bd89e6',
-            outputReference: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f.acct',
-            assignNullValuesIfNoRecordsFound: false,
-            filterLogic: 'no_conditions',
-            filters: [
-                {
-                    rowIndex: '91280889-13e2-4de0-8390-32d05b8918e5',
-                    leftHandSide: '',
-                    rightHandSide: '',
-                    rightHandSideDataType: '',
-                    operator: ''
-                }
-            ],
-            queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '5bb2cc21-9ba8-4d14-90b5-f81c92e919a8'
-                }
-            ],
-            sortOrder: 'NotSorted',
-            sortField: '',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            elementType: 'RecordQuery',
-            outputReferenceIndex: '0918a8eb-38a1-4294-b329-39aa5b0bbd13',
-            dataType: 'Boolean',
-            storeOutputAutomatically: false,
-            getFirstRecordOnly: true,
-            variableAndFieldMapping: 'manual'
-        },
-        '91f8d923-79e4-4a85-9621-3334fac4abe5': {
-            guid: '91f8d923-79e4-4a85-9621-3334fac4abe5',
-            name: 'get_accounts_into_apex_variable',
-            description: '',
-            label: 'get accounts into apex variable',
-            locationX: 166,
-            locationY: 175,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            elementSubtype: null,
-            object: 'Account',
-            objectIndex: '530b5897-614d-4b9d-9ee6-9d2ff19e26da',
-            outputReference: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f.acctListField',
-            assignNullValuesIfNoRecordsFound: false,
-            filterLogic: 'no_conditions',
-            filters: [
-                {
-                    rowIndex: '9b6b8f63-fff0-477e-92b7-3e315551288b',
-                    leftHandSide: '',
-                    rightHandSide: '',
-                    rightHandSideDataType: '',
-                    operator: ''
-                }
-            ],
-            queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: 'd6ff3600-dcdb-404b-8a8b-8a90226a575b'
-                }
-            ],
-            sortOrder: 'NotSorted',
-            sortField: '',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            elementType: 'RecordQuery',
-            outputReferenceIndex: 'e17f4b88-f725-4ebb-8d7b-78e179ea4c8c',
-            dataType: 'Boolean',
-            storeOutputAutomatically: false,
-            getFirstRecordOnly: false,
-            variableAndFieldMapping: 'manual'
-        },
-        'a5b1853e-6b7e-4568-9b24-37414be4b4d7': {
-            guid: 'a5b1853e-6b7e-4568-9b24-37414be4b4d7',
+        '91280889-13e2-4de0-8390-32d05b8918e5': {
+            guid: '91280889-13e2-4de0-8390-32d05b8918e5',
             name: 'lookupAccountsManual',
             description: '',
             label: 'lookupAccountsManual',
             locationX: 745,
-            locationY: 352.3125,
+            locationY: 352,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2062,15 +1923,14 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             object: 'Account',
-            objectIndex: '90845b6c-c12e-4689-adaf-19d8127d9f99',
+            objectIndex: '5bb2cc21-9ba8-4d14-90b5-f81c92e919a8',
             outputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
             assignNullValuesIfNoRecordsFound: false,
             filterLogic: 'no_conditions',
             filters: [
                 {
-                    rowIndex: '13cd8d8c-6bf4-4f50-95bb-32adde864b80',
+                    rowIndex: '530b5897-614d-4b9d-9ee6-9d2ff19e26da',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
@@ -2080,7 +1940,7 @@ export const flowWithAllElementsUIModel = {
             queriedFields: [
                 {
                     field: 'Id',
-                    rowIndex: '483bad31-107e-420d-8598-721d6db44c47'
+                    rowIndex: 'e17f4b88-f725-4ebb-8d7b-78e179ea4c8c'
                 }
             ],
             sortOrder: 'NotSorted',
@@ -2095,10 +1955,163 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '888dc04a-b0c7-49af-804a-8af6951151a0',
+            outputReferenceIndex: '91f8d923-79e4-4a85-9621-3334fac4abe5',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: false,
+            variableAndFieldMapping: 'manual'
+        },
+        'aef5864b-0e6b-4c61-9fe8-a2db15831cd6': {
+            guid: 'aef5864b-0e6b-4c61-9fe8-a2db15831cd6',
+            name: 'lookupRecordAutomaticOutput',
+            description: '',
+            label: 'lookupRecordAutomaticOutput',
+            locationX: 467,
+            locationY: 984,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: '46a0552e-a492-4f1a-8870-500c1a3feea3',
+            filterLogic: 'no_conditions',
+            filters: [
+                {
+                    rowIndex: '2a67f70a-85a0-4423-b788-60a8e66dd245',
+                    leftHandSide: '',
+                    rightHandSide: '',
+                    rightHandSideDataType: '',
+                    operator: ''
+                }
+            ],
+            queriedFields: null,
+            sortOrder: 'NotSorted',
+            sortField: '',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            elementType: 'RecordQuery',
+            outputReferenceIndex: '807ef621-63b9-43a5-abf0-4c3b81726be3',
+            dataType: 'SObject',
+            isCollection: false,
+            subtype: 'Account',
+            storeOutputAutomatically: true,
+            getFirstRecordOnly: true,
+            variableAndFieldMapping: 'automatic'
+        },
+        '42992316-8b74-4ffc-a6af-a48845db0e95': {
+            guid: '42992316-8b74-4ffc-a6af-a48845db0e95',
+            name: 'lookupRecordCollectionAutomaticOutput',
+            description: '',
+            label: 'lookupRecordCollectionAutomaticOutput',
+            locationX: 616,
+            locationY: 987,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: '876ef3ea-e716-462e-af8d-aa632dbfc72e',
+            filterLogic: 'no_conditions',
+            filters: [
+                {
+                    rowIndex: '79801a91-e263-46a7-9e2a-83a6e156dda0',
+                    leftHandSide: '',
+                    rightHandSide: '',
+                    rightHandSideDataType: '',
+                    operator: ''
+                }
+            ],
+            queriedFields: null,
+            sortOrder: 'NotSorted',
+            sortField: '',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            elementType: 'RecordQuery',
+            outputReferenceIndex: '8d846e45-cc1d-4e65-b9c5-35c5436a3252',
+            dataType: 'SObject',
+            isCollection: true,
+            subtype: 'Account',
+            storeOutputAutomatically: true,
+            getFirstRecordOnly: false,
+            variableAndFieldMapping: 'automatic'
+        },
+        '9b6b8f63-fff0-477e-92b7-3e315551288b': {
+            guid: '9b6b8f63-fff0-477e-92b7-3e315551288b',
+            name: 'lookupRecordOutputReference',
+            description: '',
+            label: 'lookupRecordOutputReference',
+            locationX: 313,
+            locationY: 983,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            object: 'Account',
+            objectIndex: 'd6ff3600-dcdb-404b-8a8b-8a90226a575b',
+            outputReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+            assignNullValuesIfNoRecordsFound: true,
+            filterLogic: 'and',
+            filters: [
+                {
+                    rowIndex: '888dc04a-b0c7-49af-804a-8af6951151a0',
+                    leftHandSide: 'Account.BillingAddress',
+                    rightHandSide: 'San Francisco',
+                    rightHandSideDataType: 'String',
+                    operator: 'EqualTo'
+                }
+            ],
+            queriedFields: [
+                {
+                    field: 'Id',
+                    rowIndex: '13cd8d8c-6bf4-4f50-95bb-32adde864b80'
+                },
+                {
+                    field: 'BillingAddress',
+                    rowIndex: '483bad31-107e-420d-8598-721d6db44c47'
+                }
+            ],
+            sortOrder: 'Asc',
+            sortField: 'AnnualRevenue',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            elementType: 'RecordQuery',
+            outputReferenceIndex: 'a5b1853e-6b7e-4568-9b24-37414be4b4d7',
+            dataType: 'Boolean',
+            storeOutputAutomatically: false,
+            getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
         'c62fed4b-ced5-4d6f-8a8f-5f5f5c525309': {
@@ -2107,7 +2120,7 @@ export const flowWithAllElementsUIModel = {
             description: '',
             label: 'deleteAccount',
             locationX: 955,
-            locationY: 469.359375,
+            locationY: 469,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2193,49 +2206,6 @@ export const flowWithAllElementsUIModel = {
         },
         'fda10f1b-f93e-46d5-99f0-e09f9c52c147': {
             guid: 'fda10f1b-f93e-46d5-99f0-e09f9c52c147',
-            name: 'updateSObject',
-            description: '',
-            label: 'updateSObject',
-            locationX: 744,
-            locationY: 831,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            inputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
-            inputReferenceIndex: 'af83b78a-15c7-4381-b2a8-e254552cfeab',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
-            elementType: 'RecordUpdate',
-            inputAssignments: [],
-            useSobject: true,
-            filters: [
-                {
-                    rowIndex: 'c9ebe244-887a-4821-811c-f9f17a670037',
-                    leftHandSide: '',
-                    rightHandSide: '',
-                    rightHandSideDataType: '',
-                    operator: ''
-                }
-            ],
-            filterLogic: 'and',
-            object: '',
-            objectIndex: 'dbfccfa4-49b4-4385-a998-4ac4e9d630aa',
-            dataType: 'Boolean'
-        },
-        'ed46d2ed-f940-4fbe-9b66-fba94ae66e70': {
-            guid: 'ed46d2ed-f940-4fbe-9b66-fba94ae66e70',
             name: 'updateAccountWithFilter',
             description: '',
             label: 'updateAccountWithFilter',
@@ -2250,7 +2220,7 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             inputReference: '',
-            inputReferenceIndex: '7f3aa0ed-17d0-4a43-b89a-395d3d6e609d',
+            inputReferenceIndex: 'af83b78a-15c7-4381-b2a8-e254552cfeab',
             maxConnections: 2,
             availableConnections: [
                 {
@@ -2263,36 +2233,36 @@ export const flowWithAllElementsUIModel = {
             elementType: 'RecordUpdate',
             inputAssignments: [
                 {
-                    rowIndex: '89b82177-0c9a-4fa3-a540-55212f1ea9d9',
-                    leftHandSide: 'Account.Name',
-                    rightHandSide: 'salesforce',
-                    rightHandSideDataType: 'String'
-                },
-                {
-                    rowIndex: '4ca8549b-0128-4a7d-91a6-e86a9a6b18ec',
+                    rowIndex: 'c9ebe244-887a-4821-811c-f9f17a670037',
                     leftHandSide: 'Account.BillingCity',
                     rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2.BillingCity',
                     rightHandSideDataType: 'reference'
+                },
+                {
+                    rowIndex: 'ed46d2ed-f940-4fbe-9b66-fba94ae66e70',
+                    leftHandSide: 'Account.Name',
+                    rightHandSide: 'salesforce',
+                    rightHandSideDataType: 'String'
                 }
             ],
             useSobject: false,
             filters: [
                 {
-                    rowIndex: '5a93e09a-856a-4540-a62f-239f61d7de50',
+                    rowIndex: '42935e07-8378-4994-9dfe-34d987e80fac',
                     leftHandSide: 'Account.BillingCity',
                     rightHandSide: 'San Francisco',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
                 },
                 {
-                    rowIndex: 'e46d1655-6558-4c7b-b828-b040906115b0',
+                    rowIndex: '89b82177-0c9a-4fa3-a540-55212f1ea9d9',
                     leftHandSide: 'Account.BillingCountry',
                     rightHandSide: 'USA',
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
                 },
                 {
-                    rowIndex: '134b1c72-cb94-4987-806d-155a8cc0f736',
+                    rowIndex: '4ca8549b-0128-4a7d-91a6-e86a9a6b18ec',
                     leftHandSide: 'Account.Name',
                     rightHandSide: 'Salesforce',
                     rightHandSideDataType: 'String',
@@ -2301,7 +2271,50 @@ export const flowWithAllElementsUIModel = {
             ],
             filterLogic: '(1 AND 2) OR 3',
             object: 'Account',
-            objectIndex: '42935e07-8378-4994-9dfe-34d987e80fac',
+            objectIndex: 'dbfccfa4-49b4-4385-a998-4ac4e9d630aa',
+            dataType: 'Boolean'
+        },
+        '29e3dc08-e7d7-4435-9b47-cf2a6ce41cb3': {
+            guid: '29e3dc08-e7d7-4435-9b47-cf2a6ce41cb3',
+            name: 'updateSObject',
+            description: '',
+            label: 'updateSObject',
+            locationX: 744,
+            locationY: 831,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            inputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
+            inputReferenceIndex: '5a93e09a-856a-4540-a62f-239f61d7de50',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'REGULAR'
+                },
+                {
+                    type: 'FAULT'
+                }
+            ],
+            elementType: 'RecordUpdate',
+            inputAssignments: [],
+            useSobject: true,
+            filters: [
+                {
+                    rowIndex: '134b1c72-cb94-4987-806d-155a8cc0f736',
+                    leftHandSide: '',
+                    rightHandSide: '',
+                    rightHandSideDataType: '',
+                    operator: ''
+                }
+            ],
+            filterLogic: 'and',
+            object: '',
+            objectIndex: 'e46d1655-6558-4c7b-b828-b040906115b0',
             dataType: 'Boolean'
         },
         '8f54aa39-0bda-422e-a4ad-3e2ac0155234': {
@@ -2340,40 +2353,6 @@ export const flowWithAllElementsUIModel = {
         },
         'bf86df65-a565-4f4c-9a88-3785f2785230': {
             guid: 'bf86df65-a565-4f4c-9a88-3785f2785230',
-            name: 'loopOnTextCollectionAutoOutput',
-            description: '',
-            label: 'loopOnTextCollectionAutoOutput',
-            locationX: 592,
-            locationY: 336,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: 'b1594536-54c8-4f1d-96fc-ebfd501ca433',
-            collectionReference: '5e2803c7-a184-465c-92e3-1d29634f2114',
-            collectionReferenceIndex: '1936abb6-dc8c-4180-a4dd-7172ba4841df',
-            iterationOrder: 'Asc',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
-            elementType: 'Loop',
-            storeOutputAutomatically: true,
-            dataType: 'String',
-            subtype: null
-        },
-        '9dfb762b-b721-4ac5-b787-edcdd6f02574': {
-            guid: '9dfb762b-b721-4ac5-b787-edcdd6f02574',
             name: 'loopOnApexAutoOutput',
             description: '',
             label: 'loopOnApexAutoOutput',
@@ -2388,9 +2367,9 @@ export const flowWithAllElementsUIModel = {
                 hasError: false
             },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836',
-            collectionReference: 'e502e40a-7dfc-4e71-8a42-c491f86a560a',
-            collectionReferenceIndex: 'f4b58a0a-045d-49d4-b1c7-888e895a4484',
+            assignNextValueToReferenceIndex: 'b1594536-54c8-4f1d-96fc-ebfd501ca433',
+            collectionReference: 'a733e74b-1a25-43dc-b43c-d126c849023d',
+            collectionReferenceIndex: '1936abb6-dc8c-4180-a4dd-7172ba4841df',
             iterationOrder: 'Asc',
             maxConnections: 2,
             availableConnections: [
@@ -2406,13 +2385,13 @@ export const flowWithAllElementsUIModel = {
             dataType: 'Apex',
             subtype: 'ApexComplexTypeTestOne216'
         },
-        '30a1ebac-fff2-4a83-b844-7f0a8faf33b9': {
-            guid: '30a1ebac-fff2-4a83-b844-7f0a8faf33b9',
-            name: 'loopOnTextCollection',
-            description: 'This is a test without automatic Output',
-            label: 'loopOnTextCollection',
-            locationX: 446,
-            locationY: 501,
+        '130d845a-9aeb-42e7-acbc-cdea13693b85': {
+            guid: '130d845a-9aeb-42e7-acbc-cdea13693b85',
+            name: 'loopOnComplexMergeFieldManualOutput',
+            description: '',
+            label: 'loopOnComplexMergeFieldManualOutput',
+            locationX: 666,
+            locationY: 455,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2421,10 +2400,10 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            assignNextValueToReference: '756e3b06-1ee6-4f8e-82b2-ce141c9405db',
-            assignNextValueToReferenceIndex: '611f9934-04ec-47a9-8a9f-ade6f3b66435',
-            collectionReference: '5e2803c7-a184-465c-92e3-1d29634f2114',
-            collectionReferenceIndex: '9cdb5a2b-2fec-4a2f-81b7-ef78564aba74',
+            assignNextValueToReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+            assignNextValueToReferenceIndex: 'ab66a6a8-98df-47cd-9948-1c2390f02139',
+            collectionReference: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9.acctListField',
+            collectionReferenceIndex: '3ce6eb05-97e4-467f-b821-11dfa2cdccf0',
             iterationOrder: 'Asc',
             maxConnections: 2,
             availableConnections: [
@@ -2438,13 +2417,13 @@ export const flowWithAllElementsUIModel = {
             elementType: 'Loop',
             storeOutputAutomatically: false
         },
-        'b3226572-8133-4f57-a49e-b9863ea7da7b': {
-            guid: 'b3226572-8133-4f57-a49e-b9863ea7da7b',
-            name: 'loopOnNestedApexTypeAutoOutput',
+        '9dfb762b-b721-4ac5-b787-edcdd6f02574': {
+            guid: '9dfb762b-b721-4ac5-b787-edcdd6f02574',
+            name: 'loopOnLocalActionSobjectCollInApexAutoOutput',
             description: '',
-            label: 'loopOnNestedApexTypeAutoOutput',
-            locationX: 327,
-            locationY: 306.3125,
+            label: 'loopOnLocalActionSobjectCollInApexAutoOutput',
+            locationX: 1032,
+            locationY: 333,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2453,10 +2432,43 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
+            assignNextValueToReference: null,
+            assignNextValueToReferenceIndex: '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836',
+            collectionReference: '2e01b9c4-5144-4db2-9543-7899c5c34329.apexWithSObject.acctListField',
+            collectionReferenceIndex: 'f4b58a0a-045d-49d4-b1c7-888e895a4484',
+            iterationOrder: 'Asc',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'LOOP_NEXT'
+                },
+                {
+                    type: 'LOOP_END'
+                }
+            ],
+            elementType: 'Loop',
+            storeOutputAutomatically: true,
+            dataType: 'SObject',
+            subtype: 'Account'
+        },
+        'b3226572-8133-4f57-a49e-b9863ea7da7b': {
+            guid: 'b3226572-8133-4f57-a49e-b9863ea7da7b',
+            name: 'loopOnNestedApexTypeAutoOutput',
+            description: '',
+            label: 'loopOnNestedApexTypeAutoOutput',
+            locationX: 327,
+            locationY: 306,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'c0582ee6-8e57-4803-a24a-55004897c2c5',
-            collectionReference: '26b1d461-e66e-41c7-bb0e-5c86b04280db.testOne.acctListField',
+            collectionReference: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07.testOne.acctListField',
             collectionReferenceIndex: 'c11af199-2852-4caa-b90c-7c763d1480d4',
             iterationOrder: 'Asc',
             maxConnections: 2,
@@ -2475,11 +2487,11 @@ export const flowWithAllElementsUIModel = {
         },
         '57776352-a679-4bdc-876b-77d987c29fc5': {
             guid: '57776352-a679-4bdc-876b-77d987c29fc5',
-            name: 'loopOnSobjectCollectionInApexTypeAutoOutput',
+            name: 'loopOnScreenCompInSectionColl',
             description: '',
-            label: 'loopOnSobjectCollectionInApexTypeAutoOutput',
-            locationX: 735,
-            locationY: 506.3125,
+            label: 'loopOnScreenCompInSectionColl',
+            locationX: 846,
+            locationY: 510,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2488,10 +2500,9 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'fa63fff1-36e9-4574-9586-72f3ef2b334d',
-            collectionReference: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f.acctListField',
+            collectionReference: 'c133671f-83c0-486e-aafc-faed91142185.accounts',
             collectionReferenceIndex: 'd6b5b39e-c834-4449-9ade-38629b8676d9',
             iterationOrder: 'Asc',
             maxConnections: 2,
@@ -2514,7 +2525,7 @@ export const flowWithAllElementsUIModel = {
             description: '',
             label: 'loopOnScreenCompSObjectCollAutoOutput',
             locationX: 884,
-            locationY: 334.3125,
+            locationY: 334,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2523,7 +2534,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '66372d1b-81f8-4269-b7f8-80f1723485ca',
             collectionReference: '4a3e2a6c-d306-4c6b-98b5-c4bf1839644b.accounts',
@@ -2545,11 +2555,11 @@ export const flowWithAllElementsUIModel = {
         },
         '5e649f27-18a2-47ae-abad-c0f33d2e2a1b': {
             guid: '5e649f27-18a2-47ae-abad-c0f33d2e2a1b',
-            name: 'loopOnLocalActionSobjectCollInApexAutoOutput',
+            name: 'loopOnSobjectCollectionInApexTypeAutoOutput',
             description: '',
-            label: 'loopOnLocalActionSobjectCollInApexAutoOutput',
-            locationX: 1032,
-            locationY: 333.3125,
+            label: 'loopOnSobjectCollectionInApexTypeAutoOutput',
+            locationX: 735,
+            locationY: 506,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2558,10 +2568,9 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: '4683e0c5-8dd8-4426-88dc-d280167ca0e4',
-            collectionReference: '3e57f4c5-fecd-4be0-83a2-3238cdda979c.apexWithSObject.acctListField',
+            collectionReference: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9.acctListField',
             collectionReferenceIndex: '1f5acf67-1b31-46ba-b0a5-42c9c27510f7',
             iterationOrder: 'Asc',
             maxConnections: 2,
@@ -2578,13 +2587,13 @@ export const flowWithAllElementsUIModel = {
             dataType: 'SObject',
             subtype: 'Account'
         },
-        'a084e300-bca6-4e92-b8c8-9b2490b3cc5c': {
-            guid: 'a084e300-bca6-4e92-b8c8-9b2490b3cc5c',
-            name: 'loopOnScreenCompInSectionColl',
-            description: '',
-            label: 'loopOnScreenCompInSectionColl',
-            locationX: 846,
-            locationY: 510.3125,
+        '2f8795f3-2c27-42d9-ae84-0a53bbedd3a6': {
+            guid: '2f8795f3-2c27-42d9-ae84-0a53bbedd3a6',
+            name: 'loopOnTextCollection',
+            description: 'This is a test without automatic Output',
+            label: 'loopOnTextCollection',
+            locationX: 446,
+            locationY: 501,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2593,10 +2602,41 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
+            assignNextValueToReference: 'f79b5397-57f9-426b-aa00-5ef1b8b8f75d',
+            assignNextValueToReferenceIndex: '960c344c-31bb-41b5-ad56-63ba96f239d8',
+            collectionReference: 'e502e40a-7dfc-4e71-8a42-c491f86a560a',
+            collectionReferenceIndex: '664aa30f-60f2-4b8a-96f0-ad8795bcba07',
+            iterationOrder: 'Asc',
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'LOOP_NEXT'
+                },
+                {
+                    type: 'LOOP_END'
+                }
+            ],
+            elementType: 'Loop',
+            storeOutputAutomatically: false
+        },
+        'a084e300-bca6-4e92-b8c8-9b2490b3cc5c': {
+            guid: 'a084e300-bca6-4e92-b8c8-9b2490b3cc5c',
+            name: 'loopOnTextCollectionAutoOutput',
+            description: '',
+            label: 'loopOnTextCollectionAutoOutput',
+            locationX: 592,
+            locationY: 336,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
             assignNextValueToReference: null,
             assignNextValueToReferenceIndex: 'ddd9900e-25a1-4ef5-825f-bde05b6231ae',
-            collectionReference: 'c133671f-83c0-486e-aafc-faed91142185.accounts',
+            collectionReference: 'e502e40a-7dfc-4e71-8a42-c491f86a560a',
             collectionReferenceIndex: '12adeaa5-22e0-4adf-9cc9-10762c6ac494',
             iterationOrder: 'Asc',
             maxConnections: 2,
@@ -2610,41 +2650,8 @@ export const flowWithAllElementsUIModel = {
             ],
             elementType: 'Loop',
             storeOutputAutomatically: true,
-            dataType: 'SObject',
-            subtype: 'Account'
-        },
-        'fa417651-1251-4c86-8200-30dc2ed6849c': {
-            guid: 'fa417651-1251-4c86-8200-30dc2ed6849c',
-            name: 'loopOnComplexMergeFieldManualOutput',
-            description: '',
-            label: 'loopOnComplexMergeFieldManualOutput',
-            locationX: 666,
-            locationY: 455.3125,
-            isCanvasElement: true,
-            connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            elementSubtype: null,
-            assignNextValueToReference: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
-            assignNextValueToReferenceIndex: '5a7f1472-d64c-4b45-adde-b52b93262693',
-            collectionReference: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f.acctListField',
-            collectionReferenceIndex: '7e331ab0-6782-4244-93b3-5bbcdad069e4',
-            iterationOrder: 'Asc',
-            maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
-            elementType: 'Loop',
-            storeOutputAutomatically: false
+            dataType: 'String',
+            subtype: null
         },
         'ee652516-7b62-402f-88a2-1ab887b55072': {
             guid: 'ee652516-7b62-402f-88a2-1ab887b55072',
@@ -2735,6 +2742,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2784,6 +2792,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: false,
             childReferences: []
         },
@@ -2821,6 +2830,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2858,6 +2868,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2895,6 +2906,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -2904,7 +2916,7 @@ export const flowWithAllElementsUIModel = {
             description: '',
             label: 'screenWithAddress',
             locationX: 873,
-            locationY: 483.3125,
+            locationY: 483,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -2962,6 +2974,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3045,6 +3058,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3281,6 +3295,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3319,7 +3334,6 @@ export const flowWithAllElementsUIModel = {
                 category: 'FlowBuilderScreenEditor.fieldCategoryInput'
             },
             elementType: 'SCREEN_FIELD',
-            defaultSelectedChoiceReference: null,
             visibilityRule: {
                 conditions: [
                     {
@@ -3454,6 +3468,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3463,7 +3478,7 @@ export const flowWithAllElementsUIModel = {
             description: '',
             label: 'screenWithSectionAndLightningComp',
             locationX: 954,
-            locationY: 633.3125,
+            locationY: 633,
             isCanvasElement: true,
             connectorCount: 0,
             config: {
@@ -3472,7 +3487,6 @@ export const flowWithAllElementsUIModel = {
                 isSelectable: true,
                 hasError: false
             },
-            elementSubtype: null,
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -3561,6 +3575,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3588,6 +3603,7 @@ export const flowWithAllElementsUIModel = {
             isNewField: false,
             isRequired: false,
             outputParameters: [],
+            scale: '0',
             type: {
                 name: 'Column',
                 fieldType: 'Region'
@@ -3638,6 +3654,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
+            dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
@@ -3780,7 +3797,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: '46c2961d-5cf6-443b-95d4-91d406c02a37',
                     leftHandSide: 'Account.BillingCity',
-                    rightHandSide: '8574a485-6312-4e06-820d-4b7a5f030f3a.BillingCity',
+                    rightHandSide: 'b689132a-b516-47d0-9e51-03ea751c7cc9.BillingCity',
                     rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 },
@@ -3794,7 +3811,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: '17d626e2-e27c-4bf0-9670-5abc582a22fb',
                     leftHandSide: 'Account.Name',
-                    rightHandSide: '8574a485-6312-4e06-820d-4b7a5f030f3a.Name',
+                    rightHandSide: 'b689132a-b516-47d0-9e51-03ea751c7cc9.Name',
                     rightHandSideDataType: 'reference',
                     operator: 'Contains'
                 }
@@ -3803,7 +3820,7 @@ export const flowWithAllElementsUIModel = {
                 {
                     rowIndex: '23ae0ea4-4d33-4dcc-a579-013e91fd4159',
                     leftHandSide: 'Account.Id',
-                    rightHandSide: '41a189ff-01f4-4018-b75c-3f363b65cc42'
+                    rightHandSide: '26b1d461-e66e-41c7-bb0e-5c86b04280db'
                 }
             ]
         }
@@ -3814,55 +3831,55 @@ export const flowWithAllElementsUIModel = {
         '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
         'a4451815-988d-4f17-883d-64b6ad9fab7e',
         '297834ec-f5c8-4128-aa38-dc437f0c6a9b',
-        '4968239c-5e3d-45ee-9339-f575c917e223',
+        '2e01b9c4-5144-4db2-9543-7899c5c34329',
+        'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
+        'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
+        'cc0381a7-0c64-4935-bc0c-25ecc2e958f1',
+        'ed85c895-feb5-45cb-b486-49cfd9da8e20',
+        '0ecd3000-0adc-4d34-bdc1-acd331740de0',
         '7f4ddba5-e41b-456b-b686-94b257cc9914',
         '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
-        '53329036-32e6-4965-a1d2-b12cd0344f99',
+        'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
         '41c6da8a-c6e0-418b-8b23-9906b4adab11',
         '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
-        'a18b3d06-504c-4e47-9f44-6663c42703cf',
-        '5383bf9b-8314-42bd-a51e-cbee56ec3570',
+        '2f00ca0d-743f-4639-a084-272bbc548f8b',
         '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
-        '787fd564-24db-448c-ba59-ef88c8a5cbd9',
-        'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
-        '86f9f34d-e2e4-45e3-a574-78ddcd669ebf',
-        'a6849bcb-05b6-4898-8cc1-12ff825524c5',
-        '3e57f4c5-fecd-4be0-83a2-3238cdda979c',
+        'c8bc407d-a8ed-49c8-aaf6-2fac342a9fd1',
         '7ab29c0c-3dbf-4f99-a94c-311ef891973f',
-        'bb597c66-db1e-4636-85b6-31f89b320bd4',
+        '700b8f1c-98eb-48ea-90f0-35e1a864a1a8',
         '956ee0bf-ff21-44f4-9917-65676160e094',
         'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
         '2e02687e-41a2-42eb-ba74-81c130218b86',
-        '013c0515-5f96-493f-bf5b-3d261350a4e6',
-        '58d4a602-1abb-46e4-8c10-54c225dd56af',
         'df72b5ae-20df-4ebf-9c93-3f87b91d7791',
+        '583e40d5-e735-4d8c-8f30-097d48de7ec8',
+        '9189cb3c-2245-4cfb-aabe-c2e979f15c6d',
         '5bd09db6-7e3f-41e3-a0c7-dbef33840655',
         '55c07deb-dcd5-45e2-ad9a-c80b7bc17362',
         'df134372-8b3c-4bbd-875a-7513e76bec39',
         'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7',
-        'ac66cdf6-9167-4628-8faa-079f39e2e32b',
-        '777c097c-f3b9-4845-9418-b50d40eb2550',
         '2aacf35d-91f7-42cc-a668-f0b682615d6b',
-        '8574a485-6312-4e06-820d-4b7a5f030f3a',
-        '8d06ba06-b0e4-4a15-ab56-651dc35a83a8',
-        '49bf649f-45c0-4d54-8533-93b51f9b557e',
-        '016e92d2-b409-4a9d-89c0-50e637967cbc',
-        '91f8d923-79e4-4a85-9621-3334fac4abe5',
-        'a5b1853e-6b7e-4568-9b24-37414be4b4d7',
+        'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff',
+        'b689132a-b516-47d0-9e51-03ea751c7cc9',
+        '0d02ed31-ffad-42ba-967f-5ebbbdb83dd5',
+        '3ce2bd36-67b8-4bc3-b144-1ba05ee7dafe',
+        '91280889-13e2-4de0-8390-32d05b8918e5',
+        'aef5864b-0e6b-4c61-9fe8-a2db15831cd6',
+        '42992316-8b74-4ffc-a6af-a48845db0e95',
+        '9b6b8f63-fff0-477e-92b7-3e315551288b',
         'c62fed4b-ced5-4d6f-8a8f-5f5f5c525309',
         'ceda6ea2-c50f-49b7-9945-9d7ed8544f4b',
         'fda10f1b-f93e-46d5-99f0-e09f9c52c147',
-        'ed46d2ed-f940-4fbe-9b66-fba94ae66e70',
+        '29e3dc08-e7d7-4435-9b47-cf2a6ce41cb3',
         '8f54aa39-0bda-422e-a4ad-3e2ac0155234',
         'bf86df65-a565-4f4c-9a88-3785f2785230',
+        '130d845a-9aeb-42e7-acbc-cdea13693b85',
         '9dfb762b-b721-4ac5-b787-edcdd6f02574',
-        '30a1ebac-fff2-4a83-b844-7f0a8faf33b9',
         'b3226572-8133-4f57-a49e-b9863ea7da7b',
         '57776352-a679-4bdc-876b-77d987c29fc5',
         'cb5ce4eb-b9b6-43d1-b2ea-f74e7b6db814',
         '5e649f27-18a2-47ae-abad-c0f33d2e2a1b',
+        '2f8795f3-2c27-42d9-ae84-0a53bbedd3a6',
         'a084e300-bca6-4e92-b8c8-9b2490b3cc5c',
-        'fa417651-1251-4c86-8200-30dc2ed6849c',
         'ee652516-7b62-402f-88a2-1ab887b55072',
         '67b32c2b-a683-4ffe-a867-79300f3a25e0',
         '6f3f842a-e289-48ee-b18b-6820e87cee94',
@@ -3887,7 +3904,7 @@ export const flowWithAllElementsUIModel = {
         name: 'flowWithAllElements',
         processType: 'Flow',
         runInMode: null,
-        status: null,
+        status: 'InvalidDraft',
         versionNumber: 1,
         apiVersion: 50,
         isAutoLayoutCanvas: false
