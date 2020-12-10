@@ -19,7 +19,7 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 
 const MAX_COLUMNS = 4;
 
-const SECTION_COLUMNS_NAME = ['columns'];
+const SECTION_COLUMNS_NAME = 'columns';
 
 /*
  * Screen element property editor for section fields.
