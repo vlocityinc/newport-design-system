@@ -11,8 +11,35 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
+type ElementActionType = {
+    elementType: string;
+    actionType: string;
+};
+
+const allElementActionTypes: ElementActionType[] = [
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.QUICK_ACTION },
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.COMPONENT },
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.CREATE_WORK_ITEM },
+    { elementType: ELEMENT_TYPE.EXTERNAL_SERVICE, actionType: ACTION_TYPE.EXTERNAL_SERVICE },
+    { elementType: ELEMENT_TYPE.APEX_CALL, actionType: ACTION_TYPE.APEX },
+    { elementType: ELEMENT_TYPE.EMAIL_ALERT, actionType: ACTION_TYPE.EMAIL_ALERT }
+];
+
+const getElementType = (actionType: string): string => {
+    const elementTypeFound = allElementActionTypes.find(
+        (elementActionType) => elementActionType.actionType === actionType
+    );
+    return elementTypeFound ? elementTypeFound.elementType : ELEMENT_TYPE.ACTION_CALL;
+};
+
+const getActionTypes = (elementType: string): string[] => {
+    return allElementActionTypes
+        .filter((elementActionType) => elementActionType.elementType === elementType)
+        .reduce((acc, elementActionType) => [...acc, elementActionType.actionType], []);
+};
+
 export default class ActionSelector extends LightningElement {
-    labels = LABELS;
+    private labels = LABELS;
     @track
     state = {
         selectedElementType: ELEMENT_TYPE.ACTION_CALL,
@@ -25,9 +52,9 @@ export default class ActionSelector extends LightningElement {
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
-    @api labelOverride: string = null;
+    @api labelOverride: string | null = null;
 
-    elementTypeToLabelMap = {
+    private readonly elementTypeToLabelMap = {
         [ELEMENT_TYPE.ACTION_CALL]: this.labels.actionSearchInputLabel,
         [ELEMENT_TYPE.EXTERNAL_SERVICE]: this.labels.actionSearchInputLabel,
         [ELEMENT_TYPE.APEX_CALL]: this.labels.actionSearchInputLabel,
@@ -207,6 +234,9 @@ export default class ActionSelector extends LightningElement {
                 }
             }
         }
+        if (selectedAction.elementType === ELEMENT_TYPE.ACTION_CALL && selectedAction.actionType) {
+            selectedAction.elementType = getElementType(selectedAction.actionType);
+        }
         return selectedAction;
     }
 
@@ -320,26 +350,18 @@ export default class ActionSelector extends LightningElement {
 
     getActionElementsByType(selectedElementType) {
         let items = [];
+        const actionTypes = getActionTypes(selectedElementType);
         switch (selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this._invocableActions
-                    .filter(
-                        (action) =>
-                            action.isStandard ||
-                            action.type === ACTION_TYPE.QUICK_ACTION ||
-                            action.type === ACTION_TYPE.COMPONENT ||
-                            action.type === ACTION_TYPE.CREATE_WORK_ITEM
-                    )
+                    .filter((action) => action.isStandard || actionTypes.includes(action.type))
                     .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_CALL:
-                items = this._invocableActions
-                    .filter((action) => action.type === ACTION_TYPE.APEX)
-                    .map((action) => this.getComboItemFromInvocableAction(action));
-                break;
             case ELEMENT_TYPE.EMAIL_ALERT:
+            case ELEMENT_TYPE.EXTERNAL_SERVICE:
                 items = this._invocableActions
-                    .filter((action) => action.type === ACTION_TYPE.EMAIL_ALERT)
+                    .filter((action) => actionTypes.includes(action.type))
                     .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
@@ -347,11 +369,6 @@ export default class ActionSelector extends LightningElement {
                 break;
             case ELEMENT_TYPE.SUBFLOW:
                 items = this.subflows.map((subflow) => this.getComboItemFromSubflow(subflow));
-                break;
-            case ELEMENT_TYPE.EXTERNAL_SERVICE:
-                items = this._invocableActions
-                    .filter((action) => action.type === ACTION_TYPE.EXTERNAL_SERVICE)
-                    .map((action) => this.getComboItemFromInvocableAction(action));
                 break;
             default:
                 items = [];

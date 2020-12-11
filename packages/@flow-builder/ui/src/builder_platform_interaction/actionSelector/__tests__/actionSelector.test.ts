@@ -240,7 +240,7 @@ describe('Action selector', () => {
             await Promise.resolve();
             expect(groupedCombobox().placeholder).toBe('Search system actions...');
         });
-        it('should set all availables action as combobox items when null', async () => {
+        it('should set all available action as combobox items when null', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
             actionSelectorComponent.selectedCategory = null;
             await Promise.resolve();
@@ -252,7 +252,7 @@ describe('Action selector', () => {
             await Promise.resolve();
             expect(groupedCombobox().placeholder).toBe('Search all actions...');
         });
-        it('should set all availables action as combobox items when All', async () => {
+        it('should set all available action as combobox items when All', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
             actionSelectorComponent.selectedCategory = 'All';
             await Promise.resolve();
@@ -327,7 +327,7 @@ describe('Action selector', () => {
         afterEach(() => {
             document.removeEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
         });
-        it('should fire ValueChangedEvent with action name and action type when a standard invocable action is selected', () => {
+        it('should fire ValueChangedEvent with action name and action type when a standard invocable action is selected', async () => {
             dispatchActionChangeEvent('emailSimple-emailSimple');
             expectEventCallbackCalledWithValue({
                 actionName: 'emailSimple',
@@ -335,7 +335,7 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.ACTION_CALL
             });
         });
-        it('should fire ValueChangedEvent with action name and action type when quick action is selected', () => {
+        it('should fire ValueChangedEvent with action name and action type when quick action is selected', async () => {
             dispatchActionChangeEvent('quickAction-CollaborationGroup.mynamespace__NewGroupMember');
             expectEventCallbackCalledWithValue({
                 actionName: 'CollaborationGroup.mynamespace__NewGroupMember',
@@ -343,7 +343,7 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.ACTION_CALL
             });
         });
-        it('should fire ValueChangedEvent with action name and action type when an apex action is selected', () => {
+        it('should fire ValueChangedEvent with action name and action type when an apex action is selected', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.APEX_CALL
             };
@@ -354,7 +354,7 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.APEX_CALL
             });
         });
-        it('should fire ValueChangedEvent with action name and action type when an apex plugin is selected', () => {
+        it('should fire ValueChangedEvent with action name and action type when an apex plugin is selected', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL
             };
@@ -364,7 +364,7 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL
             });
         });
-        it('should fire ValueChangedEvent with action name and action type when an email alert is selected', () => {
+        it('should fire ValueChangedEvent with action name and action type when an email alert is selected', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.EMAIL_ALERT
             };
@@ -377,7 +377,17 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.EMAIL_ALERT
             });
         });
-        it('should fire ValueChangedEvent with flowName when a subflow is selected', () => {
+        it('should fire ValueChangedEvent with action name and action type, and element type when an email alert is selected and selected type is "Action Call"', async () => {
+            dispatchActionChangeEvent(
+                'emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert'
+            );
+            expectEventCallbackCalledWithValue({
+                actionName: 'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert',
+                actionType: 'emailAlert',
+                elementType: ELEMENT_TYPE.EMAIL_ALERT
+            });
+        });
+        it('should fire ValueChangedEvent with flowName when a subflow is selected', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.SUBFLOW
             };
@@ -397,7 +407,7 @@ describe('Action selector', () => {
             dispatchActionChangeEvent('emailSimple-emailSimple');
             expect(eventCallback).not.toHaveBeenCalled();
         });
-        it('should fire ValueChangedEvent with just the elementType and an error when user types text that does not match an action', () => {
+        it('should fire ValueChangedEvent with just the elementType and an error when user types text that does not match an action', async () => {
             dispatchActionChangeEvent(null, 'not an existing action');
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({
@@ -405,7 +415,7 @@ describe('Action selector', () => {
                 value: { elementType: ELEMENT_TYPE.ACTION_CALL }
             });
         });
-        it('should fire ValueChangedEvent with just the elementType and an error when user focus out with no action selected', () => {
+        it('should fire ValueChangedEvent with just the elementType and an error when user focus out with no action selected', async () => {
             dispatchActionChangeEvent(null, '');
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({
