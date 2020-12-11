@@ -7,6 +7,7 @@ export const ALL_PROCESS_TYPE = { name: 'all', label: all };
 
 const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
 
+// TODO W-8523370
 const PROCESS_TYPES_ICONS = new Map([
     [ALL_PROCESS_TYPE.name, 'utility:flow'],
     [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, 'utility:magicwand'],
@@ -29,7 +30,8 @@ const PROCESS_TYPES_ICONS = new Map([
     [FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW, 'utility:user'],
     [FLOW_PROCESS_TYPE.TRANSACTION_SECURITY_FLOW, 'utility:inspector_panel'],
     [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause'],
-    [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:macros']
+    [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:macros'],
+    [FLOW_PROCESS_TYPE.ROUTING_FLOW, 'utility:omni_channel']
 ]);
 
 const TRIGGER_TYPE_ICONS = new Map([

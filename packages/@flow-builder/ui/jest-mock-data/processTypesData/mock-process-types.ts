@@ -21,5 +21,9 @@ export const MOCK_ALL_PROCESS_TYPES = [
         label: 'User Provisioning Flow',
         name: FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW
     },
+    {
+        label: 'Routing Flow',
+        name: FLOW_PROCESS_TYPE.ROUTING_FLOW
+    },
     { label: 'Well no icon yet', name: 'WeDoNotKnowYou' }
 ];

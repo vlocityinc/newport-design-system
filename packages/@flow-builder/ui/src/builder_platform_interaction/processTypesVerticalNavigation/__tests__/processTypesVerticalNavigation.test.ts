@@ -84,6 +84,11 @@ describe('process-types-vertical-navigation ', () => {
                     iconName: getProcessTypeIcon(FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE)
                 },
                 {
+                    label: 'Routing Flow',
+                    name: FLOW_PROCESS_TYPE.ROUTING_FLOW,
+                    iconName: getProcessTypeIcon(FLOW_PROCESS_TYPE.ROUTING_FLOW)
+                },
+                {
                     label: 'User Provisioning Flow',
                     name: FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW,
                     iconName: getProcessTypeIcon(FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW)
@@ -113,6 +118,7 @@ describe('process-types-vertical-navigation ', () => {
                     FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW +
                     FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB +
                     FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE +
+                    FLOW_PROCESS_TYPE.ROUTING_FLOW +
                     FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW +
                     'WeDoNotKnowYou'
             );
@@ -133,6 +139,7 @@ describe('process-types-vertical-navigation ', () => {
                 'utility:contact_request',
                 'utility:insert_tag_field',
                 'utility:phone_portrait',
+                'utility:omni_channel',
                 'utility:user',
                 'utility:flow'
             ]);

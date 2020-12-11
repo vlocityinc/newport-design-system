@@ -35,7 +35,8 @@ export const FLOW_PROCESS_TYPE = {
     USER_PROVISIONING_FLOW: 'UserProvisioningFlow',
     WORKFLOW: 'Workflow',
     SALES_ENTRY_EXPERIENCE_FLOW: 'SalesEntryExperienceFlow',
-    FSCLENDING: 'FSCLending'
+    FSCLENDING: 'FSCLending',
+    ROUTING_FLOW: 'RoutingFlow'
 };
 
 export enum ELEMENT_TYPE {
