@@ -25,11 +25,25 @@ const SECTION_COLUMNS_NAME = 'columns';
  * Screen element property editor for section fields.
  */
 export default class ScreenSectionFieldPropertiesEditor extends LightningElement {
-    @api field = {};
+    private _field;
     labels = LABELS;
 
     @api
     editorParams;
+
+    expandedSectionNames = [SECTION_COLUMNS_NAME];
+
+    set field(value) {
+        this._field = value;
+        if (hasScreenFieldVisibilityCondition(this._field) && this.expandedSectionNames.length === 1) {
+            this.expandedSectionNames = [SECTION_COLUMNS_NAME, SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+    }
+
+    @api
+    get field() {
+        return this._field;
+    }
 
     columnWidths = [
         { value: '1', label: this.labels.oneOfTwelveWidth },
@@ -97,13 +111,6 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
 
     get maxColumns() {
         return MAX_COLUMNS;
-    }
-
-    get expandedSectionNames() {
-        if (hasScreenFieldVisibilityCondition(this.field)) {
-            return [SECTION_COLUMNS_NAME, SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
-        }
-        return [SECTION_COLUMNS_NAME];
     }
 
     handleAdd(event) {

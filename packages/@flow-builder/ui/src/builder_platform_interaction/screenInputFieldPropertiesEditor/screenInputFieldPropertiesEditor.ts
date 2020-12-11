@@ -18,11 +18,24 @@ const FRP_CONFIG = {
  * Screen element property editor for input fields.
  */
 export default class ScreenInputFieldPropertiesEditor extends LightningElement {
-    @api field;
+    private _field;
+    expandedSectionNames = [];
     labels = LABELS;
 
     @api
     editorParams;
+
+    set field(value) {
+        this._field = value;
+        if (hasScreenFieldVisibilityCondition(this._field) && this.expandedSectionNames.length === 0) {
+            this.expandedSectionNames = [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+    }
+
+    @api
+    get field() {
+        return this._field;
+    }
 
     get defaultValueResourcePickerConfig() {
         return FRP_CONFIG;
@@ -34,13 +47,6 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
 
     get isScaleEnabled() {
         return this.field.dataType === 'Number' || this.field.dataType === 'Currency';
-    }
-
-    get expandedSectionNames() {
-        if (hasScreenFieldVisibilityCondition(this.field)) {
-            return [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
-        }
-        return [];
     }
 
     handlePropertyChanged = (event) => {

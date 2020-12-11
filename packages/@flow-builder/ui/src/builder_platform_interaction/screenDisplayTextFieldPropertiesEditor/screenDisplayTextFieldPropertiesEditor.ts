@@ -11,17 +11,23 @@ import {
  * Screen element property editor
  */
 export default class ScreenDisplayTextFieldPropertiesEditor extends LightningElement {
-    @api field;
+    private _field;
+    expandedSectionNames = [];
     labels = LABELS;
 
     @api
     editorParams;
 
-    get expandedSectionNames() {
-        if (hasScreenFieldVisibilityCondition(this)) {
-            return [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+    set field(value) {
+        this._field = value;
+        if (hasScreenFieldVisibilityCondition(this._field) && this.expandedSectionNames.length === 0) {
+            this.expandedSectionNames = [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
         }
-        return [];
+    }
+
+    @api
+    get field() {
+        return this._field;
     }
 
     handlePropertyChanged = (event) => {

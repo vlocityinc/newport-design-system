@@ -34,7 +34,11 @@ import {
  * Dynamic property editor for screen extensions.
  */
 export default class ScreenExtensionPropertiesEditor extends LightningElement {
+    @track
+    private _field;
+
     labels = LABELS;
+    expandedSectionNames = [];
 
     @api
     get field() {
@@ -44,6 +48,9 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     set field(value) {
         this._field = value;
         this.state = screenExtensionPropertiesPropsToStateReducer(this.state, this);
+        if (hasScreenFieldVisibilityCondition(this._field) && this.expandedSectionNames.length === 0) {
+            this.expandedSectionNames = [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
     }
 
     @api
@@ -82,9 +89,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
 
     @api
     configurationEditor;
-
-    @track
-    _field;
 
     @track
     _extensionDescription;
@@ -292,13 +296,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
             return Object.assign({}, ...outputVariables);
         }
         return {};
-    }
-
-    get expandedSectionNames() {
-        if (hasScreenFieldVisibilityCondition(this.field)) {
-            return [SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
-        }
-        return [];
     }
 
     /**

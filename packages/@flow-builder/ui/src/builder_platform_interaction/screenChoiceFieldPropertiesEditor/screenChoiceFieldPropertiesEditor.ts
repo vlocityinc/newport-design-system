@@ -22,7 +22,7 @@ import {
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
 
-const CHOICES_SECTION_NAME = ['choicesSection'];
+const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 
 /*
@@ -36,8 +36,20 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         value: ''
     };
 
+    private _field;
+    expandedSectionNames = [CHOICES_SECTION_NAME];
+
+    set field(value) {
+        this._field = value;
+        if (hasScreenFieldVisibilityCondition(this._field) && this.expandedSectionNames.length === 1) {
+            this.expandedSectionNames = [CHOICES_SECTION_NAME, SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
+        }
+    }
+
     @api
-    field;
+    get field() {
+        return this._field;
+    }
 
     @api
     editorParams;
@@ -45,13 +57,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get isScaleEnabled() {
         const { dataType = null } = this.field;
         return dataType === 'Number' || dataType === 'Currency';
-    }
-
-    get expandedSectionNames() {
-        if (hasScreenFieldVisibilityCondition(this.field)) {
-            return [...CHOICES_SECTION_NAME, SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME];
-        }
-        return CHOICES_SECTION_NAME;
     }
 
     handlePropertyChanged = (event) => {
