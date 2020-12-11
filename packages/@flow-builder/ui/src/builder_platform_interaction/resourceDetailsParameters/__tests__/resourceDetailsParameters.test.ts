@@ -10,12 +10,12 @@ import {
     mockActionLocalActionInAutomaticOutputsModeResourceDetails,
     mockSubflowInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
-import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
 import { submitForApprovalActionDetails as mockSubmitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 
 const createComponentUnderTest = (resourceDetails) => {
     const el = createElement('builder_platform_interaction-resource-details-parameters', {
@@ -26,9 +26,16 @@ const createComponentUnderTest = (resourceDetails) => {
     return el;
 };
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
-    describeExtension: jest.fn(() => Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription))
-}));
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/flowExtensionLib');
+    return {
+        describeExtension: jest.fn(() =>
+            Promise.resolve(
+                actual.createExtensionDescription('flowruntime:email', mockFlowExtensionDetails['flowruntime:email'])
+            )
+        )
+    };
+});
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
     fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionDetails))

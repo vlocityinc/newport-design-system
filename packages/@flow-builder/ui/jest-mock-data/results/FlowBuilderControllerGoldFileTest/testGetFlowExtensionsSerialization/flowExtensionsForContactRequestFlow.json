@@ -1,6 +1,24 @@
 {
   "flowExtensionsForContactRequestFlow":[
     {
+  "fieldsToNull" : [ ],
+  "label" : "Hello World",
+  "qualifiedApiName" : "c:HelloWorld",
+  "source" : "Unmanaged"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "Hello World",
+  "qualifiedApiName" : "c:noSobjectOutputComp",
+  "source" : "Unmanaged"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "sobjectCollectionOutputComp",
+  "qualifiedApiName" : "c:sobjectCollectionOutputComp",
+  "source" : "Unmanaged"
+},
+    {
   "description" : "Display available time slots for a Field Service appointment.",
   "fieldsToNull" : [ ],
   "label" : "Appointment Scheduling",

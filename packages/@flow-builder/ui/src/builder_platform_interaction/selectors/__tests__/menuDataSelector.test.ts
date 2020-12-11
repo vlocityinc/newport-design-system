@@ -773,10 +773,12 @@ describe('isOrCanContainSelector', () => {
             );
 
             expect(toSortedNames(result)).toEqual([
+                'Address',
                 'accounts',
                 'actionCallAutomaticOutput',
                 'actionCallLC_apex_no_sobject_auto',
                 'actionCallLC_apex_with_sobject_auto',
+                'address_2',
                 'apexCall_Car_automatic_output',
                 'apexCall_String_automatic_output',
                 'apexCall_anonymous_string',
@@ -793,6 +795,7 @@ describe('isOrCanContainSelector', () => {
                 'other',
                 'recordChoiceSet',
                 'screenCompInSectionColumnWithSingleSObjectAutoOutput',
+                'slider_1',
                 'someText',
                 'stringConstant',
                 'stringVariable',

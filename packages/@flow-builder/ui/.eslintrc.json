@@ -82,6 +82,9 @@
                     "no-unused-expressions": [
                         "**/builder_platform_interaction/integrationTests/__tests__/assignment/assignmentEditorIntegration.test.ts",
                         "**/builder_platform_interaction/integrationTests/__tests__/decision/decisionEditorExpressionBuilderIntegration.test.ts"
+                    ],
+                    "no-await-in-loop": [
+                        "**/builder_platform_interaction/integrationTests/__tests__/groupedComboboxTestUtils.ts"
                     ]
                 }
             }

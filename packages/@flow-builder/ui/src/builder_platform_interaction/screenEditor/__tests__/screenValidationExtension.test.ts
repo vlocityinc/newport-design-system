@@ -2,10 +2,12 @@
 import { getRulesForField, screenValidation } from '../screenValidation';
 import { elementsForPropertyEditors, emailScreenFieldAutomaticOutput, emailScreenField } from 'mock/storeData';
 import { COMPONENT_INSTANCE } from 'builder_platform_interaction/flowExtensionLib';
-import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/flowExtensionLib');
     const mockExtensionType = () => ({
         category: 'Input',
         description: 'Email Component',
@@ -18,7 +20,11 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
         source: 'server'
     });
     return {
-        getCachedExtension: jest.fn().mockImplementation(() => mockFlowRuntimeEmailFlowExtensionDescription),
+        getCachedExtension: jest
+            .fn()
+            .mockImplementation(() =>
+                actual.createExtensionDescription('flowruntime:email', mockFlowExtensionDetails['flowruntime:email'])
+            ),
         getCachedExtensionType: jest.fn().mockReturnValue(mockExtensionType)
     };
 });

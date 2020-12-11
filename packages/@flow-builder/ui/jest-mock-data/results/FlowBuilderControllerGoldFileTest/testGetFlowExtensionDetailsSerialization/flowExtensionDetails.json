@@ -104,13 +104,57 @@
     "c:HelloWorld":{
       "configurationEditor":null,
       "parameters":[
-
+        {
+  "apiName" : "account",
+  "dataType" : "sobject",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Account",
+  "maxOccurs" : 1,
+  "objectType" : "Account"
+},
+        {
+  "apiName" : "greeting",
+  "dataType" : "string",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Greeting",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "subject",
+  "dataType" : "string",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Subject",
+  "maxOccurs" : 1
+}
       ]
     },
     "c:sobjectCollectionOutputComp":{
       "configurationEditor":null,
       "parameters":[
-
+        {
+  "apiName" : "accounts",
+  "dataType" : "sobject",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Accounts",
+  "maxOccurs" : 2000,
+  "objectType" : "Account"
+}
       ]
     },
     "flowruntime:email":{
@@ -277,6 +321,60 @@
 }
       ]
     },
+    "c:lookup":{
+      "configurationEditor":null,
+      "parameters":[
+        {
+  "apiName" : "helpText",
+  "dataType" : "string",
+  "description" : "The help text for pattern",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : false,
+  "isRequired" : false,
+  "label" : "Help text for pattern",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "objectApiName",
+  "availableValues" : "{T}",
+  "dataType" : "string",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Object API Name",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "selectedRecord",
+  "dataType" : "sobject",
+  "description" : "The SObject the user has selected",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : false,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "The selected Record",
+  "maxOccurs" : 1,
+  "objectType" : "{T}"
+},
+        {
+  "apiName" : "userPrompt",
+  "dataType" : "string",
+  "description" : "The prompt",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : false,
+  "isRequired" : false,
+  "label" : "User Prompt",
+  "maxOccurs" : 1
+}
+      ]
+    },
     "flowruntime:address":{
       "configurationEditor":null,
       "parameters":[
@@ -382,7 +480,28 @@
     "c:noSobjectOutputComp":{
       "configurationEditor":null,
       "parameters":[
-
+        {
+  "apiName" : "greeting",
+  "dataType" : "string",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Greeting",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "subject",
+  "dataType" : "string",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Subject",
+  "maxOccurs" : 1
+}
       ]
     }
   }

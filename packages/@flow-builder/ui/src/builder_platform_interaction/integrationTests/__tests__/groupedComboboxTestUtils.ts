@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ticks, selectEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, selectEvent, blurEvent, textInputEvent } from 'builder_platform_interaction/builderTestUtils';
 
 export const getGroupedComboboxItemBy = (groupedCombobox, propertyName, propertyValue) => {
     if (groupedCombobox.items) {
@@ -62,21 +62,52 @@ export const getGroupedComboboxItemInGroup = (groupedCombobox, groupLabel, prope
     return undefined;
 };
 
-export const selectGroupedComboboxItemBy = async (combobox, propertyName, propertyValues, { blur = true } = {}) => {
-    let promise = ticks(50);
-    for (const propertyValue of propertyValues) {
-        promise = promise.then(() => {
-            const comboboxItem = getGroupedComboboxItemBy(combobox, propertyName, propertyValue);
-            if (!comboboxItem) {
-                return undefined;
-            }
-            combobox.dispatchEvent(selectEvent(comboboxItem.value));
-            return ticks(50).then(() => comboboxItem);
-        });
+export const loadMoreInGroupedCombobox = async (groupedCombobox) => {
+    groupedCombobox.dispatchEvent(
+        new CustomEvent('endreached', {
+            bubbles: true,
+            cancelable: false
+        })
+    );
+    await ticks(50);
+};
+
+export const loadAllInGroupedCombobox = async (groupedCombobox) => {
+    let previousComboboxItems;
+    do {
+        previousComboboxItems = groupedCombobox.items;
+        // eslint-disable-next-line no-await-in-loop
+        await loadMoreInGroupedCombobox(groupedCombobox);
+    } while (groupedCombobox.items !== previousComboboxItems);
+};
+
+export const selectGroupedComboboxItemBy = async (
+    groupedCombobox,
+    propertyName,
+    propertyValues,
+    { blur = true } = {}
+) => {
+    let comboboxItem;
+    if (groupedCombobox.inputText !== '') {
+        groupedCombobox.dispatchEvent(textInputEvent(''));
     }
-    const comboboxItem = await promise;
+    for (const propertyValue of propertyValues) {
+        // eslint-disable-next-line no-await-in-loop
+        await ticks(50);
+        comboboxItem = getGroupedComboboxItemBy(groupedCombobox, propertyName, propertyValue);
+        if (!comboboxItem) {
+            // eslint-disable-next-line no-await-in-loop
+            await loadAllInGroupedCombobox(groupedCombobox);
+            comboboxItem = getGroupedComboboxItemBy(groupedCombobox, propertyName, propertyValue);
+        }
+        if (!comboboxItem) {
+            break;
+        }
+        groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+    }
+    await ticks(50);
     if (blur) {
-        combobox.dispatchEvent(blurEvent);
+        groupedCombobox.dispatchEvent(blurEvent);
     }
     await ticks(50);
     return comboboxItem;

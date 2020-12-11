@@ -208,7 +208,7 @@ function transformDefaultValue(value) {
     return value;
 }
 
-function createDescription(name, data) {
+export function createExtensionDescription(name, data) {
     const { parameters, configurationEditor } = data;
     const desc = {
         name,
@@ -277,7 +277,7 @@ export function describeExtensions(
                     } else {
                         for (const name of extensionNamesToFetch) {
                             if (!extensionDescriptionCache[name]) {
-                                extensionDescriptionCache[name] = createDescription(name, data[name]);
+                                extensionDescriptionCache[name] = createExtensionDescription(name, data[name]);
                             }
                         }
                         resolve(extensionNamesToFetch.map((name) => extensionDescriptionCache[name]));
@@ -293,6 +293,18 @@ export function describeExtensions(
         });
     }
     return promise.then(() => names.map((name) => extensionDescriptionCache[name]));
+}
+
+/**
+ * Set the extension descriptions. Used by tests
+ *
+ * @param extensionDescriptions
+ */
+export function setExtensionDescriptions(extensionDescriptions: { [name: string]: any }) {
+    extensionDescriptionCache = {};
+    for (const [name, data] of Object.entries(extensionDescriptions)) {
+        extensionDescriptionCache[name] = createExtensionDescription(name, data);
+    }
 }
 
 /**

@@ -9,18 +9,12 @@ import {
 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
-import { setApexClasses, getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';
-import {
-    mockLightningCompWithAccountOutputFlowExtensionDescription,
-    mockLightningCompWithSObjectCollectionOutputFlowExtensionDescription
-} from 'mock/flowExtensionsData';
+import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { setExtensionDescriptions, clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-jest.mock('builder_platform_interaction/flowExtensionLib', () =>
-    require('builder_platform_interaction_mocks/flowExtensionLib')
-);
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
 );
@@ -36,21 +30,43 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 describe('reference to variable util', () => {
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
+        setApexClasses(apexTypesForFlow);
+        setExtensionDescriptions(flowExtensionDetails);
     });
     afterAll(() => {
         Store.resetStore();
         setApexClasses(null);
+        clearExtensionsCache();
     });
     describe('getVariableOrField', () => {
-        const expectedGeneratedAccount = getAccountFromApexActionDetails.parameters[1];
-        expectedGeneratedAccount.dataType = 'SObject';
-        const expectedLwcAccount = mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters[0];
-        expectedLwcAccount.dataType = 'SObject';
-        const expectedLwcAccounts =
-            mockLightningCompWithSObjectCollectionOutputFlowExtensionDescription.outputParameters[0];
-        expectedLwcAccounts.dataType = 'SObject';
-        setApexClasses(apexTypesForFlow);
-        const expectedApexTestOneAcct = getPropertiesForClass('ApexComplexTypeTestOne216').acct;
+        const expectedGeneratedAccount = {
+            apiName: 'generatedAccount',
+            label: 'generatedAccount',
+            dataType: 'SObject',
+            subtype: 'Account',
+            isCollection: false
+        };
+        const expectedLwcAccount = {
+            apiName: 'account',
+            label: 'Account',
+            dataType: 'SObject',
+            subtype: 'Account',
+            isCollection: false
+        };
+        const expectedLwcAccounts = {
+            apiName: 'accounts',
+            label: 'Accounts',
+            dataType: 'SObject',
+            subtype: 'Account',
+            isCollection: true
+        };
+        const expectedApexTestOneAcct = {
+            apexClass: 'ApexComplexTypeTestOne216',
+            apiName: 'acct',
+            dataType: 'SObject',
+            isCollection: false,
+            subtype: 'Account'
+        };
 
         it.each`
             reference                                               | expectedVariable

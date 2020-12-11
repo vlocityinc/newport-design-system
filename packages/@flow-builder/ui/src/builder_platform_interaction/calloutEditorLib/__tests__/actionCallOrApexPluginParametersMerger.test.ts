@@ -80,7 +80,7 @@ const mergedInputs = [
     {
         dataType: 'String',
         isRequired: false,
-        label: 'Community ID',
+        label: 'Experience Cloud Site ID',
         maxOccurs: 1,
         name: 'communityId',
         rowIndex: mockGuid,

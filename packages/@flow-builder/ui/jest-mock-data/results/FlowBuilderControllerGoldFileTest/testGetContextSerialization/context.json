@@ -31,6 +31,7 @@
     "isAdditionalPermissionRequiredToRun" : false,
     "isTemplate" : false,
     "loops" : [ ],
+    "orchestratedStages" : [ ],
     "processType" : "Journey",
     "recordCreates" : [ ],
     "recordDeletes" : [ ],
@@ -48,7 +49,6 @@
       "scheduledPaths" : [ ],
       "triggerType" : "ScheduledJourney"
     },
-    "steppedStages" : [ ],
     "steps" : [ ],
     "subflows" : [ ],
     "textTemplates" : [ ],

@@ -1,6 +1,44 @@
 {
   "flowExtensionsForFlow":[
     {
+  "fieldsToNull" : [ ],
+  "label" : "Hello World",
+  "qualifiedApiName" : "c:HelloWorld",
+  "source" : "Unmanaged"
+},
+    {
+  "category" : "Inputs",
+  "description" : "The description",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "fieldsToNull" : [ ],
+      "label" : "T",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "custom lookup",
+  "qualifiedApiName" : "c:lookup",
+  "source" : "Unmanaged"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "Hello World",
+  "qualifiedApiName" : "c:noSobjectOutputComp",
+  "source" : "Unmanaged"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "sobjectCollectionOutputComp",
+  "qualifiedApiName" : "c:sobjectCollectionOutputComp",
+  "source" : "Unmanaged"
+},
+    {
   "description" : "Display available time slots for a Field Service appointment.",
   "fieldsToNull" : [ ],
   "label" : "Appointment Scheduling",

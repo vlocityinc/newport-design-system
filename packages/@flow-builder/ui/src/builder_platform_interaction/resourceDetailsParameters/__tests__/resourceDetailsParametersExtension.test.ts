@@ -1,16 +1,23 @@
 // @ts-nocheck
 import ResourceDetailsParametersExtensionConfig from '../resourceDetailsParametersExtension';
-import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
-    describeExtension: jest.fn(() => Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription))
-}));
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/flowExtensionLib');
+    return {
+        describeExtension: jest.fn(() =>
+            Promise.resolve(
+                actual.createExtensionDescription('flowruntime:email', mockFlowExtensionDetails['flowruntime:email'])
+            )
+        )
+    };
+});
 
 describe('resource-details-parameters-extension', () => {
     const callback = jest.fn();

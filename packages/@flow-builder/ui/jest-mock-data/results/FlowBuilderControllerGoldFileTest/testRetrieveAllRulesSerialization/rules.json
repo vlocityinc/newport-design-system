@@ -8337,7 +8337,7 @@
         ],
         "collection":false,
         "mustBeElements":[
-          "STEPPEDSTAGE"
+          "ORCHESTRATEDSTAGE"
         ],
         "null":false,
         "paramType":"Element"

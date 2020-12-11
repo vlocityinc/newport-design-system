@@ -68,24 +68,9 @@ jest.mock('builder_platform_interaction/subflowsLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const flowExtensionMock = require('mock/flowExtensionsData');
-    return {
-        getCachedExtension: jest.fn().mockImplementation((name, dynamicTypeMappings) => {
-            let result: any = Object.values(flowExtensionMock).find((extension: any) => extension.name === name);
-            if (name === 'c:lookup') {
-                // Run the actual function for <c:lookup/>
-                const applyDynamicTypeMappings = jest.requireActual('builder_platform_interaction/flowExtensionLib')
-                    .applyDynamicTypeMappings;
-                result = Object.assign({}, result, {
-                    inputParameters: applyDynamicTypeMappings(result.inputParameters, dynamicTypeMappings),
-                    outputParameters: applyDynamicTypeMappings(result.outputParameters, dynamicTypeMappings)
-                });
-            }
-            return result;
-        })
-    };
-});
+jest.mock('builder_platform_interaction/flowExtensionLib', () =>
+    require('builder_platform_interaction_mocks/flowExtensionLib')
+);
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')

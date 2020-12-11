@@ -61,6 +61,7 @@
   "isTemplate" : true,
   "label" : "FTest-TestFileBasedScreen",
   "loops" : [ ],
+  "orchestratedStages" : [ ],
   "processMetadataValues" : [ {
     "name" : "BuilderType",
     "value" : {
@@ -153,7 +154,6 @@
     "scheduledPaths" : [ ]
   },
   "status" : "Active",
-  "steppedStages" : [ ],
   "steps" : [ ],
   "subflows" : [ ],
   "textTemplates" : [ ],

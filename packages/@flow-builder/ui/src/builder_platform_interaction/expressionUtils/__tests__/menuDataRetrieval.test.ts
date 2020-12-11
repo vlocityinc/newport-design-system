@@ -32,12 +32,9 @@ import {
     setProcessTypeFeature
 } from 'builder_platform_interaction/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { createExtensionDescription } from 'builder_platform_interaction/flowExtensionLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
-import {
-    mockFlowRuntimeEmailFlowExtensionDescription,
-    mockLightningCompWithAccountOutputFlowExtensionDescription
-} from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { mockScreenElement } from 'mock/calloutData';
@@ -48,6 +45,7 @@ import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
 import { startElement } from 'mock/storeDataRecordTriggered';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -120,8 +118,14 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/flowExtensionLib');
     return {
-        getCachedExtension: jest.fn().mockImplementation(() => mockFlowRuntimeEmailFlowExtensionDescription)
+        getCachedExtension: jest
+            .fn()
+            .mockImplementation(() =>
+                actual.createExtensionDescription('flowruntime:email', mockFlowExtensionDetails['flowruntime:email'])
+            ),
+        createExtensionDescription: actual.createExtensionDescription
     };
 });
 
@@ -971,8 +975,12 @@ describe('Menu data retrieval', () => {
         });
         it('returns only sobject or can contain sobject elements when selectorConfig is set', () => {
             const parentMenuItem = store.lightningCompAutomaticOutputContainsAccountExtension;
+            const lightningCompWithAccountOutputFlowExtensionDescription = createExtensionDescription(
+                'c:HelloWorld',
+                mockFlowExtensionDetails['c:HelloWorld']
+            );
             const fields = {
-                ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
+                ...lightningCompWithAccountOutputFlowExtensionDescription.outputParameters
             };
 
             const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
@@ -992,8 +1000,12 @@ describe('Menu data retrieval', () => {
         });
         it('does not set hasNext when selectorConfig is set', () => {
             const parentMenuItem = store.lightningCompAutomaticOutputContainsAccountExtension;
+            const lightningCompWithAccountOutputFlowExtensionDescription = createExtensionDescription(
+                'c:HelloWorld',
+                mockFlowExtensionDetails['c:HelloWorld']
+            );
             const fields = {
-                ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
+                ...lightningCompWithAccountOutputFlowExtensionDescription.outputParameters
             };
 
             const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {

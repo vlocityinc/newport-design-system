@@ -23,32 +23,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-// Extend flowExtensionDetails to include <c:lookup/>
-const mockFlowExtensionDetails = Object.assign(
-    {
-        'c:lookup': {
-            configurationEditor: null,
-            parameters: [
-                {
-                    apiName: 'selectedRecord',
-                    dataType: 'sobject',
-                    objectType: '{T}',
-                    defaultValue: 'false',
-                    description: 'Selected record.',
-                    fieldsToNull: [],
-                    hasDefaultValue: true,
-                    isInput: false,
-                    isOutput: true,
-                    isRequired: false,
-                    label: 'Selected Record',
-                    maxOccurs: 1
-                }
-            ]
-        }
-    },
-    flowExtensionDetails
-);
-
 function mockServerResponse(serverActionType, params) {
     if (serverActionType === SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS) {
         return [
@@ -71,7 +45,7 @@ function mockServerResponse(serverActionType, params) {
     const s = params.names.reduce(
         (obj, name) =>
             Object.assign(obj, {
-                [name]: mockFlowExtensionDetails[name]
+                [name]: flowExtensionDetails[name]
             }),
         {}
     );
@@ -134,11 +108,14 @@ describe('flowExtension', () => {
                     }
                 ];
                 const extension = getCachedExtension('c:lookup', dynamicTypeMappings);
-                expect(extension.outputParameters).toHaveLength(1);
-                expect(extension.outputParameters[0]).toHaveProperty('dataType');
-                expect(extension.outputParameters[0].dataType).toEqual('sobject');
-                expect(extension.outputParameters[0]).toHaveProperty('subtype');
-                expect(extension.outputParameters[0].subtype).toEqual('Asset');
+                const selectedRecordParameter = extension.outputParameters.find(
+                    (param) => param.apiName === 'selectedRecord'
+                );
+                expect(selectedRecordParameter).toBeDefined();
+                expect(selectedRecordParameter).toHaveProperty('dataType');
+                expect(selectedRecordParameter.dataType).toEqual('sobject');
+                expect(selectedRecordParameter).toHaveProperty('subtype');
+                expect(selectedRecordParameter.subtype).toEqual('Asset');
                 done();
             });
         });
