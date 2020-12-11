@@ -10,6 +10,7 @@
     <template for:each={nodes} for:item="node">
         <builder_platform_interaction-flc-compound-node
             key={node.key}
+            data-key={node.key}
             style={node.style}
             class={node.className}
             node={node.nodeInfo}
@@ -22,6 +23,7 @@
     <template for:each={faultFlows} for:item="faultFlow">
         <builder_platform_interaction-flc-flow
             key={faultFlow.key}
+            data-key={faultFlow.key}
             style={faultFlow.style}
             flow={faultFlow.flowInfo}
             is-selection-mode={isSelectionMode}

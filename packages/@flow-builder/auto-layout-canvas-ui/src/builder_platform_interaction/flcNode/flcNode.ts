@@ -210,4 +210,9 @@ export default class FlcNode extends LightningElement {
         );
         this.dispatchEvent(toggleNodeSelectionEvent);
     };
+
+    @api
+    focus() {
+        this.template.querySelector('builder_platform_interaction-flc-button-menu').focus();
+    }
 }

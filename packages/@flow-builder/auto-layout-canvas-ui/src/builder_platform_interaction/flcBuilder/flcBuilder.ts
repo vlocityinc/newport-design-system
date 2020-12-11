@@ -19,26 +19,25 @@ import {
     FlowInteractionState,
     Dimension
 } from 'builder_platform_interaction/autoLayoutCanvas';
-
 import {
     ZOOM_ACTION,
     ClosePropertyEditorEvent,
     DeleteElementEvent,
     ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
-
 import {
     FlcSelectionEvent,
     FlcCreateConnectionEvent,
     ToggleMenuEvent,
-    NodeResizeEvent
+    NodeResizeEvent,
+    MoveFocusToNodeEvent
 } from 'builder_platform_interaction/flcEvents';
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
-
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData
 } from 'builder_platform_interaction/flcComponentsUtils';
+import { getFocusPath } from './alcBuilderUtils';
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
@@ -631,6 +630,17 @@ export default class FlcBuilder extends LightningElement {
             this._flowRenderContext.interactionState
         );
         this.updateFlowRenderContext({ interactionState });
+    };
+
+    /**
+     * Handles moving focus to the node from the Start/Regular Node Menu
+     * @param event - moveFocusToNode event coming from nodeMenu or startMenu
+     */
+    handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
+        event.stopPropagation();
+        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: event.detail.focusGuid }]);
+        const flcFlow = this.template.querySelector('builder_platform_interaction-flc-flow');
+        flcFlow.findNode(pathToFocusNode).focus();
     };
 
     /**

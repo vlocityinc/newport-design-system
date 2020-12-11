@@ -37,4 +37,14 @@ export default class FlcCompoundNode extends LightningElement {
 
         return nextConnector && getFlcConnectorData(nextConnector);
     }
+
+    @api
+    getBranchFlow(branchIndex: number) {
+        return this.template.querySelectorAll('builder_platform_interaction-flc-flow')[branchIndex];
+    }
+
+    @api
+    focus() {
+        this.template.querySelector('builder_platform_interaction-flc-node').focus();
+    }
 }

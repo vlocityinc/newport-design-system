@@ -65,7 +65,8 @@ export {
     assertAutoLayoutState,
     inlineBranches,
     resolveParent,
-    resolveBranchHead
+    resolveBranchHead,
+    isRoot
 } from './modelUtils';
 
 export {

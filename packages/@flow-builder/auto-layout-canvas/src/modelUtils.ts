@@ -654,7 +654,7 @@ function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
     }
 }
 
-export function isRoot(guid: Guid) {
+function isRoot(guid: Guid) {
     return guid === ElementType.ROOT;
 }
 /**
@@ -867,5 +867,6 @@ export {
     DELETE_ALL,
     resolveBranchHead,
     resolveParent,
-    inlineBranches
+    inlineBranches,
+    isRoot
 };

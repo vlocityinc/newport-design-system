@@ -6,7 +6,8 @@ import {
     DeleteElementFaultEvent,
     AddElementFaultEvent,
     CloseMenuEvent,
-    ClearHighlightedPathEvent
+    ClearHighlightedPathEvent,
+    MoveFocusToNodeEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
@@ -20,6 +21,7 @@ import {
 } from 'builder_platform_interaction/contextualMenuUtils';
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand, EscapeCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
+
 const selectors = {
     menuItem: 'a[role="menuitem"]',
     backButton: '.back-button'
@@ -105,6 +107,7 @@ export default class FlcNodeMenu extends Menu {
         }
         const actionType = event.currentTarget.getAttribute('data-value');
         let closeMenu = true;
+        let moveFocusToNode = true;
         switch (actionType) {
             case ELEMENT_ACTION_CONFIG.COPY_ACTION.value:
                 this.dispatchEvent(new CopySingleElementEvent(this.guid));
@@ -121,6 +124,7 @@ export default class FlcNodeMenu extends Menu {
                 } else {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
                 }
+                moveFocusToNode = false;
                 break;
             case ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION.value:
                 this.dispatchEvent(new AddElementFaultEvent(this.guid));
@@ -130,8 +134,15 @@ export default class FlcNodeMenu extends Menu {
                 break;
             default:
         }
+
+        // Closing the menu as needed
         if (closeMenu) {
             this.dispatchEvent(new CloseMenuEvent());
+        }
+
+        // Moving focus to the node as needed
+        if (moveFocusToNode) {
+            this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
         }
     };
     /**
@@ -195,6 +206,8 @@ export default class FlcNodeMenu extends Menu {
 
     handleEscape() {
         this.dispatchEvent(new CloseMenuEvent());
+        // Moving the focus back to the source node
+        this.dispatchEvent(new MoveFocusToNodeEvent(this.guid));
     }
 
     setupCommandsAndShortcuts() {
@@ -207,10 +220,12 @@ export default class FlcNodeMenu extends Menu {
         };
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);
     }
+
     connectedCallback() {
         this.keyboardInteractions.addKeyDownEventListener(this.template);
         this.setupCommandsAndShortcuts();
     }
+
     renderedCallback() {
         if (!this._isRendered) {
             if (this.menuConfiguration.footer) {
