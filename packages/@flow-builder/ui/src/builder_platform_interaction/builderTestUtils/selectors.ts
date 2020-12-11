@@ -1,17 +1,20 @@
 export const LIGHTNING_COMPONENTS_SELECTORS = {
+    LIGHTNING_BADGE: 'lightning-badge',
     LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_BUTTON_ICON: 'lightning-button-icon',
+    LIGHTNING_BUTTON_MENU: 'lightning-button-menu',
     LIGHTNING_COMBOBOX: 'lightning-combobox',
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_ICON: 'lightning-icon',
     LIGHTNING_INPUT: 'lightning-input',
     LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text',
+    LIGHTNING_MENU_ITEM: 'lightning-menu-item',
+    LIGHTNING_PICKLIST: 'lightning-picklist',
+    LIGHTNING_PILL: 'lightning-pill',
     LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
     LIGHTNING_TAB: 'lightning-tab',
     LIGHTNING_TEXTAREA: 'lightning-textarea',
-    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation',
-    LIGHTNING_PILL: 'lightning-pill',
-    LIGHTNING_PICKLIST: 'lightning-picklist'
+    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {

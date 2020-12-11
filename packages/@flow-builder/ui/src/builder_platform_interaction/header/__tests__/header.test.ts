@@ -1,229 +1,287 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import Header from '../header';
 import { LABELS } from '../headerLabels';
 import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
-import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { LIGHTNING_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+const { logInteraction } = loggingUtils;
+
+jest.mock('builder_platform_interaction/contextLib', () =>
+    Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
         orgHasFlowBuilderGuardrails: jest.fn()
-    });
-});
+    })
+);
+jest.mock('builder_platform_interaction/sharedUtils');
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
-    return { invokeKeyboardHelpDialog: jest.fn() };
-});
-
-function createComponentForTest(props = {}) {
+const createComponentForTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-header', {
         is: Header
     });
-    el.backUrl = '/300';
-    el.helpUrl = '/help';
-    Object.assign(el, props);
+    Object.assign(el, { helpUrl: '/help' }, props);
     document.body.appendChild(el);
     return el;
-}
+};
 
-const selectors = {
+const SELECTORS = {
     root: '.header',
     flowNameVersionTitle: '.test-flow-name-version-title',
     flowName: '.test-flow-name',
     flowVersion: '.test-flow-version',
     appName: '.test-app-name',
     backUrl: '.test-back-url',
+    backUrlTooltip: 'div[role="tooltip"]',
     backLabel: '.test-back-label',
     helpUrl: '.test-help-url',
     helpLabel: '.test-help-label',
     flowIcon: '.test-flow-utility-icon',
     backIcon: '.test-back-utility-icon',
     helpIcon: '.test-help-utility-icon',
-    buttonMenu: 'lightning-button-menu',
-    lightningMenuItem: 'lightning-menu-item',
     guardrailsMenuItem: 'analyzer_framework-help-menu-item',
     interviewLabel: '.test-interview-label',
-    debugBadge: '.test-debug-badge'
+    debugBadge: '.test-debug-badge',
+    systemModeBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.systemModeLabelText"]`
 };
+const getAppNameDiv = (header) => header.shadowRoot.querySelector(SELECTORS.appName);
+const getButtonMenu = (headerComponent) =>
+    headerComponent.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_MENU);
+const getGuardrailsMenuItems = (headerComponent) =>
+    headerComponent.shadowRoot.querySelectorAll(SELECTORS.guardrailsMenuItem);
+const getLigthningMenuItems = (headerComponent) =>
+    headerComponent.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_MENU_ITEM);
+const getHelpUrl = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.helpUrl);
+const getFlowIcon = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.flowIcon);
+const getBackUrl = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.backUrl);
+const getDebugStatusBadge = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.debugBadge);
+const getBackUrlTooltip = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.backUrlTooltip);
+const getBackUrlIcon = (headerComponent) =>
+    getBackUrl(headerComponent).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
 
-describe('HEADER', () => {
-    it('checks the rendering of default FLOW UTILITY Icon', async () => {
-        const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.flowIcon).iconName).toEqual('utility:flow');
+describe('header', () => {
+    test('focus API function calls backUrl focus', () => {
+        const headerComponent = createComponentForTest({ backUrl: '/300' });
+        const mockFocusEventHandler = jest.fn();
+        getBackUrl(headerComponent).addEventListener('focus', mockFocusEventHandler);
+        headerComponent.focus();
+        expect(mockFocusEventHandler).toHaveBeenCalled();
     });
 
-    it('checks the rendering of default APP NAME label', async () => {
+    it('does NOT render the backUrl icon and tooltip if no url is passed', () => {
         const headerComponent = createComponentForTest();
+        expect(getBackUrl(headerComponent)).toBeNull();
+        expect(getBackUrlTooltip(headerComponent)).toBeNull();
+    });
+    it('does render the backUrl icon and tooltip if no url is passed', () => {
+        const headerComponent = createComponentForTest({ backUrl: '/300' });
+        expect(getBackUrl(headerComponent)).not.toBeNull();
+        expect(getBackUrlTooltip(headerComponent)).not.toBeNull();
+    });
+    test('back url tooltip css class', async () => {
+        const headerComponent = createComponentForTest({ backUrl: '/300' });
+        const backUrlIcon = getBackUrlIcon(headerComponent);
+        backUrlIcon.dispatchEvent(new CustomEvent('focus'));
         await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.appName).textContent).toEqual(LABELS.appNameText);
+        const backUrlTootip = getBackUrlTooltip(headerComponent);
+        expect(backUrlTootip.className).toMatch('slds-rise-from-ground');
+        backUrlIcon.dispatchEvent(new CustomEvent('blur'));
+        await ticks(1);
+        expect(backUrlTootip.className).toMatch('slds-fall-into-ground');
     });
 
-    it('checks the rendering of configured icon', async () => {
+    test('checks the rendering of default FLOW UTILITY icon', () => {
+        const headerComponent = createComponentForTest();
+        expect(getFlowIcon(headerComponent).iconName).toEqual('utility:flow');
+    });
+
+    it('displays badge in system mode', () => {
+        const headerComponent = createComponentForTest({ runInMode: 'SystemModeWithSharing' });
+        const systemModeBadge = headerComponent.shadowRoot.querySelector(SELECTORS.systemModeBadge);
+        expect(systemModeBadge).not.toBeNull();
+    });
+
+    test('checks the rendering of default APP NAME label', () => {
+        const headerComponent = createComponentForTest();
+        expect(getAppNameDiv(headerComponent).textContent).toEqual(LABELS.appNameText);
+    });
+
+    test('checks the rendering of configured icon', () => {
         const testIcon = 'utility:testIcon';
-        const headerComponent = createComponentForTest();
-        headerComponent.builderIcon = testIcon;
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.flowIcon).iconName).toEqual(testIcon);
+        const headerComponent = createComponentForTest({ builderIcon: testIcon });
+        expect(getFlowIcon(headerComponent).iconName).toEqual(testIcon);
     });
 
-    it('checks the rendering of configured builder name', async () => {
+    test('checks the rendering of configured builder name', () => {
         const testBuilderName = 'testBuilder';
-        const headerComponent = createComponentForTest();
-        headerComponent.builderName = testBuilderName;
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.appName).textContent).toEqual(testBuilderName);
+        const headerComponent = createComponentForTest({ builderName: testBuilderName });
+        expect(getAppNameDiv(headerComponent).textContent).toEqual(testBuilderName);
     });
 
-    it('checks the rendering FLOW NAME VERSION TITLE', async () => {
+    test('checks the rendering FLOW NAME VERSION TITLE', () => {
         const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.flowNameVersionTitle).title).toEqual(
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.flowNameVersionTitle).title).toEqual(
             `Flow Name${LABELS.versionLabelText}1`
         );
     });
 
-    it('checks the rendering FLOW NAME', async () => {
+    test('checks the rendering FLOW NAME', () => {
         const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.flowName).textContent).toEqual(`Flow Name`);
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.flowName).textContent).toEqual('Flow Name');
     });
 
-    it('checks the rendering FLOW VERSION', async () => {
+    test('checks the rendering FLOW VERSION', () => {
         const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.flowVersion).textContent).toEqual(
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.flowVersion).textContent).toEqual(
             `${LABELS.versionLabelText}1`
         );
     });
 
-    it('checks the rendering BACK UTILITY Icon', async () => {
-        const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.backIcon).iconName).toEqual('utility:back');
+    test('checks the rendering BACK UTILITY icon', () => {
+        const headerComponent = createComponentForTest({ backUrl: '/300' });
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.backIcon).iconName).toEqual('utility:back');
     });
 
-    it('checks the rendering BACK URL when its undefined and should return Undefined.', async () => {
-        const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.backUrl).value).toBeUndefined();
-    });
-
-    it('checks the rendering BACK URL when ProcessUIFlow value is provided should return /300', async () => {
+    test('checks the rendering BACK URL when ProcessUIFlow value is provided should return /300', () => {
         const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1', backUrl: '/300' });
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.backUrl).pathname).toEqual('/300');
+        expect(getBackUrl(headerComponent).pathname).toEqual('/300');
     });
 
-    it('checks the rendering HELP UTILITY Icon', async () => {
+    test('checks the rendering HELP UTILITY Icon', () => {
         const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.helpIcon).iconName).toEqual('utility:help');
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.helpIcon).iconName).toEqual('utility:help');
     });
 
-    it('checks the rendering HELP label', async () => {
+    test('checks the rendering HELP label', () => {
         const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.helpLabel).textContent).toEqual(
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.helpLabel).textContent).toEqual(
             LABELS.helpButtonText
         );
     });
 
-    it('checks the rendering HELP URL when its undefined and should return Undefined.', async () => {
+    test('checks the rendering HELP URL when its undefined and should return Undefined.', () => {
         const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.helpUrl).value).toBeUndefined();
+        expect(getHelpUrl(headerComponent).value).toBeUndefined();
     });
 
-    it('checks the rendering HELP URL when ProcessUIFlow value is provided should return /HELP', async () => {
+    test('checks the rendering HELP URL when ProcessUIFlow value is provided should return /HELP', () => {
         const headerComponent = createComponentForTest({
             flowName: 'Flow Name',
             flowVersion: '1',
             backUrl: '/300',
             helpUrl: '/HELP'
         });
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.helpUrl).pathname).toEqual('/HELP');
+        expect(getHelpUrl(headerComponent).pathname).toEqual('/HELP');
     });
 
-    it('should not render the help menu if guardrails is off', async () => {
+    it('should not render the help menu if guardrails is off', () => {
+        // @ts-ignore
         orgHasFlowBuilderGuardrails.mockReturnValue(false);
         const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeNull();
-        expect(headerComponent.shadowRoot.querySelector(selectors.helpUrl)).toBeDefined();
+        expect(getButtonMenu(headerComponent)).toBeNull();
+        expect(getHelpUrl(headerComponent)).not.toBeNull();
     });
 
-    it('should have the interview label when showInterviewLabel is true', async () => {
+    it('should have the interview label when showInterviewLabel is true', () => {
         const headerComponent = createComponentForTest({
             flowName: 'Flow Name',
             showInterviewLabel: true,
             interviewLabel: 'Flow Name 12/19/2012, 7:00 PM'
         });
-        expect(headerComponent.shadowRoot.querySelector(selectors.interviewLabel).textContent).toEqual(
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.interviewLabel).textContent).toEqual(
             LABELS.interviewLabelTitle + headerComponent.interviewLabel
         );
     });
-
-    it('should show the debug interview status when showDebugStatus is true', async () => {
-        const headerComponent = createComponentForTest({
-            showDebugStatus: true,
-            debugInterviewStatus: 'FINISHED'
-        });
-        expect(headerComponent.shadowRoot.querySelector(selectors.debugBadge)).toBeDefined();
+    describe('debug status badge', () => {
+        test.each`
+            debugInterviewStatus | expectedExtraCssClass
+            ${'FINISHED'}        | ${'slds-theme_success'}
+            ${'WAITING'}         | ${'slds-theme_warning'}
+            ${'ERROR'}           | ${'slds-theme_error'}
+        `(
+            'Debug status badge should be displayed with css class: "$expectedCssClass" for debug interview status: "$debugInterviewStatus"',
+            ({ debugInterviewStatus, expectedExtraCssClass }) => {
+                const headerComponent = createComponentForTest({
+                    showDebugStatus: true,
+                    debugInterviewStatus
+                });
+                const debugStatusBadge = getDebugStatusBadge(headerComponent);
+                expect(debugStatusBadge).not.toBeNull();
+                expect(debugStatusBadge.className).toMatch(expectedExtraCssClass);
+            }
+        );
     });
 
     describe('help menu', () => {
-        beforeEach(() => {
+        beforeAll(() => {
+            // @ts-ignore
             orgHasFlowBuilderGuardrails.mockReturnValue(true);
         });
 
-        it('contains flow builder items', async () => {
+        it('contains flow builder items', () => {
             const headerComponent = createComponentForTest({
                 helpUrl: '/HELP',
                 trailheadUrl: '/TRAILHEAD',
                 trailblazerCommunityUrl: '/TRAILBLAZER',
                 guardrailsParams: { running: false }
             });
-            await ticks(1);
-            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
-            expect(headerComponent.shadowRoot.querySelectorAll(selectors.lightningMenuItem)).toHaveLength(4);
+            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getLigthningMenuItems(headerComponent)).toHaveLength(4);
         });
 
-        it('contains flow builder items even with empty/undefined urls', async () => {
+        it('contains flow builder items even with empty/undefined urls', () => {
             const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
-            await ticks(1);
-            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
-            expect(headerComponent.shadowRoot.querySelectorAll(selectors.lightningMenuItem)).toHaveLength(4);
+            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getLigthningMenuItems(headerComponent)).toHaveLength(4);
         });
 
-        it('keyboard help menu item invokes keyboard help dialog', async () => {
-            const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
-            await ticks(1);
-            const keyboardHelp = headerComponent.shadowRoot.querySelectorAll(selectors.lightningMenuItem)[2];
-            keyboardHelp.addEventListener('click', invokeKeyboardHelpDialog);
-            keyboardHelp.click();
-            expect(invokeKeyboardHelpDialog).toHaveBeenCalled();
+        describe('logging', () => {
+            describe('help', () => {
+                test.each`
+                    menuItemLabel              | menuItemIndex | logTarget
+                    ${'flow builder'}          | ${0}          | ${'help-button'}
+                    ${'keyboard'}              | ${1}          | ${'keyboard-help-button'}
+                    ${'trailhead'}             | ${2}          | ${'trailhead-button'}
+                    ${'trailblazer community'} | ${3}          | ${'trailblazer-community-button'}
+                `(
+                    'Click on $menuItemLabel menu item should be logged with the following log target: "$logTarget"',
+                    ({ menuItemIndex, logTarget }) => {
+                        const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
+                        getLigthningMenuItems(headerComponent)[menuItemIndex].click();
+                        expect(logInteraction).toHaveBeenCalledWith(logTarget, 'header', null, 'click');
+                    }
+                );
+            });
+            describe('guardrails', () => {
+                test.each`
+                    menuItemLabel  | running  | menuItemIndex | logTarget
+                    ${'view tips'} | ${false} | ${0}          | ${'view-guardrails-button'}
+                    ${'mute tips'} | ${false} | ${1}          | ${'mute-guardrails-button'}
+                    ${'mute tips'} | ${true}  | ${1}          | ${'unmute-guardrails-button'}
+                `(
+                    'Click on $menuItemLabel menu item when guardrails running is $running should be logged with the following log target: "$logTarget"',
+                    ({ menuItemIndex, running, logTarget }) => {
+                        const headerComponent = createComponentForTest({ guardrailsParams: { running } });
+                        getGuardrailsMenuItems(headerComponent)[menuItemIndex].click();
+                        expect(logInteraction).toHaveBeenCalledWith(logTarget, 'header', null, 'click');
+                    }
+                );
+            });
         });
 
-        it('contains guardrails items', async () => {
+        it('contains guardrails items', () => {
             const headerComponent = createComponentForTest({ guardrailsParams: { running: true, count: 1 } });
-            await ticks(1);
-            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
-            expect(headerComponent.shadowRoot.querySelectorAll(selectors.guardrailsMenuItem)).toHaveLength(2);
+            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            const guardrailsMenuItems = getGuardrailsMenuItems(headerComponent);
+            expect(guardrailsMenuItems).toHaveLength(2);
 
-            const viewGuardrails = headerComponent.shadowRoot.querySelectorAll(selectors.guardrailsMenuItem)[0];
-            expect(viewGuardrails.running).toBeTruthy();
-            expect(viewGuardrails.count).toBeDefined();
+            const viewGuardrails = guardrailsMenuItems[0];
+            expect(viewGuardrails.running).toBe(true);
             expect(viewGuardrails.count).toEqual(1);
         });
 
-        it('guardrails items rendered even when muted', async () => {
+        test('guardrails items rendered even when muted', () => {
             const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
-            await ticks(1);
-            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
-            expect(headerComponent.shadowRoot.querySelectorAll(selectors.guardrailsMenuItem)).toHaveLength(2);
+            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getGuardrailsMenuItems(headerComponent)).toHaveLength(2);
         });
     });
 });
