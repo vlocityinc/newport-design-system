@@ -19,6 +19,10 @@
     overflow: auto;
 }
 
+.tile-height {
+    height: 100%;
+}
+
 .slds-card__header .slds-badge {
     display: inline-flex;
 }
