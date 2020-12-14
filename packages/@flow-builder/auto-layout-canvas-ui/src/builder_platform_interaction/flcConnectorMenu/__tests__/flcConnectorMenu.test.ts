@@ -6,11 +6,14 @@ import { AddElementEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
+const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands });
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
 const metaData = [
@@ -158,7 +161,7 @@ describe('connector menu', () => {
         listItems[0].focus();
         const callback = jest.fn();
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
-        cmp.keyboardInteractions.execute('entercommand');
+        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -169,7 +172,7 @@ describe('connector menu', () => {
         listItems[0].focus();
         const callback = jest.fn();
         cmp.addEventListener(AddElementEvent.EVENT_NAME, callback);
-        cmp.keyboardInteractions.execute('spacecommand');
+        cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -263,7 +266,7 @@ describe('connector menu', () => {
         listItems[0].focus();
         const callback = jest.fn();
         listItems[1].addEventListener('focus', callback);
-        cmp.keyboardInteractions.execute('arrowdown');
+        cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -273,7 +276,7 @@ describe('connector menu', () => {
         listItems[1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
-        cmp.keyboardInteractions.execute('arrowup');
+        cmp.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -283,7 +286,7 @@ describe('connector menu', () => {
         listItems[listItems.length - 1].focus();
         const callback = jest.fn();
         listItems[0].addEventListener('focus', callback);
-        cmp.keyboardInteractions.execute('arrowdown');
+        cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -293,7 +296,7 @@ describe('connector menu', () => {
         listItems[0].focus();
         const callback = jest.fn();
         listItems[listItems.length - 1].addEventListener('focus', callback);
-        cmp.keyboardInteractions.execute('arrowup');
+        cmp.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -303,7 +306,7 @@ describe('connector menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         listItems[0].focus();
-        cmp.keyboardInteractions.execute('escapecommand');
+        cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 });

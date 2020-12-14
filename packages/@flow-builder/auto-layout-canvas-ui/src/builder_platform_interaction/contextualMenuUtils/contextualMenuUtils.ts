@@ -1,6 +1,8 @@
+import { commands } from 'builder_platform_interaction/sharedUtils';
+const { ArrowDown } = commands;
 function moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key) {
     const currentFocusIndex = items.indexOf(currentItemInFocus);
-    let nextFocusIndex = key === 'arrowDown' ? currentFocusIndex + 1 : currentFocusIndex - 1;
+    let nextFocusIndex = key === ArrowDown.COMMAND_NAME ? currentFocusIndex + 1 : currentFocusIndex - 1;
     if (nextFocusIndex >= items.length) {
         // Case when you have reached the bottom of the list and press arrow down key.
         // Focus should move to the top of the list
@@ -13,8 +15,8 @@ function moveFocusInMenuOnArrowKeyDown(items, currentItemInFocus, key) {
     items[nextFocusIndex].focus();
 }
 
-function setupKeyboardShortcutUtil(keyboardInteract, commands) {
-    Object.entries(commands).forEach(([shortcutKeys, command]) => {
+function setupKeyboardShortcutUtil(keyboardInteract, shortCutCommands) {
+    Object.entries(shortCutCommands).forEach(([shortcutKeys, command]) => {
         keyboardInteract.setupCommandAndShortcut(command, { key: shortcutKeys });
     });
 }

@@ -12,11 +12,14 @@ import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
+const { ArrowDown, ArrowUp, EscapeCommand, EnterCommand, SpaceCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands });
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
 const dummySimpleElement = {
@@ -134,7 +137,7 @@ describe('Node Menu', () => {
             listItems[0].focus();
             const callback = jest.fn();
             listItems[1].addEventListener('focus', callback);
-            menu.keyboardInteractions.execute('arrowdown');
+            menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -143,7 +146,7 @@ describe('Node Menu', () => {
             listItems[1].focus();
             const callback = jest.fn();
             listItems[0].addEventListener('focus', callback);
-            menu.keyboardInteractions.execute('arrowup');
+            menu.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -152,7 +155,7 @@ describe('Node Menu', () => {
             listItems[listItems.length - 1].focus();
             const callback = jest.fn();
             listItems[0].addEventListener('focus', callback);
-            menu.keyboardInteractions.execute('arrowdown');
+            menu.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -161,7 +164,7 @@ describe('Node Menu', () => {
             listItems[0].focus();
             const callback = jest.fn();
             listItems[listItems.length - 1].addEventListener('focus', callback);
-            menu.keyboardInteractions.execute('arrowup');
+            menu.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -170,7 +173,7 @@ describe('Node Menu', () => {
             listItems[0].focus();
             const callback = jest.fn();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-            menu.keyboardInteractions.execute('escapecommand');
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -179,7 +182,7 @@ describe('Node Menu', () => {
             listItems[0].focus();
             const callback = jest.fn();
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
-            menu.keyboardInteractions.execute('escapecommand');
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
     });
@@ -241,7 +244,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
                     listItems[0].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -252,7 +255,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[0].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -263,7 +266,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[0].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -274,7 +277,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(CopySingleElementEvent.EVENT_NAME, callback);
                     listItems[0].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -285,7 +288,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[0].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -296,7 +299,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[0].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
             });
@@ -386,7 +389,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -397,7 +400,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback.mock.calls[0][0].detail).toMatchObject({
                         selectedElementGUID: [dummySimpleElement.guid],
                         selectedElementType: dummySimpleElement.elementType
@@ -411,7 +414,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -422,7 +425,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).not.toHaveBeenCalled();
                 });
 
@@ -434,7 +437,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('entercommand');
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(callback).not.toHaveBeenCalled();
                 });
 
@@ -445,7 +448,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -456,7 +459,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback.mock.calls[0][0].detail).toMatchObject({
                         selectedElementGUID: [dummySimpleElement.guid],
                         selectedElementType: dummySimpleElement.elementType
@@ -470,7 +473,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).toHaveBeenCalled();
                 });
 
@@ -481,7 +484,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).not.toHaveBeenCalled();
                 });
 
@@ -493,7 +496,7 @@ describe('Node Menu', () => {
                     const callback = jest.fn();
                     menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                     listItems[1].focus();
-                    menu.keyboardInteractions.execute('spacecommand');
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(callback).not.toHaveBeenCalled();
                 });
             });
@@ -514,14 +517,14 @@ describe('Node Menu', () => {
             it('Pressing enter on the Add Fault row should dispatch the MoveFocusToNodeEvent', () => {
                 const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
                 listItems[2].focus();
-                menu.keyboardInteractions.execute('entercommand');
+                menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
             });
 
             it('Pressing space on the Add Fault row should dispatch the MoveFocusToNodeEvent', () => {
                 const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
                 listItems[2].focus();
-                menu.keyboardInteractions.execute('spacecommand');
+                menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
             });
         });
@@ -541,14 +544,14 @@ describe('Node Menu', () => {
             it('Pressing enter on the Delete Fault row should dispatch the MoveFocusToNodeEvent', () => {
                 const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
                 listItems[2].focus();
-                menu.keyboardInteractions.execute('entercommand');
+                menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
             });
 
             it('Pressing space on the Delete Fault row should dispatch the MoveFocusToNodeEvent', () => {
                 const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
                 listItems[2].focus();
-                menu.keyboardInteractions.execute('spacecommand');
+                menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                 expect(moveFocusToNodeCallback).toHaveBeenCalled();
             });
         });
@@ -608,7 +611,7 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 editButton.focus();
-                menu.keyboardInteractions.execute('escapecommand');
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).toHaveBeenCalled();
             });
 
@@ -616,7 +619,7 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                 editButton.focus();
-                menu.keyboardInteractions.execute('escapecommand');
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).toHaveBeenCalled();
             });
 
@@ -624,7 +627,7 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(EditElementEvent.EVENT_NAME, callback);
                 editButton.focus();
-                menu.keyboardInteractions.execute('escapecommand');
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).not.toHaveBeenCalled();
             });
         });
@@ -668,7 +671,7 @@ describe('Node Menu', () => {
             const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, moveFocusCallback);
             listItems[1].focus();
-            menu.keyboardInteractions.execute('entercommand');
+            menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
             expect(moveFocusCallback).not.toHaveBeenCalled();
         });
 
@@ -677,7 +680,7 @@ describe('Node Menu', () => {
             const listItems = Array.from(menu.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem)) as any;
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, moveFocusCallback);
             listItems[1].focus();
-            menu.keyboardInteractions.execute('spacecommand');
+            menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
             expect(moveFocusCallback).not.toHaveBeenCalled();
         });
 
@@ -736,7 +739,7 @@ describe('Node Menu', () => {
             const callback = jest.fn();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             backButton.focus();
-            menu.keyboardInteractions.execute('escapecommand');
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -745,7 +748,7 @@ describe('Node Menu', () => {
             const callback = jest.fn();
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
             backButton.focus();
-            menu.keyboardInteractions.execute('escapecommand');
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -754,7 +757,7 @@ describe('Node Menu', () => {
             const callback = jest.fn();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             combobox.focus();
-            menu.keyboardInteractions.execute('escapecommand');
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -763,7 +766,7 @@ describe('Node Menu', () => {
             const callback = jest.fn();
             menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
             combobox.focus();
-            menu.keyboardInteractions.execute('escapecommand');
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
 
@@ -850,7 +853,7 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 deleteButton.focus();
-                menu.keyboardInteractions.execute('escapecommand');
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).toHaveBeenCalled();
             });
 
@@ -858,7 +861,7 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(MoveFocusToNodeEvent.EVENT_NAME, callback);
                 deleteButton.focus();
-                menu.keyboardInteractions.execute('escapecommand');
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).toHaveBeenCalled();
             });
 
@@ -866,7 +869,7 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                 deleteButton.focus();
-                menu.keyboardInteractions.execute('escapecommand');
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).not.toHaveBeenCalled();
             });
 

@@ -3,13 +3,15 @@ import { createElement } from 'lwc';
 import Canvas from 'builder_platform_interaction/canvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DeleteElementEvent } from 'builder_platform_interaction/events';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+const { DeleteNodesCommand, ZoomInCommand, ZoomOutCommand } = commands;
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands });
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -93,7 +95,7 @@ describe('Canvas', () => {
             const eventCallback = jest.fn();
             canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
             // on backspace or delete, 'deletenodes' command is executed
-            canvas.keyboardInteractions.execute('deletenodes');
+            canvas.keyboardInteractions.execute(DeleteNodesCommand.COMMAND_NAME);
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({});
         });
@@ -101,14 +103,14 @@ describe('Canvas', () => {
             const canvas = createComponentForTest(defaultNodes, defaultConnectors);
             const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
             // on meta+"-", 'zoomout' command is executed
-            canvas.keyboardInteractions.execute('zoomout');
+            canvas.keyboardInteractions.execute(ZoomOutCommand.COMMAND_NAME);
             expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
         });
         it('Canvas zooms in when meta key is pressed down along with "=" key', () => {
             const canvas = createComponentForTest(defaultNodes, defaultConnectors);
             const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
             // on meta+"=", 'zoomin' command is executed
-            canvas.keyboardInteractions.execute('zoomin');
+            canvas.keyboardInteractions.execute(ZoomInCommand.COMMAND_NAME);
             expect(innerCanvasDiv.style.transform).toEqual('scale(1)');
         });
     });

@@ -4,11 +4,14 @@ import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { ToggleMenuEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
+const { EnterCommand, EscapeCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands });
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
 const startMetadata = {
@@ -169,7 +172,7 @@ describe('the button menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.focus();
-        cmp.keyboardInteractions.execute('entercommand');
+        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -180,7 +183,7 @@ describe('the button menu', () => {
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         cmp.menuOpened = true;
         button.focus();
-        cmp.keyboardInteractions.execute('escapecommand');
+        cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 
@@ -190,7 +193,7 @@ describe('the button menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         button.focus();
-        cmp.keyboardInteractions.execute('entercommand');
+        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback).not.toHaveBeenCalled();
     });
 
@@ -200,7 +203,7 @@ describe('the button menu', () => {
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.focus();
-        cmp.keyboardInteractions.execute('entercommand');
+        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 

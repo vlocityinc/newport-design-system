@@ -7,11 +7,14 @@ import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTri
 import { startElement } from 'mock/storeDataRecordTriggered';
 import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
+const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands });
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
 jest.mock(
@@ -58,18 +61,18 @@ describe('Focus Management', () => {
         const startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.BEFORE_SAVE);
         const callback = jest.fn();
         startNodeTimeTriggerButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
-        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('arrowdown');
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe('arrowDown');
+        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowDown.COMMAND_NAME);
     });
 
     it('Should fire ArrowKeyDownEvent with the right key on pressing arrow up key', () => {
         const startNodeTimeTriggerButtonEditor = setupComponentUnderTest(null, FLOW_TRIGGER_TYPE.BEFORE_SAVE);
         const callback = jest.fn();
         startNodeTimeTriggerButtonEditor.addEventListener(ArrowKeyDownEvent.EVENT_NAME, callback);
-        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('arrowup');
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
-        expect(callback.mock.calls[0][0].detail.key).toBe('arrowUp');
+        expect(callback.mock.calls[0][0].detail.key).toBe(ArrowUp.COMMAND_NAME);
     });
 });
 
@@ -124,7 +127,7 @@ describe('When flow trigger Type is RECORD_CHANGED', () => {
         const callback = jest.fn();
         startNodeTimeTriggerButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
         startNodeTimeTriggerButtonEditor.shadowRoot.querySelector(selectors.startTimeTrigger).focus();
-        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('entercommand');
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         await ticks(1);
         expect(callback).toHaveBeenCalled();
         expect(callback.mock.calls[0][0]).toMatchObject({
@@ -141,7 +144,7 @@ describe('When flow trigger Type is RECORD_CHANGED', () => {
         const callback = jest.fn();
         startNodeTimeTriggerButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
         startNodeTimeTriggerButtonEditor.shadowRoot.querySelector(selectors.startTimeTrigger).focus();
-        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute('spacecommand');
+        startNodeTimeTriggerButtonEditor.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         await ticks(1);
         expect(callback).toHaveBeenCalled();
         expect(callback.mock.calls[0][0]).toMatchObject({

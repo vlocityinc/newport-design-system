@@ -1,10 +1,12 @@
 import { createElement } from 'lwc';
 import WelcomeMatBody from 'builder_platform_interaction/welcomeMatBody';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+const { EnterCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
-    const commands = require('builder_platform_interaction/sharedUtils/commands');
-    return Object.assign({}, sharedUtils, { commands });
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
 const createCallback = jest.fn();
@@ -57,7 +59,7 @@ describe('Welcome Mat Body Actions', () => {
         const welcomeMatBody = createComponentUnderTest();
         const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-left"]');
         input.focus();
-        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        welcomeMatBody.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(createCallback).toHaveBeenCalled();
         expect(createCallback.mock.calls[0][2]).toBeFalsy();
     });
@@ -66,7 +68,7 @@ describe('Welcome Mat Body Actions', () => {
         const welcomeMatBody = createComponentUnderTest();
         const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-left"]');
         input.focus();
-        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        welcomeMatBody.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(closeCallback).toHaveBeenCalled();
     });
 
@@ -74,7 +76,7 @@ describe('Welcome Mat Body Actions', () => {
         const welcomeMatBody = createComponentUnderTest();
         const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
         input.focus();
-        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        welcomeMatBody.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(createCallback).toHaveBeenCalled();
         expect(createCallback.mock.calls[0][2]).toBeTruthy();
     });
@@ -83,7 +85,7 @@ describe('Welcome Mat Body Actions', () => {
         const welcomeMatBody = createComponentUnderTest();
         const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
         input.focus();
-        welcomeMatBody.keyboardInteractions.execute('entercommand');
+        welcomeMatBody.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(closeCallback).toHaveBeenCalled();
     });
 });

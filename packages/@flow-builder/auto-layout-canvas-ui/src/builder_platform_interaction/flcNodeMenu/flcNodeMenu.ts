@@ -214,8 +214,8 @@ export default class FlcNodeMenu extends Menu {
         const keyboardCommands = {
             Enter: new EnterCommand(() => this.handleSpaceOrEnter()),
             ' ': new SpaceCommand(() => this.handleSpaceOrEnter()),
-            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown('arrowDown')),
-            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown('arrowUp')),
+            ArrowDown: new ArrowDown(() => this.handleArrowKeyDown(ArrowDown.COMMAND_NAME)),
+            ArrowUp: new ArrowUp(() => this.handleArrowKeyDown(ArrowUp.COMMAND_NAME)),
             Escape: new EscapeCommand(() => this.handleEscape())
         };
         setupKeyboardShortcutUtil(this.keyboardInteractions, keyboardCommands);

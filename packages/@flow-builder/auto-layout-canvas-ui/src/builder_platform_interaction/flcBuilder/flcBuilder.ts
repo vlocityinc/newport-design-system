@@ -23,7 +23,8 @@ import {
     ZOOM_ACTION,
     ClosePropertyEditorEvent,
     DeleteElementEvent,
-    ToggleSelectionModeEvent
+    ToggleSelectionModeEvent,
+    ClickToZoomEvent
 } from 'builder_platform_interaction/events';
 import {
     FlcSelectionEvent,
@@ -38,6 +39,8 @@ import {
     getCanvasElementDeselectionData
 } from 'builder_platform_interaction/flcComponentsUtils';
 import { getFocusPath } from './alcBuilderUtils';
+
+import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
@@ -59,6 +62,10 @@ const MENU_ICON_SIZE = defaultConfig.node.icon.w;
 const SYNTHETIC_ZOOM_TO_VIEW_EVENT = { detail: { action: ZOOM_ACTION.ZOOM_TO_VIEW } };
 
 const FULL_OPACITY_CLASS = 'full-opacity';
+
+const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
+
+const { KeyboardInteractions } = keyboardInteractionUtils;
 
 // needed to compensate for floating point arithmetic imprecisions
 const FUDGE = 0.02;
@@ -127,6 +134,11 @@ export default class FlcBuilder extends LightningElement {
     // Note: this is only used for the initial render
     dynamicNodeCountAtLoad = 0;
 
+    constructor() {
+        super();
+        this.keyboardInteractions = new KeyboardInteractions();
+    }
+
     @track
     isZoomToView = true;
 
@@ -162,6 +174,9 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     offsets = [0, 0];
+
+    @api
+    keyboardInteractions;
 
     get isReconnecting() {
         return this._reconnectSourceGuid != null;
@@ -799,8 +814,50 @@ export default class FlcBuilder extends LightningElement {
         this.scale = scale;
     };
 
+    setupCommandsAndShortcuts = () => {
+        // Zoom In Command
+        const zoomInCommand = new ZoomInCommand(() => this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN)));
+        this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, {
+            ctrlOrCmd: true,
+            key: '='
+        });
+
+        // Zoom Out Command
+        const zoomOutCommand = new ZoomOutCommand(() =>
+            this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, {
+            ctrlOrCmd: true,
+            key: '-'
+        });
+
+        // Zoom To Fit Command
+        const zoomToFitCommand = new ZoomToFitCommand(() =>
+            this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomToFitCommand, {
+            ctrlOrCmd: true,
+            key: '0'
+        });
+
+        // Zoom To View Command
+        const zoomToViewCommand = new ZoomToViewCommand(() =>
+            this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, {
+            ctrlOrCmd: true,
+            key: '1'
+        });
+    };
+
+    connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
+    }
+
     disconnectedCallback() {
         this._isDisconnected = true;
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 
     handleCanvasClick = (event) => {

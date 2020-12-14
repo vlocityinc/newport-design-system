@@ -6,6 +6,9 @@ import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
+const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
 
 const NODE_MENU_OPENED = true;
 const CONNECTOR_MENU_OPENED = true;
@@ -62,6 +65,11 @@ const nodeToggleMenuEvent2 = new ToggleMenuEvent({
 
 const closeToggleMenuEvent = new ToggleMenuEvent({});
 
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const sharedcommands = require('builder_platform_interaction/sharedUtils/commands');
+    return Object.assign({}, sharedUtils, { commands: sharedcommands });
+});
 jest.mock('builder_platform_interaction/zoomPanel', () => require('builder_platform_interaction_mocks/zoomPanel'));
 jest.mock('builder_platform_interaction/flcFlow', () => require('builder_platform_interaction_mocks/flcFlow'));
 jest.mock('builder_platform_interaction/flcConnectorMenu', () =>
@@ -124,6 +132,11 @@ const createComponentForTest = () => {
 
 async function dispatchEvent(element, event) {
     element.dispatchEvent(event);
+    await ticks(1);
+}
+
+async function dispatchKeyboardCommand(element, command) {
+    element.keyboardInteractions.execute(command);
     await ticks(1);
 }
 
@@ -203,6 +216,42 @@ describe('Auto Layout Canvas', () => {
             expect(zoomPanel.isZoomToView).toEqual(false);
 
             await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT));
+            checkZoomToView();
+        });
+
+        it('zoom-in/zoom-out actions with keyboard', async () => {
+            const zoomPanel = getZoomPanel();
+
+            await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
+            expect(zoomPanel.isZoomInDisabled).toEqual(false);
+            expect(zoomPanel.isZoomOutDisabled).toEqual(false);
+            expect(zoomPanel.isZoomToView).toEqual(false);
+
+            await dispatchKeyboardCommand(cmp, ZoomInCommand.COMMAND_NAME);
+            checkZoomToView();
+        });
+
+        it('zoom-in/zoom-to-view actions with keyboard', async () => {
+            const zoomPanel = getZoomPanel();
+
+            await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
+            expect(zoomPanel.isZoomInDisabled).toEqual(false);
+            expect(zoomPanel.isZoomOutDisabled).toEqual(false);
+            expect(zoomPanel.isZoomToView).toEqual(false);
+
+            await dispatchKeyboardCommand(cmp, ZoomToViewCommand.COMMAND_NAME);
+            checkZoomToView();
+        });
+
+        it('zoom-in/zoom-to-fit actions with keyboard', async () => {
+            const zoomPanel = getZoomPanel();
+
+            await dispatchKeyboardCommand(cmp, ZoomOutCommand.COMMAND_NAME);
+            expect(zoomPanel.isZoomInDisabled).toEqual(false);
+            expect(zoomPanel.isZoomOutDisabled).toEqual(false);
+            expect(zoomPanel.isZoomToView).toEqual(false);
+
+            await dispatchKeyboardCommand(cmp, ZoomToFitCommand.COMMAND_NAME);
             checkZoomToView();
         });
     });

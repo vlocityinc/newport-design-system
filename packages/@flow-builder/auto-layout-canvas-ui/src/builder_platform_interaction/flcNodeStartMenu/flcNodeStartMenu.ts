@@ -1,5 +1,8 @@
 import FlcNodeMenu from 'builder_platform_interaction/flcNodeMenu';
 import { api } from 'lwc';
+import { commands } from 'builder_platform_interaction/sharedUtils';
+
+const { ArrowDown, ArrowUp } = commands;
 
 const selectors = {
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
@@ -40,11 +43,11 @@ export default class FlcNodeStartMenu extends FlcNodeMenu {
     moveFocusToButton = (key, nextButton, prevButton) => {
         let nextFocusElement;
         // The focus should move from trigger button -> context button -> time trigger button -> trigger button
-        if (key === 'arrowDown') {
+        if (key === ArrowDown.COMMAND_NAME) {
             nextFocusElement = nextButton || prevButton;
         }
         // The focus should move from trigger button -> time trigger button -> context button  -> trigger button
-        if (key === 'arrowUp') {
+        if (key === ArrowUp.COMMAND_NAME) {
             nextFocusElement = prevButton || nextButton;
         }
 
