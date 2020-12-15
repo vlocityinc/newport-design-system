@@ -74,16 +74,9 @@ class Loader {
     private readonly store;
 
     /** An object to be able to wait until entities are loaded */
-    private entitiesLoaded = {
-        promise: null,
-        resolve: null,
-        reject: null
-    };
+    private entitiesLoaded: { promise?: Promise<void>; resolve?: Function; reject?: Function } = {};
 
-    private apexClassesLoaded = {
-        promise: null,
-        promiseWithTimeout: null
-    };
+    private apexClassesLoaded: { promise?: Promise<void>; promiseWithTimeout?: Promise<void> } = {};
 
     constructor(store) {
         this.store = store;
@@ -109,7 +102,7 @@ class Loader {
                     );
                 }).catch(() => resolve());
 
-                this.loadApexClasses(timer)
+                this.loadApexClasses()
                     .catch((e) => {
                         reject(e);
                         clearTimeout(timer);
@@ -141,7 +134,7 @@ class Loader {
     }
 
     /**
-     * WARNING: this is subject to take a long time. Do not use in a blocking call. Rather use loadApexClasses that will timeout if it takes too long.
+     * WARNING: this is subject to take a long time. Do not use in a blocking call. Rather use loadApexClassesWithTimeout that will timeout if it takes too long.
      */
     private loadApexClasses(): Promise<void> {
         if (!this.apexClassesLoaded.promise) {
