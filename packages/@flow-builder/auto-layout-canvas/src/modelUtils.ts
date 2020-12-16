@@ -550,7 +550,13 @@ function deleteElement(
     }
 
     // inline when needed
-    if (parentElement != null && childIndex !== FAULT_INDEX && !addEndElement && inline) {
+    if (
+        parentElement != null &&
+        childIndex !== FAULT_INDEX &&
+        !addEndElement &&
+        inline &&
+        (!branchHead || branchHead.childIndex !== FAULT_INDEX)
+    ) {
         const inlineParent =
             nextElement != null &&
             isBranchingElement(nextElement) &&

@@ -877,6 +877,97 @@ describe('modelUtils', () => {
 
             expect(deleteElement(elements, loopElement, 0, getSubElementGuids)).toEqual(expectedState);
         });
+        it('deletes a non branch head element in a Fault branch', () => {
+            const firstElement = {
+                guid: 'first-element',
+                prev: null,
+                next: 'action-element'
+            };
+
+            const actionElement = {
+                guid: 'action-element',
+                prev: 'first-element',
+                next: 'last-element',
+                fault: 'fault-branch-head'
+            };
+
+            const faultBranchHeadElement = {
+                guid: 'fault-branch-head-element',
+                prev: null,
+                next: 'fault-inline-element',
+                parent: 'action-element',
+                childIndex: -1,
+                isTerminal: true
+            };
+
+            const faultInlineElement = {
+                guid: 'fault-inline-element',
+                prev: 'fault-branch-head-element',
+                next: 'fault-end-element'
+            };
+
+            const faultEndElement = {
+                guid: 'fault-end-element',
+                prev: 'fault-inline-element',
+                next: null,
+                elementType: END
+            };
+
+            const lastElement = {
+                guid: 'last-element',
+                prev: 'action-element',
+                next: null,
+                elementType: END
+            };
+
+            const elements = flowModelFromElements([
+                firstElement,
+                actionElement,
+                faultBranchHeadElement,
+                faultInlineElement,
+                faultEndElement,
+                lastElement
+            ]);
+
+            const expectedState = {
+                state: {
+                    'first-element': {
+                        guid: 'first-element',
+                        prev: null,
+                        next: 'action-element'
+                    },
+                    'action-element': {
+                        guid: 'action-element',
+                        prev: 'first-element',
+                        next: 'last-element',
+                        fault: 'fault-branch-head'
+                    },
+                    'fault-branch-head-element': {
+                        guid: 'fault-branch-head-element',
+                        prev: null,
+                        next: 'fault-end-element',
+                        parent: 'action-element',
+                        childIndex: -1,
+                        isTerminal: true
+                    },
+                    'fault-end-element': {
+                        guid: 'fault-end-element',
+                        prev: 'fault-branch-head-element',
+                        next: null,
+                        elementType: END
+                    },
+                    'last-element': {
+                        guid: 'last-element',
+                        prev: 'action-element',
+                        next: null,
+                        elementType: END
+                    }
+                },
+                addEndElement: false
+            };
+
+            expect(deleteElement(elements, faultInlineElement, undefined, getSubElementGuids)).toEqual(expectedState);
+        });
     });
 
     describe('add fault to element', () => {
