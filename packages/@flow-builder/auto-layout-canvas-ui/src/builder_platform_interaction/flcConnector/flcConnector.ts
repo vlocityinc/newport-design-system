@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { classSet } from 'lightning/utils';
 import { ConnectorRenderInfo, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
+import { getStyleFromGeometry, BuilderContext, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorLabels';
 
 /**
@@ -12,7 +12,7 @@ export default class FlcConnector extends LightningElement {
     connectorInfo!: ConnectorRenderInfo;
 
     @api
-    isSelectionMode!: boolean;
+    builderContext!: BuilderContext;
 
     get labels() {
         return LABELS;
@@ -22,7 +22,7 @@ export default class FlcConnector extends LightningElement {
      * Checks if add element button should be visible or not
      */
     get showAddElementButton() {
-        return this.connectorInfo.addInfo && !this.isSelectionMode;
+        return this.connectorInfo.addInfo && this.getBuilderMode() !== BuilderMode.SELECTION;
     }
 
     /**
@@ -96,5 +96,9 @@ export default class FlcConnector extends LightningElement {
 
     get connectorLabelStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY });
+    }
+
+    getBuilderMode() {
+        return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
     }
 }

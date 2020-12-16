@@ -12,10 +12,7 @@ export default class FlcCompoundNode extends LightningElement {
     node;
 
     @api
-    isSelectionMode;
-
-    @api
-    isReconnecting;
+    builderContext!: BuilderContext;
 
     @api
     isCanvasReady;

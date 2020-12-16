@@ -4,7 +4,7 @@
             style={preConnector.style}
             class={preConnector.class}
             connector-info={preConnector.connectorInfo}
-            is-selection-mode={isSelectionMode}
+            builder-context={builderContext}
         ></builder_platform_interaction-flc-connector>
     </template>
     <template for:each={nodes} for:item="node">
@@ -14,8 +14,7 @@
             style={node.style}
             class={node.className}
             node={node.nodeInfo}
-            is-selection-mode={isSelectionMode}
-            is-reconnecting={isReconnecting}
+            builder-context={builderContext}
             is-canvas-ready={isCanvasReady}
         >
         </builder_platform_interaction-flc-compound-node>
@@ -26,7 +25,7 @@
             data-key={faultFlow.key}
             style={faultFlow.style}
             flow={faultFlow.flowInfo}
-            is-selection-mode={isSelectionMode}
+            builder-context={builderContext}
         ></builder_platform_interaction-flc-flow>
     </template>
 </template>

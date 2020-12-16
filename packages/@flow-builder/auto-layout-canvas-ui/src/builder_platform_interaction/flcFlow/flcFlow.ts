@@ -1,6 +1,10 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { getFlcConnectorData, getFlcCompoundNodeData } from 'builder_platform_interaction/flcComponentsUtils';
+import {
+    getFlcConnectorData,
+    getFlcCompoundNodeData,
+    BuilderContext
+} from 'builder_platform_interaction/flcComponentsUtils';
 import { FAULT_INDEX, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
 export default class FlcFlow extends LightningElement {
@@ -8,13 +12,7 @@ export default class FlcFlow extends LightningElement {
     flow;
 
     @api
-    isPasteAvailable;
-
-    @api
-    isSelectionMode;
-
-    @api
-    isReconnecting;
+    builderContext!: BuilderContext;
 
     @api
     isCanvasReady;

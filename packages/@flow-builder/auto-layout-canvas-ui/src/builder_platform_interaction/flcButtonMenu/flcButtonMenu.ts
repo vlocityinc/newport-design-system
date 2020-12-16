@@ -6,7 +6,7 @@ import { classSet } from 'lightning/utils';
 // import { handleKeyDownOnMenuItem, handleKeyDownOnMenuTrigger } from './keyboard';
 
 import { ToggleMenuEvent, MenuPositionUpdateEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
-import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { ICON_SHAPE, BuilderContext, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
@@ -32,7 +32,7 @@ export default class FlcButtonMenu extends LightningElement {
     isNodeGettingDeleted;
 
     @api
-    isSelectionMode;
+    builderContext!: BuilderContext;
 
     @api
     connectionInfo;
@@ -96,7 +96,7 @@ export default class FlcButtonMenu extends LightningElement {
             'slds-button_icon': true,
             'border-none': this.variant !== 'connector',
             'is-end-element': this.variant !== 'connector' && this.elementMetadata.type === ElementType.END,
-            'node-in-selection-mode': this.isSelectionMode,
+            'node-in-selection-mode': this.getBuilderMode() === BuilderMode.SELECTION,
             connector: this.variant === 'connector',
             'node-to-be-deleted': this.isNodeGettingDeleted,
             'circular-icon': this.variant !== 'connector' && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
@@ -107,10 +107,17 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     get computedTabIndex() {
-        return this.isSelectionMode || (this.elementMetadata && this.elementMetadata.type === ElementType.END) ? -1 : 0;
+        return this.getBuilderMode() === BuilderMode.SELECTION ||
+            (this.elementMetadata && this.elementMetadata.type === ElementType.END)
+            ? -1
+            : 0;
     }
 
     /** ***************************** Helper Functions *******************************/
+
+    getBuilderMode() {
+        return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
+    }
 
     focusOnButton() {
         this.template.querySelector('button').focus();
@@ -161,7 +168,7 @@ export default class FlcButtonMenu extends LightningElement {
         event.stopPropagation();
         event.preventDefault();
 
-        if (!this.isSelectionMode) {
+        if (this.getBuilderMode() !== BuilderMode.SELECTION) {
             this.toggleMenuVisibility();
 
             // Focus on the button even if the browser doesn't do it by default
@@ -183,7 +190,7 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     handleSpaceOrEnter() {
-        if (!this.isSelectionMode) {
+        if (this.getBuilderMode() !== BuilderMode.SELECTION) {
             // Opening and closing the current selected element
             this.toggleMenuVisibility(false, true);
         } else {

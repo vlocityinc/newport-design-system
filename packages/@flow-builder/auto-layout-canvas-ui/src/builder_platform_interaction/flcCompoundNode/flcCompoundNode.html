@@ -2,9 +2,8 @@
     <builder_platform_interaction-flc-node
         style={simpleNode.style}
         class={simpleNode.className}
-        is-selection-mode={isSelectionMode}
+        builder-context={builderContext}
         node-info={simpleNode.nodeInfo}
-        is-reconnecting={isReconnecting}
         is-canvas-ready={isCanvasReady}
     ></builder_platform_interaction-flc-node>
 
@@ -14,8 +13,8 @@
             data-key={logicConnector.key}
             class="logic-connector"
             style={logicConnector.style}
+            builder-context={builderContext}
             connector-info={logicConnector.connectorInfo}
-            is-selection-mode={isSelectionMode}
         ></builder_platform_interaction-flc-connector>
     </template>
 
@@ -23,9 +22,8 @@
         <builder_platform_interaction-flc-flow
             key={branch.key}
             style={branch.style}
+            builder-context={builderContext}
             flow={branch.flowInfo}
-            is-selection-mode={isSelectionMode}
-            is-reconnecting={isReconnecting}
         ></builder_platform_interaction-flc-flow>
     </template>
 
@@ -33,8 +31,8 @@
         <builder_platform_interaction-flc-connector
             key={nextConnector.key}
             style={nextConnector.style}
+            builder-context={builderContext}
             connector-info={nextConnector.connectorInfo}
-            is-selection-mode={isSelectionMode}
         ></builder_platform_interaction-flc-connector>
     </template>
 </template>

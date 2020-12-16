@@ -18,9 +18,7 @@
                     class={flow.class}
                     flow={flow.flowInfo}
                     is-canvas-ready={isCanvasReady}
-                    is-paste-available={isPasteAvailable}
-                    is-selection-mode={isSelectionMode}
-                    is-reconnecting={isReconnecting}
+                    builder-context={builderContext}
                     onflcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
                 >
@@ -37,7 +35,7 @@
                             can-merge-ended-branch={menu.canMergeEndedBranch}
                             has-end-element={menu.hasEndElement}
                             child-index={menu.childIndex}
-                            is-paste-available={isPasteAvailable}
+                            builder-context={builderContext}
                             elements-metadata={menu.elementsMetadata}
                             onmergewithexistingpath={handleMergeWithExistingPath}
                             opened-with-keyboard={openedWithKeyboard}

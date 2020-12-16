@@ -20,11 +20,22 @@ import {
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 
+export interface BuilderContext {
+    isPasteAvailable: boolean;
+    mode: BuilderMode;
+}
+
 interface CanvasElementSelectionData {
     canvasElementGuidsToSelect: Guid[];
     canvasElementGuidsToDeselect: Guid[];
     selectableCanvasElementGuids: Guid[];
     topSelectedGuid: Guid | null;
+}
+
+enum BuilderMode {
+    DEFAULT = 'default',
+    SELECTION = 'selection',
+    RECONNECTING = 'reconnecting'
 }
 
 enum ICON_SHAPE {
@@ -697,6 +708,7 @@ function connectorKey(connectorInfo: ConnectorRenderInfo): string {
 
 export {
     ICON_SHAPE,
+    BuilderMode,
     connectorKey,
     getStyleFromGeometry,
     getFlcNodeData,

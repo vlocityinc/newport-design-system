@@ -29,7 +29,7 @@ const createComponentForTest = () => {
     });
 
     el.isSelectionMode = false;
-    el.isPaste = false;
+    el.isPasteAvailable = false;
     el.elementsMetadata = null;
 
     document.body.appendChild(el);

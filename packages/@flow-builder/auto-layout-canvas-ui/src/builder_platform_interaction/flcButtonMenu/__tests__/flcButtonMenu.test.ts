@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { ToggleMenuEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
-import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { ICON_SHAPE, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
@@ -73,14 +73,14 @@ const createComponentUnderTest = (
     variant = '',
     connectionInfo = {},
     isNodeGettingDeleted = false,
-    isSelectionMode = false
+    builderContext = {}
 ) => {
     const el = createElement('builder_platform_interaction-flc-button-menu', {
         is: FlcButtonMenu
     });
     el.elementMetadata = metadata;
     el.isNodeGettingDeleted = isNodeGettingDeleted;
-    el.isSelectionMode = isSelectionMode;
+    el.builderContext = builderContext;
     el.variant = variant;
     el.connectionInfo = connectionInfo;
     document.body.appendChild(el);
@@ -147,13 +147,10 @@ describe('the button menu', () => {
     });
 
     it('should add "node-in-selection-mode" class when in selection mode', () => {
-        const button = createComponentUnderTest(
-            screenMetadata,
-            undefined,
-            undefined,
-            false,
-            true
-        ).shadowRoot.querySelector(selectors.nodeInSelectionMode);
+        const button = createComponentUnderTest(screenMetadata, undefined, undefined, false, {
+            isPasteAvailable: false,
+            mode: BuilderMode.SELECTION
+        }).shadowRoot.querySelector(selectors.nodeInSelectionMode);
         expect(button).not.toBeNull();
     });
 
@@ -208,7 +205,10 @@ describe('the button menu', () => {
     });
 
     it('should not dispatch the toggleMenu event if we are in selection mode', () => {
-        const cmp = createComponentUnderTest(screenMetadata, undefined, undefined, false, true);
+        const cmp = createComponentUnderTest(screenMetadata, undefined, undefined, false, {
+            isPasteAvailable: false,
+            mode: BuilderMode.SELECTION
+        });
         const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
@@ -228,24 +228,18 @@ describe('the button menu', () => {
         });
 
         it('In Selection Mode regular element should have tabindex equal to -1', () => {
-            const button = createComponentUnderTest(
-                screenMetadata,
-                undefined,
-                undefined,
-                false,
-                true
-            ).shadowRoot.querySelector(selectors.triggerButton);
+            const button = createComponentUnderTest(screenMetadata, undefined, undefined, false, {
+                isPasteAvailable: false,
+                mode: BuilderMode.SELECTION
+            }).shadowRoot.querySelector(selectors.triggerButton);
             expect(button.tabIndex).toEqual(-1);
         });
 
         it('In Selection Mode end element should have tabindex equal to -1', () => {
-            const button = createComponentUnderTest(
-                endMetadata,
-                undefined,
-                undefined,
-                false,
-                true
-            ).shadowRoot.querySelector(selectors.endElement);
+            const button = createComponentUnderTest(endMetadata, undefined, undefined, false, {
+                isPasteAvailable: false,
+                mode: BuilderMode.SELECTION
+            }).shadowRoot.querySelector(selectors.endElement);
             expect(button.tabIndex).toEqual(-1);
         });
 
@@ -257,9 +251,10 @@ describe('the button menu', () => {
         });
 
         it('Connector "+" should have tabindex equal to -1 in Selection Mode', () => {
-            const button = createComponentUnderTest(undefined, 'connector', {}, false, true).shadowRoot.querySelector(
-                selectors.triggerButton
-            );
+            const button = createComponentUnderTest(undefined, 'connector', {}, false, {
+                isPasteAvailable: false,
+                mode: BuilderMode.SELECTION
+            }).shadowRoot.querySelector(selectors.triggerButton);
             expect(button.tabIndex).toEqual(-1);
         });
 
@@ -272,13 +267,10 @@ describe('the button menu', () => {
         });
 
         it('Regular element should not get focus on click in Selection Mode', () => {
-            const button = createComponentUnderTest(
-                screenMetadata,
-                undefined,
-                undefined,
-                false,
-                true
-            ).shadowRoot.querySelector(selectors.triggerButton);
+            const button = createComponentUnderTest(screenMetadata, undefined, undefined, false, {
+                isPasteAvailable: false,
+                mode: BuilderMode.SELECTION
+            }).shadowRoot.querySelector(selectors.triggerButton);
             const callback = jest.fn();
             button.addEventListener('focus', callback);
             button.click();

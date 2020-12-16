@@ -36,7 +36,9 @@ import {
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
 import {
     getCanvasElementSelectionData,
-    getCanvasElementDeselectionData
+    getCanvasElementDeselectionData,
+    BuilderMode,
+    BuilderContext
 } from 'builder_platform_interaction/flcComponentsUtils';
 import { getFocusPath } from './alcBuilderUtils';
 
@@ -193,6 +195,19 @@ export default class FlcBuilder extends LightningElement {
 
     get elementsMetadata(): any[] {
         return this._elementsMetadata!;
+    }
+
+    get builderContext(): BuilderContext {
+        const mode = this.isReconnecting
+            ? BuilderMode.RECONNECTING
+            : this.isSelectionMode
+            ? BuilderMode.SELECTION
+            : BuilderMode.DEFAULT;
+        const isPasteAvailable = this.isPasteAvailable;
+        return {
+            isPasteAvailable,
+            mode
+        };
     }
 
     @api

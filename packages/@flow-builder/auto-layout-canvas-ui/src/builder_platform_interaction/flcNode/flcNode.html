@@ -7,7 +7,7 @@
         menu-opened={nodeInfo.menuOpened}
         is-canvas-ready={isCanvasReady}
         is-node-getting-deleted={nodeInfo.toBeDeleted}
-        is-selection-mode={isSelectionMode}
+        builder-context={builderContext}
         onclick={handleButtonClick}
         ondblclick={handleOnDblClick}
     >
@@ -26,7 +26,7 @@
                 if:true={dynamicNodeConstructor}
                 lwc:dynamic={dynamicNodeConstructor}
                 node={nodeInfo}
-                is-selection-mode={isSelectionMode}
+                builder-context={builderContext}
                 class="component"
             ></x-lazy>
         </div>

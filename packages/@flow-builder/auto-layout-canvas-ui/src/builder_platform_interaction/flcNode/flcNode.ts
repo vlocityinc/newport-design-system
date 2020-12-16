@@ -4,7 +4,7 @@ import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
 import { classSet } from 'lightning/utils';
-import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { ICON_SHAPE, BuilderContext, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcNodeLabels';
 
 enum ConditionOptions {
@@ -44,13 +44,11 @@ export default class FlcNode extends LightningElement {
     }
 
     @api
-    isSelectionMode;
+    builderContext!: BuilderContext;
 
     get labels() {
         return LABELS;
     }
-    @api
-    isReconnecting;
 
     @api
     isCanvasReady;
@@ -101,10 +99,13 @@ export default class FlcNode extends LightningElement {
     get showCheckboxInSelectionMode() {
         const { type } = this.nodeInfo.metadata;
         const isValidType =
-            (this.isReconnecting && type === ElementType.END) ||
+            (this.getBuilderMode() === BuilderMode.RECONNECTING && type === ElementType.END) ||
             ![ElementType.START, ElementType.END, ElementType.ROOT].includes(type);
 
-        return this.isSelectionMode && isValidType;
+        const checkout =
+            (this.getBuilderMode() === BuilderMode.RECONNECTING || this.getBuilderMode() === BuilderMode.SELECTION) &&
+            isValidType;
+        return checkout;
     }
 
     get shouldDisableCheckbox() {
@@ -141,6 +142,10 @@ export default class FlcNode extends LightningElement {
         return this.nodeInfo.metadata.type !== ElementType.END;
     }
 
+    getBuilderMode() {
+        return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
+    }
+
     /**
      * Import the constructor and update the component params
      *
@@ -173,7 +178,7 @@ export default class FlcNode extends LightningElement {
     handleButtonClick(event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
-        if (!this.isSelectionMode && type !== ElementType.END) {
+        if (this.getBuilderMode() !== BuilderMode.SELECTION && type !== ElementType.END) {
             const nodeSelectedEvent = new SelectNodeEvent(
                 this.nodeInfo.guid,
                 undefined,
@@ -191,7 +196,7 @@ export default class FlcNode extends LightningElement {
     handleOnDblClick(event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
-        if (type !== ElementType.START && type !== ElementType.END && !this.isSelectionMode) {
+        if (type !== ElementType.START && type !== ElementType.END && this.getBuilderMode() !== BuilderMode.SELECTION) {
             this.dispatchEvent(new EditElementEvent(this.nodeInfo.guid));
         }
     }

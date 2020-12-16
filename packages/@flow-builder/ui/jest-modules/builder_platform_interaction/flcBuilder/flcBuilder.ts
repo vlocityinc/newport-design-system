@@ -6,9 +6,6 @@ export default class FlcBuilder extends LightningElement {
     elementsMetadata;
 
     @api
-    isPasteAvailable;
-
-    @api
     isSelectionMode;
 
     @api
@@ -16,4 +13,7 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     offsets;
+
+    @api
+    isPasteAvailable;
 }

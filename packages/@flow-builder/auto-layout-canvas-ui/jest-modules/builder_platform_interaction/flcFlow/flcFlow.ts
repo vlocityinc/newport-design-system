@@ -6,13 +6,7 @@ export default class FlcFlow extends LightningElement {
     flow;
 
     @api
-    isPasteAvailable;
-
-    @api
-    isSelectionMode;
-
-    @api
-    isReconnecting;
+    builderContext;
 
     @api
     isCanvasReady;
