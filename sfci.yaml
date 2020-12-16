@@ -14,5 +14,6 @@ validations:
 core:
     module_name: 'ui-interaction-builder-components'
     version_property_name: 'ui-interaction-builder-components.version'
+
 build_resource_size: huge
 build_image: ops0-artifactrepo1-0-prd.data.sfdc.net/dci/centos-sfci-nodejs:4037264
