@@ -5,8 +5,7 @@ import {
     getFlcCompoundNodeData,
     BuilderContext
 } from 'builder_platform_interaction/flcComponentsUtils';
-import { FAULT_INDEX } from 'builder_platform_interaction/autoLayoutCanvas';
-import { PathToNode } from 'builder_platform_interaction/flcBuilder/alcBuilderUtils';
+import { FAULT_INDEX, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
 export default class FlcFlow extends LightningElement {
     @api
@@ -46,7 +45,7 @@ export default class FlcFlow extends LightningElement {
     }
 
     @api
-    findNode(pathToFocusNode: PathToNode[]) {
+    findNode(pathToFocusNode: Array<{ guid: Guid; index?: number }>) {
         const compoundNode = this.template.querySelector(
             `builder_platform_interaction-flc-compound-node[data-key='${pathToFocusNode[0].guid}']`
         );
@@ -61,7 +60,7 @@ export default class FlcFlow extends LightningElement {
     }
 
     @api
-    findConnector(pathToFocusNode: PathToNode[], focusBranchIndex?: number) {
+    findConnector(pathToFocusNode: Array<{ guid: Guid; index?: number }>, focusBranchIndex?: number) {
         const compoundNode = this.template.querySelector(
             `builder_platform_interaction-flc-compound-node[data-key='${pathToFocusNode[0].guid}']`
         );
