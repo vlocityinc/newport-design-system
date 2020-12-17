@@ -31,7 +31,8 @@ import {
     FlcCreateConnectionEvent,
     ToggleMenuEvent,
     NodeResizeEvent,
-    MoveFocusToNodeEvent
+    MoveFocusToNodeEvent,
+    MoveFocusToConnectorEvent
 } from 'builder_platform_interaction/flcEvents';
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
 import {
@@ -663,6 +664,17 @@ export default class FlcBuilder extends LightningElement {
     };
 
     /**
+     * Handles moving focus to the connector from the Connector Menu
+     * @param event - moveFocusToConnector event coming from connectorMenu
+     */
+    handleMoveFocusToConnector = (event: MoveFocusToConnectorEvent) => {
+        event.stopPropagation();
+        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: event.detail.focusGuid }]);
+        const flcFlow = this.template.querySelector('builder_platform_interaction-flc-flow');
+        flcFlow.findConnector(pathToFocusNode, event.detail.index).focus();
+    };
+
+    /**
      * Handles moving focus to the node from the Start/Regular Node Menu
      * @param event - moveFocusToNode event coming from nodeMenu or startMenu
      */
@@ -674,7 +686,7 @@ export default class FlcBuilder extends LightningElement {
     };
 
     /**
-     * Rerenders the flow
+     * Re-renders the flow
      *
      * @param {boolean} isFirstRender - true if it's the first time rendering the flow
      */

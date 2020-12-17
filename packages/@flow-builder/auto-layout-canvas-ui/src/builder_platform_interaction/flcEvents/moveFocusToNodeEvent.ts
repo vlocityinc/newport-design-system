@@ -11,7 +11,7 @@ interface MoveFocusToNodeEventDetail {
 
 export class MoveFocusToNodeEvent extends CustomEvent<MoveFocusToNodeEventDetail> {
     /**
-     * @param focusGuid - the guid of the target element to reconnect
+     * @param focusGuid - Guid of the element that needs to be focused
      */
     constructor(focusGuid: Guid) {
         super(eventName, {

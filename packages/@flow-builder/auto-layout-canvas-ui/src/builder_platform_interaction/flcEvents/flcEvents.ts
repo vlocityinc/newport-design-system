@@ -13,3 +13,4 @@ export { CloseMenuEvent } from './closeMenuEvent';
 export { NodeResizeEvent } from './nodeResizeEvent';
 export { ClearHighlightedPathEvent } from './clearHighlightedPathEvent';
 export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';
+export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';

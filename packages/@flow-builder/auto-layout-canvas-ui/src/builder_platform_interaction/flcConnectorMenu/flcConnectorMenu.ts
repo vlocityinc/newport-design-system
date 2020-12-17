@@ -2,7 +2,12 @@ import { Guid, ElementMetadata } from 'builder_platform_interaction/autoLayoutCa
 
 import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent, PasteEvent, MergeWithExistingPathEvent } from 'builder_platform_interaction/flcEvents';
+import {
+    CloseMenuEvent,
+    PasteEvent,
+    MergeWithExistingPathEvent,
+    MoveFocusToConnectorEvent
+} from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
 import { BuilderContext } from 'builder_platform_interaction/flcComponentsUtils';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from './flcConnectorMenuConfig';
@@ -82,6 +87,7 @@ export default class FlcConnectorMenu extends Menu {
         switch (action) {
             case PASTE_ACTION:
                 this.dispatchEvent(new PasteEvent(this.prev!, this.next!, this.parent!, this.childIndex!));
+                this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
                 break;
             case MERGE_PATH_ACTION:
                 this.dispatchEvent(new MergeWithExistingPathEvent(this.next!));
@@ -128,6 +134,7 @@ export default class FlcConnectorMenu extends Menu {
 
     handleEscape() {
         this.dispatchEvent(new CloseMenuEvent());
+        this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
     }
 
     setupCommandsAndShortcuts() {

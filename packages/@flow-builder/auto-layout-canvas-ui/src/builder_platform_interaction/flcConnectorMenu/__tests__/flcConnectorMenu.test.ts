@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { CloseMenuEvent, MoveFocusToConnectorEvent } from 'builder_platform_interaction/flcEvents';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
@@ -203,6 +203,64 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
+    it('Pressing enter while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing space while focus is on paste should fire the MoveFocusToConnectorEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
     it('should dispatch merge path event when merge path is specified ', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [
@@ -305,6 +363,16 @@ describe('connector menu', () => {
         const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
         const callback = jest.fn();
         cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing escape while focus is on a row item should fire the MoveFocusToConnectorEvent', () => {
+        const cmp = createComponentUnderTest();
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();
         cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();

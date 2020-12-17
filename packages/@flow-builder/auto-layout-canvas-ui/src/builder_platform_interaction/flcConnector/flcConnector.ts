@@ -101,4 +101,9 @@ export default class FlcConnector extends LightningElement {
     getBuilderMode() {
         return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
     }
+
+    @api
+    focus() {
+        this.template.querySelector('builder_platform_interaction-flc-button-menu').focus();
+    }
 }
