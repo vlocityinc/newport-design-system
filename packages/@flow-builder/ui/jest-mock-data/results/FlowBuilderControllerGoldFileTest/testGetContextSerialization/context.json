@@ -4,6 +4,7 @@
       "orgHasFlowBuilderDebug":false,
       "orgHasComplianceBannerEnabled":false,
       "orgHasBeforeSaveEnabled":true,
+      "orgHasFlowBuilderAutomaticFields":true,
       "orgHasFlowScreenSections":true,
       "orgHasFlowBuilderGuardrails":true
     },
@@ -12,53 +13,13 @@
     "orgId":"00Dxx0000000000",
     "canVAD":true,
     "builderConfig":{
-      "builderType":"JourneyBuilder",
+      "builderType":"FlowBuilder",
       "newFlowConfig":{
         "showRecommended":true,
-        "showAll":true,
-        "defaultNewFlow":{
-  "fieldsToNull" : [ ],
-  "metadata" : {
-    "actionCalls" : [ ],
-    "apexPluginCalls" : [ ],
-    "assignments" : [ ],
-    "choices" : [ ],
-    "collectionProcessors" : [ ],
-    "constants" : [ ],
-    "decisions" : [ ],
-    "dynamicChoiceSets" : [ ],
-    "formulas" : [ ],
-    "isAdditionalPermissionRequiredToRun" : false,
-    "isTemplate" : false,
-    "loops" : [ ],
-    "orchestratedStages" : [ ],
-    "processType" : "Journey",
-    "recordCreates" : [ ],
-    "recordDeletes" : [ ],
-    "recordLookups" : [ ],
-    "recordUpdates" : [ ],
-    "screens" : [ ],
-    "stages" : [ ],
-    "start" : {
-      "doesRequireRecordChangedToMeetCriteria" : false,
-      "filters" : [ ],
-      "locationX" : 50,
-      "locationY" : 50,
-      "object" : "MarketAudienceMember",
-      "processMetadataValues" : [ ],
-      "scheduledPaths" : [ ],
-      "triggerType" : "ScheduledJourney"
-    },
-    "steps" : [ ],
-    "subflows" : [ ],
-    "textTemplates" : [ ],
-    "variables" : [ ],
-    "waits" : [ ]
-  }
-}
+        "showAll":true
       },
-      "name":"Journey Builder",
-      "icon":"utility:checkin",
+      "name":"Flow Builder",
+      "icon":"utility:flow",
       "componentConfigs":{
         "editMode":{
           "rightPanelConfig":{
@@ -123,9 +84,36 @@
           }
         }
       },
-      "usePanelForPropertyEditor":true,
+      "usePanelForPropertyEditor":false,
       "supportedProcessTypes":[
-        "Journey"
+        "ActionCadenceFlow",
+        "ActionPlan",
+        "AppProcess",
+        "Appointments",
+        "AutoLaunchedFlow",
+        "CartAsyncFlow",
+        "CheckoutFlow",
+        "ContactRequestFlow",
+        "CustomEvent",
+        "CustomerLifecycle",
+        "DigitalForm",
+        "FSCLending",
+        "FieldServiceMobile",
+        "FieldServiceWeb",
+        "Flow",
+        "InvocableProcess",
+        "JourneyBuilderIntegration",
+        "LoginFlow",
+        "ManagedContentFlow",
+        "OrchestrationFlow",
+        "RecommendationStrategy",
+        "RoutingFlow",
+        "SalesEntryExperienceFlow",
+        "Survey",
+        "SurveyEnrich",
+        "TransactionSecurityFlow",
+        "UserProvisioningFlow",
+        "Workflow"
       ]
     }
   }
