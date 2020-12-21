@@ -55,3 +55,10 @@ export function orgHasBeforeSaveEnabled() {
 export function orgHasFlowBuilderGuardrails() {
     return context.access && context.access.orgHasFlowBuilderGuardrails;
 }
+
+/*
+ * @returns true if the automatic fields org perm is enabled
+ */
+export function orgHasFlowBuilderAutomaticFields() {
+    return context.access && context.access.orgHasFlowBuilderAutomaticFields;
+}
