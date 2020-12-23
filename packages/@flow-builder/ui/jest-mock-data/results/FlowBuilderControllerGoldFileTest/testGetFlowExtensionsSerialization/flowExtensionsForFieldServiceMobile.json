@@ -3,6 +3,7 @@
     {
   "category" : "Input",
   "description" : "Lookup Component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Lookup",
   "qualifiedApiName" : "flowruntime:lookup",
@@ -10,12 +11,14 @@
 },
     {
   "description" : "Upload and attach files to records.",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "File Upload",
   "qualifiedApiName" : "forceContent:fileUpload",
   "source" : "Standard"
 },
     {
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:LcInFieldServiceMobileFlowOnly",
   "source" : "Standard"
@@ -23,6 +26,7 @@
     {
   "category" : "Inputs",
   "description" : "A raptor testing component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "LWC Test Component",
   "qualifiedApiName" : "interactiontest:lwcFieldServiceMobileTestComponent",
@@ -32,6 +36,7 @@
   "category" : "Inputs",
   "configurationEditor" : "c-cpe-cmp",
   "description" : "A raptor testing component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "LWC Test Component",
   "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",

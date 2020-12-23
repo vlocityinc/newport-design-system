@@ -328,14 +328,23 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             timeSourceOptions = timeSourceOptions.slice(1);
             const filteredOptions = timeSourceOptions.filter((timeSourceOption) => {
                 timeSourceOption = getValueFromHydratedItem(timeSourceOption.value);
-                const dataType = getSObjectField(timeSourceOption).dataType;
-                return dataType !== 'Date' && dataType !== 'DateTime';
+                const sobjectField = getSObjectField(timeSourceOption);
+                const dataType = sobjectField.dataType;
+                return (dataType !== 'Date' && dataType !== 'DateTime') || !sobjectField.isWorkflowFilterable;
             });
             expect(filteredOptions.length).toEqual(0);
             let timeSourceOption = getValueFromHydratedItem(timeSourceOptions[1].value);
             expect(getSObjectField(timeSourceOption).dataType).toEqual('DateTime');
-            timeSourceOption = getValueFromHydratedItem(timeSourceOptions[6].value);
+            timeSourceOption = getValueFromHydratedItem(timeSourceOptions[3].value);
             expect(getSObjectField(timeSourceOption).dataType).toEqual('Date');
+        });
+        it('options have isWorkflowFilterable equals true', () => {
+            let timeSourceOptions = getTimeSourceCombobox(timeTriggerComponent).options;
+            timeSourceOptions = timeSourceOptions.slice(1);
+            timeSourceOptions.forEach((option) => {
+                const timeSourceOption = getValueFromHydratedItem(option.value);
+                expect(getSObjectField(timeSourceOption).isWorkflowFilterable).toEqual(true);
+            });
         });
     });
     describe('New Time Trigger', () => {

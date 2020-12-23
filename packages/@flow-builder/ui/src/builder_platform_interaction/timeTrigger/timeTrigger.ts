@@ -108,7 +108,10 @@ export default class TimeTrigger extends LightningElement {
             fetchFieldsForEntity(entity.apiName)
                 .then((fields) => {
                     Object.keys(fields).forEach((key) => {
-                        if (fields[key].dataType === 'DateTime' || fields[key].dataType === 'Date') {
+                        if (
+                            fields[key].isWorkflowFilterable &&
+                            (fields[key].dataType === 'DateTime' || fields[key].dataType === 'Date')
+                        ) {
                             eventDateOptions.push({
                                 label: `${entity.apiName}: ${fields[key].label}`,
                                 value: fields[key].apiName

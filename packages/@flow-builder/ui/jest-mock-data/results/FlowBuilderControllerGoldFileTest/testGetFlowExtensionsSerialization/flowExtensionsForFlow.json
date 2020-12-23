@@ -1,6 +1,7 @@
 {
   "flowExtensionsForFlow":[
     {
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Hello World",
   "qualifiedApiName" : "c:HelloWorld",
@@ -9,6 +10,7 @@
     {
   "category" : "Inputs",
   "description" : "The description",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "genericTypes" : {
     "done" : true,
@@ -27,12 +29,14 @@
   "source" : "Unmanaged"
 },
     {
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Hello World",
   "qualifiedApiName" : "c:noSobjectOutputComp",
   "source" : "Unmanaged"
 },
     {
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "sobjectCollectionOutputComp",
   "qualifiedApiName" : "c:sobjectCollectionOutputComp",
@@ -40,6 +44,7 @@
 },
     {
   "description" : "Display available time slots for a Field Service appointment.",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Appointment Scheduling",
   "qualifiedApiName" : "embeddedService:fieldServiceScheduling",
@@ -47,6 +52,7 @@
 },
     {
   "description" : "Address Component",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Address",
   "qualifiedApiName" : "flowruntime:address",
@@ -54,6 +60,7 @@
 },
     {
   "description" : "Dependent Picklists",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Dependent Picklists",
   "qualifiedApiName" : "flowruntime:dependentPicklists",
@@ -61,6 +68,7 @@
 },
     {
   "description" : "Email Component",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Email",
   "qualifiedApiName" : "flowruntime:email",
@@ -68,6 +76,7 @@
 },
     {
   "description" : "Display Image",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Display Image",
   "qualifiedApiName" : "flowruntime:image",
@@ -76,6 +85,7 @@
     {
   "category" : "Input",
   "description" : "Lookup Component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Lookup",
   "qualifiedApiName" : "flowruntime:lookup",
@@ -83,6 +93,7 @@
 },
     {
   "description" : "Name Component",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Name",
   "qualifiedApiName" : "flowruntime:name",
@@ -90,6 +101,7 @@
 },
     {
   "description" : "Phone",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Phone",
   "qualifiedApiName" : "flowruntime:phone",
@@ -97,6 +109,7 @@
 },
     {
   "description" : "Slider Component",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Slider",
   "qualifiedApiName" : "flowruntime:slider",
@@ -104,6 +117,7 @@
 },
     {
   "description" : "Toggle",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Toggle",
   "qualifiedApiName" : "flowruntime:toggle",
@@ -111,6 +125,7 @@
 },
     {
   "description" : "URL Component",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "URL",
   "qualifiedApiName" : "flowruntime:url",
@@ -118,17 +133,20 @@
 },
     {
   "description" : "Upload and attach files to records.",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "File Upload",
   "qualifiedApiName" : "forceContent:fileUpload",
   "source" : "Standard"
 },
     {
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
   "source" : "Standard"
 },
     {
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:LcInAllFlows",
   "source" : "Standard"
@@ -136,6 +154,7 @@
     {
   "category" : "Inputs",
   "description" : "A raptor testing component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "genericTypes" : {
     "done" : true,
@@ -157,6 +176,7 @@
     {
   "category" : "Inputs",
   "description" : "A raptor testing component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "genericTypes" : {
     "done" : true,
@@ -177,6 +197,7 @@
 },
     {
   "description" : "A raptor recored picker",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "genericTypes" : {
     "done" : true,
@@ -199,6 +220,7 @@
   "category" : "Inputs",
   "configurationEditor" : "c-cpe-cmp",
   "description" : "A raptor testing component",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "LWC Test Component",
   "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
@@ -206,6 +228,7 @@
 },
     {
   "description" : "Create a script for agents to follow while talking on the phone with customers.",
+  "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Call Script",
   "qualifiedApiName" : "lbpm:flowScript",
