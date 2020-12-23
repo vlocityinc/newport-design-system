@@ -63,6 +63,7 @@ export default class FlcNodeMenu extends Menu {
         return getMenuConfiguration(this.elementMetadata, this.contextualMenuMode, this.elementHasFault);
     }
     set menuConfiguration(config) {
+        // eslint-disable-next-line no-setter-return
         return config;
     }
     get menuWrapper() {

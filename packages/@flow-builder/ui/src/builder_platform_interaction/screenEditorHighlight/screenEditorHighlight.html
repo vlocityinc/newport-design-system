@@ -11,9 +11,7 @@
     >
         <div class="highlight-header slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center">
             <lightning-icon icon-name={highlightIcon} size="x-small" variant="inverse"></lightning-icon>
-            <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">
-                {title}
-            </div>
+            <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">{title}</div>
         </div>
 
         <div if:false={shouldPreventEvents} class="highlight-frame highlight-frame-allow-events">

@@ -1,8 +1,6 @@
 <template>
     <div class={containerClasses}>
-        <h3 if:true={showTitle} class="slds-text-heading_small slds-p-around_small">
-            {filterRecordsTitle}
-        </h3>
+        <h3 if:true={showTitle} class="slds-text-heading_small slds-p-around_small">{filterRecordsTitle}</h3>
         <div
             class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
             if:true={showWarningMessage}

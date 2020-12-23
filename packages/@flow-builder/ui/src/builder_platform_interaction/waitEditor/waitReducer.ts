@@ -61,7 +61,7 @@ const validateProperty = (state, event) => {
             state,
             event.detail.value,
             event.detail.guid || // label description should have guid automatically filled in- W-5553931
-            event.detail.parentGUID || // fallback in case of wait events, we want to use the parentGuid which is waitEvent's guid
+                event.detail.parentGUID || // fallback in case of wait events, we want to use the parentGuid which is waitEvent's guid
                 state.guid
         ); // fallback for wait's own guid
     }

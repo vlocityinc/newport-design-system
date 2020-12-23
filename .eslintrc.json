@@ -36,7 +36,11 @@
 
                 "prefer-rest-params": "off",
                 "prefer-spread": "off",
-                "jest/no-try-expect": "off"
+                "jest/no-try-expect": "off",
+                "no-shadow": "off",
+                "no-unused-vars": "off",
+                "no-undef": "off",
+                "no-use-before-define": "off"
             }
         }
     ]

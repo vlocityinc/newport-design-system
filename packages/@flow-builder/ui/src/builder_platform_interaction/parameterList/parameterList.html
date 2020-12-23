@@ -10,9 +10,7 @@
         automatic-output-variables={automaticOutputVariables}
     ></builder_platform_interaction-custom-property-editor>
     <template if:false={hasConfigurationEditor}>
-        <h3 if:false={emptyInputs} class="slds-text-heading_small slds-p-vertical_small inputHeader">
-            {inputHeader}
-        </h3>
+        <h3 if:false={emptyInputs} class="slds-text-heading_small slds-p-vertical_small inputHeader">{inputHeader}</h3>
         <div class="slds-p-horizontal_small inputs">
             <ul if:false={emptyInputs}>
                 <template for:each={sortedInputsWithWarnings} for:item="input" for:index="index">
@@ -51,9 +49,7 @@
         </builder_platform_interaction-use-advanced-options-checkbox>
 
         <div if:true={isAdvancedMode} class={cssDivAdvancedMode}>
-            <h3 class="slds-text-heading_small slds-p-around_small outputHeader">
-                {outputHeader}
-            </h3>
+            <h3 class="slds-text-heading_small slds-p-around_small outputHeader">{outputHeader}</h3>
             <div class="slds-p-horizontal_small outputs">
                 <ul>
                     <template for:each={sortedOutputsWithWarnings} for:item="output" for:index="index">

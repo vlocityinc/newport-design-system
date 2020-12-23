@@ -109,6 +109,7 @@ const getComboboxValuesPath = (combobox: Combobox, propertyName: string) => {
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace, no-redeclare
     namespace jest {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         interface Matchers<R> {
             canSelectInCombobox(propertyName: string, propertyValues: string[]): CustomMatcherResult;
         }

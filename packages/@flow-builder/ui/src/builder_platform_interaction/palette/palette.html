@@ -24,9 +24,7 @@
                             alternative-text={row.toggleAlternativeText}
                             class="slds-m-right_x-small test-section-chevron-icon"
                         ></lightning-button-icon>
-                        <div class="slds-truncate" title={row.label}>
-                            {row.label}
-                        </div>
+                        <div class="slds-truncate" title={row.label}>{row.label}</div>
                     </th>
                     <td if:true={enableLocator} role="gridcell"></td>
                     <td if:true={showResourceDetails} role="gridcell"></td>

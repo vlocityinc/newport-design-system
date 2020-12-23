@@ -59,8 +59,15 @@ describe('base-resource-picker', () => {
 
     describe('initialized the combobox with the values inside the combobox config object', () => {
         it('config including all values except type and errorMessage', () => {
-            const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
-            delete comboboxConfigWithoutType.type;
+            const comboboxConfigWithoutType = {
+                label: 'test label',
+                placeholder: 'test placeholder',
+                errorMessage: 'test error message',
+                literalsAllowed: true,
+                required: true,
+                disabled: false,
+                variant: LIGHTNING_INPUT_VARIANTS.STANDARD
+            };
 
             const baseResourcePicker = setupComponentUnderTest({
                 comboboxConfig: comboboxConfigWithoutType,
@@ -164,8 +171,15 @@ describe('base-resource-picker', () => {
     });
 
     it('uses placeholder property, if no placeholder is in config', () => {
-        const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
-        delete comboboxConfigWithoutType.placeholder;
+        const comboboxConfigWithoutType = {
+            label: 'test label',
+            errorMessage: 'test error message',
+            literalsAllowed: true,
+            required: true,
+            disabled: false,
+            type: FLOW_DATA_TYPE.NUMBER.value,
+            variant: LIGHTNING_INPUT_VARIANTS.STANDARD
+        };
 
         const baseResourcePicker = setupComponentUnderTest({
             comboboxConfig: comboboxConfigWithoutType,

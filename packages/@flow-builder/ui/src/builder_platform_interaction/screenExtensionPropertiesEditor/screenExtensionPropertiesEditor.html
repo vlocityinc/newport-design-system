@@ -66,7 +66,7 @@
                     if:true={isManualOutputDisplayedBeforeAdvancedAccordionSection}
                     class="slds-m-bottom_small slds-m-top_small slds-p-top_small slds-accordion__list-item outputBeforeAccordion"
                 >
-                    <h3 class="slds-p-left_medium" style="font-size: 3; font-weight: bold;">
+                    <h3 class="slds-p-left_medium" style="font-size: 3; font-weight: bold">
                         {labels.extensionOutputsHeader}
                     </h3>
                     <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
@@ -109,9 +109,7 @@
                                 if:true={isManualOutputDisplayedInAdvancedAccordionSection}
                                 class="slds-m-bottom_small slds-m-top_small outputInAccordion"
                             >
-                                <h3 style="font-size: 3; font-weight: bold;">
-                                    {labels.extensionOutputsHeader}
-                                </h3>
+                                <h3 style="font-size: 3; font-weight: bold">{labels.extensionOutputsHeader}</h3>
                                 <div class="slds-m-top_small">
                                     <template for:each={state.outputParameters} for:item="param" for:index="index">
                                         <builder_platform_interaction-screen-extension-attribute-editor

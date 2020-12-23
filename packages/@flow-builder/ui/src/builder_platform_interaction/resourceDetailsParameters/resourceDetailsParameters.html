@@ -8,9 +8,7 @@
         ></lightning-spinner>
     </div>
     <div if:true={state.hasParameters} class="resource-detail-parameters-body">
-        <div class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small">
-            {labels.header}
-        </div>
+        <div class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small">{labels.header}</div>
         <ul class="slds-has-block-links test-list-section-items">
             <template for:each={parameters} for:item="parameter">
                 <li key={parameter.apiName} class="slds-item">

@@ -1,11 +1,7 @@
 <template>
     <div class={bodyTextContainerClass}>
-        <p if:true={bodyTextOne} class={bodyTextOneClass}>
-            {bodyTextOne}
-        </p>
-        <p if:true={bodyTextTwo} class="slds-text-align_center slds-m-top_small">
-            {bodyTextTwo}
-        </p>
+        <p if:true={bodyTextOne} class={bodyTextOneClass}>{bodyTextOne}</p>
+        <p if:true={bodyTextTwo} class="slds-text-align_center slds-m-top_small">{bodyTextTwo}</p>
     </div>
     <div if:true={hasUsedByContent} class="slds-p-horizontal_small">
         <builder_platform_interaction-used-by-content

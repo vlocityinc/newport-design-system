@@ -3,7 +3,7 @@
     <div
         tabindex="0"
         class="slds-border_top test-trigger-button"
-        style="background-color: white;"
+        style="background-color: white"
         onclick={handleTriggerClick}
     >
         <!--UNSET TRIGGER/SCHEDULE-->
@@ -14,9 +14,7 @@
                 class="slds-current-color slds-m-right_x-small"
                 size="xx-small"
             ></lightning-icon>
-            <span>
-                {chooseScheduleOrEvent}
-            </span>
+            <span> {chooseScheduleOrEvent} </span>
         </div>
         <!--CONFIGURED TRIGGER/SCHEDULE-->
         <div if:true={isSetTrigger} class={startButtonClasses}>

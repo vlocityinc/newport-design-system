@@ -9,9 +9,7 @@
                 onclick={handleAddClicked}
             >
             </lightning-button>
-            <div if:true={hasMaxItems} class="slds-text-color_weak">
-                {maxItemsHelpText}
-            </div>
+            <div if:true={hasMaxItems} class="slds-text-color_weak">{maxItemsHelpText}</div>
         </div>
     </div>
 </template>

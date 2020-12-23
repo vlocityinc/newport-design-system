@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 
-import { getFlcConnectorData, getFlcFlowData, getFlcNodeData } from 'builder_platform_interaction/flcComponentsUtils';
+import {
+    BuilderContext,
+    getFlcConnectorData,
+    getFlcFlowData,
+    getFlcNodeData
+} from 'builder_platform_interaction/flcComponentsUtils';
 
 /**
  *  Auto layout Canvas Compound Node

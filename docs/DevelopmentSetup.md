@@ -4,8 +4,8 @@
 
 1. Install prerequisites
 
-- Node.js (version 12.16.2)
-- yarn (version >= 1.3.2)
+- Node.js (version 12.18.3)
+- yarn (version 1.3.2)
 - git (version >= 2.13.0 : this is necessary for [husky](https://github.com/typicode/husky/tree/master))
 
 Setup nexus/npm as described here: https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=NEXUS&title=Nexus+NPM+Repositories
@@ -16,14 +16,14 @@ Note: If you haven't setup SSH Keys before you can look here: https://help.githu
 
 ```sh
 yarn --version && node --version && git --version
-> 1.22.4
-> v12.16.2
+> 1.3.2
+> v12.18.3
 > git version 2.17.1
 ```
 
-To update your node version do: `nvm install v12.16.2 && nvm use v12.16.2)`
+To update your node version do: `nvm install v12.18.3 && nvm use v12.18.3)`
 
-To update your yarn version do: `brew unlink yarn && brew install yarn@1.22.4`
+To update your yarn version do: `brew unlink yarn && brew install yarn@1.3.2`
 
 > Note: I was able to successfully use yarn v1.22.5, simply ran `brew install yarn` to get it
 > See the engines field of the package.json file for the current acceptable versions of node and yarn)

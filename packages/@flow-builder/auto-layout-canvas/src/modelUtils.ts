@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { NodeModel, FlowModel, ParentNodeModel, BranchHeadNodeModel, NodeRef, Guid, FAULT_INDEX } from './model';
 import ElementType from './ElementType';
 
@@ -129,8 +130,11 @@ function linkElement(elements: FlowModel, element: NodeModel): void {
  * @param headElement - a branch head element
  */
 function deleteBranchHeadProperties(headElement: BranchHeadNodeModel) {
+    // @ts-ignore
     delete headElement.parent;
+    // @ts-ignore
     delete headElement.childIndex;
+    // @ts-ignore
     delete headElement.isTerminal;
 }
 
@@ -218,6 +222,7 @@ function linkBranchOrFault(
             // make the existing child follow the insert element
             const childElement = state[child] as BranchHeadNodeModel;
             Object.assign(element, { next: child, isTerminal: childElement.isTerminal });
+            // @ts-ignore
             delete childElement.isTerminal;
             linkElement(state, element);
 
@@ -418,6 +423,7 @@ type GetSubElementGuids = (node: NodeModel, state: FlowModel) => Guid[];
 function deleteFault(state: FlowModel, elementWithFaultGuid: Guid, getSubElementGuids: GetSubElementGuids) {
     const elementWithFault = state[elementWithFaultGuid];
     const faultGuid = elementWithFault.fault;
+    // @ts-ignore
     delete elementWithFault.fault;
 
     new FlcList(state, faultGuid!).forEach((listElement) => {

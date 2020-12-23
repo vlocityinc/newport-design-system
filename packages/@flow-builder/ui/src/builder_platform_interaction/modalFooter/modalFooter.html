@@ -1,7 +1,5 @@
 <template>
-    <div if:true={keyMap} class="slds-truncate slds-float_left">
-        {keyMap}
-    </div>
+    <div if:true={keyMap} class="slds-truncate slds-float_left">{keyMap}</div>
     <lightning-button
         if:true={buttons.buttonOne}
         disabled={state.buttonOneDisabled}
