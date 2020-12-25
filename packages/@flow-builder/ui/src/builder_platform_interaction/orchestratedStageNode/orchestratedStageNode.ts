@@ -6,6 +6,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './orchestratedStageNodeLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { BuilderContext, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
 
 export default class OrchestratedStageNode extends LightningElement {
     labels = LABELS;
@@ -19,7 +20,7 @@ export default class OrchestratedStageNode extends LightningElement {
     private height?: number;
 
     @api
-    isSelectionMode?: boolean;
+    builderContext?: BuilderContext;
 
     @api
     get node() {
@@ -59,6 +60,10 @@ export default class OrchestratedStageNode extends LightningElement {
         }
     }
 
+    getBuilderMode() {
+        return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
+    }
+
     /**
      * Adding StageStep directly from canvas
      * @param event
@@ -83,7 +88,7 @@ export default class OrchestratedStageNode extends LightningElement {
         event.stopPropagation();
 
         const target: HTMLElement = event.currentTarget as HTMLElement;
-        if (!this.isSelectionMode) {
+        if (this.getBuilderMode() !== BuilderMode.SELECTION) {
             this.dispatchEvent(new EditElementEvent(target && target.dataset.itemGuid));
         }
     }
@@ -98,7 +103,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
         event.stopPropagation();
         const target: HTMLElement = event.currentTarget as HTMLElement;
-        if (!this.isSelectionMode && target.dataset.itemGuid) {
+        if (this.getBuilderMode() !== BuilderMode.SELECTION && target.dataset.itemGuid) {
             this.dispatchEvent(
                 new DeleteElementEvent(
                     [target.dataset.itemGuid],
