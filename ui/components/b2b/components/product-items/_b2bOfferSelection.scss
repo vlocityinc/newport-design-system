@@ -6,7 +6,13 @@
   .nds-b2b-items-container {
     display: flex;
     background: $white-smoke;
-    padding: 2rem 0 1rem 6rem;
+    @media screen and (min-width: 48rem){
+      padding: 2rem 0 9rem 6rem;
+    }
+    @media screen and (min-width: 80rem) {
+      padding: 2rem 0 6rem 6rem;
+    }
+    
   }
   .nds-b2b-container_items-list {
     width: 100%;
