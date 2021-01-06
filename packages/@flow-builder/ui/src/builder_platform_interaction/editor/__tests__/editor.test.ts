@@ -104,6 +104,14 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
+let mockIsAutolayoutCanvas = false;
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/processTypeLib'), {
+        isAutoLayoutCanvasOnly: jest.fn().mockImplementation(() => {
+            return mockIsAutolayoutCanvas;
+        })
+    });
+});
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 jest.mock('builder_platform_interaction/translatorLib', () => {
@@ -214,7 +222,14 @@ const createComponentUnderTest = (
         builderMode: 'editMode',
         builderConfig: {
             supportedProcessTypes: ['right'],
-            componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
+            componentConfigs: {
+                editMode: {
+                    leftPanelConfig: { showLeftPanel: true },
+                    toolbarConfig: {
+                        showCanvasModeToggle: true
+                    }
+                }
+            }
         }
     }
 ) => {
@@ -235,7 +250,9 @@ const selectors = {
     leftPanel: 'builder_platform_interaction-left-panel',
     rightPanel: 'builder_platform_interaction-right-panel',
     debugPanel: 'builder_platform_interaction-debug-panel',
-    flcBuilderContainer: 'builder_platform_interaction-flc-builder-container'
+    flcBuilderContainer: 'builder_platform_interaction-flc-builder-container',
+    toolbar: 'builder_platform_interaction-toolbar',
+    canvasToggle: '.canvas-mode-toggle'
 };
 
 const element = (guid, type) => {
@@ -702,6 +719,30 @@ describeSkip('editor', () => {
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(connectorElement);
+        });
+    });
+});
+
+describe('toolbar', () => {
+    describe('showCanvasModeToggle', () => {
+        it('is not shown if isAutoLayoutCanvasOnly', async () => {
+            mockIsAutolayoutCanvas = true;
+
+            const editorComponent = createComponentUnderTest();
+
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const canvasToggle = toolbar.shadowRoot.querySelector(selectors.canvasToggle);
+
+            expect(canvasToggle).toBeNull();
+
+            mockIsAutolayoutCanvas = false;
+        });
+        it('is shown if not isAutoLayoutCanvasOnly', async () => {
+            const editorComponent = createComponentUnderTest();
+
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const canvasToggle = toolbar.shadowRoot.querySelector(selectors.canvasToggle);
+            expect(canvasToggle).toBeTruthy();
         });
     });
 });

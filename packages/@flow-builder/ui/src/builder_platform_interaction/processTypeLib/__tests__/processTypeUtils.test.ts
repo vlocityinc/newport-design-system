@@ -1,5 +1,9 @@
 // @ts-nocheck
-import { getProcessTypesWithIcons, getProcessTypeTransactionControlledActionsSupport } from '../processTypeUtils';
+import {
+    getProcessTypesWithIcons,
+    getProcessTypeTransactionControlledActionsSupport,
+    isAutoLayoutCanvasOnly
+} from '../processTypeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 
@@ -55,6 +59,17 @@ describe('transaction controlled actions', () => {
     });
     test('When processType does not support TransactionControlledActions, helper function should return false', () => {
         const isSupported = getProcessTypeTransactionControlledActionsSupport(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+        expect(isSupported).toBe(false);
+    });
+});
+
+describe('isAutoLayoutCanvasOnly', () => {
+    test('returns true only for app process', () => {
+        const isSupported = isAutoLayoutCanvasOnly(FLOW_PROCESS_TYPE.APP_PROCESS);
+        expect(isSupported).toBe(true);
+    });
+    test('returns false for other process types', () => {
+        const isSupported = isAutoLayoutCanvasOnly(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
         expect(isSupported).toBe(false);
     });
 });

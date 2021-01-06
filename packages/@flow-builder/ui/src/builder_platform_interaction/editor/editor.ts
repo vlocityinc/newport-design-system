@@ -107,7 +107,7 @@ import {
     isVersioningDataInitialized,
     BUILDER_MODE
 } from 'builder_platform_interaction/systemLib';
-import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
+import { isAutoLayoutCanvasOnly, isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import {
@@ -549,6 +549,10 @@ export default class Editor extends LightningElement {
 
     get toolbarConfig() {
         return this.getConfig(EDITOR_COMPONENT_CONFIGS.TOOLBAR_CONFIG);
+    }
+
+    get showCanvasModeToggle() {
+        return this.toolbarConfig.showCanvasModeToggle && !isAutoLayoutCanvasOnly(this.properties.processType);
     }
 
     get leftPanelConfig() {
@@ -2241,8 +2245,11 @@ export default class Editor extends LightningElement {
                     'user'
                 );
 
+                // True if this process type should always be opened in autolayout
+                const isAutoLayoutCanvas: boolean = isAutoLayoutCanvasOnly(processType);
+
                 // TODO: Directly call invokeAutoLayoutWelcomeMat when releasing
-                if (isAutoLayoutCanvasEnabled()) {
+                if (isAutoLayoutCanvasEnabled() && !isAutoLayoutCanvas) {
                     invokeAutoLayoutWelcomeMat(
                         processType,
                         defaultTriggerType,
@@ -2250,7 +2257,7 @@ export default class Editor extends LightningElement {
                         this.closeFlowModalCallback
                     );
                 } else {
-                    this.setupCanvas(processType, defaultTriggerType, false);
+                    this.setupCanvas(processType, defaultTriggerType, isAutoLayoutCanvas);
                 }
             }
             modal.close();
