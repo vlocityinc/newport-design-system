@@ -80,9 +80,13 @@ export default class FlcConnectorMenu extends Menu {
         this.keyboardInteractions = new KeyboardInteractions();
     }
 
-    handleSelectMenuItem(event) {
+    /**
+     * Menu item action behaviour dependent on yjr attributes of the selected element
+     * @param currentTarget
+     */
+    doSelectMenuItem(currentTarget: HTMLElement) {
         this.dispatchEvent(new CloseMenuEvent());
-        const action = event.currentTarget.getAttribute('data-value');
+        const action = currentTarget.getAttribute('data-value');
 
         switch (action) {
             case PASTE_ACTION:
@@ -96,8 +100,8 @@ export default class FlcConnectorMenu extends Menu {
                 this.dispatchEvent(
                     // @ts-ignore
                     new AddElementEvent({
-                        elementType: event.currentTarget.getAttribute('data-value'),
-                        elementSubtype: event.currentTarget.getAttribute('data-sub-type'),
+                        elementType: currentTarget.getAttribute('data-value')!,
+                        elementSubtype: currentTarget.getAttribute('data-sub-type')!,
                         locationX: 0,
                         locationY: 0,
                         prev: this.prev,
@@ -107,6 +111,15 @@ export default class FlcConnectorMenu extends Menu {
                     })
                 );
         }
+    }
+
+    /**
+     * Item selected via mouse click.  Does not propagate
+     * @param event
+     */
+    handleSelectMenuItem(event) {
+        event.stopPropagation();
+        this.doSelectMenuItem(event.currentTarget);
     }
 
     /**
@@ -127,8 +140,7 @@ export default class FlcConnectorMenu extends Menu {
     handleSpaceOrEnter() {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
-            const event = { currentTarget: currentItemInFocus.parentElement };
-            this.handleSelectMenuItem(event);
+            this.doSelectMenuItem(currentItemInFocus.parentElement);
         }
     }
 
