@@ -1,15 +1,8 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
-import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
-import { setRules } from 'builder_platform_interaction/ruleLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
 import { ticks, focusoutEvent, checkboxChangeEvent } from 'builder_platform_interaction/builderTestUtils';
-import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import { setupStateForFlow, resetState } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -20,31 +13,14 @@ import {
     getAdvancedAccordionOutputDiv,
     verifyOutputParameter
 } from '../baseCalloutEditorTestUtils';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { actionPostToChatter } from 'mock/storeDataScheduleTriggered';
-import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
-import { chatterPostActionDetails as mockChatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
-import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 
-jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    const actual = jest.requireActual('builder_platform_interaction/invocableActionLib');
-    return {
-        isAutomaticOutputHandlingSupported: actual.isAutomaticOutputHandlingSupported,
-        getParametersForInvocableAction: actual.getParametersForInvocableAction,
-        fetchDetailsForInvocableAction: jest
-            .fn()
-            .mockImplementation(() => Promise.resolve(mockChatterPostActionDetails))
-    };
-});
-
-const createComponentForTest = (node, { isNewMode = false } = {}) => {
+const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, {
         node,
-        isNewMode,
         processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
     });
     document.body.appendChild(el);
@@ -52,93 +28,59 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
 };
 
 describe('Invocable Action Editor', () => {
-    let store;
     let actionNode;
     let coreActionElement;
-    beforeAll(() => {
-        setRules(rules);
-        store = Store.getStore(reducer);
-        setApexClasses(apexTypesForAutolLaunchedFlow);
-        fetchDetailsForInvocableAction.mockImplementation(() => Promise.resolve(mockChatterPostActionDetails));
-        setProcessTypeFeature(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, supportedFeaturesListForAutoLaunchedFlow);
-        translateFlowToUIAndDispatch(flowWithApexActionSubmitForApproval, store);
+    beforeAll(async () => {
+        await setupStateForFlow(scheduleTriggeredFlow);
     });
     afterAll(() => {
         resetState();
     });
+    beforeEach(() => {
+        actionNode = getElementForPropertyEditor(actionPostToChatter);
+        coreActionElement = createComponentForTest(actionNode);
+    });
     describe('name and dev name', () => {
-        beforeEach(() => {
-            actionNode = getElementForPropertyEditor(actionPostToChatter);
-            coreActionElement = createComponentForTest(actionNode);
-        });
-        it('do not change devName if it already exists after the user modifies the name', () => {
+        it('does not change devName if it already exists after the user modifies the name', async () => {
             const newLabel = 'new label';
-            coreActionElement = createComponentForTest(actionNode, {
-                isNewMode: true
-            });
-            return resolveRenderCycles(() => {
-                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
-                labelInput.value = newLabel;
-                labelInput.dispatchEvent(focusoutEvent);
-                return resolveRenderCycles(() => {
-                    expect(coreActionElement.node.label.value).toBe(newLabel);
-                    expect(coreActionElement.node.name.value).toBe('postToChatter');
-                });
-            });
+            const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
+            labelInput.value = newLabel;
+            labelInput.dispatchEvent(focusoutEvent);
+            await ticks();
+            expect(coreActionElement.node.label.value).toBe(newLabel);
+            expect(coreActionElement.node.name.value).toBe('postToChatter');
         });
-        it('modify the dev name', () => {
+        it('modifies the dev name', async () => {
             const newDevName = 'newName';
-            coreActionElement = createComponentForTest(actionNode, {
-                isNewMode: true
-            });
-            return resolveRenderCycles(() => {
-                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
-                return resolveRenderCycles(() => {
-                    expect(coreActionElement.node.name.value).toBe(newDevName);
-                });
-            });
+            const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
+            devNameInput.value = newDevName;
+            devNameInput.dispatchEvent(focusoutEvent);
+            await ticks();
+            expect(coreActionElement.node.name.value).toBe(newDevName);
         });
-        it('display error if name is cleared', () => {
+        it('displays error if name is cleared', async () => {
             const newLabel = '';
-            coreActionElement = createComponentForTest(actionNode, {
-                isNewMode: true
-            });
-            return resolveRenderCycles(() => {
-                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
-                labelInput.value = newLabel;
-                labelInput.dispatchEvent(focusoutEvent);
-                return resolveRenderCycles(() => {
-                    expect(coreActionElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                });
-            });
+            const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
+            labelInput.value = newLabel;
+            labelInput.dispatchEvent(focusoutEvent);
+            await ticks();
+            expect(coreActionElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
-        it('display error if devName is cleared', () => {
+        it('displays error if devName is cleared', async () => {
             const newDevName = '';
-            coreActionElement = createComponentForTest(actionNode, {
-                isNewMode: true
-            });
-            return resolveRenderCycles(() => {
-                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
-                devNameInput.value = newDevName;
-                devNameInput.dispatchEvent(focusoutEvent);
-                return resolveRenderCycles(() => {
-                    expect(coreActionElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                });
-            });
+            const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
+            devNameInput.value = newDevName;
+            devNameInput.dispatchEvent(focusoutEvent);
+            await ticks();
+            expect(coreActionElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });
     describe('autolaunched flow with an action', () => {
-        beforeEach(() => {
-            actionNode = getElementForPropertyEditor(actionPostToChatter);
-            coreActionElement = createComponentForTest(actionNode);
-        });
-        it('"useAdvancedOptionsComponent" should be display', () => {
+        it('should display "useAdvancedOptionsComponent"', () => {
             const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponentFromAcc(coreActionElement);
             expect(advancedOptionComponent).not.toBeNull();
         });
-        it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
+        it('should have "useAdvancedOptionsCheckbox" unchecked', () => {
             const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
@@ -154,7 +96,7 @@ describe('Invocable Action Editor', () => {
                 advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
                 await ticks(50);
             });
-            it('"useAdvancedOptionsCheckbox" should checked', () => {
+            it('should have "useAdvancedOptionsCheckbox" checked', () => {
                 const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');

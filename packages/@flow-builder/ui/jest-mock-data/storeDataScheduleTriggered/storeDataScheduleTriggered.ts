@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { scheduleTriggeredFlowUIModel } from './scheduleTriggeredFlowUIModel';
 export * from './scheduleTriggeredFlowUIModel';
 
