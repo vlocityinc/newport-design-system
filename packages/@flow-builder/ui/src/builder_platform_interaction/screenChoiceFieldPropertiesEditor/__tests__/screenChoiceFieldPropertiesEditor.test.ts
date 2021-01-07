@@ -8,6 +8,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { CHOICE_SCREEN_FIELDS } from 'builder_platform_interaction/screenEditorUtils';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 const mockEvent = new Event('test');
@@ -63,7 +64,9 @@ const SELECTORS = {
     CHOICE_SELECTOR: 'builder_platform_interaction-screen-property-field[name="choice"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
     COMPONENT_VISIBILITY: 'builder_platform_interaction-screen-component-visibility-section',
-    SCALE: 'builder_platform_interaction-screen-property-field.scale'
+    SCALE: 'builder_platform_interaction-screen-property-field.scale',
+    DISPLAY_RADIO_GROUP: 'lightning-radio-group.test-display-radio-group',
+    DISPLAY_TYPE_COMBOBOX: 'builder_platform_interaction-screen-property-field.test-display-combobox'
 };
 
 const fieldName = 'field1';
@@ -559,5 +562,51 @@ describe('scale input', () => {
         const renderedScaleField = query(a, SELECTORS.SCALE);
         expect(renderedScaleField).not.toBeTruthy();
         expect(spy).not.toHaveBeenCalled();
+    });
+});
+describe('Screen choice visual display configuration', () => {
+    it('For picklist screen field, single select and picklist should be selected in configuration', async () => {
+        const screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.PICKLIST, SCREEN_NO_DEF_VALUE)
+        });
+        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
+        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        );
+        expect(displayRadioGroup.value).toEqual('SingleSelect');
+        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.PICKLIST);
+    });
+    it('For radio buttons screen field, single select and radio buttons should be selected in configuration', () => {
+        const screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE)
+        });
+        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
+        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        );
+        expect(displayRadioGroup.value).toEqual('SingleSelect');
+        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.RADIO_BUTTONS);
+    });
+    it('For Multi-Select Picklist screen field, multi select and multi-select picklist should be selected in configuration', () => {
+        const screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST, SCREEN_NO_DEF_VALUE)
+        });
+        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
+        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        );
+        expect(displayRadioGroup.value).toEqual('MultiSelect');
+        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST);
+    });
+    it('For Checkbox Group screen field, multi select and Checkbox Group should be selected in configuration', () => {
+        const screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP, SCREEN_NO_DEF_VALUE)
+        });
+        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
+        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        );
+        expect(displayRadioGroup.value).toEqual('MultiSelect');
+        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP);
     });
 });

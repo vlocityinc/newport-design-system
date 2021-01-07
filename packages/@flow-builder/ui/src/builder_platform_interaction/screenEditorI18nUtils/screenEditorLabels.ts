@@ -38,6 +38,10 @@ import fieldTypeLabelSection from '@salesforce/label/FlowBuilderScreenEditor.fie
 import fieldTypeDescriptionSection from '@salesforce/label/FlowBuilderScreenEditor.fieldTypeDescriptionSection';
 import addChoice from '@salesforce/label/FlowBuilderScreenEditor.addChoice';
 import choices from '@salesforce/label/FlowBuilderScreenEditor.choices';
+import choiceDisplayTypePrompt from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypePrompt';
+import singleSelectChoiceDisplay from '@salesforce/label/FlowBuilderScreenEditor.singleSelectChoiceDisplay';
+import multiSelectChoiceDisplay from '@salesforce/label/FlowBuilderScreenEditor.multiSelectChoiceDisplay';
+import choiceDisplayType from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayType';
 import buttonHelpTextAltText from '@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText';
 import screenContainerOptions from '@salesforce/label/FlowBuilderScreenEditor.screenContainerOptions';
 import screenContainerTooltip from '@salesforce/label/FlowBuilderScreenEditor.screenContainerTooltip';
@@ -150,6 +154,10 @@ export const LABELS = {
     fieldTypeDescriptionSection,
     fieldValidation,
     choices,
+    choiceDisplayTypePrompt,
+    singleSelectChoiceDisplay,
+    multiSelectChoiceDisplay,
+    choiceDisplayType,
     buttonHelpTextAltText,
     screenContainerOptions,
     screenContainerTooltip,

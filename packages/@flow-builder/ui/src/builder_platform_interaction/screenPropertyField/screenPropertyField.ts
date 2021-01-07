@@ -257,6 +257,7 @@ export default class ScreenPropertyField extends LightningElement {
         } else if (this.isList && event.detail.value) {
             // And it contains a ferov from a static list
             newGuid = event.detail.value;
+            newValue = this.domValue;
         } else if (this.isLongString && event.detail.value) {
             newValue = event.detail.value;
             ferovDataType = FEROV_DATA_TYPE.STRING;

@@ -265,8 +265,8 @@ describe('ScreenEditor', () => {
             const propertyFields = choicePropertiesEditor.shadowRoot.querySelectorAll(
                 SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
             );
-            expect(propertyFields).toHaveLength(4);
-            const groupedCombobox = deepQuerySelector(propertyFields[1], [
+            expect(propertyFields).toHaveLength(5);
+            const groupedCombobox = deepQuerySelector(propertyFields[2], [
                 SELECTORS.FEROV_RESOURCE_PICKER,
                 SELECTORS.BASE_RESOURCE_PICKER,
                 SELECTORS.COMBOBOX,

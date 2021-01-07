@@ -13,17 +13,23 @@ import {
     getFieldChoiceData,
     isPicklistField,
     isMultiSelectCheckboxField,
-    isMultiSelectPicklistField
+    isMultiSelectPicklistField,
+    isRadioField
 } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
 import {
     hasScreenFieldVisibilityCondition,
-    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
+    CHOICE_SCREEN_FIELDS
 } from 'builder_platform_interaction/screenEditorUtils';
 
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
+const CHOICE_DISPLAY_OPTIONS = {
+    SINGLE_SELECT: 'SingleSelect',
+    MULTI_SELECT: 'MultiSelect'
+};
 
 /*
  * Screen element property editor for the radio field.
@@ -37,6 +43,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     };
 
     private _field;
+    private singleOrMultiSelectOption;
     expandedSectionNames = [CHOICES_SECTION_NAME];
 
     set field(value) {
@@ -140,6 +147,16 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         this.dispatchEvent(createChoiceAddedEvent(this.field, this.field.choiceReferences.length));
     };
 
+    handleSingleOrMultiSelectChange = (event) => {
+        event.stopPropagation();
+        this.singleOrMultiSelectOption = event.detail.value;
+    };
+
+    handleChoiceDisplayTypeChanged = (event) => {
+        event.stopPropagation();
+        // Dispatch Event
+    };
+
     get fieldChoices() {
         return getFieldChoiceData(this.field);
     }
@@ -232,6 +249,73 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             }
         }
         return defaultChoices;
+    }
+
+    get singleOrMultiSelectOptions() {
+        return [
+            {
+                label: this.labels.singleSelectChoiceDisplay,
+                value: CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT
+            },
+            {
+                label: this.labels.multiSelectChoiceDisplay,
+                value: CHOICE_DISPLAY_OPTIONS.MULTI_SELECT
+            }
+        ];
+    }
+
+    get singleOrMultiSelectOptionValue() {
+        if (this.singleOrMultiSelectOption) {
+            return this.singleOrMultiSelectOption;
+        } else if (isMultiSelectPicklistField(this.field) || isMultiSelectCheckboxField(this.field)) {
+            this.singleOrMultiSelectOption = CHOICE_DISPLAY_OPTIONS.MULTI_SELECT;
+        } else {
+            this.singleOrMultiSelectOption = CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT;
+        }
+        return this.singleOrMultiSelectOption;
+    }
+
+    get displayTypeOptions() {
+        if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT) {
+            return [
+                {
+                    label: this.labels.fieldTypeLabelPicklist,
+                    value: CHOICE_SCREEN_FIELDS.PICKLIST
+                },
+                {
+                    label: this.labels.fieldTypeLabelRadioButtons,
+                    value: CHOICE_SCREEN_FIELDS.RADIO_BUTTONS
+                }
+            ];
+        }
+        return [
+            {
+                label: this.labels.fieldTypeLabelMultiSelectCheckboxes,
+                value: CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP
+            },
+            {
+                label: this.labels.fieldTypeLabelMultiSelectPicklist,
+                value: CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST
+            }
+        ];
+    }
+
+    get displayTypeValue() {
+        let displayTypeValue;
+        if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.MULTI_SELECT) {
+            if (isMultiSelectPicklistField(this.field)) {
+                displayTypeValue = CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST;
+            } else if (isMultiSelectCheckboxField(this.field)) {
+                displayTypeValue = CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP;
+            }
+        } else if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT) {
+            if (isPicklistField(this.field)) {
+                displayTypeValue = CHOICE_SCREEN_FIELDS.PICKLIST;
+            } else if (isRadioField(this.field)) {
+                displayTypeValue = CHOICE_SCREEN_FIELDS.RADIO_BUTTONS;
+            }
+        }
+        return displayTypeValue;
     }
 
     get defaultValue() {

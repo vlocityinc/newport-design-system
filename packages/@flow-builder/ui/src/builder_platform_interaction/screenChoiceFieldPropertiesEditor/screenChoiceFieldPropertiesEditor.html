@@ -70,6 +70,27 @@
                 class="slds-has-divider slds-p-top_none"
             >
                 <lightning-accordion-section name="choicesSection" label={labels.choices}>
+                    <lightning-radio-group
+                        class="test-display-radio-group"
+                        name="choicesDisplayOptionsRadioGroup"
+                        label={labels.choiceDisplayTypePrompt}
+                        options={singleOrMultiSelectOptions}
+                        value={singleOrMultiSelectOptionValue}
+                        onchange={handleSingleOrMultiSelectChange}
+                    >
+                    </lightning-radio-group>
+
+                    <builder_platform_interaction-screen-property-field
+                        class="test-display-combobox"
+                        name="choiceDisplayType"
+                        type="list"
+                        list-choices={displayTypeOptions}
+                        label={labels.choiceDisplayType}
+                        value={displayTypeValue}
+                        onpropertychanged={handleChoiceDisplayTypeChanged}
+                    >
+                    </builder_platform_interaction-screen-property-field>
+
                     <builder_platform_interaction-list
                         items={field.choiceReferences}
                         onaddlistitem={handleChoiceAdded}

@@ -18,6 +18,13 @@ const FEROV_TYPES = {
     Boolean: ['BOOLEAN']
 };
 
+export const CHOICE_SCREEN_FIELDS = {
+    PICKLIST: 'DropdownBox',
+    RADIO_BUTTONS: 'RadioButtons',
+    CHECKBOX_GROUP: 'MultiSelectCheckboxes',
+    MULTI_SELECT_PICKLIST: 'MultiSelectPicklist'
+};
+
 type ScreenFieldType = {
     name: string;
     fieldType: string;
@@ -109,7 +116,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     {
         // TODO: Set dataType to null once W-5795949 is completed
         name: 'RadioButtons',
-        fieldType: 'RadioButtons',
+        fieldType: CHOICE_SCREEN_FIELDS.RADIO_BUTTONS,
         dataType: 'String',
         label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'standard:radio_button',
@@ -118,7 +125,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     {
         // TODO: Set dataType to null once W-5795949 is completed
         name: 'DropdownBox',
-        fieldType: 'DropdownBox',
+        fieldType: CHOICE_SCREEN_FIELDS.PICKLIST,
         dataType: 'String',
         label: LABELS.fieldTypeLabelPicklist,
         icon: 'standard:picklist_type',
@@ -126,7 +133,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'MultiSelectCheckboxes',
-        fieldType: 'MultiSelectCheckboxes',
+        fieldType: CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP,
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
         icon: 'standard:multi_select_checkbox',
@@ -134,7 +141,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'MultiSelectPicklist',
-        fieldType: 'MultiSelectPicklist',
+        fieldType: CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST,
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
         icon: 'standard:multi_picklist',
@@ -234,7 +241,10 @@ export function getScreenFieldType(field) {
         // A reality, these choice based fields have a dataType associated with them. However, we generically
         // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
-        if (fieldType === type.fieldType && (fieldType === 'RadioButtons' || fieldType === 'DropdownBox')) {
+        if (
+            fieldType === type.fieldType &&
+            (fieldType === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS || fieldType === CHOICE_SCREEN_FIELDS.PICKLIST)
+        ) {
             return type;
         }
     }
@@ -319,7 +329,7 @@ export function isPasswordField(field) {
  * @returns {boolean} Indicates if specified field is a radio field
  */
 export function isRadioField(field) {
-    return field && field.fieldType === 'RadioButtons';
+    return field && field.fieldType === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS;
 }
 
 /**
@@ -327,7 +337,7 @@ export function isRadioField(field) {
  * @returns {boolean} Indicates if specified field is a multi-select checkbox field
  */
 export function isMultiSelectCheckboxField(field) {
-    return field && field.fieldType === 'MultiSelectCheckboxes';
+    return field && field.fieldType === CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP;
 }
 
 /**
@@ -335,7 +345,7 @@ export function isMultiSelectCheckboxField(field) {
  * @returns {boolean} Indicates if specified field is a multi-select picklist field
  */
 export function isMultiSelectPicklistField(field) {
-    return field && field.fieldType === 'MultiSelectPicklist';
+    return field && field.fieldType === CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST;
 }
 
 /**
@@ -343,7 +353,7 @@ export function isMultiSelectPicklistField(field) {
  * @returns {boolean} Indicates if specified field is a picklist field
  */
 export function isPicklistField(field) {
-    return field && field.fieldType === 'DropdownBox';
+    return field && field.fieldType === CHOICE_SCREEN_FIELDS.PICKLIST;
 }
 
 /**
