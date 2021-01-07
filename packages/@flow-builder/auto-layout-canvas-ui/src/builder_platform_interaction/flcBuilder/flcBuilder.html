@@ -19,6 +19,7 @@
                     flow={flow.flowInfo}
                     is-canvas-ready={isCanvasReady}
                     builder-context={builderContext}
+                    disable-add-elements={disableAddElements}
                     onflcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
                 >
@@ -48,6 +49,7 @@
                             if:false={startMenuElement}
                             class="menu overlay slds-dropdown"
                             condition-options={menu.conditionOptionsForNode}
+                            disable-delete-elements={disableDeleteElements}
                             element-has-fault={menu.elementHasFault}
                             element-metadata={menu.elementMetadata}
                             guid={menu.guid}

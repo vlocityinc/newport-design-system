@@ -10,4 +10,7 @@ export default class FlcFlow extends LightningElement {
 
     @api
     isCanvasReady;
+
+    @api
+    disableAddElements;
 }

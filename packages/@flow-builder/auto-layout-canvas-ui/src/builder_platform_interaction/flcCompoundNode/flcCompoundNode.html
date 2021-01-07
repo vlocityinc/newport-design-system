@@ -24,6 +24,7 @@
             style={branch.style}
             builder-context={builderContext}
             flow={branch.flowInfo}
+            disable-add-elements={disableAddElements}
         ></builder_platform_interaction-flc-flow>
     </template>
 
@@ -33,6 +34,7 @@
             style={nextConnector.style}
             builder-context={builderContext}
             connector-info={nextConnector.connectorInfo}
+            disable-add-elements={disableAddElements}
         ></builder_platform_interaction-flc-connector>
     </template>
 </template>

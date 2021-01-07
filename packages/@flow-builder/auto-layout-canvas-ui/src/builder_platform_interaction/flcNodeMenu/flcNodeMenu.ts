@@ -32,35 +32,55 @@ const selectors = {
 export default class FlcNodeMenu extends Menu {
     @api
     conditionOptions;
+
     @api
     elementMetadata;
+
     @api
     guid;
+
+    @api
+    disableDeleteElements;
+
     @api
     elementHasFault;
+
     @api
     openedWithKeyboard;
+
     // Used for testing purposes
     @api
     keyboardInteractions;
+
     @track
     contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
+
     _selectedConditionValue;
     _childIndexToKeep = 0;
+
     // Tracks if the component has been rendered once
     _isRendered = false;
+
     // Tracks if the Base Mode is rendered or not. Is set to false whenever user moves away from the Base Mode
     _hasBaseModeRendered = false;
+
     // Tracks if the Delete Branch Mode is rendered or not. Is set to false whenever user moves away from the Base Mode
     _hasDeleteBranchModeRendered = false;
+
     // Tracks if the focus needs to be moved to the Delete Row of a branching element.
     // Is set tp true when the user clicks on the back button
     _moveFocusToDeleteBranchRow = false;
+
     get labels() {
         return LABELS;
     }
     get menuConfiguration() {
-        return getMenuConfiguration(this.elementMetadata, this.contextualMenuMode, this.elementHasFault);
+        return getMenuConfiguration(
+            this.elementMetadata,
+            this.contextualMenuMode,
+            this.elementHasFault,
+            this.disableDeleteElements
+        );
     }
     set menuConfiguration(config) {
         // eslint-disable-next-line no-setter-return

@@ -14,6 +14,9 @@ export default class FlcConnector extends LightningElement {
     @api
     builderContext!: BuilderContext;
 
+    @api
+    disableAddElements;
+
     get labels() {
         return LABELS;
     }
@@ -22,7 +25,9 @@ export default class FlcConnector extends LightningElement {
      * Checks if add element button should be visible or not
      */
     get showAddElementButton() {
-        return this.connectorInfo.addInfo && this.getBuilderMode() !== BuilderMode.SELECTION;
+        return (
+            this.connectorInfo.addInfo && this.getBuilderMode() !== BuilderMode.SELECTION && !this.disableAddElements
+        );
     }
 
     /**

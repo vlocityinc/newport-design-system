@@ -16,4 +16,10 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     isPasteAvailable;
+
+    @api
+    disableAddElements;
+
+    @api
+    disableDeleteElements;
 }

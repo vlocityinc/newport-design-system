@@ -1,9 +1,5 @@
 // @ts-nocheck
 import { LABELS } from './flcNodeMenuLabels';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
-
-// TODO: Remove this as a part of branch connect story
-const deleteElementAndReconnectLabel = 'Delete Element and Reconnect';
 
 export const CONTEXTUAL_MENU_MODE = {
     BASE_ACTIONS_MODE: 'BASE_ACTIONS_MODE',
@@ -33,12 +29,6 @@ export const ELEMENT_ACTION_CONFIG = {
         label: LABELS.deleteFaultActionLabel,
         value: 'DELETE_FAULT_ACTION'
     },
-    DELETE_END_ELEMENT_ACTION: {
-        icon: 'utility:reply',
-        iconVariant: 'error',
-        label: deleteElementAndReconnectLabel,
-        value: 'DELETE_ACTION'
-    },
     EDIT_DETAILS_ACTION: {
         buttonTextLabel: LABELS.editDetailsFooterActionLabel,
         buttonTextTitle: LABELS.editDetailsFooterActionTitle,
@@ -62,16 +52,16 @@ const getFooterData = (contextualMenuMode) => {
 };
 
 export const getMenuConfiguration = (
-    { type, label, description, canHaveFaultConnector },
+    { label, description, canHaveFaultConnector },
     contextualMenuMode,
-    elementHasFault
+    elementHasFault,
+    disableDeleteElements
 ) => {
-    const nodeActions =
-        type === ElementType.END
-            ? [ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION]
-            : [ELEMENT_ACTION_CONFIG.COPY_ACTION, ELEMENT_ACTION_CONFIG.DELETE_ACTION];
+    const nodeActions = disableDeleteElements
+        ? [ELEMENT_ACTION_CONFIG.COPY_ACTION]
+        : [ELEMENT_ACTION_CONFIG.COPY_ACTION, ELEMENT_ACTION_CONFIG.DELETE_ACTION];
 
-    if (canHaveFaultConnector) {
+    if (canHaveFaultConnector && !disableDeleteElements) {
         nodeActions.push(
             elementHasFault ? ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION : ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
         );
@@ -87,10 +77,8 @@ export const getMenuConfiguration = (
         }
     };
 
-    if (type !== ElementType.END) {
-        const footerData = getFooterData(contextualMenuMode);
-        menuConfiguration.footer = footerData;
-    }
+    const footerData = getFooterData(contextualMenuMode);
+    menuConfiguration.footer = footerData;
 
     return menuConfiguration;
 };

@@ -181,6 +181,12 @@ export default class FlcBuilder extends LightningElement {
     @api
     keyboardInteractions;
 
+    @api
+    disableAddElements;
+
+    @api
+    disableDeleteElements;
+
     get isReconnecting() {
         return this._reconnectSourceGuid != null;
     }

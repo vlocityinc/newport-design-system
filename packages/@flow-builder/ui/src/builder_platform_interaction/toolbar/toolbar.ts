@@ -28,7 +28,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 const { logInteraction } = loggingUtils;
 /**
  * Toolbar component for flow builder.
- *s
+ *
  * @ScrumTeam Process UI
  * @author Ankush Bansal
  * @since 214
@@ -115,6 +115,9 @@ export default class Toolbar extends LightningElement {
     @api
     showRestartRunButton;
 
+    @api
+    hideSelectionButton;
+
     labels = LABELS;
 
     statusLabelFromStatus = {
@@ -154,6 +157,10 @@ export default class Toolbar extends LightningElement {
 
     get isAutoLayoutCanvasEnabled() {
         return isAutoLayoutCanvasEnabled();
+    }
+
+    get showSelectionButton() {
+        return this.isAutoLayoutCanvas && !this.hideSelectionButton;
     }
 
     get showCanvasToggle() {

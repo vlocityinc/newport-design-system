@@ -64,6 +64,7 @@
                 is-lightning-flow-builder={properties.isLightningFlowBuilder}
                 can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
                 has-unsaved-changes={properties.hasUnsavedChanges}
+                hide-selection-button={canvasConfig.disableMultiSelectElements}
                 ontogglecanvasmode={handleToggleCanvasMode}
                 is-auto-layout-canvas={properties.isAutoLayoutCanvas}
             ></builder_platform_interaction-toolbar>
@@ -103,6 +104,8 @@
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
                     is-paste-available={isPasteAvailable}
+                    disable-add-elements={canvasConfig.disableAddElements}
+                    disable-delete-elements={canvasConfig.disableDeleteElements}
                     onaddelement={handleAddCanvasElement}
                     oncopysingleelement={handleCopySingleElement}
                     ondeleteelement={handleElementDelete}

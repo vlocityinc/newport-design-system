@@ -5,6 +5,7 @@
             class={preConnector.class}
             connector-info={preConnector.connectorInfo}
             builder-context={builderContext}
+            disable-add-elements={disableAddElements}
         ></builder_platform_interaction-flc-connector>
     </template>
     <template for:each={nodes} for:item="node">
@@ -16,6 +17,7 @@
             node={node.nodeInfo}
             builder-context={builderContext}
             is-canvas-ready={isCanvasReady}
+            disable-add-elements={disableAddElements}
         >
         </builder_platform_interaction-flc-compound-node>
     </template>

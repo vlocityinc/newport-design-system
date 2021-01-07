@@ -44,6 +44,7 @@ const createComponentUnderTest = (props = {}) => {
     el.showRunButton = getPropertyOrDefaultToTrue(props, 'showRunButton');
     el.showDebugButton = getPropertyOrDefaultToTrue(props, 'showDebugButton');
     el.showRestartRunButton = props.showRestartRunButton;
+    el.hideSelectionButton = props.hideSelectionButton;
 
     document.body.appendChild(el);
     return el;
@@ -423,6 +424,12 @@ describe('toolbar', () => {
                 expect(selectButton.title).toBe(LABELS.selectTitle);
                 expect(selectButton.iconName).toBe('utility:multi_select_checkbox');
                 expect(selectButton.variant).toBe('neutral');
+            });
+
+            it('Select Button should not be available when hideSelectionButton is passed as true', () => {
+                toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true, hideSelectionButton: true });
+                const selectButton = toolbarComponent.shadowRoot.querySelector(selectors.select);
+                expect(selectButton).toBeNull();
             });
 
             it('Displays the undo redo group in Base Mode', () => {

@@ -103,6 +103,12 @@ export default class FlcBuilderContainer extends LightningElement {
     @api
     isSelectionMode;
 
+    @api
+    disableAddElements;
+
+    @api
+    disableDeleteElements;
+
     @track
     flowModel = null;
 
