@@ -1,27 +1,18 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { setRules } from 'builder_platform_interaction/ruleLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { reducer } from 'builder_platform_interaction/reducers';
 import { ticks, focusoutEvent, textInputEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
-import * as flowWithApexAction from 'mock/flows/flowWithApexAction.json';
-import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
-import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
-import { getAllInvocableActionsForType, getInvocableActionDetails, initializeAuraFetch } from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
     getInputParameterItems,
-    getOutputParameterItems,
+    getOutputParameterItemsFromAcc,
     getInputParameterComboboxElement,
     getOutputParameterComboboxElement,
     getLightningInputToggle,
@@ -40,9 +31,6 @@ import {
     findIndex,
     getElementGuid
 } from '../baseCalloutEditorTestUtils';
-import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import { submitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
@@ -52,105 +40,68 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
 };
 
 describe('Invocable Action Editor', () => {
-    let store;
     let actionNode;
-    beforeAll(() => {
-        setRules(rules);
-        store = Store.getStore(reducer);
+    beforeAll(async () => {
+        await setupStateForFlow(flowWithAllElements);
     });
     afterAll(() => {
         resetState();
     });
     describe('Flow with an apex action with all types', () => {
-        beforeAll(() => {
-            initializeAuraFetch({
-                'c.getAllInvocableActionsForType': getAllInvocableActionsForType({
-                    [FLOW_PROCESS_TYPE.FLOW]: mockActions
-                }),
-                'c.getInvocableActionDetails': getInvocableActionDetails({
-                    apex: {
-                        AllTypesApexAction: mockAllTypesActionParameters
-                    }
-                })
-            });
-            translateFlowToUIAndDispatch(flowWithApexAction, store);
-        });
-        afterAll(() => {
-            setAuraFetch();
-        });
+        let coreActionElement;
         beforeEach(() => {
             const element = getElementByDevName('allTypesApexAction');
             actionNode = getElementForPropertyEditor(element);
         });
         describe('name and dev name', () => {
-            it('do not change devName if it already exists after the user modifies the name', () => {
+            beforeEach(() => {
+                coreActionElement = createComponentForTest(actionNode, {
+                    isNewMode: true
+                });
+            });
+            it('does not change devName if it already exists after the user modifies the name', async () => {
                 const newLabel = 'new label';
-                const coreActionElement = createComponentForTest(actionNode, {
-                    isNewMode: true
-                });
-                return resolveRenderCycles(() => {
-                    const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
-                    labelInput.value = newLabel;
-                    labelInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(coreActionElement.node.label.value).toBe(newLabel);
-                        expect(coreActionElement.node.name.value).toBe('allTypesApexAction');
-                    });
-                });
+                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
+                labelInput.value = newLabel;
+                labelInput.dispatchEvent(focusoutEvent);
+                await ticks();
+                expect(coreActionElement.node.label.value).toBe(newLabel);
+                expect(coreActionElement.node.name.value).toBe('allTypesApexAction');
             });
-            it('modify the dev name', () => {
+            it('modifies the dev name', async () => {
                 const newDevName = 'newName';
-                const coreActionElement = createComponentForTest(actionNode, {
-                    isNewMode: true
-                });
-                return resolveRenderCycles(() => {
-                    const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
-                    devNameInput.value = newDevName;
-                    devNameInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(coreActionElement.node.name.value).toBe(newDevName);
-                    });
-                });
+                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
+                devNameInput.value = newDevName;
+                devNameInput.dispatchEvent(focusoutEvent);
+                await ticks();
+                expect(coreActionElement.node.name.value).toBe(newDevName);
             });
-            it('display error if name is cleared', () => {
+            it('displays error if name is cleared', async () => {
                 const newLabel = '';
-                const coreActionElement = createComponentForTest(actionNode, {
-                    isNewMode: true
-                });
-                return resolveRenderCycles(() => {
-                    const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
-                    labelInput.value = newLabel;
-                    labelInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(coreActionElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                    });
-                });
+                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
+                labelInput.value = newLabel;
+                labelInput.dispatchEvent(focusoutEvent);
+                await ticks();
+                expect(coreActionElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
-            it('display error if devName is cleared', () => {
+            it('displays error if devName is cleared', async () => {
                 const newDevName = '';
-                const coreActionElement = createComponentForTest(actionNode, {
-                    isNewMode: true
-                });
-                return resolveRenderCycles(() => {
-                    const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
-                    devNameInput.value = newDevName;
-                    devNameInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(coreActionElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                    });
-                });
+                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
+                devNameInput.value = newDevName;
+                devNameInput.dispatchEvent(focusoutEvent);
+                await ticks();
+                expect(coreActionElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });
         describe('input div', () => {
             describe('valid cases', () => {
-                let coreActionElement, inputParameters;
-                beforeEach(() => {
+                let inputParameters;
+                beforeEach(async () => {
                     coreActionElement = createComponentForTest(actionNode);
-                    return resolveRenderCycles(() => {
-                        inputParameters = getInputParameterItems(coreActionElement);
-                    });
+                    await ticks();
+                    inputParameters = getInputParameterItems(coreActionElement);
                 });
-                it('show all input parameters', () => {
+                it('shows all input parameters', () => {
                     // required parameters: Account Parameter and String Parameter
                     verifyRequiredInputParameter(inputParameters[0], 'Account Parameter', '{!accountSObjectVariable}');
                     verifyRequiredInputParameter(inputParameters[1], 'Id Parameter', '{!stringVariable}');
@@ -169,235 +120,185 @@ describe('Invocable Action Editor', () => {
                     verifyOptionalInputParameterWithValue(inputParameters[9], 'Number Parameter', '{!numberVariable}');
                     verifyOptionalInputParameterNoValue(inputParameters[10], 'String Collection Parameter');
                 });
-                it('update value when setting the litteral string to the String Parameter', () => {
+                it('updates value when setting the litteral string to the String Parameter', async () => {
                     const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                     const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                    await ticks();
                     stringParameterCombobox.dispatchEvent(textInputEvent('any value'));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({
-                                value: 'any value',
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({
+                        value: 'any value',
+                        error: null
                     });
                 });
-                it('update value when setting the variable number to the String Parameter', () => {
+                it('updates value when setting the variable number to the String Parameter', async () => {
                     const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                     const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                     stringParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({
-                                value: getElementGuid('numberVariable'),
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({
+                        value: getElementGuid('numberVariable'),
+                        error: null
                     });
                 });
-                it('update value when setting the empty string constant to the String Parameter', () => {
+                it('updates value when setting the empty string constant to the String Parameter', async () => {
                     const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                     const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                    await ticks();
                     stringParameterCombobox.dispatchEvent(
                         textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING))
                     );
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({
-                                value: GLOBAL_CONSTANTS.EMPTY_STRING,
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({
+                        value: GLOBAL_CONSTANTS.EMPTY_STRING,
+                        error: null
                     });
                 });
-                it('update value when setting the valid number to the Number Parameter', () => {
+                it('updates value when setting the valid number to the Number Parameter', async () => {
                     const numberParameterElement = findParameterElement(inputParameters, 'numberParam');
                     const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
+                    await ticks();
                     numberParameterCombobox.dispatchEvent(textInputEvent('1234'));
-                    return resolveRenderCycles(() => {
-                        numberParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(getParameter(coreActionElement.node.inputParameters, 'numberParam').value).toEqual({
-                                value: '1234',
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    numberParameterCombobox.dispatchEvent(blurEvent);
+                    expect(getParameter(coreActionElement.node.inputParameters, 'numberParam').value).toEqual({
+                        value: '1234',
+                        error: null
                     });
                 });
-                it('update value when setting the date variable to the Date Parameter', () => {
+                it('updates value when setting the date variable to the Date Parameter', async () => {
                     const dateParameterElement = findParameterElement(inputParameters, 'dateParam');
                     const toggle = getLightningInputToggle(dateParameterElement);
+                    await ticks();
                     toggle.dispatchEvent(toggleChangeEvent(true));
-                    return resolveRenderCycles(() => {
-                        const dateParameterCombobox = getInputParameterComboboxElement(dateParameterElement);
-                        dateParameterCombobox.dispatchEvent(textInputEvent('{!dateVariable}'));
-                        return resolveRenderCycles(() => {
-                            dateParameterCombobox.dispatchEvent(blurEvent);
-                            return resolveRenderCycles(() => {
-                                expect(getParameter(coreActionElement.node.inputParameters, 'dateParam').value).toEqual(
-                                    {
-                                        value: getElementGuid('dateVariable'),
-                                        error: null
-                                    }
-                                );
-                            });
-                        });
+                    const dateParameterCombobox = getInputParameterComboboxElement(dateParameterElement);
+                    dateParameterCombobox.dispatchEvent(textInputEvent('{!dateVariable}'));
+                    await ticks();
+                    dateParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(getParameter(coreActionElement.node.inputParameters, 'dateParam').value).toEqual({
+                        value: getElementGuid('dateVariable'),
+                        error: null
                     });
                 });
-                it('update value when setting the global constant to the Boolean Parameter', () => {
+                it('updates value when setting the global constant to the Boolean Parameter', async () => {
                     const booleanParameterElement = findParameterElement(inputParameters, 'booleanParam');
                     const toggle = getLightningInputToggle(booleanParameterElement);
+                    await ticks();
                     toggle.dispatchEvent(toggleChangeEvent(true));
-                    return resolveRenderCycles(() => {
-                        const booleanParameterCombobox = getInputParameterComboboxElement(booleanParameterElement);
-                        booleanParameterCombobox.dispatchEvent(
-                            textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE))
-                        );
-                        return resolveRenderCycles(() => {
-                            booleanParameterCombobox.dispatchEvent(blurEvent);
-                            return resolveRenderCycles(() => {
-                                expect(
-                                    getParameter(coreActionElement.node.inputParameters, 'booleanParam').value
-                                ).toEqual({
-                                    value: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
-                                    error: null
-                                });
-                            });
-                        });
+                    await ticks();
+                    const booleanParameterCombobox = getInputParameterComboboxElement(booleanParameterElement);
+                    booleanParameterCombobox.dispatchEvent(
+                        textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE))
+                    );
+                    await ticks();
+                    booleanParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(getParameter(coreActionElement.node.inputParameters, 'booleanParam').value).toEqual({
+                        value: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
+                        error: null
                     });
                 });
-                it('show combobox when toggle is active', () => {
+                it('shows combobox when toggle is active', async () => {
                     const accountColParameterElement = findParameterElement(inputParameters, 'accountColParam');
                     const toggle = getLightningInputToggle(accountColParameterElement);
                     toggle.dispatchEvent(toggleChangeEvent(true));
-                    return resolveRenderCycles(() => {
-                        verifyOptionalInputParameterWithValue(
-                            accountColParameterElement,
-                            'Account Collection Parameter',
-                            ''
-                        );
-                    });
+                    await ticks();
+                    verifyOptionalInputParameterWithValue(
+                        accountColParameterElement,
+                        'Account Collection Parameter',
+                        ''
+                    );
                 });
-                it('hide combobox when toggle is deactive', () => {
+                it('hides combobox when toggle is deactive', async () => {
                     const numberParamElement = findParameterElement(inputParameters, 'numberParam');
                     const toggle = getLightningInputToggle(numberParamElement);
                     toggle.dispatchEvent(toggleChangeEvent(false));
-                    return resolveRenderCycles(() => {
-                        verifyOptionalInputParameterNoValue(numberParamElement, 'Number Parameter');
-                    });
+                    await ticks();
+                    verifyOptionalInputParameterNoValue(numberParamElement, 'Number Parameter');
                 });
-                it('preserve value when toggle is reactive', () => {
+                it('preserves value when toggle is reactive', async () => {
                     const numberParamElement = findParameterElement(inputParameters, 'numberParam');
                     const toggle = getLightningInputToggle(numberParamElement);
                     toggle.dispatchEvent(toggleChangeEvent(false));
-                    return resolveRenderCycles(() => {
-                        toggle.dispatchEvent(toggleChangeEvent(true));
-                        return resolveRenderCycles(() => {
-                            verifyOptionalInputParameterWithValue(
-                                numberParamElement,
-                                'Number Parameter',
-                                '{!numberVariable}'
-                            );
-                        });
-                    });
+                    await ticks();
+                    toggle.dispatchEvent(toggleChangeEvent(true));
+                    await ticks();
+                    verifyOptionalInputParameterWithValue(numberParamElement, 'Number Parameter', '{!numberVariable}');
                 });
             });
             describe('error cases', () => {
                 let inputParameters;
-                beforeEach(() => {
-                    const coreActionElement = createComponentForTest(actionNode);
-                    return resolveRenderCycles(() => {
-                        inputParameters = getInputParameterItems(coreActionElement);
-                    });
+                beforeEach(async () => {
+                    coreActionElement = createComponentForTest(actionNode);
+                    await ticks();
+                    inputParameters = getInputParameterItems(coreActionElement);
                 });
-                it('show the error if clearing the value of required input parameter', () => {
+                it('shows the error if clearing the value of required input parameter', async () => {
                     const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                     const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                     stringParameterCombobox.dispatchEvent(textInputEvent(''));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                        });
-                    });
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                 });
-                it('show the error if entering the string for the Number Parameter', () => {
+                it('shows the error if entering the string for the Number Parameter', async () => {
                     const numberParameterElement = findParameterElement(inputParameters, 'numberParam');
                     const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
                     numberParameterCombobox.dispatchEvent(textInputEvent('invalidNumber'));
-                    return resolveRenderCycles(() => {
-                        numberParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(numberParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.NUMBER_ERROR_MESSAGE
-                            );
-                        });
-                    });
+                    await ticks();
+                    numberParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(numberParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.NUMBER_ERROR_MESSAGE);
                 });
-                it('show the error if entering the string for the Account Parameter', () => {
+                it('shows the error if entering the string for the Account Parameter', async () => {
                     const accountParameterElement = findParameterElement(inputParameters, 'accountParam');
                     const accountParameterCombobox = getInputParameterComboboxElement(accountParameterElement);
                     accountParameterCombobox.dispatchEvent(textInputEvent('any string'));
-                    return resolveRenderCycles(() => {
-                        accountParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(accountParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
-                        });
-                    });
+                    await ticks();
+                    accountParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(accountParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                 });
-                it('show the error if entering the collection variable for the String Parameter', () => {
+                it('shows the error if entering the collection variable for the String Parameter', async () => {
                     const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                     const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
-                    stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(stringParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                            );
-                        });
-                    });
+                    stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable1}'));
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                 });
-                it('show the error if entering the string collection variable for the Account Collection Parameter', () => {
+                it('shows the error if entering the string collection variable for the Account Collection Parameter', async () => {
                     const accountColParameterElement = findParameterElement(inputParameters, 'accountColParam');
                     const toggle = getLightningInputToggle(accountColParameterElement);
                     toggle.dispatchEvent(toggleChangeEvent(true));
-                    return resolveRenderCycles(() => {
-                        const sObjectColParameterCombobox = getInputParameterComboboxElement(
-                            accountColParameterElement
-                        );
-                        sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
-                        return resolveRenderCycles(() => {
-                            sObjectColParameterCombobox.dispatchEvent(blurEvent);
-                            return resolveRenderCycles(() => {
-                                expect(sObjectColParameterCombobox.validity).toEqual(
-                                    VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                                );
-                            });
-                        });
-                    });
+                    await ticks();
+                    const sObjectColParameterCombobox = getInputParameterComboboxElement(accountColParameterElement);
+                    sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable1}'));
+                    await ticks();
+                    sObjectColParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(sObjectColParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                 });
-                it('show the error if entering the empty string constant for the Boolean Parameter', () => {
+                it('shows the error if entering the empty string constant for the Boolean Parameter', async () => {
                     const booleanParameterElement = findParameterElement(inputParameters, 'booleanParam');
                     const toggle = getLightningInputToggle(booleanParameterElement);
                     toggle.dispatchEvent(toggleChangeEvent(true));
-                    return resolveRenderCycles(() => {
-                        const booleanParameterCombobox = getInputParameterComboboxElement(booleanParameterElement);
-                        booleanParameterCombobox.dispatchEvent(
-                            textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING))
-                        );
-                        return resolveRenderCycles(() => {
-                            booleanParameterCombobox.dispatchEvent(blurEvent);
-                            return resolveRenderCycles(() => {
-                                expect(booleanParameterCombobox.validity).toEqual(
-                                    VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                                );
-                            });
-                        });
-                    });
+                    await ticks();
+                    const booleanParameterCombobox = getInputParameterComboboxElement(booleanParameterElement);
+                    booleanParameterCombobox.dispatchEvent(
+                        textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING))
+                    );
+                    await ticks();
+                    booleanParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(booleanParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                 });
             });
             describe('warning cases', () => {
@@ -408,16 +309,15 @@ describe('Invocable Action Editor', () => {
                         value: { value: '123', error: null },
                         valueDataType: 'number'
                     };
-                    let coreActionElement, inputParameters, numberParameterItems;
-                    beforeEach(() => {
+                    let inputParameters, numberParameterItems;
+                    beforeEach(async () => {
                         if (findIndex(actionNode.inputParameters, duplicatedNumberParam.rowIndex) === -1) {
                             actionNode.inputParameters.push(duplicatedNumberParam);
                         }
                         coreActionElement = createComponentForTest(actionNode);
-                        return resolveRenderCycles(() => {
-                            inputParameters = getInputParameterItems(coreActionElement);
-                            numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
-                        });
+                        await ticks();
+                        inputParameters = getInputParameterItems(coreActionElement);
+                        numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
                     });
                     afterEach(() => {
                         const index = findIndex(actionNode.inputParameters, duplicatedNumberParam.rowIndex);
@@ -425,29 +325,28 @@ describe('Invocable Action Editor', () => {
                             actionNode.inputParameters.splice(index, 1);
                         }
                     });
-                    it('show duplicated Number Parameter parameters', () => {
+                    it('shows duplicated Number Parameter parameters', () => {
                         expect(numberParameterItems).toHaveLength(2);
                     });
-                    it('show delete button', () => {
+                    it('shows delete button', () => {
                         numberParameterItems.forEach((item) => {
                             const deleteBtn = getDeleteButton(item);
                             expect(deleteBtn.iconName).toEqual('utility:delete');
                         });
                     });
-                    it('delete duplicated parameter and update the row after deleting when clicking the delete button', () => {
+                    it('deletes duplicated parameter and update the row after deleting when clicking the delete button', async () => {
                         // delete the second Number Parameter
                         const deleteBtn = getDeleteButton(numberParameterItems[1]);
                         deleteBtn.click();
-                        return resolveRenderCycles(() => {
-                            inputParameters = getInputParameterItems(coreActionElement);
-                            numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
-                            expect(numberParameterItems).toHaveLength(1);
-                            verifyOptionalInputParameterWithValue(
-                                numberParameterItems[0],
-                                'Number Parameter',
-                                '{!numberVariable}'
-                            );
-                        });
+                        await ticks();
+                        inputParameters = getInputParameterItems(coreActionElement);
+                        numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
+                        expect(numberParameterItems).toHaveLength(1);
+                        verifyOptionalInputParameterWithValue(
+                            numberParameterItems[0],
+                            'Number Parameter',
+                            '{!numberVariable}'
+                        );
                     });
                 });
                 describe('not available parameters', () => {
@@ -458,15 +357,14 @@ describe('Invocable Action Editor', () => {
                         valueDataType: 'number'
                     };
                     let notAvailableItem;
-                    beforeEach(() => {
+                    beforeEach(async () => {
                         if (findIndex(actionNode.inputParameters, notAvailableParam.rowIndex) === -1) {
                             actionNode.inputParameters.push(notAvailableParam);
                         }
                         const coreActionElement = createComponentForTest(actionNode);
-                        return resolveRenderCycles(() => {
-                            const inputParameters = getInputParameterItems(coreActionElement);
-                            notAvailableItem = findParameterElement(inputParameters, 'notAvailableParam');
-                        });
+                        await ticks();
+                        const inputParameters = getInputParameterItems(coreActionElement);
+                        notAvailableItem = findParameterElement(inputParameters, 'notAvailableParam');
                     });
                     afterEach(() => {
                         const index = findIndex(actionNode.inputParameters, notAvailableParam.rowIndex);
@@ -474,15 +372,15 @@ describe('Invocable Action Editor', () => {
                             actionNode.inputParameters.splice(index, 1);
                         }
                     });
-                    it('show delete button', () => {
+                    it('shows delete button', () => {
                         const deleteBtn = getDeleteButton(notAvailableItem);
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });
-                    it('do not show data type icon', () => {
+                    it('does not show data type icon', () => {
                         const icon = getParameterIcon(notAvailableItem);
                         expect(icon).toBeNull();
                     });
-                    it('show warning icon', () => {
+                    it('shows warning icon', () => {
                         const statusIcon = getWarningIcon(notAvailableItem);
                         expect(statusIcon).not.toBeNull();
                         expect(statusIcon.type).toBe('warning');
@@ -500,7 +398,7 @@ describe('Invocable Action Editor', () => {
                             }
                         ]);
                     });
-                    it('show warning badge', () => {
+                    it('shows warning badge', () => {
                         const badgeCmp = getWarningBadge(notAvailableItem);
                         expect(badgeCmp).not.toBeNull();
                         expect(badgeCmp.label).toEqual('FlowBuilderInvocableActionEditor.badgeWillCauseErrors');
@@ -511,14 +409,13 @@ describe('Invocable Action Editor', () => {
         });
         describe('output div', () => {
             describe('valid cases', () => {
-                let coreActionElement, outputParameters;
-                beforeEach(() => {
+                let outputParameters;
+                beforeEach(async () => {
                     coreActionElement = createComponentForTest(actionNode);
-                    return resolveRenderCycles(() => {
-                        outputParameters = getOutputParameterItems(coreActionElement);
-                    });
+                    await ticks();
+                    outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
                 });
-                it('show all output parameters', () => {
+                it('shows all output parameters', () => {
                     // output parameters: Output Account Parameter, Output Account
                     // Collection Parameter, Output Date Collection Parameter,
                     // Output Date Parameter, Output Number Collection Parameter,
@@ -533,128 +430,99 @@ describe('Invocable Action Editor', () => {
                     verifyOutputParameter(outputParameters[6], 'Output String Collection Parameter', null);
                     verifyOutputParameter(outputParameters[7], 'Output String Parameter', '{!stringVariable}');
                 });
-                it('update value when setting the string variable to the Output String Parameter', () => {
+                it('updates value when setting the string variable to the Output String Parameter', async () => {
                     const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                     const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
                     stringParameterCombobox.dispatchEvent(textInputEvent('{!stringVariable}'));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(
-                                getParameter(coreActionElement.node.outputParameters, 'outputStringParam').value
-                            ).toEqual({
-                                value: getElementGuid('stringVariable'),
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(getParameter(coreActionElement.node.outputParameters, 'outputStringParam').value).toEqual({
+                        value: getElementGuid('stringVariable'),
+                        error: null
                     });
                 });
-                it('update value when setting the number variable to the Output Number Parameter', () => {
+                it('updates value when setting the number variable to the Output Number Parameter', async () => {
                     const numberParameterElement = findParameterElement(outputParameters, 'outputNumberParam');
                     const numberParameterCombobox = getOutputParameterComboboxElement(numberParameterElement);
                     numberParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
-                    return resolveRenderCycles(() => {
-                        numberParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(
-                                getParameter(coreActionElement.node.outputParameters, 'outputNumberParam').value
-                            ).toEqual({
-                                value: getElementGuid('numberVariable'),
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    numberParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(getParameter(coreActionElement.node.outputParameters, 'outputNumberParam').value).toEqual({
+                        value: getElementGuid('numberVariable'),
+                        error: null
                     });
                 });
-                it('update value when setting the account variable to the Output Account Parameter', () => {
+                it('updates value when setting the account variable to the Output Account Parameter', async () => {
                     const accountParameterElement = findParameterElement(outputParameters, 'outputAccountParam');
                     const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
                     accountParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
-                    return resolveRenderCycles(() => {
-                        accountParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(
-                                getParameter(coreActionElement.node.outputParameters, 'outputAccountParam').value
-                            ).toEqual({
-                                value: getElementGuid('accountSObjectVariable'),
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    accountParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(getParameter(coreActionElement.node.outputParameters, 'outputAccountParam').value).toEqual({
+                        value: getElementGuid('accountSObjectVariable'),
+                        error: null
                     });
                 });
-                it('update value when setting the account collection variable to the Output Account Collection Parameter', () => {
+                it('updates value when setting the account collection variable to the Output Account Collection Parameter', async () => {
                     const accountColParameterElement = findParameterElement(outputParameters, 'outputAccountColParam');
                     const accountColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
                     accountColParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectCollectionVariable}'));
-                    return resolveRenderCycles(() => {
-                        accountColParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(
-                                getParameter(coreActionElement.node.outputParameters, 'outputAccountColParam').value
-                            ).toEqual({
-                                value: getElementGuid('accountSObjectCollectionVariable'),
-                                error: null
-                            });
-                        });
+                    await ticks();
+                    accountColParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(
+                        getParameter(coreActionElement.node.outputParameters, 'outputAccountColParam').value
+                    ).toEqual({
+                        value: getElementGuid('accountSObjectCollectionVariable'),
+                        error: null
                     });
                 });
             });
             describe('error cases', () => {
                 let outputParameters;
-                beforeEach(() => {
+                beforeEach(async () => {
                     const coreActionElement = createComponentForTest(actionNode);
-                    return resolveRenderCycles(() => {
-                        outputParameters = getOutputParameterItems(coreActionElement);
-                    });
+                    await ticks();
+                    outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
                 });
-                it('show the error if entering the litteral string for the Output String Parameter', () => {
+                it('shows the error if entering the litteral string for the Output String Parameter', async () => {
                     const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                     const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
                     stringParameterCombobox.dispatchEvent(textInputEvent('any string'));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
-                        });
-                    });
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                 });
-                it('show the error if entering the string variable for the Output Account Parameter', () => {
+                it('shows the error if entering the string variable for the Output Account Parameter', async () => {
                     const accountParameterElement = findParameterElement(outputParameters, 'outputAccountParam');
                     const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
                     accountParameterCombobox.dispatchEvent(textInputEvent('{!stringVariable}'));
-                    return resolveRenderCycles(() => {
-                        accountParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(accountParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                            );
-                        });
-                    });
+                    await ticks();
+                    accountParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(accountParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                 });
-                it('show the error if entering the collection variable for the Output String Parameter', () => {
+                it('shows the error if entering the collection variable for the Output String Parameter', async () => {
                     const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                     const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
-                    stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(stringParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                            );
-                        });
-                    });
+                    stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable1}'));
+                    await ticks();
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                 });
-                it('show the error if entering the string collection variable for the Output Account Collection Parameter', () => {
+                it('shows the error if entering the string collection variable for the Output Account Collection Parameter', async () => {
                     const accountColParameterElement = findParameterElement(outputParameters, 'outputAccountColParam');
                     const sObjectColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
-                    sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
-                    return resolveRenderCycles(() => {
-                        sObjectColParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(sObjectColParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                            );
-                        });
-                    });
+                    sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable1}'));
+                    await ticks();
+                    sObjectColParameterCombobox.dispatchEvent(blurEvent);
+                    await ticks();
+                    expect(sObjectColParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                 });
             });
             describe('warning cases', () => {
@@ -665,16 +533,15 @@ describe('Invocable Action Editor', () => {
                         value: { value: '123', error: null },
                         valueDataType: 'number'
                     };
-                    let coreActionElement, outputParameters, numberParameterItems;
-                    beforeEach(() => {
+                    let outputParameters, numberParameterItems;
+                    beforeEach(async () => {
                         if (findIndex(actionNode.outputParameters, duplicatedNumberParam.rowIndex) === -1) {
                             actionNode.outputParameters.push(duplicatedNumberParam);
                         }
                         coreActionElement = createComponentForTest(actionNode);
-                        return resolveRenderCycles(() => {
-                            outputParameters = getOutputParameterItems(coreActionElement);
-                            numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
-                        });
+                        await ticks();
+                        outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
+                        numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
                     });
                     afterEach(() => {
                         const index = findIndex(actionNode.outputParameters, duplicatedNumberParam.rowIndex);
@@ -682,29 +549,24 @@ describe('Invocable Action Editor', () => {
                             actionNode.outputParameters.splice(index, 1);
                         }
                     });
-                    it('show duplicated Number Parameter parameters', () => {
+                    it('shows duplicated Number Parameter parameters', () => {
                         expect(numberParameterItems).toHaveLength(2);
                     });
-                    it('show delete button', () => {
+                    it('shows delete button', () => {
                         numberParameterItems.forEach((item) => {
                             const deleteBtn = getDeleteButton(item);
                             expect(deleteBtn.iconName).toEqual('utility:delete');
                         });
                     });
-                    it('delete duplicated parameter and update the row after deleting when clicking the delete button', () => {
+                    it('deletes duplicated parameter and update the row after deleting when clicking the delete button', async () => {
                         // delete the second Number Parameter
                         const deleteBtn = getDeleteButton(numberParameterItems[1]);
                         deleteBtn.click();
-                        return resolveRenderCycles(() => {
-                            outputParameters = getOutputParameterItems(coreActionElement);
-                            numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
-                            expect(numberParameterItems).toHaveLength(1);
-                            verifyOutputParameter(
-                                numberParameterItems[0],
-                                'Output Number Parameter',
-                                '{!numberVariable}'
-                            );
-                        });
+                        await ticks();
+                        outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
+                        numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
+                        expect(numberParameterItems).toHaveLength(1);
+                        verifyOutputParameter(numberParameterItems[0], 'Output Number Parameter', '{!numberVariable}');
                     });
                 });
                 describe('not available parameters', () => {
@@ -715,15 +577,14 @@ describe('Invocable Action Editor', () => {
                         valueDataType: 'number'
                     };
                     let notAvailableItem;
-                    beforeEach(() => {
+                    beforeEach(async () => {
                         if (findIndex(actionNode.inputParameters, notAvailableParam.rowIndex) === -1) {
                             actionNode.outputParameters.push(notAvailableParam);
                         }
                         const coreActionElement = createComponentForTest(actionNode);
-                        return resolveRenderCycles(() => {
-                            const outputParameters = getOutputParameterItems(coreActionElement);
-                            notAvailableItem = findParameterElement(outputParameters, 'notAvailableParam');
-                        });
+                        await ticks();
+                        const outputParameters = getOutputParameterItemsFromAcc(coreActionElement);
+                        notAvailableItem = findParameterElement(outputParameters, 'notAvailableParam');
                     });
                     afterEach(() => {
                         const index = findIndex(actionNode.outputParameters, notAvailableParam.rowIndex);
@@ -731,15 +592,15 @@ describe('Invocable Action Editor', () => {
                             actionNode.outputParameters.splice(index, 1);
                         }
                     });
-                    it('show delete button', () => {
+                    it('shows delete button', () => {
                         const deleteBtn = getDeleteButton(notAvailableItem);
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });
-                    it('do not show data type icon', () => {
+                    it('does not show data type icon', () => {
                         const parameterIcon = getParameterIcon(notAvailableItem);
                         expect(parameterIcon).toBeNull();
                     });
-                    it('show warning icon', () => {
+                    it('shows warning icon', () => {
                         const statusIcon = getWarningIcon(notAvailableItem);
                         expect(statusIcon).not.toBeNull();
                         expect(statusIcon.type).toBe('warning');
@@ -757,7 +618,7 @@ describe('Invocable Action Editor', () => {
                             }
                         ]);
                     });
-                    it('show warning badge', () => {
+                    it('shows warning badge', () => {
                         const badgeCmp = getWarningBadge(notAvailableItem);
                         expect(badgeCmp).not.toBeNull();
                         expect(badgeCmp.label).toEqual('FlowBuilderInvocableActionEditor.badgeWillCauseErrors');
@@ -768,22 +629,6 @@ describe('Invocable Action Editor', () => {
         });
     });
     describe('Flow with an action that has a text collection input parameter set to a text collection variable', () => {
-        beforeAll(() => {
-            initializeAuraFetch({
-                'c.getAllInvocableActionsForType': () => ({
-                    data: mockActions
-                }),
-                'c.getInvocableActionDetails': getInvocableActionDetails({
-                    submit: {
-                        submit: submitForApprovalActionDetails
-                    }
-                })
-            });
-            translateFlowToUIAndDispatch(flowWithApexActionSubmitForApproval, store);
-        });
-        afterAll(() => {
-            setAuraFetch();
-        });
         beforeEach(() => {
             const element = getElementByDevName('submitForApproval');
             actionNode = getElementForPropertyEditor(element);

@@ -101,6 +101,60 @@
                 "storeOutputAutomatically": true
             },
             {
+                "actionName": "AllTypesApexAction",
+                "actionType": "apex",
+                "dataTypeMappings": [],
+                "flowTransactionModel": "Automatic",
+                "inputParameters": [
+                    {
+                        "name": "accountParam",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "accountSObjectVariable"
+                        }
+                    },
+                    {
+                        "name": "idParam",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "stringVariable"
+                        }
+                    },
+                    {
+                        "name": "numberParam",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "numberVariable"
+                        }
+                    },
+                    {
+                        "name": "stringParam",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "stringVariable"
+                        }
+                    }
+                ],
+                "label": "allTypesApexAction",
+                "locationX": 643,
+                "locationY": 187,
+                "name": "allTypesApexAction",
+                "outputParameters": [
+                    {
+                        "assignToReference": "numberVariable",
+                        "name": "outputNumberParam",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "stringVariable",
+                        "name": "outputStringParam",
+                        "processMetadataValues": []
+                    }
+                ],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            },
+            {
                 "actionName": "generateDraftAccount",
                 "actionType": "apex",
                 "dataTypeMappings": [],
@@ -318,6 +372,35 @@
                 "outputParameters": [],
                 "processMetadataValues": [],
                 "storeOutputAutomatically": false
+            },
+            {
+                "actionName": "submit",
+                "actionType": "submit",
+                "dataTypeMappings": [],
+                "flowTransactionModel": "CurrentTransaction",
+                "inputParameters": [
+                    {
+                        "name": "nextApproverIds",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "stringCollectionVariable1"
+                        }
+                    },
+                    {
+                        "name": "objectId",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": ""
+                        }
+                    }
+                ],
+                "label": "submitForApproval",
+                "locationX": 674,
+                "locationY": 49,
+                "name": "submitForApproval",
+                "outputParameters": [],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": true
             }
         ],
         "apexPluginCalls": [],

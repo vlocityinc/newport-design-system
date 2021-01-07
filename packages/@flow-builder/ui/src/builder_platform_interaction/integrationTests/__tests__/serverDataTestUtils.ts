@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
@@ -51,6 +50,7 @@ import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedEle
 import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
 import { lightningWithApexNoSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexNoSObjectActionDetails.json';
 import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexContainsSObjectActionDetails.json';
+import { allTypesApexActionDetails } from 'serverData/GetInvocableActionDetails/allTypesApexActionDetails.json';
 
 const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -81,7 +81,7 @@ export const getFlowInputOutputVariables = (flowNameToFlowInputOutputVariables) 
     return { error: 'Unknown flow' };
 };
 
-export const getAllInvocableActionsForType = (flowProcessTypeToInvocableActions) => ({ flowProcessType }) => {
+const getAllInvocableActionsForType = (flowProcessTypeToInvocableActions) => ({ flowProcessType }) => {
     const invocableActions = flowProcessTypeToInvocableActions[flowProcessType] || [];
     return {
         data: invocableActions
@@ -101,7 +101,7 @@ export const getTemplates = (allTemplates) => ({ processTypes }) => {
     return { data: matchingTemplates };
 };
 
-export const getInvocableActionDetails = (invocableActionParameters) => (params) => {
+const getInvocableActionDetails = (invocableActionParameters) => (params) => {
     let invocableActionParametersForAction;
     const invocableActionParametersForType = invocableActionParameters[params.actionType];
     if (invocableActionParametersForType) {
@@ -187,7 +187,8 @@ const allAuraActions = {
             GetAccountName: getStringFromApexActionDetails,
             GetAccounts: getAccountsFromApexAnonymousOutputActionDetails,
             InvocableGetAccountsNames: getAccountsNamesFromApexAnonymousOutputActionDetails,
-            ApexTypeCollectionAction: getCarsFromApexActionDetails
+            ApexTypeCollectionAction: getCarsFromApexActionDetails,
+            AllTypesApexAction: allTypesApexActionDetails
         },
         'submit-submit': submitForApprovalActionDetails,
         'chatterPost-chatterPost': chatterPostActionDetails,

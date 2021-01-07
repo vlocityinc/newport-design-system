@@ -40,6 +40,18 @@
   "maxOccurs" : 2000
 },
         {
+  "apiName" : "contentVersionIds",
+  "dataType" : "string",
+  "description" : "The Version IDs of the uploaded files. Store this value in a text collection variable.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Content Version IDs",
+  "maxOccurs" : 2000
+},
+        {
   "apiName" : "disabled",
   "dataType" : "boolean",
   "description" : "Displays the component in a disabled state.",

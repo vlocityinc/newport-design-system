@@ -22,6 +22,23 @@
       "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
+      "label":"All types apex action",
+      "type":"apex",
+      "fillColor":null,
+      "isStandard":false,
+      "name":"AllTypesApexAction",
+      "configurationEditor":null,
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"apex-AllTypesApexAction"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":true,
+      "iconName":null,
+      "description":null,
       "label":"Gen account",
       "type":"apex",
       "fillColor":null,
