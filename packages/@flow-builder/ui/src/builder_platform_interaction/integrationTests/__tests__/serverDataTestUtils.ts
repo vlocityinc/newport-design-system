@@ -1,4 +1,5 @@
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setContext } from 'builder_platform_interaction/contextLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
@@ -50,6 +51,7 @@ import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedEle
 import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
 import { lightningWithApexNoSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexNoSObjectActionDetails.json';
 import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexContainsSObjectActionDetails.json';
+import { context } from 'serverData/GetContext/context.json';
 import { allTypesApexActionDetails } from 'serverData/GetInvocableActionDetails/allTypesApexActionDetails.json';
 
 const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
@@ -240,4 +242,8 @@ export function initializeAuraFetch(actions = {}) {
         })
     );
     setAuraGetCallback((callback) => callback);
+}
+
+export function initializeContext() {
+    setContext(context);
 }

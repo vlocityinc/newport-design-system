@@ -1,0 +1,11 @@
+.screen-editor-container {
+    height: calc(100vh - 300px); /* TD Remove W-4738595 / W-4986347 */
+}
+
+.tab-container-components {
+    height: calc(100vh - 380px);
+}
+
+.tab-container-automaticfields {
+    height: calc(100vh - 350px);
+}

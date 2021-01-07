@@ -10,6 +10,13 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return {
+        orgHasFlowBuilderAutomaticFields: jest.fn().mockReturnValue(true),
+        isTestMode: jest.fn().mockReturnValue(false)
+    };
+});
+
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
     // Using the setter for screenFieldTypes triggers buildModel which populates the palette.

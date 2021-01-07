@@ -97,6 +97,8 @@ import elevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.eleve
 import fullWidth from '@salesforce/label/FlowBuilderScreenEditor.fullWidth';
 import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsTooltip';
 import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
+import componentsTabLabel from '@salesforce/label/FlowBuilderScreenEditor.componentsTabLabel';
+import fieldsTabLabel from '@salesforce/label/FlowBuilderScreenEditor.fieldsTabLabel';
 import extensionAdvanced from '@salesforce/label/FlowBuilderScreenEditor.extensionAdvanced';
 import extensionInputsOnNextNavToAssocScrnSubtitle from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsOnNextNavToAssocScrnSubtitle';
 import extensionInputsOnNextNavToAssocScrnDescription from '@salesforce/label/FlowBuilderScreenEditor.extensionInputsOnNextNavToAssocScrnDescription';
@@ -206,6 +208,8 @@ export const LABELS = {
     fullWidth,
     columnsTooltip,
     defaultColumnLabel,
+    componentsTabLabel,
+    fieldsTabLabel,
     extensionAdvanced,
     extensionInputsOnNextNavToAssocScrnSubtitle,
     extensionInputsOnNextNavToAssocScrnDescription,

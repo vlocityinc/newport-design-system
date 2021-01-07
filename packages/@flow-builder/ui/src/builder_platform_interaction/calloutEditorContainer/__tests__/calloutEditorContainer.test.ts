@@ -42,7 +42,7 @@ const setupComponentUnderTest = (props) => {
 };
 
 const EDITOR_SELECTOR = '.editor_template';
-const NO_ACTION_TEMPLATE_SELECTOR = 'builder_platform_interaction-gone-camping';
+const NO_ACTION_TEMPLATE_SELECTOR = 'builder_platform_interaction-illustration';
 
 const mockSelectedAction = {
     actionName: 'chatterPost',

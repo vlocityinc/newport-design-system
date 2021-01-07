@@ -13,6 +13,7 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_PILL: 'lightning-pill',
     LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
     LIGHTNING_TAB: 'lightning-tab',
+    LIGHTNING_TABSET: 'lightning-tabset',
     LIGHTNING_TEXTAREA: 'lightning-textarea',
     LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation'
 };
@@ -64,6 +65,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RICH_LABEL: 'builder_platform_interaction-rich-label',
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     ROW: 'builder_platform_interaction-row',
+    SCREEN_AUTOMATIC_FIELDS_PALETTE: 'builder_platform_interaction-screen-editor-automatic-field-palette',
     SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas',
     SCREEN_CANVAS: 'builder_platform_interaction-screen-canvas',
     SCREEN_EDITOR_HIGHLIGHT: 'builder_platform_interaction-screen-editor-highlight',

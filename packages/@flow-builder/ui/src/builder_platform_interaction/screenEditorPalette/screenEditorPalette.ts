@@ -7,6 +7,9 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
+import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
+import templateWhenAutomaticFieldsIsDisabled from './screenEditorPalette.html';
+import templateWhenAutomaticFieldsIsEnabled from './screenEditorPaletteInTab.html';
 
 const SELECTORS = {
     FILTER_INPUT: '.palette-search-input'
@@ -20,6 +23,8 @@ export default class ScreenPalette extends LightningElement {
     appExchangeLink = APP_EXCHANGE_LINK;
 
     labels = LABELS;
+
+    orgHasFlowBuilderAutomaticFields = orgHasFlowBuilderAutomaticFields();
 
     @api get screenFieldTypes() {
         return this._screenFieldTypes;
@@ -94,6 +99,12 @@ export default class ScreenPalette extends LightningElement {
         // refresh the definition of all the extensions in the cache (used during screen validation)
     }
     */
+
+    render() {
+        return this.orgHasFlowBuilderAutomaticFields
+            ? templateWhenAutomaticFieldsIsEnabled
+            : templateWhenAutomaticFieldsIsDisabled;
+    }
 }
 
 /**

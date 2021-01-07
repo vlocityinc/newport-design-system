@@ -14,7 +14,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
-import { initializeAuraFetch } from './serverDataTestUtils';
+import { initializeAuraFetch, initializeContext } from './serverDataTestUtils';
 import {
     initializeLoader,
     loadOnStart,
@@ -67,6 +67,7 @@ export const changeLightningRadioGroupValue = (lightningRadioGroup, newValue) =>
 };
 
 export const setupState = () => {
+    initializeContext();
     const store = Store.getStore(reducer as StoreReducer);
     initializeAuraFetch();
     initializeLoader(store);

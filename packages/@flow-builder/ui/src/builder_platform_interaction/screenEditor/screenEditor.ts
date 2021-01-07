@@ -20,6 +20,9 @@ import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
 import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
+import templateWithAutomaticFieldsDisabled from './screenEditor.html';
+import templateWithAutomaticFieldsEnabled from './screenEditorWithTabs.html';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -34,6 +37,8 @@ export default class ScreenEditor extends LightningElement {
     processTypeValue = '';
 
     labels = LABELS;
+
+    orgHasFlowBuilderAutomaticFields = orgHasFlowBuilderAutomaticFields();
 
     /**
      * Screen node getter
@@ -384,5 +389,11 @@ export default class ScreenEditor extends LightningElement {
      */
     hidePopover() {
         hidePopover({ closedBy: 'closeOnClickOut' });
+    }
+
+    render() {
+        return this.orgHasFlowBuilderAutomaticFields
+            ? templateWithAutomaticFieldsEnabled
+            : templateWithAutomaticFieldsDisabled;
     }
 }
