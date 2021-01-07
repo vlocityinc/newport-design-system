@@ -419,12 +419,7 @@ export function baseElementsArrayToMap(elementList: UI.Element[] = []) {
     };
 }
 
-/*
- * TODO: @W-8485367 : This function should not have any as para type
- * but should have instead : { guid: Guid, name: string }
- * This will imply modification to function baseResource
- */
-export function baseElement(element: any = {}): UI.Element {
+export function baseElement(element: { guid?: UI.Guid; name?: string; description?: string } = {}): UI.Element {
     const { guid = generateGuid(), name = '' } = element;
     return {
         guid,
