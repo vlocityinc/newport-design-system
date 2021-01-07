@@ -666,13 +666,13 @@ function getFlcMenuData(
     const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
 
     let canMergeEndedBranch = false;
-
+    let isTargetEnd = false;
     if (targetElement != null) {
         const targetParentElement = findParentElement(targetElement, flowModel);
         const isTargetParentRoot =
             getElementMetadata(elementsMetadata, targetParentElement.elementType).type === ElementType.ROOT;
 
-        const isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === ElementType.END;
+        isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === ElementType.END;
         canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
     }
 
@@ -684,6 +684,7 @@ function getFlcMenuData(
 
     return {
         canMergeEndedBranch,
+        isTargetEnd,
         hasEndElement,
         elementHasFault,
         ...detail,

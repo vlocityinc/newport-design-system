@@ -10,6 +10,9 @@ const { generateGuid } = storeUtils;
 
 export const PASTE_ACTION = 'Paste';
 export const MERGE_PATH_ACTION = 'mergePath';
+export const GERGE_ACTION = 'gerge'; // TODO name change
+export const GERGE_REROUTE_ACTION = 'gergeReroute'; // TODO name change
+export const GERGE_DELETE_ACTION = 'gergeDelete'; // TODO name change
 
 const actionSection: MenuSection = {
     guid: generateGuid(),
@@ -43,25 +46,72 @@ const mergeActionItem = {
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
+const addGergeActionItem = {
+    guid: generateGuid(),
+    icon: 'utility:level_down',
+    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconClass: '',
+    iconSize: 'x-small',
+    iconVariant: '',
+    label: LABELS.gergePathItemLabel, // TODO
+    elementType: GERGE_ACTION,
+    rowClass: 'slds-listbox__item action-row-line-height'
+};
+
+const rerouteGergeActionItem = {
+    guid: generateGuid(),
+    icon: 'utility:level_down',
+    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconClass: '',
+    iconSize: 'x-small',
+    iconVariant: '',
+    label: LABELS.reRouteGergePathItemLabel, // TODO
+    elementType: GERGE_REROUTE_ACTION,
+    rowClass: 'slds-listbox__item action-row-line-height'
+};
+
+const deleteGergeActionItem = {
+    guid: generateGuid(),
+    icon: 'utility:delete',
+    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconClass: '',
+    iconSize: 'x-small',
+    iconVariant: '',
+    label: LABELS.deleteGergePathItemLabel, // TODO
+    elementType: GERGE_DELETE_ACTION,
+    rowClass: 'slds-listbox__item action-row-line-height'
+};
+
 /**
  * Create FLC menu configuration from the elements metadata
  * @param elementsMetadata
  * @param showEndElement - Whether to show the end element item
  * @param canMergePath - Whether to show the merge path item
  * @param isPasteAvailable - If paste is available
+ * @param canAddGoto - Is the next element END
+ * @param hasGoto - Is this a Goto connection
  */
 export const configureMenu = (
     elementsMetadata: ElementMetadata[],
     showEndElement: boolean,
     isPasteAvailable: boolean,
-    canMergePath: boolean
+    canMergePath: boolean,
+    canAddGoto: boolean,
+    hasGoto: boolean
 ) => {
     const sectionDefinitionsMap = {};
 
     let extraSections: MenuSection[] = [];
     actionSection.items = [];
 
-    if (isPasteAvailable || canMergePath) {
+    if (isPasteAvailable || canMergePath || canAddGoto || hasGoto) {
+        if (hasGoto) {
+            actionSection.items.push(rerouteGergeActionItem);
+            actionSection.items.push(deleteGergeActionItem);
+        } else if (canAddGoto) {
+            actionSection.items.push(addGergeActionItem);
+        }
+
         if (isPasteAvailable) {
             actionSection.items.push(pasteActionItem);
         }
