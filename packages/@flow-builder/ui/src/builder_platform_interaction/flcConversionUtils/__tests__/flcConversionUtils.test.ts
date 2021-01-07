@@ -208,6 +208,9 @@ function translateNulls(uiModel) {
         if (v == null) {
             return k !== 'parent' && k !== 'childIndex' ? 'NULL' : undefined;
         }
+        if (v.incomingGoTo) {
+            delete v.incomingGoTo;
+        }
         return v;
     };
 

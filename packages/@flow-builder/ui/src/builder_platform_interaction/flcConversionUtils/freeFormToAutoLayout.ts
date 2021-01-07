@@ -284,6 +284,9 @@ function convertBranchToAutoLayout(
             break;
         }
 
+        // TODO: update this to have the correct goto array
+        currentElement.incomingGoTo = [];
+
         const { fault, isLoop, isBranching } = conversionInfos[currentElement.guid];
 
         const nextElement = getNextElement(elements, conversionInfos, currentElement);

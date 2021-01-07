@@ -131,6 +131,7 @@ declare namespace UI {
         parent?: Guid;
         childIndex?: number;
         fault?: Guid | null;
+        incomingGoTo?: Array<Guid>;
     }
 
     interface Connector {

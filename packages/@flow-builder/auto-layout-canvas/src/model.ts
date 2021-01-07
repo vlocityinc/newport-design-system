@@ -21,6 +21,9 @@ export interface NodeModel {
     prev: NodeRef;
     next: NodeRef;
     fault: NodeRef;
+
+    // goto
+    incomingGoTo: Array<Guid>;
 }
 
 export interface StartNodeModel extends NodeModel {

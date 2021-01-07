@@ -75,6 +75,7 @@ const autoLayoutElementProps = [
     'next',
     'children',
     'parent',
+    'incomingGoTo',
     'childIndex',
     'isTerminal',
     'elementType'

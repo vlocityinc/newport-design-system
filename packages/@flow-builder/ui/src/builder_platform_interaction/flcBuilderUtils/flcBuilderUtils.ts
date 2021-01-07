@@ -45,7 +45,16 @@ export function getFlcElementType(elementType) {
 /**
  * Extra properties used by the flc canvas for elements
  */
-export const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex', 'isTerminal', 'fault'];
+export const flcExtraProps = [
+    'next',
+    'prev',
+    'incomingGoTo',
+    'children',
+    'parent',
+    'childIndex',
+    'isTerminal',
+    'fault'
+];
 
 /**
  * Adds flc props that are not undefined to an object
@@ -121,7 +130,8 @@ function createElementHelper(elementType: string, guid: UI.Guid) {
         text: elementType,
         name: elementType,
         prev: null,
-        next: null
+        next: null,
+        incomingGoTo: []
     };
 }
 

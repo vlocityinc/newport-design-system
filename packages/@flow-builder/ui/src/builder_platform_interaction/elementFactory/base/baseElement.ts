@@ -61,6 +61,7 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
         childIndex = null,
         parent = null,
         fault = null,
+        incomingGoTo = [],
         isTerminal = null
     } = canvasElement;
     if (supportsChildren(canvasElement)) {
@@ -75,7 +76,7 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
         Object.assign(newCanvasElement, { fault });
     }
 
-    Object.assign(newCanvasElement, { next, prev });
+    Object.assign(newCanvasElement, { next, prev, incomingGoTo });
 }
 
 export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanvasElement = {}): UI.Element {

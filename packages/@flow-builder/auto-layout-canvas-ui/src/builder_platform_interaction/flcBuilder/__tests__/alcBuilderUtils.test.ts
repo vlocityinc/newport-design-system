@@ -11,7 +11,8 @@ const flowModel = {
         childIndex: 0,
         maxConnections: 1,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        fault: null
+        fault: null,
+        incomingGoTo: []
     },
     branch1: {
         guid: 'branch1',
@@ -22,7 +23,8 @@ const flowModel = {
         children: ['branchHead1', 'branchHead2'],
         maxConnections: 2,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        fault: null
+        fault: null,
+        incomingGoTo: []
     },
     branchHead1: {
         guid: 'branchHead1',
@@ -34,7 +36,8 @@ const flowModel = {
         childIndex: 0,
         maxConnections: 1,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        fault: null
+        fault: null,
+        incomingGoTo: []
     },
     branchHead2: {
         guid: 'branchHead2',
@@ -47,7 +50,8 @@ const flowModel = {
         children: ['screen1', null],
         maxConnections: 2,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        fault: null
+        fault: null,
+        incomingGoTo: []
     },
     screen1: {
         guid: 'screen1',
@@ -59,7 +63,8 @@ const flowModel = {
         childIndex: 0,
         maxConnections: 1,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        fault: null
+        fault: null,
+        incomingGoTo: []
     },
     end: {
         guid: 'end',
@@ -69,7 +74,8 @@ const flowModel = {
         next: null,
         maxConnections: 0,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
-        fault: null
+        fault: null,
+        incomingGoTo: []
     }
 };
 

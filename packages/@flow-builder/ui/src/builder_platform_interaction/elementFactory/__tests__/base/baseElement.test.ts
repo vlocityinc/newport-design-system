@@ -271,7 +271,8 @@ describe('Base canvas element function', () => {
                 hasError: false
             },
             next: null,
-            prev: null
+            prev: null,
+            incomingGoTo: []
         };
         shouldUseAutoLayoutCanvas.mockImplementation(() => true);
         const actualResult = baseCanvasElement();
@@ -293,7 +294,8 @@ describe('Base canvas element function', () => {
                 hasError: false
             },
             next: null,
-            prev: null
+            prev: null,
+            incomingGoTo: []
         };
         shouldUseAutoLayoutCanvas.mockImplementation(() => true);
         const actualResult = baseCanvasElement(canvasElement);
