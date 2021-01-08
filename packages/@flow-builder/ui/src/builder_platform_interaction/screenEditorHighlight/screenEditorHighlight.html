@@ -14,12 +14,9 @@
             <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">{title}</div>
         </div>
 
-        <div if:false={shouldPreventEvents} class="highlight-frame highlight-frame-allow-events">
+        <div if:false={shouldPreventEvents} class="highlight-frame">
             <slot name="screen-element"></slot>
-            <div
-                if:true={shouldDisplayIcons}
-                class="highlight-icons-container highlight-icons-container-allow-events slds-grid slds-is-absolute"
-            >
+            <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
                 <div class="highlight-icon-container slds-text-align_center">
                     <lightning-button-icon
                         class="highlight-icon left"
@@ -45,10 +42,10 @@
 
         <div if:true={shouldPreventEvents} class="slds-grid slds-is-relative">
             <slot name="screen-element"></slot>
-            <div class="slds-size_full slds-is-absolute highlight-frame highlight-frame-prevent-events">
+            <div class="slds-size_full slds-is-absolute highlight-frame">
                 <div
                     if:true={shouldDisplayIcons}
-                    class="highlight-icons-container highlight-icons-container-prevent-events slds-grid slds-is-relative slds-float_right"
+                    class="highlight-icons-container slds-grid slds-is-relative slds-float_right"
                 >
                     <div class="highlight-icon-container slds-text-align_center">
                         <lightning-button-icon
