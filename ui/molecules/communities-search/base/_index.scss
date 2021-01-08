@@ -1,0 +1,65 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a search input for community
+ *
+ * @name nds-communities-search
+ * @selector .nds-communities-search
+ * @modifier
+ */
+ .nds-communities-search {
+    background: $white;
+    border-color: $white; 
+    box-shadow: none;
+
+    .nds-input {
+        border-bottom: none;
+        color: $biscay;
+    }
+
+    .nds-button_brand {
+        background-color: $biscay;
+        border-color: $biscay;
+    }
+
+    /**
+    * @summary Search button for communities search input
+    *
+    * @name nds-communities-search__button
+    * @selector .nds-communities-search__button
+    * @modifier
+    */
+    &__button {
+        position: absolute; 
+        right: 1rem;
+    }
+
+    .nds-button_icon {
+        display: none;
+        padding-left: $spacing-xx-small;
+        padding-right: $spacing-none;
+    }
+
+    .nds-button__icon {
+        fill: $white;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 76rem) {
+
+    .nds-communities-search {
+        
+        .nds-button_icon {
+            display: block;
+        }
+
+        .nds-button_text {
+            display: none;
+        }
+    }
+
+}

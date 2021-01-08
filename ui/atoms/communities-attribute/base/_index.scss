@@ -1,0 +1,67 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes an attribute for a community
+ *
+ * @name nds-communities-attr 
+ * @selector .nds-communities-attr
+ * @modifier
+ */
+ .nds-communities-attr {
+    /**
+    * @summary styles an attribute label for a community
+    *
+    * @name nds-communities-attr-label 
+    * @selector .nds-communities-attr-label
+    * @modifier
+    */
+    .nds-communities-attr-label {
+        font-size: $font-size-4;
+        color: $palette-gray-11;
+    }
+
+    /**
+    * @summary styles for a coverage attribute for a community
+    *
+    * @name nds-communities-attr_coverage
+    * @selector .nds-communities-attr_coverage
+    * @modifier
+    */
+    &.nds-communities-attr_coverage {
+        border-bottom: $border-width-thin solid $color-border;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    /**
+    * @summary styles for a attribute value for a community
+    *
+    * @name nds-communities-attr-value
+    * @selector .nds-communities-attr-value
+    * @modifier
+    */
+    .nds-communities-attr-value {
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-communities-attr {
+        &.nds-communities-attr_coverage {
+            padding: $spacing-none;
+            margin: $spacing-medium $spacing-none $spacing-none $spacing-none;
+        }
+
+        .nds-communities-attr-value {
+            text-align: right;
+        }
+
+        .nds-communities-attr-label {
+            padding-left: $spacing-none;
+            font-size: 0.9rem;
+        }
+    }
+}

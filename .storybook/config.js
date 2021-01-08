@@ -12,11 +12,11 @@ import {
 const req = require.context('../ui', true, /\.stories\.js$/);
 const reqDoc = require.context('../docs', true, /\.stories\.js$/);
 
-import "../assets/styles/index.css";
+import '../assets/styles/index.css';
 
 function loadStories() {
-  reqDoc.keys().forEach((filename) => reqDoc(filename));
-  req.keys().forEach((filename) => req(filename));
+  reqDoc.keys().forEach(filename => reqDoc(filename));
+  req.keys().forEach(filename => req(filename));
 }
 
 addDecorator(withDesignTokens);

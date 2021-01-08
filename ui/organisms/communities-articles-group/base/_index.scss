@@ -1,0 +1,30 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a community actions group
+ *
+ * @name nds-communities-articles-group
+ * @selector .nds-communities-articles-group
+ * @modifier
+ */
+
+.nds-communities-articles-group {
+    margin: $spacing-x-large 10rem;
+}
+
+@media screen and (max-width: 78rem) {
+
+    .nds-communities-articles-group {
+        margin: $spacing-x-large $spacing-medium;
+    }
+
+}
+
+@media screen and (max-width: 30rem) {
+
+    .nds-communities-articles-group {
+        margin: $spacing-medium $spacing-none;
+    }
+
+}

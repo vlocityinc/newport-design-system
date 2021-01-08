@@ -1,0 +1,259 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+* @summary Initalizes a policy item styling in community
+*
+* @name nds-communities-policy-item
+* @selector .nds-communities-policy-item
+* @modifier
+*/
+.nds-communities-policy-item {
+    font-family: SalesforceSans-Regular;
+    color: $palette-gray-11;
+
+    .nds-communities {
+        /**
+        * @summary Title for a policy item
+        *
+        * @name nds-communities-title
+        * @selector .nds-communities-title
+        * @modifier
+        */
+        &-title {
+            font-size: $font-size-5;
+        }
+
+        /**
+        * @summary Heading styles for headers in policy detail
+        *
+        * @name nds-communities-heading
+        * @selector .nds-communities-heading
+        * @modifier
+        */
+        &-heading {
+            font-size: .9rem;
+        }
+
+        /**
+        * @summary Icon container
+        *
+        * @name nds-communities-icon-container
+        * @selector .nds-communities-icon-container
+        * @modifier
+        */
+        &-icon-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /**
+        * @summary Styles for custom image
+        *
+        * @name nds-communities-custom-img
+        * @selector .nds-communities-custom-img
+        * @modifier
+        */
+        &-custom-img {
+            width: 4rem;
+            height: 4rem;
+        }
+
+        /**
+        * @summary Styles for root icon
+        *
+        * @name nds-communities-icon-root
+        * @selector .nds-communities-icon-root
+        * @modifier
+        */
+        &-icon-root {
+            background-color: $kashmir-blue-light;
+        }
+
+        /**
+        * @summary Styles for icon container
+        *
+        * @name nds-communities-icon-container
+        * @selector .nds-communities-icon-container
+        * @modifier
+        */
+        &-icon_container {
+            border-radius: $border-radius-circle;
+        }
+
+        /**
+        * @summary Styles for icon item
+        *
+        * @name nds-communities-icon-item
+        * @selector .nds-communities-icon-item
+        * @modifier
+        */
+        &-icon-item {
+            background-color: $solitude-light;
+            height: 4rem;
+            width: 4rem;
+            fill: $biscay;
+        }
+
+        /**
+        * @summary Styles for a label
+        *
+        * @name nds-communities-label
+        * @selector .nds-communities-label
+        * @modifier
+        */
+        &-label {
+            color: $grey-text;
+        }
+
+        /**
+        * @summary Bold style for text
+        *
+        * @name nds-communities-bold
+        * @selector .nds-communities-bold
+        * @modifier
+        */
+        &-bold {
+            font-weight: 700;
+        }
+
+        /**
+        * @summary Divider styles
+        *
+        * @name nds-communities-divider
+        * @selector .nds-communities-divider
+        * @modifier
+        */
+        &-divider {
+            height: 1rem;
+            margin-top: -1rem;
+            margin-bottom: $spacing-medium;
+            box-shadow: 0 10px 5px -5px #f6f6f6;
+        }
+
+        /**
+        * @summary Grandchild indicator
+        *
+        * @name nds-communities-policy-grandchild-indicator
+        * @selector .nds-communities-policy-grandchild-indicator
+        * @modifier
+        */
+        &-policy-grandchild-indicator {
+            color: $blue-background-secondary;
+            background-color: $white;
+        }
+
+        /**
+        * @summary Styles for header content
+        *
+        * @name nds-communities-header-content
+        * @selector .nds-communities-header-content
+        * @modifier
+        */
+        &-header-content {
+            width: 100%;
+        }
+
+        /**
+        * @summary Stiles for title container
+        *
+        * @name nds-communities-header-content
+        * @selector .nds-communities-header-content
+        * @modifier
+        */
+        &-title-container {
+            line-height: 2rem;
+        }
+
+        /**
+        * @summary Styles for separator 
+        *
+        * @name nds-communities-separator
+        * @selector .nds-communities-separator
+        * @modifier
+        */
+        &-separator {
+            font-weight: 100;
+        }
+
+        /**
+        * @summary Styles for separator container
+        *
+        * @name nds-communities-separator-container
+        * @selector .nds-communities-separator-container
+        * @modifier
+        */
+        &-separator-container:last-child .nds-communities-separator {
+            display: none;
+        }
+
+        /**
+        * @summary Styles for price icon tooltip
+        *
+        * @name nds-communities-price-icon
+        * @selector .nds-communities-price-icon
+        * @modifier
+        */
+        &-price-icon:hover + .nds-communities-price-tooltip {
+            display: block;
+        }
+
+        /**
+        * @summary Styles for helptext
+        *
+        * @name nds-communities-helptext
+        * @selector .nds-communities-helptext
+        * @modifier
+        */
+        &-helptext {
+            position: relative;
+            top: -0.25rem;
+        }
+
+         /**
+        * @summary Styles for grandchild icon
+        *
+        * @name nds-communities-icon-grandchild
+        * @selector .nds-communities-icon-grandchild
+        * @modifier
+        */
+        &-icon-grandchild {
+            fill: #fff;
+            background: transparent;
+            background-color: $blue-background-primary;
+            border-color: $blue-background-primary;
+        }
+
+    }
+
+    .nds-text-link {
+        fill: #0070d2;
+    
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.nds-communities-policy-list-container {
+    display: none;
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-communities-policy-item {
+        /**
+        * @summary Styles for price tooltip
+        *
+        * @name nds-communities-price-tooltip
+        * @selector .nds-communities-price-tooltip
+        * @modifier
+        */
+        .nds-communities-price-tooltip {
+            top: -.15rem;
+        }
+    }
+    .nds-communities-policy-list-container {
+        display: block;
+    }
+}    

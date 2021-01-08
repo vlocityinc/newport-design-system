@@ -1,0 +1,111 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+$nds-communities-carousel-box-shadow: -1px -1px 2px 0 rgba(22,50,92,0.08), 1px 2px 4px 0 rgba(22,50,92,0.08), 0 2px 16px 0 rgba(26,80,155,0.10);
+/**
+ * @summary Initiates a carousel component
+ *
+ * @name nds-carousel
+ * @selector .nds-carousel
+ * @modifier
+ */
+.nds-carousel {
+
+    /**
+    * @summary Tabpanel region that contains all carousel panels
+    *
+    * @name nds-carousel__panels
+    * @selector .nds-carousel__panels
+    * @modifier
+    */
+    &__panels {
+        display: flex;
+        transition: transform .25s ease-in;
+        min-height: 0;
+    }
+
+    &__panel {
+        flex: 0 0 20%;
+        max-width: 100%;
+        margin: $spacing-medium;
+    }
+
+    /**
+    * @summary Actionable element that contains the carousel's tab-panel content
+    *
+    * @name nds-carousel__panel-action
+    * @selector .nds-carousel__panel-action
+    * @modifier
+    */
+    &__panel-action {
+        display: block;
+        box-shadow: $nds-communities-carousel-box-shadow;
+        position: relative;
+        max-width: 20rem;
+        min-width: 15rem;
+        border-radius: $border-radius-medium;
+
+        &:focus {
+            box-shadow: 0 0 3px $newport-blue-text-primary;
+            border-color: $blue-secondary;
+            outline: 0;
+        }
+    }
+
+    /**
+    * @summary Element that contains the image inside the carousel's tab-panel
+    *
+    * @name nds-carousel__image
+    * @selector .nds-carousel__image
+    * @modifier
+    */
+    &__image {
+        overflow: hidden;
+
+        > img {
+            width: 4rem;
+            top: -1rem;
+            position: absolute;
+        }
+    }
+
+    /**
+    * @summary Element that contains the content inside the carousel's tab-panel
+    *
+    * @name nds-carousel__content
+    * @selector .nds-carousel__content
+    * @modifier
+    */
+    &__content {
+        background: $white;
+        padding: $spacing-small;
+        text-align: center;
+        height: 6.625rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin-top: $spacing-medium;
+        margin-bottom: $spacing-medium;
+        padding: $spacing-medium;
+        text-align: left;
+        height: 100%;
+        border-radius: .25rem;
+
+        >p {
+            color: $grey-text;
+            margin-top: $spacing-xx-small;
+        }
+    }
+
+    /**
+    * @summary Heading element that contains the title of the carousel's tab-panel
+    *
+    * @name nds-carousel__title
+    * @selector .nds-carousel__title
+    * @modifier
+    */
+    &__content-title {
+        font-size: $font-size-5;
+        font-weight: $font-weight-bold;
+        color: $black-primary;
+    }
+}

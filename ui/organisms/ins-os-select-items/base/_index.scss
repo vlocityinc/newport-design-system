@@ -1,0 +1,50 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes select items for insurance omniscript
+ *
+ * @name nds-ins-os-select-items
+ * @selector .nds-ins-os-select_items
+ * @modifier
+ */
+.nds-ins-os-select_items {
+    .nds-card {
+        background: $newport-card-background-light-blue;
+        border: $border-width-thin solid $palette-gray-5;
+        border-radius: $border-radius-medium;
+        box-shadow: $offset-none ($offset-x-small) + px $offset-none $offset-none $black-transparent-10;
+    }
+    .nds-card--header__title,
+    .nds-card_header__title {
+        font-weight: $font-weight-regular;
+    }
+    .nds-selected-item-icon {
+        display: none;
+    }
+    .nds-card--header.nds-selected,
+    .nds-card_header.nds-selected {
+        box-shadow: ($offset-x-small) + px ($offset-x-small) + px ($offset-x-small) + px $blue-background-primary;
+        .nds-selected-item-icon {
+            display: block;
+            top: -$spacing-medium;
+            right: -$spacing-medium;
+            &:after {
+                content: "";
+                background: $blue-background-primary;
+                border-radius: $border-radius-circle;
+                width: 1.8rem;
+                height: 1.8rem;
+                position: absolute;
+                top: $spacing-xx-small;
+                right: $spacing-none;
+            }
+            .nds-selected-icon {
+                fill: $white;
+                z-index: $z-index-default;
+                width: 1.4rem;
+                top: $spacing-xxx-small;
+            }
+        }
+    }
+}
