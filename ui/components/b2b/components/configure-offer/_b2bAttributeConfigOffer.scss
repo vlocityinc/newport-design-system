@@ -8,7 +8,7 @@
     min-width: 16rem;
     @media screen and (min-width: 48rem) {
       width: auto;
-      margin: 0 2rem 1rem 0;
+      margin: 0 2rem 2rem 0;
       flex: 1;
     }
 
@@ -159,7 +159,7 @@
         font-size: 0.8125rem;
       }
       &.nds-b2b-combobox {
-        margin-top: 2.15rem;
+        margin-top: 1rem;
         .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label label {
           color: $palette-gray-11;
           font-weight: $font-weight-regular;
