@@ -1,0 +1,51 @@
+/* @name nds-text-heading
+* @selector .nds-text-heading
+* @modifier
+*/
+.nds-communities-card {
+.nds-text {
+    &-heading_large {
+        font-size: $font-size-7;
+        font-weight: $font-weight-medium-bold;
+        color: $palette-gray-11;
+    }
+    &-body_medium {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-light;
+    }
+    &-body_medium_bold {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-medium-bold;
+    }
+    &_bold {
+        font-weight: $font-weight-bold;
+    }
+    &-lineheight_medium {
+        line-height: $line-height-text;
+    }
+    &-lineheight_small {
+        line-height: $line-height-reset;
+    }
+    &-lineheight_large {
+        line-height: $line-height-tab;
+    }
+    &-body_medium_light {
+        font-size: $font-size-5;
+        color: $white;
+        font-weight: $font-weight-light;
+    }
+    &--uppercase {
+        text-transform: $text-uppercase;
+    }
+}
+
+.nds-link-text-color {
+    color: $blue-background-primary;
+}
+
+.nds-font-size-xxx-large {
+    font-size: $font-size-xxx-large;
+}
+}

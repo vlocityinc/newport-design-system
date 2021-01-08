@@ -1,0 +1,92 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes coverage for policy in a community
+ *
+ * @name nds-communities-coverage
+ * @selector .nds-communities-coverage
+ * @modifier
+ */
+.nds-communities-coverage {
+    border-bottom: $border-width-thin solid $color-border;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+/**
+ * @summary Initializes coverage for policy item
+ *
+ * @name nds-communities-policy-item
+ * @selector .nds-communities-policy-item
+ * @modifier
+ */
+.nds-communities-policy-item {
+    .nds-communities {
+        /**
+        * @summary Styles coverage custom icon
+        *
+        * @name nds-communities-custom-icon
+        * @selector .nds-communities-custom-icon
+        * @modifier
+        */
+        &-custom-icon {
+            padding: $spacing-x-small;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        /**
+        * @summary Styles coverage for policy item
+        *
+        * @name nds-communities-policy-item-coverages-container
+        * @selector .nds-communities-policy-item-coverages-container
+        * @modifier
+        */
+        &-policy-item-coverages-container {
+            width: 100%;
+
+            .nds-text-heading_small {
+                font-weight: 700;
+            }
+        }
+
+        /**
+        * @summary Styles coverage for policy item attribute category
+        *
+        * @name nds-communities-policy-item_category
+        * @selector .nds-communities-policy-item_category
+        * @modifier
+        */
+        &-policy-item_category {
+            position: relative;
+            left: -2.1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-communities-policy-item {
+        padding-bottom: $spacing-x-small;
+
+        .nds-communities {
+            &-custom-icon {
+                display: none;
+            }
+
+            &-policy-item-coverages-container {
+                padding: $spacing-none;
+            }
+
+            &-policy-item_category {
+                left: 0;
+            }
+        }
+
+        .nds-text-heading_small {
+            font-size: 0.9rem;
+        }
+    }
+}

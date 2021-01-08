@@ -1,0 +1,22 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a agent card for community
+ *
+ * @name nds-communities-agent
+ * @selector .nds-communities-agent
+ * @modifier
+ */
+ .nds-communities-agent {
+     .sub-title{
+         font-size:$font-size-5;
+     }
+   .nds-rounded-image{
+       img{
+           border-radius: $border-radius-circle;
+           width:100px;
+       }
+   }
+
+}

@@ -1,0 +1,49 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes hero for community
+ *
+ * @name nds-communities-hero
+ * @selector .nds-communities-hero
+ * @modifier
+ */
+.nds-communities-hero {
+
+    /**
+    * @summary Initializes global navigation for community
+    *
+    * @name nds-communities-global_navigation
+    * @selector .nds-communities-global_navigation
+    * @modifier
+    */
+
+    .nds-communities-global_navigation {
+        background: $transparent;
+    }
+    
+    /**
+    * @summary Wraps actions 
+    *
+    * @name nds-context-bar__actions
+    * @selector .nds-context-bar__actions
+    * @modifier
+    */
+    .nds-context-bar__actions {
+        position: absolute; 
+        right: 0; 
+        z-index: 10;
+
+        /**
+        * @summary Initializes a card for community
+        *
+        * @name nds-communities-card 
+        * @selector .nds-communities-card
+        * @modifier
+        */
+        .nds-communities-card {
+            padding: $spacing-x-small $spacing-none $spacing-none $spacing-none;
+        }
+    }
+    
+}
