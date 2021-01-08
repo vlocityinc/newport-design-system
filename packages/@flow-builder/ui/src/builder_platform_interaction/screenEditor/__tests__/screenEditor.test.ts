@@ -29,13 +29,7 @@ import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_intera
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-jest.mock('builder_platform_interaction/contextLib', () => {
-    const contextLib = jest.requireActual('builder_platform_interaction/contextLib');
-    return Object.assign({}, contextLib, {
-        orgHasFlowScreenSections: jest.fn().mockReturnValue(true),
-        orgHasFlowBuilderAutomaticFields: jest.fn().mockReturnValue(true)
-    });
-});
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')

@@ -1,7 +1,11 @@
 const eventName = 'sobjectreferencechanged';
-export class SObjectReferenceChangedEvent {
-    constructor(value, error: string | null = null) {
-        return new CustomEvent(eventName, {
+type SObjectReferenceChangedEventDetail = {
+    value;
+    error: string | null;
+};
+export class SObjectReferenceChangedEvent extends CustomEvent<SObjectReferenceChangedEventDetail> {
+    constructor(value, error?) {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
@@ -12,5 +16,5 @@ export class SObjectReferenceChangedEvent {
         });
     }
 
-    static EVENT_NAME = eventName;
+    static EVENT_NAME: string = eventName;
 }

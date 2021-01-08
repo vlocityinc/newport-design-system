@@ -7,6 +7,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 
 const SUPPORTED_DATATYPES = [
     FLOW_DATA_TYPE.STRING.value,
@@ -45,7 +46,7 @@ type PaletteSection = {
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
     showNoItemsIllustration = true;
-    sobjectPickerErrorMessage = '';
+    sobjectPickerErrorMessage?: String | null;
     entityName = '';
     showErrorMessageRelatedToFieldFetching = false;
     labels = LABELS;
@@ -54,7 +55,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     state = {
         recordVariable: '',
         entityFields: {},
-        searchPattern: ''
+        searchPattern: null
     };
 
     get sObjectPickerRowIndex(): String {
@@ -96,10 +97,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      * Handler for "SObjectReference" element property changes
      * @param {object} event
      */
-    handleSObjectReferenceChangedEvent(event: CustomEvent) {
+    handleSObjectReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
         event.stopPropagation();
         if (this.state.recordVariable !== event.detail.value) {
-            this.state.searchPattern = '';
+            this.state.searchPattern = null;
             this.state.recordVariable = event.detail.value;
             this.sobjectPickerErrorMessage = event.detail.error;
             if (this.state.recordVariable !== '' && this.sobjectPickerErrorMessage == null) {
@@ -123,7 +124,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 .then((fields) => {
                     this.state.entityFields = fields;
                     this.showErrorMessageRelatedToFieldFetching = false;
-                    this.buildModel('');
+                    this.buildModel();
                 })
                 .catch(() => {
                     this.showErrorMessageRelatedToFieldFetching = true;
@@ -134,7 +135,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     /**
      * Populate section/items data for inner palette component
      */
-    buildModel(fieldNamePattern: String) {
+    buildModel(fieldNamePattern?: String | null) {
         const sections: PaletteSection[] = [];
         const requiredSection: PaletteSection = {
             guid: generateGuid(),
@@ -192,7 +193,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handleSearch(event) {
         const filterValue = event.target.value;
-        this.state.searchPattern = filterValue ? filterValue.trim() : '';
+        this.state.searchPattern = filterValue ? filterValue.trim() : null;
         this.buildModel(this.state.searchPattern);
     }
 
@@ -203,10 +204,5 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         event.stopPropagation();
         this.state.recordVariable = '';
         this.showNoItemsIllustration = true;
-    }
-
-    handlePillEdited(event) {
-        event.stopPropagation();
-        this.showNoItemsIllustration = false;
     }
 }
