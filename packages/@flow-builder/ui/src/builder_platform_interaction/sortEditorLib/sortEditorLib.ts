@@ -10,6 +10,11 @@ export const SORT_ORDER = {
     DESC: 'Desc'
 };
 
+export const LIMIT_RANGE = {
+    min: 0,
+    max: 2147483647 // the Integer.MAX_VALUE
+};
+
 export interface SortOption {
     sortField: { value: string | null; error: string | null };
     sortOrder: { value: string | null; error: string | null };

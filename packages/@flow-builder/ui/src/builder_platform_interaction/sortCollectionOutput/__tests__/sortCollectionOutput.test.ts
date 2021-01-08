@@ -5,7 +5,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { UpdateSortCollectionOutputEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { LIMIT_RANGE, SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import { LIGHTNING_COMPONENTS_SELECTORS, changeEvent } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = ({
@@ -120,6 +120,16 @@ describe('sort-collection-output', () => {
                     selectedOutput: SORT_OUTPUT_OPTION.CUSTOM,
                     limit: newValue
                 });
+            });
+            it('shows error when limit is invalid', async () => {
+                const sortCollectionOutput = createComponentUnderTest({ selectedOutput: SORT_OUTPUT_OPTION.CUSTOM });
+                const limit = getLimitText(sortCollectionOutput);
+                await ticks(1);
+                const eventCallback = jest.fn();
+                const newValue = LIMIT_RANGE.max + 1;
+                sortCollectionOutput.addEventListener(UpdateSortCollectionOutputEvent.EVENT_NAME, eventCallback);
+                limit.dispatchEvent(changeEvent(newValue));
+                expect(limit.validity.valid).toBeFalsy();
             });
         });
     });

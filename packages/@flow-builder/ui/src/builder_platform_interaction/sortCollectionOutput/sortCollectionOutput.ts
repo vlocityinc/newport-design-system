@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './sortCollectionOutputLabels';
-import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { SORT_OUTPUT_OPTION, LIMIT_RANGE } from 'builder_platform_interaction/sortEditorLib';
 import { UpdateSortCollectionOutputEvent } from 'builder_platform_interaction/events';
 
 export default class SortCollectionOutput extends LightningElement {
@@ -57,6 +57,10 @@ export default class SortCollectionOutput extends LightningElement {
                 value: SORT_OUTPUT_OPTION.CUSTOM
             }
         ];
+    }
+
+    get maxLimit() {
+        return LIMIT_RANGE.max;
     }
 
     /**

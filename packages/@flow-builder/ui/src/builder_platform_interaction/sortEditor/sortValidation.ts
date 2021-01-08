@@ -1,7 +1,7 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { SORT_OUTPUT_OPTION, LIMIT_RANGE } from 'builder_platform_interaction/sortEditorLib';
 
 /**
  * Validate the collectionReferenceIndex item.
@@ -57,7 +57,8 @@ export const getRules = ({ collectionReference, selectedOutput, isSObjectOrApexC
         overriddenRules.limit = [
             ValidationRules.shouldNotBeBlank,
             ValidationRules.shouldNotBeNullOrUndefined,
-            ValidationRules.shouldBeAPositiveIntegerOrZero
+            ValidationRules.shouldBeAPositiveIntegerOrZero,
+            ValidationRules.shouldBeInRange(LIMIT_RANGE.min, LIMIT_RANGE.max)
         ];
     }
     // validate sort options

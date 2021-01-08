@@ -127,5 +127,17 @@ describe('Sort Validation', () => {
             expect(errors[0].key).toBe('limit');
             expect(errors[0].errorString).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
         });
+        it('should return an error when limit is too high', () => {
+            sortEditorNode.limit.value = '1234567890000000000';
+            const sortEditor = createComponentForTest(sortEditorNode);
+            const errors = validate(sortEditor.elementInfo, {
+                collectionReference: sortEditor.elementInfo.collectionReference.value,
+                selectedOutput: SORT_OUTPUT_OPTION.CUSTOM,
+                isSObjectOrApexClass: true
+            });
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('limit');
+            expect(errors[0].errorString).toBe(LABELS.shouldBeInRange);
+        });
     });
 });
