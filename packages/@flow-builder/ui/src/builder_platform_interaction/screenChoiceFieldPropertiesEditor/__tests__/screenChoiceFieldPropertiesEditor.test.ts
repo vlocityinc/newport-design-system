@@ -70,7 +70,7 @@ const SELECTORS = {
 };
 
 const fieldName = 'field1';
-const field = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+const field = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
     dataType: 'String',
     validation: false,
     helpText: false
@@ -97,7 +97,7 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
                 dataType: 'String',
                 validation: false,
                 helpText: false
@@ -161,7 +161,7 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'MultiSelectPicklist', SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST, SCREEN_NO_DEF_VALUE, {
                 validation: false,
                 helpText: false
             })
@@ -230,7 +230,7 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'MultiSelectCheckboxes', SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP, SCREEN_NO_DEF_VALUE, {
                 dataType: 'Number',
                 validation: false,
                 helpText: false,
@@ -289,7 +289,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
                 dataType: 'String',
                 createChoices: true
             })
@@ -327,7 +327,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
 describe('DefaultValue options based on choice type', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const testField = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
             dataType: 'String',
             createChoices: true
         });
@@ -398,7 +398,7 @@ describe('defaultValue combobox for choice based field', () => {
     beforeEach(() => {
         // Create a radio field with 3 choices, plus a placeholder, which indicates that
         // the user wants to add another choice, but hasn't set it yet.
-        const testField = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
             dataType: 'String',
             createChoices: true
         });
@@ -425,7 +425,7 @@ describe('defaultValue combobox for choice based field', () => {
 describe('screen-choice-field-properties-editor defaultValue', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const testField = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
             dataType: 'String',
             createChoices: true
         });
@@ -450,7 +450,9 @@ describe('screen-choice-field-properties-editor for field that is set to require
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, { required: true })
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+                required: true
+            })
         });
     });
     it('Required checkbox is present and checked', async () => {
@@ -465,7 +467,7 @@ describe('screen-choice-field-properties-editor with help text', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE)
         });
     });
     it('Help text is displayed', async () => {
@@ -480,7 +482,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE)
         });
     });
     it('DataType drop down is disabled', async () => {
@@ -494,7 +496,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
 describe('screen-choice-field-properties-editor for new field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const testField = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE);
+        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE);
         testField.isNewField = true;
         testField.dataType = null;
         screenChoiceFieldPropEditor = createComponentUnderTest({

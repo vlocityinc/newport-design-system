@@ -10,7 +10,8 @@ import {
     getColumnFieldType,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
-    getScreenFieldType
+    getScreenFieldType,
+    CHOICE_SCREEN_FIELDS
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -342,10 +343,10 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
         Object.assign(newScreenField, createEmptyColumn(undefined));
     } else if (
         // Always add a placeholder choice for any choice based fields.
-        type.name === 'RadioButtons' ||
-        type.name === 'MultiSelectCheckboxes' ||
-        type.name === 'DropdownBox' ||
-        type.name === 'MultiSelectPicklist'
+        type.name === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS ||
+        type.name === CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP ||
+        type.name === CHOICE_SCREEN_FIELDS.PICKLIST ||
+        type.name === CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST
     ) {
         newScreenField.choiceReferences = [''];
     }

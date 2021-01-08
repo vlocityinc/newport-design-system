@@ -1,6 +1,10 @@
 // @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getScreenFieldTypeByName, getLocalExtensionFieldType } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getScreenFieldTypeByName,
+    getLocalExtensionFieldType,
+    CHOICE_SCREEN_FIELDS
+} from 'builder_platform_interaction/screenEditorUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -267,7 +271,7 @@ export function createTestScreenField(name, type, value, config = {}, storeOutpu
  */
 function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) {
     // If the field type is Radio, create some choice references.
-    if (fieldType.name === 'RadioButtons' && booleanValue(config, 'createChoices', false)) {
+    if (fieldType.name === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS && booleanValue(config, 'createChoices', false)) {
         for (let i = 0; i < 3; i++) {
             const choiceGuid = 'choice' + i;
             field.choiceReferences[i] = hydrateWithErrors(createChoiceReference(choiceGuid));
