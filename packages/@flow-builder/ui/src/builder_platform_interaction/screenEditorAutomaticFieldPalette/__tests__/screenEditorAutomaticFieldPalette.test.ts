@@ -150,6 +150,11 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getNoItemToShowIllustration(element)).not.toBeNull();
         });
+        test('RemoveMergeFieldPillEvent should reset record variable', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(removeMergeFieldPillEvent);
+            await ticks(1);
+            expect(element.recordVariable).toBe('');
+        });
         test('EditMergeFieldPillEvent when pill value is clicked should not show no items to show illustration', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(editMergeFieldPillEvent);
             await ticks(1);

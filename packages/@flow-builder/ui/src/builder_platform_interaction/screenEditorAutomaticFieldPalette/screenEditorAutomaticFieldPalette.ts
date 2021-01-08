@@ -201,6 +201,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handlePillRemoved(event) {
         event.stopPropagation();
+        this.state.recordVariable = '';
         this.showNoItemsIllustration = true;
     }
 
