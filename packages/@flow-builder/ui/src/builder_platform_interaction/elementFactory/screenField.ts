@@ -3,7 +3,6 @@ import {
     isTextAreaField,
     isChoiceField,
     isExtensionField,
-    isPicklistField,
     isRegionContainerField,
     isRegionField,
     getSectionFieldType,
@@ -97,11 +96,6 @@ export function createScreenField(screenField = {}, isNewField = false) {
         }
         outputParameters = [];
         dynamicTypeMappings = undefined;
-        // Picklist fields are always required at runtime since they always default to one of the options and there's no way to select a null or empty value option
-        // To reflect this behavior in the builder, we default isRequired to true and make the checkbox disabled in the screen field property editor
-        if (isPicklistField(screenField)) {
-            isRequired = true;
-        }
     }
 
     let defaultValueFerovObject;

@@ -265,8 +265,8 @@ describe('ScreenEditor', () => {
             const propertyFields = choicePropertiesEditor.shadowRoot.querySelectorAll(
                 SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
             );
-            expect(propertyFields).toHaveLength(5);
-            const groupedCombobox = deepQuerySelector(propertyFields[2], [
+            expect(propertyFields).toHaveLength(6);
+            const groupedCombobox = deepQuerySelector(propertyFields[3], [
                 SELECTORS.FEROV_RESOURCE_PICKER,
                 SELECTORS.BASE_RESOURCE_PICKER,
                 SELECTORS.COMBOBOX,
@@ -285,7 +285,7 @@ describe('ScreenEditor', () => {
             const propertyFields = choicePropertiesEditor.shadowRoot.querySelectorAll(
                 SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
             );
-            const combobox = propertyFields[0].shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+            const combobox = propertyFields[1].shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
             expect(combobox.value).toEqual('');
             const otherChoice = getElementByDevName('other');
             combobox.dispatchEvent(changeEvent(otherChoice.guid));
