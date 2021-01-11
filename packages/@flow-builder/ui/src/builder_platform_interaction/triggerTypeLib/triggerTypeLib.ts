@@ -1,6 +1,7 @@
 // @ts-nocheck
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { LABELS } from './triggerTypeLabels';
 
 const isUndefinedOrNoneTriggerType = (triggerType) => {
     return !triggerType || triggerType === FLOW_TRIGGER_TYPE.NONE;
@@ -66,4 +67,11 @@ export const getTriggerTypeInfo = (triggerType) => {
     return fetchOnce(SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO, { triggerType }).then((data) => {
         return data;
     });
+};
+
+export const RECORD_TRIGGER_TYPE_LABEL_LOOKUP = {
+    [FLOW_TRIGGER_SAVE_TYPE.CREATE]: LABELS.recordCreatedTriggerType,
+    [FLOW_TRIGGER_SAVE_TYPE.UPDATE]: LABELS.recordUpdatedTriggerType,
+    [FLOW_TRIGGER_SAVE_TYPE.DELETE]: LABELS.recordDeletedTriggerType,
+    [FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE]: LABELS.recordCreatedOrUpdatedTriggerType
 };

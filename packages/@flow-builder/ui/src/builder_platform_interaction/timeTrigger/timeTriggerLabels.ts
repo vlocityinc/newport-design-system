@@ -15,10 +15,6 @@ import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElemen
 import startElementRecordDeleted from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordDeleted';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
 import deleteScheduledPathLabel from '@salesforce/label/FlowBuilderTimeTrigger.deleteScheduledPathLabel';
-import recordCreatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordCreatedTriggerType';
-import recordUpdatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordUpdatedTriggerType';
-import recordCreatedOrUpdatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordCreatedOrUpdatedTriggerType';
-import recordDeletedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordDeletedTriggerType';
 
 export const LABELS = {
     pathLabel,
@@ -36,9 +32,5 @@ export const LABELS = {
     startElementRecordUpdated,
     startElementRecordDeleted,
     startElementRecordCreatedUpdated,
-    deleteScheduledPathLabel,
-    recordCreatedTriggerType,
-    recordUpdatedTriggerType,
-    recordCreatedOrUpdatedTriggerType,
-    recordDeletedTriggerType
+    deleteScheduledPathLabel
 };
