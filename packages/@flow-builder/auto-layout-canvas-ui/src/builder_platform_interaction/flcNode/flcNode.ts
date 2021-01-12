@@ -146,6 +146,10 @@ export default class FlcNode extends LightningElement {
         return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
     }
 
+    get hasIncomingGoto() {
+        return this.nodeInfo.node && this.nodeInfo.node.incomingGoTo && this.nodeInfo.node.incomingGoTo.length > 0;
+    }
+
     /**
      * Import the constructor and update the component params
      *

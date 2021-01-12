@@ -51,5 +51,11 @@
         <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
             {nodeInfo.metadata.label}
         </div>
+        <div
+            if:true={hasIncomingGoto}
+            class="text-element-goto-count slds-text-body_regular slds-truncate text-incoming-goto"
+        >
+            + {nodeInfo.node.incomingGoTo.length} Incoming
+        </div>
     </div>
 </template>

@@ -61,3 +61,8 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
 }
+
+.text-incoming-goto {
+    color: #c23934;
+    font-style: italic;
+}

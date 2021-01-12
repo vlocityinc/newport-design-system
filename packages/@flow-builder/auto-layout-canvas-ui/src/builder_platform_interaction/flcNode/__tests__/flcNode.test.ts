@@ -6,6 +6,7 @@ import { EditElementEvent } from 'builder_platform_interaction/events';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
+
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const createComponentUnderTest = (props = {}) => {
@@ -27,7 +28,8 @@ const selectors = {
     decisionIcon: '.rotate-icon-svg',
     selectionCheckbox: '.selection-checkbox',
     textContainerElementType: '.text-element-type',
-    textElementLabel: '.text-element-label'
+    textElementLabel: '.text-element-label',
+    textElementGotoCount: '.text-element-goto-count'
 };
 
 describe('FlcNode', () => {
@@ -344,6 +346,64 @@ describe('FlcNode', () => {
             });
             const startTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(startTextLabel.textContent).toEqual('start description');
+        });
+    });
+
+    describe('Goto Label', () => {
+        const decisionNodeInfo = {
+            guid: 'd1',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: ElementType.BRANCH
+            },
+            menuOpened: false,
+            node: {
+                guid: 'd1',
+                incomingGoTo: ['d2']
+            }
+        };
+
+        const noIncomingGotoNodeInfo = {
+            guid: 'd2',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: ElementType.BRANCH
+            },
+            menuOpened: false,
+            node: {
+                guid: 'd2',
+                incomingGoTo: []
+            }
+        };
+
+        it('Should show incoming count on gotos target if goto exists', () => {
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo: decisionNodeInfo,
+                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+            });
+            const gotoCount = flcNodeComponent.shadowRoot.querySelector(selectors.textElementGotoCount);
+            expect(gotoCount.textContent).toEqual('+ 1 Incoming');
+        });
+
+        it('Should not show incoming count if goto does not exist', () => {
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo: noIncomingGotoNodeInfo,
+                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+            });
+            const gotoCount = flcNodeComponent.shadowRoot.querySelector(selectors.textElementGotoCount);
+            expect(gotoCount).toBeNull();
         });
     });
 
