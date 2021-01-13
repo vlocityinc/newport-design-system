@@ -13,6 +13,9 @@ import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_i
 import { getColumnFieldType, InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { accountVariableNameAutomaticField, accountSObjectVariable } from 'mock/storeData';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { getMetadataAutomaticField } from 'mock/flows/mock-flow';
 
 expect.extend(deepFindMatchers);
 
@@ -442,6 +445,18 @@ describe('screenField', () => {
                 expect(actualResult.childReferences).toHaveLength(1);
             });
         });
+        it('converts automatic fields to UI model', () => {
+            const actualResult = getMetadataAutomaticField(
+                flowWithAllElements,
+                'screenWithAutomaticFields',
+                'accountSObjectVariable.Name'
+            );
+            expect(actualResult).toMatchObject({
+                fieldType: 'ObjectProvided',
+                objectFieldReference: 'accountSObjectVariable.Name'
+            });
+            expect(actualResult.dataType).toBeUndefined();
+        });
     });
     describe('Creating duplicated screen fields', () => {
         it('screen fields without any nested fields', () => {
@@ -573,6 +588,14 @@ describe('screenField', () => {
                     InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES
                 );
             });
+        });
+        it('converts automatic field to flow metadata', () => {
+            const actualResult = createScreenFieldMetadataObject(accountVariableNameAutomaticField);
+            expect(actualResult).toMatchObject({
+                fieldType: 'ObjectProvided',
+                objectFieldReference: `${accountSObjectVariable.guid}.Name`
+            });
+            expect(actualResult.dataType).toBeUndefined();
         });
     });
 });

@@ -1952,7 +1952,7 @@ export default class Editor extends LightningElement {
                 .reduce((newObj, key) => ({ ...newObj, [key]: storeElements[key] }), {
                     [updatedNodeValue.guid]: updatedNodeValue
                 });
-            const loopsToUpdate = usedBy([updatedNodeValue.guid], loopElements);
+            const loopsToUpdate = usedBy([updatedNodeValue.guid], { elements: loopElements });
             if (loopsToUpdate && loopsToUpdate.length > 0) {
                 loopsToUpdate.forEach((loopToUpdate) => {
                     this.deMutateAndUpdateNodeCollection(storeElements[loopToUpdate.guid]);

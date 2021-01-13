@@ -69,8 +69,8 @@ export function deleteItem(arr, itemAt) {
  * @param {...Object[]} arrays list of arrays
  * @returns {Object[]} list of unique set of elements from all the arrays
  */
-export function unionOfArrays(...arrays) {
-    const setFromArrays = arrays.reduce((acc, arr) => {
+export function unionOfArrays<T>(...arrays: T[][]) {
+    const setFromArrays = arrays.reduce<Set<T>>((acc, arr) => {
         for (let i = 0, len = arr.length; i < len; i++) {
             acc.add(arr[i]);
         }

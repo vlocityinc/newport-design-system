@@ -5,13 +5,13 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
 let flowProcessTypeCache;
 let _retriever; // Retrieves extensions list and notifies all callbacks that registered while the operation was taking place
 
-export const COMPONENT_INSTANCE = 'ComponentInstance';
 export const EXTENSION_TYPE_SOURCE = { LOCAL: 'local', SERVER: 'server' };
 const screenFieldLabelToIconMapping = {
     Address: 'standard:address',
@@ -76,7 +76,7 @@ function getListExtensionsRetriever(flowProcessType) {
                                     extensionCache.push(
                                         readonly({
                                             name: extension.qualifiedApiName,
-                                            fieldType: COMPONENT_INSTANCE,
+                                            fieldType: FlowScreenFieldType.ComponentInstance,
                                             genericTypes: extension.genericTypes
                                                 ? extension.genericTypes.records
                                                 : undefined,

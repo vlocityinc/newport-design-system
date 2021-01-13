@@ -149,4 +149,12 @@ describe('resourceFilter', () => {
         };
         expect(filter(element)).toEqual(false);
     });
+    it('excludes automatic fields', () => {
+        const filter = resourceFilter();
+        const element = {
+            elementType: ELEMENT_TYPE.SCREEN_FIELD,
+            fieldType: 'ObjectProvided'
+        };
+        expect(filter(element)).toEqual(false);
+    });
 });

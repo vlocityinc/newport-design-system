@@ -9,10 +9,12 @@ import {
     clickOnViewDetailButton,
     clickDeleteButtonInResourceDetailsPanel,
     getElementByTitle,
-    PALETTE_ELEMENTS_INDEX
+    PALETTE_ELEMENTS_INDEX,
+    PALETTE_RESOURCES_INDEX,
+    getUsedByContentItem
 } from '../leftPanelTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -129,6 +131,55 @@ describe('Resource tab - resource', () => {
         chevron = getChevronElement(leftPanel, addressComponentField.guid);
         // Check the component has also been deleted
         expect(chevron).toBeNull();
+    });
+    describe('Automatic fields', () => {
+        const getChildrenElementsGuidsRecursively = (elementGuid: UI.Guid): UI.Guid[] => {
+            const element = getElementByGuid(elementGuid);
+            if (!element.childReferences) {
+                return [];
+            }
+            return element.childReferences.reduce<UI.Guid[]>(
+                (acc, { childReference }) => [
+                    ...acc,
+                    childReference,
+                    ...getChildrenElementsGuidsRecursively(childReference)
+                ],
+                []
+            );
+        };
+        const getAutomaticFieldElement = (screenElementName, objectFieldReference) => {
+            const objectFieldReferenceParts = objectFieldReference.split('.');
+            const objectReferenceElement = getElementByDevName(objectFieldReferenceParts[0]);
+            const objectFieldRefenceWithGuid = [
+                objectReferenceElement.guid,
+                ...objectFieldReferenceParts.slice(1)
+            ].join('.');
+            const screenElement = getElementByDevName(screenElementName);
+            const childrenElementsGuids = getChildrenElementsGuidsRecursively(screenElement.guid);
+            const automaticFieldGuid = childrenElementsGuids.find(
+                (guid) => getElementByGuid(guid).objectFieldReference === objectFieldRefenceWithGuid
+            );
+            return getElementByGuid(automaticFieldGuid);
+        };
+        it('should not show up in the resource manager Screen Component section', () => {
+            const automaticFieldElement = getAutomaticFieldElement(
+                'screenWithAutomaticFieldsInSection',
+                'accountSObjectVariable.Name'
+            );
+            let chevron = getChevronElement(leftPanel, automaticFieldElement.guid, PALETTE_RESOURCES_INDEX);
+            expect(chevron).toBeNull();
+            chevron = getChevronElement(leftPanel, automaticFieldElement.guid, PALETTE_ELEMENTS_INDEX);
+            expect(chevron).toBeNull();
+        });
+        it('should appear in the resource detail of a variable if the automatic fields references a variable field', async () => {
+            const accountVariableElement = getElementByDevName('accountSObjectVariable');
+            const chevron = getChevronElement(leftPanel, accountVariableElement.guid);
+            clickOnViewDetailButton(chevron);
+            await ticks(100);
+            const resourceDetails = getResourceDetail(leftPanel);
+            expect(getUsedByContentItem(resourceDetails, 'screenWithAutomaticFieldsInSection')).toBeDefined();
+            expect(getUsedByContentItem(resourceDetails, 'screenWithAutomaticFields')).toBeDefined();
+        });
     });
 });
 

@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { getRulesForField, screenValidation } from '../screenValidation';
 import { elementsForPropertyEditors, emailScreenFieldAutomaticOutput, emailScreenField } from 'mock/storeData';
-import { COMPONENT_INSTANCE } from 'builder_platform_interaction/flowExtensionLib';
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -34,7 +34,7 @@ describe('field from extension', () => {
     beforeEach(() => {
         emailScreenFieldAutomaticElement = elementsForPropertyEditors[emailScreenFieldAutomaticOutput.name];
         // In the facctory the property fieldType is hydrated while in the code it isn't
-        emailScreenFieldAutomaticElement.fieldType = COMPONENT_INSTANCE;
+        emailScreenFieldAutomaticElement.fieldType = FlowScreenFieldType.ComponentInstance;
     });
     describe('When field has validation enabled', () => {
         it('Error message cannot be blank', () => {
@@ -49,7 +49,7 @@ describe('field from extension', () => {
     describe('When field type is Section', () => {
         const emailScreenFieldElement = elementsForPropertyEditors[emailScreenField.name];
         // In the facctory the property fieldType is hydrated while in the code it isn't
-        emailScreenFieldElement.fieldType = COMPONENT_INSTANCE;
+        emailScreenFieldElement.fieldType = FlowScreenFieldType.ComponentInstance;
 
         it('validates child fields', () => {
             let section = {

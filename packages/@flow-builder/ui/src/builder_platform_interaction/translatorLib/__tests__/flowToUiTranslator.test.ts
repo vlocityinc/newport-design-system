@@ -52,6 +52,7 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             CREATE: 'Create',
             CREATE_AND_UPDATE: 'CreateAndUpdate'
         },
+        FlowScreenFieldType: {},
         isSystemElement: (elementType) => {
             return elementType === 'ROOT_ELEMENT' || elementType === 'END_ELEMENT' || elementType === 'START_ELEMENT';
         },

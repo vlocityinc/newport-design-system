@@ -2,7 +2,11 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
 import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';
-import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    isRegionContainerField,
+    isRegionField,
+    isAutomaticField
+} from 'builder_platform_interaction/screenEditorUtils';
 
 export * from './matchers';
 
@@ -42,7 +46,8 @@ export const resourceFilter = (pattern) => {
         } else if (
             booleanMatcher(obj, 'isCanvasElement', false) &&
             !isRegionContainerField(obj) &&
-            !isRegionField(obj)
+            !isRegionField(obj) &&
+            !isAutomaticField(obj)
         ) {
             result = true;
         } else if (booleanMatcher(obj, 'storeOutputAutomatically', true)) {

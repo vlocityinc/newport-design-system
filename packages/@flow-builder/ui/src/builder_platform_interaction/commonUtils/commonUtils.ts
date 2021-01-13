@@ -1,11 +1,10 @@
-// @ts-nocheck
 /**
  * Checks whether the passed parameter is specifically undefined or null and not an empty string.
  * @param {String} value The string to check
  * @returns {Boolean} Whether value is undefined or null
  */
-export const isUndefinedOrNull = (value) => {
-    return value === undefined || value === null;
+export const isUndefinedOrNull = (value: any): value is undefined | null => {
+    return value == null;
 };
 
 /**
@@ -13,7 +12,7 @@ export const isUndefinedOrNull = (value) => {
  * @param {Object} value input
  * @return {boolean} true if undefined otherwise false.
  */
-export const isUndefined = (value) => {
+export const isUndefined = (value: any): value is undefined => {
     return value === undefined;
 };
 
@@ -22,7 +21,7 @@ export const isUndefined = (value) => {
  * @param {*} item The item in question of being an object
  * @returns {Boolean} Whether item is an object or not
  */
-export const isObject = (item) => {
+export const isObject = (item: any) => {
     return typeof item === 'object' && !Array.isArray(item) && !isUndefinedOrNull(item);
 };
 
@@ -31,15 +30,15 @@ export const isObject = (item) => {
  * @param {string}      value input
  * @return {string}     returns value surrounded by curly braces and bang
  */
-export const addCurlyBraces = (value) => {
+export const addCurlyBraces = (value: string) => {
     return '{!' + value + '}';
 };
 
 /**
  * Splits a string by period. If no period, returns the string
- * @param {*} value The string to split
- * @param {String} separator The separator string to split the value. Defaults to period.
- * @returns {Array} The string split by period
+ * @param value The string to split
+ * @param separator The separator string to split the value. Defaults to period.
+ * @returns The string split by given separator
  */
 export const splitStringBySeparator = (value: string, separator = '.') => {
     return value.split(separator);
@@ -47,10 +46,10 @@ export const splitStringBySeparator = (value: string, separator = '.') => {
 
 /**
  * Remove curly braces and bang from the value if it exists.
- * @param {string}      value to remove the curly braces
- * @return {string}     string without curly braces and bang
+ * @param value to remove the curly braces
+ * @return string without curly braces and bang
  */
-export const removeCurlyBraces = (value) => {
+export const removeCurlyBraces = (value: string) => {
     if (isReference(value)) {
         return value.substring(2, value.length - 1);
     }
@@ -60,12 +59,12 @@ export const removeCurlyBraces = (value) => {
 /**
  * Formats an arbitrary number of arguments into a string by replacing {0}, {1}, ... {n} with the corresponding argument supplied after 'formatString'.
  *
- * @param {String} formatString The string to be formatted.
- * @param {String} args The list of arguments to splice into formatString.
- * @returns {String} a formatted String
+ * @param formatString The string to be formatted.
+ * @param args The list of arguments to splice into formatString.
+ * @returns a formatted String
  * @export
  */
-export const format = (formatString, ...args) => {
+export const format = (formatString: string, ...args: any[]) => {
     return formatString.replace(/\{(\d+)\}/gm, (match, index) => {
         const substitution = args[index];
         if (substitution === undefined) {
@@ -93,10 +92,10 @@ export const isValidNumber = (value) => {
  * Replacing any number of concurrent invalid characters with a single underscore
  * Limiting to 80 characters
  * Where invalid characters are anything non-alphanumeric
- * @param {String} value - the value to be converted in to a valid dev name
- * @returns {String} The sanitized, dev name safe version of the value passed in
+ * @param value - the value to be converted in to a valid dev name
+ * @returns The sanitized, dev name safe version of the value passed in
  */
-export const sanitizeDevName = (value) => {
+export const sanitizeDevName = (value: string) => {
     value = value.replace(/[\W_]+/g, '_');
     value = value.replace(/_+$/, '');
     value = value.replace(/^_+/, '');
@@ -113,10 +112,10 @@ export const sanitizeDevName = (value) => {
 /**
  * Escapes a string for use in a RegExp. The source was taken from:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
- * @param {String} value the string to escape
- * @return {String} a RegExp escaped string
+ * @param value the string to escape
+ * @return a RegExp escaped string
  */
-export const escapeForRegExp = (value) => {
+export const escapeForRegExp = (value: string) => {
     if (typeof value !== 'string') {
         throw new TypeError('value must be a string');
     }
@@ -140,10 +139,10 @@ export function isReference(value: string): boolean {
 
 /**
  * Checks if a property is set on a given object, and returns it's value if so; else, return true by default
- * @param {Object} object
- * @param {String} propertyName
+ * @param object
+ * @param propertyName
  */
-export function getPropertyOrDefaultToTrue(object, propertyName) {
+export function getPropertyOrDefaultToTrue(object: Object, propertyName: string) {
     return object.hasOwnProperty(propertyName) && object[propertyName] !== undefined ? object[propertyName] : true;
 }
 
@@ -151,9 +150,9 @@ export const APP_EXCHANGE_LINK = 'https://appexchange.salesforce.com/appxStore?t
 
 /**
  * Simple memoizer, which holds on to a most recent successful invocation and its result.
- * @param {Function} func The function to memoize.
+ * @param func The function to memoize.
  */
-export function memoize(func) {
+export function memoize(func: Function) {
     if (!(typeof func === 'function')) {
         throw new Error('Not a function');
     }
@@ -174,21 +173,21 @@ export function memoize(func) {
 
 /**
  * Basicaly converts possible string boolean values into real booleans
- * @param {string || boolean} rawValue - dirty value about ot be sanitized could be false, true or "false", "true"
- * @returns {boolean} corresponding "pure" boolean value (eg: 'false' => false)
+ * @param rawValue - dirty value about to be sanitized could be false, true or "false", "true"
+ * @returns corresponding "pure" boolean value (eg: 'false' => false)
  */
-export const sanitizeBoolean = (rawValue) => {
+export const sanitizeBoolean = (rawValue?: string | boolean) => {
     return rawValue ? rawValue !== 'false' : false;
 };
 
 /**
  * Compares two arrays for equality. For the two arrays to be equal they should either be
  * the same arrays or they should contain exact same elements and in the same order.
- * @param {Array} left One array to compare.
- * @param {Array} right Another array to compare.
- * @returns {boolean} Returns 'true' if the arrays are equal. Otherwise - 'false'.
+ * @param left One array to compare.
+ * @param right Another array to compare.
+ * @returns 'true' if the arrays are equal. Otherwise - 'false'.
  */
-function equalArguments(left, right) {
+function equalArguments(left: IArguments, right: IArguments) {
     if (left === null || left === undefined || left.length !== right.length) {
         return false;
     }
@@ -200,4 +199,8 @@ function equalArguments(left, right) {
     }
 
     return true;
+}
+
+export function hasOwnProperty<X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> {
+    return obj.hasOwnProperty(prop);
 }

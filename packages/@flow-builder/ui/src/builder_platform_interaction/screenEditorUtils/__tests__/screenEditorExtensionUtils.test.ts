@@ -40,7 +40,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
             return [
                 {
                     name: 'c:fakeCmpName1',
-                    fieldType: actual.COMPONENT_INSTANCE,
+                    fieldType: 'ComponentInstance',
                     dataType: undefined,
                     label: 'Fake Component 1',
                     icon: 'utility:type_tool',
@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
                 },
                 {
                     name: 'c:fakeCmpName2',
-                    fieldType: actual.COMPONENT_INSTANCE,
+                    fieldType: 'ComponentInstance',
                     dataType: undefined,
                     label: 'Fake Component 2',
                     icon: 'utility:type_tool',

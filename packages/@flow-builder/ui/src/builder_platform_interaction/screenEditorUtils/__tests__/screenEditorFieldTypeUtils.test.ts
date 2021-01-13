@@ -5,16 +5,15 @@ import {
     getFieldChoiceData
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const componentInstanceFieldType = jest.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE;
     return {
         getAllCachedExtensionTypes: () => {
             return [
                 {
                     name: 'flowruntime:fileUpload',
-                    fieldType: componentInstanceFieldType,
+                    fieldType: 'ComponentInstance',
                     dataType: undefined,
                     label: 'File Upload',
                     icon: 'utility:type_tool',
@@ -22,7 +21,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
                 },
                 {
                     name: 'orgns:customComp',
-                    fieldType: componentInstanceFieldType,
+                    fieldType: 'ComponentInstance',
                     dataType: undefined,
                     label: 'Custom Comp',
                     icon: 'utility:type_tool',
@@ -88,7 +87,7 @@ describe('getScreenFieldTypeByName function', () => {
     it('Returns extension field type by name', () => {
         const fieldType = getScreenFieldTypeByName('orgns:customComp');
         expect(fieldType.name).toBe('orgns:customComp');
-        expect(fieldType.fieldType).toBe(jest.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE);
+        expect(fieldType.fieldType).toBe(FlowScreenFieldType.ComponentInstance);
     });
 });
 

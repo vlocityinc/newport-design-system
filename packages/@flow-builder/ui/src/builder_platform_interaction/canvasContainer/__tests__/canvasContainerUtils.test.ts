@@ -13,6 +13,7 @@ import {
     calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
     calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
 } from '../canvasContainerUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/drawingLib', () => {
     return {
@@ -50,17 +51,6 @@ jest.mock('builder_platform_interaction/actions', () => {
                 payload
             };
         })
-    };
-});
-
-jest.mock('builder_platform_interaction/flowMetadata', () => {
-    return {
-        ELEMENT_TYPE: {
-            START_ELEMENT: 'START_ELEMENT',
-            DECISION: 'DECISION',
-            LOOP: 'LOOP',
-            WAIT: 'WAIT'
-        }
     };
 });
 
@@ -233,7 +223,7 @@ describe('Canvas container utils test', () => {
                     elements: {
                         guid1: {
                             availableConnections: ['connection1', 'connection2'],
-                            elementType: 'DECISION'
+                            elementType: ELEMENT_TYPE.DECISION
                         }
                     }
                 };
@@ -249,7 +239,7 @@ describe('Canvas container utils test', () => {
                     elements: {
                         guid1: {
                             availableConnections: ['connection1', 'connection2'],
-                            elementType: 'LOOP'
+                            elementType: ELEMENT_TYPE.LOOP
                         }
                     }
                 };
@@ -265,7 +255,7 @@ describe('Canvas container utils test', () => {
                     elements: {
                         guid1: {
                             availableConnections: ['connection1', 'connection2'],
-                            elementType: 'WAIT'
+                            elementType: ELEMENT_TYPE.WAIT
                         }
                     }
                 };
@@ -281,7 +271,7 @@ describe('Canvas container utils test', () => {
                     elements: {
                         guid1: {
                             availableConnections: ['connection1', 'connection2'],
-                            elementType: 'START_ELEMENT'
+                            elementType: ELEMENT_TYPE.START_ELEMENT
                         }
                     }
                 };

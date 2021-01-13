@@ -31,6 +31,29 @@ const getStartElement = () => {
     return undefined;
 };
 
+function getChildrenElementsGuidsRecursively(elementGuid: UI.Guid): UI.Guid[] {
+    const element = getElementByGuid(elementGuid);
+    if (!element.childReferences) {
+        return [];
+    }
+    return element.childReferences.reduce<UI.Guid[]>(
+        (acc, { childReference }) => [...acc, childReference, ...getChildrenElementsGuidsRecursively(childReference)],
+        []
+    );
+}
+
+const getAutomaticFieldElement = (screenElementName, objectFieldReference) => {
+    const objectFieldReferenceParts = objectFieldReference.split('.');
+    const objectReferenceElement = getElementByName(objectFieldReferenceParts[0]);
+    const objectFieldRefenceWithGuid = [objectReferenceElement.guid, ...objectFieldReferenceParts.slice(1)].join('.');
+    const screenElement = getElementByName(screenElementName);
+    const childrenElementsGuids = getChildrenElementsGuidsRecursively(screenElement.guid);
+    const automaticFieldGuid = childrenElementsGuids.find(
+        (guid) => getElementByGuid(guid).objectFieldReference === objectFieldRefenceWithGuid
+    );
+    return getElementByGuid(automaticFieldGuid);
+};
+
 export const numberVariable = getElementByName('numberVariable');
 export const stringVariable = getElementByName('stringVariable');
 export const dateVariable = getElementByName('dateVariable');
@@ -127,6 +150,16 @@ export const loopOnLocalActionSobjectCollInApexAutoOutput = getElementByName(
 export const deleteAccount = getElementByName('deleteAccount');
 export const deleteAccountWithFilters = getElementByName('deleteAccountWithFilters');
 export const screenWithSection = getElementByName('ScreenWithSection');
+export const screenWithAutomaticFields = getElementByName('screenWithAutomaticFields');
+export const accountVariableNameAutomaticField = getAutomaticFieldElement(
+    'screenWithAutomaticFields',
+    'accountSObjectVariable.Name'
+);
+export const screenWithAutomaticFieldsInSection = getElementByName('screenWithAutomaticFieldsInSection');
+export const accountVariableNameAutomaticFieldInSection = getAutomaticFieldElement(
+    'screenWithAutomaticFieldsInSection',
+    'accountSObjectVariable.Name'
+);
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

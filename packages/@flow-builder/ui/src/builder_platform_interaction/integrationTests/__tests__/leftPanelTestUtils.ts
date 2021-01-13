@@ -14,7 +14,9 @@ const LEFT_PANEL_SELECTORS = {
     RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TITLE: 'FlowBuilderResourceDetailsPanel.deleteButtonLabel',
     RESOURCE_DETAILS_PANEL_EDIT_BUTTON_TITLE: 'FlowBuilderResourceDetailsPanel.editButtonLabel',
     BUTTON_LOCATOR_ICON: '.test-locator-icon',
-    BUTTON_VIEW_DETAIL: '.test-details-chevron-icon'
+    BUTTON_VIEW_DETAIL: '.test-details-chevron-icon',
+    USED_BY_CONTENT_ITEM_NAME: '.test-list-item-name',
+    USED_BY_SECTION: '.test-used-by-section'
 };
 
 export const getPalette = (leftPanel, paletteIndex = PALETTE_RESOURCES_INDEX) => {
@@ -57,4 +59,23 @@ export const getLeftPanel = (editorCmp) => {
 
 export const getElementByTitle = (parent, title) => {
     return parent.shadowRoot.querySelector('[title="' + title + '"]');
+};
+
+export const getUsedByContentItems = (resourceDetails) => {
+    const usedBySection = deepQuerySelector(resourceDetails, [LEFT_PANEL_SELECTORS.USED_BY_SECTION]);
+    const usedByContent = usedBySection.querySelector(LEFT_PANEL_SELECTORS.USED_BY_CONTENT);
+    return usedByContent.shadowRoot.querySelectorAll(LEFT_PANEL_SELECTORS.USED_BY_CONTENT_ITEM);
+};
+
+export const getUsedByContentItem = (resourceDetails, usedByDevName) => {
+    const usedByContentItems = getUsedByContentItems(resourceDetails);
+    for (const usedByContentItem of usedByContentItems) {
+        if (
+            usedByContentItem.shadowRoot.querySelector(LEFT_PANEL_SELECTORS.USED_BY_CONTENT_ITEM_NAME).textContent ===
+            usedByDevName
+        ) {
+            return usedByContentItem;
+        }
+    }
+    return undefined;
 };

@@ -3,6 +3,7 @@ import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -25,13 +26,10 @@ function createComponentForTest(props) {
     return el;
 }
 
-const componentInstanceFieldType = jest.requireActual('builder_platform_interaction/screenEditorUtils')
-    .COMPONENT_INSTANCE;
-
 const extensionTypes = [
     {
         name: 'flowruntime:fileUpload',
-        fieldType: componentInstanceFieldType,
+        fieldType: FlowScreenFieldType.ComponentInstance,
         dataType: undefined,
         label: 'File Upload',
         icon: 'utility:type_tool',
@@ -39,7 +37,7 @@ const extensionTypes = [
     },
     {
         name: 'orgns:customComp',
-        fieldType: componentInstanceFieldType,
+        fieldType: FlowScreenFieldType.ComponentInstance,
         dataType: undefined,
         label: 'Custom Comp',
         icon: 'utility:type_tool',

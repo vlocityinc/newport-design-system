@@ -39,6 +39,25 @@ declare namespace UI {
         connector?: Connector;
     }
 
+    interface HydratedValue {
+        value: string | null;
+        error: string | null;
+    }
+
+    // An element is hydrated when it is edited in a property editor
+    interface HydratedElement {
+        elementType?: ElementType;
+        label?: HydratedValue;
+        guid: Guid;
+        name?: HydratedValue;
+        description?: HydratedValue;
+        dataType?: Datatype;
+        subtype?: string;
+        isCollection?: boolean;
+        isCanvasElement?: boolean;
+        connector?: Connector;
+    }
+
     interface BaseCanvasElement extends Element {
         // This is the "label" in the property editor UI
         label: string | null;
@@ -144,6 +163,7 @@ declare namespace UI {
 
     type StringKeyedMap<T> = { [key: string]: T };
     type Elements = StringKeyedMap<Element>;
+    type HydratedElements = StringKeyedMap<HydratedElement>;
 
     interface Properties {
         isAutoLayoutCanvas: boolean;

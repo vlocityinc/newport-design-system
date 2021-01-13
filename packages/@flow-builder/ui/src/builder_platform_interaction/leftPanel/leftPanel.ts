@@ -181,7 +181,6 @@ export default class LeftPanel extends LightningElement {
     retrieveResourceDetailsFromStore(currentElementState, asResource) {
         if (currentElementState) {
             const state = storeInstance.getCurrentState();
-            const storeElements = state.elements;
             let typeIconName;
             let createdByElement;
             let editable = !isChildElement(currentElementState.elementType);
@@ -215,7 +214,7 @@ export default class LeftPanel extends LightningElement {
                 editable,
                 deletable: editable,
                 createdByElement,
-                usedByElements: usedBy([currentElementState.guid], storeElements),
+                usedByElements: usedBy([currentElementState.guid], state),
                 asResource,
                 storeOutputAutomatically: currentElementState.storeOutputAutomatically,
                 isSystemGeneratedOutput: currentElementState.isSystemGeneratedOutput

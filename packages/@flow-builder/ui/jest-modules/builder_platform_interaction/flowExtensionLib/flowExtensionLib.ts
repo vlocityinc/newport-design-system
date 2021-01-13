@@ -25,5 +25,4 @@ export const getCachedExtension = jest
     );
 
 export const getAllCachedExtensionTypes = flowExtensionLib.getAllCachedExtensionTypes;
-export const COMPONENT_INSTANCE = flowExtensionLib.COMPONENT_INSTANCE;
 export const EXTENSION_TYPE_SOURCE = flowExtensionLib.EXTENSION_TYPE_SOURCE;

@@ -1184,8 +1184,8 @@ export function getConfigForElement(element: UI.ElementConfig): UI.ElementConfig
  *            map, if empty, default element is chosen
  * @returns An object containing component config
  */
-export function getConfigForElementType(elementType: string): UI.ElementConfig {
-    if (elementType === null || elementType === undefined || !elementTypeToConfigMap[elementType]) {
+export function getConfigForElementType(elementType?: string): UI.ElementConfig {
+    if (elementType == null || !elementTypeToConfigMap[elementType]) {
         elementType = ELEMENT_TYPE.DEFAULT;
     }
     return elementTypeToConfigMap[elementType];

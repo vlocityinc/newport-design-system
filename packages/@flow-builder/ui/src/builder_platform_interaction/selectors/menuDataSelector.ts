@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createSelector } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, isSystemElement, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import {
     getQueryableEntities,
@@ -8,7 +8,6 @@ import {
     getDeletableEntities,
     getUpdateableEntities
 } from 'builder_platform_interaction/sobjectLib';
-import { COMPONENT_INSTANCE } from 'builder_platform_interaction/flowExtensionLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 import {
@@ -369,7 +368,8 @@ export const apexScalarVariablesSelector = filteredElementsSelector(
 );
 
 export const componentInstanceScreenFieldsSelector = filteredElementsSelector(
-    (element) => element.elementType === ELEMENT_TYPE.SCREEN_FIELD && element.fieldType === COMPONENT_INSTANCE
+    (element) =>
+        element.elementType === ELEMENT_TYPE.SCREEN_FIELD && element.fieldType === FlowScreenFieldType.ComponentInstance
 );
 
 export const byElementTypeElementsSelector = (...elementType) =>

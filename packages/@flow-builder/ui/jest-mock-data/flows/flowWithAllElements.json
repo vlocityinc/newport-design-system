@@ -1300,6 +1300,172 @@
                     {
                         "choiceReferences": [],
                         "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "objectFieldReference": "accountSObjectVariable.Name",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "objectFieldReference": "accountSObjectVariable.NumberOfEmployees",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "objectFieldReference": "lookupRecordAutomaticOutput.Name",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screenWithAutomaticFields",
+                "locationX": 1030,
+                "locationY": 1018,
+                "name": "screenWithAutomaticFields",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            },
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "RegionContainer",
+                        "fields": [
+                            {
+                                "choiceReferences": [],
+                                "dataTypeMappings": [],
+                                "fieldType": "Region",
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "dataTypeMappings": [],
+                                        "fieldType": "ObjectProvided",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "objectFieldReference": "accountSObjectVariable.Name",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
+                                    },
+                                    {
+                                        "choiceReferences": [],
+                                        "dataTypeMappings": [],
+                                        "fieldType": "ObjectProvided",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "objectFieldReference": "accountSObjectVariable.NumberOfEmployees",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
+                                    }
+                                ],
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "processMetadataValues": [],
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "screenWithAutomaticFieldsInSection_Section1_Column1",
+                                "outputParameters": [],
+                                "processMetadataValues": [],
+                                "scale": 0,
+                                "storeOutputAutomatically": false
+                            },
+                            {
+                                "choiceReferences": [],
+                                "dataTypeMappings": [],
+                                "fieldType": "Region",
+                                "fields": [
+                                    {
+                                        "choiceReferences": [],
+                                        "dataTypeMappings": [],
+                                        "fieldType": "ObjectProvided",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": true,
+                                        "objectFieldReference": "accountSObjectVariable.AnnualRevenue",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
+                                    }
+                                ],
+                                "inputParameters": [
+                                    {
+                                        "name": "width",
+                                        "processMetadataValues": [],
+                                        "value": {
+                                            "stringValue": "6"
+                                        }
+                                    }
+                                ],
+                                "isRequired": false,
+                                "name": "screenWithAutomaticFieldsInSection_Section1_Column2",
+                                "outputParameters": [],
+                                "processMetadataValues": [],
+                                "scale": 0,
+                                "storeOutputAutomatically": false
+                            }
+                        ],
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "screenWithAutomaticFieldsInSection_Section1",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screenWithAutomaticFieldsInSection",
+                "locationX": 1164,
+                "locationY": 1025,
+                "name": "screenWithAutomaticFieldsInSection",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            },
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
                         "fieldType": "RegionContainer",
                         "fields": [
                             {

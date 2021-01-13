@@ -131,7 +131,7 @@ export function pick(obj = {}, allowedProps = []) {
  * @param {Array} omitProps array of omitted properties
  * @return {Object} new object without omitted properties
  */
-export function omit(obj = {}, omitProps = []) {
+export function omit(obj = {}, omitProps: string[] = []) {
     const filterKeysRule = (key) => omitProps.indexOf(key) === -1;
     return Object.keys(obj)
         .filter(filterKeysRule)

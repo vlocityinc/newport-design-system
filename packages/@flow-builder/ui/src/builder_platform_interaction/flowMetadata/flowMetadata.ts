@@ -293,7 +293,8 @@ export const REFERENCE_FIELDS = new Set([
     'outputReference',
     'inputReference',
     'choiceReference',
-    'defaultSelectedChoiceReference'
+    'defaultSelectedChoiceReference',
+    'objectFieldReference'
 ]);
 
 /**
@@ -379,6 +380,21 @@ export const START_ELEMENT_FIELDS = {
 export const COLLECTION_PROCESSOR_SUB_TYPE = {
     SORT: 'SortCollectionProcessor'
 };
+
+export enum FlowScreenFieldType {
+    InputField = 'InputField',
+    LargeTextArea = 'LargeTextArea',
+    PasswordField = 'PasswordField',
+    DropdownBox = 'DropdownBox',
+    RadioButtons = 'RadioButtons',
+    MultiSelectCheckboxes = 'MultiSelectCheckboxes',
+    MultiSelectPicklist = 'MultiSelectPicklist',
+    DisplayText = 'DisplayText',
+    RegionContainer = 'RegionContainer',
+    Region = 'Region',
+    ObjectProvided = 'ObjectProvided',
+    ComponentInstance = 'ComponentInstance'
+}
 
 export function isSystemElement(elementType) {
     switch (elementType) {

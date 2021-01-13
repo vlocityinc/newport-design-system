@@ -1,11 +1,7 @@
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import {
-    getAllCachedExtensionTypes,
-    COMPONENT_INSTANCE,
-    EXTENSION_TYPE_SOURCE
-} from 'builder_platform_interaction/flowExtensionLib';
+import { getAllCachedExtensionTypes, EXTENSION_TYPE_SOURCE } from 'builder_platform_interaction/flowExtensionLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export const SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME = 'componentVisibility';
@@ -19,15 +15,15 @@ const FEROV_TYPES = {
 };
 
 export const CHOICE_SCREEN_FIELDS = {
-    PICKLIST: 'DropdownBox',
-    RADIO_BUTTONS: 'RadioButtons',
-    CHECKBOX_GROUP: 'MultiSelectCheckboxes',
-    MULTI_SELECT_PICKLIST: 'MultiSelectPicklist'
+    PICKLIST: FlowScreenFieldType.DropdownBox,
+    RADIO_BUTTONS: FlowScreenFieldType.RadioButtons,
+    CHECKBOX_GROUP: FlowScreenFieldType.MultiSelectCheckboxes,
+    MULTI_SELECT_PICKLIST: FlowScreenFieldType.MultiSelectPicklist
 };
 
 type ScreenFieldType = {
     name: string;
-    fieldType: string;
+    fieldType: FlowScreenFieldType;
     dataType?: string;
     label?: string;
     icon?: string;
@@ -43,7 +39,7 @@ type ScreenFieldType = {
 const screenFieldTypes: ScreenFieldType[] = [
     {
         name: 'TextBox',
-        fieldType: 'InputField',
+        fieldType: FlowScreenFieldType.InputField,
         dataType: 'String',
         label: LABELS.fieldTypeLabelTextField,
         icon: 'standard:textbox',
@@ -52,7 +48,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'LargeTextArea',
-        fieldType: 'LargeTextArea',
+        fieldType: FlowScreenFieldType.LargeTextArea,
         dataType: undefined,
         label: LABELS.fieldTypeLabelLargeTextArea,
         icon: 'standard:textarea',
@@ -61,7 +57,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'Number',
-        fieldType: 'InputField',
+        fieldType: FlowScreenFieldType.InputField,
         dataType: 'Number',
         label: LABELS.fieldTypeLabelNumber,
         icon: 'standard:number_input',
@@ -70,7 +66,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'Currency',
-        fieldType: 'InputField',
+        fieldType: FlowScreenFieldType.InputField,
         dataType: 'Currency',
         label: LABELS.fieldTypeLabelCurrency,
         icon: 'standard:currency_input',
@@ -79,7 +75,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'Date',
-        fieldType: 'InputField',
+        fieldType: FlowScreenFieldType.InputField,
         dataType: 'Date',
         label: LABELS.fieldTypeLabelDate,
         icon: 'standard:date_input',
@@ -88,7 +84,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'DateTime',
-        fieldType: 'InputField',
+        fieldType: FlowScreenFieldType.InputField,
         dataType: 'DateTime',
         label: LABELS.fieldTypeLabelDateTime,
         icon: 'standard:date_time',
@@ -97,7 +93,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'Password',
-        fieldType: 'PasswordField',
+        fieldType: FlowScreenFieldType.PasswordField,
         dataType: undefined,
         label: LABELS.fieldTypeLabelPassword,
         icon: 'standard:password',
@@ -106,7 +102,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'Checkbox',
-        fieldType: 'InputField',
+        fieldType: FlowScreenFieldType.InputField,
         dataType: 'Boolean',
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'standard:task2',
@@ -116,7 +112,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     {
         // TODO: Set dataType to null once W-5795949 is completed
         name: 'RadioButtons',
-        fieldType: CHOICE_SCREEN_FIELDS.RADIO_BUTTONS,
+        fieldType: FlowScreenFieldType.RadioButtons,
         dataType: 'String',
         label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'standard:radio_button',
@@ -125,7 +121,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     {
         // TODO: Set dataType to null once W-5795949 is completed
         name: 'DropdownBox',
-        fieldType: CHOICE_SCREEN_FIELDS.PICKLIST,
+        fieldType: FlowScreenFieldType.DropdownBox,
         dataType: 'String',
         label: LABELS.fieldTypeLabelPicklist,
         icon: 'standard:picklist_type',
@@ -133,7 +129,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'MultiSelectCheckboxes',
-        fieldType: CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP,
+        fieldType: FlowScreenFieldType.MultiSelectCheckboxes,
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
         icon: 'standard:multi_select_checkbox',
@@ -141,7 +137,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'MultiSelectPicklist',
-        fieldType: CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST,
+        fieldType: FlowScreenFieldType.MultiSelectPicklist,
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
         icon: 'standard:multi_picklist',
@@ -149,7 +145,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'DisplayText',
-        fieldType: 'DisplayText',
+        fieldType: FlowScreenFieldType.DisplayText,
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayText,
         icon: 'standard:display_text',
@@ -158,11 +154,15 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         name: 'Section',
-        fieldType: 'RegionContainer',
+        fieldType: FlowScreenFieldType.RegionContainer,
         label: LABELS.fieldTypeLabelSection,
         icon: 'standard:section',
         category: LABELS.fieldCategoryDisplay,
         description: LABELS.fieldTypeDescriptionSection
+    },
+    {
+        name: 'ObjectProvided',
+        fieldType: FlowScreenFieldType.ObjectProvided
     }
 ];
 
@@ -177,12 +177,12 @@ export function getAllScreenFieldTypes() {
 /**
  * Returns a local representation of the field type for the given extension (that will eventually be replaced by the server version)
  * @param {String} name - The FQN of the extension
- * @returns {FieldType} - The type
+ * @returns {FlowScreenFieldType} - The type
  */
 export function getLocalExtensionFieldType(name) {
     return {
         name,
-        fieldType: COMPONENT_INSTANCE,
+        fieldType: FlowScreenFieldType.ComponentInstance,
         label: name,
         icon: 'standard:lightning_component',
         source: EXTENSION_TYPE_SOURCE.LOCAL
@@ -192,7 +192,7 @@ export function getLocalExtensionFieldType(name) {
 export function getSectionFieldType() {
     return {
         name: 'Section',
-        fieldType: 'RegionContainer',
+        fieldType: FlowScreenFieldType.RegionContainer,
         label: LABELS.fieldTypeLabelSection,
         icon: 'standard:display_text',
         category: LABELS.fieldCategoryDisplay
@@ -202,7 +202,7 @@ export function getSectionFieldType() {
 export function getColumnFieldType() {
     return {
         name: 'Column',
-        fieldType: 'Region'
+        fieldType: FlowScreenFieldType.Region
     };
 }
 
@@ -257,7 +257,7 @@ export function getScreenFieldType(field) {
  * @returns {boolean} Indicates if specified field is an extension field type
  */
 export function isExtensionField(field) {
-    return field && field.fieldType === COMPONENT_INSTANCE;
+    return field && field.fieldType === FlowScreenFieldType.ComponentInstance;
 }
 
 /**
@@ -265,7 +265,7 @@ export function isExtensionField(field) {
  * @returns {boolean} Indicates if specified field is a DisplayText field (non-rich text)
  */
 export function isDisplayTextField(field) {
-    return field && field.fieldType === 'DisplayText';
+    return field && field.fieldType === FlowScreenFieldType.DisplayText;
 }
 
 /**
@@ -289,7 +289,7 @@ export function isDateTimeField(field) {
  * @returns {boolean} Indicates if specified field is an input field
  */
 export function isInputField(field) {
-    return field && field.fieldType === 'InputField';
+    return field && field.fieldType === FlowScreenFieldType.InputField;
 }
 
 /**
@@ -313,7 +313,7 @@ export function isCurrencyField(field) {
  * @returns {boolean} Indicates if specified field is a text area field
  */
 export function isTextAreaField(field) {
-    return field && field.fieldType === 'LargeTextArea';
+    return field && field.fieldType === FlowScreenFieldType.LargeTextArea;
 }
 
 /**
@@ -321,7 +321,7 @@ export function isTextAreaField(field) {
  * @returns {boolean} Indicates if specified field is a password field
  */
 export function isPasswordField(field) {
-    return field && field.fieldType === 'PasswordField';
+    return field && field.fieldType === FlowScreenFieldType.PasswordField;
 }
 
 /**
@@ -361,7 +361,7 @@ export function isPicklistField(field) {
  * @returns {boolean} Indicates if specified field is a region container (section) field
  */
 export function isRegionContainerField(field) {
-    return field && field.fieldType === 'RegionContainer';
+    return field && field.fieldType === FlowScreenFieldType.RegionContainer;
 }
 
 /**
@@ -369,7 +369,11 @@ export function isRegionContainerField(field) {
  * @returns {boolean} Indicates if specified field is a region (column) field
  */
 export function isRegionField(field) {
-    return field && field.fieldType === 'Region';
+    return field && field.fieldType === FlowScreenFieldType.Region;
+}
+
+export function isAutomaticField(field) {
+    return field && field.fieldType === FlowScreenFieldType.ObjectProvided;
 }
 
 /**
@@ -444,7 +448,7 @@ export function getIconNameFromDataType(dataType) {
 
 /**
  * Returns the ferov type from a field type
- * @param {FieldType} fieldType - The field type
+ * @param {FlowScreenFieldType} fieldType - The field type
  * @returns {String} - The type
  */
 export function getFerovTypeFromFieldType(fieldType) {

@@ -1,9 +1,13 @@
-// @ts-nocheck
-import { usedBy, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
+import { usedBy, usedByStoreAndElementState, UsedByElement } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { decision1Outcome1 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import {
+    flowWithAllElementsUIModel,
+    screenWithAutomaticFields,
+    accountSObjectVariable,
+    screenWithAutomaticFieldsInSection
+} from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -264,19 +268,19 @@ const elements = {
     }
 };
 
-const elementsFromScreenEditor = {
+const elementsFromScreenEditor = ({
     SCREEN_FIELD_1: {
-        name: 'SCREEN FIELD 1',
+        name: { value: 'SCREEN FIELD 1', error: null },
         guid: 'SCREEN_FIELD_1',
         elementType: ELEMENT_TYPE.SCREEN_FIELD
     },
     SCREEN_FIELD_2: {
-        name: 'SCREEN FIELD 2',
+        name: { value: 'SCREEN FIELD 2', error: null },
         guid: 'SCREEN_FIELD_2',
         elementType: ELEMENT_TYPE.SCREEN_FIELD
     },
     SECTION_FIELD_1: {
-        name: 'SECTION FIELD 1',
+        name: { value: 'SECTION FIELD 1', error: null },
         guid: 'SECTION_FIELD_1',
         elementType: ELEMENT_TYPE.SCREEN_FIELD,
         conditions: [
@@ -295,7 +299,8 @@ const elementsFromScreenEditor = {
                 elementType: ELEMENT_TYPE.SCREEN_FIELD,
                 fields: [
                     {
-                        label: 'SCREEN FIELD 3',
+                        label: { value: 'SCREEN FIELD 3', error: null },
+                        name: { value: 'SCREEN_FIELD_3', error: null },
                         guid: 'SCREEN_FIELD_3',
                         elementType: ELEMENT_TYPE.SCREEN_FIELD,
                         conditions: [
@@ -314,7 +319,7 @@ const elementsFromScreenEditor = {
     },
     SCREEN_FIELD_3: {
         guid: 'SCREEN_FIELD_3',
-        name: 'SCREEN FIELD 3',
+        name: { value: 'SCREEN FIELD 3', error: null },
         conditions: [
             {
                 leftValueReference: 'SCREEN_FIELD_2',
@@ -327,187 +332,229 @@ const elementsFromScreenEditor = {
     },
     guid: 'SCREEN_3',
     elementType: ELEMENT_TYPE.SCREEN
-};
+} as unknown) as UI.HydratedElements;
 
 describe('Used by library', () => {
+    const expectNoDuplicatesInUsedBy = (usedByElements: UsedByElement[]) => {
+        const elementGuids = usedByElements.map((usedByElement) => usedByElement.guid);
+        expect(elementGuids.length).toBe(new Set(elementGuids).size);
+        for (const usedByElement of usedByElements) {
+            expect(usedByElement.elementGuidsReferenced.length).toBe(
+                new Set(usedByElement.elementGuidsReferenced).size
+            );
+        }
+    };
     beforeAll(() => {
-        Store.setMockState(flowWithAllElementsUIModel);
+        (Store as any).setMockState(flowWithAllElementsUIModel);
     });
     afterAll(() => {
-        Store.resetStore();
+        (Store as any).resetStore();
     });
-    it('returns an empty array if an element is not used anywhere', () => {
-        const elementGuids = ['VARIABLE_2'];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toHaveLength(0);
-    });
-    it('returns an array of elements where an element is being referenced', () => {
-        const elementGuids = ['VARIABLE_1'];
-        const expectedResult = [
-            {
-                guid: 'WAIT_EVENT_1',
-                label: 'WAIT EVENT 1',
-                name: 'WAIT EVENT 1',
-                elementGuidsReferenced: ['VARIABLE_1']
-            },
-            {
-                guid: 'WAIT_EVENT_2',
-                label: 'WAIT EVENT 2',
-                name: 'WAIT EVENT 2',
-                elementGuidsReferenced: ['VARIABLE_1']
-            },
-            {
-                guid: 'OUTCOME_1',
-                label: 'OUTCOME 1',
-                name: 'OUTCOME 1',
-                elementGuidsReferenced: ['VARIABLE_1']
-            },
-            {
-                guid: 'OUTCOME_2',
-                label: 'OUTCOME 2',
-                name: 'OUTCOME 2',
-                elementGuidsReferenced: ['VARIABLE_1']
-            },
-            {
-                guid: 'FORMULA_1',
-                name: 'Formula_1',
-                elementGuidsReferenced: ['VARIABLE_1'],
-                iconName: 'standard:formula'
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('returns an array of object which contains guid, label, name, elementGuidsReferenced', () => {
-        const elementGuids = ['VARIABLE_3'];
-        const expectedResult = [
-            {
-                guid: 'WAIT_EVENT_1',
-                label: 'WAIT EVENT 1',
-                name: 'WAIT EVENT 1',
-                elementGuidsReferenced: ['VARIABLE_3']
-            },
-            {
-                guid: 'OUTCOME_1',
-                label: 'OUTCOME 1',
-                name: 'OUTCOME 1',
-                elementGuidsReferenced: ['VARIABLE_3']
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('returns an array of object which contains multiple element guids referenced', () => {
-        const elementGuids = ['VARIABLE_1', 'VARIABLE_3', 'VARIABLE_2'];
-        const expectedResult = [
-            {
-                guid: 'WAIT_EVENT_1',
-                label: 'WAIT EVENT 1',
-                name: 'WAIT EVENT 1',
-                elementGuidsReferenced: ['VARIABLE_1', 'VARIABLE_3']
-            },
-            {
-                guid: 'WAIT_EVENT_2',
-                label: 'WAIT EVENT 2',
-                name: 'WAIT EVENT 2',
-                elementGuidsReferenced: ['VARIABLE_1']
-            },
-            {
-                guid: 'OUTCOME_1',
-                label: 'OUTCOME 1',
-                name: 'OUTCOME 1',
-                elementGuidsReferenced: ['VARIABLE_1', 'VARIABLE_3']
-            },
-            {
-                guid: 'OUTCOME_2',
-                label: 'OUTCOME 2',
-                name: 'OUTCOME 2',
-                elementGuidsReferenced: ['VARIABLE_1']
-            },
-            {
-                guid: 'FORMULA_1',
-                name: 'Formula_1',
-                elementGuidsReferenced: ['VARIABLE_1'],
-                iconName: 'standard:formula'
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('returns an array of object if an element is referenced in a template field', () => {
-        const elementGuids = ['WAIT_EVENT_3', 'OUTCOME_3'];
-        const expectedResult = [
-            {
-                guid: 'FORMULA_1',
-                name: 'Formula_1',
-                elementGuidsReferenced: ['OUTCOME_3', 'WAIT_EVENT_3'],
-                iconName: 'standard:formula'
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('should not delete the section/column/screen field element when it is referenced in screen element with the nested structure', () => {
-        const elementGuids = ['SECTION_FIELD_1', 'COLUMN_FIELD_1', 'SCREEN_FIELD_3'];
-        const expectedResult = [
-            {
-                guid: 'SCREEN_2',
-                elementGuidsReferenced: ['SECTION_FIELD_1']
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('should return the referenced screen field element and the section referencing it when the section is using the screen field in cfv rule', () => {
-        expect.assertions(1);
-        const elementGuids = ['SCREEN_FIELD_1'];
-        const expectedResult = [
-            {
-                guid: 'SECTION_FIELD_1',
-                elementGuidsReferenced: ['SCREEN_FIELD_1']
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elementsFromScreenEditor);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('should return the referenced screen field element and the field referencing it, but not the section in which the referencing screen field is nested', () => {
-        expect.assertions(1);
-        const elementGuids = ['SCREEN_FIELD_2'];
-        const expectedResult = [
-            {
-                guid: 'SCREEN_FIELD_3',
-                elementGuidsReferenced: ['SCREEN_FIELD_2']
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elementsFromScreenEditor);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-    it('returns an array of object including any childReferences if an element is referenced and has child references', () => {
-        const elementGuids = ['WAIT_1', 'DECISION_1'];
-        const expectedResult = [
-            {
-                guid: 'WAIT_EVENT_3',
-                label: 'WAIT EVENT 3',
-                name: 'WAIT EVENT 3',
-                elementGuidsReferenced: ['WAIT_EVENT_1', 'WAIT_EVENT_2'],
-                iconName: 'standard:custom'
-            },
-            {
-                guid: 'OUTCOME_3',
-                label: 'OUTCOME 3',
-                name: 'OUTCOME 3',
-                elementGuidsReferenced: ['OUTCOME_1', 'OUTCOME_2'],
-                iconName: 'standard:custom'
-            }
-        ];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toMatchObject(expectedResult);
-    });
-
-    it('returns an empty array in case the references are cyclic', () => {
-        const elementGuids = ['DECISION_1', 'OUTCOME_3', 'WAIT_EVENT_3', 'FORMULA_1'];
-        const actualResult = usedBy(elementGuids, elements);
-        expect(actualResult).toHaveLength(0);
+    describe('usedBy', () => {
+        it('returns an empty array if an element is not used anywhere', () => {
+            const elementGuids = ['VARIABLE_2'];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toHaveLength(0);
+        });
+        it('returns an array of elements where an element is being referenced', () => {
+            const elementGuids = ['VARIABLE_1'];
+            const expectedResult = [
+                {
+                    guid: 'WAIT_EVENT_1',
+                    label: 'WAIT EVENT 1',
+                    name: 'WAIT EVENT 1',
+                    elementGuidsReferenced: ['VARIABLE_1']
+                },
+                {
+                    guid: 'WAIT_EVENT_2',
+                    label: 'WAIT EVENT 2',
+                    name: 'WAIT EVENT 2',
+                    elementGuidsReferenced: ['VARIABLE_1']
+                },
+                {
+                    guid: 'OUTCOME_1',
+                    label: 'OUTCOME 1',
+                    name: 'OUTCOME 1',
+                    elementGuidsReferenced: ['VARIABLE_1']
+                },
+                {
+                    guid: 'OUTCOME_2',
+                    label: 'OUTCOME 2',
+                    name: 'OUTCOME 2',
+                    elementGuidsReferenced: ['VARIABLE_1']
+                },
+                {
+                    guid: 'FORMULA_1',
+                    name: 'Formula_1',
+                    elementGuidsReferenced: ['VARIABLE_1'],
+                    iconName: 'standard:formula'
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('returns an array of object which contains guid, label, name, elementGuidsReferenced', () => {
+            const elementGuids = ['VARIABLE_3'];
+            const expectedResult = [
+                {
+                    guid: 'WAIT_EVENT_1',
+                    label: 'WAIT EVENT 1',
+                    name: 'WAIT EVENT 1',
+                    elementGuidsReferenced: ['VARIABLE_3']
+                },
+                {
+                    guid: 'OUTCOME_1',
+                    label: 'OUTCOME 1',
+                    name: 'OUTCOME 1',
+                    elementGuidsReferenced: ['VARIABLE_3']
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('returns an array of object which contains multiple element guids referenced', () => {
+            const elementGuids = ['VARIABLE_1', 'VARIABLE_3', 'VARIABLE_2'];
+            const expectedResult = [
+                {
+                    guid: 'WAIT_EVENT_1',
+                    label: 'WAIT EVENT 1',
+                    name: 'WAIT EVENT 1',
+                    elementGuidsReferenced: ['VARIABLE_1', 'VARIABLE_3']
+                },
+                {
+                    guid: 'WAIT_EVENT_2',
+                    label: 'WAIT EVENT 2',
+                    name: 'WAIT EVENT 2',
+                    elementGuidsReferenced: ['VARIABLE_1']
+                },
+                {
+                    guid: 'OUTCOME_1',
+                    label: 'OUTCOME 1',
+                    name: 'OUTCOME 1',
+                    elementGuidsReferenced: ['VARIABLE_1', 'VARIABLE_3']
+                },
+                {
+                    guid: 'OUTCOME_2',
+                    label: 'OUTCOME 2',
+                    name: 'OUTCOME 2',
+                    elementGuidsReferenced: ['VARIABLE_1']
+                },
+                {
+                    guid: 'FORMULA_1',
+                    name: 'Formula_1',
+                    elementGuidsReferenced: ['VARIABLE_1'],
+                    iconName: 'standard:formula'
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('returns an array of object if an element is referenced in a template field', () => {
+            const elementGuids = ['WAIT_EVENT_3', 'OUTCOME_3'];
+            const expectedResult = [
+                {
+                    guid: 'FORMULA_1',
+                    name: 'Formula_1',
+                    elementGuidsReferenced: ['OUTCOME_3', 'WAIT_EVENT_3'],
+                    iconName: 'standard:formula'
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('should not delete the section/column/screen field element when it is referenced in screen element with the nested structure', () => {
+            const elementGuids = ['SECTION_FIELD_1', 'COLUMN_FIELD_1', 'SCREEN_FIELD_3'];
+            const expectedResult = [
+                {
+                    guid: 'SCREEN_2',
+                    elementGuidsReferenced: ['SECTION_FIELD_1']
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('should return the referenced screen field element and the section referencing it when the section is using the screen field in cfv rule', () => {
+            const elementGuids = ['SCREEN_FIELD_1'];
+            const expectedResult = [
+                {
+                    guid: 'SECTION_FIELD_1',
+                    elementGuidsReferenced: ['SCREEN_FIELD_1']
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements: elementsFromScreenEditor });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('should return the referenced screen field element and the field referencing it, but not the section in which the referencing screen field is nested', () => {
+            const elementGuids = ['SCREEN_FIELD_2'];
+            const expectedResult = [
+                {
+                    guid: 'SCREEN_FIELD_3',
+                    elementGuidsReferenced: ['SCREEN_FIELD_2']
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements: elementsFromScreenEditor });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('returns an array of object including any childReferences if an element is referenced and has child references', () => {
+            const elementGuids = ['WAIT_1', 'DECISION_1'];
+            const expectedResult = [
+                {
+                    guid: 'WAIT_EVENT_3',
+                    label: 'WAIT EVENT 3',
+                    name: 'WAIT EVENT 3',
+                    elementGuidsReferenced: ['WAIT_EVENT_1', 'WAIT_EVENT_2'],
+                    iconName: 'standard:custom'
+                },
+                {
+                    guid: 'OUTCOME_3',
+                    label: 'OUTCOME 3',
+                    name: 'OUTCOME 3',
+                    elementGuidsReferenced: ['OUTCOME_1', 'OUTCOME_2'],
+                    iconName: 'standard:custom'
+                }
+            ];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('returns an empty array in case the references are cyclic', () => {
+            const elementGuids = ['DECISION_1', 'OUTCOME_3', 'WAIT_EVENT_3', 'FORMULA_1'];
+            const actualResult = usedBy(elementGuids, { elements });
+            expect(actualResult).toHaveLength(0);
+        });
+        describe('automatic fields', () => {
+            it('returns an array with the screen containing the automatic field (with no duplicates in the array)', () => {
+                const actualResult = usedBy([accountSObjectVariable.guid]);
+                expectNoDuplicatesInUsedBy(actualResult);
+                expect(actualResult).toEqual(
+                    expect.arrayContaining([
+                        {
+                            elementGuidsReferenced: [accountSObjectVariable.guid],
+                            guid: screenWithAutomaticFields.guid,
+                            iconName: 'standard:screen',
+                            isCanvasElement: true,
+                            label: 'screenWithAutomaticFields',
+                            name: 'screenWithAutomaticFields'
+                        }
+                    ])
+                );
+            });
+            it('returns an array with the screen containing the automatic field when field is in section (with no duplicates in the array)', () => {
+                const actualResult = usedBy([accountSObjectVariable.guid]);
+                expectNoDuplicatesInUsedBy(actualResult);
+                expect(actualResult).toEqual(
+                    expect.arrayContaining([
+                        {
+                            elementGuidsReferenced: [accountSObjectVariable.guid],
+                            guid: screenWithAutomaticFieldsInSection.guid,
+                            iconName: 'standard:screen',
+                            isCanvasElement: true,
+                            label: 'screenWithAutomaticFieldsInSection',
+                            name: 'screenWithAutomaticFieldsInSection'
+                        }
+                    ])
+                );
+            });
+        });
     });
 
     describe('usedByStoreAndElementState', () => {

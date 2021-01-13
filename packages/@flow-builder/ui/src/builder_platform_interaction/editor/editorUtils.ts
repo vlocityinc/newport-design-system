@@ -119,7 +119,7 @@ const doDeleteOrInvokeAlert = (
     const currentState = storeInstance.getCurrentState();
     const storeElements = currentState.elements;
 
-    const usedByElements = usedBy(selectedElementGUIDs, storeElements);
+    const usedByElements = usedBy(selectedElementGUIDs, currentState);
     const selectedElements = Object.values(storeElements).filter(
         (element) => selectedElementGUIDs.indexOf(element.guid) !== -1
     );

@@ -38,13 +38,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const actual = jest.requireActual('builder_platform_interaction/flowExtensionLib');
-    return {
-        COMPONENT_INSTANCE: actual.COMPONENT_INSTANCE,
-        describeExtensions: jest.fn().mockImplementation(() => Promise.resolve())
-    };
-});
+jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
+    describeExtensions: jest.fn().mockImplementation(() => Promise.resolve())
+}));
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
     fetchDetailsForInvocableAction: jest.fn().mockImplementation(() => Promise.resolve())

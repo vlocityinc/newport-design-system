@@ -43,7 +43,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         defaultValueDataType,
         defaultValueIndex = generateGuid(),
         defaultSelectedChoiceReference,
-        dataTypeMappings
+        dataTypeMappings,
+        objectFieldReference
     } = screenField;
     let {
         type,
@@ -168,6 +169,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         },
         dynamicTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
+        objectFieldReference !== undefined ? { objectFieldReference } : {},
         defaultValueFerovObject
     );
 }
@@ -368,7 +370,8 @@ export function createScreenFieldMetadataObject(screenField) {
         visibilityRule,
         dynamicTypeMappings,
         childReferences,
-        inputsOnNextNavToAssocScrn
+        inputsOnNextNavToAssocScrn,
+        objectFieldReference
     } = screenField;
     let {
         dataType,
@@ -448,6 +451,7 @@ export function createScreenFieldMetadataObject(screenField) {
         },
         dataTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
+        objectFieldReference !== undefined ? { objectFieldReference } : {},
         defaultValueMetadataObject
     );
 

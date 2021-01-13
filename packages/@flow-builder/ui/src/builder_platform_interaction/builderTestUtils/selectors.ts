@@ -83,6 +83,8 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     TIME_TRIGGER: 'builder_platform_interaction-time-trigger',
     USE_ADVANCED_OPTIONS_CHECKBOX: 'builder_platform_interaction-use-advanced-options-checkbox',
     USE_ADVANCED_SETTINGS_ACCORDION: 'builder_platform_interaction-use-advanced-settings-accordion',
+    USED_BY_CONTENT: 'builder_platform_interaction-used-by-content',
+    USED_BY_CONTENT_ITEM: 'builder_platform_interaction-used-by-content-item',
     VARIABLE_AND_FIELD_MAPPING_COMPONENT: 'builder_platform_interaction-record-lookup-variable-and-field-mapping',
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',

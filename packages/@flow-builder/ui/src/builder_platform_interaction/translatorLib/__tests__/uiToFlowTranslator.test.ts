@@ -55,7 +55,8 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             UPDATE: 'Update',
             CREATE: 'Create',
             CREATE_AND_UPDATE: 'CreateAndUpdate'
-        }
+        },
+        FlowScreenFieldType: {}
     };
 });
 jest.mock('builder_platform_interaction/elementConfig', () => {
