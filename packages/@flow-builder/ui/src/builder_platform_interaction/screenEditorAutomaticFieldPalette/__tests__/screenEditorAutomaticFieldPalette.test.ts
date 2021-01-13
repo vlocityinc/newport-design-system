@@ -31,7 +31,7 @@ const TOTAL_SUPPORTED_FIELDS = 71;
 const NB_REQUIRED_FIELDS = 4;
 
 const SELECTORS = {
-    noFieldToShowIllustration: 'builder_platform_interaction-illustration'
+    searchInput: '.palette-search-input'
 };
 
 const getSObjectOrSObjectCollectionPicker = (screenEditorAutomaticFieldPalette) =>
@@ -43,7 +43,10 @@ const getBasePalette = (screenEditorAutomaticFieldPalette) =>
     screenEditorAutomaticFieldPalette.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LEFT_PANEL_PALETTE);
 
 const getNoItemToShowIllustration = (screenEditorAutomaticFieldPalette) =>
-    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(SELECTORS.noFieldToShowIllustration);
+    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ILLUSTRATION);
+
+const getSearchInput = (screenEditorAutomaticFieldPalette) =>
+    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(SELECTORS.searchInput);
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-automatic-field-palette', {
@@ -75,6 +78,24 @@ describe('Screen editor automatic field palette', () => {
         });
         it('should display the no item to show illustration', () => {
             expect(getNoItemToShowIllustration(element)).not.toBeNull();
+        });
+    });
+
+    describe('Event handling related to search', () => {
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
+            storeMockedData.accountSObjectVariable.guid
+        );
+        beforeEach(async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+        });
+        it('should not trim the given search term', async () => {
+            const searchTerm = 'Billing ';
+            getSearchInput(element).value = searchTerm;
+            const inputEvent = new CustomEvent('input');
+            getSearchInput(element).dispatchEvent(inputEvent);
+            await ticks(1);
+            expect(element.searchPattern).toEqual(searchTerm);
         });
     });
 

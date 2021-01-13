@@ -153,7 +153,9 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 (field.editable || field.creatable) &&
                 SUPPORTED_DATATYPES.includes(field.dataType) &&
                 field.relationshipName == null &&
-                (fieldNamePattern ? containsMatcher(field, 'label', fieldNamePattern) : true)
+                (fieldNamePattern && fieldNamePattern.trim().length > 0
+                    ? containsMatcher(field, 'label', fieldNamePattern.trim())
+                    : true)
         );
         filteredFields.forEach((myField) => {
             const guid = generateGuid();
@@ -193,7 +195,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handleSearch(event) {
         const filterValue = event.target.value;
-        this.state.searchPattern = filterValue ? filterValue.trim() : null;
+        this.state.searchPattern = filterValue ? filterValue : null;
         this.buildModel(this.state.searchPattern);
     }
 
