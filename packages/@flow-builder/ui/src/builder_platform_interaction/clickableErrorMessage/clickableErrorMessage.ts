@@ -5,6 +5,7 @@ import { errorTypeMap, errorType } from 'builder_platform_interaction/errorUtils
 import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 export default class ClickableMessage extends LightningElement {
     @api info;
@@ -67,7 +68,10 @@ export default class ClickableMessage extends LightningElement {
             if (usedByElements[i].childReferences) {
                 for (let j = 0; j < usedByElements[i].childReferences.length; j++) {
                     if (usedByElements[i].childReferences[j].childReference === element.guid) {
-                        if (usedByElements[i].fieldType && usedByElements[i].fieldType === 'RegionContainer') {
+                        if (
+                            usedByElements[i].fieldType &&
+                            usedByElements[i].fieldType === FlowScreenFieldType.RegionContainer
+                        ) {
                             parent = this.findParentElementGuid(usedByElements[i]);
                         } else {
                             parent = usedByElements[i].guid;

@@ -22,7 +22,8 @@ import {
     FLOW_TRIGGER_TYPE,
     CONNECTOR_TYPE,
     DECORATION_TYPE,
-    METADATA_KEY
+    METADATA_KEY,
+    FlowScreenFieldType
 } from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
@@ -964,7 +965,7 @@ export const getElementsWithError = (canvasDecorator: object): Array<object> => 
 
 const screenFieldsInSections = (screenFields: Metadata.ScreenField[]): Metadata.ScreenField[] => {
     return screenFields
-        .filter((field) => field.fieldType === 'RegionContainer')
+        .filter((field) => field.fieldType === FlowScreenFieldType.RegionContainer)
         .reduce((acc, field) => [...acc, ...field.fields], [])
         .reduce((acc, field) => [...acc, ...field.fields], []);
 };

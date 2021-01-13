@@ -11,7 +11,7 @@ import {
 } from '../menuDataRetrieval';
 import { numberParamCanBeAnything, stringParam, booleanParam, stageParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ENTITY_TYPE, getAllEntities } from 'builder_platform_interaction/sobjectLib';
@@ -136,7 +136,8 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         getIconNameFromDataType: jest.fn().mockImplementation(() => {
             return 'standard:email';
         }),
-        InputsOnNextNavToAssocScrnOption: actual.InputsOnNextNavToAssocScrnOption
+        InputsOnNextNavToAssocScrnOption: actual.InputsOnNextNavToAssocScrnOption,
+        isAutomaticField: actual.isAutomaticField
     };
 });
 
@@ -744,6 +745,16 @@ describe('Menu data retrieval', () => {
                 elementType: 'TimeTrigger'
             };
             const menuData = filterAndMutateMenuData([dummyTimeTrigger], undefined, {
+                showSystemVariables: false
+            });
+            expect(menuData).toHaveLength(0);
+        });
+        it('does not include automatic fields in the result', () => {
+            const dummyAutomaticField = {
+                elementType: 'SCREEN_FIELD',
+                fieldType: FlowScreenFieldType.ObjectProvided
+            };
+            const menuData = filterAndMutateMenuData([dummyAutomaticField], undefined, {
                 showSystemVariables: false
             });
             expect(menuData).toHaveLength(0);

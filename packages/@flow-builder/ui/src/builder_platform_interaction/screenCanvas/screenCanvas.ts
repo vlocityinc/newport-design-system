@@ -8,6 +8,7 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createAddScreenFieldEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
 import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
+
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
 const CANVAS_BODY_SELECTOR = '.screen-canvas-body';

@@ -44,6 +44,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
 import { canElementContain } from 'builder_platform_interaction/selectors';
+import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils';
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -230,7 +231,7 @@ export const getPicklistMenuData = (picklist) => {
  */
 export function getElementsForMenuData(
     elementConfig,
-    allowedParamTypes,
+    allowedParamTypes?,
     includeNewResource = false,
     allowGlobalConstants = false,
     disableHasNext = false,
@@ -289,7 +290,7 @@ const shouldDisableHasNext = (
  */
 export function filterAndMutateMenuData(
     menuDataElements,
-    allowedParamTypes,
+    allowedParamTypes?,
     {
         includeNewResource = false,
         allowGlobalConstants = false,
@@ -317,7 +318,8 @@ export function filterAndMutateMenuData(
                 !isSystemElement(element.elementType) &&
                 (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
                 !isSectionOrColumn(element) &&
-                !isTimeTrigger(element)
+                !isTimeTrigger(element) &&
+                !isAutomaticField(element)
         )
         .map((element) => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
