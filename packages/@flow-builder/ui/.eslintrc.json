@@ -31,7 +31,8 @@
                         "**/builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts",
                         "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
                         "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
-                        "**/builder_platform_interaction/preloadLib/loader.ts"
+                        "**/builder_platform_interaction/preloadLib/loader.ts",
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
                     ],
                     "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.ts"],
                     "@lwc/lwc/no-inner-html": [
@@ -44,6 +45,7 @@
                     "@lwc/lwc/no-async-await": [
                         "**/builder_platform_interaction/guardrails/execute.ts",
                         "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
                         "**/builder_platform_interaction/commands/baseCommand.ts",
                         "**/builder_platform_interaction/builderTestUtils/combobox.ts"
                     ],
@@ -54,15 +56,23 @@
                         "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
                         "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
                     ],
-                    "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
-                    "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
+                    "lwc-core/no-aura": [
+                        "**/builder_platform_interaction/builderUtils/builderUtils.ts",
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
+                    ],
+                    "lwc-core/no-interop-create": [
+                        "**/builder_platform_interaction/builderUtils/builderUtils.ts",
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
+                    ],
                     "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
                     "lwc-core/no-interop-render": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",
                         "**/jestSetup.ts"
                     ],
                     "lwc-core/no-dynamic-import": [
-                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts"
+                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",
+                        "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
                     ],
                     "lwc-core/no-process-env": ["**/jestSetup.js"],
 

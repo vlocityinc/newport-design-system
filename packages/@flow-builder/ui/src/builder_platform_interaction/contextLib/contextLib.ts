@@ -34,6 +34,10 @@ export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
 }
 
+export function orgHasComponentPreview() {
+    return context.access && context.access.orgHasComponentPreview;
+}
+
 /*
  * @returns true if the auto layout feature is available
  */

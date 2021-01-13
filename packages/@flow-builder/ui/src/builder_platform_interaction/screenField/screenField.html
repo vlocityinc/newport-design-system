@@ -5,13 +5,26 @@
             </builder_platform_interaction-screen-field-card>
         </div>
         <div if:false={hasErrors}>
-            <builder_platform_interaction-screen-field-card
-                if:true={isExtension}
-                icon={screenfield.type.icon}
-                title={displayName}
-                text={labels.fieldExtensionPreviewDescription}
-            >
-            </builder_platform_interaction-screen-field-card>
+            <div if:true={isExtension}>
+                <builder_platform_interaction-screen-extension-field
+                    if:true={isDisplayComponentPreview}
+                    attributes={componentInstanceAttributes}
+                    descriptor={screenfield.extensionName.value}
+                    name={screenfield.type.name}
+                    ondummypreviewmode={handleDummyModeChange}
+                    onerror={handleError}
+                >
+                </builder_platform_interaction-screen-extension-field>
+
+                <builder_platform_interaction-screen-field-card
+                    if:false={isDisplayComponentPreview}
+                    icon={screenfield.type.icon}
+                    title={displayName}
+                    text={labels.fieldExtensionPreviewDescription}
+                >
+                </builder_platform_interaction-screen-field-card>
+            </div>
+
             <builder_platform_interaction-screen-input-field
                 if:true={isInputFieldType}
                 type-name={screenfield.type.name}
@@ -22,6 +35,7 @@
                 required={isRequired}
             >
             </builder_platform_interaction-screen-input-field>
+
             <builder_platform_interaction-screen-display-text-field
                 if:true={isDisplayTextType}
                 type-name={screenfield.type.name}

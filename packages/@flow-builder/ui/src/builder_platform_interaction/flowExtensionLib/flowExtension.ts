@@ -75,6 +75,7 @@ function getListExtensionsRetriever(flowProcessType) {
                                 for (const extension of data) {
                                     extensionCache.push(
                                         readonly({
+                                            extensionType: extension.extensionType,
                                             name: extension.qualifiedApiName,
                                             fieldType: FlowScreenFieldType.ComponentInstance,
                                             genericTypes: extension.genericTypes

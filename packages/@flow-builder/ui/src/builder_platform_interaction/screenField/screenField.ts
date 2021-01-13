@@ -5,6 +5,9 @@ import { isObject, isReference } from 'builder_platform_interaction/commonUtils'
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
+import { getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
+import { orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
+
 import {
     isExtensionField,
     isNumberField,
@@ -15,6 +18,32 @@ import {
     getPlaceHolderLabel
 } from 'builder_platform_interaction/screenEditorUtils';
 
+// This list should go away once we switch to rendering standard
+// components once all required inputs are set.
+// This is needed in the meantime to prevent existing flows
+// (even those in internal test envs) from breaking.
+const stdComponentsAllowedToPreview = [
+    'flowruntime:address'
+    /* These will be enabled when we
+    'flowruntime:email',
+    'flowruntime:image',
+    'flowruntime:lookup',
+    'flowruntime:name',
+    'flowruntime:phone',
+    'flowruntime:slider',
+    'flowruntime:toggle',
+    'flowruntime:url',
+    'forceContent:fileUpload',
+    'interactiontest:flowMarkerIntfTestComponent',
+    'interactiontest:LcInAllFlows',
+    'interactiontest:lwcDynTypedScreensTestComponent',
+    'interactiontest:lwcDynTypes',
+    'interactiontest:lwcGenericLookup',
+    'interactiontest:lwcScreensTestComponent',
+    'lbpm:flowScript'
+    */
+];
+
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */
@@ -23,10 +52,11 @@ export default class ScreenField extends LightningElement {
     @api selectedItemGuid;
 
     labels = LABELS;
+    dummyMode = false;
 
     get calculatedClass() {
         let classString = '';
-        if (!this.isExtension && !this.hasErrors) {
+        if (!isExtensionField(this.screenfield.type) && !this.hasErrors) {
             classString = this.isSectionType
                 ? 'slds-p-vertical_medium'
                 : 'slds-p-vertical_x-small slds-p-horizontal_small';
@@ -40,7 +70,40 @@ export default class ScreenField extends LightningElement {
     }
 
     get isExtension() {
-        return isExtensionField(this.screenfield.type);
+        return (
+            isExtensionField(this.screenfield.type) &&
+            getCachedExtensionType(this.screenfield.extensionName.value) &&
+            getCachedExtensionType(this.screenfield.extensionName.value).extensionType
+        );
+    }
+
+    // Should we render the component in the screen canvas right now.
+    // This is really the decision based on all other factors (does the org allow
+    // for component preview, does the component itself allow for preview, are required
+    // inputs set, etc).
+    get isDisplayComponentPreview() {
+        return (
+            this.isExtension &&
+            !this.dummyMode &&
+            this.isComponontPreviewSupportedInOrg &&
+            this.isExtensionAllowedToPreview
+        );
+    }
+
+    // The contents of this check will change over time, as we allow component preview
+    // for more component types. As of 232, we allow individual components to be previewed if:
+    // 1) A standard (internally written) LWC which has been allow-listed.
+    // 2) A standard Aura component which has been allow-listed.
+    // 3) (not yet, but soon we'll need to check for required inputs being set)
+    get isExtensionAllowedToPreview() {
+        return (
+            this.screenfield.extensionName &&
+            stdComponentsAllowedToPreview.indexOf(this.screenfield.extensionName.value) > -1
+        );
+    }
+
+    get isComponontPreviewSupportedInOrg() {
+        return orgHasComponentPreview();
     }
 
     get isInputFieldType() {
@@ -109,4 +172,22 @@ export default class ScreenField extends LightningElement {
 
         return defaultValue;
     }
+
+    get componentInstanceAttributes() {
+        const availableActions = this.screenfield.allowedActions;
+        const screenHelpText = this.screenfield.screenHelpText;
+        const props = this.screenfield.localValues;
+
+        const attributes = {
+            availableActions,
+            screenHelpText,
+            ...props
+        };
+        return attributes;
+    }
+
+    handleDummyModeChange = (event) => {
+        event.stopPropagation();
+        this.dummyMode = event.detail.enableDummyMode;
+    };
 }

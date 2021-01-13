@@ -17,7 +17,28 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/contextLib', () => {
     return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
-        orgHasFlowScreenSections: jest.fn()
+        orgHasFlowScreenSections: jest.fn(),
+        orgHasComponentPreview() {
+            return true;
+        }
+    });
+});
+
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    return Object.assign({}, require('builder_platform_interaction_mocks/flowExtensionLib'), {
+        getCachedExtensionType(extensionName) {
+            const TEST_EXTENSION_TYPES = {
+                'c:fakeAuraCmp': 'aura',
+                'c:fakeLwc': 'lwc',
+                'flowruntime:lookup': 'lwc'
+            };
+            const values = {
+                extensionType: TEST_EXTENSION_TYPES.extensionName,
+                fieldType: 'ComponentInstance',
+                name: extensionName
+            };
+            return values;
+        }
     });
 });
 
@@ -26,7 +47,8 @@ const SELECTORS = {
     TEXT_AREA_FIELD: 'builder_platform_interaction-screen-textarea-field',
     DISPLAY_FIELD: 'builder_platform_interaction-screen-display-text-field',
     SCREEN_FIELD_CARD: 'builder_platform_interaction-screen-field-card',
-    SECTION_FIELD: 'builder_platform_interaction-screen-section-field'
+    SECTION_FIELD: 'builder_platform_interaction-screen-section-field',
+    EXTENSION_FIELD: 'builder_platform_interaction-screen-extension-field'
 };
 
 const emptyFieldName = '';
@@ -242,4 +264,97 @@ describe('section field', () => {
         expect(renderedSectionField.title).toBe('Section');
     });
 });
+
+describe('custom Aura field is not previewed', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName1');
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Dummy preview is shown', async () => {
+        await ticks(1);
+        const dummyComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(dummyComponentField).toBeDefined();
+        const realComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(realComponentField).toBeNull();
+    });
+});
+
+describe('custom LWC field is not previewed', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeLwc');
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Dummy preview is shown', async () => {
+        await ticks(1);
+        const dummyComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(dummyComponentField).toBeDefined();
+        const realComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(realComponentField).toBeNull();
+    });
+});
+
+describe('Standard LWC field is previewed, when on allow list', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Real component is shown in preview', async () => {
+        await ticks(1);
+        const realComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(realComponentField).toBeDefined();
+        const dummyComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(dummyComponentField).toBeNull();
+    });
+});
+
+describe('Standard LWC field is not previewed, when not on allow list', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Dummy preview is shown', async () => {
+        await ticks(1);
+        const dummyComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(dummyComponentField).toBeDefined();
+        const realComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(realComponentField).toBeNull();
+    });
+});
+
+describe('Component allowed for preview is not previewed when org perm is disabled', () => {
+    let testScreenField;
+    beforeEach(() => {
+        jest.mock('builder_platform_interaction/contextLib', () => {
+            return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+                orgHasComponentPreview() {
+                    return false;
+                }
+            });
+        });
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Dummy preview is shown', async () => {
+        await ticks(1);
+        const dummyComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(dummyComponentField).toBeDefined();
+        const realComponentField = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(realComponentField).toBeNull();
+    });
+});
+
 // TODO - add tests where default value is a reference for each field type
