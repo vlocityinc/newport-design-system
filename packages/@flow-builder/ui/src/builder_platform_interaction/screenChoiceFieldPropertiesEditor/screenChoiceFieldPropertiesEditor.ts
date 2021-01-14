@@ -7,7 +7,7 @@ import {
     createChoiceDeletedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     getFieldChoiceData,
@@ -20,8 +20,7 @@ import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEdito
 import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
 import {
     hasScreenFieldVisibilityCondition,
-    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
-    CHOICE_SCREEN_FIELDS
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
 
 const CHOICES_SECTION_NAME = 'choicesSection';
@@ -275,22 +274,22 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             return [
                 {
                     label: this.labels.fieldTypeLabelPicklist,
-                    value: CHOICE_SCREEN_FIELDS.PICKLIST
+                    value: FlowScreenFieldType.DropdownBox
                 },
                 {
                     label: this.labels.fieldTypeLabelRadioButtons,
-                    value: CHOICE_SCREEN_FIELDS.RADIO_BUTTONS
+                    value: FlowScreenFieldType.RadioButtons
                 }
             ];
         }
         return [
             {
                 label: this.labels.fieldTypeLabelMultiSelectCheckboxes,
-                value: CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP
+                value: FlowScreenFieldType.MultiSelectCheckboxes
             },
             {
                 label: this.labels.fieldTypeLabelMultiSelectPicklist,
-                value: CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST
+                value: FlowScreenFieldType.MultiSelectPicklist
             }
         ];
     }
@@ -299,15 +298,15 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         let displayTypeValue;
         if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.MULTI_SELECT) {
             if (isMultiSelectPicklistField(this.field)) {
-                displayTypeValue = CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST;
+                displayTypeValue = FlowScreenFieldType.MultiSelectPicklist;
             } else if (isMultiSelectCheckboxField(this.field)) {
-                displayTypeValue = CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP;
+                displayTypeValue = FlowScreenFieldType.MultiSelectCheckboxes;
             }
         } else if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT) {
             if (isPicklistField(this.field)) {
-                displayTypeValue = CHOICE_SCREEN_FIELDS.PICKLIST;
+                displayTypeValue = FlowScreenFieldType.DropdownBox;
             } else if (isRadioField(this.field)) {
-                displayTypeValue = CHOICE_SCREEN_FIELDS.RADIO_BUTTONS;
+                displayTypeValue = FlowScreenFieldType.RadioButtons;
             }
         }
         return displayTypeValue;

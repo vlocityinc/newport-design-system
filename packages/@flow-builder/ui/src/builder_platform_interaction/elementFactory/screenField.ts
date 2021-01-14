@@ -9,8 +9,7 @@ import {
     getColumnFieldType,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
-    getScreenFieldType,
-    CHOICE_SCREEN_FIELDS
+    getScreenFieldType
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -19,7 +18,7 @@ import { baseElement, createCondition, automaticOutputHandlingSupport } from './
 
 import { createConditionMetadataObject } from './base/baseMetadata';
 
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from './variable';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createValidationRuleObject } from './base/baseValidationInput';
@@ -339,10 +338,10 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
         Object.assign(newScreenField, createEmptyColumn(undefined));
     } else if (
         // Always add a placeholder choice for any choice based fields.
-        type.name === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS ||
-        type.name === CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP ||
-        type.name === CHOICE_SCREEN_FIELDS.PICKLIST ||
-        type.name === CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST
+        type.name === FlowScreenFieldType.RadioButtons ||
+        type.name === FlowScreenFieldType.MultiSelectCheckboxes ||
+        type.name === FlowScreenFieldType.DropdownBox ||
+        type.name === FlowScreenFieldType.MultiSelectPicklist
     ) {
         newScreenField.choiceReferences = [''];
     }

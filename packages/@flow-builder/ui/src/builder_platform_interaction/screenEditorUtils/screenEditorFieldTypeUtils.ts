@@ -14,13 +14,6 @@ const FEROV_TYPES = {
     Boolean: ['BOOLEAN']
 };
 
-export const CHOICE_SCREEN_FIELDS = {
-    PICKLIST: FlowScreenFieldType.DropdownBox,
-    RADIO_BUTTONS: FlowScreenFieldType.RadioButtons,
-    CHECKBOX_GROUP: FlowScreenFieldType.MultiSelectCheckboxes,
-    MULTI_SELECT_PICKLIST: FlowScreenFieldType.MultiSelectPicklist
-};
-
 type ScreenFieldType = {
     name: string;
     fieldType: FlowScreenFieldType;
@@ -243,7 +236,7 @@ export function getScreenFieldType(field) {
         // For this check only, just check the fieldType and ignore dataType.
         if (
             fieldType === type.fieldType &&
-            (fieldType === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS || fieldType === CHOICE_SCREEN_FIELDS.PICKLIST)
+            (fieldType === FlowScreenFieldType.RadioButtons || fieldType === FlowScreenFieldType.DropdownBox)
         ) {
             return type;
         }
@@ -329,7 +322,7 @@ export function isPasswordField(field) {
  * @returns {boolean} Indicates if specified field is a radio field
  */
 export function isRadioField(field) {
-    return field && field.fieldType === CHOICE_SCREEN_FIELDS.RADIO_BUTTONS;
+    return field && field.fieldType === FlowScreenFieldType.RadioButtons;
 }
 
 /**
@@ -337,7 +330,7 @@ export function isRadioField(field) {
  * @returns {boolean} Indicates if specified field is a multi-select checkbox field
  */
 export function isMultiSelectCheckboxField(field) {
-    return field && field.fieldType === CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP;
+    return field && field.fieldType === FlowScreenFieldType.MultiSelectCheckboxes;
 }
 
 /**
@@ -345,7 +338,7 @@ export function isMultiSelectCheckboxField(field) {
  * @returns {boolean} Indicates if specified field is a multi-select picklist field
  */
 export function isMultiSelectPicklistField(field) {
-    return field && field.fieldType === CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST;
+    return field && field.fieldType === FlowScreenFieldType.MultiSelectPicklist;
 }
 
 /**
@@ -353,7 +346,7 @@ export function isMultiSelectPicklistField(field) {
  * @returns {boolean} Indicates if specified field is a picklist field
  */
 export function isPicklistField(field) {
-    return field && field.fieldType === CHOICE_SCREEN_FIELDS.PICKLIST;
+    return field && field.fieldType === FlowScreenFieldType.DropdownBox;
 }
 
 /**

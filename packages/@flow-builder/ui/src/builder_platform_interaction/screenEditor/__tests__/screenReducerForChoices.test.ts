@@ -8,7 +8,7 @@ import { screenReducer } from '../screenReducer';
 import { createChoice } from 'builder_platform_interaction/elementFactory';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from 'builder_platform_interaction/validationRules';
-import { CHOICE_SCREEN_FIELDS } from 'builder_platform_interaction/screenEditorUtils';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
@@ -18,7 +18,7 @@ const SCREEN_NAME = 'TestScreen1';
 
 it('change choice screen field by changing the 1st choice', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -47,7 +47,7 @@ it('change choice screen field by changing the 1st choice', () => {
 
 it('change choice screen field by changing the last choice', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -76,7 +76,7 @@ it('change choice screen field by changing the last choice', () => {
 it('defaultValue is cleared when corresponding choice is changed', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField('radio1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         validation: false,
         helpText: false
@@ -112,7 +112,7 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
 it('defaultValue should not be cleared when unrelated choice is changed', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField('radio1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         validation: false,
         helpText: false
@@ -147,7 +147,7 @@ it('defaultValue should not be cleared when unrelated choice is changed', () => 
 
 it('add choice to radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -174,7 +174,7 @@ it('add choice to radio screen field', () => {
 
 it('Attempt to add choice to invalid position results in an error', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -201,7 +201,7 @@ it('Attempt to add choice to invalid position results in an error', () => {
 
 it('Delete first choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -229,7 +229,7 @@ it('Delete first choice from radio screen field', () => {
 
 it('Delete last choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -257,7 +257,7 @@ it('Delete last choice from radio screen field', () => {
 
 it('Delete choice from radio screen field when it was the defaultValue', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -282,7 +282,7 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
 
 it('Deleting choice from radio screen field when it is not the defaultValue', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         createChoices: true
     });
@@ -308,7 +308,7 @@ it('Deleting choice from radio screen field when it is not the defaultValue', ()
 it('validate all when choice based field has no choice associated with it', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField('radio1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         validation: false,
         helpText: false
@@ -336,7 +336,7 @@ it('validate all when choice based field has no choice associated with it', () =
 it('validate all when choice based field has a choice associated with it', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField('radio1', CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
         dataType: 'String',
         validation: false,
         helpText: false

@@ -8,7 +8,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
-import { CHOICE_SCREEN_FIELDS } from 'builder_platform_interaction/screenEditorUtils';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 const mockEvent = new Event('test');
@@ -70,7 +70,7 @@ const SELECTORS = {
 };
 
 const fieldName = 'field1';
-const field = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+const field = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
     dataType: 'String',
     validation: false,
     helpText: false
@@ -97,7 +97,7 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
                 dataType: 'String',
                 validation: false,
                 helpText: false
@@ -161,7 +161,7 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST, SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, FlowScreenFieldType.MultiSelectPicklist, SCREEN_NO_DEF_VALUE, {
                 validation: false,
                 helpText: false
             })
@@ -230,7 +230,7 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP, SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, FlowScreenFieldType.MultiSelectCheckboxes, SCREEN_NO_DEF_VALUE, {
                 dataType: 'Number',
                 validation: false,
                 helpText: false,
@@ -289,7 +289,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
                 dataType: 'String',
                 createChoices: true
             })
@@ -327,7 +327,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
 describe('DefaultValue options based on choice type', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
             dataType: 'String',
             createChoices: true
         });
@@ -398,7 +398,7 @@ describe('defaultValue combobox for choice based field', () => {
     beforeEach(() => {
         // Create a radio field with 3 choices, plus a placeholder, which indicates that
         // the user wants to add another choice, but hasn't set it yet.
-        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
             dataType: 'String',
             createChoices: true
         });
@@ -425,7 +425,7 @@ describe('defaultValue combobox for choice based field', () => {
 describe('screen-choice-field-properties-editor defaultValue', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
             dataType: 'String',
             createChoices: true
         });
@@ -450,7 +450,7 @@ describe('screen-choice-field-properties-editor for field that is set to require
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE, {
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
                 required: true
             })
         });
@@ -467,7 +467,7 @@ describe('screen-choice-field-properties-editor with help text', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE)
         });
     });
     it('Help text is displayed', async () => {
@@ -482,7 +482,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE)
         });
     });
     it('DataType drop down is disabled', async () => {
@@ -496,7 +496,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
 describe('screen-choice-field-properties-editor for new field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const testField = createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE);
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE);
         testField.isNewField = true;
         testField.dataType = null;
         screenChoiceFieldPropEditor = createComponentUnderTest({
@@ -569,46 +569,46 @@ describe('scale input', () => {
 describe('Screen choice visual display configuration', () => {
     it('For picklist screen field, single select and picklist should be selected in configuration', async () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.PICKLIST, SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE)
         });
         const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
         const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
             SELECTORS.DISPLAY_TYPE_COMBOBOX
         );
         expect(displayRadioGroup.value).toEqual('SingleSelect');
-        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.PICKLIST);
+        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.DropdownBox);
     });
     it('For radio buttons screen field, single select and radio buttons should be selected in configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.RADIO_BUTTONS, SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE)
         });
         const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
         const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
             SELECTORS.DISPLAY_TYPE_COMBOBOX
         );
         expect(displayRadioGroup.value).toEqual('SingleSelect');
-        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.RADIO_BUTTONS);
+        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.RadioButtons);
     });
     it('For Multi-Select Picklist screen field, multi select and multi-select picklist should be selected in configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST, SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, FlowScreenFieldType.MultiSelectPicklist, SCREEN_NO_DEF_VALUE)
         });
         const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
         const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
             SELECTORS.DISPLAY_TYPE_COMBOBOX
         );
         expect(displayRadioGroup.value).toEqual('MultiSelect');
-        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.MULTI_SELECT_PICKLIST);
+        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.MultiSelectPicklist);
     });
     it('For Checkbox Group screen field, multi select and Checkbox Group should be selected in configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP, SCREEN_NO_DEF_VALUE)
+            field: createTestScreenField(fieldName, FlowScreenFieldType.MultiSelectCheckboxes, SCREEN_NO_DEF_VALUE)
         });
         const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
         const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
             SELECTORS.DISPLAY_TYPE_COMBOBOX
         );
         expect(displayRadioGroup.value).toEqual('MultiSelect');
-        expect(displayTypeCombobox.value).toEqual(CHOICE_SCREEN_FIELDS.CHECKBOX_GROUP);
+        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
     });
 });
