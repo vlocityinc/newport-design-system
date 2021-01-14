@@ -2,7 +2,10 @@
 import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import {
+    getConfigForElementType,
+    getChildElementTypesWithOverridenProperties
+} from 'builder_platform_interaction/elementConfig';
 import {
     getFlcElementType,
     startElementDescription,
@@ -23,6 +26,22 @@ function augmentElementsMetadata(elementsMetadata) {
         ...metadata,
         type: getFlcElementType(metadata.elementType)
     }));
+
+    getChildElementTypesWithOverridenProperties().forEach((elementType) => {
+        const elementConfig = getConfigForElementType(elementType);
+        elementsMetadata.push({
+            section: null,
+            icon: elementConfig.nodeConfig.iconName,
+            iconBackgroundColor: elementConfig.nodeConfig.iconBackgroundColor,
+            label: elementConfig.labels.singular,
+            value: elementType,
+            elementType,
+            type: getFlcElementType(elementType),
+            canHaveFaultConnector: elementConfig.canHaveFaultConnector,
+            supportsMenu: true,
+            isSupported: true
+        });
+    });
 
     return elementsMetadata.concat([
         {

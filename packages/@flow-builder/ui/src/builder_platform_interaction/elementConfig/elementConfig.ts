@@ -256,7 +256,6 @@ export const elementTypeToConfigMap: {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: false,
         factory: {
             propertyEditor: createSubflow,
             pasteElement: createPastedSubflow,
@@ -1189,6 +1188,18 @@ export function getConfigForElementType(elementType?: string): UI.ElementConfig 
         elementType = ELEMENT_TYPE.DEFAULT;
     }
     return elementTypeToConfigMap[elementType];
+}
+
+/**
+ * Returns a list of child element types likes Email Alert & Apex Call that have special properties, like their own icon
+ */
+export function getChildElementTypesWithOverridenProperties(): String[] {
+    return [
+        ELEMENT_TYPE.EMAIL_ALERT,
+        ELEMENT_TYPE.APEX_CALL,
+        ELEMENT_TYPE.APEX_PLUGIN_CALL,
+        ELEMENT_TYPE.EXTERNAL_SERVICE
+    ];
 }
 
 /**
