@@ -5,34 +5,21 @@ import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_inte
 import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel, screenWithSection, decision1 as mockDecision } from 'mock/storeData';
+import {
+    flowWithAllElementsUIModel,
+    screenWithSection,
+    decision1 as mockDecision,
+    decision1Outcome1 as mockOutcome
+} from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByDevName: jest.fn((name) => {
-            const outcome = {
-                guid: 'a8368340-a386-4406-9118-02389237ad54',
-                name: 'outcome',
-                label: 'outcome',
-                elementType: 'OUTCOME',
-                dataType: 'Boolean',
-                conditionLogic: 'and',
-                conditions: [
-                    {
-                        rowIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
-                        leftHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
-                        rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
-                        rightHandSideDataType: 'reference',
-                        operator: 'EqualTo'
-                    }
-                ],
-                doesRequireRecordChangedToMeetCriteria: false
-            };
-            return name !== 'outcome'
+            return name !== mockOutcome.name
                 ? name.startsWith('ScreenWithSection_')
                     ? jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
                     : { guid: '1' }
-                : outcome;
+                : mockOutcome;
         }),
         getElementByGuid: jest.fn((guid) => {
             return guid === mockDecision.guid
@@ -68,8 +55,6 @@ const selectors = {
     link: 'a',
     li: 'li'
 };
-
-const itSkip = it.skip;
 
 describe('clickableErrorMessage', () => {
     describe('presenting link', () => {
@@ -126,7 +111,6 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            expect.assertions(2);
             const link = errorMsgComponentWithPre.shadowRoot.querySelector(selectors.link);
             const li = errorMsgComponentWithPre.shadowRoot.querySelector(selectors.li);
             expect(link.textContent).toEqual('a1(Assignment)');
@@ -143,7 +127,6 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            expect.assertions(2);
             const link = errorMsgComponentWithoutPre.shadowRoot.querySelector(selectors.link);
             const li = errorMsgComponentWithoutPre.shadowRoot.querySelector(selectors.li);
             expect(link.textContent).toEqual(errorMsgComponentWithoutPre.info.message.erroneousElementApiName);
@@ -212,7 +195,6 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            expect.assertions(2);
             const element = getElementByDevName(errorMsgComponentCanvas.info.message.erroneousElementApiName);
             const locatorIconClickedEvent = new LocatorIconClickedEvent(element.guid);
             const highlightElementPayload = { elementGuid: element.guid };
@@ -231,7 +213,6 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            expect.assertions(4);
             const element = getElementByDevName(errorMsgComponentEditor.info.message.erroneousElementApiName);
             const locatorIconClickedEvent = new LocatorIconClickedEvent(element.guid);
             const highlightElementPayload = { elementGuid: element.guid };
@@ -257,7 +238,6 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            expect.assertions(2);
             const element = getElementByDevName(errorMsgComponentResource.info.message.erroneousElementApiName);
             const editElementEvent = new EditElementEvent(element.guid);
             const editElementPayload = {
@@ -268,36 +248,31 @@ describe('clickableErrorMessage', () => {
             expect(pubSub.publish.mock.calls[0][0]).toEqual(editElementEvent.type);
             expect(pubSub.publish.mock.calls[0][1]).toEqual(editElementPayload);
         });
-        // W-8652360
-        itSkip(
-            'highlights erroneous element and open its property editor when error type is PARENT_CHILD_ERROR',
-            () => {
-                // create error message component with PARENT_CHILD_ERROR
-                const errorMsgComponentParentChild = createComponentUnderTest({
-                    info: {
-                        message: {
-                            erroneousElementApiName: 'outcome',
-                            errorCode: 'DYNAMIC_TYPE_MAPPING_MISSING',
-                            message: 'o1(outcome) - some error message'
-                        }
+        it('highlights erroneous element and open its property editor when error type is PARENT_CHILD_ERROR', () => {
+            // create error message component with PARENT_CHILD_ERROR
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: mockOutcome.name,
+                        errorCode: 'DYNAMIC_TYPE_MAPPING_MISSING',
+                        message: mockOutcome.name + '(outcome) - some error message'
                     }
-                });
-                expect.assertions(4);
-                const parent = mockDecision;
-                const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
-                const highlightElementPayload = { elementGuid: parent.guid };
-                const editElementEvent = new EditElementEvent(parent.guid);
-                const editElementPayload = {
-                    mode: editElementEvent.detail.mode,
-                    canvasElementGUID: parent.guid
-                };
-                errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
-                expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
-                expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
-                expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
-                expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
-            }
-        );
+                }
+            });
+            const parent = mockDecision;
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
+            const editElementPayload = {
+                mode: editElementEvent.detail.mode,
+                canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
         it('opens the screen when error is for Section field type', () => {
             // create error message component with PARENT_CHILD_ERROR
             const errorMsgComponentParentChild = createComponentUnderTest({
@@ -359,7 +334,6 @@ describe('clickableErrorMessage', () => {
                     }
                 }
             });
-            expect.assertions(2);
             const element = getElementByDevName(errorMsgComponentStartEl.info.message.erroneousElementApiName);
             const locatorIconClickedEvent = new LocatorIconClickedEvent(element.guid);
             const highlightElementPayload = { elementGuid: element.guid };
@@ -367,35 +341,30 @@ describe('clickableErrorMessage', () => {
             expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
             expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
         });
-        // W-8652360
-        itSkip(
-            'highlights erroneous element and open its property editor when error type is not PARENT_CHILD_ERROR but erroneous element has a parent',
-            () => {
-                // create error message component with PROPERTY_EDITOR_ERROR
-                const errorMsgComponentParentChild = createComponentUnderTest({
-                    info: {
-                        message: {
-                            erroneousElementApiName: 'outcome',
-                            errorCode: 'RULE_RIGHT_OPERAND_NULL',
-                            message: 'o1(outcome) - some error message'
-                        }
+        it('highlights erroneous element and open its property editor when error type is not PARENT_CHILD_ERROR but erroneous element has a parent', () => {
+            // create error message component with PROPERTY_EDITOR_ERROR
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: mockOutcome.name,
+                        errorCode: 'RULE_RIGHT_OPERAND_NULL',
+                        message: mockOutcome + '(outcome) - some error message'
                     }
-                });
-                expect.assertions(4);
-                const parent = mockDecision;
-                const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
-                const highlightElementPayload = { elementGuid: parent.guid };
-                const editElementEvent = new EditElementEvent(parent.guid);
-                const editElementPayload = {
-                    mode: editElementEvent.detail.mode,
-                    canvasElementGUID: parent.guid
-                };
-                errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
-                expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
-                expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
-                expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
-                expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
-            }
-        );
+                }
+            });
+            const parent = mockDecision;
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
+            const editElementPayload = {
+                mode: editElementEvent.detail.mode,
+                canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
     });
 });
