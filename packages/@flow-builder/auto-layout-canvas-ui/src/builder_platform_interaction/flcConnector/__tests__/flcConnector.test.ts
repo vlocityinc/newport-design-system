@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import FlcConnector from 'builder_platform_interaction/flcConnector';
 import { ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
+import { AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcConnectorLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
@@ -87,13 +87,17 @@ const getFaultConnectorInfo = () => {
     };
 };
 
-const createComponentUnderTest = (connectorInfo, builderContext = {}, disableAddElements = false) => {
+const createComponentUnderTest = (
+    connectorInfo,
+    canvasMode = AutoLayoutCanvasMode.DEFAULT,
+    disableAddElements = false
+) => {
     const el = createElement('builder_platform_interaction-flc-connector', {
         is: FlcConnector
     });
 
     el.connectorInfo = connectorInfo;
-    el.builderContext = builderContext;
+    el.canvasMode = canvasMode;
     el.disableAddElements = disableAddElements;
     document.body.appendChild(el);
     return el;
@@ -138,7 +142,7 @@ describe('Auto-Layout connector tests', () => {
     });
 
     it('"+" button should be hidden when in selection mode', () => {
-        const regularConnector = createComponentUnderTest(getRegularConnectorInfo(), { mode: BuilderMode.SELECTION });
+        const regularConnector = createComponentUnderTest(getRegularConnectorInfo(), AutoLayoutCanvasMode.SELECTION);
         const addElementButton = regularConnector.shadowRoot.querySelector(selectors.addElementButton);
         expect(addElementButton).toBeNull();
     });

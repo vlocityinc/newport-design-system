@@ -3,7 +3,7 @@ import { LightningElement, api } from 'lwc';
 import {
     getFlcConnectorData,
     getFlcCompoundNodeData,
-    BuilderContext
+    AutoLayoutCanvasMode
 } from 'builder_platform_interaction/flcComponentsUtils';
 import { FAULT_INDEX, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
@@ -12,7 +12,7 @@ export default class FlcFlow extends LightningElement {
     flow;
 
     @api
-    builderContext!: BuilderContext;
+    canvasMode!: AutoLayoutCanvasMode;
 
     @api
     isCanvasReady;

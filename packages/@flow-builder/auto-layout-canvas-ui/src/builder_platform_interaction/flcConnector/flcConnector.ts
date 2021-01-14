@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { classSet } from 'lightning/utils';
 import { ConnectorRenderInfo, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { getStyleFromGeometry, BuilderContext, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
+import { getStyleFromGeometry, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorLabels';
 
 /**
@@ -12,7 +12,7 @@ export default class FlcConnector extends LightningElement {
     connectorInfo!: ConnectorRenderInfo;
 
     @api
-    builderContext!: BuilderContext;
+    canvasMode!: AutoLayoutCanvasMode;
 
     @api
     disableAddElements;
@@ -26,7 +26,7 @@ export default class FlcConnector extends LightningElement {
      */
     get showAddElementButton() {
         return (
-            this.connectorInfo.addInfo && this.getBuilderMode() !== BuilderMode.SELECTION && !this.disableAddElements
+            this.connectorInfo.addInfo && this.canvasMode === AutoLayoutCanvasMode.DEFAULT && !this.disableAddElements
         );
     }
 
@@ -101,10 +101,6 @@ export default class FlcConnector extends LightningElement {
 
     get connectorLabelStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY });
-    }
-
-    getBuilderMode() {
-        return !this.builderContext ? BuilderMode.DEFAULT : this.builderContext.mode;
     }
 
     @api

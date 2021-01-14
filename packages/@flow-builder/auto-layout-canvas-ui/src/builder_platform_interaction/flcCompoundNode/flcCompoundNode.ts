@@ -2,7 +2,7 @@
 import { LightningElement, api } from 'lwc';
 
 import {
-    BuilderContext,
+    AutoLayoutCanvasMode,
     getFlcConnectorData,
     getFlcFlowData,
     getFlcNodeData
@@ -17,7 +17,7 @@ export default class FlcCompoundNode extends LightningElement {
     node;
 
     @api
-    builderContext!: BuilderContext;
+    canvasMode!: AutoLayoutCanvasMode;
 
     @api
     isCanvasReady;

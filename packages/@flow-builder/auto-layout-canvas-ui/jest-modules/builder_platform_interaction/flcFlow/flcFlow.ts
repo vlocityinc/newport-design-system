@@ -6,7 +6,7 @@ export default class FlcFlow extends LightningElement {
     flow;
 
     @api
-    builderContext;
+    canvasMode;
 
     @api
     isCanvasReady;

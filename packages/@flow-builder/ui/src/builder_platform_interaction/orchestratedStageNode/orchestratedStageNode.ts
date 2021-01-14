@@ -19,7 +19,7 @@ export default class OrchestratedStageNode extends LightningElement {
     private height?: number;
 
     @api
-    builderContext?;
+    isDefaultMode?: boolean;
 
     @api
     get node() {
@@ -59,10 +59,6 @@ export default class OrchestratedStageNode extends LightningElement {
         }
     }
 
-    getBuilderMode() {
-        return !this.builderContext ? 'default' : this.builderContext.mode;
-    }
-
     /**
      * Adding StageStep directly from canvas
      * @param event
@@ -87,7 +83,7 @@ export default class OrchestratedStageNode extends LightningElement {
         event.stopPropagation();
 
         const target: HTMLElement = event.currentTarget as HTMLElement;
-        if (this.getBuilderMode() !== 'selection') {
+        if (this.isDefaultMode) {
             this.dispatchEvent(new EditElementEvent(target && target.dataset.itemGuid));
         }
     }
@@ -102,7 +98,7 @@ export default class OrchestratedStageNode extends LightningElement {
 
         event.stopPropagation();
         const target: HTMLElement = event.currentTarget as HTMLElement;
-        if (this.getBuilderMode() !== 'selection' && target.dataset.itemGuid) {
+        if (this.isDefaultMode && target.dataset.itemGuid) {
             this.dispatchEvent(
                 new DeleteElementEvent(
                     [target.dataset.itemGuid],

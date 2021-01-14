@@ -4,7 +4,7 @@
             style={preConnector.style}
             class={preConnector.class}
             connector-info={preConnector.connectorInfo}
-            builder-context={builderContext}
+            canvas-mode={canvasMode}
             disable-add-elements={disableAddElements}
         ></builder_platform_interaction-flc-connector>
     </template>
@@ -15,7 +15,7 @@
             style={node.style}
             class={node.className}
             node={node.nodeInfo}
-            builder-context={builderContext}
+            canvas-mode={canvasMode}
             is-canvas-ready={isCanvasReady}
             disable-add-elements={disableAddElements}
         >
@@ -27,7 +27,7 @@
             data-key={faultFlow.key}
             style={faultFlow.style}
             flow={faultFlow.flowInfo}
-            builder-context={builderContext}
+            canvas-mode={canvasMode}
         ></builder_platform_interaction-flc-flow>
     </template>
 </template>

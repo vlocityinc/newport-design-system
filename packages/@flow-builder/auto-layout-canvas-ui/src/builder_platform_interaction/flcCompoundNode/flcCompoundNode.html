@@ -2,7 +2,7 @@
     <builder_platform_interaction-flc-node
         style={simpleNode.style}
         class={simpleNode.className}
-        builder-context={builderContext}
+        canvas-mode={canvasMode}
         node-info={simpleNode.nodeInfo}
         is-canvas-ready={isCanvasReady}
     ></builder_platform_interaction-flc-node>
@@ -13,7 +13,7 @@
             data-key={logicConnector.key}
             class="logic-connector"
             style={logicConnector.style}
-            builder-context={builderContext}
+            canvas-mode={canvasMode}
             connector-info={logicConnector.connectorInfo}
         ></builder_platform_interaction-flc-connector>
     </template>
@@ -22,7 +22,7 @@
         <builder_platform_interaction-flc-flow
             key={branch.key}
             style={branch.style}
-            builder-context={builderContext}
+            canvas-mode={canvasMode}
             flow={branch.flowInfo}
             disable-add-elements={disableAddElements}
         ></builder_platform_interaction-flc-flow>
@@ -32,7 +32,7 @@
         <builder_platform_interaction-flc-connector
             data-key={nextConnector.key}
             style={nextConnector.style}
-            builder-context={builderContext}
+            canvas-mode={canvasMode}
             connector-info={nextConnector.connectorInfo}
             disable-add-elements={disableAddElements}
         ></builder_platform_interaction-flc-connector>

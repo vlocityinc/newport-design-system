@@ -9,7 +9,6 @@ import {
     MoveFocusToConnectorEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
-import { BuilderContext } from 'builder_platform_interaction/flcComponentsUtils';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION, GERGE_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
@@ -49,7 +48,7 @@ export default class FlcConnectorMenu extends Menu {
     prev!: Guid;
 
     @api
-    builderContext!: BuilderContext;
+    isPasteAvailable!: boolean;
 
     /* whether the end element should be shown in the menu */
     @api
@@ -73,7 +72,7 @@ export default class FlcConnectorMenu extends Menu {
         return configureMenu(
             this.elementsMetadata,
             this.hasEndElement,
-            this.builderContext && this.builderContext.isPasteAvailable,
+            this.isPasteAvailable,
             this.canMergeEndedBranch,
             this.canAddGoto,
             this.hasGoto

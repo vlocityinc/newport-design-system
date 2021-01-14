@@ -18,7 +18,7 @@
                     class={flow.class}
                     flow={flow.flowInfo}
                     is-canvas-ready={isCanvasReady}
-                    builder-context={builderContext}
+                    canvas-mode={autoLayoutCanvasContext.mode}
                     disable-add-elements={disableAddElements}
                     onflcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
@@ -37,7 +37,7 @@
                             has-end-element={menu.hasEndElement}
                             can-add-goto={menu.isTargetEnd}
                             child-index={menu.childIndex}
-                            builder-context={builderContext}
+                            is-paste-available={autoLayoutCanvasContext.isPasteAvailable}
                             elements-metadata={menu.elementsMetadata}
                             onmergewithexistingpath={handleMergeWithExistingPath}
                             opened-with-keyboard={openedWithKeyboard}

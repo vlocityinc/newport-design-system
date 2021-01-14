@@ -38,8 +38,8 @@ import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flc
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
-    BuilderMode,
-    BuilderContext
+    AutoLayoutCanvasMode,
+    AutoLayoutCanvasContext
 } from 'builder_platform_interaction/flcComponentsUtils';
 import { getFocusPath } from './alcBuilderUtils';
 
@@ -187,10 +187,6 @@ export default class FlcBuilder extends LightningElement {
     @api
     disableDeleteElements;
 
-    get isReconnecting() {
-        return this._reconnectSourceGuid != null;
-    }
-
     @api
     set elementsMetadata(elementsMetadata: any[]) {
         this._elementsMetadata = elementsMetadata;
@@ -204,19 +200,7 @@ export default class FlcBuilder extends LightningElement {
         return this._elementsMetadata!;
     }
 
-    get builderContext(): BuilderContext {
-        const mode = this.isReconnecting
-            ? BuilderMode.RECONNECTING
-            : this.isSelectionMode
-            ? BuilderMode.SELECTION
-            : BuilderMode.DEFAULT;
-        const isPasteAvailable = this.isPasteAvailable;
-        return {
-            isPasteAvailable,
-            mode
-        };
-    }
-
+    // This will be true when we are selecting or reconnecting
     @api
     set isSelectionMode(isSelectionMode) {
         this._isSelectionMode = isSelectionMode;
@@ -235,6 +219,23 @@ export default class FlcBuilder extends LightningElement {
 
     get flowModel() {
         return this._flowModel;
+    }
+
+    get isReconnecting() {
+        return this._reconnectSourceGuid != null;
+    }
+
+    get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
+        const mode = this.isReconnecting
+            ? AutoLayoutCanvasMode.RECONNECTION
+            : this.isSelectionMode
+            ? AutoLayoutCanvasMode.SELECTION
+            : AutoLayoutCanvasMode.DEFAULT;
+        const isPasteAvailable = this.isPasteAvailable;
+        return {
+            isPasteAvailable,
+            mode
+        };
     }
 
     get showConnectorMenu() {
@@ -414,6 +415,7 @@ export default class FlcBuilder extends LightningElement {
             this.closeNodeOrConnectorMenu();
         } else {
             this._topSelectedGuid = null;
+            this._reconnectSourceGuid = null;
 
             // make all elements selectable and unselected when exiting selection mode
             if (this._flowModel != null) {

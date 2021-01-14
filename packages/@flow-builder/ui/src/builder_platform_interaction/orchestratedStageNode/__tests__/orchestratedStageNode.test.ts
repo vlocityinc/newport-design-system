@@ -9,6 +9,7 @@ const createComponentUnderTest = (node) => {
         is: OrchestratedStageNode
     });
     el.node = node;
+    el.isDefaultMode = true;
     document.body.appendChild(el);
     return el;
 };

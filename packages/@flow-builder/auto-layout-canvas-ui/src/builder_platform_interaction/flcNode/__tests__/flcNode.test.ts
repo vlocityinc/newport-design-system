@@ -4,7 +4,7 @@ import FlcNode from 'builder_platform_interaction/flcNode';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ICON_SHAPE, BuilderMode } from 'builder_platform_interaction/flcComponentsUtils';
+import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
@@ -15,7 +15,7 @@ const createComponentUnderTest = (props = {}) => {
     });
 
     el.nodeInfo = props.nodeInfo;
-    el.builderContext = props.builderContext;
+    el.canvasMode = props.canvasMode;
 
     document.body.appendChild(el);
     return el;
@@ -71,7 +71,7 @@ describe('FlcNode', () => {
         it('Should have the diamondIconWrapper when iconShape is diamond', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: decisionNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const iconWrapper = flcNodeComponent.shadowRoot.querySelector(selectors.diamondIconWrapper);
             expect(iconWrapper).not.toBeNull();
@@ -80,7 +80,7 @@ describe('FlcNode', () => {
         it('Should have the correct icon classes when iconShape is circle and background color is defined', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: startNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const startIcon = flcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon).not.toBeNull();
@@ -89,7 +89,7 @@ describe('FlcNode', () => {
         it('Should have the correct icon classes when iconShape is diamond', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: decisionNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const decisionIcon = flcNodeComponent.shadowRoot.querySelector(selectors.decisionIcon);
             expect(decisionIcon).not.toBeNull();
@@ -98,7 +98,7 @@ describe('FlcNode', () => {
         it('Should have the correct icon size (medium) when iconSize is defined in the nodeInfo', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: startNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const startIcon = flcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon.size).toBe('medium');
@@ -125,7 +125,7 @@ describe('FlcNode', () => {
         it('Does not show the selection checkbox in Base Mode', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).toBeNull();
@@ -134,7 +134,7 @@ describe('FlcNode', () => {
         it('Shows the selection checkbox in Selection Mode', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).not.toBeNull();
@@ -144,7 +144,7 @@ describe('FlcNode', () => {
             nodeInfo.metadata.type = ElementType.START;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).toBeNull();
@@ -154,7 +154,7 @@ describe('FlcNode', () => {
             nodeInfo.metadata.type = ElementType.END;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox).toBeNull();
@@ -163,7 +163,7 @@ describe('FlcNode', () => {
         it('The Selection Box should have the correct alternative text', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.alternativeText).toBe(LABELS.selectionCheckboxAltText);
@@ -172,7 +172,7 @@ describe('FlcNode', () => {
         it('The Selection Box should not be disabled when isSelectable is true', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.disabled).toBeFalsy();
@@ -182,7 +182,7 @@ describe('FlcNode', () => {
             nodeInfo.config.isSelectable = false;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.disabled).toBeTruthy();
@@ -191,7 +191,7 @@ describe('FlcNode', () => {
         it('The Selection Box should have the correct icon name and variant when not selected', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.iconName).toEqual('utility:add');
@@ -202,7 +202,7 @@ describe('FlcNode', () => {
             nodeInfo.config.isSelected = true;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.iconName).toEqual('utility:check');
@@ -212,7 +212,7 @@ describe('FlcNode', () => {
         it('Should dispatch FlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is not selected)', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const eventCallback = jest.fn();
             flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
@@ -224,7 +224,7 @@ describe('FlcNode', () => {
             nodeInfo.config.isSelected = true;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const eventCallback = jest.fn();
             flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
@@ -263,7 +263,7 @@ describe('FlcNode', () => {
         it('Should show the element type for Decision Element', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: decisionNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const decisionTextElementType = flcNodeComponent.shadowRoot.querySelector(
                 selectors.textContainerElementType
@@ -274,7 +274,7 @@ describe('FlcNode', () => {
         it('Should not show the element type for End Element', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: endNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const endTextElementType = flcNodeComponent.shadowRoot.querySelector(selectors.textContainerElementType);
             expect(endTextElementType).toBeNull();
@@ -324,7 +324,7 @@ describe('FlcNode', () => {
         it('Should show the label for Decision Element', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: decisionNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const decisionTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(decisionTextLabel.textContent).toEqual('elementType');
@@ -333,7 +333,7 @@ describe('FlcNode', () => {
         it('Should not show the label if undefined', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: noLabelNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const noLabelTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(noLabelTextLabel.textContent).toEqual('');
@@ -342,7 +342,7 @@ describe('FlcNode', () => {
         it('If start node and label is not set, use description in metadata', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: startLabelNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const startTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(startTextLabel.textContent).toEqual('start description');
@@ -391,7 +391,7 @@ describe('FlcNode', () => {
         it('Should show incoming count on gotos target if goto exists', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: decisionNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const gotoCount = flcNodeComponent.shadowRoot.querySelector(selectors.textElementGotoCount);
             expect(gotoCount.textContent).toEqual('+ 1 Incoming');
@@ -400,7 +400,7 @@ describe('FlcNode', () => {
         it('Should not show incoming count if goto does not exist', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo: noIncomingGotoNodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const gotoCount = flcNodeComponent.shadowRoot.querySelector(selectors.textElementGotoCount);
             expect(gotoCount).toBeNull();
@@ -427,7 +427,7 @@ describe('FlcNode', () => {
         it('Double clicking on Default element should dispatch edit element event', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const eventCallback = jest.fn();
             flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -441,7 +441,7 @@ describe('FlcNode', () => {
             nodeInfo.metadata.type = ElementType.START;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const eventCallback = jest.fn();
             flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -455,7 +455,7 @@ describe('FlcNode', () => {
             nodeInfo.metadata.type = ElementType.END;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.DEFAULT }
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
             });
             const eventCallback = jest.fn();
             flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -468,7 +468,7 @@ describe('FlcNode', () => {
         it('Double clicking on Default element in Selection Mode should not dispatch edit element event', () => {
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
-                builderContext: { isPasteAvailable: false, mode: BuilderMode.SELECTION }
+                canvasMode: AutoLayoutCanvasMode.SELECTION
             });
             const eventCallback = jest.fn();
             flcNodeComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
