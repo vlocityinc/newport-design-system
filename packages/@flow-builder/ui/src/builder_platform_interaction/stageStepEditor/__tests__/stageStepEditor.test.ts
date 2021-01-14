@@ -5,8 +5,10 @@ import { stageStepReducer } from '../stageStepReducer';
 import {
     ComboboxStateChangedEvent,
     DeleteConditionEvent,
+    ItemSelectedEvent,
     PropertyChangedEvent,
     UpdateConditionEvent,
+    UpdateNodeEvent,
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { mockActions } from 'mock/calloutData';
@@ -89,7 +91,8 @@ const selectors = {
     ENTRY_CRITERIA_RADIO: 'lightning-radio-group',
     ENTRY_CRITERIA_ITEM: 'builder_platform_interaction-combobox',
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
-    PARAMETER_LIST: 'builder_platform_interaction-parameter-list'
+    PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
+    ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker'
 };
 
 describe('StageStepEditor', () => {
@@ -107,6 +110,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionType'
             }
         },
+        actor: { value: 'orchestrator@salesforce.com' },
         inputParameters: mockInputParameters
     };
 
@@ -310,6 +314,50 @@ describe('StageStepEditor', () => {
                 paramList.dispatchEvent(updateEvent);
 
                 expect(stageStepReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
+            });
+        });
+
+        describe('actor selection', () => {
+            it('sets combobox config correctly', () => {
+                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
+                expect(actorSelector).toBeDefined();
+                expect(actorSelector.propertyEditorElementType).toBe('STAGE_STEP');
+                expect(actorSelector.elementParam).toEqual({ collection: false, dataType: 'String' });
+                expect(actorSelector.comboboxConfig).toEqual({
+                    allowSObjectFields: true,
+                    disabled: false,
+                    enableFieldDrilldown: true,
+                    errorMessage: undefined,
+                    fieldLevelHelp: undefined,
+                    label: 'FlowBuilderStageStepEditor.actorSelectorLabel',
+                    literalsAllowed: true,
+                    placeholder: 'FlowBuilderStageStepEditor.actorSelectorPlaceholder',
+                    required: true,
+                    type: 'String',
+                    variant: 'standard'
+                });
+                expect(actorSelector.rules).toEqual([]);
+                expect(actorSelector.errorMessage).toBe(undefined);
+                expect(actorSelector.value).toBe('orchestrator@salesforce.com');
+            });
+
+            it('node should be updated on combobox state changed', () => {
+                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
+                const comboboxEvent = new ComboboxStateChangedEvent(null, '{!$User.username}', 'Some error', false);
+                actorSelector.dispatchEvent(comboboxEvent);
+                const updateNodeEvent = new UpdateNodeEvent(nodeParams);
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, updateNodeEvent);
+            });
+
+            it('node should be updated on item selected', () => {
+                const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
+                const itemSelectedEvent = new ItemSelectedEvent({
+                    displayText: '{!$User.username}',
+                    error: 'Some error'
+                });
+                actorSelector.dispatchEvent(itemSelectedEvent);
+                const updateNodeEvent = new UpdateNodeEvent(nodeParams);
+                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, updateNodeEvent);
             });
         });
     });

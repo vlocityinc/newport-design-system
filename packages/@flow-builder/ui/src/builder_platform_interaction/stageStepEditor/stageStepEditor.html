@@ -53,7 +53,7 @@
                 ></lightning-spinner>
 
                 <builder_platform_interaction-action-selector
-                    class="slds-col slds-size_2-of-3"
+                    class="slds-col slds-size_3-of-3"
                     selected-action={selectedAction}
                     error-message={selectedActionError}
                     invocable-actions={availableActions}
@@ -88,6 +88,25 @@
                 onupdateparameteritem={handleParameterPropertyChangedEvent}
                 ondeleteparameteritem={handleParameterPropertyChangedEvent}
             ></builder_platform_interaction-parameter-list>
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="actorSelectionSection" label={labels.actorSelectionSectionLabel}>
+            <div class="slds-grid slds-grid_align-center">
+                <builder_platform_interaction-ferov-resource-picker
+                    class="slds-col slds-size_3-of-3"
+                    combobox-config={actorComboBoxConfig}
+                    property-editor-element-type={propertyEditorElementType}
+                    element-param={actorElementParam}
+                    rules={resourcePickerRules}
+                    error-message={actorErrorMessage}
+                    row-index={_actorPickerId}
+                    oncomboboxstatechanged={handleActorChanged}
+                    onitemselected={handleActorChanged}
+                    value={actorValue}
+                    is-pill-supported
+                    hide-global-constants
+                ></builder_platform_interaction-ferov-resource-picker>
+            </div>
         </lightning-accordion-section>
     </lightning-accordion>
 </template>

@@ -1,4 +1,4 @@
-import { api, LightningElement } from 'lwc';
+import { track, api, LightningElement } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
@@ -31,6 +31,9 @@ import {
 } from 'builder_platform_interaction/calloutEditorLib';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
@@ -60,6 +63,13 @@ export default class StageStepEditor extends LightningElement {
 
     displayActionSpinner = false;
 
+    actorPickerId = generateGuid();
+
+    rules = [];
+
+    @track
+    actorErrorMessage;
+
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
     mode;
@@ -70,6 +80,11 @@ export default class StageStepEditor extends LightningElement {
 
     @api
     editorParams;
+
+    constructor() {
+        super();
+        this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.STAGE_STEP);
+    }
 
     /**
      * public api function to return the node
@@ -165,7 +180,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get openSections(): string[] {
-        return ['startSection', 'itemImplementationSection', 'finishSection'];
+        return ['startSection', 'itemImplementationSection', 'actorSelectionSection', 'finishSection'];
     }
 
     get isStartCriteriaBasedOnStep(): boolean {
@@ -226,6 +241,41 @@ export default class StageStepEditor extends LightningElement {
         }
 
         return null;
+    }
+
+    get actorValue() {
+        if (this.element && this.element.actor && this.element.actor.value != null) {
+            return this.element.actor;
+        }
+        return null;
+    }
+
+    get propertyEditorElementType() {
+        return ELEMENT_TYPE.STAGE_STEP;
+    }
+
+    get actorComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.actorSelectorLabel, // Label
+            this.labels.actorSelectorPlaceholder, // Placeholder
+            this.error, // errorMessage
+            true, // literalsAllowed
+            true, // required
+            false, // disabled
+            FLOW_DATA_TYPE.STRING.value,
+            true // enableFieldDrilldown
+        );
+    }
+
+    get actorElementParam() {
+        return {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+            collection: false
+        };
+    }
+
+    get resourcePickerRules() {
+        return this.rules;
     }
 
     async connectedCallback() {
@@ -361,4 +411,17 @@ export default class StageStepEditor extends LightningElement {
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }
+
+    handleActorChanged = (event) => {
+        event.stopPropagation();
+        let newValue = event.detail.item ? event.detail.item.displayText : event.detail.displayText;
+        if (newValue === '') {
+            newValue = null;
+        }
+        const error = event.detail.item ? event.detail.item.error : event.detail.error;
+        const updateActor = new PropertyChangedEvent('actor', newValue, error);
+        this.element = stageStepReducer(this.element!, updateActor);
+        this.actorErrorMessage = error;
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
+    };
 }

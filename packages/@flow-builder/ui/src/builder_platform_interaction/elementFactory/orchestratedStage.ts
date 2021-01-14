@@ -22,6 +22,7 @@ import { createOutputParameter } from './outputParameter';
 import { createActionCall } from './actionCall';
 import { ParameterListRowItem } from './base/baseList';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 
 // TODO: should extend the same base class as other non-canvas elements
 export interface StageStep extends UI.ChildElement {
@@ -32,6 +33,7 @@ export interface StageStep extends UI.ChildElement {
     action?: InvocableAction;
     actionName?: string;
     actionType?: string;
+    actor?: ValueWithError;
     inputParameters: ParameterListRowItem[];
     outputParameters: ParameterListRowItem[];
 }

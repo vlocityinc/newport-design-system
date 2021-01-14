@@ -6,6 +6,9 @@ import startOptionBasedOnOtherStep from '@salesforce/label/FlowBuilderStageStepE
 import whenStepIsComplete from '@salesforce/label/FlowBuilderStageStepEditor.whenStepIsComplete';
 import entryCriteriaItemsPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.entryCriteriaItemsPlaceholder';
 import actionSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actionSelectorLabel';
+import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectionSectionLabel';
+import actorSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorLabel';
+import actorSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorPlaceholder';
 
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
@@ -28,5 +31,8 @@ export const LABELS = {
     emptyInputsTitle,
     emptyInputsOutputsTitle,
     thisActionHasNoInputBody,
-    thisActionHasNoInputOutputBody
+    thisActionHasNoInputOutputBody,
+    actorSelectionSectionLabel,
+    actorSelectorLabel,
+    actorSelectorPlaceholder
 };
