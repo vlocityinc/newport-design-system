@@ -1,6 +1,6 @@
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-render
 // @ts-nocheck
-import { getDefinition, createComponent, renderComponent } from 'aura';
+import { createComponent, renderComponent } from 'aura';
 import { DummyPreviewModeEvent } from 'builder_platform_interaction/events';
 
 /**
@@ -48,28 +48,24 @@ function flushRenderingQueue() {
 export class AuraComponent {
     component;
     constructor(container, descriptor, attributes, createComponentCallback) {
-        // Ensure the definition is available before creating the component
-        // The runtime controller should have already pre-fetched all definitions
-        getDefinition(descriptor, () => {
-            try {
-                createComponent(descriptor, attributes, (cmp, status) => {
-                    this.component = cmp;
-                    if (status === 'SUCCESS') {
-                        requestRender(cmp, container);
-                        if (createComponentCallback) {
-                            createComponentCallback(cmp);
-                        }
-                    } else {
-                        // If the component was not succesfully rendered, go into dummy mode.
-                        container.dispatchEvent(new DummyPreviewModeEvent(true));
+        try {
+            createComponent(descriptor, attributes, (cmp, status) => {
+                this.component = cmp;
+                if (status === 'SUCCESS') {
+                    requestRender(cmp, container);
+                    if (createComponentCallback) {
+                        createComponentCallback(cmp);
                     }
-                });
-            } catch (error) {
-                // If we get an error trying to render the component, signal that we need to
-                // use a dummy preview instead.
-                container.dispatchEvent(new DummyPreviewModeEvent(true));
-            }
-        });
+                } else {
+                    // If the component was not succesfully rendered, go into dummy mode.
+                    container.dispatchEvent(new DummyPreviewModeEvent(true));
+                }
+            });
+        } catch (error) {
+            // If we get an error trying to render the component, signal that we need to
+            // use a dummy preview instead.
+            container.dispatchEvent(new DummyPreviewModeEvent(true));
+        }
     }
 
     unrenderComponent() {

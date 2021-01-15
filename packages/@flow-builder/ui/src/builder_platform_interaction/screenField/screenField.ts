@@ -56,7 +56,7 @@ export default class ScreenField extends LightningElement {
 
     get calculatedClass() {
         let classString = '';
-        if (!isExtensionField(this.screenfield.type) && !this.hasErrors) {
+        if (!this.isExtension && !this.hasErrors) {
             classString = this.isSectionType
                 ? 'slds-p-vertical_medium'
                 : 'slds-p-vertical_x-small slds-p-horizontal_small';
@@ -70,11 +70,7 @@ export default class ScreenField extends LightningElement {
     }
 
     get isExtension() {
-        return (
-            isExtensionField(this.screenfield.type) &&
-            getCachedExtensionType(this.screenfield.extensionName.value) &&
-            getCachedExtensionType(this.screenfield.extensionName.value).extensionType
-        );
+        return isExtensionField(this.screenfield.type);
     }
 
     // Should we render the component in the screen canvas right now.
@@ -86,8 +82,13 @@ export default class ScreenField extends LightningElement {
             this.isExtension &&
             !this.dummyMode &&
             this.isComponontPreviewSupportedInOrg &&
-            this.isExtensionAllowedToPreview
+            this.isExtensionAllowedToPreview &&
+            this.isExtensionDetailAvailable
         );
+    }
+
+    get isExtensionDetailAvailable() {
+        return getCachedExtensionType(this.screenfield.type.name);
     }
 
     // The contents of this check will change over time, as we allow component preview
@@ -96,10 +97,7 @@ export default class ScreenField extends LightningElement {
     // 2) A standard Aura component which has been allow-listed.
     // 3) (not yet, but soon we'll need to check for required inputs being set)
     get isExtensionAllowedToPreview() {
-        return (
-            this.screenfield.extensionName &&
-            stdComponentsAllowedToPreview.indexOf(this.screenfield.extensionName.value) > -1
-        );
+        return this.screenfield.type && stdComponentsAllowedToPreview.indexOf(this.screenfield.type.name) > -1;
     }
 
     get isComponontPreviewSupportedInOrg() {
