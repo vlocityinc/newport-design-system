@@ -22,4 +22,7 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     disableDeleteElements;
+
+    @api
+    supportsTimeTriggers;
 }

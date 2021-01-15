@@ -13,6 +13,7 @@ import {
     hasContext
 } from 'builder_platform_interaction/flcBuilderUtils';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
 
 const LEFT_PANE_WIDTH = 320;
 
@@ -129,6 +130,9 @@ export default class FlcBuilderContainer extends LightningElement {
     disableDeleteElements;
 
     @track
+    supportsTimeTriggers = false;
+
+    @track
     flowModel = null;
 
     rootElement = null;
@@ -165,6 +169,10 @@ export default class FlcBuilderContainer extends LightningElement {
         if (this.rootElement && this.elementsMetadata) {
             this.flowModel = storeState.elements;
         }
+        const startElementMetadata = Object.values(elements).find(
+            (ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT
+        );
+        this.supportsTimeTriggers = shouldSupportTimeTriggers(startElementMetadata);
     };
 
     handleFlcBuilderClick = (event) => {

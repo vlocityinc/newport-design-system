@@ -188,10 +188,11 @@ const scheduledTriggeredStartData = {
     triggerType: 'Scheduled'
 };
 
-const createComponentUnderTest = (metaData, startData) => {
+const createComponentUnderTest = (metaData, startData, supportsTimeTriggers = false) => {
     const el = createElement('builder_platform_interaction-flc-node-start-menu', {
         is: FlcNodeStartMenu
     });
+    el.supportsTimeTriggers = supportsTimeTriggers;
     el.elementMetadata = metaData;
     el.startData = startData;
     el.guid = metaData.guid;
@@ -322,8 +323,6 @@ describe('Start Node Menu', () => {
         });
     });
 
-    // TODO: Update it as part of W-8057549
-    // ADD testing for when time triggers are added to auto layout
     describe('Record-Triggered Flow Start Menu', () => {
         let menu;
         beforeEach(() => {
@@ -358,10 +357,72 @@ describe('Start Node Menu', () => {
             expect(button).toBeDefined();
         });
 
-        it('Should not render time trigger button', () => {
+        it('Should not render time trigger button if supportsTimeTriggers is set to false', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
             const button = body.querySelector(selectors.timeTriggerButton);
             expect(button).toBeNull();
+        });
+
+        it('Should render time trigger button if supportsTimeTriggers is set to true', () => {
+            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const body = startMenu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.timeTriggerButton);
+            expect(button).not.toBeNull();
+        });
+
+        it('Focus should move correctly to the add time trigger button on arrow up from the trigger button', async () => {
+            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const body = startMenu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const callback = jest.fn();
+            timeTrigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Focus should move correctly to the add time trigger button on arrow down from the context button', async () => {
+            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const body = startMenu.shadowRoot.querySelector(selectors.body);
+            const context = body.querySelector(selectors.contextButton);
+            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const callback = jest.fn();
+            timeTrigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Focus should move correctly to the context button on arrow up from the time trigger button', async () => {
+            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const body = startMenu.shadowRoot.querySelector(selectors.body);
+            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const context = body.querySelector(selectors.contextButton);
+            const callback = jest.fn();
+            context.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            await dispatchEvent(timeTrigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Focus should move correctly to the trigger button on arrow down from the time trigger button', async () => {
+            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const body = startMenu.shadowRoot.querySelector(selectors.body);
+            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const callback = jest.fn();
+            trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            await dispatchEvent(timeTrigger, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the time trigger button should fire the CloseMenuEvent event', async () => {
+            const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
+            const body = startMenu.shadowRoot.querySelector(selectors.body);
+            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            timeTrigger.focus();
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+            expect(callback).toHaveBeenCalled();
         });
 
         it('Focus should move correctly to the context button on arrow down from the trigger button', async () => {

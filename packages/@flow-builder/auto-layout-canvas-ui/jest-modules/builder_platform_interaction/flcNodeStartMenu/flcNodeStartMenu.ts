@@ -8,4 +8,7 @@ export default class FlcNodeStartMenu extends FlcNodeMenu {
 
     @api
     startData;
+
+    @api
+    supportsTimeTriggers;
 }

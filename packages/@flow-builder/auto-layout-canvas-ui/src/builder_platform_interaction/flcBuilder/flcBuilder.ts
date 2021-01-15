@@ -188,6 +188,9 @@ export default class FlcBuilder extends LightningElement {
     disableDeleteElements;
 
     @api
+    supportsTimeTriggers;
+
+    @api
     set elementsMetadata(elementsMetadata: any[]) {
         this._elementsMetadata = elementsMetadata;
         // Used to make sure flow.info sent to flc-flow does not have stale elementsMetadata

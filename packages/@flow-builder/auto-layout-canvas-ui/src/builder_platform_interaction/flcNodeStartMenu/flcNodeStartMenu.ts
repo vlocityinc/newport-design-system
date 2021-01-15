@@ -25,10 +25,8 @@ export default class FlcNodeStartMenu extends FlcNodeMenu {
         return this.elementMetadata.hasContext;
     }
 
-    get hasTimeTrigger() {
-        // TODO: Update it as part of W-8057549
-        return false;
-    }
+    @api
+    supportsTimeTriggers;
 
     get startNode() {
         return { ...this.startData, ...{ guid: this.guid } };
