@@ -63,6 +63,10 @@ $b2b-table-border: $palette-gray-5;
 		padding: 0;
 		border: none;
 	}
+
+	.nds-b2b-table-cell-field-wrapper{
+		display: $b2b-flex-display;
+	}
 }
 
 .nds-b2b-table_sort {

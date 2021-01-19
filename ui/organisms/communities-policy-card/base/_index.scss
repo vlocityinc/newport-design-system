@@ -95,7 +95,7 @@
         }
     }
     /**
- * @summary Initializes hero for community 
+ * @summary Initializes hero for community
  *
  * @name nds-communities-menu-mobile
  * @selector .nds-communities-menu-mobile
@@ -130,7 +130,7 @@
         }
     }
     @media screen and (max-width: 30rem) {
-        .nds-communities-policy-state {
+        .nds-communities-policy-state:not(:last-of-type) {
             border-bottom: $border-width-thin solid $newport-color-grey-shaded;
         }
         .nds-communities-status-toast {

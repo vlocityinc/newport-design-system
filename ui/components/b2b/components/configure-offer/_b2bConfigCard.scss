@@ -63,7 +63,7 @@
               }
             }
             .nds-b2b-bundle-title {
-              color: $brilliant-pink;
+              color: $palette-gray-9;
             }
             @media screen and (min-width: 48rem) {
               width: 40vw;
@@ -247,6 +247,9 @@
               }
             }
           }
+        }
+        .nds-b2b-modal-cancel{
+          color: rgba(0, 68, 135, 1);
         }
       }
     }
