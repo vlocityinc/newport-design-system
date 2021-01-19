@@ -43,24 +43,6 @@
     }
 }
 
-.nds-b2b-badge {
-    padding: $spacing-xx-small $spacing-x-small;
-    border: 1px solid $biscay;
-    border-radius: $border-radius-medium;
-    font-size: $font-size-small;
-    letter-spacing: 0.0625em;
-    color: $newport-input-font-kashmiri-blue;
-    white-space: nowrap;
-  
-    & + & {
-        margin-left: $spacing-x-small;
-    }
-  
-    &:empty {
-        padding: 0;
-    }
-}
-
 .nds-b2b-cart-actions {
     @include b2b-desktop-view {
         position: absolute;
@@ -68,5 +50,8 @@
         top: 50%;
         transform: translateY(-50%);
         max-width: 20%;
+    }
+    .nds-b2b-m-left_medium {
+        margin-left: 0.4rem;
     }
 }

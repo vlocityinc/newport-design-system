@@ -8,7 +8,7 @@
     min-width: 16rem;
     @media screen and (min-width: 48rem) {
       width: auto;
-      margin: 0 2rem 1rem 0;
+      margin: 0 2rem 2rem 0;
       flex: 1;
     }
 
@@ -120,6 +120,24 @@
             left: $spacing-x-small;
           }
         }
+        .nds-dropdown{
+          position: relative;
+          max-height: 15rem;
+          overflow-y: auto;
+        }
+
+        input:focus,
+        input.nds-has-value:not(:focus):valid,
+        input[cloned='dirty'],
+        input.nds-input[cloned='dirty'],
+        input.nds-is-dirty.nds-not-empty,input.ng-dirty.ng-not-empty,
+        input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
+        input.ng-touched.ng-not-empty.td-input{
+          ~.nds-form-element__label,
+          +.nds-form-element__label {
+            top: .1rem;
+          }
+        }
       }
       .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label, .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty~.nds-form-element__label {
         top: 0rem;
@@ -141,7 +159,7 @@
         font-size: 0.8125rem;
       }
       &.nds-b2b-combobox {
-        margin-top: 2.15rem;
+        margin-top: 1rem;
         .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label label {
           color: $palette-gray-11;
           font-weight: $font-weight-regular;
