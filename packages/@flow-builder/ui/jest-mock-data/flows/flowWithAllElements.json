@@ -1416,7 +1416,7 @@
                                         "fields": [],
                                         "inputParameters": [],
                                         "isRequired": true,
-                                        "objectFieldReference": "accountSObjectVariable.AnnualRevenue",
+                                        "objectFieldReference": "accountSObjectVariable.SicDesc",
                                         "outputParameters": [],
                                         "processMetadataValues": [],
                                         "scale": 0,

@@ -446,10 +446,12 @@ describe('screenField', () => {
             });
         });
         it('converts automatic fields to UI model', () => {
-            const actualResult = getMetadataAutomaticField(
-                flowWithAllElements,
-                'screenWithAutomaticFields',
-                'accountSObjectVariable.Name'
+            const actualResult = createScreenField(
+                getMetadataAutomaticField(
+                    flowWithAllElements,
+                    'screenWithAutomaticFields',
+                    'accountSObjectVariable.Name'
+                )
             );
             expect(actualResult).toMatchObject({
                 fieldType: 'ObjectProvided',

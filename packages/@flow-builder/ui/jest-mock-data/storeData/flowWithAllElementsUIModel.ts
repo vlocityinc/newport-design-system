@@ -3390,7 +3390,7 @@ export const flowWithAllElementsUIModel = {
                 conditions: []
             },
             fields: [],
-            objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.AnnualRevenue',
+            objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.SicDesc',
             childReferences: []
         },
         '523f076c-5b60-402f-8617-d93833186fbe': {
