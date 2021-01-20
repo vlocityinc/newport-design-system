@@ -743,7 +743,6 @@ export default class Editor extends LightningElement {
 
                 if (this.properties.isAutoLayoutCanvas) {
                     if (this.canConvertToAutoLayoutCheck(true)) {
-                        this.spinners.showAutoLayoutSpinner = true;
                         this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
                     } else {
                         // @W-8249637: fallback to free form if we can't convert to auto-layout
@@ -1558,46 +1557,54 @@ export default class Editor extends LightningElement {
      * @param setupInAutoLayoutCanvas - Determines what mode to setup the Canvas in
      */
     updateCanvasMode(setupInAutoLayoutCanvas = false) {
-        // hansUnsavedChanges property should be set to true only when toggling canvas modes.
-        // It should be false when loading an existing flow. New Flow creation doesn't follow this code path.
-        let updatedHasUnsavedChangesProperty = false;
+        this.spinners.showAutoLayoutSpinner = true;
+        try {
+            // updatedHasUnsavedChangesProperty should be set to true only when toggling canvas modes.
+            // It should be false when loading an existing flow. New Flow creation doesn't follow this code path.
+            let updatedHasUnsavedChangesProperty = false;
 
-        // In case of exiting flows, isAutoLayoutCanvas has already been updated.
-        // Adding a check here to prevent unnecessary update to the store.
-        if (this.properties.isAutoLayoutCanvas !== setupInAutoLayoutCanvas) {
-            updatedHasUnsavedChangesProperty = true;
-            // Updates the isAutoLayoutCanvas property in the store
-            storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
+            // In case of exiting flows, isAutoLayoutCanvas has already been updated.
+            // Adding a check here to prevent unnecessary update to the store.
+            if (this.properties.isAutoLayoutCanvas !== setupInAutoLayoutCanvas) {
+                updatedHasUnsavedChangesProperty = true;
+                // Updates the isAutoLayoutCanvas property in the store
+                storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
+            }
+
+            const flowState = storeInstance.getCurrentState();
+
+            const autoLayoutCanvasContainer = this.template.querySelector(
+                'builder_platform_interaction-flc-builder-container'
+            );
+
+            // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
+            // Subtracting 24 (half icon width) to get to that point from the center.
+            const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
+            const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
+                ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)))
+                : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 48]));
+
+            const payload = {
+                elements,
+                canvasElements,
+                connectors,
+                updatedHasUnsavedChangesProperty
+            };
+
+            // Updates the elements, canvasElements, connectors and hasUnsavedChanges property in the store
+            storeInstance.dispatch(updateFlowOnCanvasModeToggle(payload));
+
+            // Resetting Select mode and cut/copy/paste variables
+            this._resetSelectionState();
+
+            // Clearing the Undo/Redo stack after switching modes
+            this.clearUndoRedoStack();
+
+            this.spinners.showAutoLayoutSpinner = false;
+        } catch (e) {
+            this.spinners.showAutoLayoutSpinner = false;
+            throw e;
         }
-
-        const flowState = storeInstance.getCurrentState();
-
-        const autoLayoutCanvasContainer = this.template.querySelector(
-            'builder_platform_interaction-flc-builder-container'
-        );
-
-        // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
-        // Subtracting 24 (half icon width) to get to that point from the center.
-        const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
-        const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
-            ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(deepCopy(flowState)))
-            : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 48]));
-
-        const payload = {
-            elements,
-            canvasElements,
-            connectors,
-            updatedHasUnsavedChangesProperty
-        };
-
-        // Updates the elements, canvasElements, connectors and hasUnsavedChanges property in the store
-        storeInstance.dispatch(updateFlowOnCanvasModeToggle(payload));
-
-        // Resetting Select mode and cut/copy/paste variables
-        this._resetSelectionState();
-
-        // Clearing the Undo/Redo stack after switching modes
-        this.clearUndoRedoStack();
     }
 
     /**
