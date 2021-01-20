@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import { labelFilter } from 'builder_platform_interaction/filterLib';
-import { SCREEN_EDITOR_GUIDS, setDragFieldValue } from 'builder_platform_interaction/screenEditorUtils';
+import { SCREEN_EDITOR_GUIDS, setDragFieldValue, getFieldByGuid } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
@@ -108,22 +108,14 @@ export default class ScreenPalette extends LightningElement {
 }
 
 /**
- * Given a guid, looks up all the fields in palette and figures out which field type
+ * Given a guid, looks up all the fields in the given sections and figures out which field type
  * it corresponds to.
- * @param {array} types - the field types to check
+ * @param {array} sections - the parent sections containing field types to check
  * @param {string} guid - the guid to check against
  * @returns {string} Corresponding field type name
  */
-function getFieldTypeNameByGuid(types, guid) {
-    for (let i = 0; i < types.length; i++) {
-        const category = types[i];
-        for (const fieldType of category._children) {
-            if (fieldType.guid === guid) {
-                return fieldType.fieldTypeName;
-            }
-        }
-    }
-    throw new Error('Unable to find field type by guid');
+function getFieldTypeNameByGuid(sections, guid) {
+    return getFieldByGuid(sections, guid).fieldTypeName;
 }
 
 function createSection(label, items) {

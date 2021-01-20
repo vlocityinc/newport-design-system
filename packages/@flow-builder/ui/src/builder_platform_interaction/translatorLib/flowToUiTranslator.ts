@@ -102,7 +102,7 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0)
     for (let j = 0; j < elementGuids.length; j++) {
         const element = elements[elementGuids[j]];
 
-        if (!isSystemElement(element.elementType)) {
+        if (element.name && !isSystemElement(element.elementType)) {
             const devname = element.name.toLowerCase();
             nameToGuid[devname] = element.guid;
         }

@@ -7226,6 +7226,834 @@
     },
     {
       "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"String",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"String",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Date",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Date",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"DateTime",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"DateTime",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Number",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Number",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Currency",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Currency",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Boolean",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Boolean",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"SObject",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"SObject",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Picklist",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Picklist",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+        "RECORDDELETE",
+        "RECORDQUERY",
+        "RECORDUPDATE",
+        "SCREEN",
+        "START"
+      ],
+      "includeElems":[
+
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"MustBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Multipicklist",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
+        "value":"IsChanged"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "START"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "dataType":"Multipicklist",
+        "mustBeElements":[
+
+        ],
+        "null":false,
+        "paramType":"Data"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
         "value":"WasSet"
       },
       "excludeElems":[

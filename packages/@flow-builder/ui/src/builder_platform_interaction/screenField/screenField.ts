@@ -17,6 +17,7 @@ import {
     isChoiceField,
     getPlaceHolderLabel
 } from 'builder_platform_interaction/screenEditorUtils';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 // This list should go away once we switch to rendering standard
 // components once all required inputs are set.
@@ -81,7 +82,7 @@ export default class ScreenField extends LightningElement {
         return (
             this.isExtension &&
             !this.dummyMode &&
-            this.isComponontPreviewSupportedInOrg &&
+            this.isComponentPreviewSupportedInOrg &&
             this.isExtensionAllowedToPreview &&
             this.isExtensionDetailAvailable
         );
@@ -100,12 +101,22 @@ export default class ScreenField extends LightningElement {
         return this.screenfield.type && stdComponentsAllowedToPreview.indexOf(this.screenfield.type.name) > -1;
     }
 
-    get isComponontPreviewSupportedInOrg() {
+    get isComponentPreviewSupportedInOrg() {
         return orgHasComponentPreview();
     }
 
     get isInputFieldType() {
-        return this.screenfield.type.fieldType === 'InputField' || this.screenfield.type.fieldType === 'PasswordField';
+        return (
+            this.screenfield.type.fieldType === FlowScreenFieldType.InputField ||
+            this.screenfield.type.fieldType === FlowScreenFieldType.PasswordField
+        );
+    }
+
+    /**
+     * Whether or not the current field is an ObjectProvided one, aka "automatic field"
+     */
+    get isObjectProvided() {
+        return this.screenfield.type.fieldType === FlowScreenFieldType.ObjectProvided;
     }
 
     get isChoiceField() {
@@ -117,7 +128,7 @@ export default class ScreenField extends LightningElement {
     }
 
     get isDisplayTextType() {
-        return this.screenfield.type.fieldType === 'DisplayText';
+        return this.screenfield.type.fieldType === FlowScreenFieldType.DisplayText;
     }
 
     get isSectionType() {

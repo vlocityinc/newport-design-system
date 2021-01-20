@@ -365,14 +365,16 @@ const getScreenAdditionalRules = (): Rules => {
 export const fieldsToGuidNames = (fields: Field[] = []): GuidName[] => {
     let guidNameTuples: GuidName[] = [];
 
-    fields.forEach((field) => {
-        guidNameTuples.push({ guid: field.guid, name: field.name.value });
+    fields
+        .filter((field) => field.name != null)
+        .forEach((field) => {
+            guidNameTuples.push({ guid: field.guid, name: field.name.value });
 
-        const nestedFields = field.fields;
-        if (nestedFields) {
-            guidNameTuples = [...guidNameTuples, ...fieldsToGuidNames(nestedFields)];
-        }
-    });
+            const nestedFields = field.fields;
+            if (nestedFields) {
+                guidNameTuples = [...guidNameTuples, ...fieldsToGuidNames(nestedFields)];
+            }
+        });
 
     return guidNameTuples;
 };

@@ -1,16 +1,16 @@
-// @ts-nocheck
-export const SCREEN_EDITOR_EVENT_NAME = {
-    SCREEN_FIELD_ADDED: 'addscreenfield',
-    SCREEN_ELEMENT_DELETED: 'screenelementdeleted',
-    SCREEN_ELEMENT_MOVED: 'screenelementmoved',
-    SCREEN_ELEMENT_DESELECTED: 'screenelementdeselected',
-    SCREEN_ELEMENT_SELECTED: 'screenelementselected',
-    SCREEN_NODE_SELECTED: 'screennodeselected',
-    CHOICE_ADDED: 'choiceadded',
-    CHOICE_CHANGED: 'choicechanged',
-    CHOICE_DELETED: 'choicedeleted',
-    COLUMN_WIDTH_CHANGED: 'columnwidthchanged'
-};
+export enum SCREEN_EDITOR_EVENT_NAME {
+    AUTOMATIC_SCREEN_FIELD_ADDED = 'addautomaticscreenfield',
+    SCREEN_FIELD_ADDED = 'addscreenfield',
+    SCREEN_ELEMENT_DELETED = 'screenelementdeleted',
+    SCREEN_ELEMENT_MOVED = 'screenelementmoved',
+    SCREEN_ELEMENT_DESELECTED = 'screenelementdeselected',
+    SCREEN_ELEMENT_SELECTED = 'screenelementselected',
+    SCREEN_NODE_SELECTED = 'screennodeselected',
+    CHOICE_ADDED = 'choiceadded',
+    CHOICE_CHANGED = 'choicechanged',
+    CHOICE_DELETED = 'choicedeleted',
+    COLUMN_WIDTH_CHANGED = 'columnwidthchanged'
+}
 
 /**
  * Factory function for screen events
@@ -54,12 +54,32 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
  * @param {function} callback - Function called after the add occurs successfully
  * @returns {event} The event
  */
-export function createAddScreenFieldEvent(typeName, position, parentGuid = null, callback) {
+export function createAddScreenFieldEvent(typeName: string, position?: number, parentGuid?: string) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, {
         typeName,
         position,
-        parentGuid,
-        callback
+        parentGuid
+    });
+}
+
+/**
+ * Creates an event to be fired when the user adds an automatic field to the canvas
+ * @param {string} typeName - The type of the field to add
+ * @param {number} position - The position in the canvas
+ * @param {string} parentGuid - The guid of the new field's parent, i.e. a column
+ * @returns {event} The event
+ */
+export function createAddAutomaticScreenFieldEvent(
+    typeName: string,
+    objectFieldReference: string,
+    position?: number,
+    parentGuid?: string
+) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, {
+        typeName,
+        objectFieldReference,
+        position,
+        parentGuid
     });
 }
 

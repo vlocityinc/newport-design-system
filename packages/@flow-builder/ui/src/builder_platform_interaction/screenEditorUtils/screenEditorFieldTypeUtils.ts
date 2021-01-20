@@ -14,33 +14,47 @@ const FEROV_TYPES = {
     Boolean: ['BOOLEAN']
 };
 
-type ScreenFieldType = {
-    name: string;
-    fieldType: FlowScreenFieldType;
-    dataType?: string;
-    label?: string;
-    icon?: string;
-    category?: string;
-    type?: string;
-    description?: string;
+export enum ScreenFieldName {
+    TextBox = 'TextBox',
+    LargeTextArea = 'LargeTextArea',
+    Number = 'Number',
+    Currency = 'Currency',
+    Date = 'Date',
+    DateTime = 'DateTime',
+    Pword = 'Pword',
+    Checkbox = 'Checkbox',
+    RadioButtons = 'RadioButtons',
+    DropdownBox = 'DropdownBox',
+    MultiSelectCheckboxes = 'MultiSelectCheckboxes',
+    MultiSelectPicklist = 'MultiSelectPicklist',
+    DisplayText = 'DisplayText',
+    Section = 'Section'
+}
+
+const DATA_TYPE_TO_FIELD_NAME = {
+    [FLOW_DATA_TYPE.STRING.value]: ScreenFieldName.TextBox,
+    [FLOW_DATA_TYPE.NUMBER.value]: ScreenFieldName.Number,
+    [FLOW_DATA_TYPE.DATE_TIME.value]: ScreenFieldName.DateTime,
+    [FLOW_DATA_TYPE.DATE.value]: ScreenFieldName.Date,
+    [FLOW_DATA_TYPE.BOOLEAN.value]: ScreenFieldName.Checkbox
 };
 
 /**
  * All screen field types
  * Property type represents the actual data type of the field (used as part of ferov handling)
  */
-const screenFieldTypes: ScreenFieldType[] = [
+const screenFieldTypes: UI.ScreenFieldType[] = [
     {
-        name: 'TextBox',
+        name: ScreenFieldName.TextBox,
         fieldType: FlowScreenFieldType.InputField,
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         label: LABELS.fieldTypeLabelTextField,
         icon: 'standard:textbox',
         category: LABELS.fieldCategoryInput,
         type: 'String'
     },
     {
-        name: 'LargeTextArea',
+        name: ScreenFieldName.LargeTextArea,
         fieldType: FlowScreenFieldType.LargeTextArea,
         dataType: undefined,
         label: LABELS.fieldTypeLabelLargeTextArea,
@@ -49,43 +63,43 @@ const screenFieldTypes: ScreenFieldType[] = [
         type: 'String'
     },
     {
-        name: 'Number',
+        name: ScreenFieldName.Number,
         fieldType: FlowScreenFieldType.InputField,
-        dataType: 'Number',
+        dataType: FLOW_DATA_TYPE.NUMBER.value,
         label: LABELS.fieldTypeLabelNumber,
         icon: 'standard:number_input',
         category: LABELS.fieldCategoryInput,
         type: 'Number'
     },
     {
-        name: 'Currency',
+        name: ScreenFieldName.Currency,
         fieldType: FlowScreenFieldType.InputField,
-        dataType: 'Currency',
+        dataType: FLOW_DATA_TYPE.CURRENCY.value,
         label: LABELS.fieldTypeLabelCurrency,
         icon: 'standard:currency_input',
         category: LABELS.fieldCategoryInput,
         type: 'Number'
     },
     {
-        name: 'Date',
+        name: ScreenFieldName.Date,
         fieldType: FlowScreenFieldType.InputField,
-        dataType: 'Date',
+        dataType: FLOW_DATA_TYPE.DATE.value,
         label: LABELS.fieldTypeLabelDate,
         icon: 'standard:date_input',
         category: LABELS.fieldCategoryInput,
         type: 'Date'
     },
     {
-        name: 'DateTime',
+        name: ScreenFieldName.DateTime,
         fieldType: FlowScreenFieldType.InputField,
-        dataType: 'DateTime',
+        dataType: FLOW_DATA_TYPE.DATE_TIME.value,
         label: LABELS.fieldTypeLabelDateTime,
         icon: 'standard:date_time',
         category: LABELS.fieldCategoryInput,
         type: 'DateTime'
     },
     {
-        name: 'Password',
+        name: ScreenFieldName.Pword,
         fieldType: FlowScreenFieldType.PasswordField,
         dataType: undefined,
         label: LABELS.fieldTypeLabelPassword,
@@ -94,9 +108,9 @@ const screenFieldTypes: ScreenFieldType[] = [
         type: 'String'
     },
     {
-        name: 'Checkbox',
+        name: ScreenFieldName.Checkbox,
         fieldType: FlowScreenFieldType.InputField,
-        dataType: 'Boolean',
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'standard:task2',
         category: LABELS.fieldCategoryInput,
@@ -104,7 +118,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         // TODO: Set dataType to null once W-5795949 is completed
-        name: 'RadioButtons',
+        name: ScreenFieldName.RadioButtons,
         fieldType: FlowScreenFieldType.RadioButtons,
         dataType: 'String',
         label: LABELS.fieldTypeLabelRadioButtons,
@@ -113,7 +127,7 @@ const screenFieldTypes: ScreenFieldType[] = [
     },
     {
         // TODO: Set dataType to null once W-5795949 is completed
-        name: 'DropdownBox',
+        name: ScreenFieldName.DropdownBox,
         fieldType: FlowScreenFieldType.DropdownBox,
         dataType: 'String',
         label: LABELS.fieldTypeLabelPicklist,
@@ -121,7 +135,7 @@ const screenFieldTypes: ScreenFieldType[] = [
         category: LABELS.fieldCategoryInput
     },
     {
-        name: 'MultiSelectCheckboxes',
+        name: ScreenFieldName.MultiSelectCheckboxes,
         fieldType: FlowScreenFieldType.MultiSelectCheckboxes,
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
@@ -129,7 +143,7 @@ const screenFieldTypes: ScreenFieldType[] = [
         category: LABELS.fieldCategoryInput
     },
     {
-        name: 'MultiSelectPicklist',
+        name: ScreenFieldName.MultiSelectPicklist,
         fieldType: FlowScreenFieldType.MultiSelectPicklist,
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
@@ -137,7 +151,7 @@ const screenFieldTypes: ScreenFieldType[] = [
         category: LABELS.fieldCategoryInput
     },
     {
-        name: 'DisplayText',
+        name: ScreenFieldName.DisplayText,
         fieldType: FlowScreenFieldType.DisplayText,
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayText,
@@ -146,16 +160,12 @@ const screenFieldTypes: ScreenFieldType[] = [
         type: 'String'
     },
     {
-        name: 'Section',
+        name: ScreenFieldName.Section,
         fieldType: FlowScreenFieldType.RegionContainer,
         label: LABELS.fieldTypeLabelSection,
         icon: 'standard:section',
         category: LABELS.fieldCategoryDisplay,
         description: LABELS.fieldTypeDescriptionSection
-    },
-    {
-        name: 'ObjectProvided',
-        fieldType: FlowScreenFieldType.ObjectProvided
     }
 ];
 
@@ -266,7 +276,7 @@ export function isDisplayTextField(field) {
  * @returns {boolean} Indicates if specified field is a date field
  */
 export function isDateField(field) {
-    return field && field.dataType === 'Date';
+    return field && field.dataType === FLOW_DATA_TYPE.DATE.value;
 }
 
 /**
@@ -274,7 +284,7 @@ export function isDateField(field) {
  * @returns {boolean} Indicates if specified field is a dateTime field
  */
 export function isDateTimeField(field) {
-    return field && field.dataType === 'DateTime';
+    return field && field.dataType === FLOW_DATA_TYPE.DATE_TIME.value;
 }
 
 /**
@@ -290,7 +300,7 @@ export function isInputField(field) {
  * @returns {*|boolean} Indicates if the specified field is a number field.
  */
 export function isNumberField(field) {
-    return field && field.dataType === 'Number';
+    return field && field.dataType === FLOW_DATA_TYPE.NUMBER.value;
 }
 
 /**
@@ -298,7 +308,7 @@ export function isNumberField(field) {
  * @returns {*|boolean} Indicates if the specified field is a currency field.
  */
 export function isCurrencyField(field) {
-    return field && field.dataType === 'Currency';
+    return field && field.dataType === FLOW_DATA_TYPE.CURRENCY.value;
 }
 
 /**
@@ -538,6 +548,10 @@ export function getFieldChoiceData(field) {
 export function hasScreenFieldVisibilityCondition(field) {
     return field.visibilityRule && field.visibilityRule.conditions.length > 0;
 }
+
+export const getFieldNameByDatatype = (datatype: string): ScreenFieldName => {
+    return DATA_TYPE_TO_FIELD_NAME[datatype];
+};
 
 function getErrorFromChoice(choice) {
     if (choice && choice.choiceReference) {

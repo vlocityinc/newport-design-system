@@ -35,7 +35,14 @@
                 required={isRequired}
             >
             </builder_platform_interaction-screen-input-field>
-
+            <builder_platform_interaction-screen-input-field
+                if:true={isObjectProvided}
+                type-name={screenfield.type.name}
+                help-text={screenfield.helpText}
+                required={isRequired}
+                label={fieldText}
+            >
+            </builder_platform_interaction-screen-input-field>
             <builder_platform_interaction-screen-display-text-field
                 if:true={isDisplayTextType}
                 type-name={screenfield.type.name}

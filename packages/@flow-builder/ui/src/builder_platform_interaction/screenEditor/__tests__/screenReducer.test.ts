@@ -5,7 +5,6 @@ import {
     createTestScreenWithFields
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenReducer } from '../screenReducer';
-
 import {
     PropertyChangedEvent,
     createScreenElementMovedEvent,
@@ -13,12 +12,14 @@ import {
     createAddScreenFieldEvent,
     UseAdvancedOptionsSelectionChangedEvent,
     DynamicTypeMappingChangeEvent,
-    createColumnWidthChangedEvent
+    createColumnWidthChangedEvent,
+    createAddAutomaticScreenFieldEvent
 } from 'builder_platform_interaction/events';
-
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { flowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
+import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 const section1Guid = 'section1';
 const column1Guid = 'column1';
@@ -46,6 +47,9 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
         })
     });
 });
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
+}));
 
 const SCREEN_NAME = 'TestScreen1';
 
@@ -381,6 +385,21 @@ describe('screen reducer', () => {
             expect(column2.inputParameters[0].value).toEqual('1');
             expect(column3.inputParameters[0].value).toEqual('7');
         });
+        describe('add automatic fields', () => {
+            it('adds a child automatic field', () => {
+                const objectFieldReference = accountSObjectVariable.name + '.Name';
+                const event = createAddAutomaticScreenFieldEvent(
+                    ScreenFieldName.TextBox,
+                    objectFieldReference,
+                    0,
+                    screen.fields[1].fields[1].guid
+                );
+                const newScreen = screenReducer(screen, event);
+                const childFields = newScreen.fields[1].fields[1].fields;
+                expect(childFields).toHaveLength(3);
+                expect(childFields[0].type.name).toBe(ScreenFieldName.TextBox);
+            });
+        });
     });
 
     it('deletes a screen field', () => {
@@ -525,6 +544,27 @@ describe('screen reducer', () => {
                 }
             ]);
             expect(getCachedExtension).toBeCalledWith(field.extensionName);
+        });
+    });
+    describe('add automatic field', () => {
+        it('inserts a field at a specific position', () => {
+            const screen = createTestScreen(SCREEN_NAME, null);
+            const objectFieldReference = accountSObjectVariable.name + '.Name';
+            const event = createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference, 5);
+            const newScreen = screenReducer(screen, event);
+            expect(newScreen.fields).toHaveLength(screen.fields.length + 1);
+            expect(newScreen.fields[5].type.name).toBe(ScreenFieldName.TextBox);
+            expect(newScreen.fields[5].objectFieldReference).toBe(objectFieldReference);
+        });
+
+        it('adds a field at the end of the array', () => {
+            const screen = createTestScreen(SCREEN_NAME, null);
+            const objectFieldReference = accountSObjectVariable.name + '.Name';
+            const event = createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference);
+            const newScreen = screenReducer(screen, event);
+            expect(newScreen.fields).toHaveLength(screen.fields.length + 1);
+            expect(newScreen.fields[newScreen.fields.length - 1].type.name).toBe(ScreenFieldName.TextBox);
+            expect(newScreen.fields[newScreen.fields.length - 1].objectFieldReference).toBe(objectFieldReference);
         });
     });
 });

@@ -5,28 +5,35 @@ import {
     createScreenFieldWithFieldReferences,
     createScreenFieldMetadataObject,
     createEmptyScreenFieldOfType,
-    createScreenFieldWithFields
+    createScreenFieldWithFields,
+    createAutomaticField
 } from '../screenField';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
-import { getColumnFieldType, InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getColumnFieldType,
+    InputsOnNextNavToAssocScrnOption,
+    ScreenFieldName
+} from 'builder_platform_interaction/screenEditorUtils';
 import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { accountVariableNameAutomaticField, accountSObjectVariable } from 'mock/storeData';
+import {
+    accountVariableNameAutomaticField,
+    accountSObjectVariable,
+    flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
+} from 'mock/storeData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataAutomaticField } from 'mock/flows/mock-flow';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 expect.extend(deepFindMatchers);
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 const componentScreenFieldEmailStoreGuid = '0ca39158-9508-4b85-b1b6-28564b4ba4c0';
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
-        orgHasFlowScreenSections: jest.fn()
-    });
-});
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     return {
@@ -40,7 +47,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         return {
             properties: {
                 processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
-            }
+            },
+            elements: mockFlowWithAllElementsUIModel.elements
         };
     };
     const getStore = function () {
@@ -55,10 +63,18 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
+    const { getElementByGuidFromState, getElementByDevNameFromState } = jest.requireActual(
+        'builder_platform_interaction/storeUtils'
+    );
     return {
-        getElementByGuid: jest.fn()
+        getElementByGuid: jest.fn(),
+        getElementByGuidFromState,
+        getElementByDevNameFromState
     };
 });
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
+}));
 
 const mockGetScreenFieldTypeByNameEmail = () => ({
     category: 'Input',
@@ -76,12 +92,9 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
     return Object.assign({}, actual, {
         getScreenFieldTypeByName: jest.fn().mockImplementation((name) => {
-            if (name === 'Column') {
-                return actual.getScreenFieldTypeByName(name);
-            } else if (name === 'Section') {
-                return actual.getScreenFieldTypeByName(name);
-            }
-            return mockGetScreenFieldTypeByNameEmail();
+            return name === 'flowruntime:email'
+                ? mockGetScreenFieldTypeByNameEmail()
+                : actual.getScreenFieldTypeByName(name);
         })
     });
 });
@@ -503,6 +516,44 @@ describe('screenField', () => {
                 expect(result.fields[0].name).toEqual('myEmail');
             });
         });
+        describe('automatic field', () => {
+            const result = createScreenFieldWithFields(accountVariableNameAutomaticField);
+
+            expect(result).toMatchObject({
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                fieldType: FlowScreenFieldType.ObjectProvided,
+                objectFieldReference: `${accountSObjectVariable.guid}.Name`,
+                type: {
+                    name: ScreenFieldName.TextBox,
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    icon: 'standard:textbox',
+                    category: 'FlowBuilderScreenEditor.fieldCategoryInput',
+                    type: 'String',
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    label: 'Account Name'
+                }
+            });
+        });
+    });
+    describe('createAutomaticField', () => {
+        it('creates automatic field from a typeName and an objectFieldReference', () => {
+            const result = createAutomaticField(ScreenFieldName.TextBox, `${accountSObjectVariable.name}.Name`);
+
+            expect(result).toMatchObject({
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                fieldType: FlowScreenFieldType.ObjectProvided,
+                objectFieldReference: `${accountSObjectVariable.name}.Name`,
+                type: {
+                    name: ScreenFieldName.TextBox,
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    icon: 'standard:textbox',
+                    category: 'FlowBuilderScreenEditor.fieldCategoryInput',
+                    type: 'String',
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    label: 'Account Name'
+                }
+            });
+        });
     });
     describe('screenField UI model => flow metadata', () => {
         describe('LC screen field with automatic output handling support', () => {
@@ -591,13 +642,29 @@ describe('screenField', () => {
                 );
             });
         });
-        it('converts automatic field to flow metadata', () => {
-            const actualResult = createScreenFieldMetadataObject(accountVariableNameAutomaticField);
-            expect(actualResult).toMatchObject({
-                fieldType: 'ObjectProvided',
-                objectFieldReference: `${accountSObjectVariable.guid}.Name`
+        describe('automatic fields', () => {
+            it('converts automatic field to flow metadata', () => {
+                const actualResult = createScreenFieldMetadataObject(accountVariableNameAutomaticField);
+                expect(actualResult).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference: `${accountSObjectVariable.guid}.Name`,
+                    dataType: undefined,
+                    name: undefined,
+                    fieldText: undefined
+                });
             });
-            expect(actualResult.dataType).toBeUndefined();
+            it('converts created automatic field to flow metadata', () => {
+                const actualResult = createScreenFieldMetadataObject(
+                    createAutomaticField(ScreenFieldName.TextBox, `${accountSObjectVariable.name}.Name`)
+                );
+                expect(actualResult).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference: `${accountSObjectVariable.name}.Name`,
+                    dataType: undefined,
+                    name: undefined,
+                    fieldText: undefined
+                });
+            });
         });
     });
 });

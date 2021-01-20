@@ -7,7 +7,8 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
-import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { getFieldByGuid, getFieldNameByDatatype } from 'builder_platform_interaction/screenEditorUtils';
 
 const SUPPORTED_DATATYPES = [
     FLOW_DATA_TYPE.STRING.value,
@@ -27,22 +28,6 @@ type FieldDefinition = {
     relationshipName: string;
 };
 
-type PaletteItem = {
-    description: string;
-    guid: string;
-    iconName: string;
-    iconBackgroundColor: string;
-    label: string;
-    fieldTypeName: string;
-    elementType: string;
-};
-
-type PaletteSection = {
-    guid: string;
-    label: string;
-    _children: PaletteItem[];
-};
-
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
     showNoItemsIllustration = true;
@@ -52,7 +37,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     labels = LABELS;
 
     @track
-    state = {
+    state: { recordVariable: string; entityFields: any; searchPattern: string | null } = {
         recordVariable: '',
         entityFields: {},
         searchPattern: null
@@ -148,32 +133,32 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
             _children: []
         };
         const fieldsArray: Array<FieldDefinition> = Object.values(this.state.entityFields);
-        const filteredFields: Array<FieldDefinition> = fieldsArray.filter(
-            (field) =>
-                (field.editable || field.creatable) &&
-                SUPPORTED_DATATYPES.includes(field.dataType) &&
-                field.relationshipName == null &&
-                (fieldNamePattern && fieldNamePattern.trim().length > 0
-                    ? containsMatcher(field, 'label', fieldNamePattern.trim())
-                    : true)
-        );
-        filteredFields.forEach((myField) => {
-            const guid = generateGuid();
-            const item: PaletteItem = {
-                description: myField.label,
-                elementType: guid,
-                guid,
-                iconName: getDataTypeIcons(myField.dataType, 'utility'),
-                iconBackgroundColor: '',
-                label: myField.label,
-                fieldTypeName: ''
-            };
-            if (myField.required) {
-                requiredSection._children.push(item);
-            } else {
-                optionalSection._children.push(item);
-            }
-        });
+        fieldsArray
+            .filter(
+                (field) =>
+                    (field.editable || field.creatable) &&
+                    SUPPORTED_DATATYPES.includes(field.dataType) &&
+                    field.relationshipName == null &&
+                    (fieldNamePattern && fieldNamePattern.trim().length > 0
+                        ? containsMatcher(field, 'label', fieldNamePattern.trim())
+                        : true)
+            )
+            .forEach((field) => {
+                const guid = generateGuid();
+                const item: PaletteItem = {
+                    apiName: field.apiName,
+                    description: field.label,
+                    guid,
+                    iconName: getDataTypeIcons(field.dataType, 'utility'),
+                    label: field.label,
+                    fieldTypeName: getFieldNameByDatatype(field.dataType)
+                };
+                if (field.required) {
+                    requiredSection._children.push(item);
+                } else {
+                    optionalSection._children.push(item);
+                }
+            });
         this.pushSectionIfNotEmpty(sections, requiredSection);
         this.pushSectionIfNotEmpty(sections, optionalSection);
         this.paletteData = sections;
@@ -207,4 +192,17 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         this.state.recordVariable = '';
         this.showNoItemsIllustration = true;
     }
+
+    handlePaletteItemClickedEvent = (event) => {
+        // Clicking on an element from the palette should add the corresponding field
+        // type to the canvas.
+        const fieldGuid = event.detail.guid;
+        const field = getFieldByGuid(this.paletteData, fieldGuid);
+        const addFieldEvent = createAddAutomaticScreenFieldEvent(
+            field.fieldTypeName,
+            this.recordVariable + '.' + field.apiName
+        );
+        this.dispatchEvent(addFieldEvent);
+        event.stopPropagation();
+    };
 }

@@ -10,6 +10,11 @@ declare namespace UI {
     type ElementSubtype = string;
     type Datatype = string;
 
+    type Ferov = {
+        elementReference: string | null;
+        value: string | null;
+    };
+
     interface CanvasElementConfig {
         isHighlighted: boolean;
         isSelectable: boolean;
@@ -82,10 +87,51 @@ declare namespace UI {
         label?: string;
     }
 
+    type ScreenFieldType = {
+        name: string;
+        fieldType: string;
+        dataType?: string;
+        label?: string;
+        icon?: string;
+        category?: string;
+        type?: string;
+        description?: string;
+    };
+
+    type ValidationRule = {
+        formulaExpression: string | null;
+        errorMessage: string | null;
+    };
+
+    type VisibilityRule = {
+        conditionLogic: string;
+        conditions: Array<Condition>;
+    };
+
     interface ScreenField extends Element {
         storeOutputAutomatically?: boolean;
         extensionName?: string;
         inputsOnNextNavToAssocScrn?: 'UseStoredValues' | 'ResetValues';
+        fieldText?: string;
+        fieldType: string;
+        helpText: string;
+        defaultValue?: Ferov;
+        defaultValueDataType?: Datatype;
+        defaultValueIndex: Guid;
+        defaultSelectedChoiceReference?: string;
+        dataTypeMappings?: [];
+        objectFieldReference?: string;
+        type: ScreenFieldType;
+        scale?: number;
+        validationRule?: ValidationRule;
+        inputParameters: [];
+        isRequired: boolean;
+        isVisible: boolean;
+        outputParameters: [];
+        choiceReferences: [];
+        visibilityRule: VisibilityRule;
+        dynamicTypeMappings: [];
+        fields: ScreenField[];
     }
 
     interface BaseCanvasElementWithFilter extends BaseCanvasElement {

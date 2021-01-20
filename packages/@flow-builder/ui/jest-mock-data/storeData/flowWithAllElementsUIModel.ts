@@ -3151,10 +3151,6 @@ export const flowWithAllElementsUIModel = {
             isRequired: true,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'ObjectProvided',
-                fieldType: 'ObjectProvided'
-            },
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
                 conditionLogic: 'no_conditions',
@@ -3182,10 +3178,6 @@ export const flowWithAllElementsUIModel = {
             isRequired: true,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'ObjectProvided',
-                fieldType: 'ObjectProvided'
-            },
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
                 conditionLogic: 'no_conditions',
@@ -3213,10 +3205,6 @@ export const flowWithAllElementsUIModel = {
             isRequired: true,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'ObjectProvided',
-                fieldType: 'ObjectProvided'
-            },
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
                 conditionLogic: 'no_conditions',
@@ -3274,10 +3262,6 @@ export const flowWithAllElementsUIModel = {
             isRequired: true,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'ObjectProvided',
-                fieldType: 'ObjectProvided'
-            },
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
                 conditionLogic: 'no_conditions',
@@ -3305,10 +3289,6 @@ export const flowWithAllElementsUIModel = {
             isRequired: true,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'ObjectProvided',
-                fieldType: 'ObjectProvided'
-            },
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
                 conditionLogic: 'no_conditions',
@@ -3380,10 +3360,6 @@ export const flowWithAllElementsUIModel = {
             isRequired: true,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'ObjectProvided',
-                fieldType: 'ObjectProvided'
-            },
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
                 conditionLogic: 'no_conditions',

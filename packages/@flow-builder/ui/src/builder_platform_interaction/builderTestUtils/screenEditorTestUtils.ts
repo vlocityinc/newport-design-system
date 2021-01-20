@@ -1,6 +1,10 @@
 // @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getScreenFieldTypeByName, getLocalExtensionFieldType } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getScreenFieldTypeByName,
+    getLocalExtensionFieldType,
+    ScreenFieldName
+} from 'builder_platform_interaction/screenEditorUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -72,7 +76,7 @@ const SCREEN_FIELD_TYPES_AND_VALUES = {
     Currency: { numberValue: 17 },
     Number: { numberValue: 13 },
     Date: { dateValue: '2018-02-22T00:00:00.000+0000' },
-    Password: { stringValue: 'Default value for Password' },
+    Pword: { stringValue: 'Default value for Password' },
     Checkbox: { booleanValue: true },
     DisplayText: null
 };
@@ -236,13 +240,17 @@ export function createTestScreenField(name, type, value, config = {}, storeOutpu
         } else if (typeof value !== 'object') {
             // Set the string version of the default value, and the internal version, which
             // specifies what type of field value this is.
-            if (type === 'TextBox' || type === 'LargeTextArea' || type === 'Password') {
+            if (
+                type === ScreenFieldName.TextBox ||
+                type === ScreenFieldName.LargeTextArea ||
+                type === ScreenFieldName.Pword
+            ) {
                 field.defaultValue = { stringValue: value };
-            } else if (type === 'Number' || type === 'Currency') {
+            } else if (type === ScreenFieldName.Number || type === ScreenFieldName.Currency) {
                 field.defaultValue = { numberValue: value };
-            } else if (type === 'Date' || type === 'DateTime') {
+            } else if (type === ScreenFieldName.Date || type === ScreenFieldName.DateTime) {
                 field.defaultValue = { dateValue: value };
-            } else if (type === 'Checkbox') {
+            } else if (type === ScreenFieldName.Checkbox) {
                 field.defaultValue = { booleanValue: value };
             }
         } else {

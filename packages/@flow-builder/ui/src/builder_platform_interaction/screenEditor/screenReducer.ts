@@ -29,7 +29,7 @@ import {
     DynamicTypeMappingChangeEvent,
     InputsOnNextNavToAssocScrnChangeEvent
 } from 'builder_platform_interaction/events';
-import { createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
+import { createAutomaticField, createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createChoiceReference } from 'builder_platform_interaction/elementFactory';
@@ -278,6 +278,21 @@ const resizeColumnsForSection = (screen, sectionGuid) => {
     return updateField(screen, parent, { fields });
 };
 
+const hydrateWithErrorsBlacklistScreenNonHydratableProperties = (element) => {
+    hydrateWithErrors(element, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
+};
+
+const getParentFromEventOrScreen = (screen, event) => {
+    const parent = event.parentGuid ? screen.getFieldByGUID(event.parentGuid) : screen;
+    return parent ? parent : screen;
+};
+
+const createFieldAndHydrate = (createFunction: Function) => {
+    const field = createFunction();
+    hydrateWithErrorsBlacklistScreenNonHydratableProperties(field);
+    return field;
+};
+
 /**
  * Adds screen fields to a screen.
  * @param {object} screen - The screen
@@ -285,8 +300,7 @@ const resizeColumnsForSection = (screen, sectionGuid) => {
  * @returns {object} - A new screen with the changes applied
  */
 const addScreenField = (screen, event) => {
-    let parent = event.parentGuid ? screen.getFieldByGUID(event.parentGuid) : screen;
-    parent = parent ? parent : screen;
+    const parent = getParentFromEventOrScreen(screen, event);
 
     // If it is a section, figure out how many sections the screen already has (needed to generate a
     // a unique API name)
@@ -299,9 +313,7 @@ const addScreenField = (screen, event) => {
         }
     }
 
-    const field = createEmptyScreenFieldOfType(event.typeName, sectionCount);
-
-    hydrateWithErrors(field, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
+    const field = createFieldAndHydrate(() => createEmptyScreenFieldOfType(event.typeName, sectionCount));
 
     // Add properties, specific to flow extensions
     if (isExtensionField(field)) {
@@ -316,6 +328,15 @@ const addScreenField = (screen, event) => {
     }
 
     return updatedScreen;
+};
+
+const addAutomaticScreenField = (screen, event) => {
+    return insertScreenFieldIntoParent(
+        screen,
+        getParentFromEventOrScreen(screen, event),
+        createFieldAndHydrate(() => createAutomaticField(event.detail.typeName, event.detail.objectFieldReference)),
+        event.position
+    );
 };
 
 /**
@@ -657,7 +678,7 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
             rowIndex: generateGuid()
         };
 
-        hydrateWithErrors(param, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
+        hydrateWithErrorsBlacklistScreenNonHydratableProperties(param);
         const updatedParams = insertItem(field[parametersPropName], param, field[parametersPropName].length);
         field = set(field, parametersPropName, updatedParams);
     }
@@ -889,6 +910,9 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED:
             return addScreenField(state, event);
+
+        case SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED:
+            return addAutomaticScreenField(state, event);
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED:
             return deleteScreenField(state, event);

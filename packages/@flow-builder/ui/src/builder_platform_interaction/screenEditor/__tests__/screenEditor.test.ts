@@ -20,7 +20,8 @@ import {
     createScreenNodeSelectedEvent,
     createScreenElementDeselectedEvent,
     DynamicTypeMappingChangeEvent,
-    createColumnWidthChangedEvent
+    createColumnWidthChangedEvent,
+    createAddAutomaticScreenFieldEvent
 } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -29,6 +30,10 @@ import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_intera
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import { flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -40,7 +45,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             properties: {
                 processType: 'flow'
             },
-            elements: {}
+            elements: mockFlowWithAllElementsUIModel.elements
         };
     }
     function getStore() {
@@ -57,7 +62,11 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
 const EDITOR_CONTAINER_ELEMENT_NAME = 'builder_platform_interaction-screen-properties-editor-container';
 
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
+}));
 jest.mock('builder_platform_interaction/storeUtils', () => {
+    const storeUtils = jest.requireActual('builder_platform_interaction/storeUtils');
     return {
         getElementByGuid(guid) {
             const values = guid.split('--');
@@ -82,7 +91,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getProcessType: jest.fn(),
         getTriggerType: jest.fn(),
         shouldUseAutoLayoutCanvas: jest.fn(),
-        getStartElementFromState: jest.fn()
+        getStartElementFromState: jest.fn(),
+        getElementByGuidFromState: storeUtils.getElementByGuidFromState,
+        getElementByDevNameFromState: storeUtils.getElementByDevNameFromState
     };
 });
 
@@ -140,35 +151,42 @@ describe('Event handling on editor', () => {
     });
 
     describe('add screen field', () => {
-        it('event adds a field to the end by default', async () => {
+        test('event adds a field to the end by default', async () => {
             // handleAddScreenField (onaddscreenfield)
-            await ticks(1);
-
             const length = screenEditorElement.node.fields.length;
             const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency'));
+            await ticks(1);
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
             expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
         });
-        it('event can add a field to a specific position', async () => {
-            await ticks(1);
+        test('event can add a field to a specific position', async () => {
             const length = screenEditorElement.node.fields.length;
             const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
+            await ticks(1);
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
             expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
         });
-        it('field calls the provided callback ', async () => {
+    });
+    describe('add automatic screen field', () => {
+        test('event adds a field to the end by default', async () => {
+            const objectFieldReference = accountSObjectVariable.name + '.Name';
+            const length = screenEditorElement.node.fields.length;
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference));
             await ticks(1);
-
-            const callback = jest.fn();
-
-            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-            editor.dispatchEvent(
-                createAddScreenFieldEvent('Column', 0, screenEditorElement.node.fields[0].guid, callback)
-            );
-
-            expect(callback).toHaveBeenCalled();
+            expect(screenEditorElement.node.fields).toHaveLength(length + 1);
+            expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
+        });
+        test('event can add a field to a specific position', async () => {
+            const objectFieldReference = accountSObjectVariable.name + '.Name';
+            const length = screenEditorElement.node.fields.length;
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference, 0));
+            await ticks(1);
+            expect(screenEditorElement.node.fields).toHaveLength(length + 1);
+            expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
         });
     });
 

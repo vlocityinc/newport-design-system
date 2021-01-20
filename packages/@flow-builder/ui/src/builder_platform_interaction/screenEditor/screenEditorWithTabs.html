@@ -24,7 +24,9 @@
                 </lightning-tab>
                 <lightning-tab label={labels.fieldsTabLabel} class="slds-p-around_none">
                     <div class="slds-scrollable_y tab-container-automaticfields">
-                        <builder_platform_interaction-screen-editor-automatic-field-palette>
+                        <builder_platform_interaction-screen-editor-automatic-field-palette
+                            onaddautomaticscreenfield={handleAddScreenField}
+                        >
                         </builder_platform_interaction-screen-editor-automatic-field-palette>
                     </div>
                 </lightning-tab>
@@ -38,6 +40,7 @@
                 flow-label={flowLabel}
                 selected-item-guid={selectedItemGuid}
                 onaddscreenfield={handleAddScreenField}
+                onaddautomaticscreenfield={handleAddScreenField}
                 onscreenelementselected={handleSelectScreenElement}
                 onscreenelementmoved={handleMoveScreenElement}
                 onscreenelementdeselected={handleDeselectScreenElement}
@@ -46,11 +49,13 @@
             </builder_platform_interaction-screen-editor-canvas>
         </div>
         <!-- this div is the container for the properties right panel-->
+
         <div class="slds-grow-none slds-shrink-none">
             <builder_platform_interaction-screen-properties-editor-container
                 node={selectedNode}
                 mode={mode}
                 onaddscreenfield={handleAddScreenFieldToContainerFieldWithParentFocus}
+                onaddautomaticscreenfield={handleAddScreenFieldToContainerFieldWithParentFocus}
                 onscreennodeselected={handleDeselectScreenElement}
                 onpropertychanged={handleScreenStateChanged}
                 onvalidationrulechanged={handleScreenStateChanged}

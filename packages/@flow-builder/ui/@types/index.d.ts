@@ -51,3 +51,18 @@ type ComboboxConfig = {
      */
     fieldLevelHelp?: string;
 };
+
+type PaletteItem = {
+    apiName: string;
+    description: string;
+    guid: string;
+    iconName: string;
+    label: string;
+    fieldTypeName: string;
+};
+
+type PaletteSection = {
+    guid: string;
+    label: string;
+    _children: PaletteItem[];
+};

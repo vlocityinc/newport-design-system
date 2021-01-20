@@ -514,7 +514,8 @@ export const elementTypeToConfigMap: {
             'defaultValueGuid',
             'valueDataType',
             'valueGuid',
-            'inputsOnNextNavToAssocScrn'
+            'inputsOnNextNavToAssocScrn',
+            'objectFieldReference'
         ],
         bodyCssClass: 'slds-scrollable_none',
         factory: {

@@ -63,7 +63,7 @@ export function booleanAttributeValue(element, property) {
     return false;
 }
 
-export function booleanValue(value, name) {
+export function booleanValue(value, name?) {
     return value && (value === 'true' || value === true || value === name);
 }
 
@@ -112,4 +112,21 @@ export function setDragFieldValue(field) {
  */
 export function getDragFieldValue() {
     return this._draggedFieldValue;
+}
+
+/**
+ * Gets a field with the given guid in the given sections
+ * @param {Array<PaletteSection>} sections parent sections containing fields
+ * @param {string} guid guid we're looking for
+ * @returns {PaletteItem} the corresponding field if found
+ * @throws if field not found
+ */
+export function getFieldByGuid(sections: Array<PaletteSection>, guid: string): PaletteItem {
+    const field = ([] as Array<PaletteItem>)
+        .concat(...sections.map(({ _children }) => _children))
+        .find((field) => field.guid === guid);
+    if (field) {
+        return field;
+    }
+    throw new Error('Unable to find field type by guid');
 }

@@ -1,11 +1,11 @@
-// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import {
     getVariant,
     booleanValue,
     getPlaceHolderLabel,
     CURRENCY_FORMAT,
-    LIGHTNING_INPUT_TYPES
+    LIGHTNING_INPUT_TYPES,
+    ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
@@ -31,23 +31,23 @@ export default class ScreenInputField extends LightningElement {
 
     set typeName(newValue) {
         this._typeName = newValue;
-        if (newValue === 'Currency') {
+        if (newValue === ScreenFieldName.Currency) {
             this.formatter = CURRENCY_FORMAT;
         }
 
         // This type is used for the lightning input component used to render this field.
-        if (newValue === 'TextBox') {
+        if (newValue === ScreenFieldName.TextBox) {
             // if no type is specified, you get a simple text box, as that is the default.
             this.type = null;
-        } else if (newValue === 'Number' || newValue === 'Currency') {
+        } else if (newValue === ScreenFieldName.Number || newValue === ScreenFieldName.Currency) {
             this.type = LIGHTNING_INPUT_TYPES.NUMBER;
-        } else if (newValue === 'Date') {
+        } else if (newValue === ScreenFieldName.Date) {
             this.type = LIGHTNING_INPUT_TYPES.DATE;
-        } else if (newValue === 'DateTime') {
+        } else if (newValue === ScreenFieldName.DateTime) {
             this.type = LIGHTNING_INPUT_TYPES.DATE_TIME;
-        } else if (newValue === 'Checkbox') {
+        } else if (newValue === ScreenFieldName.Checkbox) {
             this.type = LIGHTNING_INPUT_TYPES.CHECKBOX;
-        } else if (newValue === 'Password') {
+        } else if (newValue === ScreenFieldName.Pword) {
             this.type = LIGHTNING_INPUT_TYPES.PASSWORD;
         } else {
             throw new Error('Unknown typeName: ' + newValue);

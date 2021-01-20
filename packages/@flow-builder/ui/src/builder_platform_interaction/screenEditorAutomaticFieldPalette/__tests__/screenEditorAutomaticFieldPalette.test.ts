@@ -1,16 +1,16 @@
 import ScreenEditorAutomaticFieldPalette from '../screenEditorAutomaticFieldPalette';
 import { createElement } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-
+import { flowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
+import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import {
     SObjectReferenceChangedEvent,
     RemoveMergeFieldPillEvent,
-    EditMergeFieldPillEvent
+    EditMergeFieldPillEvent,
+    PaletteItemClickedEvent,
+    SCREEN_EDITOR_EVENT_NAME
 } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import * as storeMockedData from 'mock/storeData';
-
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
@@ -29,6 +29,11 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 
 const TOTAL_SUPPORTED_FIELDS = 71;
 const NB_REQUIRED_FIELDS = 4;
+const STRING_FIELD_NAME = 'Name';
+const NUMBER_FIELD_NAME = 'BillingLongitude';
+const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
+const DATE_FIELD_NAME = 'PersonBirthdate';
+const DATE_TIME_FIELD_NAME = 'CustomDateTime__c';
 
 const SELECTORS = {
     searchInput: '.palette-search-input'
@@ -57,7 +62,7 @@ function createComponentForTest() {
 }
 
 describe('Screen editor automatic field palette', () => {
-    let element;
+    let element: ScreenEditorAutomaticFieldPalette;
     beforeEach(() => {
         element = createComponentForTest();
     });
@@ -82,9 +87,7 @@ describe('Screen editor automatic field palette', () => {
     });
 
     describe('Event handling related to search', () => {
-        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
-            storeMockedData.accountSObjectVariable.guid
-        );
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
         beforeEach(async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
@@ -100,13 +103,11 @@ describe('Screen editor automatic field palette', () => {
     });
 
     describe('SObjectReferenceChangedEvent event handling', () => {
-        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
-            storeMockedData.accountSObjectVariable.guid
-        );
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
         test('SObjectReferenceChangedEvent should update properly recordVariable', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.recordVariable).toEqual(storeMockedData.accountSObjectVariable.guid);
+            expect(element.recordVariable).toEqual(accountSObjectVariable.guid);
         });
         test('SObjectReferenceChangedEvent should load properly entityFields', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -185,9 +186,7 @@ describe('Screen editor automatic field palette', () => {
     });
 
     describe('Pills related event handling', () => {
-        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
-            storeMockedData.accountSObjectVariable.guid
-        );
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
         const removeMergeFieldPillEvent = new RemoveMergeFieldPillEvent({});
         const editMergeFieldPillEvent = new EditMergeFieldPillEvent({});
         beforeEach(async () => {
@@ -219,5 +218,54 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getBasePalette(element)).not.toBeNull();
         });
+    });
+    describe('Palette click event handling', () => {
+        let allItemsFromPaletteData: Array<PaletteItem>, eventCallback, palette;
+        const getPaletteItemByFieldApiName = (fieldApiName: string): PaletteItem | undefined => {
+            return allItemsFromPaletteData.find((paletteItem) => paletteItem.apiName === fieldApiName);
+        };
+        const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (
+            typeName: string,
+            objectFieldReference: string
+        ) => {
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail.typeName).toEqual(typeName);
+            expect(eventCallback.mock.calls[0][0].detail.objectFieldReference).toEqual(objectFieldReference);
+        };
+
+        beforeEach(async () => {
+            const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks();
+            palette = getBasePalette(element);
+            allItemsFromPaletteData = [];
+            allItemsFromPaletteData.push(...element.paletteData[0]._children);
+            allItemsFromPaletteData.push(...element.paletteData[1]._children);
+            eventCallback = jest.fn();
+            element.addEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+        });
+        afterEach(() => {
+            element.removeEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+        });
+        it.each`
+            fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference
+            ${STRING_FIELD_NAME}    | ${ScreenFieldName.TextBox}  | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
+            ${BOOLEAN_FIELD_NAME}   | ${ScreenFieldName.Checkbox} | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
+            ${NUMBER_FIELD_NAME}    | ${ScreenFieldName.Number}   | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
+            ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
+            ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+        `(
+            'PaletteItemClickedEvent on $fieldName should dispatch AddAutomaticScreenField event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
+            async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
+                const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
+                const event = new PaletteItemClickedEvent(null, paletteItem.guid);
+                palette.dispatchEvent(event);
+                await ticks();
+                expectEventCallbackCalledWithTypeNameAndObjectFieldReference(
+                    expectedEventFieldTypeName,
+                    expectedObjectFieldReference
+                );
+            }
+        );
     });
 });

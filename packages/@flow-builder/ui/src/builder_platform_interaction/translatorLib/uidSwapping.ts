@@ -217,7 +217,7 @@ export const swapDevNamesToGuids = (elementUidMap, flow) => {
     const nameToUid = {};
     for (let i = 0; i < elementGuids.length; i++) {
         const element = elementUidMap[elementGuids[i]];
-        if (!isSystemElement(element.elementType)) {
+        if (element.name && !isSystemElement(element.elementType)) {
             const devname = element.name.toLowerCase();
             nameToUid[devname] = element.guid;
         }

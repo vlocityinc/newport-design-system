@@ -11,12 +11,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
-        orgHasFlowBuilderAutomaticFields: jest.fn().mockReturnValue(true),
-        isTestMode: jest.fn().mockReturnValue(false)
-    };
-});
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
@@ -73,13 +68,14 @@ const screenFieldTypes = [
 ];
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
+    const { SCREEN_EDITOR_GUIDS, InputsOnNextNavToAssocScrnOption, getFieldByGuid } = jest.requireActual(
+        'builder_platform_interaction/screenEditorUtils'
+    );
     return {
-        SCREEN_EDITOR_GUIDS: {
-            PALETTE: 'palette'
-        },
-        setDragFieldValue: () => {},
-        InputsOnNextNavToAssocScrnOption: actual.InputsOnNextNavToAssocScrnOption
+        SCREEN_EDITOR_GUIDS,
+        setDragFieldValue: jest.fn(),
+        InputsOnNextNavToAssocScrnOption,
+        getFieldByGuid
     };
 });
 

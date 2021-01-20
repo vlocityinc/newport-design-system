@@ -9,7 +9,10 @@ import {
     getColumnFieldType,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
-    getScreenFieldType
+    getScreenFieldType,
+    InputsOnNextNavToAssocScrnOption,
+    getFieldNameByDatatype,
+    ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -22,24 +25,22 @@ import { CONDITION_LOGIC, ELEMENT_TYPE, FlowScreenFieldType } from 'builder_plat
 import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from './variable';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createValidationRuleObject } from './base/baseValidationInput';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
-import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
+import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
 const INPUTS_ON_NEXT_NAV_TO_ASSOC_SCRN_DEFAULT = InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES;
 
-export function createScreenField(screenField = {}, isNewField = false) {
+export function createScreenField(screenField: UI.ScreenField, isNewField = false) {
     const newScreenField = baseElement(screenField);
     const {
         fieldText = '',
         extensionName,
         fieldType,
         helpText = '',
-        defaultValue,
-        defaultValueDataType,
         defaultValueIndex = generateGuid(),
         defaultSelectedChoiceReference,
         dataTypeMappings,
@@ -47,16 +48,11 @@ export function createScreenField(screenField = {}, isNewField = false) {
     } = screenField;
     let {
         type,
-        scale,
-        validationRule,
         inputParameters,
         dataType,
         isRequired = false,
-        isVisible,
         outputParameters,
-        choiceReferences = [],
         storeOutputAutomatically,
-        visibilityRule,
         dynamicTypeMappings,
         fields,
         inputsOnNextNavToAssocScrn
@@ -88,7 +84,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         }
     } else {
         storeOutputAutomatically = undefined;
-        type = getScreenFieldType(screenField);
+        type = screenField.fieldType === FlowScreenFieldType.ObjectProvided ? type : getScreenFieldType(screenField);
         if (isRegionField(screenField)) {
             inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
         } else {
@@ -97,8 +93,65 @@ export function createScreenField(screenField = {}, isNewField = false) {
         outputParameters = [];
         dynamicTypeMappings = undefined;
     }
+    if (dynamicTypeMappings) {
+        dynamicTypeMappings = { dynamicTypeMappings };
+    }
 
-    let defaultValueFerovObject;
+    const {
+        defaultValue,
+        defaultValueDataType,
+        scale,
+        validationRule,
+        isVisible,
+        choiceReferences,
+        visibilityRule,
+        defaultValueFerovObject
+    } = getCommonValues(screenField);
+
+    return Object.assign(
+        newScreenField,
+        {
+            choiceReferences,
+            dataType,
+            defaultValue,
+            defaultValueDataType,
+            defaultValueIndex,
+            validationRule,
+            extensionName,
+            fieldType,
+            fieldText,
+            helpText,
+            inputParameters,
+            isVisible,
+            isNewField,
+            isRequired,
+            outputParameters,
+            scale,
+            type,
+            elementType,
+            defaultSelectedChoiceReference,
+            visibilityRule,
+            fields,
+            inputsOnNextNavToAssocScrn,
+            objectFieldReference
+        },
+        dynamicTypeMappings,
+        storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
+        objectFieldReference !== undefined ? { objectFieldReference } : {},
+        defaultValueFerovObject
+    );
+}
+
+const getCommonValues = (screenField) => {
+    const { defaultValue, defaultValueDataType } = screenField;
+    let {
+        scale,
+        validationRule,
+        isVisible,
+        choiceReferences = [],
+        visibilityRule,
+        defaultValueFerovObject
+    } = screenField;
     if (!defaultValueDataType) {
         // Temporary workaround to fix W-5886211
         // Todo: Update this as a part of W-5902485
@@ -136,42 +189,17 @@ export function createScreenField(screenField = {}, isNewField = false) {
         isVisible = screenField.isVisible;
     }
 
-    if (dynamicTypeMappings) {
-        dynamicTypeMappings = { dynamicTypeMappings };
-    }
-
-    return Object.assign(
-        newScreenField,
-        {
-            choiceReferences,
-            dataType,
-            defaultValue,
-            defaultValueDataType,
-            defaultValueIndex,
-            validationRule,
-            extensionName,
-            fieldType,
-            fieldText,
-            helpText,
-            inputParameters,
-            isVisible,
-            isNewField,
-            isRequired,
-            outputParameters,
-            scale,
-            type,
-            elementType,
-            defaultSelectedChoiceReference,
-            visibilityRule,
-            fields,
-            inputsOnNextNavToAssocScrn
-        },
-        dynamicTypeMappings,
-        storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
-        objectFieldReference !== undefined ? { objectFieldReference } : {},
+    return {
+        defaultValue,
+        defaultValueDataType,
+        scale,
+        validationRule,
+        isVisible,
+        choiceReferences,
+        visibilityRule,
         defaultValueFerovObject
-    );
-}
+    };
+};
 
 /**
  * Recursively created duplicated screen fields using the childReferences property on a given screen field
@@ -236,7 +264,10 @@ export function createDuplicateNestedScreenFields(screenField = {}, cutOrCopiedC
  * @return {screenFieldInPropertyEditor} Screen field in the shape expected by a property editor
  */
 export function createScreenFieldWithFields(screenField = {}) {
-    const newScreenField = createScreenField(screenField);
+    const newScreenField =
+        screenField.fieldType === FlowScreenFieldType.ObjectProvided
+            ? createAutomaticFieldFromScreenField(screenField)
+            : createScreenField(screenField);
     const { childReferences = [] } = screenField;
     const newChildFields = [];
 
@@ -296,6 +327,76 @@ export function createScreenFieldWithFieldReferences(screenField = {}, screenFie
     return newScreenField;
 }
 
+const createAutomaticFieldType = (typeName: string, entityField) => {
+    const { name, dataType, icon, category, type } = getScreenFieldTypeByName(typeName);
+    const fieldType = FlowScreenFieldType.ObjectProvided;
+    const label = entityField.label;
+    return { name, dataType, icon, category, type, fieldType, label };
+};
+
+const createAutomaticFieldFromScreenField = (
+    screenField: UI.ScreenField,
+    { elements }: UI.Elements = Store.getStore().getCurrentState()
+): UI.ScreenField => {
+    const { objectFieldReference } = screenField;
+    return createAutomaticFieldFromEntityField(
+        getVariableOrField(objectFieldReference, elements),
+        objectFieldReference
+    );
+};
+
+const createAutomaticFieldFromEntityField = (
+    entityField: any,
+    objectFieldReference: string,
+    typeName?: string
+): UI.ScreenField => {
+    const newScreenField = baseElement();
+    typeName = typeName ? typeName : getFieldNameByDatatype(entityField.dataType);
+    const {
+        defaultValue,
+        defaultValueDataType,
+        scale,
+        validationRule,
+        isVisible,
+        choiceReferences,
+        visibilityRule,
+        defaultValueFerovObject
+    } = getCommonValues(newScreenField);
+    return Object.assign(newScreenField, {
+        name: undefined,
+        isRequired: entityField.required,
+        defaultValue,
+        defaultValueDataType,
+        dataType: entityField.dataType,
+        type: typeName ? createAutomaticFieldType(typeName, entityField) : {},
+        fieldText: entityField.label,
+        helpText: entityField.helpText || '',
+        fieldType: FlowScreenFieldType.ObjectProvided,
+        scale,
+        inputParameters: [],
+        outputParameters: [],
+        validationRule,
+        fields: [],
+        choiceReferences,
+        visibilityRule,
+        isVisible,
+        defaultValueFerovObject,
+        objectFieldReference
+    });
+};
+
+export const createAutomaticField = (
+    typeName: string,
+    objectFieldReference: string,
+    { elements }: UI.Elements = Store.getStore().getCurrentState()
+): UI.ScreenField => {
+    return createAutomaticFieldFromEntityField(
+        getVariableOrField(objectFieldReference, elements),
+        objectFieldReference,
+        typeName
+    );
+};
+
 /**
  * Creates an empty screen field of the given type
  * @param {String} typeName - The field type
@@ -308,11 +409,9 @@ export function createScreenFieldWithFieldReferences(screenField = {}, screenFie
 export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     const type = getScreenFieldTypeByName(typeName);
 
-    // TODO: We need to replace all of the string literals with references to a
-    // constant in screenEditorFieldTypesUtils
     let newScreenField = {
         name: undefined,
-        isRequired: type.dataType === 'Boolean',
+        isRequired: type.dataType === FLOW_DATA_TYPE.BOOLEAN.value,
         defaultValue: '',
         dataType: type.dataType,
         extensionName: type.name,
@@ -331,7 +430,7 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
 
     // Add a single default column for section fields
     if (type.name === getSectionFieldType().name) {
-        newScreenField.name = 'Section' + (sectionCount + 1);
+        newScreenField.name = ScreenFieldName.Section + (sectionCount + 1);
         const newChildScreenField = createScreenField(createEmptyColumn('12'), true);
         newScreenField.fields = [newChildScreenField];
     } else if (type.name === getColumnFieldType().name) {
@@ -361,9 +460,7 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultValue,
         helpText,
         isRequired,
-        fieldText,
         fieldType,
-        name,
         validationRule,
         defaultSelectedChoiceReference,
         visibilityRule,
@@ -373,6 +470,8 @@ export function createScreenFieldMetadataObject(screenField) {
         objectFieldReference
     } = screenField;
     let {
+        fieldText,
+        name,
         dataType,
         scale,
         inputParameters,
@@ -418,6 +517,10 @@ export function createScreenFieldMetadataObject(screenField) {
         dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
     } else if (isRegionField(screenField)) {
         inputParameters = inputParameters.map((inputParameter) => createInputParameterMetadataObject(inputParameter));
+    } else if (fieldType === FlowScreenFieldType.ObjectProvided) {
+        fieldText = undefined;
+        name = undefined;
+        dataType = undefined;
     }
 
     choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));
@@ -446,7 +549,8 @@ export function createScreenFieldMetadataObject(screenField) {
             outputParameters,
             scale,
             fields,
-            inputsOnNextNavToAssocScrn
+            inputsOnNextNavToAssocScrn,
+            objectFieldReference
         },
         dataTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
