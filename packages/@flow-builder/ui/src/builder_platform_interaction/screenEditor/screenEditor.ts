@@ -159,31 +159,27 @@ export default class ScreenEditor extends LightningElement {
         });
         getExtensionFieldTypes(this.processType)
             .then((data) => {
-                const rawScreen = unwrap(this.screen);
                 this.extensionTypes = data;
-                // Force rerender of the canvas.
-                this.screen = null;
-                Promise.resolve().then(() => {
-                    this.screen = processScreenExtensionTypes(rawScreen);
-                    // if any screen extension type is missing, show them as error
-                    if (this.screen.error) {
-                        invokeModal({
-                            headerData: {
-                                headerTitle: LABELS.errorTitle
-                            },
-                            bodyData: {
-                                bodyTextOne: format(LABELS.errorScreenMissingExtension, this.screen.error)
-                            },
-                            footerData: {
-                                buttonOne: {
-                                    buttonVariant: 'Brand',
-                                    buttonLabel: LABELS.okayButtonLabel
-                                }
+                this.screen = processScreenExtensionTypes(this.screen);
+
+                // if any screen extension type is missing, show them as error
+                if (this.screen.error) {
+                    invokeModal({
+                        headerData: {
+                            headerTitle: LABELS.errorTitle
+                        },
+                        bodyData: {
+                            bodyTextOne: format(LABELS.errorScreenMissingExtension, this.screen.error)
+                        },
+                        footerData: {
+                            buttonOne: {
+                                buttonVariant: 'Brand',
+                                buttonLabel: LABELS.okayButtonLabel
                             }
-                        });
-                        this.screen.error = null;
-                    }
-                });
+                        }
+                    });
+                    this.screen.error = null;
+                }
             })
             .catch((error) => {
                 throw error;
