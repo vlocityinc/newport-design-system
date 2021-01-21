@@ -37,7 +37,8 @@
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             debugAsUserId: cmp.getDebugAsUserId(),
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
-            governorLimits: cmp.find('isGovernorLimitsBox').get('v.checked')
+            governorLimits: cmp.find('isGovernorLimitsBox').get('v.checked'),
+            debugWaits: cmp.find('isDebugWaitsBox').get('v.checked')
         };
         return debugInput;
     }

@@ -995,7 +995,8 @@ export default class Editor extends LightningElement {
                 enableRollbackMode: !!debugOptions.enableRollback,
                 useLatestSubflow: true,
                 showGovernorlimit: !!debugOptions.governorLimits,
-                debugAsUserId: debugOptions.debugAsUserId
+                debugAsUserId: debugOptions.debugAsUserId,
+                debugWaits: !!debugOptions.debugWaits
             }
         );
     };

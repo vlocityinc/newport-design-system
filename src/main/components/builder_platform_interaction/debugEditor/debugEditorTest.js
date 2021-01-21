@@ -62,6 +62,7 @@
                 cmp.find('isGovernorLimitsBox').get('v.checked'),
                 'GovernorLimits should not be checked by default'
             );
+            $A.test.assertTrue(cmp.find('isDebugWaitsBox').get('v.checked'), 'DebugWaits should be checked by default');
             this.assertObjectEquals(
                 cmp.getDebugInput(),
                 {
@@ -69,7 +70,8 @@
                     runAs: false,
                     debugAsUserId: null,
                     enableRollback: false,
-                    governorLimits: false
+                    governorLimits: false,
+                    debugWaits: true
                 },
                 "Default getDebugInput doesn't work correctly"
             );
@@ -119,6 +121,7 @@
             cmp.find('isDebugAsUserAllowedBox').set('v.checked', true);
             cmp.find('isEnableRollbackModeBox').set('v.checked', true);
             cmp.find('isGovernorLimitsBox').set('v.checked', true);
+            cmp.find('isDebugWaitsBox').set('v.checked', false);
             this.assertObjectEquals(
                 cmp.getDebugInput(),
                 {
@@ -126,7 +129,8 @@
                     runAs: true,
                     debugAsUserId: null,
                     enableRollback: true,
-                    governorLimits: true
+                    governorLimits: true,
+                    debugWaits: false
                 },
                 "getDebugInput doesn't reflect value changes of checkboxes correctly"
             );
