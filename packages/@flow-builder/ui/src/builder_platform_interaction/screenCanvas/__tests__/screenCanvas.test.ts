@@ -299,7 +299,7 @@ describe('onDrop', () => {
 
         const dropEvent = createDropEvent();
         dropEvent.y = 100;
-        dropEvent.dataTransfer.setData('text', 'numberInput');
+        dropEvent.dataTransfer.setData('text', JSON.stringify({ fieldTypeName: 'numberInput' }));
         dropEvent.dataTransfer.effectAllowed = 'copy';
 
         const canvasBodyDiv = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
@@ -307,6 +307,28 @@ describe('onDrop', () => {
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
             typeName: 'numberInput',
+            position: 1
+        });
+    });
+    it('should fire the right event when dropping a new automatic field from palette', async () => {
+        const eventCallback = jest.fn().mockImplementation();
+        screenCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+
+        const dropEvent = createDropEvent();
+        dropEvent.y = 100;
+        dropEvent.dataTransfer.setData(
+            'text',
+            JSON.stringify({ fieldTypeName: 'TextBox', objectFieldReference: 'account.Name' })
+        );
+        dropEvent.dataTransfer.effectAllowed = 'copy';
+
+        const canvasBodyDiv = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
+        canvasBodyDiv.dispatchEvent(dropEvent);
+        await ticks(1);
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
+            typeName: 'TextBox',
+            objectFieldReference: 'account.Name',
             position: 1
         });
     });

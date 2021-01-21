@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const focusEvent = new FocusEvent('focus', {
     bubbles: false,
     cancelable: false

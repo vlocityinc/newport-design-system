@@ -168,7 +168,8 @@ export default class Palette extends LightningElement {
                 elementType: item.elementType,
                 elementSubtype: item.elementSubtype,
                 actionType: item.actionType,
-                actionName: item.actionName
+                actionName: item.actionName,
+                key: item.key
             };
             event.dataTransfer.setData('text', JSON.stringify(eventDetail));
             if (event.dataTransfer.setDragImage && dragElement) {

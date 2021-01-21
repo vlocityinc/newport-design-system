@@ -26,6 +26,25 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const {
+        ScreenFieldName,
+        SCREEN_EDITOR_GUIDS,
+        LIGHTNING_INPUT_VARIANTS,
+        InputsOnNextNavToAssocScrnOption,
+        getFieldByGuid,
+        getFieldNameByDatatype
+    } = jest.requireActual('builder_platform_interaction/screenEditorUtils');
+    return {
+        setDragFieldValue: jest.fn(),
+        ScreenFieldName,
+        SCREEN_EDITOR_GUIDS,
+        LIGHTNING_INPUT_VARIANTS,
+        InputsOnNextNavToAssocScrnOption,
+        getFieldByGuid,
+        getFieldNameByDatatype
+    };
+});
 
 const TOTAL_SUPPORTED_FIELDS = 71;
 const NB_REQUIRED_FIELDS = 4;
@@ -219,20 +238,11 @@ describe('Screen editor automatic field palette', () => {
             expect(getBasePalette(element)).not.toBeNull();
         });
     });
-    describe('Palette click event handling', () => {
+    describe('Palette events handling', () => {
         let allItemsFromPaletteData: Array<PaletteItem>, eventCallback, palette;
         const getPaletteItemByFieldApiName = (fieldApiName: string): PaletteItem | undefined => {
             return allItemsFromPaletteData.find((paletteItem) => paletteItem.apiName === fieldApiName);
         };
-        const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (
-            typeName: string,
-            objectFieldReference: string
-        ) => {
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail.typeName).toEqual(typeName);
-            expect(eventCallback.mock.calls[0][0].detail.objectFieldReference).toEqual(objectFieldReference);
-        };
-
         beforeEach(async () => {
             const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -241,31 +251,86 @@ describe('Screen editor automatic field palette', () => {
             allItemsFromPaletteData = [];
             allItemsFromPaletteData.push(...element.paletteData[0]._children);
             allItemsFromPaletteData.push(...element.paletteData[1]._children);
-            eventCallback = jest.fn();
-            element.addEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
         });
-        afterEach(() => {
-            element.removeEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+        describe('Palette click event handling', () => {
+            const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (
+                typeName: string,
+                objectFieldReference: string
+            ) => {
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail.typeName).toEqual(typeName);
+                expect(eventCallback.mock.calls[0][0].detail.objectFieldReference).toEqual(objectFieldReference);
+            };
+
+            beforeEach(async () => {
+                eventCallback = jest.fn();
+                element.addEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+            });
+            afterEach(() => {
+                element.removeEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+            });
+            test.each`
+                fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference
+                ${STRING_FIELD_NAME}    | ${ScreenFieldName.TextBox}  | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
+                ${BOOLEAN_FIELD_NAME}   | ${ScreenFieldName.Checkbox} | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
+                ${NUMBER_FIELD_NAME}    | ${ScreenFieldName.Number}   | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
+                ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
+                ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+            `(
+                'PaletteItemClickedEvent on $fieldName should dispatch AddAutomaticScreenField event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
+                async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
+                    const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
+                    const event = new PaletteItemClickedEvent(null, paletteItem.guid);
+                    palette.dispatchEvent(event);
+                    await ticks();
+                    expectEventCallbackCalledWithTypeNameAndObjectFieldReference(
+                        expectedEventFieldTypeName,
+                        expectedObjectFieldReference
+                    );
+                }
+            );
         });
-        it.each`
-            fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference
-            ${STRING_FIELD_NAME}    | ${ScreenFieldName.TextBox}  | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
-            ${BOOLEAN_FIELD_NAME}   | ${ScreenFieldName.Checkbox} | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
-            ${NUMBER_FIELD_NAME}    | ${ScreenFieldName.Number}   | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
-            ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
-            ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
-        `(
-            'PaletteItemClickedEvent on $fieldName should dispatch AddAutomaticScreenField event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
-            async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
-                const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
-                const event = new PaletteItemClickedEvent(null, paletteItem.guid);
-                palette.dispatchEvent(event);
-                await ticks();
-                expectEventCallbackCalledWithTypeNameAndObjectFieldReference(
-                    expectedEventFieldTypeName,
-                    expectedObjectFieldReference
-                );
-            }
-        );
+        describe('Drag start event handling', () => {
+            test.each`
+                fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference
+                ${STRING_FIELD_NAME}    | ${ScreenFieldName.TextBox}  | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
+                ${BOOLEAN_FIELD_NAME}   | ${ScreenFieldName.Checkbox} | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
+                ${NUMBER_FIELD_NAME}    | ${ScreenFieldName.Number}   | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
+                ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
+                ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+            `(
+                'DragStart event on $fieldName should modify the event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
+                async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
+                    const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
+                    const dragStartEvent = new CustomEvent('dragstart');
+                    // @ts-ignore
+                    dragStartEvent.dataTransfer = {
+                        data: {},
+                        setData(type, val) {
+                            this.data[type] = val;
+                            this.types = [];
+                            this.types[0] = type;
+                        },
+                        getData(type) {
+                            return this.data[type];
+                        }
+                    };
+                    // @ts-ignore
+                    dragStartEvent.dataTransfer.setData('text', JSON.stringify({ key: paletteItem.guid }));
+                    palette.dispatchEvent(dragStartEvent);
+                    await ticks();
+
+                    // @ts-ignore
+                    expect(dragStartEvent.dataTransfer.getData('text')).toBe(
+                        JSON.stringify({
+                            fieldTypeName: expectedEventFieldTypeName,
+                            objectFieldReference: expectedObjectFieldReference
+                        })
+                    );
+                    // @ts-ignore
+                    expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
+                }
+            );
+        });
     });
 });

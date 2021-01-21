@@ -4,10 +4,16 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     SCREEN_EDITOR_GUIDS,
     getPlaceHolderLabel,
-    getDragFieldValue
+    getDragFieldValue,
+    ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
-import { createAddScreenFieldEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
+import {
+    createAddAutomaticScreenFieldEvent,
+    createAddScreenFieldEvent,
+    createScreenElementMovedEvent
+} from 'builder_platform_interaction/events';
 import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
@@ -63,8 +69,16 @@ export default class ScreenCanvas extends LightningElement {
                         event.dataTransfer.getData('dragStartLocation') === SCREEN_EDITOR_GUIDS.PALETTE)
                 ) {
                     // Field is being added from the palette.
-                    const fieldTypeName = event.dataTransfer.getData('text');
-                    const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index, this.element.guid);
+                    const { fieldTypeName, objectFieldReference } = JSON.parse(event.dataTransfer.getData('text'));
+                    const addFieldEvent = objectFieldReference
+                        ? createAddAutomaticScreenFieldEvent(
+                              fieldTypeName,
+                              objectFieldReference,
+                              range.index,
+                              this.element.guid
+                          )
+                        : createAddScreenFieldEvent(fieldTypeName, range.index, this.element.guid);
+
                     this.dispatchEvent(addFieldEvent);
                     this.clearDraggingState();
                 } else {
@@ -204,8 +218,9 @@ export default class ScreenCanvas extends LightningElement {
         const draggedFieldValue = getDragFieldValue();
         if (draggedFieldValue) {
             return (
-                (draggedFieldValue === 'RegionContainer' || draggedFieldValue === 'Section') &&
-                this.element.elementType === 'SCREEN_FIELD'
+                (draggedFieldValue === FlowScreenFieldType.RegionContainer ||
+                    draggedFieldValue === ScreenFieldName.Section) &&
+                this.element.elementType === ELEMENT_TYPE.SCREEN_FIELD
             );
         }
         return false;

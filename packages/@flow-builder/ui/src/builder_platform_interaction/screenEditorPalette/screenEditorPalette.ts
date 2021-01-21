@@ -87,7 +87,7 @@ export default class ScreenPalette extends LightningElement {
         // to add.
         const { elementType: fieldGuid } = JSON.parse(event.dataTransfer.getData('text'));
         const fieldTypeName = getFieldTypeNameByGuid(this.types, fieldGuid);
-        event.dataTransfer.setData('text', fieldTypeName);
+        event.dataTransfer.setData('text', JSON.stringify({ fieldTypeName }));
         event.dataTransfer.effectAllowed = 'copy';
         event.dataTransfer.setData('dragStartLocation', SCREEN_EDITOR_GUIDS.PALETTE); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
         setDragFieldValue(fieldTypeName);

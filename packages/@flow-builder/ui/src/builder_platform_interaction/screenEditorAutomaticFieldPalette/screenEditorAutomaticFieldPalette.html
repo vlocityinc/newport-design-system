@@ -43,7 +43,7 @@
                             class="slds-input palette-search-input"
                             placeholder={searchInputPlaceholder}
                             oninput={handleSearch}
-                            value={state.searchPattern}
+                            value={searchPattern}
                         />
                         <lightning-icon
                             class="slds-input__icon slds-input__icon_left"
@@ -57,6 +57,7 @@
                     items-draggable="true"
                     icon-size="x-small"
                     onpaletteitemclicked={handlePaletteItemClickedEvent}
+                    ondragstart={handleDragStart}
                     show-section-item-count="true"
                 >
                 </builder_platform_interaction-palette>

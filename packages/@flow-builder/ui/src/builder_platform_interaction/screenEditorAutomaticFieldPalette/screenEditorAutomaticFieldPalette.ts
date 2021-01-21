@@ -8,7 +8,12 @@ import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
-import { getFieldByGuid, getFieldNameByDatatype } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getFieldByGuid,
+    getFieldNameByDatatype,
+    SCREEN_EDITOR_GUIDS,
+    setDragFieldValue
+} from 'builder_platform_interaction/screenEditorUtils';
 
 const SUPPORTED_DATATYPES = [
     FLOW_DATA_TYPE.STRING.value,
@@ -35,12 +40,13 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     entityName = '';
     showErrorMessageRelatedToFieldFetching = false;
     labels = LABELS;
+    @api
+    searchPattern?: string | null;
 
     @track
-    state: { recordVariable: string; entityFields: any; searchPattern: string | null } = {
+    state: { recordVariable: string; entityFields: any } = {
         recordVariable: '',
-        entityFields: {},
-        searchPattern: null
+        entityFields: {}
     };
 
     get sObjectPickerRowIndex(): String {
@@ -69,15 +75,6 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         return this.state.entityFields;
     }
 
-    @api
-    get searchPattern() {
-        return this.state.searchPattern;
-    }
-
-    set searchPattern(pattern) {
-        this.state.searchPattern = pattern;
-    }
-
     /**
      * Handler for "SObjectReference" element property changes
      * @param {object} event
@@ -85,7 +82,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     handleSObjectReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
         event.stopPropagation();
         if (this.state.recordVariable !== event.detail.value) {
-            this.state.searchPattern = null;
+            this.searchPattern = null;
             this.state.recordVariable = event.detail.value;
             this.sobjectPickerErrorMessage = event.detail.error;
             if (this.state.recordVariable !== '' && this.sobjectPickerErrorMessage == null) {
@@ -180,8 +177,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handleSearch(event) {
         const filterValue = event.target.value;
-        this.state.searchPattern = filterValue ? filterValue : null;
-        this.buildModel(this.state.searchPattern);
+        this.searchPattern = filterValue ? filterValue : null;
+        this.buildModel(this.searchPattern);
     }
 
     /**
@@ -205,4 +202,18 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         this.dispatchEvent(addFieldEvent);
         event.stopPropagation();
     };
+
+    handleDragStart(event) {
+        // Dragging an element could mean user wants to add the corresponding
+        // field type to the canvas. Figure out which field type user wants
+        // to add.
+        const { key: fieldGuid } = JSON.parse(event.dataTransfer.getData('text'));
+        const field = getFieldByGuid(this.paletteData, fieldGuid);
+        const fieldTypeName = field.fieldTypeName;
+        const objectFieldReference = this.recordVariable + '.' + field.apiName;
+        event.dataTransfer.setData('text', JSON.stringify({ fieldTypeName, objectFieldReference }));
+        event.dataTransfer.effectAllowed = 'copy';
+        event.dataTransfer.setData('dragStartLocation', SCREEN_EDITOR_GUIDS.PALETTE); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
+        setDragFieldValue(fieldTypeName);
+    }
 }

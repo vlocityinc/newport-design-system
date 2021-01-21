@@ -66,7 +66,6 @@ const screenFieldTypes = [
         category: 'Input'
     }
 ];
-
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const { SCREEN_EDITOR_GUIDS, InputsOnNextNavToAssocScrnOption, getFieldByGuid } = jest.requireActual(
         'builder_platform_interaction/screenEditorUtils'
@@ -116,7 +115,6 @@ describe('Screen Editor Palette', () => {
         });
     });
     it('should modify the event with the field type when dragging a field type', () => {
-        element.addEventListener('dragstart', eventCallback);
         const dragStartEvent = new CustomEvent('dragstart');
         dragStartEvent.dataTransfer = {
             data: {},
@@ -132,7 +130,7 @@ describe('Screen Editor Palette', () => {
         dragStartEvent.dataTransfer.setData('text', JSON.stringify({ elementType: guid }));
         basePalette.dispatchEvent(dragStartEvent);
 
-        expect(dragStartEvent.dataTransfer.getData('text')).toBe('LargeTextArea');
+        expect(dragStartEvent.dataTransfer.getData('text')).toBe(JSON.stringify({ fieldTypeName: 'LargeTextArea' }));
         expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
     });
 });
