@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api, track, readonly } from 'lwc';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -77,6 +76,10 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
 
     get isRegionContainerField() {
         return screenEditorUtils.isRegionContainerField(this.node);
+    }
+
+    get isObjectProvided() {
+        return screenEditorUtils.isAutomaticField(this.node);
     }
 
     get hasErrors() {

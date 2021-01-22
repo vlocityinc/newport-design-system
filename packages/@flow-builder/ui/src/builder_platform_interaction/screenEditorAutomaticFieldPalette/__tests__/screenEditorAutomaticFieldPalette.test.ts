@@ -12,7 +12,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS, dragStartEvent } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn(() => {
@@ -240,17 +240,14 @@ describe('Screen editor automatic field palette', () => {
     });
     describe('Palette events handling', () => {
         let allItemsFromPaletteData: Array<PaletteItem>, eventCallback, palette;
-        const getPaletteItemByFieldApiName = (fieldApiName: string): PaletteItem | undefined => {
-            return allItemsFromPaletteData.find((paletteItem) => paletteItem.apiName === fieldApiName);
-        };
+        const getPaletteItemByFieldApiName = (fieldApiName: string): PaletteItem | undefined =>
+            allItemsFromPaletteData.find((paletteItem) => paletteItem.apiName === fieldApiName);
         beforeEach(async () => {
             const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks();
             palette = getBasePalette(element);
-            allItemsFromPaletteData = [];
-            allItemsFromPaletteData.push(...element.paletteData[0]._children);
-            allItemsFromPaletteData.push(...element.paletteData[1]._children);
+            allItemsFromPaletteData = ([] as Array<PaletteItem>).concat(...element.paletteData.map((e) => e._children));
         });
         describe('Palette click event handling', () => {
             const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (
@@ -299,36 +296,22 @@ describe('Screen editor automatic field palette', () => {
                 ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
                 ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
             `(
-                'DragStart event on $fieldName should modify the event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
+                'DragStart event on $fieldName should transfer fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference as data',
                 async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
                     const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
-                    const dragStartEvent = new CustomEvent('dragstart');
-                    // @ts-ignore
-                    dragStartEvent.dataTransfer = {
-                        data: {},
-                        setData(type, val) {
-                            this.data[type] = val;
-                            this.types = [];
-                            this.types[0] = type;
-                        },
-                        getData(type) {
-                            return this.data[type];
-                        }
-                    };
-                    // @ts-ignore
-                    dragStartEvent.dataTransfer.setData('text', JSON.stringify({ key: paletteItem.guid }));
-                    palette.dispatchEvent(dragStartEvent);
+                    const dragStart = dragStartEvent(JSON.stringify({ key: paletteItem.guid }));
+                    palette.dispatchEvent(dragStart);
                     await ticks();
 
                     // @ts-ignore
-                    expect(dragStartEvent.dataTransfer.getData('text')).toBe(
+                    const dragStartDatatransfer = dragStart.dataTransfer;
+                    expect(dragStartDatatransfer.getData('text')).toBe(
                         JSON.stringify({
                             fieldTypeName: expectedEventFieldTypeName,
                             objectFieldReference: expectedObjectFieldReference
                         })
                     );
-                    // @ts-ignore
-                    expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
+                    expect(dragStartDatatransfer.effectAllowed).toBe('copy');
                 }
             );
         });

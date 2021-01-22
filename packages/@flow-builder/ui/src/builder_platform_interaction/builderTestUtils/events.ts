@@ -87,3 +87,25 @@ export const lightningRadioGroupChangeEvent = (newValue) => {
         cancelable: true
     });
 };
+
+export const dragStartEvent = (textValue?) => {
+    const dragStartEvent = new CustomEvent('dragstart');
+    // @ts-ignore
+    dragStartEvent.dataTransfer = {
+        data: {},
+        setData(type, val) {
+            this.data[type] = val;
+            this.types = [];
+            this.types[0] = type;
+        },
+        getData(type) {
+            return this.data[type];
+        }
+    };
+
+    if (textValue) {
+        // @ts-ignore
+        dragStartEvent.dataTransfer.setData('text', textValue);
+    }
+    return dragStartEvent;
+};

@@ -2,7 +2,7 @@
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { dragStartEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -115,23 +115,13 @@ describe('Screen Editor Palette', () => {
         });
     });
     it('should modify the event with the field type when dragging a field type', () => {
-        const dragStartEvent = new CustomEvent('dragstart');
-        dragStartEvent.dataTransfer = {
-            data: {},
-            setData(type, val) {
-                this.data[type] = val;
-                this.types = [];
-                this.types[0] = type;
-            },
-            getData(type) {
-                return this.data[type];
-            }
-        };
-        dragStartEvent.dataTransfer.setData('text', JSON.stringify({ elementType: guid }));
-        basePalette.dispatchEvent(dragStartEvent);
+        const dragStart = dragStartEvent(JSON.stringify({ elementType: guid }));
+        const dataTransfer = dragStart.dataTransfer;
 
-        expect(dragStartEvent.dataTransfer.getData('text')).toBe(JSON.stringify({ fieldTypeName: 'LargeTextArea' }));
-        expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
+        basePalette.dispatchEvent(dragStart);
+
+        expect(dataTransfer.getData('text')).toBe(JSON.stringify({ fieldTypeName: 'LargeTextArea' }));
+        expect(dataTransfer.effectAllowed).toBe('copy');
     });
 });
 

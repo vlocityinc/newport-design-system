@@ -160,6 +160,7 @@
             "builder_platform_interaction/ruleLib": ["./src/builder_platform_interaction/ruleLib/ruleLib.ts"],
             "builder_platform_interaction/saveType": ["./src/builder_platform_interaction/saveType/saveType.ts"],
             "builder_platform_interaction/scheduleTriggerEditor": ["./src/builder_platform_interaction/scheduleTriggerEditor/scheduleTriggerEditor.ts"],
+            "builder_platform_interaction/screenAutomaticFieldPropertiesEditor": ["./src/builder_platform_interaction/screenAutomaticFieldPropertiesEditor/screenAutomaticFieldPropertiesEditor.ts"],
             "builder_platform_interaction/screenCanvas": ["./src/builder_platform_interaction/screenCanvas/screenCanvas.ts"],
             "builder_platform_interaction/screenChoiceField": ["./src/builder_platform_interaction/screenChoiceField/screenChoiceField.ts"],
             "builder_platform_interaction/screenChoiceFieldPropertiesEditor": ["./src/builder_platform_interaction/screenChoiceFieldPropertiesEditor/screenChoiceFieldPropertiesEditor.ts"],

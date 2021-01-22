@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import Draggable from 'builder_platform_interaction/draggable';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { dragStartEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     DRAGGABLE: 'div'
@@ -52,21 +52,10 @@ describe('Draggable component', () => {
         element.index = SOURCE_INDEX;
         await ticks(1);
         // Create 'dragstart' custom event to dispatch in order to test what happens
-        const dragStartEvent = new CustomEvent('dragstart');
-        dragStartEvent.dataTransfer = {
-            data: {},
-            setData(type, val) {
-                this.data[type] = val;
-                this.types = [];
-                this.types[0] = type;
-            },
-            getData(type) {
-                return this.data[type];
-            }
-        };
-        draggableItem.dispatchEvent(dragStartEvent);
+        const dragStart = dragStartEvent();
+        draggableItem.dispatchEvent(dragStart);
 
-        expect(dragStartEvent.dataTransfer.getData('text')).toBe(SOURCE_INDEX);
-        expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
+        expect(dragStart.dataTransfer.getData('text')).toBe(SOURCE_INDEX);
+        expect(dragStart.dataTransfer.effectAllowed).toBe('move');
     });
 });

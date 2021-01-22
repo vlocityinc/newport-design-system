@@ -7,7 +7,8 @@ import {
     createTestScreenField,
     ticks,
     mouseoverEvent,
-    mouseoutEvent
+    mouseoutEvent,
+    dragStartEvent
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
@@ -25,9 +26,9 @@ function createComponentForTest(props) {
 }
 
 function clickHighlight(highlight, callback) {
-    const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+    const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
     highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
-    hightlightDiv.click();
+    highlightDiv.click();
 }
 
 describe('Click highlight', () => {
@@ -38,15 +39,16 @@ describe('Click highlight', () => {
         });
     });
     it('clicking on highlight component fires correct event', async () => {
-        await ticks(1);
         const callback = jest.fn();
         clickHighlight(highlight, callback);
+        await ticks(1);
         expect(callback).toHaveBeenCalled();
     });
-    it('should not fire an event when already selected', () => {
+    it('should not fire an event when already selected', async () => {
         highlight.selected = true;
         const callback = jest.fn();
         clickHighlight(highlight, callback);
+        await ticks(1);
         expect(callback).not.toHaveBeenCalled();
     });
 });
@@ -59,22 +61,13 @@ describe('onDragStart', () => {
         });
     });
     it('dragging an element sets correct dataTransfer', async () => {
+        const dragStart = dragStartEvent();
+        const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+        highlightDiv.dispatchEvent(dragStart);
         await ticks(1);
-        const dragStartEvent = new CustomEvent('dragstart');
-        dragStartEvent.dataTransfer = {
-            data: {},
-            setData(type, val) {
-                this.data[type] = val;
-            },
-            getData(type) {
-                return this.data[type];
-            }
-        };
-        const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
-        hightlightDiv.dispatchEvent(dragStartEvent);
-        expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
-        expect(dragStartEvent.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
-        expect(hightlightDiv.classList).toContain(DRAGGING_CLASS);
+        expect(dragStart.dataTransfer.effectAllowed).toBe('move');
+        expect(dragStart.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
+        expect(highlightDiv.classList).toContain(DRAGGING_CLASS);
     });
 });
 
@@ -86,23 +79,15 @@ describe('onDragEnd', () => {
         });
     });
     it('The end of dragging an element sets the correct styling', async () => {
-        await ticks(1);
-        const dragStartEvent = new CustomEvent('dragstart');
-        dragStartEvent.dataTransfer = {
-            data: {},
-            setData(type, val) {
-                this.data[type] = val;
-            },
-            getData(type) {
-                return this.data[type];
-            }
-        };
+        const dragStart = dragStartEvent();
         const dragEndEvent = new CustomEvent('dragend');
 
-        const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
-        hightlightDiv.dispatchEvent(dragStartEvent);
-        hightlightDiv.dispatchEvent(dragEndEvent);
-        expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);
+        const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+        highlightDiv.dispatchEvent(dragStart);
+        await ticks(1);
+        highlightDiv.dispatchEvent(dragEndEvent);
+        await ticks(1);
+        expect(highlightDiv.classList).not.toContain(DRAGGING_CLASS);
     });
 });
 
@@ -115,8 +100,6 @@ describe('highlight behavior on hover', () => {
     });
 
     it('mouse over sets the correct styling', async () => {
-        await ticks(1);
-
         const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
         expect(highlightDiv.classList).not.toContain(HOVERING_CLASS);
 
@@ -126,8 +109,6 @@ describe('highlight behavior on hover', () => {
     });
 
     it('mouse out sets the correct styling', async () => {
-        await ticks(1);
-
         const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
 
         highlightDiv.dispatchEvent(mouseoverEvent());
