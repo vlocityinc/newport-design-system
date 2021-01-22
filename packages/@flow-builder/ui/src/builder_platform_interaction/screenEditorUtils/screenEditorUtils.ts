@@ -116,13 +116,13 @@ export function getDragFieldValue() {
 
 /**
  * Gets a field with the given guid in the given sections
- * @param {Array<PaletteSection>} sections parent sections containing fields
+ * @param {Array<ScreenPaletteSection>} sections parent sections containing fields
  * @param {string} guid guid we're looking for
- * @returns {PaletteItem} the corresponding field if found
+ * @returns {ScreenPaletteItem} the corresponding field if found
  * @throws if field not found
  */
-export function getFieldByGuid(sections: Array<PaletteSection>, guid: string): PaletteItem {
-    const field = ([] as Array<PaletteItem>)
+export function getFieldByGuid(sections: Array<ScreenPaletteSection>, guid: string): ScreenPaletteItem {
+    const field = ([] as Array<ScreenPaletteItem>)
         .concat(...sections.map(({ _children }) => _children))
         .find((field) => field.guid === guid);
     if (field) {

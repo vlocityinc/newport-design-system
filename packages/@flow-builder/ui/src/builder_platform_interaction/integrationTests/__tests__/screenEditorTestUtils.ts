@@ -11,13 +11,19 @@ const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
 };
 
+export const SCREEN_FIELD_TITLES = {
+    SECTION: 'FlowBuilderScreenEditor.fieldTypeLabelSection',
+    TEXT: 'FlowBuilderScreenEditor.fieldTypeLabelTextField',
+    NUMBER: 'FlowBuilderScreenEditor.fieldTypeLabelNumber',
+    PICKLIST: 'FlowBuilderScreenEditor.fieldTypeLabelPicklist',
+    EMAIL: 'Email'
+};
+
 export const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor', {
         is: ScreenEditor
     });
-    if (props) {
-        Object.assign(el, props);
-    }
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 };
@@ -26,16 +32,20 @@ export const getCanvasElement = (screenEditor) => {
     return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
 };
 
-export const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
+const getScreenEditorHighlight = (screenEditor, elementTitle) => {
     const screenEditorCanvas = getCanvasElement(screenEditor);
-    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    let elementAddress;
-    screenEditorHighlight.forEach((element) => {
-        if (element.title === elementTitle) {
-            elementAddress = element;
-        }
-    });
-    return elementAddress.shadowRoot.querySelector('div');
+    const screenEditorHighlights = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
+    return findByTitle(Object.values(screenEditorHighlights), elementTitle);
+};
+
+export const getScreenField = (screenEditor, elementTitle) => {
+    return getScreenEditorHighlight(screenEditor, elementTitle).querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.SCREEN_FIELD
+    );
+};
+
+export const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
+    return getScreenEditorHighlight(screenEditor, elementTitle).shadowRoot.querySelector('div');
 };
 
 export const getScreenPropertiesEditorContainerElement = (screenEditor) => {
@@ -68,4 +78,50 @@ export const getAutomaticFieldsPaletteInSecondTab = (screenEditor) => {
         .querySelector('slot')
         .assignedNodes()[0]
         .querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELDS_PALETTE);
+};
+
+export const getSectionElementInScreenEditorCanvas = (screenEditor, sectionTitle) => {
+    const screenEditorHighlights = getCanvasElement(screenEditor).shadowRoot.querySelectorAll(
+        SELECTORS.SCREEN_EDITOR_HIGHLIGHT
+    );
+    for (const element of screenEditorHighlights) {
+        if (element.title === SCREEN_FIELD_TITLES.SECTION) {
+            const section = element
+                .querySelector(SELECTORS.SCREEN_FIELD)
+                .shadowRoot.querySelector(SELECTORS.SCREEN_SECTION_FIELD);
+
+            if (section.title === sectionTitle) {
+                return section;
+            }
+        }
+    }
+    return null;
+};
+
+const findByTitle = (elements, title) => {
+    return elements.find((element) => element.title === title);
+};
+
+const getScreenFieldElementInColumn = (column, elementTitle) => {
+    const screenEditorHighlights = column.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
+    return findByTitle(Object.values(screenEditorHighlights), elementTitle);
+};
+
+export const getScreenEditorHighlightElementInSection = (section, elementTitle) => {
+    const columns = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS);
+    let result: any = null;
+    for (const column of columns) {
+        result = getScreenFieldElementInColumn(column, elementTitle);
+        if (result) {
+            return result;
+        }
+    }
+
+    return result;
+};
+
+export const getScreenFieldInSection = (section, elementTitle) => {
+    return getScreenEditorHighlightElementInSection(section, elementTitle).querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.SCREEN_FIELD
+    );
 };

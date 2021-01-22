@@ -14,26 +14,20 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setupState, resetState, loadFlow } from '../../integrationTestUtils';
-import { createComponentUnderTest, getExtensionPropertiesEditorElement } from '../../screenEditorTestUtils';
+import {
+    createComponentUnderTest,
+    getExtensionPropertiesEditorElement,
+    getScreenPropertiesEditorContainerElement,
+    getSectionElementInScreenEditorCanvas,
+    getCanvasScreenFieldElement,
+    SCREEN_FIELD_TITLES,
+    getScreenEditorHighlightElementInSection,
+    getCanvasElement
+} from '../../screenEditorTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS,
-    SCREEN_FIELD: 'builder_platform_interaction-screen-field',
-    SCREEN_SECTION_FIELD: 'builder_platform_interaction-screen-section-field',
-    SCREEN_CHOICE_FIELD: 'builder_platform_interaction-screen-choice-field'
-};
-
-const SCREEN_FIELD_TITLES = {
-    SECTION: 'FlowBuilderScreenEditor.fieldTypeLabelSection',
-    TEXT: 'FlowBuilderScreenEditor.fieldTypeLabelTextField',
-    NUMBER: 'FlowBuilderScreenEditor.fieldTypeLabelNumber',
-    PICKLIST: 'FlowBuilderScreenEditor.fieldTypeLabelPicklist',
-    EMAIL: 'Email'
-};
-
-const getScreenPropertiesEditorContainerElement = (screenEditor) => {
-    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const getChoicePropertiesEditorElement = (screenEditor) => {
@@ -52,69 +46,6 @@ const getSectionFieldPropertiesEditorElement = (screenEditor) => {
     return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
         SELECTORS.SCREEN_SECTION_FIELD_PROPERTIES_EDITOR
     );
-};
-
-const getScreenEditorCanvas = (screenEditor) => {
-    return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
-};
-
-const getFieldElementInScreenEditorCanvas = (screenEditor, elementTitle) => {
-    const screenEditorCanvas = getScreenEditorCanvas(screenEditor);
-    const screenEditorHighlights = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    let element;
-    screenEditorHighlights.forEach((screenEditorHighlight) => {
-        if (screenEditorHighlight.title === elementTitle) {
-            element = screenEditorHighlight;
-        }
-    });
-    return element.shadowRoot.querySelector('div');
-};
-
-const getSectionElementInScreenEditorCanvas = (screenEditor, sectionTitle) => {
-    const screenEditorCanvas = getScreenEditorCanvas(screenEditor);
-    let result = screenEditorCanvas;
-    const screenEditorHighlights = result.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    result = null;
-    for (const element of screenEditorHighlights) {
-        if (element.title === SCREEN_FIELD_TITLES.SECTION) {
-            const section = element
-                .querySelector(SELECTORS.SCREEN_FIELD)
-                .shadowRoot.querySelector(SELECTORS.SCREEN_SECTION_FIELD);
-
-            if (section.title === sectionTitle) {
-                result = section;
-            }
-        }
-    }
-    return result;
-};
-
-const getScreenFieldElementInColumn = (column, elementTitle) => {
-    const screenEditorHighlights = column.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
-    let result = null;
-    for (const element of screenEditorHighlights) {
-        if (element.title === elementTitle) {
-            result = element;
-        }
-    }
-    if (result === null) {
-        return result;
-    }
-
-    return result;
-};
-
-const getScreenFieldElementInSection = (section, elementTitle) => {
-    const columns = section.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS);
-    let result = null;
-    for (const column of columns) {
-        result = getScreenFieldElementInColumn(column, elementTitle);
-        if (result) {
-            return result;
-        }
-    }
-
-    return result;
 };
 
 const getApiNameElementInPropertiesEditor = (propertiesEditor) => {
@@ -157,7 +88,7 @@ describe('ScreenEditor', () => {
         });
         it('Select the Address screen field and verify the extension properties editor', async () => {
             expect.assertions(2);
-            const addressElement = getFieldElementInScreenEditorCanvas(screenEditor, 'Address');
+            const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
             expect(addressElement).not.toBeNull();
             addressElement.click();
             await ticks(50);
@@ -176,9 +107,9 @@ describe('ScreenEditor', () => {
         it('Select the Slider screen field in the first section and verify the extension properties editor', async () => {
             expect.assertions(2);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section1');
-            const slider = getScreenFieldElementInSection(section, 'Slider');
+            const slider = getScreenEditorHighlightElementInSection(section, 'Slider');
             expect(slider).not.toBeNull();
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const canvas = getCanvasElement(screenEditor);
             canvas.dispatchEvent(createScreenElementSelectedEvent(slider.screenElement));
             await ticks(50);
             const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
@@ -186,11 +117,11 @@ describe('ScreenEditor', () => {
         });
         it('Change the name of the Slider, switch to a different screen field, then switch back and verify we still have the updated name', async () => {
             expect.assertions(3);
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const canvas = getCanvasElement(screenEditor);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section1');
 
             // Select slider component in canvas and verify the API name of the slider on the extension properties editor
-            const slider = getScreenFieldElementInSection(section, 'Slider');
+            const slider = getScreenEditorHighlightElementInSection(section, 'Slider');
             canvas.dispatchEvent(createScreenElementSelectedEvent(slider.screenElement));
             await ticks(50);
             let extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
@@ -202,7 +133,7 @@ describe('ScreenEditor', () => {
             apiNameField.dispatchEvent(blurEvent);
 
             // Select the address component on the canvas and verify API name
-            const address = getFieldElementInScreenEditorCanvas(screenEditor, 'Address');
+            const address = getCanvasScreenFieldElement(screenEditor, 'Address');
             address.click();
             await ticks(50);
             extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
@@ -219,9 +150,9 @@ describe('ScreenEditor', () => {
         it('Select the Text screen field in the first Column in the second Section and verify the input properties editor', async () => {
             expect.assertions(2);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
-            const text = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.TEXT);
+            const text = getScreenEditorHighlightElementInSection(section, SCREEN_FIELD_TITLES.TEXT);
             expect(text).not.toBeNull();
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const canvas = getCanvasElement(screenEditor);
             canvas.dispatchEvent(createScreenElementSelectedEvent(text.screenElement));
             await ticks(50);
             const inputFieldPropertiesEditor = getInputFieldPropertiesEditorElement(screenEditor);
@@ -230,9 +161,9 @@ describe('ScreenEditor', () => {
         it('Select the Email screen field in the second Column in the second Section and verify the extension properties editor', async () => {
             expect.assertions(2);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
-            const email = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.EMAIL);
+            const email = getScreenEditorHighlightElementInSection(section, SCREEN_FIELD_TITLES.EMAIL);
             expect(email).not.toBeNull();
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const canvas = getCanvasElement(screenEditor);
             canvas.dispatchEvent(createScreenElementSelectedEvent(email.screenElement));
             await ticks(50);
             const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
@@ -255,9 +186,9 @@ describe('ScreenEditor', () => {
         it('Select the Picklist screen field in the second Column in the second Section and verify the choice properties editor', async () => {
             expect.assertions(4);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
-            const picklist = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
+            const picklist = getScreenEditorHighlightElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
             expect(picklist).not.toBeNull();
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const canvas = getCanvasElement(screenEditor);
             canvas.dispatchEvent(createScreenElementSelectedEvent(picklist.screenElement));
             await ticks(50);
             const choicePropertiesEditor = getChoicePropertiesEditorElement(screenEditor);
@@ -277,8 +208,8 @@ describe('ScreenEditor', () => {
         it('Select the Picklist screen field, change its default value and verify the change on the canvas', async () => {
             expect.assertions(2);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
-            const picklist = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const picklist = getScreenEditorHighlightElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
+            const canvas = getCanvasElement(screenEditor);
             canvas.dispatchEvent(createScreenElementSelectedEvent(picklist.screenElement));
             await ticks(50);
             const choicePropertiesEditor = getChoicePropertiesEditorElement(screenEditor);
@@ -302,8 +233,8 @@ describe('ScreenEditor', () => {
         it('Select the Picklist screen field and verify the CFV rule is correct', async () => {
             expect.assertions(4);
             const section = getSectionElementInScreenEditorCanvas(screenEditor, 'ScreenWithSection_Section2');
-            const picklist = getScreenFieldElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
-            const canvas = getScreenEditorCanvas(screenEditor);
+            const picklist = getScreenEditorHighlightElementInSection(section, SCREEN_FIELD_TITLES.PICKLIST);
+            const canvas = getCanvasElement(screenEditor);
             canvas.dispatchEvent(createScreenElementSelectedEvent(picklist.screenElement));
             await ticks(50);
             const choicePropertiesEditor = getChoicePropertiesEditorElement(screenEditor);
