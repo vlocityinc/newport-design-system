@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import ScreenSectionFieldPropertiesEditor from '../screenSectionFieldPropertiesEditor';
 import { query, changeEvent } from 'builder_platform_interaction/builderTestUtils';
 import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
-import { AddListItemEvent, DeleteListItemEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { AddListItemEvent, DeleteListItemEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
@@ -40,7 +40,7 @@ describe('screen-section-field-properties-editor', () => {
 
             return Promise.resolve().then(() => {
                 const addCallback = jest.fn();
-                screenSectionFieldPropEditor.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, addCallback);
+                screenSectionFieldPropEditor.addEventListener(ScreenEditorEventName.ScreenFieldAdded, addCallback);
 
                 const list = query(screenSectionFieldPropEditor, SELECTORS.LIST);
                 list.dispatchEvent(new AddListItemEvent(0));
@@ -98,10 +98,7 @@ describe('screen-section-field-properties-editor', () => {
                 }
             });
 
-            screenSectionFieldPropEditor.addEventListener(
-                SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED,
-                deleteCallback
-            );
+            screenSectionFieldPropEditor.addEventListener(ScreenEditorEventName.ScreenElementDeleted, deleteCallback);
 
             const list = query(screenSectionFieldPropEditor, SELECTORS.LIST);
             list.dispatchEvent(new DeleteListItemEvent(0));
@@ -125,12 +122,9 @@ describe('screen-section-field-properties-editor', () => {
                 }
             });
 
+            screenSectionFieldPropEditor.addEventListener(ScreenEditorEventName.ScreenElementDeleted, deleteCallback);
             screenSectionFieldPropEditor.addEventListener(
-                SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED,
-                deleteCallback
-            );
-            screenSectionFieldPropEditor.addEventListener(
-                SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED,
+                ScreenEditorEventName.ScreenElementSelected,
                 selectedCallback
             );
 
@@ -162,7 +156,7 @@ describe('screen-section-field-properties-editor', () => {
             });
 
             screenSectionFieldPropEditor.addEventListener(
-                SCREEN_EDITOR_EVENT_NAME.COLUMN_WIDTH_CHANGED,
+                ScreenEditorEventName.ColumnWidthChanged,
                 columnWidthChangedCallback
             );
 

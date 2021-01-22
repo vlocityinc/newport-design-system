@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import ScreenEditorCanvas from '../screenEditorCanvas';
 import { createTestScreen, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { createScreenElementSelectedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { createScreenElementSelectedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
@@ -122,7 +122,7 @@ describe('Click handling on canvas', () => {
     it('clicking on the canvas fires correct event', async () => {
         await ticks(1);
         const eventCallback = jest.fn().mockImplementation();
-        screenEditorCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, eventCallback);
+        screenEditorCanvasElement.addEventListener(ScreenEditorEventName.ScreenElementSelected, eventCallback);
         const canvasDiv = screenEditorCanvasElement.shadowRoot.querySelector(selectors.canvasContainer);
         const selectEvent = createScreenElementSelectedEvent();
         canvasDiv.dispatchEvent(selectEvent);

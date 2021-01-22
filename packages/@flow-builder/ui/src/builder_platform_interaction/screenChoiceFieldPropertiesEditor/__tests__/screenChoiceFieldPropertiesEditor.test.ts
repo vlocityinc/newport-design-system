@@ -7,7 +7,7 @@ import {
     SCREEN_NO_DEF_VALUE,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
@@ -366,10 +366,10 @@ describe('DefaultValue options based on choice type', () => {
         const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
 
         const choiceChangedSpy = jest.fn();
-        window.addEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
         renderedDefaultValueField.dispatchEvent(propChangedEvent);
         await ticks(1);
-        window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
         expect(choiceChangedSpy).not.toHaveBeenCalled();
     });
     it('fires a choice changed event when the choice error does change', async () => {
@@ -385,10 +385,10 @@ describe('DefaultValue options based on choice type', () => {
         const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
 
         const choiceChangedSpy = jest.fn();
-        window.addEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
         renderedDefaultValueField.dispatchEvent(propChangedEvent);
         await ticks(1);
-        window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
         expect(choiceChangedSpy).toHaveBeenCalled();
     });
 });

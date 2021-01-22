@@ -1,15 +1,15 @@
-export enum SCREEN_EDITOR_EVENT_NAME {
-    AUTOMATIC_SCREEN_FIELD_ADDED = 'addautomaticscreenfield',
-    SCREEN_FIELD_ADDED = 'addscreenfield',
-    SCREEN_ELEMENT_DELETED = 'screenelementdeleted',
-    SCREEN_ELEMENT_MOVED = 'screenelementmoved',
-    SCREEN_ELEMENT_DESELECTED = 'screenelementdeselected',
-    SCREEN_ELEMENT_SELECTED = 'screenelementselected',
-    SCREEN_NODE_SELECTED = 'screennodeselected',
-    CHOICE_ADDED = 'choiceadded',
-    CHOICE_CHANGED = 'choicechanged',
-    CHOICE_DELETED = 'choicedeleted',
-    COLUMN_WIDTH_CHANGED = 'columnwidthchanged'
+export enum ScreenEditorEventName {
+    AutomaticScreenFieldAdded = 'addautomaticscreenfield',
+    ScreenFieldAdded = 'addscreenfield',
+    ScreenElementDeleted = 'screenelementdeleted',
+    ScreenElementMoved = 'screenelementmoved',
+    ScreenElementDeselected = 'screenelementdeselected',
+    ScreenElementSelected = 'screenelementselected',
+    ScreenNodeSelected = 'screennodeselected',
+    ChoiceAdded = 'choiceadded',
+    ChoiceChanged = 'choicechanged',
+    ChoiceDeleted = 'choicedeleted',
+    ColumnWidthChanged = 'columnwidthchanged'
 }
 
 /**
@@ -51,11 +51,10 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
  * @param {string} typeName - The type of the field to add
  * @param {number} position - The position in the canvas
  * @param {string} parentGuid - The guid of the new field's parent, i.e. a column
- * @param {function} callback - Function called after the add occurs successfully
  * @returns {event} The event
  */
 export function createAddScreenFieldEvent(typeName: string, position?: number, parentGuid?: string) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenFieldAdded, {
         typeName,
         position,
         parentGuid
@@ -75,7 +74,7 @@ export function createAddAutomaticScreenFieldEvent(
     position?: number,
     parentGuid?: string
 ) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, {
+    return createScreenEditorEvent(ScreenEditorEventName.AutomaticScreenFieldAdded, {
         typeName,
         objectFieldReference,
         position,
@@ -92,7 +91,7 @@ export function createAddAutomaticScreenFieldEvent(
  * @returns {event} The event
  */
 export function createScreenElementDeletedEvent(screenElement, property, parentGuid = null, callback = () => {}) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementDeleted, {
         screenElement,
         property,
         parentGuid,
@@ -108,7 +107,7 @@ export function createScreenElementDeletedEvent(screenElement, property, parentG
  * @returns {event} The event
  */
 export function createScreenElementMovedEvent(sourceGuid, destinationParentGuid, destinationIndex) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementMoved, {
         sourceGuid,
         destinationParentGuid,
         destinationIndex
@@ -121,7 +120,7 @@ export function createScreenElementMovedEvent(sourceGuid, destinationParentGuid,
  * @returns {event} The event
  */
 export function createScreenElementDeselectedEvent(screenElement) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DESELECTED, { screenElement });
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementDeselected, { screenElement });
 }
 
 /**
@@ -131,7 +130,7 @@ export function createScreenElementDeselectedEvent(screenElement) {
  * @returns {event} The event
  */
 export function createScreenElementSelectedEvent(screenElement, property) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, { screenElement, property });
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenElementSelected, { screenElement, property });
 }
 
 /**
@@ -141,7 +140,7 @@ export function createScreenElementSelectedEvent(screenElement, property) {
  * @returns {event} The event
  */
 export function createScreenNodeSelectedEvent(screenElement) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_NODE_SELECTED, { screenElement });
+    return createScreenEditorEvent(ScreenEditorEventName.ScreenNodeSelected, { screenElement });
 }
 
 /**
@@ -150,20 +149,20 @@ export function createScreenNodeSelectedEvent(screenElement) {
  * @param {number} position - The position at which the choice should be added.
  */
 export function createChoiceAddedEvent(screenElement, position) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ChoiceAdded, {
         screenElement,
         position
     });
 }
 
 /**
- * Creates an event to be fired when the user wants to change a choice of a choice creen field.
+ * Creates an event to be fired when the user wants to change a choice of a choice screen field.
  * @param {*} screenElement
  * @param {*} newValue
  * @param {*} position
  */
 export function createChoiceChangedEvent(screenElement, newValue, position) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ChoiceChanged, {
         screenElement,
         newValue,
         position
@@ -176,7 +175,7 @@ export function createChoiceChangedEvent(screenElement, newValue, position) {
  * @param {*} position
  */
 export function createChoiceDeletedEvent(screenElement, position) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ChoiceDeleted, {
         screenElement,
         position
     });
@@ -189,7 +188,7 @@ export function createChoiceDeletedEvent(screenElement, position) {
  * @param {string} sectionGuid - The guid of the column's parent section
  */
 export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGuid) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.COLUMN_WIDTH_CHANGED, {
+    return createScreenEditorEvent(ScreenEditorEventName.ColumnWidthChanged, {
         columnGuid,
         columnWidth,
         sectionGuid

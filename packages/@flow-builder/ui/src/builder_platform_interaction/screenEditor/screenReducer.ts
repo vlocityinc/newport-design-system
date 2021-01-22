@@ -20,7 +20,7 @@ import {
 import {
     PropertyChangedEvent,
     ValidationRuleChangedEvent,
-    SCREEN_EDITOR_EVENT_NAME,
+    ScreenEditorEventName,
     AddConditionEvent,
     UpdateConditionLogicEvent,
     DeleteConditionEvent,
@@ -908,28 +908,28 @@ export const screenReducer = (state, event, selectedNode) => {
         case ValidationRuleChangedEvent.EVENT_NAME:
             return validationRuleChanged(state, event, selectedNode);
 
-        case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED:
+        case ScreenEditorEventName.ScreenFieldAdded:
             return addScreenField(state, event);
 
-        case SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED:
+        case ScreenEditorEventName.AutomaticScreenFieldAdded:
             return addAutomaticScreenField(state, event);
 
-        case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED:
+        case ScreenEditorEventName.ScreenElementDeleted:
             return deleteScreenField(state, event);
 
-        case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED:
+        case ScreenEditorEventName.ScreenElementMoved:
             return moveScreenField(state, event);
 
-        case SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED:
+        case ScreenEditorEventName.ChoiceAdded:
             return addChoice(state, event, selectedNode);
 
-        case SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED:
+        case ScreenEditorEventName.ChoiceChanged:
             return changeChoice(state, event, selectedNode);
 
-        case SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED:
+        case ScreenEditorEventName.ChoiceDeleted:
             return deleteChoice(state, event, selectedNode);
 
-        case SCREEN_EDITOR_EVENT_NAME.COLUMN_WIDTH_CHANGED:
+        case ScreenEditorEventName.ColumnWidthChanged:
             return changeColumnWidth(state, event);
 
         case VALIDATE_ALL:

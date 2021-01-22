@@ -1,7 +1,7 @@
 // @ts-nocheck
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
-import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { dragStartEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
@@ -101,7 +101,7 @@ describe('Screen Editor Palette', () => {
         expect(basePalette.data[6].label).toBe('Custom Comp');
     });
     it('should fire an event when clicking a field type', async () => {
-        element.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, eventCallback);
+        element.addEventListener(ScreenEditorEventName.ScreenFieldAdded, eventCallback);
         const paletteClickEvent = new CustomEvent('paletteitemclicked', {
             detail: { guid }
         });

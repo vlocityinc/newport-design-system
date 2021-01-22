@@ -8,7 +8,7 @@ import {
     RemoveMergeFieldPillEvent,
     EditMergeFieldPillEvent,
     PaletteItemClickedEvent,
-    SCREEN_EDITOR_EVENT_NAME
+    ScreenEditorEventName
 } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
@@ -261,10 +261,10 @@ describe('Screen editor automatic field palette', () => {
 
             beforeEach(async () => {
                 eventCallback = jest.fn();
-                element.addEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+                element.addEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
             });
             afterEach(() => {
-                element.removeEventListener(SCREEN_EDITOR_EVENT_NAME.AUTOMATIC_SCREEN_FIELD_ADDED, eventCallback);
+                element.removeEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
             });
             test.each`
                 fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference

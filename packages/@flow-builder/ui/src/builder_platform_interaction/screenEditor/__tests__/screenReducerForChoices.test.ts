@@ -10,7 +10,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
-import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -28,7 +28,7 @@ it('change choice screen field by changing the 1st choice', () => {
 
     // Change first choice
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED,
+        type: ScreenEditorEventName.ChoiceChanged,
         detail: {
             screenElement: field,
             newValue: { value: newChoice.name, error: 'error1' },
@@ -57,7 +57,7 @@ it('change choice screen field by changing the last choice', () => {
 
     // Change last choice
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED,
+        type: ScreenEditorEventName.ChoiceChanged,
         detail: {
             screenElement: field,
             newValue: { value: newChoice.name, error: null },
@@ -94,7 +94,7 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
     // Change choice which is current default value
     const newChoice = createChoice({ name: 'newChoice' });
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED,
+        type: ScreenEditorEventName.ChoiceChanged,
         detail: {
             screenElement: field,
             newValue: { value: newChoice.name, error: null },
@@ -130,7 +130,7 @@ it('defaultValue should not be cleared when unrelated choice is changed', () => 
     // Change choice which is current default value
     const newChoice = createChoice({ name: 'newChoice' });
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED,
+        type: ScreenEditorEventName.ChoiceChanged,
         detail: {
             screenElement: field,
             newValue: { value: newChoice.name, error: null },
@@ -158,7 +158,7 @@ it('add choice to radio screen field', () => {
 
     // Add new choice to the field.
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED,
+        type: ScreenEditorEventName.ChoiceAdded,
         detail: {
             screenElement: field,
             position: 3
@@ -185,7 +185,7 @@ it('Attempt to add choice to invalid position results in an error', () => {
 
     // Badly formed event with invalid position.
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED,
+        type: ScreenEditorEventName.ChoiceAdded,
         detail: {
             screenElement: field,
             position: 2
@@ -212,7 +212,7 @@ it('Delete first choice from radio screen field', () => {
 
     // Delete last choice
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED,
+        type: ScreenEditorEventName.ChoiceDeleted,
         detail: {
             screenElement: field,
             position: 0
@@ -240,7 +240,7 @@ it('Delete last choice from radio screen field', () => {
 
     // Delete last choice
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED,
+        type: ScreenEditorEventName.ChoiceDeleted,
         detail: {
             screenElement: field,
             position: 2
@@ -267,7 +267,7 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
 
     // Delete the choice that is the defaultValue
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED,
+        type: ScreenEditorEventName.ChoiceDeleted,
         detail: {
             screenElement: field,
             position: 1
@@ -292,7 +292,7 @@ it('Deleting choice from radio screen field when it is not the defaultValue', ()
 
     // Delete the choice that is the defaultValue
     const event = {
-        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED,
+        type: ScreenEditorEventName.ChoiceDeleted,
         detail: {
             screenElement: field,
             position: 0

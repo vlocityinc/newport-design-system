@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
-import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { DRAGGING_CLASS, HOVERING_CLASS, CONTAINER_DIV_SELECTOR } from 'builder_platform_interaction/screenEditorUtils';
 import {
     createTestScreenField,
@@ -27,7 +27,7 @@ function createComponentForTest(props) {
 
 function clickHighlight(highlight, callback) {
     const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
-    highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
+    highlight.addEventListener(ScreenEditorEventName.ScreenElementSelected, callback);
     highlightDiv.click();
 }
 
