@@ -23,16 +23,6 @@ const SUPPORTED_DATATYPES = [
     FLOW_DATA_TYPE.BOOLEAN.value
 ];
 
-type FieldDefinition = {
-    dataType: string;
-    editable: boolean;
-    creatable: boolean;
-    apiName: string;
-    required: boolean;
-    label: string;
-    relationshipName: string;
-};
-
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
     showNoItemsIllustration = true;
@@ -58,7 +48,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     @api
-    paletteData: PaletteSection[] = [];
+    paletteData: ScreenPaletteSection[] = [];
 
     @api
     get showNoItemIllustrationContainer() {
@@ -118,13 +108,13 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      * Populate section/items data for inner palette component
      */
     buildModel(fieldNamePattern?: String | null) {
-        const sections: PaletteSection[] = [];
-        const requiredSection: PaletteSection = {
+        const sections: ScreenPaletteSection[] = [];
+        const requiredSection: ScreenPaletteSection = {
             guid: generateGuid(),
             label: LABELS.paletteSectionRequiredFieldsLabel,
             _children: []
         };
-        const optionalSection: PaletteSection = {
+        const optionalSection: ScreenPaletteSection = {
             guid: generateGuid(),
             label: LABELS.paletteSectionOptionalFieldsLabel,
             _children: []
@@ -142,13 +132,14 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
             )
             .forEach((field) => {
                 const guid = generateGuid();
-                const item: PaletteItem = {
+                const item: ScreenAutomaticFieldPaletteItem = {
                     apiName: field.apiName,
                     description: field.label,
                     guid,
                     iconName: getDataTypeIcons(field.dataType, 'utility'),
                     label: field.label,
-                    fieldTypeName: getFieldNameByDatatype(field.dataType)
+                    fieldTypeName: getFieldNameByDatatype(field.dataType),
+                    objectFieldReference: this.recordVariable + '.' + field.apiName
                 };
                 if (field.required) {
                     requiredSection._children.push(item);
@@ -163,10 +154,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
 
     /**
      * Add a section to an array of palette section if the section is not empty
-     * @param {PaletteSection[]} sectionArray array of section to push into
-     * @param {PaletteSection} paletteSection palette section to add
+     * @param {ScreenPaletteSection[]} sectionArray array of section to push into
+     * @param {ScreenPaletteSection} paletteSection palette section to add
      */
-    pushSectionIfNotEmpty(sectionArray: PaletteSection[], paletteSection: PaletteSection) {
+    pushSectionIfNotEmpty(sectionArray: ScreenPaletteSection[], paletteSection: ScreenPaletteSection) {
         if (paletteSection._children.length > 0) {
             sectionArray.push(paletteSection);
         }
@@ -194,11 +185,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         // Clicking on an element from the palette should add the corresponding field
         // type to the canvas.
         const fieldGuid = event.detail.guid;
-        const field = getFieldByGuid(this.paletteData, fieldGuid);
-        const addFieldEvent = createAddAutomaticScreenFieldEvent(
-            field.fieldTypeName,
-            this.recordVariable + '.' + field.apiName
-        );
+        const field = getFieldByGuid(this.paletteData, fieldGuid) as ScreenAutomaticFieldPaletteItem;
+        const addFieldEvent = createAddAutomaticScreenFieldEvent(field.fieldTypeName, field.objectFieldReference);
         this.dispatchEvent(addFieldEvent);
         event.stopPropagation();
     };
@@ -208,10 +196,12 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         // field type to the canvas. Figure out which field type user wants
         // to add.
         const { key: fieldGuid } = JSON.parse(event.dataTransfer.getData('text'));
-        const field = getFieldByGuid(this.paletteData, fieldGuid);
+        const field = getFieldByGuid(this.paletteData, fieldGuid) as ScreenAutomaticFieldPaletteItem;
         const fieldTypeName = field.fieldTypeName;
-        const objectFieldReference = this.recordVariable + '.' + field.apiName;
-        event.dataTransfer.setData('text', JSON.stringify({ fieldTypeName, objectFieldReference }));
+        event.dataTransfer.setData(
+            'text',
+            JSON.stringify({ fieldTypeName, objectFieldReference: field.objectFieldReference })
+        );
         event.dataTransfer.effectAllowed = 'copy';
         event.dataTransfer.setData('dragStartLocation', SCREEN_EDITOR_GUIDS.PALETTE); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
         setDragFieldValue(fieldTypeName);

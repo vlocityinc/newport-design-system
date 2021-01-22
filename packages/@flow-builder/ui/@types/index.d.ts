@@ -52,17 +52,31 @@ type ComboboxConfig = {
     fieldLevelHelp?: string;
 };
 
-type PaletteItem = {
+type FieldDefinition = {
+    dataType: string;
+    editable: boolean;
+    creatable: boolean;
     apiName: string;
+    required: boolean;
+    label: string;
+    relationshipName: string;
+};
+
+interface ScreenPaletteItem {
     description: string;
     guid: string;
     iconName: string;
     label: string;
-    fieldTypeName: string;
-};
+}
 
-type PaletteSection = {
+interface ScreenAutomaticFieldPaletteItem extends ScreenPaletteItem {
+    apiName: string;
+    fieldTypeName: string;
+    objectFieldReference: string;
+}
+
+type ScreenPaletteSection = {
     guid: string;
     label: string;
-    _children: PaletteItem[];
+    _children: ScreenPaletteItem[];
 };

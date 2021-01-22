@@ -239,15 +239,19 @@ describe('Screen editor automatic field palette', () => {
         });
     });
     describe('Palette events handling', () => {
-        let allItemsFromPaletteData: Array<PaletteItem>, eventCallback, palette;
-        const getPaletteItemByFieldApiName = (fieldApiName: string): PaletteItem | undefined =>
-            allItemsFromPaletteData.find((paletteItem) => paletteItem.apiName === fieldApiName);
+        let allItemsFromPaletteData: Array<ScreenPaletteItem>, eventCallback, palette;
+        const getPaletteItemByFieldApiName = (fieldApiName: string): ScreenAutomaticFieldPaletteItem | undefined =>
+            (allItemsFromPaletteData as Array<ScreenAutomaticFieldPaletteItem>).find(
+                (paletteItem) => paletteItem.apiName === fieldApiName
+            );
         beforeEach(async () => {
             const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks();
             palette = getBasePalette(element);
-            allItemsFromPaletteData = ([] as Array<PaletteItem>).concat(...element.paletteData.map((e) => e._children));
+            allItemsFromPaletteData = ([] as Array<ScreenPaletteItem>).concat(
+                ...element.paletteData.map((e) => e._children)
+            );
         });
         describe('Palette click event handling', () => {
             const expectEventCallbackCalledWithTypeNameAndObjectFieldReference = (

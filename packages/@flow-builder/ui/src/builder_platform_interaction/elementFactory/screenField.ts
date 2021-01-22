@@ -346,7 +346,7 @@ const createAutomaticFieldFromScreenField = (
 };
 
 const createAutomaticFieldFromEntityField = (
-    entityField: any,
+    entityField: FieldDefinition,
     objectFieldReference: string,
     typeName?: string
 ): UI.ScreenField => {
