@@ -47,7 +47,7 @@ export default class ScreenInputField extends LightningElement {
             this.type = LIGHTNING_INPUT_TYPES.DATE_TIME;
         } else if (newValue === ScreenFieldName.Checkbox) {
             this.type = LIGHTNING_INPUT_TYPES.CHECKBOX;
-        } else if (newValue === ScreenFieldName.Pword) {
+        } else if (newValue === ScreenFieldName.Password) {
             this.type = LIGHTNING_INPUT_TYPES.PASSWORD;
         } else {
             throw new Error('Unknown typeName: ' + newValue);

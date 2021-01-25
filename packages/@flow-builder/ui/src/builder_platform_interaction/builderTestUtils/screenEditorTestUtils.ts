@@ -76,7 +76,7 @@ const SCREEN_FIELD_TYPES_AND_VALUES = {
     Currency: { numberValue: 17 },
     Number: { numberValue: 13 },
     Date: { dateValue: '2018-02-22T00:00:00.000+0000' },
-    Pword: { stringValue: 'Default value for Password' },
+    Password: { stringValue: 'Default value for Password' },
     Checkbox: { booleanValue: true },
     DisplayText: null
 };
@@ -243,7 +243,7 @@ export function createTestScreenField(name, type, value, config = {}, storeOutpu
             if (
                 type === ScreenFieldName.TextBox ||
                 type === ScreenFieldName.LargeTextArea ||
-                type === ScreenFieldName.Pword
+                type === ScreenFieldName.Password
             ) {
                 field.defaultValue = { stringValue: value };
             } else if (type === ScreenFieldName.Number || type === ScreenFieldName.Currency) {

@@ -21,7 +21,7 @@ export enum ScreenFieldName {
     Currency = 'Currency',
     Date = 'Date',
     DateTime = 'DateTime',
-    Pword = 'Pword',
+    Password = 'Password',
     Checkbox = 'Checkbox',
     RadioButtons = 'RadioButtons',
     DropdownBox = 'DropdownBox',
@@ -99,7 +99,7 @@ const screenFieldTypes: UI.ScreenFieldType[] = [
         type: 'DateTime'
     },
     {
-        name: ScreenFieldName.Pword,
+        name: ScreenFieldName.Password,
         fieldType: FlowScreenFieldType.PasswordField,
         dataType: undefined,
         label: LABELS.fieldTypeLabelPassword,

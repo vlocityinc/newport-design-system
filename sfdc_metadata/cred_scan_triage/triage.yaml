@@ -1,0 +1,7 @@
+clean: false
+production_secret: []
+non_production_secret: []
+mock_secret: []
+false_positive:
+    - id: ui-interaction-builder-components://packages/@flow-builder/ui/src/builder_platform_interaction/screenEditorUtils/screenEditorFieldTypeUtils.ts_6d25afd3e238e5717d3702918734c4270e19abf8
+      justification: Name of the field
