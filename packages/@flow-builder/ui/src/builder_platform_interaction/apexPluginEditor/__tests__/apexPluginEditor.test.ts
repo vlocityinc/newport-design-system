@@ -151,6 +151,11 @@ describe('Apex Plugin editor', () => {
         const baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
         expect(baseCalloutEditorCmp).not.toBeNull();
     });
+    it('ensure that display output params is set to true', () => {
+        const apexPluginEditorCmp = createComponentUnderTest(defaultNode);
+        const baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
+        expect(baseCalloutEditorCmp.displayOutputParams).toBe(true);
+    });
     it('should display a subtitle using unique name if call to GET_APEX_PLUGINS failed', async () => {
         mockApexPluginsPromise = Promise.reject();
         const apexPluginEditorCmp = createComponentUnderTest(defaultNode, {
