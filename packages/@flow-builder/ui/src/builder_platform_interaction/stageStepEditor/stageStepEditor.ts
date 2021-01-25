@@ -40,7 +40,14 @@ enum ENTRY_CRITERIA {
     ON_STEP_COMPLETE = 'on_step_complete'
 }
 
-const HIDDEN_INPUT_PARAMETER_NAMES = ['appProcessInstanceId', 'appProcessStepInstanceId'];
+// process instance id, step instance id, context record id, step label and description are common fields on all actions that are not inputs to the action itself
+const HIDDEN_INPUT_PARAMETER_NAMES = [
+    'appProcessInstanceId',
+    'appProcessStepInstanceId',
+    'actionInput__recordId',
+    'actionInput__stepDescription',
+    'actionInput__stepLabel'
+];
 
 export default class StageStepEditor extends LightningElement {
     labels = LABELS;
