@@ -1,6 +1,5 @@
 import {
     areAllBranchesTerminals,
-    addElementToState,
     FAULT_INDEX,
     findLastElement,
     assertInDev,
@@ -9,14 +8,17 @@ import {
     FlowModel,
     NodeModel,
     BranchHeadNodeModel,
+    resolveNode,
     resolveBranchHead,
-    resolveParent
+    resolveParent,
+    NodeType,
+    createRootElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
-import { findStartElement, createRootElement } from 'builder_platform_interaction/flcBuilderUtils';
+import { findStartElement, getFlcElementType } from 'builder_platform_interaction/flcBuilderUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { dfs, ConversionInfo, ConversionInfos } from './freeFormToAutoLayout/dfs';
@@ -157,8 +159,15 @@ function convertLoop(
     if (loopNextConnector != null) {
         const targetElement = elements[loopNextConnector.target];
         if (targetElement && targetElement.guid !== loopElement.guid) {
-            const branchHead = resolveBranchHead(elements, loopNextConnector.target);
-            convertBranchToAutoLayout(elements, conversionInfos, loopElement, branchHead, 0, options);
+            const branchHead = resolveNode(elements, loopNextConnector.target);
+            convertBranchToAutoLayout(
+                elements,
+                conversionInfos,
+                loopElement,
+                branchHead as BranchHeadNodeModel,
+                0,
+                options
+            );
         }
     }
 }
@@ -188,14 +197,14 @@ function convertBranchingElement(
     if (outs.length > 0) {
         outs.forEach(({ childSource, target, type }) => {
             const childIndex = findConnectionIndex(branchingElement, childSource!, type);
-            const targetElement = resolveBranchHead(elements, target);
+            const targetElement = resolveNode(elements, target);
 
             if (!isLinked(targetElement)) {
                 convertBranchToAutoLayout(
                     elements,
                     conversionInfos,
                     branchingElement,
-                    targetElement,
+                    targetElement as BranchHeadNodeModel,
                     childIndex,
                     options
                 );
@@ -302,7 +311,7 @@ function convertBranchToAutoLayout(
 
         // process any fault
         if (fault != null) {
-            const faultBranchHead = resolveBranchHead(elements, fault.target);
+            const faultBranchHead = resolveNode(elements, fault.target);
             if (faultBranchHead.elementType === ELEMENT_TYPE.END_ELEMENT && options.noEmptyFaults) {
                 currentElement.fault = null;
             } else {
@@ -310,7 +319,7 @@ function convertBranchToAutoLayout(
                     elements,
                     conversionInfos,
                     currentElement as ParentNodeModel,
-                    faultBranchHead,
+                    faultBranchHead as BranchHeadNodeModel,
                     FAULT_INDEX,
                     options
                 );
@@ -338,10 +347,13 @@ function convertBranchToAutoLayout(
  */
 function createAutoLayoutElements(elements: UI.Elements): FlowModel {
     const autoLayoutElements = Object.values(elements).reduce((elementsMap, element) => {
-        const canvasElement = { ...element } as UI.CanvasElement;
+        const canvasElement = { ...element } as any;
+
         elementsMap[element.guid] = canvasElement;
 
         if (canvasElement.isCanvasElement) {
+            canvasElement.nodeType = getFlcElementType(element.elementType);
+
             // Resetting the config for all Canvas Elements
             canvasElement.config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false };
             if (canvasElement.locationX != null) {
@@ -356,8 +368,7 @@ function createAutoLayoutElements(elements: UI.Elements): FlowModel {
     }, {});
 
     const rootElement = createRootElement() as any;
-
-    addElementToState(rootElement, autoLayoutElements);
+    autoLayoutElements[rootElement.guid] = rootElement;
 
     return autoLayoutElements;
 }
@@ -395,7 +406,8 @@ function consolidateEndConnectorsForBranch(
                 if (element.next == null) {
                     const next = element.next;
                     if (next == null) {
-                        const newEnd = createEndElement({ prev: element.guid });
+                        const newEnd = createEndElement({ prev: element.guid }) as any;
+                        newEnd.nodeType = NodeType.END;
                         element.next = newEnd.guid;
                         // @ts-ignore
                         elements[newEnd.guid] = newEnd;
@@ -408,11 +420,11 @@ function consolidateEndConnectorsForBranch(
             const { prev, parent, childIndex } = element as BranchHeadNodeModel;
 
             if (prev != null) {
-                const prevElement = elements[prev] as UI.AutoLayoutCanvasElement;
+                const prevElement = elements[prev];
                 prevElement.next = null;
             } else {
-                const parentElement = elements[parent!] as UI.AutoLayoutCanvasElement;
-                parentElement.children![childIndex!] = null;
+                const parentElement = elements[parent!] as ParentNodeModel;
+                parentElement.children[childIndex] = null;
             }
             delete elements[element.guid];
         }

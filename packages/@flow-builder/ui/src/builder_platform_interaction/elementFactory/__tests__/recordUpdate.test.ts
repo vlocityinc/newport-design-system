@@ -8,12 +8,6 @@ import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 expect.extend(deepFindMatchers);
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 const recordUpdateUsingSobject = {
     name: 'RecordUpdate1',
     description: '',

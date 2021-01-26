@@ -7,7 +7,7 @@ import {
     baseChildElement,
     baseCanvasElementsArrayToMap,
     createCondition,
-    getUpdatedChildrenAndDeletedChildrenUsingStore,
+    getDeletedCanvasElementChildren,
     updateChildReferences
 } from './base/baseElement';
 import {
@@ -16,8 +16,7 @@ import {
 } from './commonFactoryUtils/connectionPropertiesUtils';
 import {
     getElementByGuid,
-    isExecuteOnlyWhenChangeMatchesConditionsPossible,
-    shouldUseAutoLayoutCanvas
+    isExecuteOnlyWhenChangeMatchesConditionsPossible
 } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementMetadataObject,
@@ -32,7 +31,7 @@ const elementType = ELEMENT_TYPE.DECISION;
 // For Opening Property editor or copying a decision
 export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
-    const { prev, next } = decision;
+
     let { outcomes } = decision;
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, childReferences } = decision;
 
@@ -54,8 +53,6 @@ export function createDecisionWithOutcomes(decision = {}) {
 
     // Add maxConnections for new/existing decision  if needed.
     return Object.assign(newDecision, {
-        next,
-        prev,
         outcomes,
         defaultConnectorLabel,
         elementType
@@ -180,14 +177,8 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     }
 
     const maxConnections = newOutcomes.length + 1;
-    const {
-        newChildren,
-        deletedCanvasElementChildren,
-        deletedBranchHeadGuids,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
-    } = getUpdatedChildrenAndDeletedChildrenUsingStore(decision, newOutcomes);
+
+    const deletedCanvasElementChildren = getDeletedCanvasElementChildren(decision, newOutcomes);
     const deletedOutcomeGuids = deletedCanvasElementChildren.map((outcome) => outcome.guid);
 
     let originalDecision = getElementByGuid(decision.guid);
@@ -209,12 +200,6 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         deletedOutcomeGuids
     );
 
-    if (shouldUseAutoLayoutCanvas()) {
-        Object.assign(newDecision, {
-            children: newChildren
-        });
-    }
-
     const elementSubtype = decision.elementSubtype;
     Object.assign(newDecision, {
         defaultConnectorLabel,
@@ -222,20 +207,15 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         elementType,
         maxConnections,
         connectorCount,
-        availableConnections,
-        next: shouldMarkBranchHeadAsTerminal ? null : newDecision.next
+        availableConnections
     });
 
     return {
         canvasElement: newDecision,
         deletedChildElementGuids: deletedOutcomeGuids,
         childElements: newOutcomes,
-        deletedBranchHeadGuids,
         elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
-        elementSubtype,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
+        elementSubtype
     };
 }
 

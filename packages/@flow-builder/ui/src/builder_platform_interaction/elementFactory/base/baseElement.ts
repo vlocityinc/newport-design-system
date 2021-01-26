@@ -1,5 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createFEROV } from '../ferov';
@@ -9,13 +9,7 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
-import {
-    areAllBranchesTerminals,
-    ParentNodeModel,
-    FlowModel,
-    BranchHeadNodeModel
-} from 'builder_platform_interaction/autoLayoutCanvas';
+import { copyFlcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -50,35 +44,6 @@ function createCanvasElementConfig(
     return { isSelected, isHighlighted, isSelectable, hasError };
 }
 
-/**
- *  Adds ALC specific ui model properties
- */
-function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
-    const {
-        next = null,
-        prev = null,
-        children = null,
-        childIndex = null,
-        parent = null,
-        fault = null,
-        incomingGoTo = [],
-        isTerminal = null
-    } = canvasElement;
-    if (supportsChildren(canvasElement)) {
-        Object.assign(newCanvasElement, { children });
-    }
-
-    if (parent) {
-        Object.assign(newCanvasElement, { parent, childIndex, isTerminal });
-    }
-
-    if (fault) {
-        Object.assign(newCanvasElement, { fault });
-    }
-
-    Object.assign(newCanvasElement, { next, prev, incomingGoTo });
-}
-
 export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanvasElement = {}): UI.Element {
     const newCanvasElement = baseResource(canvasElement);
     const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = <UI.BaseCanvasElement>(
@@ -87,9 +52,8 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
     let { config } = <UI.BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
 
-    if (shouldUseAutoLayoutCanvas()) {
-        addBaseCanvasElementProperties(canvasElement, newCanvasElement);
-    }
+    // TODO: Need to remove, currently used to suppot alc copy/paste
+    copyFlcExtraProps(canvasElement, newCanvasElement);
 
     return Object.assign(newCanvasElement, {
         label,
@@ -448,108 +412,37 @@ export function updateChildReferences(
     ];
 }
 
-export function getUpdatedChildrenAndDeletedChildrenUsingStore(
-    originalCanvasElement: UI.AutoLayoutCanvasElement,
+/**
+ * Computes the deleted canvas element children
+ *
+ * @param originalCanvasElement - The original canvas element
+ * @param canvasElementChildren - The updated canvas element's children
+ *
+ * @return The deleted canvas element children
+ */
+export function getDeletedCanvasElementChildren(
+    originalCanvasElement: UI.Element,
     canvasElementChildren: UI.Element[] = []
-): {
-    newChildren: UI.Guid[];
-    deletedCanvasElementChildren: UI.ChildElement[];
-    deletedBranchHeadGuids: UI.Guid[];
-    shouldAddEndElement: boolean;
-    newEndElementIdx: number;
-    shouldMarkBranchHeadAsTerminal: boolean;
-} {
-    if (!originalCanvasElement) {
-        throw new Error('Canvas Element is not defined');
-    }
-    const { guid, children } = originalCanvasElement;
+): UI.ChildElement[] {
+    const { guid } = originalCanvasElement;
     const canvasElementFromStore: (UI.Element & { childReferences }) | undefined = getElementByGuid(guid);
+    let deletedCanvasElementChildren = [];
     let canvasElementChildReferencesFromStore;
+
     if (canvasElementFromStore && canvasElementFromStore.childReferences) {
         canvasElementChildReferencesFromStore = canvasElementFromStore.childReferences.map(
             (childReference) => childReference.childReference
         );
     }
-
     const newCanvasElementChildGuids = canvasElementChildren.map((canvasElementChild) => canvasElementChild.guid);
 
-    // Initializing the new children array
-    const newChildren = new Array(newCanvasElementChildGuids.length + 1).fill(null);
-    let deletedCanvasElementChildren = [];
-    const deletedBranchHeadGuids: Array<any> = [];
-
-    let shouldAddEndElement = false;
-    let newEndElementIdx;
-    let shouldMarkBranchHeadAsTerminal = false;
     if (canvasElementChildReferencesFromStore) {
         deletedCanvasElementChildren = canvasElementChildReferencesFromStore
             .filter((canvasElementChildReferenceGuid) => {
                 return !newCanvasElementChildGuids.includes(canvasElementChildReferenceGuid);
             })
             .map((childReference) => getElementByGuid(childReference));
-
-        const netNewCanvasElementChildrenIndexes: Array<any> = [];
-        if (shouldUseAutoLayoutCanvas() && children) {
-            const areAllExistingBranchesTerminal = areAllBranchesTerminals(
-                originalCanvasElement as ParentNodeModel,
-                Store.getStore().getCurrentState().elements as FlowModel
-            );
-
-            // For canvas element children that previously existed, finding the associated children
-            // and putting them at the right indexes in newChildren
-            for (let i = 0; i < newCanvasElementChildGuids.length; i++) {
-                const foundAtIndex = canvasElementChildReferencesFromStore.indexOf(newCanvasElementChildGuids[i]);
-                if (foundAtIndex !== -1) {
-                    newChildren[i] = children[foundAtIndex];
-                } else {
-                    netNewCanvasElementChildrenIndexes.push(i);
-                }
-            }
-
-            // Adding the default branch's associated child to the last index of newChildren
-            newChildren[newChildren.length - 1] = children[children.length - 1];
-
-            // If all exsiting branches are terminal, then add an end element as needed
-            if (areAllExistingBranchesTerminal && netNewCanvasElementChildrenIndexes.length > 0) {
-                shouldAddEndElement = true;
-                if (netNewCanvasElementChildrenIndexes.length === 1) {
-                    // If only one canvas element child is added, an end element needs to be added
-                    // to children at the correct index
-                    newEndElementIdx = netNewCanvasElementChildrenIndexes[0];
-                }
-                // If multiple canvas element children are added, an end element needs to be added as
-                // canvas element's next, this case is handled in flcElementsReducer
-            }
-
-            // Getting the child associated with the deleted canvas element child
-            for (let i = 0; i < canvasElementChildReferencesFromStore.length; i++) {
-                if (!newCanvasElementChildGuids.includes(canvasElementChildReferencesFromStore[i]) && children[i]) {
-                    deletedBranchHeadGuids.push(children[i]);
-                }
-            }
-
-            // If rest of the branches are all terminal, add canvas element's next to deletedBranchHeadGuids
-            let areAllNewBranchesTerminal = true;
-            for (let i = 0; i < newChildren.length; i++) {
-                const child = getElementByGuid(newChildren[i]) as BranchHeadNodeModel;
-                if (!child || !child.isTerminal) {
-                    areAllNewBranchesTerminal = false;
-                }
-            }
-            if (areAllNewBranchesTerminal && deletedCanvasElementChildren.length > 0) {
-                shouldMarkBranchHeadAsTerminal = true;
-                if (originalCanvasElement.next) {
-                    deletedBranchHeadGuids.push(originalCanvasElement.next);
-                }
-            }
-        }
     }
-    return {
-        newChildren,
-        deletedCanvasElementChildren,
-        deletedBranchHeadGuids,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
-    };
+
+    return deletedCanvasElementChildren;
 }

@@ -16,7 +16,6 @@ import {
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
-import { addFlcProperties } from 'builder_platform_interaction/flcBuilderUtils';
 
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
@@ -271,11 +270,7 @@ export function createScreenElement(screen) {
         helpText = '',
         pausedText = '',
         showFooter = true,
-        showHeader = true,
-        next,
-        prev,
-        parent,
-        childIndex
+        showHeader = true
     } = screen;
 
     const getFieldByGUID = function (guid) {
@@ -340,13 +335,6 @@ export function createScreenElement(screen) {
         getFieldIndexesByGUID,
         findFieldByGUID,
         findFieldIndexByGUID
-    });
-
-    addFlcProperties(screenObject, {
-        next,
-        prev,
-        parent,
-        childIndex
     });
 
     return screenObject;

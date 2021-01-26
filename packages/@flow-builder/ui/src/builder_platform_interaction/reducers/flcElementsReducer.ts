@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     ADD_START_ELEMENT,
     ADD_CANVAS_ELEMENT,
@@ -16,292 +15,216 @@ import {
     FLC_CREATE_CONNECTION,
     ADD_PARENT_WITH_CHILDREN
 } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { createRootElement, supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { getElementsMetadata } from 'builder_platform_interaction/flcBuilderUtils';
 
 import {
-    addElementToState,
-    linkElement,
-    linkBranchOrFault,
     deleteBranchHeadProperties,
-    deleteElement,
-    addElement,
-    deleteFault,
-    deleteBranch,
     FAULT_INDEX,
-    reconnectBranchElement,
     findLastElement,
     assertInDev,
     assertAutoLayoutState,
-    findFirstElement,
-    inlineBranches
+    reducer,
+    actions,
+    Guid,
+    NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
+
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
 import { getSubElementGuids } from './reducersUtils';
 
-/**
- * Adds a nulled children array to a parentElement
- * @param {Object} element
- */
-function initializeChildren(element) {
-    const { elementType } = element;
-    const elementConfig = getConfigForElementType(elementType);
+const getElementService = (flowModel: UI.Elements) => {
+    return {
+        deleteElement(elementGuid: Guid) {
+            const element = flowModel[elementGuid];
+            getSubElementGuids(element, flowModel).forEach((subElementGuid) => {
+                delete flowModel[subElementGuid];
+            });
+            delete flowModel[elementGuid];
+        },
 
-    let childCount;
-
-    if (elementType === ELEMENT_TYPE.LOOP) {
-        childCount = 1;
-    } else {
-        childCount = element.maxConnections - (elementConfig.canHaveFaultConnector ? 1 : 0);
-    }
-    const children = element.children || [];
-    const childCountDiff = childCount - children.length;
-
-    if (childCountDiff > 0) {
-        for (let i = 0; i < childCountDiff; i++) {
-            children.push(null);
+        createEndElement() {
+            const endElement = createEndElement();
+            flowModel[endElement.guid] = endElement;
+            return endElement.guid;
         }
-    }
-
-    element.children = children;
-}
+    };
+};
 
 /**
  * FLC Reducer for elements
  *
- * @param {Object} state - elements in the store
- * @param {Object} action - with type and payload
- * @return {Object} new state after reduction
+ * @param state - elements in the store
+ * @param action - with type and payload
+ * @return new state after reduction
  */
-export default function flcElementsReducer(state = {}, action) {
-    state = deepCopy(elementsReducer(state, action));
+export default function flcElementsReducer(state: Readonly<UI.Elements>, action: any): Readonly<UI.Elements> {
+    const metadata = getElementsMetadata();
+
+    let nextState = elementsReducer(deepCopy(state), action);
+    const elementService = getElementService(nextState);
+    const autoLayoutCanvasReducer = reducer(elementService);
 
     switch (action.type) {
-        case ADD_START_ELEMENT:
-            state = addRootAndEndElements(state, action.payload.guid);
+        case ADD_START_ELEMENT: {
+            const startElement = action.payload;
+            nextState[startElement.guid] = startElement;
+
+            const endElementGuid = elementService.createEndElement();
+            const initAction = actions.initAction(action.payload.guid, endElementGuid);
+            nextState = autoLayoutCanvasReducer(nextState, initAction);
             break;
-        case FLC_CREATE_CONNECTION:
-            state = _reconnectBranchElement(state, action.payload);
+        }
+        case FLC_CREATE_CONNECTION: {
+            const { insertAt, targetGuid } = action.payload;
+            const connectToElementAction = actions.connectToElementAction(insertAt, targetGuid);
+            nextState = autoLayoutCanvasReducer(nextState, connectToElementAction);
             break;
-        case ADD_FAULT:
-            state = _addFault(state, action.payload);
+        }
+        case ADD_FAULT: {
+            const addFaultAction = actions.addFaultAction(action.payload);
+            nextState = autoLayoutCanvasReducer(nextState, addFaultAction);
             break;
-        case DELETE_FAULT:
-            state = _deleteFault(state, action.payload);
+        }
+        case DELETE_FAULT: {
+            const deleteFaultAction = actions.deleteFaultAction(action.payload);
+            nextState = autoLayoutCanvasReducer(nextState, deleteFaultAction);
             break;
+        }
         case ADD_CANVAS_ELEMENT:
         case ADD_SCREEN_WITH_FIELDS:
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_END_ELEMENT:
         case ADD_WAIT_WITH_WAIT_EVENTS:
-        case ADD_PARENT_WITH_CHILDREN:
-            state = _addCanvasElement(state, action);
+        case ADD_PARENT_WITH_CHILDREN: {
+            const element = _getElementFromActionPayload(action.payload);
+            if (!nextState[element.guid]) {
+                nextState[element.guid] = element;
+            }
+
+            const insertAt = action.payload.alcInsertAt;
+            const children = getChildren(element);
+
+            if (children) {
+                nextState[element.guid].children = children;
+            }
+            const nodeType = metadata[element.elementType].type;
+            const alcAction = actions.addElementAction(element.guid, nodeType, insertAt);
+            nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
+        }
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-        case MODIFY_DECISION_WITH_OUTCOMES:
-            state = _modifyCanvasElementWithChildren(state, action);
+        case MODIFY_DECISION_WITH_OUTCOMES: {
+            // redo
+            const element = _getElementFromActionPayload(action.payload);
+            const updatedChildren = getNextChildren(state[element.guid], element);
+            const alcAction = actions.updateChildrenAction(element.guid, updatedChildren);
+            nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
-        case DELETE_ELEMENT:
-            // TODO: FLC find a better solution for getSubElementGuids
-            state = _deleteElements(state, action);
+        }
+        case DELETE_ELEMENT: {
+            const { selectedElements, childIndexToKeep } = action.payload;
+            const deletedElement = selectedElements[0];
+            const alcAction = actions.deleteElementAction(deletedElement.guid, childIndexToKeep);
+            nextState[deletedElement.guid] = deletedElement;
+            nextState = autoLayoutCanvasReducer(nextState, alcAction);
+            delete nextState[deletedElement.guid];
             break;
+        }
         case SELECTION_ON_FIXED_CANVAS:
-            state = _selectionOnFixedCanvas(
-                state,
+            // TODO: move to autoLayoutCanvasReducer
+            nextState = _selectionOnFixedCanvas(
+                nextState,
                 action.payload.canvasElementGuidsToSelect,
                 action.payload.canvasElementGuidsToDeselect,
                 action.payload.selectableGuids
             );
             break;
         case PASTE_ON_FIXED_CANVAS:
-            state = _pasteOnFixedCanvas(state, action.payload);
+            // TODO: move to autoLayoutCanvasReducer
+            nextState = _pasteOnFixedCanvas(nextState, action.payload);
             break;
         default:
     }
 
-    assertInDev(() => assertAutoLayoutState(state));
+    assertInDev(() => assertAutoLayoutState(nextState));
 
-    return state;
+    return nextState;
 }
 
 /**
- * Adds a root and end element for a new flow
- * @param {Object} elements - the store elements
- * @param {string} startElementGuid - the start element guid
+ * Returns a nulled' children array for a new element that supports children
+ *
+ * @param element - An element that can have a children
+ * @return An nulled array of n children, where n is the number of children the element can have
  */
-function addRootAndEndElements(elements, startElementGuid) {
-    const rootElement = createRootElement();
-    addElementToState(rootElement, elements);
-    const startElement = elements[startElementGuid];
-    linkBranchOrFault(elements, rootElement, 0, startElement);
-    linkElement(elements, createEndElement({ prev: startElementGuid }));
-    startElement.isTerminal = true;
-    return elements;
+function getChildren(element: UI.CanvasElement): (Guid | null)[] | null {
+    let childCount;
+    const { elementType, childReferences } = element;
+
+    if (elementType === ELEMENT_TYPE.LOOP) {
+        childCount = 1;
+    } else if (childReferences && childReferences.length > 0) {
+        childCount = childReferences.length + 1;
+    } else {
+        return null;
+    }
+
+    return Array(childCount).fill(null);
+}
+
+/**
+ * Computes and returns the new children for an element
+ *
+ * @param element - The previous state of the element
+ * @param nextElement - The next state of the element
+ * @return The new children array for the element
+ */
+function getNextChildren(element, nextElement): (Guid | null)[] {
+    const { children } = element;
+    const nextChildren = getChildren(nextElement)!;
+
+    // copy over the child corresponding to the default outcome
+    nextChildren[nextChildren.length - 1] = children[children.length - 1];
+
+    nextElement.childReferences.forEach((childReference, i) => {
+        const currentIndex = element.childReferences.findIndex((ref) => {
+            return ref.childReference === childReference.childReference;
+        });
+
+        if (currentIndex !== -1) {
+            nextChildren[i] = children[currentIndex];
+        }
+    });
+
+    return nextChildren;
 }
 
 function _getElementFromActionPayload(payload) {
     return payload.screen || payload.canvasElement || payload;
 }
 
-function _reconnectBranchElement(elements, { sourceGuid, targetGuid }) {
-    return reconnectBranchElement(elements, sourceGuid, targetGuid);
-}
-
-/**
- * Adds a fault to an element
- *
- * @param {Object} state - The flow state
- * @param {Object} elementGuid - The guid of the element to add a fault to
- */
-function _addFault(state, elementGuid) {
-    const element = state[elementGuid];
-
-    const endElement = createEndElement({
-        prev: null,
-        next: null
-    });
-
-    addElementToState(endElement, state);
-    linkBranchOrFault(state, element, FAULT_INDEX, endElement);
-
-    return state;
-}
-
-function _deleteFault(state, elementGuid) {
-    return deleteFault(state, elementGuid, getSubElementGuids);
-}
-
-/**
- * Function to add a canvas element on the fixed canvas
- * @param {Object} state - State of elements in the store
- * @param {Object} action - Action dispatched to the store
- */
-function _addCanvasElement(state, action) {
-    const element = _getElementFromActionPayload(action.payload);
-
-    if (supportsChildren(element)) {
-        initializeChildren(element);
-    }
-
-    addElement(state, element, action.type === ADD_END_ELEMENT);
-
-    return state;
-}
-
-/**
- * Function to handle modification of Canvas Element with children
- * @param {Object} state - State of elements in the store
- * @param {Object} action - Action dispatched to the store
- */
-function _modifyCanvasElementWithChildren(state, action) {
-    let element = _getElementFromActionPayload(action.payload);
-    element = state[element.guid];
-    for (let i = 0; i < element.children.length; i++) {
-        if (element.children[i]) {
-            state[element.children[i]].childIndex = i;
-        }
-    }
-
-    // If shouldAddEndElement is true and newEndElementIdx exists, add an end element
-    // to the right position of children. If shouldAddEndElement is true and newEndElementIdx
-    // is undefined, add an end element as element's next
-    if (action.payload.shouldAddEndElement) {
-        if (action.payload.newEndElementIdx !== undefined) {
-            const endElement = createEndElement({
-                parent: element.guid,
-                childIndex: action.payload.newEndElementIdx,
-                prev: null,
-                next: null,
-                isTerminal: true
-            });
-            addElementToState(endElement, state);
-            element.children[action.payload.newEndElementIdx] = endElement.guid;
-        } else {
-            const endElement = createEndElement({
-                prev: element.guid,
-                next: null
-            });
-            addElementToState(endElement, state);
-            element.next = endElement.guid;
-        }
-    }
-
-    if (action.payload.shouldMarkBranchHeadAsTerminal) {
-        const branchHead = findFirstElement(element, state);
-        branchHead.isTerminal = true;
-    }
-
-    const deletedBranchHeadGuids = action.payload.deletedBranchHeadGuids;
-    for (let i = 0; i < deletedBranchHeadGuids.length; i++) {
-        deleteBranch(state, deletedBranchHeadGuids[i], getSubElementGuids);
-    }
-
-    // Need to inline branches in the case where after deleting an outcome all
-    // remaining branches are terminal
-    if (element.next) {
-        inlineBranches(element, state);
-    }
-
-    return state;
-}
-
-/**
- * Function to delete elements from store state
- * @param {Object} state - Current state of elements in the store
- * @param {Object} action - Action dispatched to the store
- */
-function _deleteElements(state, { payload }) {
-    const { selectedElements, childIndexToKeep } = payload;
-    const element = selectedElements[0];
-    const { addEndElement } = deleteElement(state, element, childIndexToKeep, getSubElementGuids);
-
-    if (addEndElement) {
-        const { prev, parent, childIndex } = element;
-        let endElement;
-        if (prev) {
-            // Adding an end element connected to the previous element
-            const prevElement = state[element.prev];
-            endElement = createEndElement({
-                prev,
-                next: null
-            });
-            addElementToState(endElement, state);
-            prevElement.next = endElement.guid;
-        } else {
-            // Adding an end element connected to the parent element at the right childIndex
-            const parentElement = state[element.parent];
-            endElement = createEndElement({
-                parent,
-                childIndex,
-                next: null,
-                isTerminal: true
-            });
-            addElementToState(endElement, state);
-            parentElement.children[childIndex] = endElement.guid;
-        }
-
-        const branchHead = findFirstElement(endElement, state);
-        branchHead.isTerminal = true;
-    }
-
-    return state;
-}
-
 /**
  * Helper function to handle select mode in the Fixed Layout Canvas. Iterates over all the elements
  * and marks them as selected, deselected or disables the checkbox based on the data received
  *
- * @param {Object} elements - current state of elements in the store
- * @param {String[]} canvasElementGuidsToSelect - Array of canvas elements to be selected
- * @param {String[]} canvasElementGuidsToDeselect - Array of canvas elements to be deselected
- * @param {String[]} selectableGuids - Array of canvas element guids that are selectable next
+ * @param elements - current state of elements in the store
+ * @param canvasElementGuidsToSelect - Array of canvas elements to be selected
+ * @param canvasElementGuidsToDeselect - Array of canvas elements to be deselected
+ * @param selectableGuids - Array of canvas element guids that are selectable next
  */
-function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids) {
+function _selectionOnFixedCanvas(
+    elements: Readonly<UI.StoreState>,
+    canvasElementGuidsToSelect: Guid[],
+    canvasElementGuidsToDeselect: Guid[],
+    selectableGuids: Guid[]
+) {
     const newState = updateProperties(elements);
     let hasStateChanged = false;
 
@@ -361,11 +284,11 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
 /**
  * Helper function to get unique dev name that is not in the store or in the passed in blacklist
  *
- * @param {String} name - existing dev name to make unique
- * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
- * @return {String} new unique dev name
+ * @param name - existing dev name to make unique
+ * @param blacklistNames - blacklisted list of names to check against in addition to store
+ * @return new unique dev name
  */
-function _getUniquePastedElementName(name, blacklistNames = []) {
+function _getUniquePastedElementName(name: string, blacklistNames: string[] = []) {
     if (isDevNameInStore(name) || blacklistNames.includes(name)) {
         return _getUniquePastedElementName(name + '_0', blacklistNames);
     }
@@ -381,7 +304,7 @@ function _getUniquePastedElementName(name, blacklistNames = []) {
  */
 function _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames) {
     const childElementNameMap = {};
-    const cutOrCopiedChildElementsArray = Object.values(cutOrCopiedChildElements);
+    const cutOrCopiedChildElementsArray = Object.values(cutOrCopiedChildElements) as any;
     for (let i = 0; i < cutOrCopiedChildElementsArray.length; i++) {
         const pastedChildElementName = _getUniquePastedElementName(
             cutOrCopiedChildElementsArray[i].name,
@@ -418,7 +341,7 @@ function _pasteOnFixedCanvas(
     let newState = { ...elements };
 
     const elementGuidsToPaste = Object.keys(canvasElementGuidMap);
-    const blacklistNames = [];
+    const blacklistNames: string[] = [];
     const childElementNameMap = _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames);
 
     for (let i = 0; i < elementGuidsToPaste.length; i++) {
@@ -457,34 +380,34 @@ function _pasteOnFixedCanvas(
 
     // Updating previous element's next to the guid of the top-most pasted element
     if (prev) {
-        newState[prev].next = canvasElementGuidMap[topCutOrCopiedGuid];
+        newState[prev!].next = canvasElementGuidMap[topCutOrCopiedGuid];
     }
 
     // Updating next element's prev to the guid of the bottom-most pasted element
     if (next) {
-        newState[next].prev = canvasElementGuidMap[bottomCutOrCopiedGuid];
+        newState[next!].prev = canvasElementGuidMap[bottomCutOrCopiedGuid];
 
         // If the next element was a terminal element, then marking the topCutOrCopied element as the terminal element
-        if (newState[next].isTerminal) {
+        if (newState[next!].isTerminal) {
             newState[canvasElementGuidMap[topCutOrCopiedGuid]].isTerminal = true;
         }
 
         // Deleting the next element's parent, childIndex and isTerminal property
-        deleteBranchHeadProperties(newState[next]);
+        deleteBranchHeadProperties(newState[next!]);
     }
 
     if (parent) {
         if (childIndex === FAULT_INDEX) {
             // Updating the parent's fault to to point to the top-most pasted element's guid
-            newState[parent].fault = canvasElementGuidMap[topCutOrCopiedGuid];
+            newState[parent!].fault = canvasElementGuidMap[topCutOrCopiedGuid];
         } else {
             // Updating the parent's children to include the top-most pasted element's guid at the right index
-            newState[parent].children[childIndex] = canvasElementGuidMap[topCutOrCopiedGuid];
+            newState[parent!].children[childIndex!] = canvasElementGuidMap[topCutOrCopiedGuid];
         }
     }
 
     // Adding end elements to the pasted fault branches
-    const pastedElementGuids = Object.values(canvasElementGuidMap);
+    const pastedElementGuids = Object.values(canvasElementGuidMap) as any;
     for (let i = 0; i < pastedElementGuids.length; i++) {
         const pastedElement = newState[pastedElementGuids[i]];
         if (pastedElement.fault) {
@@ -493,8 +416,9 @@ function _pasteOnFixedCanvas(
             const endElement = createEndElement({
                 prev: lastFaultBranchElement.guid,
                 next: null
-            });
-            addElementToState(endElement, newState);
+            }) as any;
+            endElement.nodeType = NodeType.END;
+            newState[endElement.guid] = endElement;
             lastFaultBranchElement.next = endElement.guid;
         }
     }

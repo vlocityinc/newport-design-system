@@ -14,12 +14,6 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     return Object.assign({}, sharedUtils, { commands: sharedcommands });
 });
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 const SELECTORS = {
     CANVAS_DIV: '.canvas',
     OVERLAY: '.overlay',

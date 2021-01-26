@@ -13,13 +13,13 @@ import waitLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.waitL
 import loopLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicDescription';
 import loopLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicLabel';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 
 export default [
     {
         section: 'Interaction',
-        type: ElementType.DEFAULT,
+        type: NodeType.DEFAULT,
         icon: 'standard:screen',
         label: screenComponentLabel,
         value: ELEMENT_TYPE.SCREEN,
@@ -31,7 +31,7 @@ export default [
     },
     {
         section: 'Interaction',
-        type: ElementType.DEFAULT,
+        type: NodeType.DEFAULT,
         icon: 'standard:lightning_component',
         iconBackgroundColor: 'background-navy',
         label: newActionLabel,
@@ -44,7 +44,7 @@ export default [
     },
     {
         section: 'Flow Control',
-        type: ElementType.BRANCH,
+        type: NodeType.BRANCH,
         icon: 'standard:decision',
         iconShape: 'diamond',
         label: decisionLogicLabel,
@@ -57,7 +57,7 @@ export default [
     },
     {
         section: 'Flow Control',
-        type: ElementType.BRANCH,
+        type: NodeType.BRANCH,
         icon: 'standard:waits',
         label: waitLogicLabel,
         value: ELEMENT_TYPE.WAIT,
@@ -69,7 +69,7 @@ export default [
     },
     {
         section: 'Flow Control',
-        type: ElementType.LOOP,
+        type: NodeType.LOOP,
         icon: 'standard:loop',
         label: loopLogicLabel,
         value: ELEMENT_TYPE.LOOP,
@@ -129,7 +129,7 @@ export default [
     },
     {
         section: null,
-        type: ElementType.START,
+        type: NodeType.START,
         icon: 'standard:default',
         label: 'Start',
         value: ELEMENT_TYPE.START_ELEMENT,
@@ -142,7 +142,7 @@ export default [
     // TODO: Support different process types off-core
     {
         section: 'Interaction',
-        type: ElementType.ORCHESTRATED_STAGE,
+        type: NodeType.ORCHESTRATED_STAGE,
         icon: 'standard:screen',
         label: 'orchestratedStage',
         value: ELEMENT_TYPE.ORCHESTRATED_STAGE,

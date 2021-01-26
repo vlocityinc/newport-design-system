@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     createDecisionWithOutcomes,
     createPastedDecision,
@@ -17,8 +17,8 @@ import {
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
-    getUpdatedChildrenAndDeletedChildrenUsingStore,
-    updateChildReferences
+    updateChildReferences,
+    getDeletedCanvasElementChildren
 } from '../base/baseElement';
 import {
     baseCanvasElementMetadataObject,
@@ -34,8 +34,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
-        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
     };
 });
 
@@ -153,6 +152,7 @@ createPastedCanvasElement
         return duplicatedElement;
     })
     .mockName('createPastedCanvasElementMock');
+
 duplicateCanvasElementWithChildElements
     .mockImplementation(() => {
         const duplicatedElement = {};
@@ -191,9 +191,11 @@ baseChildElement
     })
     .mockName('baseChildElementMock');
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
-getUpdatedChildrenAndDeletedChildrenUsingStore.mockImplementation(
-    jest.requireActual('../base/baseElement').getUpdatedChildrenAndDeletedChildrenUsingStore
+
+getDeletedCanvasElementChildren.mockImplementation(
+    jest.requireActual('../base/baseElement').getDeletedCanvasElementChildren
 );
+
 updateChildReferences.mockImplementation((childReferences, ruleOrOutcome) => {
     return [
         ...childReferences,
@@ -408,12 +410,6 @@ describe('decision', () => {
     });
 
     describe('createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor', () => {
-        const shouldUseFlc = (useFlc) => {
-            shouldUseAutoLayoutCanvas.mockImplementation(() => {
-                return useFlc;
-            });
-        };
-
         const outcome1 = {
             guid: 'outcome1',
             name: 'outcome1'
@@ -485,15 +481,13 @@ describe('decision', () => {
         });
 
         let decisionFromPropertyEditor;
-        let decisionFromPropertyEditorWithChildren;
-        let existingDecisionFromPropertyEditorWithChildren;
-        let existingDecisionFromPropertyEditorWithAllTerminatedChildren;
-        let existingDecisionFromPropertyEditorWithThreeOutcomes;
-        let existingDecisionFromPropertyEditorWithNoneTerminatedChildren;
+        // let decisionFromPropertyEditorWithChildren;
+        // let existingDecisionFromPropertyEditorWithChildren;
+        // let existingDecisionFromPropertyEditorWithAllTerminatedChildren;
+        // let existingDecisionFromPropertyEditorWithThreeOutcomes;
+        // let existingDecisionFromPropertyEditorWithNoneTerminatedChildren;
 
         beforeEach(() => {
-            shouldUseFlc(false);
-
             decisionFromPropertyEditor = {
                 guid: newDecisionGuid,
                 outcomes: [
@@ -503,105 +497,105 @@ describe('decision', () => {
                 ]
             };
 
-            decisionFromPropertyEditorWithChildren = {
-                guid: decisionWithChildrenGuid,
-                outcomes: [
-                    {
-                        guid: 'outcome1'
-                    }
-                ],
-                children: null
-            };
+            // decisionFromPropertyEditorWithChildren = {
+            //     guid: decisionWithChildrenGuid,
+            //     outcomes: [
+            //         {
+            //             guid: 'outcome1'
+            //         }
+            //     ],
+            //     children: null
+            // };
 
-            existingDecisionFromPropertyEditorWithChildren = {
-                guid: existingDecisionWithChildrenGuid,
-                outcomes: [
-                    {
-                        guid: 'existingOutcome1'
-                    }
-                ],
-                children: ['screen1', 'screen2', null]
-            };
+            // existingDecisionFromPropertyEditorWithChildren = {
+            //     guid: existingDecisionWithChildrenGuid,
+            //     outcomes: [
+            //         {
+            //             guid: 'existingOutcome1'
+            //         }
+            //     ],
+            //     children: ['screen1', 'screen2', null]
+            // };
 
-            existingDecisionFromPropertyEditorWithAllTerminatedChildren = {
-                guid: existingDecisionWithAllTerminatedChildrenGuid,
-                outcomes: [
-                    {
-                        guid: 'outcome1'
-                    },
-                    {
-                        guid: 'outcome2'
-                    }
-                ],
-                children: ['end1', 'end2']
-            };
+            // existingDecisionFromPropertyEditorWithAllTerminatedChildren = {
+            //     guid: existingDecisionWithAllTerminatedChildrenGuid,
+            //     outcomes: [
+            //         {
+            //             guid: 'outcome1'
+            //         },
+            //         {
+            //             guid: 'outcome2'
+            //         }
+            //     ],
+            //     children: ['end1', 'end2']
+            // };
 
-            existingDecisionFromPropertyEditorWithNoneTerminatedChildren = {
-                guid: existingDecisionWithNoneTerminatedChildrenGuid,
-                outcomes: [
-                    {
-                        guid: 'outcome1'
-                    },
-                    {
-                        guid: 'outcome2'
-                    }
-                ],
-                children: ['end3', 'end4']
-            };
+            // existingDecisionFromPropertyEditorWithNoneTerminatedChildren = {
+            //     guid: existingDecisionWithNoneTerminatedChildrenGuid,
+            //     outcomes: [
+            //         {
+            //             guid: 'outcome1'
+            //         },
+            //         {
+            //             guid: 'outcome2'
+            //         }
+            //     ],
+            //     children: ['end3', 'end4']
+            // };
 
-            existingDecisionFromPropertyEditorWithThreeOutcomes = {
-                guid: existingDecisionWithAllTerminatedChildrenGuid,
-                outcomes: [
-                    {
-                        guid: 'outcome1'
-                    },
-                    {
-                        guid: 'outcome2'
-                    },
-                    {
-                        guid: 'outcome3'
-                    }
-                ],
-                children: ['end1', 'end2']
-            };
+            // existingDecisionFromPropertyEditorWithThreeOutcomes = {
+            //     guid: existingDecisionWithAllTerminatedChildrenGuid,
+            //     outcomes: [
+            //         {
+            //             guid: 'outcome1'
+            //         },
+            //         {
+            //             guid: 'outcome2'
+            //         },
+            //         {
+            //             guid: 'outcome3'
+            //         }
+            //     ],
+            //     children: ['end1', 'end2']
+            // };
         });
 
-        it('sets shouldAddEndElement to true when all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                existingDecisionFromPropertyEditorWithAllTerminatedChildren
-            );
-            expect(shouldAddEndElement).toBeTruthy();
-        });
+        // it('sets shouldAddEndElement to true when all existing children are on the terminating branch', () => {
+        //     shouldUseFlc(true);
+        //     const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+        //         existingDecisionFromPropertyEditorWithAllTerminatedChildren
+        //     );
+        //     expect(shouldAddEndElement).toBeTruthy();
+        // });
 
-        it('sets shouldAddEndElement to false when not all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                existingDecisionFromPropertyEditorWithNoneTerminatedChildren
-            );
-            expect(shouldAddEndElement).toBeFalsy();
-        });
+        // it('sets shouldAddEndElement to false when not all existing children are on the terminating branch', () => {
+        //     shouldUseFlc(true);
+        //     const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+        //         existingDecisionFromPropertyEditorWithNoneTerminatedChildren
+        //     );
+        //     expect(shouldAddEndElement).toBeFalsy();
+        // });
 
-        it('sets newEndElementIdx to the right index to add end element when all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const { newEndElementIdx } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                existingDecisionFromPropertyEditorWithAllTerminatedChildren
-            );
-            expect(newEndElementIdx).toEqual(1);
-        });
+        // it('sets newEndElementIdx to the right index to add end element when all existing children are on the terminating branch', () => {
+        //     shouldUseFlc(true);
+        //     const { newEndElementIdx } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+        //         existingDecisionFromPropertyEditorWithAllTerminatedChildren
+        //     );
+        //     expect(newEndElementIdx).toEqual(1);
+        // });
 
-        it('sets newEndElementIdx to undefined, shouldAddEndElement as false when adding multiple outcomes from property editor and all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const {
-                shouldAddEndElement,
-                newEndElementIdx
-            } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                existingDecisionFromPropertyEditorWithThreeOutcomes
-            );
-            expect.assertions(2);
-            expect(newEndElementIdx).toBeUndefined();
-            expect(shouldAddEndElement).toBeTruthy();
-        });
+        // it('sets newEndElementIdx to undefined, shouldAddEndElement as false when adding multiple outcomes from property editor and all existing children are on the terminating branch', () => {
+        //     shouldUseFlc(true);
+        //     const {
+        //         shouldAddEndElement,
+        //         newEndElementIdx
+        //     } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+        //         existingDecisionFromPropertyEditorWithThreeOutcomes
+        //     );
+        //     expect.assertions(2);
+        //     expect(newEndElementIdx).toBeUndefined();
+        //     expect(shouldAddEndElement).toBeTruthy();
+        // });
 
         it('includes the return value of a call to baseCanvasElement', () => {
             createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
@@ -623,15 +617,6 @@ describe('decision', () => {
             );
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.DECISION);
-        });
-
-        it('initializes children correctly for new decision with children', () => {
-            shouldUseFlc(true);
-            const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                decisionFromPropertyEditorWithChildren
-            );
-
-            expect(result.canvasElement.children).toEqual([null, null]);
         });
 
         describe('defaultConnectorLabel', () => {
@@ -724,23 +709,13 @@ describe('decision', () => {
             const screen1 = {
                 guid: 'screen1',
                 name: 'screen1',
-                elementType: ELEMENT_TYPE.SCREEN,
-                prev: null,
-                next: null,
-                parent: 'existingDecisionWithChildrenGuid',
-                childIndex: 0,
-                isTerminal: false
+                elementType: ELEMENT_TYPE.SCREEN
             };
 
             const screen2 = {
                 guid: 'screen2',
                 name: 'screen2',
-                elementType: ELEMENT_TYPE.SCREEN,
-                prev: null,
-                next: null,
-                parent: 'existingDecisionWithChildrenGuid',
-                childIndex: 1,
-                isTerminal: true
+                elementType: ELEMENT_TYPE.SCREEN
             };
 
             const mockStoreState = {
@@ -779,15 +754,15 @@ describe('decision', () => {
                 );
             });
 
-            it('includes all deleted outcomes', () => {
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    decisionFromPropertyEditor
-                );
+            // it('includes all deleted outcomes', () => {
+            //     const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+            //         decisionFromPropertyEditor
+            //     );
 
-                expect(result.deletedChildElementGuids).toHaveLength(2);
-                expect(result.deletedChildElementGuids[0]).toEqual(existingDecision.childReferences[0].childReference);
-                expect(result.deletedChildElementGuids[1]).toEqual(existingDecision.childReferences[1].childReference);
-            });
+            //     expect(result.deletedChildElementGuids).toHaveLength(2);
+            //     expect(result.deletedChildElementGuids[0]).toEqual(existingDecision.childReferences[0].childReference);
+            //     expect(result.deletedChildElementGuids[1]).toEqual(existingDecision.childReferences[1].childReference);
+            // });
 
             it('has the right maxConnections', () => {
                 const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
@@ -797,257 +772,257 @@ describe('decision', () => {
                 expect(result.canvasElement.maxConnections).toEqual(2);
             });
 
-            it('updates children property for existing decision with children', () => {
-                shouldUseFlc(true);
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    existingDecisionFromPropertyEditorWithChildren
-                );
+            // it('updates children property for existing decision with children', () => {
+            //     shouldUseFlc(true);
+            //     const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+            //         existingDecisionFromPropertyEditorWithChildren
+            //     );
 
-                expect(result.canvasElement.children).toEqual(['screen1', null]);
-            });
+            //     expect(result.canvasElement.children).toEqual(['screen1', null]);
+            // });
 
-            it('deletedBranchHeadGuids should include "screen2" for existing decision with children', () => {
-                shouldUseFlc(true);
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-                    existingDecisionFromPropertyEditorWithChildren
-                );
+            // it('deletedBranchHeadGuids should include "screen2" for existing decision with children', () => {
+            //     shouldUseFlc(true);
+            //     const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+            //         existingDecisionFromPropertyEditorWithChildren
+            //     );
 
-                expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
-            });
+            //     expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
+            // });
 
-            describe('deleted outcomes are on the merging branches', () => {
-                let decision;
-                beforeEach(() => {
-                    decision = {
-                        guid: decisionWithMergingBranchesGuid,
-                        outcomes: [
-                            {
-                                guid: 'outcome1'
-                            }
-                        ],
-                        children: ['end1', null, null, 'end2'],
-                        next: 'mergingEnd1'
-                    };
-                });
+            // describe('deleted outcomes are on the merging branches', () => {
+            //     let decision;
+            //     beforeEach(() => {
+            //         decision = {
+            //             guid: decisionWithMergingBranchesGuid,
+            //             outcomes: [
+            //                 {
+            //                     guid: 'outcome1'
+            //                 }
+            //             ],
+            //             children: ['end1', null, null, 'end2'],
+            //             next: 'mergingEnd1'
+            //         };
+            //     });
 
-                const decisionFromStore = {
-                    guid: decisionWithMergingBranchesGuid,
-                    outcomes: [
-                        {
-                            guid: 'outcome1'
-                        },
-                        {
-                            guid: 'outcome2'
-                        },
-                        {
-                            guid: 'outcome3'
-                        }
-                    ],
-                    children: ['end1', null, null, 'end2'],
-                    next: 'mergingEnd1'
-                };
+            //     const decisionFromStore = {
+            //         guid: decisionWithMergingBranchesGuid,
+            //         outcomes: [
+            //             {
+            //                 guid: 'outcome1'
+            //             },
+            //             {
+            //                 guid: 'outcome2'
+            //             },
+            //             {
+            //                 guid: 'outcome3'
+            //             }
+            //         ],
+            //         children: ['end1', null, null, 'end2'],
+            //         next: 'mergingEnd1'
+            //     };
 
-                const mockStore = {
-                    decisionFromStore,
-                    outcome1,
-                    outcome2,
-                    outcome3,
-                    end1,
-                    end2,
-                    mergingEnd1
-                };
+            //     const mockStore = {
+            //         decisionFromStore,
+            //         outcome1,
+            //         outcome2,
+            //         outcome3,
+            //         end1,
+            //         end2,
+            //         mergingEnd1
+            //     };
 
-                beforeAll(() => {
-                    Store.setMockState({
-                        elements: mockStore
-                    });
-                });
-                afterAll(() => {
-                    Store.resetStore();
-                });
+            //     beforeAll(() => {
+            //         Store.setMockState({
+            //             elements: mockStore
+            //         });
+            //     });
+            //     afterAll(() => {
+            //         Store.resetStore();
+            //     });
 
-                it('deletedBranchHeadGuids should include decisions next', () => {
-                    shouldUseFlc(true);
-                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
-                    expect(result.deletedBranchHeadGuids).toEqual(['mergingEnd1']);
-                });
+            //     it('deletedBranchHeadGuids should include decisions next', () => {
+            //         shouldUseFlc(true);
+            //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+            //         expect(result.deletedBranchHeadGuids).toEqual(['mergingEnd1']);
+            //     });
 
-                it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-                    shouldUseFlc(true);
-                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
-                    expect.assertions(2);
-                    expect(result.canvasElement.next).toBeNull();
-                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
-                });
-            });
+            //     it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+            //         shouldUseFlc(true);
+            //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+            //         expect.assertions(2);
+            //         expect(result.canvasElement.next).toBeNull();
+            //         expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+            //     });
+            // });
 
-            describe('deleted outcomes are on the nested merging branches', () => {
-                let decision;
-                beforeEach(() => {
-                    decision = {
-                        guid: nestedDecisionWithMergingBranchesGuid,
-                        outcomes: [
-                            {
-                                guid: 'outcome1'
-                            }
-                        ],
-                        children: ['end1', null, null, 'end2'],
-                        next: null
-                    };
-                });
+            // describe('deleted outcomes are on the nested merging branches', () => {
+            //     let decision;
+            //     beforeEach(() => {
+            //         decision = {
+            //             guid: nestedDecisionWithMergingBranchesGuid,
+            //             outcomes: [
+            //                 {
+            //                     guid: 'outcome1'
+            //                 }
+            //             ],
+            //             children: ['end1', null, null, 'end2'],
+            //             next: null
+            //         };
+            //     });
 
-                const nestedDecisionFromStore = {
-                    guid: nestedDecisionWithMergingBranchesGuid,
-                    outcomes: [
-                        {
-                            guid: 'outcome1'
-                        },
-                        {
-                            guid: 'outcome2'
-                        },
-                        {
-                            guid: 'outcome3'
-                        }
-                    ],
-                    children: ['end1', null, null, 'end2'],
-                    next: 'null'
-                };
+            //     const nestedDecisionFromStore = {
+            //         guid: nestedDecisionWithMergingBranchesGuid,
+            //         outcomes: [
+            //             {
+            //                 guid: 'outcome1'
+            //             },
+            //             {
+            //                 guid: 'outcome2'
+            //             },
+            //             {
+            //                 guid: 'outcome3'
+            //             }
+            //         ],
+            //         children: ['end1', null, null, 'end2'],
+            //         next: 'null'
+            //     };
 
-                const decisionFromStore = {
-                    guid: 'decisionGuid',
-                    outcomes: [
-                        {
-                            guid: 'outcome1'
-                        }
-                    ],
-                    children: [nestedDecisionWithMergingBranchesGuid, null],
-                    next: 'end3'
-                };
+            //     const decisionFromStore = {
+            //         guid: 'decisionGuid',
+            //         outcomes: [
+            //             {
+            //                 guid: 'outcome1'
+            //             }
+            //         ],
+            //         children: [nestedDecisionWithMergingBranchesGuid, null],
+            //         next: 'end3'
+            //     };
 
-                const mockStore = {
-                    decisionFromStore,
-                    nestedDecisionFromStore,
-                    outcome1,
-                    outcome2,
-                    outcome3,
-                    end1,
-                    end2,
-                    end3,
-                    mergingEnd2
-                };
+            //     const mockStore = {
+            //         decisionFromStore,
+            //         nestedDecisionFromStore,
+            //         outcome1,
+            //         outcome2,
+            //         outcome3,
+            //         end1,
+            //         end2,
+            //         end3,
+            //         mergingEnd2
+            //     };
 
-                beforeAll(() => {
-                    Store.setMockState({
-                        elements: mockStore
-                    });
-                });
-                afterAll(() => {
-                    Store.resetStore();
-                });
+            //     beforeAll(() => {
+            //         Store.setMockState({
+            //             elements: mockStore
+            //         });
+            //     });
+            //     afterAll(() => {
+            //         Store.resetStore();
+            //     });
 
-                it('deletedBranchHeadGuids should be empty', () => {
-                    shouldUseFlc(true);
-                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
-                    expect(result.deletedBranchHeadGuids).toEqual([]);
-                });
+            //     it('deletedBranchHeadGuids should be empty', () => {
+            //         shouldUseFlc(true);
+            //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+            //         expect(result.deletedBranchHeadGuids).toEqual([]);
+            //     });
 
-                it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-                    shouldUseFlc(true);
-                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
-                    expect.assertions(2);
-                    expect(result.canvasElement.next).toBeNull();
-                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
-                });
-            });
+            //     it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+            //         shouldUseFlc(true);
+            //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+            //         expect.assertions(2);
+            //         expect(result.canvasElement.next).toBeNull();
+            //         expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+            //     });
+            // });
 
-            describe('deleted outcomes are on the merging branches and there are elements before and after merging', () => {
-                let decision;
-                beforeEach(() => {
-                    decision = {
-                        guid: decisionWithElementsOnMergingBranchesGuid,
-                        outcomes: [
-                            {
-                                guid: 'outcome1'
-                            }
-                        ],
-                        children: ['end1', 'screen3', null, 'end2'],
-                        next: 'screen4'
-                    };
-                });
+            // describe('deleted outcomes are on the merging branches and there are elements before and after merging', () => {
+            //     let decision;
+            //     beforeEach(() => {
+            //         decision = {
+            //             guid: decisionWithElementsOnMergingBranchesGuid,
+            //             outcomes: [
+            //                 {
+            //                     guid: 'outcome1'
+            //                 }
+            //             ],
+            //             children: ['end1', 'screen3', null, 'end2'],
+            //             next: 'screen4'
+            //         };
+            //     });
 
-                const screen3 = {
-                    guid: 'screen3',
-                    name: 'screen3',
-                    elementType: ELEMENT_TYPE.SCREEN,
-                    prev: null,
-                    next: null,
-                    parent: decisionWithElementsOnMergingBranchesGuid,
-                    childIndex: 1,
-                    isTerminal: false
-                };
+            //     const screen3 = {
+            //         guid: 'screen3',
+            //         name: 'screen3',
+            //         elementType: ELEMENT_TYPE.SCREEN,
+            //         prev: null,
+            //         next: null,
+            //         parent: decisionWithElementsOnMergingBranchesGuid,
+            //         childIndex: 1,
+            //         isTerminal: false
+            //     };
 
-                const screen4 = {
-                    guid: 'screen4',
-                    name: 'screen4',
-                    elementType: ELEMENT_TYPE.SCREEN,
-                    prev: decisionWithElementsOnMergingBranchesGuid,
-                    next: 'mergingEnd1',
-                    childIndex: 1,
-                    isTerminal: false
-                };
+            //     const screen4 = {
+            //         guid: 'screen4',
+            //         name: 'screen4',
+            //         elementType: ELEMENT_TYPE.SCREEN,
+            //         prev: decisionWithElementsOnMergingBranchesGuid,
+            //         next: 'mergingEnd1',
+            //         childIndex: 1,
+            //         isTerminal: false
+            //     };
 
-                const decisionFromStore = {
-                    guid: decisionWithElementsOnMergingBranchesGuid,
-                    outcomes: [
-                        {
-                            guid: 'outcome1'
-                        },
-                        {
-                            guid: 'outcome2'
-                        },
-                        {
-                            guid: 'outcome3'
-                        }
-                    ],
-                    children: ['end1', 'screen3', null, 'end2'],
-                    next: 'screen4'
-                };
+            //     const decisionFromStore = {
+            //         guid: decisionWithElementsOnMergingBranchesGuid,
+            //         outcomes: [
+            //             {
+            //                 guid: 'outcome1'
+            //             },
+            //             {
+            //                 guid: 'outcome2'
+            //             },
+            //             {
+            //                 guid: 'outcome3'
+            //             }
+            //         ],
+            //         children: ['end1', 'screen3', null, 'end2'],
+            //         next: 'screen4'
+            //     };
 
-                const mockStore = {
-                    decisionFromStore,
-                    outcome1,
-                    outcome2,
-                    outcome3,
-                    screen3,
-                    screen4,
-                    end1,
-                    end2,
-                    mergingEnd1
-                };
+            //     const mockStore = {
+            //         decisionFromStore,
+            //         outcome1,
+            //         outcome2,
+            //         outcome3,
+            //         screen3,
+            //         screen4,
+            //         end1,
+            //         end2,
+            //         mergingEnd1
+            //     };
 
-                beforeAll(() => {
-                    Store.setMockState({
-                        elements: mockStore
-                    });
-                });
-                afterAll(() => {
-                    Store.resetStore();
-                });
+            //     beforeAll(() => {
+            //         Store.setMockState({
+            //             elements: mockStore
+            //         });
+            //     });
+            //     afterAll(() => {
+            //         Store.resetStore();
+            //     });
 
-                it('deletedBranchHeadGuids should include elements before and after merging', () => {
-                    shouldUseFlc(true);
-                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
-                    expect(result.deletedBranchHeadGuids).toEqual(['screen3', 'screen4']);
-                });
+            //     it('deletedBranchHeadGuids should include elements before and after merging', () => {
+            //         shouldUseFlc(true);
+            //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+            //         expect(result.deletedBranchHeadGuids).toEqual(['screen3', 'screen4']);
+            //     });
 
-                it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-                    shouldUseFlc(true);
-                    const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
-                    expect.assertions(2);
-                    expect(result.canvasElement.next).toBeNull();
-                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
-                });
-            });
+            //     it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
+            //         shouldUseFlc(true);
+            //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
+            //         expect.assertions(2);
+            //         expect(result.canvasElement.next).toBeNull();
+            //         expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
+            //     });
+            // });
         });
     });
 

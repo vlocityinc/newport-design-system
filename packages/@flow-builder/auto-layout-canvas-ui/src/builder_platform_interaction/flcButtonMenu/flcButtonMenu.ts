@@ -7,7 +7,7 @@ import { classSet } from 'lightning/utils';
 
 import { ToggleMenuEvent, MenuPositionUpdateEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
-import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextualMenuUtils';
 
@@ -95,7 +95,7 @@ export default class FlcButtonMenu extends LightningElement {
             'slds-button': true,
             'slds-button_icon': true,
             'border-none': this.variant !== 'connector',
-            'is-end-element': this.variant !== 'connector' && this.elementMetadata.type === ElementType.END,
+            'is-end-element': this.variant !== 'connector' && this.elementMetadata.type === NodeType.END,
             'node-in-selection-mode': this.canvasMode !== AutoLayoutCanvasMode.DEFAULT,
             connector: this.variant === 'connector',
             'node-to-be-deleted': this.isNodeGettingDeleted,
@@ -108,7 +108,7 @@ export default class FlcButtonMenu extends LightningElement {
 
     get computedTabIndex() {
         return this.canvasMode !== AutoLayoutCanvasMode.DEFAULT ||
-            (this.elementMetadata && this.elementMetadata.type === ElementType.END)
+            (this.elementMetadata && this.elementMetadata.type === NodeType.END)
             ? -1
             : 0;
     }
@@ -170,7 +170,7 @@ export default class FlcButtonMenu extends LightningElement {
             // Focus on the button even if the browser doesn't do it by default
             // (the behavior differs between Chrome, Safari, Firefox). Focus should not be moved to
             // End Element
-            if (this.variant === 'connector' || this.elementMetadata.type !== ElementType.END) {
+            if (this.variant === 'connector' || this.elementMetadata.type !== NodeType.END) {
                 this.focusOnButton();
             }
         }

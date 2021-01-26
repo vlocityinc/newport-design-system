@@ -587,7 +587,13 @@ export default class Editor extends LightningElement {
     }
 
     get interviewLabel() {
-        const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        const options = {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        };
         const time =
             this.debugData &&
             this.debugData.startInterviewTime &&
@@ -976,7 +982,10 @@ export default class Editor extends LightningElement {
                             storeInstance,
                             this.properties.hasUnsavedChanges
                         );
-                        this.debugData = Object.assign(response, { startInterviewTime, endInterviewTime });
+                        this.debugData = Object.assign(response, {
+                            startInterviewTime,
+                            endInterviewTime
+                        });
 
                         this.clearUndoRedoStack();
                     }
@@ -1465,9 +1474,9 @@ export default class Editor extends LightningElement {
      * Handles the add element event which is fired after an element from left palette is dropped
      * on the canvas or via a click to add interaction.
      *
-     * @param {Object} event canvas element drop event
+     * @param event an AddElementEvent
      */
-    handleAddCanvasElement = (event) => {
+    handleAddCanvasElement = (event: AddElementEvent) => {
         if (storeInstance && storeInstance.getCurrentState().properties.lastInlineResourceGuid) {
             storeInstance.dispatch(removeLastCreatedInlineResource);
         }
@@ -1476,30 +1485,35 @@ export default class Editor extends LightningElement {
             logPerfTransactionStart('PropertyEditor');
             const mode = event.type;
             const {
-                prev,
-                next,
-                childIndex,
-                parent,
                 elementType,
                 elementSubtype,
                 locationX,
                 locationY,
                 actionType,
-                actionName
+                actionName,
+                parent,
+
+                // TODO: we are passing alcInsertAt information here, but ideally we should remove it and expose
+                // a method that creates an element and returns a promise. Then that method can be called the
+                // @flow-builder/auto-layout-canvas-ui code, which can then take care of insertAt stuff.
+                alcInsertAt
             } = event.detail;
 
             // If displaying in a modal then the element is added at the end via nodeUpdate.
             // In a panel, the element is added upon opening and nodeUpdate updates
             const nodeUpdate = this.usePanelForPropertyEditor
                 ? this.deMutateAndUpdateNodeCollection
-                : this.deMutateAndAddNodeCollection;
+                : // creating a closure here to pass thru alcInsertAt to deMutateAndAddNodeCollection when it is called
+                  (node, parentGuid) => this.deMutateAndAddNodeCollection(node, parentGuid, alcInsertAt);
 
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
 
             // skip the editor for elements that don't need one
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
-                this.dispatchAddElement(createEndElement({ prev, next, childIndex, parent, elementType }));
+                const endElement = createEndElement();
+
+                this.dispatchAddElement({ ...endElement, alcInsertAt });
                 return;
             }
 
@@ -1513,11 +1527,7 @@ export default class Editor extends LightningElement {
                     elementSubtype,
                     actionType,
                     actionName,
-                    isNewElement: true,
-                    prev,
-                    next,
-                    childIndex,
-                    parent
+                    isNewElement: true
                 });
 
                 // For a panel, the element is created upon opening the property editor
@@ -2004,7 +2014,7 @@ export default class Editor extends LightningElement {
      * @param parentGuid Needed when adding a non-canvas child element (StageStep, Outcome, etc...)
      * directly from the canvas so we know where to add it
      */
-    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid) => {
+    deMutateAndAddNodeCollection = (node: UI.Element, parentGuid: UI.Guid, alcInsertAt: any) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
@@ -2020,6 +2030,10 @@ export default class Editor extends LightningElement {
                 parentGuid,
                 element: nodeForStore
             } as NodeWithParent;
+        }
+
+        if (alcInsertAt) {
+            payload.alcInsertAt = alcInsertAt;
         }
         this.dispatchAddElement(payload);
     };

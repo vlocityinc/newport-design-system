@@ -8,6 +8,7 @@ export default {
             isCanvasElement: true,
             connectorCount: 1,
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -50,6 +51,7 @@ export default {
                 }
             ],
             elementType: 'Decision',
+            nodeType: 'branch',
             maxConnections: 2,
             availableConnections: [],
             next: 'end-element-guid (decision-element-guid)',
@@ -76,6 +78,7 @@ export default {
                 hasError: false
             },
             elementType: 'Screen',
+            nodeType: 'default',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -100,6 +103,7 @@ export default {
         'end-element-guid (decision-element-guid)': {
             guid: 'end-element-guid (decision-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'decision-element-guid',
             next: null,
             isCanvasElement: true,
@@ -129,6 +133,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

@@ -14,6 +14,7 @@ export default {
                 hasError: false
             },
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -48,6 +49,7 @@ export default {
                 hasError: false
             },
             elementType: 'RecordCreate',
+            nodeType: 'default',
             maxConnections: 2,
             triggerType: 'None',
             filterType: 'all',
@@ -83,6 +85,7 @@ export default {
                 hasError: false
             },
             elementType: 'RecordCreate',
+            nodeType: 'default',
             maxConnections: 2,
             availableConnections: [
                 {
@@ -109,6 +112,7 @@ export default {
         'end-element-guid (fault-element-guid)': {
             guid: 'end-element-guid (fault-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'fault-element-guid',
             next: null,
             isCanvasElement: true,
@@ -122,6 +126,7 @@ export default {
         'end-element-guid (record-create-element-guid)': {
             guid: 'end-element-guid (record-create-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'record-create-element-guid',
             next: null,
             isCanvasElement: true,
@@ -134,6 +139,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

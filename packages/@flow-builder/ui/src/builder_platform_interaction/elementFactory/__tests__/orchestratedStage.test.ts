@@ -1,9 +1,5 @@
 // @ts-nocheck
-import {
-    getElementByGuid,
-    getElementsForElementType,
-    shouldUseAutoLayoutCanvas
-} from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import {
     createOrchestratedStageWithItems,
     createStageStep,
@@ -41,7 +37,6 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
         isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
-        shouldUseAutoLayoutCanvas: jest.fn(),
         getElementsForElementType: jest.fn(() => {
             return [];
         })
@@ -290,17 +285,9 @@ describe('OrchestratedStage', () => {
     });
 
     describe('createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor', () => {
-        const shouldUseFlc = (useFlc) => {
-            shouldUseAutoLayoutCanvas.mockImplementation(() => {
-                return useFlc;
-            });
-        };
-
         let orchestratedStageFromPropertyEditor;
 
         beforeEach(() => {
-            shouldUseFlc(false);
-
             orchestratedStageFromPropertyEditor = {
                 guid: newOrchestratedStageGuid,
                 stageSteps: [

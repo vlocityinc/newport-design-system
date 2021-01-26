@@ -3,6 +3,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement } from './base/baseElement';
 import { LABELS } from './elementFactoryLabels';
 
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+
 /**
  * Creates a end element object in the shape expected by the store
  * @param {Object} endElement end element object used to construct the new object
@@ -17,6 +19,7 @@ export function createEndElement(element = {}) {
         label: LABELS.endElementSingularLabel,
         value: elementType,
         text: elementType,
-        name: elementType
+        name: elementType,
+        nodeType: NodeType.END
     };
 }

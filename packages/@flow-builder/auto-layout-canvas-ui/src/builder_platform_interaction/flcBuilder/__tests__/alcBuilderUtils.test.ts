@@ -1,3 +1,5 @@
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+
 import { getFocusPath } from '../alcBuilderUtils';
 
 const flowModel = {
@@ -5,6 +7,7 @@ const flowModel = {
         guid: 'startGuid',
         label: 'start node',
         elementType: 'START_ELEMENT',
+        nodeType: NodeType.START,
         prev: null,
         next: 'branch1',
         parent: 'root',
@@ -18,6 +21,7 @@ const flowModel = {
         guid: 'branch1',
         label: 'branch node',
         elementType: 'DECISION',
+        nodeType: NodeType.BRANCH,
         prev: 'startGuid',
         next: 'end',
         children: ['branchHead1', 'branchHead2'],
@@ -30,6 +34,7 @@ const flowModel = {
         guid: 'branchHead1',
         label: 'Left branch head element',
         elementType: 'SCREEN',
+        nodeType: NodeType.DEFAULT,
         prev: null,
         next: null,
         parent: 'branch1',
@@ -43,6 +48,7 @@ const flowModel = {
         guid: 'branchHead2',
         label: 'Right branch head element',
         elementType: 'DECISION',
+        nodeType: NodeType.BRANCH,
         prev: null,
         next: null,
         parent: 'branch1',
@@ -57,6 +63,7 @@ const flowModel = {
         guid: 'screen1',
         label: 'Left branch screen',
         elementType: 'SCREEN',
+        nodeType: NodeType.DEFAULT,
         prev: null,
         next: null,
         parent: 'branchHead2',
@@ -70,6 +77,7 @@ const flowModel = {
         guid: 'end',
         label: 'end node',
         elementType: 'END_ELEMENT',
+        nodeType: NodeType.END,
         prev: 'branch1',
         next: null,
         maxConnections: 0,

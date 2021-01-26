@@ -23,12 +23,6 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
 );

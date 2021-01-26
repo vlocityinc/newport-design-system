@@ -2,6 +2,7 @@ import {
     createFlow,
     flowModelFromElements,
     BRANCH_ELEMENT,
+    SCREEN_ELEMENT,
     BRANCH_ELEMENT_GUID,
     START_ELEMENT_GUID,
     END_ELEMENT_GUID,
@@ -9,6 +10,8 @@ import {
 } from './testUtils';
 
 import {
+    inlineFromParent,
+    initFlowModel,
     linkElement,
     linkBranchOrFault,
     findFirstElement,
@@ -17,26 +20,71 @@ import {
     deleteFault,
     deleteBranch,
     getTargetGuidsForBranchReconnect,
-    reconnectBranchElement,
-    addElement
+    connectToElement,
+    addElement,
+    updateChildren,
+    addFault
 } from '../modelUtils';
-import { FAULT_INDEX } from '../model';
 
-function getSubElementGuids() {
-    return [];
+import { FAULT_INDEX } from '../model';
+import NodeType from '../NodeType';
+
+const elementService = (elements) => {
+    return {
+        elements,
+
+        createEndElement({ guid } = { guid: 'end-hook-guid' }) {
+            const element = {
+                guid,
+                nodeType: NodeType.END
+            };
+            this.elements[guid] = element;
+            return guid;
+        },
+
+        deleteElement(guid) {
+            delete this.elements[guid];
+        }
+    };
+};
+
+const defaultDeleteOptions = {
+    childIndexToKeep: 0,
+    inline: true
+};
+
+function createEndElement(elements, guid) {
+    const config = elementService(elements);
+    config.createEndElement({ guid });
 }
 
-const END = 'END_ELEMENT';
-
 describe('modelUtils', () => {
+    describe('initFlowModel', () => {
+        it('creates a root and links start and end', () => {
+            const elements = {
+                'start-guid': {
+                    guid: 'start-guid'
+                },
+                'end-guid': {
+                    guid: 'end-guid'
+                }
+            };
+            initFlowModel(elements, 'start-guid', 'end-guid');
+            expect(elements).toMatchSnapshot();
+        });
+    });
+
     describe('addElement', () => {
         it('add end node to left branch of decision with empty branches', () => {
             const elements = createFlow([BRANCH_ELEMENT_GUID]);
-            addElement(
-                elements,
-                { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0, elementType: END },
-                true
-            );
+
+            const endGuid = 'new-end-element-guid';
+            createEndElement(elements, endGuid);
+
+            addElement(elements, endGuid, NodeType.END, {
+                parent: 'branch-guid',
+                childIndex: 0
+            });
             expect(elements).toMatchSnapshot();
         });
 
@@ -44,11 +92,14 @@ describe('modelUtils', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             branchingElement.children = [null, ['head-guid']];
             const elements = createFlow([branchingElement]);
-            addElement(
-                elements,
-                { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0, elementType: END },
-                true
-            );
+
+            const endGuid = 'new-end-element-guid';
+            createEndElement(elements, endGuid);
+
+            addElement(elements, endGuid, NodeType.END, {
+                parent: 'branch-guid',
+                childIndex: 0
+            });
             expect(elements).toMatchSnapshot();
         });
 
@@ -57,11 +108,12 @@ describe('modelUtils', () => {
             branchingElement.children = [['head-guid'], null];
             const elements = createFlow([branchingElement]);
 
-            addElement(
-                elements,
-                { guid: 'new-end-element-guid', prev: 'branch-guid:0-head-guid', elementType: END },
-                true
-            );
+            const endGuid = 'new-end-element-guid';
+            createEndElement(elements, endGuid);
+
+            addElement(elements, 'new-end-element-guid', NodeType.END, {
+                prev: 'branch-guid:0-head-guid'
+            });
             expect(elements).toMatchSnapshot();
         });
 
@@ -74,11 +126,13 @@ describe('modelUtils', () => {
 
             const elements = createFlow([branchingElement]);
 
-            addElement(
-                elements,
-                { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 1, elementType: END },
-                true
-            );
+            const endGuid = 'new-end-element-guid';
+            createEndElement(elements, endGuid);
+
+            addElement(elements, 'new-end-element-guid', NodeType.END, {
+                parent: 'branch-guid',
+                childIndex: 1
+            });
             expect(elements).toMatchSnapshot();
         });
 
@@ -91,11 +145,13 @@ describe('modelUtils', () => {
 
             const elements = createFlow([branchingElement]);
 
-            addElement(
-                elements,
-                { guid: 'new-end-element-guid', parent: 'branch-guid:0-branch-guid', childIndex: 1, elementType: END },
-                true
-            );
+            const endGuid = 'new-end-element-guid';
+            createEndElement(elements, endGuid);
+
+            addElement(elements, 'new-end-element-guid', NodeType.END, {
+                parent: 'branch-guid:0-branch-guid',
+                childIndex: 1
+            });
             expect(elements).toMatchSnapshot();
         });
     });
@@ -124,17 +180,61 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('reconnectBranchElement', () => {
-        it('reconnects to an element on another branch', () => {
+    describe('connectToElement', () => {
+        it('can only connect to a valid target element (no gotos)', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
-            branchingElement.children = [
-                ['head-guid', END_ELEMENT_GUID],
-                ['head-guid', 'random-guid', END_ELEMENT_GUID]
-            ];
+
+            branchingElement.children = [null, ['head-guid'], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
             const elements = createFlow([branchingElement]);
 
+            const insertAt = {
+                parent: 'branch-guid',
+                childIndex: 0
+            };
+
+            expect(() => {
+                connectToElement(elementService(elements), elements, insertAt, BRANCH_ELEMENT.guid);
+            }).toThrowError();
+        });
+
+        it('can only connect to an element from an insertAt followed by end element', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [null, ['head-guid'], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
+            const elements = createFlow([branchingElement]);
+
+            let insertAt = {
+                parent: 'branch-guid',
+                childIndex: 0
+            };
+
+            expect(() => {
+                connectToElement(elementService(elements), elements, insertAt, 'end-guid');
+            }).toThrowError();
+
+            insertAt = {
+                prev: 'branch-guid:1-head-guid'
+            };
+
+            expect(() => {
+                connectToElement(elementService(elements), elements, insertAt, 'end-guid');
+            }).toThrowError();
+        });
+
+        it('reconnects to an element on another branch', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            const endElement1 = { ...END_ELEMENT, guid: 'end1-guid', prev: null };
+            const endElement2 = { ...END_ELEMENT, guid: 'end2-guid', prev: null };
+
+            branchingElement.children = [[endElement1], ['head-guid', 'random-guid', endElement2]];
+            const elements = createFlow([branchingElement]);
+
+            const insertAt = {
+                parent: 'branch-guid',
+                childIndex: 0
+            };
+
             expect(
-                reconnectBranchElement(elements, 'branch-guid:0-end-guid', 'branch-guid:1-random-guid')
+                connectToElement(elementService(elements), elements, insertAt, 'branch-guid:1-random-guid')
             ).toMatchSnapshot();
         });
 
@@ -142,12 +242,17 @@ describe('modelUtils', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             branchingElement.children = [['head-guid', END_ELEMENT_GUID], ['head-guid', 'random-guid'], ['head-guid']];
             const elements = createFlow([branchingElement]);
-            expect(reconnectBranchElement(elements, 'branch-guid:0-end-guid', 'end-guid')).toMatchSnapshot();
+
+            const insertAt = {
+                prev: 'branch-guid:0-head-guid'
+            };
+
+            expect(connectToElement(elementService(elements), elements, insertAt, 'end-guid')).toMatchSnapshot();
         });
     });
 
     describe('linkElement', () => {
-        it('updates pointers and adds to state', () => {
+        it('updates pointers', () => {
             const prevElement = {
                 guid: 'prev-element',
                 prev: null,
@@ -333,7 +438,7 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('delete element', () => {
+    describe('deleteElement', () => {
         it('in nested branch with ended left branch inlines', () => {
             const nestedBranchingElement = { ...BRANCH_ELEMENT };
             nestedBranchingElement.children = [[END_ELEMENT_GUID], null];
@@ -344,32 +449,36 @@ describe('modelUtils', () => {
             const elements = createFlow([branchingElement]);
 
             expect(
-                deleteElement(elements, elements['branch-guid:0-branch-guid'], 0, getSubElementGuids)
+                deleteElement(elementService(elements), elements, 'branch-guid:0-branch-guid', defaultDeleteOptions)
             ).toMatchSnapshot();
         });
 
         it('delete nested decision with end elements and reconnect', () => {
-            const nestedBranchElement = { ...BRANCH_ELEMENT, children: [[END_ELEMENT], [END_ELEMENT_GUID]] };
+            const nestedBranchElement = { ...BRANCH_ELEMENT, children: [[END_ELEMENT_GUID], [END_ELEMENT_GUID]] };
             const branchElement = { ...BRANCH_ELEMENT, children: [[nestedBranchElement], [END_ELEMENT_GUID]] };
+
             const flowModel = createFlow([branchElement]);
 
             // delete nested branch
+
             const newFlowModel = deleteElement(
+                elementService(flowModel),
                 flowModel,
-                flowModel['branch-guid:0-branch-guid'],
-                0,
-                getSubElementGuids
+                'branch-guid:0-branch-guid',
+                defaultDeleteOptions
             );
 
             expect(newFlowModel).toMatchSnapshot();
 
+            const insertAt = {
+                parent: 'branch-guid',
+                childIndex: 0
+            };
+
             // reconnect with end of the right branch
+
             expect(
-                reconnectBranchElement(
-                    flowModel,
-                    'branch-guid:0-branch-guid:0-branch-guid:0-end-guid',
-                    'branch-guid:1-end-guid'
-                )
+                connectToElement(elementService(newFlowModel), newFlowModel, insertAt, 'branch-guid:1-end-guid')
             ).toMatchSnapshot();
         });
 
@@ -400,6 +509,7 @@ describe('modelUtils', () => {
                 guid: 'branch-one-end',
                 prev: 'branch-head-one',
                 next: null,
+                nodeType: NodeType.END,
                 elementType: 'END_ELEMENT'
             };
 
@@ -417,29 +527,9 @@ describe('modelUtils', () => {
                 lastElement
             ]);
 
-            const expectedState = {
-                state: {
-                    'first-element': {
-                        guid: 'first-element',
-                        prev: null,
-                        next: 'branch-head-one',
-                        isTerminal: false
-                    },
-                    'branch-head-one': {
-                        guid: 'branch-head-one',
-                        prev: 'first-element',
-                        next: 'last-element'
-                    },
-                    'last-element': {
-                        guid: 'last-element',
-                        prev: 'branch-head-one',
-                        next: null
-                    }
-                },
-                addEndElement: false
-            };
-
-            expect(deleteElement(elements, branchElement, 0, getSubElementGuids)).toEqual(expectedState);
+            expect(
+                deleteElement(elementService(elements), elements, branchElement.guid, defaultDeleteOptions)
+            ).toMatchSnapshot();
         });
 
         it('persisting a terminated branch that has end element as branch head', () => {
@@ -463,6 +553,7 @@ describe('modelUtils', () => {
                 childIndex: 0,
                 parent: 'branch-element',
                 isTerminal: true,
+                nodeType: NodeType.END,
                 elementType: 'END_ELEMENT'
             };
 
@@ -474,24 +565,9 @@ describe('modelUtils', () => {
 
             const elements = flowModelFromElements([firstElement, branchElement, branchHeadElement, lastElement]);
 
-            const expectedState = {
-                state: {
-                    'first-element': {
-                        guid: 'first-element',
-                        prev: null,
-                        next: 'last-element',
-                        isTerminal: false
-                    },
-                    'last-element': {
-                        guid: 'last-element',
-                        prev: 'first-element',
-                        next: null
-                    }
-                },
-                addEndElement: false
-            };
-
-            expect(deleteElement(elements, branchElement, 0, getSubElementGuids)).toEqual(expectedState);
+            expect(
+                deleteElement(elementService(elements), elements, branchElement.guid, defaultDeleteOptions)
+            ).toMatchSnapshot();
         });
 
         it('deletes inline element', () => {
@@ -516,25 +592,9 @@ describe('modelUtils', () => {
 
             const elements = flowModelFromElements([firstElement, inlineElement, lastElement]);
 
-            const expectedState = {
-                state: {
-                    'first-element': {
-                        guid: 'first-element',
-                        prev: null,
-                        next: 'last-element',
-                        isTerminal: false
-                    },
-
-                    'last-element': {
-                        guid: 'last-element',
-                        prev: 'first-element',
-                        next: null
-                    }
-                },
-                addEndElement: false
-            };
-
-            expect(deleteElement(elements, inlineElement, 0, getSubElementGuids)).toEqual(expectedState);
+            expect(
+                deleteElement(elementService(elements), elements, inlineElement.guid, defaultDeleteOptions)
+            ).toMatchSnapshot();
         });
         it('deletes branching element that supports a fault branch as well', () => {
             const screenElement = {
@@ -572,12 +632,13 @@ describe('modelUtils', () => {
                 guid: 'merge-element',
                 prev: 'branching-element',
                 next: null,
+                nodeType: NodeType.END,
                 elementType: 'END_ELEMENT'
             };
 
             const faultBranchHeadElement = {
                 guid: 'fault-branch-head-element',
-                childIndex: -1,
+                childIndex: FAULT_INDEX,
                 parent: 'branching-element',
                 isTerminal: true,
                 prev: null,
@@ -588,7 +649,7 @@ describe('modelUtils', () => {
                 guid: 'fault-branch-end-element',
                 prev: 'fault-branch-head-element',
                 next: null,
-                elementType: END
+                nodeType: NodeType.END
             };
 
             const elements = flowModelFromElements([
@@ -601,31 +662,9 @@ describe('modelUtils', () => {
                 faultBranchEndElement
             ]);
 
-            const expectedState = {
-                state: {
-                    'screen-element': {
-                        guid: 'screen-element',
-                        prev: null,
-                        next: 'branch-head-one',
-                        isTerminal: true
-                    },
-                    'branch-head-one': {
-                        guid: 'branch-head-one',
-                        prev: 'screen-element',
-                        next: 'merge-element'
-                    },
-
-                    'merge-element': {
-                        guid: 'merge-element',
-                        prev: 'branch-head-one',
-                        next: null,
-                        elementType: 'END_ELEMENT'
-                    }
-                },
-                addEndElement: false
-            };
-
-            expect(deleteElement(elements, branchingElement, 0, getSubElementGuids)).toEqual(expectedState);
+            expect(
+                deleteElement(elementService(elements), elements, branchingElement.guid, defaultDeleteOptions)
+            ).toMatchSnapshot();
         });
         it('deletes branch head element', () => {
             const branchingElement = {
@@ -652,25 +691,9 @@ describe('modelUtils', () => {
 
             const elements = flowModelFromElements([branchingElement, mergeElement, branchHeadElement]);
 
-            const expectedState = {
-                state: {
-                    'branching-element': {
-                        guid: 'branching-element',
-                        children: [null, null],
-                        prev: null,
-                        next: 'merge-element'
-                    },
-
-                    'merge-element': {
-                        guid: 'merge-element',
-                        prev: 'branching-element',
-                        next: null
-                    }
-                },
-                addEndElement: false
-            };
-
-            expect(deleteElement(elements, branchHeadElement, 0, getSubElementGuids)).toEqual(expectedState);
+            expect(
+                deleteElement(elementService(elements), elements, branchHeadElement.guid, defaultDeleteOptions)
+            ).toMatchSnapshot();
         });
         it('deletes fully terminated branch element in main flow', () => {
             const firstElement = {
@@ -692,7 +715,7 @@ describe('modelUtils', () => {
                 parent: 'inline-element',
                 childIndex: 0,
                 next: null,
-                elementType: END,
+                nodeType: NodeType.END,
                 isTerminal: true
             };
 
@@ -701,25 +724,13 @@ describe('modelUtils', () => {
                 parent: 'inline-element',
                 childIndex: 1,
                 next: null,
-                elementType: END,
+                nodeType: NodeType.END,
                 isTerminal: true
             };
 
             const elements = flowModelFromElements([firstElement, inlineElement, branchElementOne, branchElementTwo]);
 
-            const expectedState = {
-                state: {
-                    'first-element': {
-                        isTerminal: false,
-                        guid: 'first-element',
-                        prev: null,
-                        next: null
-                    }
-                },
-                addEndElement: true
-            };
-
-            expect(deleteElement(elements, inlineElement, -2, getSubElementGuids)).toEqual(expectedState);
+            expect(deleteElement(elementService(elements), elements, inlineElement.guid)).toMatchSnapshot();
         });
         it('deletes fully terminated branchHead element in another branch', () => {
             const firstElement = {
@@ -775,29 +786,7 @@ describe('modelUtils', () => {
                 lastElement
             ]);
 
-            const expectedState = {
-                state: {
-                    'first-element': {
-                        guid: 'first-element',
-                        prev: null,
-                        next: 'inline-element'
-                    },
-                    'inline-element': {
-                        guid: 'inline-element',
-                        prev: 'first-element',
-                        next: 'last-element',
-                        children: [null, null]
-                    },
-                    'last-element': {
-                        guid: 'last-element',
-                        prev: 'inline-element',
-                        next: null
-                    }
-                },
-                addEndElement: true
-            };
-
-            expect(deleteElement(elements, branchHeadElement, -2, getSubElementGuids)).toEqual(expectedState);
+            expect(deleteElement(elementService(elements), elements, branchHeadElement.guid)).toMatchSnapshot();
         });
         it('deletes loop element nested in a decision', () => {
             const firstElement = {
@@ -845,37 +834,9 @@ describe('modelUtils', () => {
                 lastElement
             ]);
 
-            const expectedState = {
-                state: {
-                    'first-element': {
-                        guid: 'first-element',
-                        prev: null,
-                        next: 'decision-element'
-                    },
-                    'decision-element': {
-                        guid: 'decision-element',
-                        prev: 'first-element',
-                        next: 'last-element',
-                        children: [null, 'screen-element']
-                    },
-                    'screen-element': {
-                        guid: 'screen-element',
-                        prev: null,
-                        next: null,
-                        parent: 'decision-element',
-                        childIndex: 1,
-                        isTerminal: false
-                    },
-                    'last-element': {
-                        guid: 'last-element',
-                        prev: 'decision-element',
-                        next: null
-                    }
-                },
-                addEndElement: false
-            };
-
-            expect(deleteElement(elements, loopElement, 0, getSubElementGuids)).toEqual(expectedState);
+            expect(
+                deleteElement(elementService(elements), elements, loopElement.guid, defaultDeleteOptions)
+            ).toMatchSnapshot();
         });
         it('deletes a non branch head element in a Fault branch', () => {
             const firstElement = {
@@ -896,7 +857,7 @@ describe('modelUtils', () => {
                 prev: null,
                 next: 'fault-inline-element',
                 parent: 'action-element',
-                childIndex: -1,
+                childIndex: FAULT_INDEX,
                 isTerminal: true
             };
 
@@ -910,14 +871,14 @@ describe('modelUtils', () => {
                 guid: 'fault-end-element',
                 prev: 'fault-inline-element',
                 next: null,
-                elementType: END
+                nodeType: NodeType.END
             };
 
             const lastElement = {
                 guid: 'last-element',
                 prev: 'action-element',
                 next: null,
-                elementType: END
+                nodeType: NodeType.END
             };
 
             const elements = flowModelFromElements([
@@ -930,74 +891,118 @@ describe('modelUtils', () => {
             ]);
 
             const expectedState = {
-                state: {
-                    'first-element': {
-                        guid: 'first-element',
-                        prev: null,
-                        next: 'action-element'
-                    },
-                    'action-element': {
-                        guid: 'action-element',
-                        prev: 'first-element',
-                        next: 'last-element',
-                        fault: 'fault-branch-head'
-                    },
-                    'fault-branch-head-element': {
-                        guid: 'fault-branch-head-element',
-                        prev: null,
-                        next: 'fault-end-element',
-                        parent: 'action-element',
-                        childIndex: -1,
-                        isTerminal: true
-                    },
-                    'fault-end-element': {
-                        guid: 'fault-end-element',
-                        prev: 'fault-branch-head-element',
-                        next: null,
-                        elementType: END
-                    },
-                    'last-element': {
-                        guid: 'last-element',
-                        prev: 'action-element',
-                        next: null,
-                        elementType: END
-                    }
+                'first-element': {
+                    guid: 'first-element',
+                    prev: null,
+                    next: 'action-element'
                 },
-                addEndElement: false
+                'action-element': {
+                    guid: 'action-element',
+                    prev: 'first-element',
+                    next: 'last-element',
+                    fault: 'fault-branch-head'
+                },
+                'fault-branch-head-element': {
+                    guid: 'fault-branch-head-element',
+                    prev: null,
+                    next: 'fault-end-element',
+                    parent: 'action-element',
+                    childIndex: FAULT_INDEX,
+                    isTerminal: true
+                },
+                'fault-end-element': {
+                    guid: 'fault-end-element',
+                    prev: 'fault-branch-head-element',
+                    next: null,
+                    nodeType: NodeType.END
+                },
+                'last-element': {
+                    guid: 'last-element',
+                    prev: 'action-element',
+                    next: null,
+                    nodeType: NodeType.END
+                }
             };
 
-            expect(deleteElement(elements, faultInlineElement, undefined, getSubElementGuids)).toEqual(expectedState);
+            expect(deleteElement(elementService(elements), elements, faultInlineElement.guid)).toEqual(expectedState);
+        });
+
+        it('branching with no next', () => {
+            const elementToDelete = 'element-guid';
+            const elements = {
+                root: {
+                    guid: 'root',
+                    nodeType: NodeType.ROOT,
+                    children: ['dummy-prev']
+                },
+                'element-guid': {
+                    guid: 'element-guid',
+                    prev: 'dummy-prev',
+                    next: null,
+                    nodeType: NodeType.BRANCH_ELEMENT,
+                    children: ['end-left-guid', 'end-right-guid']
+                },
+                'dummy-prev': {
+                    parent: 'root',
+                    childIndex: 0,
+                    isTerminal: true,
+                    guid: 'dummy-prev',
+                    next: 'element-guid'
+                },
+                'end-left-guid': {
+                    guid: 'end-left-guid',
+                    nodeType: NodeType.END,
+                    isTerminal: true,
+                    parent: 'element-guid',
+                    childIndex: 0
+                },
+                'end-right-guid': {
+                    guid: 'end-right-guid',
+                    nodeType: NodeType.END,
+                    isTerminal: true,
+                    parent: 'element-guid',
+                    childIndex: 1
+                }
+            };
+
+            const expectedElements = {
+                'dummy-prev': {
+                    childIndex: 0,
+                    guid: 'dummy-prev',
+                    isTerminal: true,
+                    next: 'end-hook-guid',
+                    parent: 'root'
+                },
+                'end-hook-guid': {
+                    guid: 'end-hook-guid',
+                    next: null,
+                    nodeType: 'end',
+                    prev: 'dummy-prev'
+                },
+                root: {
+                    children: ['dummy-prev'],
+                    guid: 'root',
+                    nodeType: 'root'
+                }
+            };
+
+            const nextElements = deleteElement(elementService(elements), elements, elementToDelete);
+            expect(nextElements).toEqual(expectedElements);
         });
     });
 
-    describe('add fault to element', () => {
+    describe('addFault', () => {
         it('adds a fault to an element', () => {
-            const element = {
-                guid: 'element-guid'
-            };
-
-            const faultElement = {
-                guid: 'fault-element-guid'
+            const faultingElement = {
+                guid: 'faulting-element-guid'
             };
 
             const elements = {
-                [element.guid]: element
+                [faultingElement.guid]: faultingElement
             };
 
-            linkBranchOrFault(elements, element, FAULT_INDEX, faultElement);
-
-            expect(element).toEqual({
-                guid: 'element-guid',
-                fault: 'fault-element-guid'
-            });
-
-            expect(faultElement).toEqual({
-                guid: 'fault-element-guid',
-                parent: 'element-guid',
-                childIndex: FAULT_INDEX,
-                isTerminal: true,
-                prev: null
-            });
+            const flowModel = addFault(elementService(elements), elements, faultingElement.guid);
+            expect(flowModel).toMatchSnapshot();
         });
     });
 
@@ -1017,7 +1022,7 @@ describe('modelUtils', () => {
                 [faultElement.guid]: faultElement
             };
 
-            deleteFault(elements, element.guid, getSubElementGuids);
+            deleteFault(elementService(elements), elements, element.guid);
 
             const elementWithoutFault = {
                 guid: element.guid
@@ -1047,10 +1052,178 @@ describe('modelUtils', () => {
                 }
             };
 
-            deleteBranch(elements, 'decision1', getSubElementGuids);
+            deleteBranch(elementService(elements), elements, 'decision1');
             expect(elements.decision1).toBeUndefined();
             expect(elements.screen1).toBeUndefined();
             expect(elements.screen2).toBeUndefined();
+        });
+    });
+
+    describe('updateChildren', () => {
+        let flow;
+
+        beforeEach(() => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [
+                ['head1-guid', END_ELEMENT_GUID],
+                ['head2-guid', 'random-guid'],
+                ['head3-guid']
+            ];
+            flow = createFlow([branchingElement]);
+        });
+
+        it('when all branches terminals after the update, delete the parent next and decendents', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [
+                ['head1-guid', { ...END_ELEMENT, guid: 'end1' }],
+                ['head2-guid', 'random-guid'],
+                ['head3-guid', { ...END_ELEMENT, guid: 'end2' }]
+            ];
+            flow = createFlow([branchingElement, { ...SCREEN_ELEMENT }, { ...SCREEN_ELEMENT, guid: 'screen2-guid' }]);
+            const nextFlow = updateChildren(elementService(flow), flow, BRANCH_ELEMENT_GUID, [
+                'branch-guid:0-head1-guid',
+                'branch-guid:2-head3-guid'
+            ]);
+
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('when parent has all terminals, creates end nodes for new branches', () => {
+            const branchingElement = { ...BRANCH_ELEMENT, next: null };
+            branchingElement.children = [[{ ...END_ELEMENT, guid: 'end1' }], [{ ...END_ELEMENT, guid: 'end2' }]];
+            flow = createFlow([branchingElement], false);
+
+            const nextFlow = updateChildren(elementService(flow), flow, BRANCH_ELEMENT_GUID, [
+                'branch-guid:0-end1',
+                'branch-guid:1-end2',
+                null
+            ]);
+
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('cant update children with a guid that was not previously in children', () => {
+            const elements = { ...flow };
+
+            expect(() =>
+                updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                    'branch-guid:0-head1-guid',
+                    'random-guid',
+                    'branch-guid:2-head3-guid',
+                    null
+                ])
+            ).toThrowError();
+        });
+
+        it('handles new empty branch in right-most position', () => {
+            const elements = { ...flow };
+            const nextFlow = updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                'branch-guid:0-head1-guid',
+                'branch-guid:1-head2-guid',
+                'branch-guid:2-head3-guid',
+                null
+            ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('handles new empty branch in left-most position', () => {
+            const elements = { ...flow };
+            const nextFlow = updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                null,
+                'branch-guid:0-head1-guid',
+                'branch-guid:1-head2-guid',
+                'branch-guid:2-head3-guid'
+            ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('deletes branch elements when removing a child', () => {
+            const elements = { ...flow };
+            const nextFlow = updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                'branch-guid:0-head1-guid',
+                'branch-guid:2-head3-guid'
+            ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('reorders the children', () => {
+            const elements = { ...flow };
+            const nextFlow = updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                'branch-guid:1-head2-guid',
+                'branch-guid:2-head3-guid',
+                'branch-guid:0-head1-guid'
+            ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('reorders, removes and adds child', () => {
+            const elements = { ...flow };
+            const nextFlow = updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                null,
+                'branch-guid:2-head3-guid',
+                'branch-guid:0-head1-guid'
+            ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('reorders the children of parent with null children', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [['head1-guid', END_ELEMENT_GUID], null, ['head3-guid']];
+            const elements = createFlow([branchingElement]);
+            const nextFlow = updateChildren(elementService(elements), elements, BRANCH_ELEMENT_GUID, [
+                'branch-guid:2-head3-guid',
+                'branch-guid:0-head1-guid',
+                null
+            ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+    });
+
+    describe('inlineFromParent', () => {
+        const originalStoreState = {
+            newDecision: {
+                guid: 'newDecision',
+                name: 'newDecision',
+                children: ['end1', null],
+                next: 'screen1'
+            },
+            end1: {
+                guid: 'end1',
+                name: 'end1',
+                childIndex: 0,
+                parent: 'newDecision',
+                isTerminal: true
+            },
+            screen1: {
+                guid: 'screen1',
+                name: 'screen1',
+                prev: 'newDecision',
+                next: 'end2'
+            },
+            end2: {
+                guid: 'end2',
+                name: 'end2',
+                nodeType: NodeType.END,
+                prev: 'screen1'
+            }
+        };
+
+        const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
+
+        it('end2 should be moved to the second branch', () => {
+            expect(updatedState.newDecision.children).toMatchObject(['end1', 'screen1']);
+        });
+        it('newDecision should not have a next', () => {
+            expect(updatedState.newDecision.next).toBeNull();
+        });
+        it('screen1 should have updated childIndex', () => {
+            expect(updatedState.screen1.childIndex).toBe(1);
+        });
+        it('screen1 should have no prev', () => {
+            expect(updatedState.screen1.prev).toBeNull();
+        });
+        it('screen1 should have isTerminal set to true', () => {
+            expect(updatedState.screen1.isTerminal).toBeTruthy();
         });
     });
 });

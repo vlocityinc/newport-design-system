@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import FlcNodeStartMenu from 'builder_platform_interaction/flcNodeStartMenu';
 import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
@@ -28,7 +28,7 @@ const autolaunchedFlowStart = {
     isSupported: true,
     label: 'Start',
     supportsMenu: true,
-    type: ElementType.START,
+    type: NodeType.START,
     value: 'START_ELEMENT'
 };
 
@@ -45,7 +45,7 @@ const platformEventStart = {
     isSupported: true,
     label: 'Start',
     supportsMenu: true,
-    type: ElementType.START,
+    type: NodeType.START,
     value: 'START_ELEMENT'
 };
 
@@ -62,7 +62,7 @@ const screenFlowStart = {
     isSupported: true,
     label: 'Start',
     supportsMenu: true,
-    type: ElementType.START,
+    type: NodeType.START,
     value: 'START_ELEMENT'
 };
 
@@ -79,7 +79,7 @@ const recordTriggeredFlowStart = {
     isSupported: true,
     label: 'Start',
     supportsMenu: true,
-    type: ElementType.START,
+    type: NodeType.START,
     value: 'START_ELEMENT'
 };
 
@@ -96,7 +96,7 @@ const scheduledTriggeredFlowStart = {
     isSupported: true,
     label: 'Start',
     supportsMenu: true,
-    type: ElementType.START,
+    type: NodeType.START,
     value: 'START_ELEMENT'
 };
 

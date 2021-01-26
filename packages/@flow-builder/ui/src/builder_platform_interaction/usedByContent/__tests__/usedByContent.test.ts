@@ -2,13 +2,6 @@
 import { createElement } from 'lwc';
 import UsedByContent from '../usedByContent';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
-
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
 
 function createComponentForTest(
     listSectionHeader,
@@ -91,8 +84,6 @@ describe('Used-By-Content component', () => {
             expect(usedBySectionItemContentItem.showLocatorIcon).toBeTruthy();
         });
         it('Should not show locator icon when showLocatorIcon is false and section list exists', async () => {
-            shouldUseAutoLayoutCanvas.mockImplementation(() => true);
-
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult, true, false);
             await ticks(1);
             const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(

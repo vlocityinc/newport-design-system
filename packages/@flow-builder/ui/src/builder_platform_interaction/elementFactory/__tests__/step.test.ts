@@ -60,12 +60,6 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 describe('Step Element Factory', () => {
     describe('createStep Function', () => {
         it('returns a new step element object with default values when no arguments are passed', () => {

@@ -107,7 +107,10 @@ export default class FlcConnectorMenu extends Menu {
             // TODO need to make event for goto action
             case GERGE_ACTION:
                 break;
-            default:
+            default: {
+                const { prev, parent, childIndex } = this;
+                const alcInsertAt = prev ? { prev } : { parent, childIndex };
+
                 this.dispatchEvent(
                     // @ts-ignore
                     new AddElementEvent({
@@ -115,12 +118,10 @@ export default class FlcConnectorMenu extends Menu {
                         elementSubtype: currentTarget.getAttribute('data-sub-type')!,
                         locationX: 0,
                         locationY: 0,
-                        prev: this.prev,
-                        next: this.next,
-                        parent: this.parent,
-                        childIndex: this.childIndex
+                        alcInsertAt
                     })
                 );
+            }
         }
     }
 

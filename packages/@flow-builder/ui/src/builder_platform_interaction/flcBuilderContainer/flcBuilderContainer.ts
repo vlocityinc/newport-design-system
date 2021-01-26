@@ -10,7 +10,8 @@ import {
     getFlcElementType,
     startElementDescription,
     hasTrigger,
-    hasContext
+    hasContext,
+    setElementsMetadata
 } from 'builder_platform_interaction/flcBuilderUtils';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
@@ -109,6 +110,7 @@ export default class FlcBuilderContainer extends LightningElement {
         if (elementsMetadata != null) {
             this.setStartElementMetadata();
             this._elementsMetadata = augmentElementsMetadata(elementsMetadata);
+            setElementsMetadata(this._elementsMetadata);
             this.mapCanvasStateToStore();
         }
     }

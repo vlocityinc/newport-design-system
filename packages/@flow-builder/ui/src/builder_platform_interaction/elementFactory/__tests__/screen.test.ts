@@ -27,8 +27,7 @@ import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from 
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByGuid: jest.fn(),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        getElementByGuid: jest.fn()
     };
 });
 

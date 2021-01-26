@@ -14,7 +14,7 @@ import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     baseChildElement,
-    getUpdatedChildrenAndDeletedChildrenUsingStore,
+    getDeletedCanvasElementChildren,
     updateChildReferences
 } from './base/baseElement';
 import { createStartElementConnector, createConnectorObjects } from './connector';
@@ -470,10 +470,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         }
     }
 
-    const { deletedCanvasElementChildren, deletedBranchHeadGuids } = getUpdatedChildrenAndDeletedChildrenUsingStore(
-        startElement,
-        newTimeTriggers
-    );
+    const deletedCanvasElementChildren = getDeletedCanvasElementChildren(startElement, newTimeTriggers);
 
     const deletedTimeTriggerGuids = deletedCanvasElementChildren.map((timeTrigger) => timeTrigger.guid);
 
@@ -484,14 +481,6 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         childReferences,
         deletedTimeTriggerGuids
     );
-    /* This code will not be exercised till Time Triggers is supported for Auto-Layout (232)
-    W-8179230 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008gWsnIAE/view
-    */
-    // if (shouldUseAutoLayoutCanvas()) {
-    //     Object.assign(newStartElement, {
-    //         children: newChildren
-    //     });
-    // }
 
     const elementSubtype = startElement.elementSubtype;
     Object.assign(newStartElement, {
@@ -508,8 +497,6 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         */
         deletedChildElementGuids: deletedTimeTriggerGuids,
         childElements: newTimeTriggers,
-        deletedBranchHeadGuids,
-        //
         elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
         elementSubtype,
         shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as UI.Start),

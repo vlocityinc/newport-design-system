@@ -1,6 +1,11 @@
 // @ts-nocheck
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
-import { createWaitEvent, createDuplicateWait, createWaitWithWaitEvents } from '../wait';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import {
+    createWaitEvent,
+    createDuplicateWait,
+    createWaitWithWaitEvents,
+    createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor
+} from '../wait';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 import { baseCanvasElement, baseChildElement, createCondition } from '../base/baseElement';
@@ -15,7 +20,7 @@ import {
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from '../base/baseMetadata';
-import { createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor } from '../wait';
+
 import { LABELS } from '../elementFactoryLabels';
 import {
     createWaitMetadataObject,
@@ -117,21 +122,20 @@ const end4 = {
     guid: 'end4',
     isTerminal: false
 };
-const mergingEnd1 = {
-    guid: 'mergingEnd1',
-    prev: waitWithMergingBranchesGuid
-};
-const mergingEnd2 = {
-    guid: 'mergingEnd2',
-    prev: nestedWaitWithMergingBranchesGuid
-};
+// const mergingEnd1 = {
+//     guid: 'mergingEnd1',
+//     prev: waitWithMergingBranchesGuid
+// };
+// const mergingEnd2 = {
+//     guid: 'mergingEnd2',
+//     prev: nestedWaitWithMergingBranchesGuid
+// };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByGuid: jest.fn(),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        getElementByGuid: jest.fn()
     };
 });
 
@@ -219,12 +223,12 @@ jest.mock('../base/baseElement', () => {
             })
             .mockName('baseChildElementMock'),
         baseCanvasElementsArrayToMap: jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap,
+
         createCondition: jest
             .fn()
             .mockImplementation((element) => Object.assign({}, element))
             .mockName('createCondition'),
-        getUpdatedChildrenAndDeletedChildrenUsingStore: jest.requireActual('../base/baseElement')
-            .getUpdatedChildrenAndDeletedChildrenUsingStore,
+        getDeletedCanvasElementChildren: jest.requireActual('../base/baseElement').getDeletedCanvasElementChildren,
         updateChildReferences: jest.fn().mockImplementation((childReferences, waitEvent) => {
             return [
                 ...childReferences,
@@ -537,91 +541,87 @@ describe('wait', () => {
     });
 
     describe('createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor', () => {
-        const shouldUseFlc = (useFlc) => {
-            shouldUseAutoLayoutCanvas.mockImplementation(() => {
-                return useFlc;
-            });
-        };
+        //     const waitEvent1 = {
+        //         guid: 'waitEvent1',
+        //         name: 'waitEvent1'
+        //     };
 
-        const waitEvent1 = {
-            guid: 'waitEvent1',
-            name: 'waitEvent1'
-        };
+        //     const waitEvent2 = {
+        //         guid: 'waitEvent2',
+        //         name: 'waitEvent2'
+        //     };
 
-        const waitEvent2 = {
-            guid: 'waitEvent2',
-            name: 'waitEvent2'
-        };
+        //     const waitEvent3 = {
+        //         guid: 'waitEvent3',
+        //         name: 'waitEvent3'
+        //     };
 
-        const waitEvent3 = {
-            guid: 'waitEvent3',
-            name: 'waitEvent3'
-        };
+        //     const wait1 = {
+        //         guid: 'existingWaitWithAllTerminatedChildrenGuid',
+        //         name: 'wait1',
+        //         elementType: ELEMENT_TYPE.WAIT,
+        //         childReferences: [
+        //             {
+        //                 childReference: 'waitEvent1'
+        //             },
+        //             {
+        //                 childReference: 'waitEvent2'
+        //             }
+        //         ]
+        //         // ,
+        //         // next: null,
+        //         // children: ['end1', 'end2'],
+        //         // fault: null
+        //     };
 
-        const wait1 = {
-            guid: 'existingWaitWithAllTerminatedChildrenGuid',
-            name: 'wait1',
-            elementType: ELEMENT_TYPE.WAIT,
-            childReferences: [
-                {
-                    childReference: 'waitEvent1'
-                },
-                {
-                    childReference: 'waitEvent2'
-                }
-            ],
-            next: null,
-            children: ['end1', 'end2'],
-            fault: null
-        };
+        //     const wait2 = {
+        //         guid: 'existingWaitWithNoneTerminatedChildrenGuid',
+        //         name: 'wait1',
+        //         elementType: ELEMENT_TYPE.WAIT,
+        //         childReferences: [
+        //             {
+        //                 childReference: 'waitEvent1'
+        //             },
+        //             {
+        //                 childReference: 'waitEvent2'
+        //             }
+        //         ]
+        //         // ,
+        //         // next: null,
+        //         // children: ['end3', 'end4'],
+        //         // fault: null
+        //     };
 
-        const wait2 = {
-            guid: 'existingWaitWithNoneTerminatedChildrenGuid',
-            name: 'wait1',
-            elementType: ELEMENT_TYPE.WAIT,
-            childReferences: [
-                {
-                    childReference: 'waitEvent1'
-                },
-                {
-                    childReference: 'waitEvent2'
-                }
-            ],
-            next: null,
-            children: ['end3', 'end4'],
-            fault: null
-        };
+        //     const mockStoreData = {
+        //         wait1,
+        //         wait2,
+        //         waitEvent1,
+        //         waitEvent2,
+        //         waitEvent3,
+        //         end1,
+        //         end2,
+        //         end3,
+        //         end4
+        //     };
 
-        const mockStoreData = {
-            wait1,
-            wait2,
-            waitEvent1,
-            waitEvent2,
-            waitEvent3,
-            end1,
-            end2,
-            end3,
-            end4
-        };
-
-        beforeAll(() => {
-            Store.setMockState({
-                elements: mockStoreData
-            });
-        });
-        afterAll(() => {
-            Store.resetStore();
-        });
+        //     beforeAll(() => {
+        //         Store.setMockState({
+        //             elements: mockStoreData
+        //         });
+        //     });
+        //     afterAll(() => {
+        //         Store.resetStore();
+        //     });
 
         let waitFromPropertyEditor;
-        let waitFromPropertyEditorWithChildren;
-        let existingWaitFromPropertyEditorWithChildren;
-        let existingWaitFromPropertyEditorWithAllTerminatedChildren;
-        let existingWaitFromPropertyEditorWithThreeWaitEvents;
-        let existingWaitFromPropertyEditorWithNoneTerminatedChildren;
+        //     let waitFromPropertyEditorWithChildren;
+
+        //     let existingWaitFromPropertyEditorWithAllTerminatedChildren;
+        //     let existingWaitFromPropertyEditorWithThreeWaitEvents;
+        //     let existingWaitFromPropertyEditorWithNoneTerminatedChildren;
 
         beforeEach(() => {
-            shouldUseFlc(false);
+            //         shouldUseFlc(false);
 
             waitFromPropertyEditor = {
                 guid: newWaitGuid,
@@ -632,73 +632,67 @@ describe('wait', () => {
                 ]
             };
 
-            waitFromPropertyEditorWithChildren = {
-                guid: waitWithChildrenGuid,
-                waitEvents: [
-                    {
-                        guid: 'waitEvent1'
-                    }
-                ],
-                children: null
-            };
+            //         waitFromPropertyEditorWithChildren = {
+            //             guid: waitWithChildrenGuid,
+            //             waitEvents: [
+            //                 {
+            //                     guid: 'waitEvent1'
+            //                 }
+            //             ],
+            //             children: null
+            //         };
 
-            existingWaitFromPropertyEditorWithChildren = {
-                guid: existingWaitWithChildrenGuid,
-                waitEvents: [
-                    {
-                        guid: 'existingWaitEvent1'
-                    }
-                ],
-                children: ['screen1', 'screen2', null]
-            };
+            //         // existingWaitFromPropertyEditorWithChildren = {
+            //         //     guid: existingWaitWithChildrenGuid,
+            //         //     waitEvents: [
+            //         //         {
+            //         //             guid: 'existingWaitEvent1'
+            //         //         }
+            //         //     ],
+            //         //     children: ['screen1', 'screen2', null]
+            //         // };
 
-            existingWaitFromPropertyEditorWithAllTerminatedChildren = {
-                guid: existingWaitWithAllTerminatedChildrenGuid,
-                waitEvents: [
-                    {
-                        guid: 'waitEvent1'
-                    },
-                    {
-                        guid: 'waitEvent2'
-                    }
-                ],
-                children: ['end1', 'end2']
-            };
+            //         existingWaitFromPropertyEditorWithAllTerminatedChildren = {
+            //             guid: existingWaitWithAllTerminatedChildrenGuid,
+            //             waitEvents: [
+            //                 {
+            //                     guid: 'waitEvent1'
+            //                 },
+            //                 {
+            //                     guid: 'waitEvent2'
+            //                 }
+            //             ],
+            //             children: ['end1', 'end2']
+            //         };
 
-            existingWaitFromPropertyEditorWithNoneTerminatedChildren = {
-                guid: existingWaitWithNoneTerminatedChildrenGuid,
-                waitEvents: [
-                    {
-                        guid: 'waitEvent1'
-                    },
-                    {
-                        guid: 'waitEvent2'
-                    }
-                ],
-                children: ['end3', 'end4']
-            };
+            //         existingWaitFromPropertyEditorWithNoneTerminatedChildren = {
+            //             guid: existingWaitWithNoneTerminatedChildrenGuid,
+            //             waitEvents: [
+            //                 {
+            //                     guid: 'waitEvent1'
+            //                 },
+            //                 {
+            //                     guid: 'waitEvent2'
+            //                 }
+            //             ],
+            //             children: ['end3', 'end4']
+            //         };
 
-            existingWaitFromPropertyEditorWithThreeWaitEvents = {
-                guid: existingWaitWithAllTerminatedChildrenGuid,
-                waitEvents: [
-                    {
-                        guid: 'waitEvent1'
-                    },
-                    {
-                        guid: 'waitEvent2'
-                    },
-                    {
-                        guid: 'waitEvent3'
-                    }
-                ],
-                children: ['end1', 'end2']
-            };
-        });
-
-        it('includes the return value of a call to baseCanvasElement', () => {
-            createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-
-            expect(baseCanvasElement).toHaveBeenCalledWith(waitFromPropertyEditor);
+            //         existingWaitFromPropertyEditorWithThreeWaitEvents = {
+            //             guid: existingWaitWithAllTerminatedChildrenGuid,
+            //             waitEvents: [
+            //                 {
+            //                     guid: 'waitEvent1'
+            //                 },
+            //                 {
+            //                     guid: 'waitEvent2'
+            //                 },
+            //                 {
+            //                     guid: 'waitEvent3'
+            //                 }
+            //             ],
+            //             children: ['end1', 'end2']
+            //         };
         });
 
         it('element type is WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS', () => {
@@ -711,52 +705,6 @@ describe('wait', () => {
             const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.WAIT);
-        });
-
-        it('initializes children correctly for new wait with children', () => {
-            shouldUseFlc(true);
-            const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                waitFromPropertyEditorWithChildren
-            );
-
-            expect(result.canvasElement.children).toEqual([null, null]);
-        });
-
-        it('sets shouldAddEndElement to true when all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const { shouldAddEndElement } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                existingWaitFromPropertyEditorWithAllTerminatedChildren
-            );
-            expect(shouldAddEndElement).toBeTruthy();
-        });
-
-        it('sets shouldAddEndElement to false when not all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const { shouldAddEndElement } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                existingWaitFromPropertyEditorWithNoneTerminatedChildren
-            );
-            expect(shouldAddEndElement).toBeFalsy();
-        });
-
-        it('sets newEndElementIdx to the right index to add end element when all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const { newEndElementIdx } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                existingWaitFromPropertyEditorWithAllTerminatedChildren
-            );
-            expect(newEndElementIdx).toEqual(1);
-        });
-
-        it('sets newEndElementIdx to undefined, shouldAddEndElement as false when adding multiple wait events from property editor and all existing children are on the terminating branch', () => {
-            shouldUseFlc(true);
-            const {
-                shouldAddEndElement,
-                newEndElementIdx
-            } = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                existingWaitFromPropertyEditorWithThreeWaitEvents
-            );
-            expect.assertions(2);
-            expect(newEndElementIdx).toBeUndefined();
-            expect(shouldAddEndElement).toBeTruthy();
         });
 
         describe('defaultConnectorLabel', () => {
@@ -853,7 +801,6 @@ describe('wait', () => {
                 childIndex: 0,
                 isTerminal: false
             };
-
             const screen2 = {
                 guid: 'screen2',
                 name: 'screen2',
@@ -864,12 +811,10 @@ describe('wait', () => {
                 childIndex: 1,
                 isTerminal: true
             };
-
             const mockStoreState = {
                 screen1,
                 screen2
             };
-
             beforeAll(() => {
                 Store.setMockState({
                     elements: mockStoreState
@@ -878,7 +823,6 @@ describe('wait', () => {
             afterAll(() => {
                 Store.resetStore();
             });
-
             beforeEach(() => {
                 waitFromPropertyEditor = {
                     guid: existingWaitGuid,
@@ -889,279 +833,22 @@ describe('wait', () => {
                     ]
                 };
             });
-
             it('wait does not include waitEvent references for deleted waitEvents', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-
                 expect(result.canvasElement.childReferences).toHaveLength(1);
                 expect(result.canvasElement.childReferences[0].childReference).toEqual(
                     waitFromPropertyEditor.waitEvents[0].guid
                 );
             });
-
             it('includes all deleted waitEvents', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-
                 expect(result.deletedChildElementGuids).toHaveLength(2);
                 expect(result.deletedChildElementGuids[0]).toEqual(existingWait.childReferences[0].childReference);
                 expect(result.deletedChildElementGuids[1]).toEqual(existingWait.childReferences[1].childReference);
             });
-
             it('has the right maxConnections', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-
                 expect(result.canvasElement.maxConnections).toEqual(3);
-            });
-
-            it('updates children property for existing wait with children', () => {
-                shouldUseFlc(true);
-                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                    existingWaitFromPropertyEditorWithChildren
-                );
-                expect(result.canvasElement.children).toEqual(['screen1', null]);
-            });
-
-            it('deletedBranchHeadGuids should include "screen2" for existing wait with children', () => {
-                shouldUseFlc(true);
-                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-                    existingWaitFromPropertyEditorWithChildren
-                );
-
-                expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
-            });
-
-            describe('deleted wait events are on the merging branches', () => {
-                let wait;
-                beforeEach(() => {
-                    wait = {
-                        guid: waitWithMergingBranchesGuid,
-                        waitEvents: [
-                            {
-                                guid: 'waitEvent1'
-                            }
-                        ],
-                        children: ['end1', null, null, 'end2'],
-                        next: 'mergingEnd1'
-                    };
-                });
-
-                const waitFromStore = {
-                    guid: waitWithMergingBranchesGuid,
-                    waitEvents: [
-                        {
-                            guid: 'waitEvent1'
-                        },
-                        {
-                            guid: 'waitEvent2'
-                        },
-                        {
-                            guid: 'waitEvent3'
-                        }
-                    ],
-                    children: ['end1', null, null, 'end2'],
-                    next: 'mergingEnd1'
-                };
-
-                const mockStore = {
-                    waitFromStore,
-                    waitEvent1,
-                    waitEvent2,
-                    waitEvent3,
-                    end1,
-                    end2,
-                    mergingEnd1
-                };
-
-                beforeAll(() => {
-                    Store.setMockState({
-                        elements: mockStore
-                    });
-                });
-                afterAll(() => {
-                    Store.resetStore();
-                });
-
-                it('deletedBranchHeadGuids should include waits next', () => {
-                    shouldUseFlc(true);
-                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
-                    expect(result.deletedBranchHeadGuids).toEqual(['mergingEnd1']);
-                });
-
-                it('new waits next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-                    shouldUseFlc(true);
-                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
-                    expect.assertions(2);
-                    expect(result.canvasElement.next).toBeNull();
-                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
-                });
-            });
-
-            describe('deleted wait events are on the nested merging branches', () => {
-                let wait;
-                beforeEach(() => {
-                    wait = {
-                        guid: nestedWaitWithMergingBranchesGuid,
-                        waitEvents: [
-                            {
-                                guid: 'waitEvent1'
-                            }
-                        ],
-                        children: ['end1', null, null, 'end2'],
-                        next: null
-                    };
-                });
-
-                const nestedWaitFromStore = {
-                    guid: nestedWaitWithMergingBranchesGuid,
-                    waitEvents: [
-                        {
-                            guid: 'waitEvent1'
-                        },
-                        {
-                            guid: 'waitEvent2'
-                        },
-                        {
-                            guid: 'waitEvent3'
-                        }
-                    ],
-                    children: ['end1', null, null, 'end2'],
-                    next: 'null'
-                };
-
-                const waitFromStore = {
-                    guid: 'waitGuid',
-                    waitEvents: [
-                        {
-                            guid: 'waitEvent1'
-                        }
-                    ],
-                    children: [nestedWaitWithMergingBranchesGuid, null],
-                    next: 'end3'
-                };
-
-                const mockStore = {
-                    waitFromStore,
-                    nestedWaitFromStore,
-                    waitEvent1,
-                    waitEvent2,
-                    waitEvent3,
-                    end1,
-                    end2,
-                    end3,
-                    mergingEnd2
-                };
-
-                beforeAll(() => {
-                    Store.setMockState({
-                        elements: mockStore
-                    });
-                });
-                afterAll(() => {
-                    Store.resetStore();
-                });
-
-                it('deletedBranchHeadGuids should be empty', () => {
-                    shouldUseFlc(true);
-                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
-                    expect(result.deletedBranchHeadGuids).toEqual([]);
-                });
-
-                it('new waits next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-                    shouldUseFlc(true);
-                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
-                    expect.assertions(2);
-                    expect(result.canvasElement.next).toBeNull();
-                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
-                });
-            });
-
-            describe('deleted wait events are on the merging branches and there are elements before and after merging', () => {
-                let wait;
-                beforeEach(() => {
-                    wait = {
-                        guid: waitWithElementsOnMergingBranchesGuid,
-                        waitEvents: [
-                            {
-                                guid: 'waitEvent1'
-                            }
-                        ],
-                        children: ['end1', 'assignment1', null, 'end2'],
-                        next: 'assignment2'
-                    };
-                });
-
-                const assignment1 = {
-                    guid: 'assignment1',
-                    name: 'assignment1',
-                    elementType: ELEMENT_TYPE.ASSIGNMENT,
-                    prev: null,
-                    next: null,
-                    parent: waitWithElementsOnMergingBranchesGuid,
-                    childIndex: 1,
-                    isTerminal: false
-                };
-
-                const assignment2 = {
-                    guid: 'assignment2',
-                    name: 'assignment2',
-                    elementType: ELEMENT_TYPE.ASSIGNMENT,
-                    prev: waitWithElementsOnMergingBranchesGuid,
-                    next: 'mergingEnd1',
-                    childIndex: 1,
-                    isTerminal: false
-                };
-
-                const waitFromStore = {
-                    guid: waitWithElementsOnMergingBranchesGuid,
-                    waitEvents: [
-                        {
-                            guid: 'waitEvent1'
-                        },
-                        {
-                            guid: 'waitEvent2'
-                        },
-                        {
-                            guid: 'waitEvent3'
-                        }
-                    ],
-                    children: ['end1', 'assignment1', null, 'end2'],
-                    next: 'assignment2'
-                };
-
-                const mockStore = {
-                    waitFromStore,
-                    waitEvent1,
-                    waitEvent2,
-                    waitEvent3,
-                    assignment1,
-                    assignment2,
-                    end1,
-                    end2,
-                    mergingEnd1
-                };
-
-                beforeAll(() => {
-                    Store.setMockState({
-                        elements: mockStore
-                    });
-                });
-                afterAll(() => {
-                    Store.resetStore();
-                });
-
-                it('deletedBranchHeadGuids should include elements before and after merging', () => {
-                    shouldUseFlc(true);
-                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
-                    expect(result.deletedBranchHeadGuids).toEqual(['assignment1', 'assignment2']);
-                });
-
-                it('new waits next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-                    shouldUseFlc(true);
-                    const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait);
-                    expect.assertions(2);
-                    expect(result.canvasElement.next).toBeNull();
-                    expect(result.shouldMarkBranchHeadAsTerminal).toBeTruthy();
-                });
             });
         });
     });

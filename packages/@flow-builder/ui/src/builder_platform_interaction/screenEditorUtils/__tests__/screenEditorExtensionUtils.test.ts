@@ -28,8 +28,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getDuplicateDevNameElements: jest.fn(),
         isDevNameInStore: jest.fn(),
         getProcessType: jest.fn(),
-        getTriggerType: jest.fn(),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        getTriggerType: jest.fn()
     };
 });
 

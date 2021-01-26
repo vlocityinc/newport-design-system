@@ -60,8 +60,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 isCollection: false,
                 name
             };
-        },
-        shouldUseAutoLayoutCanvas: jest.fn()
+        }
     };
 });
 

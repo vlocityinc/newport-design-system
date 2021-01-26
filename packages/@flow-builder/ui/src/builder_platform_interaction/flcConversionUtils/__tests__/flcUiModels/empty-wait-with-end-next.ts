@@ -8,6 +8,7 @@ export default {
             isCanvasElement: true,
             connectorCount: 0,
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -76,6 +77,7 @@ export default {
         'end-element-guid (wait-element-guid)': {
             guid: 'end-element-guid (wait-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'wait-element-guid',
             next: null,
             isCanvasElement: true,
@@ -105,6 +107,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

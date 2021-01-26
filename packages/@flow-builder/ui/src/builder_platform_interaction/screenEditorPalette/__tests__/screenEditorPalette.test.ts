@@ -5,13 +5,12 @@ import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { dragStartEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
+jest.mock('builder_platform_interaction/contextLib', () => {
     return {
-        shouldUseAutoLayoutCanvas: jest.fn()
+        orgHasFlowBuilderAutomaticFields: jest.fn().mockReturnValue(true),
+        isTestMode: jest.fn().mockReturnValue(false)
     };
 });
-
-jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });

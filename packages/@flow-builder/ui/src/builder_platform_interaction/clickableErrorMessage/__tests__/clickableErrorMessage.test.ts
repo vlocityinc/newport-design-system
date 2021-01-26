@@ -25,8 +25,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             return guid === mockDecision.guid
                 ? mockDecision
                 : jest.requireActual('builder_platform_interaction/storeUtils').getElementByGuid(guid);
-        }),
-        shouldUseAutoLayoutCanvas: jest.fn()
+        })
     };
 });
 

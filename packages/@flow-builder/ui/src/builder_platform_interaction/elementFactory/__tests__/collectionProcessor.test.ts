@@ -64,12 +64,6 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 describe('CollectionProcessor Element Factory', () => {
     describe('createCollectionProcessor Function', () => {
         it('returns a new Collection Processor element object with default values when no arguments are passed', () => {

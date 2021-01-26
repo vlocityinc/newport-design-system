@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     shouldSupportTimeTriggers,
     createStartElementForPropertyEditor,
@@ -57,7 +57,6 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 jest.mock('builder_platform_interaction/storeUtils', () => ({
     getProcessType: jest.fn(),
-    shouldUseAutoLayoutCanvas: jest.fn(),
     getElementByGuid: jest.fn()
 }));
 
@@ -784,19 +783,10 @@ describe('Start element', () => {
     });
 
     describe('createStartElementWhenUpdatingFromPropertyEditor', () => {
-        const shouldUseFlc = (useFlc) => {
-            shouldUseAutoLayoutCanvas.mockImplementation(() => {
-                return useFlc;
-            });
-        };
-
         let startElementFromPropertyEditor;
         let newStartElement;
-        let startElementFromPropertyEditorWithChildren;
 
         beforeEach(() => {
-            shouldUseFlc(false);
-
             startElementFromPropertyEditor = {
                 guid: newStartElementGuid,
                 timeTriggers: [
@@ -815,20 +805,6 @@ describe('Start element', () => {
                 triggerType: 'RecordAfterSave',
                 recordTriggerType: 'Create',
                 object: 'Account'
-            };
-
-            startElementFromPropertyEditorWithChildren = {
-                guid: startElementWithChildrenGuid,
-                timeTriggers: [
-                    {
-                        guid: 'trigger1',
-                        name: 'abc'
-                    }
-                ],
-                triggerType: 'RecordAfterSave',
-                recordTriggerType: 'Create',
-                object: 'Account',
-                children: null
             };
         });
 
@@ -871,14 +847,6 @@ describe('Start element', () => {
             const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.START_ELEMENT);
-        });
-
-        it('children property should not exist on the start element', () => {
-            expect.assertions(1);
-            shouldUseFlc(true);
-            const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditorWithChildren);
-
-            expect(result.canvasElement.children).toBeNull();
         });
 
         it('When updating to a start element that does not support time triggers, Immediate available connector should be updated to Regular', () => {

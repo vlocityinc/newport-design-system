@@ -32,7 +32,7 @@ import {
     VerticalAlign
 } from './flowRendererUtils';
 
-import ElementType from './ElementType';
+import NodeType from './NodeType';
 import MenuType from './MenuType';
 import { isMenuOpened } from './interactionUtils';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
@@ -146,7 +146,7 @@ function shouldDeleteConnector(context: FlowRenderContext, nodeGuid: Guid, curre
  * @returns A NodeRenderInfo for the rendered node
  */
 function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRenderInfo {
-    const { guid, label, config } = node;
+    const { guid, label, config, nodeType } = node;
 
     const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isDeletingBranch } = context;
     const { y, h, x } = getLayout(node.guid, progress, nodeLayoutMap);
@@ -163,7 +163,7 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
         flows: [],
         isNew: nodeLayoutMap[guid].prevLayout == null && progress === 0,
         logicConnectors: [],
-        isTerminal: metadata.type === ElementType.END,
+        isTerminal: nodeType === NodeType.END,
         toBeDeleted: isElementGuidToDelete(context, guid) || isDeletingBranch,
         node
     };
@@ -186,12 +186,11 @@ function renderNode(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): NodeRenderInfo {
-    const { elementsMetadata, layoutConfig, progress, nodeLayoutMap } = context;
-
-    const metadata = getElementMetadata(elementsMetadata, node.elementType);
+    const { layoutConfig, progress, nodeLayoutMap } = context;
+    const { nodeType } = node;
 
     const nodeRenderInfo =
-        metadata.type === ElementType.BRANCH || metadata.type === ElementType.LOOP
+        nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP
             ? renderBranchNode(node as ParentNodeModel, context)
             : renderSimpleNode(node, context);
 
@@ -224,7 +223,7 @@ function renderNode(
         context.isFault = stashedIsFault;
     }
 
-    if (metadata.type !== ElementType.END && (!nodeRenderInfo.isTerminal || metadata.type === ElementType.LOOP)) {
+    if (nodeType !== NodeType.END && (!nodeRenderInfo.isTerminal || nodeType === NodeType.LOOP)) {
         nodeRenderInfo.nextConnector = createNextConnector(parentNode, node, context, variant);
     }
 
@@ -278,17 +277,16 @@ function createNextConnector(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
-    const { flowModel, progress, nodeLayoutMap, interactionState, elementsMetadata, isDeletingBranch } = context;
+    const { flowModel, progress, nodeLayoutMap, interactionState, isDeletingBranch } = context;
     const { y, joinOffsetY } = getLayout(node.guid, progress, nodeLayoutMap);
-    const { elementType } = node;
+    const { nodeType } = node;
 
     let height = getNextConnectorHeight(parentNode, node, context, y);
 
     let offsetY = 0;
 
-    const metadata = getElementMetadata(elementsMetadata, elementType);
     let mainVariant =
-        metadata.type === ElementType.BRANCH || metadata.type === ElementType.LOOP
+        nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
             : ConnectorVariant.DEFAULT;
 
@@ -297,7 +295,7 @@ function createNextConnector(
     if (mainVariant === ConnectorVariant.POST_MERGE) {
         offsetY = joinOffsetY;
         height = height - joinOffsetY;
-        showAdd = getMergeOutcomeCount(flowModel, node as ParentNodeModel) !== 1 || metadata.type === ElementType.LOOP;
+        showAdd = getMergeOutcomeCount(flowModel, node as ParentNodeModel) !== 1 || nodeType === NodeType.LOOP;
     }
 
     if (node.next == null) {
@@ -497,12 +495,11 @@ function renderBranches(
     context: FlowRenderContext,
     isFault: boolean = false
 ): void {
-    const { elementsMetadata, progress, nodeLayoutMap, layoutConfig, flowModel } = context;
-
+    const { progress, nodeLayoutMap, layoutConfig, flowModel } = context;
+    const { nodeType } = node;
     const children = !isFault ? (node as ParentNodeModel).children : null;
 
     const layout = getLayout(node.guid, progress, nodeLayoutMap);
-    const metadata = getElementMetadata(elementsMetadata, node.elementType);
 
     const { y, h } = layout;
 
@@ -530,7 +527,7 @@ function renderBranches(
     const { isTerminal, w, leftMergeIndex, rightMergeIndex } = getMiscBranchingInfo(flows);
 
     if (!isFault) {
-        if (metadata.type === ElementType.LOOP) {
+        if (nodeType === NodeType.LOOP) {
             nodeRenderInfo.logicConnectors = [createLoopAfterLastConnector(node.guid, context)];
 
             const loopBranchHeadGuid = node.children[0];
@@ -580,16 +577,14 @@ function getConnectorVariant(
         return ConnectorVariant.FAULT;
     }
 
-    const { progress, nodeLayoutMap, elementsMetadata } = context;
+    const { progress, nodeLayoutMap } = context;
     const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
     let variant = ConnectorVariant.DEFAULT;
-
-    const metadata = getElementMetadata(elementsMetadata, parentNode.elementType);
 
     let leftBottomEdgeIndex = NaN;
     let rightBottomEdgeIndex = NaN;
 
-    const { children } = parentNode;
+    const { children, nodeType } = parentNode;
 
     let firstNonTerminalBranch = true;
 
@@ -606,7 +601,7 @@ function getConnectorVariant(
         }
     });
 
-    if (metadata.type === ElementType.LOOP) {
+    if (nodeType === NodeType.LOOP) {
         variant = ConnectorVariant.LOOP;
     } else if (branchLayout.x === 0) {
         variant = ConnectorVariant.CENTER;
@@ -656,7 +651,7 @@ function createPreConnector(
     height: number,
     conditionOptions: Option[]
 ): ConnectorRenderInfo {
-    const { interactionState, elementsMetadata, isDeletingBranch, progress } = context;
+    const { interactionState, isDeletingBranch, progress } = context;
 
     const [branchHeadGuid, childCount] =
         childIndex === FAULT_INDEX
@@ -665,10 +660,9 @@ function createPreConnector(
 
     const isEmptyBranch = branchHeadGuid == null;
     const variant = getConnectorVariant(parentNode, childIndex, context);
-    const { elementType } = parentNode;
-    const metadata = getElementMetadata(elementsMetadata, elementType);
+    const { nodeType } = parentNode;
 
-    const defaultConditionIndex = metadata.type === ElementType.BRANCH ? childCount - 1 : null;
+    const defaultConditionIndex = nodeType === NodeType.BRANCH ? childCount - 1 : null;
 
     let connectorBadgeLabel;
     if (childIndex === defaultConditionIndex) {
@@ -678,7 +672,7 @@ function createPreConnector(
     }
 
     let variants = [variant];
-    if (metadata.type === ElementType.BRANCH || metadata.type === ElementType.LOOP) {
+    if (nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP) {
         variants = [isEmptyBranch ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD, variant];
     }
 
@@ -687,7 +681,7 @@ function createPreConnector(
         ConnectorType.STRAIGHT,
         getConnectorLabelType({
             isFault: childIndex === FAULT_INDEX,
-            isLoop: metadata.type === ElementType.LOOP
+            isLoop: nodeType === NodeType.LOOP
         }),
         NO_OFFSET,
         height,

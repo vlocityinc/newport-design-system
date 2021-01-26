@@ -9,10 +9,9 @@ interface AddElementEventDetail {
     locationY?: 0;
     actionType?: string;
     actionName?: string;
-    prev?: string;
-    next?: string;
     parent?: string;
-    childIndex?: number;
+    // insertion information for the alc when adding an element
+    alcInsertAt?: object;
 }
 export class AddElementEvent extends CustomEvent<AddElementEventDetail> {
     constructor(detail: AddElementEventDetail) {

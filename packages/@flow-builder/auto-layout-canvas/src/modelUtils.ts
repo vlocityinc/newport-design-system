@@ -1,55 +1,162 @@
-/* eslint-disable no-unused-vars */
-import { NodeModel, FlowModel, ParentNodeModel, BranchHeadNodeModel, NodeRef, Guid, FAULT_INDEX } from './model';
-import ElementType from './ElementType';
+import { Guid, FAULT_INDEX, NodeRef, NodeModel, FlowModel, ParentNodeModel, BranchHeadNodeModel } from './model';
 
-// TODO: use elementsMetadata
-const LOOP = 'Loop';
-const END = 'END_ELEMENT';
+import NodeType from './NodeType';
+
+/**
+ * Type that represents a location where a node can be created: Either before an
+ * existing node (prev), or as the child of a parent node (parent + childIndex)
+ */
+export type InsertAt = { prev: Guid } & { parent: Guid; childIndex: number };
 
 /**
  * Utils for the flow model
  */
 
-const DELETE_ALL = -2;
+export interface DeleteElementOptions {
+    // whether to inline, if possible, after deletion
+    inline: boolean;
+    // the index of the child branch to keep, if any
+    childIndexToKeep?: number;
+}
+
+/* DeleteElementOptions defaults */
+const deleteElementOptionsDefaults = {
+    inline: true, // inline if possible
+    childIndexToKeep: undefined // delete all branches
+};
 
 /**
- * Reconnects a branch element to a valid target element
+ *  Interface for the Element Service.
  *
- * @param elements - The flow model
- * @param endElementGuid - The guid of the end element
- * @param targetGuid - The guid of the target element
+ *  The ALC delegates element operations to this service as it doesn't
+ *  manage the elements itself, only the nodes.
+ */
+export interface ElementService {
+    deleteElement: (guid: Guid) => void;
+    createEndElement: () => Guid;
+}
+
+/**
+ * Returns the node at an InsertAt location
+ *
+ * @param flowModel - The flow model
+ * @param insertAt - The InsertAt location
+ * @return The node following the InsertAt, or null if no node follows it
+ */
+function getNodeAtInsertAt(flowModel: FlowModel, insertAt: InsertAt): NodeModel | null {
+    const { parent, childIndex, prev } = insertAt;
+
+    let guid: Guid | null;
+
+    if (parent) {
+        const parentElement = resolveParent(flowModel, parent);
+        guid = childIndex === FAULT_INDEX ? parentElement.fault : parentElement.children[childIndex];
+    } else {
+        const element = resolveNode(flowModel, prev);
+        guid = element.next;
+    }
+
+    return guid ? resolveNode(flowModel, guid) : null;
+}
+
+/**
+ * Verifies that an element exists, throws an error otherwise.
+ *
+ * @param flowModel - The flowModel
+ * @param elementGuid - The element guid to check
+ * @throws An Error if the element doesn't exist
+ */
+function validElementGuidOrThrow(flowModel: FlowModel, elementGuid: Guid) {
+    if (!flowModel[elementGuid]) {
+        throw new Error(`Invalid element guid: ${elementGuid}`);
+    }
+}
+
+/**
+ * Verifies that a child index is valid, throws an error otherwisef
+ *
+ * @param parentElement - The parent element
+ * @param childIndex - The child index to check
+ * @throws An Error if the child index is not valid
+ */
+function validChildIndexOrThrow(parentElement: ParentNodeModel, childIndex: number) {
+    const valid = childIndex === FAULT_INDEX || (childIndex >= 0 && childIndex < parentElement.children.length);
+
+    if (!valid) {
+        throw new Error(`Invalid childIndex: ${childIndex} for element: ${parentElement.guid}`);
+    }
+}
+
+/**
+ * Verifies that an InsertAt location exists, throws an error otherwise
+ *
+ * @param flowModel - The flowModel
+ * @param insertAt - The insert location
+ * @throws An Error the InsertAt location doesn't exist
+ */
+function validInsertAtOrThrow(flowModel: FlowModel, insertAt: InsertAt) {
+    const { prev, parent, childIndex } = insertAt;
+
+    if (parent != null) {
+        const parentElement = resolveParent(flowModel, parent);
+        validChildIndexOrThrow(parentElement, childIndex);
+    } else {
+        resolveNode(flowModel, prev);
+    }
+}
+
+/**
+ * Creates a connection from an InsertAt location to a target element.
+ *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param fromInsertAt - The insert point. For now the InsertAt location must have an end element
+ * @param toElementGuid - The guid of the element to connect to
  * @returns The updated flow model
  */
-function reconnectBranchElement(elements: FlowModel, endElementGuid: Guid, targetGuid: Guid): FlowModel {
-    const endElement = elements[endElementGuid];
-    const { prev } = endElement;
+function connectToElement(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    fromInsertAt: InsertAt,
+    toElementGuid: Guid
+): FlowModel {
+    const endElement = getNodeAtInsertAt(flowModel, fromInsertAt);
+    if (!endElement || endElement.nodeType !== NodeType.END) {
+        throw new Error('When connecting, a end node must be at insertAt');
+    }
 
-    const branchHeadElement =
-        prev != null ? findFirstElement(endElement, elements) : (endElement as BranchHeadNodeModel);
+    validElementGuidOrThrow(flowModel, toElementGuid);
+
+    const validTargets = getTargetGuidsForBranchReconnect(flowModel, endElement.guid);
+    if (validTargets.indexOf(toElementGuid) === -1) {
+        throw new Error('Invalid target element for reconnect');
+    }
+
+    const branchHeadElement = findFirstElement(endElement, flowModel);
 
     // non-terminal since we are reconnecting the branch
     branchHeadElement.isTerminal = false;
 
-    const parentElement = elements[branchHeadElement.parent] as ParentNodeModel;
+    const parentElement = resolveParent(flowModel, branchHeadElement.parent);
 
     // delete the end element
-    deleteElement(elements, endElement, undefined, undefined, false);
+    deleteElement(elementService, flowModel, endElement.guid, { inline: false });
 
     // nothing else to do if we are reconnecting to the merge element
-    if (parentElement.next === targetGuid) {
-        return elements;
+    if (parentElement.next === toElementGuid) {
+        return flowModel;
     }
 
     // otherwise the targetElement becomes the merge element
-    const targetElement = elements[targetGuid];
-    connectElements(elements, parentElement, targetElement);
+    const targetElement = flowModel[toElementGuid];
+    connectElements(flowModel, parentElement, targetElement);
 
     // update the parent branch's head
-    const parentBranchHead = findFirstElement(parentElement, elements);
-    const parentBranchTail = findLastElement(parentElement, elements);
-    parentBranchHead.isTerminal = isEndOrAllTerminalBranchingElement(elements, parentBranchTail);
+    const parentBranchHead = findFirstElement(parentElement, flowModel);
+    const parentBranchTail = findLastElement(parentElement, flowModel);
+    parentBranchHead.isTerminal = isEndOrAllTerminalBranchingElement(flowModel, parentBranchTail);
 
-    return elements;
+    return flowModel;
 }
 
 /**
@@ -61,7 +168,7 @@ function reconnectBranchElement(elements: FlowModel, endElementGuid: Guid, targe
  */
 function isEndOrAllTerminalBranchingElement(elements: FlowModel, branchTail: NodeModel) {
     return (
-        branchTail.elementType === END ||
+        branchTail.nodeType === NodeType.END ||
         (isBranchingElement(branchTail) && areAllBranchesTerminals(branchTail as ParentNodeModel, elements))
     );
 }
@@ -74,7 +181,7 @@ function isEndOrAllTerminalBranchingElement(elements: FlowModel, branchTail: Nod
  * @param targetElement - The target element
  */
 function connectElements(elements: FlowModel, sourceElement: NodeModel, targetElement: NodeModel) {
-    const { prev } = targetElement as BranchHeadNodeModel;
+    const { prev } = targetElement;
 
     if (prev != null) {
         // if the target element has a prev element, unconnect it
@@ -85,25 +192,16 @@ function connectElements(elements: FlowModel, sourceElement: NodeModel, targetEl
         findFirstElement(elements[prev], elements).isTerminal = false;
     } else {
         //  otherwise the target element must be a branch head: clear its value in the parent's children array
-        const targetElementAsBranchHead = targetElement as BranchHeadNodeModel;
+        const targetElementAsBranchHead = resolveBranchHead(elements, targetElement.guid);
         const { parent, childIndex } = targetElementAsBranchHead;
-        (elements[parent] as ParentNodeModel).children[childIndex] = null;
+        const parentElement = resolveParent(elements, parent);
+        setChild(parentElement, childIndex, null);
         deleteBranchHeadProperties(targetElementAsBranchHead);
     }
 
     //  update pointers
     sourceElement.next = targetElement.guid;
     targetElement.prev = sourceElement.guid;
-}
-
-/**
- * Adds an element to the guid -> elements map and optionally to the canvasElements array
- *
- * @param element - the element to add
- * @param elements - the guid -> elements map
- */
-function addElementToState(element: NodeModel, elements: FlowModel): void {
-    elements[element.guid] = element;
 }
 
 /**
@@ -122,7 +220,8 @@ function linkElement(elements: FlowModel, element: NodeModel): void {
     if (next) {
         elements[next].prev = guid;
     }
-    addElementToState(element, elements);
+
+    elements[element.guid] = element;
 }
 
 /**
@@ -159,7 +258,7 @@ function getChild(element: NodeModel, childIndex: number): NodeRef {
 function setChild(element: NodeModel, childIndex: number, childElement: NodeModel | null): void {
     const childElementGuid = childElement != null ? childElement.guid : null;
 
-    if (childIndex === -1) {
+    if (childIndex === FAULT_INDEX) {
         element.fault = childElementGuid;
     } else {
         (element as ParentNodeModel).children[childIndex] = childElementGuid;
@@ -174,30 +273,30 @@ function setChild(element: NodeModel, childIndex: number, childElement: NodeMode
  * Updates a branch head with a new element
  *
  * @param state - The flow model
- * @param parentElement - The branching parent
+ * @param branchingOrFaulting - The branching or faulting element
  * @param childIndex - The child index
  * @param element - The new element
  * @returns the new branch head guid
  */
 function updateBranchHead(
     state: FlowModel,
-    parentElement: ParentNodeModel,
+    branchingOrFaulting: NodeModel,
     childIndex: number,
     element: NodeModel | null
 ): NodeRef {
     // existing branch head
-    const existingBranchHead = getChild(parentElement, childIndex);
+    const existingBranchHead = getChild(branchingOrFaulting, childIndex);
 
     if (element != null) {
         element.prev = null;
         const isTerminal =
             existingBranchHead != null
-                ? (state[existingBranchHead] as BranchHeadNodeModel).isTerminal
-                : element.elementType === END;
-        Object.assign(element, { parent: parentElement.guid, childIndex, isTerminal });
+                ? resolveBranchHead(state, existingBranchHead).isTerminal
+                : element.nodeType === NodeType.END;
+        Object.assign(element, { parent: branchingOrFaulting.guid, childIndex, isTerminal });
     }
 
-    setChild(parentElement, childIndex, element);
+    setChild(branchingOrFaulting, childIndex, element);
 
     return existingBranchHead;
 }
@@ -211,16 +310,16 @@ function updateBranchHead(
  */
 function linkBranchOrFault(
     state: FlowModel,
-    parentElement: ParentNodeModel,
+    branchingOrFaulting: NodeModel,
     childIndex: number,
     element: NodeModel | null
 ) {
-    const child = updateBranchHead(state, parentElement, childIndex, element);
+    const child = updateBranchHead(state, branchingOrFaulting, childIndex, element);
 
     if (element != null) {
         if (child != null) {
             // make the existing child follow the insert element
-            const childElement = state[child] as BranchHeadNodeModel;
+            const childElement = resolveBranchHead(state, child);
             Object.assign(element, { next: child, isTerminal: childElement.isTerminal });
             // @ts-ignore
             delete childElement.isTerminal;
@@ -310,7 +409,7 @@ class FlcList {
  */
 function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid): Guid[] {
     const { parent, childIndex } = findFirstElement(elements[sourceGuid], elements);
-    const branchingElement = elements[parent!] as ParentNodeModel;
+    const branchingElement = resolveParent(elements, parent);
 
     // if the branching element has a next element, then that is the only valid target guid
     if (branchingElement.next != null) {
@@ -318,11 +417,7 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
     }
 
     // otherwise all the other branches must terminals
-    if (
-        branchingElement.children.findIndex(
-            (child) => child != null && !(elements[child] as BranchHeadNodeModel).isTerminal
-        ) !== -1
-    ) {
+    if (!areAllBranchesTerminals(branchingElement, elements)) {
         return [];
     }
 
@@ -361,7 +456,7 @@ function findFirstElement(element: NodeModel, state: FlowModel): BranchHeadNodeM
 }
 
 /**
- * Find an element's parent
+ * For an element on a branch, find its loop or branching element
  *
  * @param element - An element
  * @param flowModel- The FlowModel
@@ -369,17 +464,17 @@ function findFirstElement(element: NodeModel, state: FlowModel): BranchHeadNodeM
  */
 function findParentElement(element: NodeModel, flowModel: FlowModel): ParentNodeModel {
     const { parent } = findFirstElement(element, flowModel);
-    return flowModel[parent!] as ParentNodeModel;
+    return flowModel[parent] as ParentNodeModel;
 }
 
 /**
- * Returns whether and element is a branching or loop element
+ * Returns whether and element has children
  *
  * @param element - The element
- * @returns true if it is a branching or loop element, false otherwise
+ * @returns true if it has children, false otherwise
  */
-function isBranchingOrLoopElement(element: NodeModel): boolean {
-    return element.hasOwnProperty('children');
+export function hasChildren(element: NodeModel): element is ParentNodeModel {
+    return (element as ParentNodeModel).children != null;
 }
 
 /**
@@ -388,8 +483,8 @@ function isBranchingOrLoopElement(element: NodeModel): boolean {
  * @param element - The element
  * @returns true if it is a branching element, false otherwise
  */
-function isBranchingElement(element: NodeModel): boolean {
-    return isBranchingOrLoopElement(element) && element.elementType !== LOOP;
+export function isBranchingElement(node: NodeModel): node is ParentNodeModel {
+    return hasChildren(node) && node.nodeType !== NodeType.LOOP;
 }
 
 /**
@@ -399,93 +494,219 @@ function isBranchingElement(element: NodeModel): boolean {
  * @param guid - The element guid or null
  * @returns The element or null if not found
  */
-function resolveNode(flowModel: FlowModel, guid: NodeRef): NodeModel | null {
-    return guid != null ? flowModel[guid] : null;
+function resolveNode(flowModel: FlowModel, guid: Guid): NodeModel {
+    const node = flowModel[guid];
+
+    if (node == null) {
+        throw new Error(`Failed to resolve node for guid: ${guid}`);
+    }
+    return node;
 }
 
+/**
+ * Resolve a parent's child
+ *
+ * @param flowModel - The flow model
+ * @param parentNode - The parent element
+ * @param childIndex - The index of the child
+ *
+ * @returns The child element, or null if none exists
+ */
+function resolveChild(
+    flowModel: FlowModel,
+    parentNode: ParentNodeModel,
+    childIndex: number
+): BranchHeadNodeModel | null {
+    let branchHeadGuid;
+
+    if (childIndex === FAULT_INDEX) {
+        branchHeadGuid = parentNode.fault;
+    } else if (childIndex >= 0 && childIndex < parentNode.children.length) {
+        branchHeadGuid = parentNode.children[childIndex];
+    } else {
+        throw new Error(`Invalid childIndex for parent: ${parentNode.guid}`);
+    }
+
+    return branchHeadGuid ? resolveBranchHead(flowModel, branchHeadGuid) : null;
+}
+
+/**
+ * Resolves an element as BranchHeadNodeModel
+ *
+ * @param flowModel - The flow model
+ * @param guid - The guid of a 'branch head' element
+ * @returns The element as BranchHeadNodeModel
+ */
 function resolveBranchHead(flowModel: FlowModel, guid: Guid): BranchHeadNodeModel {
-    return resolveNode(flowModel, guid) as BranchHeadNodeModel;
+    const node = resolveNode(flowModel, guid);
+
+    if (isBranchHead(node)) {
+        return node;
+    } else {
+        throw new Error(`Invalid branch head for guid: ${guid}`);
+    }
 }
 
+/**
+ * Resolves an element as ParentNodeModel
+ *
+ * @param flowModel - The flow model
+ * @param guid - The guid of a 'parent' element
+ * @returns The element as ParentNodeModel
+ */
 function resolveParent(flowModel: FlowModel, guid: Guid): ParentNodeModel {
     return resolveNode(flowModel, guid) as ParentNodeModel;
 }
 
-type GetSubElementGuids = (node: NodeModel, state: FlowModel) => Guid[];
+/**
+ * Branch head type guard
+ *
+ * @param node - The node to check for a branch head
+ * @return true if node is a branch head, false otherwise
+ */
+export function isBranchHead(node: NodeModel): node is BranchHeadNodeModel {
+    return (node as BranchHeadNodeModel).parent !== undefined;
+}
 
 /**
  * Deletes an element's fault
  *
+ * @param elementService - The element service
  * @param state - The flow model
  * @param elementWithFaultGuid - The guid of the element with the fault
- * @param getSubElementGuids - Function to get sub element guids
+ * @return the updated flow model
  */
-function deleteFault(state: FlowModel, elementWithFaultGuid: Guid, getSubElementGuids: GetSubElementGuids) {
+function deleteFault(elementService: ElementService, state: FlowModel, elementWithFaultGuid: Guid): FlowModel {
     const elementWithFault = state[elementWithFaultGuid];
-    const faultGuid = elementWithFault.fault;
-    // @ts-ignore
-    delete elementWithFault.fault;
+    const { fault } = elementWithFault;
 
-    new FlcList(state, faultGuid!).forEach((listElement) => {
-        const elementToDelete = state[listElement.guid];
-        delete state[listElement.guid];
-        deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
-        return elementToDelete;
-    });
+    if (fault) {
+        // @ts-ignore
+        delete elementWithFault.fault;
+
+        deleteBranch(elementService, state, fault);
+    }
 
     return state;
 }
 
 /**
- * Deletes a given branch of an element
+ * Deletes an element's fault
  *
+ * @param elementService - The element service
  * @param state - The flow model
- * @param branchHeadGuid - Guid of the branch head element
- * @param getSubElementGuids - Function to get sub element guids
+ * @param elementGuid - The element guid
+ * @return the updated flow model
  */
-function deleteBranch(state: FlowModel, branchHeadGuid: Guid, getSubElementGuids: GetSubElementGuids) {
-    new FlcList(state, branchHeadGuid!).forEach((listElement) => {
-        const elementToDelete = state[listElement.guid];
-        delete state[listElement.guid];
-        deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
-        return elementToDelete;
+function deleteElementAndDescendents(
+    elementService: ElementService,
+    state: FlowModel,
+    elementGuid: Guid,
+    childIndexToKeep?: number
+) {
+    const elementToDelete = state[elementGuid];
+
+    elementService.deleteElement(elementToDelete.guid);
+    delete state[elementGuid];
+
+    deleteElementDescendents(elementService, state, elementToDelete, childIndexToKeep);
+    return state;
+}
+
+/**
+ * Deletes all the elements of a branch as well as their descendents
+ *
+ * @param elementService - The element service
+ * @param state - The flow model
+ * @param branchHeadGuid - The branch head guid
+ * @returns The updated flow model
+ */
+function deleteBranch(elementService: ElementService, state: FlowModel, branchHeadGuid: Guid) {
+    new FlcList(state, branchHeadGuid).forEach((listElement) => {
+        deleteElementAndDescendents(elementService, state, listElement.guid);
     });
 
     return state;
 }
 
+function createEndElement(elementService: ElementService, flowModel: FlowModel) {
+    const elementGuid = elementService.createEndElement();
+    return resolveNode(flowModel, elementGuid);
+}
+
 /**
- * Deletes an element from the flowModel
+ * Replace an element with an end element
  *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param element  - The element to replace
+ */
+function replaceWithEndElement(elementService: ElementService, flowModel: FlowModel, element: NodeModel) {
+    const endElement = createEndElement(elementService, flowModel);
+
+    if (!isBranchHead(element)) {
+        const { prev } = element;
+        // Adding an end element connected to the previous element
+        const prevElement = flowModel[element.prev!];
+        Object.assign(endElement, {
+            prev,
+            next: null
+        });
+
+        prevElement.next = endElement.guid;
+    } else {
+        const { parent, childIndex } = element;
+        // Adding an end element connected to the parent element at the right childIndex
+        const parentElement = resolveParent(flowModel, parent);
+
+        Object.assign(endElement, {
+            parent,
+            childIndex,
+            next: null,
+            isTerminal: true
+        });
+
+        if (childIndex === FAULT_INDEX) {
+            parentElement.fault = endElement.guid;
+        } else {
+            parentElement.children[childIndex] = endElement.guid;
+        }
+    }
+
+    flowModel[endElement.guid] = endElement;
+    const branchHead = findFirstElement(endElement, flowModel);
+    branchHead.isTerminal = true;
+}
+
+/**
+ * Deletes an element from a flow
+ *
+ * @param elementService - The element service
  * @param state - the flowModel to mutate
- * @param element - the element to delete
- * @param childIndexToKeep - the index of the branch to keep if applicable, or FAULT_INDEX to delete a fault
- * @param getSubElementGuids - Function to get sub element guids
- * @param inline - whether to attempt inlining after deletion
+ * @param guid - the guid of the element to delete
+ * @param options - The deletion options. Defaults to inlining and deleting all branches.
+ * @returns The mutated flow model
  */
 // eslint-disable-next-line complexity
 function deleteElement(
+    elementService: ElementService,
     state: FlowModel,
-    element: NodeModel,
-    childIndexToKeep?: number,
-    getSubElementGuids?: GetSubElementGuids,
-    inline = true
-): { state: FlowModel; addEndElement: boolean } {
+    guid: Guid,
+    options: Partial<DeleteElementOptions> = {}
+): FlowModel {
+    const { childIndexToKeep, inline } = { ...deleteElementOptionsDefaults, ...options };
+    const element = resolveNode(state, guid);
     const { prev, next, parent, childIndex } = element as BranchHeadNodeModel;
 
     let nextElement;
     let addEndElement = false;
 
-    const parentElement =
-        parent != null ? resolveParent(state, parent) : findParentElement(resolveNode(state, prev)!, state);
+    const parentElement = findParentElement(element, state);
 
     // take care of linking tail of the branch to keep to the next element
-    if (isBranchingOrLoopElement(element)) {
-        if (childIndexToKeep != null && childIndexToKeep !== DELETE_ALL) {
-            const headElement = resolveNode(
-                state,
-                (element as ParentNodeModel).children[childIndexToKeep]
-            ) as BranchHeadNodeModel;
+    if (hasChildren(element)) {
+        if (childIndexToKeep != null) {
+            const headElement = resolveChild(state, element, childIndexToKeep);
 
             if (headElement) {
                 if (next != null) {
@@ -493,7 +714,7 @@ function deleteElement(
 
                     // In case the tail element is an End element, delete the end element
                     // and connect End element's previous element to 'next'
-                    if (tailElement.elementType === END) {
+                    if (tailElement.nodeType === NodeType.END) {
                         delete state[tailElement.guid];
                         if (tailElement.prev) {
                             // Setting End element's previous element as the tail element
@@ -512,12 +733,12 @@ function deleteElement(
 
             // Need to check in the store for the case when End element is the only element in the branch
             nextElement = headElement && state[headElement.guid];
-        } else if (childIndexToKeep === DELETE_ALL) {
+        } else {
             addEndElement = areAllBranchesTerminals(element as ParentNodeModel, state) && element.next == null;
         }
     }
 
-    nextElement = nextElement || resolveNode(state, next);
+    nextElement = nextElement || (next ? resolveNode(state, next) : null);
 
     if (parent != null) {
         if (childIndex === FAULT_INDEX) {
@@ -531,23 +752,20 @@ function deleteElement(
         linkElement(state, nextElement);
     } else {
         // we're deleting the last element in a branch
-        const prevElement = resolveNode(state, prev);
+        const prevElement = prev ? resolveNode(state, prev) : null;
         if (prevElement != null) {
             prevElement.next = null;
         }
     }
 
-    // delete the element
-    delete state[element.guid];
+    deleteElementAndDescendents(elementService, state, element.guid, childIndexToKeep);
 
-    // now delete its decendents that need to be deleted
-    if (getSubElementGuids != null) {
-        deleteElementDescendents(state, element, childIndexToKeep, getSubElementGuids!);
-    }
-
+    // TODO: clean up
     const branchHead = (parent != null
         ? nextElement
-        : findFirstElement(resolveNode(state, prev)!, state)) as BranchHeadNodeModel;
+        : prev != null
+        ? findFirstElement(resolveNode(state, prev), state)
+        : null) as BranchHeadNodeModel;
 
     // update the branch's isTerminal and attempt to inlines
     if (branchHead != null) {
@@ -566,90 +784,113 @@ function deleteElement(
         const inlineParent =
             nextElement != null &&
             isBranchingElement(nextElement) &&
-            (nextElement.next == null || state[nextElement.next]!.elementType === END)
+            (nextElement.next == null || state[nextElement.next]!.nodeType === NodeType.END)
                 ? nextElement
                 : parentElement;
         inlineFromParent(state, inlineParent as ParentNodeModel);
     }
 
-    return { state, addEndElement };
+    if (addEndElement) {
+        replaceWithEndElement(elementService, state, element);
+    }
+
+    return state;
 }
 
 /**
- * Deletes an element and all its decendents recursively
+ * Deletes an element's decendents recursively
  *
+ * @param elementService - The element service
  * @param state - The flow model
  * @param element - The element to delete
- * @param childIndex - The child index
- * @param getSubElementGuids - Function to get sub element guids
+ * @param childIndexToKeep - The child index to keep
  */
 function deleteElementDescendents(
+    elementService: ElementService,
     state: FlowModel,
     element: NodeModel,
-    childIndexToKeep: number | undefined,
-    getSubElementGuids: GetSubElementGuids
+    childIndexToKeep?: number
 ): void {
-    let elementsToDelete: NodeRef[] = [];
+    let branchHeadGuids: Guid[] = [];
 
-    if (isBranchingOrLoopElement(element)) {
-        elementsToDelete = (element as ParentNodeModel).children.filter(
-            (child, i) => child != null && i !== childIndexToKeep
-        );
+    // add the children guids to delete
+    if (hasChildren(element)) {
+        branchHeadGuids = element.children.filter((child, i): child is Guid => child != null && i !== childIndexToKeep);
     }
 
     // Action, CRUD and Wait (branching) elements can have a Fault path
     if (element.fault != null) {
-        elementsToDelete.push(element.fault);
+        branchHeadGuids.push(element.fault);
     }
 
-    elementsToDelete.forEach((guid: NodeRef) => {
-        new FlcList(state, guid!).forEach((listElement) => {
-            const elementToDelete = state[listElement.guid];
-            delete state[listElement.guid];
-            getSubElementGuids(elementToDelete, state).map((subElementGuid) => {
-                delete state[subElementGuid];
-            });
-            deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
-            return elementToDelete;
-        });
-    });
+    // delete the branch for each branch head
+    branchHeadGuids.forEach((guid) => deleteBranch(elementService, state, guid));
 }
 
 /**
- * Adds an element to the flowModel
- * @param flowModel - the flowModel to mutate
- * @param element - the element to add
- * @param isEndElement - if it's an end element
+ * Adds an element to the flow
+ *
+ * @param flowModel - The flowModel to update
+ * @param elementGuid - The guid of the new element
+ * @param nodeType - The node type of the new element
+ * @param insertAt - The insert location for the new element
+ * @returns - The flow model
  */
-function addElement(flowModel: FlowModel, element: NodeModel, isEndElement: boolean): void {
-    addElementToState(element, flowModel);
+function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType, insertAt: InsertAt): FlowModel {
+    const element = resolveNode(flowModel, elementGuid);
 
-    const { parent, childIndex } = element as BranchHeadNodeModel;
+    validInsertAtOrThrow(flowModel, insertAt);
 
-    if (parent) {
+    if (nodeType === NodeType.END && getNodeAtInsertAt(flowModel, insertAt) != null) {
+        throw new Error(`Can only add an end element when no element follows the insertAt: ${insertAt}`);
+    }
+
+    element.nodeType = nodeType;
+    const { prev, parent, childIndex } = insertAt;
+
+    if (prev) {
+        const next = flowModel[prev].next;
+        element.prev = prev;
+        if (next) {
+            element.next = next;
+        }
+    } else {
+        Object.assign(element, { parent, childIndex });
+    }
+
+    if (isBranchHead(element)) {
         // if the element has a parent, make it the new branch head
-        const parentElement = flowModel[parent] as ParentNodeModel;
+        const parentElement = resolveParent(flowModel, parent);
         linkBranchOrFault(flowModel, parentElement, childIndex, element);
     } else {
         linkElement(flowModel, element);
     }
 
-    if (isEndElement) {
-        const branchHead = findFirstElement(element, flowModel) as BranchHeadNodeModel;
+    if (element.nodeType === NodeType.END) {
+        const branchHead = findFirstElement(element, flowModel);
 
         // mark the branch as a terminal branch
-        branchHead.isTerminal = true;
+        flowModel[branchHead.guid] = { ...branchHead, isTerminal: true };
         const branchParent = resolveParent(flowModel, branchHead.parent)!;
         inlineFromParent(flowModel, branchParent);
     }
+
+    return flowModel;
 }
 
-function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
+/**
+ * Attemps to 'inline' a subtree starting at a parent element
+ *
+ * @param flowModel - The flow model
+ * @param branchParent - The parent element
+ * @returns The mutated flow model
+ */
+export function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
     let branchHead;
     // when adding an end element, we might need to restructure things:
     // find the first branching ancestor with a non-null `next` and
     // attempt to inline branches from there
-    while (!isRoot(branchParent.guid) && branchParent.elementType !== LOOP) {
+    while (!isRoot(branchParent.guid) && branchParent.nodeType !== NodeType.LOOP) {
         if (branchParent.next != null) {
             // once we find the first ancestor with a non-null 'next', we can inline from there,
             // the other parts of the tree are not affected by add end operation
@@ -664,11 +905,20 @@ function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
             branchParent = resolveParent(flowModel, branchHead.parent)!;
         }
     }
+
+    return flowModel;
 }
 
-function isRoot(guid: Guid) {
-    return guid === ElementType.ROOT;
+/**
+ * Checks if a guid is the guid for the root element
+ *
+ * @param guid - A guid
+ * @returns true if guid is the root guid
+ */
+export function isRoot(guid: Guid) {
+    return guid === NodeType.ROOT;
 }
+
 /**
  * Checks if all branches are terminal
  *
@@ -678,19 +928,11 @@ function isRoot(guid: Guid) {
  */
 export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: FlowModel) {
     // a loop always has an implicit "after last"
-    if (parentElement.elementType === LOOP) {
+    if (parentElement.nodeType === NodeType.LOOP) {
         return false;
     }
 
-    let allTerminalBranches = true;
-
-    parentElement.children.forEach((child) => {
-        if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
-            allTerminalBranches = false;
-        }
-    });
-
-    return allTerminalBranches;
+    return getNonTerminalBranchIndexes(parentElement.children, state).length === 0;
 }
 
 /**
@@ -704,15 +946,7 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
 function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
     const { children } = parentElement;
 
-    const nonTerminalBranchIndexes = children
-        .map((child: NodeRef, index: number) => {
-            if (child == null || !resolveBranchHead(state, child).isTerminal) {
-                return index;
-            } else {
-                return -1;
-            }
-        })
-        .filter((index: number | null) => index !== -1);
+    const nonTerminalBranchIndexes = getNonTerminalBranchIndexes(children, state);
 
     if (nonTerminalBranchIndexes.length === 1) {
         // we have one non-terminal branch, so we can inline
@@ -747,6 +981,18 @@ function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
         branchTail = findLastElement(resolveBranchHead(state, branchHeadGuid), state);
         resolveBranchHead(state, branchHeadGuid).isTerminal = isEndOrAllTerminalBranchingElement(state, branchTail);
     }
+}
+
+function getNonTerminalBranchIndexes(children: NodeRef[], state: FlowModel) {
+    return children
+        .map((child: NodeRef, index: number) => {
+            if (child == null || !resolveBranchHead(state, child).isTerminal) {
+                return index;
+            } else {
+                return -1;
+            }
+        })
+        .filter((index: number | null) => index !== -1);
 }
 
 function assertBranchHead(state: FlowModel, branchHead: BranchHeadNodeModel) {
@@ -812,7 +1058,7 @@ function assertNonBranchHead(elements: FlowModel, element: NodeModel) {
 
 function assertElement(element: NodeModel) {
     const { guid, children } = element as ParentNodeModel;
-    if (!!children !== isBranchingOrLoopElement(element)) {
+    if (!!children !== hasChildren(element)) {
         throw new Error(`invalid children property for element ${guid}: ${children}`);
     }
 }
@@ -834,7 +1080,7 @@ function assertAutoLayoutStateForBranch(elements: FlowModel, branchHeadGuid: Nod
                 assertAutoLayoutStateForBranch(elements, element.fault);
             }
 
-            if (isBranchingOrLoopElement(element)) {
+            if (hasChildren(element)) {
                 (element as ParentNodeModel).children.forEach((child) =>
                     assertAutoLayoutStateForBranch(elements, child)
                 );
@@ -853,17 +1099,183 @@ function assertAutoLayoutStateForBranch(elements: FlowModel, branchHeadGuid: Nod
  * @throws Error if an invalid isTerminal is found
  */
 function assertAutoLayoutState(elements: FlowModel) {
-    const rootElement = resolveParent(elements, ElementType.ROOT);
+    const rootElement = resolveParent(elements, NodeType.ROOT);
     if (rootElement != null) {
         assertAutoLayoutStateForBranch(elements, rootElement.children[0]);
     }
 }
 
+/**
+ * Creates the root node for of an auto layout canvas instance
+ * @returns An ALC root node
+ */
+export function createRootElement(): any {
+    const rootType = NodeType.ROOT;
+
+    return {
+        elementType: rootType,
+        nodeType: rootType,
+        guid: rootType,
+        name: rootType,
+        label: rootType,
+        text: rootType,
+        value: rootType,
+        prev: null,
+        next: null,
+        children: []
+    };
+}
+
+/**
+ * Initializes a flow for auto layout.
+ *
+ * @param flowModel - The flow model
+ * @param startElementGuid - The start element's guid
+ * @param endElementGuid - The end element's guid
+ * @returns The updated flow
+ */
+export function initFlowModel(flowModel: FlowModel, startElementGuid: Guid, endElementGuid: Guid) {
+    // create the root node
+    const rootElement = createRootElement();
+    flowModel[rootElement.guid] = rootElement;
+
+    // link the start to the root
+    const startElement = resolveNode(flowModel, startElementGuid) as BranchHeadNodeModel;
+    startElement.nodeType = NodeType.START;
+    linkBranchOrFault(flowModel, rootElement, 0, startElement);
+    startElement.isTerminal = true;
+
+    // link the end to the start
+    const endElement = resolveNode(flowModel, endElementGuid);
+    endElement.nodeType = NodeType.END;
+    endElement.prev = startElementGuid;
+    linkElement(flowModel, endElement);
+
+    return flowModel;
+}
+
+/**
+ * Adds a fault to an element
+ *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param elementWithFaultGuid - The guid of the element to add a fault to
+ * @returns The updated flow model
+ */
+export function addFault(elementService: ElementService, flowModel: FlowModel, elementWithFaultGuid: Guid) {
+    const elementWithFault = resolveNode(flowModel, elementWithFaultGuid)!;
+    const endElement = createEndElement(elementService, flowModel);
+
+    Object.assign(endElement, {
+        prev: null,
+        next: null
+    });
+
+    linkBranchOrFault(flowModel, elementWithFault, FAULT_INDEX, endElement);
+
+    return flowModel;
+}
+
+/**
+ * Returns the items of SetA that are not in SetB, excluding null and undefined values
+ *
+ * @param setA
+ * @param setB
+ */
+function minus<T>(setA: Set<T>, setB: Set<T>): Set<NonNullable<T>> {
+    const minusSet = new Set<NonNullable<T>>();
+    for (const value of setA.values()) {
+        if (!setB.has(value) && value != null) {
+            minusSet.add(value!);
+        }
+    }
+
+    return minusSet;
+}
+
+/**
+ * Updates an element's children
+ *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param parentElementGuid - The guid of the element with children
+ * @param updatedChildrenGuids - The updated children guids
+ * @returns The updated flow model
+ */
+export function updateChildren(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    parentElementGuid: Guid,
+    updatedChildrenGuids: (Guid | null)[]
+) {
+    const parentElement = resolveParent(flowModel, parentElementGuid);
+    const allTerminals = areAllBranchesTerminals(parentElement, flowModel);
+
+    const currentChildren = new Set(parentElement.children);
+    const newChildren = new Set(updatedChildrenGuids);
+
+    const childrenAdded = minus(newChildren, currentChildren);
+    if (childrenAdded.size > 0) {
+        throw new Error("can't update the children array with guids that weren't previously in it");
+    }
+
+    const childrenRemoved = minus(currentChildren, newChildren);
+
+    // for children that have been removed, delete their branch
+    for (const child of childrenRemoved) {
+        if (child != null) {
+            deleteBranch(elementService, flowModel, child);
+        }
+    }
+
+    // recompute childIndex for the remaining branches
+    updatedChildrenGuids.forEach((child, i) => {
+        if (child) {
+            const branchHead = resolveBranchHead(flowModel, child);
+            branchHead.childIndex = i;
+        }
+    });
+
+    // if all the branches were terminating before the update, then make any new branch terminate
+    // as well by adding an end element
+    if (allTerminals) {
+        for (let i = 0; i < updatedChildrenGuids.length; i++) {
+            const child = updatedChildrenGuids[i];
+            if (child == null) {
+                const endElement = createEndElement(elementService, flowModel) as BranchHeadNodeModel;
+                endElement.childIndex = i;
+                endElement.parent = parentElement.guid;
+                endElement.isTerminal = true;
+                updatedChildrenGuids[i] = endElement.guid;
+            }
+        }
+    }
+
+    parentElement.children = updatedChildrenGuids;
+
+    // if all branches are terminals after the update, then delete the parent's next if it has one
+    const allTerminalsAfterUpdate = areAllBranchesTerminals(parentElement, flowModel);
+    const { next } = parentElement;
+
+    if (allTerminalsAfterUpdate) {
+        if (next) {
+            deleteBranch(elementService, flowModel, next);
+        }
+        parentElement.next = null;
+
+        findFirstElement(parentElement, flowModel).isTerminal = true;
+    } else if (next) {
+        // possibliy inline if we have a next, and a single non-terminal branch exists
+        inlineFromParent(flowModel, parentElement);
+    }
+
+    return flowModel;
+}
+
 export {
     assertAutoLayoutState,
     getTargetGuidsForBranchReconnect,
-    reconnectBranchElement,
-    addElementToState,
+    connectToElement,
     linkElement,
     deleteBranchHeadProperties,
     linkBranchOrFault,
@@ -876,9 +1288,7 @@ export {
     deleteFault,
     deleteBranch,
     getChild,
-    DELETE_ALL,
     resolveBranchHead,
     resolveParent,
-    inlineBranches,
-    isRoot
+    inlineBranches
 };

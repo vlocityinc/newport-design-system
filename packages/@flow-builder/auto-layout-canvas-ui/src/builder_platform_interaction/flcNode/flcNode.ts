@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
 import { classSet } from 'lightning/utils';
@@ -103,8 +103,8 @@ export default class FlcNode extends LightningElement {
     get showCheckboxInSelectionMode() {
         const { type } = this.nodeInfo.metadata;
         const isValidType =
-            (this.canvasMode === AutoLayoutCanvasMode.RECONNECTION && type === ElementType.END) ||
-            ![ElementType.START, ElementType.END, ElementType.ROOT].includes(type);
+            (this.canvasMode === AutoLayoutCanvasMode.RECONNECTION && type === NodeType.END) ||
+            ![NodeType.START, NodeType.END, NodeType.ROOT].includes(type);
 
         return this.canvasMode !== AutoLayoutCanvasMode.DEFAULT && isValidType;
     }
@@ -133,14 +133,14 @@ export default class FlcNode extends LightningElement {
     get nodeLabel() {
         let label = this.nodeInfo.label;
         // Start has a dynamic label that is set in the metadata.
-        if (!label && this.nodeInfo.metadata.type === ElementType.START) {
+        if (!label && this.nodeInfo.metadata.type === NodeType.START) {
             label = this.nodeInfo.metadata.description;
         }
         return label;
     }
 
     get showElementType() {
-        return this.nodeInfo.metadata.type !== ElementType.END;
+        return this.nodeInfo.metadata.type !== NodeType.END;
     }
 
     get hasIncomingGoto() {
@@ -179,7 +179,7 @@ export default class FlcNode extends LightningElement {
     handleButtonClick(event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
-        if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT && type !== ElementType.END) {
+        if (this.canvasMode === AutoLayoutCanvasMode.DEFAULT && type !== NodeType.END) {
             const nodeSelectedEvent = new SelectNodeEvent(
                 this.nodeInfo.guid,
                 undefined,
@@ -197,11 +197,7 @@ export default class FlcNode extends LightningElement {
     handleOnDblClick(event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
-        if (
-            type !== ElementType.START &&
-            type !== ElementType.END &&
-            this.canvasMode === AutoLayoutCanvasMode.DEFAULT
-        ) {
+        if (type !== NodeType.START && type !== NodeType.END && this.canvasMode === AutoLayoutCanvasMode.DEFAULT) {
             this.dispatchEvent(new EditElementEvent(this.nodeInfo.guid));
         }
     }

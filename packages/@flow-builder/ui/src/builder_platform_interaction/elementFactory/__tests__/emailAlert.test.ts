@@ -2,12 +2,6 @@
 import { createEmailAlert, createDuplicateEmailAlert } from '../emailAlert';
 import { emailAlertOnAccount } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 describe('create email alert', () => {
     it('has store output automatically false on new email alert', () => {
         const newEmailAlert = createEmailAlert();

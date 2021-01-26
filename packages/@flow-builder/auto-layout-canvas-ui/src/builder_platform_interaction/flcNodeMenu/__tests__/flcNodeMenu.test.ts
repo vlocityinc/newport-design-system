@@ -10,7 +10,7 @@ import {
 } from 'builder_platform_interaction/flcEvents';
 import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
@@ -30,7 +30,7 @@ const dummySimpleElement = {
     label: 'Dummy_Label',
     value: 'Dummy_Value',
     elementType: 'Dummy_ElementType',
-    type: ElementType.DEFAULT
+    type: NodeType.DEFAULT
 };
 
 const dummyLoopElement = {
@@ -41,7 +41,7 @@ const dummyLoopElement = {
     label: 'Dummy_Label',
     value: 'Dummy_Value',
     elementType: 'Dummy_ElementType',
-    type: ElementType.LOOP
+    type: NodeType.LOOP
 };
 
 const dummyCrudElement = {
@@ -52,7 +52,7 @@ const dummyCrudElement = {
     label: 'Dummy_Label',
     value: 'Dummy_Value',
     elementType: 'Dummy_ElementType',
-    type: ElementType.DEFAULT,
+    type: NodeType.DEFAULT,
     canHaveFaultConnector: true
 };
 
@@ -64,7 +64,7 @@ const dummyBranchElement = {
     label: 'Dummy_Label',
     value: 'Dummy_Value',
     elementType: 'Decision',
-    type: ElementType.BRANCH
+    type: NodeType.BRANCH
 };
 
 const conditionOptions = [

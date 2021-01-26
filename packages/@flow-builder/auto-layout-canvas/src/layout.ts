@@ -22,7 +22,7 @@ import {
     Dimension
 } from './flowRendererUtils';
 import MenuType from './MenuType';
-import ElementType from './ElementType';
+import NodeType from './NodeType';
 import ConnectorType from './ConnectorTypeEnum';
 
 export const NO_OFFSET = 0;
@@ -103,8 +103,8 @@ function cloneLayout(layout?: LayoutInfo): LayoutInfo {
  * @param nodeGuid - The current node's guid
  * @returns The ConnectorType of the next node connector or null if there is no next node connector
  */
-function getNextNodeConnectorType(elementType: ElementType): ConnectorType | null {
-    return elementType === ElementType.END || elementType === ElementType.ROOT ? null : ConnectorType.STRAIGHT;
+function getNextNodeConnectorType(nodeType: NodeType): ConnectorType | null {
+    return nodeType === NodeType.END || nodeType === NodeType.ROOT ? null : ConnectorType.STRAIGHT;
 }
 
 /**
@@ -122,7 +122,7 @@ function getExtraHeightForMenu({
     joinOffsetY
 }: {
     menuInfo: InteractionMenuInfo;
-    elementType?: ElementType;
+    elementType?: NodeType;
     connectorType: ConnectorType;
     connectorVariant: ConnectorVariant;
     connectorHeight: number;
@@ -165,7 +165,7 @@ function getExtraHeightForMenu({
  * @param nodeModel - The node model
  * @returns the ElementType for the node
  */
-function getElementType(context: FlowRenderContext, nodeModel: NodeModel): ElementType {
+function getElementType(context: FlowRenderContext, nodeModel: NodeModel): NodeType {
     return getElementMetadata(context.elementsMetadata, nodeModel.elementType).type;
 }
 
@@ -195,7 +195,7 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     // nodeModel.next == null => tail
     const nextNodeConnectorType = getNextNodeConnectorType(elementType);
     let nextNodeConnectorVariant =
-        elementType === ElementType.BRANCH || elementType === ElementType.LOOP
+        elementType === NodeType.BRANCH || elementType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
             : ConnectorVariant.DEFAULT;
 
@@ -231,7 +231,7 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     }
 
     const isBranchingAllTerminals =
-        elementType === ElementType.BRANCH && areAllBranchesTerminals(nodeModel as ParentNodeModel, flowModel);
+        elementType === NodeType.BRANCH && areAllBranchesTerminals(nodeModel as ParentNodeModel, flowModel);
 
     if (nodeModel.next != null || !isBranchingAllTerminals) {
         height += nextNodeConnectorHeight;
@@ -322,7 +322,7 @@ function calculateBranchingLayout(nodeModel: ParentNodeModel, context: FlowRende
     let w;
     let h = 0;
 
-    if (type === ElementType.LOOP) {
+    if (type === NodeType.LOOP) {
         const lastConnectorSpacing = context.layoutConfig.grid.h * 2.5;
 
         const branchLayout = calculateBranchLayout(nodeModel, 0, context, offsetY);
@@ -460,7 +460,7 @@ function calculateBranchLayout(
     });
 
     // for ended nested branches, we need to some extra height so that they dont't overlap with the merge/loop after connectors
-    if (prevNode != null && getElementType(context, prevNode) === ElementType.END) {
+    if (prevNode != null && getElementType(context, prevNode) === NodeType.END) {
         height += getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, ConnectorVariant.BRANCH_TAIL).h / 2;
     }
 
@@ -478,10 +478,10 @@ function calculateBranchLayout(
  * @param branchHeadGuid - The branch head guid
  * @returns The next node connector variant
  */
-function getNextNodeConnectorVariant(branchHeadGuid: Guid | null, parentNodeType: ElementType) {
+function getNextNodeConnectorVariant(branchHeadGuid: Guid | null, parentNodeType: NodeType) {
     let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.DEFAULT;
 
-    if (parentNodeType === ElementType.BRANCH || parentNodeType === ElementType.LOOP) {
+    if (parentNodeType === NodeType.BRANCH || parentNodeType === NodeType.LOOP) {
         nextNodeConnectorVariant =
             branchHeadGuid == null ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD;
     }

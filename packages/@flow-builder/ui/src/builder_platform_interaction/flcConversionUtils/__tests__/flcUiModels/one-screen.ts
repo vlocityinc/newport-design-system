@@ -15,6 +15,7 @@ export default {
                 hasError: false
             },
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -49,6 +50,7 @@ export default {
                 hasError: false
             },
             elementType: 'Screen',
+            nodeType: 'default',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -69,6 +71,7 @@ export default {
         'end-element-guid (screen-element-guid)': {
             guid: 'end-element-guid (screen-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'screen-element-guid',
             next: null,
             isCanvasElement: true,
@@ -81,6 +84,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

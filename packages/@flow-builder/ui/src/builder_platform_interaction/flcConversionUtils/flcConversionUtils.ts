@@ -6,6 +6,7 @@ import { pick } from 'builder_platform_interaction/dataMutationLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { convertToAutoLayoutCanvas, ConvertToAutoLayoutCanvasOptions } from './freeFormToAutoLayout';
 import { convertToFreeFormCanvas } from './autoLayoutToFreeForm';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const { logInteraction, logMetricsServiceErrorTransaction } = loggingUtils;
 
@@ -288,7 +289,8 @@ export function addEndElementsAndConnectorsTransform(
         const { source, target, type, childSource } = endConnector;
 
         if (!endElements[target]) {
-            const endElement = createEndElement();
+            const endElement = createEndElement() as any;
+            endElement.nodeType = NodeType.END;
             endElement.guid = target;
             endElements[target] = endElement;
         }

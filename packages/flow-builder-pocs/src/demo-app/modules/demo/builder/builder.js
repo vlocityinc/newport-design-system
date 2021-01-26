@@ -19,6 +19,7 @@ import elementsMetadataForScreenFlow from './metadata/elementsMetadataForScreenF
 
 let storeInstance;
 
+
 function translateEventToAction(event) {
     const { type } = event;
     const { elementType, prev, next, parent, childIndex } = event.detail;
@@ -45,11 +46,12 @@ function translateEventToAction(event) {
                         parent
                     })
                 );
+
                 if (elementType === ELEMENT_TYPE.WAIT) {
                     const { canvasElement } = element;
                     storeInstance.dispatch(addElement(element));
                     const {elements} = storeInstance.getCurrentState();
-                    canvasElement.children = [null, null, null];
+
                     canvasElement.maxConnections++;
 
                     const childElement = elements[canvasElement.childReferences[0].childReference];
@@ -67,7 +69,6 @@ function translateEventToAction(event) {
                         canvasElement,
                         deletedChildElementGuids: [],
                         childElements: [childElement, newChildElement],
-                        deletedBranchHeadGuids: []
                     };
 
                     storeInstance.dispatch(updateElement(payload));
@@ -119,7 +120,10 @@ export default class Builder extends LightningElement {
 
     handleAddElement(addEvent) {
         const payload = translateEventToAction(addEvent);
+        const { alcInsertAt } = addEvent.detail;
+
         if (payload != null) {
+            payload.alcInsertAt = alcInsertAt;
             storeInstance.dispatch(addElement(payload));
         }
     }
@@ -163,7 +167,6 @@ export default class Builder extends LightningElement {
     }
 
 
-
     handleToggleSelectionMode() {
         this.isSelectionMode = !this.isSelectionMode;
     }
@@ -177,8 +180,8 @@ export default class Builder extends LightningElement {
     }
 
     handleFlcCreateConnection = event => {
-        const { sourceGuid, targetGuid } = event.detail;
-        storeInstance.dispatch(flcCreateConnection({ sourceGuid, targetGuid }));
+        const { insertAt, targetGuid } = event.detail;
+        storeInstance.dispatch(flcCreateConnection({ insertAt, targetGuid }));
     };
 
     handleFlcSelection = event => {
@@ -197,7 +200,6 @@ export default class Builder extends LightningElement {
         const alcState = convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(ffcState));
 
         storeInstance.dispatch(updateFlowOnCanvasModeToggle(alcState));
-
         } catch (e) {
             console.log(e);
             alert('conversion failed');

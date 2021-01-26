@@ -1,7 +1,7 @@
 import { classSet } from 'lightning/utils';
 
 import {
-    ElementType,
+    NodeType,
     getElementMetadata,
     FlowModel,
     ElementsMetadata,
@@ -48,9 +48,9 @@ function isSystemElement(elementsMetadata: ElementsMetadata, elementType: string
     const type = getElementMetadata(elementsMetadata, elementType).type;
 
     switch (type) {
-        case ElementType.ROOT:
-        case ElementType.START:
-        case ElementType.END:
+        case NodeType.ROOT:
+        case NodeType.START:
+        case NodeType.END:
             return true;
         default:
             return false;
@@ -78,8 +78,8 @@ function supportsChildBranches(elementsMetadata: ElementsMetadata, { elementType
  * @param type - Type of a given element
  * @returns true if the element is of type Branch
  */
-function supportsChildrenForType(type: ElementType): boolean {
-    return type === ElementType.BRANCH || type === ElementType.LOOP;
+function supportsChildrenForType(type: NodeType): boolean {
+    return type === NodeType.BRANCH || type === NodeType.LOOP;
 }
 
 /**
@@ -295,7 +295,7 @@ const getCanvasElementSelectionData = (
             // In case we reach the start element without having found any selected element, then that means that our
             // topSelectedGuid is somewhere in the chain below. Hence emptying the canvasElementGuidsToSelect array
             // and breaking out of the loop
-            if (getElementMetadata(elementsMetadata, currentCanvasElement.elementType).type === ElementType.START) {
+            if (getElementMetadata(elementsMetadata, currentCanvasElement.elementType).type === NodeType.START) {
                 canvasElementGuidsToSelect = [];
                 break;
             }
@@ -591,7 +591,7 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
 //     let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
 
 //     let lastPathInLoop = true;
-//     while (parentType !== ElementType.LOOP && parentType !== ElementType.ROOT && parentType != null) {
+//     while (parentType !== NodeType.LOOP && parentType !== NodeType.ROOT && parentType != null) {
 //         if (getNonTerminalCount(flowModel, parentElement) > 1) {
 //             lastPathInLoop = false;
 //             break;
@@ -600,7 +600,7 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
 //         parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
 //     }
 
-//     if (parentType === ElementType.ROOT) {
+//     if (parentType === NodeType.ROOT) {
 //         return false;
 //     }
 
@@ -610,8 +610,8 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
 function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
     let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
 
-    while (parentType !== ElementType.ROOT && parentType != null) {
-        if (parentType === ElementType.LOOP) {
+    while (parentType !== NodeType.ROOT && parentType != null) {
+        if (parentType === NodeType.LOOP) {
             return true;
         }
 
@@ -670,9 +670,9 @@ function getFlcMenuData(
     if (targetElement != null) {
         const targetParentElement = findParentElement(targetElement, flowModel);
         const isTargetParentRoot =
-            getElementMetadata(elementsMetadata, targetParentElement.elementType).type === ElementType.ROOT;
+            getElementMetadata(elementsMetadata, targetParentElement.elementType).type === NodeType.ROOT;
 
-        isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === ElementType.END;
+        isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === NodeType.END;
         canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
     }
 

@@ -1,9 +1,9 @@
-import ElementType from './ElementType';
+import NodeType from './NodeType';
 
 export type Guid = string;
 
 export interface FlowModel {
-    [key: string]: NodeModel;
+    [key: string]: NodeModel | ParentNodeModel | BranchHeadNodeModel | (ParentNodeModel & BranchHeadNodeModel);
 }
 export type NodeRef = Guid | null;
 
@@ -16,6 +16,9 @@ export interface NodeModel {
 
     childReferences?: Array<{ childReference: string }>;
     defaultConnectorLabel?: string;
+
+    // The auto-layout node type corresponding to the element
+    nodeType: NodeType;
 
     // connections
     prev: NodeRef;
@@ -74,14 +77,14 @@ export interface MenuSection {
 }
 
 export interface ElementMetadata {
-    type: ElementType;
+    type: NodeType;
     icon: string;
     section: string;
     description: string;
     iconShape: string;
     iconBackgroundColor: string;
     label: string;
-    elementType: ElementType;
+    elementType: string;
     elementSubtype?: string;
     isSupported: boolean;
     dynamicNodeComponent?: string;
@@ -91,12 +94,12 @@ export interface ElementMetadata {
 export const FAULT_INDEX = -1;
 
 const ELEMENT_METADATA_DEFAULT = {
-    type: ElementType.DEFAULT,
+    type: NodeType.DEFAULT,
     icon: 'standard:default'
 };
 
-function canHaveChildren(type: ElementType): boolean {
-    return type === ElementType.LOOP || type === ElementType.BRANCH || type === ElementType.ROOT;
+function canHaveChildren(type: NodeType): boolean {
+    return type === NodeType.LOOP || type === NodeType.BRANCH || type === NodeType.ROOT;
 }
 
 function getRootNode(flow: FlowModel): ParentNodeModel {

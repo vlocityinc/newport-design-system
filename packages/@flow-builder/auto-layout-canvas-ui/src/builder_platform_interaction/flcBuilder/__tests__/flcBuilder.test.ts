@@ -83,7 +83,7 @@ jest.mock('builder_platform_interaction/flcNodeStartMenu', () =>
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     const autoLayoutCanvas = jest.requireActual('builder_platform_interaction/autoLayoutCanvas');
-    const { ElementType, getDefaultLayoutConfig, panzoom, toggleFlowMenu } = autoLayoutCanvas;
+    const { NodeType, getDefaultLayoutConfig, panzoom, toggleFlowMenu } = autoLayoutCanvas;
     const { flowRenderInfo } = require('./mockData');
 
     return {
@@ -96,12 +96,12 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         findParentElement: jest.fn(() => ({ elementType: 'Decision' })),
         getElementMetadata: jest.fn(() => ({
             Decision: {
-                type: ElementType.BRANCH
+                type: NodeType.BRANCH
             }
         })),
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
-        ElementType
+        NodeType
     };
 });
 

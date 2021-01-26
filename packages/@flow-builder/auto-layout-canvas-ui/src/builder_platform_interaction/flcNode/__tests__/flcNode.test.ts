@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import FlcNode from 'builder_platform_interaction/flcNode';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
 import { EditElementEvent } from 'builder_platform_interaction/events';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
 
@@ -48,7 +48,7 @@ describe('FlcNode', () => {
                 iconShape: ICON_SHAPE.CIRCLE,
                 iconSize: 'medium',
                 label: 'elementType',
-                type: ElementType.START
+                type: NodeType.START
             },
             menuOpened: false
         };
@@ -63,7 +63,7 @@ describe('FlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: ElementType.BRANCH
+                type: NodeType.BRANCH
             },
             menuOpened: false
         };
@@ -116,7 +116,7 @@ describe('FlcNode', () => {
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
-                    type: ElementType.DEFAULT
+                    type: NodeType.DEFAULT
                 },
                 menuOpened: false
             };
@@ -141,7 +141,7 @@ describe('FlcNode', () => {
         });
 
         it('Does not show selection box for Start Element in Selection Mode', () => {
-            nodeInfo.metadata.type = ElementType.START;
+            nodeInfo.metadata.type = NodeType.START;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
@@ -151,7 +151,7 @@ describe('FlcNode', () => {
         });
 
         it('Does not show selection box for End Element in Selection Mode', () => {
-            nodeInfo.metadata.type = ElementType.END;
+            nodeInfo.metadata.type = NodeType.END;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.SELECTION
@@ -244,7 +244,7 @@ describe('FlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: ElementType.BRANCH
+                type: NodeType.BRANCH
             },
             menuOpened: false
         };
@@ -255,7 +255,7 @@ describe('FlcNode', () => {
                 icon: 'standard:end',
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'End',
-                type: ElementType.END
+                type: NodeType.END
             },
             menuOpened: false
         };
@@ -292,7 +292,7 @@ describe('FlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: ElementType.BRANCH
+                type: NodeType.BRANCH
             },
             menuOpened: false,
             label: 'elementType'
@@ -304,7 +304,7 @@ describe('FlcNode', () => {
                 icon: 'standard:end',
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'start',
-                type: ElementType.END
+                type: NodeType.END
             },
             menuOpened: false
         };
@@ -315,7 +315,7 @@ describe('FlcNode', () => {
                 icon: 'standard:end',
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'start',
-                type: ElementType.START,
+                type: NodeType.START,
                 description: 'start description'
             },
             menuOpened: false
@@ -360,7 +360,7 @@ describe('FlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: ElementType.BRANCH
+                type: NodeType.BRANCH
             },
             menuOpened: false,
             node: {
@@ -379,7 +379,7 @@ describe('FlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: ElementType.BRANCH
+                type: NodeType.BRANCH
             },
             menuOpened: false,
             node: {
@@ -418,7 +418,7 @@ describe('FlcNode', () => {
                 metadata: {
                     icon: 'dummyIcon',
                     label: 'elementType',
-                    type: ElementType.DEFAULT
+                    type: NodeType.DEFAULT
                 },
                 menuOpened: false
             };
@@ -438,7 +438,7 @@ describe('FlcNode', () => {
         });
 
         it('Double clicking on Start element should not dispatch edit element event', () => {
-            nodeInfo.metadata.type = ElementType.START;
+            nodeInfo.metadata.type = NodeType.START;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT
@@ -452,7 +452,7 @@ describe('FlcNode', () => {
         });
 
         it('Double clicking on End element should not dispatch edit element event', () => {
-            nodeInfo.metadata.type = ElementType.END;
+            nodeInfo.metadata.type = NodeType.END;
             const flcNodeComponent = createComponentUnderTest({
                 nodeInfo,
                 canvasMode: AutoLayoutCanvasMode.DEFAULT

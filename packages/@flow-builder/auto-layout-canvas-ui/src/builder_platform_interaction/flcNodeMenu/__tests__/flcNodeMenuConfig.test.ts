@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
 
@@ -20,7 +20,7 @@ describe('getMenuConfiguration tests', () => {
         let configuration;
         beforeEach(() => {
             configuration = getMenuConfiguration(
-                getElementMetadata(ElementType.DEFAULT, true),
+                getElementMetadata(NodeType.DEFAULT, true),
                 CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
                 false,
                 false
@@ -28,11 +28,11 @@ describe('getMenuConfiguration tests', () => {
         });
 
         it('Header should have the right label', () => {
-            expect(configuration.header.label).toBe(getElementMetadata(ElementType.DEFAULT, true).label);
+            expect(configuration.header.label).toBe(getElementMetadata(NodeType.DEFAULT, true).label);
         });
 
         it('Header should have the right description', () => {
-            expect(configuration.header.description).toBe(getElementMetadata(ElementType.DEFAULT, true).description);
+            expect(configuration.header.description).toBe(getElementMetadata(NodeType.DEFAULT, true).description);
         });
 
         it('Body should have the right actions', () => {
@@ -73,7 +73,7 @@ describe('getMenuConfiguration tests', () => {
 
         it('Delete Fault Action should have the right icon', () => {
             configuration = getMenuConfiguration(
-                getElementMetadata(ElementType.DEFAULT, true),
+                getElementMetadata(NodeType.DEFAULT, true),
                 CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
                 true,
                 false
@@ -83,7 +83,7 @@ describe('getMenuConfiguration tests', () => {
 
         it('Delete Fault Action should have the right icon variant', () => {
             configuration = getMenuConfiguration(
-                getElementMetadata(ElementType.DEFAULT, true),
+                getElementMetadata(NodeType.DEFAULT, true),
                 CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
                 true,
                 false
@@ -93,7 +93,7 @@ describe('getMenuConfiguration tests', () => {
 
         it('Delete Fault should have the right label', () => {
             configuration = getMenuConfiguration(
-                getElementMetadata(ElementType.DEFAULT, true),
+                getElementMetadata(NodeType.DEFAULT, true),
                 CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
                 true,
                 false
@@ -136,7 +136,7 @@ describe('getMenuConfiguration tests', () => {
         let configuration;
         beforeEach(() => {
             configuration = getMenuConfiguration(
-                getElementMetadata(ElementType.BRANCH, true),
+                getElementMetadata(NodeType.BRANCH, true),
                 CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE,
                 false,
                 false
@@ -180,7 +180,7 @@ describe('getMenuConfiguration tests', () => {
         let configuration;
         beforeEach(() => {
             configuration = getMenuConfiguration(
-                getElementMetadata(ElementType.DEFAULT, true),
+                getElementMetadata(NodeType.DEFAULT, true),
                 CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
                 false,
                 true

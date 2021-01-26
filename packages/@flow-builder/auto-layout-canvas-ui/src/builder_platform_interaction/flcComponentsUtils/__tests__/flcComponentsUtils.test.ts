@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
@@ -9,8 +9,6 @@ import {
     getFlcNodeData
 } from '../flcComponentsUtils';
 
-import * as autoLayoutTestUtils from '../../../../../auto-layout-canvas/src/__tests__/testUtils.js';
-
 const ELEMENT_TYPE_ASSIGNMENT = 'Assignment';
 const ELEMENT_TYPE_DECISION = 'Decision';
 const ELEMENT_TYPE_SCREEN = 'Screen';
@@ -18,15 +16,17 @@ const ELEMENT_TYPE_START_ELEMENT = 'START_ELEMENT';
 const ELEMENT_TYPE_WAIT = 'wait';
 const ELEMENT_TYPE_END_ELEMENT = 'end';
 const ELEMENT_TYPE_LOOP = 'Loop';
+const ELEMENT_TYPE_ROOT = 'root';
 
 const elementsMetadata = {
-    [ELEMENT_TYPE_ASSIGNMENT]: { type: ElementType.DEFAULT },
-    [ELEMENT_TYPE_DECISION]: { type: ElementType.BRANCH },
-    [ELEMENT_TYPE_WAIT]: { type: ElementType.BRANCH },
-    [ELEMENT_TYPE_SCREEN]: { type: ElementType.DEFAULT },
-    [ELEMENT_TYPE_START_ELEMENT]: { type: ElementType.START },
-    [ELEMENT_TYPE_END_ELEMENT]: { type: ElementType.END },
-    [ELEMENT_TYPE_LOOP]: { type: ElementType.LOOP }
+    [ELEMENT_TYPE_ASSIGNMENT]: { type: NodeType.DEFAULT },
+    [ELEMENT_TYPE_DECISION]: { type: NodeType.BRANCH },
+    [ELEMENT_TYPE_WAIT]: { type: NodeType.BRANCH },
+    [ELEMENT_TYPE_SCREEN]: { type: NodeType.DEFAULT },
+    [ELEMENT_TYPE_START_ELEMENT]: { type: NodeType.START },
+    [ELEMENT_TYPE_END_ELEMENT]: { type: NodeType.END },
+    [ELEMENT_TYPE_LOOP]: { type: NodeType.LOOP },
+    [ELEMENT_TYPE_ROOT]: { type: NodeType.ROOT }
 };
 const checkSelectionDeselectionResultEquality = (
     result,
@@ -46,9 +46,54 @@ const checkSelectionDeselectionResultEquality = (
 };
 
 function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
-    const flowRenderContext = autoLayoutTestUtils.getFlowWithDecisionWithEndedLeftBranchContext();
-
-    const { flowModel } = flowRenderContext;
+    const flowModel = {
+        root: {
+            guid: 'root',
+            elementType: 'root',
+            children: ['guid1']
+        },
+        guid1: {
+            parent: 'root',
+            childIndex: 0,
+            guid: 'guid1',
+            elementType: ELEMENT_TYPE_SCREEN,
+            config: {
+                isSelected: false
+            },
+            prev: null,
+            next: 'branch-guid'
+        },
+        'branch-guid': {
+            guid: 'branch-guid',
+            elementType: ELEMENT_TYPE_DECISION,
+            config: {
+                isSelected: false
+            },
+            prev: 'guid1',
+            next: 'guid3',
+            children: ['guid4', null]
+        },
+        guid3: {
+            guid: 'guid3',
+            elementType: ELEMENT_TYPE_SCREEN,
+            config: {
+                isSelected: false
+            },
+            prev: 'guid2',
+            next: null
+        },
+        guid4: {
+            guid: 'guid4',
+            elementType: ELEMENT_TYPE_END_ELEMENT,
+            config: {
+                isSelected: false
+            },
+            parent: 'branch-guid',
+            prev: null,
+            next: null,
+            childIndex: 0
+        }
+    };
 
     const menuButtonHalfWidth = 12;
     const containerElementGeometry = {
@@ -60,7 +105,7 @@ function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
 
     const menuData = getFlcMenuData({ detail: toggleMenuDetail }, menuButtonHalfWidth, containerElementGeometry, 1, {
         flowModel,
-        elementsMetadata: flowRenderContext.elementsMetadata
+        elementsMetadata
     });
 
     expect(menuData.hasEndElement).toEqual(expectedHasEndElement);
@@ -96,7 +141,7 @@ describe('FLC Canvas Utils test', () => {
                 {
                     top: 0,
                     left: 0,
-                    elementMetadata: { type: ElementType.DEFAULT },
+                    elementMetadata: { type: NodeType.DEFAULT },
                     parent: 'branch-guid',
                     childIndex: 1
                 },
@@ -111,10 +156,9 @@ describe('FLC Canvas Utils test', () => {
                 {
                     top: 0,
                     left: 0,
-                    elementMetadata: { type: ElementType.DEFAULT },
+                    elementMetadata: { type: NodeType.DEFAULT },
                     parent: 'branch-guid',
-                    childIndex: 0,
-                    next: 'branch-left-head-guid'
+                    childIndex: 0
                 },
                 hasEndElement
             );

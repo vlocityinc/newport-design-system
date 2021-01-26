@@ -84,6 +84,8 @@ jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_pla
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const flowMetadata = require('builder_platform_interaction/flowMetadata');
     const { findStartYOffset } = jest.requireActual('builder_platform_interaction/elementFactory');
+    const { NodeType } = require('builder_platform_interaction/autoLayoutCanvas');
+
     return {
         createEndElement: (props = {}) => {
             const { prev, parent, childIndex } = props;
@@ -104,7 +106,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                     elementType: flowMetadata.ELEMENT_TYPE.END_ELEMENT,
                     prev,
                     next: null,
-                    isCanvasElement: true
+                    isCanvasElement: true,
+                    nodeType: NodeType.END
                 },
                 extraProps
             );
@@ -140,12 +143,6 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             return `end-element-guid (${id}:${i})`;
         }),
         deepCopy: actual.deepCopy
-    };
-});
-
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 

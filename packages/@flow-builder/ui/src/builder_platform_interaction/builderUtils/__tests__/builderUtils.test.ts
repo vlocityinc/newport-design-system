@@ -41,12 +41,6 @@ jest.mock('aura', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 const EDIT_MODE = 'editelement',
     ADD_MODE = 'addelement';
 

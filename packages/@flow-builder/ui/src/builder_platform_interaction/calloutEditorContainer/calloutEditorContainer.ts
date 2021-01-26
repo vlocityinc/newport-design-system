@@ -8,7 +8,6 @@ import noActionTemplate from './noActionTemplate.html';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { LABELS } from './calloutEditorLabels';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { addFlcProperties } from 'builder_platform_interaction/flcBuilderUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -126,8 +125,6 @@ export default class CalloutEditorContainer extends LightningElement {
                 guid: this._selectedAction.guid ? this._selectedAction.guid : node.guid
             }
         );
-
-        addFlcProperties(node, this.node);
 
         let editorNode = this.getNode();
         if (editorNode) {

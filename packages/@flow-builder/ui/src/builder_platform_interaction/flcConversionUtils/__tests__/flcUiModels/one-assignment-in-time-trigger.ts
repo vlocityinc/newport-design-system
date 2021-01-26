@@ -15,6 +15,7 @@ export default {
                 hasError: false
             },
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'RecordAfterSave',
             recordTriggerType: 'Create',
@@ -61,12 +62,14 @@ export default {
             ],
             maxConnections: 1,
             elementType: 'Assignment',
+            nodeType: 'default',
             prev: 'time-trigger-start-element-guid',
             next: 'end-element-guid (assignment-element-guid)'
         },
         'end-element-guid (assignment-element-guid)': {
             guid: 'end-element-guid (assignment-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'assignment-element-guid',
             next: null,
             isCanvasElement: true,
@@ -79,6 +82,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

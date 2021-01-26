@@ -1,4 +1,6 @@
-import { ElementType, getDefaultLayoutConfig } from 'builder_platform_interaction/autoLayoutCanvas';
+import { areAllBranchesTerminals, isBranchingElement } from '../modelUtils';
+import NodeType from '../NodeType';
+import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
 
 const layoutConfig = getDefaultLayoutConfig();
 
@@ -13,14 +15,19 @@ const LOOP_ELEMENT_GUID = 'loop-guid';
 const SCREEN_ELEMENT_GUID = 'screen-guid';
 const ACTION_ELEMENT_GUID = 'action-guid';
 
-const ROOT_ELEMENT = { guid: ROOT_ELEMENT_GUID, elementType: ElementType.ROOT, children: [START_ELEMENT_GUID] };
+const ROOT_ELEMENT = {
+    guid: ROOT_ELEMENT_GUID,
+    elementType: NodeType.ROOT,
+    nodeType: NodeType.ROOT,
+    children: [START_ELEMENT_GUID]
+};
 const START_ELEMENT = {
     guid: START_ELEMENT_GUID,
     label: START_ELEMENT_GUID,
-    elementType: ElementType.START,
+    elementType: NodeType.START,
+    nodeType: NodeType.START,
     parent: ROOT_ELEMENT_GUID,
     childIndex: 0,
-    next: END_ELEMENT_GUID,
     isTerminal: true
 };
 
@@ -28,13 +35,14 @@ const END_ELEMENT = {
     guid: END_ELEMENT_GUID,
     label: END_ELEMENT_GUID,
     elementType: 'END_ELEMENT',
-    prev: START_ELEMENT_GUID
+    nodeType: NodeType.END
 };
 
 const BRANCH_ELEMENT = {
     guid: BRANCH_ELEMENT_GUID,
     label: BRANCH_ELEMENT_GUID,
-    elementType: ElementType.BRANCH,
+    elementType: NodeType.BRANCH,
+    nodeType: NodeType.BRANCH,
     children: [null, null],
     defaultConnectorLabel: 'Default Connector Label'
 };
@@ -42,20 +50,23 @@ const BRANCH_ELEMENT = {
 const LOOP_ELEMENT = {
     guid: LOOP_ELEMENT_GUID,
     label: LOOP_ELEMENT_GUID,
-    elementType: ElementType.LOOP,
+    elementType: NodeType.LOOP,
+    nodeType: NodeType.LOOP,
     children: [null]
 };
 
 const SCREEN_ELEMENT = {
     guid: SCREEN_ELEMENT_GUID,
     label: SCREEN_ELEMENT_GUID,
-    elementType: SCREEN_ELEMENT_TYPE
+    elementType: SCREEN_ELEMENT_TYPE,
+    nodeType: NodeType.DEFAULT
 };
 
 const ACTION_ELEMENT = {
     guid: ACTION_ELEMENT_GUID,
     label: ACTION_ELEMENT_GUID,
-    elementType: ElementType.DEFAULT
+    elementType: NodeType.DEFAULT,
+    nodeType: NodeType.DEFAULT
 };
 
 function getElementByType(type) {
@@ -91,32 +102,32 @@ function getElementByType(type) {
 }
 
 const elementsMetadata = {
-    [ElementType.ROOT]: {
-        type: ElementType.ROOT,
+    [NodeType.ROOT]: {
+        type: NodeType.ROOT,
         icon: 'standard:default'
     },
-    [ElementType.START]: {
-        type: ElementType.START,
+    [NodeType.START]: {
+        type: NodeType.START,
         icon: 'standard:default'
     },
-    [ElementType.BRANCH]: {
-        type: ElementType.BRANCH,
+    [NodeType.BRANCH]: {
+        type: NodeType.BRANCH,
         icon: 'standard:default'
     },
-    [ElementType.LOOP]: {
-        type: ElementType.LOOP,
+    [NodeType.LOOP]: {
+        type: NodeType.LOOP,
         icon: 'standard:default'
     },
     END_ELEMENT: {
-        type: ElementType.END,
+        type: NodeType.END,
         icon: 'standard:default'
     },
     [SCREEN_ELEMENT_TYPE]: {
-        type: ElementType.DEFAULT,
+        type: NodeType.DEFAULT,
         icon: 'standard:default'
     },
     [ACTION_ELEMENT_TYPE]: {
-        type: ElementType.DEFAULT,
+        type: NodeType.DEFAULT,
         icon: 'standard:default'
     }
 };
@@ -126,14 +137,15 @@ function deepCopy(element) {
 }
 
 function createDefaultElement(guid) {
-    return createElementWithElementType(guid, ElementType.DEFAULT);
+    return createElementWithElementType(guid, NodeType.DEFAULT, NodeType.DEFAULT);
 }
 
-function createElementWithElementType(guid, elementType) {
+function createElementWithElementType(guid, elementType, nodeType) {
     return {
         guid,
         elementType,
-        label: 'default'
+        label: 'default',
+        nodeType
     };
 }
 
@@ -179,12 +191,13 @@ function createFlow(rootBranchElements, addStartAndEnd = true) {
         ? [START_ELEMENT_GUID, ...rootBranchElements, END_ELEMENT_GUID]
         : rootBranchElements;
     createBranch(rootBranchElements, rootElement, 0, elementsMap, '');
+
     return elementsMap;
 }
 
 function createBranch(
     branch,
-    parentElement = getElementByType(ElementType.ROOT),
+    parentElement = getElementByType(NodeType.ROOT),
     childIndex = 0,
     elementsMap = {},
     prefix
@@ -196,22 +209,26 @@ function createBranch(
     let branchHead;
 
     branch.forEach((elementInfo) => {
-        nextElement = createElement(elementInfo, elementsMap, prefix);
+        if (!hasEnd) {
+            nextElement = createElement(elementInfo, elementsMap, prefix);
+            if (prevElement == null) {
+                nextElement.parent = parentElement.guid;
+                nextElement.childIndex = childIndex;
+                branchHead = nextElement;
+                parentElement.children[childIndex] = branchHead.guid;
+            } else {
+                nextElement.prev = prevElement.guid;
+                prevElement.next = nextElement.guid;
+            }
 
-        if (prevElement == null) {
-            nextElement.parent = parentElement.guid;
-            nextElement.childIndex = childIndex;
-            branchHead = nextElement;
-            parentElement.children[childIndex] = branchHead.guid;
-        } else {
-            nextElement.prev = prevElement.guid;
-            prevElement.next = nextElement.guid;
+            if (
+                nextElement.nodeType === NodeType.END ||
+                (isBranchingElement(nextElement) && areAllBranchesTerminals(nextElement, elementsMap))
+            ) {
+                hasEnd = true;
+            }
+            prevElement = nextElement;
         }
-
-        if (nextElement.elementType === 'END_ELEMENT') {
-            hasEnd = true;
-        }
-        prevElement = nextElement;
     });
 
     branchHead.isTerminal = hasEnd;
@@ -276,7 +293,7 @@ function getFlowWithEmptyDeciisionWith3BranchesContext() {
 }
 
 function getFlowWithDecisionWithEndedLeftBranchContext() {
-    const leftBranchHead = createElementWithElementType('branch-left-head-guid', 'END_ELEMENT');
+    const leftBranchHead = createElementWithElementType('branch-left-head-guid', 'END_ELEMENT', NodeType.END);
     return getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead);
 }
 
@@ -298,14 +315,22 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
 }
 
 function getFlowWithTwoFaults() {
-    let faultBranchHeadElementOne = createElementWithElementType('fault-branch-head-guid-one', 'END_ELEMENT');
+    let faultBranchHeadElementOne = createElementWithElementType(
+        'fault-branch-head-guid-one',
+        'END_ELEMENT',
+        NodeType.END
+    );
     const actionElementOne = {
         ...ACTION_ELEMENT,
         guid: 'action-element-one',
         fault: faultBranchHeadElementOne.guid
     };
     faultBranchHeadElementOne = { ...faultBranchHeadElementOne, parent: actionElementOne.guid, childIndex: -1 };
-    let faultBranchHeadElementTwo = createElementWithElementType('fault-branch-head-guid-two', 'END_ELEMENT');
+    let faultBranchHeadElementTwo = createElementWithElementType(
+        'fault-branch-head-guid-two',
+        'END_ELEMENT',
+        NodeType.END
+    );
     const actionElementTwo = {
         ...ACTION_ELEMENT,
         guid: 'action-element-two',
@@ -331,14 +356,17 @@ function getFlowWithDynamicNodeComponent() {
 }
 
 export {
+    ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
     END_ELEMENT_GUID,
     START_ELEMENT_GUID,
     ROOT_ELEMENT,
     START_ELEMENT,
     END_ELEMENT,
+    SCREEN_ELEMENT,
     BRANCH_ELEMENT,
     LOOP_ELEMENT,
+    SCREEN_ELEMENT_GUID,
     createDefaultElement,
     flowModelFromElements,
     createFlowRenderContext,

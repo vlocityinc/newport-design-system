@@ -10,7 +10,7 @@ import {
     animate,
     MenuType,
     panzoom,
-    ElementType,
+    NodeType,
     getTargetGuidsForBranchReconnect,
     Guid,
     NodeRenderInfo,
@@ -260,8 +260,8 @@ export default class FlcBuilder extends LightningElement {
     get startMenuElement() {
         let startRenderInfo;
 
-        if (this.menu.elementMetadata.type === ElementType.START) {
-            startRenderInfo = this.flow.flowInfo.nodes.find((info) => info.metadata.type === ElementType.START);
+        if (this.menu.elementMetadata.type === NodeType.START) {
+            startRenderInfo = this.flow.flowInfo.nodes.find((info) => info.metadata.type === NodeType.START);
         }
 
         return startRenderInfo != null ? startRenderInfo.node : null;
@@ -311,7 +311,7 @@ export default class FlcBuilder extends LightningElement {
     // }
 
     getStartElementGuid() {
-        return this._flowModel[ElementType.ROOT].children[0];
+        return this._flowModel[NodeType.ROOT].children[0];
     }
 
     renderedCallback() {
@@ -610,7 +610,10 @@ export default class FlcBuilder extends LightningElement {
     };
 
     dispatchCreateConnectionEvent(targetGuid) {
-        this.dispatchEvent(new FlcCreateConnectionEvent(this._reconnectSourceGuid, targetGuid));
+        const endElement = this._flowModel[this._reconnectSourceGuid!];
+        const { prev, childIndex, parent } = endElement;
+        const insertAt = parent ? { parent, childIndex } : { prev };
+        this.dispatchEvent(new FlcCreateConnectionEvent(insertAt, targetGuid));
         this._reconnectSourceGuid = null;
     }
 
@@ -766,7 +769,7 @@ export default class FlcBuilder extends LightningElement {
      */
     renderFlow(progress) {
         this._flowRenderInfo = renderFlow(this._flowRenderContext, progress);
-        this.flow = getFlcFlowData(this._flowRenderInfo, { guid: ElementType.ROOT } as NodeRenderInfo, 0);
+        this.flow = getFlcFlowData(this._flowRenderInfo, { guid: NodeType.ROOT } as NodeRenderInfo, 0);
     }
 
     /**

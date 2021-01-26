@@ -14,6 +14,7 @@ export default {
                 hasError: false
             },
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterLogic: 'and',
@@ -57,6 +58,7 @@ export default {
             maxConnections: 2,
             availableConnections: [{ type: 'LOOP_NEXT' }],
             elementType: 'Loop',
+            nodeType: 'loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
             subtype: 'Account',
@@ -67,6 +69,7 @@ export default {
         'end-element-guid (loop-element-guid)': {
             guid: 'end-element-guid (loop-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'loop-element-guid',
             next: null,
             isCanvasElement: true,
@@ -79,6 +82,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { ToggleMenuEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { EnterCommand, EscapeCommand } = commands;
@@ -21,7 +21,7 @@ const startMetadata = {
     iconShape: ICON_SHAPE.CIRCLE,
     label: 'Start',
     section: null,
-    type: ElementType.START,
+    type: NodeType.START,
     value: 'Start'
 };
 
@@ -31,7 +31,7 @@ const screenMetadata = {
     icon: 'standard:screen',
     label: 'Screen',
     section: null,
-    type: ElementType.DEFAULT,
+    type: NodeType.DEFAULT,
     value: 'Screen'
 };
 
@@ -42,7 +42,7 @@ const decisionMetadata = {
     iconShape: ICON_SHAPE.DIAMOND,
     label: 'Decision',
     section: null,
-    type: ElementType.BRANCH,
+    type: NodeType.BRANCH,
     value: 'Decision'
 };
 
@@ -52,7 +52,7 @@ const customComponentMetadata = {
     icon: 'standard:screen',
     label: 'Decision',
     section: null,
-    type: ElementType.DEFAULT,
+    type: NodeType.DEFAULT,
     value: 'OrchestratedStage',
     dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode'
 };
@@ -64,7 +64,7 @@ const endMetadata = {
     iconShape: ICON_SHAPE.CIRCLE,
     label: 'End',
     section: null,
-    type: ElementType.END,
+    type: NodeType.END,
     value: 'End'
 };
 

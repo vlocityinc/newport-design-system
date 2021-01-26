@@ -9,30 +9,16 @@ import {
     PASTE_ON_FIXED_CANVAS,
     FLC_CREATE_CONNECTION
 } from 'builder_platform_interaction/actions';
-import {
-    addElement,
-    deleteElement,
-    addElementToState,
-    linkElement,
-    linkBranchOrFault,
-    FAULT_INDEX,
-    reconnectBranchElement
-} from 'builder_platform_interaction/autoLayoutCanvas';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { reducer, actions } from 'builder_platform_interaction/autoLayoutCanvas';
 
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import flcElementsReducer from '../flcElementsReducer';
-import { getSubElementGuids } from '../reducersUtils';
+
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const getElement = (guid, name) => {
-    return {
-        guid,
-        name
-    };
-};
 jest.mock('../elementsReducer', () => {
     return jest.fn((state) => Object.assign({}, state));
 });
@@ -41,15 +27,19 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
     const { createPastedAssignment, createPastedDecision, createPastedScreen, createPastedWait } = jest.requireActual(
         'builder_platform_interaction/elementFactory'
     );
+    const { NodeType } = require('builder_platform_interaction/autoLayoutCanvas');
+
     return {
         createEndElement: jest.fn((props) => {
             const prev = props ? props.prev : undefined;
             const end = {
-                guid: 'end-element-guid'
+                guid: 'end-element-guid',
+                nodeType: NodeType.END
             };
             if (prev != null) {
                 end.prev = prev;
             }
+
             return end;
         }),
         createPastedAssignment,
@@ -61,554 +51,439 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     const actual = jest.requireActual('builder_platform_interaction/autoLayoutCanvas');
+
+    const mockReducer = jest.fn((state) => state);
+
     return Object.assign({}, actual, {
-        addElementToState: jest.fn((element, state) => {
-            state[element.guid] = element;
-        }),
         addElement: jest.fn(),
-        deleteElement: jest.fn(),
         linkElement: jest.fn(),
         linkBranchOrFault: jest.fn(),
         reconnectBranchElement: jest.fn((state) => state),
-        assertAutoLayoutState: jest.fn()
+        assertAutoLayoutState: jest.fn(),
+        actions: actual.actions,
+        reducer: jest.fn(() => mockReducer)
     });
 });
 
 jest.mock('builder_platform_interaction/flcBuilderUtils', () => {
-    const { addFlcProperties } = jest.requireActual('builder_platform_interaction/flcBuilderUtils');
-    return {
-        addFlcProperties,
-        supportsChildren: jest.fn(),
-        createRootElement: jest.fn(() => ({
-            guid: 'root'
-        }))
+    const actual = jest.requireActual('builder_platform_interaction/flcBuilderUtils');
+
+    const metadata = {
+        Decision: 'branch',
+        'some-element-type': {
+            type: 'Default'
+        }
     };
+
+    return Object.assign({}, actual, {
+        getElementsMetadata: jest.fn(() => metadata)
+    });
 });
 
-const oldElements = { guid1: getElement('guid1', 'ass1') };
-const payload = getElement('guid2', 'ass2');
+describe('flc-elements-reducer', () => {
+    describe('When FLC_CREATE_CONNECTION', () => {
+        it('dispatches a ConnectToElement action', () => {
+            const state = {};
 
-describe('elements-reducer', () => {
-    describe('Flc Create Connection', () => {
-        it('calls reconnect branch element', () => {
-            const elements = {};
+            const insertAt = { prev: 'source-guid' };
+            const targetGuid = 'target-guid';
 
-            flcElementsReducer(elements, {
+            flcElementsReducer(state, {
                 type: FLC_CREATE_CONNECTION,
-                payload: { sourceGuid: 'source-guid', targetGuid: 'target-guid' }
+                payload: { insertAt, targetGuid }
             });
-            expect(reconnectBranchElement).toHaveBeenLastCalledWith({}, 'source-guid', 'target-guid');
+
+            const connectToElementAction = actions.connectToElementAction(insertAt, targetGuid);
+            expect(reducer()).toHaveBeenLastCalledWith(state, connectToElementAction);
         });
     });
 
-    describe('Add Canvas Element', () => {
-        it('with state set to undefined & action type set to empty should return an empty object', () => {
-            expect(flcElementsReducer(undefined, {})).toEqual({});
-        });
+    describe('When ADD_CANVAS_ELEMENT', () => {
+        it('dispatches an AddElement action', () => {
+            const state = {};
 
-        it('addElement should be called when when dispatching ADD_CANVAS_ELEMENT', () => {
-            const spy = addElement;
-            flcElementsReducer(oldElements, {
-                type: ADD_CANVAS_ELEMENT,
-                payload
-            });
-            expect(spy).toHaveBeenCalled();
-        });
-    });
+            const alcInsertAt = {
+                prev: 'prev-element'
+            };
 
-    describe('Add Start Element', () => {
-        it('start, end and root elements are added', () => {
-            const state = {
-                'start-element-guid': {
-                    guid: 'start-element-guid',
-                    isTerminal: true
-                }
+            const newElement = {
+                guid: 'new-element-guid',
+                elementType: 'some-element-type',
+                alcInsertAt
             };
 
             flcElementsReducer(state, {
-                type: ADD_START_ELEMENT,
-                payload: { guid: 'start-element-guid' }
+                type: ADD_CANVAS_ELEMENT,
+                payload: newElement
             });
 
-            const expectedState = { ...state, root: { guid: 'root' } };
+            const nodeType = 'Default';
+            const addElementAction = actions.addElementAction(newElement.guid, nodeType, alcInsertAt);
+            expect(reducer()).toHaveBeenLastCalledWith({ [newElement.guid]: newElement }, addElementAction);
+        });
 
-            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, expectedState);
-            expect(linkElement).toHaveBeenLastCalledWith(expectedState, {
-                guid: 'end-element-guid',
-                prev: 'start-element-guid'
+        it('initializes the children correctly', () => {
+            const alcInsertAt = {
+                prev: 'prev-element'
+            };
+
+            const canvasElement = {
+                guid: 'decision-guid',
+                elementType: 'Decision',
+                childReferences: [
+                    {
+                        childReference: 'outcome1'
+                    },
+                    {
+                        childReference: 'outcome2'
+                    }
+                ]
+            };
+
+            const state = {
+                [canvasElement.guid]: canvasElement
+            };
+
+            const nextState = flcElementsReducer(state, {
+                type: ADD_CANVAS_ELEMENT,
+                payload: {
+                    canvasElement,
+                    alcInsertAt
+                }
             });
-            expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'start-element-guid' });
+
+            expect(nextState[canvasElement.guid].children).toEqual([null, null, null]);
         });
     });
 
-    describe('Delete Element', () => {
-        const shouldAddEndElement = (addEndElement) => {
-            deleteElement.mockImplementation(() => ({
-                addEndElement
-            }));
-        };
-
-        it('calls deleteElement', () => {
-            shouldAddEndElement(false);
-            const elementToDelete = {
-                guid: 'element-guid'
+    describe('When ADD_START_ELEMENT', () => {
+        it('dispatches an Init action', () => {
+            const startElement = {
+                guid: 'start-element-guid'
             };
 
             flcElementsReducer(
                 {},
                 {
-                    type: DELETE_ELEMENT,
-                    payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: 1 }
+                    type: ADD_START_ELEMENT,
+                    payload: startElement
                 }
             );
 
-            expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1, getSubElementGuids);
-        });
+            const endElement = {
+                guid: 'end-element-guid',
+                nodeType: 'end'
+            };
 
-        describe('When addEndElement is true', () => {
-            beforeEach(() => {
-                shouldAddEndElement(true);
-            });
-
-            it('createEndElement should be called if element has a prev', () => {
-                const elementToDelete = {
-                    guid: 'element-guid',
-                    prev: 'dummy-prev'
-                };
-
-                flcElementsReducer(
-                    {
-                        'dummy-prev': {
-                            next: 'element-guid'
-                        }
-                    },
-                    {
-                        type: DELETE_ELEMENT,
-                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
-                    }
-                );
-
-                expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'dummy-prev', next: null });
-            });
-
-            it('addElementToState should have been called if element has a prev', () => {
-                const elementToDelete = {
-                    guid: 'element-guid',
-                    prev: 'dummy-prev'
-                };
-
-                flcElementsReducer(
-                    {
-                        'dummy-prev': {
-                            next: 'element-guid'
-                        }
-                    },
-                    {
-                        type: DELETE_ELEMENT,
-                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
-                    }
-                );
-
-                expect(addElementToState).toHaveBeenCalled();
-            });
-
-            it('prev element should point to end element', () => {
-                const elementToDelete = {
-                    guid: 'element-guid',
-                    prev: 'dummy-prev'
-                };
-
-                const updatedState = flcElementsReducer(
-                    {
-                        'dummy-prev': {
-                            next: 'element-guid'
-                        }
-                    },
-                    {
-                        type: DELETE_ELEMENT,
-                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
-                    }
-                );
-
-                expect(updatedState['dummy-prev'].next).toBe('end-element-guid');
-            });
-
-            it('createEndElement should be called if element has a parent and childIndex', () => {
-                const elementToDelete = {
-                    guid: 'element-guid',
-                    parent: 'dummy-parent',
-                    childIndex: 0
-                };
-
-                flcElementsReducer(
-                    {
-                        'dummy-parent': {
-                            children: ['element-guid', 'dummy-end']
-                        }
-                    },
-                    {
-                        type: DELETE_ELEMENT,
-                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
-                    }
-                );
-
-                expect(createEndElement).toHaveBeenLastCalledWith({
-                    parent: 'dummy-parent',
-                    childIndex: 0,
-                    next: null,
-                    isTerminal: true
-                });
-            });
-
-            it('addElementToState should have been called if element has a parent and childIndex', () => {
-                const elementToDelete = {
-                    guid: 'element-guid',
-                    parent: 'dummy-parent',
-                    childIndex: 0
-                };
-
-                flcElementsReducer(
-                    {
-                        'dummy-parent': {
-                            children: ['element-guid', 'dummy-end']
-                        }
-                    },
-                    {
-                        type: DELETE_ELEMENT,
-                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
-                    }
-                );
-
-                expect(addElementToState).toHaveBeenCalled();
-            });
-
-            it('parent element -> children should point to end element', () => {
-                const elementToDelete = {
-                    guid: 'element-guid',
-                    parent: 'dummy-parent',
-                    childIndex: 0
-                };
-
-                const updatedState = flcElementsReducer(
-                    {
-                        'dummy-parent': {
-                            children: ['element-guid', 'dummy-end']
-                        }
-                    },
-                    {
-                        type: DELETE_ELEMENT,
-                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
-                    }
-                );
-
-                expect(updatedState['dummy-parent'].children[0]).toBe('end-element-guid');
-            });
+            const initAction = actions.initAction('start-element-guid', 'end-element-guid');
+            expect(reducer()).toHaveBeenLastCalledWith(
+                {
+                    [startElement.guid]: startElement,
+                    [endElement.guid]: endElement
+                },
+                initAction
+            );
         });
     });
 
-    describe('Modify Element With Children', () => {
-        describe('When adding an outcome and deleting another outcome', () => {
-            const newDecision = {
-                guid: 'newDecision',
-                name: 'newDecision',
-                children: [null, 'screen1', null]
+    describe('When DELETE_ELEMENT', () => {
+        it('dispatches a DeleteElement action', () => {
+            const guid = 'element-guid';
+            const childIndexToKeep = 1;
+            const elementToDelete = {
+                guid
             };
 
-            const originalStoreState = {
-                newDecision: {
-                    guid: 'newDecision',
-                    name: 'newDecision',
-                    children: [null, 'screen1', null]
-                },
-                screen1: {
-                    guid: 'screen1',
-                    name: 'screen1',
-                    childIndex: 0
-                },
-                screen2: {
-                    guid: 'screen2',
-                    name: 'screen2',
-                    childIndex: 1,
-                    next: 'screen3'
-                },
-                screen3: {
-                    guid: 'screen3',
-                    name: 'screen3',
-                    prev: 'screen2'
-                }
-            };
+            const flowModel = {};
 
-            const updatedState = flcElementsReducer(originalStoreState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: { canvasElement: newDecision, deletedBranchHeadGuids: ['screen2'] }
+            flcElementsReducer(flowModel, {
+                type: DELETE_ELEMENT,
+                payload: { selectedElements: [elementToDelete], childIndexToKeep }
             });
 
-            it('Updates the childIndex correctly', () => {
-                expect(updatedState.screen1.childIndex).toBe(1);
-            });
-
-            it('screen2 should not be in the store', () => {
-                expect(updatedState.screen2).toBeUndefined();
-            });
-
-            it('screen3 should not be in the store', () => {
-                expect(updatedState.screen3).toBeUndefined();
-            });
+            const deleteElementAction = actions.deleteElementAction(guid, childIndexToKeep);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, deleteElementAction);
         });
-        describe('When elements need to be inlined and parent next is an end element', () => {
-            const newDecision = {
-                guid: 'newDecision',
-                name: 'newDecision',
-                children: ['end1', null],
-                next: 'end2'
-            };
+    });
 
-            const originalStoreState = {
-                newDecision: {
-                    guid: 'newDecision',
-                    name: 'newDecision',
-                    children: ['end1', null],
-                    next: 'end2'
+    describe('When MODIFY_DECISION_WITH_OUTCOMES', () => {
+        const decision = {
+            guid: 'decision',
+            children: ['screen1', 'screen2', 'screen3', null],
+            childReferences: [
+                {
+                    childReference: 'outcome1'
                 },
-                end1: {
-                    guid: 'end1',
-                    name: 'end1',
-                    childIndex: 0,
-                    isTerminal: true
+                {
+                    childReference: 'outcome2'
                 },
-                end2: {
-                    guid: 'end2',
-                    name: 'end2',
-                    elementType: ELEMENT_TYPE.END_ELEMENT,
-                    prev: 'newDecision'
+                {
+                    childReference: 'outcome3'
                 }
-            };
+            ]
+        };
 
-            const updatedState = flcElementsReducer(originalStoreState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: { canvasElement: newDecision, deletedBranchHeadGuids: [] }
-            });
-
-            it('end2 should be moved to the second branch', () => {
-                expect(updatedState.newDecision.children).toMatchObject(['end1', 'end2']);
-            });
-
-            it('newDecision should not have a next', () => {
-                expect(updatedState.newDecision.next).toBeNull();
-            });
-
-            it('end2 should have updated childIndex', () => {
-                expect(updatedState.end2.childIndex).toBe(1);
-            });
-
-            it('end2 should have no prev', () => {
-                expect(updatedState.end2.prev).toBeNull();
-            });
-
-            it('end2 should have isTerminal set to true', () => {
-                expect(updatedState.end2.isTerminal).toBeTruthy();
-            });
-        });
-        describe('When elements need to be inlined and parent next is a regular element', () => {
-            const newDecision = {
-                guid: 'newDecision',
-                name: 'newDecision',
-                children: ['end1', null],
-                next: 'screen1'
-            };
-
-            const originalStoreState = {
-                newDecision: {
-                    guid: 'newDecision',
-                    name: 'newDecision',
-                    children: ['end1', null],
-                    next: 'screen1'
-                },
-                end1: {
-                    guid: 'end1',
-                    name: 'end1',
-                    childIndex: 0,
-                    isTerminal: true
-                },
-                screen1: {
-                    guid: 'screen1',
-                    name: 'screen1',
-                    prev: 'newDecision',
-                    next: 'end2'
-                },
-                end2: {
-                    guid: 'end2',
-                    name: 'end2',
-                    elementType: ELEMENT_TYPE.END_ELEMENT,
-                    prev: 'screen1'
-                }
-            };
-
-            const updatedState = flcElementsReducer(originalStoreState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: { canvasElement: newDecision, deletedBranchHeadGuids: [] }
-            });
-
-            it('end2 should be moved to the second branch', () => {
-                expect(updatedState.newDecision.children).toMatchObject(['end1', 'screen1']);
-            });
-
-            it('newDecision should not have a next', () => {
-                expect(updatedState.newDecision.next).toBeNull();
-            });
-
-            it('screen1 should have updated childIndex', () => {
-                expect(updatedState.screen1.childIndex).toBe(1);
-            });
-
-            it('screen1 should have no prev', () => {
-                expect(updatedState.screen1.prev).toBeNull();
-            });
-
-            it('screen1 should have isTerminal set to true', () => {
-                expect(updatedState.screen1.isTerminal).toBeTruthy();
-            });
-        });
-
-        describe('When adding an end element', () => {
-            const newDecision = {
-                guid: 'newDecision',
-                name: 'newDecision',
-                children: ['end1', null, 'end2']
-            };
-            const originalStoreState = {
-                newDecision: {
-                    guid: 'newDecision',
-                    name: 'newDecision',
-                    children: ['end1', null, 'end2']
-                },
-                end1: {
-                    guid: 'end1',
-                    name: 'end1',
-                    childIndex: 0
-                },
-                end2: {
-                    guid: 'end2',
-                    name: 'end2',
-                    childIndex: 2
-                }
-            };
-            it('adds an end element to the correct index when shouldAddEndElement is true and newEndElementIdx exists', () => {
-                const shouldAddEndElement = true;
-                const newEndElementIdx = 1;
-                const newState = flcElementsReducer(originalStoreState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        canvasElement: newDecision,
-                        deletedBranchHeadGuids: [],
-                        shouldAddEndElement,
-                        newEndElementIdx
-                    }
-                });
-                expect.assertions(2);
-                expect(createEndElement).toHaveBeenCalledWith({
-                    parent: 'newDecision',
-                    childIndex: 1,
-                    prev: null,
-                    next: null,
-                    isTerminal: true
-                });
-                expect(newState['end-element-guid']).toBeDefined();
-            });
-
-            it('adds an end element to current elements next when shouldAddEndElement is true and newEndElementIdx exists', () => {
-                const shouldAddEndElement = true;
-                const newState = flcElementsReducer(originalStoreState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        canvasElement: newDecision,
-                        deletedBranchHeadGuids: [],
-                        shouldAddEndElement
-                    }
-                });
-                expect.assertions(3);
-                expect(createEndElement).toHaveBeenCalledWith({
-                    prev: 'newDecision',
-                    next: null
-                });
-                expect(newState['end-element-guid'].prev).toBe('newDecision');
-                expect(newState.newDecision.next).toBe('end-element-guid');
-            });
-
-            it('adds an end element properly when shouldAddEndElement is true and newEndElementIdx is 0', () => {
-                const shouldAddEndElement = true;
-                const newEndElementIdx = 0;
-                const newState = flcElementsReducer(originalStoreState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        canvasElement: newDecision,
-                        deletedBranchHeadGuids: [],
-                        shouldAddEndElement,
-                        newEndElementIdx
-                    }
-                });
-                expect.assertions(2);
-                expect(createEndElement).toHaveBeenCalledWith({
-                    parent: 'newDecision',
-                    childIndex: 0,
-                    prev: null,
-                    next: null,
-                    isTerminal: true
-                });
-                expect(newState['end-element-guid']).toBeDefined();
-            });
-        });
-        describe('When deleting outcomes on merging branches', () => {
-            const newDecision = {
-                guid: 'newDecision',
-                name: 'newDecision',
-                children: ['end1', null, null, 'end2'],
+        const originalStoreState = {
+            decision,
+            screen1: {
+                guid: 'screen1',
+                parent: 'decision',
+                childIndex: 0,
                 next: null
-            };
-            const originalStoreState = {
-                newDecision: {
-                    guid: 'newDecision',
-                    name: 'newDecision',
-                    children: ['end1', null, 'end2'],
-                    next: null,
-                    prev: 'branchHead'
-                },
-                end1: {
-                    guid: 'end1',
-                    name: 'end1',
-                    childIndex: 0
-                },
-                end2: {
-                    guid: 'end2',
-                    name: 'end2',
-                    childIndex: 3
-                },
-                end3: {
-                    guid: 'end3',
-                    name: 'end3',
-                    prev: 'newDecision'
-                },
-                branchHead: {
-                    guid: 'branchHead',
-                    next: 'newDecision',
-                    isTerminal: false
-                }
-            };
-            it('sets the branch head as terminal', () => {
-                const newState = flcElementsReducer(originalStoreState, {
+            },
+            screen2: {
+                guid: 'screen2',
+                parent: 'decision',
+                childIndex: 1,
+                next: null
+            },
+            screen3: {
+                guid: 'screen3',
+                parent: 'decision',
+                childIndex: 2,
+                next: null
+            }
+        };
+
+        describe('When outcomes have not changed', () => {
+            const updatedDecision = decision;
+
+            it('children should be the same', () => {
+                flcElementsReducer(originalStoreState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        canvasElement: newDecision,
-                        deletedBranchHeadGuids: ['end3'],
-                        shouldMarkBranchHeadAsTerminal: true
-                    }
+                    payload: { canvasElement: updatedDecision }
                 });
-                expect(newState.branchHead.isTerminal).toBeTruthy();
+
+                const action = actions.updateChildrenAction('decision', ['screen1', 'screen2', 'screen3', null]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...originalStoreState,
+                        decision
+                    },
+                    action
+                );
+            });
+        });
+
+        describe('When adding an outcome', () => {
+            it('should add a null entry at the before last index of children', () => {
+                const storeState = deepCopy(originalStoreState);
+
+                const updatedDecision = {
+                    guid: 'decision',
+                    children: ['screen1', 'screen2', 'screen3', null],
+                    childReferences: [
+                        {
+                            childReference: 'outcome1'
+                        },
+                        {
+                            childReference: 'outcome2'
+                        },
+                        {
+                            childReference: 'outcome3'
+                        },
+                        {
+                            childReference: 'outcome4'
+                        }
+                    ]
+                };
+
+                flcElementsReducer(storeState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: { canvasElement: updatedDecision }
+                });
+
+                const action = actions.updateChildrenAction('decision', ['screen1', 'screen2', 'screen3', null, null]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...storeState,
+                        decision
+                    },
+                    action
+                );
+            });
+        });
+
+        describe('When deleting an outcome', () => {
+            describe('should remove children entry for the branch associated with the outcome', () => {
+                it('for the leftmost outcome', () => {
+                    const storeState = deepCopy(originalStoreState);
+
+                    const updatedDecision = {
+                        guid: 'decision',
+                        children: ['screen1', 'screen2', 'screen3', null],
+                        childReferences: [
+                            {
+                                childReference: 'outcome2'
+                            },
+                            {
+                                childReference: 'outcome3'
+                            }
+                        ]
+                    };
+
+                    flcElementsReducer(storeState, {
+                        type: MODIFY_DECISION_WITH_OUTCOMES,
+                        payload: { canvasElement: updatedDecision }
+                    });
+
+                    const action = actions.updateChildrenAction('decision', ['screen2', 'screen3', null]);
+
+                    expect(reducer()).toHaveBeenLastCalledWith(
+                        {
+                            ...storeState,
+                            decision
+                        },
+                        action
+                    );
+                });
+                it('for a middle outcome', () => {
+                    const storeState = deepCopy(originalStoreState);
+
+                    const updatedDecision = {
+                        guid: 'decision',
+                        children: ['screen1', 'screen2', 'screen3', null],
+                        childReferences: [
+                            {
+                                childReference: 'outcome1'
+                            },
+                            {
+                                childReference: 'outcome3'
+                            }
+                        ]
+                    };
+
+                    flcElementsReducer(storeState, {
+                        type: MODIFY_DECISION_WITH_OUTCOMES,
+                        payload: { canvasElement: updatedDecision }
+                    });
+
+                    const action = actions.updateChildrenAction('decision', ['screen1', 'screen3', null]);
+
+                    expect(reducer()).toHaveBeenLastCalledWith(
+                        {
+                            ...storeState,
+                            decision
+                        },
+                        action
+                    );
+                });
+
+                it('for the rightmost outcome', () => {
+                    const storeState = deepCopy(originalStoreState);
+
+                    const updatedDecision = {
+                        guid: 'decision',
+                        children: ['screen1', 'screen2', 'screen3', null],
+                        childReferences: [
+                            {
+                                childReference: 'outcome1'
+                            },
+                            {
+                                childReference: 'outcome2'
+                            }
+                        ]
+                    };
+
+                    flcElementsReducer(storeState, {
+                        type: MODIFY_DECISION_WITH_OUTCOMES,
+                        payload: { canvasElement: updatedDecision }
+                    });
+
+                    const action = actions.updateChildrenAction('decision', ['screen1', 'screen2', null]);
+
+                    expect(reducer()).toHaveBeenLastCalledWith(
+                        {
+                            ...storeState,
+                            decision
+                        },
+                        action
+                    );
+                });
+            });
+        });
+
+        describe('When reordering outcomes', () => {
+            it('should reorder the entries of the children', () => {
+                const storeState = deepCopy(originalStoreState);
+
+                const updatedDecision = {
+                    guid: 'decision',
+                    children: ['screen1', 'screen2', 'screen3', null],
+                    childReferences: [
+                        {
+                            childReference: 'outcome3'
+                        },
+                        {
+                            childReference: 'outcome1'
+                        },
+                        {
+                            childReference: 'outcome2'
+                        }
+                    ]
+                };
+
+                flcElementsReducer(storeState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: { canvasElement: updatedDecision }
+                });
+
+                const action = actions.updateChildrenAction('decision', ['screen3', 'screen1', 'screen2', null]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...storeState,
+                        decision
+                    },
+                    action
+                );
+            });
+        });
+
+        describe('When adding, deleting and reordering outcomes', () => {
+            it('should update the children accordingly', () => {
+                const storeState = deepCopy(originalStoreState);
+
+                const updatedDecision = {
+                    guid: 'decision',
+                    children: ['screen1', 'screen2', 'screen3', null],
+                    childReferences: [
+                        {
+                            childReference: 'outcome2'
+                        },
+                        {
+                            childReference: 'outcome4'
+                        },
+                        {
+                            childReference: 'outcome1'
+                        },
+                        {
+                            childReference: 'outcome5'
+                        }
+                    ]
+                };
+
+                flcElementsReducer(storeState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: { canvasElement: updatedDecision }
+                });
+
+                const action = actions.updateChildrenAction('decision', ['screen2', null, 'screen1', null, null]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...storeState,
+                        decision
+                    },
+                    action
+                );
             });
         });
     });
 
-    describe('Selection/Deselection of an Element', () => {
+    describe('When SELECTION_ON_FIXED_CANVAS', () => {
         let elements;
         beforeEach(() => {
             elements = {
@@ -747,34 +622,23 @@ describe('elements-reducer', () => {
         });
     });
 
-    describe('Add Fault', () => {
-        it('should add a fault to the an element and create a fault flow with a single end element', () => {
-            const elementToAddFault = {
-                guid: 'element-to-add-fault-guid'
-            };
+    describe('When ADD_FAULT', () => {
+        it('dispatches a AddFault action', () => {
+            const guid = 'element-with-fault-guid';
 
-            const elements = {
-                [elementToAddFault.guid]: elementToAddFault
-            };
+            const flowModel = {};
 
-            flcElementsReducer(elements, {
+            flcElementsReducer(flowModel, {
                 type: ADD_FAULT,
-                payload: elementToAddFault.guid
+                payload: guid
             });
 
-            const endElement = {
-                guid: 'end-element-guid'
-            };
-
-            const expectedState = { ...elements, [endElement.guid]: endElement };
-            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'end-element-guid' }, expectedState);
-            expect(linkBranchOrFault).toHaveBeenLastCalledWith(expectedState, elementToAddFault, FAULT_INDEX, {
-                guid: 'end-element-guid'
-            });
+            const addFaultAction = actions.addFaultAction(guid);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, addFaultAction);
         });
     });
 
-    describe('Pasting elements', () => {
+    describe('When PASTE_ON_FIXED_CANVAS', () => {
         let mockStoreData;
 
         const assignment1 = {

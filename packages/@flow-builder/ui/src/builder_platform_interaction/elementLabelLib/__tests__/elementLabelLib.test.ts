@@ -117,12 +117,6 @@ jest.mock(
     { virtual: true }
 );
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 const createElement = (elementType, dataType, isCollection, storeOutputAutomatically) => ({
     elementType,
     dataType,

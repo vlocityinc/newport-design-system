@@ -1,4 +1,4 @@
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorMenuLabels';
 
@@ -139,7 +139,7 @@ export const configureMenu = (
                 isSupported
             }
         ) => {
-            if (section == null || (type === ElementType.END && !showEndElement)) {
+            if (section == null || (type === NodeType.END && !showEndElement)) {
                 return acc;
             }
 
@@ -164,7 +164,7 @@ export const configureMenu = (
                 iconClass = iconBackgroundColor;
             }
 
-            if (iconShape === ICON_SHAPE.CIRCLE && type === ElementType.END) {
+            if (iconShape === ICON_SHAPE.CIRCLE && type === NodeType.END) {
                 iconClass = `${iconClass} end-element-svg`;
                 iconSize = 'xx-small';
                 iconVariant = 'inverse';

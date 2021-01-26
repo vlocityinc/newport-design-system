@@ -14,8 +14,8 @@ import {
     baseCanvasElementsArrayToMap,
     baseChildElement,
     createCondition,
-    getUpdatedChildrenAndDeletedChildrenUsingStore,
-    updateChildReferences
+    updateChildReferences,
+    getDeletedCanvasElementChildren
 } from './base/baseElement';
 import {
     getConnectionProperties,
@@ -24,7 +24,7 @@ import {
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
-import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
@@ -396,11 +396,13 @@ export function createWaitMetadataObject(wait, config = {}) {
  *     deletedWaitEvents: waitEvent[] , waitEvents: Array, elementType: string}
  *   }
  */
+// TODO: this code is almost identical to the code in decision.ts, need to refactor
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElement(wait);
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents } = wait;
     let childReferences = [];
     let newWaitEvents = [];
+
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = waitEvents[i];
         const newWaitEvent = createWaitEvent(waitEvent);
@@ -409,14 +411,8 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     }
 
     const maxConnections = newWaitEvents.length + 2;
-    const {
-        newChildren,
-        deletedCanvasElementChildren,
-        deletedBranchHeadGuids,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
-    } = getUpdatedChildrenAndDeletedChildrenUsingStore(wait, newWaitEvents);
+
+    const deletedCanvasElementChildren = getDeletedCanvasElementChildren(wait, newWaitEvents);
     const deletedWaitEventGuids = deletedCanvasElementChildren.map((waitEvent) => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
@@ -447,31 +443,20 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         connectorCount += 1;
     }
 
-    if (shouldUseAutoLayoutCanvas()) {
-        Object.assign(newWait, {
-            children: newChildren
-        });
-    }
-
     Object.assign(newWait, {
         childReferences,
         elementType,
         defaultConnectorLabel,
         maxConnections,
         connectorCount,
-        availableConnections,
-        next: shouldMarkBranchHeadAsTerminal ? null : newWait.next
+        availableConnections
     });
 
     return {
         canvasElement: newWait,
         deletedChildElementGuids: deletedWaitEventGuids,
         childElements: newWaitEvents,
-        deletedBranchHeadGuids,
-        elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS,
-        shouldAddEndElement,
-        newEndElementIdx,
-        shouldMarkBranchHeadAsTerminal
+        elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS
     };
 }
 

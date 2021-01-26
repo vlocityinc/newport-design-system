@@ -4,12 +4,6 @@ import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import PaletteItem from 'builder_platform_interaction/paletteItem';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        shouldUseAutoLayoutCanvas: jest.fn()
-    };
-});
-
 const ELEMENT_TYPE = 'myElementType';
 const GUID = 'myGuid';
 const LABEL = 'myLabel';

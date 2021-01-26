@@ -1,13 +1,27 @@
 // @ts-nocheck
-import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType, ElementMetadata, ElementsMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
-import { getProcessType, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 const { NONE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+
+// TODO: find better solution to share metadata between modules, eg in ElementService
+let elementsMetadata: ElementsMetadata = {};
+
+export function setElementsMetadata(metadata: ElementMetadata[]) {
+    elementsMetadata = metadata.reduce((acc, elementMetadata) => {
+        acc[elementMetadata.elementType] = elementMetadata;
+        return acc;
+    }, {});
+}
+
+export function getElementsMetadata() {
+    return elementsMetadata;
+}
 
 /**
  * @return true iff an element can have children
@@ -26,19 +40,19 @@ export function getFlcElementType(elementType) {
     switch (elementType) {
         case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.WAIT:
-            return ElementType.BRANCH;
+            return NodeType.BRANCH;
         case ELEMENT_TYPE.LOOP:
-            return ElementType.LOOP;
+            return NodeType.LOOP;
         case ELEMENT_TYPE.START_ELEMENT:
-            return ElementType.START;
+            return NodeType.START;
         case ELEMENT_TYPE.END_ELEMENT:
-            return ElementType.END;
+            return NodeType.END;
         case ELEMENT_TYPE.ROOT_ELEMENT:
-            return ElementType.ROOT;
+            return NodeType.ROOT;
         case ELEMENT_TYPE.ORCHESTRATED_STAGE:
-            return ElementType.ORCHESTRATED_STAGE;
+            return NodeType.ORCHESTRATED_STAGE;
         default:
-            return ElementType.DEFAULT;
+            return NodeType.DEFAULT;
     }
 }
 
@@ -53,26 +67,24 @@ export const flcExtraProps = [
     'parent',
     'childIndex',
     'isTerminal',
-    'fault'
+    'fault',
+    'nodeType'
 ];
 
 /**
- * Adds flc props that are not undefined to an object
- * @param {*} object Object to add flc props to
- * @param {*} flcProperties Object containing flc props
+ * Copy Flc extra props from on element to another
+ *
+ * @param fromElement - The element to copy from
+ * @param toElement - The element to copy to
  */
-export function addFlcProperties(object, flcProperties) {
-    if (shouldUseAutoLayoutCanvas()) {
-        flcExtraProps.forEach((propName) => {
-            const propValue = flcProperties[propName];
-            if (propValue !== undefined) {
-                object[propName] = propValue;
-            }
-        });
-    }
-
-    return object;
-}
+export const copyFlcExtraProps = (fromElement, toElement) => {
+    flcExtraProps.forEach((prop) => {
+        const value = fromElement[prop];
+        if (value) {
+            toElement[prop] = value;
+        }
+    });
+};
 
 export const startElementDescription = (triggerType) => {
     if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
@@ -120,29 +132,3 @@ export const hasContext = (triggerType) => {
 export function findStartElement(elements: UI.Elements): UI.Start | BranchHeadNodeModel {
     return Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT)!;
 }
-
-function createElementHelper(elementType: string, guid: UI.Guid) {
-    return {
-        elementType,
-        guid,
-        label: elementType,
-        value: elementType,
-        text: elementType,
-        name: elementType,
-        prev: null,
-        next: null,
-        incomingGoTo: []
-    };
-}
-
-/**
- * Creates a root element and links it with the start element
- *
- * @param startElementGuid - The start element
- */
-export const createRootElement = () => {
-    return {
-        ...createElementHelper(ELEMENT_TYPE.ROOT_ELEMENT, ElementType.ROOT),
-        children: []
-    };
-};

@@ -8,6 +8,7 @@ export default {
             isCanvasElement: true,
             connectorCount: 1,
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -50,6 +51,7 @@ export default {
                 }
             ],
             elementType: 'Decision',
+            nodeType: 'branch',
             maxConnections: 2,
             availableConnections: [],
             next: null,
@@ -79,6 +81,7 @@ export default {
             ],
             isTerminal: true,
             elementType: 'Decision',
+            nodeType: 'branch',
             maxConnections: 2,
             availableConnections: [],
             prev: null,
@@ -107,6 +110,7 @@ export default {
                 hasError: false
             },
             elementType: 'Screen',
+            nodeType: 'default',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -141,6 +145,7 @@ export default {
                 hasError: false
             },
             elementType: 'Screen',
+            nodeType: 'default',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -164,6 +169,7 @@ export default {
         'end-element-guid (screen-left-element-guid)': {
             guid: 'end-element-guid (screen-left-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'screen-left-element-guid',
             next: null,
             isCanvasElement: true,
@@ -177,6 +183,7 @@ export default {
         'end-element-guid (screen-right-element-guid)': {
             guid: 'end-element-guid (screen-right-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             prev: 'screen-right-element-guid',
             next: null,
             isCanvasElement: true,
@@ -190,6 +197,7 @@ export default {
         'end-element-guid (decision-element-guid)': {
             guid: 'end-element-guid (decision-element-guid)',
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             isTerminal: true,
             parent: 'decision-element-guid',
             childIndex: 1,
@@ -222,6 +230,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',

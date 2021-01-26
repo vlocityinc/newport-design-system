@@ -1,7 +1,7 @@
 import panzoom from 'panzoom';
 
 import { assertInDev } from './assertUtils';
-
+import reducer from './reducer';
 import { animate } from './animate';
 import { renderFlow } from './flowRenderer';
 import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo, clearDeletionPathInfo } from './interactionUtils';
@@ -10,7 +10,7 @@ import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 import { Geometry } from './svgUtils';
 
 import MenuType from './MenuType';
-import ElementType from './ElementType';
+import NodeType from './NodeType';
 import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 
@@ -25,6 +25,8 @@ import {
     NodeDimensionMap,
     Dimension
 } from './flowRendererUtils';
+
+export * as actions from './reducer';
 
 export {
     Guid,
@@ -45,7 +47,6 @@ export {
 } from './model';
 
 export {
-    addElementToState,
     linkElement,
     deleteBranchHeadProperties,
     linkBranchOrFault,
@@ -53,20 +54,16 @@ export {
     findLastElement,
     findFirstElement,
     findParentElement,
-    deleteElement,
-    addElement,
-    deleteFault,
     getChild,
     getTargetGuidsForBranchReconnect,
     deleteBranch,
-    reconnectBranchElement,
-    DELETE_ALL,
     areAllBranchesTerminals,
     assertAutoLayoutState,
-    inlineBranches,
     resolveParent,
     resolveBranchHead,
-    isRoot
+    isRoot,
+    InsertAt,
+    createRootElement
 } from './modelUtils';
 
 export {
@@ -81,7 +78,7 @@ export {
     calculateFlowLayout,
     getBranchLayoutKey,
     MenuType,
-    ElementType,
+    NodeType,
     ConnectorType,
     ConnectorLabelType,
     ConnectorVariant,
@@ -93,5 +90,6 @@ export {
     FlowRenderContext,
     FlowInteractionState,
     NodeDimensionMap,
-    Dimension
+    Dimension,
+    reducer
 };

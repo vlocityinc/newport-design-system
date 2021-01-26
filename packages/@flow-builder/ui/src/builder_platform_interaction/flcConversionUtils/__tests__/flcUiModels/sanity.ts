@@ -16,6 +16,7 @@ export default {
                 hasError: false
             },
             elementType: 'START_ELEMENT',
+            nodeType: 'start',
             maxConnections: 1,
             triggerType: 'None',
             filterType: 'all',
@@ -41,6 +42,7 @@ export default {
             prev: 'start-element-guid',
             next: null,
             elementType: 'END_ELEMENT',
+            nodeType: 'end',
             isCanvasElement: true,
             config: {
                 isSelected: false,
@@ -51,6 +53,7 @@ export default {
         },
         root: {
             elementType: 'root',
+            nodeType: 'root',
             guid: 'root',
             label: 'root',
             value: 'root',
