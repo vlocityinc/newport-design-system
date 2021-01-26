@@ -6,7 +6,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"About Me",
       "sortable":true,
       "creatable":true,
@@ -23,7 +25,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "AccountId":{
       "filterable":true,
@@ -31,7 +35,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":true,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Account ID",
       "sortable":true,
       "creatable":false,
@@ -48,7 +54,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Address":{
       "filterable":true,
@@ -56,7 +64,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Address",
       "sortable":false,
       "creatable":false,
@@ -73,7 +83,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"ADDRESS"
     },
     "Alias":{
       "filterable":true,
@@ -81,7 +93,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Alias",
       "sortable":true,
       "creatable":true,
@@ -98,7 +112,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BadgeText":{
       "filterable":true,
@@ -106,7 +122,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"User Photo badge text overlay",
       "sortable":true,
       "creatable":false,
@@ -123,7 +141,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BannerPhotoId":{
       "filterable":true,
@@ -131,7 +151,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Photo ID",
       "sortable":true,
       "creatable":false,
@@ -148,7 +170,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "BannerPhotoUrl":{
       "filterable":true,
@@ -156,7 +180,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Url for banner photo",
       "sortable":true,
       "creatable":false,
@@ -173,7 +199,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"URL"
     },
     "CallCenterId":{
       "filterable":true,
@@ -181,7 +209,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Call Center ID",
       "sortable":true,
       "creatable":true,
@@ -198,7 +228,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "ChatterAdoptionStage":{
       "filterable":true,
@@ -206,7 +238,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Chatter Adoption Stage",
       "sortable":true,
       "creatable":false,
@@ -238,7 +272,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "ChatterAdoptionStageModifiedDate":{
       "filterable":true,
@@ -246,7 +282,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Chatter Adoption Stage Modified Date",
       "sortable":true,
       "creatable":false,
@@ -263,7 +301,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "City":{
       "filterable":true,
@@ -271,7 +311,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Address",
       "label":"City",
       "sortable":true,
       "creatable":true,
@@ -288,7 +330,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "CommunityNickname":{
       "filterable":true,
@@ -296,7 +340,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Nickname",
       "sortable":true,
       "creatable":true,
@@ -313,7 +359,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "CompanyName":{
       "filterable":true,
@@ -321,7 +369,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Company Name",
       "sortable":true,
       "creatable":true,
@@ -338,7 +388,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ContactId":{
       "filterable":true,
@@ -346,7 +398,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Contact ID",
       "sortable":true,
       "creatable":true,
@@ -363,7 +417,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Country":{
       "filterable":true,
@@ -371,7 +427,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Address",
       "label":"Country",
       "sortable":true,
       "creatable":true,
@@ -388,7 +446,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "CreatedById":{
       "filterable":true,
@@ -396,7 +456,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":true,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Created By ID",
       "sortable":true,
       "creatable":false,
@@ -413,7 +475,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "CreatedDate":{
       "filterable":true,
@@ -421,7 +485,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Created Date",
       "sortable":true,
       "creatable":false,
@@ -438,7 +504,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "CurrencyIsoCode":{
       "filterable":true,
@@ -446,7 +514,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Currency ISO Code",
       "sortable":true,
       "creatable":true,
@@ -474,7 +544,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "DefaultCurrencyIsoCode":{
       "filterable":true,
@@ -482,7 +554,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Default Currency ISO Code",
       "sortable":true,
       "creatable":true,
@@ -510,7 +584,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "DefaultDivision":{
       "filterable":true,
@@ -518,7 +594,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Division ID",
       "sortable":true,
       "creatable":true,
@@ -538,7 +616,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "DefaultGroupNotificationFrequency":{
       "filterable":true,
@@ -546,7 +626,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Default Notification Frequency when Joining Groups",
       "sortable":true,
       "creatable":true,
@@ -578,7 +660,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "DelegatedApproverId":{
       "filterable":true,
@@ -586,7 +670,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Delegated Approver ID",
       "sortable":true,
       "creatable":true,
@@ -604,7 +690,9 @@
 
       ],
       "isPolymorphic":true,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Department":{
       "filterable":true,
@@ -612,7 +700,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Department",
       "sortable":true,
       "creatable":true,
@@ -629,7 +719,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "DigestFrequency":{
       "filterable":true,
@@ -637,7 +729,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Chatter Email Highlights Frequency",
       "sortable":true,
       "creatable":true,
@@ -665,7 +759,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "Division":{
       "filterable":true,
@@ -673,7 +769,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Division",
       "sortable":true,
       "creatable":true,
@@ -690,7 +788,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "Email":{
       "filterable":true,
@@ -698,7 +798,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Email",
       "sortable":true,
       "creatable":true,
@@ -715,7 +817,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"EMAIL"
     },
     "EmailEncodingKey":{
       "filterable":true,
@@ -723,7 +827,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Email Encoding",
       "sortable":true,
       "creatable":true,
@@ -779,7 +885,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "EmailPreferencesAutoBcc":{
       "filterable":true,
@@ -787,7 +895,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"AutoBcc",
       "sortable":false,
       "creatable":true,
@@ -804,7 +914,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "EmailPreferencesAutoBccStayInTouch":{
       "filterable":true,
@@ -812,7 +924,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"AutoBccStayInTouch",
       "sortable":false,
       "creatable":true,
@@ -829,7 +943,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "EmailPreferencesStayInTouchReminder":{
       "filterable":true,
@@ -837,7 +953,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"StayInTouchReminder",
       "sortable":false,
       "creatable":true,
@@ -854,7 +972,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "EmployeeNumber":{
       "filterable":true,
@@ -862,7 +982,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Employee Number",
       "sortable":true,
       "creatable":true,
@@ -879,7 +1001,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "Extension":{
       "filterable":true,
@@ -887,7 +1011,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Extension",
       "sortable":true,
       "creatable":true,
@@ -904,7 +1030,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PHONE"
     },
     "Fax":{
       "filterable":true,
@@ -912,7 +1040,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Fax",
       "sortable":true,
       "creatable":true,
@@ -929,7 +1059,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PHONE"
     },
     "FederationIdentifier":{
       "filterable":true,
@@ -937,7 +1069,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"SAML Federation ID",
       "sortable":true,
       "creatable":true,
@@ -954,7 +1088,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "FirstName":{
       "filterable":true,
@@ -962,7 +1098,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Name",
       "label":"First Name",
       "sortable":true,
       "creatable":true,
@@ -979,7 +1117,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "ForecastEnabled":{
       "filterable":true,
@@ -987,7 +1127,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Allow Forecasting",
       "sortable":true,
       "creatable":true,
@@ -1004,7 +1146,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "FullPhotoUrl":{
       "filterable":true,
@@ -1012,7 +1156,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Url for full-sized Photo",
       "sortable":true,
       "creatable":false,
@@ -1029,7 +1175,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"URL"
     },
     "GeocodeAccuracy":{
       "filterable":true,
@@ -1037,7 +1185,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":"Address",
       "label":"Geocode Accuracy",
       "sortable":true,
       "creatable":true,
@@ -1097,7 +1247,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "Id":{
       "filterable":true,
@@ -1105,7 +1257,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"User ID",
       "sortable":true,
       "creatable":false,
@@ -1122,7 +1276,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "IndividualId":{
       "filterable":true,
@@ -1130,7 +1286,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Individual ID",
       "sortable":true,
       "creatable":true,
@@ -1147,7 +1305,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "IsActive":{
       "filterable":true,
@@ -1155,7 +1315,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Active",
       "sortable":true,
       "creatable":true,
@@ -1172,7 +1334,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "IsExtIndicatorVisible":{
       "filterable":true,
@@ -1180,7 +1344,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Show external indicator",
       "sortable":true,
       "creatable":false,
@@ -1197,7 +1363,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "IsProfilePhotoActive":{
       "filterable":true,
@@ -1205,7 +1373,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Has Profile Photo",
       "sortable":true,
       "creatable":false,
@@ -1222,7 +1392,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "IsSystemControlled":{
       "filterable":true,
@@ -1230,7 +1402,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Is Controlled By System",
       "sortable":true,
       "creatable":false,
@@ -1247,7 +1421,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "LanguageLocaleKey":{
       "filterable":true,
@@ -1255,7 +1431,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Language",
       "sortable":true,
       "creatable":true,
@@ -1343,7 +1521,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "LastDashboardId":{
       "filterable":true,
@@ -1351,7 +1531,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Dashboard ID",
       "sortable":true,
       "creatable":false,
@@ -1368,7 +1550,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "LastLoginDate":{
       "filterable":true,
@@ -1376,7 +1560,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Login",
       "sortable":true,
       "creatable":false,
@@ -1393,7 +1579,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastLoginMessageDate":{
       "filterable":true,
@@ -1401,7 +1589,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Login Message Date",
       "sortable":true,
       "creatable":true,
@@ -1418,7 +1608,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastModifiedById":{
       "filterable":true,
@@ -1426,7 +1618,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":true,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Last Modified By ID",
       "sortable":true,
       "creatable":false,
@@ -1443,7 +1637,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "LastModifiedDate":{
       "filterable":true,
@@ -1451,7 +1647,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Modified Date",
       "sortable":true,
       "creatable":false,
@@ -1468,7 +1666,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastName":{
       "filterable":true,
@@ -1476,7 +1676,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Name",
       "label":"Last Name",
       "sortable":true,
       "creatable":true,
@@ -1493,7 +1695,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "LastPasswordChangeDate":{
       "filterable":true,
@@ -1501,7 +1705,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Password Change or Reset",
       "sortable":true,
       "creatable":false,
@@ -1518,7 +1724,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastPricebookId":{
       "filterable":true,
@@ -1526,7 +1734,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Price Book ID",
       "sortable":true,
       "creatable":false,
@@ -1543,7 +1753,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "LastReferencedDate":{
       "filterable":true,
@@ -1551,7 +1763,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Referenced Date",
       "sortable":true,
       "creatable":false,
@@ -1568,7 +1782,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastTabSetId":{
       "filterable":true,
@@ -1576,7 +1792,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Custom App ID",
       "sortable":true,
       "creatable":false,
@@ -1593,7 +1811,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "LastViewedDate":{
       "filterable":true,
@@ -1601,7 +1821,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Viewed Date",
       "sortable":true,
       "creatable":false,
@@ -1618,7 +1840,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "Latitude":{
       "filterable":true,
@@ -1626,7 +1850,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"Address",
       "label":"Latitude",
       "sortable":true,
       "creatable":true,
@@ -1643,7 +1869,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "LocaleSidKey":{
       "filterable":true,
@@ -1651,7 +1879,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Locale",
       "sortable":true,
       "creatable":true,
@@ -2551,7 +2781,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "Longitude":{
       "filterable":true,
@@ -2559,7 +2791,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"Address",
       "label":"Longitude",
       "sortable":true,
       "creatable":true,
@@ -2576,7 +2810,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "ManagerId":{
       "filterable":true,
@@ -2584,7 +2820,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Manager ID",
       "sortable":true,
       "creatable":true,
@@ -2601,7 +2839,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "MediumBannerPhotoUrl":{
       "filterable":true,
@@ -2609,7 +2849,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Url for Android banner photo",
       "sortable":true,
       "creatable":false,
@@ -2626,7 +2868,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"URL"
     },
     "MediumPhotoUrl":{
       "filterable":true,
@@ -2634,7 +2878,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Url for medium profile photo",
       "sortable":true,
       "creatable":false,
@@ -2651,7 +2897,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"IMAGE_URL",
+      "fieldDataType":"URL"
     },
     "MiddleName":{
       "filterable":true,
@@ -2659,7 +2907,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Name",
       "label":"Middle Name",
       "sortable":true,
       "creatable":true,
@@ -2676,7 +2926,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "MobilePhone":{
       "filterable":true,
@@ -2684,7 +2936,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Mobile",
       "sortable":true,
       "creatable":true,
@@ -2701,7 +2955,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PHONE"
     },
     "Name":{
       "filterable":true,
@@ -2709,7 +2965,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Full Name",
       "sortable":true,
       "creatable":false,
@@ -2726,7 +2984,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "NumberOfFailedLogins":{
       "filterable":true,
@@ -2734,7 +2994,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Failed Login Attempts",
       "sortable":true,
       "creatable":false,
@@ -2751,7 +3013,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"INT"
     },
     "OfflinePdaTrialExpirationDate":{
       "filterable":true,
@@ -2759,7 +3023,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Sales Anywhere Trial Expiration Date",
       "sortable":true,
       "creatable":false,
@@ -2776,7 +3042,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "OfflineTrialExpirationDate":{
       "filterable":true,
@@ -2784,7 +3052,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Offline Edition Trial Expiration Date",
       "sortable":true,
       "creatable":false,
@@ -2801,7 +3071,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "OutOfOfficeMessage":{
       "filterable":true,
@@ -2809,7 +3081,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Out of office message",
       "sortable":true,
       "creatable":false,
@@ -2826,7 +3100,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "PersonId":{
       "filterable":true,
@@ -2834,7 +3110,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Person ID",
       "sortable":true,
       "creatable":true,
@@ -2855,7 +3133,9 @@
 
       ],
       "isPolymorphic":true,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Phone":{
       "filterable":true,
@@ -2863,7 +3143,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Phone",
       "sortable":true,
       "creatable":true,
@@ -2880,7 +3162,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PHONE"
     },
     "PostalCode":{
       "filterable":true,
@@ -2888,7 +3172,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Address",
       "label":"Zip/Postal Code",
       "sortable":true,
       "creatable":true,
@@ -2905,7 +3191,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ProfileId":{
       "filterable":true,
@@ -2913,7 +3201,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Profile ID",
       "sortable":true,
       "creatable":true,
@@ -2930,7 +3220,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "ProfilePhotoId":{
       "filterable":true,
@@ -2938,7 +3230,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Photo ID",
       "sortable":true,
       "creatable":false,
@@ -2955,7 +3249,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "RawCurrentStatus":{
       "filterable":true,
@@ -2963,7 +3259,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Raw Current Status",
       "sortable":true,
       "creatable":true,
@@ -2980,7 +3278,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "ReceivesAdminInfoEmails":{
       "filterable":true,
@@ -2988,7 +3288,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Admin Info Emails",
       "sortable":true,
       "creatable":true,
@@ -3005,7 +3307,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "ReceivesInfoEmails":{
       "filterable":true,
@@ -3013,7 +3317,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Info Emails",
       "sortable":true,
       "creatable":true,
@@ -3030,7 +3336,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "SenderEmail":{
       "filterable":true,
@@ -3038,7 +3346,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Email Sender Address",
       "sortable":true,
       "creatable":true,
@@ -3055,7 +3365,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"EMAIL"
     },
     "SenderName":{
       "filterable":true,
@@ -3063,7 +3375,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Email Sender Name",
       "sortable":true,
       "creatable":true,
@@ -3080,7 +3394,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "SharingType":{
       "filterable":true,
@@ -3088,7 +3404,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Sharing Type",
       "sortable":true,
       "creatable":false,
@@ -3105,7 +3423,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "Signature":{
       "filterable":true,
@@ -3113,7 +3433,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Email Signature",
       "sortable":true,
       "creatable":true,
@@ -3130,7 +3452,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "SmallBannerPhotoUrl":{
       "filterable":true,
@@ -3138,7 +3462,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Url for IOS banner photo",
       "sortable":true,
       "creatable":false,
@@ -3155,7 +3481,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"URL"
     },
     "SmallPhotoUrl":{
       "filterable":true,
@@ -3163,7 +3491,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Photo",
       "sortable":true,
       "creatable":false,
@@ -3180,7 +3510,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"IMAGE_URL",
+      "fieldDataType":"URL"
     },
     "State":{
       "filterable":true,
@@ -3188,7 +3520,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Address",
       "label":"State/Province",
       "sortable":true,
       "creatable":true,
@@ -3205,7 +3539,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "StayInTouchNote":{
       "filterable":true,
@@ -3213,7 +3549,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Stay-in-Touch Email Note",
       "sortable":true,
       "creatable":true,
@@ -3230,7 +3568,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "StayInTouchSignature":{
       "filterable":true,
@@ -3238,7 +3578,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Stay-in-Touch Email Signature",
       "sortable":true,
       "creatable":true,
@@ -3255,7 +3597,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "StayInTouchSubject":{
       "filterable":true,
@@ -3263,7 +3607,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Stay-in-Touch Email Subject",
       "sortable":true,
       "creatable":true,
@@ -3280,7 +3626,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "Street":{
       "filterable":true,
@@ -3288,7 +3636,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Address",
       "label":"Street",
       "sortable":true,
       "creatable":true,
@@ -3305,7 +3655,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "Suffix":{
       "filterable":true,
@@ -3313,7 +3665,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"Name",
       "label":"Suffix",
       "sortable":true,
       "creatable":true,
@@ -3330,7 +3684,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "SystemModstamp":{
       "filterable":true,
@@ -3338,7 +3694,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"System Modstamp",
       "sortable":true,
       "creatable":false,
@@ -3355,7 +3713,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "TimeZoneSidKey":{
       "filterable":true,
@@ -3363,7 +3723,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Time Zone",
       "sortable":true,
       "creatable":true,
@@ -3378,7 +3740,9 @@
       ],
       "activePicklistValues":[],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "Title":{
       "filterable":true,
@@ -3386,7 +3750,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Title",
       "sortable":true,
       "creatable":true,
@@ -3403,7 +3769,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "Username":{
       "filterable":true,
@@ -3411,7 +3779,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Username",
       "sortable":true,
       "creatable":true,
@@ -3428,7 +3798,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "UserPermissionsAvantgoUser":{
       "filterable":true,
@@ -3436,7 +3808,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"AvantGo User",
       "sortable":false,
       "creatable":true,
@@ -3453,7 +3827,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsCallCenterAutoLogin":{
       "filterable":true,
@@ -3461,7 +3837,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Auto-login To Call Center",
       "sortable":false,
       "creatable":true,
@@ -3478,7 +3856,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsChatterAnswersUser":{
       "filterable":true,
@@ -3486,7 +3866,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Chatter Answers User",
       "sortable":false,
       "creatable":true,
@@ -3503,7 +3885,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsInteractionUser":{
       "filterable":true,
@@ -3511,7 +3895,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Flow User",
       "sortable":false,
       "creatable":true,
@@ -3528,7 +3914,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsLiveAgentUser":{
       "filterable":true,
@@ -3536,7 +3924,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Chat User",
       "sortable":false,
       "creatable":true,
@@ -3553,7 +3943,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsMarketingUser":{
       "filterable":true,
@@ -3561,7 +3953,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Marketing User",
       "sortable":false,
       "creatable":true,
@@ -3578,7 +3972,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsOfflineUser":{
       "filterable":true,
@@ -3586,7 +3982,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Offline User",
       "sortable":false,
       "creatable":true,
@@ -3603,7 +4001,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsSFContentUser":{
       "filterable":true,
@@ -3611,7 +4011,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Salesforce CRM Content User",
       "sortable":false,
       "creatable":true,
@@ -3628,7 +4030,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsSupportUser":{
       "filterable":true,
@@ -3636,7 +4040,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Service Cloud User",
       "sortable":false,
       "creatable":true,
@@ -3653,7 +4059,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsWirelessUser":{
       "filterable":true,
@@ -3661,7 +4069,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Wireless User",
       "sortable":false,
       "creatable":true,
@@ -3678,7 +4088,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPermissionsWorkDotComUserFeature":{
       "filterable":true,
@@ -3686,7 +4098,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"WDC User",
       "sortable":false,
       "creatable":true,
@@ -3703,7 +4117,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesAccessibleMode":{
       "filterable":true,
@@ -3711,7 +4127,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"AccessibleMode",
       "sortable":false,
       "creatable":true,
@@ -3728,7 +4146,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesActivityRemindersPopup":{
       "filterable":true,
@@ -3736,7 +4156,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ActivityRemindersPopup",
       "sortable":false,
       "creatable":true,
@@ -3753,7 +4175,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesApexPagesDeveloperMode":{
       "filterable":true,
@@ -3761,7 +4185,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ApexPagesDeveloperMode",
       "sortable":false,
       "creatable":true,
@@ -3778,7 +4204,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCacheDiagnostics":{
       "filterable":true,
@@ -3786,7 +4214,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CacheDiagnostics",
       "sortable":false,
       "creatable":true,
@@ -3803,7 +4233,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesChartsColorblindPalette":{
       "filterable":true,
@@ -3811,7 +4243,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ChartsColorblindPalette",
       "sortable":false,
       "creatable":true,
@@ -3828,7 +4262,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNAddAGroupDescTask":{
       "filterable":true,
@@ -3836,7 +4272,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNAddAGroupDescTask",
       "sortable":false,
       "creatable":true,
@@ -3853,7 +4291,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNAddAGroupPhotoTask":{
       "filterable":true,
@@ -3861,7 +4301,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNAddAGroupPhotoTask",
       "sortable":false,
       "creatable":true,
@@ -3878,7 +4320,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNAddAPhotoTask":{
       "filterable":true,
@@ -3886,7 +4330,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNAddAPhotoTask",
       "sortable":false,
       "creatable":true,
@@ -3903,7 +4349,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNAddGroupMembersTask":{
       "filterable":true,
@@ -3911,7 +4359,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNAddGroupMembersTask",
       "sortable":false,
       "creatable":true,
@@ -3928,7 +4378,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNAddHashTagTask":{
       "filterable":true,
@@ -3936,7 +4388,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNAddHashTagTask",
       "sortable":false,
       "creatable":true,
@@ -3953,7 +4407,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNChangeGroupEmailSettingsTask":{
       "filterable":true,
@@ -3961,7 +4417,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNChangeGroupEmailSettingsTask",
       "sortable":false,
       "creatable":true,
@@ -3978,7 +4436,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNDesktopTask":{
       "filterable":true,
@@ -3986,7 +4446,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNDesktopTask",
       "sortable":false,
       "creatable":true,
@@ -4003,7 +4465,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNDownloadOfflineTask":{
       "filterable":true,
@@ -4011,7 +4475,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNDownloadOfflineTask",
       "sortable":false,
       "creatable":true,
@@ -4028,7 +4494,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNEnterContactInfoTask":{
       "filterable":true,
@@ -4036,7 +4504,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNEnterContactInfoTask",
       "sortable":false,
       "creatable":true,
@@ -4053,7 +4523,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNFollowGroupsTask":{
       "filterable":true,
@@ -4061,7 +4533,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNFollowGroupsTask",
       "sortable":false,
       "creatable":true,
@@ -4078,7 +4552,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNFollowPeopleTask":{
       "filterable":true,
@@ -4086,7 +4562,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNFollowPeopleTask",
       "sortable":false,
       "creatable":true,
@@ -4103,7 +4581,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNFollowRecordsTask":{
       "filterable":true,
@@ -4111,7 +4591,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNFollowRecordsTask",
       "sortable":false,
       "creatable":true,
@@ -4128,7 +4610,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNGetChatterMobileTask":{
       "filterable":true,
@@ -4136,7 +4620,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNGetChatterMobileTask",
       "sortable":false,
       "creatable":true,
@@ -4153,7 +4639,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNGroupTasks":{
       "filterable":true,
@@ -4161,7 +4649,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNGroupTasks",
       "sortable":false,
       "creatable":true,
@@ -4178,7 +4668,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNInvitePeopleTask":{
       "filterable":true,
@@ -4186,7 +4678,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNInvitePeopleTask",
       "sortable":false,
       "creatable":true,
@@ -4203,7 +4697,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNPeopleTasks":{
       "filterable":true,
@@ -4211,7 +4707,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNPeopleTasks",
       "sortable":false,
       "creatable":true,
@@ -4228,7 +4726,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNProfileTasks":{
       "filterable":true,
@@ -4236,7 +4736,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNProfileTasks",
       "sortable":false,
       "creatable":true,
@@ -4253,7 +4755,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNShareAFileTask":{
       "filterable":true,
@@ -4261,7 +4765,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNShareAFileTask",
       "sortable":false,
       "creatable":true,
@@ -4278,7 +4784,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNShareWhatYouAreWorkingOnTask":{
       "filterable":true,
@@ -4286,7 +4794,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNShareWhatYouAreWorkingOnTask",
       "sortable":false,
       "creatable":true,
@@ -4303,7 +4813,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNStartAGroupTask":{
       "filterable":true,
@@ -4311,7 +4823,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNStartAGroupTask",
       "sortable":false,
       "creatable":true,
@@ -4328,7 +4842,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNWatchAVideoTask":{
       "filterable":true,
@@ -4336,7 +4852,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNWatchAVideoTask",
       "sortable":false,
       "creatable":true,
@@ -4353,7 +4871,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNWriteABioTask":{
       "filterable":true,
@@ -4361,7 +4881,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNWriteABioTask",
       "sortable":false,
       "creatable":true,
@@ -4378,7 +4900,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCompleteCSNWtdnBox":{
       "filterable":true,
@@ -4386,7 +4910,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CompleteCSNWtdnBox",
       "sortable":false,
       "creatable":true,
@@ -4403,7 +4929,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesContentEmailAsAndWhen":{
       "filterable":true,
@@ -4411,7 +4939,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ContentEmailAsAndWhen",
       "sortable":false,
       "creatable":true,
@@ -4428,7 +4958,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesContentMultiUpload":{
       "filterable":true,
@@ -4436,7 +4968,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ContentMultiUpload",
       "sortable":false,
       "creatable":true,
@@ -4453,7 +4987,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesContentNoEmail":{
       "filterable":true,
@@ -4461,7 +4997,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ContentNoEmail",
       "sortable":false,
       "creatable":true,
@@ -4478,7 +5016,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesCreateLEXAppsWTShown":{
       "filterable":true,
@@ -4486,7 +5026,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"CreateLEXAppsWTShown",
       "sortable":false,
       "creatable":true,
@@ -4503,7 +5045,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDedupeStorageMigrationComplete":{
       "filterable":true,
@@ -4511,7 +5055,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DedupeStorageMigrationComplete",
       "sortable":false,
       "creatable":true,
@@ -4528,7 +5074,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableAllFeedsEmail":{
       "filterable":true,
@@ -4536,7 +5084,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableAllFeedsEmail",
       "sortable":false,
       "creatable":true,
@@ -4553,7 +5103,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableBookmarkEmail":{
       "filterable":true,
@@ -4561,7 +5113,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableBookmarkEmail",
       "sortable":false,
       "creatable":true,
@@ -4578,7 +5132,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableChangeCommentEmail":{
       "filterable":true,
@@ -4586,7 +5142,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableChangeCommentEmail",
       "sortable":false,
       "creatable":true,
@@ -4603,7 +5161,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableEndorsementEmail":{
       "filterable":true,
@@ -4611,7 +5171,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableEndorsementEmail",
       "sortable":false,
       "creatable":true,
@@ -4628,7 +5190,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableEQWalkthrough":{
       "filterable":true,
@@ -4636,7 +5200,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableEQWalkthrough",
       "sortable":false,
       "creatable":true,
@@ -4653,7 +5219,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableFeedbackEmail":{
       "filterable":true,
@@ -4661,7 +5229,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableFeedbackEmail",
       "sortable":false,
       "creatable":true,
@@ -4678,7 +5248,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableFileShareNotificationsForApi":{
       "filterable":true,
@@ -4686,7 +5258,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableFileShareNotificationsForApi",
       "sortable":false,
       "creatable":true,
@@ -4703,7 +5277,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableFollowersEmail":{
       "filterable":true,
@@ -4711,7 +5287,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableFollowersEmail",
       "sortable":false,
       "creatable":true,
@@ -4728,7 +5306,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableGroupCommentEmail":{
       "filterable":true,
@@ -4736,7 +5316,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableGroupCommentEmail",
       "sortable":false,
       "creatable":true,
@@ -4753,7 +5335,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableGroupPostEmail":{
       "filterable":true,
@@ -4761,7 +5345,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableGroupPostEmail",
       "sortable":false,
       "creatable":true,
@@ -4778,7 +5364,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableLaterCommentEmail":{
       "filterable":true,
@@ -4786,7 +5374,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableLaterCommentEmail",
       "sortable":false,
       "creatable":true,
@@ -4803,7 +5393,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableLikeEmail":{
       "filterable":true,
@@ -4811,7 +5403,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableLikeEmail",
       "sortable":false,
       "creatable":true,
@@ -4828,7 +5422,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableMentionsPostEmail":{
       "filterable":true,
@@ -4836,7 +5432,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableMentionsPostEmail",
       "sortable":false,
       "creatable":true,
@@ -4853,7 +5451,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableMessageEmail":{
       "filterable":true,
@@ -4861,7 +5461,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableMessageEmail",
       "sortable":false,
       "creatable":true,
@@ -4878,7 +5480,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisablePendingReviewEmail":{
       "filterable":true,
@@ -4886,7 +5490,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisablePendingReviewEmail",
       "sortable":false,
       "creatable":true,
@@ -4903,7 +5509,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableProfilePostEmail":{
       "filterable":true,
@@ -4911,7 +5519,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableProfilePostEmail",
       "sortable":false,
       "creatable":true,
@@ -4928,7 +5538,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableRewardEmail":{
       "filterable":true,
@@ -4936,7 +5548,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableRewardEmail",
       "sortable":false,
       "creatable":true,
@@ -4953,7 +5567,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSccEmail":{
       "filterable":true,
@@ -4961,7 +5577,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSccEmail",
       "sortable":false,
       "creatable":true,
@@ -4978,7 +5596,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSharePostEmail":{
       "filterable":true,
@@ -4986,7 +5606,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSharePostEmail",
       "sortable":false,
       "creatable":true,
@@ -5003,7 +5625,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSocialProfiles":{
       "filterable":true,
@@ -5011,7 +5635,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSocialProfiles",
       "sortable":false,
       "creatable":true,
@@ -5028,7 +5654,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSocialProfilesFB":{
       "filterable":true,
@@ -5036,7 +5664,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSocialProfilesFB",
       "sortable":false,
       "creatable":true,
@@ -5053,7 +5683,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSocialProfilesLI":{
       "filterable":true,
@@ -5061,7 +5693,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSocialProfilesLI",
       "sortable":false,
       "creatable":true,
@@ -5078,7 +5712,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSocialProfilesTW":{
       "filterable":true,
@@ -5086,7 +5722,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSocialProfilesTW",
       "sortable":false,
       "creatable":true,
@@ -5103,7 +5741,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableSocialProfilesYT":{
       "filterable":true,
@@ -5111,7 +5751,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableSocialProfilesYT",
       "sortable":false,
       "creatable":true,
@@ -5128,7 +5770,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisableWorkEmail":{
       "filterable":true,
@@ -5136,7 +5780,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisableWorkEmail",
       "sortable":false,
       "creatable":true,
@@ -5153,7 +5799,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisCommentAfterLikeEmail":{
       "filterable":true,
@@ -5161,7 +5809,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisCommentAfterLikeEmail",
       "sortable":false,
       "creatable":true,
@@ -5178,7 +5828,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisMentionsCommentEmail":{
       "filterable":true,
@@ -5186,7 +5838,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisMentionsCommentEmail",
       "sortable":false,
       "creatable":true,
@@ -5203,7 +5857,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesDisProfPostCommentEmail":{
       "filterable":true,
@@ -5211,7 +5867,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"DisProfPostCommentEmail",
       "sortable":false,
       "creatable":true,
@@ -5228,7 +5886,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesEnableAutoSubForFeeds":{
       "filterable":true,
@@ -5236,7 +5896,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"EnableAutoSubForFeeds",
       "sortable":false,
       "creatable":true,
@@ -5253,7 +5915,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesEventRemindersCheckboxDefault":{
       "filterable":true,
@@ -5261,7 +5925,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"EventRemindersCheckboxDefault",
       "sortable":false,
       "creatable":true,
@@ -5278,7 +5944,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesExcludeMailAppAttachments":{
       "filterable":true,
@@ -5286,7 +5954,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ExcludeMailAppAttachments",
       "sortable":false,
       "creatable":true,
@@ -5303,7 +5973,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesFavoritesShowTopFavorites":{
       "filterable":true,
@@ -5311,7 +5983,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"FavoritesShowTopFavorites",
       "sortable":false,
       "creatable":true,
@@ -5328,7 +6002,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesFavoritesWTShown":{
       "filterable":true,
@@ -5336,7 +6012,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"FavoritesWTShown",
       "sortable":false,
       "creatable":true,
@@ -5353,7 +6031,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesFirstTimeInLightning":{
       "filterable":true,
@@ -5361,7 +6041,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"FirstTimeInLightning",
       "sortable":false,
       "creatable":true,
@@ -5378,7 +6060,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesGlobalNavBarWTShown":{
       "filterable":true,
@@ -5386,7 +6070,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"GlobalNavBarWTShown",
       "sortable":false,
       "creatable":true,
@@ -5403,7 +6089,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesGlobalNavGridMenuWTShown":{
       "filterable":true,
@@ -5411,7 +6099,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"GlobalNavGridMenuWTShown",
       "sortable":false,
       "creatable":true,
@@ -5428,7 +6118,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesGoogleTalkCollapsed":{
       "filterable":true,
@@ -5436,7 +6128,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"GoogleTalkCollapsed",
       "sortable":false,
       "creatable":true,
@@ -5453,7 +6147,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHasCelebrationBadge":{
       "filterable":true,
@@ -5461,7 +6157,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HasCelebrationBadge",
       "sortable":false,
       "creatable":true,
@@ -5478,7 +6176,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHasShownEACForEveryonePopup":{
       "filterable":true,
@@ -5486,7 +6186,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HasShownEACForEveryonePopup",
       "sortable":false,
       "creatable":true,
@@ -5503,7 +6205,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideAtMentionsHelpBubble":{
       "filterable":true,
@@ -5511,7 +6215,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideAtMentionsHelpBubble",
       "sortable":false,
       "creatable":true,
@@ -5528,7 +6234,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideBiggerPhotoCallout":{
       "filterable":true,
@@ -5536,7 +6244,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideBiggerPhotoCallout",
       "sortable":false,
       "creatable":true,
@@ -5553,7 +6263,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideChatterOnboardingSplash":{
       "filterable":true,
@@ -5561,7 +6273,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideChatterOnboardingSplash",
       "sortable":false,
       "creatable":true,
@@ -5578,7 +6292,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNAddAGroupDescTask":{
       "filterable":true,
@@ -5586,7 +6302,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNAddAGroupDescTask",
       "sortable":false,
       "creatable":true,
@@ -5603,7 +6321,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNAddAGroupPhotoTask":{
       "filterable":true,
@@ -5611,7 +6331,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNAddAGroupPhotoTask",
       "sortable":false,
       "creatable":true,
@@ -5628,7 +6350,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNAddAPhotoTask":{
       "filterable":true,
@@ -5636,7 +6360,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNAddAPhotoTask",
       "sortable":false,
       "creatable":true,
@@ -5653,7 +6379,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNAddGroupMembersTask":{
       "filterable":true,
@@ -5661,7 +6389,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNAddGroupMembersTask",
       "sortable":false,
       "creatable":true,
@@ -5678,7 +6408,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNAddHashTagTask":{
       "filterable":true,
@@ -5686,7 +6418,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNAddHashTagTask",
       "sortable":false,
       "creatable":true,
@@ -5703,7 +6437,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNChangeGroupEmailSettingsTask":{
       "filterable":true,
@@ -5711,7 +6447,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNChangeGroupEmailSettingsTask",
       "sortable":false,
       "creatable":true,
@@ -5728,7 +6466,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNDesktopTask":{
       "filterable":true,
@@ -5736,7 +6476,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNDesktopTask",
       "sortable":false,
       "creatable":true,
@@ -5753,7 +6495,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNDownloadOfflineTask":{
       "filterable":true,
@@ -5761,7 +6505,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNDownloadOfflineTask",
       "sortable":false,
       "creatable":true,
@@ -5778,7 +6524,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNEnterContactInfoTask":{
       "filterable":true,
@@ -5786,7 +6534,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNEnterContactInfoTask",
       "sortable":false,
       "creatable":true,
@@ -5803,7 +6553,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNFollowGroupsTask":{
       "filterable":true,
@@ -5811,7 +6563,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNFollowGroupsTask",
       "sortable":false,
       "creatable":true,
@@ -5828,7 +6582,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNFollowPeopleTask":{
       "filterable":true,
@@ -5836,7 +6592,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNFollowPeopleTask",
       "sortable":false,
       "creatable":true,
@@ -5853,7 +6611,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNFollowRecordsTask":{
       "filterable":true,
@@ -5861,7 +6621,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNFollowRecordsTask",
       "sortable":false,
       "creatable":true,
@@ -5878,7 +6640,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNGetChatterMobileTask":{
       "filterable":true,
@@ -5886,7 +6650,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNGetChatterMobileTask",
       "sortable":false,
       "creatable":true,
@@ -5903,7 +6669,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNGroupTasks":{
       "filterable":true,
@@ -5911,7 +6679,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNGroupTasks",
       "sortable":false,
       "creatable":true,
@@ -5928,7 +6698,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNInvitePeopleTask":{
       "filterable":true,
@@ -5936,7 +6708,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNInvitePeopleTask",
       "sortable":false,
       "creatable":true,
@@ -5953,7 +6727,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNPeopleTasks":{
       "filterable":true,
@@ -5961,7 +6737,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNPeopleTasks",
       "sortable":false,
       "creatable":true,
@@ -5978,7 +6756,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNProfileTasks":{
       "filterable":true,
@@ -5986,7 +6766,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNProfileTasks",
       "sortable":false,
       "creatable":true,
@@ -6003,7 +6785,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNShareAFileTask":{
       "filterable":true,
@@ -6011,7 +6795,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNShareAFileTask",
       "sortable":false,
       "creatable":true,
@@ -6028,7 +6814,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNShareWhatYouAreWorkingOnTask":{
       "filterable":true,
@@ -6036,7 +6824,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNShareWhatYouAreWorkingOnTask",
       "sortable":false,
       "creatable":true,
@@ -6053,7 +6843,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNStartAGroupTask":{
       "filterable":true,
@@ -6061,7 +6853,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNStartAGroupTask",
       "sortable":false,
       "creatable":true,
@@ -6078,7 +6872,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNWatchAVideoTask":{
       "filterable":true,
@@ -6086,7 +6882,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNWatchAVideoTask",
       "sortable":false,
       "creatable":true,
@@ -6103,7 +6901,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNWriteABioTask":{
       "filterable":true,
@@ -6111,7 +6911,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNWriteABioTask",
       "sortable":false,
       "creatable":true,
@@ -6128,7 +6930,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideCSNWtdnBox":{
       "filterable":true,
@@ -6136,7 +6940,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideCSNWtdnBox",
       "sortable":false,
       "creatable":true,
@@ -6153,7 +6959,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideDataCategorySplash":{
       "filterable":true,
@@ -6161,7 +6969,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideDataCategorySplash",
       "sortable":false,
       "creatable":true,
@@ -6178,7 +6988,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideDedupeMatchResultCallout":{
       "filterable":true,
@@ -6186,7 +6998,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideDedupeMatchResultCallout",
       "sortable":false,
       "creatable":true,
@@ -6203,7 +7017,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideEndUserOnboardingAssistantModal":{
       "filterable":true,
@@ -6211,7 +7027,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideEndUserOnboardingAssistantModal",
       "sortable":false,
       "creatable":true,
@@ -6228,7 +7046,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideEntitlementManagementSplash":{
       "filterable":true,
@@ -6236,7 +7056,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideEntitlementManagementSplash",
       "sortable":false,
       "creatable":true,
@@ -6253,7 +7075,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideEventCalendar":{
       "filterable":true,
@@ -6261,7 +7085,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideEventCalendar",
       "sortable":false,
       "creatable":true,
@@ -6278,7 +7104,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideFeedToggleGuidedTour":{
       "filterable":true,
@@ -6286,7 +7114,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideFeedToggleGuidedTour",
       "sortable":false,
       "creatable":true,
@@ -6303,7 +7133,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideFilePageGuidedTour":{
       "filterable":true,
@@ -6311,7 +7143,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideFilePageGuidedTour",
       "sortable":false,
       "creatable":true,
@@ -6328,7 +7162,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideGoogleSplash":{
       "filterable":true,
@@ -6336,7 +7172,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideGoogleSplash",
       "sortable":false,
       "creatable":true,
@@ -6353,7 +7191,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideGroupAllowsGuestsMsg":{
       "filterable":true,
@@ -6361,7 +7201,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideGroupAllowsGuestsMsg",
       "sortable":false,
       "creatable":true,
@@ -6378,7 +7220,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideGroupAllowsGuestsMsgOnMemberWidget":{
       "filterable":true,
@@ -6386,7 +7230,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideGroupAllowsGuestsMsgOnMemberWidget",
       "sortable":false,
       "creatable":true,
@@ -6403,7 +7249,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideLearningPathModal":{
       "filterable":true,
@@ -6411,7 +7259,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideLearningPathModal",
       "sortable":false,
       "creatable":true,
@@ -6428,7 +7278,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideLegacyRetirementModal":{
       "filterable":true,
@@ -6436,7 +7288,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideLegacyRetirementModal",
       "sortable":false,
       "creatable":true,
@@ -6453,7 +7307,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideLightningMigrationModal":{
       "filterable":true,
@@ -6461,7 +7317,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideLightningMigrationModal",
       "sortable":false,
       "creatable":true,
@@ -6478,7 +7336,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideMailAppEAPUserGuidance":{
       "filterable":true,
@@ -6486,7 +7346,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideMailAppEAPUserGuidance",
       "sortable":false,
       "creatable":true,
@@ -6503,7 +7365,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideMailAppWelcomeMat":{
       "filterable":true,
@@ -6511,7 +7375,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideMailAppWelcomeMat",
       "sortable":false,
       "creatable":true,
@@ -6528,7 +7394,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideNowAllowGuestsMsg":{
       "filterable":true,
@@ -6536,7 +7404,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideNowAllowGuestsMsg",
       "sortable":false,
       "creatable":true,
@@ -6553,7 +7423,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideOtherInfluenceGetStarted":{
       "filterable":true,
@@ -6561,7 +7433,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideOtherInfluenceGetStarted",
       "sortable":false,
       "creatable":true,
@@ -6578,7 +7452,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideQTEBanner":{
       "filterable":true,
@@ -6586,7 +7462,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideQTEBanner",
       "sortable":false,
       "creatable":true,
@@ -6603,7 +7481,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideS1BrowserUI":{
       "filterable":true,
@@ -6611,7 +7491,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideS1BrowserUI",
       "sortable":false,
       "creatable":true,
@@ -6628,7 +7510,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideSecondChatterOnboardingSplash":{
       "filterable":true,
@@ -6636,7 +7520,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideSecondChatterOnboardingSplash",
       "sortable":false,
       "creatable":true,
@@ -6653,7 +7539,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideSelfInfluenceGetStarted":{
       "filterable":true,
@@ -6661,7 +7549,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideSelfInfluenceGetStarted",
       "sortable":false,
       "creatable":true,
@@ -6678,7 +7568,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideSfxWelcomeMat":{
       "filterable":true,
@@ -6686,7 +7578,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideSfxWelcomeMat",
       "sortable":false,
       "creatable":true,
@@ -6703,7 +7597,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideSocialAccountsAndContactsGuidedTour":{
       "filterable":true,
@@ -6711,7 +7607,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideSocialAccountsAndContactsGuidedTour",
       "sortable":false,
       "creatable":true,
@@ -6728,7 +7626,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideTaskListViewsPopover":{
       "filterable":true,
@@ -6736,7 +7636,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideTaskListViewsPopover",
       "sortable":false,
       "creatable":true,
@@ -6753,7 +7655,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideTrialsCelebration":{
       "filterable":true,
@@ -6761,7 +7665,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideTrialsCelebration",
       "sortable":false,
       "creatable":true,
@@ -6778,7 +7684,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideTrialsWelcomeMat":{
       "filterable":true,
@@ -6786,7 +7694,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideTrialsWelcomeMat",
       "sortable":false,
       "creatable":true,
@@ -6803,7 +7713,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesHideWhatAreGuestsMsg":{
       "filterable":true,
@@ -6811,7 +7723,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"HideWhatAreGuestsMsg",
       "sortable":false,
       "creatable":true,
@@ -6828,7 +7742,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLightningExperiencePreferred":{
       "filterable":true,
@@ -6836,7 +7752,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LightningExperiencePreferred",
       "sortable":false,
       "creatable":true,
@@ -6853,7 +7771,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteAutoPopup1Seen":{
       "filterable":true,
@@ -6861,7 +7781,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteAutoPopup1Seen",
       "sortable":false,
       "creatable":true,
@@ -6878,7 +7800,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteAutoPopup2Seen":{
       "filterable":true,
@@ -6886,7 +7810,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteAutoPopup2Seen",
       "sortable":false,
       "creatable":true,
@@ -6903,7 +7829,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteAutoPopup3Seen":{
       "filterable":true,
@@ -6911,7 +7839,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteAutoPopup3Seen",
       "sortable":false,
       "creatable":true,
@@ -6928,7 +7858,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteAutoPopup4Seen":{
       "filterable":true,
@@ -6936,7 +7868,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteAutoPopup4Seen",
       "sortable":false,
       "creatable":true,
@@ -6953,7 +7887,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteAutoPopup5Seen":{
       "filterable":true,
@@ -6961,7 +7897,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteAutoPopup5Seen",
       "sortable":false,
       "creatable":true,
@@ -6978,7 +7916,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteLexWelcomeMatPopupSeen":{
       "filterable":true,
@@ -6986,7 +7926,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteLexWelcomeMatPopupSeen",
       "sortable":false,
       "creatable":true,
@@ -7003,7 +7945,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLteTransitionCompleted":{
       "filterable":true,
@@ -7011,7 +7955,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LteTransitionCompleted",
       "sortable":false,
       "creatable":true,
@@ -7028,7 +7974,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLtngPromoReserved10UserPref":{
       "filterable":true,
@@ -7036,7 +7984,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LtngPromoReserved10UserPref",
       "sortable":false,
       "creatable":true,
@@ -7053,7 +8003,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLtngPromoReserved16UserPref":{
       "filterable":true,
@@ -7061,7 +8013,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LtngPromoReserved16UserPref",
       "sortable":false,
       "creatable":true,
@@ -7078,7 +8032,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesLtngPromoReserved19UserPref":{
       "filterable":true,
@@ -7086,7 +8042,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"LtngPromoReserved19UserPref",
       "sortable":false,
       "creatable":true,
@@ -7103,7 +8061,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesNativeEmailClient":{
       "filterable":true,
@@ -7111,7 +8071,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"NativeEmailClient",
       "sortable":false,
       "creatable":true,
@@ -7128,7 +8090,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesNewLightningReportRunPageEnabled":{
       "filterable":true,
@@ -7136,7 +8100,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"NewLightningReportRunPageEnabled",
       "sortable":false,
       "creatable":true,
@@ -7153,7 +8119,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesPathAssistantCollapsed":{
       "filterable":true,
@@ -7161,7 +8129,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"PathAssistantCollapsed",
       "sortable":false,
       "creatable":true,
@@ -7178,7 +8148,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesPreviewCustomTheme":{
       "filterable":true,
@@ -7186,7 +8158,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"PreviewCustomTheme",
       "sortable":false,
       "creatable":true,
@@ -7203,7 +8177,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesPreviewLightning":{
       "filterable":true,
@@ -7211,7 +8187,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"PreviewLightning",
       "sortable":false,
       "creatable":true,
@@ -7228,7 +8206,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesReadReceiptLastToggleValue":{
       "filterable":true,
@@ -7236,7 +8216,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ReadReceiptLastToggleValue",
       "sortable":false,
       "creatable":true,
@@ -7253,7 +8235,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesReceiveNoNotificationsAsApprover":{
       "filterable":true,
@@ -7261,7 +8245,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ReceiveNoNotificationsAsApprover",
       "sortable":false,
       "creatable":true,
@@ -7278,7 +8264,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesReceiveNotificationsAsDelegatedApprover":{
       "filterable":true,
@@ -7286,7 +8274,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ReceiveNotificationsAsDelegatedApprover",
       "sortable":false,
       "creatable":true,
@@ -7303,7 +8293,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesRecordHomeReservedWTShown":{
       "filterable":true,
@@ -7311,7 +8303,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"RecordHomeReservedWTShown",
       "sortable":false,
       "creatable":true,
@@ -7328,7 +8322,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesRecordHomeSectionCollapseWTShown":{
       "filterable":true,
@@ -7336,7 +8332,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"RecordHomeSectionCollapseWTShown",
       "sortable":false,
       "creatable":true,
@@ -7353,7 +8351,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesRedirectToLightning":{
       "filterable":true,
@@ -7361,7 +8361,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"RedirectToLightning",
       "sortable":false,
       "creatable":true,
@@ -7378,7 +8380,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesReminderSortByDueDate":{
       "filterable":true,
@@ -7386,7 +8390,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ReminderSortByDueDate",
       "sortable":false,
       "creatable":true,
@@ -7403,7 +8409,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesReminderSoundOff":{
       "filterable":true,
@@ -7411,7 +8419,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ReminderSoundOff",
       "sortable":false,
       "creatable":true,
@@ -7428,7 +8438,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSalesEssentialsSetupAssistantCompleted":{
       "filterable":true,
@@ -7436,7 +8448,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SalesEssentialsSetupAssistantCompleted",
       "sortable":false,
       "creatable":true,
@@ -7453,7 +8467,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSendEmailUsingExternalService":{
       "filterable":true,
@@ -7461,7 +8477,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SendEmailUsingExternalService",
       "sortable":false,
       "creatable":true,
@@ -7478,32 +8496,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
-    },
-    "UserPreferencesSendListEmailThroughExternalService":{
-      "filterable":true,
-      "apiName":"UserPreferencesSendListEmailThroughExternalService",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "dataType":"Boolean",
-      "label":"SendListEmailThroughExternalService",
-      "sortable":false,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"User",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSetupAssistantUserPref1":{
       "filterable":true,
@@ -7511,7 +8506,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SetupAssistantUserPref1",
       "sortable":false,
       "creatable":true,
@@ -7528,7 +8525,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowCityToExternalUsers":{
       "filterable":true,
@@ -7536,7 +8535,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowCityToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7553,7 +8554,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowCityToGuestUsers":{
       "filterable":true,
@@ -7561,7 +8564,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowCityToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7578,7 +8583,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowCountryToExternalUsers":{
       "filterable":true,
@@ -7586,7 +8593,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowCountryToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7603,7 +8612,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowCountryToGuestUsers":{
       "filterable":true,
@@ -7611,7 +8622,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowCountryToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7628,7 +8641,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowEmailToExternalUsers":{
       "filterable":true,
@@ -7636,7 +8651,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowEmailToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7653,7 +8670,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowEmailToGuestUsers":{
       "filterable":true,
@@ -7661,7 +8680,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowEmailToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7678,7 +8699,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowFaxToExternalUsers":{
       "filterable":true,
@@ -7686,7 +8709,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowFaxToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7703,7 +8728,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowFaxToGuestUsers":{
       "filterable":true,
@@ -7711,7 +8738,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowFaxToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7728,7 +8757,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowManagerToExternalUsers":{
       "filterable":true,
@@ -7736,7 +8767,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowManagerToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7753,7 +8786,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowManagerToGuestUsers":{
       "filterable":true,
@@ -7761,7 +8796,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowManagerToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7778,7 +8815,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowMobilePhoneToExternalUsers":{
       "filterable":true,
@@ -7786,7 +8825,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowMobilePhoneToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7803,7 +8844,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowMobilePhoneToGuestUsers":{
       "filterable":true,
@@ -7811,7 +8854,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowMobilePhoneToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7828,7 +8873,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowPostalCodeToExternalUsers":{
       "filterable":true,
@@ -7836,7 +8883,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowPostalCodeToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7853,7 +8902,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowPostalCodeToGuestUsers":{
       "filterable":true,
@@ -7861,7 +8912,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowPostalCodeToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7878,7 +8931,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowProfilePicToGuestUsers":{
       "filterable":true,
@@ -7886,7 +8941,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowProfilePicToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7903,7 +8960,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowStateToExternalUsers":{
       "filterable":true,
@@ -7911,7 +8970,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowStateToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7928,7 +8989,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowStateToGuestUsers":{
       "filterable":true,
@@ -7936,7 +8999,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowStateToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -7953,7 +9018,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowStreetAddressToExternalUsers":{
       "filterable":true,
@@ -7961,7 +9028,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowStreetAddressToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -7978,7 +9047,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowStreetAddressToGuestUsers":{
       "filterable":true,
@@ -7986,7 +9057,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowStreetAddressToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -8003,7 +9076,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowTitleToExternalUsers":{
       "filterable":true,
@@ -8011,7 +9086,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowTitleToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -8028,7 +9105,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowTitleToGuestUsers":{
       "filterable":true,
@@ -8036,7 +9115,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowTitleToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -8053,7 +9134,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowViewstate":{
       "filterable":true,
@@ -8061,7 +9144,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowViewstate",
       "sortable":false,
       "creatable":true,
@@ -8078,7 +9163,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowWorkPhoneToExternalUsers":{
       "filterable":true,
@@ -8086,7 +9173,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowWorkPhoneToExternalUsers",
       "sortable":false,
       "creatable":true,
@@ -8103,7 +9192,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesShowWorkPhoneToGuestUsers":{
       "filterable":true,
@@ -8111,7 +9202,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"ShowWorkPhoneToGuestUsers",
       "sortable":false,
       "creatable":true,
@@ -8128,7 +9221,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSortFeedByComment":{
       "filterable":true,
@@ -8136,7 +9231,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SortFeedByComment",
       "sortable":false,
       "creatable":true,
@@ -8153,7 +9250,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSRHOverrideActivities":{
       "filterable":true,
@@ -8161,7 +9260,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SRHOverrideActivities",
       "sortable":false,
       "creatable":true,
@@ -8178,7 +9279,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSuppressEventSFXReminders":{
       "filterable":true,
@@ -8186,7 +9289,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SuppressEventSFXReminders",
       "sortable":false,
       "creatable":true,
@@ -8203,7 +9308,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesSuppressTaskSFXReminders":{
       "filterable":true,
@@ -8211,7 +9318,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"SuppressTaskSFXReminders",
       "sortable":false,
       "creatable":true,
@@ -8228,7 +9337,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesTaskRemindersCheckboxDefault":{
       "filterable":true,
@@ -8236,7 +9347,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"TaskRemindersCheckboxDefault",
       "sortable":false,
       "creatable":true,
@@ -8253,7 +9366,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesTodayGettingStarted":{
       "filterable":true,
@@ -8261,7 +9376,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"TodayGettingStarted",
       "sortable":false,
       "creatable":true,
@@ -8278,7 +9395,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesTrailheadBadgeCreated":{
       "filterable":true,
@@ -8286,7 +9405,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"TrailheadBadgeCreated",
       "sortable":false,
       "creatable":true,
@@ -8303,7 +9424,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserPreferencesUserDebugModePref":{
       "filterable":true,
@@ -8311,7 +9434,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"UserDebugModePref",
       "sortable":false,
       "creatable":true,
@@ -8328,7 +9453,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "UserRoleId":{
       "filterable":true,
@@ -8336,7 +9463,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Role ID",
       "sortable":true,
       "creatable":true,
@@ -8353,7 +9482,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "UserSubtype":{
       "filterable":true,
@@ -8361,7 +9492,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Internal Subtype",
       "sortable":true,
       "creatable":true,
@@ -8378,7 +9511,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "UserType":{
       "filterable":true,
@@ -8386,7 +9521,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"User Type",
       "sortable":true,
       "creatable":false,
@@ -8434,7 +9571,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "WirelessEmail":{
       "filterable":true,
@@ -8442,7 +9581,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Wireless Email",
       "sortable":true,
       "creatable":true,
@@ -8459,7 +9600,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"EMAIL"
     },
     "WorkspaceId":{
       "filterable":true,
@@ -8467,7 +9610,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Workspace ID",
       "sortable":true,
       "creatable":true,
@@ -8484,7 +9629,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     }
   }
 }

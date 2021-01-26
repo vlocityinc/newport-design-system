@@ -6,7 +6,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Account ID",
       "sortable":true,
       "creatable":true,
@@ -23,7 +25,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "ActivatedById":{
       "filterable":true,
@@ -31,7 +35,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Activated By ID",
       "sortable":true,
       "creatable":false,
@@ -48,7 +54,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "ActivatedDate":{
       "filterable":true,
@@ -56,7 +64,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Activated Date",
       "sortable":true,
       "creatable":false,
@@ -73,7 +83,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "AutoRenewCode":{
       "filterable":true,
@@ -81,7 +93,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Auto Renewal",
       "sortable":true,
       "creatable":true,
@@ -105,7 +119,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "BalanceDue":{
       "filterable":true,
@@ -113,7 +129,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Currency",
+      "compoundFieldName":null,
       "label":"Balance Due",
       "sortable":true,
       "creatable":false,
@@ -130,7 +148,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"CURRENCY"
     },
     "BankAccountName":{
       "filterable":true,
@@ -138,7 +158,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Bank Account Name",
       "sortable":true,
       "creatable":true,
@@ -155,7 +177,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankAccountType":{
       "filterable":true,
@@ -163,7 +187,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Bank Account Type",
       "sortable":true,
       "creatable":true,
@@ -191,7 +217,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "BankAddress":{
       "filterable":true,
@@ -199,7 +227,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Bank Address",
       "sortable":false,
       "creatable":false,
@@ -216,7 +246,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"ADDRESS"
     },
     "BankBranchCode":{
       "filterable":true,
@@ -224,7 +256,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Bank Branch Code",
       "sortable":true,
       "creatable":true,
@@ -241,7 +275,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankCity":{
       "filterable":true,
@@ -249,7 +285,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BankAddress",
       "label":"Bank City",
       "sortable":true,
       "creatable":true,
@@ -266,7 +304,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankCode":{
       "filterable":true,
@@ -274,7 +314,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Bank Routing/Transit Number",
       "sortable":true,
       "creatable":true,
@@ -291,7 +333,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankCountry":{
       "filterable":true,
@@ -299,7 +343,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BankAddress",
       "label":"Bank Country",
       "sortable":true,
       "creatable":true,
@@ -316,7 +362,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankGeocodeAccuracy":{
       "filterable":true,
@@ -324,7 +372,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":"BankAddress",
       "label":"Geocode Accuracy",
       "sortable":true,
       "creatable":true,
@@ -384,7 +434,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "BankLatitude":{
       "filterable":true,
@@ -392,7 +444,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"BankAddress",
       "label":"Bank Latitude",
       "sortable":true,
       "creatable":true,
@@ -409,7 +463,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "BankLongitude":{
       "filterable":true,
@@ -417,7 +473,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"BankAddress",
       "label":"Bank Longitude",
       "sortable":true,
       "creatable":true,
@@ -434,7 +492,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "BankName":{
       "filterable":true,
@@ -442,7 +502,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Bank Name",
       "sortable":true,
       "creatable":true,
@@ -459,7 +521,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankPostalCode":{
       "filterable":true,
@@ -467,7 +531,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BankAddress",
       "label":"Bank Zip/Postal Code",
       "sortable":true,
       "creatable":true,
@@ -484,7 +550,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankReferenceNumber":{
       "filterable":true,
@@ -492,7 +560,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Bank Reference Number",
       "sortable":true,
       "creatable":true,
@@ -509,7 +579,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankState":{
       "filterable":true,
@@ -517,7 +589,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BankAddress",
       "label":"Bank State/Province",
       "sortable":true,
       "creatable":true,
@@ -534,7 +608,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BankStreet":{
       "filterable":true,
@@ -542,7 +618,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BankAddress",
       "label":"Bank Street",
       "sortable":true,
       "creatable":true,
@@ -559,7 +637,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "BillingAddress":{
       "filterable":true,
@@ -567,7 +647,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Billing Address",
       "sortable":false,
       "creatable":false,
@@ -584,7 +666,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"ADDRESS"
     },
     "BillingCity":{
       "filterable":true,
@@ -592,7 +676,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing City",
       "sortable":true,
       "creatable":true,
@@ -609,7 +695,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BillingCompany":{
       "filterable":true,
@@ -617,7 +705,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Billing Company Name",
       "sortable":true,
       "creatable":true,
@@ -634,7 +724,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BillingCountry":{
       "filterable":true,
@@ -642,7 +734,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing Country",
       "sortable":true,
       "creatable":true,
@@ -659,7 +753,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BillingEmail":{
       "filterable":true,
@@ -667,7 +763,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Billing Email",
       "sortable":true,
       "creatable":true,
@@ -684,7 +782,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"EMAIL"
     },
     "BillingFax":{
       "filterable":true,
@@ -692,7 +792,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Billing Fax",
       "sortable":true,
       "creatable":true,
@@ -709,7 +811,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PHONE"
     },
     "BillingFirstName":{
       "filterable":true,
@@ -717,7 +821,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingName",
       "label":"Billing First Name",
       "sortable":true,
       "creatable":true,
@@ -734,7 +840,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "BillingGeocodeAccuracy":{
       "filterable":true,
@@ -742,7 +850,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing Geocode Accuracy",
       "sortable":true,
       "creatable":true,
@@ -802,7 +912,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "BillingLanguage":{
       "filterable":true,
@@ -810,7 +922,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Billing Language",
       "sortable":true,
       "creatable":true,
@@ -898,7 +1012,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "BillingLastName":{
       "filterable":true,
@@ -906,7 +1022,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingName",
       "label":"Billing Last Name",
       "sortable":true,
       "creatable":true,
@@ -923,7 +1041,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "BillingLatitude":{
       "filterable":true,
@@ -931,7 +1051,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing Latitude",
       "sortable":true,
       "creatable":true,
@@ -948,7 +1070,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "BillingLongitude":{
       "filterable":true,
@@ -956,7 +1080,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing Longitude",
       "sortable":true,
       "creatable":true,
@@ -973,7 +1099,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "BillingName":{
       "filterable":true,
@@ -981,7 +1109,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Billing Name",
       "sortable":true,
       "creatable":false,
@@ -998,7 +1128,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"STRING"
     },
     "BillingPhone":{
       "filterable":true,
@@ -1006,7 +1138,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Billing Phone",
       "sortable":true,
       "creatable":true,
@@ -1023,7 +1157,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PHONE"
     },
     "BillingPostalCode":{
       "filterable":true,
@@ -1031,7 +1167,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing Zip/Postal Code",
       "sortable":true,
       "creatable":true,
@@ -1048,7 +1186,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BillingSalutation":{
       "filterable":true,
@@ -1056,7 +1196,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":"BillingName",
       "label":"Billing Salutation",
       "sortable":true,
       "creatable":true,
@@ -1092,7 +1234,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME",
+      "fieldDataType":"PICKLIST"
     },
     "BillingState":{
       "filterable":true,
@@ -1100,7 +1244,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing State/Province",
       "sortable":true,
       "creatable":true,
@@ -1117,7 +1263,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "BillingStreet":{
       "filterable":true,
@@ -1125,7 +1273,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"BillingAddress",
       "label":"Billing Street",
       "sortable":true,
       "creatable":true,
@@ -1142,7 +1292,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "CloneSourceId":{
       "filterable":true,
@@ -1150,7 +1302,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Clone Source",
       "sortable":true,
       "creatable":false,
@@ -1167,7 +1321,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "CompanySignedDate":{
       "filterable":true,
@@ -1175,7 +1331,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Company Signed Date",
       "sortable":true,
       "creatable":true,
@@ -1192,7 +1350,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "CompanySignedId":{
       "filterable":true,
@@ -1200,7 +1360,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Company Signed By ID",
       "sortable":true,
       "creatable":true,
@@ -1217,7 +1379,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "ContractNumber":{
       "filterable":true,
@@ -1225,7 +1389,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Contract Number",
       "sortable":true,
       "creatable":false,
@@ -1242,7 +1408,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ContractTerm":{
       "filterable":true,
@@ -1250,7 +1418,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Contract Term",
       "sortable":true,
       "creatable":true,
@@ -1267,7 +1437,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"INT"
     },
     "CreatedById":{
       "filterable":true,
@@ -1275,7 +1447,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Created By ID",
       "sortable":true,
       "creatable":false,
@@ -1292,7 +1466,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "CreatedDate":{
       "filterable":true,
@@ -1300,7 +1476,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Created Date",
       "sortable":true,
       "creatable":false,
@@ -1317,7 +1495,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "CreditCardExpirationDate":{
       "filterable":true,
@@ -1325,7 +1505,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Credit Card Exp. Date",
       "sortable":true,
       "creatable":true,
@@ -1342,7 +1524,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "CreditCardType":{
       "filterable":true,
@@ -1350,7 +1534,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Credit Card Type",
       "sortable":true,
       "creatable":true,
@@ -1382,7 +1568,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "CurrencyIsoCode":{
       "filterable":true,
@@ -1390,7 +1578,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Currency ISO Code",
       "sortable":true,
       "creatable":true,
@@ -1418,7 +1608,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "CustomerExpirationNotice":{
       "filterable":true,
@@ -1426,7 +1618,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Customer Expiration Notice",
       "sortable":true,
       "creatable":true,
@@ -1458,7 +1652,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "CustomerSignedDate":{
       "filterable":true,
@@ -1466,7 +1662,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Customer Signed Date",
       "sortable":true,
       "creatable":true,
@@ -1483,7 +1681,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "CustomerSignedId":{
       "filterable":true,
@@ -1491,7 +1691,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Customer Signed By ID",
       "sortable":true,
       "creatable":true,
@@ -1508,7 +1710,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "CustomerSignedTitle":{
       "filterable":true,
@@ -1516,7 +1720,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Customer Signed Title",
       "sortable":true,
       "creatable":true,
@@ -1533,7 +1739,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "Description":{
       "filterable":false,
@@ -1541,7 +1749,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Description",
       "sortable":false,
       "creatable":true,
@@ -1558,7 +1768,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "Division":{
       "filterable":true,
@@ -1566,7 +1778,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Division ID",
       "sortable":true,
       "creatable":false,
@@ -1586,7 +1800,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "EndDate":{
       "filterable":true,
@@ -1594,7 +1810,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Contract End Date",
       "sortable":true,
       "creatable":false,
@@ -1611,7 +1829,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "HasPurchaseRule":{
       "filterable":true,
@@ -1619,7 +1839,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Has Purchase Rules",
       "sortable":true,
       "creatable":false,
@@ -1636,7 +1858,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "Id":{
       "filterable":true,
@@ -1644,7 +1868,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Contract ID",
       "sortable":true,
       "creatable":false,
@@ -1661,7 +1887,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "InvoiceDispatchMethod":{
       "filterable":true,
@@ -1669,7 +1897,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Invoice Dispatch Method",
       "sortable":true,
       "creatable":true,
@@ -1701,7 +1931,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "IsDeleted":{
       "filterable":true,
@@ -1709,7 +1941,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Deleted",
       "sortable":true,
       "creatable":false,
@@ -1726,7 +1960,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "IsDunningSuppressed":{
       "filterable":true,
@@ -1734,7 +1970,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Suppress Dunning Letter",
       "sortable":true,
       "creatable":true,
@@ -1751,7 +1989,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "IsLocked":{
       "filterable":true,
@@ -1759,7 +1999,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"Is Locked",
       "sortable":true,
       "creatable":false,
@@ -1776,7 +2018,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "LastActivityDate":{
       "filterable":true,
@@ -1784,7 +2028,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Last Activity",
       "sortable":true,
       "creatable":false,
@@ -1801,7 +2047,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "LastApprovedDate":{
       "filterable":true,
@@ -1809,7 +2057,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Approved Date",
       "sortable":true,
       "creatable":false,
@@ -1826,7 +2076,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastModifiedById":{
       "filterable":true,
@@ -1834,7 +2086,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Last Modified By ID",
       "sortable":true,
       "creatable":false,
@@ -1851,7 +2105,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "LastModifiedDate":{
       "filterable":true,
@@ -1859,7 +2115,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Modified Date",
       "sortable":true,
       "creatable":false,
@@ -1876,7 +2134,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastReferencedDate":{
       "filterable":true,
@@ -1884,7 +2144,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Referenced Date",
       "sortable":true,
       "creatable":false,
@@ -1901,7 +2163,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LastViewedDate":{
       "filterable":true,
@@ -1909,7 +2173,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"Last Viewed Date",
       "sortable":true,
       "creatable":false,
@@ -1926,7 +2192,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "LifetimeValue":{
       "filterable":true,
@@ -1934,7 +2202,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Currency",
+      "compoundFieldName":null,
       "label":"Lifetime Value",
       "sortable":true,
       "creatable":false,
@@ -1951,7 +2221,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"CURRENCY"
     },
     "MayEdit":{
       "filterable":true,
@@ -1959,7 +2231,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Boolean",
+      "compoundFieldName":null,
       "label":"May Edit",
       "sortable":true,
       "creatable":false,
@@ -1976,7 +2250,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN"
     },
     "Name":{
       "filterable":true,
@@ -1984,7 +2260,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Contract Name",
       "sortable":true,
       "creatable":true,
@@ -2001,7 +2279,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "NameOnCreditCard":{
       "filterable":true,
@@ -2009,7 +2289,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Credit Card Name",
       "sortable":true,
       "creatable":true,
@@ -2026,7 +2308,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "OfferExpirationDate":{
       "filterable":true,
@@ -2034,7 +2318,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Offer Valid Through",
       "sortable":true,
       "creatable":true,
@@ -2051,7 +2337,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "OrderPrebillDays":{
       "filterable":true,
@@ -2059,7 +2347,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Order Prebill Days",
       "sortable":true,
       "creatable":true,
@@ -2076,7 +2366,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"INT"
     },
     "OwnerExpirationNotice":{
       "filterable":true,
@@ -2084,7 +2376,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Owner Expiration Notice",
       "sortable":true,
       "creatable":true,
@@ -2124,7 +2418,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "OwnerId":{
       "filterable":true,
@@ -2132,7 +2428,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Owner ID",
       "sortable":true,
       "creatable":true,
@@ -2149,7 +2447,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "PaymentTerm":{
       "filterable":true,
@@ -2157,7 +2457,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Payment Terms",
       "sortable":true,
       "creatable":true,
@@ -2201,7 +2503,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "PaymentType":{
       "filterable":true,
@@ -2209,7 +2513,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Payment Method",
       "sortable":true,
       "creatable":true,
@@ -2241,7 +2547,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "Pricebook2Id":{
       "filterable":true,
@@ -2249,7 +2557,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Price Book ID",
       "sortable":true,
       "creatable":true,
@@ -2266,7 +2576,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "RenewalDays":{
       "filterable":true,
@@ -2274,7 +2586,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Renewal Days",
       "sortable":true,
       "creatable":true,
@@ -2291,7 +2605,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"INT"
     },
     "RenewalTerm":{
       "filterable":true,
@@ -2299,7 +2615,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Renewal Term",
       "sortable":true,
       "creatable":true,
@@ -2316,7 +2634,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"INT"
     },
     "Salesrep1Id":{
       "filterable":true,
@@ -2324,7 +2644,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Salesrep 1 ID",
       "sortable":true,
       "creatable":true,
@@ -2341,7 +2663,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Salesrep1Percent":{
       "filterable":true,
@@ -2349,7 +2673,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Salesrep 1 %",
       "sortable":true,
       "creatable":true,
@@ -2366,7 +2692,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PERCENT"
     },
     "Salesrep2Id":{
       "filterable":true,
@@ -2374,7 +2702,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Salesrep 2 ID",
       "sortable":true,
       "creatable":true,
@@ -2391,7 +2721,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Salesrep2Percent":{
       "filterable":true,
@@ -2399,7 +2731,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Salesrep 2 %",
       "sortable":true,
       "creatable":true,
@@ -2416,7 +2750,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PERCENT"
     },
     "Salesrep3Id":{
       "filterable":true,
@@ -2424,7 +2760,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Salesrep 3 ID",
       "sortable":true,
       "creatable":true,
@@ -2441,7 +2779,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"REFERENCE"
     },
     "Salesrep3Percent":{
       "filterable":true,
@@ -2449,7 +2789,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":null,
       "label":"Salesrep 3 %",
       "sortable":true,
       "creatable":true,
@@ -2466,7 +2808,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PERCENT"
     },
     "ShippingAddress":{
       "filterable":true,
@@ -2474,7 +2818,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Shipping Address",
       "sortable":false,
       "creatable":false,
@@ -2491,7 +2837,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"ADDRESS"
     },
     "ShippingCity":{
       "filterable":true,
@@ -2499,7 +2847,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping City",
       "sortable":true,
       "creatable":true,
@@ -2516,7 +2866,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ShippingCountry":{
       "filterable":true,
@@ -2524,7 +2876,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping Country",
       "sortable":true,
       "creatable":true,
@@ -2541,7 +2895,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ShippingGeocodeAccuracy":{
       "filterable":true,
@@ -2549,7 +2905,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping Geocode Accuracy",
       "sortable":true,
       "creatable":true,
@@ -2609,7 +2967,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "ShippingLatitude":{
       "filterable":true,
@@ -2617,7 +2977,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping Latitude",
       "sortable":true,
       "creatable":true,
@@ -2634,7 +2996,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "ShippingLongitude":{
       "filterable":true,
@@ -2642,7 +3006,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Number",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping Longitude",
       "sortable":true,
       "creatable":true,
@@ -2659,7 +3025,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DOUBLE"
     },
     "ShippingPostalCode":{
       "filterable":true,
@@ -2667,7 +3035,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping Zip/Postal Code",
       "sortable":true,
       "creatable":true,
@@ -2684,7 +3054,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ShippingState":{
       "filterable":true,
@@ -2692,7 +3064,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping State/Province",
       "sortable":true,
       "creatable":true,
@@ -2709,7 +3083,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "ShippingStreet":{
       "filterable":true,
@@ -2717,7 +3093,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":"ShippingAddress",
       "label":"Shipping Street",
       "sortable":true,
       "creatable":true,
@@ -2734,7 +3112,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "SpecialTerms":{
       "filterable":true,
@@ -2742,7 +3122,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Special Terms",
       "sortable":true,
       "creatable":true,
@@ -2759,7 +3141,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA",
+      "fieldDataType":"TEXTAREA"
     },
     "StartDate":{
       "filterable":true,
@@ -2767,7 +3151,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Date",
+      "compoundFieldName":null,
       "label":"Contract Start Date",
       "sortable":true,
       "creatable":true,
@@ -2784,7 +3170,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATE"
     },
     "Status":{
       "filterable":true,
@@ -2792,7 +3180,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Status",
       "sortable":true,
       "creatable":true,
@@ -2820,7 +3210,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "StatusCode":{
       "filterable":true,
@@ -2828,7 +3220,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Picklist",
+      "compoundFieldName":null,
       "label":"Status Category",
       "sortable":true,
       "creatable":false,
@@ -2864,7 +3258,9 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"PICKLIST"
     },
     "SystemModstamp":{
       "filterable":true,
@@ -2872,7 +3268,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"DateTime",
+      "compoundFieldName":null,
       "label":"System Modstamp",
       "sortable":true,
       "creatable":false,
@@ -2889,7 +3287,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"DATETIME"
     },
     "TaxExemptionCode":{
       "filterable":true,
@@ -2897,7 +3297,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
+      "isCalculated":false,
       "dataType":"String",
+      "compoundFieldName":null,
       "label":"Tax Exemption Code",
       "sortable":true,
       "creatable":true,
@@ -2914,7 +3316,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"STRING"
     },
     "TotalBilled":{
       "filterable":true,
@@ -2922,7 +3326,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Currency",
+      "compoundFieldName":null,
       "label":"Total Billed",
       "sortable":true,
       "creatable":false,
@@ -2939,7 +3345,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"CURRENCY"
     },
     "TotalCredit":{
       "filterable":true,
@@ -2947,7 +3355,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Currency",
+      "compoundFieldName":null,
       "label":"Total Credit",
       "sortable":true,
       "creatable":false,
@@ -2964,7 +3374,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"CURRENCY"
     },
     "TotalPaid":{
       "filterable":true,
@@ -2972,7 +3384,9 @@
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Currency",
+      "compoundFieldName":null,
       "label":"Total Paid",
       "sortable":true,
       "creatable":false,
@@ -2989,7 +3403,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"CURRENCY"
     },
     "TotalWriteoff":{
       "filterable":true,
@@ -2997,7 +3413,9 @@
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
+      "isCalculated":false,
       "dataType":"Currency",
+      "compoundFieldName":null,
       "label":"Total Write-off",
       "sortable":true,
       "creatable":false,
@@ -3014,7 +3432,9 @@
 
       ],
       "isPolymorphic":false,
-      "isCustom":false
+      "isCustom":false,
+      "extraTypeInfo":null,
+      "fieldDataType":"CURRENCY"
     }
   }
 }

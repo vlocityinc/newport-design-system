@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const START_ELEMENT_LOCATION = {
     x: 50,
     y: 50

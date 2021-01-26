@@ -10,7 +10,7 @@ import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/d
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import {
     getFieldByGuid,
-    getFieldNameByDatatype,
+    getScreenFieldName,
     SCREEN_EDITOR_GUIDS,
     setDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
@@ -138,7 +138,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                     guid,
                     iconName: getDataTypeIcons(field.dataType, 'utility'),
                     label: field.label,
-                    fieldTypeName: getFieldNameByDatatype(field.dataType),
+                    fieldTypeName: getScreenFieldName(field)!,
                     objectFieldReference: this.recordVariable + '.' + field.apiName
                 };
                 if (field.required) {

@@ -60,6 +60,9 @@ type FieldDefinition = {
     required: boolean;
     label: string;
     relationshipName: string;
+    compoundFieldName: string;
+    extraTypeInfo: string;
+    fieldDataType: string;
 };
 
 interface ScreenPaletteItem {

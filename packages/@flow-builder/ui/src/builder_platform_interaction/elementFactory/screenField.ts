@@ -11,7 +11,7 @@ import {
     getScreenFieldTypeByName,
     getScreenFieldType,
     InputsOnNextNavToAssocScrnOption,
-    getFieldNameByDatatype,
+    getScreenFieldName,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
@@ -351,7 +351,7 @@ const createAutomaticFieldFromEntityField = (
     typeName?: string
 ): UI.ScreenField => {
     const newScreenField = baseElement();
-    typeName = typeName ? typeName : getFieldNameByDatatype(entityField.dataType);
+    typeName = typeName ? typeName : getScreenFieldName(entityField);
     const {
         defaultValue,
         defaultValueDataType,

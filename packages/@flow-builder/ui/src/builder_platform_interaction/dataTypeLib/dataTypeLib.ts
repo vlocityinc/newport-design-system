@@ -1,7 +1,52 @@
-// @ts-nocheck
 import { LABELS as SCREEN_LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { LABELS as DATA_TYPE_LABELS } from './dataTypeLibLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
+type ResourceType = {
+    isElementSubtype: boolean;
+    name: string;
+    attributes: [];
+    classification: string;
+    elementType: ELEMENT_TYPE;
+};
+
+export enum FieldDataType {
+    String = 'STRING',
+    TextArea = 'TEXTAREA',
+    Phone = 'PHONE',
+    Email = 'EMAIL',
+    Url = 'URL',
+    EncryptedString = 'ENCRYPTEDSTRING',
+    Boolean = 'BOOLEAN',
+    Currency = 'CURRENCY',
+    Int = 'INT',
+    Long = 'LONG',
+    Double = 'DOUBLE',
+    Percent = 'PERCENT',
+    DateTime = 'DATETIME',
+    Time = 'TIME',
+    Date = 'DATE',
+    Reference = 'REFERENCE',
+    Picklist = 'PICKLIST',
+    Multipicklist = 'MULTIPICKLIST',
+    Address = 'ADDRESS',
+    Location = 'LOCATION',
+    Base64 = 'BASE64',
+    ComplexValue = 'COMPLEXVALUE',
+    Combobox = 'COMBOBOX',
+    Json = 'JSON',
+    Anytype = 'ANYTYPE'
+}
+
+export enum ExtraTypeInfo {
+    ImageUrl = 'IMAGE_URL',
+    ExternalLookup = 'EXTERNAL_LOOKUP',
+    IndirectLookup = 'INDIRECT_LOOKUP',
+    PersonName = 'PERSONNAME',
+    SwitchablePersonName = 'SWITCHABLE_PERSONNAME',
+    PlainTextarea = 'PLAINTEXTAREA',
+    RichTextarea = 'RICHTEXTAREA'
+}
 
 /**
  * Array of objects representing flow data types
@@ -149,7 +194,7 @@ export const STAGE_ORDER_RANGE = {
     max: 99999999
 };
 
-let resourceTypes = [];
+let resourceTypes: ResourceType[];
 
 export { FLOW_DATA_TYPE };
 
@@ -194,8 +239,8 @@ export const INPUT_FIELD_DATA_TYPE = {
  *
  * @returns {Array} sorted resource type list based on custom ordering
  */
-function sortResourceTypes(unsortedResourceTypes = []) {
-    const resourceOrderedList = [
+function sortResourceTypes(unsortedResourceTypes: ResourceType[]) {
+    const resourceOrderedList: String[] = [
         ELEMENT_TYPE.VARIABLE,
         ELEMENT_TYPE.CONSTANT,
         ELEMENT_TYPE.FORMULA,

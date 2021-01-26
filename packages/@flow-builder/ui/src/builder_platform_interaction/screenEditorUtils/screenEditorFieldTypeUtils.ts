@@ -2,7 +2,7 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getAllCachedExtensionTypes, EXTENSION_TYPE_SOURCE } from 'builder_platform_interaction/flowExtensionLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, ExtraTypeInfo } from 'builder_platform_interaction/dataTypeLib';
 
 export const SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME = 'componentVisibility';
 
@@ -549,8 +549,10 @@ export function hasScreenFieldVisibilityCondition(field) {
     return field.visibilityRule && field.visibilityRule.conditions.length > 0;
 }
 
-export const getFieldNameByDatatype = (datatype: string): ScreenFieldName => {
-    return DATA_TYPE_TO_FIELD_NAME[datatype];
+export const getScreenFieldName = (field: FieldDefinition): ScreenFieldName | undefined => {
+    return field.extraTypeInfo === ExtraTypeInfo.PlainTextarea
+        ? ScreenFieldName.LargeTextArea
+        : DATA_TYPE_TO_FIELD_NAME[field.dataType];
 };
 
 function getErrorFromChoice(choice) {

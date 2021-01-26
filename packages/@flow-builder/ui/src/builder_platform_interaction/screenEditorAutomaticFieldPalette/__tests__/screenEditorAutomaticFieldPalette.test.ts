@@ -33,7 +33,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         LIGHTNING_INPUT_VARIANTS,
         InputsOnNextNavToAssocScrnOption,
         getFieldByGuid,
-        getFieldNameByDatatype
+        getScreenFieldName
     } = jest.requireActual('builder_platform_interaction/screenEditorUtils');
     return {
         setDragFieldValue: jest.fn(),
@@ -42,7 +42,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         LIGHTNING_INPUT_VARIANTS,
         InputsOnNextNavToAssocScrnOption,
         getFieldByGuid,
-        getFieldNameByDatatype
+        getScreenFieldName
     };
 });
 
@@ -53,6 +53,7 @@ const NUMBER_FIELD_NAME = 'BillingLongitude';
 const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
 const DATE_FIELD_NAME = 'PersonBirthdate';
 const DATE_TIME_FIELD_NAME = 'CustomDateTime__c';
+const LONG_TEXT_AREA_FIELD_NAME = 'Description';
 
 const SELECTORS = {
     searchInput: '.palette-search-input'
@@ -271,12 +272,13 @@ describe('Screen editor automatic field palette', () => {
                 element.removeEventListener(ScreenEditorEventName.AutomaticScreenFieldAdded, eventCallback);
             });
             test.each`
-                fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference
-                ${STRING_FIELD_NAME}    | ${ScreenFieldName.TextBox}  | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
-                ${BOOLEAN_FIELD_NAME}   | ${ScreenFieldName.Checkbox} | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
-                ${NUMBER_FIELD_NAME}    | ${ScreenFieldName.Number}   | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
-                ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
-                ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+                fieldName                    | expectedEventFieldTypeName       | expectedObjectFieldReference
+                ${STRING_FIELD_NAME}         | ${ScreenFieldName.TextBox}       | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
+                ${BOOLEAN_FIELD_NAME}        | ${ScreenFieldName.Checkbox}      | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
+                ${NUMBER_FIELD_NAME}         | ${ScreenFieldName.Number}        | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
+                ${DATE_FIELD_NAME}           | ${ScreenFieldName.Date}          | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
+                ${DATE_TIME_FIELD_NAME}      | ${ScreenFieldName.DateTime}      | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+                ${LONG_TEXT_AREA_FIELD_NAME} | ${ScreenFieldName.LargeTextArea} | ${accountSObjectVariable.guid + '.' + LONG_TEXT_AREA_FIELD_NAME}
             `(
                 'PaletteItemClickedEvent on $fieldName should dispatch AddAutomaticScreenField event with fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference',
                 async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
@@ -293,12 +295,13 @@ describe('Screen editor automatic field palette', () => {
         });
         describe('Drag start event handling', () => {
             test.each`
-                fieldName               | expectedEventFieldTypeName  | expectedObjectFieldReference
-                ${STRING_FIELD_NAME}    | ${ScreenFieldName.TextBox}  | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
-                ${BOOLEAN_FIELD_NAME}   | ${ScreenFieldName.Checkbox} | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
-                ${NUMBER_FIELD_NAME}    | ${ScreenFieldName.Number}   | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
-                ${DATE_FIELD_NAME}      | ${ScreenFieldName.Date}     | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
-                ${DATE_TIME_FIELD_NAME} | ${ScreenFieldName.DateTime} | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+                fieldName                    | expectedEventFieldTypeName       | expectedObjectFieldReference
+                ${STRING_FIELD_NAME}         | ${ScreenFieldName.TextBox}       | ${accountSObjectVariable.guid + '.' + STRING_FIELD_NAME}
+                ${BOOLEAN_FIELD_NAME}        | ${ScreenFieldName.Checkbox}      | ${accountSObjectVariable.guid + '.' + BOOLEAN_FIELD_NAME}
+                ${NUMBER_FIELD_NAME}         | ${ScreenFieldName.Number}        | ${accountSObjectVariable.guid + '.' + NUMBER_FIELD_NAME}
+                ${DATE_FIELD_NAME}           | ${ScreenFieldName.Date}          | ${accountSObjectVariable.guid + '.' + DATE_FIELD_NAME}
+                ${DATE_TIME_FIELD_NAME}      | ${ScreenFieldName.DateTime}      | ${accountSObjectVariable.guid + '.' + DATE_TIME_FIELD_NAME}
+                ${LONG_TEXT_AREA_FIELD_NAME} | ${ScreenFieldName.LargeTextArea} | ${accountSObjectVariable.guid + '.' + LONG_TEXT_AREA_FIELD_NAME}
             `(
                 'DragStart event on $fieldName should transfer fieldTypeName: $expectedEventFieldTypeName and objectFieldReference: $expectedObjectFieldReference as data',
                 async ({ fieldName, expectedEventFieldTypeName, expectedObjectFieldReference }) => {
