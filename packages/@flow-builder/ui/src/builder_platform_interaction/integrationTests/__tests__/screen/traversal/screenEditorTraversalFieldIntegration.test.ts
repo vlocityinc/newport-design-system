@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -16,11 +15,7 @@ import {
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { selectGroupedComboboxItemBy } from '../../groupedComboboxTestUtils';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
-import {
-    createComponentUnderTest,
-    getCanvasScreenFieldElement,
-    getExtensionPropertiesEditorElement
-} from '../../screenEditorTestUtils';
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -44,10 +39,10 @@ const getGroupedCombobox = (extensionPropertiesEditor) => {
 
 describe('ScreenEditor', () => {
     let screenNode, store;
-    let screenEditor;
+    let screenEditor: ScreenEditorTestComponent;
     describe('existing flow with a screen lightning component : Address or fileUpload, and an account variable', () => {
         beforeAll(async () => {
-            store = Store.getStore(reducer);
+            store = Store.getStore(reducer as StoreReducer);
             initializeAuraFetch();
             initializeLoader(store);
         });
@@ -61,23 +56,26 @@ describe('ScreenEditor', () => {
 
                 const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
-                screenEditor = createComponentUnderTest({
-                    node: screenNode,
-                    processType: FLOW_PROCESS_TYPE.FLOW
-                });
+                screenEditor = new ScreenEditorTestComponent(
+                    createComponentUnderTest({
+                        node: screenNode,
+                        processType: FLOW_PROCESS_TYPE.FLOW
+                    })
+                );
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
-                addressElement.click();
+                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
                 await ticks(50);
             });
             it('shows up chevrons on fields', async () => {
-                const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
+                const extensionPropertiesEditor = screenEditor
+                    .getPropertiesEditorContainerElement()
+                    .getExtensionPropertiesEditor();
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
-                const combobox = getCombobox(extensionPropertiesEditor);
+                const combobox = getCombobox(extensionPropertiesEditor!.element);
                 combobox.renderIncrementally = false;
                 await ticks(1);
 
-                const groupedCombobox = getGroupedCombobox(extensionPropertiesEditor);
+                const groupedCombobox = getGroupedCombobox(extensionPropertiesEditor!.element);
                 const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',
@@ -95,17 +93,21 @@ describe('ScreenEditor', () => {
 
                 const element = getElementByDevName('screenWithFileUpload');
                 screenNode = getElementForPropertyEditor(element);
-                screenEditor = createComponentUnderTest({
-                    processType: FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE,
-                    node: screenNode
-                });
+                screenEditor = new ScreenEditorTestComponent(
+                    createComponentUnderTest({
+                        processType: FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE,
+                        node: screenNode
+                    })
+                );
                 await ticks(1000);
-                const fileUploadElement = getCanvasScreenFieldElement(screenEditor, 'File Upload');
-                fileUploadElement.click();
+                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('FileUpload')!.click();
                 await ticks(70);
             });
             it('does not show up chevrons on fields', async () => {
-                const groupedCombobox = getGroupedCombobox(getExtensionPropertiesEditorElement(screenEditor));
+                const extensionPropertiesEditor = screenEditor
+                    .getPropertiesEditorContainerElement()
+                    .getExtensionPropertiesEditor();
+                const groupedCombobox = getGroupedCombobox(extensionPropertiesEditor!.element);
                 const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',
@@ -122,7 +124,7 @@ describe('ScreenEditor', () => {
                     { blur: false }
                 );
 
-                expect(accountCreatedByIdItem).toBeDefined();
+                expect(accountCreatedByIdItem).not.toEqual(null);
                 expect(accountCreatedByIdItem.rightIconName).toBeUndefined();
             });
         });

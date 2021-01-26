@@ -3,28 +3,11 @@
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
-import {
-    createComponentUnderTest,
-    getCanvasScreenFieldElement,
-    getExtensionPropertiesEditorElement
-} from '../../screenEditorTestUtils';
-
-const SELECTORS = {
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
-};
-
-const getScreenPropertyField = (extensionsPropertyEdtior) => {
-    return extensionsPropertyEdtior.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR);
-};
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 
 /* This jest mock was added to create the actual scenario in screenEditor when extensions are delayed.
    We control the delay by using setTimeout and jest timers.
@@ -50,7 +33,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 
 describe('ScreenEditor Flow Extension Integration', () => {
     let screenNode;
-    let screenEditor;
+    let screenEditor: ScreenEditorTestComponent;
     afterAll(() => {
         resetState();
         jest.clearAllTimers();
@@ -60,17 +43,20 @@ describe('ScreenEditor Flow Extension Integration', () => {
         await setupStateForFlow(flowWithAllElements);
         const element = getElementByDevName('screenWithAddress');
         screenNode = getElementForPropertyEditor(element);
-        screenEditor = createComponentUnderTest({
-            processType: FLOW_PROCESS_TYPE.FLOW,
-            node: screenNode
-        });
-        await ticks(1);
-        const addressElement = getCanvasScreenFieldElement(screenEditor, 'flowruntime:address');
-        addressElement.click();
+        screenEditor = new ScreenEditorTestComponent(
+            createComponentUnderTest({
+                processType: FLOW_PROCESS_TYPE.FLOW,
+                node: screenNode
+            })
+        );
+        await ticks(50);
+        screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
         await ticks(1);
         jest.advanceTimersByTime(300);
         await ticks(1);
-        const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
-        expect(getScreenPropertyField(extensionPropertiesEditor)).not.toBeNull();
+        const extensionPropertiesEditor = screenEditor
+            .getPropertiesEditorContainerElement()
+            .getExtensionPropertiesEditor();
+        expect(extensionPropertiesEditor!.getApiNameScreenPropertyField()).not.toEqual(null);
     });
 });

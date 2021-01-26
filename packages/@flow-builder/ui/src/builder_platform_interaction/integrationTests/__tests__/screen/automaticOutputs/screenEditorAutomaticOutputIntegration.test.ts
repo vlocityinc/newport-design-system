@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { flowWithScreenAndLightningComponentAddress } from 'mock/flows/flowWithScreenAndLightningComponentAddress';
@@ -7,25 +6,11 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
-import {
-    ticks,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    checkboxChangeEvent
-} from 'builder_platform_interaction/builderTestUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { translateFlowToUIAndDispatch } from '../../integrationTestUtils';
-import {
-    createComponentUnderTest,
-    getCanvasScreenFieldElement,
-    getExtensionPropertiesEditorElement
-} from '../../screenEditorTestUtils';
-
-const SELECTORS = {
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
-};
+import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = FLOW_PROCESS_TYPE.FLOW;
 
@@ -52,23 +37,16 @@ jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
     require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
 );
 
-const getAdvancedOptionsCheckbox = (screenEditor) => {
-    return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector(
-        SELECTORS.USE_ADVANCED_OPTIONS_CHECKBOX
-    );
-};
-
-const getAdvancedOptionsCheckboxLightningInput = (screenEditor) => {
-    return getAdvancedOptionsCheckbox(screenEditor).shadowRoot.querySelector(SELECTORS.LIGHTNING_INPUT);
-};
-
-const getTitleFromExtensionPropertiesEditorElement = (screenEditor) => {
-    return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector('h3');
+const getTitleFromExtensionPropertiesEditorElement = (screenEditor: ScreenEditorTestComponent) => {
+    return screenEditor
+        .getPropertiesEditorContainerElement()
+        .getExtensionPropertiesEditor()!
+        .element.shadowRoot!.querySelector('h3');
 };
 
 describe('ScreenEditor', () => {
     let screenNode, store;
-    let screenEditor;
+    let screenEditor: ScreenEditorTestComponent;
     beforeEach(() => {
         clearExtensionsCache();
     });
@@ -88,7 +66,7 @@ describe('ScreenEditor', () => {
                     [FLOW_PROCESS_TYPE.FLOW]: mockFlowExtensions
                 })
             });
-            store = Store.getStore(reducer);
+            store = Store.getStore(reducer as StoreReducer);
             translateFlowToUIAndDispatch(flowWithScreenAndLightningComponentAddress, store);
         });
         afterAll(() => {
@@ -98,18 +76,29 @@ describe('ScreenEditor', () => {
             beforeEach(async () => {
                 const element = getElementByDevName('ScreenFlowAskAdress');
                 screenNode = getElementForPropertyEditor(element);
-                screenEditor = createComponentUnderTest({
-                    processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE,
-                    node: screenNode
-                });
+                screenEditor = new ScreenEditorTestComponent(
+                    createComponentUnderTest({
+                        processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE,
+                        node: screenNode
+                    })
+                );
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
-                addressElement.click();
+                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('askAddress')!.click();
                 await ticks(50);
             });
             it('Advanced Option checkbox should be unchecked', async () => {
-                expect(getAdvancedOptionsCheckbox(screenEditor)).toBeDefined();
-                expect(getAdvancedOptionsCheckboxLightningInput(screenEditor).checked).toBe(false);
+                expect(
+                    screenEditor
+                        .getPropertiesEditorContainerElement()
+                        .getExtensionPropertiesEditor()!
+                        .getAdvancedOptionsCheckbox()
+                ).not.toEqual(null);
+                expect(
+                    screenEditor
+                        .getPropertiesEditorContainerElement()
+                        .getExtensionPropertiesEditor()!
+                        .isAdvancedOptionsChecked()
+                ).toBe(false);
             });
             it('Output value should not be visible', async () => {
                 expect(getTitleFromExtensionPropertiesEditorElement(screenEditor)).toBeNull();
@@ -119,21 +108,29 @@ describe('ScreenEditor', () => {
             beforeEach(async () => {
                 const element = getElementByDevName('ScreenFlowAskAdress');
                 screenNode = getElementForPropertyEditor(element);
-                screenEditor = createComponentUnderTest({
-                    node: screenNode,
-                    processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
-                });
+                screenEditor = new ScreenEditorTestComponent(
+                    createComponentUnderTest({
+                        node: screenNode,
+                        processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+                    })
+                );
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
-                addressElement.click();
+                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('askAddress')!.click();
                 await ticks(50);
             });
             it('should display the outputs', async () => {
-                const advancedOptionCheckbox = getAdvancedOptionsCheckboxLightningInput(screenEditor);
-                advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
+                screenEditor
+                    .getPropertiesEditorContainerElement()
+                    .getExtensionPropertiesEditor()!
+                    .setAdvancedOptions(true);
                 await ticks(50);
-                expect(getAdvancedOptionsCheckboxLightningInput(screenEditor).checked).toBe(true);
-                expect(getTitleFromExtensionPropertiesEditorElement(screenEditor).textContent).toBe(
+                expect(
+                    screenEditor
+                        .getPropertiesEditorContainerElement()
+                        .getExtensionPropertiesEditor()!
+                        .isAdvancedOptionsChecked()
+                ).toBe(true);
+                expect(getTitleFromExtensionPropertiesEditorElement(screenEditor)!.textContent).toBe(
                     'FlowBuilderScreenEditor.extensionOutputsHeader'
                 );
             });
