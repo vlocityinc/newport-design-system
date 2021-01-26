@@ -379,13 +379,7 @@ const hasChildElements = (canvasElement) => {
         throw new Error('canvasElement is not defined');
     }
 
-    return (
-        canvasElement.elementType &&
-        (canvasElement.elementType === ELEMENT_TYPE.SCREEN ||
-            canvasElement.elementType === ELEMENT_TYPE.DECISION ||
-            canvasElement.elementType === ELEMENT_TYPE.WAIT ||
-            getConfigForElementType(canvasElement.elementType).areChildElementsSupported)
-    );
+    return canvasElement.elementType && getConfigForElementType(canvasElement.elementType).areChildElementsSupported;
 };
 
 /**

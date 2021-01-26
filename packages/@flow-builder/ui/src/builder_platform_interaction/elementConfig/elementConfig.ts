@@ -506,6 +506,7 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editScreenLabel
         },
         canvasElement: true,
+        areChildElementsSupported: true,
         nonHydratableProperties: [
             'fieldType',
             'dataType',
@@ -552,6 +553,7 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editDecisionLabel
         },
         canvasElement: true,
+        areChildElementsSupported: true,
         canHaveDefaultConnector: true,
         factory: {
             propertyEditor: createDecisionWithOutcomes,
@@ -585,6 +587,7 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editWaitLabel
         },
         canvasElement: true,
+        areChildElementsSupported: true,
         canHaveDefaultConnector: true,
         canHaveFaultConnector: true,
         factory: {

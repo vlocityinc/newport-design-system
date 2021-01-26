@@ -20,7 +20,11 @@ import {
     screenFieldsReferencedByLoops,
     debugInterviewResponseCallback
 } from '../editorUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE as mockElementType,
+    CONNECTOR_TYPE,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -32,7 +36,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
             return [
                 {
                     guid: 'canvasElement1',
-                    elementType: 'ASSIGNMENT',
+                    elementType: mockElementType.ASSIGNMENT,
                     config: {
                         isSelected: true,
                         isHighlighted: false
@@ -40,7 +44,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
                 },
                 {
                     guid: 'canvasElement2',
-                    elementType: 'DECISION',
+                    elementType: mockElementType.DECISION,
                     config: {
                         isSelected: false,
                         isHighlighted: false
@@ -48,7 +52,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
                 },
                 {
                     guid: 'canvasElement3',
-                    elementType: 'ASSIGNMENT',
+                    elementType: mockElementType.ASSIGNMENT,
                     config: {
                         isSelected: true,
                         isHighlighted: false
@@ -56,7 +60,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
                 },
                 {
                     guid: 'canvasElement4',
-                    elementType: 'ASSIGNMENT',
+                    elementType: mockElementType.ASSIGNMENT,
                     config: {
                         isSelected: false,
                         isHighlighted: false
@@ -175,10 +179,18 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
         getConfigForElementType: jest.fn().mockImplementation((elementType) => {
-            if (elementType === 'START_ELEMENT') {
+            if (elementType === mockElementType.START_ELEMENT) {
                 return {
                     canBeDuplicated: false,
                     isDeletable: false
+                };
+            } else if (
+                elementType === mockElementType.DECISION ||
+                elementType === mockElementType.WAIT ||
+                elementType === mockElementType.SCREEN
+            ) {
+                return {
+                    areChildElementsSupported: true
                 };
             }
             return {};
@@ -203,7 +215,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
 const canvasElement1 = {
     guid: 'canvasElement1',
-    elementType: ELEMENT_TYPE.ASSIGNMENT,
+    elementType: mockElementType.ASSIGNMENT,
     config: {
         isSelected: true,
         isHighlighted: false
@@ -212,7 +224,7 @@ const canvasElement1 = {
 
 const canvasElement2 = {
     guid: 'canvasElement2',
-    elementType: ELEMENT_TYPE.DECISION,
+    elementType: mockElementType.DECISION,
     config: {
         isSelected: false,
         isHighlighted: false
@@ -220,7 +232,7 @@ const canvasElement2 = {
 };
 const canvasElement3 = {
     guid: 'canvasElement3',
-    elementType: ELEMENT_TYPE.ASSIGNMENT,
+    elementType: mockElementType.ASSIGNMENT,
     config: {
         isSelected: true,
         isHighlighted: false
@@ -240,7 +252,7 @@ describe('Editor Utils Test', () => {
                     elements: {
                         startElement: {
                             guid: 'startElement',
-                            elementType: ELEMENT_TYPE.START_ELEMENT,
+                            elementType: mockElementType.START_ELEMENT,
                             config: {
                                 isSelected: true,
                                 isHighlighted: false
@@ -251,7 +263,7 @@ describe('Editor Utils Test', () => {
                         canvasElement3,
                         canvasElement4: {
                             guid: 'canvasElement4',
-                            elementType: ELEMENT_TYPE.ASSIGNMENT,
+                            elementType: mockElementType.ASSIGNMENT,
                             config: {
                                 isSelected: false,
                                 isHighlighted: false
@@ -299,12 +311,12 @@ describe('Editor Utils Test', () => {
 
         it('dispatch deleteElement action with only one element when isMultiElementDelete is false and no connectors are involved', () => {
             const selectedElementGUID = ['canvasElement1'];
-            const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;
+            const selectedElementType = mockElementType.ASSIGNMENT;
 
             const payload = {
                 selectedElements: [canvasElement1],
                 connectorsToDelete: [],
-                elementType: ELEMENT_TYPE.ASSIGNMENT
+                elementType: mockElementType.ASSIGNMENT
             };
 
             getElementsToBeDeleted(storeInstance, {
@@ -320,12 +332,12 @@ describe('Editor Utils Test', () => {
 
         it('dispatch deleteElement action with only one element when isMultiElementDelete is false, no connectors are involved and childIndexToKeep is 1', () => {
             const selectedElementGUID = ['canvasElement1'];
-            const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;
+            const selectedElementType = mockElementType.ASSIGNMENT;
 
             const payload = {
                 selectedElements: [canvasElement1],
                 connectorsToDelete: [],
-                elementType: ELEMENT_TYPE.ASSIGNMENT,
+                elementType: mockElementType.ASSIGNMENT,
                 childIndexToKeep: 1
             };
 
@@ -343,7 +355,7 @@ describe('Editor Utils Test', () => {
 
         it('dispatch deleteElement action when isMultiElementDelete is false and all connectors are involved', () => {
             const selectedElementGUID = ['canvasElement2'];
-            const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;
+            const selectedElementType = mockElementType.ASSIGNMENT;
 
             const payload = {
                 selectedElements: [canvasElement2],
@@ -363,7 +375,7 @@ describe('Editor Utils Test', () => {
                         }
                     }
                 ],
-                elementType: ELEMENT_TYPE.ASSIGNMENT
+                elementType: mockElementType.ASSIGNMENT
             };
 
             getElementsToBeDeleted(storeInstance, {
@@ -433,7 +445,7 @@ describe('Editor Utils Test', () => {
 
             const payload = {
                 selectedElements: [canvasElement1],
-                elementType: ELEMENT_TYPE.STAGE_STEP,
+                elementType: mockElementType.STAGE_STEP,
                 childIndexToKeep: undefined,
                 connectorsToDelete: [],
                 parentGUID: parentGuid
@@ -677,7 +689,7 @@ describe('Editor Utils Test', () => {
                     elements: {
                         startElement: {
                             guid: 'startElement',
-                            elementType: ELEMENT_TYPE.START_ELEMENT,
+                            elementType: mockElementType.START_ELEMENT,
                             config: {
                                 isSelected: true,
                                 isHighlighted: false
@@ -705,7 +717,7 @@ describe('Editor Utils Test', () => {
                     elements: {
                         startElement: {
                             guid: 'startElement',
-                            elementType: ELEMENT_TYPE.START_ELEMENT,
+                            elementType: mockElementType.START_ELEMENT,
                             config: {
                                 isSelected: true,
                                 isHighlighted: false
@@ -717,7 +729,7 @@ describe('Editor Utils Test', () => {
                         },
                         timeTrigger: {
                             dataType: 'Boolean',
-                            elementType: ELEMENT_TYPE.TIME_TRIGGER,
+                            elementType: mockElementType.TIME_TRIGGER,
                             guid: '1',
                             label: 'pathTest',
                             name: 'pathTest',
@@ -755,7 +767,7 @@ describe('Editor Utils Test', () => {
                     guid: 'assignment1',
                     next: 'end',
                     config: { isSelected: true },
-                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                    elementType: mockElementType.ASSIGNMENT
                 }
             };
 
@@ -776,7 +788,7 @@ describe('Editor Utils Test', () => {
                             childReference: 'outcome2'
                         }
                     ],
-                    elementType: ELEMENT_TYPE.DECISION
+                    elementType: mockElementType.DECISION
                 },
                 outcome1: {
                     guid: 'outcome1'
@@ -802,7 +814,7 @@ describe('Editor Utils Test', () => {
                 screen1: {
                     guid: 'screen1',
                     config: { isSelected: true },
-                    elementType: ELEMENT_TYPE.SCREEN,
+                    elementType: mockElementType.SCREEN,
                     childReferences: [
                         {
                             childReference: 'section1'
@@ -814,7 +826,7 @@ describe('Editor Utils Test', () => {
                 },
                 section1: {
                     guid: 'section1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: [
                         {
                             childReference: 'column1'
@@ -823,12 +835,12 @@ describe('Editor Utils Test', () => {
                 },
                 column1: {
                     guid: 'column1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                    elementType: mockElementType.SCREEN_FIELD
                 }
             };
 
@@ -836,7 +848,7 @@ describe('Editor Utils Test', () => {
             expect(result).toMatchObject({
                 section1: {
                     guid: 'section1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: [
                         {
                             childReference: 'column1'
@@ -845,12 +857,12 @@ describe('Editor Utils Test', () => {
                 },
                 column1: {
                     guid: 'column1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                    elementType: mockElementType.SCREEN_FIELD
                 }
             });
         });
@@ -863,7 +875,7 @@ describe('Editor Utils Test', () => {
                     guid: 'assignment1',
                     next: 'decision1',
                     config: { isSelected: true },
-                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                    elementType: mockElementType.ASSIGNMENT
                 },
                 decision1: {
                     guid: 'decision1',
@@ -874,7 +886,7 @@ describe('Editor Utils Test', () => {
                             childReference: 'outcome1'
                         }
                     ],
-                    elementType: ELEMENT_TYPE.DECISION
+                    elementType: mockElementType.DECISION
                 },
                 outcome1: {
                     guid: 'outcome1'
@@ -884,14 +896,14 @@ describe('Editor Utils Test', () => {
                     config: { isSelected: true },
                     parent: 'decision1',
                     childIndex: 0,
-                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                    elementType: mockElementType.ASSIGNMENT
                 },
                 assignment3: {
                     guid: 'assignment3',
                     config: { isSelected: false },
                     parent: 'decision1',
                     childIndex: 0,
-                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                    elementType: mockElementType.ASSIGNMENT
                 }
             };
 
@@ -900,7 +912,7 @@ describe('Editor Utils Test', () => {
                     guid: 'assignment1',
                     next: 'decision1',
                     config: { isSelected: true },
-                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                    elementType: mockElementType.ASSIGNMENT
                 },
                 decision1: {
                     guid: 'decision1',
@@ -911,14 +923,14 @@ describe('Editor Utils Test', () => {
                             childReference: 'outcome1'
                         }
                     ],
-                    elementType: ELEMENT_TYPE.DECISION
+                    elementType: mockElementType.DECISION
                 },
                 assignment2: {
                     guid: 'assignment2',
                     config: { isSelected: true },
                     parent: 'decision1',
                     childIndex: 0,
-                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                    elementType: mockElementType.ASSIGNMENT
                 }
             };
 
@@ -940,7 +952,7 @@ describe('Editor Utils Test', () => {
                 screen1: {
                     guid: 'screen1',
                     config: { isSelected: true },
-                    elementType: ELEMENT_TYPE.SCREEN,
+                    elementType: mockElementType.SCREEN,
                     childReferences: [
                         {
                             childReference: 'section1'
@@ -952,7 +964,7 @@ describe('Editor Utils Test', () => {
                 },
                 section1: {
                     guid: 'section1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: [
                         {
                             childReference: 'column1'
@@ -961,12 +973,12 @@ describe('Editor Utils Test', () => {
                 },
                 column1: {
                     guid: 'column1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                    elementType: mockElementType.SCREEN_FIELD
                 }
             };
 
@@ -974,7 +986,7 @@ describe('Editor Utils Test', () => {
                 screen1: {
                     guid: 'screen1',
                     config: { isSelected: true },
-                    elementType: ELEMENT_TYPE.SCREEN,
+                    elementType: mockElementType.SCREEN,
                     childReferences: [
                         {
                             childReference: 'section1'
@@ -989,7 +1001,7 @@ describe('Editor Utils Test', () => {
             const expectedCopiedChildElements = {
                 section1: {
                     guid: 'section1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: [
                         {
                             childReference: 'column1'
@@ -998,12 +1010,12 @@ describe('Editor Utils Test', () => {
                 },
                 column1: {
                     guid: 'column1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                    elementType: mockElementType.SCREEN_FIELD
                 }
             };
 
@@ -1097,7 +1109,7 @@ describe('Editor Utils Test', () => {
                 guid1: {
                     config: { isSelected: true, isHighlighted: false },
                     connectorCount: 0,
-                    elementType: ELEMENT_TYPE.DECISION,
+                    elementType: mockElementType.DECISION,
                     guid: 'guid1',
                     isCanvasElement: true,
                     childReferences: [{ childReference: 'guid3' }]
@@ -1105,7 +1117,7 @@ describe('Editor Utils Test', () => {
                 guid2: {
                     config: { isSelected: true, isHighlighted: false },
                     connectorCount: 0,
-                    elementType: ELEMENT_TYPE.SCREEN,
+                    elementType: mockElementType.SCREEN,
                     guid: 'guid2',
                     isCanvasElement: true,
                     childReferences: [{ childReference: 'guid4' }, { childReference: 'guid5' }]
@@ -1115,7 +1127,7 @@ describe('Editor Utils Test', () => {
                 },
                 guid4: {
                     guid: 'guid4',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: [{ childReference: 'guid6' }]
                 },
                 guid5: {
@@ -1123,7 +1135,7 @@ describe('Editor Utils Test', () => {
                 },
                 guid6: {
                     guid: 'guid6',
-                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    elementType: mockElementType.SCREEN_FIELD,
                     childReferences: [{ childReference: 'guid7' }]
                 },
                 guid7: {
