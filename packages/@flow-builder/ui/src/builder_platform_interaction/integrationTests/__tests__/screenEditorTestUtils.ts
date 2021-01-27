@@ -156,6 +156,10 @@ export class ScreenEditorHighlightTestComponent extends TestComponent<ScreenEdit
     public getScreenFieldElement() {
         return this.element.querySelector(SELECTORS.SCREEN_FIELD)! as ScreenField & HTMLElement;
     }
+    public clickDelete() {
+        const deleteButton = this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_BUTTON_ICON)[1] as any;
+        deleteButton.click();
+    }
 }
 
 export class SectionScreenEditorHighlightTestComponent extends ScreenEditorHighlightTestComponent {

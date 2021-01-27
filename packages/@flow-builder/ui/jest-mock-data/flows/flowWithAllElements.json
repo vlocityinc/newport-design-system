@@ -1270,6 +1270,35 @@
                     {
                         "choiceReferences": [],
                         "dataTypeMappings": [],
+                        "fieldText": "<p>address : {!address_2.street}</p><p>email : {!email_2.value}</p>",
+                        "fieldType": "DisplayText",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "displayTextUsingResources",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screenUsingResources",
+                "locationX": 181,
+                "locationY": 788,
+                "name": "screenUsingResources",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            },
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
                         "extensionName": "flowruntime:address",
                         "fieldType": "ComponentInstance",
                         "fields": [],

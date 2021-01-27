@@ -282,19 +282,22 @@ function getChildElementGuids(element: UI.HydratedElement): UI.Guid[] {
  * @returns elementGuids updated elementGuids array
  */
 function insertChildReferences(elementGuids: UI.Guid[], elements: UI.Elements): UI.Guid[] {
-    return elementGuids.reduce<UI.Guid[]>((acc, elementGuid) => {
-        const element = elements[elementGuid];
-        if (!element) {
+    return elementGuids.reduce<UI.Guid[]>(
+        (acc, elementGuid) => {
+            const element = elements[elementGuid];
+            if (!element) {
+                return acc;
+            }
+            if (isCanvasElementWithChildReferences(element)) {
+                const childReferences = element.childReferences.map(({ childReference }) => {
+                    return childReference;
+                });
+                acc = [...acc, ...childReferences];
+            }
             return acc;
-        }
-        if (isCanvasElementWithChildReferences(element)) {
-            const childReferences = element.childReferences.map(({ childReference }) => {
-                return childReference;
-            });
-            acc = [...acc, ...childReferences];
-        }
-        return addItem(acc, elementGuid);
-    }, []);
+        },
+        [...elementGuids]
+    );
 }
 
 function isCanvasElementWithChildReferences(
