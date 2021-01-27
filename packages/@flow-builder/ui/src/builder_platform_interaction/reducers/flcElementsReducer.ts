@@ -130,7 +130,11 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
         }
         case DELETE_ELEMENT: {
             const { selectedElements, childIndexToKeep } = action.payload;
-            const deletedElement = selectedElements[0];
+            const deletedElement = { ...selectedElements[0] };
+            if (deletedElement.childReferences && deletedElement.childReferences.length > 0) {
+                // Resetting childReferences since it has already been cleaned up in elements reducer
+                deletedElement.childReferences = [];
+            }
             const alcAction = actions.deleteElementAction(deletedElement.guid, childIndexToKeep);
             nextState[deletedElement.guid] = deletedElement;
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
