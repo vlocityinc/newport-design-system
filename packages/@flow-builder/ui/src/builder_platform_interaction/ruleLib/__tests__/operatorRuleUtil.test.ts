@@ -104,6 +104,12 @@ describe('Operator Rule Util', () => {
     });
     describe('isMatch util', () => {
         it('should return true if rule param and store element hydrated with errors match', () => {
+            const stringParamWithLowerCase = { ...stringParam };
+            stringParamWithLowerCase.dataType = 'string';
+            const isEqual = isMatch(stringParamWithLowerCase, stringVariableForPropertyEditor());
+            expect(isEqual).toBeTruthy();
+        });
+        it('should return true if rule param and store element hydrated with errors match ignoring case', () => {
             const isEqual = isMatch(stringParam, stringVariableForPropertyEditor());
             expect(isEqual).toBeTruthy();
         });

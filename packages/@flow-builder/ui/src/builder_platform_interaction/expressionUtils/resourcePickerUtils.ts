@@ -19,6 +19,7 @@ const getFieldMenuData = (
     {
         allowSObjectFields = true,
         allowSObjectFieldsTraversal = true,
+        allowElementFields = true,
         shouldBeWritable = false,
         selectorConfig,
         showMultiPicklistGlobalVariables = false
@@ -29,6 +30,7 @@ const getFieldMenuData = (
         showAsFieldReference: true,
         showSubText: true,
         allowSObjectFieldsTraversal,
+        allowElementFields,
         shouldBeWritable,
         selectorConfig,
         allowSObjectFields
@@ -104,13 +106,15 @@ export const getMenuData = (
         showGlobalVariables = true,
         forFormula = false,
         allowSObjectFieldsTraversal = true,
-        allowSObjectFields = true
+        allowSObjectFields = true,
+        allowElementFields = true
     } = {}
 ) => {
     if (parentItem) {
         return getFieldMenuData(populateParamTypesFn, parentItem, fields, {
             allowSObjectFields,
             allowSObjectFieldsTraversal,
+            allowElementFields,
             shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
             selectorConfig: elementConfig && elementConfig.selectorConfig,
             showMultiPicklistGlobalVariables: forFormula

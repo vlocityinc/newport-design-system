@@ -368,6 +368,12 @@ describe('elementLabelLib', () => {
                     'FlowBuilderElementConfig.collectionVariablePluralLabel'
                 );
             });
+            it('for elements that are complex types as resource', () => {
+                expect(getResourceCategory(createElement(ELEMENT_TYPE.STAGE_STEP))).toEqual(
+                    'FlowBuilderElementConfig.stageStepPluralLabel'
+                );
+            });
+
             it('for subflow as resource', () => {
                 expect(
                     getResourceCategory(createElement(ELEMENT_TYPE.SUBFLOW, FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value, false))

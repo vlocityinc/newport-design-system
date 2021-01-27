@@ -191,7 +191,9 @@ describe('StageStepEditor', () => {
             expect(fetchDetailsForInvocableAction).toHaveBeenCalledWith({
                 elementType: ELEMENT_TYPE.ACTION_CALL,
                 actionType: nodeParams.action.actionType.value,
-                actionName: nodeParams.action.actionName.value
+                actionName: nodeParams.action.actionName.value,
+                inputParameters: [],
+                outputParameters: []
             });
 
             expect(stageStepReducer).toHaveBeenCalledWith(

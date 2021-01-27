@@ -18,6 +18,8 @@ import defaultOrchestratedStageName from '@salesforce/label/FlowBuilderElementCo
 import defaultStageStepName from '@salesforce/label/FlowBuilderElementConfig.defaultStageStepName';
 import workStepLabel from '@salesforce/label/FlowBuilderElementConfig.workStepLabel';
 import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
+import stageStepStatus from '@salesforce/label/FlowBuilderElementConfig.stageStepStatus';
+import stageStepOutput from '@salesforce/label/FlowBuilderElementConfig.stageStepOutput';
 
 export const LABELS = {
     emptyDefaultOutcomeLabel,
@@ -38,5 +40,7 @@ export const LABELS = {
     defaultOrchestratedStageName,
     defaultStageStepName,
     workStepLabel,
-    immediateConnectorLabel
+    immediateConnectorLabel,
+    stageStepStatus,
+    stageStepOutput
 };

@@ -349,13 +349,16 @@ export function baseChildElement(childElement: any = {}, elementType): UI.ChildE
         elementType !== ELEMENT_TYPE.OUTCOME &&
         elementType !== ELEMENT_TYPE.WAIT_EVENT &&
         elementType !== ELEMENT_TYPE.STAGE_STEP &&
-        elementType !== ELEMENT_TYPE.TIME_TRIGGER &&
-        elementType !== ELEMENT_TYPE.STAGE_STEP
+        elementType !== ELEMENT_TYPE.TIME_TRIGGER
     ) {
         throw new Error(
             'baseChildElement should only be used for outcomes, wait events, time triggers and stage steps'
         );
-    } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
+    } else if (
+        childElement.dataType &&
+        childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value &&
+        childElement.dataType !== FLOW_DATA_TYPE.STAGE_STEP.value
+    ) {
         throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
     }
     const newChildElement: UI.ChildElement = baseElement(childElement) as UI.ChildElement;

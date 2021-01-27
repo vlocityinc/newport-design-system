@@ -21,6 +21,8 @@ export type ParameterListRowItem = {
     value: string | ValueWithError;
     valueDataType: string;
     warnings?: MERGE_WARNING_TYPE[];
+    // When coming from the api
+    dataType?: string;
 };
 
 export const RHS_PROPERTY = 'rightHandSide';

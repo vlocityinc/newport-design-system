@@ -16,13 +16,14 @@ import { getElementByGuid, getElementsForElementType } from 'builder_platform_in
 import { createConnectorObjects } from './connector';
 import { format, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
-import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { getParametersForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter } from './outputParameter';
 import { createActionCall } from './actionCall';
 import { ParameterListRowItem } from './base/baseList';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 // TODO: should extend the same base class as other non-canvas elements
 export interface StageStep extends UI.ChildElement {
@@ -249,15 +250,75 @@ export function getSteps(guid: UI.Guid): StageStep[] {
 
     return orchestratedStage.childReferences.map(
         (ref: UI.ChildReference): StageStep => {
-            return {
+            return <StageStep>{
                 ...getElementByGuid(ref.childReference)!,
                 // TODO: W-8051764: This will eventually need to be dynamic based on the step type
                 stepTypeLabel: LABELS.workStepLabel
-            } as StageStep;
+            };
         }
     );
 }
 
+export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any> {
+    // Explicit cast should be safe since we should only call this version
+    // with StageSteps
+    const step = (element as unknown) as StageStep;
+    const comboboxitems: UI.StringKeyedMap<any> = {
+        status: {
+            label: LABELS.stageStepStatus,
+            name: 'status',
+            apiName: 'status',
+            dataType: FLOW_DATA_TYPE.STRING.value
+        }
+    };
+
+    let outputParameters: ParameterListRowItem[];
+    if (step.outputParameters.length > 0) {
+        // Use the already loaded output parameters
+        outputParameters = step.outputParameters;
+    } else {
+        // check for asynchronously loaded output parameters for the associated action
+        outputParameters = getParametersForInvocableAction({
+            actionName: step.actionName,
+            actionType: step.actionType,
+            dataTypeMappings: []
+        })
+            .filter((parameter) => {
+                return parameter.isOutput;
+            })
+            .map((outputParameter) => {
+                return createOutputParameter({
+                    ...outputParameter,
+                    valueDataType: outputParameter.dataType
+                });
+            });
+    }
+
+    if (outputParameters && outputParameters.length > 0) {
+        comboboxitems.output = {
+            label: LABELS.stageStepOutput,
+            name: 'output',
+            apiName: 'output',
+            dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+            isSpanningAllowed: true,
+            getChildrenItems: () =>
+                outputParameters.map((output: ParameterListRowItem) => ({
+                    label: output.name,
+                    name: output.name,
+                    apiName: output.name,
+                    dataType: output.valueDataType
+                }))
+        };
+    }
+
+    return comboboxitems;
+}
+
+/**
+ * Note: When creating StageSteps during initial load, the output parameters are not
+ * available.  They are injected asynchronously by preloadLib.loadParametersForStageStepsInFlow
+ * @param step
+ */
 export function createStageStep(step: StageStep): StageStep {
     const baseStep = { ...step };
 
@@ -298,7 +359,15 @@ export function createStageStep(step: StageStep): StageStep {
     );
 
     newStep.inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
-    newStep.outputParameters = outputParameters.map((outputParameter) => createOutputParameter(outputParameter));
+    // Make sure valueDataType (expected by the ui) is set
+    newStep.outputParameters = outputParameters.map((outputParameter) =>
+        createOutputParameter({
+            ...outputParameter,
+            valueDataType: outputParameter.dataType
+        })
+    );
+
+    newStep.dataType = FLOW_DATA_TYPE.STAGE_STEP.value;
 
     return { ...step, ...newStep };
 }

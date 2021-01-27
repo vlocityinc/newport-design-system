@@ -34,7 +34,7 @@ import {
     getApiVersionsList
 } from 'builder_platform_interaction/systemLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { elementTypeToConfigMap, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     retrieveResourceComplexTypeFields,
@@ -455,7 +455,8 @@ export function filterFieldsForChosenElement(
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
         selectorConfig,
-        allowSObjectFields
+        allowSObjectFields,
+        allowElementFields = true
     } = {}
 ): Array<Object> {
     if (fields) {
@@ -477,7 +478,8 @@ export function filterFieldsForChosenElement(
                             showSubText,
                             allowSObjectFieldsTraversal,
                             allowApexTypeFieldsTraversal,
-                            allowSObjectFields
+                            allowSObjectFields,
+                            allowElementFields
                         })
                     ),
                 []
@@ -526,9 +528,13 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
  * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
  */
 export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = false) {
-    const { dataType, subtype } = parentItem;
+    const { dataType, subtype, getChildrenItems } = parentItem;
+    const elementType: ELEMENT_TYPE = FLOW_DATA_TYPE[dataType] && FLOW_DATA_TYPE[dataType].elementType;
+
     let result;
-    if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
+    if (getChildrenItems) {
+        result = getChildrenItems();
+    } else if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
         result = getSystemVariables(subtype);
     } else if (getGlobalVariables(subtype, showMultiPicklistGlobalVariables)) {
         result = getGlobalVariables(subtype, showMultiPicklistGlobalVariables);
@@ -544,6 +550,9 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
         result = retrieveResourceComplexTypeFields(element);
     } else if (dataType === FLOW_DATA_TYPE.APEX.value) {
         result = apexTypeLib.getPropertiesForClass(subtype);
+    } else if (elementType && elementTypeToConfigMap[elementType].getChildrenItems) {
+        const element = getElementByGuid(parentItem.value);
+        return elementTypeToConfigMap[elementType].getChildrenItems(element);
     } else {
         result = {};
     }

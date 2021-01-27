@@ -339,6 +339,24 @@ describe('menuDataGenerator', () => {
         it('should use dataType for subtext for $Client variables', () => {
             expectSubText(clientVariable, parentClientVariableItem);
         });
+        it('sets getChildrenItems if present', () => {
+            const mockField = {
+                getChildrenItems: () => {}
+            };
+            const mutatedField = getMenuItemForField(mockField, parentSObjectItem);
+            expect(mutatedField.getChildrenItems).toEqual(mockField.getChildrenItems);
+        });
+        it('type STAGE_STEP hasNext = true', () => {
+            const mutatedField = getMenuItemForField(
+                {
+                    dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value
+                },
+                {
+                    dataType: FLOW_DATA_TYPE.STAGE_STEP.value
+                }
+            );
+            expect(mutatedField.hasNext).toBeTruthy();
+        });
     });
     describe('getMenuItemsForField', () => {
         const parentSObjectItem = {

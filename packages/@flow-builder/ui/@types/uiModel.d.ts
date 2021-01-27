@@ -252,6 +252,7 @@ declare namespace UI {
         name?: string;
         nodeConfig?: NodeConfig;
         nonHydratableProperties?: string[];
+        getChildrenItems?: (element: Element) => StringKeyedMap<any>;
     }
 
     interface LabelsObject {

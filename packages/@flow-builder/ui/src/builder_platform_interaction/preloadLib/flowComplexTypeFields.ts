@@ -12,6 +12,7 @@ import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMeta
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { StageStep } from 'builder_platform_interaction/elementFactory';
 
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
@@ -21,6 +22,7 @@ export function loadFieldsForComplexTypesInFlow(state) {
         loadFieldsForSobjectsInFlow(state),
         loadFieldsForExtensionsInFlow(state),
         loadParametersForInvocableActionsInFlow(state),
+        loadParametersForStageStepsInFlow(state),
         loadFieldsForApexClassesInFlow(state),
         loadFieldsForSubflowsInFlow(state)
     ]);
@@ -106,7 +108,7 @@ function loadFieldsForExtensions(screenFields: (UI.ScreenField | Metadata.Screen
     }).catch(() => {});
 }
 
-export function loadParametersForInvocableActionsInFlow(state) {
+export async function loadParametersForInvocableActionsInFlow(state: UI.StoreState) {
     // we only get the action that have outputs. (e.g. EMAIL_ALERT is excluded)
     const actionCallsSelector = byElementTypeElementsSelector(
         ELEMENT_TYPE.ACTION_CALL,
@@ -119,6 +121,32 @@ export function loadParametersForInvocableActionsInFlow(state) {
             actionName: actionCall.actionName,
             actionType: actionCall.actionType
         }));
+
+    return loadParametersForInvocableActions(actionCallNamesAndTypes);
+}
+
+/**
+ * Load output parameters for all StageSteps with actions so they will be available
+ * for use in the combobox
+ *
+ * @param state
+ */
+export async function loadParametersForStageStepsInFlow(state: UI.StoreState) {
+    const stageStepSelector = byElementTypeElementsSelector(ELEMENT_TYPE.STAGE_STEP);
+
+    const steps: StageStep[] = stageStepSelector(state);
+
+    const actionCallNamesAndTypes = steps.map((step: StageStep) => {
+        return {
+            actionName: step.actionName,
+            actionType: step.actionType
+        };
+    });
+
+    return loadParametersForInvocableActions(actionCallNamesAndTypes);
+}
+
+export function loadParametersForInvocableActions(actionCallNamesAndTypes) {
     const promises = [];
     actionCallNamesAndTypes.forEach((actionCallNameAndType) =>
         promises.push(

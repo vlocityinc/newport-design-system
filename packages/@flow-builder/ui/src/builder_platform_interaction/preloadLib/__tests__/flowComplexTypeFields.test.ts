@@ -6,7 +6,8 @@ import {
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadFieldsForApexClassesInFlow,
     loadFieldsForSubflowsInFlow,
-    loadFieldsForExtensionsInFlowFromMetadata
+    loadFieldsForExtensionsInFlowFromMetadata,
+    loadParametersForStageStepsInFlow
 } from '../flowComplexTypeFields';
 import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
 import {
@@ -33,6 +34,7 @@ import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/inv
 import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve())
@@ -200,6 +202,28 @@ describe('flowComplexTypeFields', () => {
                 getMetadataFlowElementByName(flowWithAllElements, actionCallElement.name)
             ]);
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
+        });
+    });
+    describe('loadParametersForStageStepsInFlow', () => {
+        it('loads parameters for all step stages', async () => {
+            const step = {
+                elementType: ELEMENT_TYPE.STAGE_STEP,
+                actionName: 'aName',
+                actionType: 'aType'
+            };
+
+            const state = {
+                elements: {
+                    '123': step
+                }
+            };
+
+            await loadParametersForStageStepsInFlow(state);
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(1);
+            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual({
+                actionName: step.actionName,
+                actionType: step.actionType
+            });
         });
     });
 });

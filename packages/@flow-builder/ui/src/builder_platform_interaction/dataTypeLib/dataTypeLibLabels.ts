@@ -12,6 +12,7 @@ import apexDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.apexDataTy
 import lightningComponentOutputDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.lightningComponentOutputDataTypeLabel';
 import actionOutputDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.actionOutputDataTypeLabel';
 import subflowOutputDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.subflowOutputDataTypeLabel';
+import stageStepDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.stageStepDataTypeLabel';
 
 export const LABELS = {
     textDataTypeLabel,
@@ -26,5 +27,6 @@ export const LABELS = {
     apexDataTypeLabel,
     lightningComponentOutputDataTypeLabel,
     actionOutputDataTypeLabel,
-    subflowOutputDataTypeLabel
+    subflowOutputDataTypeLabel,
+    stageStepDataTypeLabel
 };

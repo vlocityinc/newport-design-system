@@ -5,6 +5,7 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 
 let cachedDetails = [];
 let invocableActions = [];
@@ -13,6 +14,8 @@ export type InvocableAction = {
     elementType: ELEMENT_TYPE;
     actionType: string | ValueWithError;
     actionName: string | ValueWithError;
+    inputParameters: ParameterListRowItem[];
+    outputParameters: ParameterListRowItem[];
 };
 
 export function setInvocableActions(actions) {

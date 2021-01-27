@@ -154,7 +154,7 @@ export default class StageStepEditor extends LightningElement {
             this.entryConditionsAvailableStepItems.push(comboboxItem);
         });
 
-        this.setInputParameters();
+        this.setActionParameters();
     }
 
     get isLabelCollapsibleToHeader() {
@@ -243,7 +243,9 @@ export default class StageStepEditor extends LightningElement {
             return {
                 elementType: ELEMENT_TYPE.ACTION_CALL,
                 actionType: this.element.action.actionType.value,
-                actionName: this.element.action.actionName.value
+                actionName: this.element.action.actionName.value,
+                inputParameters: [],
+                outputParameters: []
             };
         }
 
@@ -297,7 +299,7 @@ export default class StageStepEditor extends LightningElement {
             this.availableActions = workitemActions;
 
             if (this.selectedAction) {
-                this.setInputParameters();
+                this.setActionParameters();
             }
         } catch (err) {
             this.isActionsFetched = true;
@@ -320,7 +322,7 @@ export default class StageStepEditor extends LightningElement {
         });
     }
 
-    async setInputParameters() {
+    async setActionParameters() {
         if (!this.selectedAction) {
             return;
         }
@@ -393,12 +395,12 @@ export default class StageStepEditor extends LightningElement {
         }
     }
 
-    handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
+    async handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
         if (e.detail.value.actionName) {
             // Update the selected action
             this.element = stageStepReducer(this.element!, e);
 
-            this.setInputParameters();
+            await this.setActionParameters();
 
             // Update the node in the store
             this.dispatchEvent(new UpdateNodeEvent(this.element));

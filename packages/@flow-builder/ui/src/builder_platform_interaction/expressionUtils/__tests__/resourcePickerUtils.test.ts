@@ -84,6 +84,7 @@ describe('resourcePickerUtils', () => {
                 allowSObjectFields: true,
                 allowedParamTypes: paramTypes,
                 allowSObjectFieldsTraversal: true,
+                allowElementFields: true,
                 showAsFieldReference: true,
                 showSubText: true,
                 selectorConfig: null,
@@ -103,6 +104,7 @@ describe('resourcePickerUtils', () => {
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, ['field2'], {
                 allowSObjectFields: true,
                 allowedParamTypes: paramTypes,
+                allowElementFields: true,
                 showAsFieldReference: true,
                 showSubText: true,
                 allowSObjectFieldsTraversal: true,

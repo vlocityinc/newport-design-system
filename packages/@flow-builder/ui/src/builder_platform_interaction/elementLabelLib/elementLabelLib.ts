@@ -124,9 +124,13 @@ export function getElementTypeLabel({ elementType }) {
  *            [resource.isCollection=false] whether or not that element is a collection
  * @param {Boolean}
  *            [resource.isSystemGeneratedOutput=false] whether or not that element is an anonymous output
- * @returns {String} the category label for this element
  */
-export function getResourceCategory({ elementType, dataType, isCollection = false, isSystemGeneratedOutput = false }) {
+export function getResourceCategory({
+    elementType,
+    dataType,
+    isCollection = false,
+    isSystemGeneratedOutput = false
+}): string {
     let categoryLabel;
     if (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === FLOW_DATA_TYPE.STRING.value) {
         categoryLabel = LABELS.variablePluralLabel;
@@ -163,6 +167,9 @@ export function getResourceCategory({ elementType, dataType, isCollection = fals
         categoryLabel = LABELS.actionPluralLabel;
     } else if (dataType === SUBFLOW_OUTPUT_TYPE) {
         categoryLabel = LABELS.subflowPluralLabel;
+    } else {
+        const config = getConfigForElementType(elementType);
+        categoryLabel = config.labels && config.labels.plural;
     }
     return categoryLabel;
 }

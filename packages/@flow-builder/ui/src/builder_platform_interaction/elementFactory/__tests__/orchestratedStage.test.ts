@@ -9,7 +9,8 @@ import {
     getSteps,
     getOtherItemsInOrchestratedStage,
     createDuplicateOrchestratedStage,
-    createPastedOrchestratedStage
+    createPastedOrchestratedStage,
+    getStageStepChildren
 } from '../orchestratedStage';
 import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -27,6 +28,7 @@ import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -41,6 +43,42 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             return [];
         })
     };
+});
+
+const mockActionWithOutputParametersName = 'actionWithOutput';
+const mockOutputParameters = [
+    {
+        name: 'record',
+        dataType: 'sobject',
+        sobjectType: 'U__record',
+        isOutput: true
+    }
+];
+
+const mockActionWithInputParametersName = 'actionWithInput';
+const mockInputParameters = [
+    {
+        name: 'record',
+        dataType: 'sobject',
+        sobjectType: 'U__record',
+        isOutput: false
+    }
+];
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/invocableActionLib');
+
+    return Object.assign({}, actual, {
+        getParametersForInvocableAction: (actionInfo) => {
+            if (actionInfo.actionName === mockActionWithOutputParametersName) {
+                return mockOutputParameters;
+            } else if (actionInfo.actionName === mockActionWithInputParametersName) {
+                return mockInputParameters;
+            }
+
+            return [];
+        }
+    });
 });
 
 const newOrchestratedStageGuid = 'newOrchestratedStage';
@@ -619,6 +657,74 @@ describe('OrchestratedStage', () => {
                     guid: 'duplicatedStageStepGuid',
                     name: 'duplicatedStageStepName'
                 }
+            });
+        });
+    });
+
+    describe('getStageStepChildren', () => {
+        let step;
+        beforeEach(() => {
+            step = {
+                outputParameters: []
+            };
+        });
+
+        it('includes status', () => {
+            const data = getStageStepChildren(step);
+
+            expect(data.status).toMatchObject({
+                name: 'status',
+                apiName: 'status',
+                dataType: 'String'
+            });
+        });
+        describe('outputs', () => {
+            it('returns existing outputs if already present', () => {
+                step.outputParameters = [
+                    {
+                        name: 'foo',
+                        apiName: 'foo',
+                        dataType: 'string',
+                        valueDataType: 'string',
+                        label: 'foo'
+                    }
+                ];
+                const data = getStageStepChildren(step);
+                expect(step.outputParameters[0]).toMatchObject(data.output.getChildrenItems()[0]);
+            });
+            it('not present if no parameters', () => {
+                const data = getStageStepChildren(step);
+                expect(Object.keys(data)).toHaveLength(1);
+                expect(data.status).toBeTruthy();
+            });
+            it('not present if no output parameters', () => {
+                step.actionName = mockActionWithInputParametersName;
+                const data = getStageStepChildren(step);
+                expect(Object.keys(data)).toHaveLength(1);
+                expect(data.status).toBeTruthy();
+            });
+
+            it('is present if there are output parameters', () => {
+                step.actionName = mockActionWithOutputParametersName;
+                const data = getStageStepChildren(step);
+                expect(Object.keys(data)).toHaveLength(2);
+                expect(data.output).toMatchObject({
+                    name: 'output',
+                    apiName: 'output',
+                    dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+                    isSpanningAllowed: true
+                });
+            });
+            it('getChildrenItems returns output parameters', () => {
+                step.actionName = mockActionWithOutputParametersName;
+                const data = getStageStepChildren(step);
+                const outputChildren = data.output.getChildrenItems();
+                expect(outputChildren).toHaveLength(1);
+                expect(outputChildren[0]).toMatchObject({
+                    name: 'record',
+                    apiName: 'record',
+                    dataType: 'sobject'
+                });
             });
         });
     });

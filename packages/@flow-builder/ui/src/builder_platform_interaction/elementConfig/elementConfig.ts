@@ -128,7 +128,8 @@ import {
     getSteps,
     createStageStep,
     createPastedOrchestratedStage,
-    createDuplicateOrchestratedStage
+    createDuplicateOrchestratedStage,
+    getStageStepChildren
 } from 'builder_platform_interaction/elementFactory';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
@@ -1105,7 +1106,8 @@ export const elementTypeToConfigMap: {
         isChildElement: true,
         factory: {
             propertyEditor: createStageStep
-        }
+        },
+        getChildrenItems: getStageStepChildren
     },
     /**
      * Currently, when the flowBuilder app is loaded - the canvas loads prior to the leftPanel.

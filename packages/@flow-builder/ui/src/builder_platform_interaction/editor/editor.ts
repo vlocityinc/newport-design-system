@@ -1527,13 +1527,14 @@ export default class Editor extends LightningElement {
                     elementSubtype,
                     actionType,
                     actionName,
+                    parent,
                     isNewElement: true
                 });
 
                 // For a panel, the element is created upon opening the property editor
                 // the parent guid is also passed in if a child element is being created
                 if (this.usePanelForPropertyEditor) {
-                    await this.deMutateAndAddNodeCollection(node, parent);
+                    await this.deMutateAndAddNodeCollection(node, parent, alcInsertAt);
                 }
 
                 return {

@@ -131,6 +131,13 @@ const FLOW_DATA_TYPE = {
         value: 'SubflowOutput',
         iconName: 'standard:output',
         utilityIconName: 'utility:flow'
+    },
+    STAGE_STEP: {
+        label: DATA_TYPE_LABELS.stageStepDataTypeLabel,
+        value: 'STAGE_STEP',
+        iconName: 'standard:output',
+        utilityIconName: 'utility:flow',
+        elementType: ELEMENT_TYPE.STAGE_STEP
     }
 };
 
@@ -147,7 +154,8 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.APEX.value]: 'APEX',
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: 'LIGHTNING_COMPONENT_OUTPUT',
     [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: 'ACTION_OUTPUT',
-    [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: 'SUBFLOW_OUTPUT'
+    [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: 'SUBFLOW_OUTPUT',
+    [FLOW_DATA_TYPE.STAGE_STEP.value]: 'STAGE_STEP'
 };
 
 export const SCALE_RANGE = {
@@ -186,7 +194,8 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.APEX.value]: ['apex'],
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: ['lightningComponentOutput'],
     [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: ['actionOutput'],
-    [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: ['subflowOutput']
+    [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: ['subflowOutput'],
+    [FLOW_DATA_TYPE.STAGE_STEP.value]: ['stageStep']
 };
 
 export const STAGE_ORDER_RANGE = {
@@ -372,7 +381,8 @@ export function isComplexType(type) {
         FLOW_DATA_TYPE.APEX.value,
         FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
         FLOW_DATA_TYPE.ACTION_OUTPUT.value,
-        FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
+        FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value,
+        FLOW_DATA_TYPE.STAGE_STEP.value
     ].includes(type);
 }
 

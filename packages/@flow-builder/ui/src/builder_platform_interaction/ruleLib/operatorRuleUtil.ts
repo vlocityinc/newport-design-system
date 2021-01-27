@@ -149,10 +149,18 @@ const propertyAllowed = (rule, property, status) => {
 };
 
 const propertyMatches = (rule, element, property) => {
+    const elementProperty = element[property];
+    const ruleProperty = rule[property];
+
     return (
         isUndefinedOrNull(rule[property]) || // if the rule doesn't have a property defined, disregard that property
-        element[property] === rule[property] || // if the element and rule both have a property defined, the values should match
-        (!rule[property] && !element[property])
+        elementProperty === ruleProperty || // if the element and rule both have a property defined, the values should match
+        (elementProperty &&
+            elementProperty.toLowerCase &&
+            ruleProperty &&
+            ruleProperty.toLowerCase &&
+            elementProperty.toLowerCase() === ruleProperty.toLowerCase()) ||
+        (!ruleProperty && !elementProperty)
     ); // in the case rule[property] is false (not falsy), that property can be either undefined or false on the element
 };
 

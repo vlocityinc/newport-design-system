@@ -113,6 +113,7 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
  * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
  * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
  * @param {boolean} isCollection true if is a collection
+ * @param {function} optional function to be called to retrieve child items for the item
  * @returns {MenuItem}  the generated menu item
  */
 const createMenuItem = ({
@@ -126,7 +127,8 @@ const createMenuItem = ({
     parent,
     dataType,
     subtype,
-    isCollection
+    isCollection,
+    getChildrenItems
 } = {}) => ({
     type,
     text,
@@ -139,7 +141,8 @@ const createMenuItem = ({
     parent,
     dataType,
     subtype,
-    isCollection
+    isCollection,
+    getChildrenItems
 });
 
 /**
@@ -202,8 +205,9 @@ function createMenuItemForField({
     hasNext = false,
     dataType,
     subtype,
-    isCollection
-} = {}) {
+    isCollection,
+    getChildrenItems
+} = {}): ComboboxItem {
     const menuItem = createMenuItem({
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         iconName,
@@ -215,7 +219,8 @@ function createMenuItemForField({
         dataType,
         subtype,
         parent,
-        isCollection
+        isCollection,
+        getChildrenItems
     });
     if (hasNext) {
         menuItem.rightIconName = RIGHT_ICON_NAME;
@@ -309,7 +314,8 @@ function isTraversable(
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
         allowSObjectFields = true,
-        allowApexTypeFields = true
+        allowApexTypeFields = true,
+        allowElementFields = true
     } = {}
 ) {
     const { dataType, isCollection } = field;
@@ -334,6 +340,8 @@ function isTraversable(
     } else if (dataType === APEX_TYPE) {
         // no parent or parent is SUBFLOW_OUTPUT_TYPE, ACTION_OUTPUT_TYPE or LIGHTNING_COMPONENT_OUTPUT
         hasNext = allowApexTypeFields;
+    } else if (parentDataType === FLOW_DATA_TYPE.STAGE_STEP.value && dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        hasNext = allowElementFields;
     }
 
     if (hasNext && getMergeFieldLevel(parent) >= MAXIMUM_NUMBER_OF_LEVELS - 1) {
@@ -354,6 +362,7 @@ function isTraversable(
  * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
  * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
  * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
+ * @param {boolean} [options.allowElementFields] true to allow element field traversal rather than just element selection (ex: stageStep.output.foo)
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
 export function getMenuItemForField(
@@ -365,7 +374,8 @@ export function getMenuItemForField(
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
         allowSObjectFields = true,
-        allowApexTypeFields = true
+        allowApexTypeFields = true,
+        allowElementFields = true
     } = {}
 ) {
     // support for parameter items being converted to field shape
@@ -374,9 +384,10 @@ export function getMenuItemForField(
         allowSObjectFieldsTraversal,
         allowApexTypeFieldsTraversal,
         allowSObjectFields,
-        allowApexTypeFields
+        allowApexTypeFields,
+        allowElementFields
     });
-    const { dataType, isCollection, subtype } = field;
+    const { dataType, isCollection, subtype, getChildrenItems } = field;
     const text = apiName;
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
@@ -389,7 +400,8 @@ export function getMenuItemForField(
         text,
         value: parent ? parent.value + '.' + apiName : apiName,
         hasNext,
-        displayText: getFieldDisplayText(parent, apiName, undefined, showAsFieldReference)
+        displayText: getFieldDisplayText(parent, apiName, undefined, showAsFieldReference),
+        getChildrenItems
     });
     return comboboxItem;
 }
@@ -418,7 +430,8 @@ export function getMenuItemsForField(
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
         allowSObjectFields = true,
-        allowApexTypeFields = true
+        allowApexTypeFields = true,
+        allowElementFields = true
     } = {}
 ) {
     if (parent && parent.dataType === SOBJECT_TYPE) {
@@ -435,7 +448,8 @@ export function getMenuItemsForField(
             allowSObjectFieldsTraversal,
             allowApexTypeFieldsTraversal,
             allowSObjectFields,
-            allowApexTypeFields
+            allowApexTypeFields,
+            allowElementFields
         })
     ];
 }
@@ -498,11 +512,11 @@ export function mutateFlowResourceToComboboxShape(resource) {
 }
 
 /**
- * Creates a new array of combobx menu data from an existing array of entities taken from the service
+ * Creates a new array of combobox menu data from an existing array of entities taken from the service
  * @param {Array} entities the array of entities that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given entities
  */
-export const mutateEntitiesToComboboxShape = (entities) => {
+export const mutateEntitiesToComboboxShape = (entities): ComboboxItem[] => {
     return entities.map((entity) => {
         return createMenuItem({
             type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
@@ -512,7 +526,8 @@ export const mutateEntitiesToComboboxShape = (entities) => {
             value: entity.apiName,
             dataType: SOBJECT_TYPE,
             isCollection: entity.isCollection,
-            subtype: entity.apiName
+            subtype: entity.apiName,
+            getChildrenItems: entity.getChildrenItems
         });
     });
 };

@@ -46,6 +46,18 @@ import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverDa
 import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
 import { startElement } from 'mock/storeDataRecordTriggered';
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.STAGE_STEP.getChildrenItems = jest.fn().mockReturnValue({ a: 2 });
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -907,6 +919,25 @@ describe('Menu data retrieval', () => {
                 const items = await getChildrenItems(parentGlobalItem, true);
                 expect(Object.keys(items)).toEqual(['$Organization.Country', '$Organization.MP__c']);
                 expectFieldsAreComplexTypeFieldDescriptions(items);
+            });
+            it('should retrieve items from parent.getChildrenItems() if available', () => {
+                const parent = {
+                    getChildrenItems: () => {
+                        return { a: 1 };
+                    }
+                };
+                const items = getChildrenItems(parent);
+                expect(items).toEqual(parent.getChildrenItems());
+            });
+            it('should retrieve children items from element.getChildrenItems()', () => {
+                const parent = {
+                    dataType: 'STAGE_STEP',
+                    value: '40c11213-36c0-451e-a5aa-8790aee06666'
+                };
+                const items = getChildrenItems(parent);
+                const mockCall = elementTypeToConfigMap.STAGE_STEP.getChildrenItems;
+                expect(mockCall).toHaveBeenCalledWith(getElementByGuid(parent.value));
+                expect(items).toEqual(mockCall());
             });
         });
     });
