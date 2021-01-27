@@ -35,7 +35,10 @@ export const EXTENSION_PARAM_PREFIX = {
 export const SELECTED_CLASS = 'selected';
 export const HOVERING_CLASS = 'hovering';
 export const DRAGGING_CLASS = 'dragging';
+export const HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS = 'highlight-frame-prevent-events';
+export const HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS = 'highlight-frame-allow-events';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
+export const FRAME_DIV_SELECTOR = '.highlight-frame';
 
 export enum InputsOnNextNavToAssocScrnOption {
     USE_STORED_VALUES = 'UseStoredValues',
