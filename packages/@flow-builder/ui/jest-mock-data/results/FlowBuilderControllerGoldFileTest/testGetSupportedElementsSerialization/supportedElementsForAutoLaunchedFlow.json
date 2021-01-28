@@ -55,6 +55,36 @@
     },
     {
       "isElementSubtype":false,
+      "name":"RecordUpdate",
+      "attributes":[
+        {
+          "name":"isCollection",
+          "source":"Inferred",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              false
+            ],
+            "constraint":"thisValue"
+          }
+        },
+        {
+          "name":"dataType",
+          "source":"Inferred",
+          "type":"FlowDataType",
+          "value":{
+            "values":[
+              "Boolean"
+            ],
+            "constraint":"thisValue"
+          }
+        }
+      ],
+      "classification":"Node",
+      "elementType":"RecordUpdate"
+    },
+    {
+      "isElementSubtype":false,
       "name":"Start",
       "attributes":null,
       "classification":"Node",

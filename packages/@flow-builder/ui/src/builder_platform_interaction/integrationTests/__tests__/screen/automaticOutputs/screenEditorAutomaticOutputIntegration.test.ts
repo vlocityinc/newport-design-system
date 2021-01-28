@@ -119,11 +119,10 @@ describe('ScreenEditor', () => {
                 await ticks(50);
             });
             it('should display the outputs', async () => {
-                screenEditor
+                await screenEditor
                     .getPropertiesEditorContainerElement()
                     .getExtensionPropertiesEditor()!
                     .setAdvancedOptions(true);
-                await ticks(50);
                 expect(
                     screenEditor
                         .getPropertiesEditorContainerElement()

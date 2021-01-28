@@ -6,7 +6,8 @@ import {
     deepQuerySelector,
     checkboxChangeEvent,
     lightningRadioGroupChangeEvent,
-    blurEvent
+    blurEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import ScreenCanvas from 'builder_platform_interaction/screenCanvas';
@@ -22,6 +23,7 @@ import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/s
 import ScreenSectionFieldPropertiesEditor from 'builder_platform_interaction/screenSectionFieldPropertiesEditor';
 import ScreenChoiceFieldPropertiesEditor from 'builder_platform_interaction/screenChoiceFieldPropertiesEditor';
 import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/screenInputFieldPropertiesEditor';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -82,14 +84,6 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
 }
 
 export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
-    private getSectionCanvasElements(screenEditorHighlight: ScreenEditorHighlight & HTMLElement) {
-        const screenFieldElement = screenEditorHighlight.querySelector(SELECTORS.SCREEN_FIELD);
-        const sectionFieldSectionElement = deepQuerySelector(screenFieldElement, [SELECTORS.SCREEN_SECTION_FIELD]);
-        return Array.from(
-            sectionFieldSectionElement.shadowRoot.querySelectorAll(SELECTORS.SCREEN_CANVAS)
-        ) as (ScreenCanvas & HTMLElement)[];
-    }
-
     /**
      * Get the first ScreenEditorHighlight that has a screen field element that matches the predicate
      *
@@ -103,7 +97,7 @@ export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
             this.element.shadowRoot!.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT)
         ) as (ScreenEditorHighlight & HTMLElement)[];
         for (const screenEditorHighlight of screenEditorHighlights) {
-            if (screenEditorHighlight.screenElement!.fieldType === 'RegionContainer') {
+            if (screenEditorHighlight.screenElement!.fieldType === FlowScreenFieldType.RegionContainer) {
                 const sectionHighlightTestComponent = new SectionScreenEditorHighlightTestComponent(
                     screenEditorHighlight
                 );
@@ -252,11 +246,12 @@ export class ExtensionPropertiesEditorTestComponent extends TestComponent<Screen
         return inputElement.value;
     }
 
-    public setApiName(value: string) {
+    public async setApiName(value: string) {
         const apiNameScreenPropertyField = this.getApiNameScreenPropertyField();
         const inputElement = apiNameScreenPropertyField!.shadowRoot!.querySelector(SELECTORS.LIGHTNING_INPUT) as any;
         inputElement.value = value;
         inputElement.dispatchEvent(blurEvent);
+        await ticks(50);
     }
 
     public getAdvancedOptionsCheckbox() {
@@ -277,9 +272,10 @@ export class ExtensionPropertiesEditorTestComponent extends TestComponent<Screen
         return input.checked as boolean;
     }
 
-    public setAdvancedOptions(value: boolean) {
+    public async setAdvancedOptions(value: boolean) {
         const input = this.getAdvancedOptionsCheckboxInput();
         input!.dispatchEvent(checkboxChangeEvent(value));
+        await ticks(50);
     }
 
     public getInputsOnNextNavToAssocScrnOption() {
@@ -287,9 +283,10 @@ export class ExtensionPropertiesEditorTestComponent extends TestComponent<Screen
         return radioGroup.value as InputsOnNextNavToAssocScrnOption;
     }
 
-    public setInputsOnNextNavToAssocScrnOption(value: InputsOnNextNavToAssocScrnOption) {
+    public async setInputsOnNextNavToAssocScrnOption(value: InputsOnNextNavToAssocScrnOption) {
         const radioGroup = this.element.shadowRoot!.querySelector<HTMLElement>(SELECTORS.LIGHTNING_RADIO_GROUP)!;
         radioGroup.dispatchEvent(lightningRadioGroupChangeEvent(value));
+        await ticks(50);
     }
 }
 

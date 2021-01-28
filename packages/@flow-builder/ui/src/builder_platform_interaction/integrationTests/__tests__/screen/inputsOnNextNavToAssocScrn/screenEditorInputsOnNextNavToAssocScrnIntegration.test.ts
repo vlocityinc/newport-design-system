@@ -55,11 +55,10 @@ describe('ScreenEditor', () => {
                 await ticks(50);
             });
             it('Should update the radio group', async () => {
-                screenEditor
+                await screenEditor
                     .getPropertiesEditorContainerElement()
                     .getExtensionPropertiesEditor()!
                     .setInputsOnNextNavToAssocScrnOption(InputsOnNextNavToAssocScrnOption.RESET_VALUES);
-                await ticks(50);
                 expect(
                     screenEditor
                         .getPropertiesEditorContainerElement()

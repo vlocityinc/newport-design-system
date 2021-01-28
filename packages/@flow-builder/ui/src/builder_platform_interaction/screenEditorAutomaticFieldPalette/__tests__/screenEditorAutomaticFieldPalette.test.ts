@@ -283,7 +283,7 @@ describe('Screen editor automatic field palette', () => {
                 ({ fieldName, shouldShowUpInThePalette }) => {
                     const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
                     if (shouldShowUpInThePalette) {
-                        expect(paletteItem).not.toBeUndefined();
+                        expect(paletteItem).toBeTruthy();
                     } else {
                         expect(paletteItem).toBeUndefined();
                     }

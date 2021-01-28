@@ -44,7 +44,7 @@ describe('ScreenEditor canvas', () => {
         it('cannot delete a component that is referenced somewhere else in the same screen', async () => {
             // slider value is used for the component visibility for Accounts component
             const slider1 = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('slider_1');
-            expect(slider1).not.toEqual(null);
+            expect(slider1).toBeTruthy();
             slider1!.clickDelete();
             await ticks(50);
             expect(invokeModal).toBeCalledWith(
@@ -57,7 +57,7 @@ describe('ScreenEditor canvas', () => {
         });
         it('can delete a component that is not referenced elsewhere in the flow', async () => {
             const accounts = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');
-            expect(accounts).not.toEqual(null);
+            expect(accounts).toBeTruthy();
             accounts!.clickDelete();
             await ticks(50);
             expect(invokeModal).toBeCalledWith(
@@ -70,7 +70,7 @@ describe('ScreenEditor canvas', () => {
         });
         it('cannot delete a component that is referenced in another element', async () => {
             const address = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('address_2');
-            expect(address).not.toEqual(null);
+            expect(address).toBeTruthy();
             address!.clickDelete();
             await ticks(50);
             expect(invokeModal).toBeCalledWith(
