@@ -46,14 +46,19 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     };
 });
 
-const TOTAL_SUPPORTED_FIELDS = 71;
+const TOTAL_SUPPORTED_FIELDS = 29;
 const NB_REQUIRED_FIELDS = 4;
 const STRING_FIELD_NAME = 'Name';
-const NUMBER_FIELD_NAME = 'BillingLongitude';
+const NUMBER_FIELD_NAME = 'OutstandingShares__c';
 const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
 const DATE_FIELD_NAME = 'PersonBirthdate';
 const DATE_TIME_FIELD_NAME = 'CustomDateTime__c';
 const LONG_TEXT_AREA_FIELD_NAME = 'Description';
+const CURRENCY_FIELD_NAME = 'AnnualRevenue';
+const PHONE_FIELD_NAME = 'Fax';
+const EMAIL_FIELD_NAME = 'PersonEmail';
+const URL_FIELD_NAME = 'Website';
+const FIELD_OF_COMPOUND_FIELD_NAME = 'BillingLongitude';
 
 const SELECTORS = {
     searchInput: '.palette-search-input'
@@ -239,7 +244,7 @@ describe('Screen editor automatic field palette', () => {
             expect(getBasePalette(element)).not.toBeNull();
         });
     });
-    describe('Palette events handling', () => {
+    describe('Palette content and events handling', () => {
         let allItemsFromPaletteData: Array<ScreenPaletteItem>, eventCallback, palette;
         const getPaletteItemByFieldApiName = (fieldApiName: string): ScreenAutomaticFieldPaletteItem | undefined =>
             (allItemsFromPaletteData as Array<ScreenAutomaticFieldPaletteItem>).find(
@@ -252,6 +257,37 @@ describe('Screen editor automatic field palette', () => {
             palette = getBasePalette(element);
             allItemsFromPaletteData = ([] as Array<ScreenPaletteItem>).concat(
                 ...element.paletteData.map((e) => e._children)
+            );
+        });
+        describe('Palette fields filtering', () => {
+            const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
+            beforeEach(async () => {
+                getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+                await ticks(1);
+            });
+            test.each`
+                fieldName                       | shouldShowUpInThePalette
+                ${STRING_FIELD_NAME}            | ${true}
+                ${BOOLEAN_FIELD_NAME}           | ${true}
+                ${NUMBER_FIELD_NAME}            | ${true}
+                ${DATE_FIELD_NAME}              | ${true}
+                ${DATE_TIME_FIELD_NAME}         | ${true}
+                ${LONG_TEXT_AREA_FIELD_NAME}    | ${true}
+                ${CURRENCY_FIELD_NAME}          | ${false}
+                ${PHONE_FIELD_NAME}             | ${false}
+                ${EMAIL_FIELD_NAME}             | ${false}
+                ${URL_FIELD_NAME}               | ${false}
+                ${FIELD_OF_COMPOUND_FIELD_NAME} | ${false}
+            `(
+                '$fieldName should be present in the palette: $shouldShowUpInThePalette',
+                ({ fieldName, shouldShowUpInThePalette }) => {
+                    const paletteItem = getPaletteItemByFieldApiName(fieldName)!;
+                    if (shouldShowUpInThePalette) {
+                        expect(paletteItem).not.toBeUndefined();
+                    } else {
+                        expect(paletteItem).toBeUndefined();
+                    }
+                }
             );
         });
         describe('Palette click event handling', () => {

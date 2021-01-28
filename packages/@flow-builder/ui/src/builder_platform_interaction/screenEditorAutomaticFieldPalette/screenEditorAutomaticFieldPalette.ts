@@ -6,7 +6,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
-import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { ExtraTypeInfo, FieldDataType, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import {
     getFieldByGuid,
@@ -15,13 +15,27 @@ import {
     setDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
 
-const SUPPORTED_DATATYPES = [
-    FLOW_DATA_TYPE.STRING.value,
-    FLOW_DATA_TYPE.NUMBER.value,
-    FLOW_DATA_TYPE.DATE_TIME.value,
-    FLOW_DATA_TYPE.DATE.value,
-    FLOW_DATA_TYPE.BOOLEAN.value
+const SUPPORTED_FIELD_DATA_TYPES = [
+    FieldDataType.String,
+    FieldDataType.Int,
+    FieldDataType.Double,
+    FieldDataType.DateTime,
+    FieldDataType.Date,
+    FieldDataType.Boolean
 ];
+
+const createEditFilter = (field: FieldDefinition): boolean => field.creatable || field.editable;
+const dataTypeRelatedFilter = (field: FieldDefinition): boolean =>
+    SUPPORTED_FIELD_DATA_TYPES.includes(field.fieldDataType as FieldDataType) ||
+    field.extraTypeInfo === ExtraTypeInfo.PlainTextarea;
+const noRelationshipFilter = (field: FieldDefinition): boolean => field.relationshipName === null;
+const noCompoundFieldFilter = (field: FieldDefinition): boolean =>
+    field.compoundFieldName === null || field.compoundFieldName === field.apiName;
+const supportedAutomaticFieldFilter = (field: FieldDefinition): boolean =>
+    createEditFilter(field) &&
+    dataTypeRelatedFilter(field) &&
+    noRelationshipFilter(field) &&
+    noCompoundFieldFilter(field);
 
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
@@ -108,7 +122,6 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      * Populate section/items data for inner palette component
      */
     buildModel(fieldNamePattern?: String | null) {
-        const sections: ScreenPaletteSection[] = [];
         const requiredSection: ScreenPaletteSection = {
             guid: generateGuid(),
             label: LABELS.paletteSectionRequiredFieldsLabel,
@@ -119,13 +132,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
             label: LABELS.paletteSectionOptionalFieldsLabel,
             _children: []
         };
-        const fieldsArray: Array<FieldDefinition> = Object.values(this.state.entityFields);
-        fieldsArray
+        (Object.values(this.state.entityFields) as FieldDefinition[])
             .filter(
                 (field) =>
-                    (field.editable || field.creatable) &&
-                    SUPPORTED_DATATYPES.includes(field.dataType) &&
-                    field.relationshipName == null &&
+                    supportedAutomaticFieldFilter(field) &&
                     (fieldNamePattern && fieldNamePattern.trim().length > 0
                         ? containsMatcher(field, 'label', fieldNamePattern.trim())
                         : true)
@@ -147,20 +157,20 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                     optionalSection._children.push(item);
                 }
             });
-        this.pushSectionIfNotEmpty(sections, requiredSection);
-        this.pushSectionIfNotEmpty(sections, optionalSection);
-        this.paletteData = sections;
+        this.buildPaletteDataWithSections([requiredSection, optionalSection]);
     }
 
     /**
-     * Add a section to an array of palette section if the section is not empty
-     * @param {ScreenPaletteSection[]} sectionArray array of section to push into
-     * @param {ScreenPaletteSection} paletteSection palette section to add
+     * Resets palette data and adds given sections if not empty
+     * @param {ScreenPaletteSection[]}  paletteSections to add to palette data
      */
-    pushSectionIfNotEmpty(sectionArray: ScreenPaletteSection[], paletteSection: ScreenPaletteSection) {
-        if (paletteSection._children.length > 0) {
-            sectionArray.push(paletteSection);
-        }
+    buildPaletteDataWithSections(paletteSections: ScreenPaletteSection[]) {
+        this.paletteData = [];
+        paletteSections.forEach((paletteSection) => {
+            if (paletteSection._children.length > 0) {
+                this.paletteData.push(paletteSection);
+            }
+        });
     }
 
     /**
