@@ -17,7 +17,6 @@ import {
     isRadioField
 } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
-import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
 import {
     hasScreenFieldVisibilityCondition,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
@@ -36,10 +35,6 @@ const CHOICE_DISPLAY_OPTIONS = {
 export default class ScreenChoiceFieldPropertiesEditor extends LightningElement {
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
-    defaultValueNone = {
-        label: this.labels.noDefaultValueSelected,
-        value: ''
-    };
 
     private _field;
     private singleOrMultiSelectOption;
@@ -59,6 +54,22 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     @api
     editorParams;
+
+    get defaultValueResourcePickerConfig() {
+        // If choice references contains at least one picklist choice set or record choice set, return
+        // ferovResourcePickerConfig. Otherwise, return  currentStaticChoicesResourcePickerConfig.
+        const fieldChoices = this.fieldChoices;
+        if (
+            fieldChoices.find(
+                (fieldChoice) =>
+                    fieldChoice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET ||
+                    fieldChoice.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET
+            )
+        ) {
+            return this.ferovResourcePickerConfig;
+        }
+        return this.currentStaticChoicesResourcePickerConfig;
+    }
 
     get isScaleEnabled() {
         const { dataType = null } = this.field;
@@ -83,29 +94,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             )
         );
     }
-
-    handleDefaultValuePropertyChanged = (event) => {
-        event.stopPropagation();
-
-        // If user is trying to set default value back to nothing, set the value to null,
-        // otherwise get the GUID corresponding to the new default choice.
-        let newValue = null;
-        if (event && event.detail && event.detail.guid) {
-            // We get the display value from the event, which might be something
-            // like {!choice1}, but we want the devName. Get the devName by using the GUID.
-            newValue = event.detail.guid;
-        }
-
-        this.dispatchEvent(
-            new PropertyChangedEvent(
-                event.detail.propertyName,
-                hydrateIfNecessary(newValue),
-                event.detail.error,
-                event.detail.guid ? event.detail.guid : null,
-                hydrateIfNecessary(this.field.defaultSelectedChoiceReference)
-            )
-        );
-    };
 
     handleChoiceChanged = (event) => {
         event.stopPropagation();
@@ -158,6 +146,31 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     get fieldChoices() {
         return getFieldChoiceData(this.field);
+    }
+
+    get ferovResourcePickerConfig() {
+        return {
+            allowLiterals: true,
+            collection: false,
+            elementType: ELEMENT_TYPE.SCREEN
+        };
+    }
+
+    get currentStaticChoicesResourcePickerConfig() {
+        return {
+            allowLiterals: false,
+            collection: false,
+            hideGlobalConstants: true,
+            hideSystemVariables: true,
+            hideGlobalVariables: true,
+            hideNewResource: true,
+            elementConfig: {
+                elementType: ELEMENT_TYPE.SCREEN,
+                dataType: this.field.dataType,
+                choices: true,
+                staticChoices: this.currentStaticChoices
+            }
+        };
     }
 
     get choiceResourcePickerConfig() {
@@ -218,6 +231,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         return this.field.dataType === null;
     }
 
+    get defaultValueVisible() {
+        // If the there is at least one choice, user should be able to set a default value
+        const choiceData = getFieldChoiceData(this.field);
+        return choiceData.length > 1 || (choiceData.length === 1 && choiceData[0].name !== '');
+    }
+
     // Convert flow data type to the value from the data type drop down list.
     getFlowDataTypeFromInputType(newValue) {
         for (const key in this.inputFieldMap) {
@@ -228,21 +247,16 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         throw new Error('Unable to find Flow data type for provided screen field input type: ' + newValue);
     }
 
-    // Used to figure out which choices are available as possible values for the default value setting.
-    // The only options should be those that are associated with this field (not all choices in the flow).
-    get defaultValueChoices() {
-        const defaultChoices = [this.defaultValueNone];
+    // Returns all the static choices in choice references.
+    get currentStaticChoices() {
+        const staticChoices = [];
         const choices = getFieldChoiceData(this.field);
         for (let i = 0; i < choices.length; i++) {
-            // Only use this choice if it's a valid as a defaultValue option.
-            if (choices[i].defaultValueOption) {
-                defaultChoices.push({
-                    label: choices[i].name,
-                    value: choices[i].value
-                });
+            if (choices[i].elementType === ELEMENT_TYPE.CHOICE) {
+                staticChoices.push(choices[i]);
             }
         }
-        return defaultChoices;
+        return staticChoices.length > 0 ? staticChoices : null;
     }
 
     get singleOrMultiSelectOptions() {
@@ -310,15 +324,5 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             }
         }
         return displayTypeValue;
-    }
-
-    get defaultValue() {
-        if (this.field.defaultSelectedChoiceReference && this.field.defaultSelectedChoiceReference.value) {
-            return this.field.defaultSelectedChoiceReference;
-        }
-        // Select the 'nothing selected' option (i.e. no default set).
-        // We can't use null here, because the component used to render the defaultValue options
-        // wants a real string.
-        return this.defaultValueNone;
     }
 }

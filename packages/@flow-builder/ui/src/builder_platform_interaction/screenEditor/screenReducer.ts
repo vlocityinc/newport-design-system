@@ -381,9 +381,9 @@ const changeChoice = (screen, event, field) => {
 
     // If default value was set for this field, check to see if its set to the choice that was just
     // changed. If it was, then clear the default value as it may no longer be valid.
-    if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
-        if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
-            updatedField.defaultSelectedChoiceReference.value = null;
+    if (field.defaultValue && field.defaultValue.value) {
+        if (field.defaultValue.value === originalChoice.choiceReference.value) {
+            updatedField.defaultValue.value = null;
         }
     }
 
@@ -405,9 +405,9 @@ const deleteChoice = (screen, event, field) => {
 
     // If default value was set for this field, check to see if its set to the choice that was just
     // delete. If it was, then clear the default value as it may no longer be valid.
-    if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
-        if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
-            updatedField.defaultSelectedChoiceReference.value = null;
+    if (field.defaultValue && field.defaultValue.value) {
+        if (field.defaultValue.value === originalChoice.choiceReference.value) {
+            updatedField.defaultValue.value = null;
         }
     }
 

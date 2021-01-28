@@ -117,7 +117,7 @@ describe('getFieldChoiceData function', () => {
         const choiceNameMergeField = '{!choiceName}';
         const expectedData = [
             {
-                defaultValueOption: false,
+                elementType: 'PicklistChoice',
                 label: {
                     error: null,
                     value: choiceNameMergeField
@@ -127,7 +127,6 @@ describe('getFieldChoiceData function', () => {
                 guid: choice1Guid
             },
             {
-                defaultValueOption: false,
                 label: {
                     error: 'error2',
                     value: null
@@ -137,7 +136,7 @@ describe('getFieldChoiceData function', () => {
                 guid: ''
             },
             {
-                defaultValueOption: true,
+                elementType: 'Choice',
                 label: {
                     error: null,
                     value: choiceNameMergeField
@@ -147,7 +146,6 @@ describe('getFieldChoiceData function', () => {
                 guid: choice3Guid
             },
             {
-                defaultValueOption: false,
                 label: {
                     error: 'error4',
                     value: null
@@ -157,7 +155,6 @@ describe('getFieldChoiceData function', () => {
                 guid: ''
             },
             {
-                defaultValueOption: false,
                 label: {
                     error: null,
                     value: null

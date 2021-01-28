@@ -20,7 +20,6 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 export default class ScreenChoiceField extends LightningElement {
     @api field;
     @api label;
-    @api value;
 
     get choices() {
         if (this.field.choiceReferences && this.field.choiceReferences.length > 0) {
@@ -60,18 +59,24 @@ export default class ScreenChoiceField extends LightningElement {
     }
 
     get defaultChoice() {
-        // The component used to render preview for this type of field expects a list.
-        const defaultValue = getValueFromHydratedItem(this.field.defaultSelectedChoiceReference);
-        if (this.isMultiSelectCheckboxField) {
-            if (defaultValue !== '') {
-                return [defaultValue];
-            }
-            // If no default is selected, return an empty list, not the actual default which
-            // is stored as '' because that can match a choice that is in the middle of being
-            // configured and make the preview render incorrectly.
-            return [];
+        const defaultValue = getValueFromHydratedItem(this.field.defaultValue);
+        if (!defaultValue) {
+            // If no default is selected, return an empty list, not null, because the
+            // lightning-checkbox-group component expects a list.
+            return this.isMultiSelectCheckboxField ? [] : null;
         }
-        return defaultValue !== '' ? defaultValue : null;
+        const defaultElement = getElementByGuid(defaultValue);
+        if (defaultElement && defaultElement.elementType !== ELEMENT_TYPE.CHOICE) {
+            return null;
+        }
+        const defaultValueIsAmongChoices = this.field.choiceReferences.find((choice) => {
+            return choice.choiceReference.value === defaultValue;
+        });
+        if (defaultValueIsAmongChoices) {
+            // The lightning-checkbox-group component expects a list.
+            return this.isMultiSelectCheckboxField ? [defaultValue] : defaultValue;
+        }
+        return null;
     }
 
     get displayLabel() {

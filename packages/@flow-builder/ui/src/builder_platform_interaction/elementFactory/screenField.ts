@@ -42,7 +42,6 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         fieldType,
         helpText = '',
         defaultValueIndex = generateGuid(),
-        defaultSelectedChoiceReference,
         dataTypeMappings,
         objectFieldReference
     } = screenField;
@@ -129,7 +128,6 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
             scale,
             type,
             elementType,
-            defaultSelectedChoiceReference,
             visibilityRule,
             fields,
             inputsOnNextNavToAssocScrn,
@@ -143,13 +141,14 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
 }
 
 const getCommonValues = (screenField) => {
-    const { defaultValue, defaultValueDataType } = screenField;
+    const { defaultValueDataType, defaultSelectedChoiceReference } = screenField;
     let {
         scale,
         validationRule,
         isVisible,
         choiceReferences = [],
         visibilityRule,
+        defaultValue,
         defaultValueFerovObject
     } = screenField;
     if (!defaultValueDataType) {
@@ -168,7 +167,12 @@ const getCommonValues = (screenField) => {
             DEFAULT_VALUE_DATA_TYPE_PROPERTY
         );
     }
-
+    if (defaultSelectedChoiceReference) {
+        defaultValue = {
+            elementReference: defaultSelectedChoiceReference
+        };
+        defaultValueFerovObject = createFEROV(defaultValue, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
+    }
     choiceReferences = choiceReferences.map((choiceReference) => createChoiceReference(choiceReference));
 
     // Convert scale property to string, which is needed for validation purposes.
@@ -462,7 +466,6 @@ export function createScreenFieldMetadataObject(screenField) {
         isRequired,
         fieldType,
         validationRule,
-        defaultSelectedChoiceReference,
         visibilityRule,
         dynamicTypeMappings,
         childReferences,
@@ -486,14 +489,18 @@ export function createScreenFieldMetadataObject(screenField) {
         scale = Number(scale);
     }
 
-    let defaultValueMetadataObject;
+    let defaultValueMetadataObject, defaultSelectedChoiceReference;
     if (defaultValue) {
-        const defaultValueFerov = createFEROVMetadataObject(
-            screenField,
-            DEFAULT_VALUE_PROPERTY,
-            DEFAULT_VALUE_DATA_TYPE_PROPERTY
-        );
-        defaultValueMetadataObject = { defaultValue: defaultValueFerov };
+        if (shouldSetDefaultSelectedChoiceReference(screenField, choiceReferences, defaultValue)) {
+            defaultSelectedChoiceReference = defaultValue;
+        } else {
+            const defaultValueFerov = createFEROVMetadataObject(
+                screenField,
+                DEFAULT_VALUE_PROPERTY,
+                DEFAULT_VALUE_DATA_TYPE_PROPERTY
+            );
+            defaultValueMetadataObject = { defaultValue: defaultValueFerov };
+        }
     }
 
     let dataTypeMappings;
@@ -558,17 +565,7 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultValueMetadataObject
     );
 
-    let { conditions } = visibilityRule;
-
-    if (conditions.length > 0) {
-        conditions = conditions.map((condition) => createConditionMetadataObject(condition));
-        Object.assign(mdScreenField, {
-            visibilityRule: {
-                conditionLogic: visibilityRule.conditionLogic,
-                conditions
-            }
-        });
-    }
+    createAndAssignVisibilityRuleMetadataObject(mdScreenField, visibilityRule);
 
     // Only allowed when the field type is extension.
     if (isExtensionField(screenField)) {
@@ -579,11 +576,24 @@ export function createScreenFieldMetadataObject(screenField) {
         mdScreenField.validationRule = createValidationRuleObject(validationRule);
     }
 
-    if (isChoiceField(screenField)) {
+    if (isChoiceField(screenField) && defaultSelectedChoiceReference) {
         mdScreenField.defaultSelectedChoiceReference = defaultSelectedChoiceReference;
     }
 
     return mdScreenField;
+}
+
+function shouldSetDefaultSelectedChoiceReference(screenField, choiceReferenceObjects, defaultValue) {
+    return (
+        isChoiceField(screenField) &&
+        choiceReferenceObjects.find((choiceReferenceObject) => {
+            const choice = getElementByGuid(choiceReferenceObject.choiceReference);
+            if (choice) {
+                return choice.elementType === ELEMENT_TYPE.CHOICE && choice.guid === defaultValue;
+            }
+            return false;
+        })
+    );
 }
 
 export function createChoiceReference(choiceReference) {
@@ -620,6 +630,20 @@ function createVisibilityRuleObject(visibilityRule) {
         conditions: conditions.map((condition) => createCondition(condition)),
         conditionLogic
     };
+}
+
+function createAndAssignVisibilityRuleMetadataObject(mdScreenField, visibilityRule) {
+    let { conditions } = visibilityRule;
+
+    if (conditions && conditions.length > 0) {
+        conditions = conditions.map((condition) => createConditionMetadataObject(condition));
+        Object.assign(mdScreenField, {
+            visibilityRule: {
+                conditionLogic: visibilityRule.conditionLogic,
+                conditions
+            }
+        });
+    }
 }
 
 function createEmptyColumn(width) {

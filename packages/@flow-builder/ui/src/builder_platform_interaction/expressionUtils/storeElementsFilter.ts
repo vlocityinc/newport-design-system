@@ -31,8 +31,12 @@ function writableOrReadableElement(shouldBeWritable) {
  * @param {String} dataType             data type for menu data items
  * @returns {FilterInformation}
  */
-function screenSelectors(shouldBeWritable, choices, dataType) {
-    return shouldBeWritable ? writableElementsSelector : choices ? choiceSelector(dataType) : readableElementsSelector;
+function screenSelectors(shouldBeWritable, choices, staticChoices, dataType) {
+    return shouldBeWritable
+        ? writableElementsSelector
+        : choices
+        ? choiceSelector(dataType, staticChoices)
+        : readableElementsSelector;
 }
 
 const filterInformationProviderMap = {
@@ -48,8 +52,8 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices }) =>
-        screenSelectors(shouldBeWritable, choices, dataType)
+    [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices, staticChoices }) =>
+        screenSelectors(shouldBeWritable, choices, staticChoices, dataType)
 };
 
 const CLUD_ELEMENT_TYPES = [

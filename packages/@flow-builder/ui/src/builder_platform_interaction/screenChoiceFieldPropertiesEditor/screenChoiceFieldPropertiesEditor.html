@@ -47,18 +47,6 @@
                 onpropertychanged={handlePropertyChanged}
             >
             </builder_platform_interaction-screen-property-field>
-
-            <!--  default value: drop down resource list -->
-            <builder_platform_interaction-screen-property-field
-                name="defaultSelectedChoiceReference"
-                type="list"
-                list-choices={defaultValueChoices}
-                value={defaultValue}
-                label={labels.fieldDefaultValue}
-                hide-top-padding
-                onpropertychanged={handleDefaultValuePropertyChanged}
-            >
-            </builder_platform_interaction-screen-property-field>
         </div>
 
         <!--  Choice selectors -->
@@ -122,6 +110,17 @@
                             </template>
                         </div>
                     </builder_platform_interaction-list>
+                    <builder_platform_interaction-screen-property-field
+                        if:true={defaultValueVisible}
+                        name="defaultValue"
+                        label={labels.fieldDefaultValue}
+                        value={field.defaultValue}
+                        row-index={field.defaultValueIndex}
+                        allow-resources-for-parameter
+                        type={field.dataType}
+                        resource-picker-config={defaultValueResourcePickerConfig}
+                    >
+                    </builder_platform_interaction-screen-property-field>
                 </lightning-accordion-section>
 
                 <builder_platform_interaction-screen-component-visibility-section field={field}>

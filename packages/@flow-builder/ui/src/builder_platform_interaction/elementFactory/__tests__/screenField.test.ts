@@ -189,7 +189,6 @@ const componentScreenFieldEmailStore = () => ({
     name: 'myEmail',
     choiceReferences: [],
     dataType: undefined,
-    defaultSelectedChoiceReference: undefined,
     defaultValue: '',
     defaultValueDataType: undefined,
     defaultValueIndex: '60c55df3-dd55-49de-80ae-f1ed8c294e11',

@@ -332,10 +332,11 @@ export const filteredElementsSelector = (filter) => createSelector([elementsSele
 const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
 const textCompatibleTypes = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
 
-export const choiceSelector = (dataType) =>
+export const choiceSelector = (dataType, staticChoices) =>
     filteredElementsSelector(
         (element) =>
             choiceTypes.includes(element.elementType) &&
+            (!staticChoices || staticChoices.find((staticChoice) => staticChoice.guid === element.guid)) &&
             (!dataType ||
                 dataType === element.dataType ||
                 (dataType === FLOW_DATA_TYPE.STRING.value && textCompatibleTypes.includes(element.dataType)))

@@ -88,7 +88,7 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
     field.choiceReferences.push({
         choiceReference: { value: 'choice2', error: null }
     });
-    field.defaultSelectedChoiceReference = { value: 'choice1', error: null };
+    field.defaultValue = { value: 'choice1', error: null };
     screen.fields.push(field);
 
     // Change choice which is current default value
@@ -106,7 +106,7 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
     // The default value should be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBeNull();
+    expect(newScreen.fields[0].defaultValue.value).toBeNull();
 });
 
 it('defaultValue should not be cleared when unrelated choice is changed', () => {
@@ -124,7 +124,7 @@ it('defaultValue should not be cleared when unrelated choice is changed', () => 
     field.choiceReferences.push({
         choiceReference: { value: 'choice2', error: null }
     });
-    field.defaultSelectedChoiceReference = { value: 'choice1', error: null };
+    field.defaultValue = { value: 'choice1', error: null };
     screen.fields.push(field);
 
     // Change choice which is current default value
@@ -142,7 +142,7 @@ it('defaultValue should not be cleared when unrelated choice is changed', () => 
     // The default value should be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(newChoice.name);
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('choice1');
+    expect(newScreen.fields[0].defaultValue.value).toBe('choice1');
 });
 
 it('add choice to radio screen field', () => {
@@ -261,7 +261,7 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
         dataType: 'String',
         createChoices: true
     });
-    field.defaultSelectedChoiceReference = { value: 'choice1', error: null };
+    field.defaultValue = { value: 'choice1', error: null };
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [field];
 
@@ -277,7 +277,7 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
 
     // DefaultValue should be gone because its corresponding choice was deleted.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBeNull();
+    expect(newScreen.fields[0].defaultValue.value).toBeNull();
 });
 
 it('Deleting choice from radio screen field when it is not the defaultValue', () => {
@@ -286,7 +286,7 @@ it('Deleting choice from radio screen field when it is not the defaultValue', ()
         dataType: 'String',
         createChoices: true
     });
-    field.defaultSelectedChoiceReference = { value: 'choice1', error: null };
+    field.defaultValue = { value: 'choice1', error: null };
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [field];
 
@@ -302,7 +302,7 @@ it('Deleting choice from radio screen field when it is not the defaultValue', ()
 
     // DefaultValue should be gone because its corresponding choice was deleted.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('choice1');
+    expect(newScreen.fields[0].defaultValue.value).toBe('choice1');
 });
 
 it('validate all when choice based field has no choice associated with it', () => {

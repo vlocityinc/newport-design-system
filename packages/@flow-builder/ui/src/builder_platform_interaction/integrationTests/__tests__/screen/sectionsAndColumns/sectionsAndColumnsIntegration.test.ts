@@ -1,14 +1,13 @@
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { ItemSelectedEvent } from 'builder_platform_interaction/events';
 
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector,
-    blurEvent,
-    changeEvent
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setupState, resetState, loadFlow } from '../../integrationTestUtils';
@@ -172,7 +171,7 @@ describe('ScreenEditor', () => {
                 SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
             );
             expect(propertyFields).toHaveLength(6);
-            const groupedCombobox = deepQuerySelector(propertyFields[3], [
+            const groupedCombobox = deepQuerySelector(propertyFields[2], [
                 SELECTORS.FEROV_RESOURCE_PICKER,
                 SELECTORS.BASE_RESOURCE_PICKER,
                 SELECTORS.COMBOBOX,
@@ -190,18 +189,18 @@ describe('ScreenEditor', () => {
             const propertyFields = choicePropertiesEditor.shadowRoot!.querySelectorAll(
                 SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
             );
-            const combobox = propertyFields[1].shadowRoot!.querySelector(SELECTORS.LIGHTNING_COMBOBOX)!;
-            expect((combobox as any).value).toEqual('');
-            const otherChoice = getElementByDevName('other')!;
-            combobox.dispatchEvent(changeEvent(otherChoice.guid));
-            combobox.dispatchEvent(blurEvent);
+            const ferovResourcePicker = propertyFields[4].shadowRoot!.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            expect((ferovResourcePicker as any).value).toEqual('');
+            const otherChoice = getElementByDevName('other');
+            const itemPayload = { value: otherChoice!.guid, displayText: '{!other}' };
+            ferovResourcePicker!.dispatchEvent(new ItemSelectedEvent(itemPayload as any) as Event);
             await ticks(50);
             const picklistScreenField = picklist!.getScreenFieldElement();
             const lightningPicklist = deepQuerySelector(picklistScreenField, [
                 SELECTORS.SCREEN_CHOICE_FIELD,
                 SELECTORS.LIGHTNING_PICKLIST
             ]);
-            expect(lightningPicklist.value).toEqual(otherChoice.guid);
+            expect(lightningPicklist.value).toEqual(otherChoice!.guid);
         });
         it('Select the Picklist screen field and verify the CFV rule is correct', async () => {
             const picklist = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');

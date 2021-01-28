@@ -118,7 +118,6 @@ declare namespace UI {
         defaultValue?: Ferov;
         defaultValueDataType?: Datatype;
         defaultValueIndex: Guid;
-        defaultSelectedChoiceReference?: string;
         dataTypeMappings?: [];
         objectFieldReference?: string;
         type: ScreenFieldType;
