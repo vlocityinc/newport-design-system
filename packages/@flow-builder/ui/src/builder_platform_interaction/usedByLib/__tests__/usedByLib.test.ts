@@ -6,7 +6,11 @@ import {
     flowWithAllElementsUIModel,
     screenWithAutomaticFields,
     accountSObjectVariable,
-    screenWithAutomaticFieldsInSection
+    screenWithAutomaticFieldsInSection,
+    screenWithSection,
+    address2,
+    email2,
+    displayTextUsingResources
 } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -550,6 +554,23 @@ describe('Used by library', () => {
                             isCanvasElement: true,
                             label: 'screenWithAutomaticFieldsInSection',
                             name: 'screenWithAutomaticFieldsInSection'
+                        }
+                    ])
+                );
+            });
+        });
+        describe('with sections', () => {
+            it('returns an array of object including any childReferences if an element is referenced in a section', () => {
+                const actualResult = usedBy([screenWithSection.guid]);
+                expect(actualResult).toEqual(
+                    expect.arrayContaining([
+                        {
+                            elementGuidsReferenced: [address2.guid, email2.guid],
+                            guid: displayTextUsingResources.guid,
+                            iconName: 'standard:display_text',
+                            isCanvasElement: false,
+                            label: undefined,
+                            name: 'displayTextUsingResources'
                         }
                     ])
                 );

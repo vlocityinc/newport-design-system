@@ -12,6 +12,7 @@ import { format, splitStringBySeparator, hasOwnProperty } from 'builder_platform
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
+import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
 
 // elements may be hydrated
 let mapOfChildElements: UI.Elements | UI.HydratedElements = {};
@@ -288,6 +289,17 @@ function insertChildReferences(elementGuids: UI.Guid[], elements: UI.Elements): 
             if (!element) {
                 return acc;
             }
+
+            if (
+                isScreenElementWithChild(element) ||
+                isRegionContainerFieldWithChildReferences(element) ||
+                isRegionFieldWithChildReferences(element)
+            ) {
+                element.childReferences.forEach((child) => {
+                    acc = [...acc, ...insertChildReferences([child.childReference], elements)];
+                });
+            }
+
             if (isCanvasElementWithChildReferences(element)) {
                 const childReferences = element.childReferences.map(({ childReference }) => {
                     return childReference;
@@ -310,6 +322,25 @@ function isCanvasElementWithChildReferences(
             elementType === ELEMENT_TYPE.SCREEN) &&
         isElementWithChildReferences(element)
     );
+}
+
+function isRegionContainerFieldWithChildReferences(
+    element: UI.Element
+): element is UI.Element & { childReferences: UI.ChildReference[] } {
+    return isRegionContainerField(element) && isElementWithChildReferences(element);
+}
+
+function isRegionFieldWithChildReferences(
+    element: UI.Element
+): element is UI.Element & { childReferences: UI.ChildReference[] } {
+    return isRegionField(element) && isElementWithChildReferences(element);
+}
+
+function isScreenElementWithChild(
+    element: UI.Element
+): element is UI.Element & { childReferences: UI.ChildReference[] } {
+    const elementType = element.elementType;
+    return elementType === ELEMENT_TYPE.SCREEN && isElementWithChildReferences(element);
 }
 
 function getParentCanvasElementGuids(
