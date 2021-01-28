@@ -193,7 +193,7 @@ const isReservedIdentifier = (identifier: string) => {
  * @returns {Item}               value in format displayable by combobox
  */
 export const normalizeFEROV = (identifier: string, { allowSObjectFieldsTraversal = true } = {}) => {
-    let result = { itemOrDisplayText: identifier };
+    let result: { itemOrDisplayText: UI.ComboboxItem | string; fields?: any } = { itemOrDisplayText: identifier };
     const elementOrResource = getResourceByUniqueIdentifier(identifier);
     const { guidOrLiteral, fieldNames } = sanitizeGuid(identifier);
     if (!elementOrResource) {

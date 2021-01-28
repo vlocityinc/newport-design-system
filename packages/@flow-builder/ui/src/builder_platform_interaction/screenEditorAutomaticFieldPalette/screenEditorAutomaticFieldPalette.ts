@@ -141,11 +141,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                         : true)
             )
             .forEach((field) => {
-                const guid = generateGuid();
                 const item: ScreenAutomaticFieldPaletteItem = {
                     apiName: field.apiName,
                     description: field.label,
-                    guid,
+                    guid: generateGuid(),
                     iconName: getDataTypeIcons(field.dataType, 'utility'),
                     label: field.label,
                     fieldTypeName: getScreenFieldName(field)!,

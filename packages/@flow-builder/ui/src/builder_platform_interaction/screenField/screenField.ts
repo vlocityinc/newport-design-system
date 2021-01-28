@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { hydrateWithErrors, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
@@ -15,7 +14,8 @@ import {
     isDateTimeField,
     isCurrencyField,
     isChoiceField,
-    getPlaceHolderLabel
+    getPlaceHolderLabel,
+    ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
@@ -108,14 +108,15 @@ export default class ScreenField extends LightningElement {
     get isInputFieldType() {
         return (
             this.screenfield.type.fieldType === FlowScreenFieldType.InputField ||
-            this.screenfield.type.fieldType === FlowScreenFieldType.PasswordField
+            this.screenfield.type.fieldType === FlowScreenFieldType.PasswordField ||
+            (this.isObjectProvided() && !this.isTextAreaType)
         );
     }
 
     /**
      * Whether or not the current field is an ObjectProvided one, aka "automatic field"
      */
-    get isObjectProvided() {
+    isObjectProvided() {
         return this.screenfield.type.fieldType === FlowScreenFieldType.ObjectProvided;
     }
 
@@ -124,7 +125,7 @@ export default class ScreenField extends LightningElement {
     }
 
     get isTextAreaType() {
-        return this.screenfield.type.name === 'LargeTextArea';
+        return this.screenfield.type.name === ScreenFieldName.LargeTextArea;
     }
 
     get isDisplayTextType() {
@@ -132,15 +133,12 @@ export default class ScreenField extends LightningElement {
     }
 
     get isSectionType() {
-        return this.screenfield.type.name === 'Section';
+        return this.screenfield.type.name === ScreenFieldName.Section;
     }
 
     get isRequired() {
         // There is no concept of required for a checkbox.
-        if (this.screenfield.type.name === 'Checkbox') {
-            return false;
-        }
-        return this.screenfield.isRequired;
+        return this.screenfield.type.name === ScreenFieldName.Checkbox ? false : this.screenfield.isRequired;
     }
 
     get name() {
@@ -176,7 +174,9 @@ export default class ScreenField extends LightningElement {
             defaultValue = '';
         } else if (!isReference(defaultValue)) {
             const normalizedValue = normalizeFEROV(defaultValue).itemOrDisplayText;
-            defaultValue = isObject(normalizedValue) ? normalizedValue.displayText : normalizedValue;
+            defaultValue = isObject(normalizedValue)
+                ? (normalizedValue as UI.ComboboxItem).displayText
+                : normalizedValue;
         }
 
         return defaultValue;
