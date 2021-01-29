@@ -24,11 +24,16 @@
     <aura:attribute name="ready" type="Boolean" access="private" description="Flag used to render the editor." />
 
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler event="aura:systemError" action="{!c.handleSystemError}"/>
+    <aura:handler event="aura:customerError" action="{!c.handleCustomerError}"/>
 
     <!--Temp fix: Till we can leverage wire to get data-->
     <builder_platform_interaction:serverDataLibInit
         aura:id="serverDataLibInit"
     ></builder_platform_interaction:serverDataLibInit>
+
+    <builder_platform_interaction:builderUtils aura:id="builderUtils"/> 
+
     <builder_platform_interaction:contextLib aura:id="contextLib"></builder_platform_interaction:contextLib>
 
     <builder_platform_interaction:imageLib aura:id="imageLib"></builder_platform_interaction:imageLib>

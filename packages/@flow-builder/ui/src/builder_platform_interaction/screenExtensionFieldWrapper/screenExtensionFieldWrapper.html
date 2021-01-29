@@ -1,0 +1,18 @@
+<template>
+    <builder_platform_interaction-screen-extension-field
+        if:true={isDisplayComponentPreview}
+        attributes={componentInstanceAttributes}
+        descriptor={descriptor}
+        name={name}
+        ondummypreviewmode={handleDummyModeChange}
+    >
+    </builder_platform_interaction-screen-extension-field>
+
+    <builder_platform_interaction-screen-field-card
+        if:false={isDisplayComponentPreview}
+        icon={icon}
+        title={title}
+        text={text}
+    >
+    </builder_platform_interaction-screen-field-card>
+</template>

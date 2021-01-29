@@ -3,9 +3,10 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { readonly } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
@@ -358,4 +359,48 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
             }
             return parameter;
         });
+}
+
+export function isExtensionAttributeLiteral(attribute: object) {
+    if (attribute && attribute.value) {
+        switch (attribute.valueDataType) {
+            case FEROV_DATA_TYPE.NUMBER:
+            case FEROV_DATA_TYPE.DATE:
+            case FEROV_DATA_TYPE.DATETIME:
+                return true;
+            case FEROV_DATA_TYPE.BOOLEAN:
+                return (
+                    attribute.value.value !== GLOBAL_CONSTANTS.BOOLEAN_FALSE &&
+                    attribute.value.value !== GLOBAL_CONSTANTS.BOOLEAN_TRUE
+                );
+            case FEROV_DATA_TYPE.STRING:
+                return attribute.value.value !== GLOBAL_CONSTANTS.EMPTY_STRING;
+            default:
+                return false;
+        }
+    }
+    return false;
+}
+
+export function isExtensionAttributeGlobalConstant(input: object) {
+    return (
+        input &&
+        input.value &&
+        (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_TRUE ||
+            input.value.value === GLOBAL_CONSTANTS.BOOLEAN_FALSE ||
+            input.value.value === GLOBAL_CONSTANTS.EMPTY_STRING)
+    );
+}
+
+export function isExtensionRefDisplayable(input: object, inputType: string | null) {
+    // This is a temporary check that will go away before 232 releases.
+    // This is here to allow testing of string refs being passed into the
+    // component during preview.
+    return (
+        inputType &&
+        input &&
+        orgHasFlowBuilderDebug() &&
+        input.valueDataType === FEROV_DATA_TYPE.REFERENCE &&
+        inputType.toLowerCase() === FEROV_DATA_TYPE.STRING.toLowerCase()
+    );
 }

@@ -28,5 +28,37 @@
             cmp.set('v.complianceBannerEnabled', complianceBannerEnabled);
             cmp.set('v.ready', true);
         }
+    },
+    setErrorMessage: function (errorMessage, gackId) {
+        var newErrorMessage = errorMessage ? errorMessage : $A.get('$Label.FlowBuilderAlertModal.errorMessage');
+        if (gackId) {
+            newErrorMessage += ' ' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId);
+        }
+        return newErrorMessage;
+    },
+    invokeAlertModal: function (cmp, errorMessage, gackId) {
+        alertModal = cmp.find('builderUtils').invokeModal;
+        var newErrorMessage = errorMessage ? errorMessage : $A.get('$Label.FlowBuilderAlertModal.errorMessage');
+        if (gackId) {
+            newErrorMessage += ' ' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId);
+        }
+        var bodyOne = $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId);
+        alertModal({
+            headerData: {
+                headerTitle: $A.get('$Label.FlowBuilderAlertModal.errorTitle')
+            },
+            bodyData: {
+                bodyTextOne: bodyOne,
+                bodyTextTwo: newErrorMessage,
+                showBodyTwoVariant: true
+            },
+
+            footerData: {
+                buttonOne: {
+                    buttonLabel: $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel'),
+                    buttonCallback: 'Brand'
+                }
+            }
+        });
     }
 });

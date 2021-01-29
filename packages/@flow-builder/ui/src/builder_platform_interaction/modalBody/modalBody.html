@@ -1,7 +1,16 @@
 <template>
     <div class={bodyTextContainerClass}>
         <p if:true={bodyTextOne} class={bodyTextOneClass}>{bodyTextOne}</p>
-        <p if:true={bodyTextTwo} class="slds-text-align_center slds-m-top_small">{bodyTextTwo}</p>
+        <p if:true={showBodyTwoStandard} class="slds-text-align_center slds-m-top_small">{bodyTextTwo}</p>
+        <lightning-accordion
+            if:true={showBodyTwoVariant}
+            allow-multiple-sections-open
+            active-section-name={openSections}
+        >
+            <lightning-accordion-section name="technicalDetails" label="Technical Details">
+                <lightning-textarea name="stackTrace" read-only value={bodyTextTwo}> </lightning-textarea>
+            </lightning-accordion-section>
+        </lightning-accordion>
     </div>
     <div if:true={hasUsedByContent} class="slds-p-horizontal_small">
         <builder_platform_interaction-used-by-content

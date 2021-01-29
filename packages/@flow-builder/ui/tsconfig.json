@@ -177,6 +177,7 @@
             "builder_platform_interaction/screenEditorUtils": ["./src/builder_platform_interaction/screenEditorUtils/screenEditorUtils.ts"],
             "builder_platform_interaction/screenExtensionAttributeEditor": ["./src/builder_platform_interaction/screenExtensionAttributeEditor/screenExtensionAttributeEditor.ts"],
             "builder_platform_interaction/screenExtensionField": ["./src/builder_platform_interaction/screenExtensionField/screenExtensionField.ts"],
+            "builder_platform_interaction/screenExtensionFieldWrapper": ["./src/builder_platform_interaction/screenExtensionFieldWrapper/screenExtensionFieldWrapper.ts"],
             "builder_platform_interaction/screenExtensionPropertiesEditor": ["./src/builder_platform_interaction/screenExtensionPropertiesEditor/screenExtensionPropertiesEditor.ts"],
             "builder_platform_interaction/screenField": ["./src/builder_platform_interaction/screenField/screenField.ts"],
             "builder_platform_interaction/screenFieldCard": ["./src/builder_platform_interaction/screenFieldCard/screenFieldCard.ts"],

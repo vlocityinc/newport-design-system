@@ -9,6 +9,8 @@ export default class ModalBody extends LightningElement {
     @api listSectionItems: Array[object];
     @api listWarningItems: Array[object];
     @api bodyVariant;
+    @api bodyTwoVariant;
+    activeSection = [];
 
     get bodyTextContainerClass() {
         return this.bodyVariant === modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
@@ -30,5 +32,17 @@ export default class ModalBody extends LightningElement {
         return (
             this.listWarningItems !== undefined && this.listWarningItems !== null && this.listWarningItems.length > 0
         );
+    }
+
+    get showBodyTwoStandard() {
+        return this.bodyTextTwo && !this.bodyTwoVariant;
+    }
+
+    get showBodyTwoVariant() {
+        return this.bodyTextTwo && this.bodyTwoVariant;
+    }
+
+    get openSections() {
+        return this.activeSection;
     }
 }

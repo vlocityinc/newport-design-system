@@ -6,23 +6,15 @@
         </div>
         <div if:false={hasErrors}>
             <div if:true={isExtension}>
-                <builder_platform_interaction-screen-extension-field
-                    if:true={isDisplayComponentPreview}
-                    attributes={componentInstanceAttributes}
+                <builder_platform_interaction-screen-extension-field-wrapper
+                    screenfield={screenfield}
                     descriptor={screenfield.type.name}
                     name={screenfield.type.name}
-                    ondummypreviewmode={handleDummyModeChange}
-                    onerror={handleError}
-                >
-                </builder_platform_interaction-screen-extension-field>
-
-                <builder_platform_interaction-screen-field-card
-                    if:false={isDisplayComponentPreview}
                     icon={screenfield.type.icon}
                     title={displayName}
                     text={labels.fieldExtensionPreviewDescription}
                 >
-                </builder_platform_interaction-screen-field-card>
+                </builder_platform_interaction-screen-extension-field-wrapper>
             </div>
 
             <builder_platform_interaction-screen-input-field

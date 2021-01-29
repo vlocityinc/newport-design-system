@@ -203,3 +203,39 @@ function addRequiredInputParameters(field, description) {
 export function getIconForParameter(type) {
     return getDataTypeIcons(type, 'utility') || DEFAULT_ATTRIBUTE_TYPE_ICON;
 }
+
+export function getRequiredParametersForExtension(extensionName: string): object[] | null {
+    const cachedDescriptions: any = getCachedExtensions([extensionName]);
+    if (cachedDescriptions && cachedDescriptions.length === 1) {
+        const descriptor = cachedDescriptions[0];
+        const requiredParams: any = [];
+        for (const inputParam of descriptor.inputParameters) {
+            if (inputParam.isRequired === true) {
+                requiredParams.push(inputParam);
+            }
+        }
+        return requiredParams;
+    }
+    // We didn't find the extension descriptor.
+    return null;
+}
+
+/**
+ * Returns the data type of the specified extension field and attribute name.
+ * Returns null when extension description or attribute name are not found.
+ * @param extensionName Name of extension field to query
+ * @param attributeName Name of extension field attribute to query
+ */
+export function getExtensionAttributeType(extensionName: string, attributeName: string): string | null {
+    const cachedDescriptions: any = getCachedExtensions([extensionName]);
+    if (cachedDescriptions && cachedDescriptions.length === 1) {
+        const descriptor = cachedDescriptions[0];
+        const inputParam = descriptor.inputParameters.find((inputParam) => inputParam.apiName === attributeName);
+        if (inputParam) {
+            return inputParam.dataType;
+        }
+    }
+    // If we don't have the component's descriptor or can't find the attribute,
+    // we can't describe the attribute type.
+    return null;
+}

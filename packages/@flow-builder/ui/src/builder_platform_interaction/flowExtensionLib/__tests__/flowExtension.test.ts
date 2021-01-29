@@ -4,7 +4,8 @@ import {
     clearExtensionsCache,
     applyDynamicTypeMappings,
     getCachedExtension,
-    listExtensions
+    listExtensions,
+    isExtensionAttributeLiteral
 } from '../flowExtension';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
@@ -118,6 +119,57 @@ describe('flowExtension', () => {
                 expect(selectedRecordParameter.subtype).toEqual('Asset');
                 done();
             });
+        });
+    });
+
+    describe('isExtensionAttributeLiteral', () => {
+        it('String literal return true', async () => {
+            const inputAttribute = {
+                valueDataType: 'String',
+                value: { value: 'foo' }
+            };
+            const response = isExtensionAttributeLiteral(inputAttribute);
+            expect(response).toBeTruthy();
+        });
+        it('Number literal return true', async () => {
+            const inputAttribute = {
+                valueDataType: 'Number',
+                value: { value: 1 }
+            };
+            const response = isExtensionAttributeLiteral(inputAttribute);
+            expect(response).toBeTruthy();
+        });
+        it('Date literal return true', async () => {
+            const inputAttribute = {
+                valueDataType: 'Date',
+                value: { value: '1/1/2020' }
+            };
+            const response = isExtensionAttributeLiteral(inputAttribute);
+            expect(response).toBeTruthy();
+        });
+        it('Datetime literal return true', async () => {
+            const inputAttribute = {
+                valueDataType: 'DateTime',
+                value: { value: '1/1/2020 8:00' }
+            };
+            const response = isExtensionAttributeLiteral(inputAttribute);
+            expect(response).toBeTruthy();
+        });
+        it('Boolean global constant returns false', async () => {
+            const inputAttribute = {
+                valueDataType: 'Boolean',
+                value: { value: '$GlobalConstant.True' }
+            };
+            const response = isExtensionAttributeLiteral(inputAttribute);
+            expect(response).toBeFalsy();
+        });
+        it('String global constant Empty String false', async () => {
+            const inputAttribute = {
+                valueDataType: 'String',
+                value: { value: '$GlobalConstant.EmptyString' }
+            };
+            const response = isExtensionAttributeLiteral(inputAttribute);
+            expect(response).toBeFalsy();
         });
     });
 
