@@ -34,6 +34,7 @@ import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 
 enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
@@ -272,7 +273,10 @@ export default class StageStepEditor extends LightningElement {
             true, // required
             false, // disabled
             FLOW_DATA_TYPE.STRING.value,
-            true // enableFieldDrilldown
+            true, // enableFieldDrilldown,
+            true, // allowSObjectFields
+            LIGHTNING_INPUT_VARIANTS.STANDARD,
+            this.labels.actorSelectorTooltip // Field-level Help
         );
     }
 

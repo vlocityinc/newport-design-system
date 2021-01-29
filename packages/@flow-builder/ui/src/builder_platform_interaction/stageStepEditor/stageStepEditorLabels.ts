@@ -9,6 +9,7 @@ import actionSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.ac
 import actorSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectionSectionLabel';
 import actorSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorLabel';
 import actorSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorPlaceholder';
+import actorSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorTooltip';
 
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
@@ -34,5 +35,6 @@ export const LABELS = {
     thisActionHasNoInputOutputBody,
     actorSelectionSectionLabel,
     actorSelectorLabel,
-    actorSelectorPlaceholder
+    actorSelectorPlaceholder,
+    actorSelectorTooltip
 };

@@ -341,7 +341,7 @@ describe('StageStepEditor', () => {
                     disabled: false,
                     enableFieldDrilldown: true,
                     errorMessage: undefined,
-                    fieldLevelHelp: undefined,
+                    fieldLevelHelp: 'FlowBuilderStageStepEditor.actorSelectorTooltip',
                     label: 'FlowBuilderStageStepEditor.actorSelectorLabel',
                     literalsAllowed: true,
                     placeholder: 'FlowBuilderStageStepEditor.actorSelectorPlaceholder',
