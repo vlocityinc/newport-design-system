@@ -371,7 +371,7 @@ describe('FLC Canvas Utils test', () => {
                     },
                     prev: 'guid1',
                     next: 'guid3',
-                    children: ['guid4', 'guid5']
+                    children: ['guid4', 'guid5', 'guid7']
                 },
                 guid3: {
                     guid: 'guid3',
@@ -415,6 +415,14 @@ describe('FLC Canvas Utils test', () => {
                     prev: null,
                     next: null,
                     childIndex: 0
+                },
+                guid7: {
+                    guid: 'guid7',
+                    elementType: ELEMENT_TYPE_END_ELEMENT,
+                    parent: 'guid2',
+                    prev: null,
+                    next: null,
+                    childIndex: 2
                 }
             };
 

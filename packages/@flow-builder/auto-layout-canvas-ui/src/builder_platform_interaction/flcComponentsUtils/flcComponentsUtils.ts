@@ -120,7 +120,11 @@ function _getChildBranchElements(
             let currentBranchElement = flowModel[branchRootsToVisitStack[i]!];
 
             // Traversing down a given branch
-            while (currentBranchElement != null && _shouldTraverseDown(action, currentBranchElement)) {
+            while (
+                currentBranchElement != null &&
+                _shouldTraverseDown(action, currentBranchElement) &&
+                !isSystemElement(elementsMetadata, currentBranchElement.elementType)
+            ) {
                 branchElementGuidsToSelectOrDeselect.push(currentBranchElement.guid);
                 // Grabs all the elements in the child and fault branches as needed
                 branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
