@@ -7,7 +7,8 @@ import {
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
     PASTE_ON_FIXED_CANVAS,
-    FLC_CREATE_CONNECTION
+    FLC_CREATE_CONNECTION,
+    ADD_SCREEN_WITH_FIELDS
 } from 'builder_platform_interaction/actions';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { reducer, actions } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -71,6 +72,9 @@ jest.mock('builder_platform_interaction/flcBuilderUtils', () => {
     const metadata = {
         Decision: 'branch',
         'some-element-type': {
+            type: 'Default'
+        },
+        Screen: {
             type: 'Default'
         }
     };
@@ -153,6 +157,41 @@ describe('flc-elements-reducer', () => {
             });
 
             expect(nextState[canvasElement.guid].children).toEqual([null, null, null]);
+        });
+    });
+
+    describe('When ADD_SCREEN_WITH_FIELDS', () => {
+        it('children should be set to null', () => {
+            const alcInsertAt = {
+                prev: 'prev-element'
+            };
+
+            const canvasElement = {
+                guid: 'screen-guid',
+                elementType: ELEMENT_TYPE.SCREEN,
+                childReferences: [
+                    {
+                        childReference: 'screenField1'
+                    },
+                    {
+                        childReference: 'screenField2'
+                    }
+                ]
+            };
+
+            const state = {
+                [canvasElement.guid]: canvasElement
+            };
+
+            const nextState = flcElementsReducer(state, {
+                type: ADD_SCREEN_WITH_FIELDS,
+                payload: {
+                    canvasElement,
+                    alcInsertAt
+                }
+            });
+
+            expect(nextState[canvasElement.guid].children).toBeUndefined();
         });
     });
 

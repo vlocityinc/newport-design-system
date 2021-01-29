@@ -21,7 +21,7 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { getElementsMetadata } from 'builder_platform_interaction/flcBuilderUtils';
+import { getElementsMetadata, supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 import {
     deleteBranchHeadProperties,
@@ -109,7 +109,7 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
             }
 
             const insertAt = action.payload.alcInsertAt;
-            const children = getChildren(element);
+            const children = supportsChildren(element) ? getChildren(element) : null;
 
             if (children) {
                 nextState[element.guid].children = children;
