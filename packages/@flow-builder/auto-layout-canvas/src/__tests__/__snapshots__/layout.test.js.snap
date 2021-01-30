@@ -4,6 +4,7 @@ exports[`layout calculateLayout empty flow 1`] = `
 Object {
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -15,6 +16,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 168,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -23,6 +25,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -33,6 +36,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -49,6 +53,7 @@ exports[`layout calculateLayout flow with decision and ended middle branch 1`] =
 Object {
   "branch-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 288,
       "joinOffsetY": 192,
       "offsetX": 308,
@@ -60,6 +65,7 @@ Object {
   },
   "branch-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -68,6 +74,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -78,6 +85,7 @@ Object {
   },
   "branch-guid:1": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 192,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -86,6 +94,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -96,6 +105,7 @@ Object {
   },
   "branch-guid:1-end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -107,6 +117,7 @@ Object {
   },
   "branch-guid:2": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -115,6 +126,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -125,6 +137,7 @@ Object {
   },
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -136,6 +149,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 456,
       "joinOffsetY": 0,
       "offsetX": 308,
@@ -144,6 +158,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -154,6 +169,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -170,6 +186,7 @@ exports[`layout calculateLayout flow with decision with 3 branches where the mid
 Object {
   "branch-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 432,
       "joinOffsetY": 336,
       "offsetX": 396,
@@ -181,6 +198,7 @@ Object {
   },
   "branch-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 192,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -189,6 +207,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -199,6 +218,7 @@ Object {
   },
   "branch-guid:0-end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -210,6 +230,7 @@ Object {
   },
   "branch-guid:1": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -218,6 +239,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -228,6 +250,7 @@ Object {
   },
   "branch-guid:2": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 336,
       "joinOffsetY": 0,
       "offsetX": 264,
@@ -236,6 +259,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -246,6 +270,7 @@ Object {
   },
   "branch-guid:2-branch-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 192,
       "joinOffsetY": 120,
       "offsetX": 264,
@@ -257,6 +282,7 @@ Object {
   },
   "branch-guid:2-branch-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -265,6 +291,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -275,6 +302,7 @@ Object {
   },
   "branch-guid:2-branch-guid:1": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -283,6 +311,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -293,6 +322,7 @@ Object {
   },
   "branch-guid:2-branch-guid:2": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -301,6 +331,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -311,6 +342,7 @@ Object {
   },
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -322,6 +354,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 600,
       "joinOffsetY": 0,
       "offsetX": 396,
@@ -330,6 +363,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -340,6 +374,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -356,6 +391,7 @@ exports[`layout calculateLayout flow with decision with one element on left bran
 Object {
   "branch-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 336,
       "joinOffsetY": 240,
       "offsetX": 220,
@@ -367,6 +403,7 @@ Object {
   },
   "branch-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 240,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -375,6 +412,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -385,6 +423,7 @@ Object {
   },
   "branch-guid:1": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -393,6 +432,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -403,6 +443,7 @@ Object {
   },
   "branch-left-head-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 96,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -414,6 +455,7 @@ Object {
   },
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -425,6 +467,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 504,
       "joinOffsetY": 0,
       "offsetX": 220,
@@ -433,6 +476,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -443,6 +487,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -459,18 +504,20 @@ exports[`layout calculateLayout flow with dynamic node component 1`] = `
 Object {
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
       "w": 264,
       "x": 0,
-      "y": 240,
+      "y": 404,
     },
     "prevLayout": undefined,
   },
   "root:0": Object {
     "layout": Object {
-      "h": 288,
+      "addOffset": 0,
+      "h": 452,
       "joinOffsetY": 0,
       "offsetX": 88,
       "w": 264,
@@ -478,6 +525,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -488,7 +536,8 @@ Object {
   },
   "screen-guid": Object {
     "layout": Object {
-      "h": 120,
+      "addOffset": 224,
+      "h": 284,
       "joinOffsetY": 0,
       "offsetX": 88,
       "w": 264,
@@ -499,6 +548,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -515,6 +565,7 @@ exports[`layout calculateLayout flow with empty decision 1`] = `
 Object {
   "branch-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 216,
       "joinOffsetY": 120,
       "offsetX": 176,
@@ -526,6 +577,7 @@ Object {
   },
   "branch-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -534,6 +586,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -544,6 +597,7 @@ Object {
   },
   "branch-guid:1": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -552,6 +606,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -562,6 +617,7 @@ Object {
   },
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -573,6 +629,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 384,
       "joinOffsetY": 0,
       "offsetX": 176,
@@ -581,6 +638,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -591,6 +649,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -607,6 +666,7 @@ exports[`layout calculateLayout flow with empty decision with 3 branches 1`] = `
 Object {
   "branch-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 216,
       "joinOffsetY": 120,
       "offsetX": 264,
@@ -618,6 +678,7 @@ Object {
   },
   "branch-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -626,6 +687,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -636,6 +698,7 @@ Object {
   },
   "branch-guid:1": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -644,6 +707,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -654,6 +718,7 @@ Object {
   },
   "branch-guid:2": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -662,6 +727,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -672,6 +738,7 @@ Object {
   },
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -683,6 +750,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 384,
       "joinOffsetY": 0,
       "offsetX": 264,
@@ -691,6 +759,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -701,6 +770,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -717,6 +787,7 @@ exports[`layout calculateLayout flow with empty loop 1`] = `
 Object {
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -728,6 +799,7 @@ Object {
   },
   "loop-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 240,
       "joinOffsetY": 144,
       "offsetX": 148,
@@ -739,6 +811,7 @@ Object {
   },
   "loop-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 144,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -747,6 +820,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -757,6 +831,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 408,
       "joinOffsetY": 0,
       "offsetX": 148,
@@ -765,6 +840,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -775,6 +851,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -791,6 +868,7 @@ exports[`layout calculateLayout flow with loop and nested loop 1`] = `
 Object {
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -802,6 +880,7 @@ Object {
   },
   "loop-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 480,
       "joinOffsetY": 384,
       "offsetX": 208,
@@ -813,6 +892,7 @@ Object {
   },
   "loop-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 384,
       "joinOffsetY": 0,
       "offsetX": 148,
@@ -821,6 +901,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -831,6 +912,7 @@ Object {
   },
   "loop-guid:0-loop-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 216,
       "joinOffsetY": 144,
       "offsetX": 148,
@@ -842,6 +924,7 @@ Object {
   },
   "loop-guid:0-loop-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 144,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -850,6 +933,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -860,6 +944,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 648,
       "joinOffsetY": 0,
       "offsetX": 208,
@@ -868,6 +953,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -878,6 +964,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -894,6 +981,7 @@ exports[`layout calculateLayout flow with loop with ended branch 1`] = `
 Object {
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -905,6 +993,7 @@ Object {
   },
   "loop-guid": Object {
     "layout": Object {
+      "addOffset": 36,
       "h": 312,
       "joinOffsetY": 216,
       "offsetX": 148,
@@ -916,6 +1005,7 @@ Object {
   },
   "loop-guid:0": Object {
     "layout": Object {
+      "addOffset": 84,
       "h": 216,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -924,6 +1014,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -934,6 +1025,7 @@ Object {
   },
   "loop-guid:0-end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -945,6 +1037,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 480,
       "joinOffsetY": 0,
       "offsetX": 148,
@@ -953,6 +1046,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -963,6 +1057,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -979,6 +1074,7 @@ exports[`layout calculateLayout flow with two elements with fault branches 1`] =
 Object {
   "action-element-one": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -990,6 +1086,7 @@ Object {
   },
   "action-element-one:-1": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 168,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -998,6 +1095,7 @@ Object {
       "y": 144,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -1008,6 +1106,7 @@ Object {
   },
   "action-element-two": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -1019,6 +1118,7 @@ Object {
   },
   "action-element-two:-1": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 168,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -1027,6 +1127,7 @@ Object {
       "y": 264,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -1037,6 +1138,7 @@ Object {
   },
   "end-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -1048,6 +1150,7 @@ Object {
   },
   "fault-branch-head-guid-one": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -1059,6 +1162,7 @@ Object {
   },
   "fault-branch-head-guid-two": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -1070,6 +1174,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "addOffset": 0,
       "h": 480,
       "joinOffsetY": 0,
       "offsetX": 88,
@@ -1078,6 +1183,7 @@ Object {
       "y": 0,
     },
     "prevLayout": Object {
+      "addOffset": 0,
       "h": 0,
       "joinOffsetY": 0,
       "offsetX": 0,
@@ -1088,6 +1194,7 @@ Object {
   },
   "start-guid": Object {
     "layout": Object {
+      "addOffset": 60,
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,

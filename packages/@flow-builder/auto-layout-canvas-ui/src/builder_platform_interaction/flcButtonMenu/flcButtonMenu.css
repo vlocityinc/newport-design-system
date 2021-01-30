@@ -66,8 +66,11 @@ button.connector:focus {
 
 .default-container {
     background-color: var(--lwc-colorBackgroundAlt);
-    height: 56px;
-    width: 56px;
+}
+
+.dynamic-container {
+    border-top: 0.25rem solid var(--lwc-colorBackgroundAlt);
+    padding-top: 0;
 }
 
 .default-container.rotate-icon-container {

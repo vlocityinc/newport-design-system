@@ -143,7 +143,7 @@ export default [
     {
         section: 'Interaction',
         type: NodeType.ORCHESTRATED_STAGE,
-        icon: 'standard:screen',
+        icon: 'standard:sales_path',
         label: 'orchestratedStage',
         value: ELEMENT_TYPE.ORCHESTRATED_STAGE,
         elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE,

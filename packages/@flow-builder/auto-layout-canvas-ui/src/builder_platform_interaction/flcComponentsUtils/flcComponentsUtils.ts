@@ -540,10 +540,13 @@ function getFlcCompoundNodeData(nodeInfo: NodeRenderInfo): object {
 
     const faultFlow = nodeInfo.faultFlow ? getFlcFlowData(nodeInfo.faultFlow, nodeInfo, -1) : null;
 
+    // let the browser manage the width
+    const geo = { ...geometry, w: undefined };
+
     return {
         key: guid,
         nodeInfo,
-        style: getStyleFromGeometry(geometry),
+        style: getStyleFromGeometry(geo),
         className,
         faultFlow
     };

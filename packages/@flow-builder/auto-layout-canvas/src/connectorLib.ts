@@ -3,9 +3,7 @@ import {
     LayoutConfig,
     ConnectorVariant,
     ConnectorConnectionInfo,
-    getConnectorConfig,
-    VerticalAlign,
-    tweenValue
+    getConnectorConfig
 } from './flowRendererUtils';
 
 import { Guid } from './model';
@@ -88,15 +86,12 @@ function createConnectorToNextNode(
     isFault: boolean,
     variants: ConnectorVariant[],
     isBranchGettingDeleted: boolean,
-    showAdd: boolean,
-    progress: number,
-    addAlign = VerticalAlign.TOP,
-    connectorBadgeLabel?: string,
-    prevHeight?: number
+    addOffset: number | undefined,
+    connectorBadgeLabel?: string
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
-    const { h: connectorHeight, addOffset, labelOffset, svgMarginTop = 0, svgMarginBottom = 0 } = getConnectorConfig(
+    const { labelOffset, svgMarginTop = 0, svgMarginBottom = 0 } = getConnectorConfig(
         layoutConfig,
         connectorType,
         ...(variants || [])
@@ -104,17 +99,10 @@ function createConnectorToNextNode(
 
     const geometry = { x: 0, y: offsetY, w: strokeWidth, h: height };
 
-    let effectiveAddOffset = addAlign === VerticalAlign.TOP ? addOffset : height - (connectorHeight - addOffset);
-
-    if (prevHeight != null) {
-        const prevOffset = prevHeight - (connectorHeight - addOffset);
-        effectiveAddOffset = tweenValue(prevOffset, addOffset, progress);
-    }
-
     const connectorRenderInfo = {
         labelType: connectorLabelType,
         geometry,
-        addInfo: showAdd ? { offsetY: effectiveAddOffset, menuOpened } : undefined,
+        addInfo: addOffset != null ? { offsetY: addOffset, menuOpened } : undefined,
         connectionInfo,
         svgInfo: createStraightConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig),
         labelOffsetY: labelOffset,

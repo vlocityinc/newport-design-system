@@ -86,6 +86,7 @@ export default class FlcButtonMenu extends LightningElement {
 
         return classSet('slds-p-around_xx-small').add({
             'default-container': !this.elementMetadata.dynamicNodeComponent,
+            'dynamic-container': this.elementMetadata.dynamicNodeComponent,
             'rotate-icon-container': this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND
         });
     }

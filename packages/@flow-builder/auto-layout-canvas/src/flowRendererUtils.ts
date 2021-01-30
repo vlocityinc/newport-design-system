@@ -20,6 +20,7 @@ export interface LayoutInfo {
     h: number;
     joinOffsetY: number;
     offsetX: number;
+    addOffset: number;
 }
 
 export interface NodeLayout {
@@ -53,7 +54,6 @@ export interface InteractionMenuInfo {
 }
 
 export interface FlowInteractionState {
-    closingMenu: InteractionMenuInfo | null;
     menuInfo: InteractionMenuInfo | null;
     deletionPathInfo: {
         childIndexToKeep: number;
@@ -223,13 +223,16 @@ export function tweenValue(prevValue: number, value: number, progress: number): 
  * @returns A LayoutInfo that with the tweened values
  */
 function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number): LayoutInfo {
+    const { x, y, w, h, offsetX, joinOffsetY, addOffset } = layout;
+
     return {
-        x: tweenValue(prevLayout.x, layout.x, progress),
-        y: tweenValue(prevLayout.y, layout.y, progress),
-        w: tweenValue(prevLayout.w, layout.w, progress),
-        h: tweenValue(prevLayout.h, layout.h, progress),
-        offsetX: tweenValue(prevLayout.offsetX, layout.offsetX, progress),
-        joinOffsetY: tweenValue(prevLayout.joinOffsetY, layout.joinOffsetY, progress)
+        x: tweenValue(prevLayout.x, x, progress),
+        y: tweenValue(prevLayout.y, y, progress),
+        w: tweenValue(prevLayout.w, w, progress),
+        h: tweenValue(prevLayout.h, h, progress),
+        offsetX: tweenValue(prevLayout.offsetX, offsetX, progress),
+        joinOffsetY: tweenValue(prevLayout.joinOffsetY, joinOffsetY, progress),
+        addOffset: prevLayout.addOffset !== 0 ? tweenValue(prevLayout.addOffset, addOffset, progress) : addOffset
     };
 }
 

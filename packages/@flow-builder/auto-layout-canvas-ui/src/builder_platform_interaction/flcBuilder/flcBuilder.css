@@ -4,6 +4,12 @@
 
     --node-icon-half-width: calc(var(--node-icon-width) / 2);
     --node-icon-half-height: calc(var(--node-icon-height) / 2);
+
+    --node-icon-width-with-padding: 56px;
+    --node-icon-height-with-padding: 56px;
+
+    --node-icon-half-width-with-padding: calc(var(--node-icon-width-with-padding) / 2);
+    --node-icon-half-height-with-padding: calc(var(--node-icon-height-with-padding) / 2);
 }
 
 .menu {

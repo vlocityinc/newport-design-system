@@ -1,61 +1,61 @@
 <template>
-    <!-- Node Button -->
-    <builder_platform_interaction-flc-button-menu
-        condition-options-for-node={conditionOptionsForNode}
-        element-metadata={nodeInfo.metadata}
-        guid={nodeInfo.guid}
-        menu-opened={nodeInfo.menuOpened}
-        is-canvas-ready={isCanvasReady}
-        is-node-getting-deleted={nodeInfo.toBeDeleted}
-        canvas-mode={canvasMode}
-        onclick={handleButtonClick}
-        ondblclick={handleOnDblClick}
-    >
-        <!-- Element Icon -->
-        <div slot="trigger" class={rotateIconClass}>
-            <lightning-icon
-                if:false={dynamicNodeConstructor}
-                alternative-text={labels.nodeIconAltText}
-                class={svgClass}
-                icon-name={nodeInfo.metadata.icon}
-                size={iconSize}
-                variant="inverse"
-            ></lightning-icon>
-
-            <x-lazy
-                if:true={dynamicNodeConstructor}
-                lwc:dynamic={dynamicNodeConstructor}
-                node={nodeInfo}
-                is-default-mode={isDefaultMode}
-                class="component"
-            ></x-lazy>
-        </div>
-
-        <!-- Selection Checkbox -->
-        <lightning-button-icon
-            if:true={showCheckboxInSelectionMode}
-            slot="selection-checkbox"
-            alternative-text={labels.selectionCheckboxAltText}
-            class="selection-checkbox"
-            disabled={shouldDisableCheckbox}
-            icon-name={checkboxIconName}
-            size="small"
-            variant={checkboxVariant}
-            onclick={handleSelectionCheckboxClick}
-        ></lightning-button-icon>
-    </builder_platform_interaction-flc-button-menu>
-
-    <!-- Label and Element Type -->
-    <div if:false={dynamicNodeConstructor} class={textContainerClasses}>
-        <div class="text-element-label slds-text-body_regular">{nodeLabel}</div>
-        <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
-            {nodeInfo.metadata.label}
-        </div>
-        <div
-            if:true={hasIncomingGoto}
-            class="text-element-goto-count slds-text-body_regular slds-truncate text-incoming-goto"
+    <!-- Node Button and labels -->
+    <div class={iconContainerClasses}>
+        <builder_platform_interaction-flc-button-menu
+            condition-options-for-node={conditionOptionsForNode}
+            element-metadata={nodeInfo.metadata}
+            guid={nodeInfo.guid}
+            menu-opened={nodeInfo.menuOpened}
+            is-canvas-ready={isCanvasReady}
+            is-node-getting-deleted={nodeInfo.toBeDeleted}
+            canvas-mode={canvasMode}
+            onclick={handleButtonClick}
+            ondblclick={handleOnDblClick}
         >
-            + {nodeInfo.node.incomingGoTo.length} Incoming
+            <!-- Element Icon -->
+            <div slot="trigger" class={rotateIconClass}>
+                <lightning-icon
+                    alternative-text={labels.nodeIconAltText}
+                    class={svgClass}
+                    icon-name={nodeInfo.metadata.icon}
+                    size={iconSize}
+                    variant="inverse"
+                ></lightning-icon>
+            </div>
+
+            <!-- Selection Checkbox -->
+            <lightning-button-icon
+                if:true={showCheckboxInSelectionMode}
+                slot="selection-checkbox"
+                alternative-text={labels.selectionCheckboxAltText}
+                class="selection-checkbox"
+                disabled={shouldDisableCheckbox}
+                icon-name={checkboxIconName}
+                size="small"
+                variant={checkboxVariant}
+                onclick={handleSelectionCheckboxClick}
+            ></lightning-button-icon>
+        </builder_platform_interaction-flc-button-menu>
+        <!-- Label and Element Type -->
+        <div if:false={dynamicNodeConstructor} class={textContainerClasses}>
+            <div class="text-element-label slds-text-body_regular">{nodeLabel}</div>
+            <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
+                {nodeInfo.metadata.label}
+            </div>
+            <div
+                if:true={hasIncomingGoto}
+                class="text-element-goto-count slds-text-body_regular slds-truncate text-incoming-goto"
+            >
+                + {nodeInfo.node.incomingGoTo.length} Incoming
+            </div>
         </div>
     </div>
+
+    <x-lazy
+        if:true={dynamicNodeConstructor}
+        lwc:dynamic={dynamicNodeConstructor}
+        node={nodeInfo}
+        is-default-mode={isDefaultMode}
+        class="dynamic-component"
+    ></x-lazy>
 </template>

@@ -28,8 +28,7 @@ import {
     getMergeOutcomeCount,
     FlowRenderContext,
     LayoutInfo,
-    getBranchLayoutKey,
-    VerticalAlign
+    getBranchLayoutKey
 } from './flowRendererUtils';
 
 import NodeType from './NodeType';
@@ -278,7 +277,7 @@ function createNextConnector(
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
     const { flowModel, progress, nodeLayoutMap, interactionState, isDeletingBranch } = context;
-    const { y, joinOffsetY } = getLayout(node.guid, progress, nodeLayoutMap);
+    const { y, joinOffsetY, addOffset } = getLayout(node.guid, progress, nodeLayoutMap);
     const { nodeType } = node;
 
     let height = getNextConnectorHeight(parentNode, node, context, y);
@@ -291,7 +290,6 @@ function createNextConnector(
             : ConnectorVariant.DEFAULT;
 
     let showAdd = true;
-
     if (mainVariant === ConnectorVariant.POST_MERGE) {
         offsetY = joinOffsetY;
         height = height - joinOffsetY;
@@ -305,25 +303,6 @@ function createNextConnector(
                 : ConnectorVariant.BRANCH_TAIL;
     }
 
-    let addAlign = VerticalAlign.TOP;
-    const menuInfo = interactionState.menuInfo || interactionState.closingMenu;
-    let prevHeight;
-
-    if (menuInfo != null && menuInfo.type === MenuType.NODE && menuInfo.key === node.guid) {
-        if (interactionState.menuInfo != null) {
-            addAlign = VerticalAlign.BOTTOM;
-        } else {
-            const { prevLayout } = nodeLayoutMap[node.guid];
-            prevHeight = prevLayout?.h;
-            if (mainVariant === ConnectorVariant.POST_MERGE) {
-                // @ts-ignore
-                prevHeight -= prevLayout.joinOffsetY;
-            }
-        }
-    } else if ((menuInfo === null || menuInfo.key !== node.guid) && mainVariant === ConnectorVariant.DEFAULT) {
-        addAlign = VerticalAlign.BOTTOM;
-    }
-
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
         ConnectorType.STRAIGHT,
@@ -335,11 +314,7 @@ function createNextConnector(
         context.isFault,
         [mainVariant, variant],
         isDeletingBranch,
-        showAdd,
-        progress,
-        addAlign,
-        undefined,
-        prevHeight
+        showAdd ? addOffset : undefined
     );
 }
 
@@ -651,7 +626,7 @@ function createPreConnector(
     height: number,
     conditionOptions: Option[]
 ): ConnectorRenderInfo {
-    const { interactionState, isDeletingBranch, progress } = context;
+    const { interactionState, isDeletingBranch, progress, nodeLayoutMap } = context;
 
     const [branchHeadGuid, childCount] =
         childIndex === FAULT_INDEX
@@ -676,6 +651,8 @@ function createPreConnector(
         variants = [isEmptyBranch ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD, variant];
     }
 
+    const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
+
     return connectorLib.createConnectorToNextNode(
         { parent: parentNode.guid, childIndex },
         ConnectorType.STRAIGHT,
@@ -690,9 +667,7 @@ function createPreConnector(
         context.isFault || childIndex === FAULT_INDEX,
         variants,
         isDeletingBranch,
-        true,
-        progress,
-        VerticalAlign.TOP,
+        branchLayout.addOffset,
         connectorBadgeLabel
     );
 }

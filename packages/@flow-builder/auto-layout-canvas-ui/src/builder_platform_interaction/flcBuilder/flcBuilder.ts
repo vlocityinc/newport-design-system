@@ -137,6 +137,10 @@ export default class FlcBuilder extends LightningElement {
     // Note: this is only used for the initial render
     dynamicNodeCountAtLoad = 0;
 
+    /* tracks whether the start menu as been display when first opening a flow */
+    @track
+    initialStartMenuDisplayed = false;
+
     constructor() {
         super();
         this.keyboardInteractions = new KeyboardInteractions();
@@ -293,7 +297,8 @@ export default class FlcBuilder extends LightningElement {
     get showSpinner(): boolean {
         return (
             !this._flowRenderContext ||
-            this.dynamicNodeCountAtLoad > this._flowRenderContext.dynamicNodeDimensionMap.size
+            this.dynamicNodeCountAtLoad > this._flowRenderContext.dynamicNodeDimensionMap.size ||
+            !this.initialStartMenuDisplayed
         );
     }
 
@@ -337,8 +342,7 @@ export default class FlcBuilder extends LightningElement {
                 const interactionState = {
                     ...this._flowRenderContext.interactionState,
                     menuInfo: { key: startElementGuid, type: MenuType.NODE, needToPosition: false },
-                    deletionPathInfo: null,
-                    closingMenu: null
+                    deletionPathInfo: null
                 };
 
                 const event = new ToggleMenuEvent({
@@ -712,18 +716,28 @@ export default class FlcBuilder extends LightningElement {
 
         calculateFlowLayout(this._flowRenderContext);
 
-        if (isFirstRender || this.disableAnimation) {
+        if (
+            isFirstRender ||
+            this.disableAnimation ||
+            this.dynamicNodeCountAtLoad > this._flowRenderContext.dynamicNodeDimensionMap.size ||
+            !this.initialStartMenuDisplayed
+        ) {
             // first render, no animation
             this.renderFlow(1);
+
+            this.initialStartMenuDisplayed = this.template.querySelector(START_MENU_SELECTOR) != null;
+
+            // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
+            if (!this.initialStartMenuDisplayed) {
+                this._flowRenderContext.nodeLayoutMap = {};
+            }
         } else {
             const { menuInfo } = this._flowRenderContext.interactionState;
 
             // 10ms animation when needToPosition
             const duration = menuInfo != null && menuInfo.needToPosition ? 10 : undefined;
 
-            this._animatePromise = animate((progress) => this.renderFlow(progress), duration).then(() => {
-                this._flowRenderContext.interactionState.closingMenu = null;
-            });
+            this._animatePromise = animate((progress) => this.renderFlow(progress), duration);
         }
     };
 
@@ -912,15 +926,18 @@ export default class FlcBuilder extends LightningElement {
     /**
      * Add the dimension information for the guid to dynamicNodeDimensionMap
      * Which will be used during flow rendering to ensure layout respects
-     * the dimensions of nodes with dynamicNodeComponents
+     * the dimensions of nodes with dynamicNodeComponents.
+     *
      * @param event
      */
     handleDynamicNodeRender = (event: NodeResizeEvent) => {
         event.stopPropagation();
+        const { width, height } = event.detail;
 
+        // scale dimensions to account for zooming, and add them to the map
         this._flowRenderContext.dynamicNodeDimensionMap.set(event.detail.guid, {
-            w: event.detail.width,
-            h: event.detail.height
+            w: width / this.scale,
+            h: height / this.scale
         });
 
         // Wait for all dynamic components from the initial load to render (and thuws have dimensions)

@@ -347,10 +347,12 @@ function getFlowWithDynamicNodeComponent() {
     const flowModel = createFlow([SCREEN_ELEMENT_GUID]);
     const context = createFlowRenderContext({ flowModel });
 
-    context.dynamicNodeDimensionMap[SCREEN_ELEMENT_GUID] = {
-        width: 100,
-        height: 200
-    };
+    context.dynamicNodeDimensionMap = new Map();
+
+    context.dynamicNodeDimensionMap.set(SCREEN_ELEMENT_GUID, {
+        w: 100,
+        h: 200
+    });
 
     return context;
 }

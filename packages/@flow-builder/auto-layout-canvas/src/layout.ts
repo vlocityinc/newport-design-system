@@ -1,13 +1,4 @@
-import {
-    ElementMetadata,
-    NodeModel,
-    resolveNode,
-    ParentNodeModel,
-    NodeRef,
-    Guid,
-    getElementMetadata,
-    FAULT_INDEX
-} from './model';
+import { NodeModel, resolveNode, ParentNodeModel, NodeRef, Guid, getElementMetadata, FAULT_INDEX } from './model';
 import { areAllBranchesTerminals } from './modelUtils';
 import {
     FlowRenderContext,
@@ -19,13 +10,38 @@ import {
     NodeLayoutMap,
     getBranchLayoutKey,
     InteractionMenuInfo,
-    Dimension
+    Dimension,
+    VerticalAlign,
+    ConnectorTypeLayoutConfig
 } from './flowRendererUtils';
 import MenuType from './MenuType';
 import NodeType from './NodeType';
 import ConnectorType from './ConnectorTypeEnum';
 
 export const NO_OFFSET = 0;
+
+/**
+ * Computes the offset of the (+) button relative to the top of the connector
+ *
+ * @param addAlign - The alignment for the add button (top or bottom)
+ * @param height - The height of the connector
+ * @param config - The config for the connector
+ * @param extraNodeHeight - The extra height for custom nodes
+ *
+ * @return The offset of the add button relative to the top of the connector
+ */
+function getAddOffset(
+    addAlign: VerticalAlign,
+    height: number,
+    config: ConnectorTypeLayoutConfig,
+    extraNodeHeight: number
+) {
+    const { addOffset, h } = config;
+    const addOffsetFromTop = addOffset + extraNodeHeight;
+    const addOffsetFromBottom = height - (h - addOffset);
+
+    return addAlign === VerticalAlign.TOP ? addOffsetFromTop : addOffsetFromBottom;
+}
 
 function getMenuNeedToPosition(key: NodeRef, context: FlowRenderContext): boolean {
     const { interactionState } = context;
@@ -67,7 +83,7 @@ function getMenuHeight({ menuInfo }: { menuInfo: InteractionMenuInfo }): number 
  */
 function calculateFlowLayout(context: FlowRenderContext): void {
     const startNodeIndex = 0;
-    calculateBranchLayout(context.flowModel.root as ParentNodeModel, startNodeIndex, context);
+    calculateBranchLayout(context.flowModel.root as ParentNodeModel, startNodeIndex, context, 0);
     // console.log(context.nodeLayoutMap);
 }
 
@@ -78,7 +94,8 @@ function createDefaultLayout(): LayoutInfo {
         w: 0,
         h: 0,
         joinOffsetY: 0,
-        offsetX: 0
+        offsetX: 0,
+        addOffset: 0
     };
 }
 
@@ -108,11 +125,11 @@ function getNextNodeConnectorType(nodeType: NodeType): ConnectorType | null {
 }
 
 /**
- * Returns the extra height needed so that an opened menu doens't overlap over its next node
+ * Calculates the extra height needed so that an opened menu doens't overlap over its next node
  *
  * @returns The amount of extra height needed
  */
-function getExtraHeightForMenu({
+function calculateExtraHeightForMenu({
     menuInfo,
     connectorType,
     connectorVariant,
@@ -128,7 +145,6 @@ function getExtraHeightForMenu({
     connectorHeight: number;
     layoutConfig: LayoutConfig;
     hasNext: boolean;
-    metadata: ElementMetadata;
     joinOffsetY: number;
 }): number {
     if (menuInfo == null) {
@@ -148,11 +164,7 @@ function getExtraHeightForMenu({
         extraHeight = menuMarginBottom - menuSpacingToNextNode;
     } else {
         const addTriggerOffset = getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset;
-
-        // TODO: get rid of this
-        const adjust = joinOffsetY > 0 ? 12 : 0;
-
-        extraHeight = menuHeight - (addTriggerOffset + joinOffsetY) + menuMarginBottom - adjust;
+        extraHeight = menuHeight - (addTriggerOffset + joinOffsetY) + menuMarginBottom;
     }
 
     return extraHeight > 0 ? extraHeight : 0;
@@ -170,6 +182,21 @@ function getElementType(context: FlowRenderContext, nodeModel: NodeModel): NodeT
 }
 
 /**
+ * Calculates the extra height needed for a node in the case it has dynamic content
+ *
+ * @param context - The flow render context
+ * @param guid - The guid of the node
+ *
+ * @return - The extra height needed
+ */
+function calculateExtraHeightForNode(context: FlowRenderContext, guid: Guid) {
+    const { layoutConfig, dynamicNodeDimensionMap } = context;
+    const dynamicDimensions: Dimension | undefined = dynamicNodeDimensionMap && dynamicNodeDimensionMap.get(guid);
+    const halfIconWidth = layoutConfig.node.icon.w * (3 / 4);
+    return dynamicDimensions ? dynamicDimensions.h - halfIconWidth : 0;
+}
+
+/**
  * Calculates the layout for a node
  *
  * @param nodeModel - The node model
@@ -178,7 +205,7 @@ function getElementType(context: FlowRenderContext, nodeModel: NodeModel): NodeT
  * @returns A NodeLayout for the node
  */
 function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, offsetY: number): NodeLayout {
-    const { nodeLayoutMap, layoutConfig, flowModel, elementsMetadata } = context;
+    const { nodeLayoutMap, layoutConfig, flowModel } = context;
 
     let layout;
     const { guid } = nodeModel;
@@ -188,7 +215,7 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     const branchingInfo = calculateBranchingLayout(nodeModel as ParentNodeModel, context, offsetY);
 
     if (nodeModel.fault != null) {
-        calculateBranchLayout(nodeModel as ParentNodeModel, FAULT_INDEX, context);
+        calculateBranchLayout(nodeModel as ParentNodeModel, FAULT_INDEX, context, 0);
     }
 
     const elementType = getElementType(context, nodeModel);
@@ -220,10 +247,11 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     // width can be used as is
     const dynamicDimensions: Dimension | undefined =
         context.dynamicNodeDimensionMap && context.dynamicNodeDimensionMap.get(nodeModel.guid);
+
+    let extraHeightForNode = 0;
     if (dynamicDimensions) {
-        const halfIconHeight = layoutConfig.node.icon.h / 2;
-        const dynamicHeight = dynamicDimensions.h - halfIconHeight;
-        height = Math.max(height, dynamicHeight);
+        extraHeightForNode = calculateExtraHeightForNode(context, nodeModel.guid);
+        height = Math.max(height, extraHeightForNode);
 
         const halfIconWidth = layoutConfig.node.icon.w / 2;
         const dynamicWidth = dynamicDimensions.w + halfIconWidth;
@@ -238,23 +266,27 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     }
 
     const menuInfo = getMenuInfo(guid, context);
-    const metadata = getElementMetadata(elementsMetadata, nodeModel.elementType);
     const needToPosition = getMenuNeedToPosition(guid, context);
-
-    height +=
+    const extraHeightForMenu =
         menuInfo != null && !needToPosition
-            ? getExtraHeightForMenu({
+            ? calculateExtraHeightForMenu({
                   menuInfo,
-
                   connectorType: nextNodeConnectorType!,
-                  connectorHeight: menuInfo.type === MenuType.CONNECTOR ? nextNodeConnectorHeight : height,
+                  connectorHeight: menuInfo.type === MenuType.CONNECTOR ? nextNodeConnectorHeight : 0,
                   layoutConfig,
                   connectorVariant: nextNodeConnectorVariant,
                   hasNext: nodeModel.next != null,
-                  metadata,
                   joinOffsetY: branchingInfo.h
               })
             : 0;
+
+    // add extra height to account for dynamic nodes and menus
+    if (dynamicDimensions && menuInfo?.type === MenuType.NODE) {
+        // when the menu height is greater than the node height, we need to add the difference
+        height += Math.max(extraHeightForMenu - calculateExtraHeightForNode(context, guid), 0);
+    } else {
+        height += extraHeightForMenu;
+    }
 
     const isNew = layoutInfo == null;
 
@@ -265,7 +297,16 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
         });
     }
 
-    layoutInfo = layoutInfo || { layout };
+    const connectorConfig = getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, nextNodeConnectorVariant);
+
+    layoutInfo = layoutInfo || {
+        layout
+    };
+
+    const addAlign = menuInfo != null && menuInfo.type === MenuType.NODE ? VerticalAlign.BOTTOM : VerticalAlign.TOP;
+
+    const joinOffsetY = branchingInfo.h;
+
     layoutInfo = {
         prevLayout: isNew ? undefined : cloneLayout(layoutInfo.layout),
         layout: {
@@ -273,8 +314,9 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
             h: height,
             y: offsetY,
             x: 0,
-            joinOffsetY: branchingInfo.h,
-            offsetX: Math.max(branchingInfo.offsetX, layoutConfig.node.offsetX)
+            joinOffsetY,
+            offsetX: Math.max(branchingInfo.offsetX, layoutConfig.node.offsetX),
+            addOffset: getAddOffset(addAlign, height - joinOffsetY, connectorConfig, extraHeightForNode)
         }
     };
 
@@ -375,9 +417,9 @@ function calculateBranchLayout(
     parentNodeModel: ParentNodeModel,
     childIndex: number,
     context: FlowRenderContext,
-    offsetY: number = 0
+    offsetY: number
 ): LayoutInfo {
-    const { flowModel, nodeLayoutMap, layoutConfig, elementsMetadata } = context;
+    const { flowModel, nodeLayoutMap, layoutConfig } = context;
 
     const prevLayout = getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap)
         ? getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap).layout
@@ -398,13 +440,15 @@ function calculateBranchLayout(
     const nextNodeConnectorType = getNextNodeConnectorType(parentNodeType)!;
     const nextNodeConnectorVariant = getNextNodeConnectorVariant(branchHeadGuid, parentNodeType);
 
-    let height =
-        nextNodeConnectorType == null
-            ? 0
-            : getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant).h;
+    let height = 0;
+
+    if (nextNodeConnectorType) {
+        const connectorConfig = getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant);
+        height = connectorConfig.h;
+        branchLayout.addOffset = getAddOffset(VerticalAlign.TOP, height, connectorConfig, 0);
+    }
 
     const menuInfo = getMenuInfo(getBranchLayoutKey(parentNodeModel.guid, childIndex), context);
-    const metadata = getElementMetadata(elementsMetadata, parentNodeModel.elementType);
 
     if (menuInfo != null) {
         const menuKey = getBranchLayoutKey(parentNodeModel.guid, childIndex);
@@ -412,14 +456,13 @@ function calculateBranchLayout(
 
         height += needToPosition
             ? 0
-            : getExtraHeightForMenu({
+            : calculateExtraHeightForMenu({
                   hasNext: branchHeadGuid != null,
                   menuInfo,
                   connectorType: nextNodeConnectorType,
                   connectorHeight: height,
                   layoutConfig,
                   connectorVariant: nextNodeConnectorVariant,
-                  metadata,
                   joinOffsetY: 0
               });
     }

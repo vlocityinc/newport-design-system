@@ -130,6 +130,14 @@ export default class FlcNode extends LightningElement {
         });
     }
 
+    get iconContainerClasses() {
+        return classSet('icon-container')
+            .add({
+                'menu-opened': this.nodeInfo.menuOpened
+            })
+            .toString();
+    }
+
     get nodeLabel() {
         let label = this.nodeInfo.label;
         // Start has a dynamic label that is set in the metadata.

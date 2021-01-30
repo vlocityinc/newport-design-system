@@ -66,3 +66,23 @@
     color: #c23934;
     font-style: italic;
 }
+
+.icon-container {
+    position: relative;
+
+    transform: translate(
+        calc(var(--node-icon-half-width-with-padding) * -1),
+        calc(var(--node-icon-half-width-with-padding) * -1)
+    );
+    z-index: 1;
+}
+
+.icon-container.menu-opened {
+    z-index: 10;
+}
+
+.dynamic-component {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+}

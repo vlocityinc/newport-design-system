@@ -5,17 +5,3 @@ builder_platform_interaction-flc-flow {
 builder_platform_interaction-flc-connector {
     position: absolute;
 }
-
-builder_platform_interaction-flc-node {
-    position: absolute;
-    transform: translate(-50%, -28px);
-    z-index: 1;
-}
-
-builder_platform_interaction-flc-node.menu-opened {
-    z-index: 10;
-}
-
-builder_platform_interaction-flc-node.menu-opened.dynamic-node-component {
-    z-index: 1;
-}
