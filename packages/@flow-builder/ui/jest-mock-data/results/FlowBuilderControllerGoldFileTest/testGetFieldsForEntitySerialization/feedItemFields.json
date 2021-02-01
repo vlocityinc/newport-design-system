@@ -1,319 +1,339 @@
 {
   "feedItemFields":{
     "BannerStyle":{
-      "filterable":true,
       "apiName":"BannerStyle",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Banner Style",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Banner Style",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "BestCommentId":{
-      "filterable":true,
       "apiName":"BestCommentId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Best Comment ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":"BestComment",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "FeedComment"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Best Comment ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "FeedComment"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "BestCommentSelectedById":{
-      "filterable":true,
       "apiName":"BestCommentSelectedById",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Best Comment Selected By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "SelfServiceUser",
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":true,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Best Comment Selected By ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "SelfServiceUser",
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Body":{
-      "filterable":false,
       "apiName":"Body",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":false,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":10000,
       "label":"Body",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "ClientOauthLink":{
-      "filterable":true,
       "apiName":"ClientOauthLink",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Client Oauth Link",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "CommentCount":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CommentCount",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"Number",
-      "compoundFieldName":null,
-      "label":"Comment Count",
+      "dataType":"String",
+      "length":24,
+      "label":"Client Oauth Link",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CommentCount":{
+      "apiName":"CommentCount",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Number",
+      "length":0,
+      "label":"Comment Count",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
+      "extraTypeInfo":null
     },
     "ConnectionId":{
-      "filterable":true,
       "apiName":"ConnectionId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Partner Network Connection ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":"Connection",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "PartnerNetworkConnection"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Partner Network Connection ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "PartnerNetworkConnection"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "ContentId":{
-      "filterable":true,
       "apiName":"ContentId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Content ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":true,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Content ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
       "referenceToNames":[
         "Attachment",
         "ContentDocument"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":true,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "CreatedById":{
-      "filterable":true,
       "apiName":"CreatedById",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Created By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":"CreatedBy",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "SelfServiceUser",
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":true,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Created By ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "SelfServiceUser",
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "CreatedDate":{
-      "filterable":true,
       "apiName":"CreatedDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"DateTime",
       "compoundFieldName":null,
-      "label":"Created Date",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "Division":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Division",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Division ID",
+      "dataType":"DateTime",
+      "length":0,
+      "label":"Created Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Division":{
+      "apiName":"Division",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Global",
@@ -321,523 +341,595 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "HasContent":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"HasContent",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Has Content",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "HasFeedEntity":{
-      "filterable":true,
-      "apiName":"HasFeedEntity",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Has Feed Entity Attachment",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "HasLink":{
-      "filterable":true,
-      "apiName":"HasLink",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Has Link",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "HasVerifiedComment":{
-      "filterable":true,
-      "apiName":"HasVerifiedComment",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Has Verified Comment",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "Id":{
-      "filterable":true,
-      "apiName":"Id",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Feed Item ID",
+      "dataType":"Picklist",
+      "length":18,
+      "label":"Division ID",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "HasContent":{
+      "apiName":"HasContent",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Has Content",
+      "sortable":true,
       "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "HasFeedEntity":{
+      "apiName":"HasFeedEntity",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Has Feed Entity Attachment",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "HasLink":{
+      "apiName":"HasLink",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Has Link",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "HasVerifiedComment":{
+      "apiName":"HasVerifiedComment",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Has Verified Comment",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Id":{
+      "apiName":"Id",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "InsertedById":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"InsertedById",
-      "isAvailableForFormulas":false,
+      "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"InsertedBy ID",
+      "length":18,
+      "label":"Feed Item ID",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "InsertedById":{
+      "apiName":"InsertedById",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":"InsertedBy",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "SelfServiceUser",
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":true,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "Intention":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Intention",
-      "isAvailableForFormulas":true,
+      "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Intention",
+      "dataType":"String",
+      "length":18,
+      "label":"InsertedBy ID",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "SelfServiceUser",
+        "User"
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Intention":{
+      "apiName":"Intention",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Intention",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "IsClosed":{
-      "filterable":true,
       "apiName":"IsClosed",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Is Closed",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "IsDeleted":{
+      "apiName":"IsDeleted",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "IsDeleted":{
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"IsDeleted",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Deleted",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "IsRichText":{
+      "apiName":"IsRichText",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "IsRichText":{
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"IsRichText",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Is Rich Text",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "LastEditById":{
-      "filterable":true,
       "apiName":"LastEditById",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Last Edit By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "SelfServiceUser",
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":true,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "LastEditDate":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"LastEditDate",
-      "isAvailableForFormulas":true,
+      "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"DateTime",
-      "compoundFieldName":null,
-      "label":"Last Edit Date",
+      "dataType":"String",
+      "length":18,
+      "label":"Last Edit By ID",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "SelfServiceUser",
+        "User"
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "LastEditDate":{
+      "apiName":"LastEditDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"Last Edit Date",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "LastModifiedDate":{
-      "filterable":true,
       "apiName":"LastModifiedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Modified Date",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "LikeCount":{
+      "apiName":"LikeCount",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "LikeCount":{
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"LikeCount",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Like Count",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
+      "extraTypeInfo":null
     },
     "LinkUrl":{
-      "filterable":false,
       "apiName":"LinkUrl",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Link Url",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"URL"
-    },
-    "OriginalCreatedById":{
-      "filterable":true,
-      "apiName":"OriginalCreatedById",
+      "fieldDataType":"URL",
+      "inlineHelpText":null,
+      "filterable":false,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"User ID",
+      "length":1000,
+      "label":"Link Url",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "OriginalCreatedById":{
+      "apiName":"OriginalCreatedById",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":"OriginalCreatedBy",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "OriginalFeedItemId":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"OriginalFeedItemId",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Feed Item ID",
+      "length":18,
+      "label":"User ID",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "User"
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "OriginalFeedItemId":{
+      "apiName":"OriginalFeedItemId",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":"OriginalFeedItem",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "FeedItem"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Feed Item ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "FeedItem"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "ParentId":{
-      "filterable":true,
       "apiName":"ParentId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Parent ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":"Parent",
       "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":true,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Parent ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "Account",
         "AccountChild__c",
@@ -849,12 +941,6 @@
         "AssetRelationship",
         "AssetWarranty",
         "AssignedResource",
-        "CalculationMatrix",
-        "CalculationMatrixColumn",
-        "CalculationMatrixVersion",
-        "CalculationProcedure",
-        "CalculationProcedureVariable",
-        "CalculationProcedureVersion",
         "Campaign",
         "CampaignChild__c",
         "Case",
@@ -960,448 +1046,481 @@
         "WorkBadgeDefinition",
         "WorkOrder",
         "WorkOrderLineItem",
+        "WorkPlan",
+        "WorkPlanSelectionRule",
+        "WorkPlanTemplate",
+        "WorkPlanTemplateEntry",
+        "WorkStep",
+        "WorkStepTemplate",
         "WorkType",
         "WorkTypeGroup",
         "WorkTypeGroupMember"
       ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasContent":{
+      "apiName":"PropertyBitsHasContent",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasContent",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasEntityLinks":{
+      "apiName":"PropertyBitsHasEntityLinks",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasEntityLinks",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasFeedEntity":{
+      "apiName":"PropertyBitsHasFeedEntity",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"hasFeedEntity",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasLink":{
+      "apiName":"PropertyBitsHasLink",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasLink",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasSmartAnswer":{
+      "apiName":"PropertyBitsHasSmartAnswer",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasSmartAnswer",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasSmartAnswerBestAnswer":{
+      "apiName":"PropertyBitsHasSmartAnswerBestAnswer",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasSmartAnswerBestAnswer",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasSmartAnswerPublished":{
+      "apiName":"PropertyBitsHasSmartAnswerPublished",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasSmartAnswerPublished",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasSmartAnswerRated":{
+      "apiName":"PropertyBitsHasSmartAnswerRated",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"HasSmartAnswerRated",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsHasVerifiedComment":{
+      "apiName":"PropertyBitsHasVerifiedComment",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Has Verified Comment",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsIsAnnouncement":{
+      "apiName":"PropertyBitsIsAnnouncement",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"IsAnnouncement",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PropertyBitsIsClosed":{
+      "apiName":"PropertyBitsIsClosed",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"IsClosed",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "RawBody":{
+      "apiName":"RawBody",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":false,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":10000,
+      "label":"Raw Body",
+      "sortable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA"
+    },
+    "RelatedRecordId":{
+      "apiName":"RelatedRecordId",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
       "activePicklistValues":[
 
       ],
       "isPolymorphic":true,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "PropertyBitsHasContent":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasContent",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasContent",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasEntityLinks":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasEntityLinks",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasEntityLinks",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasFeedEntity":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasFeedEntity",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"hasFeedEntity",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasLink":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasLink",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasLink",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasSmartAnswer":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasSmartAnswer",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasSmartAnswer",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasSmartAnswerBestAnswer":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasSmartAnswerBestAnswer",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasSmartAnswerBestAnswer",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasSmartAnswerPublished":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasSmartAnswerPublished",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasSmartAnswerPublished",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasSmartAnswerRated":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasSmartAnswerRated",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"HasSmartAnswerRated",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsHasVerifiedComment":{
-      "filterable":true,
-      "apiName":"PropertyBitsHasVerifiedComment",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Has Verified Comment",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsIsAnnouncement":{
-      "filterable":true,
-      "apiName":"PropertyBitsIsAnnouncement",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"IsAnnouncement",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PropertyBitsIsClosed":{
-      "filterable":true,
-      "apiName":"PropertyBitsIsClosed",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"IsClosed",
-      "sortable":false,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "RawBody":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":false,
-      "apiName":"RawBody",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Raw Body",
-      "sortable":false,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
-    },
-    "RelatedRecordId":{
-      "filterable":false,
-      "apiName":"RelatedRecordId",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":18,
       "label":"Related Record ID",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
         "CanvasFeedItem",
         "ContentVersion",
         "ProfileSkillUser",
         "WorkThanks"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":true,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Revision":{
-      "filterable":true,
       "apiName":"Revision",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Number",
       "compoundFieldName":null,
-      "label":"Revision",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
-    },
-    "Status":{
-      "filterable":false,
-      "apiName":"Status",
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Status",
+      "editable":false,
+      "dataType":"Number",
+      "length":0,
+      "label":"Revision",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Status":{
+      "apiName":"Status",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Published",
@@ -1417,118 +1536,130 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "StorageType":{
-      "filterable":true,
-      "apiName":"StorageType",
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":false,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
+      "editable":true,
       "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Feed Item Storage Type",
+      "length":40,
+      "label":"Status",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "StorageType":{
+      "apiName":"StorageType",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "SystemModstamp":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"SystemModstamp",
-      "isAvailableForFormulas":false,
+      "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"DateTime",
-      "compoundFieldName":null,
-      "label":"System Modstamp",
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Feed Item Storage Type",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "SystemModstamp":{
+      "apiName":"SystemModstamp",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"FeedItem",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"System Modstamp",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "Title":{
-      "filterable":true,
       "apiName":"Title",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"FeedItem",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":255,
       "label":"Title",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"FeedItem",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Type":{
-      "filterable":true,
       "apiName":"Type",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Feed Item Type",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"FeedItem",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Tracked Change",
@@ -1648,9 +1779,22 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Feed Item Type",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     }
   }
 }

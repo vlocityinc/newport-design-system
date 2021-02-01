@@ -1,113 +1,112 @@
 {
   "contractFields":{
     "AccountId":{
-      "filterable":true,
       "apiName":"AccountId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Account ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":"Account",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "Account"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "ActivatedById":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"ActivatedById",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":true,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Activated By ID",
+      "length":18,
+      "label":"Account ID",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "Account"
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "ActivatedById":{
+      "apiName":"ActivatedById",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":"ActivatedBy",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Activated By ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "ActivatedDate":{
-      "filterable":true,
       "apiName":"ActivatedDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"DateTime",
       "compoundFieldName":null,
-      "label":"Activated Date",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "AutoRenewCode":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"AutoRenewCode",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Auto Renewal",
+      "dataType":"DateTime",
+      "length":0,
+      "label":"Activated Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "AutoRenewCode":{
+      "apiName":"AutoRenewCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"No",
@@ -119,89 +118,98 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "BalanceDue":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BalanceDue",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Currency",
-      "compoundFieldName":null,
-      "label":"Balance Due",
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Auto Renewal",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BalanceDue":{
+      "apiName":"BalanceDue",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":2,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Balance Due",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
+      "extraTypeInfo":null
     },
     "BankAccountName":{
-      "filterable":true,
       "apiName":"BankAccountName",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Bank Account Name",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "BankAccountType":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BankAccountType",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Bank Account Type",
+      "dataType":"String",
+      "length":255,
+      "label":"Bank Account Name",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BankAccountType":{
+      "apiName":"BankAccountType",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Checking",
@@ -217,176 +225,194 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Bank Account Type",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "BankAddress":{
-      "filterable":true,
       "apiName":"BankAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Bank Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "BankBranchCode":{
-      "filterable":true,
       "apiName":"BankBranchCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Bank Branch Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BankCity":{
-      "filterable":true,
       "apiName":"BankCity",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BankAddress",
+      "length":40,
       "label":"Bank City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BankCode":{
-      "filterable":true,
       "apiName":"BankCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Bank Routing/Transit Number",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BankCountry":{
-      "filterable":true,
       "apiName":"BankCountry",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":"BankAddress",
-      "label":"Bank Country",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "BankGeocodeAccuracy":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BankGeocodeAccuracy",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":"BankAddress",
-      "label":"Geocode Accuracy",
+      "dataType":"String",
+      "length":80,
+      "label":"Bank Country",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BankGeocodeAccuracy":{
+      "apiName":"BankGeocodeAccuracy",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Address",
@@ -434,437 +460,482 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Geocode Accuracy",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "BankLatitude":{
-      "filterable":true,
       "apiName":"BankLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"BankAddress",
+      "length":0,
       "label":"Bank Latitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "BankLongitude":{
-      "filterable":true,
       "apiName":"BankLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"BankAddress",
+      "length":0,
       "label":"Bank Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "BankName":{
-      "filterable":true,
       "apiName":"BankName",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":255,
       "label":"Bank Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BankPostalCode":{
-      "filterable":true,
       "apiName":"BankPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BankAddress",
+      "length":20,
       "label":"Bank Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BankReferenceNumber":{
-      "filterable":true,
       "apiName":"BankReferenceNumber",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Bank Reference Number",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BankState":{
-      "filterable":true,
       "apiName":"BankState",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BankAddress",
+      "length":80,
       "label":"Bank State/Province",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BankStreet":{
+      "apiName":"BankStreet",
+      "isCalculated":false,
+      "compoundFieldName":"BankAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "BankStreet":{
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BankStreet",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BankAddress",
+      "length":255,
       "label":"Bank Street",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA"
+    },
+    "BillingAddress":{
+      "apiName":"BillingAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
-    },
-    "BillingAddress":{
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingAddress",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Billing Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "BillingCity":{
-      "filterable":true,
       "apiName":"BillingCity",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":40,
       "label":"Billing City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BillingCompany":{
-      "filterable":true,
       "apiName":"BillingCompany",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Billing Company Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BillingCountry":{
-      "filterable":true,
       "apiName":"BillingCountry",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":80,
       "label":"Billing Country",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BillingEmail":{
-      "filterable":true,
       "apiName":"BillingEmail",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"EMAIL",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Billing Email",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingFax":{
+      "apiName":"BillingFax",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"EMAIL"
-    },
-    "BillingFax":{
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingFax",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Billing Fax",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingFirstName":{
+      "apiName":"BillingFirstName",
+      "isCalculated":false,
+      "compoundFieldName":"BillingName",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
-    },
-    "BillingFirstName":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingFirstName",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingName",
+      "length":40,
       "label":"Billing First Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"PERSONNAME"
     },
     "BillingGeocodeAccuracy":{
-      "filterable":true,
       "apiName":"BillingGeocodeAccuracy",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":"BillingAddress",
-      "label":"Billing Geocode Accuracy",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Address",
@@ -912,31 +983,34 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "BillingLanguage":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingLanguage",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Billing Language",
+      "length":40,
+      "label":"Billing Geocode Accuracy",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingLanguage":{
+      "apiName":"BillingLanguage",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"English",
@@ -1012,205 +1086,226 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Billing Language",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "BillingLastName":{
-      "filterable":true,
       "apiName":"BillingLastName",
+      "isCalculated":false,
+      "compoundFieldName":"BillingName",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingName",
+      "length":80,
       "label":"Billing Last Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"PERSONNAME"
     },
     "BillingLatitude":{
-      "filterable":true,
       "apiName":"BillingLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"BillingAddress",
+      "length":0,
       "label":"Billing Latitude",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingLongitude":{
+      "apiName":"BillingLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":15,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
-    },
-    "BillingLongitude":{
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingLongitude",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"BillingAddress",
+      "length":0,
       "label":"Billing Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingName":{
+      "apiName":"BillingName",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
-    },
-    "BillingName":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingName",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":121,
       "label":"Billing Name",
       "sortable":true,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"PERSONNAME"
     },
     "BillingPhone":{
-      "filterable":true,
       "apiName":"BillingPhone",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Billing Phone",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingPostalCode":{
+      "apiName":"BillingPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
-    },
-    "BillingPostalCode":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingPostalCode",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":20,
       "label":"Billing Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BillingSalutation":{
-      "filterable":true,
       "apiName":"BillingSalutation",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":"BillingName",
-      "label":"Billing Salutation",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Mr.",
@@ -1234,321 +1329,354 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":"PERSONNAME",
-      "fieldDataType":"PICKLIST"
-    },
-    "BillingState":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingState",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":"BillingAddress",
-      "label":"Billing State/Province",
-      "sortable":true,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "BillingStreet":{
-      "filterable":true,
-      "apiName":"BillingStreet",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":"BillingAddress",
-      "label":"Billing Street",
-      "sortable":true,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
-    },
-    "CloneSourceId":{
-      "filterable":true,
-      "apiName":"CloneSourceId",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Clone Source",
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Billing Salutation",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":"PERSONNAME"
+    },
+    "BillingState":{
+      "apiName":"BillingState",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":80,
+      "label":"Billing State/Province",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingStreet":{
+      "apiName":"BillingStreet",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":255,
+      "label":"Billing Street",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA"
+    },
+    "CloneSourceId":{
+      "apiName":"CloneSourceId",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Clone Source",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "CompanySignedDate":{
-      "filterable":true,
       "apiName":"CompanySignedDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Date",
       "compoundFieldName":null,
-      "label":"Company Signed Date",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Date",
+      "length":0,
+      "label":"Company Signed Date",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
+      "extraTypeInfo":null
     },
     "CompanySignedId":{
-      "filterable":true,
       "apiName":"CompanySignedId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Company Signed By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":"CompanySigned",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Company Signed By ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "ContractNumber":{
-      "filterable":true,
       "apiName":"ContractNumber",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Contract Number",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "ContractTerm":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"ContractTerm",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"Number",
-      "compoundFieldName":null,
-      "label":"Contract Term",
+      "editable":false,
+      "dataType":"String",
+      "length":30,
+      "label":"Contract Number",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "ContractTerm":{
+      "apiName":"ContractTerm",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Number",
+      "length":0,
+      "label":"Contract Term",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
+      "extraTypeInfo":null
     },
     "CreatedById":{
-      "filterable":true,
       "apiName":"CreatedById",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Created By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":"CreatedBy",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Created By ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "CreatedDate":{
-      "filterable":true,
       "apiName":"CreatedDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"DateTime",
       "compoundFieldName":null,
-      "label":"Created Date",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"Created Date",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "CreditCardExpirationDate":{
-      "filterable":true,
       "apiName":"CreditCardExpirationDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Date",
       "compoundFieldName":null,
-      "label":"Credit Card Exp. Date",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
-    },
-    "CreditCardType":{
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CreditCardType",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Credit Card Type",
+      "dataType":"Date",
+      "length":0,
+      "label":"Credit Card Exp. Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CreditCardType":{
+      "apiName":"CreditCardType",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Visa",
@@ -1568,31 +1696,34 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "CurrencyIsoCode":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CurrencyIsoCode",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Currency ISO Code",
+      "length":40,
+      "label":"Credit Card Type",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CurrencyIsoCode":{
+      "apiName":"CurrencyIsoCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"EUR - Euro",
@@ -1608,31 +1739,34 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "CustomerExpirationNotice":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CustomerExpirationNotice",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Customer Expiration Notice",
+      "length":3,
+      "label":"Currency ISO Code",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CustomerExpirationNotice":{
+      "apiName":"CustomerExpirationNotice",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"15 Days",
@@ -1652,147 +1786,162 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "CustomerSignedDate":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CustomerSignedDate",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Date",
-      "compoundFieldName":null,
-      "label":"Customer Signed Date",
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Customer Expiration Notice",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CustomerSignedDate":{
+      "apiName":"CustomerSignedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Date",
+      "length":0,
+      "label":"Customer Signed Date",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
+      "extraTypeInfo":null
     },
     "CustomerSignedId":{
-      "filterable":true,
       "apiName":"CustomerSignedId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Customer Signed By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":"CustomerSigned",
       "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Customer Signed By ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "Contact"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "CustomerSignedTitle":{
-      "filterable":true,
       "apiName":"CustomerSignedTitle",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Customer Signed Title",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":40,
+      "label":"Customer Signed Title",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Description":{
-      "filterable":false,
       "apiName":"Description",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":false,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":32000,
       "label":"Description",
       "sortable":false,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "Division":{
-      "filterable":true,
       "apiName":"Division",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Division ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Global",
@@ -1800,118 +1949,130 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Picklist",
+      "length":18,
+      "label":"Division ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "EndDate":{
-      "filterable":true,
       "apiName":"EndDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Date",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Contract End Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
+      "extraTypeInfo":null
     },
     "HasPurchaseRule":{
-      "filterable":true,
       "apiName":"HasPurchaseRule",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Has Purchase Rules",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Id":{
+      "apiName":"Id",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "Id":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Id",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":18,
       "label":"Contract ID",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "InvoiceDispatchMethod":{
-      "filterable":true,
       "apiName":"InvoiceDispatchMethod",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Invoice Dispatch Method",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Email",
@@ -1931,466 +2092,514 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "IsDeleted":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"IsDeleted",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Deleted",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":false,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "IsDunningSuppressed":{
-      "filterable":true,
-      "apiName":"IsDunningSuppressed",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Boolean",
-      "compoundFieldName":null,
-      "label":"Suppress Dunning Letter",
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Invoice Dispatch Method",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
-    "IsLocked":{
-      "filterable":true,
-      "apiName":"IsLocked",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
+    "IsDeleted":{
+      "apiName":"IsDeleted",
       "isCalculated":false,
-      "dataType":"Boolean",
       "compoundFieldName":null,
-      "label":"Is Locked",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Deleted",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
+    },
+    "IsDunningSuppressed":{
+      "apiName":"IsDunningSuppressed",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Suppress Dunning Letter",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "IsLocked":{
+      "apiName":"IsLocked",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Is Locked",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
     },
     "LastActivityDate":{
-      "filterable":true,
       "apiName":"LastActivityDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Date",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Activity",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "LastApprovedDate":{
+      "apiName":"LastApprovedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
-    },
-    "LastApprovedDate":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"LastApprovedDate",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Approved Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "LastModifiedById":{
-      "filterable":true,
       "apiName":"LastModifiedById",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Last Modified By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":"LastModifiedBy",
       "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Last Modified By ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "User"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "LastModifiedDate":{
-      "filterable":true,
       "apiName":"LastModifiedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Modified Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "LastReferencedDate":{
-      "filterable":true,
       "apiName":"LastReferencedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Referenced Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "LastViewedDate":{
-      "filterable":true,
       "apiName":"LastViewedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Viewed Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "LifetimeValue":{
-      "filterable":true,
       "apiName":"LifetimeValue",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Currency",
       "compoundFieldName":null,
-      "label":"Lifetime Value",
-      "sortable":true,
+      "scale":2,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Lifetime Value",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
+      "extraTypeInfo":null
     },
     "MayEdit":{
-      "filterable":true,
       "apiName":"MayEdit",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"May Edit",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "Name":{
-      "filterable":true,
       "apiName":"Name",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Contract Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "NameOnCreditCard":{
-      "filterable":true,
       "apiName":"NameOnCreditCard",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Credit Card Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "OfferExpirationDate":{
-      "filterable":true,
       "apiName":"OfferExpirationDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Date",
       "compoundFieldName":null,
-      "label":"Offer Valid Through",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
-    },
-    "OrderPrebillDays":{
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"OrderPrebillDays",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Number",
-      "compoundFieldName":null,
-      "label":"Order Prebill Days",
+      "dataType":"Date",
+      "length":0,
+      "label":"Offer Valid Through",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "OrderPrebillDays":{
+      "apiName":"OrderPrebillDays",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
-    },
-    "OwnerExpirationNotice":{
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"OwnerExpirationNotice",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Owner Expiration Notice",
+      "dataType":"Number",
+      "length":0,
+      "label":"Order Prebill Days",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "OwnerExpirationNotice":{
+      "apiName":"OwnerExpirationNotice",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"15 Days",
@@ -2418,60 +2627,66 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Owner Expiration Notice",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "OwnerId":{
-      "filterable":true,
       "apiName":"OwnerId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Owner ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":"Owner",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Owner ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "PaymentTerm":{
-      "filterable":true,
       "apiName":"PaymentTerm",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Payment Terms",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Due upon receipt",
@@ -2503,31 +2718,34 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "PaymentType":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PaymentType",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Payment Method",
+      "length":40,
+      "label":"Payment Terms",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PaymentType":{
+      "apiName":"PaymentType",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Credit Card",
@@ -2547,379 +2765,418 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Payment Method",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "Pricebook2Id":{
-      "filterable":true,
       "apiName":"Pricebook2Id",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Price Book ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":"Pricebook2",
       "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Price Book ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "Pricebook2"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "RenewalDays":{
-      "filterable":true,
       "apiName":"RenewalDays",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Renewal Days",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
+      "extraTypeInfo":null
     },
     "RenewalTerm":{
-      "filterable":true,
       "apiName":"RenewalTerm",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Renewal Term",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
+      "extraTypeInfo":null
     },
     "Salesrep1Id":{
-      "filterable":true,
       "apiName":"Salesrep1Id",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":18,
       "label":"Salesrep 1 ID",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
         "User"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Salesrep1Percent":{
-      "filterable":true,
       "apiName":"Salesrep1Percent",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"PERCENT",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Salesrep 1 %",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PERCENT"
+      "extraTypeInfo":null
     },
     "Salesrep2Id":{
-      "filterable":true,
       "apiName":"Salesrep2Id",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":18,
       "label":"Salesrep 2 ID",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
         "User"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Salesrep2Percent":{
-      "filterable":true,
       "apiName":"Salesrep2Percent",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Number",
       "compoundFieldName":null,
-      "label":"Salesrep 2 %",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PERCENT",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Number",
+      "length":0,
+      "label":"Salesrep 2 %",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PERCENT"
+      "extraTypeInfo":null
     },
     "Salesrep3Id":{
-      "filterable":true,
       "apiName":"Salesrep3Id",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":18,
       "label":"Salesrep 3 ID",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
         "User"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Salesrep3Percent":{
-      "filterable":true,
       "apiName":"Salesrep3Percent",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Number",
       "compoundFieldName":null,
-      "label":"Salesrep 3 %",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PERCENT",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Number",
+      "length":0,
+      "label":"Salesrep 3 %",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PERCENT"
+      "extraTypeInfo":null
     },
     "ShippingAddress":{
-      "filterable":true,
       "apiName":"ShippingAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Shipping Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "ShippingCity":{
-      "filterable":true,
       "apiName":"ShippingCity",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":40,
       "label":"Shipping City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "ShippingCountry":{
-      "filterable":true,
       "apiName":"ShippingCountry",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":"ShippingAddress",
-      "label":"Shipping Country",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "ShippingGeocodeAccuracy":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"ShippingGeocodeAccuracy",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":"ShippingAddress",
-      "label":"Shipping Geocode Accuracy",
+      "dataType":"String",
+      "length":80,
+      "label":"Shipping Country",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "ShippingGeocodeAccuracy":{
+      "apiName":"ShippingGeocodeAccuracy",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Address",
@@ -2967,234 +3224,258 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Shipping Geocode Accuracy",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "ShippingLatitude":{
-      "filterable":true,
       "apiName":"ShippingLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"ShippingAddress",
+      "length":0,
       "label":"Shipping Latitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "ShippingLongitude":{
-      "filterable":true,
       "apiName":"ShippingLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"ShippingAddress",
+      "length":0,
       "label":"Shipping Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "ShippingPostalCode":{
-      "filterable":true,
       "apiName":"ShippingPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":20,
       "label":"Shipping Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "ShippingState":{
-      "filterable":true,
       "apiName":"ShippingState",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":80,
       "label":"Shipping State/Province",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "ShippingStreet":{
-      "filterable":true,
       "apiName":"ShippingStreet",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":255,
       "label":"Shipping Street",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "SpecialTerms":{
-      "filterable":true,
       "apiName":"SpecialTerms",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":4000,
       "label":"Special Terms",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "StartDate":{
-      "filterable":true,
       "apiName":"StartDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Date",
       "compoundFieldName":null,
-      "label":"Contract Start Date",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
-    },
-    "Status":{
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Status",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Status",
+      "dataType":"Date",
+      "length":0,
+      "label":"Contract Start Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Status":{
+      "apiName":"Status",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Draft",
@@ -3210,31 +3491,34 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "StatusCode":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"StatusCode",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
+      "editable":true,
       "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Status Category",
+      "length":100,
+      "label":"Status",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "StatusCode":{
+      "apiName":"StatusCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Draft",
@@ -3258,183 +3542,214 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "SystemModstamp":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"SystemModstamp",
-      "isAvailableForFormulas":false,
+      "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"DateTime",
-      "compoundFieldName":null,
-      "label":"System Modstamp",
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Status Category",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "SystemModstamp":{
+      "apiName":"SystemModstamp",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "TaxExemptionCode":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"TaxExemptionCode",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Tax Exemption Code",
-      "sortable":true,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "TotalBilled":{
-      "filterable":true,
-      "apiName":"TotalBilled",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Currency",
-      "compoundFieldName":null,
-      "label":"Total Billed",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
-    },
-    "TotalCredit":{
-      "filterable":true,
-      "apiName":"TotalCredit",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Currency",
-      "compoundFieldName":null,
-      "label":"Total Credit",
-      "sortable":true,
-      "creatable":false,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Contract",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
-    },
-    "TotalPaid":{
-      "filterable":true,
-      "apiName":"TotalPaid",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
-      "dataType":"Currency",
-      "compoundFieldName":null,
-      "label":"Total Paid",
+      "dataType":"DateTime",
+      "length":0,
+      "label":"System Modstamp",
       "sortable":true,
-      "creatable":false,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "TaxExemptionCode":{
+      "apiName":"TaxExemptionCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
-    },
-    "TotalWriteoff":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"TotalWriteoff",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":false,
-      "isCalculated":false,
-      "dataType":"Currency",
-      "compoundFieldName":null,
-      "label":"Total Write-off",
+      "editable":true,
+      "dataType":"String",
+      "length":20,
+      "label":"Tax Exemption Code",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "TotalBilled":{
+      "apiName":"TotalBilled",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":2,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Contract",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Total Billed",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
+      "extraTypeInfo":null
+    },
+    "TotalCredit":{
+      "apiName":"TotalCredit",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":2,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Total Credit",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "TotalPaid":{
+      "apiName":"TotalPaid",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Total Paid",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "TotalWriteoff":{
+      "apiName":"TotalWriteoff",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":2,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Contract",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Total Write-off",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
     }
   }
 }

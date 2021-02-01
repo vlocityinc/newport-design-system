@@ -1,55 +1,48 @@
 {
   "accountFields":{
     "AccountNumber":{
-      "filterable":true,
       "apiName":"AccountNumber",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Account Number",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "AccountSource":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"AccountSource",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Account Source",
+      "dataType":"String",
+      "length":40,
+      "label":"Account Number",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "AccountSource":{
+      "apiName":"AccountSource",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Advertisement",
@@ -97,147 +90,162 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "AnnualRevenue":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"AnnualRevenue",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Currency",
-      "compoundFieldName":null,
-      "label":"Annual Revenue",
+      "dataType":"Picklist",
+      "length":255,
+      "label":"Account Source",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "AnnualRevenue":{
+      "apiName":"AnnualRevenue",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"CURRENCY",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Currency",
+      "length":0,
+      "label":"Annual Revenue",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"CURRENCY"
+      "extraTypeInfo":null
     },
     "BillingAddress":{
-      "filterable":true,
       "apiName":"BillingAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Billing Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "BillingCity":{
-      "filterable":true,
       "apiName":"BillingCity",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":40,
       "label":"Billing City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BillingCountry":{
-      "filterable":true,
       "apiName":"BillingCountry",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":"BillingAddress",
-      "label":"Billing Country",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "BillingGeocodeAccuracy":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingGeocodeAccuracy",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":"BillingAddress",
-      "label":"Billing Geocode Accuracy",
+      "dataType":"String",
+      "length":80,
+      "label":"Billing Country",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingGeocodeAccuracy":{
+      "apiName":"BillingGeocodeAccuracy",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Address",
@@ -285,321 +293,354 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Billing Geocode Accuracy",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "BillingLatitude":{
-      "filterable":true,
       "apiName":"BillingLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"BillingAddress",
+      "length":0,
       "label":"Billing Latitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "BillingLongitude":{
-      "filterable":true,
       "apiName":"BillingLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"BillingAddress",
+      "length":0,
       "label":"Billing Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "BillingPostalCode":{
-      "filterable":true,
       "apiName":"BillingPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":20,
       "label":"Billing Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "BillingState":{
-      "filterable":true,
       "apiName":"BillingState",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":80,
       "label":"Billing State/Province",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "BillingStreet":{
+      "apiName":"BillingStreet",
+      "isCalculated":false,
+      "compoundFieldName":"BillingAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "BillingStreet":{
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"BillingStreet",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"BillingAddress",
+      "length":255,
       "label":"Billing Street",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "CloneSourceId":{
-      "filterable":true,
       "apiName":"CloneSourceId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Clone Source",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Clone Source",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "ConnectionReceivedId":{
-      "filterable":true,
       "apiName":"ConnectionReceivedId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Received Connection ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"ConnectionReceived",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "PartnerNetworkConnection"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "ConnectionSentId":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"ConnectionSentId",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":true,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Sent Connection ID",
+      "length":18,
+      "label":"Received Connection ID",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "PartnerNetworkConnection"
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "ConnectionSentId":{
+      "apiName":"ConnectionSentId",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"ConnectionSent",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "PartnerNetworkConnection"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
-    },
-    "CreatedById":{
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CreatedById",
-      "isAvailableForFormulas":true,
+      "isAvailableForFormulas":false,
       "isSpanningAllowed":true,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Created By ID",
+      "length":18,
+      "label":"Sent Connection ID",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "PartnerNetworkConnection"
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CreatedById":{
+      "apiName":"CreatedById",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":"CreatedBy",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Created By ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "CreatedDate":{
-      "filterable":true,
       "apiName":"CreatedDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"DateTime",
       "compoundFieldName":null,
-      "label":"Created Date",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "CurrencyIsoCode":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CurrencyIsoCode",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Account Currency",
+      "editable":false,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"Created Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CurrencyIsoCode":{
+      "apiName":"CurrencyIsoCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"EUR - Euro",
@@ -615,118 +656,130 @@
         }
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
-    },
-    "CustomDateTime__c":{
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"CustomDateTime__c",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"DateTime",
-      "compoundFieldName":null,
-      "label":"CustomDateTime",
+      "dataType":"Picklist",
+      "length":3,
+      "label":"Account Currency",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "CustomDateTime__c":{
+      "apiName":"CustomDateTime__c",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"CustomDateTime",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "DandbCompanyId":{
-      "filterable":true,
       "apiName":"DandbCompanyId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"D&B Company ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"DandbCompany",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "DandBCompany"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"D&B Company ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "DandBCompany"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Description":{
-      "filterable":false,
       "apiName":"Description",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Account Description",
-      "sortable":false,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
-    },
-    "Division":{
-      "filterable":true,
-      "apiName":"Division",
-      "isAvailableForFormulas":true,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":false,
+      "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":true,
+      "dataType":"String",
+      "length":32000,
+      "label":"Account Description",
+      "sortable":false,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA"
+    },
+    "Division":{
+      "apiName":"Division",
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Division ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Global",
@@ -734,234 +787,258 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":18,
+      "label":"Division ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "DunsNumber":{
-      "filterable":true,
       "apiName":"DunsNumber",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":9,
       "label":"D-U-N-S Number",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Fax":{
-      "filterable":true,
       "apiName":"Fax",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Account Fax",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
+      "extraTypeInfo":null
     },
     "FirstName":{
-      "filterable":true,
       "apiName":"FirstName",
+      "isCalculated":false,
+      "compoundFieldName":"Name",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"Name",
+      "length":40,
       "label":"First Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"SWITCHABLE_PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"SWITCHABLE_PERSONNAME"
     },
     "Geolocation__c":{
-      "filterable":false,
       "apiName":"Geolocation__c",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Geolocation",
-      "sortable":false,
+      "scale":0,
       "creatable":false,
       "isCompound":true,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"LOCATION"
-    },
-    "Geolocation__Latitude__s":{
-      "filterable":true,
-      "apiName":"Geolocation__Latitude__s",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"Number",
-      "compoundFieldName":"Geolocation__c",
-      "label":"Geolocation (Latitude)",
-      "sortable":true,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
-    },
-    "Geolocation__Longitude__s":{
-      "filterable":true,
-      "apiName":"Geolocation__Longitude__s",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"Number",
-      "compoundFieldName":"Geolocation__c",
-      "label":"Geolocation (Longitude)",
-      "sortable":true,
-      "creatable":true,
-      "isCompound":false,
-      "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
-    },
-    "Id":{
-      "filterable":true,
-      "apiName":"Id",
+      "fieldDataType":"LOCATION",
+      "inlineHelpText":null,
+      "filterable":false,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Account ID",
+      "length":0,
+      "label":"Geolocation",
+      "sortable":false,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":true,
+      "extraTypeInfo":null
+    },
+    "Geolocation__Latitude__s":{
+      "apiName":"Geolocation__Latitude__s",
+      "isCalculated":false,
+      "compoundFieldName":"Geolocation__c",
+      "scale":4,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Number",
+      "length":0,
+      "label":"Geolocation (Latitude)",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":true,
+      "extraTypeInfo":null
+    },
+    "Geolocation__Longitude__s":{
+      "apiName":"Geolocation__Longitude__s",
+      "isCalculated":false,
+      "compoundFieldName":"Geolocation__c",
+      "scale":4,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Number",
+      "length":0,
+      "label":"Geolocation (Longitude)",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":true,
+      "extraTypeInfo":null
+    },
+    "Id":{
+      "apiName":"Id",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "Industry":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Industry",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Industry",
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Account ID",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Industry":{
+      "apiName":"Industry",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Agriculture",
@@ -1093,727 +1170,802 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":255,
+      "label":"Industry",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "IsDeleted":{
-      "filterable":true,
       "apiName":"IsDeleted",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Deleted",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Account",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "IsExcludedFromRealign":{
-      "filterable":true,
       "apiName":"IsExcludedFromRealign",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Boolean",
       "compoundFieldName":null,
-      "label":"Exclude from territory assignment rules",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Exclude from territory assignment rules",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "IsLocked":{
-      "filterable":true,
       "apiName":"IsLocked",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Is Locked",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Account",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "IsPersonAccount":{
-      "filterable":true,
       "apiName":"IsPersonAccount",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Boolean",
       "compoundFieldName":null,
-      "label":"Is Person Account",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "Jigsaw":{
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Jigsaw",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Data.com Key",
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Is Person Account",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Jigsaw":{
+      "apiName":"Jigsaw",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":20,
+      "label":"Data.com Key",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "JigsawCompanyId":{
-      "filterable":true,
       "apiName":"JigsawCompanyId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Jigsaw Company ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"JigsawCompany",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "JigsawCompany"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":20,
+      "label":"Jigsaw Company ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "JigsawCompany"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "LastActivityDate":{
-      "filterable":true,
       "apiName":"LastActivityDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Date",
       "compoundFieldName":null,
-      "label":"Last Activity",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Date",
+      "length":0,
+      "label":"Last Activity",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
+      "extraTypeInfo":null
     },
     "LastModifiedById":{
-      "filterable":true,
       "apiName":"LastModifiedById",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Last Modified By ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":"LastModifiedBy",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Last Modified By ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "LastModifiedDate":{
-      "filterable":true,
       "apiName":"LastModifiedDate",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"DateTime",
       "compoundFieldName":null,
-      "label":"Last Modified Date",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "LastName":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"LastName",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
-      "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":"Name",
-      "label":"Last Name",
+      "editable":false,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"Last Modified Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "LastName":{
+      "apiName":"LastName",
+      "isCalculated":false,
+      "compoundFieldName":"Name",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":80,
+      "label":"Last Name",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":"SWITCHABLE_PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"SWITCHABLE_PERSONNAME"
     },
     "LastReferencedDate":{
-      "filterable":true,
       "apiName":"LastReferencedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Referenced Date",
       "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "LastViewedDate":{
+      "apiName":"LastViewedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "LastViewedDate":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"LastViewedDate",
       "isAvailableForFormulas":false,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Viewed Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":false,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "LookupOnContact__pc":{
-      "filterable":true,
       "apiName":"LookupOnContact__pc",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"LookupOnContact",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"LookupOnContact__pr",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "LookupOnContact__c"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"LookupOnContact",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "LookupOnContact__c"
+      ],
       "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "MasterRecordId":{
-      "filterable":true,
       "apiName":"MasterRecordId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Master Record ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"MasterRecord",
       "isAvailableForMerge":false,
-      "referenceToNames":[
-        "Account"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Master Record ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+        "Account"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "MayEdit":{
-      "filterable":true,
       "apiName":"MayEdit",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"Boolean",
       "compoundFieldName":null,
-      "label":"May Edit",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"Boolean",
+      "length":0,
+      "label":"May Edit",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "MiddleName":{
-      "filterable":true,
       "apiName":"MiddleName",
+      "isCalculated":false,
+      "compoundFieldName":"Name",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"Name",
+      "length":40,
       "label":"Middle Name",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"SWITCHABLE_PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"SWITCHABLE_PERSONNAME"
     },
     "NaicsCode":{
-      "filterable":true,
       "apiName":"NaicsCode",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":8,
       "label":"NAICS Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "NaicsDesc":{
-      "filterable":true,
       "apiName":"NaicsDesc",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":120,
       "label":"NAICS Description",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Name":{
-      "filterable":true,
       "apiName":"Name",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":"Name",
-      "label":"Account Name",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":true,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":255,
+      "label":"Account Name",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":"SWITCHABLE_PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"SWITCHABLE_PERSONNAME"
     },
     "NameLocal":{
-      "filterable":true,
       "apiName":"NameLocal",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":255,
       "label":"Account Name (Local)",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "NumberOfEmployees":{
+      "apiName":"NumberOfEmployees",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "NumberOfEmployees":{
+      "fieldDataType":"INT",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"NumberOfEmployees",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Employees",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"INT"
+      "extraTypeInfo":null
     },
     "OperatingHoursId":{
-      "filterable":true,
       "apiName":"OperatingHoursId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Operating Hour ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"OperatingHours",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "OperatingHours"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Operating Hour ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "OperatingHours"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "OutstandingShares__c":{
-      "filterable":true,
       "apiName":"OutstandingShares__c",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Number",
       "compoundFieldName":null,
-      "label":"OutstandingShares",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Number",
+      "length":0,
+      "label":"OutstandingShares",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "OwnerId":{
-      "filterable":true,
       "apiName":"OwnerId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Owner ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":"Owner",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "User"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Owner ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "User"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Ownership":{
-      "filterable":true,
       "apiName":"Ownership",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Ownership",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Other",
@@ -1833,553 +1985,610 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":255,
+      "label":"Ownership",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "ParentId":{
-      "filterable":true,
       "apiName":"ParentId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Parent Account ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"Parent",
       "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Parent Account ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "Account"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "PersonAssistantName":{
-      "filterable":true,
       "apiName":"PersonAssistantName",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Assistant",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonAssistantPhone":{
-      "filterable":true,
       "apiName":"PersonAssistantPhone",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Asst. Phone",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PersonBirthdate":{
+      "apiName":"PersonBirthdate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
-    },
-    "PersonBirthdate":{
+      "fieldDataType":"DATE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonBirthdate",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Date",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Birthdate",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATE"
+      "extraTypeInfo":null
     },
     "PersonContactId":{
-      "filterable":true,
       "apiName":"PersonContactId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Contact ID",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"PersonContact",
       "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":false,
+      "dataType":"String",
+      "length":18,
+      "label":"Contact ID",
+      "sortable":true,
+      "isWorkflowFilterable":false,
       "referenceToNames":[
         "Contact"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "PersonDepartment":{
-      "filterable":true,
       "apiName":"PersonDepartment",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Department",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonDoNotCall":{
-      "filterable":true,
       "apiName":"PersonDoNotCall",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Do Not Call",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "PersonEmail":{
-      "filterable":true,
       "apiName":"PersonEmail",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"EMAIL",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Email",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"EMAIL"
+      "extraTypeInfo":null
     },
     "PersonEmailBouncedDate":{
-      "filterable":true,
       "apiName":"PersonEmailBouncedDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Email Bounced Date",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "PersonEmailBouncedReason":{
-      "filterable":true,
       "apiName":"PersonEmailBouncedReason",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":255,
       "label":"Email Bounced Reason",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonFirstNameLocal":{
-      "filterable":true,
       "apiName":"PersonFirstNameLocal",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"First Name (Local)",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonHasOptedOutOfEmail":{
-      "filterable":true,
       "apiName":"PersonHasOptedOutOfEmail",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":true,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Boolean",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Email Opt Out",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
+      "extraTypeInfo":null
     },
     "PersonHasOptedOutOfFax":{
-      "filterable":true,
       "apiName":"PersonHasOptedOutOfFax",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Boolean",
       "compoundFieldName":null,
-      "label":"Fax Opt Out",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"BOOLEAN"
-    },
-    "PersonHomePhone":{
+      "fieldDataType":"BOOLEAN",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonHomePhone",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"String",
-      "compoundFieldName":null,
-      "label":"Home Phone",
+      "dataType":"Boolean",
+      "length":0,
+      "label":"Fax Opt Out",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PersonHomePhone":{
+      "apiName":"PersonHomePhone",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"String",
+      "length":40,
+      "label":"Home Phone",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
+      "extraTypeInfo":null
     },
     "PersonIndividualId":{
-      "filterable":true,
       "apiName":"PersonIndividualId",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Individual ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"PersonIndividual",
       "isAvailableForMerge":false,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Individual ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "Individual"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "PersonLastCURequestDate":{
-      "filterable":true,
       "apiName":"PersonLastCURequestDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Stay-in-Touch Request Date",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PersonLastCUUpdateDate":{
+      "apiName":"PersonLastCUUpdateDate",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
-    },
-    "PersonLastCUUpdateDate":{
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonLastCUUpdateDate",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"DateTime",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Last Stay-in-Touch Save Date",
       "sortable":true,
-      "creatable":false,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "PersonLastNameLocal":{
-      "filterable":true,
       "apiName":"PersonLastNameLocal",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Last Name (Local)",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "PersonLeadSource":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonLeadSource",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Lead Source",
+      "dataType":"String",
+      "length":80,
+      "label":"Last Name (Local)",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PersonLeadSource":{
+      "apiName":"PersonLeadSource",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Advertisement",
@@ -2427,451 +2636,493 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":255,
+      "label":"Lead Source",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "PersonMailingAddress":{
-      "filterable":true,
       "apiName":"PersonMailingAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Mailing Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "PersonMailingCity":{
-      "filterable":true,
       "apiName":"PersonMailingCity",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":40,
       "label":"Mailing City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonMailingCountry":{
-      "filterable":true,
       "apiName":"PersonMailingCountry",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":80,
       "label":"Mailing Country",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonMailingGeocodeAccuracy":{
-      "filterable":true,
       "apiName":"PersonMailingGeocodeAccuracy",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+        {
+          "label":"Address",
+          "value":"Address"
+        },
+        {
+          "label":"NearAddress",
+          "value":"NearAddress"
+        },
+        {
+          "label":"Block",
+          "value":"Block"
+        },
+        {
+          "label":"Street",
+          "value":"Street"
+        },
+        {
+          "label":"ExtendedZip",
+          "value":"ExtendedZip"
+        },
+        {
+          "label":"Zip",
+          "value":"Zip"
+        },
+        {
+          "label":"Neighborhood",
+          "value":"Neighborhood"
+        },
+        {
+          "label":"City",
+          "value":"City"
+        },
+        {
+          "label":"County",
+          "value":"County"
+        },
+        {
+          "label":"State",
+          "value":"State"
+        },
+        {
+          "label":"Unknown",
+          "value":"Unknown"
+        }
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Picklist",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":40,
       "label":"Mailing Geocode Accuracy",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-        {
-          "label":"Address",
-          "value":"Address"
-        },
-        {
-          "label":"NearAddress",
-          "value":"NearAddress"
-        },
-        {
-          "label":"Block",
-          "value":"Block"
-        },
-        {
-          "label":"Street",
-          "value":"Street"
-        },
-        {
-          "label":"ExtendedZip",
-          "value":"ExtendedZip"
-        },
-        {
-          "label":"Zip",
-          "value":"Zip"
-        },
-        {
-          "label":"Neighborhood",
-          "value":"Neighborhood"
-        },
-        {
-          "label":"City",
-          "value":"City"
-        },
-        {
-          "label":"County",
-          "value":"County"
-        },
-        {
-          "label":"State",
-          "value":"State"
-        },
-        {
-          "label":"Unknown",
-          "value":"Unknown"
-        }
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "PersonMailingLatitude":{
-      "filterable":true,
       "apiName":"PersonMailingLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":0,
       "label":"Mailing Latitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "PersonMailingLongitude":{
-      "filterable":true,
       "apiName":"PersonMailingLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":0,
       "label":"Mailing Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "PersonMailingPostalCode":{
-      "filterable":true,
       "apiName":"PersonMailingPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":20,
       "label":"Mailing Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonMailingState":{
-      "filterable":true,
       "apiName":"PersonMailingState",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":80,
       "label":"Mailing State/Province",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonMailingStreet":{
-      "filterable":true,
       "apiName":"PersonMailingStreet",
+      "isCalculated":false,
+      "compoundFieldName":"PersonMailingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonMailingAddress",
+      "length":255,
       "label":"Mailing Street",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":"PLAINTEXTAREA"
+    },
+    "PersonMobilePhone":{
+      "apiName":"PersonMobilePhone",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
-    },
-    "PersonMobilePhone":{
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonMobilePhone",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Mobile",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PersonOtherAddress":{
+      "apiName":"PersonOtherAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
-    },
-    "PersonOtherAddress":{
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonOtherAddress",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Other Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "PersonOtherCity":{
-      "filterable":true,
       "apiName":"PersonOtherCity",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonOtherAddress",
+      "length":40,
       "label":"Other City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonOtherCountry":{
-      "filterable":true,
       "apiName":"PersonOtherCountry",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":"PersonOtherAddress",
-      "label":"Other Country",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "PersonOtherGeocodeAccuracy":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"PersonOtherGeocodeAccuracy",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":"PersonOtherAddress",
-      "label":"Other Geocode Accuracy",
+      "dataType":"String",
+      "length":80,
+      "label":"Other Country",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "PersonOtherGeocodeAccuracy":{
+      "apiName":"PersonOtherGeocodeAccuracy",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Address",
@@ -2919,292 +3170,322 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Other Geocode Accuracy",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "PersonOtherLatitude":{
-      "filterable":true,
       "apiName":"PersonOtherLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"PersonOtherAddress",
+      "length":0,
       "label":"Other Latitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "PersonOtherLongitude":{
-      "filterable":true,
       "apiName":"PersonOtherLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"PersonOtherAddress",
+      "length":0,
       "label":"Other Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "PersonOtherPhone":{
-      "filterable":true,
       "apiName":"PersonOtherPhone",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Other Phone",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
+      "extraTypeInfo":null
     },
     "PersonOtherPostalCode":{
-      "filterable":true,
       "apiName":"PersonOtherPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonOtherAddress",
+      "length":20,
       "label":"Other Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonOtherState":{
-      "filterable":true,
       "apiName":"PersonOtherState",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonOtherAddress",
+      "length":80,
       "label":"Other State/Province",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "PersonOtherStreet":{
-      "filterable":true,
       "apiName":"PersonOtherStreet",
+      "isCalculated":false,
+      "compoundFieldName":"PersonOtherAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"PersonOtherAddress",
+      "length":255,
       "label":"Other Street",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "PersonTitle":{
-      "filterable":true,
       "apiName":"PersonTitle",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Title",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Phone":{
+      "apiName":"Phone",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "Phone":{
+      "fieldDataType":"PHONE",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Phone",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":40,
       "label":"Account Phone",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PHONE"
+      "extraTypeInfo":null
     },
     "PhotoUrl":{
-      "filterable":true,
       "apiName":"PhotoUrl",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Photo URL",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"URL",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"String",
+      "length":255,
+      "label":"Photo URL",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":"IMAGE_URL",
-      "fieldDataType":"URL"
+      "extraTypeInfo":"IMAGE_URL"
     },
     "Rating":{
-      "filterable":true,
       "apiName":"Rating",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":null,
-      "label":"Account Rating",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Cold",
@@ -3220,89 +3501,98 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":255,
+      "label":"Account Rating",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "RecordTypeId":{
-      "filterable":true,
       "apiName":"RecordTypeId",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Record Type ID",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"RecordType",
       "isAvailableForMerge":true,
-      "referenceToNames":[
-        "RecordType"
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"Record Type ID",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+        "RecordType"
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "RowVersion":{
-      "filterable":true,
       "apiName":"RowVersion",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Row Version",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"String",
+      "length":30,
+      "label":"Row Version",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Salutation":{
-      "filterable":true,
       "apiName":"Salutation",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"Picklist",
       "compoundFieldName":"Name",
-      "label":"Salutation",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Mr.",
@@ -3326,118 +3616,130 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Salutation",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":"SWITCHABLE_PERSONNAME",
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":"SWITCHABLE_PERSONNAME"
     },
     "ShippingAddress":{
-      "filterable":true,
       "apiName":"ShippingAddress",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":false,
+      "isCompound":true,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"ADDRESS",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":false,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":0,
       "label":"Shipping Address",
       "sortable":false,
-      "creatable":false,
-      "isCompound":true,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"ADDRESS"
+      "extraTypeInfo":null
     },
     "ShippingCity":{
-      "filterable":true,
       "apiName":"ShippingCity",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":40,
       "label":"Shipping City",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "ShippingCountry":{
-      "filterable":true,
       "apiName":"ShippingCountry",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":"ShippingAddress",
-      "label":"Shipping Country",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "ShippingGeocodeAccuracy":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"ShippingGeocodeAccuracy",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":"ShippingAddress",
-      "label":"Shipping Geocode Accuracy",
+      "dataType":"String",
+      "length":80,
+      "label":"Shipping Country",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "ShippingGeocodeAccuracy":{
+      "apiName":"ShippingGeocodeAccuracy",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Address",
@@ -3485,379 +3787,418 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":40,
+      "label":"Shipping Geocode Accuracy",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "ShippingLatitude":{
-      "filterable":true,
       "apiName":"ShippingLatitude",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"ShippingAddress",
+      "length":0,
       "label":"Shipping Latitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "ShippingLongitude":{
-      "filterable":true,
       "apiName":"ShippingLongitude",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":15,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"DOUBLE",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"Number",
-      "compoundFieldName":"ShippingAddress",
+      "length":0,
       "label":"Shipping Longitude",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DOUBLE"
+      "extraTypeInfo":null
     },
     "ShippingPostalCode":{
-      "filterable":true,
       "apiName":"ShippingPostalCode",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":20,
       "label":"Shipping Zip/Postal Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "ShippingState":{
-      "filterable":true,
       "apiName":"ShippingState",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":80,
       "label":"Shipping State/Province",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "ShippingStreet":{
-      "filterable":true,
       "apiName":"ShippingStreet",
+      "isCalculated":false,
+      "compoundFieldName":"ShippingAddress",
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"TEXTAREA",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"ShippingAddress",
+      "length":255,
       "label":"Shipping Street",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"PLAINTEXTAREA",
-      "fieldDataType":"TEXTAREA"
+      "extraTypeInfo":"PLAINTEXTAREA"
     },
     "Sic":{
-      "filterable":true,
       "apiName":"Sic",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":20,
       "label":"SIC Code",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "SicDesc":{
-      "filterable":true,
       "apiName":"SicDesc",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"SIC Description",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Site":{
-      "filterable":true,
       "apiName":"Site",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":80,
       "label":"Account Site",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Suffix":{
+      "apiName":"Suffix",
+      "isCalculated":false,
+      "compoundFieldName":"Name",
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "Suffix":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Suffix",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":"Name",
+      "length":40,
       "label":"Suffix",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":"SWITCHABLE_PERSONNAME",
-      "fieldDataType":"STRING"
+      "extraTypeInfo":"SWITCHABLE_PERSONNAME"
     },
     "SystemModstamp":{
-      "filterable":true,
       "apiName":"SystemModstamp",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":false,
       "isCalculated":false,
-      "dataType":"DateTime",
       "compoundFieldName":null,
-      "label":"System Modstamp",
-      "sortable":true,
+      "scale":0,
       "creatable":false,
       "isCompound":false,
-      "isWorkflowFilterable":false,
       "sobjectName":"Account",
       "required":true,
       "relationshipName":null,
       "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
+      "fieldDataType":"DATETIME",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":false,
+      "isSpanningAllowed":false,
+      "editable":false,
+      "dataType":"DateTime",
+      "length":0,
+      "label":"System Modstamp",
+      "sortable":true,
+      "isWorkflowFilterable":false,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"DATETIME"
+      "extraTypeInfo":null
     },
     "TickerSymbol":{
-      "filterable":true,
       "apiName":"TickerSymbol",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":20,
       "label":"Ticker Symbol",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     },
     "Tradestyle":{
-      "filterable":true,
       "apiName":"Tradestyle",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":false,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"Tradestyle",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
-    },
-    "Type":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"Type",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
-      "dataType":"Picklist",
-      "compoundFieldName":null,
-      "label":"Account Type",
+      "dataType":"String",
+      "length":255,
+      "label":"Tradestyle",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "Type":{
+      "apiName":"Type",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
         {
           "label":"Analyst",
@@ -3901,96 +4242,118 @@
         }
       ],
       "isPolymorphic":false,
+      "fieldDataType":"PICKLIST",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":false,
+      "editable":true,
+      "dataType":"Picklist",
+      "length":255,
+      "label":"Account Type",
+      "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"PICKLIST"
+      "extraTypeInfo":null
     },
     "UserLookup__c":{
-      "filterable":true,
       "apiName":"UserLookup__c",
-      "isAvailableForFormulas":true,
-      "isSpanningAllowed":true,
-      "editable":true,
       "isCalculated":false,
-      "dataType":"String",
       "compoundFieldName":null,
-      "label":"UserLookup",
-      "sortable":true,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":"UserLookup__r",
       "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"REFERENCE",
+      "inlineHelpText":null,
+      "filterable":true,
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "length":18,
+      "label":"UserLookup",
+      "sortable":true,
+      "isWorkflowFilterable":true,
       "referenceToNames":[
         "User"
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":true,
-      "extraTypeInfo":null,
-      "fieldDataType":"REFERENCE"
+      "extraTypeInfo":null
     },
     "Website":{
-      "filterable":true,
       "apiName":"Website",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":null,
+      "isAvailableForMerge":true,
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "fieldDataType":"URL",
+      "inlineHelpText":null,
+      "filterable":true,
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":255,
       "label":"Website",
       "sortable":true,
+      "isWorkflowFilterable":true,
+      "referenceToNames":[
+
+      ],
+      "isCustom":false,
+      "extraTypeInfo":null
+    },
+    "YearStarted":{
+      "apiName":"YearStarted",
+      "isCalculated":false,
+      "compoundFieldName":null,
+      "scale":0,
       "creatable":true,
       "isCompound":false,
-      "isWorkflowFilterable":true,
       "sobjectName":"Account",
       "required":false,
       "relationshipName":null,
       "isAvailableForMerge":true,
-      "referenceToNames":[
-
-      ],
       "activePicklistValues":[
 
       ],
       "isPolymorphic":false,
-      "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"URL"
-    },
-    "YearStarted":{
+      "fieldDataType":"STRING",
+      "inlineHelpText":null,
       "filterable":true,
-      "apiName":"YearStarted",
       "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
-      "isCalculated":false,
       "dataType":"String",
-      "compoundFieldName":null,
+      "length":4,
       "label":"Year Started",
       "sortable":true,
-      "creatable":true,
-      "isCompound":false,
       "isWorkflowFilterable":true,
-      "sobjectName":"Account",
-      "required":false,
-      "relationshipName":null,
-      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
       "isCustom":false,
-      "extraTypeInfo":null,
-      "fieldDataType":"STRING"
+      "extraTypeInfo":null
     }
   }
 }
