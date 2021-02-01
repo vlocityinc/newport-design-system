@@ -72,6 +72,21 @@ describe('ScreenEditor automatic fields', () => {
                         category: 'FlowBuilderScreenEditor.fieldCategoryInput'
                     });
                 });
+                it('displays a LargeTextArea for Text Area field', () => {
+                    const accountEmployeesField = screenEditor
+                        .getCanvas()
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
+                            'accountSObjectVariable.Description'
+                        )!
+                        .getScreenFieldElement();
+                    expect(accountEmployeesField.screenfield.type).toMatchObject({
+                        name: ScreenFieldName.LargeTextArea,
+                        fieldType: FlowScreenFieldType.ObjectProvided,
+                        label: 'Account Description',
+                        icon: 'standard:textarea',
+                        category: 'FlowBuilderScreenEditor.fieldCategoryInput'
+                    });
+                });
             });
             describe('In section', () => {
                 beforeAll(async () => {
@@ -105,6 +120,21 @@ describe('ScreenEditor automatic fields', () => {
                         dataType: FLOW_DATA_TYPE.NUMBER.value,
                         label: 'Employees',
                         icon: 'standard:number_input',
+                        category: 'FlowBuilderScreenEditor.fieldCategoryInput'
+                    });
+                });
+                it('displays a LargeTextArea for Text Area field', () => {
+                    const accountEmployeesField = screenEditor
+                        .getCanvas()
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
+                            'accountSObjectVariable.Description'
+                        )!
+                        .getScreenFieldElement();
+                    expect(accountEmployeesField.screenfield.type).toMatchObject({
+                        name: ScreenFieldName.LargeTextArea,
+                        fieldType: FlowScreenFieldType.ObjectProvided,
+                        label: 'Account Description',
+                        icon: 'standard:textarea',
                         category: 'FlowBuilderScreenEditor.fieldCategoryInput'
                     });
                 });

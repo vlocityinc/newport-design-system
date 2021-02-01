@@ -175,7 +175,7 @@ function createScreen(name, fieldsProducer, config = {}) {
 /**
  * Creates a screen field to be used for testing
  * @param {string} name - The name of the screen field
- * @param {string} type - The type of the screen field (see screen field types in screen-editor-utils)
+ * @param {string} typeName - The type of the screen field (see screen field types in screen-editor-utils)
  * @param {string} value - The defaultValue. If null is passed, a random default value will be generated. Pass SCREEN_NO_DEF_VALUE
  *   if the defaultValue should not be set.
  * @param {object} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true,
@@ -183,9 +183,9 @@ function createScreen(name, fieldsProducer, config = {}) {
  * @param {boolean} storeOutputAutomatically - Whether or not this field uses automatic output. Defaulted to false
  * @returns {object} - The screen field
  */
-export function createTestScreenField(name, type, value, config = {}, storeOutputAutomatically = false) {
+export function createTestScreenField(name, typeName, value?, config? = {}, storeOutputAutomatically? = false) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
-    const fieldType = type === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(type);
+    const fieldType = typeName === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(typeName);
 
     // If the dataType was specified, use it. (This should only happen for fields where dataType is undefined by default).
     const dataType = getStringValue(config.dataType, undefined, false);
@@ -210,10 +210,10 @@ export function createTestScreenField(name, type, value, config = {}, storeOutpu
         fields: []
     };
 
-    if (type === 'DisplayText' && value !== SCREEN_NO_DEF_VALUE) {
+    if (typeName === 'DisplayText' && value !== SCREEN_NO_DEF_VALUE) {
         const val = value !== null ? value : 'Default display text value';
         field.fieldText = getStringValue(val, null, hydrateValues);
-    } else if (type === 'Extension') {
+    } else if (typeName === 'Extension') {
         field.extensionName = value;
         // Params made up
         field.outputParameters = [
@@ -236,21 +236,21 @@ export function createTestScreenField(name, type, value, config = {}, storeOutpu
             field.defaultValue = null;
         } else if (value === null) {
             // Generate value based in type
-            field.defaultValue = getDefaultValue(type, config.defaultValueType || VALUE_TYPE_STATIC);
+            field.defaultValue = getDefaultValue(typeName, config.defaultValueType || VALUE_TYPE_STATIC);
         } else if (typeof value !== 'object') {
             // Set the string version of the default value, and the internal version, which
             // specifies what type of field value this is.
             if (
-                type === ScreenFieldName.TextBox ||
-                type === ScreenFieldName.LargeTextArea ||
-                type === ScreenFieldName.Password
+                typeName === ScreenFieldName.TextBox ||
+                typeName === ScreenFieldName.LargeTextArea ||
+                typeName === ScreenFieldName.Password
             ) {
                 field.defaultValue = { stringValue: value };
-            } else if (type === ScreenFieldName.Number || type === ScreenFieldName.Currency) {
+            } else if (typeName === ScreenFieldName.Number || typeName === ScreenFieldName.Currency) {
                 field.defaultValue = { numberValue: value };
-            } else if (type === ScreenFieldName.Date || type === ScreenFieldName.DateTime) {
+            } else if (typeName === ScreenFieldName.Date || typeName === ScreenFieldName.DateTime) {
                 field.defaultValue = { dateValue: value };
-            } else if (type === ScreenFieldName.Checkbox) {
+            } else if (typeName === ScreenFieldName.Checkbox) {
                 field.defaultValue = { booleanValue: value };
             }
         } else {
