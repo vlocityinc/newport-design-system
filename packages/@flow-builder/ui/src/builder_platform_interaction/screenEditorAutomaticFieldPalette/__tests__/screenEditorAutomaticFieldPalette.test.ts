@@ -13,6 +13,7 @@ import {
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { INTERACTION_COMPONENTS_SELECTORS, dragStartEvent } from 'builder_platform_interaction/builderTestUtils';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn(() => {
@@ -137,7 +138,7 @@ describe('Screen editor automatic field palette', () => {
         test('SObjectReferenceChangedEvent should load properly entityFields', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.entityFields).toEqual(mockAccountFields);
+            expect(sobjectLib.fetchFieldsForEntity).toHaveBeenCalledWith('Account');
         });
         test('SObjectReferenceChangedEvent should generate proper data with 2 sections for inner palette', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -178,6 +179,13 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(element.searchPattern).toBeNull();
+        });
+        test('SObjectReferenceChangedEvent with same value does not fetch entity fields', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(sobjectLib.fetchFieldsForEntity).toHaveBeenCalledTimes(1);
         });
         test('SObjectReferenceChangedEvent with same value still displays base palette', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);

@@ -183,7 +183,7 @@ function createScreen(name, fieldsProducer, config = {}) {
  * @param {boolean} storeOutputAutomatically - Whether or not this field uses automatic output. Defaulted to false
  * @returns {object} - The screen field
  */
-export function createTestScreenField(name, typeName, value?, config? = {}, storeOutputAutomatically? = false) {
+export function createTestScreenField(name, typeName, value?, config = {}, storeOutputAutomatically = false) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const fieldType = typeName === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(typeName);
 

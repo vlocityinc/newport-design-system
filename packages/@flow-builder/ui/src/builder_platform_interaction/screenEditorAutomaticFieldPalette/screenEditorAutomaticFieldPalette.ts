@@ -29,6 +29,7 @@ const dataTypeRelatedFilter = (field: FieldDefinition): boolean =>
     SUPPORTED_FIELD_DATA_TYPES.includes(field.fieldDataType as FieldDataType) ||
     field.extraTypeInfo === ExtraTypeInfo.PlainTextarea;
 const noRelationshipFilter = (field: FieldDefinition): boolean => field.relationshipName === null;
+// field.compoundFieldName === field.apiName check is because in some cases (e.g. Account Name), field.compoundFieldName is set to e.g. Name and those are field that we can and want to support
 const noCompoundFieldFilter = (field: FieldDefinition): boolean =>
     field.compoundFieldName === null || field.compoundFieldName === field.apiName;
 const supportedAutomaticFieldFilter = (field: FieldDefinition): boolean =>
@@ -48,9 +49,9 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     searchPattern?: string | null;
 
     @track
-    state: { recordVariable: string; entityFields: any } = {
+    state: { recordVariable: string; supportedEntityFields: FieldDefinition[] } = {
         recordVariable: '',
-        entityFields: {}
+        supportedEntityFields: []
     };
 
     get sObjectPickerRowIndex(): String {
@@ -72,11 +73,6 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     @api
     get recordVariable() {
         return this.state.recordVariable;
-    }
-
-    @api
-    get entityFields() {
-        return this.state.entityFields;
     }
 
     /**
@@ -102,20 +98,25 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      * Get the fields of the selected entity and set the state accordingly
      */
     updateFields() {
-        this.state.entityFields = {};
         if (this.state.recordVariable) {
             const resource = getElementByGuid(this.state.recordVariable)!;
             this.entityName = resource.subtype!;
             fetchFieldsForEntity(this.entityName)
                 .then((fields) => {
-                    this.state.entityFields = fields;
                     this.showErrorMessageRelatedToFieldFetching = false;
+                    this.state.supportedEntityFields = this.filterSupportedFields(fields);
                     this.buildModel();
                 })
                 .catch(() => {
                     this.showErrorMessageRelatedToFieldFetching = true;
                 });
         }
+    }
+
+    filterSupportedFields(entityFields) {
+        return (Object.values(entityFields) as FieldDefinition[]).filter((field) =>
+            supportedAutomaticFieldFilter(field)
+        );
     }
 
     /**
@@ -132,30 +133,29 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
             label: LABELS.paletteSectionOptionalFieldsLabel,
             _children: []
         };
-        (Object.values(this.state.entityFields) as FieldDefinition[])
-            .filter(
-                (field) =>
-                    supportedAutomaticFieldFilter(field) &&
-                    (fieldNamePattern && fieldNamePattern.trim().length > 0
-                        ? containsMatcher(field, 'label', fieldNamePattern.trim())
-                        : true)
-            )
-            .forEach((field) => {
-                const item: ScreenAutomaticFieldPaletteItem = {
-                    apiName: field.apiName,
-                    description: field.label,
-                    guid: generateGuid(),
-                    iconName: getDataTypeIcons(field.dataType, 'utility'),
-                    label: field.label,
-                    fieldTypeName: getScreenFieldName(field)!,
-                    objectFieldReference: this.recordVariable + '.' + field.apiName
-                };
-                if (field.required) {
-                    requiredSection._children.push(item);
-                } else {
-                    optionalSection._children.push(item);
-                }
-            });
+        const fieldsToAddToPalette =
+            fieldNamePattern && fieldNamePattern.trim().length > 0
+                ? this.state.supportedEntityFields.filter((field) =>
+                      containsMatcher(field, 'label', fieldNamePattern.trim())
+                  )
+                : this.state.supportedEntityFields;
+
+        fieldsToAddToPalette.forEach((field) => {
+            const item: ScreenAutomaticFieldPaletteItem = {
+                apiName: field.apiName,
+                description: field.label,
+                guid: generateGuid(),
+                iconName: getDataTypeIcons(field.dataType, 'utility'),
+                label: field.label,
+                fieldTypeName: getScreenFieldName(field)!,
+                objectFieldReference: this.recordVariable + '.' + field.apiName
+            };
+            if (field.required) {
+                requiredSection._children.push(item);
+            } else {
+                optionalSection._children.push(item);
+            }
+        });
         this.buildPaletteDataWithSections([requiredSection, optionalSection]);
     }
 
