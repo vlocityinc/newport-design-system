@@ -3,7 +3,10 @@ import RecordSobjectAndQueryFields from 'builder_platform_interaction/recordSobj
 
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel, accountSObjectVariable, accountSObjectCollectionVariable } from 'mock/storeData';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -61,7 +64,7 @@ const createComponentUnderTest = (props?: {}) => {
         is: RecordSobjectAndQueryFields
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

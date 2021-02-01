@@ -8,13 +8,14 @@ import {
     //    MOCK_PROCESS_TYPES,
     MOCK_ALL_PROCESS_TYPES
 } from 'mock/processTypesData';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (processTypes = MOCK_ALL_PROCESS_TYPES) => {
     const el = createElement('builder_platform_interaction-process-types-vertical-navigation', {
         is: ProcessTypesVerticalNavigation
     });
     Object.assign(el, { processTypes });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

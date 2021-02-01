@@ -15,7 +15,7 @@ import {
 } from '../leftPanelTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { initializeAuraFetch } from '../serverDataTestUtils';
@@ -48,7 +48,7 @@ const createEditorForTest = () => {
             }
         }
     };
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

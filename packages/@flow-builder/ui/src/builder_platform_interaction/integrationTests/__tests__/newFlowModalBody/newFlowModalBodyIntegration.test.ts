@@ -14,7 +14,8 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    deepQuerySelector,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
@@ -66,7 +67,7 @@ const createComponentForTest = () => {
         showAll: true,
         showRecommended: true
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import ScreenFieldCard from '../screenFieldCard';
 
@@ -7,7 +8,7 @@ const createComponentUnderTest = (props) => {
         is: ScreenFieldCard
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -1,11 +1,12 @@
 import { createElement } from 'lwc';
 import { LABELS } from '../debugPanelBodyLabels';
 import DebugPanelBody from '../debugPanelBody';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (props = {}) => {
     const element = createElement('builder_platform_interaction-debug-panel-body', { is: DebugPanelBody });
     Object.assign(element, props);
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 const SELECTORS = {

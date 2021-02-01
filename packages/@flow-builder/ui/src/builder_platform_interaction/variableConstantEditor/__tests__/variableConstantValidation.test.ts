@@ -4,6 +4,7 @@ import VariableConstantEditor from '../variableConstantEditor';
 import { variableConstantValidation, getRules } from '../variableConstantValidation';
 import * as mockStoreData from 'mock/storeData';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -13,7 +14,7 @@ const setupComponentUnderTest = (props) => {
     });
     element.node = props;
     element.node.subtypeIndex = { value: 'guid', error: null };
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

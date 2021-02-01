@@ -46,6 +46,7 @@
         "^(builder_platform_interaction)/contextLib$": "<rootDir>/../ui/src/builder_platform_interaction/contextLib/contextLib",
         "^(builder_platform_interaction)/builderTestUtils/events$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/events",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
+        "^(builder_platform_interaction)/builderTestUtils/domTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/domTestUtils",
         "^(builder_platform_interaction)/events$": "<rootDir>/../ui/src/builder_platform_interaction/events/events",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2"
     },

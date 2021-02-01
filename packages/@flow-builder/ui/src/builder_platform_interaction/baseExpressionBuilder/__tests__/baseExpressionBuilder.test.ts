@@ -31,7 +31,8 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     clickPill,
-    removePill
+    removePill,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 const { logInteraction } = loggingUtils;
@@ -68,7 +69,7 @@ function createComponentForTest(props) {
         is: BaseExpressionBuilder
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

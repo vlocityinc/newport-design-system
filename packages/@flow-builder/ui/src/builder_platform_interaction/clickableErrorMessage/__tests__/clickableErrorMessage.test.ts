@@ -11,6 +11,7 @@ import {
     decision1 as mockDecision,
     decision1Outcome1 as mockOutcome
 } from 'mock/storeData';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -46,7 +47,7 @@ const createComponentUnderTest = (props = { info: { message: {} } }) => {
         is: ClickableErrorMessage
     });
     el.info = props.info;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

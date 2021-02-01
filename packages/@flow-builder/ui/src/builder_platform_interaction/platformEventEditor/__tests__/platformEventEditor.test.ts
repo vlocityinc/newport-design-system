@@ -5,7 +5,7 @@ import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 import * as store from 'mock/storeData';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
@@ -35,7 +35,7 @@ function createComponentForTest(node) {
 
     Object.assign(el, { node });
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

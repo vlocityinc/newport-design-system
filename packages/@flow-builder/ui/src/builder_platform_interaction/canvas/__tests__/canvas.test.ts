@@ -4,6 +4,7 @@ import Canvas from 'builder_platform_interaction/canvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DeleteElementEvent } from 'builder_platform_interaction/events';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 const { DeleteNodesCommand, ZoomInCommand, ZoomOutCommand } = commands;
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
@@ -77,7 +78,7 @@ describe('Canvas', () => {
         el.nodes = nodes;
         el.connectors = connectors;
 
-        document.body.appendChild(el);
+        setDocumentBodyChildren(el);
 
         return el;
     };

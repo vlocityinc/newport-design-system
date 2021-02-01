@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import SortOptionItem from 'builder_platform_interaction/sortOptionItem';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import {
@@ -88,7 +88,7 @@ const createComponentUnderTest = ({
         sortOrder,
         selectedFields
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

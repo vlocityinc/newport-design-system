@@ -11,3 +11,14 @@ export const deepQuerySelector = (element, selectorsArray: string[]) => {
     }
     return result;
 };
+
+export const setDocumentBodyChildren = <T extends Node>(...children: T[]) => {
+    while (document.body.firstChild) {
+        document.body.removeChild(document.body.firstChild);
+    }
+    for (const child of children) {
+        document.body.appendChild(child);
+    }
+};
+
+export const removeDocumentBodyChildren = setDocumentBodyChildren.bind(null);

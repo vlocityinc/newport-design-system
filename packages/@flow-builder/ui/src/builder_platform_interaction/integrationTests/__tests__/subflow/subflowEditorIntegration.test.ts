@@ -43,7 +43,8 @@ import {
     focusoutEvent,
     textInputEvent,
     blurEvent,
-    checkboxChangeEvent
+    checkboxChangeEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
@@ -59,7 +60,7 @@ const createComponentForTest = (node, mode) => {
         is: SubflowEditor
     });
     Object.assign(el, { node, mode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

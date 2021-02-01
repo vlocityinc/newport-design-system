@@ -1,14 +1,14 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import RichTextPlainTextSwitch, { TEXT_MODES } from '../richTextPlainTextSwitch';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-rich-text-plain-text-switch', {
         is: RichTextPlainTextSwitch
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

@@ -5,7 +5,8 @@ import {
     query,
     createTestScreenField,
     SCREEN_NO_DEF_VALUE,
-    ticks
+    ticks,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -46,7 +47,7 @@ const createComponentUnderTest = (props) => {
         }
     );
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

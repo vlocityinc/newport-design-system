@@ -19,6 +19,7 @@ import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serv
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('../stageStepReducer', () => {
     return {
@@ -93,7 +94,7 @@ const createComponentUnderTest = (node) => {
     });
     el.node = node;
     el.processType = 'someProcessType';
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

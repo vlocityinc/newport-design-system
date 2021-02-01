@@ -22,7 +22,8 @@ import {
     untilNoFailure,
     ticks,
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
@@ -201,7 +202,7 @@ const actionWithNoOutputNode = {
 const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, { node, isNewMode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

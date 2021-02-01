@@ -4,7 +4,8 @@ import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     clickPill,
-    removePill
+    removePill,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import Combobox from 'builder_platform_interaction/combobox';
 import { selectComboboxItemBy } from '../../integrationTests/__tests__/comboboxTestUtils';
@@ -15,7 +16,7 @@ const createComponentUnderTest = (props?: {}) => {
         is: BaseResourcePicker
     });
     Object.assign(element, props);
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

@@ -7,7 +7,8 @@ import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     clickEvent,
-    getComboboxPill
+    getComboboxPill,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
 import { updateElement } from 'builder_platform_interaction/actions';
@@ -19,7 +20,7 @@ const createComponentForTest = (assignmentElement) => {
         is: AssignmentEditor
     });
     Object.assign(el, { node: assignmentElement });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

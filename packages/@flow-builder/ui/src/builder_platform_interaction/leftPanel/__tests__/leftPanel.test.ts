@@ -20,7 +20,7 @@ import {
     flowWithAllElementsUIModel
 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils');
 
@@ -30,7 +30,7 @@ const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-left-panel', {
         is: LeftPanel
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

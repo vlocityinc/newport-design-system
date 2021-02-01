@@ -16,6 +16,7 @@ import {
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
     textInputEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
@@ -60,7 +61,7 @@ const createComponentForTest = (contextRecordEditorElement) => {
         is: contextRecordEditor
     });
     Object.assign(el, { node: contextRecordEditorElement });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 
@@ -69,7 +70,7 @@ const createTimeTriggerComponentForTest = (timeTriggeredEditorElement) => {
         is: timeTriggersEditor
     });
     Object.assign(el, { node: timeTriggeredEditorElement });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -3,14 +3,14 @@ import { createElement } from 'lwc';
 import FlowStatus from 'builder_platform_interaction/flowStatus';
 import { LABELS } from '../flowStatusLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-flow-status', {
         is: FlowStatus
     });
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

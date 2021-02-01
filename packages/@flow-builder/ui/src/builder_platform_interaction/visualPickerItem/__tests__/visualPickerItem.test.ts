@@ -2,6 +2,7 @@
 import { createElement } from 'lwc';
 import VisualPickerItem from 'builder_platform_interaction/visualPickerItem';
 import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const TEMPLATE_ID = 'flowId';
 const TEMPLATE_LABEL = 'Flow Label';
@@ -17,7 +18,7 @@ function createComponentForTest({
 } = {}) {
     const el = createElement('builder_platform_interaction-visual-picker-item', { is: VisualPickerItem });
     Object.assign(el, { itemId, label, description, iconName, isSelected });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

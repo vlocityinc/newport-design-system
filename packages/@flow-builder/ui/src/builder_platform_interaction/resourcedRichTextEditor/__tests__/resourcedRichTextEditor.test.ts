@@ -7,7 +7,8 @@ import {
     focusEvent,
     changeEvent,
     focusoutEvent,
-    blurEvent
+    blurEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -18,7 +19,7 @@ const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-resourced-rich-text-editor', {
         is: ResourcedRichTextEditor
     });
-    document.body.appendChild(Object.assign(el, props));
+    setDocumentBodyChildren(Object.assign(el, props));
     return el;
 };
 

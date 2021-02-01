@@ -5,7 +5,7 @@ import { DeleteOutcomeEvent, ExecuteWhenOptionChangedEvent } from 'builder_platf
 import { LABELS, outcomeExecuteWhenOptions } from '../outcomeLabels';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
@@ -93,7 +93,7 @@ const createComponentUnderTest = () => {
         is: Outcome
     });
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     el.showDelete = true;
 

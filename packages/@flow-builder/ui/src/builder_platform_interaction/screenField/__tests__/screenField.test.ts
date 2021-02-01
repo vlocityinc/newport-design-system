@@ -3,6 +3,7 @@ import ScreenField from '../screenField';
 import {
     createTestScreenField,
     SCREEN_NO_DEF_VALUE,
+    setDocumentBodyChildren,
     ticks,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
@@ -35,7 +36,7 @@ const createComponentUnderTest = (props) => {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

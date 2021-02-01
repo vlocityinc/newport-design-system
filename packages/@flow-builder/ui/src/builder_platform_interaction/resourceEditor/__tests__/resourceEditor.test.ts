@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import ResourceEditor from '../resourceEditor';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/resourceEditorContainer', () =>
     require('builder_platform_interaction_mocks/resourceEditorContainer')
@@ -12,7 +12,7 @@ const setupComponentUnderTest = () => {
     const element = createElement('builder_platform_interaction-resource-editor', {
         is: ResourceEditor
     });
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

@@ -1,7 +1,11 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import TimeTriggersEditor from 'builder_platform_interaction/timeTriggersEditor';
-import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import { timeTriggersReducer } from '../timeTriggersReducer';
 import { UpdateNodeEvent, PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
@@ -43,7 +47,7 @@ const createComponentForTest = (node) => {
     });
 
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

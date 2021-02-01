@@ -19,7 +19,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -33,7 +33,7 @@ function createComponentForTest(props) {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

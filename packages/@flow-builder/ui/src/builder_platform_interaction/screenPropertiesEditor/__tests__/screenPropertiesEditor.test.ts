@@ -7,7 +7,7 @@
 
 import { createElement } from 'lwc';
 import ScreenPropertiesEditor from '../screenPropertiesEditor';
-import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createTestScreen } from '../../builderTestUtils/screenEditorTestUtils';
 import { createScreenWithFields } from 'builder_platform_interaction/elementFactory';
 
@@ -38,7 +38,7 @@ const createComponentUnderTest = (props) => {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

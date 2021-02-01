@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenField from 'builder_platform_interaction/screenField';
-import { createTestScreenField, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createTestScreenField, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
@@ -178,7 +178,7 @@ const createComponentUnderTest = (props) => {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

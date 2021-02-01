@@ -9,7 +9,7 @@ import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
@@ -45,7 +45,7 @@ function createComponentForTest(props) {
         showAll: true
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

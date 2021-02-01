@@ -5,7 +5,8 @@ import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 import {
@@ -75,7 +76,7 @@ const createComponentUnderTest = ({
         recordFields: accountFields,
         useFilterWithCustomLogic: true
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 const getFilterRecordsCombobox = (filterCmp) =>

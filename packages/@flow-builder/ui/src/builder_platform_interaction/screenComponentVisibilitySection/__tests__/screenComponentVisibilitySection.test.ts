@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenComponentVisiblitySection from 'builder_platform_interaction/screenComponentVisibilitySection';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { isConditionalFieldVisibilitySupported } from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/componentVisibility', () =>
@@ -26,7 +26,7 @@ const createComponentUnderTest = (props) => {
     props = props || { field: {} };
     Object.assign(el, props);
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

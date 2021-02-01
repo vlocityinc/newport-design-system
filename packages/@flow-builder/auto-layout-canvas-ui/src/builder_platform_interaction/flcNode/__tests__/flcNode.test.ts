@@ -6,6 +6,7 @@ import { EditElementEvent } from 'builder_platform_interaction/events';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -17,7 +18,7 @@ const createComponentUnderTest = (props = {}) => {
     el.nodeInfo = props.nodeInfo;
     el.canvasMode = props.canvasMode;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

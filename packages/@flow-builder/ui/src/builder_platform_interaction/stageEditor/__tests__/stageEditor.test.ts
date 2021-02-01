@@ -6,7 +6,7 @@ import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib'
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { stageReducer } from '../../stageEditor/stageReducer';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
@@ -27,7 +27,7 @@ const createComponentUnderTest = (node) => {
         is: StageEditor
     });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

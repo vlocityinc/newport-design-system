@@ -5,7 +5,8 @@ import {
     query,
     createTestScreenField,
     SCREEN_NO_DEF_VALUE,
-    ticks
+    ticks,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -87,7 +88,7 @@ const createComponentUnderTest = (props) => {
         }
     );
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

@@ -11,7 +11,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -28,7 +29,7 @@ const setupComponentUnderTest = (props) => {
         is: TextTemplateEditor
     });
     element.node = props;
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

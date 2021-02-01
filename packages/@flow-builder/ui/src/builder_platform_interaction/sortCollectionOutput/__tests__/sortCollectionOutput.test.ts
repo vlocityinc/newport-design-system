@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import SortCollectionOutput from 'builder_platform_interaction/sortCollectionOutput';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { UpdateSortCollectionOutputEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -16,7 +16,7 @@ const createComponentUnderTest = ({
         is: SortCollectionOutput
     });
     Object.assign(el, { limit, selectedOutput });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

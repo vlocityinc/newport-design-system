@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import MarqueeSelectionBox from 'builder_platform_interaction/marqueeSelectionBox';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-marquee-selection-box', {
@@ -8,7 +9,7 @@ const createComponentUnderTest = () => {
     });
     el.marqueeStartPoint = [5, 5];
     el.marqueeEndPoint = [5, 5];
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

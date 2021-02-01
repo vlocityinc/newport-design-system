@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import UsedByContent from '../usedByContent';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(
     listSectionHeader,
@@ -16,7 +16,7 @@ function createComponentForTest(
     el.listSectionItems = listSectionItems;
     el.isResourceDetails = isResourceDetails;
     el.showLocatorIcon = showLocatorIcon;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

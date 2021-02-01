@@ -15,6 +15,7 @@ import {
 import {
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent,
+    setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -41,7 +42,7 @@ const getComboboxStateChangedEvent = (value, displayText = value) => {
 const createComponentForTest = (node, processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTO) => {
     const el = createElement('builder_platform_interaction-record-create-editor', { is: RecordCreateEditor });
     Object.assign(el, { node, processType });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

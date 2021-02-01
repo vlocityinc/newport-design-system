@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcBuilderContainer from 'builder_platform_interaction/flcBuilderContainer';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
 
@@ -37,7 +37,7 @@ const createComponentForTest = (elementsMetadata = []) => {
     el.isPasteAvailable = false;
     el.elementsMetadata = elementsMetadata;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

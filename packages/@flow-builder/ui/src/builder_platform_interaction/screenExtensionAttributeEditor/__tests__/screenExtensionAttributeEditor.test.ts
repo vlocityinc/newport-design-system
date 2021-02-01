@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenExtensionAttributeEditor from 'builder_platform_interaction/screenExtensionAttributeEditor';
-import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
@@ -100,7 +100,7 @@ function createComponentForTest(props) {
         is: ScreenExtensionAttributeEditor
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

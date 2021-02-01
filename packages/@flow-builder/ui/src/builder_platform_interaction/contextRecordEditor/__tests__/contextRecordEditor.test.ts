@@ -15,7 +15,8 @@ import * as expressionUtilsMock from 'builder_platform_interaction/expressionUti
 import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS, requireRecordChangeOptions } from '../contextRecordEditorLabels';
 
@@ -63,7 +64,7 @@ function createComponentForTest(node) {
 
     Object.assign(el, { node });
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

@@ -2,7 +2,7 @@
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
-import { dragStartEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { dragStartEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/contextLib', () => {
@@ -16,7 +16,7 @@ function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
     // Using the setter for screenFieldTypes triggers buildModel which populates the palette.
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

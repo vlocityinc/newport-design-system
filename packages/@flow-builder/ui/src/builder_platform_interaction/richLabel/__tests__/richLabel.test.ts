@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import RichLabel from '../richLabel';
 
@@ -7,7 +8,7 @@ const createComponentUnderTest = (props) => {
         is: RichLabel
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

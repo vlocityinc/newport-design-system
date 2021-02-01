@@ -13,7 +13,11 @@ import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -45,7 +49,7 @@ const createComponentUnderTest = (props) => {
         is: RecordQueryFields
     });
     Object.assign(el, mockDefaultConfig, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -1,13 +1,14 @@
 import { createElement } from 'lwc';
 import LeftPanelResources from '../leftPanelResources';
 import { MOCK_ELEMENT_PALETTE_ITEM, MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-left-panel-resources', {
         is: LeftPanelResources
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 const SELECTORS = {

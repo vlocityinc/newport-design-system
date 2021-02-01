@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import Row from 'builder_platform_interaction/row';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const prefix = 'myAwesomePrefix';
 const itemIndex = 3;
@@ -14,7 +14,7 @@ const createComponentUnderTest = (props) => {
 
     Object.assign(el, props);
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

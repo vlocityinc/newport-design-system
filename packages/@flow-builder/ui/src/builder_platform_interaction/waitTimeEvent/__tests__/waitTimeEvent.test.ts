@@ -15,7 +15,8 @@ import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
@@ -30,7 +31,7 @@ const createComponentUnderTest = (props) => {
         is: WaitTimeEvent
     });
     el = Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

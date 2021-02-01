@@ -32,6 +32,7 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     removePill,
+    setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import {
@@ -82,7 +83,7 @@ const SELECTORS = { ABBR: 'ABBR' };
 const createComponentForTest = (props) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

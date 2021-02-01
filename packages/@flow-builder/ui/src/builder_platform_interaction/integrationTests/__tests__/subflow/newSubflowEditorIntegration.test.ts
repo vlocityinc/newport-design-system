@@ -7,7 +7,8 @@ import {
     deepQuerySelector,
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    selectEvent
+    selectEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
@@ -24,7 +25,7 @@ const createComponentForTest = (node, processType, mode) => {
         is: CalloutEditor
     });
     Object.assign(el, { node, processType, mode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

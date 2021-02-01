@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import CalloutEditorContainer from '../calloutEditorContainer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn(),
@@ -37,7 +37,7 @@ const setupComponentUnderTest = (props) => {
     if (props) {
         Object.assign(element, props);
     }
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

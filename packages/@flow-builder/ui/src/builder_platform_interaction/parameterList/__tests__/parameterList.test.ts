@@ -6,7 +6,8 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     ConfigurationEditorTypeMappingChangeEvent,
@@ -199,7 +200,7 @@ function createComponentForTest({
         configurationEditor,
         displayOutputParams
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

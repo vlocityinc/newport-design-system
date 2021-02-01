@@ -7,7 +7,7 @@ import {
     LIGHTNING_INPUT_TYPES,
     LIGHTNING_INPUT_VARIANTS
 } from 'builder_platform_interaction/screenEditorUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     INPUT: 'lightning-input'
@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-input-field', { is: ScreenInputField });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

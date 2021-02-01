@@ -2,6 +2,7 @@
 import { createElement } from 'lwc';
 import DebugPanel from '../debugPanel';
 import { errorInterview } from 'mock/debugResponse/mock-error-interview';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -13,7 +14,7 @@ const createComponentUnderTest = (debugData) => {
         is: DebugPanel
     });
     el.debugData = debugData;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

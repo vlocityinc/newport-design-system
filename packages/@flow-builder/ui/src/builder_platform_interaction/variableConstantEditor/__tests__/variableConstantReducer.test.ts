@@ -5,6 +5,7 @@ import { variableConstantReducer } from '../variableConstantReducer';
 import VariableConstantEditor from '../variableConstantEditor';
 import * as mockStoreData from 'mock/storeData';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -16,7 +17,7 @@ const setupComponentUnderTest = (props) => {
     });
     element.node = props;
     element.node.defaultValueIndex = { value: 'guid', error: null };
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

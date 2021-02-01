@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     DRAGGABLE: 'builder_platform_interaction-draggable',
@@ -15,7 +15,7 @@ const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-vertical-nav-item', {
         is: ReorderableVerticalNavigationItem
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

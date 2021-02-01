@@ -5,7 +5,8 @@ import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata'
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
@@ -28,7 +29,7 @@ const createComponentUnderTest = (props) => {
         is: WaitResumeConditions
     });
     el = Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

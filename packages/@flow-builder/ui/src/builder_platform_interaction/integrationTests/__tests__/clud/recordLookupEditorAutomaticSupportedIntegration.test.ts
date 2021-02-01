@@ -16,7 +16,8 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
     changeEvent,
-    ticks
+    ticks,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getEntityResourcePicker, getRecordQueryFields, getRecordSort } from './cludEditorTestUtils';
 
@@ -29,7 +30,7 @@ const createComponentForTest = (
 ) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     Object.assign(el, { node, processType, mode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

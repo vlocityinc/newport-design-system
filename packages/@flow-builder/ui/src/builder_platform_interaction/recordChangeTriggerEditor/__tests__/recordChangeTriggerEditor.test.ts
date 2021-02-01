@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
@@ -19,7 +19,7 @@ function createComponentForTest(node) {
 
     Object.assign(el, { node });
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

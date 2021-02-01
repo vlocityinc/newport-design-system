@@ -4,7 +4,7 @@ import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json'
 import RecordSortResult from 'builder_platform_interaction/recordSort';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
-import { until, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { until, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -33,7 +33,7 @@ const createComponentUnderTest = (props) => {
         is: RecordSortResult
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

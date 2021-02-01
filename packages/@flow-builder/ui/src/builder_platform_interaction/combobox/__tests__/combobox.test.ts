@@ -36,7 +36,8 @@ import {
     blurEvent,
     clickEvent,
     getComboboxPill,
-    removeEvent
+    removeEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { LABELS } from '../comboboxLabels';
@@ -111,7 +112,7 @@ const createCombobox = (props) => {
         is: Combobox
     });
     Object.assign(combobox, props);
-    document.body.appendChild(combobox);
+    setDocumentBodyChildren(combobox);
     groupedCombobox = combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 const fillComboboxPropertiesFromConfig = (comboBox = combobox) => {

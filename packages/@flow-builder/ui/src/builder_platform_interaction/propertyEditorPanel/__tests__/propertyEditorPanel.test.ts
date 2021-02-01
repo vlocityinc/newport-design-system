@@ -4,7 +4,7 @@ import { createElement } from 'lwc';
 import PropertyEditorPanel from '../propertyEditorPanel';
 
 import { UpdateNodeEvent, ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const PROPERTY_EDITOR_SELECTOR = '.inline-property-editor';
 
@@ -16,7 +16,7 @@ const createComponentUnderTest = async (props) => {
     });
 
     Object.assign(el, {}, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

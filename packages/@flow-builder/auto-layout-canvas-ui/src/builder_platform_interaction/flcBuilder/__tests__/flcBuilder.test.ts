@@ -6,6 +6,7 @@ import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
@@ -125,8 +126,7 @@ const createComponentForTest = () => {
     el.disableAnimation = true;
     el.elementsMetadata = elementsMetadata;
     el.disableDebounce = true;
-    document.body.appendChild(el);
-
+    setDocumentBodyChildren(el);
     return el;
 };
 

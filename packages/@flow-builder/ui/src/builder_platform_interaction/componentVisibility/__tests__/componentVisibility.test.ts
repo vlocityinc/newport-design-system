@@ -11,7 +11,11 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    setDocumentBodyChildren,
+    removeDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/builderUtils');
 jest.mock('builder_platform_interaction/conditionListItem', () =>
@@ -70,7 +74,7 @@ const createComponentUnderTest = (props) => {
 
     events.map((event) => el.addEventListener(event, reducer));
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 
@@ -79,6 +83,9 @@ function getConditionList(element) {
 }
 
 describe('Component Visibility', () => {
+    afterEach(() => {
+        removeDocumentBodyChildren();
+    });
     it('when click condition, shows popover', () => {
         const element = createComponentUnderTest({
             visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])
@@ -197,7 +204,6 @@ describe('Component Visibility', () => {
             const element = createComponentUnderTest({
                 visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [NEW_CONDITION])
             });
-
             const eventCallback = jest.fn();
             element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 

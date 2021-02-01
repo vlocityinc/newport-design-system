@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ValidationEditor from '../validationEditor';
-import { query, ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    query,
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -20,7 +25,7 @@ const createComponentUnderTest = (props) => {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

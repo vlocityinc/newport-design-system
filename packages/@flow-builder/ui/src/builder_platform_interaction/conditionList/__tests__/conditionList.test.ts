@@ -12,7 +12,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../conditionListLabels';
-import { focusoutEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { focusoutEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const listWithThreeConditionals = {
     containerElementType: ELEMENT_TYPE.DECISION,
@@ -69,7 +69,7 @@ const createComponentUnderTest = (props) => {
     el.containerElementType = ELEMENT_TYPE.DECISION;
     Object.assign(el, props);
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

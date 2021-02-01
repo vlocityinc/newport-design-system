@@ -4,6 +4,7 @@ import FlcConnector from 'builder_platform_interaction/flcConnector';
 import { ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcConnectorLabels';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -99,7 +100,7 @@ const createComponentUnderTest = (
     el.connectorInfo = connectorInfo;
     el.canvasMode = canvasMode;
     el.disableAddElements = disableAddElements;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

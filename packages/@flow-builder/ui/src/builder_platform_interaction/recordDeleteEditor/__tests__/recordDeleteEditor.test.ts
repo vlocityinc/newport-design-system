@@ -13,7 +13,11 @@ import {
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { accountSObjectVariable, elementsForPropertyEditors, flowWithAllElementsUIModel } from 'mock/storeData';
-import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -27,7 +31,7 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 const createComponentForTest = (props) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

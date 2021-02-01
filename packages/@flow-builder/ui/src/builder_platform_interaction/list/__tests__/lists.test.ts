@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import List from '../list';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { query, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ADD_BUTTON: 'lightning-button'
@@ -12,7 +12,7 @@ function createComponentForTest(props) {
 
     Object.assign(el, props);
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

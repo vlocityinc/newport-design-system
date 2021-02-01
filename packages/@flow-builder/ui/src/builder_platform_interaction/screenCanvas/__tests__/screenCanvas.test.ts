@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenCanvas from '../screenCanvas';
-import { createTestScreen, createDropEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    createTestScreen,
+    createDropEvent,
+    ticks,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -24,7 +29,7 @@ const createComponentUnderTest = (props) => {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

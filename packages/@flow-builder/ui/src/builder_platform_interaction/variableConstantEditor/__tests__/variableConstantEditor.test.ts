@@ -26,7 +26,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/selectors', () => ({
     readableElementsSelector: jest.fn((data) => Object.values(data.elements))
@@ -50,7 +50,7 @@ const setupComponentUnderTest = (props) => {
     element.node = props;
     element.node.defaultValueIndex = { value: 'guid', error: null };
     element.node.subtypeIndex = { value: 'guid', error: null };
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

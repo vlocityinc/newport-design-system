@@ -20,6 +20,7 @@ import {
     clickPill,
     LIGHTNING_COMPONENTS_SELECTORS,
     removePill,
+    setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import {
@@ -49,7 +50,7 @@ const SELECTORS = { ABBR: 'abbr' };
 const createComponentForTest = (props) => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import LabelDescription from 'builder_platform_interaction/labelDescription';
 import { PropertyChangedEvent, AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
 
@@ -25,7 +25,7 @@ const createComponentUnderTest = (
     el.mode = props.mode;
     el.editorParams = props.editorParams;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -11,7 +11,7 @@ import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/baseCalloutEditor', () =>
     require('builder_platform_interaction_mocks/baseCalloutEditor')
@@ -99,7 +99,7 @@ const defaultNode = {
 const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-apex-plugin-editor', { is: ApexPluginEditor });
     Object.assign(el, { node, isNewMode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

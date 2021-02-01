@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import SortOptionList from 'builder_platform_interaction/sortOptionList';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { setApexClasses, cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
@@ -62,7 +62,7 @@ const createComponentUnderTest = ({
         is: SortOptionList
     });
     Object.assign(el, { sobjectOrApexReference, sortOptions });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

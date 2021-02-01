@@ -16,7 +16,11 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
@@ -43,7 +47,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 const createComponentForTest = (node: {}) => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

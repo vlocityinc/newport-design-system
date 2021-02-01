@@ -3,14 +3,18 @@ import { createElement } from 'lwc';
 import UseAdvancedOptionsCheckbox from '../useAdvancedOptionsCheckbox';
 import { LABELS } from '../useAdvancedOptionsCheckboxLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
-import { ticks, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(isAdvancedMode) {
     const el = createElement('builder_platform_interaction-use-advanced-options-checkbox', {
         is: UseAdvancedOptionsCheckbox
     });
     Object.assign(el, { isAdvancedMode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

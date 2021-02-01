@@ -7,6 +7,7 @@ import { LABELS } from 'builder_platform_interaction/validationRules';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -24,7 +25,7 @@ const createComponentForTest = (elementInfo) => {
         is: SortEditor
     });
     Object.assign(el, { elementInfo });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

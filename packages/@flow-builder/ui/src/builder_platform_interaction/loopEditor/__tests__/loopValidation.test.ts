@@ -9,6 +9,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -19,7 +20,7 @@ function createComponentForTest(node) {
     if (node) {
         el.node = node;
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

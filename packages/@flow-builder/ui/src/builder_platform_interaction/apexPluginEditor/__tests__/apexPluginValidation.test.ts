@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import ApexPluginEditor from '../apexPluginEditor';
 import { apexPluginValidation } from '../apexPluginValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/baseCalloutEditor', () =>
@@ -12,7 +13,7 @@ jest.mock('builder_platform_interaction/baseCalloutEditor', () =>
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-apex-plugin-editor', { is: ApexPluginEditor });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

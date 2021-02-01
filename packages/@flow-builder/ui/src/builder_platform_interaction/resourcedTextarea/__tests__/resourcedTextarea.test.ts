@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import ResourcedTextarea from '../resourcedTextarea';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -17,7 +17,7 @@ const createComponentUnderTest = (props) => {
         is: ResourcedTextarea
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

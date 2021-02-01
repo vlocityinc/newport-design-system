@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import Editor from '../editor';
 import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { initializeAuraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
 
 jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
@@ -14,7 +14,7 @@ const createComponentUnderTest = (props) => {
         is: Editor
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

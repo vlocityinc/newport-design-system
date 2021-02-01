@@ -4,6 +4,7 @@ import RecordChoiceSetEditor from '../recordChoiceSetEditor';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { recordChoiceSetValidation, getRules } from '../recordChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     function getCurrentState() {
@@ -33,7 +34,7 @@ const setupComponentUnderTest = (recordChoiceSetObject) => {
         is: RecordChoiceSetEditor
     });
     element.node = recordChoiceSetObject;
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 describe('Record Choice Set Validation', () => {

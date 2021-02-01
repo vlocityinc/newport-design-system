@@ -19,7 +19,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -45,7 +45,7 @@ const setupComponentUnderTest = (recordChoiceObject) => {
         is: RecordChoiceSetEditor
     });
     element.node = recordChoiceObject;
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 jest.mock('builder_platform_interaction/actions', () => {

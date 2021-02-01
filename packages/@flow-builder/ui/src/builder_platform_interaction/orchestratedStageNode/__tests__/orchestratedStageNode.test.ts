@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import OrchestratedStageNode from '../orchestratedStageNode';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-stepped-stage-node', {
@@ -10,7 +11,7 @@ const createComponentUnderTest = (node) => {
     });
     el.node = node;
     el.isDefaultMode = true;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

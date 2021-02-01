@@ -7,6 +7,10 @@ import { CloseMenuEvent, MoveFocusToConnectorEvent } from 'builder_platform_inte
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import {
+    setDocumentBodyChildren,
+    removeDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand } = commands;
 
@@ -126,11 +130,14 @@ const createComponentUnderTest = () => {
         is: FlcConnectorMenu
     });
     el.elementsMetadata = metaData;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 
 describe('connector menu', () => {
+    afterEach(() => {
+        removeDocumentBodyChildren();
+    });
     it('should render the component', () => {
         const menu = createComponentUnderTest();
         expect(menu).toBeDefined();

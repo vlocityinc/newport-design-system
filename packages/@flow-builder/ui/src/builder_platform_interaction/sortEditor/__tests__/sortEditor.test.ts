@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import SortEditor from 'builder_platform_interaction/sortEditor';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
@@ -79,7 +79,7 @@ const createComponentUnderTest = ({ elementInfo = defaultEmptyElementInfo } = {}
         is: SortEditor
     });
     Object.assign(el, { elementInfo });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

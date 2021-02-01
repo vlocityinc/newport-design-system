@@ -4,14 +4,14 @@ import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import RecordLookupVariableAndFieldMapping from '../recordLookupVariableAndFieldMapping';
 import { LABELS } from '../recordLookupVariableAndFieldMappingLabels';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(variableAndFieldMapping) {
     const el = createElement('builder_platform_interaction-record-lookup-variable-and-field-mapping', {
         is: RecordLookupVariableAndFieldMapping
     });
     Object.assign(el, { variableAndFieldMapping });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

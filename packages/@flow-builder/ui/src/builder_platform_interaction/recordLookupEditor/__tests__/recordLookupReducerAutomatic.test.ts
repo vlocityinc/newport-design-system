@@ -11,6 +11,7 @@ import {
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { lookupRecordAutomaticOutput } from 'mock/storeData';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const mockGuid = 'mockGuid';
 
@@ -49,7 +50,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 function createComponentForTest(node, mode = EditElementEvent.EVENT_NAME, processType = 'Flow') {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     Object.assign(el, { node, processType, mode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

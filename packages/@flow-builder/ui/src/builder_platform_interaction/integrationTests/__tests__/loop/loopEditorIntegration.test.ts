@@ -19,7 +19,8 @@ import {
     ticks,
     blurEvent,
     focusoutEvent,
-    textInputEvent
+    textInputEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
@@ -103,7 +104,7 @@ const createComponentForTest = (node, processType = FLOW_PROCESS_TYPE.AUTO_LAUNC
         is: LoopEditor
     });
     Object.assign(el, { node, processType });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

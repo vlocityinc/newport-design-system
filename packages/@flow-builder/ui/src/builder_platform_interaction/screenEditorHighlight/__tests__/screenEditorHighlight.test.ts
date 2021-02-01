@@ -15,7 +15,8 @@ import {
     ticks,
     mouseoverEvent,
     mouseoutEvent,
-    dragStartEvent
+    dragStartEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
@@ -28,7 +29,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

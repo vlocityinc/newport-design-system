@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenDisplayTextFieldPropertiesEditor from '../screenDisplayTextFieldPropertiesEditor';
-import { query, createTestScreenField, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    query,
+    createTestScreenField,
+    ticks,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -43,7 +48,7 @@ const createComponentUnderTest = (props) => {
         }
     );
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

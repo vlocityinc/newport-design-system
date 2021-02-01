@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
 import ConditionListItem from 'builder_platform_interaction/conditionListItem';
 import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (lhs, op, rhs) => {
     const el = createElement('builder_platform_interaction-conditionListItem', {
@@ -14,7 +14,7 @@ const createComponentUnderTest = (lhs, op, rhs) => {
         operator: { value: op, error: '' },
         rightHandSide: { value: rhs, error: '' }
     };
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ElementIcon from 'builder_platform_interaction/elementIcon';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const ICON_NAMES = {
     subflow: 'standard:flow',
@@ -32,7 +33,7 @@ const createComponentForTest = ({ iconName, isDraggable, backgroundColor } = {})
         is: ElementIcon
     });
     Object.assign(el, { iconName, isDraggable, backgroundColor });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -6,7 +6,7 @@ import { EditElementEvent, ArrowKeyDownEvent } from 'builder_platform_interactio
 import { startElementWithAccountAndNoCondition } from 'mock/storeDataScheduleTriggered';
 import { startElement } from 'mock/storeDataRecordTriggered';
 import { EDIT_START_TIME_TRIGGERS } from 'builder_platform_interaction/elementConfig';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
@@ -43,7 +43,7 @@ const setupComponentUnderTest = (startElementObject, flowTriggerType) => {
         element.node.triggerType = flowTriggerType;
     }
 
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

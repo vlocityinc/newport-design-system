@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import PaletteItem from 'builder_platform_interaction/paletteItem';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const ELEMENT_TYPE = 'myElementType';
 const GUID = 'myGuid';
@@ -19,7 +19,7 @@ const createComponentUnderTest = (iconName, dragImageSrc) => {
     el.iconName = iconName;
     el.label = LABEL;
     el.iconSize = ICON_SIZE;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

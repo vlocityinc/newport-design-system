@@ -5,6 +5,7 @@ import { ToggleMenuEvent, CloseMenuEvent } from 'builder_platform_interaction/fl
 import { ICON_SHAPE, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 const { EnterCommand, EscapeCommand } = commands;
 
@@ -83,7 +84,7 @@ const createComponentUnderTest = (
     el.canvasMode = canvasMode;
     el.variant = variant;
     el.connectionInfo = connectionInfo;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

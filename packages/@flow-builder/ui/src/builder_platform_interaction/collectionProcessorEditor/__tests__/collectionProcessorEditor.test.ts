@@ -5,7 +5,7 @@ import {
     UpdateNodeEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const MOCK_GUID = '93f65bd6-d0ab-4e75-91b1-a8599dee54ed';
 
@@ -105,7 +105,7 @@ const createComponentForTest = (collectionProcessorNode) => {
         is: CollectionProcessorEditor
     });
     element.node = collectionProcessorNode;
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

@@ -7,7 +7,8 @@ import {
     checkboxChangeEvent,
     lightningRadioGroupChangeEvent,
     blurEvent,
-    ticks
+    ticks,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import ScreenCanvas from 'builder_platform_interaction/screenCanvas';
@@ -295,6 +296,6 @@ export const createComponentUnderTest = (props) => {
         is: ScreenEditor
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };

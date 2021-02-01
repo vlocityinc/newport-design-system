@@ -11,7 +11,7 @@ import {
 import { stringVariable } from 'mock/storeData';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -47,7 +47,7 @@ function createComponentForTest({
         grayPill,
         isInput
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

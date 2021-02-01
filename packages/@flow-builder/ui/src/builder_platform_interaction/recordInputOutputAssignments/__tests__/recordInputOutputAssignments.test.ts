@@ -9,7 +9,7 @@ import {
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import RecordInputOutputAssignments from '../recordInputOutputAssignments';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -50,7 +50,7 @@ const createComponentUnderTest = () => {
         is: RecordInputOutputAssignments
     });
     Object.assign(el, mockDefaultRecordInputAssignment);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import ResourceEditorContainer from '../resourceEditorContainer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/variableConstantEditor', () =>
     require('builder_platform_interaction_mocks/variableConstantEditor')
@@ -15,7 +16,7 @@ const setupComponentUnderTest = (props) => {
     if (props) {
         Object.assign(element, props);
     }
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ReorderableVerticalNavigation from 'builder_platform_interaction/reorderableVerticalNavigation';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
@@ -35,7 +35,7 @@ const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-vertical-nav', {
         is: ReorderableVerticalNavigation
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

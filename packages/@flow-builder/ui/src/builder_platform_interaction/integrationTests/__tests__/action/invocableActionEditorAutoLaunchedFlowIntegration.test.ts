@@ -1,7 +1,12 @@
 import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { ticks, focusoutEvent, checkboxChangeEvent } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    focusoutEvent,
+    checkboxChangeEvent,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import { setupStateForFlow, resetState } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import {
@@ -23,7 +28,7 @@ const createComponentForTest = (node) => {
         node,
         processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

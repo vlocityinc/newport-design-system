@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import TransactionControlPicker from '../transactionControlPicker';
 import { FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
 const selectors = {
@@ -16,7 +16,7 @@ function createComponentForTest(flowTransactionModel) {
         is: TransactionControlPicker
     });
     Object.assign(el, { flowTransactionModel });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

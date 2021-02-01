@@ -4,6 +4,7 @@ import RecordStoreOption from 'builder_platform_interaction/recordStoreOptions';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (elementType, props) => {
     const el = createElement('builder_platform_interaction-record-store-options', {
@@ -11,7 +12,7 @@ const createComponentUnderTest = (elementType, props) => {
     });
     el.elementType = elementType;
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

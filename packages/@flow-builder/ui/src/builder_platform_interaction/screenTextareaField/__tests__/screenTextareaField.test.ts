@@ -2,14 +2,18 @@
 import { createElement } from 'lwc';
 import ScreenTextareaField from 'builder_platform_interaction/screenTextareaField';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { ticks, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 const standardLabelVariant = 'standard';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-textarea-field', { is: ScreenTextareaField });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

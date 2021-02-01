@@ -6,6 +6,7 @@ import * as storeMockedData from 'mock/storeData';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
@@ -20,7 +21,7 @@ function createComponentForTest(node) {
     if (node) {
         el.node = node;
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

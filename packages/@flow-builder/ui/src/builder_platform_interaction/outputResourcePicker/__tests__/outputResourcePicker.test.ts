@@ -4,7 +4,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getMenuData, getMenuItemForField, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { updateInlineResourceProperties, removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -28,7 +28,7 @@ const setupComponentUnderTest = (props) => {
         is: OutputResourcePicker
     });
     Object.assign(element, props);
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

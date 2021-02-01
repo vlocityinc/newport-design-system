@@ -8,7 +8,7 @@ import {
     UpdateNodeEvent,
     ReorderListEvent
 } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockNewState;
 
@@ -116,7 +116,7 @@ const createComponentForTest = (
 
     el.node = node;
     el.editorParams = props.editorParams;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

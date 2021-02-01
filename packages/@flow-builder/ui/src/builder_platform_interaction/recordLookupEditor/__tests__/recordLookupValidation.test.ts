@@ -10,6 +10,7 @@ import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_intera
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -27,7 +28,7 @@ function createComponentForTest(node) {
     if (node) {
         el.node = node;
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

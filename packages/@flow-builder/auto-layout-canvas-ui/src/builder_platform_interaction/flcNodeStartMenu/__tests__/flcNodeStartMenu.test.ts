@@ -5,6 +5,7 @@ import { ArrowKeyDownEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { EscapeCommand, ArrowDown, ArrowUp } = commands;
@@ -196,7 +197,7 @@ const createComponentUnderTest = (metaData, startData, supportsTimeTriggers = fa
     el.elementMetadata = metaData;
     el.startData = startData;
     el.guid = metaData.guid;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

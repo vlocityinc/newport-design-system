@@ -4,13 +4,14 @@ import RecordNumberRecordToStore from 'builder_platform_interaction/recordNumber
 import { NumberRecordToStoreChangedEvent } from 'builder_platform_interaction/events';
 import { NUMBER_RECORDS_OPTIONS } from '../../recordLookupEditor/recordLookupEditorLabels';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-record-number-record-to-store', {
         is: RecordNumberRecordToStore
     });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

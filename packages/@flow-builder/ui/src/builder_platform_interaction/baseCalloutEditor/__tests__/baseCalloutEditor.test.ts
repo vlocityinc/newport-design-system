@@ -4,6 +4,7 @@ import BaseCalloutEditor from '../baseCalloutEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ComboboxStateChangedEvent, DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -135,7 +136,7 @@ function createComponentForTest({
         typeMappings,
         parameterListConfig
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

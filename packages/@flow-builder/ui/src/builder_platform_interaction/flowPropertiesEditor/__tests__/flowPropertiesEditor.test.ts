@@ -7,7 +7,7 @@ import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import format from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -127,7 +127,7 @@ format.format = jest.fn(() => {
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-flowPropertiesEditor', { is: FlowPropertiesEditor });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

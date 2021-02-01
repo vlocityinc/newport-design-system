@@ -23,10 +23,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    // Clean up DOM after running to each test run
-    while (document.body.firstChild) {
-        document.body.removeChild(document.body.firstChild);
-    }
     if (consoleError) {
         throw consoleError;
     }

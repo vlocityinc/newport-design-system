@@ -9,7 +9,8 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     clickPill,
     getComboboxPill,
-    removeEvent
+    removeEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
@@ -99,7 +100,7 @@ const createComponentForTest = (assignmentElement) => {
         is: AssignmentEditor
     });
     Object.assign(el, { node: assignmentElement });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

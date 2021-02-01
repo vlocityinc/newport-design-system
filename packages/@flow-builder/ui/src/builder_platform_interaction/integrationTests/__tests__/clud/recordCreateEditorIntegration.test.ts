@@ -31,7 +31,8 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     removePill,
-    clickPill
+    clickPill,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getLhsCombobox, getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
@@ -83,7 +84,7 @@ const getExpressionBuilderComboboxElement = (expressionBuilder) =>
 const createComponentForTest = (node: {}, processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE) => {
     const el = createElement('builder_platform_interaction-record-create-editor', { is: RecordCreateEditor });
     Object.assign(el, { node, processType });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

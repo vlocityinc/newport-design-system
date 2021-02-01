@@ -12,7 +12,7 @@ import { LABELS } from '../waitEventLabels';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
@@ -89,7 +89,7 @@ const createComponentUnderTest = (waitEvent) => {
     el.waitEvent = waitEvent;
     el.showDelete = true;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

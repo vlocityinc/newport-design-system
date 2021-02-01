@@ -2,6 +2,7 @@
 import { createElement } from 'lwc';
 import VisualPickerList from 'builder_platform_interaction/visualPickerList';
 import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const ITEMS = [
     {
@@ -40,7 +41,7 @@ function createComponentForTest({ items = ITEMS, numberOfColumns = 2, allowMulti
         is: VisualPickerList
     });
     Object.assign(el, { items, numberOfColumns, allowMultipleSelection });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

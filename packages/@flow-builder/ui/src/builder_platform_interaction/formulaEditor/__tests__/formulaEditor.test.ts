@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import FormulaEditor from '../formulaEditor';
 import { createFormula } from 'builder_platform_interaction/elementFactory';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -13,7 +14,7 @@ const createComponentUnderTest = (node) => {
         is: FormulaEditor
     });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

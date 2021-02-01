@@ -25,6 +25,7 @@ import {
     checkboxChangeEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -79,7 +80,7 @@ const createComponentForTest = (
 ) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     Object.assign(el, { node, processType, mode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

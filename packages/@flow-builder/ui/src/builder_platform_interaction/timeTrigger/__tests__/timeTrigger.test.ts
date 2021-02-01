@@ -2,7 +2,11 @@ import { createElement } from 'lwc';
 import TimeTrigger from 'builder_platform_interaction/timeTrigger';
 import { PropertyChangedEvent, DeleteTimeTriggerEvent } from 'builder_platform_interaction/events';
 import { TIME_OPTION } from 'builder_platform_interaction/flowMetadata';
-import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 
 const timeTriggerMock = {
     label: { value: 'My time trigger element', error: null },
@@ -26,7 +30,7 @@ const createComponentUnderTest = () => {
         is: TimeTrigger
     });
     el.timeTrigger = timeTriggerMock;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

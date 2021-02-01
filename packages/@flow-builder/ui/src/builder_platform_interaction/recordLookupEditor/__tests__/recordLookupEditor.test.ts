@@ -16,7 +16,11 @@ import {
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     fieldServiceMobileFlowUIModel,
@@ -71,7 +75,7 @@ const createComponentForTest = (node: {}, mode = EditElementEvent.EVENT_NAME) =>
         PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_OUTPUT,
         mode
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

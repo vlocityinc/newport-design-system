@@ -5,7 +5,7 @@ import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_plat
 import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
@@ -52,7 +52,7 @@ function createComponentForTest({ processType = ALL_PROCESS_TYPE.name } = {}) {
             }
         ]
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

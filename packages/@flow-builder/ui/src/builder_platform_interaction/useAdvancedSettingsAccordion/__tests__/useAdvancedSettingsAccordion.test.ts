@@ -5,7 +5,8 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -108,7 +109,7 @@ function createComponentForTest({
         configurationEditor,
         showTransactionControlPicker
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

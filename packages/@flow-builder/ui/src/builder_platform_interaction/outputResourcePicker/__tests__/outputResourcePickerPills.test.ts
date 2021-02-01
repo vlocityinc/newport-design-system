@@ -1,7 +1,13 @@
 import { createElement } from 'lwc';
 import OutputResourcePicker from '../outputResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { clickPill, deepQuerySelector, removePill, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    clickPill,
+    deepQuerySelector,
+    removePill,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import Combobox from 'builder_platform_interaction/combobox';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -15,7 +21,7 @@ const setupComponentUnderTest = (props?: {}) => {
         is: OutputResourcePicker
     });
     Object.assign(element, props);
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

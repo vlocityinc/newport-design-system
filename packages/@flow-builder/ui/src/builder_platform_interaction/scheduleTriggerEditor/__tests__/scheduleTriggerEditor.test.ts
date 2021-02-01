@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import ScheduleTriggerEditor from '../scheduleTriggerEditor';
 import { FLOW_TRIGGER_FREQUENCY } from 'builder_platform_interaction/flowMetadata';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
@@ -18,7 +18,7 @@ function createComponentForTest(node) {
 
     Object.assign(el, { node });
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

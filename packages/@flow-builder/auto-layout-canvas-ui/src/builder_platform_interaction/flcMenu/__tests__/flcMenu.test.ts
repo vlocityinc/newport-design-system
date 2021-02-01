@@ -1,12 +1,13 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcMenu from 'builder_platform_interaction/flcMenu';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-flc-menu', {
         is: FlcMenu
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

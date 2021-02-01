@@ -11,7 +11,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import EntityResourcePicker from '../entityResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/baseResourcePicker', () =>
     require('builder_platform_interaction_mocks/baseResourcePicker')
@@ -25,7 +25,7 @@ const setupComponentUnderTest = (...props) => {
     });
 
     Object.assign(element, ...props);
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

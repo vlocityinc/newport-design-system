@@ -4,7 +4,7 @@ import { EditElementEvent, DeleteElementEvent, SelectNodeEvent } from 'builder_p
 import Node from 'builder_platform_interaction/node';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
@@ -41,7 +41,7 @@ const createComponentUnderTest = (isSelected, isHighlighted, hasError, elementTy
         description: 'My first test node',
         config: { isSelected, isHighlighted, hasError }
     };
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

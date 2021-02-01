@@ -12,6 +12,7 @@ import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { ArrowDown, ArrowUp, EscapeCommand, EnterCommand, SpaceCommand } = commands;
@@ -105,7 +106,7 @@ const createComponentUnderTest = (metaData, passedConditionOptions, elementHasFa
     el.elementMetadata = metaData;
     el.guid = metaData.guid;
     el.elementHasFault = elementHasFault;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

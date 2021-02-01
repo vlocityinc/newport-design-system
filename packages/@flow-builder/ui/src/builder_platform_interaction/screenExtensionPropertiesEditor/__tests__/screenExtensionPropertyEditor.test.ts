@@ -6,7 +6,8 @@ import {
     createTestScreenField,
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent,
-    ticks
+    ticks,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
 import {
@@ -264,7 +265,7 @@ function createComponentForTest(properties) {
         is: ScreenExtensionPropertiesEditor
     });
     Object.assign(el, properties);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 
@@ -277,7 +278,7 @@ const createComponentForTestWithProperties = () => {
     createDescription(properties);
     Object.assign(el, { processType: 'something' });
     Object.assign(el, properties);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 
@@ -290,7 +291,7 @@ const createComponentForTestWithNoOutput = () => {
     createDescription(properties, DESCRIPTOR_PARAMETERS, []);
     Object.assign(el, { processType: 'something' });
     Object.assign(el, properties);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 
@@ -303,7 +304,7 @@ const createComponentForTestInAdvancedModeWithOutput = () => {
     createDescription(properties, deepCopy(DESCRIPTOR_PARAMETERS), deepCopy(DESCRIPTOR_PARAMETERS));
     Object.assign(el, { processType: 'something' });
     Object.assign(el, properties);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

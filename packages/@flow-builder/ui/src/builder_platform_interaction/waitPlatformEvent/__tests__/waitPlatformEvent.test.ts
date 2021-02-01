@@ -16,7 +16,11 @@ import {
     WaitEventDeleteParameterEvent,
     WaitEventParameterChangedEvent
 } from 'builder_platform_interaction/events';
-import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -43,7 +47,7 @@ const setupComponentUnderTest = (props) => {
     });
     element = Object.assign(element, props);
 
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

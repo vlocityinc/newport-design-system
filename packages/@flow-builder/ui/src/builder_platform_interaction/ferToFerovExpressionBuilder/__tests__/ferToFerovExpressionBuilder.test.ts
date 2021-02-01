@@ -19,7 +19,7 @@ import {
     getSystemVariables
 } from 'builder_platform_interaction/systemLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -36,7 +36,7 @@ function createComponentForTest(props) {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

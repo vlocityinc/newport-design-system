@@ -19,6 +19,7 @@ import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtil
 import { LABELS } from '../toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/sharedUtils');
 
@@ -46,7 +47,7 @@ const createComponentUnderTest = (props = {}) => {
     el.showRestartRunButton = props.showRestartRunButton;
     el.hideSelectionButton = props.hideSelectionButton;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

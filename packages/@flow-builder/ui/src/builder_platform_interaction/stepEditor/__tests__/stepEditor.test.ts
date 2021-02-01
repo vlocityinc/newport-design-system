@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { createElement } from 'lwc';
 import StepEditor from '../stepEditor';
 
@@ -7,7 +8,7 @@ const createComponentUnderTest = (node) => {
         is: StepEditor
     });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

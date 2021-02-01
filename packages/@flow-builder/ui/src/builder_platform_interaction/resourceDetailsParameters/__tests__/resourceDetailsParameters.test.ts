@@ -16,13 +16,14 @@ import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverDa
 import { localActionSampleActionDetails } from 'serverData/GetInvocableActionDetails/localActionSampleActionDetails.json';
 import { submitForApprovalActionDetails as mockSubmitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (resourceDetails) => {
     const el = createElement('builder_platform_interaction-resource-details-parameters', {
         is: ResourceDetailsParameters
     });
     el.resourceDetails = resourceDetails;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

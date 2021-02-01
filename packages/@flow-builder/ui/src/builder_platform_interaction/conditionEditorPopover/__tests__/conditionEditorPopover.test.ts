@@ -4,6 +4,7 @@ import ConditionEditorPopover from 'builder_platform_interaction/conditionEditor
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { numberVariable } from 'mock/storeData';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
@@ -59,7 +60,7 @@ const createComponentUnderTest = (props) => {
         }
     );
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

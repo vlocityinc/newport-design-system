@@ -12,7 +12,7 @@ import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -25,7 +25,7 @@ function createComponentForTest(
         is: AssignmentEditor
     });
     el.editorParams = props.editorParams;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

@@ -3,7 +3,7 @@ import LoopEditor from '../loopEditor';
 import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
     stringCollectionVariable1,
     accountSObjectVariable,
@@ -53,7 +53,7 @@ function createComponentForTest() {
     });
 
     Object.assign(el, { processType: FLOW_PROCESS_TYPE.FLOW });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

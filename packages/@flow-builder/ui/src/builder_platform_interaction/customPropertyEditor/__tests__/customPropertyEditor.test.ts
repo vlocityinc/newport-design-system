@@ -2,7 +2,7 @@
 import CustomPropertyEditor from '../customPropertyEditor';
 import { createElement } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -52,7 +52,7 @@ const mockAutomaticOutputVariables = {
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-custom-property-editor', { is: CustomPropertyEditor });
     Object.assign(el, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

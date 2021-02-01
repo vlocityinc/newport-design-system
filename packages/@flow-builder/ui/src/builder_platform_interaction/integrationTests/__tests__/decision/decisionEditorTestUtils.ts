@@ -4,7 +4,8 @@ import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    deepQuerySelector,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
@@ -17,7 +18,7 @@ export const createComponentForTest = (node) => {
         is: DecisionEditor
     });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

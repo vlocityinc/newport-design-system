@@ -6,7 +6,8 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     focusoutEvent,
     blurEvent,
-    selectEvent
+    selectEvent,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -28,7 +29,7 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
         is: FormulaEditor
     });
     Object.assign(el, { node, isNewMode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

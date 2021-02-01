@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import InvocableActionEditor from '../invocableActionEditor';
 import { invocableActionValidation } from '../invocableActionValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn()
@@ -37,7 +38,7 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

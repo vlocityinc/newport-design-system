@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import CalloutEditor from '../calloutEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { mockActions } from 'mock/calloutData';
 import { LABELS } from '../calloutEditorLabels';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -30,7 +30,7 @@ const setupComponentUnderTest = ({ node = { elementType: ELEMENT_TYPE.ACTION_CAL
         is: CalloutEditor
     });
     Object.assign(element, { node, processType });
-    document.body.appendChild(element);
+    setDocumentBodyChildren(element);
     return element;
 };
 

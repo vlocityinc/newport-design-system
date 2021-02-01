@@ -7,6 +7,7 @@ import { LABELS } from 'builder_platform_interaction/validationRules';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -25,7 +26,7 @@ jest.mock('builder_platform_interaction/expressionValidator', () =>
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordCreateEditor });
     el.node = node;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

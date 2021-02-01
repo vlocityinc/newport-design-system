@@ -10,7 +10,11 @@
  */
 import ScreenEditor from '../screenEditor';
 import { createElement } from 'lwc';
-import { createTestScreen, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
+import {
+    createTestScreen,
+    createTestScreenField,
+    setDocumentBodyChildren
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     PropertyChangedEvent,
     createScreenElementMovedEvent,
@@ -103,7 +107,7 @@ const createComponentUnderTest = (props) => {
     if (props) {
         Object.assign(el, props);
     }
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

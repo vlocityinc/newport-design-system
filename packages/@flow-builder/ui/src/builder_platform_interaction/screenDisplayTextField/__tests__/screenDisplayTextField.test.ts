@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenDisplayField from 'builder_platform_interaction/screenDisplayTextField';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     RICH: 'lightning-formatted-rich-text',
@@ -15,7 +15,7 @@ function createComponentForTest({
 } = {}) {
     const el = createElement('builder_platform_interaction-screen-display-text-field', { is: ScreenDisplayField });
     Object.assign(el, { value, title, typeName });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

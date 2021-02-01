@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import { PaletteItemChevronClickedEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import Palette from 'builder_platform_interaction/palette';
 import { LABELS } from '../paletteLabels';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { MOCK_RESOURCE_PALETTE_ITEM } from 'mock/paletteData';
 
 jest.mock('builder_platform_interaction/sharedUtils');
@@ -14,7 +14,7 @@ const createComponentUnderTest = (data, detailsButton?, showLocatorIcon = false)
     el.data = data;
     el.detailsButton = detailsButton;
     el.showLocatorIcon = showLocatorIcon;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

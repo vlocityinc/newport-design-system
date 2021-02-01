@@ -2,7 +2,11 @@ import { createElement } from 'lwc';
 import Header from '../header';
 import { LABELS } from '../headerLabels';
 import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
-import { LIGHTNING_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    setDocumentBodyChildren,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
 const { logInteraction } = loggingUtils;
@@ -19,7 +23,7 @@ const createComponentForTest = (props = {}) => {
         is: Header
     });
     Object.assign(el, { helpUrl: '/help' }, props);
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

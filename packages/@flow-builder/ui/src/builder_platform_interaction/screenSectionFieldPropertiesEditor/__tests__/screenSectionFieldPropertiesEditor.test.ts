@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenSectionFieldPropertiesEditor from '../screenSectionFieldPropertiesEditor';
-import { query, changeEvent } from 'builder_platform_interaction/builderTestUtils';
+import { query, changeEvent, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { AddListItemEvent, DeleteListItemEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 
@@ -24,7 +24,7 @@ const createComponentUnderTest = (props) => {
 
     Object.assign(el, props);
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

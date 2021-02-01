@@ -10,7 +10,7 @@ import {
     PaletteItemClickedEvent,
     ScreenEditorEventName
 } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { INTERACTION_COMPONENTS_SELECTORS, dragStartEvent } from 'builder_platform_interaction/builderTestUtils';
 
@@ -82,7 +82,7 @@ function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-automatic-field-palette', {
         is: ScreenEditorAutomaticFieldPalette
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 }
 

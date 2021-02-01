@@ -20,7 +20,7 @@ import {
     mockLoopOnApexTypeInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
@@ -33,7 +33,7 @@ const createComponentUnderTest = (details) => {
         is: ResourceDetails
     });
     el.resourceDetails = details;
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

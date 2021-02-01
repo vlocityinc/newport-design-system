@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import WelcomeMatBody from 'builder_platform_interaction/welcomeMatBody';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 const { EnterCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
@@ -20,7 +21,7 @@ const createComponentUnderTest = () => {
     el.createCallback = createCallback;
     el.closeCallback = closeCallback;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

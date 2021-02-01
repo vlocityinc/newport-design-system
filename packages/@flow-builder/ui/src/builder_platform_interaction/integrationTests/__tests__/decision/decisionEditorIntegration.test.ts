@@ -4,6 +4,7 @@ import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { ReorderListEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { resolveRenderCycles } from '../resolveRenderCycles';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
@@ -166,7 +167,7 @@ const createComponentForTest = (node) => {
 
     el.node = node;
 
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
 
     return el;
 };

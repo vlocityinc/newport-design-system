@@ -5,7 +5,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock/calloutData';
 import { LABELS } from '../actionSelectorLabels';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
@@ -38,7 +38,7 @@ const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', {
         is: ActionSelector
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

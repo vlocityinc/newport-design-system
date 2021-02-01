@@ -13,7 +13,7 @@ import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { untilNoFailure, ticks, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
@@ -29,7 +29,7 @@ const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
         is: SubflowEditor
     });
     Object.assign(el, { node, isNewMode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

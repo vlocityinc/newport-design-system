@@ -3,12 +3,13 @@ import { createElement } from 'lwc';
 import DataTypePicker from '../dataTypePicker';
 import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from 'builder_platform_interaction/dataTypeLib';
 import { ValueChangedEvent } from 'builder_platform_interaction/events';
+import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-data-type-picker', {
         is: DataTypePicker
     });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 

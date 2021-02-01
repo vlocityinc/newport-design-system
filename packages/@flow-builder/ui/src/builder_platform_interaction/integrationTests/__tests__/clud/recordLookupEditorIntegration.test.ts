@@ -23,7 +23,8 @@ import {
     changeEvent,
     ticks,
     removePill,
-    clickPill
+    clickPill,
+    setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
@@ -117,7 +118,7 @@ jest.mock(
 const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     Object.assign(el, { node, mode });
-    document.body.appendChild(el);
+    setDocumentBodyChildren(el);
     return el;
 };
 const SELECTORS = { ABBR: 'abbr' };
