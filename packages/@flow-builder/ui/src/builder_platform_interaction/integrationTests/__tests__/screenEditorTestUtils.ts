@@ -25,6 +25,7 @@ import ScreenSectionFieldPropertiesEditor from 'builder_platform_interaction/scr
 import ScreenChoiceFieldPropertiesEditor from 'builder_platform_interaction/screenChoiceFieldPropertiesEditor';
 import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/screenInputFieldPropertiesEditor';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -72,7 +73,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         const tabset = this.getTabset();
         const automaticFieldsTab = tabset.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
         return (automaticFieldsTab.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as Element).querySelector(
-            INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELDS_PALETTE
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELD_PALETTE
         ) as ScreenEditorAutomaticFieldPalette & HTMLElement;
     }
 
@@ -224,6 +225,16 @@ export class PropertiesEditorContainerTestComponent extends TestComponent<Screen
             SELECTORS.SCREEN_INPUT_FIELD_PROPERTIES_EDITOR
         );
     }
+
+    public getAutomaticFieldPropertiesEditorElement(): AutomaticFieldPropertiesEditorTestComponent | undefined {
+        const automaticFieldPropertiesEditor = this.element.shadowRoot!.querySelector<
+            ScreenAutomaticFieldPropertiesEditor & HTMLElement
+        >(SELECTORS.SCREEN_AUTOMATIC_FIELD_PROPERTIES_EDITOR);
+        if (!automaticFieldPropertiesEditor) {
+            return undefined;
+        }
+        return new AutomaticFieldPropertiesEditorTestComponent(automaticFieldPropertiesEditor);
+    }
 }
 
 export class SectionPropertiesEditorTestComponent extends TestComponent<ScreenSectionFieldPropertiesEditor> {
@@ -288,6 +299,33 @@ export class ExtensionPropertiesEditorTestComponent extends TestComponent<Screen
         const radioGroup = this.element.shadowRoot!.querySelector<HTMLElement>(SELECTORS.LIGHTNING_RADIO_GROUP)!;
         radioGroup.dispatchEvent(lightningRadioGroupChangeEvent(value));
         await ticks(50);
+    }
+}
+
+export class AutomaticFieldPropertiesEditorTestComponent extends TestComponent<ScreenAutomaticFieldPropertiesEditor> {
+    private static AUTOFIELD_DESC_VALUE_SELECTOR = "[class*='autofield-description-value']";
+
+    public getAutomaticFieldName() {
+        return this.getAutomaticFieldValues()[0] as any;
+    }
+    public getAutomaticFieldLabel() {
+        return this.getAutomaticFieldValues()[1] as any;
+    }
+    public getAutomaticFieldDataType() {
+        return this.getAutomaticFieldValues()[2] as any;
+    }
+    public getAutomaticFieldObject() {
+        return this.getAutomaticFieldValues()[3] as any;
+    }
+    public getAutomaticFieldIsRequired() {
+        return this.getAutomaticFieldValues()[4] as any;
+    }
+
+    private getAutomaticFieldValues() {
+        return this.element.shadowRoot!.querySelectorAll(
+            SELECTORS.LIGHTNING_FORMATTED_TEXT +
+                AutomaticFieldPropertiesEditorTestComponent.AUTOFIELD_DESC_VALUE_SELECTOR
+        );
     }
 }
 

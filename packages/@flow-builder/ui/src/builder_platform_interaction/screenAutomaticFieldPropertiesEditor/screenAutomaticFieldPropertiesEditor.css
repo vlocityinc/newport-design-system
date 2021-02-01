@@ -1,0 +1,14 @@
+.infobox {
+    border: 1px;
+    border-style: solid;
+    padding: 0.5rem;
+    border-color: var(--lwc-colorGray6);
+}
+
+.autofield-description-label {
+    color: var(--lwc-colorTextLabel);
+}
+
+.autofield-description-value {
+    font-weight: bold;
+}

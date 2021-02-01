@@ -35,6 +35,11 @@ describe('ScreenEditor automatic fields', () => {
             it('should contain in second tab the automatic field palette', () => {
                 expect(screenEditor.getAutomaticFieldsPalette()).not.toEqual(null);
             });
+            it('should contain in third tab the automatic field property editor', () => {
+                expect(
+                    screenEditor.getPropertiesEditorContainerElement().getAutomaticFieldPropertiesEditorElement
+                ).toBeTruthy();
+            });
         });
         describe('Automatic field in canvas', () => {
             describe('No section', () => {
@@ -139,6 +144,74 @@ describe('ScreenEditor automatic fields', () => {
                     });
                 });
             });
+        });
+        describe('Automatic field property editor', () => {
+            beforeAll(async () => {
+                screenEditor = await createScreenEditor('screenWithAutomaticFields');
+            });
+            describe.each`
+                description                          | fieldReference                                | expectedName           | expectedLabel     | expectedDataType | expectedObject | expectedIsRequired
+                ${'variable and text field'}         | ${'accountSObjectVariable.Name'}              | ${'Name'}              | ${'Account Name'} | ${'String'}      | ${'Account'}   | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'}
+                ${'variable and number field'}       | ${'accountSObjectVariable.NumberOfEmployees'} | ${'NumberOfEmployees'} | ${'Employees'}    | ${'Number'}      | ${'Account'}   | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'}
+                ${'automatic output and text field'} | ${'lookupRecordAutomaticOutput.Name'}         | ${'Name'}              | ${'Account Name'} | ${'String'}      | ${'Account'}   | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'}
+            `(
+                'Using $description',
+                ({
+                    fieldReference,
+                    expectedName,
+                    expectedLabel,
+                    expectedDataType,
+                    expectedObject,
+                    expectedIsRequired
+                }) => {
+                    beforeAll(() => {
+                        screenEditor
+                            .getCanvas()
+                            .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(fieldReference)!
+                            .click();
+                    });
+                    it('field name matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldName().value
+                        ).toEqual(expectedName);
+                    });
+                    it('field label matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldLabel().value
+                        ).toEqual(expectedLabel);
+                    });
+                    it('data type matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldDataType().value
+                        ).toEqual(expectedDataType);
+                    });
+                    it('object matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldObject().value
+                        ).toEqual(expectedObject);
+                    });
+                    it('required matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldIsRequired().value
+                        ).toEqual(expectedIsRequired);
+                    });
+                }
+            );
         });
     });
 });

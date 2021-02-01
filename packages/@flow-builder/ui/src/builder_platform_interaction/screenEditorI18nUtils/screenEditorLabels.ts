@@ -111,6 +111,15 @@ import extensionInputsOnNextNavToAssocScrnResetValuesDescription from '@salesfor
 import errorTitle from '@salesforce/label/FlowBuilderAlertModal.errorTitle';
 import errorScreenMissingExtension from '@salesforce/label/FlowBuilderAlertModal.errorMessageScreenMissingExtension';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
+import automaticFieldFieldName from '@salesforce/label/FlowBuilderAutomaticFieldEditor.fieldName';
+import automaticFieldFieldLabel from '@salesforce/label/FlowBuilderAutomaticFieldEditor.fieldLabel';
+import automaticFieldDataType from '@salesforce/label/FlowBuilderAutomaticFieldEditor.dataType';
+import automaticFieldObject from '@salesforce/label/FlowBuilderAutomaticFieldEditor.object';
+import automaticFieldIsRequired from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequired';
+import automaticFieldIsRequiredTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequiredTrue';
+import automaticFieldIsRequiredFalse from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequiredFalse';
+import automaticFieldInfoboxText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.infoboxText';
+import automaticFieldInfoboxLink from '@salesforce/label/FlowBuilderAutomaticFieldEditor.infoboxLink';
 
 export const LABELS = {
     errorRequired,
@@ -225,5 +234,14 @@ export const LABELS = {
     extensionInputsOnNextNavToAssocScrnResetValuesDescription,
     errorTitle,
     errorScreenMissingExtension,
-    okayButtonLabel
+    okayButtonLabel,
+    automaticFieldFieldName,
+    automaticFieldFieldLabel,
+    automaticFieldDataType,
+    automaticFieldObject,
+    automaticFieldIsRequired,
+    automaticFieldInfoboxText,
+    automaticFieldInfoboxLink,
+    automaticFieldIsRequiredTrue,
+    automaticFieldIsRequiredFalse
 };

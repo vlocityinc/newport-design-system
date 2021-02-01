@@ -1,3 +1,44 @@
 <template>
-    <div>Placeholder</div>
+    <div class="slds-p-horizontal_small slds-p-top_x-small">
+        <table class="slds-table slds-no-row-hover slds-table_header-hidden slds-table_fixed-layout">
+            <template for:each={displayedFields} for:item="field">
+                <tr key={field.key}>
+                    <td class="slds-align-top slds-cell-wrap slds-size_1-of-3">
+                        <lightning-formatted-text
+                            value={field.label}
+                            class="autofield-description-label"
+                        ></lightning-formatted-text>
+                    </td>
+                    <td class="slds-align-top slds-cell-wrap">
+                        <lightning-formatted-text
+                            value={field.value}
+                            class="autofield-description-value"
+                        ></lightning-formatted-text>
+                    </td>
+                </tr>
+            </template>
+        </table>
+    </div>
+    <div class="slds-p-around_medium">
+        <div class="slds-p-horizontal_x-small slds-p-top_x-small slds-grid infobox">
+            <div class="slds-col slds-p-right_x-small">
+                <lightning-icon icon-name="utility:info_alt" size="small"></lightning-icon>
+            </div>
+            <div class="slds-col">
+                <p>
+                    <lightning-formatted-text
+                        value={labels.automaticFieldInfoboxText}
+                        class="slds-p-bottom_x-small"
+                    ></lightning-formatted-text>
+                </p>
+                <p>
+                    <lightning-formatted-url
+                        value={link}
+                        label={labels.automaticFieldInfoboxLink}
+                        target="_blank"
+                    ></lightning-formatted-url>
+                </p>
+            </div>
+        </div>
+    </div>
 </template>
