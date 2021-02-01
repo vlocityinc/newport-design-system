@@ -1,9 +1,9 @@
 <template>
     <div class={bodyTextContainerClass}>
         <p if:true={bodyTextOne} class={bodyTextOneClass}>{bodyTextOne}</p>
-        <p if:true={showBodyTwoStandard} class="slds-text-align_center slds-m-top_small">{bodyTextTwo}</p>
+        <p if:true={isShowBodyTwoStandard} class="slds-text-align_center slds-m-top_small">{bodyTextTwo}</p>
         <lightning-accordion
-            if:true={showBodyTwoVariant}
+            if:true={isShowBodyTwoStandard}
             allow-multiple-sections-open
             active-section-name={openSections}
         >

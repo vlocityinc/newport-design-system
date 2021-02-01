@@ -489,6 +489,83 @@
 }
       ]
     },
+    "flowruntime:lookup":{
+      "configurationEditor":null,
+      "parameters":[
+        {
+  "apiName" : "fieldApiName",
+  "dataType" : "string",
+  "description" : "The API name of a lookup field on the source object.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : false,
+  "isRequired" : true,
+  "label" : "Field API Name",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "label",
+  "dataType" : "string",
+  "description" : "Label for flow lookup.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : true,
+  "label" : "Label",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "objectApiName",
+  "dataType" : "string",
+  "description" : "The API name of the source object.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : false,
+  "isRequired" : true,
+  "label" : "Object API Name",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "recordId",
+  "dataType" : "string",
+  "description" : "Record Id value for the lookup.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Record Id",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "recordName",
+  "dataType" : "string",
+  "description" : "Record name of the selected lookup record.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : false,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Record Name",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "required",
+  "dataType" : "boolean",
+  "description" : "Requires the user to enter a value.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : false,
+  "isRequired" : false,
+  "label" : "Required",
+  "maxOccurs" : 1
+}
+      ]
+    },
     "c:noSobjectOutputComp":{
       "configurationEditor":null,
       "parameters":[

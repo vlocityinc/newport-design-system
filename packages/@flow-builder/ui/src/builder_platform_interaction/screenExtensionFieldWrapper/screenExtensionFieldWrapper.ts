@@ -1,11 +1,11 @@
 import { api, LightningElement } from 'lwc';
-import { getRequiredParametersForExtension } from 'builder_platform_interaction/screenEditorUtils';
 import { orgHasFlowBuilderDebug, orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
 import { getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import {
     isExtensionAttributeLiteral,
-    isExtensionAttributeGlobalConstant
+    isExtensionAttributeGlobalConstant,
+    getRequiredParametersForExtension
 } from 'builder_platform_interaction/flowExtensionLib';
 
 // This list should go away once we switch to rendering standard

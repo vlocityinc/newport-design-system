@@ -9,7 +9,7 @@ export default class ModalBody extends LightningElement {
     @api listSectionItems: Array[object];
     @api listWarningItems: Array[object];
     @api bodyVariant;
-    @api bodyTwoVariant;
+    @api showBodyTwoVariant;
     activeSection = [];
 
     get bodyTextContainerClass() {
@@ -34,11 +34,11 @@ export default class ModalBody extends LightningElement {
         );
     }
 
-    get showBodyTwoStandard() {
+    get isShowBodyTwoStandard() {
         return this.bodyTextTwo && !this.bodyTwoVariant;
     }
 
-    get showBodyTwoVariant() {
+    get isShowBodyTwoVariant() {
         return this.bodyTextTwo && this.bodyTwoVariant;
     }
 
