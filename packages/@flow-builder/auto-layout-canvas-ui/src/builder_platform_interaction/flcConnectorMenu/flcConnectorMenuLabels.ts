@@ -3,16 +3,16 @@ import menuHeader from '@salesforce/label/AlcConnectorContextualMenu.menuHeader'
 import actionSectionLabel from '@salesforce/label/AlcConnectorContextualMenu.actionSectionLabel';
 import pasteItemLabel from '@salesforce/label/AlcConnectorContextualMenu.pasteItemLabel';
 import mergePathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.mergePathItemLabel';
-import gergePathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.gergePathItemLabel';
-import reRouteGergePathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.reRouteGergePathItemLabel';
-import deleteGergePathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.deleteGergePathItemLabel';
+import goToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.goToPathItemLabel';
+import reRouteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.reRouteGoToPathItemLabel';
+import deleteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.deleteGoToPathItemLabel';
 
 export const LABELS = {
     menuHeader,
     actionSectionLabel,
     pasteItemLabel,
     mergePathItemLabel,
-    gergePathItemLabel,
-    reRouteGergePathItemLabel,
-    deleteGergePathItemLabel
+    goToPathItemLabel,
+    reRouteGoToPathItemLabel,
+    deleteGoToPathItemLabel
 };

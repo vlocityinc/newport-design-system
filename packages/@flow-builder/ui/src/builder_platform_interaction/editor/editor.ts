@@ -1099,11 +1099,17 @@ export default class Editor extends LightningElement {
      */
     handleSelectionOnFixedCanvas = (event) => {
         if (event && event.detail) {
-            const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids } = event.detail;
+            const {
+                canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect,
+                selectableGuids,
+                allowAllDisabledElements
+            } = event.detail;
             const payload = {
                 canvasElementGuidsToSelect,
                 canvasElementGuidsToDeselect,
-                selectableGuids
+                selectableGuids,
+                allowAllDisabledElements
             };
             storeInstance.dispatch(selectionOnFixedCanvas(payload));
 

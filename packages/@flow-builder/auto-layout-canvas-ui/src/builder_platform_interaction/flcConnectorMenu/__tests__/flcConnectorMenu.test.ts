@@ -3,8 +3,8 @@ import { createElement } from 'lwc';
 import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent, MoveFocusToConnectorEvent } from 'builder_platform_interaction/flcEvents';
-import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
+import { CloseMenuEvent, MoveFocusToConnectorEvent, GoToPathEvent } from 'builder_platform_interaction/flcEvents';
+import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION, GOTO_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -113,7 +113,8 @@ jest.mock('../flcConnectorMenuConfig', () => {
             };
         }),
         PASTE_ACTION: 'Paste',
-        MERGE_PATH_ACTION: 'mergePath'
+        MERGE_PATH_ACTION: 'mergePath',
+        GOTO_ACTION: 'goTo'
     };
 });
 
@@ -236,6 +237,64 @@ describe('connector menu', () => {
         cmp.addEventListener(MoveFocusToConnectorEvent.EVENT_NAME, callback);
         listItems[0].focus();
         cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing enter while focus is on goTo should fire the GoToPathEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:level_down',
+                            label: 'Goto another element',
+                            elementType: GOTO_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        cmp.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing space while focus is on goTo should fire the GoToPathEvent', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:level_down',
+                            label: 'Goto another element',
+                            elementType: GOTO_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const listItems = Array.from(cmp.shadowRoot.querySelectorAll(selectors.listboxItemDiv)) as any;
+        const callback = jest.fn();
+        cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
+        listItems[0].focus();
+        cmp.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
     });
 

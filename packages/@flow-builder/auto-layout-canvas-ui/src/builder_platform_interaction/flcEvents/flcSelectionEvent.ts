@@ -6,7 +6,13 @@
 const eventName = 'flcselection';
 
 export class FlcSelectionEvent {
-    constructor(canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids, topSelectedGuid) {
+    constructor(
+        canvasElementGuidsToSelect,
+        canvasElementGuidsToDeselect,
+        selectableGuids,
+        topSelectedGuid,
+        allowAllDisabledElements = false
+    ) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
@@ -15,7 +21,8 @@ export class FlcSelectionEvent {
                 canvasElementGuidsToSelect,
                 canvasElementGuidsToDeselect,
                 selectableGuids,
-                topSelectedGuid
+                topSelectedGuid,
+                allowAllDisabledElements
             }
         });
     }

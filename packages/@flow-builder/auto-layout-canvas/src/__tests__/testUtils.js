@@ -14,6 +14,7 @@ const BRANCH_ELEMENT_GUID = 'branch-guid';
 const LOOP_ELEMENT_GUID = 'loop-guid';
 const SCREEN_ELEMENT_GUID = 'screen-guid';
 const ACTION_ELEMENT_GUID = 'action-guid';
+const BASIC_ELEMENT_GUID = 'head-guid';
 
 const ROOT_ELEMENT = {
     guid: ROOT_ELEMENT_GUID,
@@ -28,14 +29,16 @@ const START_ELEMENT = {
     nodeType: NodeType.START,
     parent: ROOT_ELEMENT_GUID,
     childIndex: 0,
-    isTerminal: true
+    isTerminal: true,
+    isCanvasElement: true
 };
 
 const END_ELEMENT = {
     guid: END_ELEMENT_GUID,
     label: END_ELEMENT_GUID,
     elementType: 'END_ELEMENT',
-    nodeType: NodeType.END
+    nodeType: NodeType.END,
+    isCanvasElement: true
 };
 
 const BRANCH_ELEMENT = {
@@ -44,7 +47,8 @@ const BRANCH_ELEMENT = {
     elementType: NodeType.BRANCH,
     nodeType: NodeType.BRANCH,
     children: [null, null],
-    defaultConnectorLabel: 'Default Connector Label'
+    defaultConnectorLabel: 'Default Connector Label',
+    isCanvasElement: true
 };
 
 const LOOP_ELEMENT = {
@@ -52,21 +56,24 @@ const LOOP_ELEMENT = {
     label: LOOP_ELEMENT_GUID,
     elementType: NodeType.LOOP,
     nodeType: NodeType.LOOP,
-    children: [null]
+    children: [null],
+    isCanvasElement: true
 };
 
 const SCREEN_ELEMENT = {
     guid: SCREEN_ELEMENT_GUID,
     label: SCREEN_ELEMENT_GUID,
     elementType: SCREEN_ELEMENT_TYPE,
-    nodeType: NodeType.DEFAULT
+    nodeType: NodeType.DEFAULT,
+    isCanvasElement: true
 };
 
 const ACTION_ELEMENT = {
     guid: ACTION_ELEMENT_GUID,
     label: ACTION_ELEMENT_GUID,
     elementType: NodeType.DEFAULT,
-    nodeType: NodeType.DEFAULT
+    nodeType: NodeType.DEFAULT,
+    isCanvasElement: true
 };
 
 function getElementByType(type) {
@@ -239,7 +246,7 @@ function createBranch(
 function createElement(elementInfo, elementsMap = {}, prefix) {
     let element;
     if (typeof elementInfo === 'string') {
-        element = deepCopy(getElementByType(elementInfo)) || { guid: elementInfo };
+        element = deepCopy(getElementByType(elementInfo)) || { guid: elementInfo, isCanvasElement: true };
         element.guid = `${prefix}${element.guid}`;
     } else {
         element = deepCopy(elementInfo);

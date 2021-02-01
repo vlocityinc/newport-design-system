@@ -62,6 +62,7 @@ export {
     resolveParent,
     resolveBranchHead,
     isRoot,
+    getTargetGuidsForReconnection,
     InsertAt,
     createRootElement
 } from './modelUtils';

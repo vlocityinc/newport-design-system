@@ -434,6 +434,190 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
 }
 
 /**
+ * Returns an array of valid mergeable target guids to reconnect an element
+ *
+ * @param elements - The flow model
+ * @param prev - The guid of a previous element
+ * @param branchParent - The guid of the parent element
+ * @param next - the guid of a next element
+ * @returns An array of valid mergeable target guids
+ */
+function getMergeableGuids(elements: FlowModel, prev: Guid, branchParent: Guid, next: Guid): Guid[] {
+    const { parent, childIndex } = findFirstElement(elements[next], elements);
+    const branchingElement = elements[parent] as ParentNodeModel;
+
+    // Making sure we do not include the branchParent if there is a goTo from the merge point to it
+    if (branchingElement.next && branchingElement.next !== branchParent && branchingElement.next !== prev) {
+        return [branchingElement.next];
+    }
+
+    if (areAllBranchesTerminals(branchingElement, elements)) {
+        return branchingElement.children.reduce((acc: Guid[], child: NodeRef, index: number) => {
+            // only elements on other branches can be targets
+            if (child != null && index !== childIndex) {
+                const branchElements = new FlcList(elements, child).map((element) => element.guid) as Guid[];
+                return acc.concat(branchElements);
+            }
+
+            return acc;
+        }, []);
+    }
+
+    return [];
+}
+
+/**
+ * @param prevElement The branching element
+ * @returns A boolean that determines if the previous element can be selectable
+ */
+function isPrevSelectable(prevElement: ParentNodeModel): boolean {
+    if (isBranchingElement(prevElement)) {
+        // Return false if we find a null branch
+        return prevElement.children.every((child) => child !== null);
+    }
+    return false;
+}
+
+/**
+ * Recursively checks if a tail element in branch is selectable
+ * @param elements The flow model
+ * @param branchElementToCheck branching element
+ * @returns An array of guids that are not selectable
+ */
+function getNonSelectableTailElementsGuids(elements: FlowModel, branchElementToCheck: ParentNodeModel): Guid[] {
+    let nonSelectableTailElementsGuids = [] as Guid[];
+    branchElementToCheck.children.forEach((child) => {
+        if (!child) {
+            // Branch element has an empty branch so it should not be selectable
+            if (!nonSelectableTailElementsGuids.includes(branchElementToCheck.guid)) {
+                nonSelectableTailElementsGuids.push(branchElementToCheck.guid);
+            }
+        } else if (!(elements[child] as BranchHeadNodeModel).isTerminal) {
+            // If the branch is not terminal, proceed down the branch
+            const tailElement = findLastElement(resolveBranchHead(elements, child), elements);
+            // If the tail is a branching element, then recurse down its children, otherwise add the tail to the list
+            if (isBranchingElement(tailElement)) {
+                nonSelectableTailElementsGuids = nonSelectableTailElementsGuids.concat(
+                    getNonSelectableTailElementsGuids(elements, tailElement as ParentNodeModel)
+                );
+            } else {
+                nonSelectableTailElementsGuids.push(tailElement.guid);
+            }
+        }
+    });
+    return nonSelectableTailElementsGuids;
+}
+
+function getGoToableGuids(
+    elements: FlowModel,
+    prev: Guid,
+    parent: Guid,
+    mergeableGuids: Guid[],
+    firstMergeableNonNullNext: Guid | null,
+    nonSelectableTailElementsGuids: Guid[]
+): Guid[] {
+    const goToableGuids = [];
+
+    // Checking if the previous element can have a GoTo connection to it
+    if (
+        prev &&
+        elements[prev].nodeType !== NodeType.START &&
+        firstMergeableNonNullNext !== prev &&
+        isPrevSelectable(resolveParent(elements, prev))
+    ) {
+        goToableGuids.push(prev);
+    }
+
+    // Iterate over every element in the flow model
+    for (const elementGuid in elements) {
+        if (
+            !mergeableGuids.includes(elementGuid) && // Do not iterate over mergeable guids
+            firstMergeableNonNullNext !== elementGuid &&
+            !nonSelectableTailElementsGuids.includes(elementGuid) && // Do not iterate over tail element guids
+            elements[elementGuid].isCanvasElement &&
+            elementGuid !== prev &&
+            elementGuid !== parent &&
+            elementGuid !== NodeType.ROOT &&
+            elements[elementGuid].nodeType !== NodeType.START &&
+            elements[elementGuid].nodeType !== NodeType.END
+        ) {
+            goToableGuids.push(elementGuid);
+        }
+    }
+
+    return goToableGuids;
+}
+
+/**
+ * Returns an array of valid target guids of a goTo action
+ *
+ * @param elements - The flow model
+ * @param prev - The guid of a previous element
+ * @param parent - The guid of the parent element
+ * @param next - the guid of a next element
+ * @param canMergeEndedBranch - is merge possible
+ * @returns An array of valid target guids of a mergeableGuids, goToableGuids and possibly firstMergeableNonNullNext
+ */
+function getTargetGuidsForReconnection(
+    elements: FlowModel,
+    prev: Guid,
+    parent: Guid,
+    next: Guid,
+    canMergeEndedBranch: boolean
+): Guid[] {
+    // Gets all the mergeable guids
+    const mergeableGuids = canMergeEndedBranch ? getMergeableGuids(elements, prev, parent, next) : [];
+    // Variable to keep track of the first non-null next element of a branching element (going up the branch)
+    // that the user can merge into
+    let firstMergeableNonNullNext = null;
+
+    let isSteppingOutOfFault = false;
+    let branchHead = prev ? findFirstElement(elements[prev], elements) : resolveBranchHead(elements, next);
+    let branchParent = elements[branchHead.parent];
+
+    if (branchHead.childIndex === FAULT_INDEX) {
+        isSteppingOutOfFault = true;
+    }
+
+    // Traversing up to find the branching element with a non-null next. We skip the Fault branch since
+    // Fault branch can not be merged into anything outside itself
+    while (!isSteppingOutOfFault && !isRoot(branchParent.guid) && branchParent.next == null) {
+        branchHead = findFirstElement(branchParent, elements);
+        branchParent = elements[branchHead.parent];
+        if (branchHead.childIndex === FAULT_INDEX) {
+            isSteppingOutOfFault = true;
+        }
+    }
+
+    // Checking if the found next element is mergeable or not
+    if (!isSteppingOutOfFault && !isRoot(branchParent.guid) && branchParent.next !== parent) {
+        if (branchParent.next !== prev || isPrevSelectable(resolveParent(elements, prev))) {
+            firstMergeableNonNullNext = branchParent.next;
+        }
+    }
+
+    // For a Branching source element, retrieving the elements within that will create a self loop
+    // aka elements that merge into the GoTo creation point
+    let nonSelectableTailElementsGuids = [] as Guid[];
+    if (prev && isBranchingElement(elements[prev])) {
+        nonSelectableTailElementsGuids = getNonSelectableTailElementsGuids(elements, resolveParent(elements, prev));
+    }
+
+    const goToableGuids = getGoToableGuids(
+        elements,
+        prev,
+        parent,
+        mergeableGuids,
+        firstMergeableNonNullNext,
+        nonSelectableTailElementsGuids
+    );
+
+    return firstMergeableNonNullNext
+        ? [...mergeableGuids, ...goToableGuids, firstMergeableNonNullNext]
+        : [...mergeableGuids, ...goToableGuids];
+}
+
+/**
  * Finds the last element by following the 'next' pointers
  *
  * @param element - The element
@@ -1290,5 +1474,6 @@ export {
     getChild,
     resolveBranchHead,
     resolveParent,
-    inlineBranches
+    inlineBranches,
+    getTargetGuidsForReconnection
 };

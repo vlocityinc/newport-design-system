@@ -10,9 +10,9 @@ const { generateGuid } = storeUtils;
 
 export const PASTE_ACTION = 'Paste';
 export const MERGE_PATH_ACTION = 'mergePath';
-export const GERGE_ACTION = 'gerge'; // TODO name change
-export const GERGE_REROUTE_ACTION = 'gergeReroute'; // TODO name change
-export const GERGE_DELETE_ACTION = 'gergeDelete'; // TODO name change
+export const GOTO_ACTION = 'goTo';
+export const GOTO_REROUTE_ACTION = 'goToReroute';
+export const GOTO_DELETE_ACTION = 'goToDelete';
 
 const actionSection: MenuSection = {
     guid: generateGuid(),
@@ -46,39 +46,39 @@ const mergeActionItem = {
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const addGergeActionItem = {
+const addGoToActionItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
-    label: LABELS.gergePathItemLabel, // TODO
-    elementType: GERGE_ACTION,
+    label: LABELS.goToPathItemLabel,
+    elementType: GOTO_ACTION,
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const rerouteGergeActionItem = {
+const rerouteGoToActionItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
-    label: LABELS.reRouteGergePathItemLabel, // TODO
-    elementType: GERGE_REROUTE_ACTION,
+    label: LABELS.reRouteGoToPathItemLabel,
+    elementType: GOTO_REROUTE_ACTION,
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const deleteGergeActionItem = {
+const deleteGoToActionItem = {
     guid: generateGuid(),
     icon: 'utility:delete',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
-    label: LABELS.deleteGergePathItemLabel, // TODO
-    elementType: GERGE_DELETE_ACTION,
+    label: LABELS.deleteGoToPathItemLabel,
+    elementType: GOTO_DELETE_ACTION,
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
@@ -106,10 +106,10 @@ export const configureMenu = (
 
     if (isPasteAvailable || canMergePath || canAddGoto || hasGoto) {
         if (hasGoto) {
-            actionSection.items.push(rerouteGergeActionItem);
-            actionSection.items.push(deleteGergeActionItem);
+            actionSection.items.push(rerouteGoToActionItem);
+            actionSection.items.push(deleteGoToActionItem);
         } else if (canAddGoto) {
-            actionSection.items.push(addGergeActionItem);
+            actionSection.items.push(addGoToActionItem);
         }
 
         if (isPasteAvailable) {

@@ -20,6 +20,7 @@ import {
     deleteFault,
     deleteBranch,
     getTargetGuidsForBranchReconnect,
+    getTargetGuidsForReconnection,
     connectToElement,
     addElement,
     updateChildren,
@@ -177,6 +178,272 @@ describe('modelUtils', () => {
             branchingElement.children = [['head-guid', END_ELEMENT_GUID], ['head-guid', 'random-guid'], ['head-guid']];
             const elements = createFlow([branchingElement]);
             expect(getTargetGuidsForBranchReconnect(elements, 'branch-guid:0-end-guid')).toEqual(['end-guid']);
+        });
+    });
+
+    describe('getTargetGuidsForReconnection', () => {
+        it('No braches are mergerd and undefined parent parameter', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [
+                ['head-guid', 'random-guid', 'random-guid2', END_ELEMENT_GUID],
+                ['head-guid', 'random-guid', END_ELEMENT_GUID]
+            ];
+
+            const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
+            expect(
+                getTargetGuidsForReconnection(
+                    elements,
+                    'branch-guid:0-random-guid2',
+                    undefined,
+                    'branch-guid:0-end-guid',
+                    true
+                )
+            ).toEqual([
+                'branch-guid:1-head-guid',
+                'branch-guid:1-random-guid',
+                'branch-guid:1-end-guid',
+                'branch-guid:0-head-guid',
+                'branch-guid:0-random-guid',
+                'branch-guid'
+            ]);
+        });
+
+        it('Immediately ended branch with parent.next == null', () => {
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [[END_ELEMENT_GUID], ['head-guid', 'random-guid', END_ELEMENT_GUID]];
+
+            const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
+            expect(
+                getTargetGuidsForReconnection(elements, undefined, 'branch-guid', 'branch-guid:0-end-guid', true)
+            ).toEqual(['branch-guid:1-head-guid', 'branch-guid:1-random-guid', 'branch-guid:1-end-guid']);
+        });
+
+        it('Selected from a decisions merge point with one branch empty', () => {
+            const elements = {
+                'branch-guid': {
+                    guid: 'branch-guid',
+                    prev: 'start-guid',
+                    label: 'branch-guid',
+                    elementType: 'branch',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    children: ['branch-guid:0-head1-guid', null]
+                },
+                'branch-guid:0-head1-guid': {
+                    guid: 'branch-guid:0-head1-guid',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    childIndex: 0,
+                    parent: 'branch-guid'
+                },
+                'end-guid': {
+                    guid: 'end-guid',
+                    label: 'end-guid',
+                    elementType: 'END_ELEMENT',
+                    nodeType: 'end',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                'start-guid': {
+                    childIndex: 0,
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'branch-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            expect(getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false)).toEqual([]);
+        });
+
+        it('Selected from a decisions merge point with both branches only having 1 element', () => {
+            const elements = {
+                'branch-guid': {
+                    guid: 'branch-guid',
+                    prev: 'start-guid',
+                    label: 'branch-guid',
+                    elementType: 'branch',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    children: ['branch-guid:0-head1-guid', 'branch-guid:1-head1-guid']
+                },
+                'branch-guid:0-head1-guid': {
+                    guid: 'branch-guid:0-head1-guid',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    childIndex: 0
+                },
+                'branch-guid:1-head1-guid': {
+                    guid: 'branch-guid:1-head1-guid',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    childIndex: 1
+                },
+                'end-guid': {
+                    guid: 'end-guid',
+                    label: 'end-guid',
+                    elementType: 'END_ELEMENT',
+                    nodeType: 'end',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                'start-guid': {
+                    childIndex: 0,
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'branch-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            expect(getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false)).toEqual([
+                'branch-guid'
+            ]);
+        });
+
+        it('Only the start element is present', () => {
+            const elements = {
+                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                'start-guid': {
+                    childIndex: 0,
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    nodeType: 'start',
+                    parent: 'root',
+                    next: 'end-guid'
+                },
+                'end-guid': {
+                    guid: 'end-guid',
+                    label: 'end-guid',
+                    elementType: 'END_ELEMENT',
+                    nodeType: 'end',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'start-guid'
+                }
+            };
+            expect(getTargetGuidsForReconnection(elements, 'start-guid', undefined, 'end-guid', false)).toEqual([]);
+        });
+
+        it('Only one element is connected to the start element', () => {
+            const elements = {
+                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                'start-guid': {
+                    childIndex: 0,
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    nodeType: 'start',
+                    parent: 'root',
+                    next: 'random-guid'
+                },
+                'end-guid': {
+                    guid: 'end-guid',
+                    label: 'end-guid',
+                    elementType: 'END_ELEMENT',
+                    nodeType: 'end',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'random-guid'
+                },
+                'random-guid': { guid: 'random-guid', isCanvasElement: true, prev: 'start-guid', next: 'end-guid' }
+            };
+            expect(getTargetGuidsForReconnection(elements, 'random-guid', undefined, 'end-guid', false)).toEqual([]);
+        });
+
+        it('Selected from a decisions merge point with nested decisions', () => {
+            const elements = {
+                'branch-guid': {
+                    guid: 'branch-guid',
+                    prev: 'start-guid',
+                    label: 'branch-guid',
+                    elementType: 'branch',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    children: ['branch-guid:0-head1-guid', 'branch-guid2']
+                },
+                'branch-guid:0-head1-guid': {
+                    guid: 'branch-guid:0-head1-guid',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    childIndex: 0,
+                    isTerminal: false
+                },
+                'branch-guid2': {
+                    guid: 'branch-guid2',
+                    isTerminal: false,
+                    label: 'branch-guid2',
+                    elementType: 'branch',
+                    nodeType: 'branch',
+                    isCanvasElement: true,
+                    parent: 'branch-guid',
+                    childIndex: 1,
+                    children: ['branch-guid:0-nested1-guid', 'branch-guid3']
+                },
+                'branch-guid:0-nested1-guid': {
+                    guid: 'branch-guid:0-nested1-guid',
+                    isTerminal: false,
+                    isCanvasElement: true,
+                    parent: 'branch-guid2',
+                    childIndex: 0
+                },
+                'branch-guid3': {
+                    guid: 'branch-guid3',
+                    isTerminal: false,
+                    label: 'branch-gui3',
+                    elementType: 'branch',
+                    nodeType: 'branch',
+                    isCanvasElement: true,
+                    parent: 'branch-guid2',
+                    childIndex: 1,
+                    children: [null, null]
+                },
+                'end-guid': {
+                    guid: 'end-guid',
+                    label: 'end-guid',
+                    elementType: 'END_ELEMENT',
+                    nodeType: 'end',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
+                'start-guid': {
+                    childIndex: 0,
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'branch-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            expect(getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false)).toEqual([
+                'branch-guid',
+                'branch-guid2'
+            ]);
         });
     });
 

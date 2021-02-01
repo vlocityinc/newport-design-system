@@ -6,10 +6,11 @@ import {
     CloseMenuEvent,
     PasteEvent,
     MergeWithExistingPathEvent,
-    MoveFocusToConnectorEvent
+    MoveFocusToConnectorEvent,
+    GoToPathEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
-import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION, GERGE_ACTION } from './flcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION, GOTO_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -104,8 +105,8 @@ export default class FlcConnectorMenu extends Menu {
             case MERGE_PATH_ACTION:
                 this.dispatchEvent(new MergeWithExistingPathEvent(this.next!));
                 break;
-            // TODO need to make event for goto action
-            case GERGE_ACTION:
+            case GOTO_ACTION:
+                this.dispatchEvent(new GoToPathEvent(this.next!, this.prev, this.parent, this.canMergeEndedBranch));
                 break;
             default: {
                 const { prev, parent, childIndex } = this;

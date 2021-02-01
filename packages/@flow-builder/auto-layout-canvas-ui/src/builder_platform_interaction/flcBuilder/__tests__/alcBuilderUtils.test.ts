@@ -15,7 +15,8 @@ const flowModel = {
         maxConnections: 1,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
-        incomingGoTo: []
+        incomingGoTo: [],
+        isCanvasElement: true
     },
     branch1: {
         guid: 'branch1',
@@ -28,7 +29,8 @@ const flowModel = {
         maxConnections: 2,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
-        incomingGoTo: []
+        incomingGoTo: [],
+        isCanvasElement: true
     },
     branchHead1: {
         guid: 'branchHead1',
@@ -42,7 +44,8 @@ const flowModel = {
         maxConnections: 1,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
-        incomingGoTo: []
+        incomingGoTo: [],
+        isCanvasElement: true
     },
     branchHead2: {
         guid: 'branchHead2',
@@ -57,7 +60,8 @@ const flowModel = {
         maxConnections: 2,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
-        incomingGoTo: []
+        incomingGoTo: [],
+        isCanvasElement: true
     },
     screen1: {
         guid: 'screen1',
@@ -71,7 +75,8 @@ const flowModel = {
         maxConnections: 1,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
-        incomingGoTo: []
+        incomingGoTo: [],
+        isCanvasElement: true
     },
     end: {
         guid: 'end',
@@ -83,7 +88,8 @@ const flowModel = {
         maxConnections: 0,
         config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
         fault: null,
-        incomingGoTo: []
+        incomingGoTo: [],
+        isCanvasElement: true
     }
 };
 

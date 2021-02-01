@@ -88,28 +88,28 @@ describe('connector menu config', () => {
         );
     });
 
-    it('gergePath should have the right label', () => {
+    it('goToPath should have the right label', () => {
         expect(configureMenu(metaData, false, true, true, true, false).sections[0].items[0].label).toBe(
-            LABELS.gergePathItemLabel
+            LABELS.goToPathItemLabel
         );
     });
 
-    it('gergePath item should have the right icon', () => {
+    it('goToPath item should have the right icon', () => {
         expect(configureMenu(metaData, false, true, true, true, false).sections[0].items[0].icon).toBe(
             'utility:level_down'
         );
     });
 
-    it('gergePath item should have the right rowClass', () => {
+    it('goToPath item should have the right rowClass', () => {
         expect(configureMenu(metaData, false, true, true, true, false).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
-    it('reRoute/delete should be displayed and Gerge should not', () => {
+    it('reRoute/delete should be displayed and GoTo should not', () => {
         const menu = configureMenu(metaData, false, true, true, true, true);
-        expect(menu.sections[0].items[0].label).toBe(LABELS.reRouteGergePathItemLabel);
-        expect(menu.sections[0].items[1].label).toBe(LABELS.deleteGergePathItemLabel);
+        expect(menu.sections[0].items[0].label).toBe(LABELS.reRouteGoToPathItemLabel);
+        expect(menu.sections[0].items[1].label).toBe(LABELS.deleteGoToPathItemLabel);
         expect(menu.sections[0].items[2].label).toBe(LABELS.pasteItemLabel);
     });
 

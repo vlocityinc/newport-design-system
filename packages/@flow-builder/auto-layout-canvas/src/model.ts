@@ -12,6 +12,7 @@ export interface NodeModel {
     label: string;
     elementType: string;
     maxConnections: number;
+    isCanvasElement: boolean;
     config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean; hasError: boolean };
 
     childReferences?: Array<{ childReference: string }>;

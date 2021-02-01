@@ -147,7 +147,8 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
                 nextState,
                 action.payload.canvasElementGuidsToSelect,
                 action.payload.canvasElementGuidsToDeselect,
-                action.payload.selectableGuids
+                action.payload.selectableGuids,
+                action.payload.allowAllDisabledElements
             );
             break;
         case PASTE_ON_FIXED_CANVAS:
@@ -227,7 +228,8 @@ function _selectionOnFixedCanvas(
     elements: Readonly<UI.StoreState>,
     canvasElementGuidsToSelect: Guid[],
     canvasElementGuidsToDeselect: Guid[],
-    selectableGuids: Guid[]
+    selectableGuids: Guid[],
+    allowAllDisabledElements: boolean
 ) {
     const newState = updateProperties(elements);
     let hasStateChanged = false;
@@ -247,8 +249,8 @@ function _selectionOnFixedCanvas(
                 updatedIsSelected = false;
             }
 
-            // When selectableGuids is an empty array, it means that everything is selectable
-            if (selectableGuids.length === 0) {
+            // When selectableGuids is an empty array and allowAllDisabledElements is false, we mark everything as selectable
+            if (selectableGuids.length === 0 && !allowAllDisabledElements) {
                 // Setting isSelectable as true only if it was originally set to false
                 if (newState[guid].config && !newState[guid].config.isSelectable) {
                     updatedIsSelectable = true;
