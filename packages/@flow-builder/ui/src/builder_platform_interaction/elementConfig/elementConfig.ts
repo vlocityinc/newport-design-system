@@ -129,6 +129,7 @@ import {
     createStageStep,
     createPastedOrchestratedStage,
     createDuplicateOrchestratedStage,
+    getOrchestratedStageChildren,
     getStageStepChildren
 } from 'builder_platform_interaction/elementFactory';
 
@@ -1087,7 +1088,8 @@ export const elementTypeToConfigMap: {
             closePropertyEditor: createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createOrchestratedStageMetadataObject,
             flowToUi: createOrchestratedStageWithItemReferences
-        }
+        },
+        getChildrenItems: getOrchestratedStageChildren
     },
     [ELEMENT_TYPE.STAGE_STEP]: {
         // A step in a stage is not a canvas element, but is a first class element

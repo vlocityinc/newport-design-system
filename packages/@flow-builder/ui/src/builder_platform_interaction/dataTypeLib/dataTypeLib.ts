@@ -138,6 +138,13 @@ const FLOW_DATA_TYPE = {
         iconName: 'standard:output',
         utilityIconName: 'utility:flow',
         elementType: ELEMENT_TYPE.STAGE_STEP
+    },
+    ORCHESTRATED_STAGE: {
+        label: DATA_TYPE_LABELS.orchestratedStageDataTypeLabel,
+        value: 'ORCHESTRATED_STAGE',
+        iconName: 'standard:output',
+        utilityIconName: 'utility:flow',
+        elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE
     }
 };
 
@@ -155,7 +162,8 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: 'LIGHTNING_COMPONENT_OUTPUT',
     [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: 'ACTION_OUTPUT',
     [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: 'SUBFLOW_OUTPUT',
-    [FLOW_DATA_TYPE.STAGE_STEP.value]: 'STAGE_STEP'
+    [FLOW_DATA_TYPE.STAGE_STEP.value]: 'STAGE_STEP',
+    [FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value]: 'ORCHESTRATED_STAGE'
 };
 
 export const SCALE_RANGE = {
@@ -195,7 +203,8 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: ['lightningComponentOutput'],
     [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: ['actionOutput'],
     [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: ['subflowOutput'],
-    [FLOW_DATA_TYPE.STAGE_STEP.value]: ['stageStep']
+    [FLOW_DATA_TYPE.STAGE_STEP.value]: ['stageStep'],
+    [FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value]: ['orchestratedStage']
 };
 
 export const STAGE_ORDER_RANGE = {
@@ -382,7 +391,8 @@ export function isComplexType(type) {
         FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
         FLOW_DATA_TYPE.ACTION_OUTPUT.value,
         FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value,
-        FLOW_DATA_TYPE.STAGE_STEP.value
+        FLOW_DATA_TYPE.STAGE_STEP.value,
+        FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value
     ].includes(type);
 }
 

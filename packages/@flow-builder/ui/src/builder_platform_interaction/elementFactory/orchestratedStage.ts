@@ -25,7 +25,8 @@ import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-// TODO: should extend the same base class as other non-canvas elements
+// TODO: Move to UIModel.d.ts after action dependencies have been moved there
+// https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000095RTIIA2/view
 export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
@@ -39,6 +40,8 @@ export interface StageStep extends UI.ChildElement {
     outputParameters: ParameterListRowItem[];
 }
 
+// TODO: Move to UIModel.d.ts after action dependencies have been moved there
+// https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000095RTIIA2/view
 export interface OrchestratedStage extends UI.CanvasElement {
     stageSteps: StageStep[];
     childReferences: UI.ChildReference[];
@@ -64,6 +67,7 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
 
     newStage.maxConnections = 1;
     newStage.elementType = elementType;
+    newStage.dataType = FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value;
 
     return newStage;
 }
@@ -202,7 +206,8 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         childReferences,
         connectorCount,
         maxConnections: 1,
-        elementType
+        elementType,
+        dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value
     });
 
     return baseCanvasElementsArrayToMap([newStage, ...items], connectors);
@@ -259,6 +264,17 @@ export function getSteps(guid: UI.Guid): StageStep[] {
     );
 }
 
+export function getOrchestratedStageChildren(): UI.StringKeyedMap<any> {
+    return {
+        status: {
+            label: LABELS.orchestratedStageStatus,
+            name: 'Status',
+            apiName: 'Status',
+            dataType: FLOW_DATA_TYPE.STRING.value
+        }
+    };
+}
+
 export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any> {
     // Explicit cast should be safe since we should only call this version
     // with StageSteps
@@ -266,8 +282,8 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
     const comboboxitems: UI.StringKeyedMap<any> = {
         status: {
             label: LABELS.stageStepStatus,
-            name: 'status',
-            apiName: 'status',
+            name: 'Status',
+            apiName: 'Status',
             dataType: FLOW_DATA_TYPE.STRING.value
         }
     };
@@ -297,8 +313,8 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
     if (outputParameters && outputParameters.length > 0) {
         comboboxitems.output = {
             label: LABELS.stageStepOutput,
-            name: 'output',
-            apiName: 'output',
+            name: 'Outputs',
+            apiName: 'Outputs',
             dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
             isSpanningAllowed: true,
             getChildrenItems: () =>

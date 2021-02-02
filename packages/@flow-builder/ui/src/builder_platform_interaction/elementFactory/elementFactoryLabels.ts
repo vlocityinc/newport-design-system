@@ -20,6 +20,7 @@ import workStepLabel from '@salesforce/label/FlowBuilderElementConfig.workStepLa
 import immediateConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.immediateConnectorLabel';
 import stageStepStatus from '@salesforce/label/FlowBuilderElementConfig.stageStepStatus';
 import stageStepOutput from '@salesforce/label/FlowBuilderElementConfig.stageStepOutput';
+import orchestratedStageStatus from '@salesforce/label/FlowBuilderElementConfig.orchestratedStageStatus';
 
 export const LABELS = {
     emptyDefaultOutcomeLabel,
@@ -42,5 +43,6 @@ export const LABELS = {
     workStepLabel,
     immediateConnectorLabel,
     stageStepStatus,
-    stageStepOutput
+    stageStepOutput,
+    orchestratedStageStatus
 };

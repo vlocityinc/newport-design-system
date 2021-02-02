@@ -10,6 +10,7 @@ import {
     getOtherItemsInOrchestratedStage,
     createDuplicateOrchestratedStage,
     createPastedOrchestratedStage,
+    getOrchestratedStageChildren,
     getStageStepChildren
 } from '../orchestratedStage';
 import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -673,8 +674,8 @@ describe('OrchestratedStage', () => {
             const data = getStageStepChildren(step);
 
             expect(data.status).toMatchObject({
-                name: 'status',
-                apiName: 'status',
+                name: 'Status',
+                apiName: 'Status',
                 dataType: 'String'
             });
         });
@@ -709,8 +710,8 @@ describe('OrchestratedStage', () => {
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(2);
                 expect(data.output).toMatchObject({
-                    name: 'output',
-                    apiName: 'output',
+                    name: 'Outputs',
+                    apiName: 'Outputs',
                     dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
                     isSpanningAllowed: true
                 });
@@ -726,6 +727,18 @@ describe('OrchestratedStage', () => {
                     dataType: 'sobject'
                 });
             });
+        });
+    });
+
+    it('getOrchestratedStageChildren returns only status', () => {
+        const stage = {};
+
+        const data = getOrchestratedStageChildren(stage);
+
+        expect(data.status).toMatchObject({
+            name: 'Status',
+            apiName: 'Status',
+            dataType: 'String'
         });
     });
 });
