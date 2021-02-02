@@ -54,6 +54,12 @@ const mockApexSortOption = {
     rowIndex: 'option_1'
 };
 
+const mockPrimitiveSortOption = {
+    sortOrder: { value: 'Asc', error: null },
+    doesPutEmptyStringAndNullFirst: true,
+    rowIndex: 'option_1'
+};
+
 const createComponentUnderTest = ({
     sobjectOrApexReference = { value: 'Account', isSObject: true },
     sortOptions = [mockEmptySortOption]
@@ -224,6 +230,19 @@ describe('sort-option-list', () => {
             expect(getCombobox(sortOptionsItems[0]).value).toEqual(mockEmptySortOption.sortOrder.value);
             expect(getCheckbox(sortOptionsItems[0]).checked).toEqual(
                 mockEmptySortOption.doesPutEmptyStringAndNullFirst
+            );
+        });
+        // W-8503636
+        it('shows sort option with values', () => {
+            sortOptionList = createComponentUnderTest({
+                sobjectOrApexReference: null,
+                sortOptions: [mockPrimitiveSortOption]
+            });
+            const sortOptionsItems = getSortOptionItems(sortOptionList);
+            expect(sortOptionsItems).toHaveLength(1);
+            expect(getCombobox(sortOptionsItems[0]).value).toEqual(mockPrimitiveSortOption.sortOrder.value);
+            expect(getCheckbox(sortOptionsItems[0]).checked).toEqual(
+                mockPrimitiveSortOption.doesPutEmptyStringAndNullFirst
             );
         });
     });

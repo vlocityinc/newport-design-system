@@ -47,7 +47,7 @@ export default class SortOptionList extends LightningElement {
         // avoid duplicated fields
         this.selectedFields = [];
         this._sortOptions.forEach((option) => {
-            if (option.sortField.value) {
+            if (option.sortField && option.sortField.value) {
                 this.selectedFields.push(option.sortField.value);
             }
         });

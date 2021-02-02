@@ -9,7 +9,7 @@
                 value={selectedOutput}
                 onchange={handleSortOutputChanged}
                 required
-                class="slds-m-top_x-small slds-form-element"
+                class="slds-m-top_x-small slds-form-element test-sort-control-size"
             ></lightning-radio-group>
         </div>
         <div class="slds-p-left_large slds-p-right_small" if:true={showMaxNumber}>
@@ -26,6 +26,7 @@
                     onchange={handleMaxNumberChanged}
                     min="0"
                     max={maxLimit}
+                    class="test-sort-limit"
                 >
                 </lightning-input>
             </div>

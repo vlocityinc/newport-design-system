@@ -19,7 +19,7 @@
                         oncomboboxstatechanged={handleFieldChanged}
                         show-activity-indicator={loadingFields}
                         required
-                        class="slds-col slds-grow"
+                        class="slds-col slds-grow test-sort-field"
                     >
                     </builder_platform_interaction-field-picker>
                     <div class="slds-col slds-grow slds-m-left_small">
@@ -30,6 +30,7 @@
                                 options={sortOrderOptions}
                                 onchange={handleSortOrderChanged}
                                 dropdown-alignment="auto"
+                                class="test-sort-order"
                             >
                             </lightning-combobox>
                         </div>
@@ -41,6 +42,7 @@
                                 checked={doesPutEmptyStringAndNullFirst}
                                 onchange={handleNullsFirstPropertyChange}
                                 field-level-help={labels.nullsFirstHelpText}
+                                class="test-empty-string-and-null-first"
                             >
                             </lightning-input>
                         </div>
@@ -60,13 +62,13 @@
             onchange={handleSortOrderChanged}
             dropdown-alignment="auto"
             required={required}
-            class="slds-col slds-grow"
+            class="slds-col slds-grow test-sort-order"
         >
         </lightning-combobox>
         <lightning-input
             type="checkbox"
             name="nullsFirst"
-            class="slds-col slds-grow slds-m-top_large slds-p-top_xx-small nullsFirst"
+            class="slds-col slds-grow slds-m-top_large slds-p-top_xx-small nullsFirst test-empty-string-and-null-first"
             label={labels.nullsFirst}
             checked={doesPutEmptyStringAndNullFirst}
             field-level-help={labels.nullsFirstHelpText}
