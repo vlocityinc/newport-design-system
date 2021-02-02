@@ -29,9 +29,12 @@ const dataTypeRelatedFilter = (field: FieldDefinition): boolean =>
     SUPPORTED_FIELD_DATA_TYPES.includes(field.fieldDataType as FieldDataType) ||
     field.extraTypeInfo === ExtraTypeInfo.PlainTextarea;
 const noRelationshipFilter = (field: FieldDefinition): boolean => field.relationshipName === null;
-// field.compoundFieldName === field.apiName check is because in some cases (e.g. Account Name), field.compoundFieldName is set to e.g. Name and those are field that we can and want to support
+// check on extraTypeInfo because in some cases (e.g. Account Name), field.compoundFieldName is set to e.g. Name and those are field that we can and want to support
 const noCompoundFieldFilter = (field: FieldDefinition): boolean =>
-    field.compoundFieldName === null || field.compoundFieldName === field.apiName;
+    field.compoundFieldName === null ||
+    (field.extraTypeInfo === ExtraTypeInfo.SwitchablePersonName &&
+        field.compoundFieldName === 'Name' &&
+        field.apiName === 'Name');
 const supportedAutomaticFieldFilter = (field: FieldDefinition): boolean =>
     createEditFilter(field) &&
     dataTypeRelatedFilter(field) &&

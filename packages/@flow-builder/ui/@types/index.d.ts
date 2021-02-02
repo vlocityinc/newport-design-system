@@ -59,9 +59,9 @@ type FieldDefinition = {
     apiName: string;
     required: boolean;
     label: string;
-    relationshipName: string;
-    compoundFieldName: string;
-    extraTypeInfo: string;
+    relationshipName: string | null;
+    compoundFieldName: string | null;
+    extraTypeInfo: string | null;
     fieldDataType: string;
 };
 

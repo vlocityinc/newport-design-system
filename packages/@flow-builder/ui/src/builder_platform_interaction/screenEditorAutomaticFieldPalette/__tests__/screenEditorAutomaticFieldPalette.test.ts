@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
 
 const TOTAL_SUPPORTED_FIELDS = 29;
 const NB_REQUIRED_FIELDS = 4;
-const STRING_FIELD_NAME = 'Name';
+const STRING_FIELD_NAME = 'SicDesc';
 const NUMBER_FIELD_NAME = 'OutstandingShares__c';
 const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
 const DATE_FIELD_NAME = 'PersonBirthdate';
@@ -60,6 +60,7 @@ const PHONE_FIELD_NAME = 'Fax';
 const EMAIL_FIELD_NAME = 'PersonEmail';
 const URL_FIELD_NAME = 'Website';
 const FIELD_OF_COMPOUND_FIELD_NAME = 'BillingLongitude';
+const ACCOUNT_NAME_FIELD_NAME = 'Name'; // this one is a String but also a compound subfield that we accept
 
 const SELECTORS = {
     searchInput: '.palette-search-input'
@@ -281,6 +282,7 @@ describe('Screen editor automatic field palette', () => {
                 ${DATE_FIELD_NAME}              | ${true}
                 ${DATE_TIME_FIELD_NAME}         | ${true}
                 ${LONG_TEXT_AREA_FIELD_NAME}    | ${true}
+                ${ACCOUNT_NAME_FIELD_NAME}      | ${true}
                 ${CURRENCY_FIELD_NAME}          | ${false}
                 ${PHONE_FIELD_NAME}             | ${false}
                 ${EMAIL_FIELD_NAME}             | ${false}
