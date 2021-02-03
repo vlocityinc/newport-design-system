@@ -1,4 +1,5 @@
 export const LIGHTNING_COMPONENTS_SELECTORS = {
+    LIGHTNING_ACCORDION: 'lightning-accordion',
     LIGHTNING_BADGE: 'lightning-badge',
     LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_BUTTON_ICON: 'lightning-button-icon',

@@ -35,11 +35,11 @@ export default class ModalBody extends LightningElement {
     }
 
     get isShowBodyTwoStandard() {
-        return this.bodyTextTwo && !this.bodyTwoVariant;
+        return this.bodyTextTwo && !this.showBodyTwoVariant;
     }
 
     get isShowBodyTwoVariant() {
-        return this.bodyTextTwo && this.bodyTwoVariant;
+        return this.bodyTextTwo && this.showBodyTwoVariant;
     }
 
     get openSections() {
