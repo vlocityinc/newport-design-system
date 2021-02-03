@@ -9,10 +9,7 @@
 // TODO: reintroduce with OrchestratedStage PR
 import OrchestratedStageNode from 'builder_platform_interaction/orchestratedStageNode';
 
-
-const moduleMap = new Map([
-    ['builder_platform_interaction/orchestratedStageNode', OrchestratedStageNode],
-]);
+const moduleMap = new Map([['builder_platform_interaction/orchestratedStageNode', OrchestratedStageNode]]);
 
 export function load(moduleName) {
     return { default: moduleMap.get(moduleName) };

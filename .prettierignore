@@ -4,7 +4,6 @@ coverage/
 *.cmp
 src/main/modules/
 **/build/
-packages/flow-builder-pocs/
 FlowBuilderControllerGoldFileTest/
 jest-report/
 **/tsconfig.json

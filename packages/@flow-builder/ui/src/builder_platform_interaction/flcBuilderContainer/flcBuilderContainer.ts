@@ -131,6 +131,12 @@ export default class FlcBuilderContainer extends LightningElement {
     @api
     disableDeleteElements;
 
+    @api
+    disableAnimation;
+
+    @api
+    disableDebounce;
+
     @track
     supportsTimeTriggers = false;
 
@@ -174,7 +180,10 @@ export default class FlcBuilderContainer extends LightningElement {
         const startElementMetadata = Object.values(elements).find(
             (ele) => ele.elementType === ELEMENT_TYPE.START_ELEMENT
         );
-        this.supportsTimeTriggers = shouldSupportTimeTriggers(startElementMetadata);
+
+        if (startElementMetadata) {
+            this.supportsTimeTriggers = shouldSupportTimeTriggers(startElementMetadata);
+        }
     };
 
     handleFlcBuilderClick = (event) => {

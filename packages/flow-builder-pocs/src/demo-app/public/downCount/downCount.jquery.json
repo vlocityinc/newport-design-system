@@ -3,11 +3,7 @@
     "version": "1.0.0",
     "title": "downCount - Simple Countdown clock with offset",
     "description": "Simple countdown plugin that accounts for timezone",
-    "keywords": [
-        "countdown",
-        "timezone",
-        "offset"
-    ],
+    "keywords": ["countdown", "timezone", "offset"],
     "author": {
         "name": "Sonny T.",
         "url": "https://sonnyt.com"

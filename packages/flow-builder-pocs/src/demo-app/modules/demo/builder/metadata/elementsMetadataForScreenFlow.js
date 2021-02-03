@@ -1,11 +1,11 @@
-import actionFlowComponentDescription  from '@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentDescription';
+import actionFlowComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentDescription';
 import createDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationDescription';
 import deleteDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.deleteDataOperationDescription';
 import updateDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationDescription';
 import lookupDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.lookupDataOperationDescription';
 import decisionLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicDescription';
 import decisionLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicLabel';
-import newActionLabel  from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
+import newActionLabel from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
 import screenComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentDescription';
 import screenComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentLabel';
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
@@ -14,7 +14,6 @@ import loopLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements
 import loopLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicLabel';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-
 
 export default [
     {
@@ -77,7 +76,7 @@ export default [
         description: loopLogicDescription,
         canHaveFaultConnector: false,
         supportsMenu: true,
-        isSupported: true,
+        isSupported: true
     },
     {
         section: 'Data Operation',
@@ -151,6 +150,6 @@ export default [
         canHaveFaultConnector: false,
         supportsMenu: true,
         isSupported: true,
-        dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode',
-    },
+        dynamicNodeComponent: 'builder_platform_interaction/orchestratedStageNode'
+    }
 ];

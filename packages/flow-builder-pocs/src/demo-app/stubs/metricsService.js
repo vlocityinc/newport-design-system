@@ -1,32 +1,15 @@
+function error() {}
 
-function error() {
-}
+function perfStart() {}
 
-function perfStart() {
-}
+function perfEnd() {}
 
-function perfEnd() {
-}
+function markStart() {}
 
-function markStart() {
-}
+function markEnd() {}
 
-function markEnd() {
-}
+function mark() {}
 
-function mark() {
-}
+function interaction() {}
 
-function interaction() {
-}
-
-
-export {
-    error,
-    perfStart,
-    perfEnd,
-    markStart,
-    markEnd,
-    mark,
-    interaction
-};
+export { error, perfStart, perfEnd, markStart, markEnd, mark, interaction };

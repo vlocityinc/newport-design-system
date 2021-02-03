@@ -25,4 +25,10 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     supportsTimeTriggers;
+
+    @api
+    disableAnimation;
+
+    @api
+    disableDebounce;
 }

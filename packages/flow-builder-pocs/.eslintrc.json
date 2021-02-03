@@ -1,0 +1,37 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "extends": ["@salesforce/eslint-config-lwc/recommended", "plugin:lwc-core/recommended", "plugin:lwc-core/style"],
+    "overrides": [
+        {
+            "files": ["*.js"],
+            "rules": {
+                "lwc-core/no-inline-disable": "off",
+                "lwc-core/valid-offline-wire": "off",
+                "lwc-core/no-interop-create": "off",
+                "lwc-core/no-aura": "off",
+                "lwc-core/no-interop-render": "off",
+                "space-before-function-paren": "off",
+                "no-mixed-operators": "off",
+                "no-confusing-arrow": "off",
+                "no-prototype-builtins": "off",
+                "@typescript-eslint/explicit-module-boundary-types": "off",
+                "@typescript-eslint/ban-types": "off",
+                "@typescript-eslint/ban-ts-comment": "off",
+                "jest/expect-expect": "off",
+                "jest/no-commented-out-tests": "off",
+                "jest/no-export": "off",
+                "jest/no-standalone-expect": "off",
+                "jest/no-test-callback": "off",
+                "@lwc/lwc/no-api-reassignments": "off",
+
+                "prefer-rest-params": "off",
+                "prefer-spread": "off",
+                "jest/no-try-expect": "off"
+            }
+        }
+    ]
+}

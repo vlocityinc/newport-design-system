@@ -1,22 +1,54 @@
-builder_platform_interaction-flc-builder-container {
-    display: flex;
-}
-
 .left {
     z-index: 100;
     background-color: #ddd;
 }
 
-.buttons {
-    position: absolute;
+@media (prefers-reduced-motion: no-preference) {
+    .test-monkey.spin {
+        animation: MonkeySpin infinite 1s linear;
+    }
+}
+
+@keyframes MonkeySpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.test-monkey {
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+}
+
+.toolbar {
+    flex: 0 0 auto;
+    background-color: rgb(242, 242, 242);
+    padding-bottom: 10px;
+}
+
+lightning-combobox {
+    display: inline-block;
+}
+
+.test-monkey-button {
     margin-top: 16px;
-    top: 0;
-    right: 0;
-    z-index: 20;
 }
 
 .app {
     display: flex;
-    height: 100%;
+    flex-direction: column;
+    height: 100vh;
+}
+.container {
+    flex: 1;
 }
 
+builder_platform_interaction-flc-builder-container {
+    position: relative;
+
+    overflow: hidden;
+}

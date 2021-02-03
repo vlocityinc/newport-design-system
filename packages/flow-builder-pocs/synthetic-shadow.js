@@ -6,7 +6,7 @@
  */
 const SYNTHETIC_IMPORT = 'import "@lwc/synthetic-shadow";';
 
-module.exports = function() {
+module.exports = function () {
     let input;
     return {
         name: 'synthetic-shadow',

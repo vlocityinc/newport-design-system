@@ -2577,6 +2577,43 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@lbf/command@^0.4.16":
+  version "0.4.16"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lbf/command/-/command-0.4.16.tgz#ae90267919b0a3bd4e4a97d52df5a8fa143273f9"
+  integrity sha512-cRSfgqXVzBd0CT1pDk547aJaGgh49kqYhbmQ7JcL+cGJaee+IZ67UgVGChJI2DqPMF3+fFfqKujTvT0IMJoUzA==
+  dependencies:
+    "@lbf/error-handler" "0.4.16"
+    "@lbf/pub-sub" "0.4.16"
+    "@lbf/utils" "0.4.16"
+
+"@lbf/error-handler@0.4.16":
+  version "0.4.16"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lbf/error-handler/-/error-handler-0.4.16.tgz#2420435ff63b7e8ef72f89b2f4be6a0f67e05ce1"
+  integrity sha512-WC2ugVrV1Z0rO66TPCxKy/pMK2nRlP/6ucQqIWjsL2jmWGYs9A/KYkYXCEm8pRp26LXZg2f6mNBTZkeqtI3epQ==
+
+"@lbf/instrumentation@0.4.16":
+  version "0.4.16"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lbf/instrumentation/-/instrumentation-0.4.16.tgz#1a03a3209779dfbe12ab87f270b7ccfb1b9c1041"
+  integrity sha512-t1xCKcImbTLDziUZOeHNdTCGPPKjKK6MwVzFmgb4UHhKzaJUIDpNG+SKerjUnjzM/966s5sXISkbt+yP0RgT2g==
+  dependencies:
+    "@lbf/utils" "0.4.16"
+
+"@lbf/pub-sub@0.4.16":
+  version "0.4.16"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lbf/pub-sub/-/pub-sub-0.4.16.tgz#62dd70d1b1c6cdf7a7ff3fb2b5c26fb4b5b5df7c"
+  integrity sha512-eSgXLHaJ49/5gK8XS3/dL/2HEpn78IE3JYkNRjmU4cWk3qvX6lpyk4FLTJL835lJEBJvbKDbq8mluxY0VnGukg==
+  dependencies:
+    "@lbf/error-handler" "0.4.16"
+    "@lbf/instrumentation" "0.4.16"
+
+"@lbf/utils@0.4.16":
+  version "0.4.16"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lbf/utils/-/utils-0.4.16.tgz#e93426e46377ead8aae0629b305582b7db6f39f2"
+  integrity sha512-/Zkegy7J0rcXz4XG3ZB4xebs0Q+UR6MOBUl/cCWZTLQTGev5GrnvXCLgWExyafLF2b0QPTTLSK670d4fenXobA==
+  dependencies:
+    "@lwc/wire-service" "1.7.0"
+    observable-membrane "^0.26.1"
+
 "@lerna/add@3.21.0":
   version "3.21.0"
   resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lerna/add/-/add-3.21.0.tgz#27007bde71cc7b0a2969ab3c2f0ae41578b4577b"
@@ -3519,6 +3556,11 @@
   version "1.3.7-226.4"
   resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lwc/wire-service/-/wire-service-1.3.7-226.4.tgz#8005b60d40b6e3be6e744bbc6a28b158a6826425"
   integrity sha512-0+WmYzLtooP6RS1b/WBGo08LvNtu2w5eSc/B6Gw+i24JSgMP6683xMx7HmIh5/WdLo4CwtPJEEyGt9Zsr6thEg==
+
+"@lwc/wire-service@1.7.0":
+  version "1.7.0"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/@lwc/wire-service/-/wire-service-1.7.0.tgz#20d91f1376f6d28799aaed185460794aa372a968"
+  integrity sha512-X6L5nYRrLYtOUP3w4N+33GfE7vbTNjqgQXcpqXybprXVJTn3q0rNDWiNK+xejGUPJma2FxlL8g/45Kl41lSlwQ==
 
 "@lwc/wire-service@1.9.7":
   version "1.9.7"
@@ -4517,6 +4559,13 @@ aws4@^1.8.0:
   version "1.10.1"
   resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
   integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
+
+axios@^0.20.0:
+  version "0.20.0"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
+  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 babel-eslint@~10.1.0:
   version "10.1.0"
@@ -6813,6 +6862,11 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
+
+follow-redirects@^1.10.0:
+  version "1.13.0"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
+  integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -10198,7 +10252,7 @@ object.values@^1.1.1:
     es-abstract "^1.18.0-next.1"
     has "^1.0.3"
 
-observable-membrane@0.26.1:
+observable-membrane@0.26.1, observable-membrane@^0.26.1:
   version "0.26.1"
   resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/observable-membrane/-/observable-membrane-0.26.1.tgz#5619a7b2f4b0414d62b3e6cc2ea65734a08cce7a"
   integrity sha512-fBxLHtd0pUFI/rKh6Dfn9fxjEgY4NkRIqlPEKa9fR28rC9CQDfQ5P+t292CtAArtXOQ1mF8Nq9m1cF52IdN8DA==

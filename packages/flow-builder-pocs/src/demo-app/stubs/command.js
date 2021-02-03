@@ -5,4 +5,3 @@ export const KeyboardShortcutServiceImpl = class {
     registerCommands() {}
     registerShortcuts() {}
 };
-

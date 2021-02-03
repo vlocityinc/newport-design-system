@@ -1,38 +1,71 @@
 <template>
-    <div class="app slds-grid">
-    <div class="left slds-col slds-size_1-of-4"></div>
-    <div class="right slds-col">
-    <div class="buttons">
-        <lightning-button-stateful
-            label-when-off="Selection Mode"
-            label-when-on="Selection Mode"
-            icon-name-when-off="utility:add"
-            icon-name-when-on="utility:check"
-            icon-name-when-hover="utility:close"
-            selected={isSelected}
-            onclick={handleToggleSelectionMode}
-        >
-        </lightning-button-stateful>
-        <lightning-button label="Undo" onclick={handleUndo}></lightning-button>
-         <lightning-button label="Redo" onclick={handleRedo}></lightning-button>
-        <lightning-button label="Convert Roundtrip" onclick={handleConvertRoundTrip}></lightning-button>
-        <lightning-button label="New" onclick={handleNew}></lightning-button>
-        <lightning-button label="Save" onclick={handleSave}></lightning-button>
-        <lightning-button label="Load" onclick={handleLoad}></lightning-button>
-    </div>
+    <div class="app">
+        <div class="toolbar">
+            <lightning-layout horizontal-align="spread" vertical-align="center">
+                <lightning-layout-item>
+                    <lightning-button-menu
+                        alternative-text="Show menu"
+                        variant="border-filled"
+                        icon-name="utility:record_create"
+                        class="slds-m-left_x-small"
+                        onselect={handleSelectMenuItem}
+                    >
+                        <lightning-menu-item value="new" label="New"></lightning-menu-item>
+                        <lightning-menu-item value="load" label="Load Saved"></lightning-menu-item>
+                        <lightning-menu-divider></lightning-menu-divider>
+                        <lightning-menu-item value="save" label="Save"></lightning-menu-item>
+                        <lightning-menu-item value="saveAsTestCase" label="Save As Test Case"></lightning-menu-item>
+                        <lightning-menu-divider></lightning-menu-divider>
+                        <lightning-menu-item
+                            value="toggleSelectionMode"
+                            label="Toggle Selection Mode"
+                        ></lightning-menu-item>
+                        <lightning-menu-item value="convertRoundtrip" label="Convert Round Trip"></lightning-menu-item>
+                    </lightning-button-menu>
+                    <lightning-button-icon
+                        variant="border-filled"
+                        icon-name="utility:undo"
+                        onclick={handleUndo}
+                        class="slds-m-left_x-small"
+                    ></lightning-button-icon>
+                    <lightning-button-icon
+                        variant="border-filled"
+                        icon-name="utility:redo"
+                        onclick={handleRedo}
+                        class="slds-m-left_x-small"
+                    ></lightning-button-icon>
+                    <lightning-combobox
+                        class="slds-m-left_x-small"
+                        name="testcase-combobox"
+                        value={selectedTestCase}
+                        placeholder="Load Test Case"
+                        options={freeFormTestCaseOptions}
+                        onchange={handleSelectTestCase}
+                    ></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <button class="test-monkey-button slds-button slds-button_neutral" onclick={handleTestMonkeyClick}>
+                        {testMonkeyLabel} &nbsp;<img class={testMonkeyClasses} src="./monkey.png" />
+                    </button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
 
-    <builder_platform_interaction-flc-builder-container
-        onaddelement={handleAddElement}
-        ondeleteelement={handleDeleteElement}
-        onaddelementfault={handleAddElementFault}
-        ondeleteelementfault={handleDeleteElementFault}
-        elements-metadata={elementsMetadata}
-        is-selection-mode={isSelectionMode}
-        ontoggleselectionmode={handleToggleSelectionMode}
-        onflccreateconnection={handleFlcCreateConnection}
-        onflcselection={handleFlcSelection}
-    >
-    </builder_platform_interaction-flc-builder-container>
-    </div>
+        <div class="container">
+            <builder_platform_interaction-flc-builder-container
+                onaddelement={handleAddElement}
+                ondeleteelement={handleDeleteElement}
+                onaddelementfault={handleAddElementFault}
+                ondeleteelementfault={handleDeleteElementFault}
+                elements-metadata={elementsMetadata}
+                is-selection-mode={isSelectionMode}
+                ontoggleselectionmode={handleToggleSelectionMode}
+                onflccreateconnection={handleFlcCreateConnection}
+                onflcselection={handleFlcSelection}
+                disable-animation={isRunningTestMonkey}
+                disable-debounce={isRunningTestMonkey}
+            >
+            </builder_platform_interaction-flc-builder-container>
+        </div>
     </div>
 </template>

@@ -6,12 +6,14 @@
  */
 
 (function ($) {
-
     $.fn.downCount = function (options, callback) {
-        var settings = $.extend({
+        var settings = $.extend(
+            {
                 date: null,
                 offset: null
-            }, options);
+            },
+            options
+        );
 
         // Throw error if date is not set
         if (!settings.date) {
@@ -35,10 +37,10 @@
             var date = new Date();
 
             // turn date to utc
-            var utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+            var utc = date.getTime() + date.getTimezoneOffset() * 60000;
 
             // set new Date object
-            var new_date = new Date(utc + (3600000*settings.offset))
+            var new_date = new Date(utc + 3600000 * settings.offset);
 
             return new_date;
         };
@@ -46,7 +48,7 @@
         /**
          * Main downCount function that calculates everything
          */
-        function countdown () {
+        function countdown() {
             var target_date = new Date(settings.date), // set target date
                 current_date = currentDate(); // get fixed current date
 
@@ -75,17 +77,17 @@
                 minutes = Math.floor((difference % _hour) / _minute),
                 seconds = Math.floor((difference % _minute) / _second);
 
-                // fix dates so that it will show two digets
-                days = (String(days).length >= 2) ? days : '0' + days;
-                hours = (String(hours).length >= 2) ? hours : '0' + hours;
-                minutes = (String(minutes).length >= 2) ? minutes : '0' + minutes;
-                seconds = (String(seconds).length >= 2) ? seconds : '0' + seconds;
+            // fix dates so that it will show two digets
+            days = String(days).length >= 2 ? days : '0' + days;
+            hours = String(hours).length >= 2 ? hours : '0' + hours;
+            minutes = String(minutes).length >= 2 ? minutes : '0' + minutes;
+            seconds = String(seconds).length >= 2 ? seconds : '0' + seconds;
 
             // based on the date change the refrence wording
-            var ref_days = (days === 1) ? 'day' : 'days',
-                ref_hours = (hours === 1) ? 'hour' : 'hours',
-                ref_minutes = (minutes === 1) ? 'minute' : 'minutes',
-                ref_seconds = (seconds === 1) ? 'second' : 'seconds';
+            var ref_days = days === 1 ? 'day' : 'days',
+                ref_hours = hours === 1 ? 'hour' : 'hours',
+                ref_minutes = minutes === 1 ? 'minute' : 'minutes',
+                ref_seconds = seconds === 1 ? 'second' : 'seconds';
 
             // set to DOM
             container.find('.days').text(days);
@@ -97,10 +99,9 @@
             container.find('.hours_ref').text(ref_hours);
             container.find('.minutes_ref').text(ref_minutes);
             container.find('.seconds_ref').text(ref_seconds);
-        };
+        }
 
         // start
         var interval = setInterval(countdown, 1000);
     };
-
 })(jQuery);

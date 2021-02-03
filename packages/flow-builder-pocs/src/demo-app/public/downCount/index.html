@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>DownCount Plugin</title>
-    <style type="text/css">
-            @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
+    <head>
+        <meta charset="UTF-8" />
+        <title>DownCount Plugin</title>
+        <style type="text/css">
+            @import url(http://fonts.googleapis.com/css?family=Open + Sans:300, 400);
 
             body {
                 background: #363f48;
@@ -43,7 +43,7 @@
             }
 
             a {
-                color: #76949F;
+                color: #76949f;
                 text-decoration: none;
             }
 
@@ -60,8 +60,8 @@
                 display: block;
                 white-space: pre;
                 -webkit-border-radius: 3px;
-                   -moz-border-radius: 3px;
-                        border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
             }
 
             .btn {
@@ -76,51 +76,54 @@
                 font-weight: bold;
                 text-decoration: none;
                 -webkit-border-radius: 2px;
-                   -moz-border-radius: 2px;
-                        border-radius: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
             }
 
             .btn:hover {
                 text-decoration: none;
-                opacity: .7;
+                opacity: 0.7;
             }
-    </style>
-</head>
-<body>
-    <ul class="countdown">
-        <li>
-            <span class="days">00</span>
-            <p class="days_ref">days</p>
-        </li>
-        <li class="seperator">.</li>
-        <li>
-            <span class="hours">00</span>
-            <p class="hours_ref">hours</p>
-        </li>
-        <li class="seperator">:</li>
-        <li>
-            <span class="minutes">00</span>
-            <p class="minutes_ref">minutes</p>
-        </li>
-        <li class="seperator">:</li>
-        <li>
-            <span class="seconds">00</span>
-            <p class="seconds_ref">seconds</p>
-        </li>
-    </ul>
+        </style>
+    </head>
+    <body>
+        <ul class="countdown">
+            <li>
+                <span class="days">00</span>
+                <p class="days_ref">days</p>
+            </li>
+            <li class="seperator">.</li>
+            <li>
+                <span class="hours">00</span>
+                <p class="hours_ref">hours</p>
+            </li>
+            <li class="seperator">:</li>
+            <li>
+                <span class="minutes">00</span>
+                <p class="minutes_ref">minutes</p>
+            </li>
+            <li class="seperator">:</li>
+            <li>
+                <span class="seconds">00</span>
+                <p class="seconds_ref">seconds</p>
+            </li>
+        </ul>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="jquery.downCount.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.downCount.js"></script>
 
-    <script class="source" type="text/javascript">
-        $('.countdown').downCount({
-            date: '06/10/2013 12:00:00',
-            offset: +10
-        }, function () {
-            alert('WOOT WOOT, done!');
-        });
-    </script>
+        <script class="source" type="text/javascript">
+            $('.countdown').downCount(
+                {
+                    date: '06/10/2013 12:00:00',
+                    offset: +10
+                },
+                function () {
+                    alert('WOOT WOOT, done!');
+                }
+            );
+        </script>
 
-    <a href="https://github.com/sonnyt/downCount" class="btn">Fork Me</a>
-</body>
+        <a href="https://github.com/sonnyt/downCount" class="btn">Fork Me</a>
+    </body>
 </html>
