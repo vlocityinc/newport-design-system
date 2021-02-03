@@ -68,6 +68,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     );
     return {
         getElementByGuid: jest.fn(),
+        getStartElementFromState: jest.fn(),
         getElementByGuidFromState,
         getElementByDevNameFromState
     };
@@ -300,15 +301,19 @@ const sectionScreenFieldStore = () => ({
 });
 
 const foundElementGuidPrefix = 'found';
+
 getElementByGuid.mockImplementation((guid) => {
     if (guid === componentScreenFieldEmailStoreGuid) {
         return componentScreenFieldEmailStore();
     }
-    return {
-        guid: foundElementGuidPrefix + guid,
-        fieldType: 'InputField',
-        dataType: 'Boolean'
-    };
+    if (guid === 'sectionField1' || guid === 'columnField') {
+        return {
+            guid: foundElementGuidPrefix + guid,
+            fieldType: 'InputField',
+            dataType: 'Boolean'
+        };
+    }
+    return jest.requireActual('builder_platform_interaction/storeUtils').getElementByGuid(guid);
 });
 
 describe('screenField', () => {
@@ -516,21 +521,55 @@ describe('screenField', () => {
             });
         });
         describe('automatic field', () => {
-            const result = createScreenFieldWithFields(accountVariableNameAutomaticField);
+            it('correctly converts existing fields', () => {
+                const result = createScreenFieldWithFields(accountVariableNameAutomaticField);
 
-            expect(result).toMatchObject({
-                dataType: FLOW_DATA_TYPE.STRING.value,
-                fieldType: FlowScreenFieldType.ObjectProvided,
-                objectFieldReference: `${accountSObjectVariable.guid}.Name`,
-                type: {
-                    name: ScreenFieldName.TextBox,
+                expect(result).toMatchObject({
                     dataType: FLOW_DATA_TYPE.STRING.value,
-                    icon: 'standard:textbox',
-                    category: 'FlowBuilderScreenEditor.fieldCategoryInput',
-                    type: 'String',
                     fieldType: FlowScreenFieldType.ObjectProvided,
-                    label: 'Account Name'
-                }
+                    objectFieldReference: `${accountSObjectVariable.guid}.Name`,
+                    type: {
+                        name: ScreenFieldName.TextBox,
+                        dataType: FLOW_DATA_TYPE.STRING.value,
+                        icon: 'standard:textbox',
+                        category: 'FlowBuilderScreenEditor.fieldCategoryInput',
+                        type: 'String',
+                        fieldType: FlowScreenFieldType.ObjectProvided,
+                        label: 'Account Name'
+                    }
+                });
+            });
+            it('does not fail when no access to the referenced object', () => {
+                const objectFieldReference = 'varOfARecordICannotAccess.Name';
+                const result = createScreenFieldWithFields({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference
+                });
+
+                expect(result).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference,
+                    type: {
+                        label: objectFieldReference
+                    },
+                    hasErrors: true
+                });
+            });
+            it('does not fail when no access to the referenced field', () => {
+                const objectFieldReference = `${accountSObjectVariable.guid}.iDoNotHaveAccess`;
+                const result = createScreenFieldWithFields({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference
+                });
+
+                expect(result).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference,
+                    type: {
+                        label: `${accountSObjectVariable.name}.iDoNotHaveAccess`
+                    },
+                    hasErrors: true
+                });
             });
         });
     });

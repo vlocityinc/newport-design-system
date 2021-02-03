@@ -13,6 +13,7 @@ import { accountSObjectVariable, flowWithAllElementsUIModel } from 'mock/storeDa
 import { createAutomaticField } from 'builder_platform_interaction/elementFactory';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -262,6 +263,24 @@ describe('automatic fields', () => {
         const renderedField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_TEXT_AREA_FIELD);
         expect(renderedField).not.toEqual(null);
         expect(renderedField.required).toEqual(false);
+    });
+    it('shows an error when automatic field has errors', async () => {
+        const objectFieldReference = `${accountSObjectVariable.name}.iDoNotExist`;
+        const automaticField = {
+            fieldType: FlowScreenFieldType.ObjectProvided,
+            objectFieldReference,
+            type: {
+                label: objectFieldReference
+            },
+            hasErrors: true
+        };
+        const testScreenField = createComponentUnderTest({
+            screenfield: automaticField
+        });
+        const renderedField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(renderedField).not.toEqual(null);
+        expect(renderedField.title).toEqual('FlowBuilderScreenEditor.invalidScreenfield');
+        expect(renderedField.text).toEqual(objectFieldReference);
     });
 });
 

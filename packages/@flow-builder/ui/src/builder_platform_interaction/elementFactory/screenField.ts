@@ -29,6 +29,7 @@ import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -349,13 +350,18 @@ const createAutomaticFieldFromScreenField = (
     );
 };
 
+const objectFieldReferenceToLabel = (objectFieldReference: string): string => {
+    const sanitizedGuid = sanitizeGuid(objectFieldReference!);
+    const element = getElementByGuid(sanitizedGuid.guidOrLiteral);
+    return element ? [element.name, ...sanitizedGuid.fieldNames].join('.') : objectFieldReference;
+};
+
 const createAutomaticFieldFromEntityField = (
     entityField: FieldDefinition,
     objectFieldReference: string,
     typeName?: string
 ): UI.ScreenField => {
     const newScreenField = baseElement();
-    typeName = typeName ? typeName : getScreenFieldName(entityField);
     const {
         defaultValue,
         defaultValueDataType,
@@ -366,15 +372,18 @@ const createAutomaticFieldFromEntityField = (
         visibilityRule,
         defaultValueFerovObject
     } = getCommonValues(newScreenField);
+    typeName = typeName ? typeName : entityField ? getScreenFieldName(entityField) : undefined;
     return Object.assign(newScreenField, {
         name: undefined,
-        isRequired: entityField.required,
+        isRequired: entityField ? entityField.required : undefined,
         defaultValue,
         defaultValueDataType,
-        dataType: entityField.dataType,
-        type: typeName ? createAutomaticFieldType(typeName, entityField) : {},
-        fieldText: entityField.label,
-        helpText: entityField.helpText || '',
+        dataType: entityField ? entityField.dataType : undefined,
+        type: typeName
+            ? createAutomaticFieldType(typeName, entityField)
+            : { label: objectFieldReferenceToLabel(objectFieldReference) },
+        fieldText: entityField ? entityField.label : objectFieldReferenceToLabel(objectFieldReference),
+        helpText: (entityField && entityField.helpText) || '',
         fieldType: FlowScreenFieldType.ObjectProvided,
         scale,
         inputParameters: [],
@@ -385,7 +394,8 @@ const createAutomaticFieldFromEntityField = (
         visibilityRule,
         isVisible,
         defaultValueFerovObject,
-        objectFieldReference
+        objectFieldReference,
+        hasErrors: entityField === undefined
     });
 };
 
