@@ -394,10 +394,12 @@ export function createOrchestratedStageMetadataObject(
 ): OrchestratedStage {
     const { childReferences } = orchestratedStage;
 
+    // Hardcoded exit criteria for the step.  This will eventually be moved
+    // to be backend
     const exitConditions = childReferences.map(({ childReference }) => {
         const step: StageStep = <StageStep>getElementByGuid(childReference);
         return {
-            leftValueReference: step.guid,
+            leftValueReference: `${step.name}.Status`,
             operator: RULE_OPERATOR.EQUAL_TO,
             rightValue: {
                 stringValue: 'Completed'

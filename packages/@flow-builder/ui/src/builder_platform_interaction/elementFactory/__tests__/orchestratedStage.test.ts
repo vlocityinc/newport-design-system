@@ -468,24 +468,27 @@ describe('OrchestratedStage', () => {
             it('default to when all stageSteps are completed', () => {
                 const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
 
+                const step1 = getElementByGuid(orchestratedStageFromStore.childReferences[0].childReference);
                 expect(orchestratedStage.exitConditions[0]).toEqual({
-                    leftValueReference: orchestratedStageFromStore.childReferences[0].childReference,
+                    leftValueReference: step1.name + '.Status',
                     operator: RULE_OPERATOR.EQUAL_TO,
                     rightValue: {
                         stringValue: 'Completed'
                     }
                 });
 
+                const step2 = getElementByGuid(orchestratedStageFromStore.childReferences[1].childReference);
                 expect(orchestratedStage.exitConditions[1]).toEqual({
-                    leftValueReference: orchestratedStageFromStore.childReferences[1].childReference,
+                    leftValueReference: step2.name + '.Status',
                     operator: RULE_OPERATOR.EQUAL_TO,
                     rightValue: {
                         stringValue: 'Completed'
                     }
                 });
 
+                const step3 = getElementByGuid(orchestratedStageFromStore.childReferences[2].childReference);
                 expect(orchestratedStage.exitConditions[2]).toEqual({
-                    leftValueReference: orchestratedStageFromStore.childReferences[2].childReference,
+                    leftValueReference: step3.name + '.Status',
                     operator: RULE_OPERATOR.EQUAL_TO,
                     rightValue: {
                         stringValue: 'Completed'
