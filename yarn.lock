@@ -6277,10 +6277,10 @@ eslint-plugin-jest@~23.8.2:
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
-eslint-plugin-lwc-core@^2.0.15:
-  version "2.0.15"
-  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/eslint-plugin-lwc-core/-/eslint-plugin-lwc-core-2.0.15.tgz#c62cbcee196c4c75726b08f360b026cc1149c078"
-  integrity sha512-8WvglAeFw0GXgZBtDUmCTvY/ZYhYJwz8qGy+Yr9ekvDoMdF875IgP8GT2IR+zD8JExNYJCIl+xZ2zGo4TJWx0g==
+eslint-plugin-lwc-core@^2.0.16:
+  version "2.0.16"
+  resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/eslint-plugin-lwc-core/-/eslint-plugin-lwc-core-2.0.16.tgz#25cd04106cb68a2de0ec7c68734cbad6b4dbd8cb"
+  integrity sha512-cZfkX4v1Vhs4DLI/Rfg9BaXXZL0Y06rL1mEl97RFreVc6OBKTN35BD7Y2HvvvUFPz0luI0/yDM8pEXln5JJAfg==
   dependencies:
     minimatch "~3.0.4"
 
