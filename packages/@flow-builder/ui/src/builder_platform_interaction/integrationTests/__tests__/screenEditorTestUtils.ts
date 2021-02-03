@@ -26,6 +26,7 @@ import ScreenChoiceFieldPropertiesEditor from 'builder_platform_interaction/scre
 import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/screenInputFieldPropertiesEditor';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
+import ScreenInputField from 'builder_platform_interaction/screenInputField';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -149,12 +150,31 @@ export class ScreenEditorHighlightTestComponent extends TestComponent<ScreenEdit
     public click() {
         this.element.shadowRoot!.querySelector('div')!.click();
     }
-    public getScreenFieldElement() {
-        return this.element.querySelector(SELECTORS.SCREEN_FIELD)! as ScreenField & HTMLElement;
+    public getScreenField() {
+        const screenFieldElement = this.element.querySelector(SELECTORS.SCREEN_FIELD)! as ScreenField & HTMLElement;
+        return new ScreenFieldTestComponent(screenFieldElement);
     }
     public clickDelete() {
         const deleteButton = this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_BUTTON_ICON)[1] as any;
         deleteButton.click();
+    }
+}
+
+export class ScreenFieldTestComponent extends TestComponent<ScreenField> {
+    public getScreenInputField() {
+        const screenInputFieldElement = this.element.shadowRoot!.querySelector<ScreenInputField & HTMLElement>(
+            SELECTORS.SCREEN_INPUT_FIELD
+        );
+        if (!screenInputFieldElement) {
+            return undefined;
+        }
+        return new ScreenInputFieldTestComponent(screenInputFieldElement);
+    }
+}
+
+export class ScreenInputFieldTestComponent extends TestComponent<ScreenInputField> {
+    public getInputElement() {
+        return this.element.shadowRoot!.querySelector<HTMLElement>(SELECTORS.LIGHTNING_INPUT);
     }
 }
 

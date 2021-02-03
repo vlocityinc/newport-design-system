@@ -155,6 +155,10 @@ export const accountVariableNameAutomaticField = getAutomaticFieldElement(
     'screenWithAutomaticFields',
     'accountSObjectVariable.Name'
 );
+export const objectWithAllPossiblFieldsVariableTextFieldAutomaticField = getAutomaticFieldElement(
+    'screenWithAutomaticFields',
+    'objectWithAllPossiblFieldsVariable.Text_Field__c'
+);
 export const screenWithAutomaticFieldsInSection = getElementByName('screenWithAutomaticFieldsInSection');
 export const accountVariableNameAutomaticFieldInSection = getAutomaticFieldElement(
     'screenWithAutomaticFieldsInSection',

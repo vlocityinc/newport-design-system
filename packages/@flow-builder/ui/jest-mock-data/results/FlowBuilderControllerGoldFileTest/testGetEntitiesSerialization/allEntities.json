@@ -71,6 +71,26 @@
       "updateable":true
     },
     {
+      "apiName":"ABACMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"ABAC Metric",
+      "entityLabelPlural":"ABAC Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgABACMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"ABAC Metric",
+      "entityLabelPlural":"ABAC Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"CrossOrgAIApplication",
       "createable":false,
       "custom":false,
@@ -459,6 +479,26 @@
       "entityLabelPlural":"Action override Metrics",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"ActivePermSetLicenseMetric",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Active Permission Set License Metric",
+      "entityLabelPlural":"",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ActiveProfileMetric",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Active Profile Metric",
+      "entityLabelPlural":"",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"ActivityEngagement",
@@ -1257,6 +1297,46 @@
       "deletable":true,
       "entityLabel":"Application Version",
       "entityLabelPlural":"Application Version",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AppointmentTopicTimeSlot",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Topic Time Slot",
+      "entityLabelPlural":"Appointment Topic Time Slots",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AppointmentTopicTimeSlotHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Appointment Topic Time Slot  History",
+      "entityLabelPlural":"Appointment Topic Time Slot  History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"AppointmentTopicTimeSlotOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Topic Time Slot Owner Rule",
+      "entityLabelPlural":"Appointment Topic Time Slot Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AppointmentTopicTimeSlotShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Topic Time Slot Share",
+      "entityLabelPlural":"Appointment Topic Time Slot Share",
       "queryable":true,
       "updateable":true
     },
@@ -3341,156 +3421,6 @@
       "updateable":true
     },
     {
-      "apiName":"Certification",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification",
-      "entityLabelPlural":"Certifications",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationDef",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition",
-      "entityLabelPlural":"Certification Definitions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationDefFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition Feed",
-      "entityLabelPlural":"Certification Definition Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationDefHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Definition History",
-      "entityLabelPlural":"Certification Definition History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationDefOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition Owner Rule",
-      "entityLabelPlural":"Certification Definition Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationDefShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition Share",
-      "entityLabelPlural":"Certification Definition Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification History",
-      "entityLabelPlural":"Certification History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Owner Rule",
-      "entityLabelPlural":"Certification Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationSectionDef",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Section Definition",
-      "entityLabelPlural":"Certification Section Definitions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationSectionDefHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Section Definition History",
-      "entityLabelPlural":"Certification Section Definition History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Share",
-      "entityLabelPlural":"Certification Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationStep",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Step",
-      "entityLabelPlural":"Certification Steps",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationStepDef",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Step Definition",
-      "entityLabelPlural":"Certification Step Definitions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationStepDefHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Step Definition History",
-      "entityLabelPlural":"Certification Step Definition History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationStepHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Step History",
-      "entityLabelPlural":"Certification Step History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
       "apiName":"AccountChild__ChangeEvent",
       "createable":false,
       "custom":false,
@@ -3561,6 +3491,16 @@
       "updateable":false
     },
     {
+      "apiName":"Custom_Object__ChangeEvent",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Change Event: Custom Object",
+      "entityLabelPlural":"Change Event: Custom Object",
+      "queryable":false,
+      "updateable":false
+    },
+    {
       "apiName":"CustomAcctChildLookup__ChangeEvent",
       "createable":false,
       "custom":false,
@@ -3627,6 +3567,16 @@
       "deletable":false,
       "entityLabel":"Change Event: LookupOnContact",
       "entityLabelPlural":"Change Event: LookupOnContact",
+      "queryable":false,
+      "updateable":false
+    },
+    {
+      "apiName":"Object_with_all_possible_fields__ChangeEvent",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Change Event: Object with all possible fields",
+      "entityLabelPlural":"Change Event: Object with all possible fields",
       "queryable":false,
       "updateable":false
     },
@@ -4301,56 +4251,6 @@
       "updateable":false
     },
     {
-      "apiName":"WorkCoaching",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching",
-      "entityLabelPlural":"Coaching",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkCoachingFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching Feed",
-      "entityLabelPlural":"Coaching Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkCoachingHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Coaching History",
-      "entityLabelPlural":"Coaching History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkCoachingOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching Owner Rule",
-      "entityLabelPlural":"Coaching Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkCoachingShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching Share",
-      "entityLabelPlural":"Coaching Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"ColorDefinition",
       "createable":false,
       "custom":false,
@@ -4939,16 +4839,6 @@
       "entityLabelPlural":"Connectivity Developer Configs",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"ConsentEvent",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Consent Change Standard Event",
-      "entityLabelPlural":"Consent Change Standard Events",
-      "queryable":false,
-      "updateable":false
     },
     {
       "apiName":"ConsolePersonalization",
@@ -6431,6 +6321,16 @@
       "updateable":true
     },
     {
+      "apiName":"Custom_Object__c",
+      "createable":true,
+      "custom":true,
+      "deletable":true,
+      "entityLabel":"Custom Object",
+      "entityLabelPlural":"Custom Objects",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"PackageMemberCriteriaSharingRule",
       "createable":true,
       "custom":false,
@@ -7857,6 +7757,36 @@
       "deletable":false,
       "entityLabel":"Document Entity Map",
       "entityLabelPlural":"Document Entity Map",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"DocumentTemplate",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Document Template",
+      "entityLabelPlural":"Document Templates",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"DocumentTemplateOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Document Template Owner Rule",
+      "entityLabelPlural":"Document Template Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"DocumentTemplateShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Document Template Share",
+      "entityLabelPlural":"Document Template Share",
       "queryable":true,
       "updateable":true
     },
@@ -9691,206 +9621,6 @@
       "updateable":false
     },
     {
-      "apiName":"WorkFeedback",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback",
-      "entityLabelPlural":"Feedback",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback History",
-      "entityLabelPlural":"Feedback History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Owner Rule",
-      "entityLabelPlural":"Feedback Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestion",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question",
-      "entityLabelPlural":"Feedback Questions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback Question History",
-      "entityLabelPlural":"Feedback Question History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackQuestionOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Owner Rule",
-      "entityLabelPlural":"Feedback Question Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSet",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Set",
-      "entityLabelPlural":"Feedback Question Sets",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSetHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback Question Set History",
-      "entityLabelPlural":"Feedback Question Set History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSetOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Set Owner Rule",
-      "entityLabelPlural":"Feedback Question Set Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSetShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Set Share",
-      "entityLabelPlural":"Feedback Question Set Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Share",
-      "entityLabelPlural":"Feedback Question Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackRequest",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request",
-      "entityLabelPlural":"Feedback Requests",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackRequestFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request Feed",
-      "entityLabelPlural":"Feedback Request Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackRequestHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback Request History",
-      "entityLabelPlural":"Feedback Request History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackRequestOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request Owner Rule",
-      "entityLabelPlural":"Feedback Request Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackRequestShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request Share",
-      "entityLabelPlural":"Feedback Request Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Share",
-      "entityLabelPlural":"Feedback Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackTemplate",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Template",
-      "entityLabelPlural":"Feedback Templates",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackTemplateOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Template Owner Rule",
-      "entityLabelPlural":"Feedback Template Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackTemplateShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Template Share",
-      "entityLabelPlural":"Feedback Template Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"FieldAttributes",
       "createable":true,
       "custom":false,
@@ -10007,6 +9737,16 @@
       "deletable":true,
       "entityLabel":"Field Service Mobile Settings",
       "entityLabelPlural":"Field Service Mobile Settings",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"FieldServiceObjectMapping",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Field Service Object Mapping",
+      "entityLabelPlural":"Field Service Object Mappings",
       "queryable":true,
       "updateable":true
     },
@@ -12161,122 +11901,12 @@
       "updateable":false
     },
     {
-      "apiName":"Goal",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal",
-      "entityLabelPlural":"Goals",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"TodayGoal",
       "createable":true,
       "custom":false,
       "deletable":true,
       "entityLabel":"Goal",
       "entityLabelPlural":"Goals",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoal",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal",
-      "entityLabelPlural":"Goals",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalCollaborator",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Collaborator",
-      "entityLabelPlural":"Goal Collaborators",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalCollaboratorHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Goal Collaborator History",
-      "entityLabelPlural":"Goal Collaborator History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"GoalFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Feed",
-      "entityLabelPlural":"Goal Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkGoalFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Feed",
-      "entityLabelPlural":"Goal Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"GoalHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Goal History",
-      "entityLabelPlural":"Goal History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkGoalHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Goal History",
-      "entityLabelPlural":"Goal History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"GoalLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Link",
-      "entityLabelPlural":"Goal Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Link",
-      "entityLabelPlural":"Goal Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"GoalOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Owner Rule",
-      "entityLabelPlural":"Goal Owner Rule",
       "queryable":true,
       "updateable":true
     },
@@ -12291,37 +11921,7 @@
       "updateable":true
     },
     {
-      "apiName":"WorkGoalOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Owner Rule",
-      "entityLabelPlural":"Goal Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"GoalShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Share",
-      "entityLabelPlural":"Goal Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"TodayGoalShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Share",
-      "entityLabelPlural":"Goal Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalShare",
       "createable":true,
       "custom":false,
       "deletable":true,
@@ -12439,6 +12039,16 @@
       "entityLabelPlural":"Group Subscriptions",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"HawkingTenantProvStatus",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Hawking Tenant Provision Status",
+      "entityLabelPlural":"Hawking Tenant Provision Statuses",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"HistoricalDataFilter",
@@ -13731,16 +13341,6 @@
       "updateable":true
     },
     {
-      "apiName":"JobTracker",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Job Tracker",
-      "entityLabelPlural":"Job Trackers",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"KanbanView",
       "createable":true,
       "custom":false,
@@ -14181,6 +13781,26 @@
       "updateable":false
     },
     {
+      "apiName":"LicensingRequestOrderItem",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Licensing Request Order Product",
+      "entityLabelPlural":"Licensing Request Order Products",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LicensingSnapshotRequest",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Licensing Snapshot Request",
+      "entityLabelPlural":"Licensing Snapshot Requests",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"LightningBolt",
       "createable":true,
       "custom":false,
@@ -14569,6 +14189,16 @@
       "entityLabelPlural":"Limit Usage Histories",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"CrossOrgLimitUsageTracker",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Limit Usage Tracker",
+      "entityLabelPlural":"Limit Usage Trackers",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"LimitUsageTracker",
@@ -16191,76 +15821,6 @@
       "updateable":false
     },
     {
-      "apiName":"Metric",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric",
-      "entityLabelPlural":"Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"MetricDataLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Data Link",
-      "entityLabelPlural":"Metric Data Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"MetricDataLinkHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Metric Data Link History",
-      "entityLabelPlural":"Metric Data Link History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"MetricFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Feed",
-      "entityLabelPlural":"Metric Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"MetricHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Metric History",
-      "entityLabelPlural":"Metric History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"MetricOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Owner Rule",
-      "entityLabelPlural":"Metric Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"MetricShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Share",
-      "entityLabelPlural":"Metric Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"MetricsDataFile",
       "createable":true,
       "custom":false,
@@ -16897,6 +16457,16 @@
       "deletable":true,
       "entityLabel":"Object Permissions",
       "entityLabelPlural":"Object Permissions",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"Object_with_all_possible_fields__c",
+      "createable":true,
+      "custom":true,
+      "deletable":true,
+      "entityLabel":"Object with all possible fields",
+      "entityLabelPlural":"Objects with all possible fields",
       "queryable":true,
       "updateable":true
     },
@@ -18341,56 +17911,6 @@
       "updateable":true
     },
     {
-      "apiName":"WorkPerformanceCycle",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle",
-      "entityLabelPlural":"Performance Cycles",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkPerformanceCycleFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle Feed",
-      "entityLabelPlural":"Performance Cycle Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkPerformanceCycleHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Performance Cycle History",
-      "entityLabelPlural":"Performance Cycle History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkPerformanceCycleOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle Owner Rule",
-      "entityLabelPlural":"Performance Cycle Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkPerformanceCycleShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle Share",
-      "entityLabelPlural":"Performance Cycle Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"Period",
       "createable":false,
       "custom":false,
@@ -18448,7 +17968,7 @@
       "entityLabel":"Permission Set Assignment",
       "entityLabelPlural":"Permission Set Assignments",
       "queryable":true,
-      "updateable":false
+      "updateable":true
     },
     {
       "apiName":"CrossOrgPermissionSetGroup",
@@ -19529,6 +19049,26 @@
       "entityLabelPlural":"Product Change Event",
       "queryable":false,
       "updateable":false
+    },
+    {
+      "apiName":"CrossOrgProductConfigWithPSMMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Product Configuration With Product Selling Model Metrics",
+      "entityLabelPlural":"Product Configuration With Product Selling Model Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ProductConfigWithPSMMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Product Configuration With Product Selling Model Metrics",
+      "entityLabelPlural":"Product Configuration With Product Selling Model Metrics",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"ProductConsumed",
@@ -21737,146 +21277,6 @@
       "deletable":true,
       "entityLabel":"Return Order Sharing Rule Filter Item",
       "entityLabelPlural":"Return Order Sharing Rule Filter Item",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkReward",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward",
-      "entityLabelPlural":"Rewards",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFund",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund",
-      "entityLabelPlural":"Reward Funds",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Feed",
-      "entityLabelPlural":"Reward Fund Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reward Fund History",
-      "entityLabelPlural":"Reward Fund History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Owner Rule",
-      "entityLabelPlural":"Reward Fund Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Share",
-      "entityLabelPlural":"Reward Fund Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundType",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type",
-      "entityLabelPlural":"Reward Fund Types",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundTypeFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type Feed",
-      "entityLabelPlural":"Reward Fund Type Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundTypeHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reward Fund Type History",
-      "entityLabelPlural":"Reward Fund Type History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundTypeOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type Owner Rule",
-      "entityLabelPlural":"Reward Fund Type Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundTypeShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type Share",
-      "entityLabelPlural":"Reward Fund Type Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reward History",
-      "entityLabelPlural":"Reward History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Owner Rule",
-      "entityLabelPlural":"Reward Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Share",
-      "entityLabelPlural":"Reward Share",
       "queryable":true,
       "updateable":true
     },
@@ -24187,16 +23587,6 @@
       "deletable":true,
       "entityLabel":"Skinny Validation Request",
       "entityLabelPlural":"Skinny Validation Request",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"SnapshotRequest",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Snapshot Request",
-      "entityLabelPlural":"Snapshot Requests",
       "queryable":true,
       "updateable":true
     },
@@ -26671,6 +26061,16 @@
       "updateable":false
     },
     {
+      "apiName":"UserScenarioSummary",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"User Scenario Summary",
+      "entityLabelPlural":"User Scenario Summaries",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"UserSetupEntityAccess",
       "createable":false,
       "custom":false,
@@ -27251,6 +26651,316 @@
       "updateable":false
     },
     {
+      "apiName":"WorkPlan",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan",
+      "entityLabelPlural":"Work Plans",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Criteria Rule",
+      "entityLabelPlural":"Work Plan Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Feed",
+      "entityLabelPlural":"Work Plan Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkPlanHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Work Plan History",
+      "entityLabelPlural":"Work Plan History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkPlanOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Owner Rule",
+      "entityLabelPlural":"Work Plan Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanSelectionRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Selection Rule",
+      "entityLabelPlural":"Work Plan Selection Rules",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanSelectionRuleCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Selection Rule Criteria Rule",
+      "entityLabelPlural":"Work Plan Selection Rule Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanSelectionRuleFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Selection Rule Feed",
+      "entityLabelPlural":"Work Plan Selection Rule Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkPlanSelectionRuleOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Selection Rule Owner Rule",
+      "entityLabelPlural":"Work Plan Selection Rule Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanSelectionRuleShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Selection Rule Share",
+      "entityLabelPlural":"Work Plan Selection Rule Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanSelectionRuleSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Selection Rule Sharing Rule Filter Item",
+      "entityLabelPlural":"Work Plan Selection Rule Sharing Rule Filter Item",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Share",
+      "entityLabelPlural":"Work Plan Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Sharing Rule Filter Item",
+      "entityLabelPlural":"Work Plan Sharing Rule Filter Item",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanTemplate",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template",
+      "entityLabelPlural":"Work Plan Templates",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanTemplateCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Criteria Rule",
+      "entityLabelPlural":"Work Plan Template Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanTemplateEntry",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Entry",
+      "entityLabelPlural":"Work Plan Template Entries",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanTemplateEntryFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Entry Feed",
+      "entityLabelPlural":"Work Plan Template Entry Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkPlanTemplateFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Feed",
+      "entityLabelPlural":"Work Plan Template Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkPlanTemplateOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Owner Rule",
+      "entityLabelPlural":"Work Plan Template Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanTemplateShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Share",
+      "entityLabelPlural":"Work Plan Template Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkPlanTemplateSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Plan Template Sharing Rule Filter Item",
+      "entityLabelPlural":"Work Plan Template Sharing Rule Filter Item",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkStep",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step",
+      "entityLabelPlural":"Work Steps",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkStepFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Feed",
+      "entityLabelPlural":"Work Step Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkStepHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Work Step History",
+      "entityLabelPlural":"Work Step History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkStepStatus",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Work Step Status Value",
+      "entityLabelPlural":"Work Step Status Value",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkStepTemplate",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Template",
+      "entityLabelPlural":"Work Step Templates",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkStepTemplateCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Template Criteria Rule",
+      "entityLabelPlural":"Work Step Template Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkStepTemplateFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Template Feed",
+      "entityLabelPlural":"Work Step Template Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WorkStepTemplateOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Template Owner Rule",
+      "entityLabelPlural":"Work Step Template Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkStepTemplateShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Template Share",
+      "entityLabelPlural":"Work Step Template Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WorkStepTemplateSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Work Step Template Sharing Rule Filter Item",
+      "entityLabelPlural":"Work Step Template Sharing Rule Filter Item",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"WorkType",
       "createable":true,
       "custom":false,
@@ -27567,6 +27277,16 @@
       "deletable":false,
       "entityLabel":"Zone",
       "entityLabelPlural":"Zones",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"AppointmentTopicTimeSlotFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"__MISSING LABEL__ PropertyFile - val AppointmentTopicTimeSlot not found in section StandardFeedLabel",
+      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val AppointmentTopicTimeSlot not found in section StandardFeedLabel",
       "queryable":true,
       "updateable":false
     },

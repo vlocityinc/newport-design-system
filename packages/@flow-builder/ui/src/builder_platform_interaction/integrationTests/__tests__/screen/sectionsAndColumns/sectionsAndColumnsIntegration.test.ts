@@ -195,7 +195,7 @@ describe('ScreenEditor', () => {
             const itemPayload = { value: otherChoice!.guid, displayText: '{!other}' };
             ferovResourcePicker!.dispatchEvent(new ItemSelectedEvent(itemPayload as any) as Event);
             await ticks(50);
-            const picklistScreenField = picklist!.getScreenFieldElement();
+            const picklistScreenField = picklist!.getScreenField().element;
             const lightningPicklist = deepQuerySelector(picklistScreenField, [
                 SELECTORS.SCREEN_CHOICE_FIELD,
                 SELECTORS.LIGHTNING_PICKLIST

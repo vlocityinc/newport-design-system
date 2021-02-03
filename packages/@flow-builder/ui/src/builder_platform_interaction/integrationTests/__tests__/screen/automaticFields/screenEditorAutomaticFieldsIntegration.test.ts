@@ -50,7 +50,7 @@ describe('ScreenEditor automatic fields', () => {
                     const accountNameField = screenEditor
                         .getCanvas()
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
-                        .getScreenFieldElement();
+                        .getScreenField().element;
                     expect(accountNameField.screenfield.type).toMatchObject({
                         name: ScreenFieldName.TextBox,
                         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -67,7 +67,7 @@ describe('ScreenEditor automatic fields', () => {
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
                             'accountSObjectVariable.NumberOfEmployees'
                         )!
-                        .getScreenFieldElement();
+                        .getScreenField().element;
                     expect(accountEmployeesField.screenfield.type).toMatchObject({
                         name: ScreenFieldName.Number,
                         fieldType: FlowScreenFieldType.ObjectProvided,
@@ -83,7 +83,7 @@ describe('ScreenEditor automatic fields', () => {
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
                             'accountSObjectVariable.Description'
                         )!
-                        .getScreenFieldElement();
+                        .getScreenField().element;
                     expect(accountEmployeesField.screenfield.type).toMatchObject({
                         name: ScreenFieldName.LargeTextArea,
                         fieldType: FlowScreenFieldType.ObjectProvided,
@@ -91,6 +91,26 @@ describe('ScreenEditor automatic fields', () => {
                         icon: 'standard:textarea',
                         category: 'FlowBuilderScreenEditor.fieldCategoryInput'
                     });
+                });
+                it('displays info bubble when record field has help text', () => {
+                    const screenFieldWithHelp = screenEditor
+                        .getCanvas()
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
+                            'objectWithAllPossiblFieldsVariable.Text_Field__c'
+                        )!
+                        .getScreenField();
+                    const inputElement = screenFieldWithHelp.getScreenInputField()!.getInputElement() as any;
+                    expect(inputElement.fieldLevelHelp).toBe('the help text for this field');
+                });
+                it('displays required indication if record field is required', () => {
+                    const requiredScreenField = screenEditor
+                        .getCanvas()
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
+                            'objectWithAllPossiblFieldsVariable.Text_Field__c'
+                        )!
+                        .getScreenField();
+                    const inputElement = requiredScreenField.getScreenInputField()!.getInputElement() as any;
+                    expect(inputElement.required).toBe(true);
                 });
             });
             describe('In section', () => {
@@ -101,7 +121,7 @@ describe('ScreenEditor automatic fields', () => {
                     const accountNameField = screenEditor
                         .getCanvas()
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
-                        .getScreenFieldElement();
+                        .getScreenField().element;
                     expect(accountNameField.screenfield.type).toMatchObject({
                         name: ScreenFieldName.TextBox,
                         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -118,7 +138,7 @@ describe('ScreenEditor automatic fields', () => {
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
                             'accountSObjectVariable.NumberOfEmployees'
                         )!
-                        .getScreenFieldElement();
+                        .getScreenField().element;
                     expect(accountEmployeesField.screenfield.type).toMatchObject({
                         name: ScreenFieldName.Number,
                         fieldType: FlowScreenFieldType.ObjectProvided,
@@ -134,7 +154,7 @@ describe('ScreenEditor automatic fields', () => {
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
                             'accountSObjectVariable.Description'
                         )!
-                        .getScreenFieldElement();
+                        .getScreenField().element;
                     expect(accountEmployeesField.screenfield.type).toMatchObject({
                         name: ScreenFieldName.LargeTextArea,
                         fieldType: FlowScreenFieldType.ObjectProvided,

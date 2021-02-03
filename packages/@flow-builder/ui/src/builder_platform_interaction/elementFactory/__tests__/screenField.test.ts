@@ -20,6 +20,7 @@ import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     accountVariableNameAutomaticField,
+    objectWithAllPossiblFieldsVariableTextFieldAutomaticField,
     accountSObjectVariable,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
 } from 'mock/storeData';
@@ -27,6 +28,7 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataAutomaticField } from 'mock/flows/mock-flow';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 
 expect.extend(deepFindMatchers);
 
@@ -73,9 +75,19 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getElementByDevNameFromState
     };
 });
-jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
-}));
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
+            if (entityName === 'Account') {
+                return mockAccountFields;
+            } else if (entityName === 'Object_with_all_possible_fields__c') {
+                return mockObjectWithAllPossibleFieldsFields;
+            }
+            return undefined;
+        })
+    };
+});
 
 const mockGetScreenFieldTypeByNameEmail = () => ({
     category: 'Input',
@@ -536,7 +548,16 @@ describe('screenField', () => {
                         type: 'String',
                         fieldType: FlowScreenFieldType.ObjectProvided,
                         label: 'Account Name'
-                    }
+                    },
+                    isRequired: false,
+                    helpText: ''
+                });
+            });
+            it('correctly set helpText and isRequired from record field definition', () => {
+                const result = createScreenFieldWithFields(objectWithAllPossiblFieldsVariableTextFieldAutomaticField);
+                expect(result).toMatchObject({
+                    isRequired: true,
+                    helpText: 'the help text for this field'
                 });
             });
             it('does not fail when no access to the referenced object', () => {
@@ -589,7 +610,9 @@ describe('screenField', () => {
                     type: 'String',
                     fieldType: FlowScreenFieldType.ObjectProvided,
                     label: 'Account Name'
-                }
+                },
+                isRequired: false,
+                helpText: ''
             });
         });
     });

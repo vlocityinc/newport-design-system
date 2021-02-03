@@ -63,6 +63,7 @@ type FieldDefinition = {
     compoundFieldName: string | null;
     extraTypeInfo: string | null;
     fieldDataType: string;
+    inlineHelpText: string | null;
 };
 
 interface ScreenPaletteItem {

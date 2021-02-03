@@ -1377,6 +1377,20 @@
                         "processMetadataValues": [],
                         "scale": 0,
                         "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "helpText": "the help text for this field",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "objectFieldReference": "objectWithAllPossiblFieldsVariable.Text_Field__c",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
                     }
                 ],
                 "label": "screenWithAutomaticFields",
@@ -2102,6 +2116,16 @@
                 "name": "numberVariable",
                 "processMetadataValues": [],
                 "scale": 2
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "objectWithAllPossiblFieldsVariable",
+                "objectType": "Object_with_all_possible_fields__c",
+                "processMetadataValues": [],
+                "scale": 0
             },
             {
                 "dataType": "SObject",

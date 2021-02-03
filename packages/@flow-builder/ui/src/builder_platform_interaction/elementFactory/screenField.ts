@@ -383,7 +383,7 @@ const createAutomaticFieldFromEntityField = (
             ? createAutomaticFieldType(typeName, entityField)
             : { label: objectFieldReferenceToLabel(objectFieldReference) },
         fieldText: entityField ? entityField.label : objectFieldReferenceToLabel(objectFieldReference),
-        helpText: (entityField && entityField.helpText) || '',
+        helpText: (entityField && entityField.inlineHelpText) || '',
         fieldType: FlowScreenFieldType.ObjectProvided,
         scale,
         inputParameters: [],
