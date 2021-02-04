@@ -223,6 +223,12 @@ describe('OrchestratedStage', () => {
             expect(orchestratedStage.elementType).toEqual(ELEMENT_TYPE.ORCHESTRATED_STAGE);
         });
 
+        it('dataType is ORCHESTRATED_STAGE', () => {
+            const orchestratedStage = createOrchestratedStageWithItems(existingOrchestratedStage);
+
+            expect(orchestratedStage.dataType).toEqual(FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value);
+        });
+
         it('default name/label', () => {
             const orchestratedStage = createOrchestratedStageWithItems({});
 
@@ -354,12 +360,20 @@ describe('OrchestratedStage', () => {
             expect(result.elementType).toEqual(ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS);
         });
 
-        it('element type is ORCHESTRATED_STAGE', () => {
+        it('canvas element type is ORCHESTRATED_STAGE', () => {
             const result = createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor(
                 orchestratedStageFromPropertyEditor
             );
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.ORCHESTRATED_STAGE);
+        });
+
+        it('canvas element dataType is ORCHESTRATED_STAGE', () => {
+            const result = createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor(
+                orchestratedStageFromPropertyEditor
+            );
+
+            expect(result.canvasElement.dataType).toEqual(FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value);
         });
     });
 
@@ -676,13 +690,13 @@ describe('OrchestratedStage', () => {
         it('includes status', () => {
             const data = getStageStepChildren(step);
 
-            expect(data.status).toMatchObject({
+            expect(data.Status).toMatchObject({
                 name: 'Status',
                 apiName: 'Status',
                 dataType: 'String'
             });
         });
-        describe('outputs', () => {
+        describe('Outputs', () => {
             it('returns existing outputs if already present', () => {
                 step.outputParameters = [
                     {
@@ -694,25 +708,31 @@ describe('OrchestratedStage', () => {
                     }
                 ];
                 const data = getStageStepChildren(step);
-                expect(step.outputParameters[0]).toMatchObject(data.output.getChildrenItems()[0]);
+                expect(step.outputParameters[0]).toMatchObject(data.Outputs.getChildrenItems()[0]);
             });
             it('not present if no parameters', () => {
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(1);
-                expect(data.status).toBeTruthy();
+                expect(data.Status).toBeTruthy();
+            });
+            it('not present if no actionName', () => {
+                step.actionName = undefined;
+                const data = getStageStepChildren(step);
+                expect(Object.keys(data)).toHaveLength(1);
+                expect(data.Status).toBeTruthy();
             });
             it('not present if no output parameters', () => {
                 step.actionName = mockActionWithInputParametersName;
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(1);
-                expect(data.status).toBeTruthy();
+                expect(data.Status).toBeTruthy();
             });
 
             it('is present if there are output parameters', () => {
                 step.actionName = mockActionWithOutputParametersName;
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(2);
-                expect(data.output).toMatchObject({
+                expect(data.Outputs).toMatchObject({
                     name: 'Outputs',
                     apiName: 'Outputs',
                     dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
@@ -722,7 +742,7 @@ describe('OrchestratedStage', () => {
             it('getChildrenItems returns output parameters', () => {
                 step.actionName = mockActionWithOutputParametersName;
                 const data = getStageStepChildren(step);
-                const outputChildren = data.output.getChildrenItems();
+                const outputChildren = data.Outputs.getChildrenItems();
                 expect(outputChildren).toHaveLength(1);
                 expect(outputChildren[0]).toMatchObject({
                     name: 'record',
@@ -738,7 +758,7 @@ describe('OrchestratedStage', () => {
 
         const data = getOrchestratedStageChildren(stage);
 
-        expect(data.status).toMatchObject({
+        expect(data.Status).toMatchObject({
             name: 'Status',
             apiName: 'Status',
             dataType: 'String'

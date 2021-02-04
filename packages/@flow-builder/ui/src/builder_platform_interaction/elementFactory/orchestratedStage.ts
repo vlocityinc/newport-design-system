@@ -234,6 +234,7 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
     Object.assign(newOrchestratedStage, {
         elementType,
         childReferences,
+        dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value,
         maxConnections: 1
     });
 
@@ -266,7 +267,7 @@ export function getSteps(guid: UI.Guid): StageStep[] {
 
 export function getOrchestratedStageChildren(): UI.StringKeyedMap<any> {
     return {
-        status: {
+        Status: {
             label: LABELS.orchestratedStageStatus,
             name: 'Status',
             apiName: 'Status',
@@ -280,7 +281,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
     // with StageSteps
     const step = (element as unknown) as StageStep;
     const comboboxitems: UI.StringKeyedMap<any> = {
-        status: {
+        Status: {
             label: LABELS.stageStepStatus,
             name: 'Status',
             apiName: 'Status',
@@ -288,11 +289,11 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
         }
     };
 
-    let outputParameters: ParameterListRowItem[];
+    let outputParameters: ParameterListRowItem[] = [];
     if (step.outputParameters.length > 0) {
         // Use the already loaded output parameters
         outputParameters = step.outputParameters;
-    } else {
+    } else if (step.actionName) {
         // check for asynchronously loaded output parameters for the associated action
         outputParameters = getParametersForInvocableAction({
             actionName: step.actionName,
@@ -311,7 +312,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
     }
 
     if (outputParameters && outputParameters.length > 0) {
-        comboboxitems.output = {
+        comboboxitems.Outputs = {
             label: LABELS.stageStepOutput,
             name: 'Outputs',
             apiName: 'Outputs',

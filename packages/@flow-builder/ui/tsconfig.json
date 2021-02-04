@@ -209,7 +209,6 @@
             "builder_platform_interaction/statusIcon": ["./src/builder_platform_interaction/statusIcon/statusIcon.ts"],
             "builder_platform_interaction/statusIconSummary": ["./src/builder_platform_interaction/statusIconSummary/statusIconSummary.ts"],
             "builder_platform_interaction/stepEditor": ["./src/builder_platform_interaction/stepEditor/stepEditor.ts"],
-            "builder_platform_interaction/steppedStageEditor": ["./src/builder_platform_interaction/steppedStageEditor/steppedStageEditor.ts"],
             "builder_platform_interaction/storeLib": ["./src/builder_platform_interaction/storeLib/storeLib.ts"],
             "builder_platform_interaction/storeUtils": ["./src/builder_platform_interaction/storeUtils/storeUtils.ts"],
             "builder_platform_interaction/subflowEditor": ["./src/builder_platform_interaction/subflowEditor/subflowEditor.ts"],
