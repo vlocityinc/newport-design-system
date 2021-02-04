@@ -1,23 +1,31 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
+import { Store } from 'builder_platform_interaction/storeLib';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
 import {
-    DRAGGING_CLASS,
-    HOVERING_CLASS,
-    HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS,
-    HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS,
-    FRAME_DIV_SELECTOR,
-    CONTAINER_DIV_SELECTOR
-} from 'builder_platform_interaction/screenEditorUtils';
-import {
-    createTestScreenField,
     ticks,
     mouseoverEvent,
     mouseoutEvent,
     dragStartEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import {
+    DRAGGING_CLASS,
+    HOVERING_CLASS,
+    CONTAINER_DIV_SELECTOR,
+    VISIBILITY_ICON,
+    VISIBILITY_ICON_CONTAINER,
+    HIGHLIGHT_DIV_HEADER
+} from 'builder_platform_interaction/screenEditorUtils';
+import {
+    flowWithAllElementsUIModel,
+    screenFieldAccounts,
+    emailScreenField,
+    screenFieldTextBoxSomeText
+} from 'mock/storeData';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
@@ -39,11 +47,19 @@ function clickHighlight(highlight, callback) {
     highlightDiv.click();
 }
 
+function getVisibilityIconContainer(element) {
+    return element.shadowRoot.querySelector(VISIBILITY_ICON_CONTAINER);
+}
+
+function getVisibiltyIconNoShadow(parent) {
+    return parent.querySelector(VISIBILITY_ICON);
+}
+
 describe('Click highlight', () => {
     let highlight;
     beforeEach(() => {
         highlight = createComponentForTest({
-            screenElement: createTestScreenField('Name', 'TextBox')
+            screenElement: screenFieldTextBoxSomeText
         });
     });
     it('clicking on highlight component fires correct event', async () => {
@@ -65,7 +81,7 @@ describe('onDragStart', () => {
     let highlight;
     beforeEach(() => {
         highlight = createComponentForTest({
-            screenElement: createTestScreenField('Name', 'TextBox')
+            screenElement: screenFieldTextBoxSomeText
         });
     });
     it('dragging an element sets correct dataTransfer', async () => {
@@ -83,7 +99,7 @@ describe('onDragEnd', () => {
     let highlight;
     beforeEach(() => {
         highlight = createComponentForTest({
-            screenElement: createTestScreenField('Name', 'TextBox')
+            screenElement: screenFieldTextBoxSomeText
         });
     });
     it('The end of dragging an element sets the correct styling', async () => {
@@ -103,7 +119,7 @@ describe('highlight behavior on hover', () => {
     let highlight;
     beforeEach(() => {
         highlight = createComponentForTest({
-            screenElement: createTestScreenField('Name', 'TextBox')
+            screenElement: screenFieldTextBoxSomeText
         });
     });
 
@@ -128,40 +144,62 @@ describe('highlight behavior on hover', () => {
     });
 });
 
-describe('setting preventEvents to true', () => {
-    let highlight;
-    beforeEach(() => {
-        highlight = createComponentForTest({
-            screenElement: createTestScreenField('Name', 'TextBox'),
-            preventEvents: true
+describe('Visibility Icon', () => {
+    let element: ScreenEditorHighlight;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
+    describe('screen field has visibility condition', () => {
+        beforeEach(() => {
+            element = createComponentForTest({ screenElement: screenFieldAccounts });
+        });
+        it('visibility icon should be visible', async () => {
+            const iconContainer = getVisibilityIconContainer(element);
+            expect(iconContainer).not.toBeNull();
+            expect(iconContainer.hidden).toBe(false);
+            const icon = getVisibiltyIconNoShadow(iconContainer);
+            expect(icon).not.toBeNull();
+            expect(icon.iconName).not.toBeNull();
+        });
+        describe('When Selected', () => {
+            beforeEach(async () => {
+                element.selected = true;
+            });
+            it('visibility icon should be visible in the header', () => {
+                const highlightHeaderDiv = element.shadowRoot.querySelector(HIGHLIGHT_DIV_HEADER);
+                const icon = getVisibiltyIconNoShadow(highlightHeaderDiv);
+                expect(icon).not.toBeNull();
+            });
+            it('visibility icon should NOT be visible in the frame', async () => {
+                const iconContainer = getVisibilityIconContainer(element);
+                expect(iconContainer).toBeNull();
+            });
         });
     });
-
-    it('results in correct styling', async () => {
-        await ticks(1);
-
-        const frameDiv = highlight.shadowRoot.querySelector(FRAME_DIV_SELECTOR);
-        expect(frameDiv).toBeDefined();
-        expect(frameDiv.classList).toContain(HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS);
-        expect(frameDiv.classList).not.toContain(HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS);
-    });
-});
-
-describe('setting preventEvents to false', () => {
-    let highlight;
-    beforeEach(() => {
-        highlight = createComponentForTest({
-            screenElement: createTestScreenField('Name', 'TextBox'),
-            preventEvents: false
+    describe('screen field has NO visibility condition', () => {
+        beforeEach(() => {
+            element = createComponentForTest({ screenElement: emailScreenField });
         });
-    });
-
-    it('results in correct styling', async () => {
-        await ticks(1);
-
-        const frameDiv = highlight.shadowRoot.querySelector(FRAME_DIV_SELECTOR);
-        expect(frameDiv).toBeDefined();
-        expect(frameDiv.classList).toContain(HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS);
-        expect(frameDiv.classList).not.toContain(HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS);
+        it('visibility icon should NOT be visible', async () => {
+            const icon = getVisibilityIconContainer(element);
+            expect(icon).toBeNull();
+        });
+        describe('When Selected', () => {
+            beforeEach(async () => {
+                element.selected = true;
+            });
+            it('visibility icon should NOT be visible in the header', () => {
+                const highlightHeaderDiv = element.shadowRoot.querySelector(HIGHLIGHT_DIV_HEADER);
+                const icon = getVisibiltyIconNoShadow(highlightHeaderDiv);
+                expect(icon).toBeNull();
+            });
+            it('visibility icon should NOT be visible in the frame', async () => {
+                const iconContainer = getVisibilityIconContainer(element);
+                expect(iconContainer).toBeNull();
+            });
+        });
     });
 });

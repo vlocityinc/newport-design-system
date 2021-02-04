@@ -35,6 +35,18 @@ export default class ScreenEditorHighlight extends LightningElement {
         );
     }
 
+    get isElementHasVisiblitityConditions() {
+        return (
+            this.screenElement.visibilityRule &&
+            this.screenElement.visibilityRule.conditions &&
+            this.screenElement.visibilityRule.conditions.length > 0
+        );
+    }
+
+    get isElementHasVisiblitityConditionsAndIsNotSelected() {
+        return !this.selected && this.isElementHasVisiblitityConditions;
+    }
+
     get isDraggable() {
         return booleanAttributeValue(this, 'draggable');
     }

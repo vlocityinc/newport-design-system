@@ -168,6 +168,9 @@ export const address2 = getElementByName('address_2');
 export const email2 = getElementByName('email_2');
 export const displayTextUsingResources = getElementByName('displayTextUsingResources');
 
+export const screenFieldAccounts = getElementByName('accounts');
+export const screenFieldTextBoxSomeText = getElementByName('someText');
+
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 export const numberVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[numberVariable.name]);

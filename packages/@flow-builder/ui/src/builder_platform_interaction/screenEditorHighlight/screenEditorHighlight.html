@@ -10,19 +10,33 @@
         onmouseout={handleMouseOut}
     >
         <div class="highlight-header slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center">
+            <lightning-icon
+                if:true={isElementHasVisiblitityConditions}
+                class="visibility-icon"
+                icon-name="utility:preview"
+                size="x-small"
+                variant="container"
+                tab-index="-1"
+            ></lightning-icon>
             <lightning-icon icon-name={highlightIcon} size="x-small" variant="inverse"></lightning-icon>
             <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">{title}</div>
         </div>
 
-        <div if:false={shouldPreventEvents} class="highlight-frame highlight-frame-allow-events">
+        <div if:false={shouldPreventEvents} class="highlight-frame">
             <slot name="screen-element"></slot>
-            <div
-                if:true={shouldDisplayIcons}
-                class="highlight-icons-container highlight-icons-container-allow-events slds-grid slds-is-absolute"
-            >
+            <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
+                <div if:true={isElementHasVisiblitityConditionsAndIsNotSelected} class="highlight-icon-container">
+                    <lightning-icon
+                        class="visibility-icon absolute left"
+                        icon-name="utility:preview"
+                        size="xx-small"
+                        variant="container"
+                        tab-index="-1"
+                    ></lightning-icon>
+                </div>
                 <div class="highlight-icon-container slds-text-align_center">
                     <lightning-button-icon
-                        class="highlight-icon left"
+                        class="highlight-icon middle"
                         icon-name="utility:move"
                         variant="bare-inverse"
                         size="small"
@@ -41,18 +55,45 @@
                     ></lightning-button-icon>
                 </div>
             </div>
+            <div
+                if:true={isElementHasVisiblitityConditionsAndIsNotSelected}
+                class="visibility-icons-container slds-grid slds-is-absolute"
+            >
+                <div class="slds-text-align_center">
+                    <lightning-button-icon
+                        class="visibility-icon right"
+                        icon-name="utility:preview"
+                        variant="bare"
+                        size="small"
+                        tab-index="-1"
+                    ></lightning-button-icon>
+                </div>
+            </div>
         </div>
 
         <div if:true={shouldPreventEvents} class="slds-grid slds-is-relative">
             <slot name="screen-element"></slot>
-            <div class="slds-size_full slds-is-absolute highlight-frame highlight-frame-prevent-events">
+            <div class="slds-size_full slds-is-absolute highlight-frame">
                 <div
                     if:true={shouldDisplayIcons}
-                    class="highlight-icons-container highlight-icons-container-prevent-events slds-grid slds-is-relative slds-float_right"
+                    class="highlight-icons-container slds-grid slds-is-relative slds-float_right"
                 >
+                    <div
+                        if:true={isElementHasVisiblitityConditionsAndIsNotSelected}
+                        class="highlight-icon-container visibility"
+                    >
+                        <lightning-icon
+                            class="visibility-icon absolute left"
+                            icon-name="utility:preview"
+                            size="xx-small"
+                            variant="container"
+                            tab-index="-1"
+                        ></lightning-icon>
+                    </div>
+
                     <div class="highlight-icon-container slds-text-align_center">
                         <lightning-button-icon
-                            class="highlight-icon left"
+                            class="highlight-icon middle"
                             icon-name="utility:move"
                             variant="bare-inverse"
                             size="small"
@@ -71,6 +112,18 @@
                         ></lightning-button-icon>
                     </div>
                 </div>
+            </div>
+            <div
+                if:true={isElementHasVisiblitityConditionsAndIsNotSelected}
+                class="visibility-icons-container slds-is-relative slds-float_right"
+            >
+                <lightning-button-icon
+                    class="visibility-icon right"
+                    icon-name="utility:preview"
+                    variant="bare"
+                    size="small"
+                    tab-index="-1"
+                ></lightning-button-icon>
             </div>
         </div>
     </div>
