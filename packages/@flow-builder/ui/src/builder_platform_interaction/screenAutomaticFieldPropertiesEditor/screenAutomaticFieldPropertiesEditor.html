@@ -17,6 +17,17 @@
                     </td>
                 </tr>
             </template>
+            <tr if:true={helptext}>
+                <td class="slds-align-top slds-cell-wrap slds-size_1-of-3">
+                    <lightning-formatted-text
+                        value={labels.automaticFieldHelptext}
+                        class="autofield-description-label"
+                    ></lightning-formatted-text>
+                </td>
+                <td class="slds-align-top slds-cell-wrap">
+                    <lightning-helptext content={helptext}></lightning-helptext>
+                </td>
+            </tr>
         </table>
     </div>
     <div class="slds-p-around_medium">
@@ -33,7 +44,7 @@
                 </p>
                 <p>
                     <lightning-formatted-url
-                        value={link}
+                        value={objectManagerLink}
                         label={labels.automaticFieldInfoboxLink}
                         target="_blank"
                     ></lightning-formatted-url>

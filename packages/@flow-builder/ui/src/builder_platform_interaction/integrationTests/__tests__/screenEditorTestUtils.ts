@@ -340,7 +340,9 @@ export class AutomaticFieldPropertiesEditorTestComponent extends TestComponent<S
     public getAutomaticFieldIsRequired() {
         return this.getAutomaticFieldValues()[4] as any;
     }
-
+    public getAutomaticFieldHelptext() {
+        return this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_HELPTEXT) as any;
+    }
     private getAutomaticFieldValues() {
         return this.element.shadowRoot!.querySelectorAll(
             SELECTORS.LIGHTNING_FORMATTED_TEXT +

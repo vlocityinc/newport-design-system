@@ -118,12 +118,19 @@ import automaticFieldObject from '@salesforce/label/FlowBuilderAutomaticFieldEdi
 import automaticFieldIsRequired from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequired';
 import automaticFieldIsRequiredTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequiredTrue';
 import automaticFieldIsRequiredFalse from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequiredFalse';
+import automaticFieldHelptext from '@salesforce/label/FlowBuilderAutomaticFieldEditor.helptext';
 import automaticFieldInfoboxText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.infoboxText';
 import automaticFieldInfoboxLink from '@salesforce/label/FlowBuilderAutomaticFieldEditor.infoboxLink';
+import automaticFieldDataTypeText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeText';
+import automaticFieldDataTypeNumber from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber';
+import automaticFieldDataTypeDateTime from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeDateTime';
+import automaticFieldDataTypeDate from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeDate';
+import automaticFieldDataTypeCheckbox from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeCheckbox';
+import automaticFieldDataTypeTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeTextArea';
+import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeLongTextArea';
 
 export const LABELS = {
     errorRequired,
-    // reviewErrors, -- Not used as of 5/23/18, not removing it as it may be needed before GA, revisit in 218-220
     screen,
     screenProperties,
     screenTitlePlaceHolder,
@@ -240,8 +247,16 @@ export const LABELS = {
     automaticFieldDataType,
     automaticFieldObject,
     automaticFieldIsRequired,
+    automaticFieldHelptext,
     automaticFieldInfoboxText,
     automaticFieldInfoboxLink,
     automaticFieldIsRequiredTrue,
-    automaticFieldIsRequiredFalse
+    automaticFieldIsRequiredFalse,
+    automaticFieldDataTypeText,
+    automaticFieldDataTypeNumber,
+    automaticFieldDataTypeDateTime,
+    automaticFieldDataTypeDate,
+    automaticFieldDataTypeCheckbox,
+    automaticFieldDataTypeTextArea,
+    automaticFieldDataTypeLongTextArea
 };

@@ -1,4 +1,3 @@
-// @ts-nocheck
 const DEFAULT_MAX_TICKS = 10;
 
 /**

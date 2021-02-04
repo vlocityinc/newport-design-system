@@ -121,7 +121,11 @@ import {
     loadVersioningData,
     loadFieldsForExtensionsInFlowFromMetadata
 } from 'builder_platform_interaction/preloadLib';
-import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
+import {
+    isAutoLayoutCanvasEnabled,
+    getPreferredExperience,
+    CLASSIC_EXPERIENCE
+} from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
@@ -923,7 +927,7 @@ export default class Editor extends LightningElement {
      * Callback which gets executed after getting data urls for header
      */
     getHeaderUrlsCallBack = (data) => {
-        let isFromAloha = data.preferred === 'CLASSIC';
+        let isFromAloha = getPreferredExperience() === CLASSIC_EXPERIENCE;
         if (window.location.search.indexOf('isFromAloha=true') >= 0) {
             isFromAloha = true;
         }

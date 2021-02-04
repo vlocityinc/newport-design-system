@@ -121,7 +121,9 @@ declare namespace UI {
         dataTypeMappings?: [];
         objectFieldReference?: string;
         type: ScreenFieldType;
+        precision?: number;
         scale?: number;
+        length?: number;
         validationRule?: ValidationRule;
         inputParameters: [];
         isRequired: boolean;

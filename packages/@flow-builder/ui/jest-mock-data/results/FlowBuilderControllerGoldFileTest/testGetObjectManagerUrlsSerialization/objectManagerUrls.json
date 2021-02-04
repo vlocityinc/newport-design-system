@@ -1,0 +1,7 @@
+{
+  "objectManagerUrls":{
+    "classicCustomObject":"/p/setup/custent/CustomObjectsPage",
+    "classicStandardObject":"/p/setup/layout/LayoutFieldList?type={0}",
+    "lightningObjectManager":"/lightning/setup/ObjectManager/{0}/FieldsAndRelationships/view"
+  }
+}

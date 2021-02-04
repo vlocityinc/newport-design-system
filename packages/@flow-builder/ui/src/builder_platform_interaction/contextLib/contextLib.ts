@@ -66,3 +66,9 @@ export function orgHasFlowBuilderGuardrails() {
 export function orgHasFlowBuilderAutomaticFields() {
     return context.access && context.access.orgHasFlowBuilderAutomaticFields;
 }
+
+export const CLASSIC_EXPERIENCE = 'CLASSIC';
+
+export function getPreferredExperience() {
+    return context.preferredExperience as string;
+}

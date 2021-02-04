@@ -54,6 +54,7 @@ import { lightningWithApexNoSObjectActionDetails } from 'serverData/GetInvocable
 import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInvocableActionDetails/lightningWithApexContainsSObjectActionDetails.json';
 import { context } from 'serverData/GetContext/context.json';
 import { allTypesApexActionDetails } from 'serverData/GetInvocableActionDetails/allTypesApexActionDetails.json';
+import { objectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
 
 const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -233,7 +234,8 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.FLOW]: supportedElementsForFlow,
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow
     }),
-    'c.getTriggerTypeInfo': createGetter([])
+    'c.getTriggerTypeInfo': createGetter([]),
+    'c.getObjectManagerUrls': createGetter(objectManagerUrls)
 };
 
 export function initializeAuraFetch(actions = {}) {

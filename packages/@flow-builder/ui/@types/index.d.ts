@@ -64,6 +64,9 @@ type FieldDefinition = {
     extraTypeInfo: string | null;
     fieldDataType: string;
     inlineHelpText: string | null;
+    precision: number;
+    scale: number;
+    length: number;
 };
 
 interface ScreenPaletteItem {

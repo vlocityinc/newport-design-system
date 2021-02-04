@@ -7,6 +7,20 @@ import { createComponentUnderTest, ScreenEditorTestComponent } from '../../scree
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber', () => ({ default: 'Number({0}, {1})' }), {
+    virtual: true
+});
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeText', () => ({ default: 'Text({0})' }), {
+    virtual: true
+});
+jest.mock(
+    '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeLongTextArea',
+    () => ({ default: 'Long Text Area({0})' }),
+    {
+        virtual: true
+    }
+);
+
 describe('ScreenEditor automatic fields', () => {
     let screenEditor: ScreenEditorTestComponent;
     const createScreenEditor = async (elementName) => {
@@ -170,10 +184,12 @@ describe('ScreenEditor automatic fields', () => {
                 screenEditor = await createScreenEditor('screenWithAutomaticFields');
             });
             describe.each`
-                description                          | fieldReference                                | expectedName           | expectedLabel     | expectedDataType | expectedObject | expectedIsRequired
-                ${'variable and text field'}         | ${'accountSObjectVariable.Name'}              | ${'Name'}              | ${'Account Name'} | ${'String'}      | ${'Account'}   | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'}
-                ${'variable and number field'}       | ${'accountSObjectVariable.NumberOfEmployees'} | ${'NumberOfEmployees'} | ${'Employees'}    | ${'Number'}      | ${'Account'}   | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'}
-                ${'automatic output and text field'} | ${'lookupRecordAutomaticOutput.Name'}         | ${'Name'}              | ${'Account Name'} | ${'String'}      | ${'Account'}   | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'}
+                description                                                            | fieldReference                                        | expectedName           | expectedLabel            | expectedDataType           | expectedObject                          | expectedIsRequired                                   | expectedHelptext
+                ${'variable and text field'}                                           | ${'accountSObjectVariable.Name'}                      | ${'Name'}              | ${'Account Name'}        | ${'Text(255)'}             | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
+                ${'variable and number field'}                                         | ${'accountSObjectVariable.NumberOfEmployees'}         | ${'NumberOfEmployees'} | ${'Employees'}           | ${'Number(8, 0)'}          | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
+                ${'automatic output and text field'}                                   | ${'lookupRecordAutomaticOutput.Name'}                 | ${'Name'}              | ${'Account Name'}        | ${'Text(255)'}             | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
+                ${'variable and long text area'}                                       | ${'accountSObjectVariable.Description'}               | ${'Description'}       | ${'Account Description'} | ${'Long Text Area(32000)'} | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
+                ${'variable and required text field with helptext from custom object'} | ${'objectWithAllPossiblFieldsVariable.Text_Field__c'} | ${'Text_Field__c'}     | ${'Text Field'}          | ${'Text(128)'}             | ${'Object_with_all_possible_fields__c'} | ${'FlowBuilderAutomaticFieldEditor.isRequiredTrue'}  | ${'the help text for this field'}
             `(
                 'Using $description',
                 ({
@@ -182,7 +198,8 @@ describe('ScreenEditor automatic fields', () => {
                     expectedLabel,
                     expectedDataType,
                     expectedObject,
-                    expectedIsRequired
+                    expectedIsRequired,
+                    expectedHelptext
                 }) => {
                     beforeAll(() => {
                         screenEditor
@@ -229,6 +246,17 @@ describe('ScreenEditor automatic fields', () => {
                                 .getAutomaticFieldPropertiesEditorElement()!
                                 .getAutomaticFieldIsRequired().value
                         ).toEqual(expectedIsRequired);
+                    });
+                    it('helptext matches', () => {
+                        const helptext = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getAutomaticFieldHelptext();
+                        if (expectedHelptext === null) {
+                            expect(helptext).toBeNull();
+                        } else {
+                            expect(helptext.content).toEqual(expectedHelptext);
+                        }
                     });
                 }
             );

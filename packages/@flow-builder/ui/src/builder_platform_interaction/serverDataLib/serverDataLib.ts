@@ -46,7 +46,8 @@ export const SERVER_ACTION_TYPE = {
     GET_PALETTE: 'getPalette',
     GET_VERSIONING_INFO: 'getVersioningInfo',
     RUN_DEBUG: 'runDebug',
-    RETRIEVE_INTERVIEW_HISTORY: 'retrieveInterviewHistory'
+    RETRIEVE_INTERVIEW_HISTORY: 'retrieveInterviewHistory',
+    GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS: 'getObjectManagerUrls'
 };
 
 const actionConfig = {
@@ -93,7 +94,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_PALETTE]: 'c.getPalette',
     [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: 'c.getVersioningInfo',
     [SERVER_ACTION_TYPE.RUN_DEBUG]: 'c.runDebugInterview',
-    [SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY]: 'c.retrieveInterviewHistory'
+    [SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY]: 'c.retrieveInterviewHistory',
+    [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: 'c.getObjectManagerUrls'
 };
 
 let auraFetch;
@@ -190,7 +192,9 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: (params) => `${params.builderType}`,
     [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: (params) => `${params.triggerType}`,
     [SERVER_ACTION_TYPE.GET_PALETTE]: (params) => params.flowProcessType,
-    [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: (params) => params.builderType
+    [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: (params) => params.builderType,
+    [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: () =>
+        SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS
 };
 
 const fetchOnceCache = {};

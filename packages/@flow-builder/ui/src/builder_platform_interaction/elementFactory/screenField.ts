@@ -365,7 +365,6 @@ const createAutomaticFieldFromEntityField = (
     const {
         defaultValue,
         defaultValueDataType,
-        scale,
         validationRule,
         isVisible,
         choiceReferences,
@@ -385,7 +384,9 @@ const createAutomaticFieldFromEntityField = (
         fieldText: entityField ? entityField.label : objectFieldReferenceToLabel(objectFieldReference),
         helpText: (entityField && entityField.inlineHelpText) || '',
         fieldType: FlowScreenFieldType.ObjectProvided,
-        scale,
+        precision: entityField ? entityField.precision : undefined,
+        scale: entityField ? entityField.scale : undefined,
+        length: entityField ? entityField.length : undefined,
         inputParameters: [],
         outputParameters: [],
         validationRule,
