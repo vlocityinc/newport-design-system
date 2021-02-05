@@ -14,7 +14,6 @@ import howManyRecordsToCreateLabel from '@salesforce/label/FlowBuilderRecordEdit
 import oneRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.oneRecordLabel';
 import multipleRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.multipleRecordsLabel';
 import howAreFieldValuesNewRecordStore from '@salesforce/label/FlowBuilderRecordEditor.howAreFieldValuesNewRecordStore';
-import howAreSpecifyRecordsToUpdateLabel from '@salesforce/label/FlowBuilderRecordEditor.howAreSpecifyRecordsToUpdateLabel';
 import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
 import idsStoredSObjectOrSObjectCollectionLabel from '@salesforce/label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel';
 import useAllValuesFromRecordVariableLabel from '@salesforce/label/FlowBuilderRecordEditor.useAllValuesFromRecordVariable';
@@ -36,7 +35,6 @@ export const LABELS = {
     oneRecordLabel,
     multipleRecordsLabel,
     howAreFieldValuesNewRecordStore,
-    howAreSpecifyRecordsToUpdateLabel,
     usingCriteriaLabel,
     idsStoredSObjectOrSObjectCollectionLabel,
     useAllValuesFromRecordVariableLabel,
@@ -79,10 +77,6 @@ const getWayToStoreOption = (labelFirstWay, labelSecondWay) => {
 export const NUMBER_RECORDS_OPTIONS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: getNumberRecordsOption(LABELS.firstRecordLabel, LABELS.allRecordsLabel),
     [ELEMENT_TYPE.RECORD_CREATE]: getNumberRecordsOption(LABELS.oneRecordLabel, LABELS.multipleRecordsLabel),
-    [ELEMENT_TYPE.RECORD_UPDATE]: getNumberRecordsOption(
-        LABELS.idsStoredSObjectOrSObjectCollectionLabel,
-        LABELS.usingCriteriaLabel
-    ),
     [ELEMENT_TYPE.RECORD_DELETE]: getNumberRecordsOption(
         LABELS.useIdsStoredToDeleteLabel,
         LABELS.specifyConditionsToDeleteLabel
@@ -104,7 +98,6 @@ export const WAY_TO_STORE_FIELDS_OPTIONS = {
 export const NUMBER_RECORDS_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.numberRecordsToStoreLabel,
     [ELEMENT_TYPE.RECORD_CREATE]: LABELS.howManyRecordsToCreateLabel,
-    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.howAreSpecifyRecordsToUpdateLabel,
     [ELEMENT_TYPE.RECORD_DELETE]: LABELS.howToFindRecordsToDeteLabel
 };
 

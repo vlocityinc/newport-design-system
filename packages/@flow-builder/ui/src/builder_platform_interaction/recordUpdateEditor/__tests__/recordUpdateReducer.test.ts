@@ -6,12 +6,11 @@ import {
     DeleteRecordFilterEvent,
     DeleteRecordFieldAssignmentEvent,
     PropertyChangedEvent,
-    RecordStoreOptionChangedEvent,
     UpdateRecordFieldAssignmentEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_platform_interaction/flowMetadata';
 
 const recordUpdateUsingFieldsTemplate = () => {
     return {
@@ -23,7 +22,6 @@ const recordUpdateUsingFieldsTemplate = () => {
         locationX: 358,
         locationY: 227,
         name: { value: 'testRecordFields', error: null },
-        useSobject: false,
         inputAssignments: [
             {
                 leftHandSide: { value: 'Account.BillingCountry', error: null },
@@ -43,7 +41,48 @@ const recordUpdateUsingFieldsTemplate = () => {
             }
         ],
         filterLogic: { value: CONDITION_LOGIC.OR, error: null },
-        object: { value: 'account', error: null }
+        object: { value: 'account', error: null },
+        wayToFindRecords: {
+            value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP,
+            error: null
+        }
+    };
+};
+
+const recordUpdateUsingTriggeringUpdate = () => {
+    return {
+        description: { value: '', error: null },
+        elementType: 'RECORD_UPDATE',
+        guid: 'RECORDUPDATE_2',
+        isCanvasElement: true,
+        label: { value: 'testRecordFields', error: null },
+        locationX: 358,
+        locationY: 227,
+        name: { value: 'testRecordFields', error: null },
+        inputAssignments: [
+            {
+                leftHandSide: { value: 'BillingCountry', error: null },
+                rightHandSide: { value: 'myCountry', error: null },
+                rightHandSideDataType: { value: 'String', error: null },
+                rightHandSideGuid: { value: 'myCountry', error: null },
+                rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d1d'
+            }
+        ],
+        filters: [
+            {
+                leftHandSide: { value: 'BillingAddress', error: null },
+                operator: { value: 'EqualTo', error: null },
+                rightHandSide: { value: 'my address', error: null },
+                rightHandSideDataType: { value: 'String', error: null },
+                rowIndex: 'RECORDUPDATEFILTERITEM_1'
+            }
+        ],
+        filterLogic: { value: CONDITION_LOGIC.OR, error: null },
+        inputReference: { value: '$Record', error: null },
+        wayToFindRecords: {
+            value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD,
+            error: null
+        }
     };
 };
 
@@ -57,9 +96,12 @@ const recordUpdateUsingSobjectTemplate = () => {
         locationX: 358,
         locationY: 227,
         name: { value: 'testRecordFields', error: null },
-        useSobject: true,
         processMetadataValues: [],
-        inputReference: { value: 'VARIABLE_6', error: null }
+        inputReference: { value: 'VARIABLE_6', error: null },
+        wayToFindRecords: {
+            value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE,
+            error: null
+        }
     };
 };
 
@@ -102,6 +144,41 @@ describe('record-update-reducer using sObject', () => {
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual(value);
             expect(newState.inputReference.error).toBe(error);
+        });
+    });
+    describe('switches to triggeringRecord radio group option', () => {
+        let newState;
+        beforeAll(() => {
+            originalState = recordUpdateUsingFieldsTemplate();
+            const radioGroupOptionChangedEvent = new PropertyChangedEvent(
+                'wayToFindRecords',
+                RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD,
+                null,
+                null,
+                null
+            );
+            newState = recordUpdateReducer(originalState, radioGroupOptionChangedEvent);
+        });
+        it('should have transformed the state', () => {
+            expect(newState).not.toBe(originalState);
+        });
+        it('should default filterLogic to AND', () => {
+            expect(newState.filterLogic.value).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
+            expect(newState.filterLogic.error).toBe(null);
+        });
+        it('should reset object', () => {
+            expect(newState.object.value).toBe('');
+        });
+        it('should reset filters', () => {
+            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters[0].leftHandSide.value).toBe('');
+        });
+        it('should reset inputAssignments', () => {
+            expect(newState.inputAssignments).toHaveLength(1);
+            expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+        });
+        it('should reset inputReference', () => {
+            expect(newState.inputReference.value).toBe('');
         });
     });
     it('ignores unknown events', () => {
@@ -260,12 +337,18 @@ describe('record-update-reducer using fields', () => {
         });
     });
     describe('handle property changed event', () => {
-        describe('update getFirstRecord from false to true', () => {
+        describe('switches to recordLookup radio group option', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordUpdateUsingFieldsTemplate();
-                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
-                newState = recordUpdateReducer(originalState, recordStoreOptionChangedEvent);
+                const radioGroupOptionChangedEvent = new PropertyChangedEvent(
+                    'wayToFindRecords',
+                    RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP,
+                    null,
+                    null,
+                    null
+                );
+                newState = recordUpdateReducer(originalState, radioGroupOptionChangedEvent);
             });
             it('should reset object', () => {
                 expect(newState.object.value).toBe('');
@@ -282,16 +365,131 @@ describe('record-update-reducer using fields', () => {
                 expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.AND);
             });
         });
-        describe('update getFirstRecord from true to false', () => {
+        describe('switches to triggeringRecord radio group option', () => {
             let newState;
             beforeAll(() => {
-                originalState = recordUpdateUsingSobjectTemplate();
-                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
-                newState = recordUpdateReducer(originalState, recordStoreOptionChangedEvent);
+                originalState = recordUpdateUsingFieldsTemplate();
+                const radioGroupOptionChangedEvent = new PropertyChangedEvent(
+                    'wayToFindRecords',
+                    RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD,
+                    null,
+                    null,
+                    null
+                );
+                newState = recordUpdateReducer(originalState, radioGroupOptionChangedEvent);
+            });
+            it('should have transformed state', () => {
+                expect(newState).not.toBe(originalState);
+            });
+            it('should default filterLogic to AND', () => {
+                expect(newState.filterLogic.value).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
+                expect(newState.filterLogic.error).toBe(null);
+            });
+            it('should reset object', () => {
+                expect(newState.object.value).toBe('');
+            });
+            it('should reset filters', () => {
+                expect(newState.filters).toHaveLength(1);
+                expect(newState.filters[0].leftHandSide.value).toBe('');
+            });
+            it('should reset inputAssignments', () => {
+                expect(newState.inputAssignments).toHaveLength(1);
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
             });
             it('should reset inputReference', () => {
                 expect(newState.inputReference.value).toBe('');
             });
+        });
+        describe('switches to sObjectReference radio group option', () => {
+            let newState;
+            beforeAll(() => {
+                originalState = recordUpdateUsingSobjectTemplate();
+                const radioGroupOptionChangedEvent = new PropertyChangedEvent(
+                    'wayToFindRecords',
+                    RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE,
+                    null,
+                    null,
+                    null
+                );
+                newState = recordUpdateReducer(originalState, radioGroupOptionChangedEvent);
+            });
+            it('should reset inputReference', () => {
+                expect(newState.inputReference.value).toBe('');
+            });
+        });
+    });
+});
+describe('record-update-reducer using triggeringRecord', () => {
+    let originalState;
+    beforeEach(() => {
+        originalState = recordUpdateUsingTriggeringUpdate();
+    });
+    describe('switches to sObjectReference radio group option', () => {
+        let newState;
+        beforeAll(() => {
+            const propChangedEvent = new PropertyChangedEvent(
+                'wayToFindRecords',
+                RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE,
+                null,
+                null,
+                null
+            );
+            newState = recordUpdateReducer(originalState, propChangedEvent);
+        });
+        it('should have transformed the state', () => {
+            expect(newState).not.toBe(originalState);
+        });
+        it('should default filterLogic to AND', () => {
+            expect(newState.filterLogic.value).toEqual(CONDITION_LOGIC.AND);
+            expect(newState.filterLogic.error).toBe(null);
+        });
+        it('should reset object', () => {
+            expect(newState.object.value).toBe('');
+        });
+        it('should reset filters', () => {
+            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters[0].leftHandSide.value).toBe('');
+        });
+        it('should reset inputAssignments', () => {
+            expect(newState.inputAssignments).toHaveLength(1);
+            expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+        });
+        it('should reset inputReference', () => {
+            expect(newState.inputReference.value).toBe('');
+        });
+    });
+    describe('switches to recordLookup radio group option', () => {
+        let newState;
+        beforeAll(() => {
+            const propChangedEvent = new PropertyChangedEvent(
+                'wayToFindRecords',
+                RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP,
+                null,
+                null,
+                null
+            );
+            newState = recordUpdateReducer(originalState, propChangedEvent);
+        });
+        it('should have transformed the state', () => {
+            expect(newState).not.toBe(originalState);
+        });
+        it('should defaulted filterLogic to AND', () => {
+            expect(newState.filterLogic.value).toEqual(CONDITION_LOGIC.AND);
+            expect(newState.filterLogic.error).toBe(null);
+        });
+        it('should reset object', () => {
+            expect(newState.object.value).toBe('');
+        });
+        it('should reset filters', () => {
+            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters[0].leftHandSide.value).toBe('');
+        });
+        it('should reset inputAssignments', () => {
+            expect(newState.inputAssignments).toHaveLength(1);
+            expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+        });
+        it('should reset inputReference', () => {
+            expect(newState.inputReference.value).toBe('');
         });
     });
 });

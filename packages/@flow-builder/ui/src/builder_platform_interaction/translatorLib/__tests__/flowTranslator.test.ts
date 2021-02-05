@@ -22,11 +22,13 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
 
 const SAMPLE_FLOWS = [flowLegalNameChange, flowCollectionServicesDemo, flowWithVariables, flowWithAssignments];
+const MOCK_TRIGGER_TYPE: string = FLOW_TRIGGER_TYPE.AFTER_SAVE;
 
 // 1993 Park-Miller LCG
 const lcg = (s) => () => {
@@ -61,6 +63,13 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/storeLib');
     return Object.assign({}, actual, {
         generateGuid: mockGenerateGuid
+    });
+});
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
+    return Object.assign({}, actual, {
+        getTriggerType: () => MOCK_TRIGGER_TYPE
     });
 });
 

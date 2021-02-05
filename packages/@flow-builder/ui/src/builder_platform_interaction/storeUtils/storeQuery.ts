@@ -112,11 +112,19 @@ export const isOrderNumberInStore = (orderNumberToBeTested: number, listOfGuidsT
 
 /**
  * Returns the trigger type for the current flow
- * @returns {String}
  */
-export const getTriggerType = () => {
+export const getTriggerType = (): string | undefined => {
     const startElement = getStartElement();
     return startElement ? startElement.triggerType : undefined;
+};
+
+/**
+ * Returns the object type for the current flow.
+ * Currently located on the start element.
+ */
+export const getObject = (): string | undefined => {
+    const startElement = getStartElement();
+    return startElement ? startElement.object : undefined;
 };
 
 /**

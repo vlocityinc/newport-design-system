@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Validate the filter item.
@@ -38,14 +38,21 @@ export const recordUpdateValidation = new Validation();
 export const getRules = (nodeElement) => {
     const overrideRules = Object.assign({}, recordUpdateValidation.finalizedRules);
     // case where a sObject has been selected
-    if (nodeElement.useSobject) {
+    if (nodeElement.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE) {
         overrideRules.inputReference = validateInputReference(nodeElement.inputReferenceIndex);
-    } else if (nodeElement.inputAssignments) {
+    } else if (nodeElement.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD) {
+        overrideRules.inputAssignments = validateAssignments();
+        overrideRules.filterLogic = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+        // validate filters if filter logic is not equal to 'No conditions'
+        if (nodeElement.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
+            overrideRules.filters = validateFilter();
+        }
+    } else if (nodeElement.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP) {
         overrideRules.object = validateInputReference(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.inputAssignments = validateAssignments();
             overrideRules.filterLogic = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
-            // validate filters if filter logic is equal to 'No conditions'
+            // validate filters if filter logic is not equal to 'No conditions'
             if (nodeElement.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
                 overrideRules.filters = validateFilter();
             }

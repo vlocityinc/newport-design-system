@@ -5,12 +5,18 @@ import { LABELS } from './recordUpdateEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { ENTITY_TYPE, fetchFieldsForEntity, getUpdateableEntities } from 'builder_platform_interaction/sobjectLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { getTriggerType, getObject } from 'builder_platform_interaction/storeUtils';
+import {
+    CONDITION_LOGIC,
+    FLOW_TRIGGER_TYPE,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+} from 'builder_platform_interaction/flowMetadata';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
@@ -19,7 +25,6 @@ export default class RecordUpdateEditor extends LightningElement {
     @track
     state = {
         recordUpdateElement: {},
-        recordEntityName: '',
         entityFields: {}
     };
 
@@ -50,8 +55,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     set node(newValue) {
         this.state.recordUpdateElement = newValue;
-        this.state.recordEntityName = getValueFromHydratedItem(this.state.recordUpdateElement.object);
-        this.updateFields();
+        this.updateFields(this.recordEntityName);
     }
 
     /**
@@ -86,14 +90,109 @@ export default class RecordUpdateEditor extends LightningElement {
             }, {});
     }
 
+    get recordFilterOptions() {
+        let noCriteria = format(LABELS.filterNoCriteriaUpdate, this.recordEntityName);
+        if (this.isTriggeringRecord) {
+            noCriteria = LABELS.filterNoCriteriaUpdateTriggering;
+        }
+
+        return [
+            {
+                value: CONDITION_LOGIC.NO_CONDITIONS,
+                label: noCriteria
+            },
+            {
+                value: CONDITION_LOGIC.AND,
+                label: LABELS.andConditionLogicLabel
+            },
+            {
+                value: CONDITION_LOGIC.OR,
+                label: LABELS.orConditionLogicLabel
+            },
+            {
+                value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                label: LABELS.customConditionLogicLabel
+            }
+        ];
+    }
+
+    get showWarningMessage(): boolean {
+        return !this.isTriggeringRecord;
+    }
+
+    get wayToFindRecordOptions() {
+        const opts = [
+            {
+                label: LABELS.idsStoredSObjectOrSObjectCollectionLabel,
+                value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
+            },
+            {
+                label: LABELS.usingCriteriaLabel,
+                value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP
+            }
+        ];
+
+        // add triggering record option only if its record change trigger and object on start is set
+        const triggerType: string | undefined = getTriggerType();
+        if (triggerType && isRecordChangeTriggerType(triggerType) && this.dollarRecordName()) {
+            return [
+                {
+                    label: format(LABELS.triggeringRecordLabel, this.dollarRecordName()),
+                    value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+                },
+                ...opts
+            ];
+        }
+        return opts;
+    }
+
     /**
-     * Return true if the editor is in sObject mode.
-     * In sObject mode record(s) to update are specified
-     * with a given sObject or sObject collection with id field(s) populated
-     * Otherwise records to update are specified using critera(s).
+     * used to disable radio wayToFindRecords radio group.
      */
-    get isSObjectMode() {
-        return this.state.recordUpdateElement.useSobject;
+    get isDisabled(): boolean {
+        const triggerType = getTriggerType();
+        return triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+    }
+
+    get isSobjectReference(): boolean {
+        return (
+            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
+            RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
+        );
+    }
+
+    get isRecordLookup(): boolean {
+        return (
+            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
+            RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP
+        );
+    }
+
+    get isTriggeringRecord(): boolean {
+        return (
+            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
+            RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+        );
+    }
+
+    get objectName(): string {
+        return getValueFromHydratedItem(this.state.recordUpdateElement.object);
+    }
+
+    get showConditionsAndAssignments(): boolean {
+        return this.isTriggeringRecord || (this.isRecordLookup && this.objectName !== '');
+    }
+
+    get recordEntityName(): string {
+        return this.isTriggeringRecord ? this.dollarRecordName() : this.objectName;
+    }
+
+    get showSobjectLookup() {
+        return this.state.recordUpdateElement.useSobject && !this.state.recordUpdateElement.isTriggeringRecord;
+    }
+
+    get showSpecifyConditions() {
+        return !this.state.recordUpdateElement.useSobject;
     }
 
     get inputReference() {
@@ -111,9 +210,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get resourceDisplayText() {
-        const entityToDisplay = getUpdateableEntities().find(
-            (entity) => entity.apiName === this.state.recordEntityName
-        );
+        const entityToDisplay = getUpdateableEntities().find((entity) => entity.apiName === this.recordEntityName);
         if (entityToDisplay) {
             return entityToDisplay.entityLabel;
         }
@@ -121,13 +218,11 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
-     * Returns the number of result stored.
-     * If firstRecord then the user will be able to select a sObject variable
-     * If allRecord then the user will be able to select a sObject Collection variable
-     * @returns {String} This value can be 'firstRecord' or 'allRecords'
+     * Returns the option selected for RECORD_UPDATE_WAY_TO_FIND_RECORDS
+     * @returns {String} derived from enum RECORD_UPDATE_WAY_TO_FIND_RECORDS
      */
-    get numberRecordsToStoreValue() {
-        return this.isSObjectMode ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+    get wayToFindRecordsValue(): string {
+        return getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords);
     }
 
     /**
@@ -148,10 +243,10 @@ export default class RecordUpdateEditor extends LightningElement {
     /**
      * get the fields of the selected entity
      */
-    updateFields() {
+    updateFields(recordEntityName) {
         this.state.entityFields = {};
-        if (this.state.recordEntityName) {
-            fetchFieldsForEntity(this.state.recordEntityName)
+        if (recordEntityName) {
+            fetchFieldsForEntity(recordEntityName)
                 .then((fields) => {
                     this.state.entityFields = fields;
                 })
@@ -162,6 +257,13 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
+     * type of triggering record, usually stored in Start element
+     */
+    dollarRecordName(): string {
+        return getObject() || '';
+    }
+
+    /**
      * @param {object} event - input reference changed event coming from sobject-or-sobject-collection-picker component
      */
     handleInputReferenceChangedEvent(event) {
@@ -169,9 +271,13 @@ export default class RecordUpdateEditor extends LightningElement {
         this.updateProperty('inputReference', event.detail.value, event.detail.error);
     }
 
-    handleRecordStoreOptionChanged(event) {
+    handleWayToFindOptionChanged(event) {
         event.stopPropagation();
-        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
+        this.updateProperty('wayToFindRecords', event.detail.value, event.detail.error);
+
+        if (event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD) {
+            this.updateFields(this.recordEntityName);
+        }
     }
 
     /**
@@ -179,13 +285,12 @@ export default class RecordUpdateEditor extends LightningElement {
      */
     handleResourceChanged(event) {
         event.stopPropagation();
-        const oldRecordEntityName = this.state.recordEntityName;
+        const oldRecordEntityName = this.state.recordUpdateElement.object;
         const newRecordEntityName = event.detail.item ? event.detail.item.value : '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
             this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
-            this.state.recordEntityName = newRecordEntityName;
-            this.updateFields();
+            this.updateFields(newRecordEntityName);
         }
     }
 

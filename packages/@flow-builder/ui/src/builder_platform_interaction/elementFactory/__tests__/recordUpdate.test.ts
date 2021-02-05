@@ -3,8 +3,21 @@ import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMeta
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    CONNECTOR_TYPE,
+    CONDITION_LOGIC,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+} from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
+    return Object.assign({}, actual, {
+        getTriggerType: jest.fn().mockReturnValue({}),
+        getObject: jest.fn().mockReturnValue({})
+    });
+});
 
 expect.extend(deepFindMatchers);
 
@@ -28,7 +41,7 @@ const mutatedRecordUpdateUsingSobject = {
     description: '',
     elementType: ELEMENT_TYPE.RECORD_UPDATE,
     inputReference: 'myObject',
-    useSobject: true
+    wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
 };
 
 const mutatedRecordUpdateWithFieldsTemplate = () => {
@@ -37,7 +50,7 @@ const mutatedRecordUpdateWithFieldsTemplate = () => {
         description: '',
         object: 'myObject',
         elementType: ELEMENT_TYPE.RECORD_UPDATE,
-        useSobject: false
+        wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP
     };
 };
 
@@ -99,12 +112,12 @@ const mutatedInputAssignmentFieldBooleanValue = {
 
 describe('recordUpdate Mutation', () => {
     describe('recordUpdate function using sObject', () => {
-        it('returns a new record update object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
+        it('returns a new record update object when no argument is passed; wayToFindRecords should be set to SOBJECT_REFERENCE by default', () => {
             const mutatedResult = {
                 name: '',
                 description: '',
                 elementType: ELEMENT_TYPE.RECORD_UPDATE,
-                useSobject: true
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
             };
             const actualResult = createRecordUpdate();
             expect(actualResult).toMatchObject(mutatedResult);
@@ -129,13 +142,13 @@ describe('recordUpdate Mutation', () => {
             recordUpdateUsingFields = recordUpdateUsingFieldsTemplate();
             mutatedRecordUpdateWithFields = mutatedRecordUpdateWithFieldsTemplate();
         });
-        it('filter with value should return same with calculated numberRecordsToStore', () => {
+        it('filter with value should return same with calculated wayToFindRecords', () => {
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator];
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
-        it('filter with and without value should return same with calculated numberRecordsToStore', () => {
+        it('filter with and without value should return same with calculated wayToFindRecords', () => {
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator, filterWithField];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];
@@ -171,10 +184,6 @@ describe('recordUpdate Mutation', () => {
         it('has dataType of boolean', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
             expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
-        });
-        it('has no common mutable object with record update metadata passed as parameter', () => {
-            const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingFields);
         });
     });
 });
@@ -267,7 +276,8 @@ describe('recordUpdate Demutation', () => {
         it('reset filters if "filterLogic" equals no conditions', () => {
             mutatedRecordUpdateWithFields = {
                 filters: [mutatedFilterWithValueFieldAndOperator],
-                filterLogic: CONDITION_LOGIC.NO_CONDITIONS
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP
             };
             const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult.filters).toHaveLength(0);

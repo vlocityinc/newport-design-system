@@ -12,16 +12,23 @@
         </builder_platform_interaction-label-description>
     </div>
 
-    <!-- Record Store Fields Selection section -->
-    <builder_platform_interaction-record-store-options
-        element-type={state.recordUpdateElement.elementType}
-        resource-display-text={state.resourceDisplayText}
-        number-of-records-to-store={numberRecordsToStoreValue}
-        onrecordstoreoptionchanged={handleRecordStoreOptionChanged}
-    >
-    </builder_platform_interaction-record-store-options>
+    <div class="slds-border_top">
+        <div class="slds-form_stacked slds-p-around_small slds-no-flex">
+            <lightning-radio-group
+                class="slds-m-top_x-small"
+                name="recordCreateOrUpdate"
+                label={labels.waysToFindRecordsTitle}
+                options={wayToFindRecordOptions}
+                onchange={handleWayToFindOptionChanged}
+                value={wayToFindRecordsValue}
+                required
+                type="radio"
+                disabled={isDisabled}
+            ></lightning-radio-group>
+        </div>
+    </div>
 
-    <div if:true={isSObjectMode}>
+    <div if:true={isSobjectReference}>
         <div class="slds-m-bottom_small slds-border_top">
             <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectRecordsToUpdate}</h3>
             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
@@ -49,14 +56,13 @@
             ></lightning-helptext>
         </div>
     </div>
-    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
-        <!-- sobject picker -->
+    <div if:true={isRecordLookup} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
         <div class="slds-m-bottom_small slds-border_top">
             <h3 class="slds-text-heading_small slds-p-around_small">{labels.updateRecordOfThisObject}</h3>
             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                 <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
-                    value={state.recordEntityName}
+                    value={objectName}
                     row-index={state.recordUpdateElement.objectIndex.value}
                     crud-filter-type={crudFilterType}
                     oncomboboxstatechanged={handleResourceChanged}
@@ -65,37 +71,39 @@
                 </builder_platform_interaction-entity-resource-picker>
             </div>
         </div>
-        <div if:true={state.recordEntityName}>
-            <!-- Find Records section -->
-            <builder_platform_interaction-record-filter
-                show-prefix
-                element-type={state.recordUpdateElement.elementType}
-                element-guid={state.recordUpdateElement.guid}
-                filter-items={state.recordUpdateElement.filters}
-                filter-logic={state.recordUpdateElement.filterLogic}
-                record-entity-name={state.recordEntityName}
-                record-fields={recordFieldsToFilter}
-                onaddrecordfilter={handlePropertyOrListItemChanged}
-                onupdaterecordfilter={handlePropertyOrListItemChanged}
-                ondeleterecordfilter={handlePropertyOrListItemChanged}
-                onpropertychanged={handlePropertyOrListItemChanged}
-            >
-            </builder_platform_interaction-record-filter>
+    </div>
+    <div if:true={showConditionsAndAssignments}>
+        <!-- Find Records section -->
+        <builder_platform_interaction-record-filter
+            show-prefix
+            element-type={state.recordUpdateElement.elementType}
+            element-guid={state.recordUpdateElement.guid}
+            filter-items={state.recordUpdateElement.filters}
+            filter-logic={state.recordUpdateElement.filterLogic}
+            filter-logic-options={recordFilterOptions}
+            show-warning-message={showWarningMessage}
+            record-entity-name={recordEntityName}
+            record-fields={recordFieldsToFilter}
+            onaddrecordfilter={handlePropertyOrListItemChanged}
+            onupdaterecordfilter={handlePropertyOrListItemChanged}
+            ondeleterecordfilter={handlePropertyOrListItemChanged}
+            onpropertychanged={handlePropertyOrListItemChanged}
+        >
+        </builder_platform_interaction-record-filter>
 
-            <!-- InputAssignments fields -->
-            <builder_platform_interaction-record-input-output-assignments
-                input-output-assignments-items={state.recordUpdateElement.inputAssignments}
-                resource-display-text={resourceDisplayText}
-                record-entity-name={state.recordEntityName}
-                record-fields={recordFieldsToUpdate}
-                element-type={state.recordUpdateElement.elementType}
-                title={assignmentTitle}
-                rhs-label={labels.filterRhsLabel}
-                onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-                onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-            >
-            </builder_platform_interaction-record-input-output-assignments>
-        </div>
+        <!-- InputAssignments fields -->
+        <builder_platform_interaction-record-input-output-assignments
+            input-output-assignments-items={state.recordUpdateElement.inputAssignments}
+            resource-display-text={resourceDisplayText}
+            record-entity-name={recordEntityName}
+            record-fields={recordFieldsToUpdate}
+            element-type={state.recordUpdateElement.elementType}
+            title={assignmentTitle}
+            rhs-label={labels.filterRhsLabel}
+            onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+        >
+        </builder_platform_interaction-record-input-output-assignments>
     </div>
 </template>

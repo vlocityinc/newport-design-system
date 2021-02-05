@@ -3,7 +3,11 @@ import { createElement } from 'lwc';
 import { recordUpdateValidation, getRules } from '../recordUpdateValidation';
 import RecordUpdateEditor from '../recordUpdateEditor';
 import * as storeMockedData from 'mock/storeData';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+} from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
@@ -15,6 +19,13 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 jest.mock('builder_platform_interaction/expressionValidator', () =>
     require('builder_platform_interaction_mocks/expressionValidator')
 );
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
+    return Object.assign({}, actual, {
+        getTriggerType: jest.fn().mockReturnValue({}),
+        getObject: jest.fn().mockReturnValue({})
+    });
+});
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
@@ -34,13 +45,54 @@ const recordUpdateElementWithValidSObject = {
     locationX: 358,
     locationY: 227,
     name: { value: 'testRecord', error: null },
-    useSobject: true,
     inputReference: {
         value: storeMockedData.accountSObjectVariable.guid,
         error: null
     },
     object: { value: '', error: null },
-    objectIndex: { value: 'guid', error: null }
+    objectIndex: { value: 'guid', error: null },
+    wayToFindRecords: {
+        value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE,
+        error: null
+    }
+};
+
+const recordUpdateUsingTriggeringUpdate = () => {
+    return {
+        description: { value: '', error: null },
+        elementType: 'RECORD_UPDATE',
+        guid: 'RECORDUPDATE_2',
+        isCanvasElement: true,
+        label: { value: 'testRecordFields', error: null },
+        locationX: 358,
+        locationY: 227,
+        name: { value: 'testRecordFields', error: null },
+        inputAssignments: [
+            {
+                leftHandSide: { value: 'BillingCountry', error: null },
+                rightHandSide: { value: 'myCountry', error: null },
+                rightHandSideDataType: { value: 'String', error: null },
+                rightHandSideGuid: { value: 'myCountry', error: null },
+                rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d1d'
+            }
+        ],
+        filters: [
+            {
+                leftHandSide: { value: 'BillingAddress', error: null },
+                operator: { value: 'EqualTo', error: null },
+                rightHandSide: { value: 'my address', error: null },
+                rightHandSideDataType: { value: 'String', error: null },
+                rowIndex: 'RECORDUPDATEFILTERITEM_1'
+            }
+        ],
+        filterLogic: { value: CONDITION_LOGIC.OR, error: null },
+        inputReference: { value: '$Record', error: null },
+        object: { value: '', error: null },
+        wayToFindRecords: {
+            value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD,
+            error: null
+        }
+    };
 };
 
 const recordUpdateUsingFieldsTemplate = () => {
@@ -53,7 +105,6 @@ const recordUpdateUsingFieldsTemplate = () => {
         locationX: 358,
         locationY: 227,
         name: { value: 'testRecordFields', error: null },
-        useSobject: false,
         inputAssignments: [
             {
                 leftHandSide: { value: 'Account.BillingCountry', error: null },
@@ -74,7 +125,11 @@ const recordUpdateUsingFieldsTemplate = () => {
         ],
         filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         object: { value: 'account', error: null },
-        objectIndex: { value: 'guid', error: null }
+        objectIndex: { value: 'guid', error: null },
+        wayToFindRecords: {
+            value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP,
+            error: null
+        }
     };
 };
 
@@ -146,7 +201,7 @@ describe('Check validations update using fields', () => {
         });
     });
     describe('filter item is empty', () => {
-        it('should return an error if leftHandSide is empty', () => {
+        it('should return an error if filter leftHandSide is empty', () => {
             recordUpdateUsingFields.filters[0].leftHandSide.value = '';
             const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
             const errors = validate(recordupdateEditor.node);
@@ -154,7 +209,7 @@ describe('Check validations update using fields', () => {
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
-        it('should return an error if operator is empty', () => {
+        it('should return an error if filter operator is empty', () => {
             recordUpdateUsingFields.filters[0].leftHandSide.value = 'Account.BillingAddress';
             recordUpdateUsingFields.filters[0].operator.value = '';
             const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
@@ -163,7 +218,7 @@ describe('Check validations update using fields', () => {
             expect(errors[0].key).toBe('operator');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
-        it('should return an error if rightHandSide is empty', () => {
+        it('should return an error if filter rightHandSide is empty', () => {
             recordUpdateUsingFields.filters[0].operator.value = 'EqualTo';
             recordUpdateUsingFields.filters[0].rightHandSide.value = '';
             const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
@@ -184,6 +239,76 @@ describe('Check validations update using fields', () => {
     it('should return an error if filterLogic is blank', () => {
         recordUpdateUsingFields.filterLogic = { value: '     ', error: null };
         const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('filterLogic');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+});
+describe('Check validations update using triggeringRecord', () => {
+    let recordUpdateUsingTriggeringRecord;
+    beforeEach(() => {
+        recordUpdateUsingTriggeringRecord = recordUpdateUsingTriggeringUpdate();
+    });
+    it('should not throw errors when object is empty', () => {
+        recordUpdateUsingTriggeringRecord.object.value = '';
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(0);
+    });
+    it('should not throw errors when inputReference is empty', () => {
+        recordUpdateElementWithValidSObject.inputReference.value = '';
+        const validatedRecordUpdate = recordUpdateValidation.validateAll(
+            recordUpdateElementWithValidSObject,
+            getRules(recordUpdateElementWithValidSObject)
+        );
+        expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error when an inputAssignment is set without a value', () => {
+        recordUpdateUsingTriggeringRecord.inputAssignments[0].leftHandSide.value = '';
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('leftHandSide');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error if leftHandSide is empty', () => {
+        recordUpdateUsingTriggeringRecord.filters[0].leftHandSide.value = '';
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('leftHandSide');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error if operator is empty', () => {
+        recordUpdateUsingTriggeringRecord.filters[0].leftHandSide.value = 'Account.BillingAddress';
+        recordUpdateUsingTriggeringRecord.filters[0].operator.value = '';
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('operator');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error if rightHandSide is empty', () => {
+        recordUpdateUsingTriggeringRecord.filters[0].operator.value = 'EqualTo';
+        recordUpdateUsingTriggeringRecord.filters[0].rightHandSide.value = '';
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('rightHandSide');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error if filterLogic is empty', () => {
+        recordUpdateUsingTriggeringRecord.filterLogic = { value: '', error: null };
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('filterLogic');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error if filterLogic is blank', () => {
+        recordUpdateUsingTriggeringRecord.filterLogic = { value: '     ', error: null };
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
         const errors = validate(recordupdateEditor.node);
         expect(errors).toHaveLength(1);
         expect(errors[0].key).toBe('filterLogic');

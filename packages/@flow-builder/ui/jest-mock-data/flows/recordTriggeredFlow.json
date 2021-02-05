@@ -142,6 +142,27 @@
                 "inputReference": "accountSObjectVariable"
             }
         ],
+        "recordUpdates": [
+            {
+                "name": "Update_Triggering_Record",
+                "description": "",
+                "label": "Update Triggering Record",
+                "locationX": 491,
+                "locationY": 673.3125,
+                "elementSubtype": null,
+                "inputReference": "$Record",
+                "filters": [],
+                "object": "",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "value": {
+                            "stringValue": "Trigg"
+                        }
+                    }
+                ]
+            }
+        ],
         "description": "",
         "interviewLabel": "RecordTriggeredFlow {!$Flow.CurrentDateTime}",
         "isTemplate": false,

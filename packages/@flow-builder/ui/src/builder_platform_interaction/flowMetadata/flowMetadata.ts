@@ -395,6 +395,12 @@ export enum FlowScreenFieldType {
     ComponentInstance = 'ComponentInstance'
 }
 
+export enum RECORD_UPDATE_WAY_TO_FIND_RECORDS {
+    TRIGGERING_RECORD = 'triggeringRecord',
+    SOBJECT_REFERENCE = 'sObjectReference',
+    RECORD_LOOKUP = 'recordLookup'
+}
+
 export function isSystemElement(elementType) {
     switch (elementType) {
         case ELEMENT_TYPE.ROOT_ELEMENT:

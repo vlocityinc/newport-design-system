@@ -11,11 +11,10 @@ import {
     UpdateRecordFieldAssignmentEvent,
     AddRecordFilterEvent,
     UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    RecordStoreOptionChangedEvent
+    DeleteRecordFilterEvent
 } from 'builder_platform_interaction/events';
 
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, RECORD_UPDATE_WAY_TO_FIND_RECORDS } from 'builder_platform_interaction/flowMetadata';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -119,28 +118,24 @@ const updateRecordRecordFieldAssignment = (state, event) => {
 
 const resetRecordUpdate = (state, resetObject) => {
     state = resetFilter(state);
+
     // reset FilterLogic
-    state = set(state, 'filterLogic', { value: CONDITION_LOGIC.AND, error: null });
+    if (state.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD) {
+        state = set(state, 'filterLogic', { value: CONDITION_LOGIC.NO_CONDITIONS, error: null });
+    } else {
+        state = set(state, 'filterLogic', { value: CONDITION_LOGIC.AND, error: null });
+    }
+
     // reset inputAssignments : create one empty assignment item
     state = set(state, INPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
     if (resetObject) {
         state = updateProperties(state, { object: { value: '', error: null } });
     }
+
     // reset inputReference
     return updateProperties(state, {
         inputReference: { value: '', error: null }
     });
-};
-
-/**
- * Update the way the user store the records
- */
-const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly }) => {
-    if (state.useSobject !== getFirstRecordOnly) {
-        state = updateProperties(state, { useSobject: getFirstRecordOnly });
-        return resetRecordUpdate(state, true);
-    }
-    return state;
 };
 
 const managePropertyChanged = (state, event) => {
@@ -165,11 +160,7 @@ const managePropertyChanged = (state, event) => {
             state = resetFilterErrors(state);
         } else if (propName === INPUTASSIGNMENTS_PROP) {
             state = resetAssignmentErrors(state);
-        } else if (propName === 'numberRecordsToStore' && event.detail.value !== event.detail.oldValue) {
-            state = set(state, propName, {
-                value: event.detail.value,
-                error: null
-            });
+        } else if (propName === 'wayToFindRecords' && event.detail.value !== event.detail.oldValue) {
             state = resetRecordUpdate(state, true);
         }
     }
@@ -197,8 +188,6 @@ export const recordUpdateReducer = (state, event) => {
             return deleteRecordRecordFieldAssignment(state, event);
         case UpdateRecordFieldAssignmentEvent.EVENT_NAME:
             return updateRecordRecordFieldAssignment(state, event);
-        case RecordStoreOptionChangedEvent.EVENT_NAME:
-            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event);
         case VALIDATE_ALL:

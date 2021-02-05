@@ -12,6 +12,15 @@ import object from '@salesforce/label/FlowBuilderRecordEditor.object';
 import createAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.createAssignmentTitleFormat';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
 import setFieldValuesForTheRecordsFormat from '@salesforce/label/FlowBuilderRecordEditor.setFieldValuesForTheRecordsFormat';
+import idsStoredSObjectOrSObjectCollectionLabel from '@salesforce/label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel';
+import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
+import waysToFindRecordsTitle from '@salesforce/label/FlowBuilderRecordEditor.howAreSpecifyRecordsToUpdateLabel';
+import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.triggeringRecordLabel';
+import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate';
+import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdateTriggering';
+import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
+import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
+import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 
 export const LABELS = {
     recordVariableOrRecordCollectionVariable,
@@ -25,5 +34,14 @@ export const LABELS = {
     object,
     createAssignmentTitleFormat,
     filterRhsLabel,
-    setFieldValuesForTheRecordsFormat
+    setFieldValuesForTheRecordsFormat,
+    idsStoredSObjectOrSObjectCollectionLabel,
+    usingCriteriaLabel,
+    waysToFindRecordsTitle,
+    triggeringRecordLabel,
+    filterNoCriteriaUpdate,
+    filterNoCriteriaUpdateTriggering,
+    andConditionLogicLabel,
+    orConditionLogicLabel,
+    customConditionLogicLabel
 };

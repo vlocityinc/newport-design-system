@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, filterLogicOptions } from './recordFilterLabels';
+import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, filterLogicOptionsLabels } from './recordFilterLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
@@ -19,6 +19,8 @@ export default class RecordFilter extends LightningElement {
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
     labels = LABELS;
     showPrefixValue = false;
+    showWarning: boolean | undefined;
+    options;
 
     @api
     filterLogic = { value: CONDITION_LOGIC.AND, error: null };
@@ -122,8 +124,16 @@ export default class RecordFilter extends LightningElement {
         return this.variant === VARIANT_START ? 'slds-m-bottom_small' : 'slds-m-bottom_small slds-border_top';
     }
 
+    set filterLogicOptions(options) {
+        this.options = options;
+    }
+
+    @api
     get filterLogicOptions() {
-        return filterLogicOptions(this.elementType, this.entityLabelPlural, this.entityLabel);
+        if (this.options === undefined) {
+            return filterLogicOptionsLabels(this.elementType, this.entityLabelPlural, this.entityLabel);
+        }
+        return this.options;
     }
 
     get showDeleteFilter() {
@@ -164,13 +174,19 @@ export default class RecordFilter extends LightningElement {
         return '';
     }
 
-    get showWarningMessage() {
-        return (
-            (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
-                this.elementType === ELEMENT_TYPE.RECORD_UPDATE ||
-                this.elementType === ELEMENT_TYPE.RECORD_DELETE) &&
-            this.filterLogic.value === CONDITION_LOGIC.NO_CONDITIONS
-        );
+    set showWarningMessage(show: boolean) {
+        this.showWarning = show;
+    }
+
+    @api
+    get showWarningMessage(): boolean {
+        if (this.filterLogic.value === CONDITION_LOGIC.NO_CONDITIONS) {
+            if (this.showWarning === undefined) {
+                return this.elementType === ELEMENT_TYPE.RECORD_LOOKUP;
+            }
+            return this.showWarning;
+        }
+        return false;
     }
 
     get filterRecordsTitle() {

@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { LABELS } from '../recordFilterLabels';
 import {
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -34,6 +35,7 @@ const EMPTY_FILTER_ITEM = {
 };
 
 const AND_FILTER_LOGIC = { value: CONDITION_LOGIC.AND, error: null };
+const NO_CONDITIONS_FILTER_LOGIC = { value: CONDITION_LOGIC.NO_CONDITIONS, error: null };
 const CUSTOM_FILTER_LOGIC = { value: '1 OR 2 AND 3', error: null };
 
 const mock3FilterItems = [
@@ -60,11 +62,13 @@ const mock3FilterItems = [
     }
 ];
 
-const createComponentUnderTest = ({
-    elementType = ELEMENT_TYPE.RECORD_LOOKUP,
-    filterLogic = AND_FILTER_LOGIC,
-    filterItems = [EMPTY_FILTER_ITEM]
-} = {}) => {
+const createComponentUnderTest = (inputs) => {
+    const {
+        elementType = ELEMENT_TYPE.RECORD_LOOKUP,
+        filterLogic = AND_FILTER_LOGIC,
+        filterItems = [EMPTY_FILTER_ITEM]
+    } = inputs;
+
     const el = createElement('builder_platform_interaction-record-filter', {
         is: RecordLookupFilter
     });
@@ -74,7 +78,9 @@ const createComponentUnderTest = ({
         filterLogic,
         recordEntityName: 'Account',
         recordFields: accountFields,
-        useFilterWithCustomLogic: true
+        useFilterWithCustomLogic: true,
+        options: inputs.options,
+        showWarningMessage: inputs.showWarningMessage
     });
     setDocumentBodyChildren(el);
     return el;
@@ -109,13 +115,14 @@ const getCustomConditionLogicInput = (filterCmp) =>
         INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT
     ]);
+const getWarningLabel = (filterCmp) => filterCmp.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RICH_LABEL);
 
 describe('record-filter', () => {
     describe('Filter records combobox', () => {
         describe('For record lookup', () => {
             let element;
             beforeEach(() => {
-                element = createComponentUnderTest();
+                element = createComponentUnderTest({});
             });
             it('"And" should be the default selected ', () => {
                 expect(getFilterRecordsCombobox(element).value).toBe(CONDITION_LOGIC.AND);
@@ -136,6 +143,45 @@ describe('record-filter', () => {
                 expect(getFilterList(element)).not.toBeNull();
             });
         });
+        describe('when options are supplied', () => {
+            let element, filterRecordCombobox;
+            beforeEach(() => {
+                const options = [
+                    {
+                        value: CONDITION_LOGIC.NO_CONDITIONS,
+                        label: LABELS.filterNoCriteriaUpdate
+                    },
+                    {
+                        value: CONDITION_LOGIC.AND,
+                        label: LABELS.andConditionLogicLabel
+                    },
+                    {
+                        value: CONDITION_LOGIC.OR,
+                        label: LABELS.orConditionLogicLabel
+                    },
+                    {
+                        value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                        label: LABELS.customConditionLogicLabel
+                    }
+                ];
+                element = createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_UPDATE, options });
+                filterRecordCombobox = getFilterRecordsCombobox(element);
+            });
+            it('should have defaulted to "AND"', () => {
+                expect(filterRecordCombobox.value).toBe(CONDITION_LOGIC.AND);
+            });
+            it('should have the right labels for combobox elements', () => {
+                expect(filterRecordCombobox.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaUpdate');
+                expect(filterRecordCombobox.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
+                expect(filterRecordCombobox.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
+                expect(filterRecordCombobox.options[3].label).toBe(
+                    'FlowBuilderConditionList.customConditionLogicLabel'
+                );
+            });
+            it('should display filter items list', () => {
+                expect(getFilterList(element)).not.toBeNull();
+            });
+        });
         describe('For record delete', () => {
             let element;
             beforeEach(() => {
@@ -151,7 +197,7 @@ describe('record-filter', () => {
     });
     describe('Combobox header label', () => {
         it('For record lookup', () => {
-            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest({}));
             expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
         });
         it('For record update', () => {
@@ -187,7 +233,7 @@ describe('record-filter', () => {
     });
     describe('Combobox options', () => {
         it('should have expected labels for record lookup', () => {
-            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest({}));
             expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
@@ -236,6 +282,53 @@ describe('record-filter', () => {
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
+        });
+    });
+    describe('Warning labels for no_conditions', () => {
+        it('should not show warning filterLogic is not NO_CONDITIONs', () => {
+            const element = createComponentUnderTest({
+                filterLogic: AND_FILTER_LOGIC,
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                showWarningMessage: true
+            });
+            const warningLabelElem = getWarningLabel(element);
+            expect(warningLabelElem).toBeNull();
+        });
+        it('should show warning message when showWarningMessage is true', () => {
+            const element = createComponentUnderTest({
+                filterLogic: NO_CONDITIONS_FILTER_LOGIC,
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                showWarningMessage: true
+            });
+            const warningLabelElem = getWarningLabel(element);
+            expect(warningLabelElem).not.toBeNull();
+            expect(warningLabelElem.label).toBe('FlowBuilderRecordEditor.updateAllRecords');
+        });
+        it('should not show warning messagew when showWarningMessage is false', () => {
+            const element = createComponentUnderTest({
+                filterLogic: NO_CONDITIONS_FILTER_LOGIC,
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                showWarningMessage: false
+            });
+            const warningLabelElem = getWarningLabel(element);
+            expect(warningLabelElem).toBeNull();
+        });
+        it('should not show warning message when element is RECORD_UPDATE and showWarningMessage is undefined', () => {
+            const element = createComponentUnderTest({
+                filterLogic: NO_CONDITIONS_FILTER_LOGIC,
+                elementType: ELEMENT_TYPE.RECORD_UPDATE
+            });
+            const warningLabelElem = getWarningLabel(element);
+            expect(warningLabelElem).toBeNull();
+        });
+        it('should show warning message when element is RECORD_LOOKUP and showWarningMessage is undefined', () => {
+            const element = createComponentUnderTest({
+                filterLogic: NO_CONDITIONS_FILTER_LOGIC,
+                elementType: ELEMENT_TYPE.RECORD_LOOKUP
+            });
+            const warningLabelElem = getWarningLabel(element);
+            expect(warningLabelElem).not.toBeNull();
+            expect(warningLabelElem.label).toBe('FlowBuilderRecordEditor.getAllRecords');
         });
     });
     describe('Filter Items', () => {
@@ -326,7 +419,7 @@ describe('record-filter', () => {
     });
     describe('Filter items events dispatch', () => {
         it('when fires addRecordFilterEvent', async () => {
-            const element = createComponentUnderTest();
+            const element = createComponentUnderTest({});
             const eventCallback = jest.fn();
             element.addEventListener(AddRecordFilterEvent.EVENT_NAME, eventCallback);
             const addFilterListButton = getListAddButton(element);
@@ -395,7 +488,7 @@ describe('record-filter', () => {
     });
     describe('when Filterable fields', () => {
         it('should show only filterable fields', () => {
-            const element = createComponentUnderTest();
+            const element = createComponentUnderTest({});
             const filterableFields = Object.values(element.recordFields);
             expect(filterableFields).toContainEqual(
                 expect.objectContaining({

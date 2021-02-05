@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
-import { AddElementEvent, EditElementEvent, RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
     changeComboboxValue,
     changeInputValue,
@@ -14,7 +14,12 @@ import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from 
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+} from 'builder_platform_interaction/flowMetadata';
+
 import {
     changeEvent,
     clickPill,
@@ -30,7 +35,7 @@ import {
     getEntityResourcePickerChildGroupedComboboxComponent,
     getRecordFilter,
     getRecordInputOutputAssignments,
-    getRecordStoreOption,
+    getLightningRadioGroup,
     getRecordVariablePickerChildComboboxComponent,
     getRecordVariablePickerChildGroupedComboboxComponent,
     getSObjectOrSObjectCollectionPicker
@@ -43,7 +48,6 @@ import {
     newFilterItem
 } from '../recordFilterTestUtils';
 import { selectComboboxItemBy, typeLiteralValueInCombobox, typeMergeFieldInCombobox } from '../comboboxTestUtils';
-import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 const SELECTORS = { ABBR: 'abbr' };
 
@@ -134,15 +138,15 @@ describe('Record Update Editor', () => {
             recordUpdateComponent = createComponentForTest({ node: recordUpdateNode });
         });
         describe('store options', () => {
-            let storeOptions;
+            let wayToFindRecords;
             beforeEach(() => {
-                storeOptions = getRecordStoreOption(recordUpdateComponent);
+                wayToFindRecords = getLightningRadioGroup(recordUpdateComponent);
             });
             it('should be displayed', () => {
-                expect(storeOptions).not.toBeNull();
+                expect(wayToFindRecords).not.toBeNull();
             });
-            it('value should be "firstRecord" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
-                expect(storeOptions.numberOfRecordsToStore).toBe('firstRecord');
+            it('should have radio group option equal to "sObjectReference" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
+                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE);
             });
         });
         describe('Record Variable or Record Collection Variable picker', () => {
@@ -192,9 +196,10 @@ describe('Record Update Editor', () => {
         });
         describe('default Filter', () => {
             it('should be all (Conditions are Met)', async () => {
-                const recordStoreElement = getRecordStoreOption(recordUpdateComponent);
-                recordStoreElement.dispatchEvent(
-                    new RecordStoreOptionChangedEvent(false, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false)
+                getLightningRadioGroup(recordUpdateComponent).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP }
+                    })
                 );
                 await ticks(1);
                 const entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
@@ -223,15 +228,15 @@ describe('Record Update Editor', () => {
                 });
             });
             describe('store options', () => {
-                let storeOptions;
+                let wayToFindRecords;
                 beforeEach(() => {
-                    storeOptions = getRecordStoreOption(recordUpdateComponent);
+                    wayToFindRecords = getLightningRadioGroup(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
-                    expect(storeOptions).not.toBeNull();
+                    expect(wayToFindRecords).not.toBeNull();
                 });
-                it('should have numberOfRecordsToStore equal to "firstRecord" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
-                    expect(storeOptions.numberOfRecordsToStore).toBe('firstRecord');
+                it('should have radio group option equal to "sObjectReference" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
+                    expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE);
                 });
             });
             describe('Record Variable or Record Collection Variable picker', () => {
@@ -391,15 +396,15 @@ describe('Record Update Editor', () => {
                 });
             });
             describe('store options', () => {
-                let storeOptions;
+                let wayToFindRecords;
                 beforeEach(() => {
-                    storeOptions = getRecordStoreOption(recordUpdateComponent);
+                    wayToFindRecords = getLightningRadioGroup(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
-                    expect(storeOptions).not.toBeNull();
+                    expect(wayToFindRecords).not.toBeNull();
                 });
-                it('should have numberOfRecordsToStore be "allRecords" (ie: "Specify conditions")', () => {
-                    expect(storeOptions.numberOfRecordsToStore).toBe('allRecords');
+                it('should have radio group option equal to "recordLookup" (ie: "Specify conditions")', () => {
+                    expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP);
                 });
             });
             describe('Entity resource picker', () => {
