@@ -6,7 +6,8 @@ import {
     UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
     UPDATE_PROPERTIES,
     UPDATE_APEX_CLASSES,
-    UPDATE_ENTITIES
+    UPDATE_ENTITIES,
+    ADD_RESOURCE
 } from 'builder_platform_interaction/actions';
 
 const defaultProperties = {
@@ -121,5 +122,48 @@ describe('flow-properties-reducer', () => {
             }
         );
         expect(newState.hasUnsavedChanges).toBeUndefined();
+    });
+
+    it('Should set hasUnsavedChanges to true for ADD_RESOURCE action', () => {
+        const newProperties = {
+            isAddingResourceViaLeftPanel: false,
+            guid: 'guid1'
+        };
+        const newPropertiesState = reducer(oldProperties, {
+            type: ADD_RESOURCE,
+            payload: newProperties
+        });
+
+        expect(newPropertiesState).not.toBe(oldProperties);
+        expect(newPropertiesState.hasUnsavedChanges).toBeTruthy();
+    });
+
+    it('Should set lastInlineResourceGuid to original lastInlineResourceGuid when isAddingResourceViaLeftPanel is true for ADD_RESOURCE action', () => {
+        oldProperties.lastInlineResourceGuid = null;
+        const newProperties = {
+            isAddingResourceViaLeftPanel: true,
+            guid: 'guid1'
+        };
+        const newPropertiesState = reducer(oldProperties, {
+            type: ADD_RESOURCE,
+            payload: newProperties
+        });
+
+        expect(newPropertiesState).not.toBe(oldProperties);
+        expect(newPropertiesState.lastInlineResourceGuid).toBeNull();
+    });
+
+    it('Should set lastInlineResourceGuid to the passed guid when isAddingResourceViaLeftPanel is false for ADD_RESOURCE action', () => {
+        const newProperties = {
+            isAddingResourceViaLeftPanel: false,
+            guid: 'guid1'
+        };
+        const newPropertiesState = reducer(oldProperties, {
+            type: ADD_RESOURCE,
+            payload: newProperties
+        });
+
+        expect(newPropertiesState).not.toBe(oldProperties);
+        expect(newPropertiesState.lastInlineResourceGuid).toBe(newProperties.guid);
     });
 });

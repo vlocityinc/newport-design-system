@@ -6,13 +6,14 @@
 const eventName = 'addnewresource';
 
 export class NewResourceEvent {
-    constructor(position = null) {
+    constructor(position = null, viaLeftPanel = false) {
         return new CustomEvent(eventName, {
             cancelable: true,
             composed: true,
             bubbles: true,
             detail: {
-                position
+                position,
+                viaLeftPanel
             }
         });
     }

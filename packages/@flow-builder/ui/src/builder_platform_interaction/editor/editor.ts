@@ -258,6 +258,7 @@ export default class Editor extends LightningElement {
     isRetrieveInterviewHistoryCallInProgress = false;
     flowRetrieveError;
     hideDebugAgainButton = false;
+    _isAddingResourceViaLeftPanel = false;
 
     originalFlowLabel;
     originalFlowDescription;
@@ -1468,6 +1469,7 @@ export default class Editor extends LightningElement {
     handleAddResourceElement = (event) => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
+        this._isAddingResourceViaLeftPanel = event.detail.viaLeftPanel;
 
         this.queueOpenPropertyEditor(
             () => ({
@@ -2033,6 +2035,7 @@ export default class Editor extends LightningElement {
         this.cacheNewComplexObjectFields(nodeForStore);
 
         let payload: UI.Element | NodeWithParent = nodeForStore;
+        payload.isAddingResourceViaLeftPanel = this._isAddingResourceViaLeftPanel;
 
         // This is a non-canvas child element being added directly on the canvas
         if (!nodeForStore.canvasElement && parentGuid) {
@@ -2047,6 +2050,7 @@ export default class Editor extends LightningElement {
             payload.alcInsertAt = alcInsertAt;
         }
         this.dispatchAddElement(payload);
+        this._isAddingResourceViaLeftPanel = false;
     };
 
     /**

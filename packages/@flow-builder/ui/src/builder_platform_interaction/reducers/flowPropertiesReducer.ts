@@ -54,7 +54,9 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
         case ADD_RESOURCE:
             return {
                 ...state,
-                lastInlineResourceGuid: payload.guid,
+                lastInlineResourceGuid: payload.isAddingResourceViaLeftPanel
+                    ? state.lastInlineResourceGuid
+                    : payload.guid,
                 hasUnsavedChanges: true
             };
         case REMOVE_LAST_CREATED_INLINE_RESOURCE:

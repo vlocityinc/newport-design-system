@@ -18,7 +18,6 @@ import {
     getElementTypeLabel,
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
-import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
@@ -42,8 +41,6 @@ export default class LeftPanel extends LightningElement {
 
     labels = LABELS;
     searchString;
-
-    _addInlineResourceFromManagerTab = false;
 
     @api
     elements = [];
@@ -148,9 +145,8 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleAddNewResourceButtonClick = () => {
-        const handleOnClickEvent = new NewResourceEvent();
+        const handleOnClickEvent = new NewResourceEvent(null, true);
         this.dispatchEvent(handleOnClickEvent);
-        this._addInlineResourceFromManagerTab = true;
         logInteraction(`new-resource-button`, 'left panel', null, 'click');
     };
 
@@ -231,12 +227,5 @@ export default class LeftPanel extends LightningElement {
 
     disconnectedCallback() {
         unsubscribeStore();
-    }
-
-    renderedCallback() {
-        if (this._addInlineResourceFromManagerTab && storeInstance) {
-            this._addInlineResourceFromManagerTab = false;
-            storeInstance.dispatch(removeLastCreatedInlineResource);
-        }
     }
 }
