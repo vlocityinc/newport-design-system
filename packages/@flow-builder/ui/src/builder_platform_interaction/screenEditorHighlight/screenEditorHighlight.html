@@ -11,7 +11,7 @@
     >
         <div class="highlight-header slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center">
             <lightning-icon
-                if:true={isElementHasVisiblitityConditions}
+                if:true={isElementWithVisibilityConditions}
                 class="visibility-icon"
                 icon-name="utility:preview"
                 size="x-small"
@@ -20,12 +20,17 @@
             ></lightning-icon>
             <lightning-icon icon-name={highlightIcon} size="x-small" variant="inverse"></lightning-icon>
             <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">{title}</div>
+            <lightning-badge
+                if:true={isAutomaticScreenField}
+                class="slds-m-left_xx-small automatic-field-badge"
+                label={labels.automaticFieldHighlightHeaderFieldLabel}
+            ></lightning-badge>
         </div>
 
         <div if:false={shouldPreventEvents} class="highlight-frame">
             <slot name="screen-element"></slot>
             <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
-                <div if:true={isElementHasVisiblitityConditionsAndIsNotSelected} class="highlight-icon-container">
+                <div if:true={isElementWithVisibilityConditionsAndIsNotSelected} class="highlight-icon-container">
                     <lightning-icon
                         class="visibility-icon absolute left"
                         icon-name="utility:preview"
@@ -56,7 +61,7 @@
                 </div>
             </div>
             <div
-                if:true={isElementHasVisiblitityConditionsAndIsNotSelected}
+                if:true={isElementWithVisibilityConditionsAndIsNotSelected}
                 class="visibility-icons-container slds-grid slds-is-absolute"
             >
                 <div class="slds-text-align_center">
@@ -79,7 +84,7 @@
                     class="highlight-icons-container slds-grid slds-is-relative slds-float_right"
                 >
                     <div
-                        if:true={isElementHasVisiblitityConditionsAndIsNotSelected}
+                        if:true={isElementWithVisibilityConditionsAndIsNotSelected}
                         class="highlight-icon-container visibility"
                     >
                         <lightning-icon
@@ -114,7 +119,7 @@
                 </div>
             </div>
             <div
-                if:true={isElementHasVisiblitityConditionsAndIsNotSelected}
+                if:true={isElementWithVisibilityConditionsAndIsNotSelected}
                 class="visibility-icons-container slds-is-relative slds-float_right"
             >
                 <lightning-button-icon

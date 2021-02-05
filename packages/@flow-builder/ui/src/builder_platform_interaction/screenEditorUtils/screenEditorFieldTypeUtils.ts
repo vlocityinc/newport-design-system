@@ -360,7 +360,7 @@ export function isPicklistField(field) {
 }
 
 /**
- * @param field to test
+ * @param {object} field to test
  * @returns Indicates if specified field is a region container (section) field
  */
 export function isRegionContainerField(field) {
@@ -368,14 +368,18 @@ export function isRegionContainerField(field) {
 }
 
 /**
- * @param field to test
+ * @param {object} field to test
  * @returns Indicates if specified field is a region (column) field
  */
 export function isRegionField(field) {
     return field && field.fieldType === FlowScreenFieldType.Region;
 }
 
-export function isAutomaticField(field) {
+/**
+ * @param {object} field to test
+ * @returns Indicates if specified field is an automatic field
+ */
+export function isAutomaticField(field): boolean {
     return field && field.fieldType === FlowScreenFieldType.ObjectProvided;
 }
 

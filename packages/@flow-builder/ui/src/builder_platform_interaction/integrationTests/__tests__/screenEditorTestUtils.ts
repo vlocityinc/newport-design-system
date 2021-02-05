@@ -154,6 +154,13 @@ export class ScreenEditorHighlightTestComponent extends TestComponent<ScreenEdit
         const screenFieldElement = this.element.querySelector(SELECTORS.SCREEN_FIELD)! as ScreenField & HTMLElement;
         return new ScreenFieldTestComponent(screenFieldElement);
     }
+
+    /**
+     * Returns the lightning-badge component from the header of the screen editor highlight for automatic field
+     */
+    public getHeaderAutomaticFieldBadge = () =>
+        this.element.shadowRoot!.querySelector<HTMLElement & { label }>(SELECTORS.LIGHTNING_BADGE);
+
     public clickDelete() {
         const deleteButton = this.element.shadowRoot!.querySelectorAll(SELECTORS.LIGHTNING_BUTTON_ICON)[1] as any;
         deleteButton.click();

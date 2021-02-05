@@ -1,5 +1,4 @@
 import errorRequired from '@salesforce/label/FlowBuilderScreenEditor.errorRequired';
-// import reviewErrors from '@salesforce/label/FlowBuilderScreenEditor.reviewErrors';
 import screen from '@salesforce/label/FlowBuilderScreenEditor.screen';
 import screenProperties from '@salesforce/label/FlowBuilderScreenEditor.screenProperties';
 import screenTitlePlaceHolder from '@salesforce/label/FlowBuilderScreenEditor.screenTitlePlaceHolder';
@@ -128,6 +127,7 @@ import automaticFieldDataTypeDate from '@salesforce/label/FlowBuilderAutomaticFi
 import automaticFieldDataTypeCheckbox from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeCheckbox';
 import automaticFieldDataTypeTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeTextArea';
 import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeLongTextArea';
+import automaticFieldHighlightHeaderFieldLabel from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldHighlightHeaderFieldLabel';
 
 export const LABELS = {
     errorRequired,
@@ -258,5 +258,6 @@ export const LABELS = {
     automaticFieldDataTypeDate,
     automaticFieldDataTypeCheckbox,
     automaticFieldDataTypeTextArea,
-    automaticFieldDataTypeLongTextArea
+    automaticFieldDataTypeLongTextArea,
+    automaticFieldHighlightHeaderFieldLabel
 };

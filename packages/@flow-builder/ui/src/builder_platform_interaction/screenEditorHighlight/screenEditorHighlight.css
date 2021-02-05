@@ -132,3 +132,10 @@
 .highlight.dragging:focus > .highlight-frame > .visibility-icons-container::after {
     visibility: hidden;
 }
+
+.automatic-field-badge {
+    line-height: var(--lwc-varSpacingVerticalXSmall, 0.5rem);
+    font-weight: var(--lwc-fontWeightRegular, normal);
+    background-color: var(--lwc-colorTextPrimary, #16325c);
+    color: var(--lwc-badgeColorBackgroundLightest, white);
+}

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -10,6 +9,7 @@ import {
     booleanAttributeValue,
     setDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
+import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Selection frame with a header and support for deleting components
@@ -26,16 +26,15 @@ export default class ScreenEditorHighlight extends LightningElement {
 
     labels = LABELS;
 
+    private isAutomaticScreenField = false;
+
     get classList() {
-        return (
-            'highlight slds-is-relative ' +
-            (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '') +
-            ' ' +
-            (booleanAttributeValue(this, 'hovering') ? HOVERING_CLASS : '')
-        );
+        return `highlight slds-is-relative ${booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : ''} ${
+            booleanAttributeValue(this, 'hovering') ? HOVERING_CLASS : ''
+        }`;
     }
 
-    get isElementHasVisiblitityConditions() {
+    get isElementWithVisibilityConditions() {
         return (
             this.screenElement.visibilityRule &&
             this.screenElement.visibilityRule.conditions &&
@@ -43,8 +42,8 @@ export default class ScreenEditorHighlight extends LightningElement {
         );
     }
 
-    get isElementHasVisiblitityConditionsAndIsNotSelected() {
-        return !this.selected && this.isElementHasVisiblitityConditions;
+    get isElementWithVisibilityConditionsAndIsNotSelected() {
+        return !this.selected && this.isElementWithVisibilityConditions;
     }
 
     get isDraggable() {
@@ -62,6 +61,7 @@ export default class ScreenEditorHighlight extends LightningElement {
     connectedCallback() {
         this.highlightIcon =
             (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || 'utility:connected_apps';
+        this.isAutomaticScreenField = this.screenElement && screenEditorUtils.isAutomaticField(this.screenElement);
     }
 
     handleSelected = (event) => {
