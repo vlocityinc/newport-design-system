@@ -162,10 +162,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         if (event.detail.value === DELETE) {
             this.oldFlowTriggerType = this.startElement.triggerType.value;
             this.handleTypeBeforeDelete();
-        } else if (this.startElement.triggerType.value === AFTER_SAVE || this.oldFlowTriggerType === AFTER_SAVE) {
-            this.handleTypeAfterSave();
-        } else {
+        } else if (this.startElement.triggerType.value === BEFORE_SAVE || this.oldFlowTriggerType === BEFORE_SAVE) {
             this.handleTypeBeforeSave();
+        } else {
+            this.handleTypeAfterSave();
         }
     };
 

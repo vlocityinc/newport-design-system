@@ -112,7 +112,7 @@ describe('record-change-trigger-editor', () => {
         expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.AFTER_SAVE);
     });
 
-    it('Verify switching from delete to create auto selects Flow Trigger type to Before Save if Flow Trigger type is found as null in the start element', () => {
+    it('Verify switching from delete to create auto selects Flow Trigger type to After Save if Flow Trigger type is found as null in the start element', () => {
         const element = createComponentForTest(recordChangeTriggerElement(null, FLOW_TRIGGER_SAVE_TYPE.DELETE));
 
         // Switch to Create
@@ -123,7 +123,7 @@ describe('record-change-trigger-editor', () => {
         // is found as null.. Ideally, this shouldn't happen, but a negative test case to ensure Flow Trigger Type is always set to a valid
         // trigger type value and doesn't leave the start element in invalid state
         expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
-        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+        expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.AFTER_SAVE);
     });
 
     describe('UpdateNodeEvent', () => {
