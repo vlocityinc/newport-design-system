@@ -1,7 +1,11 @@
 import ScreenEditorAutomaticFieldPalette from '../screenEditorAutomaticFieldPalette';
 import { createElement } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
+import {
+    flowWithAllElementsUIModel,
+    accountSObjectVariable,
+    objectWithAllPossibleFieldsVariable
+} from 'mock/storeData';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import {
     SObjectReferenceChangedEvent,
@@ -12,13 +16,16 @@ import {
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { objectWithAllPossibleFieldsFields as mockobjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import { INTERACTION_COMPONENTS_SELECTORS, dragStartEvent } from 'builder_platform_interaction/builderTestUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    fetchFieldsForEntity: jest.fn(() => {
-        return Promise.resolve(mockAccountFields);
-    })
+    fetchFieldsForEntity: jest.fn((recordEntityName) =>
+        Promise.resolve(
+            recordEntityName === 'Account' ? mockAccountFields : mockobjectWithAllPossibleFieldsVariableFields
+        )
+    )
 }));
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -47,8 +54,10 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     };
 });
 
-const TOTAL_SUPPORTED_FIELDS = 29;
-const NB_REQUIRED_FIELDS = 4;
+const TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT = 29;
+const TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 8;
+const NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS = 1;
+
 const STRING_FIELD_NAME = 'SicDesc';
 const NUMBER_FIELD_NAME = 'OutstandingShares__c';
 const BOOLEAN_FIELD_NAME = 'IsExcludedFromRealign';
@@ -141,20 +150,15 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(sobjectLib.fetchFieldsForEntity).toHaveBeenCalledWith('Account');
         });
-        test('SObjectReferenceChangedEvent should generate proper data with 2 sections for inner palette', async () => {
+        test('SObjectReferenceChangedEvent should generate proper data with 1 sections for inner palette (no required field)', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData).toHaveLength(2);
+            expect(element.paletteData).toHaveLength(1);
         });
-        test('SObjectReferenceChangedEvent should generate proper items for palette first required section', async () => {
+        test('SObjectReferenceChangedEvent should generate proper items for palette not required section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(NB_REQUIRED_FIELDS);
-        });
-        test('SObjectReferenceChangedEvent should generate proper items for palette second section', async () => {
-            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
-            await ticks(1);
-            expect(element.paletteData[1]._children).toHaveLength(TOTAL_SUPPORTED_FIELDS - NB_REQUIRED_FIELDS);
+            expect(element.paletteData[0]._children).toHaveLength(TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT);
         });
         test('SObjectReferenceChangedEvent should hide no items to show illustration', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -195,19 +199,12 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getBasePalette(element)).not.toBeNull();
         });
-        test('SObjectReferenceChangedEvent with same value still generate proper items for palette first required section', async () => {
-            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
-            await ticks(1);
-            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
-            await ticks(1);
-            expect(element.paletteData[0]._children).toHaveLength(NB_REQUIRED_FIELDS);
-        });
         test('SObjectReferenceChangedEvent with same value still generate proper items for palette second section', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
-            expect(element.paletteData[1]._children).toHaveLength(TOTAL_SUPPORTED_FIELDS - NB_REQUIRED_FIELDS);
+            expect(element.paletteData[0]._children).toHaveLength(TOTAL_SUPPORTED_FIELDS_IN_ACCOUNT);
         });
         test('SObjectReferenceChangedEvent with same value keeps the search pattern as is', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
@@ -216,6 +213,28 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(element.searchPattern).toEqual('name');
+        });
+    });
+
+    describe('SObjectReferenceChangedEvent event handling with objectWithAllPossibleFieldsVariable to get both section in the palette', () => {
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(objectWithAllPossibleFieldsVariable.guid);
+        test('SObjectReferenceChangedEvent should generate proper data with 2 sections for inner palette', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(element.paletteData).toHaveLength(2);
+        });
+        test('SObjectReferenceChangedEvent should generate proper items for palette required section', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(element.paletteData[0]._children).toHaveLength(NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS);
+        });
+        test('SObjectReferenceChangedEvent should generate proper items for palette non required section', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(element.paletteData[1]._children).toHaveLength(
+                TOTAL_SUPPORTED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS -
+                    NB_REQUIRED_FIELDS_IN_OBJECT_WIH_ALL_POSSIBLE_FIELDS
+            );
         });
     });
 

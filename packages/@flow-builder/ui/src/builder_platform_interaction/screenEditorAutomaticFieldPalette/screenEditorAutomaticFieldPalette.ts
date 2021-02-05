@@ -153,7 +153,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 fieldTypeName: getScreenFieldName(field)!,
                 objectFieldReference: this.recordVariable + '.' + field.apiName
             };
-            if (field.required) {
+            if (field.required && field.fieldDataType !== FieldDataType.Boolean) {
                 requiredSection._children.push(item);
             } else {
                 optionalSection._children.push(item);

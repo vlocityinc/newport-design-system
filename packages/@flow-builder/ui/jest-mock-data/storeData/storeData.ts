@@ -60,6 +60,7 @@ export const dateVariable = getElementByName('dateVariable');
 export const currencyVariable = getElementByName('currencyVariable');
 export const assignmentElement = getElementByName('assignment1');
 export const accountSObjectVariable = getElementByName('accountSObjectVariable');
+export const objectWithAllPossibleFieldsVariable = getElementByName('objectWithAllPossiblFieldsVariable');
 export const lookupRecordOutputReference = getElementByName('lookupRecordOutputReference');
 export const lookupRecordAutomaticOutput = getElementByName('lookupRecordAutomaticOutput');
 export const lookupRecordCollectionAutomaticOutput = getElementByName('lookupRecordCollectionAutomaticOutput');
