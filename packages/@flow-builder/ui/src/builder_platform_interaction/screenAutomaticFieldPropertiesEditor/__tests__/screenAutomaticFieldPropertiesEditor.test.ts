@@ -10,16 +10,13 @@ import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFie
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     accountVariableNameAutomaticField,
-    objectWithAllPossiblFieldsVariableTextFieldAutomaticField,
+    objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
 } from 'mock/storeData';
 import { createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
-import {
-    CLASSIC_EXPERIENCE as MOCK_CLASSIC_EXPERIENCE,
-    getPreferredExperience
-} from 'builder_platform_interaction/contextLib';
+import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function () {
@@ -70,15 +67,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    const actual = jest.requireActual('builder_platform_interaction/contextLib');
-    return {
-        getPreferredExperience: jest.fn().mockImplementation(() => {
-            return MOCK_CLASSIC_EXPERIENCE;
-        }),
-        CLASSIC_EXPERIENCE: actual.CLASSIC_EXPERIENCE
-    };
-});
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
+
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber', () => ({ default: 'Number({0}, {1})' }), {
     virtual: true
 });
@@ -165,8 +155,8 @@ describe('Data types formatting with tokens', () => {
 
 describe('Link to Object Manager', () => {
     it('should return the Lightning link to field list page when not using Classic experience', async () => {
-        (getPreferredExperience as jest.Mock).mockReturnValue('NOT' + MOCK_CLASSIC_EXPERIENCE);
-        const field = createScreenFieldWithFields(objectWithAllPossiblFieldsVariableTextFieldAutomaticField);
+        (getPreferredExperience as jest.Mock).mockReturnValue('NOT' + CLASSIC_EXPERIENCE);
+        const field = createScreenFieldWithFields(objectWithAllPossibleFieldsVariableTextFieldAutomaticField);
         const component = createComponentForTest(field);
         await ticks();
         expect(getObjectManagerLinkUrl(component)).toEqual(
@@ -175,7 +165,7 @@ describe('Link to Object Manager', () => {
     });
     describe('When using Classic experience', () => {
         beforeAll(() => {
-            (getPreferredExperience as jest.Mock).mockReturnValue(MOCK_CLASSIC_EXPERIENCE);
+            (getPreferredExperience as jest.Mock).mockReturnValue(CLASSIC_EXPERIENCE);
         });
         it('should return the Classic link to standard object field page', async () => {
             const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
@@ -184,7 +174,7 @@ describe('Link to Object Manager', () => {
             expect(getObjectManagerLinkUrl(component)).toEqual('/p/setup/layout/LayoutFieldList?type=Account');
         });
         it('should return the Classic link to custom object page', async () => {
-            const field = createScreenFieldWithFields(objectWithAllPossiblFieldsVariableTextFieldAutomaticField);
+            const field = createScreenFieldWithFields(objectWithAllPossibleFieldsVariableTextFieldAutomaticField);
             const component = createComponentForTest(field);
             await ticks();
             expect(getObjectManagerLinkUrl(component)).toEqual('/p/setup/custent/CustomObjectsPage');

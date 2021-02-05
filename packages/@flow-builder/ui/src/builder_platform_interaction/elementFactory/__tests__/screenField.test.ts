@@ -20,7 +20,7 @@ import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     accountVariableNameAutomaticField,
-    objectWithAllPossiblFieldsVariableTextFieldAutomaticField,
+    objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
     accountSObjectVariable,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
 } from 'mock/storeData';
@@ -553,11 +553,14 @@ describe('screenField', () => {
                     helpText: ''
                 });
             });
-            it('correctly set helpText and isRequired from record field definition', () => {
-                const result = createScreenFieldWithFields(objectWithAllPossiblFieldsVariableTextFieldAutomaticField);
+            it('correctly set helpText, isRequired, length, precision and scale from record field definition', () => {
+                const result = createScreenFieldWithFields(objectWithAllPossibleFieldsVariableTextFieldAutomaticField);
                 expect(result).toMatchObject({
                     isRequired: true,
-                    helpText: 'the help text for this field'
+                    helpText: 'the help text for this field',
+                    length: 128,
+                    precision: 0,
+                    scale: 0
                 });
             });
             it('does not fail when no access to the referenced object', () => {

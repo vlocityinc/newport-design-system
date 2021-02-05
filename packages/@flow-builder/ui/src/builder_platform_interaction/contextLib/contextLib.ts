@@ -1,5 +1,78 @@
 // @ts-nocheck
-let context = {
+
+type Context = {
+    access: Access;
+    devMode: boolean;
+    testMode: boolean;
+    orgId: string;
+    canVAD: boolean;
+    builderConfig: BuilderConfig;
+    preferredExperience: string;
+};
+type Access = {
+    orgHasFlowBuilderDebug: boolean;
+    orgHasComplianceBannerEnabled: boolean;
+    orgHasBeforeSaveEnabled: boolean;
+    orgHasFlowBuilderAutomaticFields: boolean;
+    orgHasFlowScreenSections: boolean;
+    orgHasComponentPreview: boolean;
+    orgHasFlowBuilderGuardrails: boolean;
+};
+type BuilderConfig = {
+    builderType: string;
+    newFlowConfig: NewFlowConfig;
+    name: string;
+    icon: string;
+    componentConfigs: ComponentConfigs;
+    usePanelForPropertyEditor: boolean;
+    supportedProcessTypes?: string[] | null;
+};
+type NewFlowConfig = {
+    showRecommended: boolean;
+    showAll: boolean;
+};
+type ComponentConfigs = {
+    editMode: EditorConfig;
+    debugMode: EditorConfig;
+};
+type EditorConfig = {
+    rightPanelConfig: RightPanelConfig;
+    toolbarConfig: ToolbarConfig;
+    headerConfig: HeaderConfig;
+    leftPanelConfig: LeftPanelConfig;
+    canvasConfig: CanvasConfig;
+};
+type RightPanelConfig = {
+    showDebugPanel: boolean;
+};
+type ToolbarConfig = {
+    showEditFlowPropertiesButton: boolean;
+    showCopyPasteButton: boolean;
+    showDebugButton: boolean;
+    showEditFlowButton: boolean;
+    showCanvasModeToggle: boolean;
+    showRunButton: boolean;
+    showFlowStatus: boolean;
+    showRestartRunButton: boolean;
+};
+type HeaderConfig = {
+    showDebugStatus: boolean;
+    showInterviewLabel: boolean;
+};
+type LeftPanelConfig = {
+    showLeftPanel: boolean;
+};
+type CanvasConfig = {
+    disableAddConnectors: boolean;
+    disableDeleteConnectors: boolean;
+    disableDeleteElements: boolean;
+    disableDragElements: boolean;
+    disableAddElements: boolean;
+    disableSelectConnectors: boolean;
+    disableMultiSelectElements: boolean;
+};
+
+let context: Context = {
     access: {}
 };
 
@@ -10,7 +83,7 @@ let context = {
  * @param {Object}
  *            obj the application context
  */
-export function setContext(obj) {
+export function setContext(obj: Context) {
     context = obj;
 }
 

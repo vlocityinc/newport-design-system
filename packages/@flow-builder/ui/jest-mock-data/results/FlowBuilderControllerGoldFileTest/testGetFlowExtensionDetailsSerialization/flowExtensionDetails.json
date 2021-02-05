@@ -511,7 +511,7 @@
   "fieldsToNull" : [ ],
   "hasDefaultValue" : false,
   "isInput" : true,
-  "isOutput" : true,
+  "isOutput" : false,
   "isRequired" : true,
   "label" : "Label",
   "maxOccurs" : 1
