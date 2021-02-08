@@ -215,6 +215,8 @@ export default class Editor extends LightningElement {
         this.builderMode = mode;
     }
 
+    disableGuardrails = false;
+
     debugData;
 
     _guardrailsParams;
@@ -712,7 +714,13 @@ export default class Editor extends LightningElement {
     executeGuardrails(flowState) {
         const canvasInitialized = !this.properties.isAutoLayoutCanvas || flowState[ELEMENT_TYPE.ROOT_ELEMENT] != null;
 
-        if (isGuardrailsEnabled() && this.guardrailsParams && this.guardrailsParams.running && canvasInitialized) {
+        if (
+            isGuardrailsEnabled() &&
+            this.guardrailsParams &&
+            this.guardrailsParams.running &&
+            canvasInitialized &&
+            !this.disableGuardrails
+        ) {
             const flow = translateUIModelToFlow(flowState);
             this.guardrailsEngine.evaluate(flow).then((results) => {
                 this.dispatchEvent(new GuardrailsResultEvent(results));
@@ -1591,6 +1599,11 @@ export default class Editor extends LightningElement {
             // Adding a check here to prevent unnecessary update to the store.
             if (this.properties.isAutoLayoutCanvas !== setupInAutoLayoutCanvas) {
                 updatedHasUnsavedChangesProperty = true;
+
+                // Need to disable guardrails until we have actually updated the flow, otherwise
+                // guardrails will run while the isAutoLayoutCanvas and the flow state are out of sync
+                this.disableGuardrails = true;
+
                 // Updates the isAutoLayoutCanvas property in the store
                 storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
             }
@@ -1615,6 +1628,7 @@ export default class Editor extends LightningElement {
                 updatedHasUnsavedChangesProperty
             };
 
+            this.disableGuardrails = false;
             // Updates the elements, canvasElements, connectors and hasUnsavedChanges property in the store
             storeInstance.dispatch(updateFlowOnCanvasModeToggle(payload));
 
