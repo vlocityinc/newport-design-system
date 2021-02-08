@@ -104,32 +104,37 @@
 }
 
 .visibility-icon {
-    background-color: var(--lwc-colorBackgroundWarning);
+    background-color: var(--lwc-colorGray5);
     margin-right: var(--lwc-spacingXxSmall);
     color: var(--lwc-colorTextLinkInverse, --lwc-colorGray10);
+    border-radius: 0; /* Remove radius */
 }
 
 .visibility-icon.absolute {
     position: absolute;
 }
 
-.visibility-icons-container {
-    z-index: -1;
+.visibility-icon-container {
+    background-color: var(--lwc-colorGray5);
     width: 1rem;
     height: 1rem;
-    top: 0px; /* for preventevents false, as in that case this div is absolute */
-    right: 0px; /* for preventevents false, as in that case this div is absolute */
+    top: var(--lwc-borderWidthThin); /* for preventevents false, as in that case this div is absolute */
+    right: var(--lwc-borderWidthThick); /* for preventevents false, as in that case this div is absolute */
+}
+
+.visibility-icon-container.noZindex {
+    z-index: -1;
 }
 
 .visibility-icon.left {
-    left: 2px;
+    left: var(--lwc-borderWidthThin);
 }
 
-.highlight.dragging.hovering > .highlight-frame > .visibility-icons-container::after,
-.highlight.dragging.hovering > .slds-grid > .visibility-icons-container::after,
-.highlight.dragging.selected > .highlight-frame > .visibility-icons-container::after,
-.highlight.dragging.selected > .slds-grid > .visibility-icons-container::after,
-.highlight.dragging:focus > .highlight-frame > .visibility-icons-container::after {
+.highlight.dragging.hovering > .highlight-frame > .visibility-icon-container::after,
+.highlight.dragging.hovering > .slds-grid > .visibility-icon-container::after,
+.highlight.dragging.selected > .highlight-frame > .visibility-icon-container::after,
+.highlight.dragging.selected > .slds-grid > .visibility-icon-container::after,
+.highlight.dragging:focus > .highlight-frame > .visibility-icon-container::after {
     visibility: hidden;
 }
 

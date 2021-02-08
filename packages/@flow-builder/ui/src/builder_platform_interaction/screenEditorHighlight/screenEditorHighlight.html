@@ -10,14 +10,6 @@
         onmouseout={handleMouseOut}
     >
         <div class="highlight-header slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center">
-            <lightning-icon
-                if:true={isElementWithVisibilityConditions}
-                class="visibility-icon"
-                icon-name="utility:preview"
-                size="x-small"
-                variant="container"
-                tab-index="-1"
-            ></lightning-icon>
             <lightning-icon icon-name={highlightIcon} size="x-small" variant="inverse"></lightning-icon>
             <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">{title}</div>
             <lightning-badge
@@ -30,7 +22,7 @@
         <div if:false={shouldPreventEvents} class="highlight-frame">
             <slot name="screen-element"></slot>
             <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
-                <div if:true={isElementWithVisibilityConditionsAndIsNotSelected} class="highlight-icon-container">
+                <div if:true={isElementWithVisibilityConditions} class="visibility-icon-container visibility">
                     <lightning-icon
                         class="visibility-icon absolute left"
                         icon-name="utility:preview"
@@ -61,18 +53,16 @@
                 </div>
             </div>
             <div
-                if:true={isElementWithVisibilityConditionsAndIsNotSelected}
-                class="visibility-icons-container slds-grid slds-is-absolute"
+                if:true={isElementWithVisibilityConditions}
+                class="visibility-icon-container noZindex slds-is-absolute visibility"
             >
-                <div class="slds-text-align_center">
-                    <lightning-button-icon
-                        class="visibility-icon right"
-                        icon-name="utility:preview"
-                        variant="bare"
-                        size="small"
-                        tab-index="-1"
-                    ></lightning-button-icon>
-                </div>
+                <lightning-icon
+                    class="visibility-icon absolute left"
+                    icon-name="utility:preview"
+                    size="xx-small"
+                    variant="container"
+                    tab-index="-1"
+                ></lightning-icon>
             </div>
         </div>
 
@@ -83,10 +73,7 @@
                     if:true={shouldDisplayIcons}
                     class="highlight-icons-container slds-grid slds-is-relative slds-float_right"
                 >
-                    <div
-                        if:true={isElementWithVisibilityConditionsAndIsNotSelected}
-                        class="highlight-icon-container visibility"
-                    >
+                    <div if:true={isElementWithVisibilityConditions} class="visibility-icon-container visibility">
                         <lightning-icon
                             class="visibility-icon absolute left"
                             icon-name="utility:preview"
@@ -119,16 +106,16 @@
                 </div>
             </div>
             <div
-                if:true={isElementWithVisibilityConditionsAndIsNotSelected}
-                class="visibility-icons-container slds-is-relative slds-float_right"
+                if:true={isElementWithVisibilityConditions}
+                class="visibility-icon-container relative noZindex slds-is-relative visibility"
             >
-                <lightning-button-icon
-                    class="visibility-icon right"
+                <lightning-icon
+                    class="visibility-icon absolute left"
                     icon-name="utility:preview"
-                    variant="bare"
-                    size="small"
+                    size="xx-small"
+                    variant="container"
                     tab-index="-1"
-                ></lightning-button-icon>
+                ></lightning-icon>
             </div>
         </div>
     </div>

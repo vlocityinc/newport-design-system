@@ -38,7 +38,7 @@ export const DRAGGING_CLASS = 'dragging';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 export const FRAME_DIV_SELECTOR = '.highlight-frame';
 export const VISIBILITY_ICON = '.visibility-icon';
-export const VISIBILITY_ICON_CONTAINER = '.visibility-icons-container';
+export const VISIBILITY_ICON_CONTAINER = '.visibility-icon-container';
 export const HIGHLIGHT_DIV_HEADER = '.highlight-header';
 
 export enum InputsOnNextNavToAssocScrnOption {

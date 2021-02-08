@@ -15,8 +15,7 @@ import {
     HOVERING_CLASS,
     CONTAINER_DIV_SELECTOR,
     VISIBILITY_ICON,
-    VISIBILITY_ICON_CONTAINER,
-    HIGHLIGHT_DIV_HEADER
+    VISIBILITY_ICON_CONTAINER
 } from 'builder_platform_interaction/screenEditorUtils';
 import {
     flowWithAllElementsUIModel,
@@ -164,14 +163,13 @@ describe('Header (Visibility Icon/Badge)', () => {
                 beforeEach(async () => {
                     element.selected = true;
                 });
-                it('visibility icon should be visible in the header', () => {
-                    const highlightHeaderDiv = element.shadowRoot.querySelector(HIGHLIGHT_DIV_HEADER);
-                    const icon = getVisibilityIconNoShadow(highlightHeaderDiv);
-                    expect(icon).not.toBeNull();
-                });
-                it('visibility icon should NOT be visible in the frame', async () => {
+                it('visibility icon should be visible in the frame', async () => {
                     const iconContainer = getVisibilityIconContainer(element);
-                    expect(iconContainer).toBeNull();
+                    expect(iconContainer).not.toBeNull();
+                    expect(iconContainer.hidden).toBe(false);
+                    const icon = getVisibilityIconNoShadow(iconContainer);
+                    expect(icon).not.toBeNull();
+                    expect(icon.iconName).not.toBeNull();
                 });
             });
         });
@@ -186,11 +184,6 @@ describe('Header (Visibility Icon/Badge)', () => {
             describe('When Selected', () => {
                 beforeEach(async () => {
                     element.selected = true;
-                });
-                it('visibility icon should NOT be visible in the header', () => {
-                    const highlightHeaderDiv = element.shadowRoot.querySelector(HIGHLIGHT_DIV_HEADER);
-                    const icon = getVisibilityIconNoShadow(highlightHeaderDiv);
-                    expect(icon).toBeNull();
                 });
                 it('visibility icon should NOT be visible in the frame', async () => {
                     const iconContainer = getVisibilityIconContainer(element);
