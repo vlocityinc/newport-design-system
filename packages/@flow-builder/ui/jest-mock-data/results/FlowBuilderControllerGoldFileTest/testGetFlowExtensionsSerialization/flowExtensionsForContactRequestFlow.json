@@ -8,6 +8,27 @@
   "source" : "Unmanaged"
 },
     {
+  "category" : "Inputs",
+  "description" : "The description",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "fieldsToNull" : [ ],
+      "label" : "T",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "custom lookup",
+  "qualifiedApiName" : "c:lookup",
+  "source" : "Unmanaged"
+},
+    {
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Hello World",
@@ -128,6 +149,71 @@
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:LcInAllFlows",
+  "source" : "Standard"
+},
+    {
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Generic sobject",
+      "fieldsToNull" : [ ],
+      "label" : "Dynamic type T",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcDynTypedScreensTestComponent",
+  "source" : "Standard"
+},
+    {
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Generic sobject",
+      "fieldsToNull" : [ ],
+      "label" : "Dynamic type T",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcDynTypes",
+  "source" : "Standard"
+},
+    {
+  "description" : "A raptor recored picker",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Select the api name of the SObject this component is going to be looking for",
+      "fieldsToNull" : [ ],
+      "label" : "Object API Name",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "LWC Record Picker",
+  "qualifiedApiName" : "interactiontest:lwcGenericLookup",
   "source" : "Standard"
 },
     {

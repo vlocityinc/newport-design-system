@@ -1,7 +1,9 @@
 {
   "supportedFeaturesListForContactRequestFlow":[
+    "ConditionalFieldVisibility",
     "StoreOutputAutomatically",
     "LookupTraversal",
+    "DynamicTypes",
     "IsDebugAsUserAllowedInNonPrd",
     "GlobalVariables",
     "TransactionControlledActions"

@@ -73,6 +73,7 @@
   "recordDeletes" : [ ],
   "recordLookups" : [ ],
   "recordUpdates" : [ ],
+  "rollbacks" : [ ],
   "screens" : [ {
     "allowBack" : true,
     "allowFinish" : true,

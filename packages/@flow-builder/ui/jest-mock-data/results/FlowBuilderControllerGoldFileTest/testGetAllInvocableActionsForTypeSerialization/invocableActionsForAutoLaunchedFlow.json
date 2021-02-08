@@ -19,6 +19,40 @@
     },
     {
       "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Add Work Plans to a Work Order or Work Order Line Item",
+      "label":"Add Work Plans",
+      "type":"addWorkPlans",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"addWorkPlans",
+      "configurationEditor":null,
+      "category":"Work Plans",
+      "genericTypes":[
+
+      ],
+      "durableId":"addWorkPlans-addWorkPlans"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Add Work Steps to a Work Plan",
+      "label":"Add Work Steps",
+      "type":"addWorkSteps",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"addWorkSteps",
+      "configurationEditor":null,
+      "category":"Work Steps",
+      "genericTypes":[
+
+      ],
+      "durableId":"addWorkSteps-addWorkSteps"
+    },
+    {
+      "iconId":null,
       "allowsTransactionControl":true,
       "iconName":null,
       "description":null,
@@ -276,6 +310,23 @@
       "iconId":null,
       "allowsTransactionControl":false,
       "iconName":null,
+      "description":"Delete Work Plans for a Work Order or Work Order Line Item",
+      "label":"Delete Work Plans",
+      "type":"deleteWorkPlans",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"deleteWorkPlans",
+      "configurationEditor":null,
+      "category":"Work Plans",
+      "genericTypes":[
+
+      ],
+      "durableId":"deleteWorkPlans-deleteWorkPlans"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "description":"Send an email where you specify the subject, body, and recipients.",
       "label":"Send Email",
       "type":"emailSimple",
@@ -305,6 +356,23 @@
 
       ],
       "durableId":"generateWorkOrders-generateWorkOrders"
+    },
+    {
+      "iconId":null,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "description":"Generate Work Plans for a Work Order or Work Order Line Item",
+      "label":"Generate Work Plans",
+      "type":"generateWorkPlans",
+      "fillColor":null,
+      "isStandard":true,
+      "name":"generateWorkPlans",
+      "configurationEditor":null,
+      "category":"Work Plans",
+      "genericTypes":[
+
+      ],
+      "durableId":"generateWorkPlans-generateWorkPlans"
     },
     {
       "iconId":null,
