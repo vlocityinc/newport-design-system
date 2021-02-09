@@ -119,6 +119,7 @@ export default class LeftPanel extends LightningElement {
         }
 
         const elementType = event.detail.elementType;
+        const elementSubtype = event.detail.elementSubtype;
 
         // TODO: W-4889436: Better default location.
         const locationX = 0;
@@ -126,6 +127,7 @@ export default class LeftPanel extends LightningElement {
 
         const addElementEvent = new AddElementEvent({
             elementType,
+            elementSubtype,
             locationX,
             locationY
         });

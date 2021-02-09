@@ -14,6 +14,7 @@ import { isTestMode } from 'builder_platform_interaction/contextLib';
 export default class PaletteItem extends LightningElement {
     @api description;
     @api elementType;
+    @api elementSubtype;
     @api guid;
     @api iconName;
     @api label;
@@ -63,7 +64,8 @@ export default class PaletteItem extends LightningElement {
     handleLinkClick() {
         const elementType = this.elementType;
         const guid = this.guid;
-        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
+        const elementSubtype = this.elementSubtype || null; // for collection processor elements
+        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid, elementSubtype);
         this.dispatchEvent(paletteItemClickedEvent);
     }
 

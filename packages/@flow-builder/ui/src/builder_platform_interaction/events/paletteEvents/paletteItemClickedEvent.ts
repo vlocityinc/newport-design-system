@@ -5,14 +5,15 @@
 const eventName = 'paletteitemclicked';
 
 export class PaletteItemClickedEvent {
-    constructor(elementType, guid) {
+    constructor(elementType, guid, elementSubtype = null) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
                 elementType,
-                guid
+                guid,
+                elementSubtype
             }
         });
     }
