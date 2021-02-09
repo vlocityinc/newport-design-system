@@ -683,6 +683,7 @@ describe('OrchestratedStage', () => {
         let step;
         beforeEach(() => {
             step = {
+                actionName: 'someScreenFlow',
                 outputParameters: []
             };
         });
@@ -709,6 +710,7 @@ describe('OrchestratedStage', () => {
                 ];
                 const data = getStageStepChildren(step);
                 expect(step.outputParameters[0]).toMatchObject(data.Outputs.getChildrenItems()[0]);
+                expect(data.Outputs.subtype).toEqual(step.actionName);
             });
             it('not present if no parameters', () => {
                 const data = getStageStepChildren(step);

@@ -867,7 +867,10 @@ export default class BaseExpressionBuilder extends LightningElement {
             }
         }
         let promise;
-        // get fields if preFetchedFields is empty or of the wrong sobject
+        // get fields if preFetchedFields is:
+        // 1. empty
+        // 2. of the wrong sobject
+        // 3. a different type when navigating elements as complex types (e.g. stageStep.outputs)
         if (
             !objectType &&
             parentMenuItem &&

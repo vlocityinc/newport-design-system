@@ -317,6 +317,9 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
             name: 'Outputs',
             apiName: 'Outputs',
             dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+            // Subtype is added so that menu traversal will recognize outputs
+            // for a given action as a different "type" needing a call to getChildrenItems
+            subtype: step.actionName,
             isSpanningAllowed: true,
             getChildrenItems: () =>
                 outputParameters.map((output: ParameterListRowItem) => ({
