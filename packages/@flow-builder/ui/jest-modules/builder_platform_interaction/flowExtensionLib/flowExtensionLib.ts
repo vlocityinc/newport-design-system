@@ -97,3 +97,21 @@ export const mockGetRequiredParametersForExtensionImpl = jest.fn().mockImplement
 export const getRequiredParametersForExtension = jest
     .fn()
     .mockImplementation((extensionName) => mockGetRequiredParametersForExtensionImpl(extensionName));
+
+export const mockGetExtensionAttributeTypeImpl = jest.fn().mockImplementation((extensionName, attributeName) => {
+    const cachedDescriptors: any = mockGetCachedExtensionsImplementation([extensionName]);
+    if (cachedDescriptors && cachedDescriptors.length === 1) {
+        const descriptor = cachedDescriptors[0];
+        const inputParam = descriptor.inputParameters.find((inputParam) => inputParam.apiName === attributeName);
+        if (inputParam) {
+            return inputParam.dataType;
+        }
+    }
+    return null;
+});
+
+export const getExtensionAttributeType = jest
+    .fn()
+    .mockImplementation((extensionName, attributeName) =>
+        mockGetExtensionAttributeTypeImpl(extensionName, attributeName)
+    );

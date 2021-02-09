@@ -7,7 +7,7 @@
     <version>232-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.3127</aura.version>
+        <aura.version>0.6000.3128</aura.version>
         <lwc.api.version>0.232.4</lwc.api.version>
         <lwc.version>1.17.2-232.0</lwc.version>
         <spring.version>5.2.8.RELEASE</spring.version>

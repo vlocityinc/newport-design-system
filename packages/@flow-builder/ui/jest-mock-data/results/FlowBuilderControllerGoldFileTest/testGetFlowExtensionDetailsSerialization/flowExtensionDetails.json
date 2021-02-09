@@ -592,6 +592,83 @@
   "maxOccurs" : 1
 }
       ]
+    },
+    "flowruntime:image":{
+      "configurationEditor":null,
+      "parameters":[
+        {
+  "apiName" : "horizontalAlignment",
+  "dataType" : "string",
+  "description" : "If you don't want the browser to determine the image's horizontal alignment, enter the alignment. Valid values are: left, center, or right.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Horizontal Alignment",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "imageAlt",
+  "dataType" : "string",
+  "description" : "Alternative text for screen readers or for browsers that can't load the image.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Image Alt Text",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "imageCSS",
+  "dataType" : "string",
+  "description" : "To customize the image, enter your own CSS. Example: border-radius: 8px; box-shadow: 10px 5px 5px blue; opacity: 0.75;",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Image CSS",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "imageHeight",
+  "dataType" : "string",
+  "description" : "If you don't want the browser to determine the image height, enter the height. Valid values are a number and unit. Examples: 200px, 2cm.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Image Height",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "imageName",
+  "dataType" : "string",
+  "description" : "Required. After you upload the image as a static resource in your org, enter the name of the static resource.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : true,
+  "label" : "Image Name",
+  "maxOccurs" : 1
+},
+        {
+  "apiName" : "imageWidth",
+  "dataType" : "string",
+  "description" : "If you don't want the browser to determine the image width, enter the width. Valid values are a number and unit, or a percentage of the container. Examples: 200px, 2cm, 50%.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "label" : "Image Width",
+  "maxOccurs" : 1
+}
+      ]
     }
   }
 }

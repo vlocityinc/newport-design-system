@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenField from 'builder_platform_interaction/screenField';
-import { createTestScreenField, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { createTestScreenField, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { getCachedExtensionType } from 'builder_platform_interaction_mocks/flowExtensionLib';
@@ -65,7 +65,7 @@ afterAll(() => {
     Store.resetStore();
 });
 
-describe('custom Aura field is not previewed', () => {
+describe('Test1 - custom Aura field is not previewed', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName1');
@@ -73,26 +73,23 @@ describe('custom Aura field is not previewed', () => {
             screenfield: field
         });
     });
-    it('Extension wrapper is present', async () => {
-        await ticks(1);
+    it('Extension wrapper is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy placeholder is present', async () => {
-        await ticks(1);
+    it('Dummy placeholder is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
-    it('Extension field is not present', async () => {
-        await ticks(1);
+    it('Extension field is not present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
 });
 
-describe('custom LWC field is not previewed', () => {
+describe('Test2 - custom LWC field is not previewed', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeLwc');
@@ -100,26 +97,23 @@ describe('custom LWC field is not previewed', () => {
             screenfield: field
         });
     });
-    it('Extension wrapper is present', async () => {
-        await ticks(1);
+    it('Extension wrapper is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy placeholder is present', async () => {
-        await ticks(1);
+    it('Dummy placeholder is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
-    it('Extension field is not present', async () => {
-        await ticks(1);
+    it('Extension field is not present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
 });
 
-describe('LWC field is previewed when on allow list', () => {
+describe('Test3 - LWC field is previewed when on allow list', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
@@ -127,19 +121,16 @@ describe('LWC field is previewed when on allow list', () => {
             screenfield: field
         });
     });
-    it('Extension wrapper field is present', async () => {
-        await ticks(1);
+    it('Extension wrapper field is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Extension field is present', async () => {
-        await ticks(1);
+    it('Extension field is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).not.toBeNull();
     });
-    it('Dummy field is not present', async () => {
-        await ticks(1);
+    it('Dummy field is not present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
@@ -147,7 +138,7 @@ describe('LWC field is previewed when on allow list', () => {
     });
 });
 
-describe('Component is not previewed if 1 required input param is missing', () => {
+describe('Test4 - Component is not previewed if 1 required input param is missing', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
@@ -167,26 +158,23 @@ describe('Component is not previewed if 1 required input param is missing', () =
             screenfield: field
         });
     });
-    it('Screen extension wrapper is present', async () => {
-        await ticks(1);
+    it('Screen extension wrapper is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy placeholder is present', async () => {
-        await ticks(1);
+    it('Dummy placeholder is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
-    it('Extension field is not present', async () => {
-        await ticks(1);
+    it('Extension field is not present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
 });
 
-describe('Component is previewed if all required input params are literals', () => {
+describe('Test5 - Component is previewed if all required input params are literals', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
@@ -216,26 +204,23 @@ describe('Component is previewed if all required input params are literals', () 
             screenfield: field
         });
     });
-    it('Wrapper field is present', async () => {
-        await ticks(1);
+    it('Wrapper field is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy field is not present', async () => {
-        await ticks(1);
+    it('Dummy field is not present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).toBeNull();
     });
-    it('Extension field is present', async () => {
-        await ticks(1);
+    it('Extension field is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).not.toBeNull();
     });
 });
 
-describe('Component is not previewed when required param is a reference', () => {
+describe('Test6 - Component is not previewed when required param is a reference', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
@@ -260,94 +245,208 @@ describe('Component is not previewed when required param is a reference', () => 
             screenfield: field
         });
     });
-    it('Extension wrapper is present', async () => {
-        await ticks(1);
+    it('Extension wrapper is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy placeholder is present', async () => {
-        await ticks(1);
+    it('Dummy placeholder is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
-    it('Extension field is not present', async () => {
-        await ticks(1);
+    it('Extension field is not present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
 });
 
-describe('Component allowed for preview is not previewed when org perm is disabled', () => {
+describe('Test7 - Component allowed for preview is not previewed when org perm is disabled', () => {
     let testScreenField;
-    const shouldOrgAllowPreview = (allow) => {
-        orgHasComponentPreview.mockImplementation(() => {
-            return allow;
-        });
-    };
     beforeEach(() => {
-        shouldOrgAllowPreview(false);
-        jest.mock('builder_platform_interaction/contextLib', () => {
-            return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
-                orgHasComponentPreview() {
-                    return false;
-                }
-            });
-        });
+        orgHasComponentPreview.mockImplementationOnce(false);
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
     });
-    it('Extension wrapper is present', async () => {
-        await ticks(1);
+    it('Extension wrapper is present', () => {
+        orgHasComponentPreview.mockImplementationOnce(false);
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy placeholder is present', async () => {
-        await ticks(1);
+    it('Dummy placeholder is present', () => {
+        orgHasComponentPreview.mockImplementationOnce(false);
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
-    it('Extension field is not present', async () => {
-        await ticks(1);
+    it('Extension field is not present', () => {
+        orgHasComponentPreview.mockImplementationOnce(false);
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
 });
 
-describe('Component is not previewed if component descriptor is not avaialable', () => {
+describe('Test8 - Component is not previewed if component descriptor is not avaialable', () => {
     let testScreenField;
-    const cachedInfo = () => {
-        getCachedExtensionType.mockImplementation(() => {
-            return '';
-        });
-    };
     beforeEach(() => {
-        cachedInfo();
+        getCachedExtensionType.mockImplementationOnce('');
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
     });
-    it('Extension wrapper is present', async () => {
-        await ticks(1);
+    it('Extension wrapper is present', () => {
+        getCachedExtensionType.mockImplementationOnce('');
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Dummy placeholder is present', async () => {
-        await ticks(1);
+    it('Dummy placeholder is present', () => {
+        getCachedExtensionType.mockImplementationOnce('');
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
-    it('Extension field is not present', async () => {
-        await ticks(1);
+    it('Extension field is not present', () => {
+        getCachedExtensionType.mockImplementationOnce('');
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
+    });
+});
+
+describe('Test9 - Component uses GlobalConstant.True for String param', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:image');
+        field.inputParameters = [
+            {
+                value: { value: '$GlobalConstant.True' },
+                name: { value: 'imageName' },
+                valueDataType: 'Boolean'
+            }
+        ];
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Extension wrapper is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        expect(extensionFieldWrapper).not.toBeNull();
+    });
+    it('Extension field is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField).not.toBeNull();
+    });
+    it('Attribute has string version of true as its value', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField.attributes.imageName).toBeTruthy();
+    });
+});
+
+describe('Test10 - Component uses GlobalConstant.False for String param', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:image');
+        field.inputParameters = [
+            {
+                value: { value: '$GlobalConstant.False' },
+                name: { value: 'imageName' },
+                valueDataType: 'Boolean'
+            }
+        ];
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Extension wrapper is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        expect(extensionFieldWrapper).not.toBeNull();
+    });
+    it('Extension field is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField).not.toBeNull();
+    });
+    it('Attribute has string version of false as its value', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField.attributes.imageName).toBeFalsy();
+    });
+});
+
+describe('Test11 - Component uses GlobalConstant.True for Boolean param', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:email');
+        field.inputParameters = [
+            {
+                value: { value: 'Your Email' },
+                name: { value: 'label' },
+                valueDataType: 'String'
+            },
+            {
+                value: { value: '$GlobalConstant.True' },
+                name: { value: 'disabled' },
+                valueDataType: 'Boolean'
+            }
+        ];
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Extension wrapper is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        expect(extensionFieldWrapper).not.toBeNull();
+    });
+    it('Extension field is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField).not.toBeNull();
+    });
+    it('Attribute has the boolean version of true as its value', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField.attributes.disabled).toBeTruthy();
+    });
+});
+
+describe('Test12 - Component uses GlobalConstant.False for Boolean param', () => {
+    let testScreenField;
+    beforeEach(() => {
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:email');
+        field.inputParameters = [
+            {
+                value: { value: 'Your Email' },
+                name: { value: 'label' },
+                valueDataType: 'String'
+            },
+            {
+                value: { value: '$GlobalConstant.False' },
+                name: { value: 'disabled' },
+                valueDataType: 'Boolean'
+            }
+        ];
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Extension wrapper is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        expect(extensionFieldWrapper).not.toBeNull();
+    });
+    it('Extension field is present', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField).not.toBeNull();
+    });
+    it('Attribute has the boolean version of false as its value', () => {
+        const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
+        const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
+        expect(extensionField.attributes.disabled).toBeFalsy();
     });
 });
