@@ -42,6 +42,13 @@ export function copyAndUpdateDebugTraceObject(debugData) {
                 title: cardTitle,
                 lines: cardTitle !== '' ? trace.slice(1) : trace, // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
                 error: debugData.debugTrace[i].error,
+                limits:
+                    Array.isArray(debugData.debugTrace[i].limits) && debugData.debugTrace[i].limits.length > 0
+                        ? debugData.debugTrace[i].limits.map((limit: String) => ({
+                              limit: limit + '\n',
+                              id: generateGuid()
+                          }))
+                        : undefined,
                 id: generateGuid()
             });
         }

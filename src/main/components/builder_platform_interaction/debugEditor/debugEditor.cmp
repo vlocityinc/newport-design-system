@@ -20,7 +20,6 @@
 
     <aura:attribute name="enableRollbackCB" type="Boolean" default="false"/>
     <aura:attribute name="runAsCB" type="Boolean" default="false"/>
-    <aura:attribute name="govLimsCB" type="Boolean" default="false"/>
     <aura:attribute name="debugWaitsCB" type="Boolean" default="true"/>
 
     <!-- Methods -->
@@ -64,9 +63,6 @@
         <lightning:input class="slds-p-bottom_small" type="checkbox"
                 aura:id="isDebugWaitsBox" label="{!$Label.FlowDebug.DebugWaits}"
                 checked="{!v.debugWaitsCB}"/>
-        <lightning:input class="slds-p-bottom_small" type="checkbox"
-                aura:id="isGovernorLimitsBox" label="{!$Label.FlowDebug.GovernorLimits}"
-                checked="{!v.govLimsCB}"/>
 
         <aura:if isTrue="{!v.shouldHasInputs}">
             <!-- Input Variables -->

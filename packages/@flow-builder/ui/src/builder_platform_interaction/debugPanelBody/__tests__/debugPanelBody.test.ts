@@ -80,91 +80,23 @@ const endWithColonWhitespave = {
     title: 'FAST LOOKUP: lookup',
     expected: 'Find all Task records where'
 };
-const governorLimitsSoql = {
-    lines: [LABELS.soql.replace(/\{0\}|\{1\}/, '100')],
-    title: TITLE
-};
-const governorLimitsSoqlRow = {
-    lines: [LABELS.soqlRow.replace(/\{0\}|\{1\}/, '100')],
-    title: TITLE
-};
-const governorLimitsDml = {
-    lines: [LABELS.dml.replace(/\{0\}|\{1\}/, 9)],
-    title: TITLE
-};
-const governorLimitsDmlRow = {
-    lines: [LABELS.dmlRow.replace(/\{0\}|\{1\}/, '100')],
+const governorLimits = {
+    lines: [],
+    limits: [{ limit: 'soome limit information', id: 'abbc' }],
     title: TITLE
 };
 describe('GovernorLimits cases check:', () => {
     let debugPanelBody;
-    describe('SOQL queries: {0} out of {1}', () => {
+    describe('governor limit field in entrry', () => {
         beforeEach(() => {
-            debugPanelBody = createComponentUnderTest(governorLimitsSoql);
+            debugPanelBody = createComponentUnderTest(governorLimits);
         });
         it('normal text that shows the information', () => {
             const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
             expect(normal).not.toBeNull();
 
             const text = normal.value;
-            expect(text).toContain(governorLimitsSoql.lines);
-        });
-        it('has Element Governor Limits Info as the title', () => {
-            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
-            expect(subtitle).not.toBeNull();
-
-            const text = subtitle.textContent;
-            expect(text).toContain(LABELS.govInfo);
-        });
-    });
-    describe('SOQL query rows: {0} out of {1}', () => {
-        beforeEach(() => {
-            debugPanelBody = createComponentUnderTest(governorLimitsSoqlRow);
-        });
-        it('normal text that shows the information', () => {
-            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
-            expect(normal).not.toBeNull();
-
-            const text = normal.value;
-            expect(text).toContain(governorLimitsSoqlRow.lines);
-        });
-        it('has Element Governor Limits Info as the title', () => {
-            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
-            expect(subtitle).not.toBeNull();
-
-            const text = subtitle.textContent;
-            expect(text).toContain(LABELS.govInfo);
-        });
-    });
-    describe('DML statements: {0} out of {1}', () => {
-        beforeEach(() => {
-            debugPanelBody = createComponentUnderTest(governorLimitsDml);
-        });
-        it('normal text that shows the information', () => {
-            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
-            expect(normal).not.toBeNull();
-
-            const text = normal.value;
-            expect(text).toContain(governorLimitsDml.lines);
-        });
-        it('has Element Governor Limits Info as the title', () => {
-            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
-            expect(subtitle).not.toBeNull();
-
-            const text = subtitle.textContent;
-            expect(text).toContain(LABELS.govInfo);
-        });
-    });
-    describe('Dml_Rows">DML rows: {0} out of {1}', () => {
-        beforeEach(() => {
-            debugPanelBody = createComponentUnderTest(governorLimitsDmlRow);
-        });
-        it('normal text that shows the information', () => {
-            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
-            expect(normal).not.toBeNull();
-
-            const text = normal.value;
-            expect(text).toContain(governorLimitsDmlRow.lines);
+            expect(text).toContain(governorLimits.limits[0].limit);
         });
         it('has Element Governor Limits Info as the title', () => {
             const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);

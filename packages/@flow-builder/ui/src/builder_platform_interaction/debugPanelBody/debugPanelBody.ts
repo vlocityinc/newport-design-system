@@ -18,10 +18,6 @@ const NULLPARENS = '(null)';
 
 /* Labels with "{0}" or "{1}" need to be replaced" for proper checking */
 const ERROR_OCCURRED = LABELS.faultMess.replace('{0}', '');
-const DML = LABELS.dml.replace(/\{0\}|\{1\}/, '[0-9]+');
-const DMLROW = LABELS.dmlRow.replace(/\{0\}|\{1\}/, '[0-9]+');
-const SOQL = LABELS.soql.replace(/\{0\}|\{1\}/, '[0-9]+');
-const SOQLROW = LABELS.soqlRow.replace(/\{0\}|\{1\}/, '[0-9]+');
 const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
 
 export default class debugPanelBody extends LightningElement {
@@ -30,6 +26,10 @@ export default class debugPanelBody extends LightningElement {
     @api error;
 
     @api title;
+
+    @api limits;
+
+    govLimSubtitle = LABELS.govInfo;
 
     get textObj() {
         return this.getDebugInfoBody();
@@ -40,7 +40,6 @@ export default class debugPanelBody extends LightningElement {
      * booleans to indicate if it will be need special formatting
      */
     getDebugInfoBody() {
-        let needsGovTitle = true;
         let obj = [{}];
 
         /* removes empty object in array */
@@ -66,9 +65,6 @@ export default class debugPanelBody extends LightningElement {
                     temp.isSubTitle = true;
                 } else if (this.needsWarningIcon(curr)) {
                     temp.isWarn = true;
-                } else if (needsGovTitle && this.isGovLimit(curr)) {
-                    needsGovTitle = false;
-                    obj.push({ value: LABELS.govInfo, isSubTitle: true, isWarn: false, id: generateGuid() });
                 }
 
                 obj.push(temp);
@@ -101,11 +97,6 @@ export default class debugPanelBody extends LightningElement {
             isError: true,
             id: generateGuid()
         };
-    }
-
-    /* Checks if a string is a gov limit info */
-    isGovLimit(currString) {
-        return currString.match(DML) || currString.match(DMLROW) || currString.match(SOQL) || currString.match(SOQLROW);
     }
 
     needsWarningIcon(currString) {

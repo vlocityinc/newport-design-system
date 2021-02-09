@@ -143,7 +143,6 @@
         if (this.previousOptions) {
             cmp.set('v.debugWaitsCB', this.previousOptions.debugWaits);
             cmp.set('v.enableRollbackCB', this.previousOptions.enableRollback);
-            cmp.set('v.govLimsCB', this.previousOptions.governorLimits);
             cmp.set('v.runAsCB', this.previousOptions.runAs);
             cmp.set('v.showDebugAsUserLookup', this.previousOptions.runAs);
             if (cmp.get('v.showDebugAsUserLookup')) {
@@ -240,7 +239,6 @@
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             runAsSelected: selectedUser,
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
-            governorLimits: cmp.find('isGovernorLimitsBox').get('v.checked'),
             debugWaits: cmp.find('isDebugWaitsBox').get('v.checked')
         };
     },
