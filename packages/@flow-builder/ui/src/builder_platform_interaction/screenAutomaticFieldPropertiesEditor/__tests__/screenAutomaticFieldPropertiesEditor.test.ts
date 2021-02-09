@@ -17,6 +17,8 @@ import { createScreenFieldWithFields } from 'builder_platform_interaction/elemen
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
+import { format } from 'builder_platform_interaction/commonUtils';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function () {
@@ -86,8 +88,17 @@ jest.mock(
     }
 );
 
+const DESCRIPTION_VALUE_SELECTOR =
+    "tr[class*='{0}'] > td > " +
+    LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT +
+    "[class*='autofield-description-value']";
+
 function getDataTypeValue(comp) {
-    return comp.shadowRoot.querySelectorAll("[class*='autofield-description-value']")[2].value;
+    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-datatype')).value;
+}
+
+function getIsRequiredValue(comp) {
+    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-required')).value;
 }
 
 function getObjectManagerLinkUrl(comp) {
@@ -179,5 +190,22 @@ describe('Link to Object Manager', () => {
             await ticks();
             expect(getObjectManagerLinkUrl(component)).toEqual('/p/setup/custent/CustomObjectsPage');
         });
+    });
+});
+
+describe('isRequired', () => {
+    it('is empty when user does not have access to the referenced field', () => {
+        const objectFieldReference = 'varOfARecordICannotAccess.Name';
+        const field = createScreenFieldWithFields({
+            fieldType: FlowScreenFieldType.ObjectProvided,
+            objectFieldReference
+        });
+        const component = createComponentForTest(field);
+        expect(getIsRequiredValue(component)).toEqual('');
+    });
+    it('is defined when user has access to the referenced field', () => {
+        const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getIsRequiredValue(component)).toBeTruthy();
     });
 });

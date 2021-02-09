@@ -2,7 +2,7 @@
     <div class="slds-p-horizontal_small slds-p-top_x-small">
         <table class="slds-table slds-no-row-hover slds-table_header-hidden slds-table_fixed-layout">
             <template for:each={displayedFields} for:item="field">
-                <tr key={field.key}>
+                <tr key={field.key} class={field.key}>
                     <td class="slds-align-top slds-cell-wrap slds-size_1-of-3">
                         <lightning-formatted-text
                             value={field.label}

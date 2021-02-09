@@ -33,27 +33,27 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     get displayedFields() {
         return [
             {
-                key: 'fieldName',
+                key: 'autofield-field-name',
                 label: this.labels.automaticFieldFieldName,
                 value: this.fieldName
             },
             {
-                key: 'fieldLabel',
+                key: 'autofield-field-label',
                 label: this.labels.automaticFieldFieldLabel,
                 value: this.fieldLabel
             },
             {
-                key: 'dataType',
+                key: 'autofield-datatype',
                 label: this.labels.automaticFieldDataType,
                 value: this.dataType
             },
             {
-                key: 'object',
+                key: 'autofield-object',
                 label: this.labels.automaticFieldObject,
                 value: this.object
             },
             {
-                key: 'isRequired',
+                key: 'autofield-required',
                 label: this.labels.automaticFieldIsRequired,
                 value: this.isRequired
             }
@@ -117,6 +117,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 break;
             }
             default: {
+                // Happens when user doesn't have access to referenced entity/field
                 dataType = '';
                 break;
             }
@@ -130,14 +131,18 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     }
 
     private get isRequired() {
-        return this.field.isRequired
-            ? this.labels.automaticFieldIsRequiredTrue
-            : this.labels.automaticFieldIsRequiredFalse;
+        const required = this.field.isRequired;
+        if (required === undefined) {
+            // Happens when user doesn't have access to referenced entity/field
+            return '';
+        }
+        return required ? this.labels.automaticFieldIsRequiredTrue : this.labels.automaticFieldIsRequiredFalse;
     }
 
     private setObjectManagerUrl(data) {
         const entity = getEntity(this.object);
         if (entity === undefined) {
+            // Happens when user doesn't have access to referenced entity
             return;
         }
         if (getPreferredExperience() === CLASSIC_EXPERIENCE) {
