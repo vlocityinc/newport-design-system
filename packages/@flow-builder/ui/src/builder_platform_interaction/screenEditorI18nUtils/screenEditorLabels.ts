@@ -128,6 +128,7 @@ import automaticFieldDataTypeCheckbox from '@salesforce/label/FlowBuilderAutomat
 import automaticFieldDataTypeTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeTextArea';
 import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeLongTextArea';
 import automaticFieldHighlightHeaderFieldLabel from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldHighlightHeaderFieldLabel';
+import altTextVisibilityCondition from '@salesforce/label/FlowBuilderScreenEditor.altTextVisibilityCondition';
 
 export const LABELS = {
     errorRequired,
@@ -259,5 +260,6 @@ export const LABELS = {
     automaticFieldDataTypeCheckbox,
     automaticFieldDataTypeTextArea,
     automaticFieldDataTypeLongTextArea,
-    automaticFieldHighlightHeaderFieldLabel
+    automaticFieldHighlightHeaderFieldLabel,
+    altTextVisibilityCondition
 };

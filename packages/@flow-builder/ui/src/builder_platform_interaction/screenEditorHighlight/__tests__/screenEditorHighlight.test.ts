@@ -159,6 +159,11 @@ describe('Header (Visibility Icon/Badge)', () => {
                 expect(icon).not.toBeNull();
                 expect(icon.iconName).not.toBeNull();
             });
+            it('should have an alternative text', () => {
+                const iconContainer = getVisibilityIconContainer(element);
+                const icon = getVisibilityIconNoShadow(iconContainer);
+                expect(icon.alternativeText).toBe('FlowBuilderScreenEditor.altTextVisibilityCondition');
+            });
             describe('When Selected', () => {
                 beforeEach(async () => {
                     element.selected = true;
