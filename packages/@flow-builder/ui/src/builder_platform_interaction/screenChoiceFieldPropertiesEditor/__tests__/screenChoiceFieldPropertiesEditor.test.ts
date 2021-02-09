@@ -12,6 +12,7 @@ import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_in
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+
 const mockEvent = new Event('test');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -39,9 +40,16 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid(guid) {
             let elementType;
+            let picklistField;
             if (guid.includes('RCS')) {
                 elementType = ELEMENT_TYPE.RECORD_CHOICE_SET;
             } else if (guid.includes('PICKLIST')) {
+                elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
+                picklistField = 'val1';
+                elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
+            } else if (guid.includes('altPCS')) {
+                elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
+                picklistField = 'val2';
                 elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
             } else {
                 elementType = ELEMENT_TYPE.CHOICE;
@@ -50,7 +58,24 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 name: guid,
                 choiceText: 'choice text ' + guid,
                 guid,
-                elementType
+                elementType,
+                picklistField
+            };
+        }
+    };
+});
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        fetchFieldsForEntity(entity) {
+            return new Promise((resolve, reject) => {
+                resolve(entity);
+                reject(entity);
+            });
+        },
+        getEntityFieldWithApiName(entity, field) {
+            return {
+                activePicklistValues: [field]
             };
         }
     };
@@ -612,5 +637,25 @@ describe('Screen choice visual display configuration', () => {
         );
         expect(displayRadioGroup.value).toEqual('MultiSelect');
         expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
+    });
+});
+describe('screen-choise-field-properties-editor expanded picklist values', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {});
+        testField.choiceReferences[0] = {
+            choiceReference: { value: 'choice-PICKLIST', error: null }
+        };
+        testField.choiceReferences[1] = {
+            choiceReference: { value: 'choice-altPCS', error: null }
+        };
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    it('shows expanded picklist choices in default field for first picklist', async () => {
+        await ticks(1);
+        const defaultValDropDown = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
+        expect(defaultValDropDown.activePicklistValues).toEqual(['val1']);
     });
 });

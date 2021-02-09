@@ -51,4 +51,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     isPillSupported;
+
+    @api
+    activePicklistValues;
 }

@@ -212,6 +212,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: true,
+                activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,
                 showSystemVariables: true,
@@ -241,6 +242,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: false,
+                activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,
                 showSystemVariables: true,
@@ -269,6 +271,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: false,
+                activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,
                 showSystemVariables: true,
@@ -297,6 +300,7 @@ describe('resourcePickerUtils', () => {
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, {
                 includeNewResource: false,
+                activePicklistValues: [],
                 allowGlobalConstants: true,
                 disableHasNext: true,
                 showSystemVariables: true,

@@ -30,6 +30,9 @@ export default class FerovResourcePicker extends LightningElement {
     @track
     _elementConfig;
 
+    @api
+    activePicklistValues;
+
     /**
      * The allowed param types based on the rule service
      * @type {Object}
@@ -323,6 +326,7 @@ export default class FerovResourcePicker extends LightningElement {
                     includeNewResource: !this.hideNewResource,
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: !this.hideGlobalVariables,
+                    activePicklistValues: this.activePicklistValues,
                     forFormula: this.forFormula,
                     allowSObjectFields: this.comboboxConfig.allowSObjectFields,
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported()

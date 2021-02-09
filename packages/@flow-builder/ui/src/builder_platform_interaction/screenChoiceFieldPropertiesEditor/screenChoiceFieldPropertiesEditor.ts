@@ -21,6 +21,7 @@ import {
     hasScreenFieldVisibilityCondition,
     SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
 } from 'builder_platform_interaction/screenEditorUtils';
+import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
 
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
@@ -39,6 +40,8 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     private _field;
     private singleOrMultiSelectOption;
     expandedSectionNames = [CHOICES_SECTION_NAME];
+    _activePicklistValues = [];
+    _oldPicklistChoiceData;
 
     set field(value) {
         this._field = value;
@@ -74,6 +77,30 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get isScaleEnabled() {
         const { dataType = null } = this.field;
         return dataType === 'Number' || dataType === 'Currency';
+    }
+
+    updateActivePicklistValues(fieldChoiceData) {
+        const picklistChoiceData = fieldChoiceData.find(
+            (fieldChoice) => fieldChoice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET
+        );
+        if (picklistChoiceData) {
+            if (!this._oldPicklistChoiceData || picklistChoiceData.guid !== this._oldPicklistChoiceData.guid) {
+                fetchFieldsForEntity(picklistChoiceData.picklistObject).then((entity) => {
+                    this._activePicklistValues = getEntityFieldWithApiName(
+                        entity,
+                        picklistChoiceData.picklistField
+                    ).activePicklistValues;
+                });
+                this._oldPicklistChoiceData = picklistChoiceData;
+            }
+        } else {
+            this._activePicklistValues = [];
+            this._oldPicklistChoiceData = null;
+        }
+    }
+
+    get activePicklistValues() {
+        return this._activePicklistValues;
     }
 
     handlePropertyChanged = (event) => {
@@ -145,7 +172,9 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     };
 
     get fieldChoices() {
-        return getFieldChoiceData(this.field);
+        const fieldChoiceData = getFieldChoiceData(this.field);
+        this.updateActivePicklistValues(fieldChoiceData);
+        return fieldChoiceData;
     }
 
     get ferovResourcePickerConfig() {

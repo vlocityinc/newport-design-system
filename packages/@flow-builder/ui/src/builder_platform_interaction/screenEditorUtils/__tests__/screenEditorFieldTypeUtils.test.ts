@@ -48,6 +48,7 @@ getElementByGuid.mockImplementation((guid) => {
     switch (guid) {
         case choice1Guid:
             element.picklistField = 'Industry';
+            element.picklistObject = 'Account';
             element.elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
             break;
         case choice2Guid:
@@ -123,6 +124,8 @@ describe('getFieldChoiceData function', () => {
                     value: choiceNameMergeField
                 },
                 name: 'choiceName',
+                picklistField: 'Industry',
+                picklistObject: 'Account',
                 value: choice1Guid,
                 guid: choice1Guid
             },

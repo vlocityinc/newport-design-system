@@ -1,7 +1,7 @@
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getAllCachedExtensionTypes, EXTENSION_TYPE_SOURCE } from 'builder_platform_interaction/flowExtensionLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { FlowScreenFieldType, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, ExtraTypeInfo } from 'builder_platform_interaction/dataTypeLib';
 
 export const SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME = 'componentVisibility';
@@ -524,7 +524,7 @@ export function getFieldChoiceData(field) {
                     throw new Error('Unable to find element associated with choice: ' + choice.choiceReference.value);
                 }
 
-                return {
+                const choiceFieldData: any = {
                     value: choiceElement.guid,
                     guid: choiceElement.guid,
                     label: {
@@ -534,6 +534,11 @@ export function getFieldChoiceData(field) {
                     name: choiceElement.name,
                     elementType: choiceElement.elementType
                 };
+                if (choiceElement.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET) {
+                    choiceFieldData.picklistField = choiceElement.picklistField;
+                    choiceFieldData.picklistObject = choiceElement.picklistObject;
+                }
+                return choiceFieldData;
             }
             // When a new choice is being added to a screen field, there will be
             // no data for the choice yet. In that case, display this placeholder data.

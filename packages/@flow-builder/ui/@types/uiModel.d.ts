@@ -42,6 +42,8 @@ declare namespace UI {
         isCollection?: boolean;
         isCanvasElement?: boolean;
         connector?: Connector;
+        picklistObject?: string;
+        picklistField?: string;
     }
 
     interface HydratedValue {
