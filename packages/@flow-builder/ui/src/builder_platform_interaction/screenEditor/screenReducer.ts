@@ -49,6 +49,7 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields
@@ -379,13 +380,7 @@ const changeChoice = (screen, event, field) => {
     const updatedChoices = replaceItem(field.choiceReferences, hydratedChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
-    // If default value was set for this field, check to see if its set to the choice that was just
-    // changed. If it was, then clear the default value as it may no longer be valid.
-    if (field.defaultValue && field.defaultValue.value) {
-        if (field.defaultValue.value === originalChoice.choiceReference.value) {
-            updatedField.defaultValue.value = null;
-        }
-    }
+    clearDefaultValueIfNecessary(updatedField, originalChoice);
 
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
@@ -403,17 +398,45 @@ const deleteChoice = (screen, event, field) => {
     const updatedChoices = deleteItem(field.choiceReferences, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
-    // If default value was set for this field, check to see if its set to the choice that was just
-    // delete. If it was, then clear the default value as it may no longer be valid.
-    if (field.defaultValue && field.defaultValue.value) {
-        if (field.defaultValue.value === originalChoice.choiceReference.value) {
-            updatedField.defaultValue.value = null;
-        }
-    }
+    clearDefaultValueIfNecessary(updatedField, originalChoice);
 
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
     return updateAncestors(screen, positions, updatedField);
+};
+
+const clearDefaultValueIfNecessary = (updatedField, originalChoice) => {
+    if (updatedField.defaultValue && updatedField.defaultValue.value) {
+        // Do we still have any picklist or record choice sets in choiceReferences? If so, leave the
+        // default value as is and return;
+        if (
+            updatedField.choiceReferences.find((choiceReference) => {
+                const choice = getElementByGuid(choiceReference.choiceReference.value);
+                return (
+                    choice &&
+                    (choice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET ||
+                        choice.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET)
+                );
+            })
+        ) {
+            return;
+        }
+        // If default value was set for this field, check to see if its set to the choice that was just
+        // changed. If it was, then clear the default value as it may no longer be valid.
+        if (updatedField.defaultValue.value === originalChoice.choiceReference.value) {
+            updatedField.defaultValue.value = null;
+            return;
+        }
+        // If the default value is not set to one of the current static choices, then we
+        // need to clear the default value.
+        if (
+            !updatedField.choiceReferences.find(
+                (choiceReference) => choiceReference.choiceReference.value === updatedField.defaultValue.value
+            )
+        ) {
+            updatedField.defaultValue.value = null;
+        }
+    }
 };
 
 /**
@@ -629,6 +652,10 @@ const handleStandardScreenFieldPropertyChange = (data) => {
             // we might need to revisit this.
             const emptyChoice = hydrateWithErrors(createChoiceReference());
             field = set(field, 'choiceReferences', [emptyChoice]);
+            // Clear the default value
+            if (field.defaultValue && field.defaultValue.value) {
+                field.defaultValue.value = null;
+            }
         }
     }
 

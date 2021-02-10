@@ -12,7 +12,8 @@ import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_in
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
-
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 const mockEvent = new Event('test');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -324,28 +325,86 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
         expect(choiceSelectors[1].value.value).toMatch('choice1');
         expect(choiceSelectors[2].value.value).toMatch('choice2');
     });
-    it('Default choice drop down shows all choices associated with the field', async () => {
-        await ticks(1);
-        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
-        expect(defaultValueProp).toBeDefined();
-        /*
-        TODO: I need to replace the following with a ferovResourcePicker equivalent
+    it('Does not fire choice changed event when the choice has not changed', async () => {
+        const propChangedEvent = new PropertyChangedEvent(
+            null,
+            null,
+            null,
+            screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value,
+            null,
+            0,
+            null
+        );
+        const renderedChoiceSelector = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
 
-        expect(defaultValueProp.listChoices).toBeDefined();
-        expect(defaultValueProp.listChoices).toHaveLength(4);
-        expect(defaultValueProp.listChoices[0].value).toMatch('');
-        expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
-        expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
-        expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
-        */
+        const choiceChangedSpy = jest.fn();
+        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
+        renderedChoiceSelector.dispatchEvent(propChangedEvent);
+        await ticks(1);
+        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
+        expect(choiceChangedSpy).not.toHaveBeenCalled();
+    });
+    it('Fires a choice changed event when the error on a choice has changed', async () => {
+        const propChangedEvent = new PropertyChangedEvent(
+            null,
+            null,
+            'some new error',
+            screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value,
+            null,
+            0,
+            null
+        );
+        const renderedChoiceSelector = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
+
+        const choiceChangedSpy = jest.fn();
+        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
+        renderedChoiceSelector.dispatchEvent(propChangedEvent);
+        await ticks(1);
+        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
+        expect(choiceChangedSpy).toHaveBeenCalled();
     });
 });
 
-describe('DefaultValue options based on choice type', () => {
+describe('Default value for choice based field with static choices only', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        // Create a radio field with 3 choices, plus a placeholder, which indicates that
+        // the user wants to add another choice, but hasn't set it yet.
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+            createChoices: true
+        });
+        testField.choiceReferences.push({
+            choiceReference: { value: '', error: null }
+        });
+        testField.defaultValue = 'choice1';
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    it('Default value is set to the string literal value specified in the screen field data', () => {
+        const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
+        expect(defaultValue).toBeDefined();
+        expect(defaultValue.value).toBeDefined();
+        expect(defaultValue.value).toEqual('choice1');
+    });
+    it('Default value ferov resource picker shows all static choices associated with the field', () => {
+        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
+        expect(defaultValueProp).toBeDefined();
+        const ferovResourcePicker = query(defaultValueProp, INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
+        expect(ferovResourcePicker.elementConfig.choices).toBeTruthy();
+        expect(ferovResourcePicker.elementConfig.staticChoiceGuids).toHaveLength(3);
+        expect(ferovResourcePicker.elementConfig.staticChoiceGuids[0]).toMatch('choice0');
+        expect(ferovResourcePicker.elementConfig.staticChoiceGuids[1]).toMatch('choice1');
+        expect(ferovResourcePicker.elementConfig.staticChoiceGuids[2]).toMatch('choice2');
+    });
+});
+
+describe('Default value for choice based field with a dynamic choice set', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-            dataType: 'String',
+            dataType: FLOW_DATA_TYPE.NUMBER.value,
             createChoices: true
         });
         testField.choiceReferences[0] = {
@@ -357,119 +416,23 @@ describe('DefaultValue options based on choice type', () => {
         testField.choiceReferences[2] = {
             choiceReference: { value: 'choice-PICKLIST', error: null }
         };
+        testField.defaultValue = 123;
         screenChoiceFieldPropEditor = createComponentUnderTest({
             field: testField
         });
     });
-    it('DefaultValue drop down does not include record or picklist choice sets', async () => {
-        await ticks(1);
-        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
-        expect(defaultValueProp).toBeDefined();
-        /*
-        TODO: I need to replace the following with a ferovResourcePicker equivalent
-
-        expect(defaultValueProp.listChoices).toBeDefined();
-        expect(defaultValueProp.listChoices).toHaveLength(2);
-        expect(defaultValueProp.listChoices[0].value).toMatch('');
-        expect(defaultValueProp.listChoices[1].value).toMatch('choice1');
-        */
-    });
-    it('does not fire choice changed event when the choice does not change', async () => {
-        const propChangedEvent = new PropertyChangedEvent(
-            null,
-            null,
-            null,
-            screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value,
-            null,
-            0,
-            null
-        );
-        const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
-
-        const choiceChangedSpy = jest.fn();
-        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
-        renderedDefaultValueField.dispatchEvent(propChangedEvent);
-        await ticks(1);
-        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
-        expect(choiceChangedSpy).not.toHaveBeenCalled();
-    });
-    it('fires a choice changed event when the choice error does change', async () => {
-        const propChangedEvent = new PropertyChangedEvent(
-            null,
-            null,
-            'some new error',
-            screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value,
-            null,
-            0,
-            null
-        );
-        const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
-
-        const choiceChangedSpy = jest.fn();
-        window.addEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
-        renderedDefaultValueField.dispatchEvent(propChangedEvent);
-        await ticks(1);
-        window.removeEventListener(ScreenEditorEventName.ChoiceChanged, choiceChangedSpy);
-        expect(choiceChangedSpy).toHaveBeenCalled();
-    });
-});
-
-describe('defaultValue combobox for choice based field', () => {
-    let screenChoiceFieldPropEditor;
-    beforeEach(() => {
-        // Create a radio field with 3 choices, plus a placeholder, which indicates that
-        // the user wants to add another choice, but hasn't set it yet.
-        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-            dataType: 'String',
-            createChoices: true
-        });
-        testField.choiceReferences.push({
-            choiceReference: { value: '', error: null }
-        });
-        screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: testField
-        });
-    });
-    it('Default choice drop down shows only the configured choices', async () => {
-        await ticks(1);
-        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
-        expect(defaultValueProp).toBeDefined();
-        /*
-        TODO: I need to replace the following with a ferovResourcePicker equivalent
-
-        expect(defaultValueProp.listChoices).toBeDefined();
-        expect(defaultValueProp.listChoices).toHaveLength(4);
-        expect(defaultValueProp.listChoices[0].value).toMatch('');
-        expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
-        expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
-        expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
-        */
-    });
-});
-
-describe('screen-choice-field-properties-editor defaultValue', () => {
-    let screenChoiceFieldPropEditor;
-    beforeEach(() => {
-        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-            dataType: 'String',
-            createChoices: true
-        });
-        testField.defaultValue = 'choice1';
-        screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: testField
-        });
-    });
-    it('When default value is set', async () => {
-        await ticks(1);
+    it('Default value is set to the number literal value specified in the screen field data', () => {
         const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
         expect(defaultValue).toBeDefined();
         expect(defaultValue.value).toBeDefined();
-        expect(defaultValue.value).toEqual('choice1');
-        /*
-        TODO: I need to replace the following with a ferovResourcePicker equivalent
-
-        expect(defaultValue.listChoices).toHaveLength(4);
-        */
+        expect(defaultValue.value).toEqual(123);
+    });
+    it('Default value ferov resource picker shows all data type compatible resources', () => {
+        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
+        expect(defaultValueProp).toBeDefined();
+        const ferovResourcePicker = query(defaultValueProp, INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
+        expect(ferovResourcePicker.comboboxConfig.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+        expect(ferovResourcePicker.comboboxConfig.literalsAllowed).toBeTruthy();
     });
 });
 

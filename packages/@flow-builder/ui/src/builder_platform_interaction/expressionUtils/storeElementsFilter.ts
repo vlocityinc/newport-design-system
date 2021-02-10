@@ -28,14 +28,15 @@ function writableOrReadableElement(shouldBeWritable) {
 /**
  * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @param {Boolean} choices             optional: should this menu data only contain choices
+ * @param {Array} staticChoiceGuids     optional: should this menu data only contain the choices specified
  * @param {String} dataType             data type for menu data items
  * @returns {FilterInformation}
  */
-function screenSelectors(shouldBeWritable, choices, staticChoices, dataType) {
+function screenSelectors(shouldBeWritable, choices, staticChoiceGuids, dataType) {
     return shouldBeWritable
         ? writableElementsSelector
         : choices
-        ? choiceSelector(dataType, staticChoices)
+        ? choiceSelector(dataType, staticChoiceGuids)
         : readableElementsSelector;
 }
 
@@ -52,8 +53,8 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices, staticChoices }) =>
-        screenSelectors(shouldBeWritable, choices, staticChoices, dataType)
+    [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices, staticChoiceGuids }) =>
+        screenSelectors(shouldBeWritable, choices, staticChoiceGuids, dataType)
 };
 
 const CLUD_ELEMENT_TYPES = [

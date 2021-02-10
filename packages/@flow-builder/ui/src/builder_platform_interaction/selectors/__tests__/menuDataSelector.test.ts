@@ -4,7 +4,8 @@ import {
     byElementTypeElementsSelector,
     writableElementsSelector,
     getCanContainSObjectElements,
-    isOrCanContainSelector
+    isOrCanContainSelector,
+    choiceSelector
 } from '../menuDataSelector';
 import {
     apexCallAutomaticAnonymousStringOutput,
@@ -30,7 +31,8 @@ import {
     apexCallAccountAutomaticOutput,
     localActionApexDoesNotContainSObjectAutomaticOutput,
     localActionApexDoesContainsSObjectAutomaticOutput,
-    apexComplexTypeTwoVariable
+    apexComplexTypeTwoVariable,
+    staticChoiceOther
 } from 'mock/storeData';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
@@ -486,6 +488,32 @@ describe('getCanContainSObjectElements', () => {
                 expect(result[0]).toHaveProperty('name', localActionApexDoesContainsSObjectAutomaticOutput.name);
             });
         });
+    });
+});
+describe('choiceSelector', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
+    it('returns only the static choices provided', () => {
+        const result = choiceSelector('String', [staticChoiceOther.guid])(flowWithAllElementsUIModel);
+
+        expect(result).toHaveLength(1);
+        expect(result[0].name).toEqual(staticChoiceOther.name);
+    });
+    it('returns string type choice elements if data type is String and no static choices are provided', () => {
+        const result = choiceSelector('String')(flowWithAllElementsUIModel);
+
+        expect(result).toHaveLength(2);
+        expect(result[0].name).toEqual('other');
+        expect(result[1].name).toEqual('recordChoiceSet');
+    });
+    it('returns number type choice elements if data type is Number and no static choices are provided', () => {
+        const result = choiceSelector('Number')(flowWithAllElementsUIModel);
+        expect(result).toHaveLength(1);
+        expect(result[0].name).toEqual('numberChoice');
     });
 });
 describe('isOrCanContainSelector', () => {

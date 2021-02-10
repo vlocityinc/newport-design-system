@@ -172,6 +172,8 @@ export const displayTextUsingResources = getElementByName('displayTextUsingResou
 export const screenFieldAccounts = getElementByName('accounts');
 export const screenFieldTextBoxSomeText = getElementByName('someText');
 
+export const staticChoiceOther = getElementByName('other');
+
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 export const numberVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[numberVariable.name]);

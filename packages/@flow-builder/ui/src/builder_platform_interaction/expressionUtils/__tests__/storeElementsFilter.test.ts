@@ -22,6 +22,14 @@ const mockReadableElement = {
 const mockSobjectElement = {
     name: 'sobject'
 };
+const mockChoiceElement = [
+    {
+        name: 'choice-1'
+    },
+    {
+        name: 'choice-2'
+    }
+];
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -33,6 +41,9 @@ jest.mock('builder_platform_interaction/selectors', () => {
         }),
         readableElementsSelector: jest.fn(() => {
             return mockReadableSelectorValue ? mockReadableSelectorValue : mockReadableElement;
+        }),
+        choiceSelector: jest.fn(() => () => {
+            return mockChoiceElement;
         })
     };
 });
@@ -91,6 +102,27 @@ describe('get store elements', () => {
                 elementType: ELEMENT_TYPE.CONSTANT
             })
         ).toEqual([]);
+    });
+    it('returns only provided static choices when choices flag is true and staticChoiceGuids is populated', () => {
+        getScreenElement.mockReturnValue(mockScreenElement);
+        const menuData = getStoreElements(jest.fn(), {
+            elementType: ELEMENT_TYPE.SCREEN,
+            shouldBeWritable: false,
+            choices: true,
+            staticChoiceGuids: ['choice-1', 'choice-2']
+        });
+
+        expect(menuData).toHaveLength(2);
+    });
+    it('returns all elements when choices is false and staticChoiceGuids is not populated', () => {
+        getScreenElement.mockReturnValue(mockScreenElement);
+        const menuData = getStoreElements(jest.fn(), {
+            elementType: ELEMENT_TYPE.SCREEN,
+            shouldBeWritable: false,
+            choices: false
+        });
+
+        expect(menuData).toHaveLength(13);
     });
 
     describe('CLUD elements', () => {

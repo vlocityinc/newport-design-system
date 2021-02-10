@@ -197,7 +197,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
                 elementType: ELEMENT_TYPE.SCREEN,
                 dataType: this.field.dataType,
                 choices: true,
-                staticChoices: this.currentStaticChoices
+                staticChoiceGuids: this.currentStaticChoiceGuids
             }
         };
     }
@@ -276,16 +276,16 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         throw new Error('Unable to find Flow data type for provided screen field input type: ' + newValue);
     }
 
-    // Returns all the static choices in choice references.
-    get currentStaticChoices() {
-        const staticChoices = [];
+    // Returns all the guids for all the static choices in choice references.
+    get currentStaticChoiceGuids() {
+        const staticChoiceGuids = [];
         const choices = getFieldChoiceData(this.field);
         for (let i = 0; i < choices.length; i++) {
             if (choices[i].elementType === ELEMENT_TYPE.CHOICE) {
-                staticChoices.push(choices[i]);
+                staticChoiceGuids.push(choices[i].guid);
             }
         }
-        return staticChoices.length > 0 ? staticChoices : null;
+        return staticChoiceGuids.length > 0 ? staticChoiceGuids : null;
     }
 
     get singleOrMultiSelectOptions() {

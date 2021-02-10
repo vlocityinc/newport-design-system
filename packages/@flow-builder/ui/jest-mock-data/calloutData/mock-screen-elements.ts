@@ -248,6 +248,31 @@ export const mockScreenElement = {
                     ]
                 }
             ]
+        },
+        {
+            elementType: 'SCREEN_FIELD',
+            fieldType: 'RadioButtons',
+            guid: 'radio-buttons-1',
+            isNewField: true,
+            isRequired: false,
+            isVisible: undefined,
+            name: {
+                value: 'Radio_Buttons_1',
+                error: null
+            },
+            type: {
+                name: 'RadioButtons',
+                fieldType: 'RadioButtons',
+                type: 'String'
+            },
+            choiceReferences: [
+                {
+                    choiceReference: { value: 'choice-1', error: null }
+                },
+                {
+                    choiceReference: { value: 'choice-2', error: null }
+                }
+            ]
         }
     ]
 };

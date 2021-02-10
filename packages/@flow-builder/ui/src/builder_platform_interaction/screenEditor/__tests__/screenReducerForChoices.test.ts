@@ -8,18 +8,41 @@ import { screenReducer } from '../screenReducer';
 import { createChoice } from 'builder_platform_interaction/elementFactory';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from 'builder_platform_interaction/validationRules';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
-
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const SCREEN_NAME = 'TestScreen1';
+const MOCK_PICKLIST_CHOICE_SET_PREFIX = 'picklistChoiceSet';
+const MOCK_PICKLIST_CHOICE_SET_ELEMENT_TYPE = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
+const MOCK_CHOICE_ELEMENT_TYPE = ELEMENT_TYPE.CHOICE;
+const MOCK_STRING_FLOW_DATE_TYPE = FLOW_DATA_TYPE.STRING;
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid(guid) {
+            const elementType = guid.startsWith(MOCK_PICKLIST_CHOICE_SET_PREFIX)
+                ? MOCK_PICKLIST_CHOICE_SET_ELEMENT_TYPE
+                : MOCK_CHOICE_ELEMENT_TYPE;
+            return {
+                dataType: MOCK_STRING_FLOW_DATE_TYPE.value,
+                elementType,
+                guid,
+                isCanvasElement: false,
+                isCollection: false,
+                name: guid
+            };
+        },
+        isDevNameInStore: jest.fn()
+    };
+});
 
 it('change choice screen field by changing the 1st choice', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -48,7 +71,7 @@ it('change choice screen field by changing the 1st choice', () => {
 it('change choice screen field by changing the last choice', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -73,11 +96,11 @@ it('change choice screen field by changing the last choice', () => {
     expect(newScreen.fields[0].choiceReferences[2].choiceReference.value).toBe(newChoice.name);
 });
 
-it('defaultValue is cleared when corresponding choice is changed', () => {
+it('defaultValue is cleared when corresponding choice is changed and we only have static choices', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         validation: false,
         helpText: false
     });
@@ -109,11 +132,11 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
     expect(newScreen.fields[0].defaultValue.value).toBeNull();
 });
 
-it('defaultValue should not be cleared when unrelated choice is changed', () => {
+it('defaultValue should not be cleared when unrelated choice is changed and we only have static choices', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         validation: false,
         helpText: false
     });
@@ -139,16 +162,88 @@ it('defaultValue should not be cleared when unrelated choice is changed', () => 
     };
     const newScreen = screenReducer(screen, event, screen.fields[0]);
 
-    // The default value should be cleared, along with the choice change.
+    // The default value should not be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(newChoice.name);
     expect(newScreen.fields[0].defaultValue.value).toBe('choice1');
 });
 
+it('defaultValue is not cleared when a choice is changed and we have have at least one dynamic choice set', () => {
+    const screen = createTestScreen(SCREEN_NAME, []);
+    screen.fields = [];
+    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+        dataType: FLOW_DATA_TYPE.STRING.value,
+        validation: false,
+        helpText: false
+    });
+    field.choiceReferences = [];
+    field.choiceReferences.push({
+        choiceReference: { value: 'choice1', error: null }
+    });
+    field.choiceReferences.push({
+        choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+    });
+    field.defaultValue = { value: 'test', error: null };
+    screen.fields.push(field);
+
+    // Change choice which is current default value
+    const newChoice = createChoice({ name: 'newChoice' });
+    const event = {
+        type: ScreenEditorEventName.ChoiceChanged,
+        detail: {
+            screenElement: field,
+            newValue: { value: newChoice.name, error: null },
+            position: 0
+        }
+    };
+    const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+    // The default value should not be cleared, along with the choice change.
+    expect(newScreen).toBeDefined();
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
+    expect(newScreen.fields[0].defaultValue.value).toBe('test');
+});
+
+it('defaultValue is cleared when a choice is changed and we have no more dynamic choice sets', () => {
+    const screen = createTestScreen(SCREEN_NAME, []);
+    screen.fields = [];
+    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+        dataType: FLOW_DATA_TYPE.STRING.value,
+        validation: false,
+        helpText: false
+    });
+    field.choiceReferences = [];
+    field.choiceReferences.push({
+        choiceReference: { value: 'choice1', error: null }
+    });
+    field.choiceReferences.push({
+        choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+    });
+    field.defaultValue = { value: 'test', error: null };
+    screen.fields.push(field);
+
+    // Change choice which is current default value
+    const newChoice = createChoice({ name: 'newChoice' });
+    const event = {
+        type: ScreenEditorEventName.ChoiceChanged,
+        detail: {
+            screenElement: field,
+            newValue: { value: newChoice.name, error: null },
+            position: 1
+        }
+    };
+    const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+    // The default value should be cleared, along with the choice change.
+    expect(newScreen).toBeDefined();
+    expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(newChoice.name);
+    expect(newScreen.fields[0].defaultValue.value).toBeNull();
+});
+
 it('add choice to radio screen field', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     const originalNumChoices = field.choiceReferences.length;
@@ -175,7 +270,7 @@ it('add choice to radio screen field', () => {
 it('Attempt to add choice to invalid position results in an error', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     const originalNumChoices = field.choiceReferences.length;
@@ -202,7 +297,7 @@ it('Attempt to add choice to invalid position results in an error', () => {
 it('Delete first choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     const originalNumChoices = field.choiceReferences.length;
@@ -230,7 +325,7 @@ it('Delete first choice from radio screen field', () => {
 it('Delete last choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     const originalNumChoices = field.choiceReferences.length;
@@ -255,10 +350,10 @@ it('Delete last choice from radio screen field', () => {
     expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
 });
 
-it('Delete choice from radio screen field when it was the defaultValue', () => {
+it('Delete choice from radio screen field when it was the defaultValue and we only have static choices', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     field.defaultValue = { value: 'choice1', error: null };
@@ -280,10 +375,10 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
     expect(newScreen.fields[0].defaultValue.value).toBeNull();
 });
 
-it('Deleting choice from radio screen field when it is not the defaultValue', () => {
+it('Deleting choice from radio screen field when it is not the defaultValue and we only have static choices', () => {
     // Create screen with radio screenField and 3 choices
     const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         createChoices: true
     });
     field.defaultValue = { value: 'choice1', error: null };
@@ -309,7 +404,7 @@ it('validate all when choice based field has no choice associated with it', () =
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         validation: false,
         helpText: false
     });
@@ -337,7 +432,7 @@ it('validate all when choice based field has a choice associated with it', () =>
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         validation: false,
         helpText: false
     });

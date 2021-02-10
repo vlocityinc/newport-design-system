@@ -683,5 +683,46 @@ export const elementsForPropertyEditors = {
             error: null
         },
         useSobject: true
+    },
+    other: {
+        guid: 'bf86df65-a565-4f4c-9a88-3785f2785230',
+        name: {
+            value: 'other',
+            error: null
+        },
+        description: {
+            value: '',
+            error: null
+        },
+        elementType: 'Choice',
+        dataType: {
+            value: 'String',
+            error: null
+        },
+        choiceText: {
+            value: 'Other',
+            error: null
+        },
+        storedValue: {
+            value: 'other',
+            error: null
+        },
+        storedValueDataType: {
+            value: 'String',
+            error: null
+        },
+        storedValueIndex: {
+            value: 'b1594536-54c8-4f1d-96fc-ebfd501ca433',
+            error: null
+        },
+        isShowInputSelected: true,
+        isValidateSelected: false,
+        userInput: {
+            isRequired: false,
+            promptText: {
+                value: 'Please specify',
+                error: null
+            }
+        }
     }
 };
