@@ -28,7 +28,7 @@
           cursor: pointer;
           transition: all 0.25s ease-in;
           /* Icon */
-          &.nds-b2b-expand-accord{
+          &.nds-b2b-expand-accordion{
             &::after {
               content: "\276F";
               width: 1.3em;
@@ -239,7 +239,7 @@
               transform: rotate(90deg);
             }
           }
-          ~ .nds-b2b-expand-accord ~ .nds-b2b-card_tab-content {
+          ~ .nds-b2b-expand-accordion ~ .nds-b2b-card_tab-content {
             max-height: calc(200vh - 1.3rem);
             border-top: 1px solid $light-silver;
             &.nds-b2b-extra-padding {
@@ -331,7 +331,7 @@
             }
           }
           input.nds-b2b-card_checkbox:checked {
-            ~ .nds-b2b-expand-accord ~ .nds-b2b-card_tab-content {
+            ~ .nds-b2b-expand-accordion ~ .nds-b2b-card_tab-content {
               &.nds-b2b-extra-padding {
                 padding: 1rem;
                 @media screen and (min-width: 48rem) {
