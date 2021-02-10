@@ -67,9 +67,9 @@ const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
  * @param element - Element being checked for supporting child branches
  * @return true if an element can have child branches
  */
-function supportsChildBranches(elementsMetadata: ElementsMetadata, { elementType }: NodeModel) {
+function supportsChildBranches(elementsMetadata: ElementsMetadata, { elementType, children }: ParentNodeModel) {
     const type = getElementMetadata(elementsMetadata, elementType).type;
-    return supportsChildrenForType(type);
+    return supportsChildrenForType(type, children);
 }
 
 /**
@@ -78,8 +78,8 @@ function supportsChildBranches(elementsMetadata: ElementsMetadata, { elementType
  * @param type - Type of a given element
  * @returns true if the element is of type Branch
  */
-function supportsChildrenForType(type: NodeType): boolean {
-    return type === NodeType.BRANCH || type === NodeType.LOOP;
+function supportsChildrenForType(type: NodeType, children): boolean {
+    return type === NodeType.BRANCH || type === NodeType.LOOP || (type === NodeType.START && children);
 }
 
 /**
@@ -282,7 +282,7 @@ const getCanvasElementSelectionData = (
             if (currentCanvasElement.prev) {
                 currentCanvasElement = flowModel[currentCanvasElement.prev];
                 // In case the element supports children, all it's branches need to be marked as selected as well
-                if (supportsChildBranches(elementsMetadata, currentCanvasElement)) {
+                if (supportsChildBranches(elementsMetadata, currentCanvasElement as ParentNodeModel)) {
                     canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                         _getChildBranchElements(
                             elementsMetadata,
@@ -320,7 +320,7 @@ const getCanvasElementSelectionData = (
                 if (currentCanvasElement.prev) {
                     currentCanvasElement = flowModel[currentCanvasElement.prev];
                     // In case the element supports children, all it's branches need to be marked as selected as well
-                    if (supportsChildBranches(elementsMetadata, currentCanvasElement)) {
+                    if (supportsChildBranches(elementsMetadata, currentCanvasElement as ParentNodeModel)) {
                         canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                             _getChildBranchElements(
                                 elementsMetadata,

@@ -39,6 +39,7 @@ export interface StartNodeModel extends NodeModel {
     filters?: string;
     frequency?: string;
     filterLogic?: string;
+    doesRequireRecordChangedToMeetCriteria?: boolean;
 }
 
 export interface ParentNodeModel extends NodeModel {

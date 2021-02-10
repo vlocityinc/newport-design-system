@@ -13,7 +13,8 @@ import {
     deleteFault,
     connectToElement,
     addFault,
-    updateChildren
+    updateChildren,
+    updateChildrenOnAddingOrUpdatingTimeTriggers
 } from '../modelUtils';
 
 import NodeType from '../NodeType';
@@ -107,6 +108,24 @@ describe('reducer', () => {
                 elementService,
                 flowModel,
                 BRANCH_ELEMENT_GUID,
+                updatedChildrenGuids
+            );
+        });
+    });
+
+    describe('updateChildrenOnAddingOrUpdatingTimeTriggersAction', () => {
+        it('delegates to updateChildrenOnAddingOrUpdatingTimeTriggers', () => {
+            const flowModel = {};
+            const updatedChildrenGuids = ['child-guid', null, 'child3-guid'];
+            const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                START_ELEMENT_GUID,
+                updatedChildrenGuids
+            );
+            configuredReducer(flowModel, action);
+            expect(updateChildrenOnAddingOrUpdatingTimeTriggers).toHaveBeenLastCalledWith(
+                elementService,
+                flowModel,
+                START_ELEMENT_GUID,
                 updatedChildrenGuids
             );
         });

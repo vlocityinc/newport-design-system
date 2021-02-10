@@ -13,7 +13,7 @@ import {
     Guid,
     FAULT_INDEX
 } from './model';
-import { resolveBranchHead } from './modelUtils';
+import { fulfillsBranchingCriteria, resolveBranchHead, shouldSupportTimeTriggers } from './modelUtils';
 import { NO_OFFSET, getLayoutChildOrFault } from './layout';
 
 import {
@@ -189,7 +189,7 @@ function renderNode(
     const { nodeType } = node;
 
     const nodeRenderInfo =
-        nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP
+        fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
             ? renderBranchNode(node as ParentNodeModel, context)
             : renderSimpleNode(node, context);
 
@@ -285,8 +285,10 @@ function createNextConnector(
     let offsetY = 0;
 
     let mainVariant =
-        nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP
+        fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
+            : !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node)
+            ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 
     let showAdd = true;
@@ -303,10 +305,18 @@ function createNextConnector(
                 : ConnectorVariant.BRANCH_TAIL;
     }
 
+    const connectorLabelType =
+        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node)
+            ? ConnectorLabelType.BRANCH
+            : ConnectorLabelType.NONE;
+
+    const connectorBadgeLabel =
+        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node) ? node.defaultConnectorLabel : undefined;
+
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
         ConnectorType.STRAIGHT,
-        ConnectorLabelType.NONE,
+        connectorLabelType,
         offsetY,
         height,
         isMenuOpened(node.guid, MenuType.CONNECTOR, interactionState),
@@ -314,7 +324,8 @@ function createNextConnector(
         context.isFault,
         [mainVariant, variant],
         isDeletingBranch,
-        showAdd ? addOffset : undefined
+        showAdd ? addOffset : undefined,
+        connectorBadgeLabel
     );
 }
 
@@ -385,8 +396,9 @@ function createOptionsForConditionReferences(
 
 // TODO: FLC use metadata here
 function getConditionReferences(parentNode: ParentNodeModel): any {
+    // TODO: Use NodeType instead of elementType and update tests
     const elementType = parentNode.elementType;
-    if (elementType === 'Decision' || elementType === 'Wait') {
+    if (elementType === 'Decision' || elementType === 'Wait' || elementType === 'START_ELEMENT') {
         return {
             refKey: 'childReference',
             references: parentNode.childReferences
@@ -637,17 +649,21 @@ function createPreConnector(
     const variant = getConnectorVariant(parentNode, childIndex, context);
     const { nodeType } = parentNode;
 
-    const defaultConditionIndex = nodeType === NodeType.BRANCH ? childCount - 1 : null;
+    const defaultConditionIndex =
+        nodeType === NodeType.BRANCH ? childCount - 1 : nodeType === NodeType.START ? 0 : null;
 
     let connectorBadgeLabel;
     if (childIndex === defaultConditionIndex) {
         connectorBadgeLabel = parentNode.defaultConnectorLabel;
     } else if (childIndex !== FAULT_INDEX) {
-        connectorBadgeLabel = conditionOptions && conditionOptions[childIndex].label;
+        connectorBadgeLabel =
+            nodeType === NodeType.START
+                ? conditionOptions && conditionOptions[childIndex - 1].label
+                : conditionOptions && conditionOptions[childIndex].label;
     }
 
     let variants = [variant];
-    if (nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP) {
+    if (nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP || nodeType === NodeType.START) {
         variants = [isEmptyBranch ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD, variant];
     }
 

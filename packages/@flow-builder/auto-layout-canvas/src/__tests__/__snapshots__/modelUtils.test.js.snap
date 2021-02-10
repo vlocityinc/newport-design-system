@@ -71,6 +71,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -153,6 +161,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -210,6 +226,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -272,6 +296,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -334,6 +366,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -412,6 +452,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -487,6 +535,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -545,6 +601,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -591,6 +655,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -790,6 +862,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -930,6 +1010,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1014,6 +1102,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1098,6 +1194,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1181,6 +1285,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1251,6 +1363,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1321,6 +1441,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1391,6 +1519,14 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
     "elementType": "start",
     "guid": "start-guid",
     "isCanvasElement": true,
@@ -1456,6 +1592,132 @@ Object {
     "elementType": "root",
     "guid": "root",
     "nodeType": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers adding a new timeTrigger to start element 1`] = `
+Object {
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "screen2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "elementType": "Screen",
+    "guid": "screen1-guid",
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "screen2-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen2-guid": Object {
+    "elementType": "Screen",
+    "guid": "screen2-guid",
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "end-guid",
+    "nodeType": "default",
+    "prev": "screen1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
+    "children": Array [
+      "start-guid:0-screen1-guid",
+      "start-guid:1-screen2-guid",
+    ],
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting a timeTrigger 1`] = `
+Object {
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "screen2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "childIndex": 0,
+    "elementType": "Screen",
+    "guid": "screen1-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "screen-guid",
+    "next": "screen2-guid",
+    "nodeType": "default",
+    "parent": "start-guid",
+    "prev": null,
+  },
+  "screen2-guid": Object {
+    "elementType": "Screen",
+    "guid": "screen2-guid",
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "end-guid",
+    "nodeType": "default",
+    "prev": "screen1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
+    "children": Array [
+      "screen1-guid",
+    ],
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": null,
+    "nodeType": "start",
+    "parent": "root",
   },
 }
 `;

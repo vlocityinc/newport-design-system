@@ -13,7 +13,8 @@ import {
     ADD_FAULT,
     DELETE_FAULT,
     FLC_CREATE_CONNECTION,
-    ADD_PARENT_WITH_CHILDREN
+    ADD_PARENT_WITH_CHILDREN,
+    MODIFY_START_WITH_TIME_TRIGGERS
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -128,6 +129,13 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }
+        case MODIFY_START_WITH_TIME_TRIGGERS: {
+            const element = _getElementFromActionPayload(action.payload);
+            const updatedChildren = getNextChildren(state[element.guid], element);
+            const alcAction = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(element.guid, updatedChildren);
+            nextState = autoLayoutCanvasReducer(nextState, alcAction);
+            break;
+        }
         case DELETE_ELEMENT: {
             const { selectedElements, childIndexToKeep } = action.payload;
             const deletedElement = { ...selectedElements[0] };
@@ -195,18 +203,28 @@ function getNextChildren(element, nextElement): (Guid | null)[] {
     const { children } = element;
     const nextChildren = getChildren(nextElement)!;
 
-    // copy over the child corresponding to the default outcome
-    nextChildren[nextChildren.length - 1] = children[children.length - 1];
-
-    nextElement.childReferences.forEach((childReference, i) => {
-        const currentIndex = element.childReferences.findIndex((ref) => {
-            return ref.childReference === childReference.childReference;
-        });
-
-        if (currentIndex !== -1) {
-            nextChildren[i] = children[currentIndex];
+    if (children) {
+        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            // copy over the child corresponding to the default time trigger
+            nextChildren[0] = children[0];
+        } else {
+            // copy over the child corresponding to the default outcome
+            nextChildren[nextChildren.length - 1] = children[children.length - 1];
         }
-    });
+        nextElement.childReferences.forEach((childReference, i) => {
+            const currentIndex = element.childReferences.findIndex((ref) => {
+                return ref.childReference === childReference.childReference;
+            });
+
+            if (currentIndex !== -1) {
+                if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+                    nextChildren[i + 1] = children[currentIndex + 1];
+                } else {
+                    nextChildren[i] = children[currentIndex];
+                }
+            }
+        });
+    }
 
     return nextChildren;
 }

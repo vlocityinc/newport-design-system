@@ -2,6 +2,7 @@ import {
     createFlow,
     flowModelFromElements,
     BRANCH_ELEMENT,
+    START_ELEMENT,
     SCREEN_ELEMENT,
     BRANCH_ELEMENT_GUID,
     START_ELEMENT_GUID,
@@ -24,7 +25,8 @@ import {
     connectToElement,
     addElement,
     updateChildren,
-    addFault
+    addFault,
+    updateChildrenOnAddingOrUpdatingTimeTriggers
 } from '../modelUtils';
 
 import { FAULT_INDEX } from '../model';
@@ -1442,6 +1444,45 @@ describe('modelUtils', () => {
                 'branch-guid:0-head1-guid',
                 null
             ]);
+            expect(nextFlow).toMatchSnapshot();
+        });
+    });
+
+    describe('updateChildrenOnAddingOrUpdatingTimeTriggers', () => {
+        let flow;
+
+        it('adding a new timeTrigger to start element', () => {
+            flow = createFlow([
+                { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
+                { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
+            ]);
+            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+                elementService(flow),
+                flow,
+                START_ELEMENT_GUID,
+                ['start-guid:0-screen1-guid', 'start-guid:1-screen2-guid']
+            );
+
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('deleting a timeTrigger', () => {
+            flow = createFlow([
+                { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
+                { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
+            ]);
+            const flowWithChildren = updateChildrenOnAddingOrUpdatingTimeTriggers(
+                elementService(flow),
+                flow,
+                START_ELEMENT_GUID,
+                [null, null]
+            );
+            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+                elementService(flowWithChildren),
+                flowWithChildren,
+                START_ELEMENT_GUID,
+                [null]
+            );
             expect(nextFlow).toMatchSnapshot();
         });
     });

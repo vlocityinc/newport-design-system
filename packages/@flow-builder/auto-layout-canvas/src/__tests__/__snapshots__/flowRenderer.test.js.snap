@@ -87,6 +87,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -199,6 +203,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -330,6 +342,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -442,6 +458,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -543,6 +567,10 @@ L 3, 120",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -782,6 +810,10 @@ L 3, 144",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -1177,6 +1209,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -1289,6 +1325,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -1481,6 +1525,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -1593,6 +1641,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -1694,6 +1750,10 @@ L 3, 120",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -1872,6 +1932,10 @@ L 3, 96",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -2267,6 +2331,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -2379,6 +2447,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -2480,6 +2556,10 @@ L 3, 120",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -2659,6 +2739,10 @@ L 3, 96",
                         },
                       },
                     },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                    },
                     "fault": Object {
                       "labelOffset": 24,
                       "svgMarginTop": 24,
@@ -2836,6 +2920,10 @@ L 3, 168",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -3232,6 +3320,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -3344,6 +3436,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -3445,6 +3545,10 @@ L 3, 120",
                           "svgMarginBottom": 48,
                         },
                       },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
                     },
                     "fault": Object {
                       "labelOffset": 24,
@@ -3784,6 +3888,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -3896,6 +4004,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -3996,6 +4112,10 @@ L 3, 120",
                         "svgMarginBottom": 48,
                       },
                     },
+                  },
+                  "defaultLabel": Object {
+                    "addOffset": 84,
+                    "h": 144,
                   },
                   "fault": Object {
                     "labelOffset": 24,
@@ -4297,6 +4417,10 @@ L 3, 120",
                         "svgMarginBottom": 48,
                       },
                     },
+                  },
+                  "defaultLabel": Object {
+                    "addOffset": 84,
+                    "h": 144,
                   },
                   "fault": Object {
                     "labelOffset": 24,
@@ -4629,6 +4753,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -4741,6 +4869,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -4933,6 +5069,10 @@ Object {
                 },
               },
             },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
             "fault": Object {
               "labelOffset": 24,
               "svgMarginTop": 24,
@@ -5045,6 +5185,14 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,

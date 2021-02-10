@@ -1,4 +1,13 @@
-import { Guid, FAULT_INDEX, NodeRef, NodeModel, FlowModel, ParentNodeModel, BranchHeadNodeModel } from './model';
+import {
+    Guid,
+    FAULT_INDEX,
+    NodeRef,
+    NodeModel,
+    FlowModel,
+    ParentNodeModel,
+    BranchHeadNodeModel,
+    StartNodeModel
+} from './model';
 
 import NodeType from './NodeType';
 
@@ -1454,6 +1463,74 @@ export function updateChildren(
     }
 
     return flowModel;
+}
+
+/**
+ * Updates start element's children when time triggers are added or updated
+ *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param parentElementGuid - The guid of the element with children
+ * @param updatedChildrenGuids - The updated children guids
+ * @returns The updated flow model
+ */
+export function updateChildrenOnAddingOrUpdatingTimeTriggers(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    parentElementGuid: Guid,
+    updatedChildrenGuids: (Guid | null)[]
+) {
+    const parentElement = resolveParent(flowModel, parentElementGuid);
+    const { children, childReferences } = parentElement;
+
+    if (childReferences!.length > 0) {
+        if (children) {
+            updateChildren(elementService, flowModel, parentElementGuid, updatedChildrenGuids);
+        } else {
+            // To handle the case when children have not yet been added
+            parentElement.children = updatedChildrenGuids;
+        }
+    } else if (children) {
+        // To handle the case when children were previously present but have been deleted
+        // TODO - W-8853334
+        // TODO: Find a better way to do this.
+        // Case when deleting all time triggers
+        // Delete all the branches from index 1 -> n
+        // If 0th branch has an element, connect the last element on the 0th branch to start's next. Set start's next to
+        // 0th branch's branch head. Also update the previous pointers correctly
+        // If no element on the 0th branch and start's current next is not null, just delete children property and nothing else
+        // If start's current next is null, then just persist the 0th branch
+    }
+
+    return flowModel;
+}
+
+/**
+ * Returns boolean to indicate if the passed start node can support time triggers
+ *
+ * @param nosw - The start node
+ * @returns boolean indicating if the start node supports time triggers
+ */
+export function shouldSupportTimeTriggers(node: StartNodeModel) {
+    // TODO: Duplicated the method in rendering layer form ui layer. Find a better way to do this.
+    const {
+        nodeType,
+        triggerType,
+        object,
+        recordTriggerType,
+        doesRequireRecordChangedToMeetCriteria,
+        filterLogic
+    } = node;
+    return (
+        nodeType === NodeType.START &&
+        triggerType === 'RecordAfterSave' &&
+        object &&
+        (recordTriggerType === 'Create' || (doesRequireRecordChangedToMeetCriteria && filterLogic !== 'no_conditions'))
+    );
+}
+
+export function fulfillsBranchingCriteria(node: NodeModel, type: NodeType) {
+    return type === NodeType.BRANCH || ((node as ParentNodeModel).children && type === NodeType.START);
 }
 
 export {

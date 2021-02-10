@@ -1,5 +1,5 @@
 import { NodeModel, resolveNode, ParentNodeModel, NodeRef, Guid, getElementMetadata, FAULT_INDEX } from './model';
-import { areAllBranchesTerminals } from './modelUtils';
+import { areAllBranchesTerminals, shouldSupportTimeTriggers, fulfillsBranchingCriteria } from './modelUtils';
 import {
     FlowRenderContext,
     LayoutConfig,
@@ -222,8 +222,10 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     // nodeModel.next == null => tail
     const nextNodeConnectorType = getNextNodeConnectorType(elementType);
     let nextNodeConnectorVariant =
-        elementType === NodeType.BRANCH || elementType === NodeType.LOOP
+        fulfillsBranchingCriteria(nodeModel, elementType) || elementType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
+            : !(nodeModel as ParentNodeModel).children && shouldSupportTimeTriggers(nodeModel)
+            ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 
     if (nodeModel.next == null) {
@@ -259,7 +261,8 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     }
 
     const isBranchingAllTerminals =
-        elementType === NodeType.BRANCH && areAllBranchesTerminals(nodeModel as ParentNodeModel, flowModel);
+        fulfillsBranchingCriteria(nodeModel, elementType) &&
+        areAllBranchesTerminals(nodeModel as ParentNodeModel, flowModel);
 
     if (nodeModel.next != null || !isBranchingAllTerminals) {
         height += nextNodeConnectorHeight;
@@ -438,7 +441,7 @@ function calculateBranchLayout(
     let node: NodeModel | null = branchHeadGuid != null ? resolveNode(flowModel, branchHeadGuid) : null;
 
     const nextNodeConnectorType = getNextNodeConnectorType(parentNodeType)!;
-    const nextNodeConnectorVariant = getNextNodeConnectorVariant(branchHeadGuid, parentNodeType);
+    const nextNodeConnectorVariant = getNextNodeConnectorVariant(branchHeadGuid, parentNodeType, parentNodeModel);
 
     let height = 0;
 
@@ -521,10 +524,14 @@ function calculateBranchLayout(
  * @param branchHeadGuid - The branch head guid
  * @returns The next node connector variant
  */
-function getNextNodeConnectorVariant(branchHeadGuid: Guid | null, parentNodeType: NodeType) {
+function getNextNodeConnectorVariant(
+    branchHeadGuid: Guid | null,
+    parentNodeType: NodeType,
+    parentNodeModel: ParentNodeModel
+) {
     let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.DEFAULT;
 
-    if (parentNodeType === NodeType.BRANCH || parentNodeType === NodeType.LOOP) {
+    if (fulfillsBranchingCriteria(parentNodeModel, parentNodeType) || parentNodeType === NodeType.LOOP) {
         nextNodeConnectorVariant =
             branchHeadGuid == null ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD;
     }

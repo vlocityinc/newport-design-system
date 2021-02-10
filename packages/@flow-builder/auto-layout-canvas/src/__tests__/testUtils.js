@@ -30,7 +30,8 @@ const START_ELEMENT = {
     parent: ROOT_ELEMENT_GUID,
     childIndex: 0,
     isTerminal: true,
-    isCanvasElement: true
+    isCanvasElement: true,
+    childReferences: [{ childReference: 'child-reference-guid-1' }, { childReference: 'child-reference-guid-2' }]
 };
 
 const END_ELEMENT = {
@@ -190,7 +191,7 @@ function linkElements(elements) {
     });
 }
 
-function createFlow(rootBranchElements, addStartAndEnd = true) {
+function createFlow(rootBranchElements, addStartAndEnd = true, hasChildReferences = true) {
     const elementsMap = {};
     const rootElement = { ...ROOT_ELEMENT };
     elementsMap[rootElement.guid] = rootElement;

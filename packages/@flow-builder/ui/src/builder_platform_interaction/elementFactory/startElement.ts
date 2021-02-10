@@ -474,6 +474,8 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
     const deletedTimeTriggerGuids = deletedCanvasElementChildren.map((timeTrigger) => timeTrigger.guid);
 
+    const { defaultConnectorLabel = LABELS.immediateConnectorLabel } = startElement;
+
     const originalStartElement = getElementByGuid(startElement.guid);
 
     const { connectorCount, availableConnections } = getConnectionProperties(
@@ -487,7 +489,8 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
         childReferences,
         elementType,
         connectorCount,
-        availableConnections
+        availableConnections,
+        defaultConnectorLabel
     });
 
     return {

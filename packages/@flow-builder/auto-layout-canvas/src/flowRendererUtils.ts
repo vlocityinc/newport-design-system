@@ -106,7 +106,8 @@ export enum ConnectorVariant {
     POST_MERGE_TAIL = 'postMergeTail',
     BRANCH_TAIL = 'branchTail',
     BRANCH_HEAD = 'branchHead',
-    BRANCH_HEAD_EMPTY = 'branchHeadEmpty'
+    BRANCH_HEAD_EMPTY = 'branchHeadEmpty',
+    DEFAULT_LABEL = 'defaultLabel'
 }
 export enum VerticalAlign {
     TOP,

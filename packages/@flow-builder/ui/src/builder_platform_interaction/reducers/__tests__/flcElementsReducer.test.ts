@@ -4,6 +4,7 @@ import {
     ADD_START_ELEMENT,
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_START_WITH_TIME_TRIGGERS,
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
     PASTE_ON_FIXED_CANVAS,
@@ -515,6 +516,317 @@ describe('flc-elements-reducer', () => {
                     {
                         ...storeState,
                         decision
+                    },
+                    action
+                );
+            });
+        });
+    });
+
+    describe('When MODIFY_START_WITH_TIME_TRIGGERS', () => {
+        const startElement = {
+            guid: 'startElement',
+            children: ['assignment1', 'assignment2', 'assignment3', null],
+            childReferences: [
+                {
+                    childReference: 'scheduledPath1'
+                },
+                {
+                    childReference: 'scheduledPath2'
+                },
+                {
+                    childReference: 'scheduledPath3'
+                }
+            ]
+        };
+
+        const originalStoreState = {
+            startElement,
+            assignment1: {
+                guid: 'assignment1',
+                parent: 'startElement',
+                childIndex: 0,
+                next: null
+            },
+            assignment2: {
+                guid: 'assignment2',
+                parent: 'startElement',
+                childIndex: 1,
+                next: null
+            },
+            assignment3: {
+                guid: 'assignment3',
+                parent: 'startElement',
+                childIndex: 2,
+                next: null
+            }
+        };
+
+        describe('When scheduled paths have not changed', () => {
+            const updatedStartElement = startElement;
+
+            it('children should be the same', () => {
+                flcElementsReducer(originalStoreState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload: { canvasElement: updatedStartElement }
+                });
+
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                    'assignment1',
+                    'assignment2',
+                    'assignment3',
+                    null
+                ]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...originalStoreState,
+                        startElement
+                    },
+                    action
+                );
+            });
+        });
+
+        describe('When adding a scheduledPath', () => {
+            it('should add a null entry before last index of children', () => {
+                const storeState = deepCopy(originalStoreState);
+
+                const updatedStartElement = {
+                    guid: 'startElement',
+                    children: ['assignment1', 'assignment2', 'assignment3', null],
+                    childReferences: [
+                        {
+                            childReference: 'scheduledPath1'
+                        },
+                        {
+                            childReference: 'scheduledPath2'
+                        },
+                        {
+                            childReference: 'scheduledPath3'
+                        },
+                        {
+                            childReference: 'scheduledPath4'
+                        }
+                    ]
+                };
+
+                flcElementsReducer(storeState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload: { canvasElement: updatedStartElement }
+                });
+
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                    'assignment1',
+                    'assignment2',
+                    'assignment3',
+                    null,
+                    null
+                ]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...storeState,
+                        startElement
+                    },
+                    action
+                );
+            });
+        });
+
+        describe('When deleting a scheduledPath', () => {
+            describe('should remove children entry for the branch associated with the scheduledPath', () => {
+                it('for the leftmost scheduledPath', () => {
+                    const storeState = deepCopy(originalStoreState);
+
+                    const updatedStartElement = {
+                        guid: 'startElement',
+                        children: ['assignment1', 'assignment2', 'assignment3', null],
+                        childReferences: [
+                            {
+                                childReference: 'scheduledPath2'
+                            },
+                            {
+                                childReference: 'scheduledPath3'
+                            }
+                        ]
+                    };
+
+                    flcElementsReducer(storeState, {
+                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        payload: { canvasElement: updatedStartElement }
+                    });
+
+                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                        'assignment2',
+                        'assignment3',
+                        null
+                    ]);
+
+                    expect(reducer()).toHaveBeenLastCalledWith(
+                        {
+                            ...storeState,
+                            startElement
+                        },
+                        action
+                    );
+                });
+                it('for a middle scheduledPath', () => {
+                    const storeState = deepCopy(originalStoreState);
+
+                    const updatedStartElement = {
+                        guid: 'startElement',
+                        children: ['assignment1', 'assignment2', 'assignment3', null],
+                        childReferences: [
+                            {
+                                childReference: 'scheduledPath1'
+                            },
+                            {
+                                childReference: 'scheduledPath3'
+                            }
+                        ]
+                    };
+
+                    flcElementsReducer(storeState, {
+                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        payload: { canvasElement: updatedStartElement }
+                    });
+
+                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                        'assignment1',
+                        'assignment3',
+                        null
+                    ]);
+
+                    expect(reducer()).toHaveBeenLastCalledWith(
+                        {
+                            ...storeState,
+                            startElement
+                        },
+                        action
+                    );
+                });
+
+                it('for the rightmost scheduledPath', () => {
+                    const storeState = deepCopy(originalStoreState);
+
+                    const updatedStartElement = {
+                        guid: 'startElement',
+                        children: ['assignment1', 'assignment2', 'assignment3', null],
+                        childReferences: [
+                            {
+                                childReference: 'scheduledPath1'
+                            },
+                            {
+                                childReference: 'scheduledPath2'
+                            }
+                        ]
+                    };
+
+                    flcElementsReducer(storeState, {
+                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        payload: { canvasElement: updatedStartElement }
+                    });
+
+                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                        'assignment1',
+                        'assignment2',
+                        null
+                    ]);
+
+                    expect(reducer()).toHaveBeenLastCalledWith(
+                        {
+                            ...storeState,
+                            startElement
+                        },
+                        action
+                    );
+                });
+            });
+        });
+
+        describe('When reordering scheduledPaths', () => {
+            it('should reorder the entries of the children', () => {
+                const storeState = deepCopy(originalStoreState);
+
+                const updatedStartElement = {
+                    guid: 'startElement',
+                    children: ['assignment1', 'assignment2', 'assignment3', null],
+                    childReferences: [
+                        {
+                            childReference: 'scheduledPath3'
+                        },
+                        {
+                            childReference: 'scheduledPath1'
+                        },
+                        {
+                            childReference: 'scheduledPath2'
+                        }
+                    ]
+                };
+
+                flcElementsReducer(storeState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload: { canvasElement: updatedStartElement }
+                });
+
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                    'assignment3',
+                    'assignment1',
+                    'assignment2',
+                    null
+                ]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...storeState,
+                        startElement
+                    },
+                    action
+                );
+            });
+        });
+
+        describe('When adding, deleting and reordering scheduledPaths', () => {
+            it('should update the children accordingly', () => {
+                const storeState = deepCopy(originalStoreState);
+
+                const updatedStartElement = {
+                    guid: 'startElement',
+                    children: ['assignment1', 'assignment2', 'assignment3', null],
+                    childReferences: [
+                        {
+                            childReference: 'scheduledPath2'
+                        },
+                        {
+                            childReference: 'scheduledPath4'
+                        },
+                        {
+                            childReference: 'scheduledPath1'
+                        },
+                        {
+                            childReference: 'scheduledPath5'
+                        }
+                    ]
+                };
+
+                flcElementsReducer(storeState, {
+                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    payload: { canvasElement: updatedStartElement }
+                });
+
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
+                    'assignment2',
+                    null,
+                    'assignment1',
+                    null,
+                    null
+                ]);
+
+                expect(reducer()).toHaveBeenLastCalledWith(
+                    {
+                        ...storeState,
+                        startElement
                     },
                     action
                 );

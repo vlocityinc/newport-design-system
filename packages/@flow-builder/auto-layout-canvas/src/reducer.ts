@@ -8,7 +8,8 @@ import {
     initFlowModel,
     addFault,
     updateChildren,
-    InsertAt
+    InsertAt,
+    updateChildrenOnAddingOrUpdatingTimeTriggers
 } from './modelUtils';
 
 import NodeType from './NodeType';
@@ -20,7 +21,8 @@ enum ActionType {
     AddFault,
     DeleteFault,
     ConnectToElement,
-    UpdateChildren
+    UpdateChildren,
+    UpdateChildrenOnAddingOrUpdatingTimeTriggers
 }
 
 /*
@@ -113,6 +115,16 @@ export function updateChildrenAction(parentElementGuid: Guid, updatedChildrenGui
     return createPayloadAction(<const>ActionType.UpdateChildren, { parentElementGuid, updatedChildrenGuids });
 }
 
+export function updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+    parentElementGuid: Guid,
+    updatedChildrenGuids: (Guid | null)[]
+) {
+    return createPayloadAction(<const>ActionType.UpdateChildrenOnAddingOrUpdatingTimeTriggers, {
+        parentElementGuid,
+        updatedChildrenGuids
+    });
+}
+
 type Action = ReturnType<
     | typeof addElementAction
     | typeof deleteElementAction
@@ -121,6 +133,7 @@ type Action = ReturnType<
     | typeof initAction
     | typeof addFaultAction
     | typeof updateChildrenAction
+    | typeof updateChildrenOnAddingOrUpdatingTimeTriggersAction
 >;
 
 function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action: Action): Readonly<FlowModel> {
@@ -156,6 +169,15 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
         case ActionType.UpdateChildren: {
             const { parentElementGuid, updatedChildrenGuids } = action.payload;
             return updateChildren(config, nextFlowModel, parentElementGuid, updatedChildrenGuids);
+        }
+        case ActionType.UpdateChildrenOnAddingOrUpdatingTimeTriggers: {
+            const { parentElementGuid, updatedChildrenGuids } = action.payload;
+            return updateChildrenOnAddingOrUpdatingTimeTriggers(
+                config,
+                nextFlowModel,
+                parentElementGuid,
+                updatedChildrenGuids
+            );
         }
         default:
             return nextFlowModel;

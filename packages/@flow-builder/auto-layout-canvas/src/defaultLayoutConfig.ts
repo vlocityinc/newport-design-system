@@ -34,6 +34,10 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                     h: gridHeight * 5,
                     labelOffset: gridHeight * 2,
                     variants: {
+                        defaultLabel: {
+                            addOffset: gridHeight * 3.5,
+                            h: 6 * gridHeight
+                        },
                         fault: {
                             labelOffset: gridHeight,
                             svgMarginTop: gridHeight
