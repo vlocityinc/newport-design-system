@@ -263,26 +263,28 @@ describe('Test6 - Component is not previewed when required param is a reference'
 
 describe('Test7 - Component allowed for preview is not previewed when org perm is disabled', () => {
     let testScreenField;
+    beforeAll(() => {
+        orgHasComponentPreview.mockImplementation(() => false);
+    });
     beforeEach(() => {
-        orgHasComponentPreview.mockImplementationOnce(false);
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
     });
+    afterAll(() => {
+        orgHasComponentPreview.mockImplementation(() => true);
+    });
     it('Extension wrapper is present', () => {
-        orgHasComponentPreview.mockImplementationOnce(false);
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
     it('Dummy placeholder is present', () => {
-        orgHasComponentPreview.mockImplementationOnce(false);
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
     it('Extension field is not present', () => {
-        orgHasComponentPreview.mockImplementationOnce(false);
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
@@ -291,26 +293,30 @@ describe('Test7 - Component allowed for preview is not previewed when org perm i
 
 describe('Test8 - Component is not previewed if component descriptor is not avaialable', () => {
     let testScreenField;
+    beforeAll(() => {
+        getCachedExtensionType.mockImplementation(() => '');
+    });
     beforeEach(() => {
-        getCachedExtensionType.mockImplementationOnce('');
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
     });
+    afterAll(() => {
+        getCachedExtensionType.mockImplementation(
+            () => jest.requireActual('builder_platform_interaction_mocks/flowExtensionLib').getCachedExtensionType
+        );
+    });
     it('Extension wrapper is present', () => {
-        getCachedExtensionType.mockImplementationOnce('');
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
     it('Dummy placeholder is present', () => {
-        getCachedExtensionType.mockImplementationOnce('');
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).not.toBeNull();
     });
     it('Extension field is not present', () => {
-        getCachedExtensionType.mockImplementationOnce('');
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();

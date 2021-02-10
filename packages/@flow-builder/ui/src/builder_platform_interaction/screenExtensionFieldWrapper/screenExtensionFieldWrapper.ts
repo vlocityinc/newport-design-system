@@ -7,6 +7,16 @@ import {
     isExtensionAttributeGlobalConstant,
     getRequiredParametersForExtension
 } from 'builder_platform_interaction/flowExtensionLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logInteraction } = loggingUtils;
+
+let literals = 0;
+let references = 0;
+let notSet = 0;
+let defaults = 0;
+let globalConstants = 0;
+let inputParameters: { name: string; dataType: string }[] = [];
 
 // This list should go away once we switch to rendering standard
 // components once all required inputs are set.
@@ -39,8 +49,11 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     @api icon;
     @api title;
     @api text;
+    @api defaultValue;
 
-    dummyMode = false;
+    loggedExtensionOnLoad = false;
+    dummyModeDueToRenderError = false;
+    dummyModeDueToError = false;
 
     // Should we render the component in the screen canvas right now.
     // This is really the decision based on all other factors (does the org allow
@@ -48,7 +61,8 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     // inputs set, etc).
     get isDisplayComponentPreview() {
         return (
-            !this.dummyMode &&
+            !this.dummyModeDueToRenderError &&
+            !this.dummyModeDueToError &&
             this.isComponentPreviewSupportedInOrg &&
             this.isExtensionAllowedToPreview &&
             this.isExtensionDetailAvailable
@@ -143,13 +157,31 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     }
 
     get componentInstanceAttributes() {
+        literals = 0;
+        references = 0;
+        notSet = 0;
+        defaults = 0;
+        globalConstants = 0;
+        inputParameters = [];
         const inputs = this.screenfield.inputParameters;
         const attributes = {};
         for (const input of inputs) {
-            if (isExtensionAttributeLiteral(input)) {
+            if (!input.value.value) {
+                notSet++;
+            } else if (isExtensionAttributeLiteral(input)) {
+                if (input.value.value === this.defaultValue) {
+                    defaults++;
+                } else {
+                    literals++;
+                }
                 // Input is a literal, so just use the input as is.
                 attributes[input.name.value] = input.value.value;
             } else if (isExtensionAttributeGlobalConstant(input)) {
+                if (input.value.value === this.defaultValue) {
+                    defaults++;
+                } else {
+                    globalConstants++;
+                }
                 // If the input is a global constant, it needs to be converted to its
                 // literal value, which can be displayed and sent to a component.
                 if (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_TRUE) {
@@ -159,7 +191,12 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
                 } else if (input.value.value === GLOBAL_CONSTANTS.EMPTY_STRING) {
                     attributes[input.name.value] = '';
                 }
+            } else if (input.value.value === this.defaultValue) {
+                defaults++;
+            } else {
+                references++;
             }
+            inputParameters.push({ name: input.name.value, dataType: input.valueDataType });
             /* Enable this block as needed for testing. Leaving out for now.
             else {
                 // This entire else block will be removed in 232. For 232, we will NOT pass on
@@ -189,6 +226,37 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
 
     handleDummyModeChange = (event) => {
         event.stopPropagation();
-        this.dummyMode = event.detail.enableDummyMode;
+        this.dummyModeDueToError = event.detail.dummyModeDueToError;
+        this.dummyModeDueToRenderError = event.detail.dummyModeDueToRenderError;
     };
+
+    logExtensionPreviewData = (type) => {
+        const data = {
+            extensionName: this.screenfield.type.name,
+            extensionType: this.screenfield.type.extensionType,
+            componentPreviewSupportedInOrg: this.isComponentPreviewSupportedInOrg,
+            preview: this.isDisplayComponentPreview ? 'Actual Preview' : 'Dummy Preview',
+            dummyModeDueToRenderError: this.dummyModeDueToRenderError,
+            dummyModeDueToError: this.dummyModeDueToError,
+            totalInputParameters: inputParameters.length,
+            literals,
+            references,
+            notSet,
+            defaults,
+            globalConstants,
+            inputParameters: JSON.stringify(inputParameters)
+        };
+        logInteraction('screenEditor', 'extensionField', data, type);
+    };
+
+    renderedCallback() {
+        if (!this.loggedExtensionOnLoad) {
+            this.loggedExtensionOnLoad = true;
+            this.logExtensionPreviewData('load');
+        }
+    }
+
+    disconnectedCallback() {
+        this.logExtensionPreviewData('close');
+    }
 }

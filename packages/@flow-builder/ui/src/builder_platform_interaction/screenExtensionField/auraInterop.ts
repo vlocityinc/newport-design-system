@@ -58,13 +58,13 @@ export class AuraComponent {
                     }
                 } else {
                     // If the component was not succesfully rendered, go into dummy mode.
-                    container.dispatchEvent(new DummyPreviewModeEvent(true));
+                    container.dispatchEvent(new DummyPreviewModeEvent(false, true));
                 }
             });
         } catch (error) {
             // If we get an error trying to render the component, signal that we need to
             // use a dummy preview instead.
-            container.dispatchEvent(new DummyPreviewModeEvent(true));
+            container.dispatchEvent(new DummyPreviewModeEvent(true, false));
         }
     }
 
