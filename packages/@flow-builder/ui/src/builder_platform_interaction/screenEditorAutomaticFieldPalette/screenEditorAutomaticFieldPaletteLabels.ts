@@ -6,6 +6,8 @@ import filterFieldsPlaceHolderLabel from '@salesforce/label/FlowBuilderScreenEdi
 import noItemsToShowLabel from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noItemsToShowLabel';
 import noItemsToShowDescription from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noItemsToShowDescription';
 import fieldsLoadingError from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.fieldsLoadingError';
+import noFieldsIllustrationTitle from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noFieldLabel';
+import noFieldsIllustrationDescription from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noFieldDescription';
 export const LABELS = {
     selectObjectLabel,
     selectObjectPlaceholderLabel,
@@ -14,5 +16,7 @@ export const LABELS = {
     filterFieldsPlaceHolderLabel,
     noItemsToShowLabel,
     noItemsToShowDescription,
-    fieldsLoadingError
+    fieldsLoadingError,
+    noFieldsIllustrationTitle,
+    noFieldsIllustrationDescription
 };

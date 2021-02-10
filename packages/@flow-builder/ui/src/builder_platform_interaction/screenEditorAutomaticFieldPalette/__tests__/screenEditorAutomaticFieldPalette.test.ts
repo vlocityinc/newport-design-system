@@ -15,11 +15,12 @@ import {
     ScreenEditorEventName
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { objectWithAllPossibleFieldsFields as mockobjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import { INTERACTION_COMPONENTS_SELECTORS, dragStartEvent } from 'builder_platform_interaction/builderTestUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 
+let mockAccountFields = accountFields;
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn((recordEntityName) =>
         Promise.resolve(
@@ -72,7 +73,9 @@ const FIELD_OF_COMPOUND_FIELD_NAME = 'BillingLongitude';
 const ACCOUNT_NAME_FIELD_NAME = 'Name'; // this one is a String but also a compound subfield that we accept
 
 const SELECTORS = {
-    searchInput: '.palette-search-input'
+    searchInput: '.palette-search-input',
+    noItemsIllustration: '.noItemsIllustration',
+    noSupportedFieldsIllustration: '.noSupportedFieldsIllustration'
 };
 
 const getSObjectOrSObjectCollectionPicker = (screenEditorAutomaticFieldPalette) =>
@@ -84,7 +87,10 @@ const getBasePalette = (screenEditorAutomaticFieldPalette) =>
     screenEditorAutomaticFieldPalette.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LEFT_PANEL_PALETTE);
 
 const getNoItemToShowIllustration = (screenEditorAutomaticFieldPalette) =>
-    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ILLUSTRATION);
+    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(SELECTORS.noItemsIllustration);
+
+const getNoSupportedFieldsIllustration = (screenEditorAutomaticFieldPalette) =>
+    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(SELECTORS.noSupportedFieldsIllustration);
 
 const getSearchInput = (screenEditorAutomaticFieldPalette) =>
     screenEditorAutomaticFieldPalette.shadowRoot.querySelector(SELECTORS.searchInput);
@@ -165,6 +171,11 @@ describe('Screen editor automatic field palette', () => {
             await ticks(1);
             expect(getNoItemToShowIllustration(element)).toBeNull();
         });
+        test('SObjectReferenceChangedEvent should hide no supported field to show illustration', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(getNoSupportedFieldsIllustration(element)).toBeNull();
+        });
         test('SObjectReferenceChangedEvent should display base palette', async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
@@ -213,6 +224,30 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(element.searchPattern).toEqual('name');
+        });
+        describe('SObjectReferenceChangedEvent with a variable having no supported fields', () => {
+            beforeAll(() => {
+                mockAccountFields = [];
+            });
+            beforeEach(async () => {
+                getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+                await ticks(1);
+            });
+            afterAll(() => {
+                mockAccountFields = accountFields;
+            });
+            test('SObjectReferenceChangedEvent should show no supported illustration', () => {
+                expect(getNoSupportedFieldsIllustration(element)).not.toBeNull();
+            });
+            test('SObjectReferenceChangedEvent should hide no items to show illustration', () => {
+                expect(getNoItemToShowIllustration(element)).toBeNull();
+            });
+            test('SObjectReferenceChangedEvent should not show search input', () => {
+                expect(getSearchInput(element)).toBeNull();
+            });
+            test('SObjectReferenceChangedEvent should not fill anything in the data for the palette', () => {
+                expect(element.paletteData).toHaveLength(0);
+            });
         });
     });
 
@@ -288,11 +323,6 @@ describe('Screen editor automatic field palette', () => {
             );
         });
         describe('Palette fields filtering', () => {
-            const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
-            beforeEach(async () => {
-                getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
-                await ticks(1);
-            });
             test.each`
                 fieldName                       | shouldShowUpInThePalette
                 ${STRING_FIELD_NAME}            | ${true}

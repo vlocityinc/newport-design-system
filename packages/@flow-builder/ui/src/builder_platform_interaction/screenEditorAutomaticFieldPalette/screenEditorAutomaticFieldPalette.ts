@@ -47,6 +47,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     sobjectPickerErrorMessage?: String | null;
     entityName = '';
     showErrorMessageRelatedToFieldFetching = false;
+    showNoFieldIllustration = false;
     labels = LABELS;
     @api
     searchPattern?: string | null;
@@ -71,6 +72,11 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     @api
     get showNoItemIllustrationContainer() {
         return this.showNoItemsIllustration;
+    }
+
+    @api
+    get showNoFieldIllustrationContainer() {
+        return this.showNoFieldIllustration;
     }
 
     @api
@@ -108,6 +114,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 .then((fields) => {
                     this.showErrorMessageRelatedToFieldFetching = false;
                     this.state.supportedEntityFields = this.filterSupportedFields(fields);
+                    this.showNoFieldIllustration = this.state.supportedEntityFields.length === 0;
                     this.buildModel();
                 })
                 .catch(() => {

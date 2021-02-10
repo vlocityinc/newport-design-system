@@ -19,8 +19,12 @@
         </div>
 
         <!-- empty state container when no record var is selected  with illustration -->
-        <div class="slds-p-horizontal_small slds-p-vertical_medium" if:true={showNoItemIllustrationContainer}>
+        <div
+            class="slds-p-horizontal_small slds-p-vertical_medium noItemsIllustration"
+            if:true={showNoItemIllustrationContainer}
+        >
             <builder_platform_interaction-illustration
+                class=""
                 illustration="lakeMountain"
                 title={labels.noItemsToShowLabel}
                 body={labels.noItemsToShowDescription}
@@ -35,7 +39,7 @@
             </div>
             <!-- container for search field and palette -->
             <div if:false={showErrorMessageRelatedToFieldFetching}>
-                <div class="slds-p-horizontal_small slds-p-vertical_medium">
+                <div if:false={showNoFieldIllustration} class="slds-p-horizontal_small slds-p-vertical_medium">
                     <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                         <input
                             id="filter-input"
@@ -52,6 +56,15 @@
                         ></lightning-icon>
                     </div>
                 </div>
+
+                <div if:true={showNoFieldIllustration} class="noSupportedFieldsIllustration">
+                    <builder_platform_interaction-illustration
+                        illustration="lakeMountain"
+                        title={labels.noFieldsIllustrationTitle}
+                        body={labels.noFieldsIllustrationDescription}
+                    ></builder_platform_interaction-illustration>
+                </div>
+
                 <builder_platform_interaction-palette
                     data={paletteData}
                     items-draggable="true"
