@@ -47,7 +47,8 @@ export const SERVER_ACTION_TYPE = {
     GET_VERSIONING_INFO: 'getVersioningInfo',
     RUN_DEBUG: 'runDebug',
     RETRIEVE_INTERVIEW_HISTORY: 'retrieveInterviewHistory',
-    GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS: 'getObjectManagerUrls'
+    GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS: 'getObjectManagerUrls',
+    RESUME_DEBUG_INTERVIEW: 'resumeDebugInterview'
 };
 
 const actionConfig = {
@@ -95,7 +96,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: 'c.getVersioningInfo',
     [SERVER_ACTION_TYPE.RUN_DEBUG]: 'c.runDebugInterview',
     [SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY]: 'c.retrieveInterviewHistory',
-    [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: 'c.getObjectManagerUrls'
+    [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: 'c.getObjectManagerUrls',
+    [SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW]: 'c.resumeDebugInterview'
 };
 
 let auraFetch;

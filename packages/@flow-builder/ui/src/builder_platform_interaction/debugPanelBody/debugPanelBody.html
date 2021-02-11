@@ -20,6 +20,19 @@
                     disable-linkify="true"
                 ></lightning-formatted-rich-text>
             </div>
+            <!-- Wait Event Selection Combobox-->
+            <div if:true={curLine.isSelection} key={curLine.id}>
+                <lightning-combobox
+                    class="slds-p-bottom_small wait-event-selection"
+                    field-level-help={curLine.helpText}
+                    label={curLine.label}
+                    value={curLine.default}
+                    placeholder="Select Path"
+                    options={curLine.options}
+                    disabled={ifSubmitWaitEvent}
+                    onchange={handleWaitEventSelection}
+                ></lightning-combobox>
+            </div>
             <!-- Regular debug text -->
             <div if:false={curLine.isWarn} key={curLine.id}>
                 <lightning-formatted-rich-text
@@ -53,6 +66,17 @@
                     </div>
                     <div key={curLine.id} class="helptext slds-p-top_medium"></div>
                 </div>
+            </div>
+            <!-- Wait Event Selection Submit Button-->
+            <div if:true={curLine.isSelectionButton} class="slds-p-top_small" key={curLine.id}>
+                <button
+                    class="slds-button slds-button_brand slds-button_stretch wait-event-selection-button"
+                    disabled={ifSubmitWaitEvent}
+                    type="submit"
+                    onclick={handleWaitEventSubmit}
+                >
+                    {curLine.label}
+                </button>
             </div>
         </template>
         <!-- subtitles in the debug card -->

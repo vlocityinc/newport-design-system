@@ -8,6 +8,9 @@ import interviewStartHeader from '@salesforce/label/DebugLogEmail.StartHeader';
 import interviewPaused from '@salesforce/label/FlowBuilderDebugPanel.interviewPaused';
 import interviewPausedHeader from '@salesforce/label/FlowBuilderDebugPanel.interviewPausedHeader';
 import errorBody from '@salesforce/label/InteractionRuntimeError.ErrorBody';
+import waitEventSelectionHeader from '@salesforce/label/FlowBuilderDebugPanel.waitEventSelectionHeader';
+import alarmEventHelpText from '@salesforce/label/FlowBuilderDebugPanel.alarmEventHelpText';
+import noAlarmEventLine from '@salesforce/label/FlowBuilderDebugPanel.noAlarmEventLine';
 
 export const LABELS = {
     interviewFinishHeader,
@@ -19,5 +22,8 @@ export const LABELS = {
     interviewStartHeader,
     interviewPaused,
     interviewPausedHeader,
-    errorBody
+    errorBody,
+    waitEventSelectionHeader,
+    alarmEventHelpText,
+    noAlarmEventLine
 };

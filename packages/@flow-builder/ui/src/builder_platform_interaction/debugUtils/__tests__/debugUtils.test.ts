@@ -8,6 +8,8 @@ import {
 } from 'mock/debugResponse/mock-completed-interview-errors';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { errorWithTraceInterview } from 'mock/debugResponse/mock-error-interview';
+import { fakePausedInterview } from 'mock/debugResponse/mock-fake-paused-interview';
+import { fakePausedInterviewWithoutAlarmEvent } from 'mock/debugResponse/mock-fake-paused-interview';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
@@ -15,6 +17,34 @@ commonUtils.format = jest
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 describe('debug utils', () => {
+    describe('fake paused interview', () => {
+        let updatedDebugTraceObject;
+        beforeEach(() => {
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(fakePausedInterview);
+        });
+
+        it('should only display the alarm wait events info', () => {
+            const len = updatedDebugTraceObject.length;
+            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.waitEventSelectionHeader);
+            expect(updatedDebugTraceObject[len - 1].waitevents.length).toEqual(2);
+        });
+    });
+
+    describe('fake paused interview without alarm event', () => {
+        let updatedDebugTraceObject;
+        beforeEach(() => {
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(fakePausedInterviewWithoutAlarmEvent);
+        });
+
+        it('should only display the alarm wait events info', () => {
+            const len = updatedDebugTraceObject.length;
+            expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.interviewFinishHeader);
+            expect(updatedDebugTraceObject[len - 2].title).toMatch(LABELS.waitEventSelectionHeader);
+            expect(updatedDebugTraceObject[len - 2].lines[0]).toMatch(LABELS.noAlarmEventLine);
+            expect(updatedDebugTraceObject[len - 2].waitevents).toBe(undefined);
+        });
+    });
+
     describe('completed interview', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {

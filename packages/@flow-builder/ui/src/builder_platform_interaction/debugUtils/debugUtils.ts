@@ -13,6 +13,8 @@ export const STATUS = {
     WAITING: 'WAITING'
 };
 
+export const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
 
 /**
@@ -52,12 +54,61 @@ export function copyAndUpdateDebugTraceObject(debugData) {
                 id: generateGuid()
             });
         }
-        const end = getEndInterviewInfo(debugData);
+
+        let end;
+        if (debugData.waitEvent) {
+            const waitEvents = [];
+            const resumeTime = new Map();
+            let hasAlarmEvent = false;
+            for (const property in debugData.waitEvent) {
+                if (debugData.waitEvent[property]) {
+                    waitEvents.push({ label: property, value: property });
+                    const time = formatUTCTime(debugData.waitEvent[property]);
+                    resumeTime.set(property, time);
+                    hasAlarmEvent = true;
+                }
+            }
+
+            if (hasAlarmEvent) {
+                debugTraces.push({
+                    title: LABELS.waitEventSelectionHeader,
+                    lines: [LABELS.alarmEventHelpText],
+                    waitevents: waitEvents,
+                    resumetime: resumeTime,
+                    id: generateGuid()
+                });
+            } else {
+                debugTraces.push({
+                    title: LABELS.waitEventSelectionHeader,
+                    lines: [LABELS.noAlarmEventLine],
+                    id: generateGuid()
+                });
+
+                end = getEndInterviewInfo(debugData, true);
+            }
+        } else {
+            end = getEndInterviewInfo(debugData);
+        }
+
         if (end) {
             debugTraces.push(end);
         }
     }
     return debugTraces;
+}
+
+function formatUTCTime(utcTime) {
+    const localeTime = new Date(utcTime).toLocaleString();
+    const date = new Date(localeTime);
+    const dateString =
+        MONTH_NAMES[date.getMonth()] +
+        ' ' +
+        date.getDate() +
+        ' ' +
+        date.getFullYear() +
+        ', ' +
+        date.toLocaleTimeString();
+    return dateString;
 }
 
 /**
@@ -83,13 +134,17 @@ function getStartInterviewInfo(debugData) {
  * @param {Object} debugData the debug interview response
  * @return {Object} end debug interview info
  */
-function getEndInterviewInfo(debugData) {
+function getEndInterviewInfo(debugData, hasTerminated = false) {
     let end;
     const duration = ((debugData.endInterviewTime.getTime() - debugData.startInterviewTime.getTime()) / 1000).toFixed(
         2
     );
     const dateTime = formatDateHelper(debugData.endInterviewTime);
-    switch (debugData.interviewStatus) {
+    let status = debugData.interviewStatus;
+    if (status === STATUS.WAITING && !!hasTerminated) {
+        status = STATUS.FINISHED;
+    }
+    switch (status) {
         case STATUS.FINISHED:
             end = {
                 title: LABELS.interviewFinishHeader,

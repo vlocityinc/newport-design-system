@@ -1,6 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './debugPanelBodyLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { ResumeDebugFlowEvent } from 'builder_platform_interaction/events';
 
 /**
  * This is the debug panel body that shows the debug run info inside each accordion on
@@ -27,9 +29,33 @@ export default class debugPanelBody extends LightningElement {
 
     @api title;
 
+    @api waitevents;
+
+    @api resumetime;
+
     @api limits;
 
     govLimSubtitle = LABELS.govInfo;
+
+    /* store the selected wait event name and resume time*/
+    selectedEvent;
+
+    /* mark if the submit button of wait event card is clicked */
+    ifSubmitWaitEvent = false;
+
+    handleWaitEventSelection(event) {
+        this.selectedEvent = {
+            name: event.detail.value,
+            resumetime: this.resumetime.get(event.detail.value)
+        };
+    }
+
+    handleWaitEventSubmit(event) {
+        event.preventDefault();
+        this.ifSubmitWaitEvent = true;
+        const resumeDebugFlowEvent = new ResumeDebugFlowEvent(this.selectedEvent.name);
+        this.dispatchEvent(resumeDebugFlowEvent);
+    }
 
     get textObj() {
         return this.getDebugInfoBody();
@@ -51,6 +77,27 @@ export default class debugPanelBody extends LightningElement {
             return obj;
         }
 
+        /* initialize options of wait event and default selection */
+        if (this.waitevents && !!this.waitevents[0]) {
+            /* if this's the first time to load this page */
+            if (this.selectedEvent === undefined) {
+                this.selectedEvent = {
+                    name: this.waitevents[0].label,
+                    resumetime: this.resumetime.get(this.waitevents[0].label)
+                };
+            }
+            const slection = {
+                options: this.waitevents,
+                default: this.selectedEvent.name,
+                helpText: LABELS.waitEventSelectionHelpText,
+                label: LABELS.waitEventSelectionLabel,
+                isSelection: true,
+                isSelectionButton: false,
+                id: generateGuid()
+            };
+            obj.push(slection);
+        }
+
         for (let i = 0; i < this.lines.length; i++) {
             let curr = this.lines[i].replace(/\\"/g, '');
             curr = curr.trim();
@@ -67,8 +114,27 @@ export default class debugPanelBody extends LightningElement {
                     temp.isWarn = true;
                 }
 
+                /* if there's wait event selection card, then append the resume time selected if there's */
+                if (this.waitevents && !!this.waitevents[0] && !!this.selectedEvent.resumetime) {
+                    temp.value =
+                        '<b>' +
+                        LABELS.alarmEventHelpTextHeader +
+                        ' </b>' +
+                        format(temp.value, this.selectedEvent.resumetime);
+                }
+
                 obj.push(temp);
             }
+        }
+
+        /* if there's wait event selection card, and then generate a button */
+        if (this.waitevents && !!this.waitevents[0]) {
+            obj.push({
+                label: LABELS.waitEventSubmitLabel,
+                isSelection: false,
+                isSelectionButton: true,
+                id: generateGuid()
+            });
         }
 
         /* different from element error, this adds the fault detail at the end of debug card */

@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { LABELS } from '../debugPanelBodyLabels';
 import DebugPanelBody from '../debugPanelBody';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const createComponentUnderTest = (props = {}) => {
     const element = createElement('builder_platform_interaction-debug-panel-body', { is: DebugPanelBody });
@@ -14,7 +15,9 @@ const SELECTORS = {
     SUBTITLE: '.sub-title',
     BOX: '.box',
     WARNING: '.warning',
-    ERROR: '.error'
+    ERROR: '.error',
+    COMBOBOX: '.wait-event-selection',
+    SUBMITBUTTON: '.wait-event-selection-button'
 };
 const TITLE = 'Test Title';
 const NORMALINPUT = {
@@ -85,6 +88,18 @@ const governorLimits = {
     limits: [{ limit: 'soome limit information', id: 'abbc' }],
     title: TITLE
 };
+const waitEvents = {
+    lines: ['This element will pause when all conditions are met and will resume again on {0}'],
+    title: TITLE,
+    waitevents: [
+        { label: 'PC1', value: 'PC1' },
+        { label: 'PC2', value: 'PC2' }
+    ],
+    resumetime: new Map([
+        ['PC1', 'Jan 1 2022, 4:00:00 PM'],
+        ['PC2', 'Jan 2 2022, 8:40:00 AM']
+    ])
+};
 describe('GovernorLimits cases check:', () => {
     let debugPanelBody;
     describe('governor limit field in entrry', () => {
@@ -110,6 +125,25 @@ describe('GovernorLimits cases check:', () => {
 
 describe('debug-panel-body', () => {
     let debugPanelBody;
+    describe('wait event selection', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(waitEvents);
+        });
+        it('has combobox', () => {
+            const combobox = debugPanelBody.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+            expect(combobox).not.toBeNull();
+            const normal = debugPanelBody.shadowRoot.querySelectorAll(SELECTORS.NORMALTEXT);
+            expect(normal).not.toBeNull();
+            const len = normal.length;
+            const text = normal[len - 2].value;
+            const expected = format(waitEvents.lines[0], waitEvents.resumetime.get(combobox.value));
+            expect(text).toContain(expected);
+        });
+        it('has submit button', () => {
+            const submitbutton = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBMITBUTTON);
+            expect(submitbutton).not.toBeNull();
+        });
+    });
     describe('warning icons positive cases', () => {
         it('has warning icon when there variable "Equals" null', () => {
             debugPanelBody = createComponentUnderTest(varEqualsNull);

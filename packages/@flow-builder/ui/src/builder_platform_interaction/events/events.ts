@@ -113,3 +113,4 @@ export { DeleteTimeTriggerEvent } from './deleteTimeTriggerEvent';
 export { CollectionReferenceChangedEvent } from './collectionReferenceChangedEvent';
 export { UpdateCollectionProcessorEvent } from './updateCollectionProcessorEvent';
 export { DummyPreviewModeEvent } from './dummyPreviewModeEvent';
+export { ResumeDebugFlowEvent } from './debugPanelEvents/resumeDebugFlowEvent';

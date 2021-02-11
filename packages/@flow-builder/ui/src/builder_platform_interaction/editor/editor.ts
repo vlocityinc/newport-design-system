@@ -979,6 +979,8 @@ export default class Editor extends LightningElement {
         const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
+        const enableRollbackMode = !!debugOptions.enableRollback;
+
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
             ({ data, error }) => {
@@ -997,7 +999,8 @@ export default class Editor extends LightningElement {
                         );
                         this.debugData = Object.assign(response, {
                             startInterviewTime,
-                            endInterviewTime
+                            endInterviewTime,
+                            enableRollbackMode
                         });
 
                         this.clearUndoRedoStack();
@@ -1019,6 +1022,50 @@ export default class Editor extends LightningElement {
                 showGovernorlimit: true,
                 debugAsUserId: debugOptions.debugAsUserId,
                 debugWaits: !!debugOptions.debugWaits
+            }
+        );
+    };
+
+    handleResumeDebugFlow = (event) => {
+        this.spinners.showDebugSpinner = true;
+
+        // Keep the original start time
+        const startInterviewTime = this.debugData.startInterviewTime;
+        // Record enableRollbackMode for next resume
+        const enableRollback = !!this.debugData.enableRollbackMode;
+        fetch(
+            SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW,
+            ({ data, error }) => {
+                try {
+                    if (error) {
+                        // Handle server exception here if something is needed beyond our automatic server error popup
+                    }
+                    this.hideDebugAgainButton = false;
+                    const endInterviewTime = new Date();
+                    const response = debugInterviewResponseCallback(
+                        data,
+                        storeInstance,
+                        this.properties.hasUnsavedChanges
+                    );
+                    this.debugData = Object.assign(response, {
+                        startInterviewTime,
+                        endInterviewTime,
+                        enableRollback
+                    });
+
+                    this.spinners.showDebugSpinner = false;
+                } catch (e) {
+                    this.spinners.showDebugSpinner = false;
+                    throw e;
+                }
+            },
+            {
+                showGovernorlimit: true,
+                enabledTrace: true,
+                enableRollbackMode: enableRollback,
+                useLatestSubflow: true,
+                serializedInterview: this.debugData.serializedInterview,
+                waitEvent: event.detail.waitEventName
             }
         );
     };

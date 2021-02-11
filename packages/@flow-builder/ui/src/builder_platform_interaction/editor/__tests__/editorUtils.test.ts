@@ -1436,6 +1436,52 @@ describe('Editor Utils Test', () => {
         });
     });
 
+    describe('debugInterviewResponseCallback function including wait event and serializedInterview', () => {
+        let storeInstance;
+        let dispatch;
+
+        beforeEach(() => {
+            dispatch = jest.fn();
+            storeInstance = {
+                dispatch
+            };
+        });
+
+        it('constructs the debug data object for debug panel correctly', () => {
+            const startTime = new Date();
+            const endTime = new Date();
+            const data = [
+                {
+                    interviewStatus: 'waiting',
+                    debugTrace: 'testTrace',
+                    errors: undefined,
+                    startInterviewTime: startTime,
+                    endInterviewTime: endTime,
+                    waitEvents: {
+                        PC: '2022-01-02T00:00:00Z',
+                        PC2: '2022-01-02T16:40:00Z'
+                    },
+                    serializedInterview: 'serializedInterview'
+                },
+                {}
+            ];
+
+            const debugData = debugInterviewResponseCallback(data, storeInstance, false);
+            expect(debugData).toMatchObject({
+                interviewStatus: 'waiting',
+                debugTrace: 'testTrace',
+                error: undefined,
+                startInterviewTime: startTime,
+                endInterviewTime: endTime,
+                waitEvent: {
+                    PC: '2022-01-02T00:00:00Z',
+                    PC2: '2022-01-02T16:40:00Z'
+                },
+                serializedInterview: 'serializedInterview'
+            });
+        });
+    });
+
     describe('debugInterviewResponseCallback function', () => {
         let storeInstance;
         let dispatch;

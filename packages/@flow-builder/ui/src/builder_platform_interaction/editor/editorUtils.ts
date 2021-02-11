@@ -1000,6 +1000,8 @@ export const debugInterviewResponseCallback = (
     interviewData.endInterviewTime = new Date(interviewData.endInterviewTime);
     const startInterviewTime = interviewData.startInterviewTime;
     const endInterviewTime = interviewData.endInterviewTime;
+    const waitEvents = interviewData.waitEvents;
+    const interview = interviewData.serializedInterview;
 
     // Highlight connectors on the canvas if no errors in the debug run, and no unsaved changes in the current flow
     if (!errors && !hasUnsavedChanges) {
@@ -1019,6 +1021,8 @@ export const debugInterviewResponseCallback = (
         debugTrace,
         error: errors,
         startInterviewTime,
-        endInterviewTime
+        endInterviewTime,
+        waitEvent: waitEvents,
+        serializedInterview: interview
     };
 };
