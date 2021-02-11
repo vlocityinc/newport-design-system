@@ -189,6 +189,12 @@ import sortPluralLabel from '@salesforce/label/CollectionSort.LabelPlural';
 import sortDescription from '@salesforce/label/CollectionSort.Description';
 import collectionProcessorSingularLabel from '@salesforce/label/CollectionProcessor.Label';
 import collectionProcessorPluralLabel from '@salesforce/label/CollectionProcessor.LabelPlural';
+import rollbackSingularLabel from '@salesforce/label/FlowBuilderElementConfig.rollbackSingularLabel';
+import rollbackPluralLabel from '@salesforce/label/FlowBuilderElementConfig.rollbackPluralLabel';
+import rollbackDataLabel from '@salesforce/label/FlowBuilderLeftPanelElements.rollbackDataLabel';
+import editRollbackLabel from '@salesforce/label/FlowBuilderElementConfig.editRollbackLabel';
+import newRollbackLabel from '@salesforce/label/FlowBuilderElementConfig.newRollbackLabel';
+import rollbackDescription from '@salesforce/label/FlowBuilderLeftPanelElements.rollbackDescription';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -379,5 +385,11 @@ export const LABELS = {
     sortPluralLabel,
     sortDescription,
     collectionProcessorSingularLabel,
-    collectionProcessorPluralLabel
+    collectionProcessorPluralLabel,
+    rollbackSingularLabel,
+    rollbackPluralLabel,
+    rollbackDataLabel,
+    editRollbackLabel,
+    newRollbackLabel,
+    rollbackDescription
 };

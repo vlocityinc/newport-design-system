@@ -156,6 +156,7 @@
             "builder_platform_interaction/richLabel": ["./src/builder_platform_interaction/richLabel/richLabel.ts"],
             "builder_platform_interaction/richTextPlainTextSwitch": ["./src/builder_platform_interaction/richTextPlainTextSwitch/richTextPlainTextSwitch.ts"],
             "builder_platform_interaction/rightPanel": ["./src/builder_platform_interaction/rightPanel/rightPanel.ts"],
+            "builder_platform_interaction/rollbackEditor": ["./src/builder_platform_interaction/rollbackEditor/rollbackEditor.ts"],
             "builder_platform_interaction/row": ["./src/builder_platform_interaction/row/row.ts"],
             "builder_platform_interaction/ruleLib": ["./src/builder_platform_interaction/ruleLib/ruleLib.ts"],
             "builder_platform_interaction/saveType": ["./src/builder_platform_interaction/saveType/saveType.ts"],

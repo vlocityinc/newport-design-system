@@ -29,7 +29,8 @@ export const ICONS_LARGE = {
     [ELEMENT_TYPE.SCREEN]: '/flow/icons/large/screen.png',
     [ELEMENT_TYPE.SUBFLOW]: '/flow/icons/large/subflow.png',
     [ELEMENT_TYPE.WAIT]: '/flow/icons/large/wait.png',
-    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: '/flow/icons/large/sort.png'
+    [ELEMENT_TYPE.COLLECTION_PROCESSOR]: '/flow/icons/large/sort.png',
+    [ELEMENT_TYPE.ROLLBACK]: '/flow/icons/large/rollback.png'
 };
 
 export function preloadImages() {

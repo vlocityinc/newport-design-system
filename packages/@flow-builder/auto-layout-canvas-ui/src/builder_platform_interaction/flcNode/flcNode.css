@@ -86,3 +86,7 @@
     top: 0;
     transform: translateX(-50%);
 }
+
+.background-pink {
+    background-color: #eb7092;
+}

@@ -71,6 +71,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:timeTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:scheduleTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:platformEventEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:rollbackEditor" type="MODULE" />
 
     <!-- Events -->
     <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />

@@ -38,3 +38,7 @@
     padding: 5px;
     border-radius: var(--lwc-borderRadiusCircle);
 }
+
+.background-pink {
+    background-color: #eb7092;
+}

@@ -130,7 +130,12 @@ import {
     createPastedOrchestratedStage,
     createDuplicateOrchestratedStage,
     getOrchestratedStageChildren,
-    getStageStepChildren
+    getStageStepChildren,
+    createRollback,
+    createPastedRollback,
+    createDuplicateRollback,
+    createRollbackMetadataObject,
+    createRollbackWithConnectors
 } from 'builder_platform_interaction/elementFactory';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
@@ -1130,6 +1135,35 @@ export const elementTypeToConfigMap: {
         labels: {
             singular: LABELS.sortSingularLabel,
             plural: LABELS.sortPluralLabel
+        }
+    },
+    [ELEMENT_TYPE.ROLLBACK]: {
+        descriptor: 'builder_platform_interaction:rollbackEditor',
+        nodeConfig: {
+            iconName: 'standard:recent',
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ROLLBACK],
+            iconBackgroundColor: 'background-pink',
+            maxConnections: 1,
+            section: LABELS.flowControlDataOperationsLabel,
+            description: LABELS.rollbackDescription
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.ROLLBACKS,
+        labels: {
+            singular: LABELS.rollbackSingularLabel,
+            plural: LABELS.rollbackPluralLabel,
+            leftPanel: LABELS.rollbackDataLabel,
+            newModal: LABELS.newRollbackLabel,
+            editModal: LABELS.editRollbackLabel
+        },
+        canvasElement: true,
+        bodyCssClass: 'slds-p-around_none',
+        factory: {
+            propertyEditor: createRollback,
+            pasteElement: createPastedRollback,
+            duplicateElement: createDuplicateRollback,
+            uiToFlow: createRollbackMetadataObject,
+            flowToUi: createRollbackWithConnectors
         }
     },
     [ELEMENT_TYPE.DEFAULT]: {
