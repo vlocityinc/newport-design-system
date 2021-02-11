@@ -166,7 +166,7 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
         const inputs = this.screenfield.inputParameters;
         const attributes = {};
         for (const input of inputs) {
-            if (!input.value.value) {
+            if (!(input.value && input.value.value)) {
                 notSet++;
             } else if (isExtensionAttributeLiteral(input)) {
                 if (input.value.value === this.defaultValue) {

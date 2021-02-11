@@ -6,8 +6,12 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { getCachedExtensionType } from 'builder_platform_interaction_mocks/flowExtensionLib';
 import { orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+
+const { logInteraction } = loggingUtils;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/sharedUtils');
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -65,9 +69,107 @@ afterAll(() => {
     Store.resetStore();
 });
 
-describe('Test1 - custom Aura field is not previewed', () => {
+describe('Test1 - Logging via logInteraction', () => {
     let testScreenField;
     beforeEach(() => {
+        logInteraction.mockClear();
+        const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
+        field.inputParameters = [
+            {
+                value: { value: 'mock_guid' },
+                name: { value: 'city' },
+                valueDataType: 'reference'
+            },
+            {
+                value: { value: 'mockGuid1' },
+                name: { value: 'inputCountryOptions' },
+                valueDataType: 'reference'
+            },
+            {
+                value: { value: 'USA' },
+                name: { value: 'country' },
+                valueDataType: 'String'
+            },
+            {
+                value: { value: '$GlobalConstant.EmptyString' },
+                name: { value: 'addressLabel' },
+                valueDataType: 'String'
+            },
+            {
+                value: { value: '94105' },
+                name: { value: 'postalCode' },
+                valueDataType: 'String'
+            },
+            {
+                value: { value: 'mockGuid3' },
+                name: { value: 'inputProvinceOptions' },
+                valueDataType: 'reference'
+            },
+            {
+                value: { value: '' },
+                name: { value: 'province' },
+                valueDataType: 'String'
+            },
+            {
+                value: { value: '$GlobalConstant.False' },
+                name: { value: 'street' },
+                valueDataType: 'Boolean'
+            }
+        ];
+        field.defaultValue = 'USA';
+        testScreenField = createComponentUnderTest({
+            screenfield: field
+        });
+    });
+    it('Logging is done on load', () => {
+        expect(testScreenField).toBeDefined();
+        expect(logInteraction).toHaveBeenCalled();
+        expect(logInteraction.mock.calls[0][3]).toBe('load');
+    });
+    it('Logging is done on component close/disconnect', () => {
+        expect(testScreenField).toBeDefined();
+        expect(logInteraction).toHaveBeenCalled();
+        expect(logInteraction.mock.calls[0][3]).toBe('close');
+    });
+    it('Extension name is logged', () => {
+        expect(logInteraction.mock.calls[0][2].extensionName).toBe('flowruntime:address');
+    });
+    it('Component Preview Supported or not is logged', () => {
+        expect(logInteraction.mock.calls[0][2].componentPreviewSupportedInOrg).toBeTruthy();
+    });
+    it('Dummy preview due to error is logged', () => {
+        expect(logInteraction.mock.calls[0][2].dummyModeDueToError).toBeFalsy();
+    });
+    it('Dummy preview due to render error is logged', () => {
+        expect(logInteraction.mock.calls[0][2].dummyModeDueToRenderError).toBeFalsy();
+    });
+    it('Preview type is logged', () => {
+        expect(logInteraction.mock.calls[0][2].preview).toBeDefined();
+    });
+    it('Total number of input parameters', () => {
+        expect(logInteraction.mock.calls[0][2].totalInputParameters).toEqual(8);
+    });
+    it('Number of literals', () => {
+        expect(logInteraction.mock.calls[0][2].literals).toEqual(1);
+    });
+    it('Number of input parameters not set', () => {
+        expect(logInteraction.mock.calls[0][2].notSet).toEqual(1);
+    });
+    it('Number of input parameters that are references', () => {
+        expect(logInteraction.mock.calls[0][2].references).toEqual(3);
+    });
+    it('Number of input parameters that are globalConstants', () => {
+        expect(logInteraction.mock.calls[0][2].globalConstants).toEqual(2);
+    });
+    it('Number of input parameters that are defaults', () => {
+        expect(logInteraction.mock.calls[0][2].defaults).toEqual(1);
+    });
+});
+
+describe('Test2 - custom Aura field is not previewed', () => {
+    let testScreenField;
+    beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName1');
         testScreenField = createComponentUnderTest({
             screenfield: field
@@ -87,11 +189,17 @@ describe('Test1 - custom Aura field is not previewed', () => {
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
+    it('Dummy Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('c:fakeCmpName1');
+        expect(loggedData.preview).toBe('Dummy Preview');
+    });
 });
 
-describe('Test2 - custom LWC field is not previewed', () => {
+describe('Test3 - custom LWC field is not previewed', () => {
     let testScreenField;
     beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeLwc');
         testScreenField = createComponentUnderTest({
             screenfield: field
@@ -111,11 +219,17 @@ describe('Test2 - custom LWC field is not previewed', () => {
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
+    it('Dummy Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('c:fakeLwc');
+        expect(loggedData.preview).toBe('Dummy Preview');
+    });
 });
 
-describe('Test3 - LWC field is previewed when on allow list', () => {
+describe('Test4 - LWC field is previewed when on allow list', () => {
     let testScreenField;
     beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
         testScreenField = createComponentUnderTest({
             screenfield: field
@@ -136,11 +250,17 @@ describe('Test3 - LWC field is previewed when on allow list', () => {
         const dummyComponentField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
         expect(dummyComponentField).toBeNull();
     });
+    it('Actual Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('flowruntime:address');
+        expect(loggedData.preview).toBe('Actual Preview');
+    });
 });
 
-describe('Test4 - Component is not previewed if 1 required input param is missing', () => {
+describe('Test5 - Component is not previewed if 1 required input param is missing', () => {
     let testScreenField;
     beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
         field.inputParameters = [
             {
@@ -172,11 +292,17 @@ describe('Test4 - Component is not previewed if 1 required input param is missin
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
+    it('Dummy Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('flowruntime:lookup');
+        expect(loggedData.preview).toBe('Dummy Preview');
+    });
 });
 
-describe('Test5 - Component is previewed if all required input params are literals', () => {
+describe('Test6 - Component is previewed if all required input params are literals', () => {
     let testScreenField;
     beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
         field.inputParameters = [
             {
@@ -218,11 +344,17 @@ describe('Test5 - Component is previewed if all required input params are litera
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).not.toBeNull();
     });
+    it('Actual Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('flowruntime:lookup');
+        expect(loggedData.preview).toBe('Actual Preview');
+    });
 });
 
-describe('Test6 - Component is not previewed when required param is a reference', () => {
+describe('Test7 - Component is not previewed when required param is a reference', () => {
     let testScreenField;
     beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:lookup');
         field.inputParameters = [
             {
@@ -259,14 +391,20 @@ describe('Test6 - Component is not previewed when required param is a reference'
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
+    it('Dummy Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('flowruntime:lookup');
+        expect(loggedData.preview).toBe('Dummy Preview');
+    });
 });
 
-describe('Test7 - Component allowed for preview is not previewed when org perm is disabled', () => {
+describe('Test8 - Component allowed for preview is not previewed when org perm is disabled', () => {
     let testScreenField;
     beforeAll(() => {
         orgHasComponentPreview.mockImplementation(() => false);
     });
     beforeEach(() => {
+        logInteraction.mockClear();
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:address');
         testScreenField = createComponentUnderTest({
             screenfield: field
@@ -289,9 +427,15 @@ describe('Test7 - Component allowed for preview is not previewed when org perm i
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
+    it('Dummy Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('flowruntime:address');
+        expect(loggedData.preview).toBe('Dummy Preview');
+        expect(loggedData.componentPreviewSupportedInOrg).toBeFalsy();
+    });
 });
 
-describe('Test8 - Component is not previewed if component descriptor is not avaialable', () => {
+describe('Test9 - Component is not previewed if component descriptor is not avaialable', () => {
     let testScreenField;
     beforeAll(() => {
         getCachedExtensionType.mockImplementation(() => '');
@@ -321,9 +465,14 @@ describe('Test8 - Component is not previewed if component descriptor is not avai
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
     });
+    it('Dummy Preview is logged', () => {
+        const loggedData = logInteraction.mock.calls[0][2];
+        expect(loggedData.extensionName).toBe('flowruntime:address');
+        expect(loggedData.preview).toBe('Dummy Preview');
+    });
 });
 
-describe('Test9 - Component uses GlobalConstant.True for String param', () => {
+describe('Test10 - Component uses GlobalConstant.True for String param', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:image');
@@ -354,7 +503,7 @@ describe('Test9 - Component uses GlobalConstant.True for String param', () => {
     });
 });
 
-describe('Test10 - Component uses GlobalConstant.False for String param', () => {
+describe('Test11 - Component uses GlobalConstant.False for String param', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:image');
@@ -385,7 +534,7 @@ describe('Test10 - Component uses GlobalConstant.False for String param', () => 
     });
 });
 
-describe('Test11 - Component uses GlobalConstant.True for Boolean param', () => {
+describe('Test12 - Component uses GlobalConstant.True for Boolean param', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:email');
@@ -421,7 +570,7 @@ describe('Test11 - Component uses GlobalConstant.True for Boolean param', () => 
     });
 });
 
-describe('Test12 - Component uses GlobalConstant.False for Boolean param', () => {
+describe('Test13 - Component uses GlobalConstant.False for Boolean param', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:email');
