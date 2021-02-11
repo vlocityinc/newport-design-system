@@ -1141,6 +1141,7 @@
                 "processMetadataValues": []
             }
         ],
+        "rollbacks": [],
         "screens": [
             {
                 "allowBack": true,
@@ -1383,7 +1384,6 @@
                         "dataTypeMappings": [],
                         "fieldType": "ObjectProvided",
                         "fields": [],
-                        "helpText": "the help text for this field",
                         "inputParameters": [],
                         "isRequired": false,
                         "objectFieldReference": "objectWithAllPossiblFieldsVariable.Text_Field__c",

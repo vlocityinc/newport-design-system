@@ -3347,7 +3347,7 @@ export const flowWithAllElementsUIModel = {
             },
             fieldType: 'ObjectProvided',
             fieldText: '',
-            helpText: 'the help text for this field',
+            helpText: '',
             inputParameters: [],
             isNewField: false,
             isRequired: false,
