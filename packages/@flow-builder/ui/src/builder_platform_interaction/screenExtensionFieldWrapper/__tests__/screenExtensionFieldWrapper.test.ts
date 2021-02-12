@@ -475,9 +475,7 @@ describe('Test9 - Component is not previewed if component descriptor is not avai
     });
 });
 
-const describeSkip = describe.skip;
-
-describeSkip('Test10 - Component uses GlobalConstant.True for String param', () => {
+describe('Test10 - Component uses GlobalConstant.True for String param', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:image');
@@ -508,7 +506,7 @@ describeSkip('Test10 - Component uses GlobalConstant.True for String param', () 
     });
 });
 
-describeSkip('Test11 - Component uses GlobalConstant.False for String param', () => {
+describe('Test11 - Component uses GlobalConstant.False for String param', () => {
     let testScreenField;
     beforeEach(() => {
         const field = createTestScreenField('lcfield1', 'Extension', 'flowruntime:image');
