@@ -40,7 +40,10 @@
             <!-- container for search field and palette -->
             <div if:false={showErrorMessageRelatedToFieldFetching}>
                 <div if:false={showNoFieldIllustration} class="slds-p-horizontal_small slds-p-vertical_medium">
-                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                    <div
+                        title={searchInputPlaceholder}
+                        class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"
+                    >
                         <input
                             id="filter-input"
                             type="text"
