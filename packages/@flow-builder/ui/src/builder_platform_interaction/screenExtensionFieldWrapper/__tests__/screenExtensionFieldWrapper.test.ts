@@ -134,6 +134,9 @@ describe('Test1 - Logging via logInteraction', () => {
     it('Extension name is logged', () => {
         expect(logInteraction.mock.calls[0][2].extensionName).toBe('flowruntime:address');
     });
+    it('Extension cached or not is logged', () => {
+        expect(logInteraction.mock.calls[0][2].extensionCached).toBeTruthy();
+    });
     it('Component Preview Supported or not is logged', () => {
         expect(logInteraction.mock.calls[0][2].componentPreviewSupportedInOrg).toBeTruthy();
     });
@@ -146,14 +149,11 @@ describe('Test1 - Logging via logInteraction', () => {
     it('Preview type is logged', () => {
         expect(logInteraction.mock.calls[0][2].preview).toBeDefined();
     });
-    it('Total number of input parameters', () => {
-        expect(logInteraction.mock.calls[0][2].totalInputParameters).toEqual(8);
+    it('Total available input parameters', () => {
+        expect(logInteraction.mock.calls[0][2].totalAvailableInputs).toEqual(8);
     });
     it('Number of literals', () => {
         expect(logInteraction.mock.calls[0][2].literals).toEqual(1);
-    });
-    it('Number of input parameters not set', () => {
-        expect(logInteraction.mock.calls[0][2].notSet).toEqual(1);
     });
     it('Number of input parameters that are references', () => {
         expect(logInteraction.mock.calls[0][2].references).toEqual(3);
@@ -188,6 +188,9 @@ describe('Test2 - custom Aura field is not previewed', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).toBeNull();
+    });
+    it("Extension isn't cached is logged", () => {
+        expect(logInteraction.mock.calls[0][2].extensionCached).toBeFalsy();
     });
     it('Dummy Preview is logged', () => {
         const loggedData = logInteraction.mock.calls[0][2];

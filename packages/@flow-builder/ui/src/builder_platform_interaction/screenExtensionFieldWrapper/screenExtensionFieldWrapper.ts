@@ -1,6 +1,6 @@
 import { api, LightningElement } from 'lwc';
 import { orgHasFlowBuilderDebug, orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
-import { getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
+import { getCachedExtensionType, getCachedExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import {
     isExtensionAttributeLiteral,
@@ -13,7 +13,6 @@ const { logInteraction } = loggingUtils;
 
 let literals = 0;
 let references = 0;
-let notSet = 0;
 let defaults = 0;
 let globalConstants = 0;
 let inputParameters: { name: string; dataType: string }[] = [];
@@ -159,42 +158,41 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     get componentInstanceAttributes() {
         literals = 0;
         references = 0;
-        notSet = 0;
         defaults = 0;
         globalConstants = 0;
         inputParameters = [];
         const inputs = this.screenfield.inputParameters;
         const attributes = {};
         for (const input of inputs) {
-            if (!(input.value && input.value.value)) {
-                notSet++;
-            } else if (isExtensionAttributeLiteral(input)) {
-                if (input.value.value === this.defaultValue) {
+            if (input.value && input.value.value) {
+                if (isExtensionAttributeLiteral(input)) {
+                    if (input.value.value === this.defaultValue) {
+                        defaults++;
+                    } else {
+                        literals++;
+                    }
+                    // Input is a literal, so just use the input as is.
+                    attributes[input.name.value] = input.value.value;
+                } else if (isExtensionAttributeGlobalConstant(input)) {
+                    if (input.value.value === this.defaultValue) {
+                        defaults++;
+                    } else {
+                        globalConstants++;
+                    }
+                    // If the input is a global constant, it needs to be converted to its
+                    // literal value, which can be displayed and sent to a component.
+                    if (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_TRUE) {
+                        attributes[input.name.value] = true;
+                    } else if (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_FALSE) {
+                        attributes[input.name.value] = false;
+                    } else if (input.value.value === GLOBAL_CONSTANTS.EMPTY_STRING) {
+                        attributes[input.name.value] = '';
+                    }
+                } else if (input.value.value === this.defaultValue) {
                     defaults++;
-                } else {
-                    literals++;
+                } else if (input.value && input.value.value) {
+                    references++;
                 }
-                // Input is a literal, so just use the input as is.
-                attributes[input.name.value] = input.value.value;
-            } else if (isExtensionAttributeGlobalConstant(input)) {
-                if (input.value.value === this.defaultValue) {
-                    defaults++;
-                } else {
-                    globalConstants++;
-                }
-                // If the input is a global constant, it needs to be converted to its
-                // literal value, which can be displayed and sent to a component.
-                if (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_TRUE) {
-                    attributes[input.name.value] = true;
-                } else if (input.value.value === GLOBAL_CONSTANTS.BOOLEAN_FALSE) {
-                    attributes[input.name.value] = false;
-                } else if (input.value.value === GLOBAL_CONSTANTS.EMPTY_STRING) {
-                    attributes[input.name.value] = '';
-                }
-            } else if (input.value.value === this.defaultValue) {
-                defaults++;
-            } else {
-                references++;
             }
             inputParameters.push({ name: input.name.value, dataType: input.valueDataType });
             /* Enable this block as needed for testing. Leaving out for now.
@@ -231,17 +229,23 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     };
 
     logExtensionPreviewData = (type) => {
+        const cachedExtension: any = this.isExtensionDetailAvailable
+            ? getCachedExtensions([this.screenfield.type.name])
+            : null;
         const data = {
             extensionName: this.screenfield.type.name,
             extensionType: this.screenfield.type.extensionType,
+            extensionCached: cachedExtension && cachedExtension.length > 0 ? true : false,
             componentPreviewSupportedInOrg: this.isComponentPreviewSupportedInOrg,
             preview: this.isDisplayComponentPreview ? 'Actual Preview' : 'Dummy Preview',
             dummyModeDueToRenderError: this.dummyModeDueToRenderError,
             dummyModeDueToError: this.dummyModeDueToError,
-            totalInputParameters: inputParameters.length,
+            totalAvailableInputs:
+                cachedExtension && cachedExtension.length > 0
+                    ? cachedExtension[0].inputParameters.length
+                    : inputParameters.length,
             literals,
             references,
-            notSet,
             defaults,
             globalConstants,
             inputParameters: JSON.stringify(inputParameters)
