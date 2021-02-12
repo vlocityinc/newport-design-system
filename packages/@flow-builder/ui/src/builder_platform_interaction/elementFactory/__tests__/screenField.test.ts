@@ -22,6 +22,7 @@ import {
     accountVariableNameAutomaticField,
     objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
     accountSObjectVariable,
+    objectWithAllPossibleFieldsVariable,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
 } from 'mock/storeData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -714,7 +715,21 @@ describe('screenField', () => {
                     objectFieldReference: `${accountSObjectVariable.guid}.Name`,
                     dataType: undefined,
                     name: undefined,
-                    fieldText: undefined
+                    fieldText: undefined,
+                    helpText: undefined
+                });
+            });
+            it('converts automatic field with helptext defined in the UDD to flow metadata', () => {
+                const actualResult = createScreenFieldMetadataObject(
+                    objectWithAllPossibleFieldsVariableTextFieldAutomaticField
+                );
+                expect(actualResult).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference: `${objectWithAllPossibleFieldsVariable.guid}.Text_Field__c`,
+                    dataType: undefined,
+                    name: undefined,
+                    fieldText: undefined,
+                    helpText: undefined
                 });
             });
             it('converts created automatic field to flow metadata', () => {
@@ -726,7 +741,8 @@ describe('screenField', () => {
                     objectFieldReference: `${accountSObjectVariable.name}.Name`,
                     dataType: undefined,
                     name: undefined,
-                    fieldText: undefined
+                    fieldText: undefined,
+                    helpText: undefined
                 });
             });
         });

@@ -473,7 +473,6 @@ export function createScreenFieldMetadataObject(screenField) {
     const {
         extensionName,
         defaultValue,
-        helpText,
         isRequired,
         fieldType,
         validationRule,
@@ -487,6 +486,7 @@ export function createScreenFieldMetadataObject(screenField) {
         fieldText,
         name,
         dataType,
+        helpText,
         scale,
         inputParameters,
         outputParameters,
@@ -539,6 +539,7 @@ export function createScreenFieldMetadataObject(screenField) {
         fieldText = undefined;
         name = undefined;
         dataType = undefined;
+        helpText = undefined;
     }
 
     choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));
