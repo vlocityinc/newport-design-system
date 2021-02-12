@@ -953,12 +953,9 @@ function deleteElement(
 
     deleteElementAndDescendents(elementService, state, element.guid, childIndexToKeep);
 
-    // TODO: clean up
     const branchHead = (parent != null
         ? nextElement
-        : prev != null
-        ? findFirstElement(resolveNode(state, prev), state)
-        : null) as BranchHeadNodeModel;
+        : findFirstElement(resolveNode(state, prev!), state)) as BranchHeadNodeModel;
 
     // update the branch's isTerminal and attempt to inlines
     if (branchHead != null) {
@@ -1092,6 +1089,10 @@ export function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeM
             break;
         } else {
             branchHead = findFirstElement(branchParent, flowModel);
+            // can't inline across a fault boundary
+            if (branchHead.childIndex === FAULT_INDEX) {
+                break;
+            }
             // as we go up the ancestor chain, update isTerminal as it might have been invalidated
             // by the new sub tree structure
             branchHead.isTerminal = areAllBranchesTerminals(branchParent, flowModel);

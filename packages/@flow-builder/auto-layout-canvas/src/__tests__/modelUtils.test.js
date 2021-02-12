@@ -1488,50 +1488,89 @@ describe('modelUtils', () => {
     });
 
     describe('inlineFromParent', () => {
-        const originalStoreState = {
-            newDecision: {
-                guid: 'newDecision',
-                name: 'newDecision',
-                children: ['end1', null],
-                next: 'screen1'
-            },
-            end1: {
-                guid: 'end1',
-                name: 'end1',
-                childIndex: 0,
-                parent: 'newDecision',
-                isTerminal: true
-            },
-            screen1: {
-                guid: 'screen1',
-                name: 'screen1',
-                prev: 'newDecision',
-                next: 'end2'
-            },
-            end2: {
-                guid: 'end2',
-                name: 'end2',
-                nodeType: NodeType.END,
-                prev: 'screen1'
-            }
-        };
+        describe('inline decision with next end', () => {
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: ['end1', null],
+                    next: 'screen1'
+                },
+                end1: {
+                    guid: 'end1',
+                    name: 'end1',
+                    childIndex: 0,
+                    parent: 'newDecision',
+                    isTerminal: true
+                },
+                screen1: {
+                    guid: 'screen1',
+                    name: 'screen1',
+                    prev: 'newDecision',
+                    next: 'end2'
+                },
+                end2: {
+                    guid: 'end2',
+                    name: 'end2',
+                    nodeType: NodeType.END,
+                    prev: 'screen1'
+                }
+            };
 
-        const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
+            const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
 
-        it('end2 should be moved to the second branch', () => {
-            expect(updatedState.newDecision.children).toMatchObject(['end1', 'screen1']);
+            it('end2 should be moved to the second branch', () => {
+                expect(updatedState.newDecision.children).toMatchObject(['end1', 'screen1']);
+            });
+            it('newDecision should not have a next', () => {
+                expect(updatedState.newDecision.next).toBeNull();
+            });
+            it('screen1 should have updated childIndex', () => {
+                expect(updatedState.screen1.childIndex).toBe(1);
+            });
+            it('screen1 should have no prev', () => {
+                expect(updatedState.screen1.prev).toBeNull();
+            });
+            it('screen1 should have isTerminal set to true', () => {
+                expect(updatedState.screen1.isTerminal).toBeTruthy();
+            });
         });
-        it('newDecision should not have a next', () => {
-            expect(updatedState.newDecision.next).toBeNull();
-        });
-        it('screen1 should have updated childIndex', () => {
-            expect(updatedState.screen1.childIndex).toBe(1);
-        });
-        it('screen1 should have no prev', () => {
-            expect(updatedState.screen1.prev).toBeNull();
-        });
-        it('screen1 should have isTerminal set to true', () => {
-            expect(updatedState.screen1.isTerminal).toBeTruthy();
+
+        describe('inline decision with next null in fault branch', () => {
+            const originalStoreState = {
+                newDecision: {
+                    guid: 'newDecision',
+                    name: 'newDecision',
+                    children: ['end', null],
+                    next: null,
+                    parent: 'action1',
+                    childIndex: -1
+                },
+                end: {
+                    guid: 'end',
+                    name: 'end',
+                    childIndex: 0,
+                    parent: 'newDecision',
+                    isTerminal: true
+                },
+                action1: {
+                    guid: 'action1',
+                    name: 'action1',
+                    next: 'end2',
+                    fault: 'newDecision'
+                },
+                end2: {
+                    guid: 'end2',
+                    name: 'end2',
+                    nodeType: NodeType.END,
+                    prev: 'action1'
+                }
+            };
+            const updatedState = inlineFromParent(originalStoreState, originalStoreState.newDecision);
+
+            it('does not inline', () => {
+                expect(updatedState).toEqual(originalStoreState);
+            });
         });
     });
 });
