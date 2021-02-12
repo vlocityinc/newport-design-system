@@ -427,7 +427,7 @@ export default class StageStepEditor extends LightningElement {
 
     handleActorChanged = (event) => {
         event.stopPropagation();
-        let newValue = event.detail.item ? event.detail.item.displayText : event.detail.displayText;
+        let newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
         if (newValue === '') {
             newValue = null;
         }

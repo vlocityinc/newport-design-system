@@ -18,7 +18,17 @@ import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.
 import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
 
+// @ts-nocheck
+import changeActionAlertHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertHeaderTitle';
+import changeActionAlertBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertBodyTextLabel';
+import changeActionAlertListSectionHeader from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertListSectionHeader';
+import changeActionAlertOkayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.changeActionAlertOkayButtonLabel';
+
 export const LABELS = {
+    changeActionAlertHeaderTitle,
+    changeActionAlertBodyTextLabel,
+    changeActionAlertListSectionHeader,
+    changeActionAlertOkayButtonLabel,
     startSectionLabel,
     startRadioLabel,
     implementationSectionLabel,

@@ -110,7 +110,14 @@ function getMergeWarnings(parameter, paramAssigments) {
  * @param {CalloutOutputParameter[]} nodeOutputParameters the current node's output parameters, hydrated
  * @return {InputOutputParameterItems} the input and output parameter items
  */
-export function mergeInputOutputParameters(allParameters, nodeInputParameters = [], nodeOutputParameters = []) {
+export function mergeInputOutputParameters(
+    allParameters,
+    nodeInputParameters = [],
+    nodeOutputParameters = []
+): {
+    inputs: [];
+    outputs: [];
+} {
     const newParameters = {};
     const inputParameters = allParameters.filter((parameter) => parameter.isInput === true);
     const outputParameters = allParameters.filter((parameter) => parameter.isInput === false);

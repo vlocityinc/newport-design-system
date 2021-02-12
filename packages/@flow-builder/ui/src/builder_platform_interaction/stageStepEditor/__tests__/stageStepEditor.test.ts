@@ -8,7 +8,6 @@ import {
     ItemSelectedEvent,
     PropertyChangedEvent,
     UpdateConditionEvent,
-    UpdateNodeEvent,
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { mockActions } from 'mock/calloutData';
@@ -359,19 +358,34 @@ describe('StageStepEditor', () => {
                 const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
                 const comboboxEvent = new ComboboxStateChangedEvent(null, '{!$User.username}', 'Some error', false);
                 actorSelector.dispatchEvent(comboboxEvent);
-                const updateNodeEvent = new UpdateNodeEvent(nodeParams);
-                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, updateNodeEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                    expect.objectContaining({
+                        value: comboboxEvent.detail.displayText,
+                        error: comboboxEvent.detail.error
+                    })
+                );
             });
 
-            it('node should be updated on item selected', () => {
+            it('node should be updated on item selected with item', () => {
                 const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
                 const itemSelectedEvent = new ItemSelectedEvent({
-                    displayText: '{!$User.username}',
-                    error: 'Some error'
+                    value: 'some value',
+                    error: 'itemError',
+                    displayText: '{!$User.username}'
                 });
                 actorSelector.dispatchEvent(itemSelectedEvent);
-                const updateNodeEvent = new UpdateNodeEvent(nodeParams);
-                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, updateNodeEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                    expect.objectContaining({
+                        value: itemSelectedEvent.detail.item.value,
+                        error: itemSelectedEvent.detail.item.error
+                    })
+                );
             });
         });
     });

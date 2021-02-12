@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { stageStepReducer } from '../stageStepReducer';
-import { DeleteConditionEvent, PropertyChangedEvent, UpdateConditionEvent } from 'builder_platform_interaction/events';
+import {
+    DeleteConditionEvent,
+    PropertyChangedEvent,
+    UpdateConditionEvent,
+    ValueChangedEvent
+} from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import {
     hydrateWithErrors,
@@ -8,29 +13,54 @@ import {
     deleteItem,
     updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
+import { invokeModal } from 'builder_platform_interaction/builderUtils';
+
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const mockCondition = {
     a: 1
 };
 
-jest.mock('builder_platform_interaction/elementFactory', () => {
+const mockReferencedGuid = 'referencedItemGuid';
+let mockReferencingElement;
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        createCondition: jest.fn(() => {
-            return mockCondition;
+        getElementByGuid: jest.fn(() => {
+            return mockReferencingElement;
         })
     };
 });
 
-const mockHydrated = {
-    entryConditions: ['foo']
-};
+jest.mock('builder_platform_interaction/usedByLib', () => {
+    return {
+        usedBy: jest.fn((guidArray) => {
+            return guidArray[0] === mockReferencedGuid ? [{}] : [];
+        })
+    };
+});
+
+jest.mock('builder_platform_interaction/elementFactory', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementFactory');
+
+    return Object.assign({}, actual, {
+        createCondition: jest.fn(() => {
+            return mockCondition;
+        })
+    });
+});
+
+let mockHydrated;
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
     return {
-        hydrateWithErrors: jest.fn(() => {
-            return mockHydrated;
+        hydrateWithErrors: jest.fn((value) => {
+            if (mockHydrated) {
+                return mockHydrated;
+            }
+            return value;
         }),
         updateProperties: jest.fn((state, props) => {
             return actual.updateProperties(state, props);
@@ -40,16 +70,32 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         }),
         deleteItem: jest.fn((state, index) => {
             return actual.deleteItem(state, index);
-        })
+        }),
+        getValueFromHydratedItem: actual.getValueFromHydratedItem
+    };
+});
+
+jest.mock('builder_platform_interaction/builderUtils', () => {
+    return {
+        invokeModal: jest.fn()
     };
 });
 
 describe('StageStep Reducer', () => {
+    beforeEach(() => {
+        mockReferencingElement = {
+            guid: 'someElement',
+            someField: `${mockReferencedGuid}.Outputs`
+        };
+    });
+
     let originalState, originalStateWithEntryCriteria;
     beforeEach(() => {
         originalState = {
             guid: 'itemGuid',
-            entryConditions: []
+            entryConditions: [],
+            inputParameters: [{}],
+            ouputParameters: [{}]
         };
 
         originalStateWithEntryCriteria = {
@@ -59,6 +105,16 @@ describe('StageStep Reducer', () => {
     });
 
     describe('UpdateConditionEvent', () => {
+        beforeEach(() => {
+            mockHydrated = {
+                entryConditions: ['foo']
+            };
+        });
+
+        afterEach(() => {
+            mockHydrated = undefined;
+        });
+
         it('replaces null entry criteria with the new criteria', () => {
             const event = {
                 type: UpdateConditionEvent.EVENT_NAME,
@@ -75,7 +131,10 @@ describe('StageStep Reducer', () => {
 
             expect(newState.entryConditions[0]).toEqual(mockHydrated);
             expect(newState).not.toBe(originalStateWithEntryCriteria);
+
+            mockHydrated = undefined;
         });
+
         it('replaces existing entry criteria with the new criteria', () => {
             const event = {
                 type: UpdateConditionEvent.EVENT_NAME,
@@ -115,6 +174,139 @@ describe('StageStep Reducer', () => {
             expect(newState).not.toBe(originalStateWithEntryCriteria);
         });
     });
+
+    describe('ValueChangedEvent', () => {
+        it('updates the action', () => {
+            const event = {
+                type: ValueChangedEvent.EVENT_NAME,
+                detail: {
+                    value: {
+                        actionName: 'someAction'
+                    },
+                    error: null
+                }
+            };
+
+            stageStepReducer(originalState, event);
+
+            expect(updateProperties).toHaveBeenCalledWith(originalState, {
+                action: {
+                    elementType: ELEMENT_TYPE.ACTION_CALL,
+                    actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+                    actionName: event.detail.value.actionName
+                },
+                actionName: event.detail.value.actionName,
+                inputParameters: [],
+                outputParameters: []
+            });
+        });
+
+        describe('referenced action.Outputs', () => {
+            it('direct reference does not update the action', () => {
+                const stateWithReferencedAction = {
+                    guid: mockReferencedGuid,
+                    action: {
+                        actionName: { value: 'originalAction' },
+                        actionType: 'createWorkItem',
+                        elementType: 'ActionCall'
+                    },
+                    actionName: { value: 'originalAction' },
+                    entryConditions: [],
+                    inputParameters: [{}],
+                    outputParameters: [{}]
+                };
+
+                const event = {
+                    type: ValueChangedEvent.EVENT_NAME,
+                    detail: {
+                        value: {
+                            actionName: 'anotherAction'
+                        },
+                        error: null
+                    }
+                };
+
+                stageStepReducer(stateWithReferencedAction, event);
+
+                expect(updateProperties).toHaveBeenCalledWith(stateWithReferencedAction, {
+                    action: {
+                        elementType: ELEMENT_TYPE.ACTION_CALL,
+                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+                        actionName: stateWithReferencedAction.actionName.value
+                    },
+                    actionName: stateWithReferencedAction.actionName.value
+                });
+            });
+
+            it('reference in array does not update the action', () => {
+                mockReferencingElement = {
+                    guid: 'someElement',
+                    someField: [{ a: 'foo' }, { a: `${mockReferencedGuid}.Outputs` }]
+                };
+
+                const stateWithReferencedAction = {
+                    guid: mockReferencedGuid,
+                    action: {
+                        actionName: { value: 'originalAction' },
+                        actionType: 'createWorkItem',
+                        elementType: 'ActionCall'
+                    },
+                    actionName: { value: 'originalAction' },
+                    entryConditions: [],
+                    inputParameters: [{}],
+                    outputParameters: [{}]
+                };
+
+                const event = {
+                    type: ValueChangedEvent.EVENT_NAME,
+                    detail: {
+                        value: {
+                            actionName: 'anotherAction'
+                        },
+                        error: null
+                    }
+                };
+
+                stageStepReducer(stateWithReferencedAction, event);
+
+                expect(updateProperties).toHaveBeenCalledWith(stateWithReferencedAction, {
+                    action: {
+                        elementType: ELEMENT_TYPE.ACTION_CALL,
+                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
+                        actionName: stateWithReferencedAction.actionName.value
+                    },
+                    actionName: stateWithReferencedAction.actionName.value
+                });
+            });
+
+            it('shows the warning modal', () => {
+                const stateWithReferencedAction = {
+                    guid: mockReferencedGuid,
+                    action: {
+                        actionName: { value: 'anotherAction' },
+                        actionType: 'createWorkItem',
+                        elementType: 'ActionCall'
+                    },
+                    actionName: { value: 'anotherAction' }
+                };
+
+                const event = {
+                    type: ValueChangedEvent.EVENT_NAME,
+                    detail: {
+                        value: {
+                            actionName: 'someAction'
+                        },
+                        error: null
+                    }
+                };
+
+                stageStepReducer(stateWithReferencedAction, event);
+
+                expect(invokeModal).toHaveBeenCalled();
+            });
+        });
+    });
+
     describe('PropertyChangedEvent', () => {
         it('updates the property', () => {
             const event = {
