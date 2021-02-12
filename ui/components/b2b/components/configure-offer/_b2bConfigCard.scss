@@ -131,7 +131,10 @@
             }
           }
           .nds-b2b-quantity {
-            width: 6rem;
+            width: 10rem;
+            @media screen and (min-width: 60rem) {
+              width: 6rem;
+            }
             min-height: 2rem;
             .nds-b2b-quantity_value {
               border: 1px solid $palette-warm-gray-5;
@@ -177,7 +180,7 @@
               z-index: 1;
             }
             @media screen and (min-width: 48rem) {
-              right: 1.5rem;
+              right: 0.75rem;
             }
           }
           &.nds-b2b-disconnected {
@@ -208,7 +211,7 @@
               }
             }
           }
-          @media screen and (min-width: 60rem) {
+          @media screen and (min-width: 30rem) {
             padding: 1.5rem 3rem 1rem 1.5rem;
             .nds-b2b-attributes_info {
               display: flex;
