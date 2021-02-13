@@ -366,7 +366,7 @@
     }
   }
 }
-.b2b-parent-attribute-container {
+.nds-b2b-parent-attribute-container {
   background: $white;
   margin-bottom: 1rem;
   padding: 1rem 1.5rem;
@@ -374,6 +374,13 @@
   &.nds-b2b-disconnect {
     padding: 0;
   }
+}
+.nds-b2b-card-parent{	
+  .nds-b2b-parent-attribute-container{	
+    .nds-b2b-attribute-parent-padding{	
+      padding-left: 1.5rem;	
+    }	
+  }	
 }
 .nds-b2b-delete-offer {
   .nds-modal__header {
