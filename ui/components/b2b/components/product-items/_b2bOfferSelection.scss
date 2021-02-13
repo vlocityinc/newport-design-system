@@ -16,7 +16,7 @@
     width: 0;
   }
 
-  @media screen and (min-width: 48rem) {
+  @media screen and (min-width: 80rem) {
     .nds-b2b-container_items-list {
       width: 80%; 
     }
@@ -27,9 +27,17 @@
     }
   }
 
-  @media screen and (max-width: 79rem) and (min-width: 48rem) {
+  @media screen and (max-width: 79rem) and (min-width: 30rem) {
+    .nds-b2b-container_items-list {
+      width: 60%; 
+    }
     .nds-b2b-items-container{
-      padding: 2rem 0 9rem 6rem;
+      padding: 2rem 0 9rem 3rem;
+    }
+    .nds-b2b-container_categories-list {
+      display: block;
+      margin-right: 1rem;
+      width: 40%;
     }
   }
 }
