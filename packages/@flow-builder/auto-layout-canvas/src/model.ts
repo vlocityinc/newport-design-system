@@ -6,6 +6,11 @@ export interface FlowModel {
     [key: string]: NodeModel | ParentNodeModel | BranchHeadNodeModel | (ParentNodeModel & BranchHeadNodeModel);
 }
 export type NodeRef = Guid | null;
+export interface HighlightInfo {
+    highlightNext?: boolean;
+    highlightLoopBack?: boolean;
+    branchIndexesToHighlight?: Array<number>;
+}
 
 export interface NodeModel {
     guid: Guid;
@@ -13,7 +18,13 @@ export interface NodeModel {
     elementType: string;
     maxConnections: number;
     isCanvasElement: boolean;
-    config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean; hasError: boolean };
+    config: {
+        isSelected: boolean;
+        isHighlighted: boolean;
+        isSelectable: boolean;
+        hasError: boolean;
+        highlightInfo?: HighlightInfo | null;
+    };
 
     childReferences?: Array<{ childReference: string }>;
     defaultConnectorLabel?: string;
@@ -94,6 +105,8 @@ export interface ElementMetadata {
 }
 
 export const FAULT_INDEX = -1;
+export const LOOP_BACK_INDEX = 0;
+export const START_IMMEDIATE_INDEX = 0;
 
 const ELEMENT_METADATA_DEFAULT = {
     type: NodeType.DEFAULT,

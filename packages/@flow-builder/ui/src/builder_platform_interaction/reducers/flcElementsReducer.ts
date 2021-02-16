@@ -14,6 +14,8 @@ import {
     DELETE_FAULT,
     FLC_CREATE_CONNECTION,
     ADD_PARENT_WITH_CHILDREN,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION,
     MODIFY_START_WITH_TIME_TRIGGERS
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
@@ -27,16 +29,24 @@ import { getElementsMetadata, supportsChildren } from 'builder_platform_interact
 import {
     deleteBranchHeadProperties,
     FAULT_INDEX,
+    LOOP_BACK_INDEX,
+    START_IMMEDIATE_INDEX,
+    HighlightInfo,
     findLastElement,
+    findParentElement,
     assertInDev,
     assertAutoLayoutState,
     reducer,
     actions,
     Guid,
-    NodeType
+    NodeType,
+    FlowModel,
+    NodeModel,
+    fulfillsBranchingCriteria,
+    ParentNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import { getSubElementGuids } from './reducersUtils';
 
@@ -163,6 +173,15 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
             // TODO: move to autoLayoutCanvasReducer
             nextState = _pasteOnFixedCanvas(nextState, action.payload);
             break;
+        case DECORATE_CANVAS: {
+            const decoratedElements = getDecoratedElements(nextState, action.payload.connectorsToHighlight);
+            const alcAction = actions.decorateCanvasAction(decoratedElements);
+            nextState = autoLayoutCanvasReducer(nextState, alcAction);
+            break;
+        }
+        case CLEAR_CANVAS_DECORATION:
+            nextState = autoLayoutCanvasReducer(nextState, actions.clearCanvasDecorationAction());
+            break;
         default:
     }
 
@@ -206,7 +225,7 @@ function getNextChildren(element, nextElement): (Guid | null)[] {
     if (children) {
         if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
             // copy over the child corresponding to the default time trigger
-            nextChildren[0] = children[0];
+            nextChildren[START_IMMEDIATE_INDEX] = children[START_IMMEDIATE_INDEX];
         } else {
             // copy over the child corresponding to the default outcome
             nextChildren[nextChildren.length - 1] = children[children.length - 1];
@@ -227,6 +246,92 @@ function getNextChildren(element, nextElement): (Guid | null)[] {
     }
 
     return nextChildren;
+}
+
+/**
+ * Computes which branch index to highlight on a given element based on connector type or child reference
+ * @param element store element
+ * @param connectorType connector type to highlight
+ * @param childReference child guid associated with the connector to highlight (eg. outcome guid)
+ */
+function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, childReference?: Guid): number | null {
+    let branchIndexToHighlight: number | null = null;
+    if (connectorType === CONNECTOR_TYPE.FAULT && element.fault) {
+        branchIndexToHighlight = FAULT_INDEX;
+    } else if (connectorType === CONNECTOR_TYPE.DEFAULT) {
+        branchIndexToHighlight = element.childReferences!.length;
+    } else if (connectorType === CONNECTOR_TYPE.LOOP_NEXT) {
+        branchIndexToHighlight = LOOP_BACK_INDEX;
+    } else if (connectorType === CONNECTOR_TYPE.IMMEDIATE) {
+        branchIndexToHighlight = START_IMMEDIATE_INDEX;
+    } else if (childReference && element.childReferences) {
+        branchIndexToHighlight = element.childReferences.findIndex((ref) => {
+            return ref.childReference === childReference;
+        });
+        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            branchIndexToHighlight += 1; // To account for the immediate path at index 0
+        }
+    }
+
+    return branchIndexToHighlight;
+}
+
+/**
+ * Helper function to get the list of elements to decorate after the decorate canvas action is fired
+ * @param state flow state
+ * @param connectorsToHighlight array of connectors to highlight from the decorate action payload
+ */
+function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): Map<Guid, HighlightInfo> {
+    const decoratedElements = new Map<Guid, HighlightInfo>();
+    connectorsToHighlight.forEach((connector) => {
+        const elementGuid = connector.source;
+        const element = state[elementGuid];
+        const highlightInfo = decoratedElements.get(elementGuid) || {};
+        const branchIndexToHighlight = getBranchIndexToHighlight(element, connector.type, connector.childSource);
+        if (branchIndexToHighlight != null) {
+            highlightInfo.branchIndexesToHighlight = highlightInfo.branchIndexesToHighlight || [];
+            highlightInfo.branchIndexesToHighlight.push(branchIndexToHighlight);
+            // For branching elements that don't have any elements or End in the branch to highlight,
+            // set highlightNext to true to indicate that we need to highlight the merge point after the highlighted branch
+            if (
+                fulfillsBranchingCriteria(element, element.nodeType) &&
+                branchIndexToHighlight !== FAULT_INDEX &&
+                !(element as ParentNodeModel).children[branchIndexToHighlight]
+            ) {
+                highlightInfo.highlightNext = true;
+            }
+        } else if (!element.config.hasError && !fulfillsBranchingCriteria(element, element.nodeType)) {
+            // If no branch index to highlight was found and the element is not a branching
+            // or error-ed element, just set highlightNext to true
+            highlightInfo.highlightNext = true;
+        }
+
+        // Once we get to an element that does not have a next (i.e. it is within a merged branch or loop),
+        // go up it's branch chain to it's parent element to highlight merge points correctly
+        if (!element.next && highlightInfo.highlightNext) {
+            let parentElement = findParentElement(element, state);
+
+            // If the parent is a not a loop and not a branch with a next element,
+            // set highlightNext so that we highlight the merge point after it's branches,
+            // and keep going up it's branch chain to do the same for all it's parents that meet the criteria
+            while (parentElement.nodeType !== NodeType.LOOP && !parentElement.next) {
+                decoratedElements.get(parentElement.guid)!.highlightNext = true;
+                parentElement = findParentElement(parentElement, state);
+            }
+
+            // If the final parent is a loop element, highlight the end of the loop back connector,
+            // else it is a branch whose next also needs to be highlighted
+            if (parentElement.nodeType === NodeType.LOOP) {
+                decoratedElements.get(parentElement.guid)!.highlightLoopBack = true;
+            } else {
+                decoratedElements.get(parentElement.guid)!.highlightNext = true;
+            }
+        }
+
+        decoratedElements.set(elementGuid, highlightInfo);
+    });
+
+    return decoratedElements;
 }
 
 function _getElementFromActionPayload(payload) {

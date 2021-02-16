@@ -14,6 +14,8 @@ import {
     connectToElement,
     addFault,
     updateChildren,
+    decorateElements,
+    clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
 } from '../modelUtils';
 
@@ -110,6 +112,30 @@ describe('reducer', () => {
                 BRANCH_ELEMENT_GUID,
                 updatedChildrenGuids
             );
+        });
+    });
+
+    describe('decorateElements action', () => {
+        it('delegates to decorateElements', () => {
+            const flowModel = {};
+            const decoratedElements = new Map();
+            decoratedElements.set('guid1', { highlightNext: true });
+
+            const action = actions.decorateCanvasAction(decoratedElements);
+            configuredReducer(flowModel, action);
+
+            const clearCanvasDecorationAction = clearCanvasDecoration(flowModel);
+            expect(decorateElements).toHaveBeenLastCalledWith(clearCanvasDecorationAction, decoratedElements);
+        });
+    });
+
+    describe('clearCanvasDecoration action', () => {
+        it('delegates to clearCanvasDecoration', () => {
+            const flowModel = {};
+            const action = actions.clearCanvasDecorationAction();
+            configuredReducer(flowModel, action);
+
+            expect(clearCanvasDecoration).toHaveBeenLastCalledWith(flowModel);
         });
     });
 

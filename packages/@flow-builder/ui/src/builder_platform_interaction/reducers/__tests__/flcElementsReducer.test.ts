@@ -9,14 +9,24 @@ import {
     ADD_FAULT,
     PASTE_ON_FIXED_CANVAS,
     FLC_CREATE_CONNECTION,
-    ADD_SCREEN_WITH_FIELDS
+    ADD_SCREEN_WITH_FIELDS,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { reducer, actions } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    reducer,
+    actions,
+    HighlightInfo,
+    FAULT_INDEX,
+    LOOP_BACK_INDEX,
+    NodeType,
+    START_IMMEDIATE_INDEX
+} from 'builder_platform_interaction/autoLayoutCanvas';
 
 import flcElementsReducer from '../flcElementsReducer';
 
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -1290,6 +1300,287 @@ describe('flc-elements-reducer', () => {
             it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
                 expect(updatedState.screen3_0.next).toEqual('end-element-guid');
             });
+        });
+    });
+
+    describe('When DECORATE_CANVAS', () => {
+        it('When highlighting next connectors', () => {
+            const flowModel = {
+                guid1: { next: 'guid2', config: {} },
+                guid2: { next: 'guid3', config: {} },
+                guid3: { next: 'end', config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { highlightNext: true });
+            decoratedElements.set('guid2', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting child connectors', () => {
+            const flowModel = {
+                guid1: {
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['end', 'guid2', null],
+                    nodeType: NodeType.BRANCH,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: { next: 'end', config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1', childSource: 'childGuid2' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { branchIndexesToHighlight: [1] });
+            decoratedElements.set('guid2', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting default connector', () => {
+            const flowModel = {
+                guid1: {
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['end', 'end', 'guid2'],
+                    nodeType: NodeType.BRANCH,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: { next: 'end', config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [{ type: CONNECTOR_TYPE.DEFAULT, source: 'guid1' }]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { branchIndexesToHighlight: [2] });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting Start element immediate connector', () => {
+            const flowModel = {
+                guid1: {
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['end', 'end', 'guid2'],
+                    nodeType: NodeType.START,
+                    elementType: ELEMENT_TYPE.START_ELEMENT,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: { next: 'end', config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [{ type: CONNECTOR_TYPE.IMMEDIATE, source: 'guid1' }]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { branchIndexesToHighlight: [START_IMMEDIATE_INDEX] });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting Start element child connector', () => {
+            const flowModel = {
+                guid1: {
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['end', 'end', 'guid2'],
+                    nodeType: NodeType.START,
+                    elementType: ELEMENT_TYPE.START_ELEMENT,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: { next: 'end', config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1', childSource: 'childGuid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { branchIndexesToHighlight: [2] });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When setting highlightNext on branch element with empty branch to highlight', () => {
+            const flowModel = {
+                guid1: {
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['someGuid', null, null],
+                    nodeType: NodeType.BRANCH,
+                    next: 'end',
+                    config: {}
+                }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1', childSource: 'childGuid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { highlightNext: true, branchIndexesToHighlight: [1] });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When setting highlightNext on parent branch elements', () => {
+            const flowModel = {
+                guid1: {
+                    guid: 'guid1',
+                    childReferences: [{ childReference: 'childGuid1' }],
+                    children: ['guid2', null],
+                    nodeType: NodeType.BRANCH,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: {
+                    guid: 'guid2',
+                    parent: 'guid1',
+                    childIndex: 0,
+                    childReferences: [{ childReference: 'childGuid2' }],
+                    children: ['guid3', null],
+                    nodeType: NodeType.BRANCH,
+                    config: {}
+                },
+                guid3: { guid: 'guid3', parent: 'guid2', childIndex: 0, config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1', childSource: 'childGuid1' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid2', childSource: 'childGuid2' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid3' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { branchIndexesToHighlight: [0], highlightNext: true });
+            decoratedElements.set('guid2', { branchIndexesToHighlight: [0], highlightNext: true });
+            decoratedElements.set('guid3', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting loop connectors', () => {
+            const flowModel = {
+                guid1: { guid: 'guid1', nodeType: NodeType.LOOP, next: 'end', config: {} },
+                guid2: { guid: 'guid2', parent: 'guid1', config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.LOOP_NEXT, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.LOOP_END, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', {
+                highlightNext: true,
+                highlightLoopBack: true,
+                branchIndexesToHighlight: [LOOP_BACK_INDEX]
+            });
+            decoratedElements.set('guid2', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting loop connector with error in loop back', () => {
+            const flowModel = {
+                guid1: { nodeType: NodeType.LOOP, next: 'end', config: {} },
+                guid2: { parent: 'guid1', config: { hasError: true } }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.LOOP_NEXT, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.LOOP_END, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.FAULT, source: 'guid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { highlightNext: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] });
+            decoratedElements.set('guid2', {});
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting fault connector', () => {
+            const flowModel = {
+                guid1: { nodeType: NodeType.BRANCH, fault: 'end', config: { hasError: true } },
+                guid2: { nodeType: NodeType.DEFAULT, config: { hasError: true } }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.FAULT, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.FAULT, source: 'guid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { branchIndexesToHighlight: [FAULT_INDEX] });
+            decoratedElements.set('guid2', {});
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+    });
+
+    describe('When CLEAR_CANVAS_DECORATION', () => {
+        it('When clearing canvas decoration on all elements', () => {
+            const flowModel = {
+                guid1: { config: {} },
+                guid2: { config: {} }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: CLEAR_CANVAS_DECORATION
+            });
+            const expectedAction = actions.clearCanvasDecorationAction();
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
         });
     });
 });

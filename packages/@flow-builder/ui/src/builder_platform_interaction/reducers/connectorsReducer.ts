@@ -334,7 +334,8 @@ function _highlightConnectors(connectors: object[], connectorsToHighlight: objec
             return (
                 connectorToHighlight.source === connector.source &&
                 connectorToHighlight.type === connector.type &&
-                (!connectorToHighlight.childSource || connectorToHighlight.childSource === connector.childSource)
+                ((!connectorToHighlight.childSource && !connector.childSource) ||
+                    connectorToHighlight.childSource === connector.childSource)
             );
         });
         // Set the isHighlighted property of the connector to true if found in connectorsToHighlight list

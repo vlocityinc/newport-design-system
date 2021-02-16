@@ -20,6 +20,7 @@ import {
 } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { LOOP_BACK_INDEX } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const { logInteraction } = loggingUtils;
 
@@ -157,7 +158,7 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleDeleteButtonClicked() {
-        const childIndexToKeep = this.resourceDetails.elementType === ELEMENT_TYPE.LOOP ? 0 : undefined;
+        const childIndexToKeep = this.resourceDetails.elementType === ELEMENT_TYPE.LOOP ? LOOP_BACK_INDEX : undefined;
         const deleteEvent = supportsChildren(this.resourceDetails)
             ? new DeleteElementEvent(
                   [this.resourceDetails.elementGuid],

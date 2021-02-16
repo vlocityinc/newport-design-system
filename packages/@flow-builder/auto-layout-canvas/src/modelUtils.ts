@@ -6,6 +6,7 @@ import {
     FlowModel,
     ParentNodeModel,
     BranchHeadNodeModel,
+    HighlightInfo,
     StartNodeModel
 } from './model';
 
@@ -1502,6 +1503,36 @@ export function updateChildrenOnAddingOrUpdatingTimeTriggers(
         // If no element on the 0th branch and start's current next is not null, just delete children property and nothing else
         // If start's current next is null, then just persist the 0th branch
     }
+
+    return flowModel;
+}
+
+/**
+ * Decorates elements in the flow model with connector highlight info
+ *
+ * @param flowModel flow model
+ * @param decoratedElements map of element guids to highlight info
+ */
+export function decorateElements(flowModel: FlowModel, decoratedElements: Map<Guid, HighlightInfo>): FlowModel {
+    decoratedElements.forEach((highlightInfo, guid) => {
+        const node = resolveNode(flowModel, guid);
+        node.config.highlightInfo = highlightInfo;
+    });
+
+    return flowModel;
+}
+
+/**
+ * Clears canvas decoration info on all elements in the flow model
+ *
+ * @param flowModel flow model
+ */
+export function clearCanvasDecoration(flowModel: FlowModel): FlowModel {
+    Object.values(flowModel).forEach((element) => {
+        if (element.config) {
+            element.config.highlightInfo = null;
+        }
+    });
 
     return flowModel;
 }

@@ -39,7 +39,10 @@ export {
     ElementsMetadata,
     MenuItem,
     MenuSection,
+    HighlightInfo,
     FAULT_INDEX,
+    LOOP_BACK_INDEX,
+    START_IMMEDIATE_INDEX,
     resolveNode,
     getRootNode,
     canHaveChildren,
@@ -64,7 +67,9 @@ export {
     isRoot,
     getTargetGuidsForReconnection,
     InsertAt,
-    createRootElement
+    createRootElement,
+    isBranchingElement,
+    fulfillsBranchingCriteria
 } from './modelUtils';
 
 export {

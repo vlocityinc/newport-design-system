@@ -1,4 +1,4 @@
-import { FlowModel, Guid } from './model';
+import { FlowModel, Guid, HighlightInfo } from './model';
 import {
     addElement,
     deleteElement,
@@ -9,6 +9,8 @@ import {
     addFault,
     updateChildren,
     InsertAt,
+    decorateElements,
+    clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
 } from './modelUtils';
 
@@ -22,6 +24,8 @@ enum ActionType {
     DeleteFault,
     ConnectToElement,
     UpdateChildren,
+    DecorateCanvas,
+    ClearCanvasDecoration,
     UpdateChildrenOnAddingOrUpdatingTimeTriggers
 }
 
@@ -115,6 +119,14 @@ export function updateChildrenAction(parentElementGuid: Guid, updatedChildrenGui
     return createPayloadAction(<const>ActionType.UpdateChildren, { parentElementGuid, updatedChildrenGuids });
 }
 
+export function decorateCanvasAction(decoratedElements: Map<Guid, HighlightInfo>) {
+    return createPayloadAction(<const>ActionType.DecorateCanvas, { decoratedElements });
+}
+
+export function clearCanvasDecorationAction() {
+    return createPayloadAction(<const>ActionType.ClearCanvasDecoration, null);
+}
+
 export function updateChildrenOnAddingOrUpdatingTimeTriggersAction(
     parentElementGuid: Guid,
     updatedChildrenGuids: (Guid | null)[]
@@ -133,6 +145,8 @@ type Action = ReturnType<
     | typeof initAction
     | typeof addFaultAction
     | typeof updateChildrenAction
+    | typeof decorateCanvasAction
+    | typeof clearCanvasDecorationAction
     | typeof updateChildrenOnAddingOrUpdatingTimeTriggersAction
 >;
 
@@ -169,6 +183,13 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
         case ActionType.UpdateChildren: {
             const { parentElementGuid, updatedChildrenGuids } = action.payload;
             return updateChildren(config, nextFlowModel, parentElementGuid, updatedChildrenGuids);
+        }
+        case ActionType.DecorateCanvas: {
+            const { decoratedElements } = action.payload;
+            return decorateElements(clearCanvasDecoration(nextFlowModel), decoratedElements);
+        }
+        case ActionType.ClearCanvasDecoration: {
+            return clearCanvasDecoration(nextFlowModel);
         }
         case ActionType.UpdateChildrenOnAddingOrUpdatingTimeTriggers: {
             const { parentElementGuid, updatedChildrenGuids } = action.payload;

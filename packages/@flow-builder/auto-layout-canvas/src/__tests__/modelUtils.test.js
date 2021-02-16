@@ -26,10 +26,12 @@ import {
     addElement,
     updateChildren,
     addFault,
+    decorateElements,
+    clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
 } from '../modelUtils';
 
-import { FAULT_INDEX } from '../model';
+import { FAULT_INDEX, Guid, HighlightInfo } from '../model';
 import NodeType from '../NodeType';
 
 const elementService = (elements) => {
@@ -1571,6 +1573,47 @@ describe('modelUtils', () => {
             it('does not inline', () => {
                 expect(updatedState).toEqual(originalStoreState);
             });
+        });
+    });
+
+    describe('decorateElements', () => {
+        it('updates the highlightInfo correctly on element configs', () => {
+            const flowModel = {
+                guid1: { config: {} },
+                guid2: { config: {} },
+                guid3: { config: {} }
+            };
+            const decoratedElements = new Map();
+            decoratedElements.set('guid1', { highlightNext: true });
+            decoratedElements.set('guid2', { branchIndexesToHighlight: [1] });
+
+            const expectedNewFlowModel = {
+                guid1: { config: { highlightInfo: { highlightNext: true } } },
+                guid2: { config: { highlightInfo: { branchIndexesToHighlight: [1] } } },
+                guid3: { config: {} }
+            };
+
+            const newFlowModel = decorateElements(flowModel, decoratedElements);
+            expect(newFlowModel).toEqual(expectedNewFlowModel);
+        });
+    });
+
+    describe('clearCanvasDecoration', () => {
+        it('clears the highlightInfo correctly on element configs', () => {
+            const flowModel = {
+                guid1: { config: { highlightInfo: { highlightNext: true } } },
+                guid2: { config: { highlightInfo: { branchIndexesToHighlight: [1] } } },
+                guid3: { config: {} }
+            };
+
+            const expectedNewFlowModel = {
+                guid1: { config: { highlightInfo: null } },
+                guid2: { config: { highlightInfo: null } },
+                guid3: { config: { highlightInfo: null } }
+            };
+
+            const newFlowModel = clearCanvasDecoration(flowModel);
+            expect(newFlowModel).toEqual(expectedNewFlowModel);
         });
     });
 });

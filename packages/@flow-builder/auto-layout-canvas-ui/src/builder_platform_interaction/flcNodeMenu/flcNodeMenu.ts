@@ -12,7 +12,7 @@ import {
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { LOOP_BACK_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './flcNodeMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -141,7 +141,9 @@ export default class FlcNodeMenu extends Menu {
                     this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
                     closeMenu = false;
                 } else if (this.elementMetadata.type === NodeType.LOOP) {
-                    this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType, 0));
+                    this.dispatchEvent(
+                        new DeleteElementEvent([this.guid], this.elementMetadata.elementType, LOOP_BACK_INDEX)
+                    );
                 } else {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
                 }

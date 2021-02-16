@@ -11,7 +11,9 @@ import {
     getRootNode,
     getElementMetadata,
     Guid,
-    FAULT_INDEX
+    FAULT_INDEX,
+    LOOP_BACK_INDEX,
+    START_IMMEDIATE_INDEX
 } from './model';
 import { fulfillsBranchingCriteria, resolveBranchHead, shouldSupportTimeTriggers } from './modelUtils';
 import { NO_OFFSET, getLayoutChildOrFault } from './layout';
@@ -650,7 +652,7 @@ function createPreConnector(
     const { nodeType } = parentNode;
 
     const defaultConditionIndex =
-        nodeType === NodeType.BRANCH ? childCount - 1 : nodeType === NodeType.START ? 0 : null;
+        nodeType === NodeType.BRANCH ? childCount - 1 : nodeType === NodeType.START ? START_IMMEDIATE_INDEX : null;
 
     let connectorBadgeLabel;
     if (childIndex === defaultConditionIndex) {
@@ -792,7 +794,7 @@ function createMergeConnectors(
  */
 function createLoopAfterLastConnector(parentGuid: Guid, context: FlowRenderContext): ConnectorRenderInfo {
     const { progress, nodeLayoutMap, layoutConfig } = context;
-    const childIndex = 0;
+    const childIndex = LOOP_BACK_INDEX;
 
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const connectorToBeDeleted = shouldDeleteConnector(context, parentGuid, childIndex);
@@ -823,7 +825,7 @@ function createLoopAfterLastConnector(parentGuid: Guid, context: FlowRenderConte
  */
 function createLoopBackConnector(parentGuid: Guid, context: FlowRenderContext): ConnectorRenderInfo {
     const { progress, nodeLayoutMap, layoutConfig } = context;
-    const childIndex = 0;
+    const childIndex = LOOP_BACK_INDEX;
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const connectorToBeDeleted = shouldDeleteConnector(context, parentGuid, childIndex);
     const w = branchLayout.w - branchLayout.offsetX;
