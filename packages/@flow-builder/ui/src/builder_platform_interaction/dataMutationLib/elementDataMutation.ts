@@ -6,6 +6,11 @@ export type ValueWithError = {
     error: string;
 };
 
+export type ElementValidationError = {
+    key: string;
+    errorString: string;
+};
+
 const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
 
 /**
@@ -93,7 +98,7 @@ export const dehydrate = (element) => {
  * @param {Object[]} errorsList list of errors, empty list by default
  * @returns {Object[]} List of errors
  */
-export const getErrorsFromHydratedElement = (element, errorsList = []) => {
+export const getErrorsFromHydratedElement = (element, errorsList: ElementValidationError[] = []) => {
     const listOfErrors = errorsList;
     Object.entries(element).forEach(([key, value]) => {
         if (value && typeof value === 'object') {

@@ -7,28 +7,13 @@ import {
     ticks,
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
-    clickPill,
-    getComboboxPill,
     removeEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
-import {
-    validateExpression,
-    getLhsCombobox,
-    getRhsCombobox,
-    selectOperator,
-    getOperatorCombobox,
-    getExpressionTester
-} from '../expressionBuilderTestUtils';
-import {
-    selectComboboxItemBy,
-    typeMergeFieldInCombobox,
-    getComboboxItems,
-    typeReferenceOrValueInCombobox,
-    getComboboxGroupLabel
-} from '../comboboxTestUtils';
+import { ExpressionBuilderComponentTest, getExpressionTester } from '../expressionBuilderTestUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
 import { createVariable, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
 import {
     addNewResourceEventListener,
@@ -105,10 +90,13 @@ const createComponentForTest = (assignmentElement) => {
 };
 
 const getFerToFerovExpressionBuilder = (assignment) =>
-    deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER]);
+    new ExpressionBuilderComponentTest(
+        deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER])
+    );
 
 describe('Assignment Editor', () => {
-    let assignment, assignmentForPropertyEditor, expressionBuilder;
+    let assignment, assignmentForPropertyEditor;
+    let expressionBuilder: ExpressionBuilderComponentTest;
     beforeAll(async () => {
         await setupStateForFlow(flowWithAllElements);
         const assignmentElement = getElementByDevName('assignment1');
@@ -122,7 +110,7 @@ describe('Assignment Editor', () => {
         expressionBuilder = getFerToFerovExpressionBuilder(assignment);
     });
     describe('Validation', () => {
-        const testExpression = getExpressionTester(() => expressionBuilder);
+        const testExpression = getExpressionTester(() => expressionBuilder.element);
         describe('When LHS is a picklist', () => {
             // eslint-disable-next-line no-unused-expressions
             testExpression.each`
@@ -147,7 +135,7 @@ describe('Assignment Editor', () => {
                 const rhs =
                     '{!accountSObjectVariable.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.Name}';
                 expect(
-                    await validateExpression(expressionBuilder, {
+                    await expressionBuilder.validateExpression({
                         lhs,
                         operator,
                         rhs
@@ -162,7 +150,7 @@ describe('Assignment Editor', () => {
                 const rhs =
                     '{!accountSObjectVariable.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.Name}';
                 expect(
-                    await validateExpression(expressionBuilder, {
+                    await expressionBuilder.validateExpression({
                         lhs,
                         operator,
                         rhs
@@ -178,12 +166,12 @@ describe('Assignment Editor', () => {
                 `;
             });
             describe('Operator reset when changing LHS value if new value does not support previous operator', () => {
-                let lhsCombobox;
+                let lhsCombobox: ComboboxTestComponent;
                 beforeEach(async () => {
-                    lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                    lhsCombobox = await expressionBuilder.getLhsCombobox(true);
                 });
                 function isOperatorReset(originalOperator) {
-                    return getOperatorCombobox(expressionBuilder).value !== originalOperator;
+                    return expressionBuilder.getOperatorComboboxElement().value !== originalOperator;
                 }
                 it.each`
                     originalLhs                                    | originalOperator | newLhs                                          | resetOperator
@@ -198,35 +186,35 @@ describe('Assignment Editor', () => {
                 `(
                     'Should reset operator when switching LHS from $originalLhs to $newLhs: $resetOperator',
                     async ({ originalLhs, originalOperator, newLhs, resetOperator }) => {
-                        await typeReferenceOrValueInCombobox(lhsCombobox, originalLhs, true);
-                        expect(selectOperator(expressionBuilder, originalOperator)).toBe(true);
-                        await typeReferenceOrValueInCombobox(lhsCombobox, newLhs, true);
+                        await lhsCombobox.typeReferenceOrValue(originalLhs, true);
+                        expect(expressionBuilder.selectOperator(originalOperator)).toBe(true);
+                        await lhsCombobox.typeReferenceOrValue(newLhs, true);
 
                         expect(isOperatorReset(originalOperator)).toBe(resetOperator);
                     }
                 );
             });
             it('Operator and RHS disabled (without pill) when LHS value is emptied (LHS was initially in pill mode)', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder);
-                expect(lhsCombobox.pill).not.toBeNull();
-                await typeReferenceOrValueInCombobox(lhsCombobox, '', true);
-                const operatorCombobox = getOperatorCombobox(expressionBuilder);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox();
+                expect(lhsCombobox.element.pill).not.toBeNull();
+                await lhsCombobox.typeReferenceOrValue('', true);
+                const operatorCombobox = expressionBuilder.getOperatorComboboxElement();
                 expect(operatorCombobox.disabled).toBe(true);
-                const rhsCombobox = await getRhsCombobox(expressionBuilder);
-                expect(rhsCombobox.pill).toBeNull();
-                expect(rhsCombobox.disabled).toBe(true);
+                const rhsCombobox = await expressionBuilder.getRhsCombobox();
+                expect(rhsCombobox.element.pill).toBeNull();
+                expect(rhsCombobox.element.disabled).toBe(true);
             });
             it('Operator and RHS disabled (without pill) when LHS pill removed)', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder);
-                expect(lhsCombobox.pill).not.toBeNull();
-                const pillCombobox = getComboboxPill(lhsCombobox);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox();
+                expect(lhsCombobox.element.pill).not.toBeNull();
+                const pillCombobox = lhsCombobox.getPillElement();
                 pillCombobox.dispatchEvent(removeEvent());
                 await ticks(1);
-                const operatorCombobox = getOperatorCombobox(expressionBuilder);
+                const operatorCombobox = expressionBuilder.getOperatorComboboxElement();
                 expect(operatorCombobox.disabled).toBe(true);
-                const rhsCombobox = await getRhsCombobox(expressionBuilder);
-                expect(rhsCombobox.pill).toBeNull();
-                expect(rhsCombobox.disabled).toBe(true);
+                const rhsCombobox = await expressionBuilder.getRhsCombobox();
+                expect(rhsCombobox.element.pill).toBeNull();
+                expect(rhsCombobox.element.disabled).toBe(true);
             });
         });
         describe('When using Apex types on LHS or RHS', () => {
@@ -242,33 +230,27 @@ describe('Assignment Editor', () => {
             ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!apexComplexTypeVariable.doesNotExist}'}            | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             `;
             it('can traverse more than 2 levels in the LHS', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                expect(await selectComboboxItemBy(lhsCombobox, 'text', ['apexCarVariable', 'wheel'])).toMatchObject({
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                expect(await lhsCombobox.selectItemBy('text', ['apexCarVariable', 'wheel'])).toMatchObject({
                     displayText: '{!apexCarVariable.wheel}'
                 });
-                await clickPill(lhsCombobox);
-                expect(
-                    await selectComboboxItemBy(lhsCombobox, 'text', ['apexCarVariable', 'wheel', 'type'])
-                ).toMatchObject({
+                await lhsCombobox.clickPill();
+                expect(await lhsCombobox.selectItemBy('text', ['apexCarVariable', 'wheel', 'type'])).toMatchObject({
                     displayText: '{!apexCarVariable.wheel.type}'
                 });
             });
             it('can traverse SObject in the Apex types', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
                 expect(
-                    await selectComboboxItemBy(lhsCombobox, 'text', [
-                        'apexComplexTypeVariable',
-                        'acct',
-                        'AccountSource'
-                    ])
+                    await lhsCombobox.selectItemBy('text', ['apexComplexTypeVariable', 'acct', 'AccountSource'])
                 ).toMatchObject({
                     displayText: '{!apexComplexTypeVariable.acct.AccountSource}'
                 });
             });
             it('cannot traverse more than one level of an SObject in the Apex types', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
                 expect(
-                    await selectComboboxItemBy(lhsCombobox, 'text', ['apexComplexTypeVariable', 'acct', 'CreatedBy'])
+                    await lhsCombobox.selectItemBy('text', ['apexComplexTypeVariable', 'acct', 'CreatedBy'])
                 ).toBeUndefined();
             });
         });
@@ -312,10 +294,10 @@ describe('Assignment Editor', () => {
                 dataType: 'String'
             });
             setNextInlineResource(inlineVariable);
-            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-            await selectComboboxItemBy(lhsCombobox, 'text', ['New Resource']);
+            const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+            await lhsCombobox.selectItemBy('text', ['New Resource']);
             await ticks(50);
-            expect(lhsCombobox.value).toMatchObject({
+            expect(lhsCombobox.element.value).toMatchObject({
                 dataType: 'String',
                 displayText: '{!myInlineTextVar}'
             });
@@ -324,14 +306,13 @@ describe('Assignment Editor', () => {
     describe('Traversal', () => {
         it('is limited to 10 levels', async () => {
             // Given
-            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-            const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-            await typeMergeFieldInCombobox(lhsCombobox, '{!stringVariable}');
-            selectOperator(expressionBuilder, 'Assign');
+            const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+            const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+            await lhsCombobox.typeMergeField('{!stringVariable}');
+            expressionBuilder.selectOperator('Assign');
 
             // When
-            const comboboxItem = await selectComboboxItemBy(
-                rhsCombobox,
+            const comboboxItem = await rhsCombobox.selectItemBy(
                 'text',
                 [
                     'accountSObjectVariable',
@@ -349,7 +330,7 @@ describe('Assignment Editor', () => {
 
             // Then
             expect(comboboxItem.hasNext).toBe(true);
-            for (const item of getComboboxItems(rhsCombobox)) {
+            for (const item of rhsCombobox.getItems()) {
                 expect(item.hasNext).toBeUndefined();
             }
         });
@@ -359,22 +340,22 @@ describe('Assignment Editor', () => {
             ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
         `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
-            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-            await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
-            expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+            const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+            await lhsCombobox.typeReferenceOrValue(lhs);
+            expect(lhsCombobox.element.errorMessage).toEqual(expectedErrorMessage);
         });
     });
     describe('pill', () => {
         describe('pill in error?', () => {
             describe('RHS change', () => {
                 it('should  not display RHS pill in error after changing RHS value to one incompatible with LHS value', async () => {
-                    const lhsCombobox = await getLhsCombobox(expressionBuilder);
-                    expect(lhsCombobox.value.displayText).toEqual('{!stringVariable}');
-                    expect(lhsCombobox.pill).toEqual({ label: 'stringVariable', iconName: 'utility:text' });
-                    const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                    await typeMergeFieldInCombobox(rhsCombobox, '{!feedItemVariable}');
-                    expect(rhsCombobox.errorMessage).not.toBeNull();
-                    expect(rhsCombobox.pill).toBeNull();
+                    const lhsCombobox = await expressionBuilder.getLhsCombobox();
+                    expect(lhsCombobox.element.value.displayText).toEqual('{!stringVariable}');
+                    expect(lhsCombobox.element.pill).toEqual({ label: 'stringVariable', iconName: 'utility:text' });
+                    const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+                    await rhsCombobox.typeMergeField('{!feedItemVariable}');
+                    expect(rhsCombobox.element.errorMessage).not.toBeNull();
+                    expect(rhsCombobox.element.pill).toBeNull();
                 });
             });
         });
@@ -404,20 +385,20 @@ describe('Assignment Editor', () => {
                 `(
                     'LHS Pill should be: $expectedLhsPill for LHS: $lhs, RHS pill should be: $expectedRhsPill for RHS: $rhs',
                     async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
-                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                        await typeMergeFieldInCombobox(lhsCombobox, lhs);
-                        expect(lhsCombobox.pill).toEqual(expectedLhsPill);
-                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                        await typeMergeFieldInCombobox(rhsCombobox, rhs);
-                        expect(rhsCombobox.pill).toEqual(expectedRhsPill);
+                        const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                        await lhsCombobox.typeMergeField(lhs);
+                        expect(lhsCombobox.element.pill).toEqual(expectedLhsPill);
+                        const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+                        await rhsCombobox.typeMergeField(rhs);
+                        expect(rhsCombobox.element.pill).toEqual(expectedRhsPill);
                     }
                 );
             });
             describe('LHS error', () => {
                 describe('RHS emptied', () => {
                     beforeEach(async () => {
-                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                        await typeReferenceOrValueInCombobox(rhsCombobox, '');
+                        const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+                        await rhsCombobox.typeReferenceOrValue('');
                     });
                     it.each`
                         lhs
@@ -425,34 +406,40 @@ describe('Assignment Editor', () => {
                         ${'{!feedItemVariable.CreatedBy:User.Name}'}
                         ${'{!apexComplexTypeVariable.acct.BillingCity2}'}
                     `('LHS should have no pill as in error state with empty RHS', async ({ lhs }) => {
-                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                        await typeMergeFieldInCombobox(lhsCombobox, lhs);
-                        expect(lhsCombobox.errorMessage).not.toBeNull();
-                        expect(lhsCombobox.pill).toBeNull();
+                        const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                        await lhsCombobox.typeMergeField(lhs);
+                        expect(lhsCombobox.element.errorMessage).not.toBeNull();
+                        expect(lhsCombobox.element.pill).toBeNull();
                     });
                 });
                 describe('RHS kept as it is (incompatible type)', () => {
                     it('should see RHS pill in error after changing LHS value to one incompatible with RHS value', async () => {
-                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                        expect(lhsCombobox.pill).toBeNull();
-                        expect(lhsCombobox.value.displayText).toEqual('{!stringVariable}');
-                        await selectComboboxItemBy(lhsCombobox, 'text', ['feedItemVariable']);
-                        expect(lhsCombobox.value.displayText).toEqual('{!feedItemVariable}');
-                        expect(lhsCombobox.pill).toEqual({ label: 'feedItemVariable', iconName: 'utility:sobject' });
-                        const rhsCombobox = await getRhsCombobox(expressionBuilder);
-                        expect(rhsCombobox.errorMessage).not.toBeNull();
-                        expect(rhsCombobox.hasPillError).toBe(true);
-                        expect(rhsCombobox.pill).toEqual({ label: 'numberVariable', iconName: 'utility:topic2' });
-                        expect(rhsCombobox.pillTooltip).toEqual(
-                            expect.stringContaining(rhsCombobox.errorMessage || '')
+                        const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                        expect(lhsCombobox.element.pill).toBeNull();
+                        expect(lhsCombobox.element.value.displayText).toEqual('{!stringVariable}');
+                        await lhsCombobox.selectItemBy('text', ['feedItemVariable']);
+                        expect(lhsCombobox.element.value.displayText).toEqual('{!feedItemVariable}');
+                        expect(lhsCombobox.element.pill).toEqual({
+                            label: 'feedItemVariable',
+                            iconName: 'utility:sobject'
+                        });
+                        const rhsCombobox = await expressionBuilder.getRhsCombobox();
+                        expect(rhsCombobox.element.errorMessage).not.toBeNull();
+                        expect(rhsCombobox.element.hasPillError).toBe(true);
+                        expect(rhsCombobox.element.pill).toEqual({
+                            label: 'numberVariable',
+                            iconName: 'utility:topic2'
+                        });
+                        expect(rhsCombobox.element.pillTooltip).toEqual(
+                            expect.stringContaining(rhsCombobox.element.errorMessage || '')
                         );
                     });
                 });
             });
             describe('RHS error', () => {
                 beforeEach(async () => {
-                    const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                    await typeMergeFieldInCombobox(lhsCombobox, '{!dateVariable}');
+                    const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                    await lhsCombobox.typeMergeField('{!dateVariable}');
                 });
                 it.each`
                     rhs
@@ -466,10 +453,10 @@ describe('Assignment Editor', () => {
                 `(
                     'RHS should have no pill as in error state for RHS: $rhs and LHS (with incompatible type): {!dateVariable}',
                     async ({ rhs }) => {
-                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                        await typeMergeFieldInCombobox(rhsCombobox, rhs);
-                        expect(rhsCombobox.errorMessage).not.toBeNull();
-                        expect(rhsCombobox.pill).toBeNull();
+                        const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+                        await rhsCombobox.typeMergeField(rhs);
+                        expect(rhsCombobox.element.errorMessage).not.toBeNull();
+                        expect(rhsCombobox.element.pill).toBeNull();
                     }
                 );
             });
@@ -500,12 +487,12 @@ describe('Assignment Editor', () => {
                 `(
                     'LHS Pill should be: $expectedLhsPill for LHS: $lhs , RHS pill should be: $expectedRhsPill for RHS: $rhs',
                     async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
-                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                        await selectComboboxItemBy(lhsCombobox, 'text', lhs.split('.'));
-                        expect(lhsCombobox.pill).toEqual(expectedLhsPill);
-                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                        await selectComboboxItemBy(rhsCombobox, 'text', rhs.split('.'));
-                        expect(rhsCombobox.pill).toEqual(expectedRhsPill);
+                        const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                        await lhsCombobox.selectItemBy('text', lhs.split('.'));
+                        expect(lhsCombobox.element.pill).toEqual(expectedLhsPill);
+                        const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+                        await rhsCombobox.selectItemBy('text', rhs.split('.'));
+                        expect(rhsCombobox.element.pill).toEqual(expectedRhsPill);
                     }
                 );
                 it.each`
@@ -516,30 +503,30 @@ describe('Assignment Editor', () => {
                 `(
                     'RHS Global constants - LHS Pill should be: $expectedLhsPill for LHS: $lhs, RHS pill should be: $expectedRhsPill for RHS: $rhs',
                     async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
-                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                        await selectComboboxItemBy(lhsCombobox, 'text', lhs);
-                        expect(lhsCombobox.pill).toEqual(expectedLhsPill);
-                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-                        await selectComboboxItemBy(rhsCombobox, 'text', rhs);
-                        expect(rhsCombobox.pill).toEqual(expectedRhsPill);
+                        const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                        await lhsCombobox.selectItemBy('text', lhs);
+                        expect(lhsCombobox.element.pill).toEqual(expectedLhsPill);
+                        const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
+                        await rhsCombobox.selectItemBy('text', rhs);
+                        expect(rhsCombobox.element.pill).toEqual(expectedRhsPill);
                     }
                 );
             });
             describe('Error', () => {
                 // W-7714259
                 it('Lhs on error selecting invalid "$flow" entry', async () => {
-                    const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                    await selectComboboxItemBy(lhsCombobox, 'text', ['$Flow']);
-                    expect(lhsCombobox.errorMessage).toEqual(
+                    const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                    await lhsCombobox.selectItemBy('text', ['$Flow']);
+                    expect(lhsCombobox.element.errorMessage).toEqual(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_NOT_VALID
                     );
-                    expect(lhsCombobox.pill).toBeNull();
-                    await typeReferenceOrValueInCombobox(lhsCombobox, '');
-                    await selectComboboxItemBy(lhsCombobox, 'text', ['$Flow']);
-                    expect(lhsCombobox.errorMessage).toEqual(
+                    expect(lhsCombobox.element.pill).toBeNull();
+                    await lhsCombobox.typeReferenceOrValue('');
+                    await lhsCombobox.selectItemBy('text', ['$Flow']);
+                    expect(lhsCombobox.element.errorMessage).toEqual(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_NOT_VALID
                     );
-                    expect(lhsCombobox.pill).toBeNull();
+                    expect(lhsCombobox.element.pill).toBeNull();
                 });
             });
         });
@@ -547,15 +534,15 @@ describe('Assignment Editor', () => {
     describe('Selection using comboboxes', () => {
         const itCanSelectInLhs = (lhs, expectedItem = {}) =>
             it(`can select [${lhs}] on lhs`, async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
                 await expect(lhsCombobox).canSelectInCombobox('text', lhs);
-                expect(lhsCombobox.value).toMatchObject(expectedItem);
+                expect(lhsCombobox.element.value).toMatchObject(expectedItem);
             });
         const itCanSelectInRhs = (rhs, expectedItem = {}) =>
             it(`can select [${rhs}] on rhs`, async () => {
-                const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                const rhsCombobox = await expressionBuilder.getRhsCombobox(true);
                 await expect(rhsCombobox).canSelectInCombobox('text', rhs);
-                expect(rhsCombobox.value).toMatchObject(expectedItem);
+                expect(rhsCombobox.element.value).toMatchObject(expectedItem);
             });
         describe('groups', () => {
             it.each`
@@ -566,8 +553,8 @@ describe('Assignment Editor', () => {
                 ${'AccountId from createAccountWithAutomaticOutput'} | ${'VARIABLES'}
                 ${'Account from lookupRecordAutomaticOutput'}        | ${'RECORD (SINGLE) VARIABLES'}
             `('$item should be in group $group', async ({ item, group }) => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                const groupLabel = getComboboxGroupLabel(lhsCombobox, 'text', item);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                const groupLabel = lhsCombobox.getGroupLabel('text', item);
                 expect(groupLabel).toEqual(group);
             });
         });
@@ -612,11 +599,11 @@ describe('Assignment Editor', () => {
         });
         describe('subflow automatic output', () => {
             it('The items in the combobox are the output variables from the active version', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                await selectComboboxItemBy(lhsCombobox, 'text', ['Outputs from subflowAutomaticOutput'], {
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                await lhsCombobox.selectItemBy('text', ['Outputs from subflowAutomaticOutput'], {
                     blur: false
                 });
-                expect(getComboboxItems(lhsCombobox)).toEqual([
+                expect(lhsCombobox.getItems()).toEqual([
                     expect.objectContaining({ text: 'accountOutput' }),
                     expect.objectContaining({ text: 'carOutput' }),
                     expect.objectContaining({ text: 'accountOutputCollection' }),
@@ -652,9 +639,9 @@ describe('Assignment Editor', () => {
                 displayText: '{!loopOnApexAutoOutput.name}'
             });
             it('cannot select loop with manual output', async () => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                await typeReferenceOrValueInCombobox(lhsCombobox, '{!loopOnTextCollectionManualOutput}');
-                expect(lhsCombobox.errorMessage).toBe('FlowBuilderMergeFieldValidation.unknownResource');
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                await lhsCombobox.typeReferenceOrValue('{!loopOnTextCollectionManualOutput}');
+                expect(lhsCombobox.element.errorMessage).toBe('FlowBuilderMergeFieldValidation.unknownResource');
             });
         });
     });
@@ -668,8 +655,9 @@ describe('Assignment Editor for record triggered flow', () => {
         resetState();
     });
     describe('Validation', () => {
-        let assignmentForPropertyEditor, expressionBuilder;
-        const testExpression = getExpressionTester(() => expressionBuilder);
+        let assignmentForPropertyEditor;
+        let expressionBuilder: ExpressionBuilderComponentTest;
+        const testExpression = getExpressionTester(() => expressionBuilder.element);
         beforeAll(() => {
             const assignmentElement = getElementByDevName('assign');
             assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
@@ -684,9 +672,9 @@ describe('Assignment Editor for record triggered flow', () => {
                 ${'{!Record__Prior}'}      | ${'FlowBuilderMergeFieldValidation.unknownResource'}
                 ${'{!Record__Prior.Name}'} | ${'FlowBuilderMergeFieldValidation.unknownResource'}
             `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
-                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-                await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
-                expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+                const lhsCombobox = await expressionBuilder.getLhsCombobox(true);
+                await lhsCombobox.typeReferenceOrValue(lhs);
+                expect(lhsCombobox.element.errorMessage).toEqual(expectedErrorMessage);
             });
         });
         describe('When using $Record__Prior on RHS', () => {

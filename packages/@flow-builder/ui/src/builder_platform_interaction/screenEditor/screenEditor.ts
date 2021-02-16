@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
     isScreen,
     getAllScreenFieldTypes,
@@ -21,8 +20,16 @@ import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/scree
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
+// @ts-ignore
 import templateWithAutomaticFieldsDisabled from './screenEditor.html';
+// @ts-ignore
 import templateWithAutomaticFieldsEnabled from './screenEditorWithTabs.html';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+
+export enum ScreenEditorTab {
+    Components = 'componentsTab',
+    Fields = 'fieldsTab'
+}
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -34,6 +41,8 @@ export default class ScreenEditor extends LightningElement {
 
     @track screenFieldTypes;
     @track extensionTypes;
+    activeTab = ScreenEditorTab.Components;
+    automaticFieldRecordVariableGuid: UI.Guid = '';
     processTypeValue = '';
 
     labels = LABELS;
@@ -191,14 +200,28 @@ export default class ScreenEditor extends LightningElement {
      * @param {object} value - The new selected node
      * @param {string} property - The property to select in the canvas in case the selected node is the screen (this would be either the header or the footer)
      */
-    setSelectedNode(value, property) {
+    setSelectedNode(value, property?: string) {
         this.selectedNode = value;
         if (value === this.screen) {
             this.selectedItemGuid = property;
         } else if (value) {
             this.selectedItemGuid = value.guid;
+            this.updateActiveTabAndAutomaticFieldRecordVariable(value);
         } else {
             this.selectedItemGuid = null;
+        }
+    }
+
+    /**
+     * Update the active tab and the automatic field record variable
+     * @param screenFieldNode
+     */
+    private updateActiveTabAndAutomaticFieldRecordVariable(screenFieldNode) {
+        if (screenFieldNode.fieldType === FlowScreenFieldType.ObjectProvided) {
+            this.activeTab = ScreenEditorTab.Fields;
+            this.automaticFieldRecordVariableGuid = sanitizeGuid(screenFieldNode.objectFieldReference).guidOrLiteral;
+        } else {
+            this.activeTab = ScreenEditorTab.Components;
         }
     }
 
@@ -290,7 +313,7 @@ export default class ScreenEditor extends LightningElement {
      * @returns {Array} all the screen fields
      */
     getAllScreenFields(fields) {
-        let allFields = [];
+        let allFields: any[] = [];
         fields.forEach((field) => {
             allFields = [...allFields, ...this.flattenScreenFields(field)];
         });
@@ -306,7 +329,7 @@ export default class ScreenEditor extends LightningElement {
         if (!screenField) {
             return [];
         }
-        const allFields = [];
+        const allFields: any[] = [];
         const fields = screenField.fields;
         if (fields) {
             fields.forEach((field) => {

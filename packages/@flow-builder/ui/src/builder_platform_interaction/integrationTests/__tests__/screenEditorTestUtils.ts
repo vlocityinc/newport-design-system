@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import ScreenEditor from 'builder_platform_interaction/screenEditor';
+import ScreenEditor, { ScreenEditorTab } from 'builder_platform_interaction/screenEditor';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -27,27 +27,15 @@ import ScreenInputFieldPropertiesEditor from 'builder_platform_interaction/scree
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
 import ScreenInputField from 'builder_platform_interaction/screenInputField';
+import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+import Palette from 'builder_platform_interaction/palette';
+import { TestComponent } from './testComponent';
+import { ComboboxTestComponent } from './comboboxTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS
 };
-
-abstract class TestComponent<E> {
-    private _element: E & HTMLElement;
-
-    constructor(element: E & HTMLElement) {
-        this._element = element;
-    }
-
-    get element() {
-        return this._element;
-    }
-
-    deepQuerySelector(selectors: string[]) {
-        return deepQuerySelector(this.element, selectors);
-    }
-}
 
 export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
     public getCanvas() {
@@ -58,8 +46,18 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenCanvasTestComponent(canvasElement);
     }
 
-    private getTabset(): HTMLElement {
-        return this.element.shadowRoot!.querySelector<HTMLElement>(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TABSET)!;
+    private getTabset() {
+        return this.element.shadowRoot!.querySelector<HTMLElement & { activeTabValue: ScreenEditorTab }>(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TABSET
+        )!;
+    }
+
+    public isFieldsTabActive() {
+        return this.getTabset().activeTabValue === ScreenEditorTab.Fields;
+    }
+
+    public isComponentsTabActive() {
+        return this.getTabset().activeTabValue === ScreenEditorTab.Components;
     }
 
     public getComponentsPalette() {
@@ -73,9 +71,12 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
     public getAutomaticFieldsPalette() {
         const tabset = this.getTabset();
         const automaticFieldsTab = tabset.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
-        return (automaticFieldsTab.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as Element).querySelector(
+        const paletteElement = (automaticFieldsTab
+            .shadowRoot!.querySelector('slot')!
+            .assignedNodes()[0] as Element).querySelector(
             INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELD_PALETTE
         ) as ScreenEditorAutomaticFieldPalette & HTMLElement;
+        return new ScreenEditorAutomaticFieldsPaletteTestComponent(paletteElement);
     }
 
     public getPropertiesEditorContainerElement() {
@@ -83,6 +84,37 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
         ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
         return new PropertiesEditorContainerTestComponent(element);
+    }
+}
+
+export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestComponent<ScreenEditorAutomaticFieldPalette> {
+    public getSObjectPickerElement() {
+        return this.element.shadowRoot!.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
+        ) as SObjectOrSObjectCollectionPicker & HTMLElement;
+    }
+
+    public getSObjectPickerCombobox() {
+        return new ComboboxTestComponent(
+            this.deepQuerySelector([
+                INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER,
+                INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
+                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+                INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+            ])
+        );
+    }
+
+    public getPaletteElement() {
+        return this.element.shadowRoot!.querySelector(INTERACTION_COMPONENTS_SELECTORS.PALETTE) as Palette &
+            HTMLElement;
+    }
+
+    public getFieldsLabels() {
+        const paletteItems = Array.from(
+            this.getPaletteElement().shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_ITEM)
+        );
+        return Array.from(paletteItems).map((paletteItem) => paletteItem.shadowRoot!.querySelector('a')!.textContent);
     }
 }
 

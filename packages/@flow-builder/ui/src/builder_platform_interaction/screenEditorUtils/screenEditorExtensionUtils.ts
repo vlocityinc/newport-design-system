@@ -108,7 +108,7 @@ export function processScreenExtensionTypes(screen) {
  * @param {Screen} screen - The screen
  * @param {Function} callback - The callback to execute when done (can be null)
  */
-export function processRequiredParamsForExtensionsInScreen(screen, callback) {
+export function processRequiredParamsForExtensionsInScreen(screen, callback?) {
     // Get all extension fields
     const extensionFields = getAllChildExtensionFields(screen);
     // Get the extension names

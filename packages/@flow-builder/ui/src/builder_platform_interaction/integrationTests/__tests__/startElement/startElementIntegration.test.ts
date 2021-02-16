@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getChildComponent, resetState, setupStateForFlow } from '../integrationTestUtils';
@@ -11,13 +10,11 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
 import {
-    blurEvent,
     changeEvent,
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
-    textInputEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { CONDITION_LOGIC, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -26,7 +23,7 @@ import {
     getFieldToFerovExpressionBuilders,
     getFilterConditionLogicCombobox,
     getFilterCustomConditionLogicInput,
-    getRecordGroupedComboox
+    getRecordCombobox
 } from '../recordFilterTestUtils';
 
 const SELECTORS = {
@@ -138,14 +135,11 @@ describe('Start Element Editor (context record editor)', () => {
             expect(recordFilter).toBeNull();
         });
         it('should display the combobox to select an object and its value should be empty string', () => {
-            expect(getRecordGroupedComboox(contextRecordComponent)).not.toBeNull();
-            expect(getRecordGroupedComboox(contextRecordComponent).value).toBe('');
+            expect(getRecordCombobox(contextRecordComponent).getGroupedCombobox().element.value).toBe('');
         });
         describe('When an object is selected', () => {
             beforeEach(async () => {
-                getRecordGroupedComboox(contextRecordComponent).dispatchEvent(textInputEvent('Account'));
-                getRecordGroupedComboox(contextRecordComponent).dispatchEvent(blurEvent);
-                await ticks(1);
+                await getRecordCombobox(contextRecordComponent).typeLiteralValue('Account');
                 recordFilter = getChildComponent(
                     contextRecordComponent,
                     INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
@@ -160,7 +154,7 @@ describe('Start Element Editor (context record editor)', () => {
             it('Should have an empty filter displayed', () => {
                 const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
                 expect(fieldToFerovExpressionBuilderComponents).toHaveLength(1);
-                expect(fieldToFerovExpressionBuilderComponents[0].expression).toMatchObject(emptyFilterItem);
+                expect(fieldToFerovExpressionBuilderComponents[0].element.expression).toMatchObject(emptyFilterItem);
             });
             it('Should not display the custom logic input', () => {
                 expect(getFilterCustomConditionLogicInput(contextRecordComponent)).toBeNull();
@@ -200,7 +194,7 @@ describe('Start Element Editor (context record editor)', () => {
             it('Should have an empty filter', () => {
                 const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
                 expect(fieldToFerovExpressionBuilderComponents).toHaveLength(1);
-                expect(fieldToFerovExpressionBuilderComponents[0].expression).toMatchObject(emptyFilterItem);
+                expect(fieldToFerovExpressionBuilderComponents[0].element.expression).toMatchObject(emptyFilterItem);
             });
             it('Should not display the custom logic input', () => {
                 expect(getFilterCustomConditionLogicInput(contextRecordComponent)).toBeNull();
@@ -221,7 +215,7 @@ describe('Start Element Editor (context record editor)', () => {
             it('Should have an empty filter should be displayed', () => {
                 const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
                 expect(fieldToFerovExpressionBuilderComponents).toHaveLength(1);
-                expect(fieldToFerovExpressionBuilderComponents[0].expression).toMatchObject(emptyFilterItem);
+                expect(fieldToFerovExpressionBuilderComponents[0].element.expression).toMatchObject(emptyFilterItem);
             });
             it('Should display the custom logic input', () => {
                 expect(getFilterCustomConditionLogicInput(contextRecordComponent)).not.toBeNull();

@@ -13,9 +13,9 @@ import {
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { selectGroupedComboboxItemBy } from '../../groupedComboboxTestUtils';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
+import { ComboboxTestComponent } from '../../comboboxTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -23,18 +23,15 @@ const SELECTORS = {
 };
 
 const getCombobox = (extensionPropertiesEditor) => {
-    return deepQuerySelector(extensionPropertiesEditor, [
-        SELECTORS.SCREEN_EXTENSION_ATTRIBUTE_EDITOR,
-        SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR,
-        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-    ]);
-};
-
-const getGroupedCombobox = (extensionPropertiesEditor) => {
-    const combobox = getCombobox(extensionPropertiesEditor);
-    return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    return new ComboboxTestComponent(
+        deepQuerySelector(extensionPropertiesEditor, [
+            SELECTORS.SCREEN_EXTENSION_ATTRIBUTE_EDITOR,
+            SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR,
+            INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        ])
+    );
 };
 
 describe('ScreenEditor', () => {
@@ -72,12 +69,9 @@ describe('ScreenEditor', () => {
                     .getExtensionPropertiesEditor();
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const combobox = getCombobox(extensionPropertiesEditor!.element);
-                combobox.renderIncrementally = false;
+                combobox.element.renderIncrementally = false;
                 await ticks(1);
-
-                const groupedCombobox = getGroupedCombobox(extensionPropertiesEditor!.element);
-                const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                    groupedCombobox,
+                const accountCreatedByItem = await combobox.selectItemBy(
                     'displayText',
                     ['{!accountSObjectVariable}', '{!accountSObjectVariable.CreatedBy}'],
                     { blur: false }
@@ -107,9 +101,8 @@ describe('ScreenEditor', () => {
                 const extensionPropertiesEditor = screenEditor
                     .getPropertiesEditorContainerElement()
                     .getExtensionPropertiesEditor();
-                const groupedCombobox = getGroupedCombobox(extensionPropertiesEditor!.element);
-                const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                    groupedCombobox,
+                const groupedCombobox = getCombobox(extensionPropertiesEditor!.element).getGroupedCombobox();
+                const accountCreatedByItem = await groupedCombobox.selectItemBy(
                     'displayText',
                     ['{!vMyTestAccount}', '{!vMyTestAccount.CreatedBy}'],
                     { blur: false }
@@ -117,8 +110,7 @@ describe('ScreenEditor', () => {
 
                 expect(accountCreatedByItem).toBeUndefined();
 
-                const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
-                    groupedCombobox,
+                const accountCreatedByIdItem = await groupedCombobox.selectItemBy(
                     'displayText',
                     ['{!vMyTestAccount}', '{!vMyTestAccount.CreatedById}'],
                     { blur: false }

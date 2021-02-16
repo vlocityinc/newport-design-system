@@ -6,8 +6,8 @@
     <div if:true={screen} class="slds-grid screen-editor-container">
         <!-- this div is the container for the left panel-->
         <div class="slds-size_small slds-grow-none slds-shrink-none slds-border_right">
-            <lightning-tabset>
-                <lightning-tab label={labels.componentsTabLabel} class="slds-p-around_none">
+            <lightning-tabset active-tab-value={activeTab}>
+                <lightning-tab value="componentsTab" label={labels.componentsTabLabel} class="slds-p-around_none">
                     <div class="tab-container-components">
                         <builder_platform_interaction-screen-editor-palette
                             screen-field-types={screenFieldTypes}
@@ -22,9 +22,10 @@
                         </builder_platform_interaction-button-banner>
                     </div>
                 </lightning-tab>
-                <lightning-tab label={labels.fieldsTabLabel} class="slds-p-around_none">
+                <lightning-tab value="fieldsTab" label={labels.fieldsTabLabel} class="slds-p-around_none">
                     <div class="slds-scrollable_y tab-container-automaticfields">
                         <builder_platform_interaction-screen-editor-automatic-field-palette
+                            record-variable={automaticFieldRecordVariableGuid}
                             onaddautomaticscreenfield={handleAddScreenField}
                         >
                         </builder_platform_interaction-screen-editor-automatic-field-palette>

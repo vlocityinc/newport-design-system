@@ -47,6 +47,8 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',
     LEFT_PANEL_RESOURCE_DETAILS: 'builder_platform_interaction-resource-details',
     LIST: 'builder_platform_interaction-list',
+    PALETTE: 'builder_platform_interaction-palette',
+    PALETTE_ITEM: 'builder_platform_interaction-palette-item',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     PROCESS_TYPES_NAVIGATION: 'builder_platform_interaction-process-types-vertical-navigation',

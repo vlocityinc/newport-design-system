@@ -927,7 +927,7 @@ const setInputsNextNavToAssocScrnOption = (
  * @param {object} selectedNode - the currently selected node
  * @returns {object} screen - the updated screen
  */
-export const screenReducer = (state, event, selectedNode) => {
+export const screenReducer = (state, event, selectedNode?) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return screenPropertyChanged(state, event, selectedNode);

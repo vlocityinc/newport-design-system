@@ -6,6 +6,7 @@ import { FlowScreenFieldType, FLOW_PROCESS_TYPE } from 'builder_platform_interac
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber', () => ({ default: 'Number({0}, {1})' }), {
     virtual: true
@@ -30,7 +31,9 @@ describe('ScreenEditor automatic fields', () => {
             node: screenNode,
             processType: FLOW_PROCESS_TYPE.FLOW
         });
-        return new ScreenEditorTestComponent(screenEditor);
+        const editor = new ScreenEditorTestComponent(screenEditor);
+        await ticks(50);
+        return editor;
     };
     describe('Existing flow', () => {
         beforeAll(async () => {
@@ -53,6 +56,43 @@ describe('ScreenEditor automatic fields', () => {
                 expect(
                     screenEditor.getPropertiesEditorContainerElement().getAutomaticFieldPropertiesEditorElement
                 ).toBeTruthy();
+            });
+        });
+        describe('Screen field selection', () => {
+            beforeAll(async () => {
+                screenEditor = await createScreenEditor('screenWithAutomaticFieldsInSection');
+                await screenEditor
+                    .getCanvas()
+                    .getScreenEditorHighlightForScreenFieldWithName('screenWithAutomaticFieldsInSection_Section1');
+            });
+            it('should switch to the field tab when an automatic field is selected on canvas', async () => {
+                expect(screenEditor.isComponentsTabActive()).toEqual(true);
+                await screenEditor
+                    .getCanvas()
+                    .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                    .click();
+                expect(screenEditor.isFieldsTabActive()).toEqual(true);
+            });
+            it('should switch to the components tab when a field that is not an automatic field is selected on canvas', async () => {
+                await screenEditor
+                    .getCanvas()
+                    .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                    .click();
+                await screenEditor
+                    .getCanvas()
+                    .getScreenEditorHighlightForScreenFieldWithName('screenWithAutomaticFieldsInSection_Section1')!
+                    .click();
+                expect(screenEditor.isComponentsTabActive()).toEqual(true);
+            });
+            it('should display the record object and fields when an automatic field is selected on canvas', async () => {
+                await screenEditor
+                    .getCanvas()
+                    .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                    .click();
+                const sobjectPickerCombobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
+                expect(sobjectPickerCombobox.element.hasPill).toBe(true);
+                expect(sobjectPickerCombobox.getPillElement().label).toBe('accountSObjectVariable');
+                expect(screenEditor.getAutomaticFieldsPalette().getFieldsLabels()).toContainEqual('Account Number');
             });
         });
         describe('Automatic field in canvas', () => {

@@ -1,15 +1,18 @@
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector,
-    removePill
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
+import { GroupedComboboxTestComponent } from '../groupedComboboxTestUtils';
 
 export const getBaseResourcePickerCombobox = (element) => {
-    return deepQuerySelector(element, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-    ]);
+    return new ComboboxTestComponent(
+        deepQuerySelector(element, [
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        ])
+    );
 };
 
 export const getOutputResourcePicker = (recordEditor) =>
@@ -27,9 +30,6 @@ export const getResourceCombobox = (recordEditor, extraParentSelectors: string[]
         ])
     );
 
-export const getResourceGroupedCombobox = (recordEditor) =>
-    deepQuerySelector(getResourceCombobox(recordEditor), [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
-
 export const getRadioGroups = (parentElement) =>
     parentElement.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
 
@@ -37,23 +37,21 @@ export const getLightningRadioGroup = (editor) =>
     editor.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
 
 export const getRecordVariablePickerChildComboboxComponent = (parentComponent) =>
-    deepQuerySelector(parentComponent, [
-        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-    ]);
-
-export const getRecordVariablePickerChildGroupedComboboxComponent = (parentPickerComponent) =>
-    deepQuerySelector(getRecordVariablePickerChildComboboxComponent(parentPickerComponent), [
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
-
+    new ComboboxTestComponent(
+        deepQuerySelector(parentComponent, [
+            INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        ])
+    );
 export const getEntityResourcePickerChildGroupedComboboxComponent = (parentPickerComponent) =>
-    deepQuerySelector(parentPickerComponent, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
+    new GroupedComboboxTestComponent(
+        deepQuerySelector(parentPickerComponent, [
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+        ])
+    );
 
 export const getEntityResourcePicker = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
@@ -83,9 +81,6 @@ export const getRecordNumberRecordToStore = (editor) =>
 
 export const removePillAndGetGroupedCombobox = async (element, extraParentSelectors: string[] = []) => {
     const combobox = getResourceCombobox(element, extraParentSelectors);
-    await removePill(combobox);
-    return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    await combobox.removePill();
+    return combobox.getGroupedCombobox();
 };
-
-export const getBaseExpressionBuilderRhsCombobox = (baseExpressionBuilder) =>
-    baseExpressionBuilder.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX)[1];

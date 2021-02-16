@@ -84,6 +84,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         return this.state.recordVariable;
     }
 
+    set recordVariable(value: string) {
+        this.setRecordVariableAndErrorMessage(value, null);
+    }
+
     /**
      * Handler for "SObjectReference" element property changes
      * @param {object} event
@@ -91,15 +95,23 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     handleSObjectReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
         event.stopPropagation();
         if (this.state.recordVariable !== event.detail.value) {
-            this.searchPattern = null;
-            this.state.recordVariable = event.detail.value;
-            this.sobjectPickerErrorMessage = event.detail.error;
-            if (this.state.recordVariable !== '' && this.sobjectPickerErrorMessage == null) {
-                this.updateFields();
-                this.showNoItemsIllustration = false;
-            } else {
-                this.showNoItemsIllustration = true;
-            }
+            this.setRecordVariableAndErrorMessage(event.detail.value, event.detail.error);
+        }
+    }
+
+    private setRecordVariableAndErrorMessage(recordVariable, errorMessage: string | null) {
+        this.searchPattern = null;
+        this.state.recordVariable = recordVariable;
+        this.sobjectPickerErrorMessage = errorMessage;
+        if (
+            this.state.recordVariable != null &&
+            this.state.recordVariable !== '' &&
+            this.sobjectPickerErrorMessage == null
+        ) {
+            this.updateFields();
+            this.showNoItemsIllustration = false;
+        } else {
+            this.showNoItemsIllustration = true;
         }
     }
 

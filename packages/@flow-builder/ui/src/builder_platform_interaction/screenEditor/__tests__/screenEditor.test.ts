@@ -67,7 +67,8 @@ const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
 const EDITOR_CONTAINER_ELEMENT_NAME = 'builder_platform_interaction-screen-properties-editor-container';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
+    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields),
+    fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields))
 }));
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const storeUtils = jest.requireActual('builder_platform_interaction/storeUtils');
@@ -86,8 +87,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                     name
                 };
             }
-            // getElementByGuid returns undefined if no element can be found, this is by design
-            return undefined;
+            return storeUtils.getElementByGuid(guid);
         },
         getElementByDevName: jest.fn(),
         getDuplicateDevNameElements: jest.fn(),
@@ -174,7 +174,7 @@ describe('Event handling on editor', () => {
     });
     describe('add automatic screen field', () => {
         test('event adds a field to the end by default', async () => {
-            const objectFieldReference = accountSObjectVariable.name + '.Name';
+            const objectFieldReference = accountSObjectVariable.guid + '.Name';
             const length = screenEditorElement.node.fields.length;
             const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference));
@@ -183,7 +183,7 @@ describe('Event handling on editor', () => {
             expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
         });
         test('event can add a field to a specific position', async () => {
-            const objectFieldReference = accountSObjectVariable.name + '.Name';
+            const objectFieldReference = accountSObjectVariable.guid + '.Name';
             const length = screenEditorElement.node.fields.length;
             const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference, 0));

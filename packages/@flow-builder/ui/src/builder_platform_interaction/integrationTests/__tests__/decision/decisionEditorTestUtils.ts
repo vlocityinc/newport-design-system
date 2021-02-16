@@ -7,6 +7,7 @@ import {
     deepQuerySelector,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
+import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -31,8 +32,10 @@ export const getRow = (decision) => {
 };
 
 export const getFerToFerovExpressionBuilder = (decision) => {
-    return getRow(decision)
-        .shadowRoot.querySelector(' div > slot')
-        .assignedNodes()[0]
-        .querySelector(SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER);
+    return new ExpressionBuilderComponentTest(
+        getRow(decision)
+            .shadowRoot.querySelector(' div > slot')
+            .assignedNodes()[0]
+            .querySelector(SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER)
+    );
 };

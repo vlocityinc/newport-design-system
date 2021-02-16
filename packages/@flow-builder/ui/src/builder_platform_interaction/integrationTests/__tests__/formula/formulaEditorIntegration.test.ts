@@ -6,7 +6,6 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     focusoutEvent,
     blurEvent,
-    selectEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -22,7 +21,7 @@ import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib'
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
-import { getGroupedComboboxItemInGroup, getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-formula-editor', {
@@ -58,12 +57,7 @@ const getFerovResourcePicker = (editor) =>
 
 const getResourceCombobox = (editor) => {
     const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    return baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
-};
-
-const getResourceGroupedCombobox = (editor) => {
-    const interactionCombobox = getResourceCombobox(editor);
-    return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    return new ComboboxTestComponent(baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX));
 };
 
 describe('Formula Editor', () => {
@@ -156,93 +150,68 @@ describe('Formula Editor', () => {
                 GLOBAL_VARIABLES: 'FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory'
             };
             it('contains "New Resource"', () => {
-                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
-                expect(
-                    getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
-                ).toBeDefined();
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                expect(groupedCombobox.getItemBy('text', 'FlowBuilderExpressionUtils.newResourceLabel')).toBeDefined();
             });
             it('contains a "Record Variables" group containing "accountSObjectVariable"', async () => {
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const comboxbox = getResourceCombobox(propertyEditor);
-                comboxbox.renderIncrementally = false;
+                comboxbox.element.renderIncrementally = false;
                 await ticks(1);
 
-                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
                 expect(
-                    getGroupedComboboxItemInGroup(
-                        groupedCombobox,
-                        GROUP_LABELS.RECORD_VARIABLES,
-                        'text',
-                        'accountSObjectVariable'
-                    )
+                    groupedCombobox.getItemInGroup(GROUP_LABELS.RECORD_VARIABLES, 'text', 'accountSObjectVariable')
                 ).toBeDefined();
             });
             it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', async () => {
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const comboxbox = getResourceCombobox(propertyEditor);
-                comboxbox.renderIncrementally = false;
+                comboxbox.element.renderIncrementally = false;
                 await ticks(1);
 
-                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')).toBeDefined();
+                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Api')).toBeDefined();
                 expect(
-                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')
+                    groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Organization')
                 ).toBeDefined();
-                expect(
-                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Api')
-                ).toBeDefined();
-                expect(
-                    getGroupedComboboxItemInGroup(
-                        groupedCombobox,
-                        GROUP_LABELS.GLOBAL_VARIABLES,
-                        'text',
-                        '$Organization'
-                    )
-                ).toBeDefined();
-                expect(
-                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Profile')
-                ).toBeDefined();
-                expect(
-                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$User')
-                ).toBeDefined();
+                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Profile')).toBeDefined();
+                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$User')).toBeDefined();
             });
             it('displays the record properties when selecting a record variable', async () => {
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const comboxbox = getResourceCombobox(propertyEditor);
-                comboxbox.renderIncrementally = false;
+                comboxbox.element.renderIncrementally = false;
                 await ticks(1);
 
-                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
-                const item = getGroupedComboboxItemInGroup(
-                    groupedCombobox,
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                const item = groupedCombobox.getItemInGroup(
                     GROUP_LABELS.RECORD_VARIABLES,
                     'text',
                     'accountSObjectVariable'
                 );
-                groupedCombobox.dispatchEvent(selectEvent(item.value));
-                await ticks();
-                expect(getGroupedComboboxItemBy(groupedCombobox, 'text', 'Description')).toBeDefined();
-                expect(getGroupedComboboxItemBy(groupedCombobox, 'text', 'ShippingLongitude')).toBeDefined();
+                await groupedCombobox.select(item.value, { blur: false });
+                expect(groupedCombobox.getItemBy('text', 'Description')).toBeDefined();
+                expect(groupedCombobox.getItemBy('text', 'ShippingLongitude')).toBeDefined();
             });
             it('inserts the resource in the textarea when we select a resource', async () => {
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const comboxbox = getResourceCombobox(propertyEditor);
-                comboxbox.renderIncrementally = false;
+                comboxbox.element.renderIncrementally = false;
                 await ticks(1);
 
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.setSelectionRange(3, 3);
-                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
-                const item = getGroupedComboboxItemInGroup(
-                    groupedCombobox,
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                const item = groupedCombobox.getItemInGroup(
                     GROUP_LABELS.RECORD_VARIABLES,
                     'text',
                     'accountSObjectVariable'
                 );
-                groupedCombobox.dispatchEvent(selectEvent(item.value));
-                await ticks();
-                const subItem = getGroupedComboboxItemBy(groupedCombobox, 'text', 'Description');
-                groupedCombobox.dispatchEvent(selectEvent(subItem.value));
-                await ticks();
+                await groupedCombobox.select(item.value, { blur: false });
+                const subItem = groupedCombobox.getItemBy('text', 'Description');
+                await groupedCombobox.select(subItem.value, { blur: false });
                 expect(textArea.value).toEqual(
                     'IF({!accountSObjectVariable.Description}{!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")'
                 );

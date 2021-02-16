@@ -3,15 +3,14 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
-import { getBaseExpressionBuilder } from './expressionBuilderTestUtils';
+import FieldToFerovExpressionBuilder from 'builder_platform_interaction/fieldToFerovExpressionBuilder';
+import { ComboboxTestComponent } from './comboboxTestUtils';
+import { ExpressionBuilderComponentTest } from './expressionBuilderTestUtils';
 
 export const getFieldToFerovExpressionBuilders = (parentElement) =>
-    parentElement.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
-
-export const getBaseExpressionBuilderByIndex = (recordFilter, index = 0) => {
-    const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
-    return getBaseExpressionBuilder(fieldToFerovExpressionBuilderComponents[index]);
-};
+    Array.from(
+        parentElement.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER)
+    ).map((element) => new ExpressionBuilderComponentTest(element as FieldToFerovExpressionBuilder & HTMLElement));
 
 export const getFilterConditionLogicCombobox = (parentElement) =>
     deepQuerySelector(parentElement, [
@@ -27,13 +26,14 @@ export const getFilterCustomConditionLogicInput = (parentElement) =>
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT
     ]);
 
-export const getRecordGroupedComboox = (parentElement) =>
-    deepQuerySelector(parentElement, [
-        INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
+export const getRecordCombobox = (parentElement) =>
+    new ComboboxTestComponent(
+        deepQuerySelector(parentElement, [
+            INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        ])
+    );
 
 export const emptyFilterItem = {
     leftHandSide: { error: null, value: '' },

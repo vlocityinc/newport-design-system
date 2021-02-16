@@ -1,4 +1,4 @@
-// to update elementsForPropertyEditors from flowWithAllElementsUIModel, run propertyEditorFactory.test.js and follow instructions
+// to update elementsForPropertyEditors from flowWithAllElementsUIModel, run propertyEditorFactory.test.ts and follow instructions
 export const elementsForPropertyEditors = {
     stringVariable: {
         guid: '27cfbe21-2aa1-4503-aa13-3677c687153d',

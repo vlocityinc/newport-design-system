@@ -7,13 +7,13 @@ import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     clickEvent,
-    getComboboxPill,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
-import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
+import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import { updateElement } from 'builder_platform_interaction/actions';
 import { createRecordLookup } from 'builder_platform_interaction/elementFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
 
 const createComponentForTest = (assignmentElement) => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -25,7 +25,9 @@ const createComponentForTest = (assignmentElement) => {
 };
 
 const getFerToFerovExpressionBuilder = (assignment, n = 0) =>
-    assignment.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER)[n];
+    new ExpressionBuilderComponentTest(
+        assignment.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER)[n]
+    );
 
 describe('Assignment Editor - Validation on done', () => {
     let storeInstance, assignment;
@@ -51,23 +53,24 @@ describe('Assignment Editor - Validation on done', () => {
         describe('first assignment item ("{!lookupRecordAutomaticOutput.accountNumber} Equals {!accountSObjectVariable.AccountNumber}")', () => {
             it('should have an error on LHS', async () => {
                 const expressionBuilder = getFerToFerovExpressionBuilder(assignment, 0);
-                const lhsCombobox = await getLhsCombobox(expressionBuilder);
-                expect(lhsCombobox.errorMessage).toBe(
+                const lhsCombobox = await expressionBuilder.getLhsCombobox();
+                expect(lhsCombobox.element.errorMessage).toBe(
                     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_CANNOT_BE_USED
                 );
             });
             it('keeps displayText on LHS after validation', async () => {
                 // see W-7251820
                 const expressionBuilder = getFerToFerovExpressionBuilder(assignment, 0);
-                const lhsCombobox = await getLhsCombobox(expressionBuilder);
-                expect(lhsCombobox.value.displayText).toEqual('{!lookupRecordAutomaticOutput.AccountNumber}');
+                const lhsCombobox = await expressionBuilder.getLhsCombobox();
+                expect(lhsCombobox.element.value.displayText).toEqual('{!lookupRecordAutomaticOutput.AccountNumber}');
             });
             describe('pill', () => {
-                let pillCombobox, lhsCombobox;
+                let pillCombobox;
+                let lhsCombobox: ComboboxTestComponent;
                 beforeAll(async () => {
                     const expressionBuilder = getFerToFerovExpressionBuilder(assignment, 0);
-                    lhsCombobox = await getLhsCombobox(expressionBuilder);
-                    pillCombobox = getComboboxPill(lhsCombobox);
+                    lhsCombobox = await expressionBuilder.getLhsCombobox();
+                    pillCombobox = lhsCombobox.getPillElement();
                 });
                 // see W-7251820
                 it('should be in error mode', () => {
@@ -79,8 +82,8 @@ describe('Assignment Editor - Validation on done', () => {
                     );
                 });
                 it('should have tooltip with label and error message', () => {
-                    expect(lhsCombobox.pillTooltip).toEqual(
-                        `FlowBuilderElementLabels.recordLookupAsResourceText > Account Number\n${lhsCombobox.errorMessage}`
+                    expect(lhsCombobox.element.pillTooltip).toEqual(
+                        `FlowBuilderElementLabels.recordLookupAsResourceText > Account Number\n${lhsCombobox.element.errorMessage}`
                     );
                 });
                 describe('on click', () => {
@@ -90,15 +93,17 @@ describe('Assignment Editor - Validation on done', () => {
                     });
 
                     it('displays no longer the pill', () => {
-                        expect(lhsCombobox.pill).toBeNull();
+                        expect(lhsCombobox.element.pill).toBeNull();
                     });
                     it('keeps the combobox error message', () => {
-                        expect(lhsCombobox.errorMessage).toEqual(
+                        expect(lhsCombobox.element.errorMessage).toEqual(
                             FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_CANNOT_BE_USED
                         );
                     });
                     it('keeps the combobox selected displayText', () => {
-                        expect(lhsCombobox.value.displayText).toEqual('{!lookupRecordAutomaticOutput.AccountNumber}');
+                        expect(lhsCombobox.element.value.displayText).toEqual(
+                            '{!lookupRecordAutomaticOutput.AccountNumber}'
+                        );
                     });
                 });
             });
@@ -106,23 +111,24 @@ describe('Assignment Editor - Validation on done', () => {
         describe('second assignment item ("{!lookupRecordAutomaticOutput} Equals {!accountSObjectVariable}")', () => {
             it('should have an error on RHS', async () => {
                 const expressionBuilder = getFerToFerovExpressionBuilder(assignment, 1);
-                const rhsCombobox = await getRhsCombobox(expressionBuilder);
-                expect(rhsCombobox.errorMessage).toBe(
+                const rhsCombobox = await expressionBuilder.getRhsCombobox();
+                expect(rhsCombobox.element.errorMessage).toBe(
                     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_INVALID_DATA_TYPE
                 );
             });
             it('keeps displayText on RHS after validation', async () => {
                 // see W-7251820
                 const expressionBuilder = getFerToFerovExpressionBuilder(assignment, 1);
-                const rhsCombobox = await getRhsCombobox(expressionBuilder);
-                expect(rhsCombobox.value.displayText).toEqual('{!accountSObjectVariable}');
+                const rhsCombobox = await expressionBuilder.getRhsCombobox();
+                expect(rhsCombobox.element.value.displayText).toEqual('{!accountSObjectVariable}');
             });
             describe('pill', () => {
-                let pillCombobox, rhsCombobox;
+                let pillCombobox;
+                let rhsCombobox: ComboboxTestComponent;
                 beforeAll(async () => {
                     const expressionBuilder = getFerToFerovExpressionBuilder(assignment, 1);
-                    rhsCombobox = await getRhsCombobox(expressionBuilder);
-                    pillCombobox = getComboboxPill(rhsCombobox);
+                    rhsCombobox = await expressionBuilder.getRhsCombobox();
+                    pillCombobox = rhsCombobox.getPillElement();
                 });
                 // see W-7251820
                 it('should be in error mode', () => {
@@ -132,7 +138,9 @@ describe('Assignment Editor - Validation on done', () => {
                     expect(pillCombobox.label).toEqual('accountSObjectVariable');
                 });
                 it('should have tooltip with label and error message', () => {
-                    expect(rhsCombobox.pillTooltip).toEqual(`accountSObjectVariable\n${rhsCombobox.errorMessage}`);
+                    expect(rhsCombobox.element.pillTooltip).toEqual(
+                        `accountSObjectVariable\n${rhsCombobox.element.errorMessage}`
+                    );
                 });
                 describe('on click', () => {
                     beforeAll(async () => {
@@ -141,15 +149,15 @@ describe('Assignment Editor - Validation on done', () => {
                     });
 
                     it('displays no longer the pill', () => {
-                        expect(rhsCombobox.pill).toBeNull();
+                        expect(rhsCombobox.element.pill).toBeNull();
                     });
                     it('keeps the combobox error message', () => {
-                        expect(rhsCombobox.errorMessage).toEqual(
+                        expect(rhsCombobox.element.errorMessage).toEqual(
                             FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_INVALID_DATA_TYPE
                         );
                     });
                     it('keeps the combobox selected displayText', () => {
-                        expect(rhsCombobox.value.displayText).toEqual('{!accountSObjectVariable}');
+                        expect(rhsCombobox.element.value.displayText).toEqual('{!accountSObjectVariable}');
                     });
                 });
             });

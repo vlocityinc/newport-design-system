@@ -1,12 +1,14 @@
 import {
     ticks,
-    deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
     changeEvent,
     clickPill
 } from 'builder_platform_interaction/builderTestUtils';
-import { typeReferenceOrValueInCombobox } from './comboboxTestUtils';
-import Combobox from 'builder_platform_interaction/combobox';
+import { ComboboxTestComponent } from './comboboxTestUtils';
+import { TestComponent } from './testComponent';
+import FerToFerovExpressionBuilder from 'builder_platform_interaction/ferToFerovExpressionBuilder';
+import FieldToFerovExpressionBuilder from 'builder_platform_interaction/fieldToFerovExpressionBuilder';
+import BaseExpressionBuilder from 'builder_platform_interaction/baseExpressionBuilder';
 
 export const EXPRESSION_BUILDER_SELECTORS = {
     LHS_COMBOBOX: 'builder_platform_interaction-combobox.lhs',
@@ -14,88 +16,88 @@ export const EXPRESSION_BUILDER_SELECTORS = {
     OPERATOR_COMBOBOX: 'lightning-combobox.operator'
 };
 
-export const getBaseExpressionBuilder = (expressionBuilder) =>
-    expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
-
-export const getOperatorCombobox = (expressionBuilder) => {
-    return deepQuerySelector(expressionBuilder, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-        EXPRESSION_BUILDER_SELECTORS.OPERATOR_COMBOBOX
-    ]);
-};
-
-export const selectOperator = (expressionBuilder, operator) => {
-    const operatorCombobox = getOperatorCombobox(expressionBuilder);
-    if (operatorCombobox.options.find((option) => option.value === operator)) {
-        operatorCombobox.dispatchEvent(changeEvent(operator));
-        return true;
+export class ExpressionBuilderComponentTest extends TestComponent<
+    FerToFerovExpressionBuilder | FieldToFerovExpressionBuilder
+> {
+    public getBaseExpressionBuilderElement() {
+        return this.element.shadowRoot!.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER
+        ) as BaseExpressionBuilder & HTMLElement;
     }
-    return false;
-};
 
-/**
- * Returns combobox component removing pill if needed
- * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
- * @param {string} comboboxSelector - combobox selector (eg: rhs combobox selector @link{EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX}
- * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
- * @returns {Promise<HTMLElement>} - promise fulfilled with combobox component
- * @private
- */
-const getCombobox = async (
-    expressionBuilder: HTMLElement,
-    comboboxSelector: string,
-    clickOnPill = false
-): Promise<Combobox> => {
-    const combobox = deepQuerySelector(expressionBuilder, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-        comboboxSelector
-    ]);
-    if (clickOnPill) {
-        await clickPill(combobox);
+    public getOperatorComboboxElement() {
+        return this.deepQuerySelector([
+            INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+            EXPRESSION_BUILDER_SELECTORS.OPERATOR_COMBOBOX
+        ]);
     }
-    return combobox;
-};
 
-/**
- * Returns LHS combobox component removing pill if needed
- * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
- * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
- * @returns {Promise<Combobox>} - promise fulfilled with LHS combobox component
- */
-export const getLhsCombobox = async (expressionBuilder: HTMLElement, clickOnPill = false): Promise<Combobox> =>
-    getCombobox(expressionBuilder, EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX, clickOnPill);
-
-/**
- * Returns RHS combobox component removing pill if needed
- * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
- * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
- * @returns {Promise<Combobox>} - promise fulfilled with RHS combobox component
- */
-export const getRhsCombobox = async (expressionBuilder: HTMLElement, clickOnPill = false): Promise<Combobox> =>
-    getCombobox(expressionBuilder, EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX, clickOnPill);
-
-export const validateExpression = async (
-    expressionBuilder,
-    { lhs, rhs, operator }: { lhs: string; rhs: string; operator: string }
-) => {
-    const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
-    await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
-    if (lhsCombobox.errorMessage) {
-        return { lhsErrorMessage: lhsCombobox.errorMessage };
-    }
-    if (operator) {
-        if (!selectOperator(expressionBuilder, operator)) {
-            return { operatorErrorMessage: `No operator ${operator}` };
+    public selectOperator(operator) {
+        const operatorCombobox = this.getOperatorComboboxElement();
+        if (operatorCombobox.options.find((option) => option.value === operator)) {
+            operatorCombobox.dispatchEvent(changeEvent(operator));
+            return true;
         }
-        await ticks(50);
+        return false;
     }
-    const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
-    await typeReferenceOrValueInCombobox(rhsCombobox, rhs);
-    if (rhsCombobox.errorMessage) {
-        return { rhsErrorMessage: rhsCombobox.errorMessage };
+
+    /**
+     * Returns combobox component removing pill if needed
+     * @param {string} comboboxSelector - combobox selector (eg: rhs combobox selector @link{EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX}
+     * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
+     * @returns {Promise<HTMLElement>} - promise fulfilled with combobox component
+     */
+    private async getCombobox(comboboxSelector: string, clickOnPill = false) {
+        const combobox = this.deepQuerySelector([
+            INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+            comboboxSelector
+        ]);
+        if (clickOnPill) {
+            await clickPill(combobox);
+        }
+        return new ComboboxTestComponent(combobox);
     }
-    return {};
-};
+
+    /**
+     * Returns LHS combobox component removing pill if needed
+     * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
+     * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
+     * @returns {Promise<Combobox>} - promise fulfilled with LHS combobox component
+     */
+    public async getLhsCombobox(clickOnPill = false) {
+        return this.getCombobox(EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX, clickOnPill);
+    }
+
+    /**
+     * Returns RHS combobox component removing pill if needed
+     * @param {HTMLElement} expressionBuilder - current expression builder containing the combobox
+     * @param {boolean} [clickOnPill=false] - if true we do click on the pill switching to merge field notation
+     * @returns {Promise<Combobox>} - promise fulfilled with RHS combobox component
+     */
+    public async getRhsCombobox(clickOnPill = false) {
+        return this.getCombobox(EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX, clickOnPill);
+    }
+
+    public async validateExpression({ lhs, rhs, operator }: { lhs: string; rhs: string; operator: string }) {
+        const lhsCombobox = await this.getLhsCombobox(true);
+        await lhsCombobox.typeReferenceOrValue(lhs);
+        if (lhsCombobox.element.errorMessage) {
+            return { lhsErrorMessage: lhsCombobox.element.errorMessage };
+        }
+        if (operator) {
+            if (!this.selectOperator(operator)) {
+                return { operatorErrorMessage: `No operator ${operator}` };
+            }
+            await ticks(50);
+        }
+        const rhsCombobox = await this.getRhsCombobox(true);
+        await rhsCombobox.typeReferenceOrValue(rhs);
+        if (rhsCombobox.element.errorMessage) {
+            return { rhsErrorMessage: rhsCombobox.element.errorMessage };
+        }
+        return {};
+    }
+}
 
 /**
  * Get an expression tester
@@ -111,13 +113,16 @@ export const validateExpression = async (
  *
  * @param expressionBuilderProvider Function that provides the expression builder
  */
-export const getExpressionTester = (expressionBuilderProvider: () => any) => ({
+export const getExpressionTester = (
+    expressionBuilderProvider: () => (FerToFerovExpressionBuilder | FieldToFerovExpressionBuilder) & HTMLElement
+) => ({
     each: (strings: TemplateStringsArray, ...keys: (string | undefined)[]) => {
         it.each(strings, ...keys)(
             'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
             async ({ lhs, operator, rhs, rhsErrorMessage }) => {
+                const expressionBuilderTestComponent = new ExpressionBuilderComponentTest(expressionBuilderProvider());
                 expect(
-                    await validateExpression(expressionBuilderProvider(), {
+                    await expressionBuilderTestComponent.validateExpression({
                         lhs,
                         operator,
                         rhs

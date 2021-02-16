@@ -9,7 +9,7 @@ const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 /**
  * Get the supported screen field types
  */
-export function getSupportedScreenFieldTypes(flowProcessType: string, flowTriggerType: string): Promise<any> {
+export function getSupportedScreenFieldTypes(flowProcessType: string, flowTriggerType?: string): Promise<any> {
     logPerfTransactionStart(SCREEN_FIELD_TYPES, null, null);
     const param = { flowProcessType, flowTriggerType };
     return fetchOnce(SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES, param)

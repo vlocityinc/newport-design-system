@@ -19,11 +19,11 @@ import {
     ticks,
     blurEvent,
     focusoutEvent,
-    textInputEvent,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
-import { typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
+import { GroupedComboboxTestComponent } from '../groupedComboboxTestUtils';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -108,28 +108,27 @@ const createComponentForTest = (node, processType = FLOW_PROCESS_TYPE.AUTO_LAUNC
     return el;
 };
 
-const getLoopVariableComboboxElement = (loopEditor) => {
-    return deepQuerySelector(loopEditor, [
+const getLoopVariableCombobox = (loopEditor) => {
+    const element = deepQuerySelector(loopEditor, [
         SELECTORS.LOOP_VARIABLE,
         SELECTORS.BASE_RESOURCE_PICKER,
-        SELECTORS.COMBOBOX,
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+        SELECTORS.COMBOBOX
     ]);
+    return element == null ? null : new ComboboxTestComponent(element);
 };
 
 const getNotificationDiv = (loopEditor) => deepQuerySelector(loopEditor, [SELECTORS.SLDS_SCOPED_NOTIFICATION]);
 const getLoopVariableResourcePicker = (loopEditor) => loopEditor.shadowRoot.querySelector(SELECTORS.LOOP_VARIABLE);
 
 const getCollectionVariableCombobox = (loopEditor) => {
-    return deepQuerySelector(loopEditor, [
-        SELECTORS.COLLECTION_VARIABLE,
-        SELECTORS.BASE_RESOURCE_PICKER,
-        SELECTORS.COMBOBOX
-    ]);
+    return new ComboboxTestComponent(
+        deepQuerySelector(loopEditor, [
+            SELECTORS.COLLECTION_VARIABLE,
+            SELECTORS.BASE_RESOURCE_PICKER,
+            SELECTORS.COMBOBOX
+        ])
+    );
 };
-
-const getCollectionVariableGroupedComboboxElement = (loopEditor) =>
-    deepQuerySelector(getCollectionVariableCombobox(loopEditor), [SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 
 describe('Loop Editor with processType does not support automatic output', () => {
     let loopElementComponent;
@@ -151,57 +150,54 @@ describe('Loop Editor with processType does not support automatic output', () =>
         it('loop variable is disabled when creating a new loop', async () => {
             await ticks(50);
             // collection variable is enabled
-            const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
-            expect(colVariableLightningCombobox.disabled).toBeFalsy();
+            const colVariableLightningCombobox = getCollectionVariableCombobox(
+                loopElementComponent
+            ).getGroupedCombobox();
+            expect(colVariableLightningCombobox.element.disabled).toBeFalsy();
             // loop variable is disabled initially when a new loop is
             // created
-            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-            expect(loopVariableLightningCombobox.disabled).toBeTruthy();
+            const loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent)!.getGroupedCombobox();
+            expect(loopVariableLightningCombobox.element.disabled).toBeTruthy();
         });
         it('loop variable is enabled after the collection variable is set to a valid value', async () => {
             const vAccounts = getElementByDevName('vAccounts')!;
-            const colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${vAccounts.name}}`));
-            await ticks(50);
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            const colVariableLightningCombobox = getCollectionVariableCombobox(
+                loopElementComponent
+            ).getGroupedCombobox();
+            await colVariableLightningCombobox.type(`{!${vAccounts.name}}`);
             // loop variable should be enabled now
-            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-            expect(loopVariableLightningCombobox.disabled).toBeFalsy();
+            const loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent)!.getGroupedCombobox();
+            expect(loopVariableLightningCombobox.element.disabled).toBeFalsy();
         });
     });
     describe('Existing element', () => {
-        let vMyTestAccount, loopVariableLightningCombobox, colVariableLightningCombobox;
+        let vMyTestAccount;
+        let loopVariableLightningCombobox: GroupedComboboxTestComponent;
+        let colVariableLightningCombobox: GroupedComboboxTestComponent;
         beforeEach(async () => {
             const element = getElementByDevName('myLoopOnAccount');
             loopNode = getElementForPropertyEditor(element);
             loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
             vMyTestAccount = getElementByDevName('vMyTestAccount');
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
+            loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent)!.getGroupedCombobox();
+            colVariableLightningCombobox = getCollectionVariableCombobox(loopElementComponent).getGroupedCombobox();
         });
         it('is correctly loaded, with no error, for an existing loop', () => {
-            expect(loopVariableLightningCombobox.inputText).toBe(`{!${vMyTestAccount.name}}`);
-            expect(loopVariableLightningCombobox.validity).toBeFalsy();
+            expect(loopVariableLightningCombobox.element.inputText).toBe(`{!${vMyTestAccount.name}}`);
+            expect(loopVariableLightningCombobox.element.validity).toBeFalsy();
         });
         it('it disabled after the collection variable is set to an invalid value', async () => {
-            colVariableLightningCombobox.dispatchEvent(textInputEvent('nonExistentVariable'));
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            await colVariableLightningCombobox.type('nonExistentVariable');
             // loop variable should be still disabled
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-            expect(loopVariableLightningCombobox.disabled).toBeTruthy();
+            expect(loopVariableLightningCombobox.element.disabled).toBeTruthy();
         });
         it('becomes disabled after the collection variable is set from a valid value to an invalid one', async () => {
             // first check that the loop variable is enabled
-            expect(loopVariableLightningCombobox.disabled).toBeFalsy();
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
-            colVariableLightningCombobox.dispatchEvent(textInputEvent('nonExistentVariable'));
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            expect(loopVariableLightningCombobox.element.disabled).toBeFalsy();
+            await colVariableLightningCombobox.type('nonExistentVariable');
             // loop variable should be disabled now
-            expect(loopVariableLightningCombobox.disabled).toBeTruthy();
+            expect(loopVariableLightningCombobox.element.disabled).toBeTruthy();
         });
         it('loop variable text box is not displayed', () => {
             expect(loopVariableLightningCombobox).not.toBeNull();
@@ -283,13 +279,14 @@ describe('Loop Editor with processType supporting automatic output', () => {
         });
     });
     describe('element from the store - OA', () => {
-        let loopElementComponent, loopVariableLightningCombobox;
+        let loopElementComponent;
+        let loopVariableLightningCombobox: ComboboxTestComponent | null;
         beforeEach(async () => {
             const element = getElementByDevName('loopAccountAutomaticOutput');
             loopNode = getElementForPropertyEditor(element);
             loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
+            loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent);
         });
         it('loop variable text box is not displayed', () => {
             expect(loopVariableLightningCombobox).toBeNull();
@@ -300,7 +297,9 @@ describe('Loop Editor with processType supporting automatic output', () => {
     });
 });
 describe('Loop with manual output', () => {
-    let loopElementComponent, loopNode, loopVariableLightningCombobox, colVariableLightningCombobox;
+    let loopElementComponent, loopNode;
+    let loopVariableLightningCombobox: GroupedComboboxTestComponent;
+    let colVariableLightningCombobox: GroupedComboboxTestComponent;
     describe('loop on text collection', () => {
         let textCollection, accounts, textVariable;
         beforeAll(async () => {
@@ -317,69 +316,56 @@ describe('Loop with manual output', () => {
             loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
             textVariable = getElementByDevName('textVariable');
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
+            loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent)!.getGroupedCombobox();
+            colVariableLightningCombobox = getCollectionVariableCombobox(loopElementComponent).getGroupedCombobox();
         });
         describe('loop variable', () => {
             it('is correctly loaded, with no error, for an existing loop', () => {
-                expect(loopVariableLightningCombobox.inputText).toBe(`{!${textVariable.name}}`);
-                expect(loopVariableLightningCombobox.validity).toBeFalsy();
+                expect(loopVariableLightningCombobox.element.inputText).toBe(`{!${textVariable.name}}`);
+                expect(loopVariableLightningCombobox.element.validity).toBeFalsy();
             });
             it('it disabled after the collection variable is set to an invalid value', async () => {
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('nonExistentVariable'));
-                colVariableLightningCombobox.dispatchEvent(blurEvent);
-                await ticks(50);
+                await colVariableLightningCombobox.type('nonExistentVariable');
                 // loop variable should be still disabled
-                loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-                expect(loopVariableLightningCombobox.disabled).toBeTruthy();
+                expect(loopVariableLightningCombobox.element.disabled).toBeTruthy();
             });
             it('becomes disabled after the collection variable is set from a valid value to an invalid one', async () => {
                 // first check that the loop variable is enabled
-                expect(loopVariableLightningCombobox.disabled).toBeFalsy();
-                colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('nonExistentVariable'));
-                colVariableLightningCombobox.dispatchEvent(blurEvent);
-                await ticks(50);
+                expect(loopVariableLightningCombobox.element.disabled).toBeFalsy();
+                await colVariableLightningCombobox.type('nonExistentVariable');
                 // loop variable should be disabled now
-                expect(loopVariableLightningCombobox.disabled).toBeTruthy();
+                expect(loopVariableLightningCombobox.element.disabled).toBeTruthy();
             });
         });
         it('shows an error if the user deletes the value of the variable', async () => {
-            loopVariableLightningCombobox.dispatchEvent(textInputEvent(''));
-            await ticks(50);
-            loopVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
-            expect(loopVariableLightningCombobox.inputText).toBe('');
-            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+            await loopVariableLightningCombobox.type('');
+            expect(loopVariableLightningCombobox.element.inputText).toBe('');
+            expect(loopVariableLightningCombobox.element.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
         it('is correctly loaded, with no error, for an existing loop', () => {
-            expect(colVariableLightningCombobox.inputText).toBe(`{!${textCollection.name}}`);
-            expect(colVariableLightningCombobox.validity).toBeFalsy();
+            expect(colVariableLightningCombobox.element.inputText).toBe(`{!${textCollection.name}}`);
+            expect(colVariableLightningCombobox.element.validity).toBeFalsy();
         });
         it('shows an error when its data type is different from the data type in the collection variable', async () => {
             await ticks(50);
             // Switch collection variable from a string type variable
             // to a sObject type variable
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${accounts.name}}`));
-            await ticks(50);
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            await colVariableLightningCombobox.type(`{!${accounts.name}}`);
             // loop variable should keep the previous value but
             // show a data mismatch error
-            expect(loopVariableLightningCombobox.inputText).toBe(`{!${textVariable.name}}`);
-            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+            expect(loopVariableLightningCombobox.element.inputText).toBe(`{!${textVariable.name}}`);
+            expect(loopVariableLightningCombobox.element.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
         });
         it('shows only sObject variables of the same type as the sObject selected in the collection variable', async () => {
             const accountVariable = getElementByDevName('accountVariable')!;
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${accounts.name}}`));
-            await ticks(50);
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            await colVariableLightningCombobox.type(`{!${accounts.name}}`);
 
-            expect(loopVariableLightningCombobox.items).toHaveLength(2);
-            expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
-            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
-            expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject({
+            expect(loopVariableLightningCombobox.element.items).toHaveLength(2);
+            expect(loopVariableLightningCombobox.element.items[1].label).toBe(
+                'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL'
+            );
+            expect(loopVariableLightningCombobox.element.items[1].items).toHaveLength(1);
+            expect(loopVariableLightningCombobox.element.items[1].items[0]).toMatchObject({
                 dataType: 'SObject',
                 subtype: 'Account',
                 text: accountVariable.name,
@@ -390,15 +376,14 @@ describe('Loop with manual output', () => {
         });
         it('shows only sObject variables of the same type as the sObject selected in the collection variable with traversal', async () => {
             const accountVariable = getElementByDevName('accountVariable')!;
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!apexComplexTypeVariable.acctListField}`));
-            await ticks(50);
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            await colVariableLightningCombobox.type(`{!apexComplexTypeVariable.acctListField}`);
 
-            expect(loopVariableLightningCombobox.items).toHaveLength(2);
-            expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
-            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
-            expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject({
+            expect(loopVariableLightningCombobox.element.items).toHaveLength(2);
+            expect(loopVariableLightningCombobox.element.items[1].label).toBe(
+                'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL'
+            );
+            expect(loopVariableLightningCombobox.element.items[1].items).toHaveLength(1);
+            expect(loopVariableLightningCombobox.element.items[1].items[0]).toMatchObject({
                 dataType: 'SObject',
                 subtype: 'Account',
                 text: accountVariable.name,
@@ -408,32 +393,29 @@ describe('Loop with manual output', () => {
             });
         });
         it('updates the display text after the user changes the value of the variable to another valid value', async () => {
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${textCollection.name}}`));
-            await ticks(50);
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
-            expect(colVariableLightningCombobox.inputText).toBe(`{!${textCollection.name}}`);
-            expect(colVariableLightningCombobox.validity).toBeFalsy();
+            await colVariableLightningCombobox.type(`{!${textCollection.name}}`);
+            expect(colVariableLightningCombobox.element.inputText).toBe(`{!${textCollection.name}}`);
+            expect(colVariableLightningCombobox.element.validity).toBeFalsy();
         });
         it('shows only variables of the same type as the collection variable', async () => {
             const stringVariable = getElementByDevName('stringVariable')!;
             // initially the loop variable has only the "New
             // Resource" in the menu data
-            expect(loopVariableLightningCombobox.items).toHaveLength(2);
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${textCollection.name}}`));
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            expect(loopVariableLightningCombobox.element.items).toHaveLength(2);
+            await colVariableLightningCombobox.type(`{!${textCollection.name}}`);
             // loop variable should only show variables with
             // dataType of String
-            expect(loopVariableLightningCombobox.items).toHaveLength(2);
-            expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL');
-            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(2);
-            expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject({
+            expect(loopVariableLightningCombobox.element.items).toHaveLength(2);
+            expect(loopVariableLightningCombobox.element.items[1].label).toBe(
+                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL'
+            );
+            expect(loopVariableLightningCombobox.element.items[1].items).toHaveLength(2);
+            expect(loopVariableLightningCombobox.element.items[1].items[0]).toMatchObject({
                 text: stringVariable.name,
                 displayText: `{!${stringVariable.name}}`,
                 value: stringVariable.guid
             });
-            expect(loopVariableLightningCombobox.items[1].items[1]).toMatchObject({
+            expect(loopVariableLightningCombobox.element.items[1].items[1]).toMatchObject({
                 text: textVariable.name,
                 displayText: `{!${textVariable.name}}`,
                 value: textVariable.guid
@@ -442,18 +424,16 @@ describe('Loop with manual output', () => {
         it('maintains a datatype mismatch error after the user clicks in and out of the box - W-5143108', async () => {
             // Switch collection variable from a string type variable
             // to a sObject type variable
-            colVariableLightningCombobox.dispatchEvent(textInputEvent(`{!${accounts.name}}`));
-            colVariableLightningCombobox.dispatchEvent(blurEvent);
-            await ticks(50);
+            await colVariableLightningCombobox.type(`{!${accounts.name}}`);
             // loop variable shows a data type mismatch error
-            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+            expect(loopVariableLightningCombobox.element.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
 
             // The error is still there after the user clicks
             // outside the combobox
-            loopVariableLightningCombobox.click();
-            loopVariableLightningCombobox.dispatchEvent(blurEvent);
+            loopVariableLightningCombobox.element.click();
+            loopVariableLightningCombobox.element.dispatchEvent(blurEvent);
             await ticks(50);
-            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+            expect(loopVariableLightningCombobox.element.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
         });
         it('notification info should not be display', () => {
             expect(getNotificationDiv(loopElementComponent)).toBeNull();
@@ -471,18 +451,19 @@ describe('Loop with manual output', () => {
             loopNode = getElementForPropertyEditor(element);
             loopElementComponent = createComponentForTest(loopNode);
             await ticks(50);
-            loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElementComponent);
-            colVariableLightningCombobox = getCollectionVariableGroupedComboboxElement(loopElementComponent);
+            loopVariableLightningCombobox = getLoopVariableCombobox(loopElementComponent)!.getGroupedCombobox();
+            colVariableLightningCombobox = getCollectionVariableCombobox(loopElementComponent).getGroupedCombobox();
         });
         it('does not show an error if the user click outside of the combobox', async () => {
-            loopVariableLightningCombobox.dispatchEvent(blurEvent);
+            loopVariableLightningCombobox.element.dispatchEvent(blurEvent);
             await ticks(50);
-            expect(loopVariableLightningCombobox.validity).not.toBeDefined();
+            expect(loopVariableLightningCombobox.element.validity).not.toBeDefined();
         });
     });
 });
 describe('Loop Editor collection variable', () => {
-    let loopNode, loopElementComponent, collectionVariableCombobox;
+    let loopNode, loopElementComponent;
+    let collectionVariableCombobox: ComboboxTestComponent;
     beforeAll(async () => {
         const store = await setupStateForFlow(flowWithAllElements);
         translateFlowToUIAndDispatch(flowWithAllElements, store);
@@ -508,8 +489,8 @@ describe('Loop Editor collection variable', () => {
         ${'{!subflowAutomaticOutput.accountOutputCollection}'}   | ${null}
         ${'{!subflowAutomaticOutput.inputOutput2}'}              | ${'FlowBuilderCombobox.genericErrorMessage'}
     `('error for "$collection should be : $expectedErrorMessage', async ({ collection, expectedErrorMessage }) => {
-        await typeReferenceOrValueInCombobox(collectionVariableCombobox, collection);
-        expect(collectionVariableCombobox.errorMessage).toEqual(expectedErrorMessage);
+        await collectionVariableCombobox.typeReferenceOrValue(collection);
+        expect(collectionVariableCombobox.element.errorMessage).toEqual(expectedErrorMessage);
     });
     it.each`
         collection                                                            | expectedItem
@@ -522,6 +503,6 @@ describe('Loop Editor collection variable', () => {
         ${['Outputs from subflowAutomaticOutput', 'accountOutputCollection']} | ${{ displayText: '{!subflowAutomaticOutput.accountOutputCollection}' }}
     `('can select $collection as a collection variable', async ({ collection, expectedItem }) => {
         await expect(collectionVariableCombobox).canSelectInCombobox('text', collection);
-        expect(collectionVariableCombobox.value).toMatchObject(expectedItem);
+        expect(collectionVariableCombobox.element.value).toMatchObject(expectedItem);
     });
 });

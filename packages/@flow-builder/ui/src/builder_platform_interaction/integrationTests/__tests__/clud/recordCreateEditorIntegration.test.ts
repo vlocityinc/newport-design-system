@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    changeComboboxValue,
     setupStateForProcessType,
     resetState,
     translateFlowToUIAndDispatch,
@@ -30,34 +29,23 @@ import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    removePill,
-    clickPill,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
-import { getLhsCombobox, getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
+import { ComboboxTestComponent } from '../comboboxTestUtils';
 import {
-    selectComboboxItemBy,
-    getComboboxItems,
-    typeReferenceOrValueInCombobox,
-    typeMergeFieldInCombobox,
-    typeLiteralValueInCombobox
-} from '../comboboxTestUtils';
-import {
-    getGroupedComboboxItemBy,
     expectCanBeTraversed,
     expectCannotBeTraversed,
-    expectCannotBeSelected
+    expectCannotBeSelected,
+    GroupedComboboxTestComponent
 } from '../groupedComboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import {
-    getResourceGroupedCombobox,
     getResourceCombobox,
     getOutputResourcePicker,
     getRadioGroups,
     getEntityResourcePicker,
     getOutputBaseResourcePickerCombobox,
-    removePillAndGetGroupedCombobox,
-    getBaseExpressionBuilderRhsCombobox
+    removePillAndGetGroupedCombobox
 } from './cludEditorTestUtils';
 import { getFieldToFerovExpressionBuilders } from '../recordFilterTestUtils';
 
@@ -70,16 +58,12 @@ const getRecordStoreOption = (recordEditor) =>
 const getInputOutputAssignments = (recordEditor) =>
     recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 const getEntityResourcePickerComboboxElement = (entityResourcePicker) =>
-    deepQuerySelector(entityResourcePicker, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
-const getExpressionBuilderComboboxElement = (expressionBuilder) =>
-    deepQuerySelector(expressionBuilder, [
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
+    new ComboboxTestComponent(
+        deepQuerySelector(entityResourcePicker, [
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        ])
+    );
 
 const createComponentForTest = (node: {}, processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE) => {
     const el = createElement('builder_platform_interaction-record-create-editor', { is: RecordCreateEditor });
@@ -121,7 +105,7 @@ describe('Record Create Editor', () => {
     let recordCreateNode;
     let recordCreateElement;
     let store;
-    let sObjectOrSObjectCollectionPicker;
+    let sObjectOrSObjectCollectionPicker: GroupedComboboxTestComponent;
     const expectCannotBeTraversedInResourcePicker = async (textValues) => {
         await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
     };
@@ -205,7 +189,7 @@ describe('Record Create Editor', () => {
             });
             it('should not display a pill for the "sobjectOrSobjectCollectionPicker"', () => {
                 const sObjectOrSObjectCollectionPickerCombobox = getResourceCombobox(recordCreateElement);
-                expect(sObjectOrSObjectCollectionPickerCombobox.hasPill).toBe(false);
+                expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(false);
             });
             // W-7118031
             it('does NOT display "A value is required." error message for "sobjectOrSobjectCollectionPicker" ("record selection")', () => {
@@ -222,16 +206,16 @@ describe('Record Create Editor', () => {
                 expect(radioGroupElements).toHaveLength(2);
             });
             it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display error message and no pill)', async () => {
-                const combobox = await getResourceCombobox(recordCreateElement);
-                await typeLiteralValueInCombobox(combobox, 'iamaliteral');
-                expect(combobox.hasPill).toBe(false);
-                expect(combobox.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
+                const combobox = getResourceCombobox(recordCreateElement);
+                await combobox.typeLiteralValue('iamaliteral');
+                expect(combobox.element.hasPill).toBe(false);
+                expect(combobox.element.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
             });
             it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill)', async () => {
-                const combobox = await getResourceCombobox(recordCreateElement);
-                await typeMergeFieldInCombobox(combobox, '{!vAccount}');
-                expect(combobox.hasPill).toBe(true);
-                expect(combobox.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
+                const combobox = getResourceCombobox(recordCreateElement);
+                await combobox.typeMergeField('{!vAccount}');
+                expect(combobox.element.hasPill).toBe(true);
+                expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
             });
         });
         describe('Existing element', () => {
@@ -260,56 +244,54 @@ describe('Record Create Editor', () => {
                 });
                 it('displays selected "inputReference" (sObject) pill', () => {
                     const sObjectOrSObjectCollectionPickerCombobox = getResourceCombobox(recordCreateElement);
-                    expect(sObjectOrSObjectCollectionPickerCombobox.hasPill).toBe(true);
-                    expect(sObjectOrSObjectCollectionPickerCombobox.pill).toEqual({
+                    expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
+                    expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                         iconName: 'utility:sobject',
                         label: 'vAccount'
                     });
                 });
                 it('sObject Or SObject Collection Picker should contain "New Resource"', async () => {
                     const combobox = getResourceCombobox(recordCreateElement);
-                    await removePill(combobox);
-                    const groupedCombobox = getResourceGroupedCombobox(recordCreateElement);
-                    await ticks(1);
+                    await combobox.removePill();
                     expect(
-                        getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
+                        combobox.getGroupedCombobox().getItemBy('text', 'FlowBuilderExpressionUtils.newResourceLabel')
                     ).toBeDefined();
                 });
                 describe('pills', () => {
                     it('displays empty combobox and no pill when pill is cleared', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await removePill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value).toEqual('');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.removePill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value).toEqual('');
                     });
                     it('switches to mergeField notation when clicking on "sobjectOrSobjectCollectionPicker" pill', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await clickPill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value.displayText).toEqual('{!vAccount}');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.clickPill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value.displayText).toEqual('{!vAccount}');
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        await removePill(combobox);
-                        await typeMergeFieldInCombobox(combobox, '{!vAccount}');
-                        expect(combobox.hasPill).toBe(true);
-                        expect(combobox.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        await combobox.removePill();
+                        await combobox.typeMergeField('{!vAccount}');
+                        expect(combobox.element.hasPill).toBe(true);
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display no pill but error message (once pill has been cleared))', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        await removePill(combobox);
-                        await typeLiteralValueInCombobox(combobox, 'literalitis');
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        await combobox.removePill();
+                        await combobox.typeLiteralValue('literalitis');
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
                     });
                     it('select and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        await removePill(combobox);
-                        await selectComboboxItemBy(combobox, 'text', ['vAccount']);
-                        expect(combobox.hasPill).toBe(true);
-                        expect(combobox.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        await combobox.removePill();
+                        await combobox.selectItemBy('text', ['vAccount']);
+                        expect(combobox.element.hasPill).toBe(true);
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
                     });
                 });
             });
@@ -341,55 +323,54 @@ describe('Record Create Editor', () => {
                 });
                 it('displays selected "inputReference" (sObjectCollection) pill', () => {
                     const sObjectOrSObjectCollectionPickerCombobox = getResourceCombobox(recordCreateElement);
-                    expect(sObjectOrSObjectCollectionPickerCombobox.hasPill).toBe(true);
-                    expect(sObjectOrSObjectCollectionPickerCombobox.pill).toEqual({
+                    expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
+                    expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                         iconName: 'utility:sobject',
                         label: 'vAccounts'
                     });
                 });
                 it('sObject Or SObject Collection Picker should contain "New Resource"', async () => {
                     const combobox = getResourceCombobox(recordCreateElement);
-                    await removePill(combobox);
-                    const groupedCombobox = getResourceGroupedCombobox(recordCreateElement);
+                    await combobox.removePill();
                     expect(
-                        getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
+                        combobox.getGroupedCombobox().getItemBy('text', 'FlowBuilderExpressionUtils.newResourceLabel')
                     ).toBeDefined();
                 });
                 describe('pills', () => {
                     it('displays empty combobox and no pill when pill is cleared', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await removePill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value).toEqual('');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.removePill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value).toEqual('');
                     });
                     it('switches to mergeField notation when clicking on "sobjectOrSobjectCollectionPicker" pill', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await clickPill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value.displayText).toEqual('{!vAccounts}');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.clickPill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value.displayText).toEqual('{!vAccounts}');
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        await removePill(combobox);
-                        await typeMergeFieldInCombobox(combobox, '{!vAccounts}');
-                        expect(combobox.hasPill).toBe(true);
-                        expect(combobox.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccounts' });
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        await combobox.removePill();
+                        await combobox.typeMergeField('{!vAccounts}');
+                        expect(combobox.element.hasPill).toBe(true);
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccounts' });
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display no pill but error message (once pill has been cleared))', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        await removePill(combobox);
-                        await typeLiteralValueInCombobox(combobox, 'literalitis');
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        await combobox.removePill();
+                        await combobox.typeLiteralValue('literalitis');
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.errorMessage).toEqual('FlowBuilderCombobox.genericErrorMessage');
                     });
                     it('select and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        await removePill(combobox);
-                        await selectComboboxItemBy(combobox, 'text', ['vAccounts']);
-                        expect(combobox.hasPill).toBe(true);
-                        expect(combobox.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccounts' });
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        await combobox.removePill();
+                        await combobox.selectItemBy('text', ['vAccounts']);
+                        expect(combobox.element.hasPill).toBe(true);
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccounts' });
                     });
                 });
             });
@@ -397,8 +378,7 @@ describe('Record Create Editor', () => {
                 const selectEntity = async (apiName) => {
                     const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                    changeComboboxValue(comboboxElement, apiName);
-                    await ticks(50);
+                    await comboboxElement.typeLiteralValue(apiName);
                 };
                 const clickAddFieldButton = async () => {
                     const inputAssignments = getInputOutputAssignments(recordCreateElement);
@@ -444,8 +424,7 @@ describe('Record Create Editor', () => {
                 it('removing the entity should hide input assignment but store option element should remained', async () => {
                     const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                    changeComboboxValue(comboboxElement, '');
-                    await ticks(1);
+                    await comboboxElement.typeLiteralValue('');
                     expect(recordCreateElement.node.object.error).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                     );
@@ -473,10 +452,11 @@ describe('Record Create Editor', () => {
                     beforeEach(() => {
                         inputAssignments = getInputOutputAssignments(recordCreateElement);
                     });
-                    test('input Assignments should be visible and correctly displayed (with pill for RHS)', () => {
+                    test('input Assignments should be visible and correctly displayed (with pill for RHS)', async () => {
                         const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(inputAssignments);
                         expect(fieldToFerovExpressionBuilders).toHaveLength(2);
-                        let baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
+                        let expressionBuilder = fieldToFerovExpressionBuilders[0];
+                        let baseExpressionBuilder = expressionBuilder.getBaseExpressionBuilderElement();
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             value: 'Account.BillingCity',
                             dataType: 'String',
@@ -496,14 +476,15 @@ describe('Record Create Editor', () => {
                             type: 'option-card'
                         });
 
-                        let rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilder);
-                        expect(rhsCombobox.hasPill).toBe(true);
-                        expect(rhsCombobox.pill).toEqual({
+                        let rhsCombobox = await expressionBuilder.getRhsCombobox();
+                        expect(rhsCombobox.element.hasPill).toBe(true);
+                        expect(rhsCombobox.element.pill).toEqual({
                             iconName: 'utility:text',
                             label: 'vBillingCity'
                         });
 
-                        baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[1]);
+                        expressionBuilder = fieldToFerovExpressionBuilders[1];
+                        baseExpressionBuilder = expressionBuilder.getBaseExpressionBuilderElement();
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             dataType: 'String',
                             displayText: 'Name',
@@ -522,37 +503,30 @@ describe('Record Create Editor', () => {
                             text: 'vName',
                             type: 'option-card'
                         });
-                        rhsCombobox = getBaseExpressionBuilderRhsCombobox(baseExpressionBuilder);
-                        expect(rhsCombobox.hasPill).toBe(true);
-                        expect(rhsCombobox.pill).toEqual({
+                        rhsCombobox = await expressionBuilder.getRhsCombobox();
+                        expect(rhsCombobox.element.hasPill).toBe(true);
+                        expect(rhsCombobox.element.pill).toEqual({
                             iconName: 'utility:text',
                             label: 'vName'
                         });
                     });
                     it('Removing the selected field should not change the value if the RHS has a value', async () => {
-                        let baseExpressionBuilder = getBaseExpressionBuilder(
-                            getFieldToFerovExpressionBuilders(inputAssignments)[0]
-                        );
-                        const combobox = getExpressionBuilderComboboxElement(baseExpressionBuilder);
-                        changeComboboxValue(combobox, '');
-                        await ticks(1);
+                        const combobox = await getFieldToFerovExpressionBuilders(inputAssignments)[0].getLhsCombobox();
+                        await combobox.typeLiteralValue('');
                         expect(getFieldToFerovExpressionBuilders(inputAssignments)).toHaveLength(2);
-                        baseExpressionBuilder = getBaseExpressionBuilder(
-                            getFieldToFerovExpressionBuilders(inputAssignments)[0]
-                        );
-                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                        expect(
+                            getFieldToFerovExpressionBuilders(inputAssignments)[0].getBaseExpressionBuilderElement()
+                                .lhsValue
+                        ).toMatchObject({
                             dataType: 'String',
                             displayText: 'BillingCity',
                             value: 'Account.BillingCity'
                         });
                     });
                     it('Should only display creatable fields', async () => {
-                        const baseExpressionBuilder = getBaseExpressionBuilder(
-                            getFieldToFerovExpressionBuilders(inputAssignments)[0]
-                        );
-                        const combobox = getExpressionBuilderComboboxElement(baseExpressionBuilder);
+                        const combobox = await getFieldToFerovExpressionBuilders(inputAssignments)[0].getLhsCombobox();
                         // Type is creatable
-                        expect(combobox.items).toEqual(
+                        expect(combobox.getItems()).toEqual(
                             expect.arrayContaining([
                                 expect.objectContaining({
                                     text: 'Type'
@@ -560,7 +534,7 @@ describe('Record Create Editor', () => {
                             ])
                         );
                         // CreatedById is not creatable
-                        expect(combobox.items).toEqual(
+                        expect(combobox.getItems()).toEqual(
                             expect.not.arrayContaining([
                                 expect.objectContaining({
                                     text: 'CreatedById'
@@ -578,28 +552,24 @@ describe('Record Create Editor', () => {
                         expect(creatableFields.length).toBeGreaterThan(15);
                         expect(creatableFields).toHaveLength(20);
 
-                        // workaround for no-await-in-loop
-                        let promise = Promise.resolve();
                         for (let i = 0; i < creatableFields.length; i++) {
-                            // workaround for no-loop-func
-                            const creatableFieldsLength = creatableFields.length;
                             const creatableField = creatableFields[i];
                             const inputOutputAssignments = inputAssignments;
-                            promise = promise.then(async () => {
-                                const fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(
-                                    inputOutputAssignments
-                                );
-                                const lhsCombobox = await getLhsCombobox(fieldToFerovExpressionBuilder[i]);
-                                expect(getComboboxItems(lhsCombobox)).toHaveLength(creatableFieldsLength - i);
-                                return selectComboboxItemBy(lhsCombobox, 'displayText', [creatableField]).then(() =>
-                                    clickAddFieldButton()
-                                );
-                            });
+                            // eslint-disable-next-line no-await-in-loop
+                            const lhsCombobox = await getFieldToFerovExpressionBuilders(inputOutputAssignments)[
+                                i
+                            ].getLhsCombobox();
+                            expect(lhsCombobox.getItems()).toHaveLength(creatableFields.length - i);
+                            // eslint-disable-next-line no-await-in-loop
+                            await lhsCombobox.selectItemBy('displayText', [creatableField]);
+                            // eslint-disable-next-line no-await-in-loop
+                            await clickAddFieldButton();
                         }
-                        await promise;
                         const fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
-                        const lhsCombobox = await getLhsCombobox(fieldToFerovExpressionBuilder[creatableFields.length]);
-                        expect(getComboboxItems(lhsCombobox)).toHaveLength(0);
+                        const lhsCombobox = await fieldToFerovExpressionBuilder[
+                            creatableFields.length
+                        ].getLhsCombobox();
+                        expect(lhsCombobox.getItems()).toHaveLength(0);
                     });
                 });
             });
@@ -681,42 +651,41 @@ describe('Record Create Editor', () => {
                 });
                 it('should throw validation error if selecting a non SObject from the combobox', async () => {
                     sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
-                    changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!apexComplexTypeVariable}');
+                    await sObjectOrSObjectCollectionPicker.type('{!apexComplexTypeVariable}');
 
-                    expect(getResourceCombobox(recordCreateElement).errorMessage).toBe(
+                    expect(getResourceCombobox(recordCreateElement).element.errorMessage).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_INVALID_DATA_TYPE
                     );
                 });
                 it('should throw validation error if manually entering an SObject collection', async () => {
                     sObjectOrSObjectCollectionPicker = await removePillAndGetGroupedCombobox(recordCreateElement);
-                    changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!accountSObjectCollectionVariable}');
-
-                    expect(getResourceCombobox(recordCreateElement).errorMessage).toBe(
+                    await sObjectOrSObjectCollectionPicker.type('{!accountSObjectCollectionVariable}');
+                    expect(getResourceCombobox(recordCreateElement).element.errorMessage).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
                     );
                 });
                 describe('pills', () => {
                     it('displays selected "inputReference" (sObject) pill', () => {
                         const sObjectOrSObjectCollectionPickerCombobox = getResourceCombobox(recordCreateElement);
-                        expect(sObjectOrSObjectCollectionPickerCombobox.hasPill).toBe(true);
-                        expect(sObjectOrSObjectCollectionPickerCombobox.pill).toEqual({
+                        expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
+                        expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                             iconName: 'utility:sobject',
                             label: 'accountSObjectVariable'
                         });
                     });
                     it('displays empty combobox and no pill when pill is cleared', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await removePill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value).toEqual('');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.removePill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value).toEqual('');
                     });
                     it('switches to mergeField notation when clicking on "sobjectOrSobjectCollectionPicker" pill', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await clickPill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value.displayText).toEqual('{!accountSObjectVariable}');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.clickPill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value.displayText).toEqual('{!accountSObjectVariable}');
                     });
                     describe('typing', () => {
                         describe('errors', () => {
@@ -729,11 +698,11 @@ describe('Record Create Editor', () => {
                             `(
                                 'When typing "$resourcePickerMergefieldValue" error message should be: $errorMessage',
                                 async ({ resourcePickerMergefieldValue, errorMessage }) => {
-                                    const combobox = await getResourceCombobox(recordCreateElement);
-                                    await removePill(combobox);
-                                    await typeMergeFieldInCombobox(combobox, resourcePickerMergefieldValue);
-                                    expect(combobox.hasPill).toBe(false);
-                                    expect(combobox.errorMessage).toEqual(errorMessage);
+                                    const combobox = getResourceCombobox(recordCreateElement);
+                                    await combobox.removePill();
+                                    await combobox.typeMergeField(resourcePickerMergefieldValue);
+                                    expect(combobox.element.hasPill).toBe(false);
+                                    expect(combobox.element.errorMessage).toEqual(errorMessage);
                                 }
                             );
                         });
@@ -749,12 +718,12 @@ describe('Record Create Editor', () => {
                             `(
                                 'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
                                 async ({ resourcePickerMergefieldValue, expectedPill }) => {
-                                    const combobox = await getResourceCombobox(recordCreateElement);
-                                    await removePill(combobox);
+                                    const combobox = getResourceCombobox(recordCreateElement);
+                                    await combobox.removePill();
 
-                                    await typeMergeFieldInCombobox(combobox, resourcePickerMergefieldValue);
-                                    expect(combobox.hasPill).toBe(true);
-                                    expect(combobox.pill).toEqual(expectedPill);
+                                    await combobox.typeMergeField(resourcePickerMergefieldValue);
+                                    expect(combobox.element.hasPill).toBe(true);
+                                    expect(combobox.element.pill).toEqual(expectedPill);
                                 }
                             );
                         });
@@ -771,12 +740,12 @@ describe('Record Create Editor', () => {
                         `(
                             'When selecting "$resourcePickerValue" pill should be: $expectedPill',
                             async ({ resourcePickerValue, expectedPill }) => {
-                                const combobox = await getResourceCombobox(recordCreateElement);
-                                await removePill(combobox);
+                                const combobox = getResourceCombobox(recordCreateElement);
+                                await combobox.removePill();
 
-                                await selectComboboxItemBy(combobox, 'text', resourcePickerValue.split('.'));
-                                expect(combobox.hasPill).toBe(true);
-                                expect(combobox.pill).toEqual(expectedPill);
+                                await combobox.selectItemBy('text', resourcePickerValue.split('.'));
+                                expect(combobox.element.hasPill).toBe(true);
+                                expect(combobox.element.pill).toEqual(expectedPill);
                             }
                         );
                     });
@@ -811,25 +780,25 @@ describe('Record Create Editor', () => {
                 describe('pills', () => {
                     it('displays selected "inputReference" (sObjectCollection) pill', () => {
                         const sObjectOrSObjectCollectionPickerCombobox = getResourceCombobox(recordCreateElement);
-                        expect(sObjectOrSObjectCollectionPickerCombobox.hasPill).toBe(true);
-                        expect(sObjectOrSObjectCollectionPickerCombobox.pill).toEqual({
+                        expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
+                        expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                             iconName: 'utility:sobject',
                             label: 'accountSObjectCollectionVariable'
                         });
                     });
                     it('displays empty combobox and no pill when pill is cleared', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await removePill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value).toEqual('');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.removePill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value).toEqual('');
                     });
                     it('switches to mergeField notation when clicking on "sobjectOrSobjectCollectionPicker" pill', async () => {
-                        const combobox = await getResourceCombobox(recordCreateElement);
-                        expect(combobox.hasPill).toBe(true);
-                        await clickPill(combobox);
-                        expect(combobox.hasPill).toBe(false);
-                        expect(combobox.value.displayText).toEqual('{!accountSObjectCollectionVariable}');
+                        const combobox = getResourceCombobox(recordCreateElement);
+                        expect(combobox.element.hasPill).toBe(true);
+                        await combobox.clickPill();
+                        expect(combobox.element.hasPill).toBe(false);
+                        expect(combobox.element.value.displayText).toEqual('{!accountSObjectCollectionVariable}');
                     });
                     describe('typing', () => {
                         describe('errors', () => {
@@ -842,11 +811,11 @@ describe('Record Create Editor', () => {
                             `(
                                 'When typing "$resourcePickerMergefieldValue" error message should be: $errorMessage',
                                 async ({ resourcePickerMergefieldValue, errorMessage }) => {
-                                    const combobox = await getResourceCombobox(recordCreateElement);
-                                    await removePill(combobox);
-                                    await typeMergeFieldInCombobox(combobox, resourcePickerMergefieldValue);
-                                    expect(combobox.hasPill).toBe(false);
-                                    expect(combobox.errorMessage).toEqual(errorMessage);
+                                    const combobox = getResourceCombobox(recordCreateElement);
+                                    await combobox.removePill();
+                                    await combobox.typeMergeField(resourcePickerMergefieldValue);
+                                    expect(combobox.element.hasPill).toBe(false);
+                                    expect(combobox.element.errorMessage).toEqual(errorMessage);
                                 }
                             );
                         });
@@ -860,11 +829,11 @@ describe('Record Create Editor', () => {
                             `(
                                 'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
                                 async ({ resourcePickerMergefieldValue, expectedPill }) => {
-                                    const combobox = await getResourceCombobox(recordCreateElement);
-                                    await removePill(combobox);
-                                    await typeMergeFieldInCombobox(combobox, resourcePickerMergefieldValue);
-                                    expect(combobox.hasPill).toBe(true);
-                                    expect(combobox.pill).toEqual(expectedPill);
+                                    const combobox = getResourceCombobox(recordCreateElement);
+                                    await combobox.removePill();
+                                    await combobox.typeMergeField(resourcePickerMergefieldValue);
+                                    expect(combobox.element.hasPill).toBe(true);
+                                    expect(combobox.element.pill).toEqual(expectedPill);
                                 }
                             );
                         });
@@ -879,12 +848,12 @@ describe('Record Create Editor', () => {
                         `(
                             'When selecting "$resourcePickerValue" pill should be: $expectedPill',
                             async ({ resourcePickerValue, expectedPill }) => {
-                                const combobox = await getResourceCombobox(recordCreateElement);
-                                await removePill(combobox);
+                                const combobox = getResourceCombobox(recordCreateElement);
+                                await combobox.removePill();
 
-                                await selectComboboxItemBy(combobox, 'text', resourcePickerValue.split('.'));
-                                expect(combobox.hasPill).toBe(true);
-                                expect(combobox.pill).toEqual(expectedPill);
+                                await combobox.selectItemBy('text', resourcePickerValue.split('.'));
+                                expect(combobox.element.hasPill).toBe(true);
+                                expect(combobox.element.pill).toEqual(expectedPill);
                             }
                         );
                     });
@@ -908,8 +877,8 @@ describe('Record Create Editor', () => {
             });
             it('displays "outputResourcePicker" in pill mode', () => {
                 const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
-                expect(outputResourcePickerCombobox.hasPill).toBe(true);
-                expect(outputResourcePickerCombobox.pill).toEqual({
+                expect(outputResourcePickerCombobox.element.hasPill).toBe(true);
+                expect(outputResourcePickerCombobox.element.pill).toEqual({
                     iconName: 'utility:text',
                     label: 'vAccountIdFromCreate'
                 });
@@ -917,8 +886,8 @@ describe('Record Create Editor', () => {
             it('can select string field from apex class to store id', async () => {
                 // When
                 const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
-                await removePill(outputResourcePickerCombobox);
-                const selectedItem = await selectComboboxItemBy(outputResourcePickerCombobox, 'text', [
+                await outputResourcePickerCombobox.removePill();
+                const selectedItem = await outputResourcePickerCombobox.selectItemBy('text', [
                     'apexComplexTypeVariable',
                     'name'
                 ]);
@@ -930,15 +899,14 @@ describe('Record Create Editor', () => {
                     value: `${expectedGuid}.name`
                 });
 
-                expect(outputResourcePickerCombobox.errorMessage).toBeNull();
+                expect(outputResourcePickerCombobox.element.errorMessage).toBeNull();
                 expect(recordCreateElement.node.assignRecordIdToReference.value).toBe(`${expectedGuid}.name`);
             });
             it('cannot select account field from apex class to store id', async () => {
                 // When
                 const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
-                await removePill(outputResourcePickerCombobox);
-                const selectedItem = await selectComboboxItemBy(
-                    outputResourcePickerCombobox,
+                await outputResourcePickerCombobox.removePill();
+                const selectedItem = await outputResourcePickerCombobox.selectItemBy(
                     'text',
                     ['apexComplexTypeVariable', 'acct'],
                     { blur: true }
@@ -958,11 +926,11 @@ describe('Record Create Editor', () => {
                 'When typing "$outputResourcePickerDisplayText" error should be: $expectedErrorMessage',
                 async ({ outputResourcePickerDisplayText, expectedErrorMessage }) => {
                     const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
-                    await removePill(outputResourcePickerCombobox);
+                    await outputResourcePickerCombobox.removePill();
 
-                    await typeReferenceOrValueInCombobox(outputResourcePickerCombobox, outputResourcePickerDisplayText);
-                    expect(outputResourcePickerCombobox.hasPill).toBe(!expectedErrorMessage);
-                    expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
+                    await outputResourcePickerCombobox.typeReferenceOrValue(outputResourcePickerDisplayText);
+                    expect(outputResourcePickerCombobox.element.hasPill).toBe(!expectedErrorMessage);
+                    expect(outputResourcePickerCombobox.element.errorMessage).toEqual(expectedErrorMessage);
                 }
             );
             describe('pills', () => {
@@ -983,13 +951,10 @@ describe('Record Create Editor', () => {
                                 const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(
                                     recordCreateElement
                                 );
-                                await removePill(outputResourcePickerCombobox);
-                                await typeMergeFieldInCombobox(
-                                    outputResourcePickerCombobox,
-                                    resourcePickerMergefieldValue
-                                );
-                                expect(outputResourcePickerCombobox.hasPill).toBe(false);
-                                expect(outputResourcePickerCombobox.errorMessage).toEqual(errorMessage);
+                                await outputResourcePickerCombobox.removePill();
+                                await outputResourcePickerCombobox.typeMergeField(resourcePickerMergefieldValue);
+                                expect(outputResourcePickerCombobox.element.hasPill).toBe(false);
+                                expect(outputResourcePickerCombobox.element.errorMessage).toEqual(errorMessage);
                             }
                         );
                     });
@@ -1009,14 +974,11 @@ describe('Record Create Editor', () => {
                                 const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(
                                     recordCreateElement
                                 );
-                                await removePill(outputResourcePickerCombobox);
+                                await outputResourcePickerCombobox.removePill();
 
-                                await typeMergeFieldInCombobox(
-                                    outputResourcePickerCombobox,
-                                    outputResourcePickerMergefieldValue
-                                );
-                                expect(outputResourcePickerCombobox.hasPill).toBe(true);
-                                expect(outputResourcePickerCombobox.pill).toEqual(expectedPill);
+                                await outputResourcePickerCombobox.typeMergeField(outputResourcePickerMergefieldValue);
+                                expect(outputResourcePickerCombobox.element.hasPill).toBe(true);
+                                expect(outputResourcePickerCombobox.element.pill).toEqual(expectedPill);
                             }
                         );
                     });
@@ -1037,15 +999,14 @@ describe('Record Create Editor', () => {
                             const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(
                                 recordCreateElement
                             );
-                            await removePill(outputResourcePickerCombobox);
+                            await outputResourcePickerCombobox.removePill();
 
-                            await selectComboboxItemBy(
-                                outputResourcePickerCombobox,
+                            await outputResourcePickerCombobox.selectItemBy(
                                 'text',
                                 outputResourcePickerValue.split('.')
                             );
-                            expect(outputResourcePickerCombobox.hasPill).toBe(true);
-                            expect(outputResourcePickerCombobox.pill).toEqual(expectedPill);
+                            expect(outputResourcePickerCombobox.element.hasPill).toBe(true);
+                            expect(outputResourcePickerCombobox.element.pill).toEqual(expectedPill);
                         }
                     );
                 });
@@ -1104,13 +1065,10 @@ describe('Record Create Editor', () => {
                     'When typing "$outputResourcePickerDisplayText" error should be: $expectedErrorMessage',
                     async ({ outputResourcePickerDisplayText, expectedErrorMessage }) => {
                         const outputResourcePickerCombobox = getOutputBaseResourcePickerCombobox(recordCreateElement);
-                        await removePill(outputResourcePickerCombobox);
+                        await outputResourcePickerCombobox.removePill();
 
-                        await typeReferenceOrValueInCombobox(
-                            outputResourcePickerCombobox,
-                            outputResourcePickerDisplayText
-                        );
-                        expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
+                        await outputResourcePickerCombobox.typeReferenceOrValue(outputResourcePickerDisplayText);
+                        expect(outputResourcePickerCombobox.element.errorMessage).toEqual(expectedErrorMessage);
                     }
                 );
             });
