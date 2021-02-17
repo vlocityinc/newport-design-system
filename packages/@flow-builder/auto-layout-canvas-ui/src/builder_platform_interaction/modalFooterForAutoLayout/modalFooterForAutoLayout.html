@@ -1,0 +1,19 @@
+<template>
+    <div if:true={keyMap} class="slds-truncate slds-float_left">{keyMap}</div>
+    <lightning-button
+        if:true={buttons.buttonOne}
+        variant={buttons.buttonOne.buttonVariant}
+        label={buttons.buttonOne.buttonLabel}
+        title={buttons.buttonOne.buttonLabel}
+        onclick={handleButtonOneClick}
+        class={buttonOneClass}
+    ></lightning-button>
+    <lightning-button
+        if:true={buttons.buttonTwo}
+        variant={buttons.buttonTwo.buttonVariant}
+        label={buttons.buttonTwo.buttonLabel}
+        title={buttons.buttonTwo.buttonLabel}
+        onclick={handleButtonTwoClick}
+        class={buttonTwoClass}
+    ></lightning-button>
+</template>
