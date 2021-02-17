@@ -4,8 +4,8 @@
 
 1. Install prerequisites
 
-- Node.js (version 12.18.3)
-- yarn (version 1.3.2)
+- Node.js (version 14.15.4)
+- yarn (version >=1.3.2)
 - git (version >= 2.13.0 : this is necessary for [husky](https://github.com/typicode/husky/tree/master))
 
 Setup nexus/npm as described here: https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=NEXUS&title=Nexus+NPM+Repositories
@@ -16,17 +16,23 @@ Note: If you haven't setup SSH Keys before you can look here: https://help.githu
 
 ```sh
 yarn --version && node --version && git --version
-> 1.3.2
-> v12.18.3
-> git version 2.17.1
 ```
 
-To update your node version do: `nvm install v12.18.3 && nvm use v12.18.3)`
+To update your node version and use it by default, do:
+```sh
+nvm install 14.15.4 && nvm alias default 14.15.4
+```
 
-To update your yarn version do: `brew unlink yarn && brew install yarn@1.3.2`
+To update your yarn version do (1.22.4 here):
+```sh
+brew unlink yarn && brew install yarn@1.22.4
+```
+If it fails you may try:
+```sh
+curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.4
+```
 
-> Note: I was able to successfully use yarn v1.22.5, simply ran `brew install yarn` to get it
-> See the engines field of the package.json file for the current acceptable versions of node and yarn)
+> Note: as long as **yarn** and **node** versions meet the corresponding engines versions constraints of the [project package.json file](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/8c09fbd3bbecfd24c064a0fa6f9b20f1d0faaea3/package.json#L125) you're good to go.
 
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
@@ -59,7 +65,7 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
     yarn build
     ```
 
-8.  Run mvn compile (See instructions here to setup mvn: https://sites.google.com/a/salesforce.com/butc/user-documentation/install-maven):
+8.  Run mvn compile (See instructions here to set up mvn: https://sites.google.com/a/salesforce.com/butc/user-documentation/install-maven):
 
     ```sh
     mvn compile
@@ -80,11 +86,11 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
 yarn test:unit
 ```
 
-Once core is up and running, if you make changes in your git repo, they should be reflected in the your running core instance after a few seconds.
+Once core is up and running, if you make changes in your git repo, they should be reflected in your running core instance after a few seconds.
 
 ## Core Setup
 
-Currently the Flow Builder app cannot be run as a standalone app and must be run in core.
+Currently, the Flow Builder app cannot be run as a standalone app and must be run in core.
 
 When doing development you need to configure core and point it to where you cloned this repository so that it can pick up the `ui-interaction-builder-components` sources as you edit them, instead of using the JAR published in Nexus:
 
@@ -98,7 +104,7 @@ When doing development you need to configure core and point it to where you clon
         </moduleImports>
         ```
 
-    and remove or comment out the `ui-interaction-builder-components` module:
+    remove or comment out the `ui-interaction-builder-components` module:
 
 ```xml
 <!--
@@ -150,11 +156,11 @@ When doing development you need to configure core and point it to where you clon
 ```sh
 corecli core:sync ide:ide -b
 ```
-Once your IDE has compiled coreapp, finish the build with 
+Once your IDE has compiled coreapp, finish the build with (automatically launched in IntelliJ via [Core Dev Booster plugin](https://git.soma.salesforce.com/intellij/Core-Dev-Booster) if installed)
 ```sh
 corecli core:build post plsql
 ```
-Start the app with 
+Start the app with
 ```sh
 corecli core:start
 ```

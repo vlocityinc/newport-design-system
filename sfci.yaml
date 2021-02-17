@@ -15,4 +15,6 @@ core:
     module_name: 'ui-interaction-builder-components'
     version_property_name: 'ui-interaction-builder-components.version'
 build_resource_size: huge
-build_image: ops0-artifactrepo1-0-prd.data.sfdc.net/dci/centos-sfci-nodejs:e7ab133
+
+# targeting the "centos-sfci-nodejs" Docker image with Node 14.15.4
+build_image: ops0-artifactrepo1-0-prd.data.sfdc.net/dci/centos-sfci-nodejs:4d5641b

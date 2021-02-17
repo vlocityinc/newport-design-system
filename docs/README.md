@@ -1,20 +1,36 @@
 # Flow Builder App and Components
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+<p>
+  <a href="https://github.com/lerna/lerna">
+    <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg">
+  </a>
 
-Flow Builder is a project that provides an builder app to create flows, and a set of reusable lwc components.
+  <a href="https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V14.md#14.15.4">
+    <img src="https://img.shields.io/badge/node-%3E%3D14.15.4%20%3C15.0.0-blue">
+  </a>
+
+  <a href="https://github.com/yarnpkg/yarn">
+    <img src="https://img.shields.io/badge/yarn-%3E%3D1.3.2-yellow">
+  </a>
+
+  <a href="https://github.com/microsoft/TypeScript">
+    <img src="https://img.shields.io/badge/typescript-~4.1.3-green">
+  </a>
+</p>
+
+Flow Builder is a project that provides a builder app to create flows, and a set of reusable lwc components.
 
 ## Getting started
 
-Instructions to setup your environment to develop and run the Flow Builder app in core can be found [here](/docs/DevelopmentSetup.md)
+Instructions to set up your environment to develop and run the Flow Builder app in core can be found [here](/docs/DevelopmentSetup.md)
 
 Take a look at the [Setup FAQ](https://salesforce.quip.com/BFVUA1AxQWKb) if you run into any issues or the [#move-builder-to-git](https://platformcloud.slack.com/archives/CQH866GSZ) slack channel.
 
 ## Overview of the structure of the repo
 
-The repo defines multiple npm packages in the `packages` folder. The package `flow-builder/ui` is the npm package for the `ui-interaction-builder-components`. This is where you will find all the code that has been migrated from P4.
+This repository defines multiple NPM packages in the `packages` folder. The package `flow-builder/ui` is the NPM package for the `ui-interaction-builder-components`. This is where you will find all the code that has been migrated from P4.
 
-It is build and managed using `yarn`.
+It is built and managed using `yarn`.
 
 ## Running the tests
 
@@ -28,7 +44,7 @@ If you want to run/debug a single test you should cd to the packages where the t
 To debug a test:
 `yarn lwc-test --debug src/builder_platform_interaction/editor/__tests__/editor.test.ts`
 
-To update all the snaphots in a package:
+To update all the snapshots in a package:
 `yarn lwc-test --updateSnapshot`
 
 ## SFCI Setup and CLCO
