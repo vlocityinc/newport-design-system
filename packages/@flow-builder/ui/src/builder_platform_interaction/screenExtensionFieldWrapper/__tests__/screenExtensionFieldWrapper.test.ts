@@ -490,11 +490,11 @@ describe('Test10 - Component uses GlobalConstant.True for String param', () => {
             screenfield: field
         });
     });
-    it('Foo Extension wrapper is present', () => {
+    it('Extension wrapper is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it('Foo Extension field is present', () => {
+    it('Extension field is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).not.toBeNull();
@@ -521,11 +521,11 @@ describe('Test11 - Component uses GlobalConstant.False for String param', () => 
             screenfield: field
         });
     });
-    it('Bar Extension wrapper is present', () => {
+    it('Extension wrapper is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         expect(extensionFieldWrapper).not.toBeNull();
     });
-    it(' Bar Extension field is present', () => {
+    it('Extension field is present', () => {
         const extensionFieldWrapper = testScreenField.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD_WRAPPER);
         const extensionField = extensionFieldWrapper.shadowRoot.querySelector(SELECTORS.EXTENSION_FIELD);
         expect(extensionField).not.toBeNull();
