@@ -134,3 +134,16 @@ export function getFieldByGuid(sections: Array<ScreenPaletteSection>, guid: stri
     }
     throw new Error('Unable to find field type by guid');
 }
+
+export function attributesHaveChanged(oldAttributes, newAttributes) {
+    if (!(oldAttributes instanceof Object) || !(newAttributes instanceof Object)) {
+        return true;
+    }
+    // If the number of elements in the attributes set is different, attributes have changed.
+    if (Object.keys(newAttributes).length !== Object.keys(oldAttributes).length) {
+        return true;
+    }
+    // Otherwise, check each attribute individually.
+    const diffKeys = Object.keys(newAttributes).filter((key) => newAttributes[key] !== oldAttributes[key]);
+    return diffKeys && diffKeys.length > 0;
+}

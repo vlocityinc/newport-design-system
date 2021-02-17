@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
+import { booleanAttributeValue, attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
 
 const bar = 'bar';
 
@@ -37,5 +37,63 @@ describe('booleanAttributeValue function', () => {
     it('Returns undefined if the property does not exist', () => {
         const foo = {};
         expect(booleanAttributeValue(foo, 'bar')).toBe(undefined);
+    });
+});
+
+describe('attributesHaveChanged function', () => {
+    it('Returns false if both objects are empty', () => {
+        const foo = {};
+        const bar = {};
+        expect(attributesHaveChanged(foo, bar)).toBe(false);
+    });
+    it('Returns false if both objects have identical key value pairs', () => {
+        const foo = { a: '1', b: 2 };
+        const bar = { a: '1', b: 2 };
+        expect(attributesHaveChanged(foo, bar)).toBe(false);
+    });
+    it('Returns true if both objects have 1 different value', () => {
+        const foo = { a: '1', b: 2 };
+        const bar = { a: '1', b: 3 };
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns true if 2nd object has 1 more key value pair', () => {
+        const foo = { a: '1' };
+        const bar = { a: '1', b: 3 };
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns true if 1st object has 1 more key value pair', () => {
+        const foo = { a: '1', b: 2 };
+        const bar = { a: '1' };
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns true if 1st object is not empty and 2nd is empty', () => {
+        const foo = { a: '1' };
+        const bar = {};
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns true if 1st object is empty and 2nd is not empty', () => {
+        const foo = {};
+        const bar = { a: '1' };
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns true if objects have same number of keys but keys are different', () => {
+        const foo = { a: '1', b: 2 };
+        const bar = { a: '1', c: 2 };
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns false if objects have same key value pairs but declared in a different order', () => {
+        const foo = { b: 2, a: 1 };
+        const bar = { a: 1, b: 2 };
+        expect(attributesHaveChanged(foo, bar)).toBe(false);
+    });
+    it('Returns true if 2nd object null and 1st is not', () => {
+        const foo = { a: '1' };
+        const bar = null;
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
+    });
+    it('Returns true if 1st object null and 2nd is not', () => {
+        const foo = null;
+        const bar = { a: '1' };
+        expect(attributesHaveChanged(foo, bar)).toBe(true);
     });
 });

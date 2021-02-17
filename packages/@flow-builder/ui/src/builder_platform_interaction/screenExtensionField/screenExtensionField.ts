@@ -1,5 +1,6 @@
 import { api, unwrap, LightningElement } from 'lwc';
 import { AuraComponent } from './auraInterop';
+import { attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
 
 export default class ScreenExtensionField extends LightningElement {
     @api
@@ -25,7 +26,7 @@ export default class ScreenExtensionField extends LightningElement {
         // in this code being executed, even if there are no changes to your screen field.
         // In that case, we don't want to set new attributes. If we did, the user would see any
         // errors caused by this component again (if the component already had errors).
-        if (this.embededAuraComponent && this.attributesHaveChanged(this._attributes, newAttributes)) {
+        if (this.embededAuraComponent && attributesHaveChanged(this._attributes, newAttributes)) {
             this._attributes = newAttributes;
             this.reloadComponent();
         } else {
@@ -72,10 +73,5 @@ export default class ScreenExtensionField extends LightningElement {
             this.embededAuraComponent.unrenderComponent();
             this.embededAuraComponent = undefined;
         }
-    }
-
-    attributesHaveChanged(oldAttributes, newAttributes) {
-        const diffKeys = Object.keys(newAttributes).filter((key) => newAttributes[key] !== oldAttributes[key]);
-        return diffKeys && diffKeys.length > 0;
     }
 }
