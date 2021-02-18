@@ -63,15 +63,13 @@ function calculateElementPositions(
 
     elementsPosition[startElement.guid] = startPosition;
 
-    const firstElement = elements[startElement.next!] as UI.AutoLayoutCanvasElement;
-
     // Getting offsetY for the following elements. startOffsetY is at the top of the Start Contextual Menu.
     // findStartYOffset returns Start Contextual Menu heigh.
     // Subtracting 168 to incorporate for the "y" amount being added in the calculations further down.
     const offsetY = startOffsetY + findStartYOffset(startElement) - 168;
 
     // TODO: need to fix the position calculations and remove the hard coded values above
-    calculateElementPositionsForBranch(nodeLayoutMap, elementsPosition, elements, firstElement, startOffsetX, offsetY);
+    calculateElementPositionsForBranch(nodeLayoutMap, elementsPosition, elements, startElement, startOffsetX, offsetY);
 
     return elementsPosition;
 }
@@ -87,26 +85,37 @@ function calculateElementPositionsForBranch(
     while (element != null) {
         const { y } = nodeLayoutMap[element.guid].layout;
 
-        const position = {
+        let position = {
             x: offsetX,
             y: offsetY + y
         };
 
-        elementsPosition[element.guid] = position;
+        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            position = elementsPosition[element.guid];
+        } else {
+            elementsPosition[element.guid] = position;
+        }
 
         if (element.children) {
             // eslint-disable-next-line no-loop-func
             element.children.forEach((child, i) => {
                 if (child != null) {
-                    const branchOffsetX = nodeLayoutMap[getBranchLayoutKey(element.guid, i)].layout.x;
-
+                    let branchOffsetX = nodeLayoutMap[getBranchLayoutKey(element.guid, i)].layout.x;
+                    let branchOffsetY = 0;
+                    if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+                        // Adding back the offsets created in calculateElementPositions function.
+                        // 126 is the gap between the start icon's left most point and top-left corner of the start menu container.
+                        // 168 is he same, but on the vertical axis.
+                        branchOffsetX += 126;
+                        branchOffsetY += 168;
+                    }
                     calculateElementPositionsForBranch(
                         nodeLayoutMap,
                         elementsPosition,
                         elementsMap,
                         elementsMap[child] as UI.AutoLayoutCanvasElement,
                         position.x + branchOffsetX,
-                        position.y
+                        position.y + branchOffsetY
                     );
                 }
             });
@@ -179,15 +188,21 @@ function createConnectorForBranchHead(
     if (parentElement.elementType === ELEMENT_TYPE.LOOP) {
         type = CONNECTOR_TYPE.LOOP_NEXT;
     } else {
-        const defaultIndex = numChildren - 1;
+        const defaultIndex = parentElement.elementType === ELEMENT_TYPE.START_ELEMENT ? 0 : numChildren - 1;
 
         if (childIndex === FAULT_INDEX) {
             type = CONNECTOR_TYPE.FAULT;
         } else if (childIndex === defaultIndex) {
             type = CONNECTOR_TYPE.DEFAULT;
+            if (parentElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+                type = CONNECTOR_TYPE.IMMEDIATE;
+            }
         } else {
             type = CONNECTOR_TYPE.REGULAR;
-            childSource = findChildSource(parentElement, childIndex);
+            childSource =
+                parentElement.elementType === ELEMENT_TYPE.START_ELEMENT
+                    ? findChildSource(parentElement, childIndex - 1)
+                    : findChildSource(parentElement, childIndex);
         }
     }
 
@@ -231,16 +246,17 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: UI.AutoLayoutC
 
         maxConnections = 2;
     } else if (supportsChildren(alcCanvasElement)) {
-        // @ts-ignore
-        availableConnections = [
+        const regularConnections = [
             ...alcCanvasElement.childReferences!.map((cr) => ({
                 childReference: cr.childReference,
                 type: CONNECTOR_TYPE.REGULAR
-            })),
-
-            { type: CONNECTOR_TYPE.DEFAULT }
+            }))
         ];
-
+        if (alcCanvasElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            availableConnections = [...regularConnections, ...availableConnections];
+        } else {
+            availableConnections = [...regularConnections, { type: CONNECTOR_TYPE.DEFAULT }];
+        }
         maxConnections = alcCanvasElement.childReferences!.length + 1;
     }
 
@@ -343,6 +359,37 @@ function convertLoopElement(
 }
 
 /**
+ * Creates connectors for start element and its children
+ *
+ * @param storeState - The free form state
+ * @param elements - The elements
+ * @param loopElement  - The loop element
+ * @param ancestorNext - The loop's ancestor next
+ * @returns true if all child branches are terminals
+ */
+function convertStartElement(
+    storeState: UI.StoreState,
+    elements: UI.Elements,
+    branchingElement: UI.AutoLayoutCanvasElement,
+    ancestorNext: UI.Guid | null
+) {
+    ancestorNext = branchingElement.next || null;
+    branchingElement.children!.forEach((child, i) => {
+        if (child != null) {
+            const childElement = elements[child] as UI.AutoLayoutCanvasElement;
+
+            const connector = createConnectorForBranchHead(elements, branchingElement, i, null);
+            storeState.connectors.push(connector);
+
+            convertBranchToFreeForm(storeState, elements, childElement, ancestorNext);
+        } else if (ancestorNext != null) {
+            const connector = createConnectorForBranchHead(elements, branchingElement, i, ancestorNext);
+            storeState.connectors.push(connector);
+        }
+    });
+}
+
+/**
  * Adds a connector to either the store or to the endConnectors
  *
  * @param alcElementsMap - The alc elements
@@ -406,6 +453,8 @@ function convertBranchToFreeForm(
         if (supportsChildren(alcElement)) {
             if (alcElement.elementType === ELEMENT_TYPE.LOOP) {
                 convertLoopElement(ffcStoreState, alcElementsMap, alcElement, ancestorNext);
+            } else if (alcElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+                convertStartElement(ffcStoreState, alcElementsMap, alcElement, null);
             } else {
                 convertBranchingElement(ffcStoreState, alcElementsMap, alcElement, ancestorNext);
             }

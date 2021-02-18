@@ -1,5 +1,4 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { findStartElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { ConversionInfo, ConversionInfos, EdgeType } from './dfs';
 
 type FlowCheckType =
@@ -82,12 +81,6 @@ function areLoopNextAndEndTheSame(outs: UI.Connector[]) {
  * @throw An error when the flow can't be converted
  */
 export function validateConversionInfos(elements: UI.Elements, conversionInfos: ConversionInfos) {
-    const startElement = findStartElement(elements) as any;
-
-    // If a start element has childReferences (scheduled time triggers) set, then it can't be converted
-    if (startElement.childReferences && startElement.childReferences.length > 0) {
-        failFlowCheck('timeTriggers');
-    }
     const flowElements = Object.values(elements);
 
     for (const element of flowElements) {

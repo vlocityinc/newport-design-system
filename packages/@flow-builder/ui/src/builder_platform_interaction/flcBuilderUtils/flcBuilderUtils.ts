@@ -27,9 +27,12 @@ export function getElementsMetadata() {
  * @return true iff an element can have children
  */
 export function supportsChildren(element: UI.Element) {
-    const { elementType } = element;
+    const { elementType, childReferences } = element;
     return (
-        elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT || elementType === ELEMENT_TYPE.LOOP
+        (elementType === ELEMENT_TYPE.START_ELEMENT && childReferences && childReferences.length > 0) ||
+        elementType === ELEMENT_TYPE.DECISION ||
+        elementType === ELEMENT_TYPE.WAIT ||
+        elementType === ELEMENT_TYPE.LOOP
     );
 }
 

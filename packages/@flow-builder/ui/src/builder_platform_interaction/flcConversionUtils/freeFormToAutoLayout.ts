@@ -45,18 +45,24 @@ const DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS: ConvertToAutoLayoutCanvasOp
  * @return the connection index in the parent
  */
 function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, type: UI.ConnectorType): number {
-    const { maxConnections } = parentElement;
+    const { maxConnections, elementType } = parentElement;
 
     if (type === CONNECTOR_TYPE.FAULT) {
-        return parentElement.maxConnections - 1;
+        return maxConnections - 1;
     } else if (type === CONNECTOR_TYPE.DEFAULT) {
-        const elementConfig = getConfigForElementType(parentElement.elementType) as any;
+        const elementConfig = getConfigForElementType(elementType) as any;
         const { canHaveFaultConnector } = elementConfig;
         return canHaveFaultConnector ? maxConnections - 2 : maxConnections - 1;
+    } else if (type === CONNECTOR_TYPE.IMMEDIATE) {
+        return 0;
     }
 
+    // Children on start element are handled by timeTriggers and these only contain paths which are not CONNECTOR_TYPE.IMMEDIATE.
+    // So, adding 1 to offset the immediate path.
     const { singular, plural } = getChildReferencesKeys();
-    return parentElement[plural].findIndex((entry) => entry[singular] === childSource);
+    return elementType === ELEMENT_TYPE.START_ELEMENT
+        ? parentElement[plural].findIndex((entry) => entry[singular] === childSource) + 1
+        : parentElement[plural].findIndex((entry) => entry[singular] === childSource);
 }
 
 function isBranchingElement(element: UI.Element) {

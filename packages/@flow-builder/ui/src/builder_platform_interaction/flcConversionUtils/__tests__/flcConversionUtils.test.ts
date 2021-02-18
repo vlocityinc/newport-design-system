@@ -25,9 +25,18 @@ import updatedElementConfig from './flcUiModels/updated-element-config';
 import testCaseW8010546 from './flcUiModels/test-case-W-8010546';
 import oneAssignmentInTimeTrigger from './flcUiModels/one-assignment-in-time-trigger';
 
+import startWithOnlyImmediate from './flcUiModels/start-with-only-immediate';
+import startWithOnlyTimeTriggers from './flcUiModels/start-with-only-time-triggers';
+import startWithImmPlusTimeTrigger from './flcUiModels/start-with-imm-plus-time-trigger';
+import startWithMultipleTimeTriggers from './flcUiModels/start-with-multiple-time-triggers';
+
 import ffcSanity from './ffcUiModels/sanity.json';
 import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
 import ffcElementWithFaultWithDecisionHead from './ffcUiModels/element-with-fault-with-decision-head.json';
+import ffcStartWithOnlyImmediate from './ffcUiModels/start-with-only-time-trigger.json';
+import ffcStartWithOnlyTimeTrigger from './ffcUiModels/start-with-only-time-trigger.json';
+import ffcStartWithSingleTimeTrigger from './ffcUiModels/start-with-single-time-trigger.json';
+import ffcStartWithMultipleTimeTrigger from './ffcUiModels/start-with-multiple-time-trigger.json';
 import ffcDecisionEmpty from './ffcUiModels/decision-empty.json';
 import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision.json';
 import ffcDecisionWithScreenOnEachBranchAndScreenMerge from './ffcUiModels/decision-with-screen-on-each-branch-and-screen-merge.json';
@@ -803,7 +812,20 @@ describe('flc conversion utils', () => {
                     assertRoundTripFromFreeFormCanvas(ffcElementWithFaultWithDecisionHead);
                 });
             });
-
+            describe('triggering record start', () => {
+                describe('only immediate', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithOnlyImmediate);
+                });
+                describe('only time triggers', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithOnlyTimeTrigger);
+                });
+                describe('one immediate + one time trigger', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithSingleTimeTrigger);
+                });
+                describe('two time triggers', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithMultipleTimeTrigger);
+                });
+            });
             describe('decision', () => {
                 describe('empty', () => {
                     assertRoundTripFromFreeFormCanvas(ffcDecisionEmpty);
@@ -939,6 +961,93 @@ describe('flc conversion utils', () => {
                     ];
 
                     assertRoundTripFromAutoLayoutCanvas(oneElementWithFault, expectedEndConnectors);
+                });
+            });
+            describe('record triggered start', () => {
+                describe('start with only immediate', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'assignment-imm-element-guid -> end-element-guid (assignment-imm-element-guid)',
+                            source: 'assignment-imm-element-guid',
+                            target: 'end-element-guid (assignment-imm-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(startWithOnlyImmediate, endConnectors);
+                });
+                describe('start with only time triggers', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'time-trigger-start-element-guid -> end-element-guid (time-trigger-start-element-guid)',
+                            source: 'time-trigger-start-element-guid',
+                            target: 'end-element-guid (time-trigger-start-element-guid)',
+                            label: 'IMMEDIATE',
+                            type: 'IMMEDIATE',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'assignment-async-element-guid -> end-element-guid (assignment-async-element-guid)',
+                            source: 'assignment-async-element-guid',
+                            target: 'end-element-guid (assignment-async-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(startWithOnlyTimeTriggers, endConnectors);
+                });
+                describe('start with immediate + one time trigger', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'assignment-imm-element-guid -> end-element-guid (assignment-imm-element-guid)',
+                            source: 'assignment-imm-element-guid',
+                            target: 'end-element-guid (assignment-imm-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'assignment-async-element-guid -> end-element-guid (assignment-async-element-guid)',
+                            source: 'assignment-async-element-guid',
+                            target: 'end-element-guid (assignment-async-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(startWithImmPlusTimeTrigger, endConnectors);
+                });
+                describe('start with multiple time triggers', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'assignment-imm-element-guid -> end-element-guid (assignment-imm-element-guid)',
+                            source: 'assignment-imm-element-guid',
+                            target: 'end-element-guid (assignment-imm-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'assignment-async-element-guid -> end-element-guid (assignment-async-element-guid)',
+                            source: 'assignment-async-element-guid',
+                            target: 'end-element-guid (assignment-async-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'assignment-async2-element-guid -> end-element-guid (assignment-async2-element-guid)',
+                            source: 'assignment-async2-element-guid',
+                            target: 'end-element-guid (assignment-async2-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(startWithMultipleTimeTriggers, endConnectors);
                 });
             });
             describe('decision', () => {
