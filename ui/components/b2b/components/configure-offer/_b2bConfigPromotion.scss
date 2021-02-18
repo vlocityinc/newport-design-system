@@ -2,16 +2,14 @@
     background-color:$b2b-config-promo-wrapper-blue;
     padding: 0.6rem 1.4rem;
     
-    .nds-b2b-config-promo-name{
+    & .nds-b2b-config-promo-name{
         color: $black-primary;
     }
-    .nds-b2b-config-promo-details{
+    & .nds-b2b-config-promo-details{
         color: $b2b-config-promo-details-blue;
-        cursor: pointer;
     }
-    .nds-b2b-config-promo-selected{
-        width: auto;
-        display: block; 
+    & .nds-b2b-config-promo-selected{
+        width: auto; 
         color: $white; 
         font-size: .7rem;
         padding: 0 1rem; 
