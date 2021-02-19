@@ -29,6 +29,7 @@ import startWithOnlyImmediate from './flcUiModels/start-with-only-immediate';
 import startWithOnlyTimeTriggers from './flcUiModels/start-with-only-time-triggers';
 import startWithImmPlusTimeTrigger from './flcUiModels/start-with-imm-plus-time-trigger';
 import startWithMultipleTimeTriggers from './flcUiModels/start-with-multiple-time-triggers';
+import startWithMergingPaths from './flcUiModels/start-with-merging-paths';
 
 import ffcSanity from './ffcUiModels/sanity.json';
 import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
@@ -37,6 +38,7 @@ import ffcStartWithOnlyImmediate from './ffcUiModels/start-with-only-time-trigge
 import ffcStartWithOnlyTimeTrigger from './ffcUiModels/start-with-only-time-trigger.json';
 import ffcStartWithSingleTimeTrigger from './ffcUiModels/start-with-single-time-trigger.json';
 import ffcStartWithMultipleTimeTrigger from './ffcUiModels/start-with-multiple-time-trigger.json';
+import ffcStartWithMergingPaths from './ffcUiModels/start-with-merging-path.json';
 import ffcDecisionEmpty from './ffcUiModels/decision-empty.json';
 import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision.json';
 import ffcDecisionWithScreenOnEachBranchAndScreenMerge from './ffcUiModels/decision-with-screen-on-each-branch-and-screen-merge.json';
@@ -825,6 +827,9 @@ describe('flc conversion utils', () => {
                 describe('two time triggers', () => {
                     assertRoundTripFromFreeFormCanvas(ffcStartWithMultipleTimeTrigger);
                 });
+                describe('with merging imm and async path', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithMergingPaths);
+                });
             });
             describe('decision', () => {
                 describe('empty', () => {
@@ -1048,6 +1053,35 @@ describe('flc conversion utils', () => {
                         }
                     ];
                     assertRoundTripFromAutoLayoutCanvas(startWithMultipleTimeTriggers, endConnectors);
+                });
+                describe('merging imm and async paths', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'assignment-imm-element-guid -> end-element-guid (assignment-async-element-guid)',
+                            source: 'assignment-imm-element-guid',
+                            target: 'end-element-guid (assignment-async-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'assignment-async-element-guid -> end-element-guid (assignment-async-element-guid)',
+                            source: 'assignment-async-element-guid',
+                            target: 'end-element-guid (assignment-async-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'assignment-async2-element-guid -> end-element-guid (assignment-async2-element-guid)',
+                            source: 'assignment-async2-element-guid',
+                            target: 'end-element-guid (assignment-async2-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(startWithMergingPaths, endConnectors);
                 });
             });
             describe('decision', () => {
