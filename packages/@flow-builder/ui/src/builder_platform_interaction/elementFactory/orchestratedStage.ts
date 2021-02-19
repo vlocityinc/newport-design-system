@@ -321,13 +321,20 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
             // for a given action as a different "type" needing a call to getChildrenItems
             subtype: step.actionName,
             isSpanningAllowed: true,
-            getChildrenItems: () =>
-                outputParameters.map((output: ParameterListRowItem) => ({
-                    label: output.name,
-                    name: output.name,
-                    apiName: output.name,
-                    dataType: output.valueDataType
-                }))
+            getChildrenItems: () => {
+                const children = {};
+                outputParameters.forEach(
+                    (output: ParameterListRowItem) =>
+                        (children[<string>output.name] = {
+                            label: output.name,
+                            name: output.name,
+                            apiName: output.name,
+                            dataType: output.valueDataType
+                        })
+                );
+
+                return children;
+            }
         };
     }
 

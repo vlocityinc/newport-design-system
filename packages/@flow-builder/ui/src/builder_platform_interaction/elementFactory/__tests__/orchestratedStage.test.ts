@@ -117,8 +117,8 @@ getElementByGuid.mockImplementation((guid) => {
             name: `${guid}-name`,
             description: `${guid}-description`,
             entryConditions: [],
-            inputParameters: [<ParameterListRowItem>jest.fn()],
-            outputParameters: [<ParameterListRowItem>jest.fn(), <ParameterListRowItem>jest.fn()]
+            inputParameters: [<ParameterListRowItem>{ name: 'ip' }],
+            outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }]
         };
     }
 
@@ -709,7 +709,9 @@ describe('OrchestratedStage', () => {
                     }
                 ];
                 const data = getStageStepChildren(step);
-                expect(step.outputParameters[0]).toMatchObject(data.Outputs.getChildrenItems()[0]);
+                expect(step.outputParameters[0]).toMatchObject(
+                    data.Outputs.getChildrenItems()[step.outputParameters[0].apiName]
+                );
                 expect(data.Outputs.subtype).toEqual(step.actionName);
             });
             it('not present if no parameters', () => {
@@ -745,8 +747,8 @@ describe('OrchestratedStage', () => {
                 step.actionName = mockActionWithOutputParametersName;
                 const data = getStageStepChildren(step);
                 const outputChildren = data.Outputs.getChildrenItems();
-                expect(outputChildren).toHaveLength(1);
-                expect(outputChildren[0]).toMatchObject({
+                expect(Object.keys(outputChildren)).toHaveLength(1);
+                expect(outputChildren.record).toMatchObject({
                     name: 'record',
                     apiName: 'record',
                     dataType: 'sobject'
