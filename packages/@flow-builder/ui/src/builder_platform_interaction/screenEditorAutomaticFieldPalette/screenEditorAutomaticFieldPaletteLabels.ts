@@ -8,6 +8,7 @@ import noItemsToShowDescription from '@salesforce/label/FlowBuilderScreenEditorA
 import fieldsLoadingError from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.fieldsLoadingError';
 import noFieldsIllustrationTitle from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noFieldsIllustrationTitle';
 import noFieldsIllustrationDescription from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noFieldsIllustrationDescription';
+import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 export const LABELS = {
     selectObjectLabel,
     selectObjectPlaceholderLabel,
@@ -18,5 +19,6 @@ export const LABELS = {
     noItemsToShowDescription,
     fieldsLoadingError,
     noFieldsIllustrationTitle,
-    noFieldsIllustrationDescription
+    noFieldsIllustrationDescription,
+    spinnerAlternativeText
 };

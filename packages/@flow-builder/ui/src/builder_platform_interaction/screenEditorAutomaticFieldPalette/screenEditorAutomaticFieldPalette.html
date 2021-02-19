@@ -37,6 +37,14 @@
             <div if:true={showErrorMessageRelatedToFieldFetching} class="error">
                 <span>{labels.fieldsLoadingError}</span>
             </div>
+            <!-- spinner when fields are being loaded -->
+            <lightning-spinner
+                if:true={showLoadingFieldsSpinner}
+                alternative-text={labels.spinnerAlternativeText}
+                size="small"
+                variant="brand"
+                class="spinner"
+            ></lightning-spinner>
             <!-- container for search field and palette -->
             <div if:false={showErrorMessageRelatedToFieldFetching}>
                 <div if:false={showNoFieldIllustration} class="slds-p-horizontal_small slds-p-vertical_medium">

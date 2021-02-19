@@ -16,6 +16,7 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_PICKLIST: 'lightning-picklist',
     LIGHTNING_PILL: 'lightning-pill',
     LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
+    LIGHTNING_SPINNER: 'lightning-spinner',
     LIGHTNING_TAB: 'lightning-tab',
     LIGHTNING_TABSET: 'lightning-tabset',
     LIGHTNING_TEXTAREA: 'lightning-textarea',

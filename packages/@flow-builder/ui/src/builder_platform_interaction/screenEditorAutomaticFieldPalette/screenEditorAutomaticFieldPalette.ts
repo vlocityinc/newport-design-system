@@ -48,6 +48,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     entityName = '';
     showErrorMessageRelatedToFieldFetching = false;
     showNoFieldIllustration = false;
+    showSpinner = false;
     labels = LABELS;
     @api
     searchPattern?: string | null;
@@ -77,6 +78,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     @api
     get showNoFieldIllustrationContainer() {
         return this.showNoFieldIllustration;
+    }
+
+    get showLoadingFieldsSpinner() {
+        return this.showSpinner;
     }
 
     @api
@@ -122,6 +127,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         if (this.state.recordVariable) {
             const resource = getElementByGuid(this.state.recordVariable)!;
             this.entityName = resource.subtype!;
+            this.showSpinner = true;
             fetchFieldsForEntity(this.entityName)
                 .then((fields) => {
                     this.showErrorMessageRelatedToFieldFetching = false;
@@ -131,6 +137,9 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 })
                 .catch(() => {
                     this.showErrorMessageRelatedToFieldFetching = true;
+                })
+                .finally(() => {
+                    this.showSpinner = false;
                 });
         }
     }

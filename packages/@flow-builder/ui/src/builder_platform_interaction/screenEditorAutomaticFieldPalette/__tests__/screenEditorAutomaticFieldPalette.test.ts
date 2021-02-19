@@ -17,17 +17,42 @@ import {
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { objectWithAllPossibleFieldsFields as mockobjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
-import { INTERACTION_COMPONENTS_SELECTORS, dragStartEvent } from 'builder_platform_interaction/builderTestUtils';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS,
+    dragStartEvent
+} from 'builder_platform_interaction/builderTestUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 
 let mockAccountFields = accountFields;
+
+enum PromiseMode {
+    Pending,
+    Rejected,
+    Resolved
+}
+
+let mockFetchFieldsForEntityMode = PromiseMode.Resolved;
+
+const getResolvablePromise = (mode: PromiseMode, error = 'my error') =>
+    new Promise((resolve, reject) => {
+        if (mode === PromiseMode.Rejected) {
+            reject(error);
+        }
+    });
+
+function mockFetchFieldsForEntity(recordEntityName) {
+    return mockFetchFieldsForEntityMode === PromiseMode.Pending || mockFetchFieldsForEntityMode === PromiseMode.Rejected
+        ? getResolvablePromise(mockFetchFieldsForEntityMode)
+        : Promise.resolve(
+              recordEntityName === 'Account' ? mockAccountFields : mockobjectWithAllPossibleFieldsVariableFields
+          );
+}
+
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    fetchFieldsForEntity: jest.fn((recordEntityName) =>
-        Promise.resolve(
-            recordEntityName === 'Account' ? mockAccountFields : mockobjectWithAllPossibleFieldsVariableFields
-        )
-    )
+    fetchFieldsForEntity: jest.fn(mockFetchFieldsForEntity)
 }));
+
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -95,6 +120,9 @@ const getNoSupportedFieldsIllustration = (screenEditorAutomaticFieldPalette) =>
 const getSearchInput = (screenEditorAutomaticFieldPalette) =>
     screenEditorAutomaticFieldPalette.shadowRoot.querySelector(SELECTORS.searchInput);
 
+const getSpinner = (screenEditorAutomaticFieldPalette) =>
+    screenEditorAutomaticFieldPalette.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_SPINNER);
+
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-automatic-field-palette', {
         is: ScreenEditorAutomaticFieldPalette
@@ -107,6 +135,7 @@ describe('Screen editor automatic field palette', () => {
     let element: ScreenEditorAutomaticFieldPalette;
     beforeEach(() => {
         element = createComponentForTest();
+        mockFetchFieldsForEntityMode = PromiseMode.Resolved;
     });
     beforeAll(() => {
         // @ts-ignore
@@ -126,13 +155,15 @@ describe('Screen editor automatic field palette', () => {
         it('should display the no item to show illustration', () => {
             expect(getNoItemToShowIllustration(element)).not.toBeNull();
         });
+        test('should not display spinner', () => {
+            expect(getSpinner(element)).toBeNull();
+        });
     });
 
     describe('Event handling related to search', () => {
         const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(accountSObjectVariable.guid);
         beforeEach(async () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
-            await ticks(1);
         });
         it('should not trim the given search term', async () => {
             const searchTerm = 'Billing ';
@@ -180,6 +211,23 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks(1);
             expect(getBasePalette(element)).not.toBeNull();
+        });
+        test('SObjectReferenceChangedEvent should display the spinner during field loading', async () => {
+            mockFetchFieldsForEntityMode = PromiseMode.Pending;
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(getSpinner(element)).not.toBeNull();
+        });
+        test('SObjectReferenceChangedEvent should not display the spinner after field loaded properly', async () => {
+            mockFetchFieldsForEntityMode = PromiseMode.Rejected;
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(getSpinner(element)).toBeNull();
+        });
+        test('SObjectReferenceChangedEvent should not display the spinner after field loading error', async () => {
+            getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
+            await ticks(1);
+            expect(getSpinner(element)).toBeNull();
         });
         test('SObjectReferenceChangedEvent with error should keep illustration visible', async () => {
             const sObjectReferenceChangedEventwithError = new SObjectReferenceChangedEvent(
