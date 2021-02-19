@@ -1493,15 +1493,42 @@ export function updateChildrenOnAddingOrUpdatingTimeTriggers(
             parentElement.children = updatedChildrenGuids;
         }
     } else if (children) {
-        // To handle the case when children were previously present but have been deleted
-        // TODO - W-8853334
-        // TODO: Find a better way to do this.
         // Case when deleting all time triggers
         // Delete all the branches from index 1 -> n
+        for (let i = 1; i < children.length; i++) {
+            if (children[i]) {
+                deleteBranch(elementService, flowModel, children[i]!);
+            }
+        }
         // If 0th branch has an element, connect the last element on the 0th branch to start's next. Set start's next to
         // 0th branch's branch head. Also update the previous pointers correctly
-        // If no element on the 0th branch and start's current next is not null, just delete children property and nothing else
-        // If start's current next is null, then just persist the 0th branch
+        const immediateBranchHeadElementGuid = parentElement.children[0];
+        const immediateBranchHeadElement = immediateBranchHeadElementGuid
+            ? resolveBranchHead(flowModel, immediateBranchHeadElementGuid)
+            : null;
+        if (immediateBranchHeadElement) {
+            const lastElementInBranch = findLastElement(immediateBranchHeadElement, flowModel);
+            if (!immediateBranchHeadElement.isTerminal) {
+                // If the branch head is NOT terminal: connect last element in branch to next element
+                lastElementInBranch.next = parentElement.next;
+                flowModel[parentElement.next!].prev = lastElementInBranch.guid;
+            } else {
+                // If branch head is terminal: delete any elements beyond merge point
+                if (parentElement.next) {
+                    deleteBranch(elementService, flowModel, parentElement.next);
+                }
+            }
+            // Connect parent to the branch head and remove branch head properties of the branch head as it is not
+            // branch head anymore
+            parentElement.next = immediateBranchHeadElementGuid;
+            immediateBranchHeadElement.prev = parentElementGuid;
+            deleteBranchHeadProperties(immediateBranchHeadElement);
+            if (lastElementInBranch.nodeType === NodeType.BRANCH) {
+                // To handle branch nodes' branches that are terminal
+                inlineFromParent(flowModel, lastElementInBranch as ParentNodeModel);
+            }
+        }
+        delete (parentElement as StartNodeModel).children;
     }
 
     return flowModel;
@@ -1540,11 +1567,11 @@ export function clearCanvasDecoration(flowModel: FlowModel): FlowModel {
 /**
  * Returns boolean to indicate if the passed start node can support time triggers
  *
- * @param nosw - The start node
+ * @param node - The start node
  * @returns boolean indicating if the start node supports time triggers
  */
 export function shouldSupportTimeTriggers(node: StartNodeModel) {
-    // TODO: Duplicated the method in rendering layer form ui layer. Find a better way to do this.
+    // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
     const {
         nodeType,
         triggerType,

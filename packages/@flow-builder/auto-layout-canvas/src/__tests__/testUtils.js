@@ -322,6 +322,116 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
     return createFlowRenderContext({ flowModel, interactionState });
 }
 
+function getFlowWithNonTerminalImmediateBranch() {
+    const flow = createFlow([
+        { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
+        { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
+    ]);
+    flow[START_ELEMENT_GUID].childReferences = [];
+    flow[START_ELEMENT_GUID].children = ['screen1-guid', null];
+    flow[START_ELEMENT_GUID].next = 'screen2-guid';
+    flow['screen2-guid'].prev = START_ELEMENT_GUID;
+    flow['screen2-guid'].next = END_ELEMENT_GUID;
+    flow[END_ELEMENT_GUID].prev = 'screen2-guid';
+    flow['screen1-guid'].parent = START_ELEMENT_GUID;
+    flow['screen1-guid'].prev = null;
+    flow['screen1-guid'].isTerminal = false;
+    flow['screen1-guid'].childIndex = 0;
+    flow['screen1-guid'].next = null;
+
+    return flow;
+}
+
+function getFlowWithTerminalImmediateBranch() {
+    // create elements
+    const start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    start.children = ['screen1-guid', null, null];
+    start.childReferences = [];
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    screen1.isTerminal = true;
+    screen1 = linkBranchOrFault(start, screen1, 0);
+    const screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    const end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    const end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+    start.next = 'screen2-guid';
+    screen2.prev = START_ELEMENT_GUID;
+    screen2.next = 'end2-guid';
+    end2.prev = 'screen2-guid';
+    screen1.prev = null;
+    screen1.next = 'end1-guid';
+    end1.prev = 'screen1-guid';
+    const elements = [start, screen1, screen2, end1, end2];
+
+    // create flowModel
+    const flow = flowModelFromElements(elements);
+    return flow;
+}
+
+function getFlowWithBranchNodeInImmediateBranch() {
+    // create elements
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    const outcome1 = createElementWithElementType('outcome1-guid', 'OUTCOME', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    const end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+
+    // configure node properties and make connections
+    start = {
+        ...start,
+        childReferences: [],
+        children: ['screen1-guid', null, null],
+        next: 'screen2-guid'
+    };
+
+    screen1 = {
+        ...screen1,
+        next: 'decision1-guid',
+        prev: null,
+        parent: 'start-guid',
+        isTerminal: false,
+        childIndex: 0
+    };
+
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'outcome1-guid' }],
+        availableConnections: [
+            {
+                childReference: 'outcome1-guid',
+                type: 'REGULAR'
+            },
+            {
+                type: 'DEFAULT'
+            }
+        ],
+        children: ['end1-guid', null],
+        prev: 'screen1-guid',
+        next: null
+    };
+
+    screen2 = {
+        ...screen2,
+        prev: 'start-guid',
+        next: 'end2-guid'
+    };
+
+    end1 = {
+        ...end1,
+        parent: 'decision1-guid',
+        childIndex: 0,
+        prev: null,
+        isTerminal: true
+    };
+
+    end2.prev = 'screen2-guid';
+
+    // create flowModel
+    const elements = [start, screen1, screen2, decision1, outcome1, end1, end2];
+    return flowModelFromElements(elements);
+}
+
 function getFlowWithTwoFaults() {
     let faultBranchHeadElementOne = createElementWithElementType(
         'fault-branch-head-guid-one',
@@ -386,10 +496,13 @@ export {
     getFlowWithEmptyDecisionContext,
     getFlowWithEmptyDeciisionWith3BranchesContext,
     getFlowWithDecisionWithOneElementOnLeftBranchContext,
+    getFlowWithNonTerminalImmediateBranch,
     getFlowWithEmptyLoopContext,
     getSimpleFlowContext,
     getFlowWithDecisionWithEndedLeftBranchContext,
     getFlowWithTwoFaults,
     getFlowWithDynamicNodeComponent,
+    getFlowWithTerminalImmediateBranch,
+    getFlowWithBranchNodeInImmediateBranch,
     createFlow
 };

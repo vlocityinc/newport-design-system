@@ -222,7 +222,7 @@ function getNextChildren(element, nextElement): (Guid | null)[] {
     const { children } = element;
     const nextChildren = getChildren(nextElement)!;
 
-    if (children) {
+    if (children && nextChildren) {
         if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
             // copy over the child corresponding to the default time trigger
             nextChildren[START_IMMEDIATE_INDEX] = children[START_IMMEDIATE_INDEX];

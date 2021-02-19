@@ -1721,3 +1721,163 @@ Object {
   },
 }
 `;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting all pre-existing timeTriggers: default branch has branching node 1`] = `
+Object {
+  "decision1-guid": Object {
+    "availableConnections": Array [
+      Object {
+        "childReference": "outcome1-guid",
+        "type": "REGULAR",
+      },
+      Object {
+        "type": "DEFAULT",
+      },
+    ],
+    "childReferences": Array [
+      Object {
+        "childReference": "outcome1-guid",
+      },
+    ],
+    "children": Array [
+      "end1-guid",
+      "screen2-guid",
+    ],
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "screen1-guid",
+  },
+  "end1-guid": Object {
+    "childIndex": 0,
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "isTerminal": true,
+    "label": "default",
+    "nodeType": "end",
+    "parent": "decision1-guid",
+    "prev": null,
+  },
+  "end2-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "label": "default",
+    "nodeType": "end",
+    "prev": "screen2-guid",
+  },
+  "outcome1-guid": Object {
+    "elementType": "OUTCOME",
+    "guid": "outcome1-guid",
+    "label": "default",
+    "nodeType": "default",
+  },
+  "screen1-guid": Object {
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen1-guid",
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen2-guid": Object {
+    "childIndex": 1,
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": "end2-guid",
+    "nodeType": "default",
+    "parent": "decision1-guid",
+    "prev": null,
+  },
+  "start-guid": Object {
+    "childReferences": Array [],
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen1-guid",
+    "nodeType": "start",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting all pre-existing timeTriggers: default branch is non-terminal 1`] = `
+Object {
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "screen2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "elementType": "Screen",
+    "guid": "screen1-guid",
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "screen2-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen2-guid": Object {
+    "elementType": "Screen",
+    "guid": "screen2-guid",
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "end-guid",
+    "nodeType": "default",
+    "prev": "screen1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting all pre-existing timeTriggers: default branch is terminal 1`] = `
+Object {
+  "end1-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "label": "default",
+    "nodeType": "end",
+    "prev": "screen1-guid",
+  },
+  "screen1-guid": Object {
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen1-guid",
+    "label": "default",
+    "next": "end1-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childReferences": Array [],
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen1-guid",
+    "nodeType": "start",
+  },
+}
+`;

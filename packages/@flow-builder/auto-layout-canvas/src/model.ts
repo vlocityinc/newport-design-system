@@ -50,6 +50,7 @@ export interface StartNodeModel extends NodeModel {
     filters?: string;
     frequency?: string;
     filterLogic?: string;
+    children?: NodeRef[];
     doesRequireRecordChangedToMeetCriteria?: boolean;
 }
 

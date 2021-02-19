@@ -1,6 +1,9 @@
 import {
     createFlow,
     flowModelFromElements,
+    getFlowWithNonTerminalImmediateBranch,
+    getFlowWithTerminalImmediateBranch,
+    getFlowWithBranchNodeInImmediateBranch,
     BRANCH_ELEMENT,
     START_ELEMENT,
     SCREEN_ELEMENT,
@@ -1482,6 +1485,39 @@ describe('modelUtils', () => {
             const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
                 elementService(flowWithChildren),
                 flowWithChildren,
+                START_ELEMENT_GUID,
+                [null]
+            );
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('deleting all pre-existing timeTriggers: default branch is non-terminal', () => {
+            flow = getFlowWithNonTerminalImmediateBranch();
+            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+                elementService(flow),
+                flow,
+                START_ELEMENT_GUID,
+                [null]
+            );
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('deleting all pre-existing timeTriggers: default branch is terminal', () => {
+            flow = getFlowWithTerminalImmediateBranch();
+            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+                elementService(flow),
+                flow,
+                START_ELEMENT_GUID,
+                [null]
+            );
+            expect(nextFlow).toMatchSnapshot();
+        });
+
+        it('deleting all pre-existing timeTriggers: default branch has branching node', () => {
+            flow = getFlowWithBranchNodeInImmediateBranch();
+            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+                elementService(flow),
+                flow,
                 START_ELEMENT_GUID,
                 [null]
             );
