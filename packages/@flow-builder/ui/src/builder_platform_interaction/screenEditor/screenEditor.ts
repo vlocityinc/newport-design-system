@@ -349,6 +349,11 @@ export default class ScreenEditor extends LightningElement {
         this.resetSelectedNode();
     };
 
+    handleChoiceDisplayChanged = (event) => {
+        this.screen = screenReducer(this.screen, event, this.selectedNode);
+        this.resetSelectedNode();
+    };
+
     /**
      * Resets the selected node to ensure re-rendering
      */

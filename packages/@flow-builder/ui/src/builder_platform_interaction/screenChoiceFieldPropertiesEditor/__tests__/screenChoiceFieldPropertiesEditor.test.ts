@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import ScreenChoiceFieldPropertiesEditor from '../screenChoiceFieldPropertiesEditor';
+import ScreenChoiceFieldPropertiesEditor, { ChoiceDisplayOptions } from '../screenChoiceFieldPropertiesEditor';
 import {
     query,
     createTestScreenField,
@@ -117,6 +117,14 @@ const createComponentUnderTest = (props) => {
     setDocumentBodyChildren(el);
 
     return el;
+};
+
+const getDisplayTypeCombobox = (screenChoiceFieldPropEditor) => {
+    return screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_TYPE_COMBOBOX);
+};
+
+const getVisualDisplayRadioGroup = (screenChoiceFieldPropEditor) => {
+    return screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
 };
 
 describe('screen-choice-field-properties-editor for radio field, type String', () => {
@@ -561,45 +569,70 @@ describe('Screen choice visual display configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
             field: createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE)
         });
-        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
-        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        expect(getVisualDisplayRadioGroup(screenChoiceFieldPropEditor).value).toEqual(
+            ChoiceDisplayOptions.SINGLE_SELECT
         );
-        expect(displayRadioGroup.value).toEqual('SingleSelect');
-        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.DropdownBox);
+        expect(getDisplayTypeCombobox(screenChoiceFieldPropEditor).value).toEqual(FlowScreenFieldType.DropdownBox);
     });
     it('For radio buttons screen field, single select and radio buttons should be selected in configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
             field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE)
         });
-        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
-        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        expect(getVisualDisplayRadioGroup(screenChoiceFieldPropEditor).value).toEqual(
+            ChoiceDisplayOptions.SINGLE_SELECT
         );
-        expect(displayRadioGroup.value).toEqual('SingleSelect');
-        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.RadioButtons);
+        expect(getDisplayTypeCombobox(screenChoiceFieldPropEditor).value).toEqual(FlowScreenFieldType.RadioButtons);
     });
     it('For Multi-Select Picklist screen field, multi select and multi-select picklist should be selected in configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
             field: createTestScreenField(fieldName, FlowScreenFieldType.MultiSelectPicklist, SCREEN_NO_DEF_VALUE)
         });
-        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
-        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        expect(getVisualDisplayRadioGroup(screenChoiceFieldPropEditor).value).toEqual(
+            ChoiceDisplayOptions.MULTI_SELECT
         );
-        expect(displayRadioGroup.value).toEqual('MultiSelect');
-        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.MultiSelectPicklist);
+        expect(getDisplayTypeCombobox(screenChoiceFieldPropEditor).value).toEqual(
+            FlowScreenFieldType.MultiSelectPicklist
+        );
     });
     it('For Checkbox Group screen field, multi select and Checkbox Group should be selected in configuration', () => {
         const screenChoiceFieldPropEditor = createComponentUnderTest({
             field: createTestScreenField(fieldName, FlowScreenFieldType.MultiSelectCheckboxes, SCREEN_NO_DEF_VALUE)
         });
-        const displayRadioGroup = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
-        const displayTypeCombobox = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-            SELECTORS.DISPLAY_TYPE_COMBOBOX
+        expect(getVisualDisplayRadioGroup(screenChoiceFieldPropEditor).value).toEqual(
+            ChoiceDisplayOptions.MULTI_SELECT
         );
-        expect(displayRadioGroup.value).toEqual('MultiSelect');
-        expect(displayTypeCombobox.value).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
+        expect(getDisplayTypeCombobox(screenChoiceFieldPropEditor).value).toEqual(
+            FlowScreenFieldType.MultiSelectCheckboxes
+        );
+    });
+});
+describe('Switching visual display type', () => {
+    it('Changing visual display dispatches a Choice Display Changed event', () => {
+        const screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE)
+        });
+        const choiceDisplayChangedCallback = jest.fn();
+
+        screenChoiceFieldPropEditor.addEventListener(
+            ScreenEditorEventName.ChoiceDisplayChanged,
+            choiceDisplayChangedCallback
+        );
+        const event = new PropertyChangedEvent(
+            'choiceDisplayType',
+            FlowScreenFieldType.RadioButtons,
+            null,
+            null,
+            FlowScreenFieldType.DropdownBox
+        );
+        getDisplayTypeCombobox(screenChoiceFieldPropEditor).dispatchEvent(event);
+        expect(choiceDisplayChangedCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: {
+                    screenElement: screenChoiceFieldPropEditor.field,
+                    newDisplayType: FlowScreenFieldType.RadioButtons
+                }
+            })
+        );
     });
 });
 describe('screen-choise-field-properties-editor expanded picklist values', () => {

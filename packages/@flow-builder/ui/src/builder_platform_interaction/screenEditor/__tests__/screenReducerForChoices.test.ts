@@ -15,9 +15,11 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const SCREEN_NAME = 'TestScreen1';
 const MOCK_PICKLIST_CHOICE_SET_PREFIX = 'picklistChoiceSet';
+const MOCK_STATIC_CHOICE_NUMBER = 'choiceNumber';
 const MOCK_PICKLIST_CHOICE_SET_ELEMENT_TYPE = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
 const MOCK_CHOICE_ELEMENT_TYPE = ELEMENT_TYPE.CHOICE;
-const MOCK_STRING_FLOW_DATE_TYPE = FLOW_DATA_TYPE.STRING;
+const MOCK_STRING_FLOW_DATA_TYPE = FLOW_DATA_TYPE.STRING;
+const MOCK_NUMBER_FLOW_DATA_TYPE = FLOW_DATA_TYPE.NUMBER;
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -27,7 +29,10 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 ? MOCK_PICKLIST_CHOICE_SET_ELEMENT_TYPE
                 : MOCK_CHOICE_ELEMENT_TYPE;
             return {
-                dataType: MOCK_STRING_FLOW_DATE_TYPE.value,
+                dataType:
+                    guid === MOCK_STATIC_CHOICE_NUMBER
+                        ? MOCK_NUMBER_FLOW_DATA_TYPE.value
+                        : MOCK_STRING_FLOW_DATA_TYPE.value,
                 elementType,
                 guid,
                 isCanvasElement: false,
@@ -454,4 +459,351 @@ it('validate all when choice based field has a choice associated with it', () =>
     expect(newScreen.fields[0].choiceReferences[0]).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0].choiceReference).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBeNull();
+});
+describe('Choice Visual Display Type Switching', () => {
+    describe('Switching between Single Select displays', () => {
+        it('Field type and extension name are updated when switching', () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                validation: false,
+                helpText: false
+            });
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.RadioButtons,
+                    newDisplayType: FlowScreenFieldType.DropdownBox
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].fieldType).toEqual(FlowScreenFieldType.DropdownBox);
+            expect(newScreen.fields[0].extensionName).toEqual(FlowScreenFieldType.DropdownBox);
+        });
+        it("Data type, default value, choice references and isRequired don't change when switching", () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                validation: false,
+                helpText: false,
+                isRequired: true
+            });
+            field.choiceReferences = [];
+            const choiceReference1 = {
+                choiceReference: { value: MOCK_STATIC_CHOICE_NUMBER, error: null }
+            };
+            const choiceReference2 = {
+                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+            };
+            field.choiceReferences.push(choiceReference1);
+            field.choiceReferences.push(choiceReference2);
+            field.defaultValue = { value: MOCK_STATIC_CHOICE_NUMBER, error: null };
+            field.defaultValueDataType = 'reference';
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.RadioButtons,
+                    newDisplayType: FlowScreenFieldType.DropdownBox
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].dataType).toEqual(field.dataType);
+            expect(newScreen.fields[0].defaultValue).toEqual(field.defaultValue);
+            expect(newScreen.fields[0].choiceReferences[0]).toEqual(choiceReference1);
+            expect(newScreen.fields[0].choiceReferences[1]).toEqual(choiceReference2);
+            expect(newScreen.fields[0].isRequired).toEqual(field.isRequired);
+        });
+    });
+    describe('Switching between Multi Select displays', () => {
+        it('Field type and extension name are updated when switching', () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField(
+                'multiPicklist',
+                FlowScreenFieldType.MultiSelectPicklist,
+                SCREEN_NO_DEF_VALUE,
+                {
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    validation: false,
+                    helpText: false
+                }
+            );
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.MultiSelectPicklist,
+                    newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].fieldType).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
+            expect(newScreen.fields[0].extensionName).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
+        });
+        it("Data type, default value, choice references and isRequired don't change when switching", () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField(
+                'radio1',
+                FlowScreenFieldType.MultiSelectPicklist,
+                SCREEN_NO_DEF_VALUE,
+                {
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    validation: false,
+                    helpText: false,
+                    isRequired: true
+                }
+            );
+            field.choiceReferences = [];
+            const choiceReference1 = {
+                choiceReference: { value: 'choice1', error: null }
+            };
+            const choiceReference2 = {
+                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+            };
+            field.choiceReferences.push(choiceReference1);
+            field.choiceReferences.push(choiceReference2);
+            field.defaultValue = { value: 'test', error: null };
+            field.defaultValueDataType = 'reference';
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.MultiSelectPicklist,
+                    newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].dataType).toEqual(field.dataType);
+            expect(newScreen.fields[0].defaultValue).toEqual(field.defaultValue);
+            expect(newScreen.fields[0].choiceReferences[0]).toEqual(choiceReference1);
+            expect(newScreen.fields[0].choiceReferences[1]).toEqual(choiceReference2);
+            expect(newScreen.fields[0].isRequired).toEqual(field.isRequired);
+        });
+    });
+    describe('Switching from Single Select to Multi Select displays', () => {
+        it('Field type and extension name are updated when switching', () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField('Radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                validation: false,
+                helpText: false
+            });
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.RadioButtons,
+                    newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].fieldType).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
+            expect(newScreen.fields[0].extensionName).toEqual(FlowScreenFieldType.MultiSelectCheckboxes);
+        });
+        describe('When data type of choice component is not text', () => {
+            it('Data type of choice component changes to text', () => {
+                const screen = createTestScreen(SCREEN_NAME, []);
+                screen.fields = [];
+                const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                    dataType: FLOW_DATA_TYPE.NUMBER.value,
+                    validation: false,
+                    helpText: false
+                });
+                screen.fields.push(field);
+                const event = {
+                    type: ScreenEditorEventName.ChoiceDisplayChanged,
+                    detail: {
+                        screenElement: field,
+                        oldDisplayType: FlowScreenFieldType.RadioButtons,
+                        newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                    }
+                };
+                const newScreen = screenReducer(screen, event, screen.fields[0]);
+                expect(newScreen).toBeDefined();
+                expect(newScreen.fields[0].dataType).toEqual(FLOW_DATA_TYPE.STRING.value);
+            });
+            it('Choice references and default value are cleared out', () => {
+                const screen = createTestScreen(SCREEN_NAME, []);
+                screen.fields = [];
+                const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                    dataType: FLOW_DATA_TYPE.NUMBER.value,
+                    validation: false,
+                    helpText: false
+                });
+                field.choiceReferences = [];
+                const choiceReference1 = {
+                    choiceReference: { value: MOCK_STATIC_CHOICE_NUMBER, error: null }
+                };
+                field.choiceReferences.push(choiceReference1);
+                field.defaultValue = { value: MOCK_STATIC_CHOICE_NUMBER, error: null };
+                field.defaultValueDataType = 'reference';
+                screen.fields.push(field);
+                const event = {
+                    type: ScreenEditorEventName.ChoiceDisplayChanged,
+                    detail: {
+                        screenElement: field,
+                        oldDisplayType: FlowScreenFieldType.RadioButtons,
+                        newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                    }
+                };
+                const newScreen = screenReducer(screen, event, screen.fields[0]);
+                expect(newScreen).toBeDefined();
+                expect(newScreen.fields[0].defaultValue).toEqual('');
+                expect(newScreen.fields[0].choiceReferences.length).toEqual(1);
+                expect(newScreen.fields[0].choiceReferences[0]).toEqual({
+                    choiceReference: { value: '', error: null }
+                });
+            });
+            it("isRequired doesn't change", () => {
+                const screen = createTestScreen(SCREEN_NAME, []);
+                screen.fields = [];
+                const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                    dataType: FLOW_DATA_TYPE.NUMBER.value,
+                    validation: false,
+                    helpText: false,
+                    isRequired: true
+                });
+                field.choiceReferences = [];
+                screen.fields.push(field);
+                const event = {
+                    type: ScreenEditorEventName.ChoiceDisplayChanged,
+                    detail: {
+                        screenElement: field,
+                        oldDisplayType: FlowScreenFieldType.RadioButtons,
+                        newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                    }
+                };
+                const newScreen = screenReducer(screen, event, screen.fields[0]);
+                expect(newScreen).toBeDefined();
+                expect(newScreen.fields[0].isRequired).toEqual(field.isRequired);
+            });
+        });
+        describe('When data type of choice component is text', () => {
+            it("Data type, default value, choice references and isRequired don't change when switching", () => {
+                const screen = createTestScreen(SCREEN_NAME, []);
+                screen.fields = [];
+                const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    validation: false,
+                    helpText: false,
+                    isRequired: true
+                });
+                field.choiceReferences = [];
+                const choiceReference1 = {
+                    choiceReference: { value: 'choice1', error: null }
+                };
+                const choiceReference2 = {
+                    choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+                };
+                field.choiceReferences.push(choiceReference1);
+                field.choiceReferences.push(choiceReference2);
+                field.defaultValue = { value: 'test', error: null };
+                field.defaultValueDataType = 'reference';
+                screen.fields.push(field);
+                const event = {
+                    type: ScreenEditorEventName.ChoiceDisplayChanged,
+                    detail: {
+                        screenElement: field,
+                        oldDisplayType: FlowScreenFieldType.RadioButtons,
+                        newDisplayType: FlowScreenFieldType.MultiSelectCheckboxes
+                    }
+                };
+                const newScreen = screenReducer(screen, event, screen.fields[0]);
+                expect(newScreen).toBeDefined();
+                expect(newScreen.fields[0].dataType).toEqual(field.dataType);
+                expect(newScreen.fields[0].defaultValue).toEqual(field.defaultValue);
+                expect(newScreen.fields[0].choiceReferences[0]).toEqual(choiceReference1);
+                expect(newScreen.fields[0].choiceReferences[1]).toEqual(choiceReference2);
+                expect(newScreen.fields[0].isRequired).toEqual(field.isRequired);
+            });
+        });
+    });
+    describe('Switching from Multi Select to Single Select displays', () => {
+        it('Field type and extension name are updated when switching', () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField(
+                'multiPicklist',
+                FlowScreenFieldType.MultiSelectPicklist,
+                SCREEN_NO_DEF_VALUE,
+                {
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    validation: false,
+                    helpText: false
+                }
+            );
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.MultiSelectPicklist,
+                    newDisplayType: FlowScreenFieldType.RadioButtons
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].fieldType).toEqual(FlowScreenFieldType.RadioButtons);
+            expect(newScreen.fields[0].extensionName).toEqual(FlowScreenFieldType.RadioButtons);
+        });
+
+        it("Data type, default value, choice references and isRequired don't change when switching", () => {
+            const screen = createTestScreen(SCREEN_NAME, []);
+            screen.fields = [];
+            const field = createTestScreenField(
+                'multiPicklist',
+                FlowScreenFieldType.MultiSelectPicklist,
+                SCREEN_NO_DEF_VALUE,
+                {
+                    dataType: FLOW_DATA_TYPE.STRING.value,
+                    validation: false,
+                    helpText: false,
+                    isRequired: true
+                }
+            );
+            field.choiceReferences = [];
+            const choiceReference1 = {
+                choiceReference: { value: 'choice1', error: null }
+            };
+            const choiceReference2 = {
+                choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+            };
+            field.choiceReferences.push(choiceReference1);
+            field.choiceReferences.push(choiceReference2);
+            field.defaultValue = { value: 'test', error: null };
+            field.defaultValueDataType = 'reference';
+            screen.fields.push(field);
+            const event = {
+                type: ScreenEditorEventName.ChoiceDisplayChanged,
+                detail: {
+                    screenElement: field,
+                    oldDisplayType: FlowScreenFieldType.MultiSelectPicklist,
+                    newDisplayType: FlowScreenFieldType.RadioButtons
+                }
+            };
+            const newScreen = screenReducer(screen, event, screen.fields[0]);
+            expect(newScreen).toBeDefined();
+            expect(newScreen.fields[0].dataType).toEqual(field.dataType);
+            expect(newScreen.fields[0].defaultValue).toEqual(field.defaultValue);
+            expect(newScreen.fields[0].choiceReferences[0]).toEqual(choiceReference1);
+            expect(newScreen.fields[0].choiceReferences[1]).toEqual(choiceReference2);
+            expect(newScreen.fields[0].isRequired).toEqual(field.isRequired);
+        });
+    });
 });

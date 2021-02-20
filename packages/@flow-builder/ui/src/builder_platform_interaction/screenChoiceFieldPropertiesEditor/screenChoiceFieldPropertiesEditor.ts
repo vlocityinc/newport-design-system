@@ -4,7 +4,8 @@ import {
     PropertyChangedEvent,
     createChoiceAddedEvent,
     createChoiceChangedEvent,
-    createChoiceDeletedEvent
+    createChoiceDeletedEvent,
+    createChoiceDisplayChangedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -25,10 +26,11 @@ import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platfor
 
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
-const CHOICE_DISPLAY_OPTIONS = {
-    SINGLE_SELECT: 'SingleSelect',
-    MULTI_SELECT: 'MultiSelect'
-};
+
+export enum ChoiceDisplayOptions {
+    SINGLE_SELECT = 'SingleSelect',
+    MULTI_SELECT = 'MultiSelect'
+}
 
 /*
  * Screen element property editor for the radio field.
@@ -168,7 +170,9 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     handleChoiceDisplayTypeChanged = (event) => {
         event.stopPropagation();
-        // Dispatch Event
+        if (event && event.detail) {
+            this.dispatchEvent(createChoiceDisplayChangedEvent(this.field, event.detail.value));
+        }
     };
 
     get fieldChoices() {
@@ -292,11 +296,11 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         return [
             {
                 label: this.labels.singleSelectChoiceDisplay,
-                value: CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT
+                value: ChoiceDisplayOptions.SINGLE_SELECT
             },
             {
                 label: this.labels.multiSelectChoiceDisplay,
-                value: CHOICE_DISPLAY_OPTIONS.MULTI_SELECT
+                value: ChoiceDisplayOptions.MULTI_SELECT
             }
         ];
     }
@@ -305,15 +309,15 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         if (this.singleOrMultiSelectOption) {
             return this.singleOrMultiSelectOption;
         } else if (isMultiSelectPicklistField(this.field) || isMultiSelectCheckboxField(this.field)) {
-            this.singleOrMultiSelectOption = CHOICE_DISPLAY_OPTIONS.MULTI_SELECT;
+            this.singleOrMultiSelectOption = ChoiceDisplayOptions.MULTI_SELECT;
         } else {
-            this.singleOrMultiSelectOption = CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT;
+            this.singleOrMultiSelectOption = ChoiceDisplayOptions.SINGLE_SELECT;
         }
         return this.singleOrMultiSelectOption;
     }
 
     get displayTypeOptions() {
-        if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT) {
+        if (this.singleOrMultiSelectOption === ChoiceDisplayOptions.SINGLE_SELECT) {
             return [
                 {
                     label: this.labels.fieldTypeLabelPicklist,
@@ -339,13 +343,13 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     get displayTypeValue() {
         let displayTypeValue;
-        if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.MULTI_SELECT) {
+        if (this.singleOrMultiSelectOption === ChoiceDisplayOptions.MULTI_SELECT) {
             if (isMultiSelectPicklistField(this.field)) {
                 displayTypeValue = FlowScreenFieldType.MultiSelectPicklist;
             } else if (isMultiSelectCheckboxField(this.field)) {
                 displayTypeValue = FlowScreenFieldType.MultiSelectCheckboxes;
             }
-        } else if (this.singleOrMultiSelectOption === CHOICE_DISPLAY_OPTIONS.SINGLE_SELECT) {
+        } else if (this.singleOrMultiSelectOption === ChoiceDisplayOptions.SINGLE_SELECT) {
             if (isPicklistField(this.field)) {
                 displayTypeValue = FlowScreenFieldType.DropdownBox;
             } else if (isRadioField(this.field)) {

@@ -8,6 +8,7 @@ export enum ScreenEditorEventName {
     ScreenNodeSelected = 'screennodeselected',
     ChoiceAdded = 'choiceadded',
     ChoiceChanged = 'choicechanged',
+    ChoiceDisplayChanged = 'choicedisplaychanged',
     ChoiceDeleted = 'choicedeleted',
     ColumnWidthChanged = 'columnwidthchanged'
 }
@@ -166,6 +167,18 @@ export function createChoiceChangedEvent(screenElement, newValue, position) {
         screenElement,
         newValue,
         position
+    });
+}
+
+/**
+ * Creates an event to be fired when the user wants to change display type of a choice screen field.
+ * @param {*} screenElement - The choice screen field to change display type of
+ * @param {*} newDisplayType - New display type to which display of choice screen field should change to
+ */
+export function createChoiceDisplayChangedEvent(screenElement, newDisplayType) {
+    return createScreenEditorEvent(ScreenEditorEventName.ChoiceDisplayChanged, {
+        screenElement,
+        newDisplayType
     });
 }
 

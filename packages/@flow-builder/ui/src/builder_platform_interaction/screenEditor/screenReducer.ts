@@ -29,7 +29,11 @@ import {
     DynamicTypeMappingChangeEvent,
     InputsOnNextNavToAssocScrnChangeEvent
 } from 'builder_platform_interaction/events';
-import { createAutomaticField, createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
+import {
+    createAutomaticField,
+    createEmptyScreenFieldOfType,
+    createScreenField
+} from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createChoiceReference } from 'builder_platform_interaction/elementFactory';
@@ -44,12 +48,14 @@ import {
     EXTENSION_PARAM_PREFIX,
     extendFlowExtensionScreenField,
     getColumnFieldType,
-    isRegionContainerField
+    isRegionContainerField,
+    getScreenFieldTypeByName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**
  * Replaces the field at the specified position with the updatedChild and then updates the fields
@@ -385,6 +391,43 @@ const changeChoice = (screen, event, field) => {
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
     return updateAncestors(screen, positions, updatedField);
+};
+
+/**
+ * Change a choice of a screenField.
+ * @param {*} screen - The screen.
+ * @param {*} event - The change choice screen field display event.
+ * @param {*} field - The field that the display should be changed in.
+ */
+const changeChoiceScreenFieldDisplay = (screen, event, field) => {
+    const newFieldType = getValueFromHydratedItem(event.detail.newDisplayType);
+    const type = getScreenFieldTypeByName(newFieldType);
+
+    let newScreenFieldProperties = {
+        extensionName: type.name,
+        fieldType: type.fieldType
+    };
+
+    if (
+        field.dataType !== FLOW_DATA_TYPE.STRING.value &&
+        (isMultiSelectCheckboxField({ fieldType: newFieldType }) ||
+            isMultiSelectPicklistField({ fieldType: newFieldType }))
+    ) {
+        const emptyChoice = hydrateWithErrors(createChoiceReference());
+        newScreenFieldProperties = Object.assign(newScreenFieldProperties, {
+            dataType: type.dataType,
+            choiceReferences: [emptyChoice],
+            defaultValue: '',
+            defaultValueDataType: undefined
+        });
+    }
+
+    let updatedScreenField = Object.assign({}, field, newScreenFieldProperties);
+    updatedScreenField = createScreenField(updatedScreenField, updatedScreenField.isNewField);
+
+    // Replace the field in the screen
+    const positions = screen.getFieldIndexesByGUID(field.guid);
+    return updateAncestors(screen, positions, updatedScreenField);
 };
 
 /**
@@ -955,6 +998,9 @@ export const screenReducer = (state, event, selectedNode?) => {
 
         case ScreenEditorEventName.ChoiceDeleted:
             return deleteChoice(state, event, selectedNode);
+
+        case ScreenEditorEventName.ChoiceDisplayChanged:
+            return changeChoiceScreenFieldDisplay(state, event, selectedNode);
 
         case ScreenEditorEventName.ColumnWidthChanged:
             return changeColumnWidth(state, event);
