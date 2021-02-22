@@ -5,6 +5,16 @@
 .nds-b2b-categories-list_nav {
   width: 100%;
   transition: all 0.25s ease-in;
+  & .nds-b2b-product-title{
+    padding: 1rem 0 0.5rem 1.2rem;
+    color: $black-primary;
+    font-size: .9rem;
+  }
+  & .nds-b2b-promotion-title{
+    padding: 0.5rem 0 1rem 1.2rem;
+    color: $black-primary;
+    font-size: .9rem;
+  }
   .nds-b2b-category-name {
     padding: 0.5rem 1rem 0.5rem 1.25rem;
     color: $black-primary;
