@@ -29,7 +29,7 @@
                     value={curLine.default}
                     placeholder="Select Path"
                     options={curLine.options}
-                    disabled={ifSubmitWaitEvent}
+                    disabled={ifblockresume}
                     onchange={handleWaitEventSelection}
                 ></lightning-combobox>
             </div>
@@ -71,7 +71,7 @@
             <div if:true={curLine.isSelectionButton} class="slds-p-top_small" key={curLine.id}>
                 <button
                     class="slds-button slds-button_brand slds-button_stretch wait-event-selection-button"
-                    disabled={ifSubmitWaitEvent}
+                    disabled={ifblockresume}
                     type="submit"
                     onclick={handleWaitEventSubmit}
                 >

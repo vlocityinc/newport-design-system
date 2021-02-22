@@ -35,13 +35,12 @@ export default class debugPanelBody extends LightningElement {
 
     @api limits;
 
+    @api ifblockresume;
+
     govLimSubtitle = LABELS.govInfo;
 
     /* store the selected wait event name and resume time*/
     selectedEvent;
-
-    /* mark if the submit button of wait event card is clicked */
-    ifSubmitWaitEvent = false;
 
     handleWaitEventSelection(event) {
         this.selectedEvent = {
@@ -52,7 +51,7 @@ export default class debugPanelBody extends LightningElement {
 
     handleWaitEventSubmit(event) {
         event.preventDefault();
-        this.ifSubmitWaitEvent = true;
+        this.ifblockresume = true;
         const resumeDebugFlowEvent = new ResumeDebugFlowEvent(this.selectedEvent.name);
         this.dispatchEvent(resumeDebugFlowEvent);
     }

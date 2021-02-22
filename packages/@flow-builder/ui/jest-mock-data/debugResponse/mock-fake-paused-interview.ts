@@ -126,3 +126,10 @@ export const fakePausedInterviewWithoutAlarmEvent = {
         PC: ''
     }
 };
+
+export const fakeResumedInterviewWithError = {
+    interviewStatus: 'ERROR',
+    error: ['Someting wrong'],
+    startInterviewTime: new Date('June 17, 2020 03:24:00'),
+    endInterviewTime: new Date('June 17, 2020 03:25:00')
+};

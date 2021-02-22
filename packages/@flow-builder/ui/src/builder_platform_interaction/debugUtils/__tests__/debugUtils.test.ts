@@ -19,21 +19,28 @@ commonUtils.format = jest
 describe('debug utils', () => {
     describe('fake paused interview', () => {
         let updatedDebugTraceObject;
+        let tracesCopy;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(fakePausedInterview);
+            const traces = copyAndUpdateDebugTraceObject(fakePausedInterview);
+            updatedDebugTraceObject = traces.debugTraces;
+            tracesCopy = traces.copyTraces;
         });
 
         it('should only display the alarm wait events info', () => {
             const len = updatedDebugTraceObject.length;
             expect(updatedDebugTraceObject[len - 1].title).toMatch(LABELS.waitEventSelectionHeader);
             expect(updatedDebugTraceObject[len - 1].waitevents.length).toEqual(2);
+            expect(tracesCopy.length).toEqual(updatedDebugTraceObject.length - 1); // Copy doesn't contain wait event info
         });
     });
 
     describe('fake paused interview without alarm event', () => {
         let updatedDebugTraceObject;
+        let tracesCopy;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(fakePausedInterviewWithoutAlarmEvent);
+            const traces = copyAndUpdateDebugTraceObject(fakePausedInterviewWithoutAlarmEvent);
+            updatedDebugTraceObject = traces.debugTraces;
+            tracesCopy = traces.copyTraces;
         });
 
         it('should only display the alarm wait events info', () => {
@@ -42,13 +49,14 @@ describe('debug utils', () => {
             expect(updatedDebugTraceObject[len - 2].title).toMatch(LABELS.waitEventSelectionHeader);
             expect(updatedDebugTraceObject[len - 2].lines[0]).toMatch(LABELS.noAlarmEventLine);
             expect(updatedDebugTraceObject[len - 2].waitevents).toBe(undefined);
+            expect(tracesCopy.length).toEqual(0); // No copy because this interview has finished and there couldn't be any navigation
         });
     });
 
     describe('completed interview', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(completedInterview);
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(completedInterview).debugTraces;
         });
 
         it('should display interview started info', () => {
@@ -72,7 +80,7 @@ describe('debug utils', () => {
     describe('completed interview with errors', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(completedInterviewWithErrors);
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(completedInterviewWithErrors).debugTraces;
         });
         it('should display the completed with error info', () => {
             const len = updatedDebugTraceObject.length;
@@ -95,7 +103,7 @@ describe('debug utils', () => {
     describe('paused interview', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(pausedInterview);
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(pausedInterview).debugTraces;
         });
 
         it('should display the paused message', () => {
@@ -109,7 +117,7 @@ describe('debug utils', () => {
     describe('resumed interview', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(resumedInterviewWithErrors);
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(resumedInterviewWithErrors).debugTraces;
         });
 
         it('debug card should display with no title but with content', () => {
@@ -123,7 +131,7 @@ describe('debug utils', () => {
     describe('error interview without interview starting', () => {
         let updatedDebugTraceObject;
         beforeEach(() => {
-            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(errorWithTraceInterview);
+            updatedDebugTraceObject = copyAndUpdateDebugTraceObject(errorWithTraceInterview).debugTraces;
         });
 
         it('should display the error message', () => {

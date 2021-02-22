@@ -261,6 +261,7 @@ export default class Editor extends LightningElement {
     flowRetrieveError;
     hideDebugAgainButton = false;
     _isAddingResourceViaLeftPanel = false;
+    ifBlockResume = false;
 
     originalFlowLabel;
     originalFlowDescription;
@@ -920,6 +921,9 @@ export default class Editor extends LightningElement {
         if (this.currentFlowId) {
             this.hasNotBeenSaved = false;
             this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
+            if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
+                this.ifBlockResume = true;
+            }
         } else {
             this.hasNotBeenSaved = true;
             this.saveAndPendingOperationStatus = null;
@@ -989,6 +993,7 @@ export default class Editor extends LightningElement {
                         // Handle server exception here if something is needed beyond our automatic server error popup
                     } else {
                         // Setup the debug data object for the debug panel, and switch to debug mode
+                        this.ifBlockResume = false;
                         this.builderMode = BUILDER_MODE.DEBUG_MODE;
                         this.hideDebugAgainButton = false;
                         const endInterviewTime = new Date();
@@ -1027,47 +1032,50 @@ export default class Editor extends LightningElement {
     };
 
     handleResumeDebugFlow = (event) => {
-        this.spinners.showDebugSpinner = true;
+        if (!this.ifBlockResume) {
+            this.spinners.showDebugSpinner = true;
 
-        // Keep the original start time
-        const startInterviewTime = this.debugData.startInterviewTime;
-        // Record enableRollbackMode for next resume
-        const enableRollback = !!this.debugData.enableRollbackMode;
-        fetch(
-            SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW,
-            ({ data, error }) => {
-                try {
-                    if (error) {
-                        // Handle server exception here if something is needed beyond our automatic server error popup
+            // Keep the original start time
+            const startInterviewTime = this.debugData.startInterviewTime;
+            // Record enableRollbackMode for next resume
+            const enableRollback = !!this.debugData.enableRollbackMode;
+            fetch(
+                SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW,
+                ({ data, error }) => {
+                    try {
+                        if (error) {
+                            // Handle server exception here if something is needed beyond our automatic server error popup
+                        }
+                        this.hideDebugAgainButton = false;
+                        const endInterviewTime = new Date();
+                        const response = debugInterviewResponseCallback(
+                            data,
+                            storeInstance,
+                            this.properties.hasUnsavedChanges
+                        );
+                        this.debugData = Object.assign(response, {
+                            startInterviewTime,
+                            endInterviewTime,
+                            enableRollback
+                        });
+
+                        this.spinners.showDebugSpinner = false;
+                        this.ifDuringRunOrDebug = true;
+                    } catch (e) {
+                        this.spinners.showDebugSpinner = false;
+                        throw e;
                     }
-                    this.hideDebugAgainButton = false;
-                    const endInterviewTime = new Date();
-                    const response = debugInterviewResponseCallback(
-                        data,
-                        storeInstance,
-                        this.properties.hasUnsavedChanges
-                    );
-                    this.debugData = Object.assign(response, {
-                        startInterviewTime,
-                        endInterviewTime,
-                        enableRollback
-                    });
-
-                    this.spinners.showDebugSpinner = false;
-                } catch (e) {
-                    this.spinners.showDebugSpinner = false;
-                    throw e;
+                },
+                {
+                    showGovernorlimit: true,
+                    enabledTrace: true,
+                    enableRollbackMode: enableRollback,
+                    useLatestSubflow: true,
+                    serializedInterview: this.debugData.serializedInterview,
+                    waitEvent: event.detail.waitEventName
                 }
-            },
-            {
-                showGovernorlimit: true,
-                enabledTrace: true,
-                enableRollbackMode: enableRollback,
-                useLatestSubflow: true,
-                serializedInterview: this.debugData.serializedInterview,
-                waitEvent: event.detail.waitEventName
-            }
-        );
+            );
+        }
     };
 
     /**

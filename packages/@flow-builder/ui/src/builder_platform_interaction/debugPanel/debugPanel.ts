@@ -12,8 +12,12 @@ import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debu
  */
 
 export default class DebugPanel extends LightningElement {
+    @api
+    ifBlockResume;
+
     _debugData;
     debugTraces = [];
+    debugTraceCopy = [];
 
     /* this is the error message for a failed debug run, not per flow element errors */
     errorMessage = '';
@@ -44,8 +48,11 @@ export default class DebugPanel extends LightningElement {
     updateProperties(data) {
         this.debugTraces = [];
         if (!this.hasErrors && data && data.debugTrace) {
-            this.debugTraces = copyAndUpdateDebugTraceObject(data);
+            const traces = copyAndUpdateDebugTraceObject(data);
+            this.debugTraces = traces.debugTraces;
+            this.debugTraceCopy = traces.copyTraces;
         } else if (this.hasErrors) {
+            this.debugTraces = this.debugTraceCopy;
             this.errorMessage = data.error;
         }
     }

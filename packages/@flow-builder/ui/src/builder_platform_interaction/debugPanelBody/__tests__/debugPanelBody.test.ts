@@ -100,6 +100,19 @@ const waitEvents = {
         ['PC2', 'Jan 2 2022, 8:40:00 AM']
     ])
 };
+const waitEventsWithResumeBlock = {
+    lines: ['This element will pause when all conditions are met and will resume again on {0}'],
+    title: TITLE,
+    waitevents: [
+        { label: 'PC1', value: 'PC1' },
+        { label: 'PC2', value: 'PC2' }
+    ],
+    resumetime: new Map([
+        ['PC1', 'Jan 1 2022, 4:00:00 PM'],
+        ['PC2', 'Jan 2 2022, 8:40:00 AM']
+    ]),
+    ifblockresume: true
+};
 describe('GovernorLimits cases check:', () => {
     let debugPanelBody;
     describe('governor limit field in entrry', () => {
@@ -125,6 +138,20 @@ describe('GovernorLimits cases check:', () => {
 
 describe('debug-panel-body', () => {
     let debugPanelBody;
+    describe('wait event selection when resume is blocked', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(waitEventsWithResumeBlock);
+        });
+        it('has combobox and submit button but they are disabled', () => {
+            const combobox = debugPanelBody.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+            expect(combobox).not.toBeNull();
+            expect(combobox.disabled).toBe(true);
+
+            const submitbutton = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBMITBUTTON);
+            expect(submitbutton).not.toBeNull();
+            expect(submitbutton.disabled).toBe(true);
+        });
+    });
     describe('wait event selection', () => {
         beforeEach(() => {
             debugPanelBody = createComponentUnderTest(waitEvents);

@@ -3,13 +3,6 @@
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
     <div class="slds-panel__body slds-scrollable--y">
-        <div if:true={hasErrors} class="error">
-            <lightning-formatted-rich-text
-                value={errorMessage}
-                disable-linkify="true"
-                class="errorMsg"
-            ></lightning-formatted-rich-text>
-        </div>
         <!-- if there's an error, there will be no debugData.debugTraces-->
         <template for:each={debugTraces} for:item="trace">
             <lightning-accordion
@@ -18,7 +11,7 @@
                 class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
                 active-section-name={allTitles}
             >
-                <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title}>
+                <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title} class="entries">
                     <builder_platform_interaction-debug-panel-body
                         lines={trace.lines}
                         error={trace.error}
@@ -26,9 +19,18 @@
                         waitevents={trace.waitevents}
                         resumetime={trace.resumetime}
                         limits={trace.limits}
+                        ifblockresume={ifBlockResume}
                     ></builder_platform_interaction-debug-panel-body>
                 </lightning-accordion-section>
             </lightning-accordion>
         </template>
+
+        <div if:true={hasErrors} class="error">
+            <lightning-formatted-rich-text
+                value={errorMessage}
+                disable-linkify="true"
+                class="errorMsg"
+            ></lightning-formatted-rich-text>
+        </div>
     </div>
 </template>

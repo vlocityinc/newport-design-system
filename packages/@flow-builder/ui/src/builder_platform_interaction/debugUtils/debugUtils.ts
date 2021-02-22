@@ -25,6 +25,7 @@ const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim
  */
 export function copyAndUpdateDebugTraceObject(debugData) {
     const debugTraces = [];
+    let copyTraces = [];
     // handle special case where a flow's start element is not connected to any other element
     if (debugData.debugTrace.length === 1 && debugData.debugTrace[0].error != null) {
         debugTraces.push({
@@ -70,6 +71,10 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             }
 
             if (hasAlarmEvent) {
+                // If there's alarm event, which there could be navigation, then store successful transactions
+                // This could be extended to non-alarm event and other navigation types
+                copyTraces = Object.assign([], debugTraces);
+
                 debugTraces.push({
                     title: LABELS.waitEventSelectionHeader,
                     lines: [LABELS.alarmEventHelpText],
@@ -94,7 +99,10 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             debugTraces.push(end);
         }
     }
-    return debugTraces;
+    return {
+        debugTraces,
+        copyTraces
+    };
 }
 
 function formatUTCTime(utcTime) {
