@@ -433,10 +433,10 @@ export function forEachMetadataFlowElement(metadata, startElementReference, call
 
         let metadataElements;
         // Checking if we have a startElementReference. If we do then create a dummy start element so the overlap code will work
-        if (metadataKey === METADATA_KEY.START && startElementReference) {
-            metadataElements = [dummyStartElement(startElementReference)];
+        if (metadataKey === METADATA_KEY.START) {
+            metadataElements = [getStartElementFromMetadata(metadata, startElementReference)];
         } else {
-            metadataElements = metadataKey === METADATA_KEY.START ? [metadata[metadataKey]] : metadata[metadataKey];
+            metadataElements = metadata[metadataKey];
         }
         const metadataElementsLen = metadataElements ? metadataElements.length : 0;
         for (let j = 0; j < metadataElementsLen; j++) {
@@ -444,6 +444,18 @@ export function forEachMetadataFlowElement(metadata, startElementReference, call
             callback(metadataElement, metadataKey);
         }
     }
+}
+
+/**
+ * gets start element from metadata. handles old flows where the start Element did not exist, it was just a reference.
+ * @param metadata retrieved from the backedn
+ * @param startElementReference reference to the start node. in older flows there was no start element.
+ */
+export function getStartElementFromMetadata(metadata, startElementReference) {
+    if (startElementReference) {
+        return dummyStartElement(startElementReference);
+    }
+    return metadata[METADATA_KEY.START];
 }
 
 function dummyStartElement(startElementReference: string): object {

@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { swapDevNamesToUids } from './uidSwapping';
-import { METADATA_KEY, isSystemElement, forEachMetadataFlowElement } from 'builder_platform_interaction/flowMetadata';
+import {
+    METADATA_KEY,
+    isSystemElement,
+    forEachMetadataFlowElement,
+    getStartElementFromMetadata
+} from 'builder_platform_interaction/flowMetadata';
 import {
     createFlowProperties,
     INCOMPLETE_ELEMENT,
@@ -303,13 +308,15 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
                 }
                 // end
                 const elementFactoryFunction = metadataKeyToFlowToUiFunctionMap[metadataKey];
-                elementsAndConnectors =
-                    metadataKey === METADATA_KEY.START
-                        ? elementFactoryFunction(metadataElement, startElementReference)
-                        : elementFactoryFunction(metadataElement, {
-                              elements: previousPhaseElements,
-                              connectors: previousPhaseConnectors
-                          });
+                if (metadataKey === METADATA_KEY.START) {
+                    elementsAndConnectors = elementFactoryFunction(metadataElement, startElementReference);
+                } else {
+                    elementsAndConnectors = elementFactoryFunction(metadataElement, {
+                        elements: previousPhaseElements,
+                        connectors: previousPhaseConnectors,
+                        startElement: getStartElementFromMetadata(metadata, startElementReference)
+                    });
+                }
                 map.set(metadataElement, elementsAndConnectors);
             }
             const { elements, connectors } = elementsAndConnectors;

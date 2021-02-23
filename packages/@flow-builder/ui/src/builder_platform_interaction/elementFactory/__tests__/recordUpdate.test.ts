@@ -14,7 +14,9 @@ import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/storeUtils');
     return Object.assign({}, actual, {
-        getTriggerType: jest.fn().mockReturnValue({}),
+        getTriggerType: () => {
+            return undefined;
+        },
         getObject: jest.fn().mockReturnValue({})
     });
 });

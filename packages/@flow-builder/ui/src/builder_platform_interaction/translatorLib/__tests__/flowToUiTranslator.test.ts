@@ -53,6 +53,9 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             CREATE_AND_UPDATE: 'CreateAndUpdate'
         },
         FlowScreenFieldType: {},
+        getStartElementFromMetadata: (metadata) => {
+            return metadata.startElement;
+        },
         isSystemElement: (elementType) => {
             return elementType === 'ROOT_ELEMENT' || elementType === 'END_ELEMENT' || elementType === 'START_ELEMENT';
         },

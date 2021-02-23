@@ -32,7 +32,7 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
 
-export function createRecordUpdate(recordUpdate = {}) {
+export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerType(), startObject = getObject()) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
     const { inputReference = '', inputReferenceIndex = generateGuid(), objectIndex = generateGuid() } = recordUpdate;
     let {
@@ -66,11 +66,10 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     // If wayToFindRecords haven't been set, which is true when we are translating from UDD
     if (!wayToFindRecords) {
-        wayToFindRecords = setWayToFindRecords(wayToFindRecords, object, inputReference);
+        wayToFindRecords = setWayToFindRecords(wayToFindRecords, object, inputReference, triggerType, startObject);
     }
 
     // handles incompatible switches between processTypes and triggerTypes.
-    const triggerType: string | undefined = getTriggerType();
     if (
         wayToFindRecords !== RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD &&
         triggerType &&
@@ -110,15 +109,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 /**
  * Function decides what option we need to set for RECORD_UPDATE_WAY_TO_FIND_RECORDS.
  */
-function setWayToFindRecords(wayToFindRecords, object, inputReference) {
-    const triggerType: string | undefined = getTriggerType();
-
-    // triggerType seems to be only undefined when the store is not primed.
-    if (triggerType === undefined) {
-        return undefined;
-    }
-
-    const startObject: string | undefined = getObject();
+function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerType, startObject) {
     if (object !== '') {
         // When the object is set, we find records to update by "Specify conditions to identify records, and set fields individually."
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP;
@@ -176,8 +167,9 @@ export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
     return duplicateRecordUpdate;
 }
 
-export function createRecordUpdateWithConnectors(recordUpdate = {}) {
-    const newRecordUpdate = createRecordUpdate(recordUpdate);
+export function createRecordUpdateWithConnectors(recordUpdate = {}, { startElement } = {}) {
+    const { triggerType, object } = startElement;
+    const newRecordUpdate = createRecordUpdate(recordUpdate, triggerType, object);
 
     const connectors = createConnectorObjects(recordUpdate, newRecordUpdate.guid);
     const availableConnections = removeFromAvailableConnections(getDefaultAvailableConnections(), connectors);
