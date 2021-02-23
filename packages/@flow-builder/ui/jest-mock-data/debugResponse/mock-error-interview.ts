@@ -16,7 +16,8 @@ export const errorWithTraceInterview = {
         {
             elementType: 'Error element null (null).',
             error: "The flow can't run because nothing is connected to the Start element.",
-            lines: []
+            lines: [],
+            entryType: 'DefaultDebugInfoEntry'
         }
     ]
 };

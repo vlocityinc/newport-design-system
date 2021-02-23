@@ -87,17 +87,19 @@
         </template>
     </template>
     <!-- governor limits -->
-    <template if:true={limits}>
+    <template if:true={showLim}>
         <p class="sub-title slds-text-color_weak slds-p-top_xx-small slds-p-bottom_xx-small">{govLimSubtitle}</p>
-        <template for:each={limits} for:item="limit">
-            <div key={limit.id}>
-                <lightning-formatted-rich-text
-                    class="normal slds-p-top_xx-small"
-                    value={limit.limit}
-                    key={limit.id}
-                    disable-linkify="true"
-                ></lightning-formatted-rich-text>
-            </div>
-        </template>
+        <div class="govLim">
+            <template for:each={limits} for:item="limit">
+                <div key={limit.id}>
+                    <lightning-formatted-rich-text
+                        class="normal slds-p-top_xx-small"
+                        value={limit.limit}
+                        key={limit.id}
+                        disable-linkify="true"
+                    ></lightning-formatted-rich-text>
+                </div>
+            </template>
+        </div>
     </template>
 </template>

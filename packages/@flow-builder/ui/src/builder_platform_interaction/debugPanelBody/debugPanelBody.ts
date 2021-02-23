@@ -37,7 +37,13 @@ export default class debugPanelBody extends LightningElement {
 
     @api ifblockresume;
 
+    @api showGovLim;
+
     govLimSubtitle = LABELS.govInfo;
+
+    get showLim() {
+        return !!this.showGovLim && !!this.limits;
+    }
 
     /* store the selected wait event name and resume time*/
     selectedEvent;

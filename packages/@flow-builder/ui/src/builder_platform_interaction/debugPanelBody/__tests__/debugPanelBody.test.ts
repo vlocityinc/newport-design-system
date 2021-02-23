@@ -86,8 +86,17 @@ const endWithColonWhitespave = {
 const governorLimits = {
     lines: [],
     limits: [{ limit: 'soome limit information', id: 'abbc' }],
-    title: TITLE
+    title: TITLE,
+    showGovLim: true
 };
+
+const governorLimitsWithFilterOff = {
+    lines: ['Hi other text in here'],
+    limits: [{ limit: 'some limit information', id: 'abbc' }],
+    title: TITLE,
+    showGovLim: false
+};
+
 const waitEvents = {
     lines: ['This element will pause when all conditions are met and will resume again on {0}'],
     title: TITLE,
@@ -115,7 +124,7 @@ const waitEventsWithResumeBlock = {
 };
 describe('GovernorLimits cases check:', () => {
     let debugPanelBody;
-    describe('governor limit field in entrry', () => {
+    describe('governor limit field in entry', () => {
         beforeEach(() => {
             debugPanelBody = createComponentUnderTest(governorLimits);
         });
@@ -132,6 +141,23 @@ describe('GovernorLimits cases check:', () => {
 
             const text = subtitle.textContent;
             expect(text).toContain(LABELS.govInfo);
+        });
+    });
+
+    describe('governor limit field is hidden when filtered out', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(governorLimitsWithFilterOff);
+        });
+        it('normal text hides only the gov lim information', () => {
+            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
+            expect(normal).not.toBeNull();
+            const text = normal.value;
+            expect(text).not.toContain(governorLimitsWithFilterOff.limits[0].limit);
+            expect(text).toContain(governorLimitsWithFilterOff.lines[0]);
+        });
+        it('Does not have Element Governor Limits Info as the title', () => {
+            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(subtitle).toBeNull();
         });
     });
 });

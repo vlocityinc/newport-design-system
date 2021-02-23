@@ -31,6 +31,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
         debugTraces.push({
             title: makeElementTitle(debugData.debugTrace[0]),
             lines: debugData.debugTrace[0].lines,
+            entryType: debugData.debugTrace[0].entryType,
             error: debugData.debugTrace[0].error,
             id: generateGuid()
         });
@@ -44,6 +45,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             debugTraces.push({
                 title: cardTitle,
                 lines: cardTitle !== '' ? trace.slice(1) : trace, // remove 1st elem cause it has the title (see BaseInterviewHTMLWriter#addElementHeader)
+                entryType: debugData.debugTrace[i].entryType,
                 error: debugData.debugTrace[i].error,
                 limits:
                     Array.isArray(debugData.debugTrace[i].limits) && debugData.debugTrace[i].limits.length > 0

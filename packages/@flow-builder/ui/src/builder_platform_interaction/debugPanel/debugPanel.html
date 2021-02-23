@@ -2,6 +2,19 @@
     <div class="slds-panel__header">
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
+    <div class="slds-border_bottom">
+        <div class="slds-grid slds-m-left_xxx-small slds-m-vertical_small slds-gutters">
+            <div class="slds-col slds-size_4-of-6">
+                <builder_platform_interaction-multi-select-combobox
+                    options={filterOptions}
+                    placeholder-text={comboboxPlaceholderText}
+                    oncomboboxselection={handleCustomFilter}
+                    ondefaultcomboboxselection={handleDefaultFilter}
+                >
+                </builder_platform_interaction-multi-select-combobox>
+            </div>
+        </div>
+    </div>
     <div class="slds-panel__body slds-scrollable--y">
         <!-- if there's an error, there will be no debugData.debugTraces-->
         <template for:each={debugTraces} for:item="trace">
@@ -11,7 +24,7 @@
                 class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
                 active-section-name={allTitles}
             >
-                <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title} class="entries">
+                <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title}>
                     <builder_platform_interaction-debug-panel-body
                         lines={trace.lines}
                         error={trace.error}
@@ -20,6 +33,7 @@
                         resumetime={trace.resumetime}
                         limits={trace.limits}
                         ifblockresume={ifBlockResume}
+                        show-gov-lim={showGovLim}
                     ></builder_platform_interaction-debug-panel-body>
                 </lightning-accordion-section>
             </lightning-accordion>

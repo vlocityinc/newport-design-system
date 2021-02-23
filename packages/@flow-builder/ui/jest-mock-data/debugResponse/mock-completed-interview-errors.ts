@@ -24,7 +24,8 @@ export const completedInterviewWithErrors = {
                 '{!n1} (66.00) Greater than or equal 5'
             ],
             elementType: 'DECISION',
-            elementApiName: 'd1'
+            elementApiName: 'd1',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: [
@@ -46,7 +47,8 @@ export const completedInterviewWithErrors = {
                 '{!text} = "ooojoj"'
             ],
             elementType: 'ASSIGNMENT',
-            elementApiName: 'a1'
+            elementApiName: 'a1',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: [
@@ -58,20 +60,21 @@ export const completedInterviewWithErrors = {
                 'Result',
                 'Failed to create record.',
                 '$$:Fault:',
-                '',
-                'DML statements: 1 out of 150',
-                'DML rows: 1 out of 10000'
+                ''
             ],
+            limits: ['DML statements: 1 out of 150', 'DML rows: 1 out of 10000'],
             error:
                 "Error Occurred: This error occurred when the flow tried to create records: DUPLICATES_DETECTED: Use one of these records?. You can look up ExceptionCode values in the <a href='https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_concepts_core_data_objects.htm#'>SOAP API Developer Guide</a>.",
             elementType: 'CREATE RECORDS',
-            elementApiName: 'create_succesful_account'
+            elementApiName: 'create_succesful_account',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: [
                 'Because the flow ran in rollback mode, any changes to add, delete, or modify records were rolled back.'
             ],
-            elementType: 'ROLLBACK'
+            elementType: 'ROLLBACK',
+            entryType: 'TransactionInfoEntry'
         }
     ],
     startInterviewTime: new Date('June 17, 2020 03:24:00'),
@@ -104,7 +107,8 @@ export const resumedInterviewWithErrors = {
                 'The interview was paused at 2020-11-18T19:03:46Z.'
             ],
             elementType: 'Pause',
-            elementApiName: 'pause'
+            elementApiName: 'pause',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: ['The interview was resumed at 2020-11-18T19:04:45Z by User User (005xx000001X9fZ).']
@@ -117,14 +121,16 @@ export const resumedInterviewWithErrors = {
                 'None.'
             ],
             elementType: 'Pause',
-            elementApiName: 'pause'
+            elementApiName: 'pause',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: ['ERROR ELEMENT ASSN_BIGNUMBER (FLOWASSIGNMENT).: assn_bigNumber'],
             error:
                 "The 'assn_bigNumber' element can't remove the item in position 99,900,000,000,000,000,000,000,000,000 of the 'numList' collection variable because the position '99,900,000,000,000,000,000,000,000,000' isn't a positive integer.",
             elementType: 'Error element assn_bigNumber (FlowAssignment).',
-            elementApiName: 'assn_bigNumber'
+            elementApiName: 'assn_bigNumber',
+            entryType: 'DefaultDebugInfoEntry'
         }
     ],
     startInterviewTime: new Date('November 18, 2020 11:03:46'),

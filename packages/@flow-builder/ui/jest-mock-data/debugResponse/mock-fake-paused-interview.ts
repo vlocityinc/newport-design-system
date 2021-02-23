@@ -87,7 +87,8 @@ export const fakePausedInterviewWithoutAlarmEvent = {
                 "{!var} = 'Now'"
             ],
             elementType: 'Assignment',
-            elementApiName: 'A'
+            elementApiName: 'A',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: [
@@ -114,10 +115,13 @@ export const fakePausedInterviewWithoutAlarmEvent = {
                 'The interview was paused at 2021-02-06T06:54:55Z.'
             ],
             elementType: 'Pause',
-            elementApiName: 'P'
+            elementApiName: 'P',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
-            lines: ['Transaction committed']
+            elementType: 'Transaction Committed',
+            lines: ['Transaction committed: ', 'Any pending record operations have been committed to the database.'],
+            entryType: 'TransactionInfoEntry'
         }
     ],
     startInterviewTime: new Date('June 17, 2020 03:24:00'),

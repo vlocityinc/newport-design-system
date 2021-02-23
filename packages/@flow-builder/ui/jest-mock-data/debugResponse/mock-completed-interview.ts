@@ -20,20 +20,24 @@ export const completedInterview = {
                 'Name Starts with {!StartsWithLetter} (a)',
                 'Result',
                 'All records that meet the filter criteria are ready to be deleted when the next screen, pause, or local action is executed or when the interview finishes.',
-                '',
+                ''
+            ],
+            limits: [
                 'SOQL queries: 1 out of 100',
                 'SOQL query rows: 297 out of 50000',
                 'DML statements: 2 out of 150',
                 'DML rows: 297 out of 10000'
             ],
             elementType: 'DELETE RECORDS',
-            elementApiName: 'Delete_All_Accounts'
+            elementApiName: 'Delete_All_Accounts',
+            entryType: 'DefaultDebugInfoEntry'
         },
         {
             lines: [
                 'Because the flow ran in rollback mode, any changes to add, delete, or modify records were rolled back.'
             ],
-            elementType: 'ROLLBACK'
+            elementType: 'ROLLBACK',
+            entryType: 'TransactionInfoEntry'
         }
     ],
     startInterviewTime: new Date('June 17, 2020 03:24:00'),

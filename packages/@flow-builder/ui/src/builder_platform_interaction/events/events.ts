@@ -114,3 +114,6 @@ export { CollectionReferenceChangedEvent } from './collectionReferenceChangedEve
 export { UpdateCollectionProcessorEvent } from './updateCollectionProcessorEvent';
 export { DummyPreviewModeEvent } from './dummyPreviewModeEvent';
 export { ResumeDebugFlowEvent } from './debugPanelEvents/resumeDebugFlowEvent';
+export { MultiSelectOptionEvent } from './multiSelectComboboxEvents/multiSelectOptionEvent';
+export { MultiSelectComboboxEvent } from './multiSelectComboboxEvents/multiSelectComboboxEvent';
+export { DefaultMultiSelectComboboxEvent } from './multiSelectComboboxEvents/defaultMultiSelectComboboxEvent';
