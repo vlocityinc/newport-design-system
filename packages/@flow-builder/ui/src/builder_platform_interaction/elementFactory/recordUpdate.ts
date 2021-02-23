@@ -25,14 +25,14 @@ import {
 import { createExpressionListRowItemWithoutOperator } from './base/baseList';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getTriggerType, getObject } from 'builder_platform_interaction/storeUtils';
+import { getTriggerType, getStartObject } from 'builder_platform_interaction/storeUtils';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
 
-export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerType(), startObject = getObject()) {
+export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerType(), startObject = getStartObject()) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
     const { inputReference = '', inputReferenceIndex = generateGuid(), objectIndex = generateGuid() } = recordUpdate;
     let {

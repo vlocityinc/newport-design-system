@@ -122,7 +122,7 @@ export const getTriggerType = (): string | undefined => {
  * Returns the object type for the current flow.
  * Currently located on the start element.
  */
-export const getObject = (): string | undefined => {
+export const getStartObject = (): string | undefined => {
     const startElement = getStartElement();
     return startElement ? startElement.object : undefined;
 };

@@ -23,7 +23,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/storeUtils');
     return Object.assign({}, actual, {
         getTriggerType: jest.fn().mockReturnValue({}),
-        getObject: jest.fn().mockReturnValue({})
+        getStartObject: jest.fn().mockReturnValue({})
     });
 });
 

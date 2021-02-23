@@ -17,7 +17,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getTriggerType: () => {
             return undefined;
         },
-        getObject: jest.fn().mockReturnValue({})
+        getStartObject: jest.fn().mockReturnValue({})
     });
 });
 

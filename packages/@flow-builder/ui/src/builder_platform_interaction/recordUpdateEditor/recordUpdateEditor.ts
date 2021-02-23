@@ -10,7 +10,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
-import { getTriggerType, getObject } from 'builder_platform_interaction/storeUtils';
+import { getTriggerType, getStartObject } from 'builder_platform_interaction/storeUtils';
 import {
     CONDITION_LOGIC,
     FLOW_TRIGGER_TYPE,
@@ -260,7 +260,7 @@ export default class RecordUpdateEditor extends LightningElement {
      * type of triggering record, usually stored in Start element
      */
     dollarRecordName(): string {
-        return getObject() || '';
+        return getStartObject() || '';
     }
 
     /**

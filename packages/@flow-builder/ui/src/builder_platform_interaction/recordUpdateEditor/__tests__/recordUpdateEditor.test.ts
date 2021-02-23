@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return Object.assign({}, actual, {
         getElementByGuid: jest.fn().mockReturnValue({}),
         getTriggerType: jest.fn().mockReturnValue({}),
-        getObject: jest.fn().mockReturnValue({})
+        getStartObject: jest.fn().mockReturnValue({})
     });
 });
 
