@@ -352,7 +352,7 @@ export default class Combobox extends LightningElement {
      */
     set type(dataType) {
         if (dataType && dataType.toUpperCase) {
-            if (!Object.values(FLOW_DATA_TYPE).find((type) => type.value === dataType)) {
+            if (!Object.values(FLOW_DATA_TYPE).find((type) => type.value.toUpperCase() === dataType.toUpperCase())) {
                 throw new Error(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
             }
             this._dataType = dataType;
