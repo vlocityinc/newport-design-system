@@ -55,7 +55,6 @@ export default class ScreenExtensionField extends LightningElement {
 
     reloadComponent() {
         if (this.embededAuraComponent) {
-            this.embededAuraComponent.unrenderComponent();
             this.embededAuraComponent = this.prepareComponent();
         }
     }
@@ -65,7 +64,7 @@ export default class ScreenExtensionField extends LightningElement {
         const container = unwrap(this.template.querySelector('div'));
         const descriptor = unwrap(this.descriptor);
         const attributes = unwrap(this._attributes);
-        return new AuraComponent(container, descriptor, attributes, null);
+        return new AuraComponent(container, descriptor, attributes, this.embededAuraComponent);
     }
 
     disconnectedCallback() {

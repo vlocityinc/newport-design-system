@@ -24,8 +24,8 @@ let renderingQueue = [];
 // Pipeline to emulate how Aura renders:
 // create A, create B, ... raf ..., render A, render B
 
-function requestRender(cmp, parentElement) {
-    renderingQueue.push([cmp, parentElement]);
+function requestRender(cmp, parentElement, oldComponent) {
+    renderingQueue.push([cmp, parentElement, oldComponent]);
     if (renderingRafId === null) {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         renderingRafId = requestAnimationFrame(flushRenderingQueue);
@@ -38,8 +38,15 @@ function flushRenderingQueue() {
     const queue = renderingQueue;
     renderingQueue = [];
     renderingRafId = null;
-    queue.forEach(([cmp, parentElement]) => {
+    queue.forEach(([cmp, parentElement, oldComponent]) => {
         if (cmp && cmp.isValid()) {
+            if (oldComponent) {
+                // Rendering the new component and unrendering the old component "at the same time"
+                // helps us keep our place in the screen (i.e. not lose our scroll position).
+                // The order in which we render/unrender doesn't matter. It's that we are doing both
+                // together.
+                oldComponent.unrenderComponent();
+            }
             renderComponent(cmp, parentElement);
         }
     });
@@ -47,15 +54,12 @@ function flushRenderingQueue() {
 
 export class AuraComponent {
     component;
-    constructor(container, descriptor, attributes, createComponentCallback) {
+    constructor(container, descriptor, attributes, oldComponent) {
         try {
             createComponent(descriptor, attributes, (cmp, status) => {
                 this.component = cmp;
                 if (status === 'SUCCESS') {
-                    requestRender(cmp, container);
-                    if (createComponentCallback) {
-                        createComponentCallback(cmp);
-                    }
+                    requestRender(cmp, container, oldComponent);
                 } else {
                     // If the component was not succesfully rendered, go into dummy mode.
                     container.dispatchEvent(new DummyPreviewModeEvent(false, true));
