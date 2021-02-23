@@ -39,10 +39,9 @@
     invokeAlertModal: function (cmp, errorMessage, gackId) {
         alertModal = cmp.find('builderUtils').invokeModal;
         var newErrorMessage = errorMessage ? errorMessage : $A.get('$Label.FlowBuilderAlertModal.errorMessage');
-        if (gackId) {
-            newErrorMessage += ' ' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId);
-        }
-        var bodyOne = $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId);
+        var errorId =
+            gackId === 0 ? '' : ' (' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId) + ')';
+        var bodyOne = $A.get('$Label.FlowBuilderAlertModal.flowPageError') + errorId;
         alertModal({
             headerData: {
                 headerTitle: $A.get('$Label.FlowBuilderAlertModal.errorTitle')

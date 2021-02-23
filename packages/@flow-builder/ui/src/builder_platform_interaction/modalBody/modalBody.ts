@@ -15,7 +15,7 @@ export default class ModalBody extends LightningElement {
     get bodyTextContainerClass() {
         return this.bodyVariant === modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
             ? ''
-            : 'slds-text-longform slds-p-horizontal_small slds-p-top_small';
+            : 'slds-p-horizontal_small slds-p-top_small';
     }
 
     get bodyTextOneClass() {
