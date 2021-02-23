@@ -2,6 +2,7 @@ import { api, LightningElement } from 'lwc';
 import { orgHasFlowBuilderDebug, orgHasComponentPreview } from 'builder_platform_interaction/contextLib';
 import { getCachedExtensionType, getCachedExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { attributesHaveChanged } from 'builder_platform_interaction/screenEditorUtils';
 import {
     isExtensionAttributeLiteral,
     isExtensionAttributeGlobalConstant,
@@ -42,7 +43,6 @@ const stdComponentsAllowedToPreview = [
 ];
 
 export default class ScreenExtensionFieldWrapper extends LightningElement {
-    @api screenfield;
     @api descriptor;
     @api name;
     @api icon;
@@ -53,6 +53,28 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     loggedExtensionOnLoad = false;
     dummyModeDueToRenderError = false;
     dummyModeDueToError = false;
+    _screenfield;
+
+    get screenfield() {
+        return this._screenfield;
+    }
+
+    @api
+    set screenfield(newScreenfield) {
+        // If we're updating the field and its inputs have changed, reset the dummy mode
+        // flags to false so we can try re-rendering the preview (if all other criteria are met).
+        if (
+            this._screenfield &&
+            newScreenfield &&
+            this._screenfield.inputParameters &&
+            newScreenfield.inputParameters &&
+            attributesHaveChanged(this._screenfield.inputParameters, newScreenfield.inputParameters)
+        ) {
+            this.dummyModeDueToRenderError = false;
+            this.dummyModeDueToError = false;
+        }
+        this._screenfield = newScreenfield;
+    }
 
     // Should we render the component in the screen canvas right now.
     // This is really the decision based on all other factors (does the org allow
@@ -83,6 +105,7 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     // 3) AND all required inputs are set.
     get isExtensionAllowedToPreview() {
         return (
+            this.screenfield &&
             this.screenfield.extensionName &&
             // The FlowBuilderDebug check is temporary and will be deleted before 232 goes out.
             // In order for partner teams to test comp preview with their components, they can
