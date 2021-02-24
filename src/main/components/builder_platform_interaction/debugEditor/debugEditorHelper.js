@@ -6,11 +6,23 @@
      * @param {String} flowName
      * @param {Boolean} rerun, whether this is a debug rerun
      */
-    buildInput: function (cmp, flowName, processType, triggerType, rerun) {
+    buildInput: function (cmp, flowName, flowId, processType, triggerType, rerun) {
         this.getDebugRunAsValidation(cmp, processType, triggerType);
 
         if (processType === 'AutoLaunchedFlow' && triggerType === 'Scheduled') {
             cmp.set('v.shouldHasInputs', false);
+        } else if (processType === 'AutoLaunchedFlow' && this.isRecordChangeTriggerType(triggerType)) {
+            var action = cmp.get('c.getDollarRecordInputVariable');
+            action.setParams({ flowId: flowId });
+            action.setCallback(this, function (response) {
+                var state = response.getState();
+                if (state === 'SUCCESS') {
+                    this.buildInputVarComponents(cmp, response.getReturnValue(), rerun);
+                }
+                cmp.set('v.displaySpinner', false);
+            });
+            $A.enqueueAction(action);
+            cmp.set('v.shouldHasInputs', true);
         } else {
             var action = cmp.get('c.getFlowInputOutputVariables');
             action.setParams({ flowName: flowName });
@@ -24,6 +36,14 @@
             $A.enqueueAction(action);
             cmp.set('v.shouldHasInputs', true);
         }
+    },
+
+    isRecordChangeTriggerType: function (triggerType) {
+        return (
+            triggerType === 'RecordAfterSave' ||
+            triggerType === 'RecordBeforeSave' ||
+            triggerType === 'RecordBeforeDelete'
+        );
     },
 
     /**

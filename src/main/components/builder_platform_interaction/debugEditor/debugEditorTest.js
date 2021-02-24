@@ -373,6 +373,64 @@
         }
     },
 
+    testDollarRecordInputVariable: {
+        attributes: {
+            processType: 'AutoLaunchedFlow',
+            triggerType: 'RecordAfterSave'
+        },
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getDollarRecordInputVariable' },
+                        answers: [
+                            {
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'SObject',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: '$Record',
+                                            objectType: 'Account'
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function (cmp) {
+            $A.test.addWaitFor(
+                false,
+                function () {
+                    return $A.test.isActionPending('doInit');
+                },
+                function (cmp) {
+                    var inputs = cmp.find('flowInput').get('v.body');
+                    $A.test.assertTrue(inputs.length === 2, 'Should only have one input variable for $Record');
+                    // inputs[0] is aura$expression by default, inputs.length = 2 means only one input value
+                    $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs should return true DML triggers');
+
+                    //The DML trigger specific debug text should appear
+                    $A.test.assertUndefined(
+                        cmp.find('inputValuesInfo'),
+                        'Text for non $Record input variables shows up.'
+                    );
+                    $A.test.assertNotNull(
+                        cmp.find('inputValuesRecordTrigger'),
+                        'Text for $Record variables does not show up.'
+                    );
+                }
+            );
+        }
+    },
+
     testApexVariable: {
         mocks: [
             {

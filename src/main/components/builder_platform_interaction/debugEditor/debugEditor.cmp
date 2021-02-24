@@ -66,16 +66,28 @@
 
         <aura:if isTrue="{!v.shouldHasInputs}">
             <!-- Input Variables -->
-            <div class="slds-p-top_medium">
-                <h2>{#$Label.FlowDebug.InputValues}</h2>
-            </div>
+            <aura:if isTrue="{!c.isDMLDebug}">
+                <div class="slds-p-top_medium">
+                    <h2>{#$Label.FlowDebug.InputRecordForRecordTrigger}</h2>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-p-top_medium">
+                        <h2>{#$Label.FlowDebug.InputValues}</h2>
+                    </div>
+                </aura:set>
+            </aura:if>
             <aura:if isTrue="{!v.displaySpinner}">
                 <div class="outer-div slds-p-top_medium">
                     <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
                 </div>
                 <aura:set attribute="else">
                     <aura:if isTrue="{!v.hasInputs}">
-                        <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
+                        <aura:if isTrue="{!c.isDMLDebug}">                            
+                            <div aura:id="inputValuesRecordTrigger" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesRecordTrigger}</div>                            
+                            <aura:set attribute="else">
+                                <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>                                
+                            </aura:set>
+                        </aura:if>                        
                         <aura:set attribute="else">
                             <div aura:id="inputValuesNone" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
                         </aura:set>

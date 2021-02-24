@@ -9,6 +9,7 @@
         helper.buildInput(
             cmp,
             cmp.get('v.flowName'),
+            cmp.get('v.flowId'),
             cmp.get('v.processType'),
             cmp.get('v.triggerType'),
             cmp.get('v.rerun')
@@ -40,5 +41,9 @@
             debugWaits: cmp.find('isDebugWaitsBox').get('v.checked')
         };
         return debugInput;
+    },
+
+    isDMLDebug: function (cmp) {
+        return helper.isRecordChangeTriggerType(cmp.get('v.triggerType'));
     }
 });
