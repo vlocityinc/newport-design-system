@@ -129,7 +129,7 @@ function usedByFlowProperties(elementGuids: UI.Guid[], flowProps: UI.Properties)
 }
 
 /**
- * Returns guids that are guids of anonymous elements (elements without dev name : currently only automatic fields)
+ * Returns guids that are guids of anonymous elements (elements without dev name (automatic fields) or with generated dev names (column in a screen section))
  *
  * @param elements
  * @param elementGuids
@@ -139,9 +139,10 @@ function getAnonymousElements(elements: UI.Elements | UI.HydratedElements, eleme
         const element = elements[elementGuid];
         return (
             element &&
-            element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
-            hasOwnProperty(element, 'fieldType') &&
-            element.fieldType === FlowScreenFieldType.ObjectProvided
+            (isRegionField(element) ||
+                (element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
+                    hasOwnProperty(element, 'fieldType') &&
+                    element.fieldType === FlowScreenFieldType.ObjectProvided))
         );
     });
 }

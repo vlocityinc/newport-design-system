@@ -10,6 +10,8 @@ import {
     screenWithSection,
     address2,
     email2,
+    screenFieldAccounts,
+    slider1,
     displayTextUsingResources
 } from 'mock/storeData';
 
@@ -571,6 +573,30 @@ describe('Used by library', () => {
                             isCanvasElement: false,
                             label: undefined,
                             name: 'displayTextUsingResources'
+                        }
+                    ])
+                );
+            });
+            it('returns an array with the screen containing the regular field when field is in section', () => {
+                const actualResult = usedBy([slider1.guid]);
+                expectNoDuplicatesInUsedBy(actualResult);
+                expect(actualResult).toEqual(
+                    expect.arrayContaining([
+                        {
+                            elementGuidsReferenced: [slider1.guid],
+                            guid: screenFieldAccounts.guid,
+                            iconName: 'standard:display_text',
+                            isCanvasElement: false,
+                            label: undefined,
+                            name: 'accounts'
+                        },
+                        {
+                            elementGuidsReferenced: [slider1.guid],
+                            guid: screenWithSection.guid,
+                            iconName: 'standard:screen',
+                            isCanvasElement: true,
+                            label: 'ScreenWithSection',
+                            name: 'ScreenWithSection'
                         }
                     ])
                 );

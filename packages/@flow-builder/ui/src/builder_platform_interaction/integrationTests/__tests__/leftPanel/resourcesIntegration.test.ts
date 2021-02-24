@@ -11,7 +11,8 @@ import {
     getElementByTitle,
     PALETTE_ELEMENTS_INDEX,
     PALETTE_RESOURCES_INDEX,
-    getUsedByContentItem
+    getUsedByContentItem,
+    getUsedByContentItems
 } from '../leftPanelTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
@@ -22,7 +23,7 @@ import { initializeAuraFetch } from '../serverDataTestUtils';
 import { loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
 
@@ -179,6 +180,25 @@ describe('Resource tab - resource', () => {
             const resourceDetails = getResourceDetail(leftPanel);
             expect(getUsedByContentItem(resourceDetails, 'screenWithAutomaticFieldsInSection')).toBeDefined();
             expect(getUsedByContentItem(resourceDetails, 'screenWithAutomaticFields')).toBeDefined();
+        });
+    });
+    describe('Field Detail', () => {
+        describe('Field inside section', () => {
+            it('should display the parent screen name', async () => {
+                const text2 = getElementByDevName('text_2');
+                const chevron = getChevronElement(leftPanel, text2.guid);
+                expect(chevron).toBeDefined();
+                clickOnViewDetailButton(chevron);
+                await ticks(100);
+                const resourceDetails = getResourceDetail(leftPanel);
+                const usedByContentItems = getUsedByContentItems(resourceDetails);
+                const usedByContentItemIcon = usedByContentItems[0].shadowRoot.querySelector(
+                    INTERACTION_COMPONENTS_SELECTORS.ELEMENT_ICON
+                );
+                const icon = usedByContentItemIcon.shadowRoot.querySelector('.slds-icon-standard-screen');
+                expect(icon).toBeDefined();
+                expect(getUsedByContentItem(resourceDetails, 'ScreenWithSection')).toBeDefined();
+            });
         });
     });
 });

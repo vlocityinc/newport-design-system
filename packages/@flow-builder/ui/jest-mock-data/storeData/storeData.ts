@@ -168,7 +168,7 @@ export const accountVariableNameAutomaticFieldInSection = getAutomaticFieldEleme
 export const address2 = getElementByName('address_2');
 export const email2 = getElementByName('email_2');
 export const displayTextUsingResources = getElementByName('displayTextUsingResources');
-
+export const slider1 = getElementByName('slider_1');
 export const screenFieldAccounts = getElementByName('accounts');
 export const screenFieldTextBoxSomeText = getElementByName('someText');
 
