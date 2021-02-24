@@ -235,7 +235,8 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow
     }),
     'c.getTriggerTypeInfo': createGetter([]),
-    'c.getObjectManagerUrls': createGetter(objectManagerUrls)
+    'c.getObjectManagerUrls': createGetter(objectManagerUrls),
+    'c.getContext': createGetter(context)
 };
 
 export function initializeAuraFetch(actions = {}) {

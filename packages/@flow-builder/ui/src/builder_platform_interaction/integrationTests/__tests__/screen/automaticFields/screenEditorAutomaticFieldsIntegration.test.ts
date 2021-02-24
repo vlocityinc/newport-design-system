@@ -6,7 +6,9 @@ import { FlowScreenFieldType, FLOW_PROCESS_TYPE } from 'builder_platform_interac
 import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { setContext } from 'builder_platform_interaction/contextLib';
+import { context } from 'serverData/GetContext/context.json';
 
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber', () => ({ default: 'Number({0}, {1})' }), {
     virtual: true
@@ -368,6 +370,26 @@ describe('ScreenEditor automatic fields', () => {
                     });
                 }
             );
+        });
+        describe('FlowBuilderAutomaticFields org perm is off', () => {
+            beforeAll(async () => {
+                Object.assign(context, { access: { orgHasFlowBuilderAutomaticFields: false } });
+                setContext(context);
+                screenEditor = await createScreenEditor('screenWithAutomaticFields');
+            });
+            it('should not have a tabset', () => {
+                expect(screenEditor.getTabset()).toBeNull();
+            });
+            it('should contain a palette with proper CSS class', () => {
+                const palette = screenEditor.getEditorPalette();
+                expect(palette).toBeTruthy();
+                expect(palette!.shadowRoot!.querySelector('div')!.className).toContain('slds-panel_docked-left');
+            });
+            it('should contain a palette with a button to open AppExchange', () => {
+                const palette = screenEditor.getEditorPalette();
+                expect(palette).toBeTruthy();
+                expect(palette!.shadowRoot!.querySelector(INTERACTION_COMPONENTS_SELECTORS.BUTTON_BANNER)).toBeTruthy();
+            });
         });
     });
 });

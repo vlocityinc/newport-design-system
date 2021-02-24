@@ -8,8 +8,6 @@ import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
-import templateWhenAutomaticFieldsIsDisabled from './screenEditorPalette.html';
-import templateWhenAutomaticFieldsIsEnabled from './screenEditorPaletteInTab.html';
 
 const SELECTORS = {
     FILTER_INPUT: '.palette-search-input'
@@ -42,6 +40,12 @@ export default class ScreenPalette extends LightningElement {
     set extensionTypes(extensionTypes) {
         this._extensionTypes = extensionTypes;
         this.buildModel();
+    }
+
+    get wrappingDivClass() {
+        const divClass =
+            'screen-palette-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-grid slds-grid_vertical';
+        return orgHasFlowBuilderAutomaticFields() ? divClass : `${divClass} slds-panel_docked-left`;
     }
 
     // Create palette model
@@ -99,12 +103,6 @@ export default class ScreenPalette extends LightningElement {
         // refresh the definition of all the extensions in the cache (used during screen validation)
     }
     */
-
-    render() {
-        return this.orgHasFlowBuilderAutomaticFields
-            ? templateWhenAutomaticFieldsIsEnabled
-            : templateWhenAutomaticFieldsIsDisabled;
-    }
 }
 
 /**

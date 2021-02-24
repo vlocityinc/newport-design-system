@@ -20,10 +20,6 @@ import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/scree
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
-// @ts-ignore
-import templateWithAutomaticFieldsDisabled from './screenEditor.html';
-// @ts-ignore
-import templateWithAutomaticFieldsEnabled from './screenEditorWithTabs.html';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 export enum ScreenEditorTab {
@@ -413,11 +409,5 @@ export default class ScreenEditor extends LightningElement {
      */
     hidePopover() {
         hidePopover({ closedBy: 'closeOnClickOut' });
-    }
-
-    render() {
-        return this.orgHasFlowBuilderAutomaticFields
-            ? templateWithAutomaticFieldsEnabled
-            : templateWithAutomaticFieldsDisabled;
     }
 }

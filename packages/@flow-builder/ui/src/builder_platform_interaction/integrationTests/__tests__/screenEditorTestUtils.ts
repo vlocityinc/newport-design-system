@@ -46,7 +46,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenCanvasTestComponent(canvasElement);
     }
 
-    private getTabset() {
+    public getTabset() {
         return this.element.shadowRoot!.querySelector<HTMLElement & { activeTabValue: ScreenEditorTab }>(
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TABSET
         )!;
@@ -64,7 +64,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         const tabset = this.getTabset();
         const componentsTab = tabset.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as HTMLElement;
         return (componentsTab.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as Element).querySelector(
-            INTERACTION_COMPONENTS_SELECTORS.SCREEN_PALETTE
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_PALETTE
         ) as ScreenEditorPalette & HTMLElement;
     }
 
@@ -84,6 +84,10 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
         ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
         return new PropertiesEditorContainerTestComponent(element);
+    }
+
+    public getEditorPalette() {
+        return this.element.shadowRoot?.querySelector<Element>(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_PALETTE);
     }
 }
 
