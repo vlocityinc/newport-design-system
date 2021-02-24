@@ -14,6 +14,10 @@ import {
     SCREEN_EDITOR_GUIDS,
     setDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
+import Combobox from 'builder_platform_interaction/combobox';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 const SUPPORTED_FIELD_DATA_TYPES = [
     FieldDataType.String,
@@ -50,6 +54,10 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     showNoFieldIllustration = false;
     showSpinner = false;
     labels = LABELS;
+
+    private isRecordVariableSetViaApi = false;
+    private hasNewRecordVariable = false;
+
     @api
     searchPattern?: string | null;
 
@@ -90,6 +98,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     set recordVariable(value: string) {
+        this.isRecordVariableSetViaApi = true;
         this.setRecordVariableAndErrorMessage(value, null);
     }
 
@@ -99,24 +108,25 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      */
     handleSObjectReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
         event.stopPropagation();
-        if (this.state.recordVariable !== event.detail.value) {
-            this.setRecordVariableAndErrorMessage(event.detail.value, event.detail.error);
-        }
+        this.setRecordVariableAndErrorMessage(event.detail.value, event.detail.error);
     }
 
     private setRecordVariableAndErrorMessage(recordVariable, errorMessage: string | null) {
-        this.searchPattern = null;
-        this.state.recordVariable = recordVariable;
-        this.sobjectPickerErrorMessage = errorMessage;
-        if (
-            this.state.recordVariable != null &&
-            this.state.recordVariable !== '' &&
-            this.sobjectPickerErrorMessage == null
-        ) {
-            this.updateFields();
-            this.showNoItemsIllustration = false;
-        } else {
-            this.showNoItemsIllustration = true;
+        if (this.state.recordVariable !== recordVariable) {
+            this.hasNewRecordVariable = true;
+            this.searchPattern = null;
+            this.state.recordVariable = recordVariable;
+            this.sobjectPickerErrorMessage = errorMessage;
+            if (
+                this.state.recordVariable != null &&
+                this.state.recordVariable !== '' &&
+                this.sobjectPickerErrorMessage == null
+            ) {
+                this.updateFields();
+                this.showNoItemsIllustration = false;
+            } else {
+                this.showNoItemsIllustration = true;
+            }
         }
     }
 
@@ -171,6 +181,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                   )
                 : this.state.supportedEntityFields;
 
+        const currentRecordVariable = this.recordVariable;
         fieldsToAddToPalette.forEach((field) => {
             const item: ScreenAutomaticFieldPaletteItem = {
                 apiName: field.apiName,
@@ -179,7 +190,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 iconName: getDataTypeIcons(field.dataType, 'utility'),
                 label: field.label,
                 fieldTypeName: getScreenFieldName(field)!,
-                objectFieldReference: this.recordVariable + '.' + field.apiName
+                objectFieldReference: `${currentRecordVariable}.${field.apiName}`
             };
             if (field.required && field.fieldDataType !== FieldDataType.Boolean) {
                 requiredSection._children.push(item);
@@ -245,5 +256,40 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         event.dataTransfer.effectAllowed = 'copy';
         event.dataTransfer.setData('dragStartLocation', SCREEN_EDITOR_GUIDS.PALETTE); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
         setDragFieldValue(fieldTypeName);
+    }
+
+    renderedCallback() {
+        if (this.isRecordVariableSetViaApi && this.hasNewRecordVariable) {
+            this.isRecordVariableSetViaApi = false;
+            this.hasNewRecordVariable = false;
+            this.resetPill();
+        }
+    }
+
+    /**
+     * @returns the Object selection combobox
+     * @private
+     */
+    private getObjectCombobox(): Combobox | null {
+        return this.template
+            .querySelector(SObjectOrSObjectCollectionPicker.SELECTOR)
+            ?.shadowRoot.querySelector(FerovResourcePicker.SELECTOR)
+            ?.shadowRoot.querySelector(BaseResourcePicker.SELECTOR)
+            ?.shadowRoot.querySelector(Combobox.SELECTOR);
+    }
+
+    /**
+     * As we can change the current object via the canvas selection,
+     * this function allows to update accordingly the pill
+     * @private
+     */
+    private resetPill() {
+        const combobox = this.getObjectCombobox();
+        if (combobox) {
+            combobox.errorMessage = null;
+            if (combobox.hasPill) {
+                combobox.resetPill();
+            }
+        }
     }
 }

@@ -1033,11 +1033,12 @@ export default class Combobox extends LightningElement {
      * Find a single item that matches with text if any and if _item isn't already set
      * @param {String} text The text to match with an item's displayText
      * @param {Boolean} setItem set _item if a match is found
+     * @param {Boolean} forced set _item even if it does already exists
      * @returns {MenuItem} returns the item if found, otherwise undefined
      */
-    matchTextWithItem(text = this.state.displayText, setItem = true) {
+    matchTextWithItem(text = this.state.displayText, setItem = true, forced = false) {
         let matchedItem;
-        if (!this._item && text && this.state.menuData) {
+        if ((!this._item || forced) && text && this.state.menuData) {
             const matchedItems: any[] = [];
             const groupOrItemCount = this.state.menuData.length;
             for (let i = 0; i < groupOrItemCount; i++) {
@@ -1249,6 +1250,11 @@ export default class Combobox extends LightningElement {
             this.state.displayText &&
             !this.errorMessage
         ) {
+            // item not yet fully loaded
+            if (!this._item.iconName) {
+                this.matchTextWithItem(this.state.displayText, true, true);
+            }
+
             this.state.pill = {
                 label: getPillLabel(this._item),
                 iconName: this._item.iconName

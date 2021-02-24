@@ -11,6 +11,8 @@ import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interacti
  * a combobox to retrieve a list of sobject and/or sobject collection variables of a specified entity or all if no entity
  */
 export default class SObjectOrSObjectCollectionPicker extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-sobject-or-sobject-collection-picker';
+
     @track
     state = {
         recordEntityName: '',

@@ -169,11 +169,11 @@ export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
         if (!objectReferenceElement) {
             return undefined;
         }
-        const objectFieldRefenceWithGuid = [objectReferenceElement.guid, ...objectFieldReferenceParts.slice(1)].join(
+        const objectFieldReferenceWithGuid = [objectReferenceElement.guid, ...objectFieldReferenceParts.slice(1)].join(
             '.'
         );
         return this.getScreenEditorHighlight(
-            (screenElement) => screenElement.objectFieldReference === objectFieldRefenceWithGuid
+            (screenElement) => screenElement.objectFieldReference === objectFieldReferenceWithGuid
         );
     }
 }

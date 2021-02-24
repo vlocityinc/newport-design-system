@@ -1391,6 +1391,19 @@
                         "processMetadataValues": [],
                         "scale": 0,
                         "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataType": "Number",
+                        "fieldText": "numberScreenField1",
+                        "fieldType": "InputField",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "numberScreenField1",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": []
                     }
                 ],
                 "label": "screenWithAutomaticFields",
@@ -1438,6 +1451,19 @@
                                         "inputParameters": [],
                                         "isRequired": false,
                                         "objectFieldReference": "accountSObjectVariable.NumberOfEmployees",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
+                                    },
+                                    {
+                                        "choiceReferences": [],
+                                        "dataTypeMappings": [],
+                                        "fieldType": "ObjectProvided",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": false,
+                                        "objectFieldReference": "objectWithAllPossiblFieldsVariable.Text_Field__c",
                                         "outputParameters": [],
                                         "processMetadataValues": [],
                                         "scale": 0,
