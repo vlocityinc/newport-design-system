@@ -79,7 +79,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
             {
                 label: 'otherItem',
                 name: 'otherItemName',
-                guid: 'otherItemName'
+                guid: 'otherItemGuid'
             }
         ];
     });
@@ -157,7 +157,7 @@ describe('StageStepEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryConditions: [{ leftHandSide: { value: 'nonexistentItem' } }],
+                entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }],
                 inputParameters: []
             });
 
@@ -167,7 +167,9 @@ describe('StageStepEditor', () => {
             expect(entryConditionsItem.menuData[0].dataType).toEqual(FLOW_DATA_TYPE.STRING.value);
             expect(entryConditionsItem.menuData[0].text).toEqual(getOtherItemsInOrchestratedStage()[0].label);
             expect(entryConditionsItem.menuData[0].displayText).toEqual(getOtherItemsInOrchestratedStage()[0].label);
-            expect(entryConditionsItem.menuData[0].value).toEqual(getOtherItemsInOrchestratedStage()[0].name);
+            expect(entryConditionsItem.menuData[0].value).toEqual(
+                `${getOtherItemsInOrchestratedStage()[0].guid}.Status`
+            );
 
             expect(entryConditionsItem.value).toEqual('');
         });
@@ -177,7 +179,7 @@ describe('StageStepEditor', () => {
                 name: 'someName',
                 label: 'someLabel',
                 description: 'someDescription',
-                entryConditions: [{ leftHandSide: { value: 'otherItemName' } }]
+                entryConditions: [{ leftHandSide: { value: 'otherItemGuid.Status' } }]
             });
 
             const entryConditionsItem = editor.shadowRoot.querySelector(selectors.ENTRY_CRITERIA_ITEM);

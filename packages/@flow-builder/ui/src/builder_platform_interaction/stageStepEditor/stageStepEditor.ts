@@ -140,14 +140,14 @@ export default class StageStepEditor extends LightningElement {
                 dataType: FLOW_DATA_TYPE.STRING.value,
                 text: stageStep.label,
                 displayText: stageStep.label || '',
-                value: stageStep.name || ''
+                value: `${stageStep.guid}.Status` || ''
             };
 
             // This depends on stageStep entry criteria always having the shape
-            // "devName" "EqualTo" "Completed".  For 230, we only parse the LHS devName
+            // "devName.status" "EqualTo" "Completed".  For 230, we only parse the LHS devName
             if (
                 this.element!.entryConditions.length > 0 &&
-                this.element!.entryConditions[0].leftHandSide!.value === stageStep.guid
+                this.element!.entryConditions[0].leftHandSide!.value === `${stageStep.guid}.Status`
             ) {
                 this.entryConditionsSelectedItem = comboboxItem;
             }
