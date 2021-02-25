@@ -25,6 +25,15 @@
                 type="radio"
                 disabled={isDisabled}
             ></lightning-radio-group>
+            <div
+                if:true={showWayToFindInfoMessage}
+                class="slds-scoped-notification slds-m-right_small slds-m-top_x-small slds-media slds-media_center slds-color__background_gray-3"
+            >
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">{labels.wayToFindRecordsInfoMessage}</div>
+            </div>
         </div>
     </div>
 
@@ -82,6 +91,8 @@
             filter-logic={state.recordUpdateElement.filterLogic}
             filter-logic-options={recordFilterOptions}
             show-warning-message={showWarningMessage}
+            is-singular={isTriggeringRecord}
+            title={recordFilterTitle}
             record-entity-name={recordEntityName}
             record-fields={recordFieldsToFilter}
             onaddrecordfilter={handlePropertyOrListItemChanged}

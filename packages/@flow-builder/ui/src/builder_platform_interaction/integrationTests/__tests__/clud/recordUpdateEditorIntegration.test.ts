@@ -12,6 +12,7 @@ import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from 
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import {
     CONDITION_LOGIC,
     ELEMENT_TYPE,
@@ -565,6 +566,162 @@ describe('Record Update Editor', () => {
                     expect(baseExpressionBuilder.operatorValue).toBeUndefined();
                     expect(baseExpressionBuilder.rhsValue).toBe('salesforce');
                 });
+            });
+        });
+    });
+});
+describe('Triggering Record Update Editor', () => {
+    let recordUpdateNode, recordUpdateComponent;
+    beforeAll(async () => {
+        const store = await setupStateForFlow(recordTriggeredFlow);
+        translateFlowToUIAndDispatch(recordTriggeredFlow, store);
+    });
+    afterAll(() => {
+        resetState();
+    });
+    describe('Add new element', () => {
+        beforeAll(() => {
+            recordUpdateNode = getElementForPropertyEditor({
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                isNewElement: true
+            });
+        });
+        beforeEach(() => {
+            recordUpdateComponent = createComponentForTest({ node: recordUpdateNode });
+        });
+        describe('store options', () => {
+            let wayToFindRecords;
+            beforeEach(() => {
+                wayToFindRecords = getLightningRadioGroup(recordUpdateComponent);
+            });
+            it('should be displayed', () => {
+                expect(wayToFindRecords).not.toBeNull();
+            });
+            it('should have radio group option equal to "triggeringRecord" (ie: "Triggering Account Record")', () => {
+                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD);
+            });
+        });
+        describe('Record Filter', () => {
+            let recordFilter;
+            beforeEach(() => {
+                recordFilter = getRecordFilter(recordUpdateComponent);
+            });
+            it('should be displayed', () => {
+                expect(recordFilter).not.toBeNull();
+            });
+            it('should have filter logic equals to "no conditions"', () => {
+                expect(recordFilter.filterLogic).toMatchObject({ error: null, value: CONDITION_LOGIC.NO_CONDITIONS });
+            });
+            it('should have a number of filters equals to 1', () => {
+                expect(recordFilter.filterItems).toHaveLength(1);
+                expect(recordFilter.filterItems[0].leftHandSide.value).toBe('');
+            });
+            it('should not have the operators available', () => {
+                expect(getFieldToFerovExpressionBuilders(recordFilter)).toHaveLength(0);
+            });
+            describe('When Condition logic change to "and"', () => {
+                it('should have operators available', async () => {
+                    getFilterConditionLogicCombobox(recordUpdateComponent).dispatchEvent(
+                        changeEvent(CONDITION_LOGIC.AND)
+                    );
+                    await ticks(1);
+                    expect(getFieldToFerovExpressionBuilders(recordFilter)).toHaveLength(1);
+                });
+            });
+        });
+        describe('Input Assignments', () => {
+            let inputAssignments;
+            let fieldToFerovExpressionBuilder: ExpressionBuilderComponentTest[];
+            beforeEach(() => {
+                inputAssignments = getRecordInputOutputAssignments(recordUpdateComponent);
+                fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
+            });
+            it('should be displayed', () => {
+                expect(inputAssignments).not.toBeNull();
+            });
+            it('should display the correct number of input assignments', () => {
+                expect(fieldToFerovExpressionBuilder).toHaveLength(1);
+            });
+            test('should have empty input assignments LHS/Operator/RHS', async () => {
+                let baseExpressionBuilder = fieldToFerovExpressionBuilder[0].getBaseExpressionBuilderElement();
+                baseExpressionBuilder = fieldToFerovExpressionBuilder[0].getBaseExpressionBuilderElement();
+                expect(baseExpressionBuilder.lhsValue).toBe('');
+                expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+                expect(baseExpressionBuilder.rhsValue).toBe('');
+            });
+        });
+    });
+    describe('Existing element', () => {
+        beforeEach(() => {
+            const element = getElementByDevName('Update_Triggering_Record');
+            recordUpdateNode = getElementForPropertyEditor(element);
+            recordUpdateComponent = createComponentForTest({
+                node: recordUpdateNode,
+                mode: EditElementEvent.EVENT_NAME
+            });
+        });
+        describe('store options', () => {
+            let wayToFindRecords;
+            beforeEach(() => {
+                wayToFindRecords = getLightningRadioGroup(recordUpdateComponent);
+            });
+            it('should be displayed', () => {
+                expect(wayToFindRecords).not.toBeNull();
+            });
+            it('should have radio group option equal to "triggeringRecord" (ie: "Triggering Account Record")', () => {
+                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD);
+            });
+        });
+        describe('Record Filter', () => {
+            let recordFilter;
+            beforeEach(() => {
+                recordFilter = getRecordFilter(recordUpdateComponent);
+            });
+            it('should be displayed', () => {
+                expect(recordFilter).not.toBeNull();
+            });
+            it('should have filter logic equals to "and"', () => {
+                expect(recordFilter.filterLogic).toMatchObject({ error: null, value: CONDITION_LOGIC.NO_CONDITIONS });
+            });
+            it('should have a number of filters equals to 1', () => {
+                expect(recordFilter.filterItems).toHaveLength(1);
+                expect(recordFilter.filterItems[0].leftHandSide.value).toBe('');
+            });
+            it('should not have the operators available', () => {
+                expect(getFieldToFerovExpressionBuilders(recordFilter)).toHaveLength(0);
+            });
+            describe('When Condition logic change to "and"', () => {
+                it('should have operators available', async () => {
+                    getFilterConditionLogicCombobox(recordUpdateComponent).dispatchEvent(
+                        changeEvent(CONDITION_LOGIC.AND)
+                    );
+                    await ticks(1);
+                    expect(getFieldToFerovExpressionBuilders(recordFilter)).toHaveLength(1);
+                });
+            });
+        });
+        describe('Input Assignments', () => {
+            let inputAssignments;
+            let fieldToFerovExpressionBuilder: ExpressionBuilderComponentTest[];
+            beforeEach(() => {
+                inputAssignments = getRecordInputOutputAssignments(recordUpdateComponent);
+                fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
+            });
+            it('should be displayed', () => {
+                expect(inputAssignments).not.toBeNull();
+            });
+            it('should display the correct number of input assignments', () => {
+                expect(fieldToFerovExpressionBuilder).toHaveLength(1);
+            });
+            test('should have input assignments LHS/Operator/RHS (with pill)', async () => {
+                let baseExpressionBuilder = fieldToFerovExpressionBuilder[0].getBaseExpressionBuilderElement();
+                baseExpressionBuilder = fieldToFerovExpressionBuilder[0].getBaseExpressionBuilderElement();
+                expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                    displayText: 'Name',
+                    value: 'Account.Name'
+                });
+                expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+                expect(baseExpressionBuilder.rhsValue).toBe('Trigg');
             });
         });
     });

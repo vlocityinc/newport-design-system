@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, filterLogicOptionsLabels } from './recordFilterLabels';
+import { LABELS, criteriaLabels, WARNING_LABELS, filterLogicOptionsLabels } from './recordFilterLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
@@ -51,6 +51,12 @@ export default class RecordFilter extends LightningElement {
 
     @api
     elementGuid;
+
+    @api
+    isSingular: boolean | undefined;
+
+    @api
+    title: string | undefined;
 
     get rules() {
         return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
@@ -130,10 +136,7 @@ export default class RecordFilter extends LightningElement {
 
     @api
     get filterLogicOptions() {
-        if (this.options === undefined) {
-            return filterLogicOptionsLabels(this.elementType, this.entityLabelPlural, this.entityLabel);
-        }
-        return this.options;
+        return this.options ?? filterLogicOptionsLabels(this.elementType, this.entityLabelPlural, this.entityLabel);
     }
 
     get showDeleteFilter() {
@@ -145,7 +148,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterLabel() {
-        return CRITERIA_RECORDS_LABELS[this.elementType];
+        return criteriaLabels(this.elementType, this.isSingular);
     }
 
     get warningLabel() {
@@ -190,7 +193,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterRecordsTitle() {
-        return format(this.labels.findRecords, this.entityLabel);
+        return this.title ?? format(this.labels.findRecords, this.entityLabel);
     }
 
     /**

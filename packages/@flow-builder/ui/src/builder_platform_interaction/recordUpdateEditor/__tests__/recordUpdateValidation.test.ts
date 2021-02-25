@@ -145,16 +145,12 @@ describe('Check validations update using sObject', () => {
                 recordUpdateElementWithValidSObject
             );
         });
-        it('should return an error if blank', () => {
-            recordUpdateElementWithValidSObject.inputReference.value = '';
-            const validatedRecordUpdate = recordUpdateValidation.validateAll(
-                recordUpdateElementWithValidSObject,
-                getRules(recordUpdateElementWithValidSObject)
-            );
-            expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
-        });
-        it('should return an error if null', () => {
-            recordUpdateElementWithValidSObject.inputReference.value = null;
+        it.each`
+            inputReferenceValue
+            ${''}
+            ${null}
+        `('should return an error if inputReference is $inputReferenceValue', async ({ inputReferenceValue }) => {
+            recordUpdateElementWithValidSObject.inputReference.value = inputReferenceValue;
             const validatedRecordUpdate = recordUpdateValidation.validateAll(
                 recordUpdateElementWithValidSObject,
                 getRules(recordUpdateElementWithValidSObject)
@@ -228,16 +224,12 @@ describe('Check validations update using fields', () => {
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
-    it('should return an error if filterLogic is empty', () => {
-        recordUpdateUsingFields.filterLogic = { value: '', error: null };
-        const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
-        const errors = validate(recordupdateEditor.node);
-        expect(errors).toHaveLength(1);
-        expect(errors[0].key).toBe('filterLogic');
-        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
-    });
-    it('should return an error if filterLogic is blank', () => {
-        recordUpdateUsingFields.filterLogic = { value: '     ', error: null };
+    it.each`
+        filterLogicValue
+        ${''}
+        ${'     '}
+    `('should return an error if filterLogic is $filterLogicValue', async ({ filterLogicValue }) => {
+        recordUpdateUsingFields.filterLogic = { value: filterLogicValue, error: null };
         const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
         const errors = validate(recordupdateEditor.node);
         expect(errors).toHaveLength(1);
@@ -298,16 +290,12 @@ describe('Check validations update using triggeringRecord', () => {
         expect(errors[0].key).toBe('rightHandSide');
         expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
     });
-    it('should return an error if filterLogic is empty', () => {
-        recordUpdateUsingTriggeringRecord.filterLogic = { value: '', error: null };
-        const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
-        const errors = validate(recordupdateEditor.node);
-        expect(errors).toHaveLength(1);
-        expect(errors[0].key).toBe('filterLogic');
-        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
-    });
-    it('should return an error if filterLogic is blank', () => {
-        recordUpdateUsingTriggeringRecord.filterLogic = { value: '     ', error: null };
+    it.each`
+        filterLogicValue
+        ${''}
+        ${'     '}
+    `('should return an error if filterLogic is $filterLogicValue', async ({ filterLogicValue }) => {
+        recordUpdateUsingTriggeringRecord.filterLogic = { value: filterLogicValue, error: null };
         const recordupdateEditor = createComponentForTest(recordUpdateUsingTriggeringRecord);
         const errors = validate(recordupdateEditor.node);
         expect(errors).toHaveLength(1);

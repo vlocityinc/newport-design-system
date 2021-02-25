@@ -15,7 +15,7 @@ import filterAllCriteriasAnd from '@salesforce/label/FlowBuilderRecordEditor.fil
 import filterPrefix from '@salesforce/label/FlowBuilderRecordEditor.filterPrefix';
 import criteriaMatchingRecords from '@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords';
 import filterCriteriaHeaderDelete from '@salesforce/label/FlowBuilderRecordEditor.filterCriteriaHeaderDelete';
-import filterCriteriaHeaderUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterCriteriaHeaderUpdate';
+import filterCriteriaHeaderUpdate from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterCriteriaHeaderUpdate';
 import updateAllRecords from '@salesforce/label/FlowBuilderRecordEditor.updateAllRecords';
 import getAllRecords from '@salesforce/label/FlowBuilderRecordEditor.getAllRecords';
 import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
@@ -23,6 +23,8 @@ import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.a
 import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
 import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
+import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
 
 export const LABELS = {
     findRecords,
@@ -47,16 +49,30 @@ export const LABELS = {
     customConditionLogicLabel,
     criteriaMatchingRecords,
     filterCriteriaHeaderDelete,
-    filterCriteriaHeaderUpdate
+    filterCriteriaHeaderUpdate,
+    recordSingularLabel,
+    recordPluralLabel
 };
 
-export const CRITERIA_RECORDS_LABELS = {
-    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterCriteriaHeaderUpdate,
-    [ELEMENT_TYPE.RECORD_DELETE]: LABELS.filterCriteriaHeaderDelete,
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.START_ELEMENT]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.START_ON_DML]: LABELS.criteriaMatchingRecords
+export const criteriaLabels = (elementType, isSingular) => {
+    switch (elementType) {
+        case ELEMENT_TYPE.RECORD_LOOKUP:
+            return LABELS.criteriaMatchingRecords;
+        case ELEMENT_TYPE.RECORD_UPDATE:
+            return isSingular
+                ? format(LABELS.filterCriteriaHeaderUpdate, recordSingularLabel)
+                : format(LABELS.filterCriteriaHeaderUpdate, recordPluralLabel);
+        case ELEMENT_TYPE.RECORD_DELETE:
+            return LABELS.filterCriteriaHeaderDelete;
+        case ELEMENT_TYPE.RECORD_CHOICE_SET:
+            return LABELS.criteriaMatchingRecords;
+        case ELEMENT_TYPE.START_ELEMENT:
+            return LABELS.criteriaMatchingRecords;
+        case ELEMENT_TYPE.START_ON_DML:
+            return LABELS.criteriaMatchingRecords;
+        default:
+            return LABELS.criteriaMatchingRecords;
+    }
 };
 
 export const WARNING_LABELS = {

@@ -11,16 +11,20 @@ import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectP
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
 import createAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.createAssignmentTitleFormat';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
-import setFieldValuesForTheRecordsFormat from '@salesforce/label/FlowBuilderRecordEditor.setFieldValuesForTheRecordsFormat';
+import setFieldValuesForTheRecordsFormat from '@salesforce/label/FlowBuilderRecordUpdateEditor.setFieldValuesForTheRecordsFormat';
 import idsStoredSObjectOrSObjectCollectionLabel from '@salesforce/label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel';
 import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
 import waysToFindRecordsTitle from '@salesforce/label/FlowBuilderRecordEditor.howAreSpecifyRecordsToUpdateLabel';
-import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.triggeringRecordLabel';
 import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate';
-import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdateTriggering';
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
 import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
 import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
+import wayToFindRecordsInfoMessage from '@salesforce/label/FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage';
+import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringRecordLabel';
+import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterNoCriteriaUpdateTriggering';
+import recordSingularLabel from '@salesforce/label/FlowBuilderElementConfig.recordSingularLabel';
+import recordPluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordPluralLabel';
+import findRecordsLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.findRecords';
 
 export const LABELS = {
     recordVariableOrRecordCollectionVariable,
@@ -43,5 +47,9 @@ export const LABELS = {
     filterNoCriteriaUpdateTriggering,
     andConditionLogicLabel,
     orConditionLogicLabel,
-    customConditionLogicLabel
+    customConditionLogicLabel,
+    wayToFindRecordsInfoMessage,
+    recordSingularLabel,
+    recordPluralLabel,
+    findRecordsLabel
 };

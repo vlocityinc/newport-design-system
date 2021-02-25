@@ -69,7 +69,11 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get assignmentTitle() {
-        return format(this.labels.setFieldValuesForTheRecordsFormat, this.resourceDisplayText);
+        let nounType = this.labels.recordPluralLabel;
+        if (this.isTriggeringRecord) {
+            nounType = this.labels.recordSingularLabel;
+        }
+        return format(this.labels.setFieldValuesForTheRecordsFormat, this.resourceDisplayText, nounType);
     }
 
     get recordFieldsToFilter() {
@@ -93,7 +97,7 @@ export default class RecordUpdateEditor extends LightningElement {
     get recordFilterOptions() {
         let noCriteria = format(LABELS.filterNoCriteriaUpdate, this.recordEntityName);
         if (this.isTriggeringRecord) {
-            noCriteria = LABELS.filterNoCriteriaUpdateTriggering;
+            noCriteria = format(LABELS.filterNoCriteriaUpdateTriggering, this.recordEntityName);
         }
 
         return [
@@ -144,6 +148,15 @@ export default class RecordUpdateEditor extends LightningElement {
             ];
         }
         return opts;
+    }
+
+    get showWayToFindInfoMessage() {
+        const triggerType: string | undefined = getTriggerType();
+        return triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+    }
+
+    get recordFilterTitle() {
+        return this.isTriggeringRecord ? format(this.labels.findRecordsLabel, this.recordEntityName) : undefined;
     }
 
     /**

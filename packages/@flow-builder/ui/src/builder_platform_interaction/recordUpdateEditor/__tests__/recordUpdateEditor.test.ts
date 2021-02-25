@@ -229,8 +229,28 @@ const getLightningRadioGroup = (recordUpdateEditor) =>
 const getRecordFilter = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
 
+const getConditionList = (recordFilter) =>
+    recordFilter.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST);
+
 const getInputOutputAssignments = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+
+const selectors = {
+    recordFilterTitle: '.slds-text-heading_small',
+    infoMessage: '.slds-media__body'
+};
+
+const runQuerySelector = (context, selector) => {
+    return context.shadowRoot.querySelector(selector);
+};
+
+jest.mock(
+    '@salesforce/label/FlowBuilderRecordUpdateEditor.filterCriteriaHeaderUpdate',
+    () => {
+        return { default: '{0}' };
+    },
+    { virtual: true }
+);
 
 describe('record-update-editor', () => {
     describe('new', () => {
@@ -284,7 +304,9 @@ describe('record-update-editor', () => {
                 expect(wayToFindRecords).not.toBeNull();
             });
             it('has visible recordFilters where filter logic is NO_CONDITIONS and filters are empty', () => {
-                expect(getRecordFilter(recordUpdateEditor)).not.toBeNull();
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(recordFilter).not.toBeNull();
+                expect(recordFilter.filterLogic.value).toBe(CONDITION_LOGIC.NO_CONDITIONS);
             });
             it('has visible inputAssignments', () => {
                 expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
@@ -336,6 +358,9 @@ describe('record-update-editor', () => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
                 expect(sObjectOrSObjectCollectionPicker.isPillSupported).toBe(true);
             });
+            it('does not have an info message', () => {
+                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage)).toBeNull();
+            });
 
             describe('Handle Events', () => {
                 it('"SObjectReferenceChangedEvent" (inputReference)', async () => {
@@ -377,17 +402,30 @@ describe('record-update-editor', () => {
             it('has a radioGroup with 3 options', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
                 expect(wayToFindRecords.options).toHaveLength(3);
-                expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordEditor.triggeringRecordLabel');
+                expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordUpdateEditor.triggeringRecordLabel');
                 expect(wayToFindRecords.options[1].label).toBe(
                     'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
                 );
                 expect(wayToFindRecords.options[2].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
             });
             it('has visible recordFilters', () => {
-                expect(getRecordFilter(recordUpdateEditor)).not.toBeNull();
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(recordFilter).not.toBeNull();
+                const conditionList = getConditionList(recordFilter);
+                // This is only a part of the condition list label, but we only care about this, because its conditional.
+                expect(conditionList.logicComboboxLabel).toBe('FlowBuilderRecordUpdateEditor.recordSingularLabel');
             });
             it('has visible inputAssignments', () => {
-                expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
+                const inputAssignments = getInputOutputAssignments(recordUpdateEditor);
+                expect(inputAssignments).not.toBeNull();
+                expect(inputAssignments.title).toBe('FlowBuilderRecordUpdateEditor.setFieldValuesForTheRecordsFormat');
+            });
+            it('has the correct texts', () => {
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage)).toBeNull();
+                expect(runQuerySelector(recordFilter, selectors.recordFilterTitle).textContent).toBe(
+                    'FlowBuilderRecordUpdateEditor.findRecords'
+                );
             });
             describe('Handle Events', () => {
                 describe('on SOBJECT_REFERENCE change event', () => {
@@ -477,14 +515,25 @@ describe('record-update-editor', () => {
                 expect(getEntityResourcePicker(recordUpdateEditor)).toBeNull();
             });
             it('has a visible recordFilter', () => {
-                expect(getRecordFilter(recordUpdateEditor)).not.toBeNull();
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(recordFilter).not.toBeNull();
+                const conditionList = getConditionList(recordFilter);
+                // This is only a part of the condition list label, but we only care about this, because its conditional.
+                expect(conditionList.logicComboboxLabel).toBe('FlowBuilderRecordUpdateEditor.recordSingularLabel');
             });
             it('has visible inputAssignments', () => {
-                expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
+                const inputAssignments = getInputOutputAssignments(recordUpdateEditor);
+                expect(inputAssignments).not.toBeNull();
+                expect(inputAssignments.title).toBe('FlowBuilderRecordUpdateEditor.setFieldValuesForTheRecordsFormat');
             });
             it('has visible but disabled radioGroup', () => {
                 expect(getLightningRadioGroup(recordUpdateEditor)).not.toBeNull();
                 expect(getLightningRadioGroup(recordUpdateEditor).disabled).toBeTruthy();
+            });
+            it('has info message', () => {
+                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage).textContent).toBe(
+                    'FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage'
+                );
             });
         });
         describe('using fields', () => {
@@ -508,8 +557,18 @@ describe('record-update-editor', () => {
                 expect(sObjectOrSObjectCollectionPicker).toBeNull();
                 expect(entityResourcePicker).not.toBeNull();
             });
+            it('has visible recordFilters', () => {
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(recordFilter).not.toBeNull();
+                const conditionList = getConditionList(recordFilter);
+                // This is only a part of the condition list label, but we only care about this, because its conditional.
+                expect(conditionList.logicComboboxLabel).toBe('FlowBuilderRecordUpdateEditor.recordPluralLabel');
+            });
             it('should only display editable fields in "inputOutputAssignments"', () => {
                 const inputOutputAssignments = getInputOutputAssignments(recordUpdateEditor);
+                expect(inputOutputAssignments.title).toBe(
+                    'FlowBuilderRecordUpdateEditor.setFieldValuesForTheRecordsFormat'
+                );
                 expect(inputOutputAssignments.recordFields).not.toBeNull();
                 const fields = Object.values(inputOutputAssignments.recordFields);
                 expect(fields).toContainEqual(
@@ -521,6 +580,13 @@ describe('record-update-editor', () => {
                     expect.objectContaining({
                         editable: false
                     })
+                );
+            });
+            it('has the correct texts', () => {
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage)).toBeNull();
+                expect(runQuerySelector(recordFilter, selectors.recordFilterTitle).textContent).toBe(
+                    'FlowBuilderRecordEditor.findRecords'
                 );
             });
             describe('Handle Events', () => {

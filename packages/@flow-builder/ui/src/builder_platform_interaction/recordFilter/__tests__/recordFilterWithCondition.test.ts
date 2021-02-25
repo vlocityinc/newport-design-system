@@ -204,7 +204,7 @@ describe('record-filter', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_UPDATE })
             );
-            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.filterCriteriaHeaderUpdate');
+            expect(filterRecord.label).toBe('FlowBuilderRecordUpdateEditor.filterCriteriaHeaderUpdate');
         });
         it('For record delete', () => {
             const filterRecord = getFilterRecordsCombobox(
