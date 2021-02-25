@@ -59,15 +59,16 @@ export default class ScreenChoiceField extends LightningElement {
     }
 
     get defaultChoice() {
+        // If no default is selected, return an empty list, not null, because the
+        // lightning-checkbox-group component expects a list.
+        const emptyReturnValue = this.isMultiSelectCheckboxField ? [] : null;
         const defaultValue = getValueFromHydratedItem(this.field.defaultValue);
         if (!defaultValue) {
-            // If no default is selected, return an empty list, not null, because the
-            // lightning-checkbox-group component expects a list.
-            return this.isMultiSelectCheckboxField ? [] : null;
+            return emptyReturnValue;
         }
         const defaultElement = getElementByGuid(defaultValue);
         if (defaultElement && defaultElement.elementType !== ELEMENT_TYPE.CHOICE) {
-            return null;
+            return emptyReturnValue;
         }
         const defaultValueIsAmongChoices = this.field.choiceReferences.find((choice) => {
             return choice.choiceReference.value === defaultValue;
@@ -76,7 +77,7 @@ export default class ScreenChoiceField extends LightningElement {
             // The lightning-checkbox-group component expects a list.
             return this.isMultiSelectCheckboxField ? [defaultValue] : defaultValue;
         }
-        return null;
+        return emptyReturnValue;
     }
 
     get displayLabel() {
