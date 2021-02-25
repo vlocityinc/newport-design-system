@@ -6,7 +6,8 @@ import { attributesHaveChanged } from 'builder_platform_interaction/screenEditor
 import {
     isExtensionAttributeLiteral,
     isExtensionAttributeGlobalConstant,
-    getRequiredParametersForExtension
+    getRequiredParametersForExtension,
+    describeExtensions
 } from 'builder_platform_interaction/flowExtensionLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
@@ -50,16 +51,17 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     @api text;
     @api defaultValue;
 
+    extensionsDescribeReturned = false;
     loggedExtensionOnLoad = false;
     dummyModeDueToRenderError = false;
     dummyModeDueToError = false;
     _screenfield;
 
+    @api
     get screenfield() {
         return this._screenfield;
     }
 
-    @api
     set screenfield(newScreenfield) {
         // If we're updating the field and its inputs have changed, reset the dummy mode
         // flags to false so we can try re-rendering the preview (if all other criteria are met).
@@ -74,6 +76,21 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
             this.dummyModeDueToError = false;
         }
         this._screenfield = newScreenfield;
+        // Describe Extensions kicks off the asynchronous process to get extensions description from either cache or
+        // via server if not available in cache
+        if (!this.extensionsDescribeReturned) {
+            describeExtensions([this._screenfield.type.name])
+                .then(() => {
+                    // Once the promise is returned, we re-render the component by changing extensionsDescribeReturned
+                    // to true from initial false
+                    this.extensionsDescribeReturned = true;
+                })
+                .catch((error) => {
+                    if (error.message) {
+                        throw error.message;
+                    }
+                });
+        }
     }
 
     // Should we render the component in the screen canvas right now.
@@ -85,6 +102,7 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
             !this.dummyModeDueToRenderError &&
             !this.dummyModeDueToError &&
             this.isComponentPreviewSupportedInOrg &&
+            this.extensionsDescribeReturned &&
             this.isExtensionAllowedToPreview &&
             this.isExtensionDetailAvailable
         );

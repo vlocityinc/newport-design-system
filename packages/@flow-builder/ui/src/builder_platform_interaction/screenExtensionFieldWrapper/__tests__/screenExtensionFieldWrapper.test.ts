@@ -41,9 +41,11 @@ window.$A = {
     afterRender: jest.fn()
 };
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () =>
-    require('builder_platform_interaction_mocks/flowExtensionLib')
-);
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    const flowExtensionLib = require('builder_platform_interaction_mocks/flowExtensionLib');
+    flowExtensionLib.describeExtensions = jest.fn().mockImplementation(() => Promise.resolve());
+    return flowExtensionLib;
+});
 
 const SELECTORS = {
     SCREEN_FIELD_CARD: 'builder_platform_interaction-screen-field-card',
