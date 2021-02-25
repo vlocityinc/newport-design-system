@@ -591,6 +591,11 @@ export default class Editor extends LightningElement {
         return this.toolbarConfig.showRestartRunButton && !this.hideDebugAgainButton;
     }
 
+    @api
+    get blockDebugResume() {
+        return this.builderMode === BUILDER_MODE.DEBUG_MODE && this.ifBlockResume;
+    }
+
     get debugTraces() {
         return this.debugData || {};
     }
@@ -896,6 +901,7 @@ export default class Editor extends LightningElement {
     saveFlowCallback = ({ data, error }) => {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
+            this.ifBlockResume = false;
         } else if (data.isSuccess) {
             this.currentFlowId = data.flowId;
             updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
@@ -908,6 +914,7 @@ export default class Editor extends LightningElement {
             this.currentFlowId = undefined;
             updateStoreAfterSaveAsNewFlowIsFailed(storeInstance);
             updateUrl();
+            this.ifBlockResume = false;
         } else if (!data.isSuccess && this.saveType === SaveType.NEW_VERSION) {
             updateStoreAfterSaveAsNewVersionIsFailed(
                 storeInstance,
@@ -915,6 +922,7 @@ export default class Editor extends LightningElement {
                 this.originalFlowDescription,
                 this.originalFlowInterviewLabel
             );
+            this.ifBlockResume = false;
         }
 
         this.clearUndoRedoStack();
@@ -922,9 +930,6 @@ export default class Editor extends LightningElement {
         if (this.currentFlowId) {
             this.hasNotBeenSaved = false;
             this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
-            if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
-                this.ifBlockResume = true;
-            }
         } else {
             this.hasNotBeenSaved = true;
             this.saveAndPendingOperationStatus = null;
@@ -1033,7 +1038,7 @@ export default class Editor extends LightningElement {
     };
 
     handleResumeDebugFlow = (event) => {
-        if (!this.ifBlockResume) {
+        if (!this.blockDebugResume) {
             this.spinners.showDebugSpinner = true;
 
             // Keep the original start time
@@ -2017,6 +2022,7 @@ export default class Editor extends LightningElement {
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
      */
     saveFlow = (saveType) => {
+        this.ifBlockResume = true; // immediately disable submit button to avoid clicking during save
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
         const params = {
             flow,

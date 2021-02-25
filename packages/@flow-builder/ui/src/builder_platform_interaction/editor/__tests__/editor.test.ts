@@ -243,7 +243,7 @@ const createComponentUnderTest = (
 
 const selectors = {
     root: '.editor',
-    save: '.toolbar-save',
+    save: '.test-toolbar-save',
     addnewresource: '.test-left-panel-add-resource',
     propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
     canvasContainer: 'builder_platform_interaction-canvas-container',
@@ -1448,5 +1448,32 @@ describe('in debug mode', () => {
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
         expect(debugToast).not.toHaveBeenCalled();
+    });
+    it('resume during debug mode will be blocked if there is saved change', async () => {
+        const editorComponent = createComponentUnderTest({
+            flowId: '301RM0000000E4N',
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        canvasContainer.dispatchEvent(editElementEvent);
+        await ticks();
+
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+        const save = toolbar.shadowRoot.querySelector(selectors.save);
+        save.click();
+
+        const saveFetchCallIndex = fetch.mock.calls.length - 1;
+        expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
+
+        expect(editorComponent.blockDebugResume).toBeTruthy();
     });
 });
