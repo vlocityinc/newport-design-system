@@ -69,6 +69,7 @@
                 name="outcomeExecutionOptionsRadioGroup"
                 label={labels.executeOutcomeWhen}
                 options={outcomeExecuteWhenOptions}
+                disabled={disableRadioGroup}
                 value={outcomeExecutionOption}
                 onchange={handleOutcomeExecutionOptionOnChange}
                 class="slds-m-top_x-small executeWhenOption"
@@ -76,5 +77,15 @@
             >
             </lightning-radio-group>
         </div>
+    </div>
+
+    <div
+        if:true={disableRadioGroup}
+        class="slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-right_small slds-m-bottom_small"
+    >
+        <div class="slds-media__figure">
+            <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+        </div>
+        <div class="slds-media__body">{labels.disableRadioGroupInformationText}</div>
     </div>
 </template>

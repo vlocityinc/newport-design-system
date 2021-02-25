@@ -3,7 +3,7 @@ import { LightningElement, api, track } from 'lwc';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { DeleteOutcomeEvent } from 'builder_platform_interaction/events';
 import { ExecuteWhenOptionChangedEvent } from 'builder_platform_interaction/events';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE, FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from './outcomeLabels';
 import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES, outcomeExecuteWhenOptions } from './outcomeLabels';
@@ -29,13 +29,21 @@ export default class Outcome extends LightningElement {
 
     @api showDelete;
 
+    private disableRadioGroupIndicator = false;
+
     set outcome(outcome) {
         this.element = outcome;
 
-        this.outcomeExecutionOption =
-            this.element.showOutcomeExecutionOptions && this.element.doesRequireRecordChangedToMeetCriteria
-                ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
-                : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        this.disableRadioGroupIndicator = this.hasConditionWithOperator(FlowComparisonOperator.IsChanged);
+
+        if (this.disableRadioGroupIndicator) {
+            this.outcomeExecutionOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        } else {
+            this.outcomeExecutionOption =
+                this.element.showOutcomeExecutionOptions && this.element.doesRequireRecordChangedToMeetCriteria
+                    ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+                    : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        }
     }
 
     /** Focus the label field of the label description component */
@@ -93,7 +101,6 @@ export default class Outcome extends LightningElement {
      */
     handleDelete(event) {
         event.stopPropagation();
-
         const deleteOutcomeEvent = new DeleteOutcomeEvent(this.outcome.guid);
         this.dispatchEvent(deleteOutcomeEvent);
     }
@@ -110,6 +117,11 @@ export default class Outcome extends LightningElement {
     get showOutcomeExecutionOptions(): boolean {
         return this.element.showOutcomeExecutionOptions;
     }
+
+    get disableRadioGroup(): boolean {
+        return this.disableRadioGroupIndicator;
+    }
+
     /**
      * @return true iff a condition exists for the outcome
      */
@@ -135,5 +147,21 @@ export default class Outcome extends LightningElement {
             doesRequireRecordChangedToMeetCriteria
         );
         this.dispatchEvent(executeWhenEvent);
+    }
+
+    /**
+     * @return true if an operator is selected in the list of conditions
+     *  Used to disable the radio group accordingly (W-8869340)
+     */
+    hasConditionWithOperator(operator: FlowComparisonOperator): boolean {
+        const operators = [];
+        if (this.element.conditions != null) {
+            this.element.conditions.forEach((key) => {
+                if (key.operator != null && key.operator.value != null) {
+                    operators.push(key.operator.value);
+                }
+            });
+        }
+        return operators.includes(operator);
     }
 }

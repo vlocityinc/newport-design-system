@@ -72,6 +72,15 @@ const outcomeWithThreeConditionals = {
         { name: 'condition3', rowIndex: 2 }
     ]
 };
+const outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator = {
+    label: { value: 'Test Name of the Outcome' },
+    name: { value: 'Test Dev Name' },
+    guid: { value: '123' },
+    conditionLogic: { value: '1' },
+    conditions: [{ name: 'condition1', rowIndex: 0, operator: { value: 'IsChanged' } }],
+    doesRequireRecordChangedToMeetCriteria: true,
+    showOutcomeExecutionOptions: true
+};
 
 const selectors = {
     conditionList: 'builder_platform_interaction-list',
@@ -85,7 +94,8 @@ const selectors = {
     radioButton: 'lightning-radio-group',
     executeWhenOptionRadioButtonGroup: 'lightning-radio-group.executeWhenOption',
     ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder',
-    label: '.label'
+    label: '.label',
+    disableRadioGroupInformationText: 'div.slds-scoped-notification'
 };
 
 const createComponentUnderTest = () => {
@@ -342,6 +352,48 @@ describe('Outcome', () => {
                     doesRequireRecordChangedToMeetCriteria: false
                 }
             });
+        });
+    });
+
+    describe('handle disable execute outcome radio group', () => {
+        it('should disable the radio group when IsChanged operator is selected with the object as resource', async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator;
+
+            await ticks(1);
+            const executeWhenOptionRadioButton = element.shadowRoot.querySelector(selectors.radioButton);
+            expect(executeWhenOptionRadioButton.disabled).toBe(true);
+        });
+        it('should show the informational message when the execute outcome radio group is disabled', async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator;
+
+            await ticks(1);
+            const disableRadioGroupInformationTextDiv = element.shadowRoot.querySelector(
+                selectors.disableRadioGroupInformationText
+            );
+            expect(disableRadioGroupInformationTextDiv).not.toBe(null);
+        });
+        it('should not show the informational message when the execute outcome radio group is enabled', async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSet;
+
+            await ticks(1);
+            const disableRadioGroupInformationTextDiv = element.shadowRoot.querySelector(
+                selectors.disableRadioGroupInformationText
+            );
+            expect(disableRadioGroupInformationTextDiv).toBe(null);
+        });
+        it('execute outcome radio group selection value is changed to trueEveryTime if trueOnChangeOnly is selected', async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator;
+            element.showOutcomeExecutionOptions = true;
+            element.doesRequireRecordChangedToMeetCriteria = true;
+
+            await ticks(1);
+            const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
+            const outcomeExecuteWhenOption = executeWhenOptionRadioGroup.value;
+            expect(outcomeExecuteWhenOption).toBe('trueEveryTime');
         });
     });
 });

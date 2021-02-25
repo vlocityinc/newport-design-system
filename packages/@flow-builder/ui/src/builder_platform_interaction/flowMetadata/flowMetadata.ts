@@ -404,6 +404,23 @@ export enum RECORD_UPDATE_WAY_TO_FIND_RECORDS {
     RECORD_LOOKUP = 'recordLookup'
 }
 
+export enum FlowComparisonOperator {
+    Equals = 'EqualTo',
+    DoesNotEqual = 'NotEqualTo',
+    GreaterThan = 'GreaterThan',
+    LessThan = 'LessThan',
+    GreaterThanOrEqualTo = 'GreaterThanOrEqualTo',
+    LessThanOrEqualTo = 'LessThanOrEqualTo',
+    StartsWith = 'StartsWith',
+    EndsWith = 'EndsWith',
+    Contains = 'Contains',
+    IsNull = 'IsNull',
+    WasSet = 'WasSet',
+    WasSelected = 'WasSelected',
+    WasVisited = 'WasVisited',
+    IsChanged = 'IsChanged'
+}
+
 export function isSystemElement(elementType) {
     switch (elementType) {
         case ELEMENT_TYPE.ROOT_ELEMENT:
