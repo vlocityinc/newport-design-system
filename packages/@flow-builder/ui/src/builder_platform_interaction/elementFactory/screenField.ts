@@ -375,6 +375,8 @@ const createAutomaticFieldFromEntityField = (
     return Object.assign(newScreenField, {
         name: undefined,
         isRequired: entityField ? entityField.required : undefined,
+        isCreateable: entityField ? entityField.creatable : undefined,
+        isUpdateable: entityField ? entityField.editable : undefined,
         defaultValue,
         defaultValueDataType,
         dataType: entityField ? entityField.dataType : undefined,

@@ -117,6 +117,12 @@ import automaticFieldObject from '@salesforce/label/FlowBuilderAutomaticFieldEdi
 import automaticFieldIsRequired from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequired';
 import automaticFieldIsRequiredTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequiredTrue';
 import automaticFieldIsRequiredFalse from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isRequiredFalse';
+import automaticFieldIsCreateable from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isCreateable';
+import automaticFieldIsCreateableTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isCreateableTrue';
+import automaticFieldIsCreateableFalse from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isCreateableFalse';
+import automaticFieldIsUpdateable from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isUpdateable';
+import automaticFieldIsUpdateableTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isUpdateableTrue';
+import automaticFieldIsUpdateableFalse from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isUpdateableFalse';
 import automaticFieldHelptext from '@salesforce/label/FlowBuilderAutomaticFieldEditor.helptext';
 import automaticFieldInfoboxText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.infoboxText';
 import automaticFieldInfoboxLink from '@salesforce/label/FlowBuilderAutomaticFieldEditor.infoboxLink';
@@ -253,6 +259,12 @@ export const LABELS = {
     automaticFieldInfoboxLink,
     automaticFieldIsRequiredTrue,
     automaticFieldIsRequiredFalse,
+    automaticFieldIsCreateable,
+    automaticFieldIsCreateableTrue,
+    automaticFieldIsCreateableFalse,
+    automaticFieldIsUpdateable,
+    automaticFieldIsUpdateableTrue,
+    automaticFieldIsUpdateableFalse,
     automaticFieldDataTypeText,
     automaticFieldDataTypeNumber,
     automaticFieldDataTypeDateTime,

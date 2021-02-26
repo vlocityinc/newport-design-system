@@ -56,6 +56,16 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 key: 'autofield-required',
                 label: this.labels.automaticFieldIsRequired,
                 value: this.isRequired
+            },
+            {
+                key: 'autofield-createable',
+                label: this.labels.automaticFieldIsCreateable,
+                value: this.isCreateable
+            },
+            {
+                key: 'autofield-updateable',
+                label: this.labels.automaticFieldIsUpdateable,
+                value: this.isUpdateable
             }
         ];
     }
@@ -137,6 +147,24 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             return '';
         }
         return required ? this.labels.automaticFieldIsRequiredTrue : this.labels.automaticFieldIsRequiredFalse;
+    }
+
+    private get isCreateable() {
+        const createable = this.field.isCreateable;
+        if (createable === undefined) {
+            // Happens when user doesn't have access to referenced entity/field
+            return '';
+        }
+        return createable ? this.labels.automaticFieldIsCreateableTrue : this.labels.automaticFieldIsCreateableFalse;
+    }
+
+    private get isUpdateable() {
+        const updateable = this.field.isUpdateable;
+        if (updateable === undefined) {
+            // Happens when user doesn't have access to referenced entity/field
+            return '';
+        }
+        return updateable ? this.labels.automaticFieldIsUpdateableTrue : this.labels.automaticFieldIsUpdateableFalse;
     }
 
     private setObjectManagerUrl(data) {

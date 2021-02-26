@@ -129,6 +129,8 @@ declare namespace UI {
         validationRule?: ValidationRule;
         inputParameters: [];
         isRequired: boolean;
+        isCreateable: boolean;
+        isUpdateable: boolean;
         isVisible: boolean;
         outputParameters: [];
         choiceReferences: [];

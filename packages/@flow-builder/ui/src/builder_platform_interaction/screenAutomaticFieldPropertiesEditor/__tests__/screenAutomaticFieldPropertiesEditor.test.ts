@@ -101,6 +101,14 @@ function getIsRequiredValue(comp) {
     return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-required')).value;
 }
 
+function getIsCreateableValue(comp) {
+    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-createable')).value;
+}
+
+function getIsUpdateableValue(comp) {
+    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-updateable')).value;
+}
+
 function getObjectManagerLinkUrl(comp) {
     return comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL).value;
 }
@@ -207,5 +215,39 @@ describe('isRequired', () => {
         const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
         const component = createComponentForTest(field);
         expect(getIsRequiredValue(component)).toBeTruthy();
+    });
+});
+
+describe('isCreateable', () => {
+    it('is empty when user does not have access to the referenced field', () => {
+        const objectFieldReference = 'varOfARecordICannotAccess.Name';
+        const field = createScreenFieldWithFields({
+            fieldType: FlowScreenFieldType.ObjectProvided,
+            objectFieldReference
+        });
+        const component = createComponentForTest(field);
+        expect(getIsCreateableValue(component)).toEqual('');
+    });
+    it('is defined when user has access to the referenced field', () => {
+        const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getIsCreateableValue(component)).toBeTruthy();
+    });
+});
+
+describe('isUpdateable', () => {
+    it('is empty when user does not have access to the referenced field', () => {
+        const objectFieldReference = 'varOfARecordICannotAccess.Name';
+        const field = createScreenFieldWithFields({
+            fieldType: FlowScreenFieldType.ObjectProvided,
+            objectFieldReference
+        });
+        const component = createComponentForTest(field);
+        expect(getIsUpdateableValue(component)).toEqual('');
+    });
+    it('is defined when user has access to the referenced field', () => {
+        const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
+        const component = createComponentForTest(field);
+        expect(getIsUpdateableValue(component)).toBeTruthy();
     });
 });

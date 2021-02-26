@@ -23,6 +23,9 @@ jest.mock(
         virtual: true
     }
 );
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeDateTime', () => ({ default: 'Date/Time' }), {
+    virtual: true
+});
 
 describe('ScreenEditor automatic fields', () => {
     let screenEditor: ScreenEditorTestComponent;
@@ -294,12 +297,13 @@ describe('ScreenEditor automatic fields', () => {
                 screenEditor = await createScreenEditor('screenWithAutomaticFields');
             });
             describe.each`
-                description                                                            | fieldReference                                        | expectedName           | expectedLabel            | expectedDataType           | expectedObject                          | expectedIsRequired                                   | expectedHelptext
-                ${'variable and text field'}                                           | ${'accountSObjectVariable.Name'}                      | ${'Name'}              | ${'Account Name'}        | ${'Text(255)'}             | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
-                ${'variable and number field'}                                         | ${'accountSObjectVariable.NumberOfEmployees'}         | ${'NumberOfEmployees'} | ${'Employees'}           | ${'Number(8, 0)'}          | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
-                ${'automatic output and text field'}                                   | ${'lookupRecordAutomaticOutput.Name'}                 | ${'Name'}              | ${'Account Name'}        | ${'Text(255)'}             | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
-                ${'variable and long text area'}                                       | ${'accountSObjectVariable.Description'}               | ${'Description'}       | ${'Account Description'} | ${'Long Text Area(32000)'} | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${null}
-                ${'variable and required text field with helptext from custom object'} | ${'objectWithAllPossiblFieldsVariable.Text_Field__c'} | ${'Text_Field__c'}     | ${'Text Field'}          | ${'Text(128)'}             | ${'Object_with_all_possible_fields__c'} | ${'FlowBuilderAutomaticFieldEditor.isRequiredTrue'}  | ${'the help text for this field'}
+                description                                                            | fieldReference                                        | expectedName           | expectedLabel            | expectedDataType           | expectedObject                          | expectedIsRequired                                   | expectedIsCreateable                                   | expectedIsUpdateable                                  | expectedHelptext
+                ${'variable and text field'}                                           | ${'accountSObjectVariable.Name'}                      | ${'Name'}              | ${'Account Name'}        | ${'Text(255)'}             | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${'FlowBuilderAutomaticFieldEditor.isCreateableTrue'}  | ${'FlowBuilderAutomaticFieldEditor.isUpdateableTrue'} | ${null}
+                ${'variable and number field'}                                         | ${'accountSObjectVariable.NumberOfEmployees'}         | ${'NumberOfEmployees'} | ${'Employees'}           | ${'Number(8, 0)'}          | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${'FlowBuilderAutomaticFieldEditor.isCreateableTrue'}  | ${'FlowBuilderAutomaticFieldEditor.isUpdateableTrue'} | ${null}
+                ${'automatic output and text field'}                                   | ${'lookupRecordAutomaticOutput.Name'}                 | ${'Name'}              | ${'Account Name'}        | ${'Text(255)'}             | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${'FlowBuilderAutomaticFieldEditor.isCreateableTrue'}  | ${'FlowBuilderAutomaticFieldEditor.isUpdateableTrue'} | ${null}
+                ${'variable and long text area'}                                       | ${'accountSObjectVariable.Description'}               | ${'Description'}       | ${'Account Description'} | ${'Long Text Area(32000)'} | ${'Account'}                            | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${'FlowBuilderAutomaticFieldEditor.isCreateableTrue'}  | ${'FlowBuilderAutomaticFieldEditor.isUpdateableTrue'} | ${null}
+                ${'variable and required text field with helptext from custom object'} | ${'objectWithAllPossiblFieldsVariable.Text_Field__c'} | ${'Text_Field__c'}     | ${'Text Field'}          | ${'Text(128)'}             | ${'Object_with_all_possible_fields__c'} | ${'FlowBuilderAutomaticFieldEditor.isRequiredTrue'}  | ${'FlowBuilderAutomaticFieldEditor.isCreateableTrue'}  | ${'FlowBuilderAutomaticFieldEditor.isUpdateableTrue'} | ${'the help text for this field'}
+                ${'field that is not createable'}                                      | ${'contractSObjectVariable.ActivatedDate'}            | ${'ActivatedDate'}     | ${'Activated Date'}      | ${'Date/Time'}             | ${'Contract'}                           | ${'FlowBuilderAutomaticFieldEditor.isRequiredFalse'} | ${'FlowBuilderAutomaticFieldEditor.isCreateableFalse'} | ${'FlowBuilderAutomaticFieldEditor.isUpdateableTrue'} | ${null}
             `(
                 'Using $description',
                 ({
@@ -309,6 +313,8 @@ describe('ScreenEditor automatic fields', () => {
                     expectedDataType,
                     expectedObject,
                     expectedIsRequired,
+                    expectedIsCreateable,
+                    expectedIsUpdateable,
                     expectedHelptext
                 }) => {
                     beforeAll(() => {
@@ -356,6 +362,22 @@ describe('ScreenEditor automatic fields', () => {
                                 .getAutomaticFieldPropertiesEditorElement()!
                                 .getAutomaticFieldIsRequired().value
                         ).toEqual(expectedIsRequired);
+                    });
+                    it('createable matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldIsCreateable().value
+                        ).toEqual(expectedIsCreateable);
+                    });
+                    it('updateable matches', () => {
+                        expect(
+                            screenEditor
+                                .getPropertiesEditorContainerElement()
+                                .getAutomaticFieldPropertiesEditorElement()!
+                                .getAutomaticFieldIsUpdateable().value
+                        ).toEqual(expectedIsUpdateable);
                     });
                     it('helptext matches', () => {
                         const helptext = screenEditor

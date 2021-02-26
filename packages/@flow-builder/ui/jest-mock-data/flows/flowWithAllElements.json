@@ -598,6 +598,7 @@
         ],
         "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
         "isAdditionalPermissionRequiredToRun": false,
+        "isOverridable": false,
         "isTemplate": false,
         "label": "flowWithAllElements",
         "loops": [
@@ -1385,7 +1386,7 @@
                         "fieldType": "ObjectProvided",
                         "fields": [],
                         "inputParameters": [],
-                        "isRequired": false,
+                        "isRequired": true,
                         "objectFieldReference": "objectWithAllPossiblFieldsVariable.Text_Field__c",
                         "outputParameters": [],
                         "processMetadataValues": [],
@@ -1395,15 +1396,30 @@
                     {
                         "choiceReferences": [],
                         "dataType": "Number",
+                        "dataTypeMappings": [],
                         "fieldText": "numberScreenField1",
                         "fieldType": "InputField",
-                        "helpText": "",
+                        "fields": [],
                         "inputParameters": [],
                         "isRequired": false,
                         "name": "numberScreenField1",
                         "outputParameters": [],
+                        "processMetadataValues": [],
                         "scale": 0,
-                        "fields": []
+                        "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldType": "ObjectProvided",
+                        "fields": [],
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "objectFieldReference": "contractSObjectVariable.ActivatedDate",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
                     }
                 ],
                 "label": "screenWithAutomaticFields",
@@ -2093,6 +2109,16 @@
                 "isOutput": false,
                 "name": "contactSObjectVariable",
                 "objectType": "Contact",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "contractSObjectVariable",
+                "objectType": "Contract",
                 "processMetadataValues": [],
                 "scale": 0
             },
