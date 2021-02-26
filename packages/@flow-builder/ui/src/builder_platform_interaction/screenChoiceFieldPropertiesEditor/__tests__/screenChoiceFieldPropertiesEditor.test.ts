@@ -1,6 +1,9 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import ScreenChoiceFieldPropertiesEditor, { ChoiceDisplayOptions } from '../screenChoiceFieldPropertiesEditor';
+import ScreenChoiceFieldPropertiesEditor, {
+    ChoiceDisplayOptions,
+    DISPLAY_TYPE_COMBOBOX_SELECTOR
+} from '../screenChoiceFieldPropertiesEditor';
 import {
     query,
     createTestScreenField,
@@ -14,6 +17,9 @@ import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import * as usebyMock from 'builder_platform_interaction/usedByLib';
+import { invokeModal } from 'builder_platform_interaction/builderUtils';
+
 const mockEvent = new Event('test');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -82,6 +88,19 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/usedByLib', () => {
+    return {
+        usedBy: jest.fn()
+    };
+});
+
+jest.mock('builder_platform_interaction/builderUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/builderUtils');
+    return Object.assign({}, actual, {
+        invokeModal: jest.fn()
+    });
+});
+
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
@@ -92,7 +111,7 @@ const SELECTORS = {
     COMPONENT_VISIBILITY: 'builder_platform_interaction-screen-component-visibility-section',
     SCALE: 'builder_platform_interaction-screen-property-field.scale',
     DISPLAY_RADIO_GROUP: 'lightning-radio-group.test-display-radio-group',
-    DISPLAY_TYPE_COMBOBOX: 'builder_platform_interaction-screen-property-field.test-display-combobox'
+    DISPLAY_TYPE_COMBOBOX: DISPLAY_TYPE_COMBOBOX_SELECTOR
 };
 
 const fieldName = 'field1';
@@ -138,49 +157,41 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
             })
         });
     });
-    it('Should not have scale input ', async () => {
-        await ticks(1);
+    it('Should not have scale input ', () => {
         const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
 
         expect(scale).toBeFalsy();
     });
-    it('API Name field should be filled in', async () => {
-        await ticks(1);
+    it('API Name field should be filled in', () => {
         const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
         expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
-    it('Label field should be filled in', async () => {
-        await ticks(1);
+    it('Label field should be filled in', () => {
         const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
         expect(nameAndLabelField).toBeDefined();
         expect(nameAndLabelField.label.value).toBe(fieldName);
     });
-    it('Default value field is not present', async () => {
-        await ticks(1);
+    it('Default value field is not present', () => {
         const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
         expect(renderedDefaultValueField).toBeNull();
     });
-    it('Required checkbox is present and not checked', async () => {
-        await ticks(1);
+    it('Required checkbox is present and not checked', () => {
         const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
         expect(renderedRequiredCheckbox).toBeDefined();
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to required', async () => {
-        await ticks(1);
+    it('Datatype drop down is set to required', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.required).toBeTruthy();
     });
-    it('Datatype drop down and set', async () => {
-        await ticks(1);
+    it('Datatype drop down and set', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.value).toBeDefined();
         expect(dataTypeDropDown.value.dataType).toBe('TextBox');
     });
-    it('Help text is present and filled in', async () => {
-        await ticks(1);
+    it('Help text is present and filled in', () => {
         const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
         expect(helpTextField).toBeDefined();
         expect(helpTextField.value.value).toBe('Screen field field1 help text');
@@ -197,55 +208,46 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
             })
         });
     });
-    it('Should not have scale input ', async () => {
-        await ticks(1);
+    it('Should not have scale input ', () => {
         const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
 
         expect(scale).toBeFalsy();
     });
-    it('API Name field should be filled in', async () => {
-        await ticks(1);
+    it('API Name field should be filled in', () => {
         const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
         expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
-    it('Label field should be filled in', async () => {
-        await ticks(1);
+    it('Label field should be filled in', () => {
         const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
         expect(nameAndLabelField).toBeDefined();
         expect(nameAndLabelField.label.value).toBe(fieldName);
     });
-    it('Default value field is not present', async () => {
-        await ticks(1);
+    it('Default value field is not present', () => {
         const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
         expect(renderedDefaultValueField).toBeNull();
     });
-    it('Required checkbox is present and not checked', async () => {
-        await ticks(1);
+    it('Required checkbox is present and not checked', () => {
         const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
         expect(renderedRequiredCheckbox).toBeDefined();
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to not required', async () => {
-        await ticks(1);
+    it('Datatype drop down is set to not required', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.required).toBeFalsy();
     });
-    it('Datatype drop down is set to Text', async () => {
-        await ticks(1);
+    it('Datatype drop down is set to Text', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.value).toBeDefined();
         expect(dataTypeDropDown.value.dataType).toBe('TextBox');
     });
-    it('Datatype drop down is disabled', async () => {
-        await ticks(1);
+    it('Datatype drop down is disabled', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
     });
-    it('Help text is present and filled in', async () => {
-        await ticks(1);
+    it('Help text is present and filled in', () => {
         const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
         expect(helpTextField).toBeDefined();
         expect(helpTextField.value.value).toBe('Screen field field1 help text');
@@ -264,43 +266,36 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
             })
         });
     });
-    it('API Name field should be filled in', async () => {
-        await ticks(1);
+    it('API Name field should be filled in', () => {
         const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
         expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
-    it('Label field should be filled in', async () => {
-        await ticks(1);
+    it('Label field should be filled in', () => {
         const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
         expect(nameAndLabelField).toBeDefined();
         expect(nameAndLabelField.label.value).toBe(fieldName);
     });
-    it('Default value field is not present', async () => {
-        await ticks(1);
+    it('Default value field is not present', () => {
         const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
         expect(renderedDefaultValueField).toBeNull();
     });
-    it('Required checkbox is present and not checked', async () => {
-        await ticks(1);
+    it('Required checkbox is present and not checked', () => {
         const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
         expect(renderedRequiredCheckbox).toBeDefined();
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to not required', async () => {
-        await ticks(1);
+    it('Datatype drop down is set to not required', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.required).toBeFalsy();
     });
-    it('Datatype drop down and set', async () => {
-        await ticks(1);
+    it('Datatype drop down and set', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.value).toBeDefined();
         expect(dataTypeDropDown.value.dataType).toBe('Number');
     });
-    it('Help text is present and filled in', async () => {
-        await ticks(1);
+    it('Help text is present and filled in', () => {
         const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
         expect(helpTextField).toBeDefined();
         expect(helpTextField.value.value).toBe('Screen field field1 help text');
@@ -317,14 +312,12 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
             })
         });
     });
-    it('Should not have scale input ', async () => {
-        await ticks(1);
+    it('Should not have scale input ', () => {
         const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
 
         expect(scale).toBeFalsy();
     });
-    it('Correct number of choice selectors are present', async () => {
-        await ticks(1);
+    it('Correct number of choice selectors are present', () => {
         const choiceSelectors = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR, true);
         expect(choiceSelectors).toBeDefined();
         expect(choiceSelectors).toHaveLength(3);
@@ -453,8 +446,7 @@ describe('screen-choice-field-properties-editor for field that is set to require
             })
         });
     });
-    it('Required checkbox is present and checked', async () => {
-        await ticks(1);
+    it('Required checkbox is present and checked', () => {
         const requiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
         expect(requiredCheckbox).toBeDefined();
         expect(requiredCheckbox.value).toBeTruthy();
@@ -468,8 +460,7 @@ describe('screen-choice-field-properties-editor with help text', () => {
             field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE)
         });
     });
-    it('Help text is displayed', async () => {
-        await ticks(1);
+    it('Help text is displayed', () => {
         const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
         expect(helpTextField).toBeDefined();
         expect(helpTextField.value.value).toBe('Screen field field1 help text');
@@ -483,8 +474,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
             field: createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE)
         });
     });
-    it('DataType drop down is disabled', async () => {
-        await ticks(1);
+    it('DataType drop down is disabled', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
@@ -501,8 +491,7 @@ describe('screen-choice-field-properties-editor for new field', () => {
             field: testField
         });
     });
-    it('DataType drop down is enabled', async () => {
-        await ticks(1);
+    it('DataType drop down is enabled', () => {
         const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.typeAndCollectionDisabled).toBeFalsy();
@@ -515,14 +504,13 @@ describe('screen-choise-field-properties-editor component visibility', () => {
         screenChoiseFieldPropEditor = createComponentUnderTest();
     });
 
-    it('section is present', async () => {
-        await ticks(1);
+    it('section is present', () => {
         const componentVisibilitySection = query(screenChoiseFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
         expect(componentVisibilitySection).not.toBeNull();
     });
 });
 describe('scale input', () => {
-    it('Scale field should be present with number field', async () => {
+    it('Scale field should be present with number field', () => {
         const a = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {
                 dataType: 'Number',
@@ -530,7 +518,6 @@ describe('scale input', () => {
                 helpText: false
             })
         });
-        await ticks(1);
         const renderedScaleField = query(a, SELECTORS.SCALE);
         expect(renderedScaleField).toBeTruthy();
     });
@@ -549,7 +536,7 @@ describe('scale input', () => {
         await ticks(1);
         expect(spy).toHaveBeenCalled();
     });
-    it('Scale field should not be present with string field and corresponding fn should not be dispatched', async () => {
+    it('Scale field should not be present with string field and corresponding fn should not be dispatched', () => {
         const a = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {
                 dataType: 'String',
@@ -557,7 +544,6 @@ describe('scale input', () => {
                 helpText: false
             })
         });
-        await ticks(1);
         const spy = addCurrentValueToEvent;
         const renderedScaleField = query(a, SELECTORS.SCALE);
         expect(renderedScaleField).not.toBeTruthy();
@@ -649,9 +635,96 @@ describe('screen-choise-field-properties-editor expanded picklist values', () =>
             field: testField
         });
     });
-    it('shows expanded picklist choices in default field for first picklist', async () => {
-        await ticks(1);
+    it('shows expanded picklist choices in default field for first picklist', () => {
         const defaultValDropDown = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
         expect(defaultValDropDown.activePicklistValues).toEqual(['val1']);
+    });
+});
+describe('screen-choice-field-properties-editor for single select, type Number', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {
+            dataType: FLOW_DATA_TYPE.NUMBER.value
+        });
+        testField.choiceReferences[0] = {
+            choiceReference: { value: 'choice-1', error: null }
+        };
+        testField.choiceReferences[1] = {
+            choiceReference: { value: 'choice-2', error: null }
+        };
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    describe('switching type of choice', () => {
+        it('Should display a popup warning if field is used by another element', async () => {
+            usebyMock.usedBy.mockReturnValueOnce(['parentGuid', 'someGuid']);
+            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
+            visualDisplayTypeCombobox.dispatchEvent(
+                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
+            );
+            await ticks(1);
+            expect(invokeModal).toBeCalledWith(
+                expect.objectContaining({
+                    bodyData: {
+                        bodyTextOne: 'FlowBuilderScreenEditor.choiceDisplayTypeWarningBody'
+                    },
+                    footerData: {
+                        buttonOne: {
+                            buttonLabel: 'FlowBuilderAlertModal.okayButtonLabel'
+                        }
+                    },
+                    headerData: {
+                        headerTitle: 'FlowBuilderScreenEditor.choiceDisplayTypeWarningHeader'
+                    }
+                })
+            );
+        });
+        it('Should NOT display a popup warning if field is NOT used by another element', async () => {
+            usebyMock.usedBy.mockReturnValueOnce(['parentGuid']);
+            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
+            visualDisplayTypeCombobox.dispatchEvent(
+                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
+            );
+            await ticks(1);
+            expect(invokeModal).not.toBeCalled();
+        });
+    });
+});
+describe('screen-choice-field-properties-editor for single select, type String', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {
+            dataType: FLOW_DATA_TYPE.STRING.value
+        });
+        testField.choiceReferences[0] = {
+            choiceReference: { value: 'choice-PICKLIST', error: null }
+        };
+        testField.choiceReferences[1] = {
+            choiceReference: { value: 'choice-altPCS', error: null }
+        };
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    describe('switching type of choice', () => {
+        it('Should NOT display a popup warning if field is used by another element', async () => {
+            usebyMock.usedBy.mockReturnValueOnce(['parentGuid', 'someGuid']);
+            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
+            visualDisplayTypeCombobox.dispatchEvent(
+                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
+            );
+            await ticks(1);
+            expect(invokeModal).not.toBeCalled();
+        });
+        it('Should NOT display a popup warning if field is NOT used by another element', async () => {
+            usebyMock.usedBy.mockReturnValueOnce(['parentGuid']);
+            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
+            visualDisplayTypeCombobox.dispatchEvent(
+                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
+            );
+            await ticks(1);
+            expect(invokeModal).not.toBeCalled();
+        });
     });
 });

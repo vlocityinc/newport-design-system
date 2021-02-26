@@ -689,16 +689,7 @@ const handleStandardScreenFieldPropertyChange = (data) => {
             isRadioField(field))
     ) {
         if (field.choiceReferences.length) {
-            // Delete all choices except 1 because when the dataType is changed, all choices must be
-            // reset. Choices are strictly typed so there is no way a change in dataType will result
-            // in the old choices being valid for the new dataType. If we ever change this,
-            // we might need to revisit this.
-            const emptyChoice = hydrateWithErrors(createChoiceReference());
-            field = set(field, 'choiceReferences', [emptyChoice]);
-            // Clear the default value
-            if (field.defaultValue && field.defaultValue.value) {
-                field.defaultValue.value = null;
-            }
+            field = deleteAllChoicesAndDefaultValue(field);
         }
     }
 
@@ -961,6 +952,20 @@ const setInputsNextNavToAssocScrnOption = (
         inputsOnNextNavToAssocScrn: option
     });
     return updateFieldInScreen(state, selectedNode, updatedField);
+};
+
+/**
+ * Delete all choices except 1 because when the dataType is changed, all choices must be
+ * reset.
+ */
+const deleteAllChoicesAndDefaultValue = (field: UI.HydratedElement) => {
+    const emptyChoice = hydrateWithErrors(createChoiceReference());
+    field = set(field, 'choiceReferences', [emptyChoice]);
+    // Clear the default value
+    if (field.defaultValue && field.defaultValue.value) {
+        field.defaultValue.value = null;
+    }
+    return field;
 };
 
 /**

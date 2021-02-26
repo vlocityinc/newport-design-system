@@ -10,7 +10,8 @@ export enum ScreenEditorEventName {
     ChoiceChanged = 'choicechanged',
     ChoiceDisplayChanged = 'choicedisplaychanged',
     ChoiceDeleted = 'choicedeleted',
-    ColumnWidthChanged = 'columnwidthchanged'
+    ColumnWidthChanged = 'columnwidthchanged',
+    ChoiceReset = 'choicereset'
 }
 
 /**
