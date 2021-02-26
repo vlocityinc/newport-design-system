@@ -24,14 +24,15 @@
     >
     </lightning-checkbox-group>
 
-    <lightning-picklist
+    <lightning-combobox
         if:true={isPickListType}
         label={displayLabel}
         options={choices}
         value={defaultChoice}
+        placeholder={placeholder}
         field-level-help={helpText}
         disabled
         required={field.isRequired}
     >
-    </lightning-picklist>
+    </lightning-combobox>
 </template>

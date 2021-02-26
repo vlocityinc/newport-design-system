@@ -198,7 +198,7 @@ describe('ScreenEditor', () => {
             const picklistScreenField = picklist!.getScreenField().element;
             const lightningPicklist = deepQuerySelector(picklistScreenField, [
                 SELECTORS.SCREEN_CHOICE_FIELD,
-                SELECTORS.LIGHTNING_PICKLIST
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
             ]);
             expect(lightningPicklist.value).toEqual(otherChoice!.guid);
         });

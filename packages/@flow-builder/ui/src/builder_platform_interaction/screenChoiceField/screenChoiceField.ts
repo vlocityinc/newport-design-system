@@ -109,4 +109,8 @@ export default class ScreenChoiceField extends LightningElement {
     get helpText() {
         return this.field.helpText ? this.field.helpText.value : null;
     }
+
+    get placeholder() {
+        return LABELS.nonePicklistPlaceholder;
+    }
 }

@@ -5,7 +5,8 @@ import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const SELECTORS = {
-    CHECKBOX_GROUP: 'lightning-checkbox-group'
+    CHECKBOX_GROUP: 'lightning-checkbox-group',
+    COMBOBOX: 'lightning-combobox'
 };
 const testLabel = 'Chechbox Group';
 const MOCK_PICKLIST_CHOICE_SET_PREFIX = 'picklistChoiceSet';
@@ -67,6 +68,24 @@ function createMultiCheckboxScreenField() {
     });
     field.choiceReferences.push({
         choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
+    });
+    return field;
+}
+
+function createPicklistScreenField() {
+    const field = createTestScreenField(
+        'picklist',
+        FlowScreenFieldType.DropdownBox,
+        { value: 'test', error: null },
+        {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+            validation: false,
+            helpText: false
+        }
+    );
+    field.choiceReferences = [];
+    field.choiceReferences.push({
+        choiceReference: { value: 'choice1', error: null }
     });
     return field;
 }
@@ -140,6 +159,37 @@ describe('Multi checkbox screen field', () => {
             const checkboxGroup = checkboxGroupWrapperCmp.shadowRoot.querySelector(SELECTORS.CHECKBOX_GROUP);
             expect(checkboxGroup.value).toBeDefined();
             expect(checkboxGroup.value).toHaveLength(0);
+        });
+    });
+});
+
+describe('picklist screenField', () => {
+    let picklistWrapperCmp;
+    beforeEach(() => {
+        const field = createPicklistScreenField();
+        picklistWrapperCmp = createComponentForTest({
+            field,
+            label: { value: testLabel, error: null }
+        });
+    });
+    it('No Default Value set', () => {
+        const picklistGroup = picklistWrapperCmp.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+        expect(picklistGroup.value).toBeDefined();
+        expect(picklistGroup.value).toBeNull();
+    });
+    describe('Default Value Set', () => {
+        beforeEach(() => {
+            const field = createPicklistScreenField();
+            field.defaultValue = { value: 'choice1', error: null };
+            picklistWrapperCmp = createComponentForTest({
+                field,
+                label: { value: testLabel, error: null }
+            });
+        });
+        it('default value should show', () => {
+            const picklistGroup = picklistWrapperCmp.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+            expect(picklistGroup.value).toBeDefined();
+            expect(picklistGroup.value).toEqual('choice1');
         });
     });
 });
