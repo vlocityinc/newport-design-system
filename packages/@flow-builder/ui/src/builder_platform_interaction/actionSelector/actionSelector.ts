@@ -20,6 +20,7 @@ const allElementActionTypes: ElementActionType[] = [
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.QUICK_ACTION },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.COMPONENT },
     { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.CREATE_WORK_ITEM },
+    { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: ACTION_TYPE.FLOW },
     { elementType: ELEMENT_TYPE.EXTERNAL_SERVICE, actionType: ACTION_TYPE.EXTERNAL_SERVICE },
     { elementType: ELEMENT_TYPE.APEX_CALL, actionType: ACTION_TYPE.APEX },
     { elementType: ELEMENT_TYPE.EMAIL_ALERT, actionType: ACTION_TYPE.EMAIL_ALERT }

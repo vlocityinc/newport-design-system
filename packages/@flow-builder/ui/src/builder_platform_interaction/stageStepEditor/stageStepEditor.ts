@@ -1,4 +1,4 @@
-import { track, api, LightningElement } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
@@ -6,11 +6,14 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     ComboboxStateChangedEvent,
-    DeleteConditionEvent,
+    CreateEntryConditionsEvent,
+    DeleteAllConditionsEvent,
     PropertyChangedEvent,
     UpdateConditionEvent,
     UpdateNodeEvent,
-    ValueChangedEvent
+    ValueChangedEvent,
+    OrchestrationActionValueChangedEvent,
+    DeleteOrchestrationActionEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
@@ -21,6 +24,7 @@ import {
     ParameterListRowItem,
     StageStep
 } from 'builder_platform_interaction/elementFactory';
+import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
@@ -36,9 +40,15 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 
-enum ENTRY_CRITERIA {
+export enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
-    ON_STEP_COMPLETE = 'on_step_complete'
+    ON_STEP_COMPLETE = 'on_step_complete',
+    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
+}
+
+export enum EXIT_CRITERIA {
+    ON_STEP_COMPLETE = 'on_step_complete',
+    ON_DETERMINATION_COMPLETE = 'on_determination_complete'
 }
 
 // process instance id, step instance id, context record id, step label and description are common fields on all actions that are not inputs to the action itself
@@ -56,18 +66,30 @@ export default class StageStepEditor extends LightningElement {
     element?: StageStep;
 
     selectedEntryCriteria?: ENTRY_CRITERIA;
+    selectedExitCriteria?: EXIT_CRITERIA;
 
     // For step based entry criteria
     entryConditionsAvailableStepItems: UI.ComboboxItem[] = [];
     entryConditionsSelectedItem?: UI.ComboboxItem;
 
+    entryActionsAvailableActionItems: UI.ComboboxItem[] = [];
+    entryActionsSelectedItem?: UI.ComboboxItem;
+
     isActionsFetched = false;
 
     availableActions: InvocableAction[] = [];
+    availableDeterminationActions: InvocableAction[] = [];
 
     actionElementType = ELEMENT_TYPE.ACTION_CALL;
+
     actionParameterListConfig?: ParameterListConfig;
     invocableActionParametersDescriptor?: InvocableAction;
+
+    entryActionParameterListConfig?: ParameterListConfig;
+    entryInvocableActionParametersDescriptor?: InvocableAction;
+
+    exitActionParameterListConfig?: ParameterListConfig;
+    exitInvocableActionParametersDescriptor?: InvocableAction;
 
     displayActionSpinner = false;
 
@@ -125,11 +147,31 @@ export default class StageStepEditor extends LightningElement {
             return;
         }
 
-        if (this.element.entryConditions.length === 0) {
-            this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STAGE_START;
-        } else {
-            this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STEP_COMPLETE;
+        // infer selected Entry Criteria on-load
+        if (!this.selectedEntryCriteria) {
+            if (this.element.entryAction && this.element.entryAction.actionName) {
+                // entryAction exists and has populated data
+                this.selectedEntryCriteria = ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
+            } else if (
+                this.element.entryConditions &&
+                this.element.entryConditions instanceof Array &&
+                this.element.entryConditions.length > 0
+            ) {
+                this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STEP_COMPLETE;
+            } else {
+                this.selectedEntryCriteria = ENTRY_CRITERIA.ON_STAGE_START;
+            }
         }
+
+        // infer selected Exit Criteria on-load
+        if (!this.selectedExitCriteria) {
+            if (this.element.exitAction && this.element.exitAction.actionName) {
+                this.selectedExitCriteria = EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
+            } else {
+                this.selectedExitCriteria = EXIT_CRITERIA.ON_STEP_COMPLETE;
+            }
+        }
+
         const otherItems: StageStep[] = getOtherItemsInOrchestratedStage(this.element.guid);
 
         this.entryConditionsAvailableStepItems = [];
@@ -146,6 +188,7 @@ export default class StageStepEditor extends LightningElement {
             // This depends on stageStep entry criteria always having the shape
             // "devName.status" "EqualTo" "Completed".  For 230, we only parse the LHS devName
             if (
+                this.element!.entryConditions &&
                 this.element!.entryConditions.length > 0 &&
                 this.element!.entryConditions[0].leftHandSide!.value === `${stageStep.guid}.Status`
             ) {
@@ -155,7 +198,17 @@ export default class StageStepEditor extends LightningElement {
             this.entryConditionsAvailableStepItems.push(comboboxItem);
         });
 
-        this.setActionParameters();
+        this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
+
+        this.entryActionParameterListConfig = undefined;
+        if (this.selectedEntryAction) {
+            this.setActionParameters(this.selectedEntryAction, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
+        }
+
+        this.exitActionParameterListConfig = undefined;
+        if (this.selectedExitAction) {
+            this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
+        }
     }
 
     get isLabelCollapsibleToHeader() {
@@ -179,6 +232,25 @@ export default class StageStepEditor extends LightningElement {
             {
                 label: LABELS.startOptionBasedOnOtherStep,
                 value: ENTRY_CRITERIA.ON_STEP_COMPLETE
+            },
+
+            {
+                label: LABELS.startOptionBasedOnCustomFlow,
+                value: ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE
+            }
+        ];
+    }
+
+    get stepCompletesOptions() {
+        return [
+            {
+                label: LABELS.whenStepIsComplete,
+                value: EXIT_CRITERIA.ON_STEP_COMPLETE
+            },
+
+            {
+                label: LABELS.exitOptionBasedOnCustomFlow,
+                value: EXIT_CRITERIA.ON_DETERMINATION_COMPLETE
             }
         ];
     }
@@ -195,13 +267,32 @@ export default class StageStepEditor extends LightningElement {
         return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE;
     }
 
+    get isStartCriteriaBasedOnCustomAction(): boolean {
+        return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE;
+    }
+
+    get isExitCriteriaBasedOnCustomAction(): boolean {
+        return this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
+    }
+
     get showParameterList(): boolean {
         return !!this.actionParameterListConfig;
     }
 
-    setActionParameterListConfig() {
-        const inputs = this.filterActionInputParameters(this.element!.inputParameters);
-        const outputs = this.element!.outputParameters;
+    get showEntryParameterList(): boolean {
+        return !!this.entryActionParameterListConfig;
+    }
+
+    get showExitParameterList(): boolean {
+        return !!this.exitActionParameterListConfig;
+    }
+
+    createActionParameterListConfig(
+        inputParams: ParameterListRowItem[],
+        outputParams: ParameterListRowItem[]
+    ): ParameterListConfig {
+        const inputs = this.filterActionInputParameters(inputParams);
+        const outputs = outputParams;
 
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
 
@@ -209,7 +300,7 @@ export default class StageStepEditor extends LightningElement {
         const automaticOutputHandlingSupported: FLOW_AUTOMATIC_OUTPUT_HANDLING =
             FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
         const flowTransactionModel = getValueFromHydratedItem(FLOW_TRANSACTION_MODEL.AUTOMATIC);
-        this.actionParameterListConfig = {
+        return {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
@@ -250,6 +341,66 @@ export default class StageStepEditor extends LightningElement {
             };
         }
 
+        return null;
+    }
+
+    /**
+     * Returns the information about the action element in which the configurationEditor is defined
+     */
+    get entryActionElementInfo() {
+        const actionInfo = { apiName: '', type: 'Action' };
+        if (this.entryInvocableActionParametersDescriptor) {
+            actionInfo.apiName = this.entryInvocableActionParametersDescriptor.actionName;
+            actionInfo.type = this.entryInvocableActionParametersDescriptor.actionType;
+        }
+        return actionInfo;
+    }
+
+    get selectedEntryAction(): InvocableAction | null {
+        if (
+            this.element &&
+            this.element.entryAction &&
+            this.element.entryAction.actionName &&
+            this.element.entryAction.actionType
+        ) {
+            return {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: this.element.entryAction.actionType.value,
+                actionName: this.element.entryAction.actionName.value,
+                inputParameters: [],
+                outputParameters: []
+            };
+        }
+        return null;
+    }
+
+    /**
+     * Returns the information about the action element in which the configurationEditor is defined
+     */
+    get exitActionElementInfo() {
+        const actionInfo = { apiName: '', type: 'Action' };
+        if (this.exitInvocableActionParametersDescriptor) {
+            actionInfo.apiName = this.exitInvocableActionParametersDescriptor.actionName;
+            actionInfo.type = this.exitInvocableActionParametersDescriptor.actionType;
+        }
+        return actionInfo;
+    }
+
+    get selectedExitAction(): InvocableAction | null {
+        if (
+            this.element &&
+            this.element.exitAction &&
+            this.element.exitAction.actionName &&
+            this.element.exitAction.actionType
+        ) {
+            return {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: this.element.exitAction.actionType.value,
+                actionName: this.element.exitAction.actionName.value,
+                inputParameters: [],
+                outputParameters: []
+            };
+        }
         return null;
     }
 
@@ -295,15 +446,30 @@ export default class StageStepEditor extends LightningElement {
         this.displayActionSpinner = true;
 
         try {
-            const workitemActions = await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
+            const actions = await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
                 flowProcessType: this.processType
             });
+
             this.displayActionSpinner = false;
             this.isActionsFetched = true;
-            this.availableActions = workitemActions;
+
+            const stepActions: InvocableAction[] = [];
+            const determinationActions: InvocableAction[] = [];
+            actions.forEach((action) =>
+                action.type === 'flow' ? determinationActions.push(action) : stepActions.push(action)
+            );
+
+            this.availableActions = stepActions;
+            this.availableDeterminationActions = determinationActions;
 
             if (this.selectedAction) {
-                this.setActionParameters();
+                await this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
+            }
+            if (this.selectedEntryAction) {
+                await this.setActionParameters(this.selectedEntryAction, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
+            }
+            if (this.selectedEntryAction) {
+                await this.setActionParameters(this.selectedExitAction, ORCHESTRATED_ACTION_CATEGORY.EXIT);
             }
         } catch (err) {
             this.isActionsFetched = true;
@@ -326,8 +492,8 @@ export default class StageStepEditor extends LightningElement {
         });
     }
 
-    async setActionParameters() {
-        if (!this.selectedAction) {
+    async setActionParameters(action: InvocableAction | null, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
+        if (!action) {
             return;
         }
 
@@ -335,26 +501,49 @@ export default class StageStepEditor extends LightningElement {
 
         let parameters: ParameterListRowItem[];
         try {
-            parameters = (await fetchDetailsForInvocableAction(this.selectedAction)).parameters;
+            parameters = (await fetchDetailsForInvocableAction(action)).parameters;
         } catch (e) {
             this.displayActionSpinner = false;
             return;
         }
 
         const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
-            detail: parameters
+            detail: {
+                parameters,
+                actionCategory
+            }
         });
 
         // Update the merged parameters
         this.element = stageStepReducer(this.element!, event);
 
-        this.setActionParameterListConfig();
+        // use actionCategory here
+        if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
+            this.actionParameterListConfig = this.createActionParameterListConfig(
+                this.element!.inputParameters,
+                this.element!.outputParameters
+            );
+        } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
+            this.entryActionParameterListConfig = this.createActionParameterListConfig(
+                this.element!.entryActionInputParameters,
+                []
+            );
+        } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
+            this.exitActionParameterListConfig = this.createActionParameterListConfig(
+                this.element!.exitActionInputParameters,
+                []
+            );
+        }
 
         this.displayActionSpinner = false;
     }
 
-    updateNodeForFieldLevelCommit() {
-        const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS);
+    updateNodeForFieldLevelCommit(rowIndex: UI.Guid) {
+        const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS, {
+            detail: {
+                rowIndex
+            }
+        });
         this.element = stageStepReducer(this.element!, removeUnsetParamsEvent);
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
@@ -376,35 +565,102 @@ export default class StageStepEditor extends LightningElement {
     handleParameterPropertyChangedEvent(event: PropertyChangedEvent) {
         event.stopPropagation();
 
-        const inputParam: ParameterListRowItem | undefined = this.element!.inputParameters.find(
-            (p) => p.rowIndex === (<ParameterListRowItem>event.detail).rowIndex
-        );
+        const inputParam: ParameterListRowItem | undefined = ([] as ParameterListRowItem[])
+            .concat(
+                this.element!.inputParameters,
+                this.element!.entryActionInputParameters,
+                this.element!.exitActionInputParameters
+            )
+            .find((p) => p.rowIndex === (<ParameterListRowItem>event.detail).rowIndex);
         // Only update the element if an actual change in value has occurred
         const sanitizedValue = removeCurlyBraces(event.detail.value);
-        if (!inputParam!.value || (<ValueWithError>inputParam!.value).value !== sanitizedValue) {
+        if (!!inputParam && (!inputParam.value || (<ValueWithError>inputParam.value).value !== sanitizedValue)) {
             this.element = stageStepReducer(this.element!, event);
 
-            this.updateNodeForFieldLevelCommit();
+            this.updateNodeForFieldLevelCommit(inputParam.rowIndex);
         }
     }
 
     handleStepStartChanged(event: CustomEvent) {
         this.selectedEntryCriteria = event.detail.value;
 
-        if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STAGE_START) {
-            const deleteEntryCriteriaEvent = new DeleteConditionEvent(this.element!.guid, 0);
+        // delete any alternative Entry Criteria Metadata if necessary
 
+        if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STAGE_START) {
+            const deleteEntryCriteriaEvent = new DeleteAllConditionsEvent(this.element!.guid);
             this.element = stageStepReducer(this.element!, deleteEntryCriteriaEvent);
+
+            const deleteEntryActionEvent = new DeleteOrchestrationActionEvent(
+                this.element!.guid,
+                ORCHESTRATED_ACTION_CATEGORY.ENTRY
+            );
+            this.element = stageStepReducer(this.element!, deleteEntryActionEvent);
+
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        } else if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE) {
+            const deleteEntryActionEvent = new DeleteOrchestrationActionEvent(
+                this.element!.guid,
+                ORCHESTRATED_ACTION_CATEGORY.ENTRY
+            );
+            this.element = stageStepReducer(this.element!, deleteEntryActionEvent);
+            this.element = stageStepReducer(this.element!, new CreateEntryConditionsEvent(this.element!.guid));
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
+    }
+
+    handleStepCompletesChanged(event: CustomEvent) {
+        this.selectedExitCriteria = event.detail.value;
+
+        // delete any alternative Exit Criteria Metadata if necessary
+        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_STEP_COMPLETE) {
+            const deleteExitActionEvent = new DeleteOrchestrationActionEvent(
+                this.element!.guid,
+                ORCHESTRATED_ACTION_CATEGORY.EXIT
+            );
+            this.element = stageStepReducer(this.element!, deleteExitActionEvent);
+            this.element = stageStepReducer(this.element!, new CreateEntryConditionsEvent(this.element!.guid));
             this.dispatchEvent(new UpdateNodeEvent(this.element));
         }
     }
 
     async handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
         if (e.detail.value.actionName) {
-            // Update the selected action
-            this.element = stageStepReducer(this.element!, e);
+            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.STEP;
+            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
 
-            await this.setActionParameters();
+            // Update the selected action
+            this.element = stageStepReducer(this.element!, orchEvt);
+
+            await this.setActionParameters(this.selectedAction, actionCategory);
+
+            // Update the node in the store
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
+    }
+
+    async handleEntryActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        if (e.detail.value.actionName) {
+            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.ENTRY;
+            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
+
+            // Update the selected action
+            this.element = stageStepReducer(this.element!, orchEvt);
+
+            await this.setActionParameters(this.selectedEntryAction, actionCategory);
+
+            // Update the node in the store
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
+    }
+
+    async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        if (e.detail.value.actionName) {
+            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.EXIT;
+            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
+            // Update the selected action
+            this.element = stageStepReducer(this.element!, orchEvt);
+
+            await this.setActionParameters(this.selectedExitAction, actionCategory);
 
             // Update the node in the store
             this.dispatchEvent(new UpdateNodeEvent(this.element));

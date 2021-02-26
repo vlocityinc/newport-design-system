@@ -1,6 +1,25 @@
-import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { hydrateWithErrors, updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import {
+    DeleteOrchestrationActionEvent,
+    DeleteParameterItemEvent,
+    OrchestrationActionValueChangedEvent,
+    PropertyChangedEvent,
+    UpdateParameterItemEvent
+} from 'builder_platform_interaction/events';
 import { OrchestratedStage } from 'builder_platform_interaction/elementFactory';
+import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
+import {
+    deleteParameterItem,
+    MERGE_WITH_PARAMETERS,
+    REMOVE_UNSET_PARAMETERS
+} from 'builder_platform_interaction/calloutEditorLib';
+import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    mergeParameters,
+    updateParameterItem,
+    removeUnsetParameters
+} from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 
 //
 // const deleteOutcome = (state, event) => {
@@ -53,6 +72,50 @@ const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: Custo
 };
 
 /**
+ * delete an entry/exit determination action
+ */
+const deleteDeterminationAction = (
+    state: OrchestratedStage,
+    event: DeleteOrchestrationActionEvent
+): OrchestratedStage => {
+    const src = event.detail.actionCategory;
+    if (src === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
+        return updateProperties(state, {
+            exitAction: null,
+            exitActionName: null,
+            exitActionType: null,
+            exitActionInputParameters: []
+        });
+    }
+    return state;
+};
+
+const actionChanged = (
+    state: OrchestratedStage,
+    event: OrchestrationActionValueChangedEvent<InvocableAction>
+): OrchestratedStage => {
+    if (event.detail.value) {
+        const actionName: string = (<InvocableAction>event.detail.value).actionName;
+
+        const action = hydrateWithErrors({
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: ACTION_TYPE.FLOW,
+            actionName
+        });
+
+        return updateProperties(state, {
+            exitAction: action,
+            exitActionName: actionName,
+            // Clear all parameters when changing action
+            exitActionInputParameters: [],
+            exitActionOutputParameters: []
+        });
+    }
+
+    return state;
+};
+
+/**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
@@ -62,6 +125,18 @@ export const orchestratedStageReducer = (state: OrchestratedStage, event: Custom
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return orchestratedStagePropertyChanged(state, event);
+        case MERGE_WITH_PARAMETERS:
+            return mergeParameters(state, event.detail.parameters, ORCHESTRATED_ACTION_CATEGORY.EXIT);
+        case REMOVE_UNSET_PARAMETERS:
+            return removeUnsetParameters(state, event.detail.rowIndex);
+        case DeleteOrchestrationActionEvent.EVENT_NAME:
+            return deleteDeterminationAction(state, event);
+        case OrchestrationActionValueChangedEvent.EVENT_NAME:
+            return actionChanged(state, event);
+        case UpdateParameterItemEvent.EVENT_NAME:
+            return updateParameterItem(state, event.detail);
+        case DeleteParameterItemEvent.EVENT_NAME:
+            return deleteParameterItem(state, event.detail);
         // case VALIDATE_ALL:
         // TODO: validate in future WI
         //     return decisionValidation.validateAll(state);

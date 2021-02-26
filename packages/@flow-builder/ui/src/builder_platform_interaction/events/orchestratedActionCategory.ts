@@ -1,0 +1,5 @@
+export enum ORCHESTRATED_ACTION_CATEGORY {
+    ENTRY,
+    STEP,
+    EXIT
+}

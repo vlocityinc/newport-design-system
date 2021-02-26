@@ -116,9 +116,10 @@ getElementByGuid.mockImplementation((guid) => {
             label: `${guid}-label`,
             name: `${guid}-name`,
             description: `${guid}-description`,
-            entryConditions: [],
             inputParameters: [<ParameterListRowItem>{ name: 'ip' }],
-            outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }]
+            outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }],
+            entryActionInputParameters: [<ParameterListRowItem>jest.fn()],
+            exitActionInputParameters: [<ParameterListRowItem>jest.fn()]
         };
     }
 
@@ -335,6 +336,7 @@ describe('OrchestratedStage', () => {
         beforeEach(() => {
             orchestratedStageFromPropertyEditor = {
                 guid: newOrchestratedStageGuid,
+                exitActionInputParameters: [],
                 stageSteps: [
                     {
                         guid: 'item1',
@@ -468,7 +470,8 @@ describe('OrchestratedStage', () => {
                     {
                         childReference: 'step3'
                     }
-                ]
+                ],
+                exitActionInputParameters: [<ParameterListRowItem>jest.fn()]
             };
         });
 

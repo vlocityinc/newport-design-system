@@ -30,14 +30,25 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
-    entryConditions: UI.Condition[];
+    actor?: ValueWithError;
+
+    entryConditions?: UI.Condition[];
     entryConditionLogic?: string;
+    entryAction?: InvocableAction;
+    entryActionName?: string;
+    entryActionType?: string;
+    entryActionInputParameters: ParameterListRowItem[];
+
     action?: InvocableAction;
     actionName?: string;
     actionType?: string;
-    actor?: ValueWithError;
     inputParameters: ParameterListRowItem[];
     outputParameters: ParameterListRowItem[];
+
+    exitAction?: InvocableAction;
+    exitActionName?: string;
+    exitActionType?: string;
+    exitActionInputParameters: ParameterListRowItem[];
 }
 
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
@@ -45,6 +56,11 @@ export interface StageStep extends UI.ChildElement {
 export interface OrchestratedStage extends UI.CanvasElement {
     stageSteps: StageStep[];
     childReferences: UI.ChildReference[];
+
+    exitAction?: InvocableAction;
+    exitActionName?: string;
+    exitActionType?: string;
+    exitActionInputParameters: ParameterListRowItem[];
 }
 
 const elementType = ELEMENT_TYPE.ORCHESTRATED_STAGE;
@@ -64,6 +80,19 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     newStage.stageSteps = childReferences.map((childReference: UI.ChildReference) => {
         return createStageStep(getElementByGuid(childReference.childReference) as any);
     });
+
+    if (existingStage.exitAction) {
+        newStage.exitAction = createActionCall(existingStage.exitAction);
+    } else if (existingStage.exitActionName && existingStage.exitActionType) {
+        newStage.exitAction = createActionCall({
+            actionName: existingStage.exitActionName,
+            actionType: existingStage.exitActionType
+        });
+    }
+
+    newStage.exitActionInputParameters = existingStage.exitActionInputParameters
+        ? existingStage.exitActionInputParameters.map((inputParameter) => createInputParameter(inputParameter))
+        : [];
 
     newStage.maxConnections = 1;
     newStage.elementType = elementType;
@@ -114,6 +143,7 @@ export function createPastedOrchestratedStage({
         )
     );
     pastedCanvasElement.stageSteps = [];
+    pastedCanvasElement.exitActionInputParameters = [];
 
     return {
         pastedCanvasElement,
@@ -163,7 +193,9 @@ export function createDuplicateOrchestratedStage(
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         stageSteps: [],
         childReferences: updatedChildReferences,
-        availableConnections
+        availableConnections,
+        exitActionInputParameters: [],
+        exitActionOutputParameters: []
     });
     return {
         duplicatedElement: updatedDuplicatedElement,
@@ -195,7 +227,7 @@ function createStageStepsWithReferences(
 export function createOrchestratedStageWithItemReferences(stage: OrchestratedStage) {
     const newStage = baseCanvasElement(stage);
 
-    const { stageSteps = [] } = stage;
+    const { stageSteps = [], exitActionInputParameters = [], exitActionName, exitActionType } = stage;
 
     const connectors = createConnectorObjects(stage, newStage.guid, null);
     const connectorCount = connectors ? connectors.length : 0;
@@ -207,7 +239,10 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         connectorCount,
         maxConnections: 1,
         elementType,
-        dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value
+        dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value,
+        exitActionName,
+        exitActionType,
+        exitActionInputParameters
     });
 
     return baseCanvasElementsArrayToMap([newStage, ...items], connectors);
@@ -221,7 +256,17 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
     orchestratedStage: OrchestratedStage
 ) {
     const newOrchestratedStage = baseCanvasElement(orchestratedStage);
-    const { stageSteps } = orchestratedStage;
+    const { stageSteps, exitActionInputParameters, exitAction, exitActionName, exitActionType } = orchestratedStage;
+
+    let exitActionCall;
+    if (exitAction) {
+        exitActionCall = createActionCall(exitAction);
+    } else if (!!exitActionName && !!exitActionType) {
+        exitActionCall = createActionCall({
+            actionName: exitActionName,
+            actionType: exitActionType
+        });
+    }
 
     const { items, childReferences } = createStageStepsWithReferences(stageSteps);
 
@@ -235,7 +280,11 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
         elementType,
         childReferences,
         dataType: FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value,
-        maxConnections: 1
+        maxConnections: 1,
+        exitActionInputParameters,
+        exitAction: exitActionCall ? exitActionCall : null,
+        exitActionName: exitActionCall ? exitActionCall.actionName : null,
+        exitActionType: exitActionCall ? exitActionCall.actionType : null
     });
 
     return {
@@ -369,9 +418,20 @@ export function createStageStep(step: StageStep): StageStep {
     }
 
     const newStep = <StageStep>baseChildElement(baseStep, ELEMENT_TYPE.STAGE_STEP);
+    newStep.dataType = FLOW_DATA_TYPE.STAGE_STEP.value;
 
-    const { entryConditions = [], action, inputParameters = [], outputParameters = [] } = step;
+    const {
+        entryConditions,
+        action,
+        inputParameters = [],
+        outputParameters = [],
+        entryAction,
+        entryActionInputParameters = [],
+        exitAction,
+        exitActionInputParameters = []
+    } = step;
 
+    // set up Step Action
     if (action) {
         newStep.action = createActionCall(action);
     } else {
@@ -380,11 +440,6 @@ export function createStageStep(step: StageStep): StageStep {
             actionType: step.actionType
         });
     }
-
-    newStep.entryConditions = entryConditions.map<UI.Condition>(
-        (condition) => <UI.Condition>createCondition(condition)
-    );
-
     newStep.inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
     // Make sure valueDataType (expected by the ui) is set
     newStep.outputParameters = outputParameters.map((outputParameter) =>
@@ -394,7 +449,37 @@ export function createStageStep(step: StageStep): StageStep {
         })
     );
 
-    newStep.dataType = FLOW_DATA_TYPE.STAGE_STEP.value;
+    // set up Step's Entry Criteria
+    if (entryConditions) {
+        newStep.entryConditions = entryConditions.map<UI.Condition>(
+            (condition) => <UI.Condition>createCondition(condition)
+        );
+    }
+
+    if (entryAction) {
+        newStep.entryAction = createActionCall(entryAction);
+    } else if (step.entryActionName && step.entryActionType) {
+        newStep.entryAction = createActionCall({
+            actionName: step.entryActionName,
+            actionType: step.entryActionType
+        });
+    }
+    newStep.entryActionInputParameters = entryActionInputParameters.map((inputParameter) =>
+        createInputParameter(inputParameter)
+    );
+
+    // set up Step's Exit Criteria
+    if (exitAction) {
+        newStep.exitAction = createActionCall(exitAction);
+    } else if (step.exitActionName && step.exitActionType) {
+        newStep.exitAction = createActionCall({
+            actionName: step.exitActionName,
+            actionType: step.exitActionType
+        });
+    }
+    newStep.exitActionInputParameters = exitActionInputParameters.map((inputParameter) =>
+        createInputParameter(inputParameter)
+    );
 
     return { ...step, ...newStep };
 }
@@ -421,11 +506,17 @@ export function createOrchestratedStageMetadataObject(
     const stageSteps = childReferences.map(({ childReference }) => {
         const step: StageStep = <StageStep>getElementByGuid(childReference);
 
-        const entryConditionsMetadata = step.entryConditions.map((condition) =>
-            createConditionMetadataObject(condition)
-        );
+        const entryConditionsMetadata = step.entryConditions
+            ? step.entryConditions.map((condition) => createConditionMetadataObject(condition))
+            : null;
 
         const inputParametersMetadata = step.inputParameters.map((p) => createInputParameterMetadataObject(p));
+        const entryActionInputParametersMetadata = step.entryActionInputParameters.map((p) =>
+            createInputParameterMetadataObject(p)
+        );
+        const exitActionInputParametersMetadata = step.exitActionInputParameters.map((p) =>
+            createInputParameterMetadataObject(p)
+        );
 
         return {
             ...baseChildElementMetadataObject(step, config),
@@ -433,15 +524,34 @@ export function createOrchestratedStageMetadataObject(
             actionName: step.action ? step.action.actionName : null,
             actionType: step.action ? step.action.actionType : null,
             inputParameters: inputParametersMetadata,
-            description: step.description
+            description: step.description,
+            entryActionName: step.entryAction && step.entryAction.actionName ? step.entryAction.actionName : null,
+            entryActionType: step.entryAction && step.entryAction.actionType ? step.entryAction.actionType : null,
+            entryActionInputParameters: entryActionInputParametersMetadata,
+            exitActionName: step.exitAction && step.exitAction.actionName ? step.exitAction.actionName : null,
+            exitActionType: step.exitAction && step.exitAction.actionType ? step.exitAction.actionType : null,
+            exitActionInputParameters: exitActionInputParametersMetadata
         };
     });
+
+    const stageExitActionInputParametersMetadata = orchestratedStage.exitActionInputParameters.map((p) =>
+        createInputParameterMetadataObject(p)
+    );
 
     const newOrchestratedStage: OrchestratedStage = Object.assign(
         baseCanvasElementMetadataObject(orchestratedStage, config),
         {
             stageSteps,
-            exitConditions
+            exitConditions,
+            exitActionName:
+                orchestratedStage.exitAction && orchestratedStage.exitAction.actionName
+                    ? orchestratedStage.exitAction.actionName
+                    : null,
+            exitActionType:
+                orchestratedStage.exitAction && orchestratedStage.exitAction.actionType
+                    ? orchestratedStage.exitAction.actionType
+                    : null,
+            exitActionInputParameters: stageExitActionInputParametersMetadata
         }
     );
 

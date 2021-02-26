@@ -33,14 +33,12 @@ const getNodeOutputsPropertyName = (elementType) => {
  * update parameter item
  * @param {Object} state the original node
  * @param {Object} param the parameter that we want to update (see UpdateParameterItemEvent.detail)
+ * @param {string} the property name for the parameters field
  * @return {Object} the updated node
  */
-export const updateParameterItem = (state, param) => {
+export const updateParameterItemByProperty = (state, param, propertyName) => {
     const { isInput, rowIndex, valueDataType, error } = param;
     let { value } = param;
-    const propertyName = isInput
-        ? getNodeInputsPropertyName(state.elementType)
-        : getNodeOutputsPropertyName(state.elementType);
     const paramIndex = state[propertyName].findIndex(
         (parameter) => getValueFromHydratedItem(parameter.rowIndex) === rowIndex
     );
@@ -55,6 +53,20 @@ export const updateParameterItem = (state, param) => {
     const path = [[propertyName], paramIndex];
     state = set(state, path, updatedParam);
     return state;
+};
+
+/**
+ * update parameter item
+ * @param {Object} state the original node
+ * @param {Object} param the parameter that we want to update (see UpdateParameterItemEvent.detail)
+ * @return {Object} the updated node
+ */
+export const updateParameterItem = (state, param) => {
+    const { isInput } = param;
+    const propertyName = isInput
+        ? getNodeInputsPropertyName(state.elementType)
+        : getNodeOutputsPropertyName(state.elementType);
+    return updateParameterItemByProperty(state, param, propertyName);
 };
 
 export const updateInputParameterItemConfigurationEditor = (
@@ -131,6 +143,13 @@ export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
     return state;
 };
 
+export const removeUnsetParametersByProperty = (state, propertyName) => {
+    const params = state[propertyName].filter((param) => !isUndefinedOrNull(getValueFromHydratedItem(param.value)));
+    return updateProperties(state, {
+        [propertyName]: params
+    });
+};
+
 /**
  * remove the unset parameters
  * @param {Object} state the original node
@@ -139,17 +158,9 @@ export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
 export const removeUnsetParameters = (state) => {
     const inputPropertyName = getNodeInputsPropertyName(state.elementType);
     const outputPropertyName = getNodeOutputsPropertyName(state.elementType);
-    const inputs = state[inputPropertyName].filter(
-        (input) => !isUndefinedOrNull(getValueFromHydratedItem(input.value))
-    );
-    const outputs = state[outputPropertyName].filter(
-        (output) => !isUndefinedOrNull(getValueFromHydratedItem(output.value))
-    );
-    state = updateProperties(state, {
-        [inputPropertyName]: inputs,
-        [outputPropertyName]: outputs
-    });
-    return state;
+    // calls removeUnsetParametersByProperty() once to update the inputProperty and once to update the outputProperty
+    const updatedInputsState = removeUnsetParametersByProperty(state, inputPropertyName);
+    return removeUnsetParametersByProperty(updatedInputsState, outputPropertyName);
 };
 
 const getAllIndexes = (arr, callback) => {

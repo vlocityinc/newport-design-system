@@ -6,21 +6,22 @@ import {
     updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
 import {
+    CreateEntryConditionsEvent,
+    DeleteAllConditionsEvent,
     DeleteConditionEvent,
     DeleteParameterItemEvent,
     PropertyChangedEvent,
     UpdateConditionEvent,
     UpdateParameterItemEvent,
-    ValueChangedEvent
+    OrchestrationActionValueChangedEvent,
+    DeleteOrchestrationActionEvent
 } from 'builder_platform_interaction/events';
 import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
+import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import {
     deleteParameterItem,
     MERGE_WITH_PARAMETERS,
-    mergeWithInputOutputParameters,
-    REMOVE_UNSET_PARAMETERS,
-    removeUnsetParameters,
-    updateParameterItem
+    REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -31,6 +32,12 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from './stageStepEditorLabels';
+import {
+    mergeParameters,
+    PARAMETER_PROPERTY,
+    removeUnsetParameters,
+    updateParameterItem
+} from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 
 const itemPropertyChanged = (state: StageStep, event: CustomEvent): StageStep => {
     event.detail.guid = state.guid;
@@ -108,9 +115,31 @@ function invokeUsedByAlertModal(usedByElements: UsedByElement[], actionName: str
     });
 }
 
-const actionChanged = (state: StageStep, event: ValueChangedEvent<InvocableAction>): StageStep => {
+const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedEvent<InvocableAction>): StageStep => {
     if (event.detail.value) {
         let actionName: string = (<InvocableAction>event.detail.value).actionName;
+        const actionProperty: string = {
+            [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryAction',
+            [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitAction',
+            [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'action'
+        }[event.detail.actionCategory];
+
+        const actionNameProperty: string = {
+            [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryActionName',
+            [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitActionName',
+            [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'actionName'
+        }[event.detail.actionCategory];
+
+        const actionProducer = (name) => {
+            return hydrateWithErrors({
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType:
+                    event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP
+                        ? ACTION_TYPE.CREATE_WORK_ITEM
+                        : ACTION_TYPE.FLOW,
+                actionName: name
+            });
+        };
 
         let usedElements: UsedByElement[] = usedBy([state.guid]);
         if (usedElements && usedElements.length > 0) {
@@ -123,26 +152,25 @@ const actionChanged = (state: StageStep, event: ValueChangedEvent<InvocableActio
                 actionName = <string>state.action!.actionName.value;
 
                 return updateProperties(state, {
-                    action: hydrateWithErrors({
-                        elementType: ELEMENT_TYPE.ACTION_CALL,
-                        actionType: ACTION_TYPE.CREATE_WORK_ITEM,
-                        actionName
-                    }),
-                    actionName
+                    [actionProperty]: actionProducer(actionName),
+                    [actionNameProperty]: actionName
                 });
             }
         }
 
+        const actionInputParametersProperty: string = {
+            [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: PARAMETER_PROPERTY.ENTRY_INPUT,
+            [ORCHESTRATED_ACTION_CATEGORY.EXIT]: PARAMETER_PROPERTY.EXIT_INPUT,
+            [ORCHESTRATED_ACTION_CATEGORY.STEP]: PARAMETER_PROPERTY.INPUT
+        }[event.detail.actionCategory];
+
         return updateProperties(state, {
-            action: hydrateWithErrors({
-                elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: ACTION_TYPE.CREATE_WORK_ITEM,
-                actionName
-            }),
-            actionName,
+            [actionProperty]: actionProducer(actionName),
+            [actionNameProperty]: actionName,
             // Clear all parameters when changing action
-            inputParameters: [],
-            outputParameters: []
+            [actionInputParametersProperty]: [],
+            [PARAMETER_PROPERTY.OUTPUT]:
+                event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP ? [] : undefined
         });
     }
 
@@ -155,7 +183,7 @@ const actionChanged = (state: StageStep, event: ValueChangedEvent<InvocableActio
 const updateEntryCriteria = (state: StageStep, event: UpdateConditionEvent): StageStep => {
     const newEntryCriteria = hydrateWithErrors(createCondition(event.detail.value));
 
-    if (state.entryConditions.length > 0) {
+    if (state.entryConditions && state.entryConditions.length > 0) {
         return updateProperties(state, {
             entryConditions: replaceItem(state.entryConditions, newEntryCriteria, event.detail.index)
         });
@@ -175,6 +203,44 @@ const deleteEntryCriteria = (state: StageStep, event: DeleteConditionEvent): Sta
     });
 };
 
+const createEntryConditions = (state: StageStep): StageStep => {
+    return updateProperties(state, {
+        entryConditions: []
+    });
+};
+
+/**
+ * delete entry criteria
+ */
+const deleteAllEntryConditions = (state: StageStep): StageStep => {
+    return updateProperties(state, {
+        entryConditions: null
+    });
+};
+
+/**
+ * delete an entry/exit determination action
+ */
+const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationActionEvent): StageStep => {
+    const src = event.detail.actionCategory;
+    if (src === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
+        return updateProperties(state, {
+            entryAction: null,
+            entryActionName: null,
+            entryActionType: null,
+            entryActionInputParameters: []
+        });
+    } else if (src === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
+        return updateProperties(state, {
+            exitAction: null,
+            exitActionName: null,
+            exitActionType: null,
+            exitActionInputParameters: []
+        });
+    }
+    return state;
+};
+
 /**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
  */
@@ -184,18 +250,24 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             return updateEntryCriteria(state, event);
         case DeleteConditionEvent.EVENT_NAME:
             return deleteEntryCriteria(state, event);
-        case ValueChangedEvent.EVENT_NAME:
+        case OrchestrationActionValueChangedEvent.EVENT_NAME:
             return actionChanged(state, event);
         case PropertyChangedEvent.EVENT_NAME:
             return itemPropertyChanged(state, event);
         case REMOVE_UNSET_PARAMETERS:
-            return removeUnsetParameters(state);
+            return removeUnsetParameters(state, event.detail.rowIndex);
         case MERGE_WITH_PARAMETERS:
-            return mergeWithInputOutputParameters(state, event.detail);
+            return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);
         case UpdateParameterItemEvent.EVENT_NAME:
             return updateParameterItem(state, event.detail);
         case DeleteParameterItemEvent.EVENT_NAME:
             return deleteParameterItem(state, event.detail);
+        case DeleteOrchestrationActionEvent.EVENT_NAME:
+            return deleteDeterminationAction(state, event);
+        case DeleteAllConditionsEvent.EVENT_NAME:
+            return deleteAllEntryConditions(state);
+        case CreateEntryConditionsEvent.EVENT_NAME:
+            return createEntryConditions(state);
         default:
             return state;
     }

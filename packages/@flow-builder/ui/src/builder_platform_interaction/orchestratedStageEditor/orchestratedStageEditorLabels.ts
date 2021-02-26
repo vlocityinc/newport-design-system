@@ -11,6 +11,16 @@ import outcomeDetailsHeader from '@salesforce/label/FlowBuilderDecisionEditor.ou
 import defaultOutcomeDetailsDescription1 from '@salesforce/label/FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription1';
 import defaultOutcomeDetailsDescription2 from '@salesforce/label/FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription2';
 import decisionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.decisionSingularLabel';
+import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
+import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
+import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
+import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
+import thisActionHasNoInputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
+import thisActionHasNoInputOutputBody from '@salesforce/label/FlowBuilderCalloutEditor.thisActionHasNoInputOutputBody';
+import exitSectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitSectionLabel';
+import exitActionSelectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitActionSelectionLabel';
+import exitOptionBasedOnAllStepsComplete from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnAllStepsComplete';
+import exitOptionBasedOnCustomFlow from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnCustomFlow';
 
 export const LABELS = {
     outcomesSectionHeader,
@@ -23,5 +33,15 @@ export const LABELS = {
     outcomeDetailsHeader,
     defaultOutcomeDetailsDescription1,
     defaultOutcomeDetailsDescription2,
-    decisionSingularLabel
+    decisionSingularLabel,
+    inputHeader,
+    outputHeader,
+    emptyInputsTitle,
+    emptyInputsOutputsTitle,
+    thisActionHasNoInputBody,
+    thisActionHasNoInputOutputBody,
+    exitSectionLabel,
+    exitActionSelectionLabel,
+    exitOptionBasedOnAllStepsComplete,
+    exitOptionBasedOnCustomFlow
 };

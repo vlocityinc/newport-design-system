@@ -1,12 +1,17 @@
 // @ts-nocheck
 import { stageStepReducer } from '../stageStepReducer';
 import {
+    CreateEntryConditionsEvent,
+    DeleteAllConditionsEvent,
     DeleteConditionEvent,
+    DeleteOrchestrationActionEvent,
+    OrchestrationActionValueChangedEvent,
     PropertyChangedEvent,
-    UpdateConditionEvent,
-    ValueChangedEvent
+    UpdateParameterItemEvent,
+    UpdateConditionEvent
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
+import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
 import {
     hydrateWithErrors,
     replaceItem,
@@ -14,7 +19,7 @@ import {
     updateProperties
 } from 'builder_platform_interaction/dataMutationLib';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
-
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const mockCondition = {
@@ -71,7 +76,10 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         deleteItem: jest.fn((state, index) => {
             return actual.deleteItem(state, index);
         }),
-        getValueFromHydratedItem: actual.getValueFromHydratedItem
+        getValueFromHydratedItem: actual.getValueFromHydratedItem,
+        set: jest.fn((object, path, value) => {
+            return actual.set(object, path, value);
+        })
     };
 });
 
@@ -89,18 +97,68 @@ describe('StageStep Reducer', () => {
         };
     });
 
-    let originalState, originalStateWithEntryCriteria;
+    let originalState, originalStateWithEntryCriteria, originalStateWithEntryExitActions;
     beforeEach(() => {
         originalState = {
             guid: 'itemGuid',
-            entryConditions: [],
+            entryConditions: null,
             inputParameters: [{}],
             ouputParameters: [{}]
         };
 
         originalStateWithEntryCriteria = {
             guid: 'itemGuid',
-            entryConditions: ['foo']
+            entryConditions: ['foo'],
+            inputParameters: [{}],
+            ouputParameters: [{}]
+        };
+
+        originalStateWithEntryExitActions = {
+            guid: 'itemGuid',
+
+            inputParameters: [{}],
+            ouputParameters: [{}],
+
+            entryAction: {},
+            entryActionName: 'someEntryActionName',
+            entryActionType: 'someEntryActionType',
+            entryActionInputParameters: [
+                {
+                    name: { value: 'ip1' },
+                    value: { value: 'ip1Value' },
+                    rowIndex: 'entryIp1Guid'
+                },
+                {
+                    name: { value: 'ip2' },
+                    value: { value: 'ip2Value' },
+                    rowIndex: 'entryIp2Guid'
+                },
+                {
+                    name: { value: 'ip3' },
+                    value: null,
+                    rowIndex: 'entryIp3Guid'
+                }
+            ],
+            exitAction: {},
+            exitActionName: 'someExitActionName',
+            exitActionType: 'someExitActionType',
+            exitActionInputParameters: [
+                {
+                    name: { value: 'ip1' },
+                    value: { value: 'ip1Value' },
+                    rowIndex: 'exitIp1Guid'
+                },
+                {
+                    name: { value: 'ip2' },
+                    value: { value: 'ip2Value' },
+                    rowIndex: 'exitIp2Guid'
+                },
+                {
+                    name: { value: 'ip3' },
+                    value: null,
+                    rowIndex: 'exitIp3Guid'
+                }
+            ]
         };
     });
 
@@ -175,15 +233,16 @@ describe('StageStep Reducer', () => {
         });
     });
 
-    describe('ValueChangedEvent', () => {
+    describe('OrchestrationActionValueChangedEvent', () => {
         it('updates the action', () => {
             const event = {
-                type: ValueChangedEvent.EVENT_NAME,
+                type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                 detail: {
                     value: {
                         actionName: 'someAction'
                     },
-                    error: null
+                    error: null,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
                 }
             };
 
@@ -217,12 +276,13 @@ describe('StageStep Reducer', () => {
                 };
 
                 const event = {
-                    type: ValueChangedEvent.EVENT_NAME,
+                    type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                     detail: {
                         value: {
                             actionName: 'anotherAction'
                         },
-                        error: null
+                        error: null,
+                        actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
                     }
                 };
 
@@ -258,12 +318,13 @@ describe('StageStep Reducer', () => {
                 };
 
                 const event = {
-                    type: ValueChangedEvent.EVENT_NAME,
+                    type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                     detail: {
                         value: {
                             actionName: 'anotherAction'
                         },
-                        error: null
+                        error: null,
+                        actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
                     }
                 };
 
@@ -291,7 +352,7 @@ describe('StageStep Reducer', () => {
                 };
 
                 const event = {
-                    type: ValueChangedEvent.EVENT_NAME,
+                    type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                     detail: {
                         value: {
                             actionName: 'someAction'
@@ -330,6 +391,194 @@ describe('StageStep Reducer', () => {
 
             expect(newState.foo).toEqual(hydratedValue);
             expect(newState).not.toBe(originalStateWithEntryCriteria);
+        });
+    });
+
+    describe('DeleteOrchestrationActionEvent', () => {
+        it('deletes entry determination', () => {
+            const event = {
+                type: DeleteOrchestrationActionEvent.EVENT_NAME,
+                detail: {
+                    guid: mockReferencedGuid,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.ENTRY
+                }
+            };
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+            expect(newState.entryAction).toBe(null);
+            expect(newState.entryActionName).toBe(null);
+            expect(newState.entryActionType).toBe(null);
+            expect(newState.entryActionInputParameters).toStrictEqual([]);
+        });
+
+        it('deletes exit determination', () => {
+            const event = {
+                type: DeleteOrchestrationActionEvent.EVENT_NAME,
+                detail: {
+                    guid: mockReferencedGuid,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.EXIT
+                }
+            };
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+            expect(newState.exitAction).toBe(null);
+            expect(newState.exitActionName).toBe(null);
+            expect(newState.exitActionType).toBe(null);
+            expect(newState.exitActionInputParameters).toStrictEqual([]);
+        });
+
+        it('has no effect', () => {
+            const event = {
+                type: DeleteOrchestrationActionEvent.EVENT_NAME,
+                detail: {
+                    guid: mockReferencedGuid,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
+                }
+            };
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+            expect(newState).toBe(originalStateWithEntryExitActions);
+        });
+    });
+
+    describe('DeleteAllConditionsEvent', () => {
+        it('should set all entry conditions to null', () => {
+            const event = {
+                type: DeleteAllConditionsEvent.EVENT_NAME
+            };
+            const newState = stageStepReducer(originalStateWithEntryCriteria, event);
+            expect(newState.entryConditions).toBe(null);
+        });
+    });
+
+    describe('CreateEntryConditionsEvent', () => {
+        it('should reset entry conditions to an empty list', () => {
+            const event = {
+                type: CreateEntryConditionsEvent.EVENT_NAME
+            };
+
+            expect(originalState.entryConditions).toStrictEqual(null);
+            const newState = stageStepReducer(originalState, event);
+            expect(newState.entryConditions).toStrictEqual([]);
+        });
+    });
+
+    describe('mergeParameters', () => {
+        it('only updates step parameters', () => {
+            // Arrange
+            const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
+                detail: {
+                    parameters: [
+                        { name: 'ip1', isInput: true },
+                        { name: 'ip2', isInput: true }
+                    ],
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
+                }
+            });
+
+            originalState = updateProperties(originalStateWithEntryExitActions, { inputParameters: [] });
+            // Act
+            const newState = stageStepReducer(originalState, event);
+
+            // Assert
+            expect(originalState.inputParameters.length).toStrictEqual(0);
+            expect(newState.inputParameters.length).toStrictEqual(2);
+        });
+
+        it('only updates entry parameters', () => {
+            // Arrange
+            const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
+                detail: {
+                    parameters: [
+                        { name: 'ip1', isInput: true },
+                        { name: 'ip2', isInput: true }
+                    ],
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.ENTRY
+                }
+            });
+
+            originalState = updateProperties(originalStateWithEntryExitActions, { entryActionInputParameters: [] });
+            // Act
+            const newState = stageStepReducer(originalState, event);
+
+            // Assert
+            expect(originalState.entryActionInputParameters.length).toStrictEqual(0);
+            expect(newState.entryActionInputParameters.length).toStrictEqual(2);
+        });
+
+        it('only updates exit parameters', () => {
+            // Arrange
+            const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
+                detail: {
+                    parameters: [
+                        { name: 'ip1', isInput: true },
+                        { name: 'ip2', isInput: true }
+                    ],
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.EXIT
+                }
+            });
+
+            originalState = updateProperties(originalStateWithEntryExitActions, { exitActionInputParameters: [] });
+            // Act
+            const newState = stageStepReducer(originalState, event);
+
+            // Assert
+            expect(originalState.exitActionInputParameters.length).toStrictEqual(0);
+            expect(newState.exitActionInputParameters.length).toStrictEqual(2);
+        });
+    });
+
+    describe('updateParameterItem', () => {
+        it('updates a parameter value in entry inputs', () => {
+            // Arrange
+            const newVal = '$GlobalConstant.EmptyString';
+            const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    error: null,
+                    isInput: true,
+                    name: 'TestVar',
+                    rowIndex: 'entryIp1Guid',
+                    value: newVal,
+                    valueDataType: 'String'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(newState.entryActionInputParameters[0].value.value).toStrictEqual(newVal);
+        });
+    });
+
+    describe('removeUnsetParameters', () => {
+        it('removes from entry parameters', () => {
+            // Arrange
+            const event = new CustomEvent(REMOVE_UNSET_PARAMETERS, {
+                detail: {
+                    rowIndex: 'entryIp3Guid'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(originalStateWithEntryExitActions.entryActionInputParameters.length).toStrictEqual(3);
+            expect(newState.entryActionInputParameters.length).toStrictEqual(2);
+        });
+
+        it('removes from exit parameters', () => {
+            // Arrange
+            const event = new CustomEvent(REMOVE_UNSET_PARAMETERS, {
+                detail: {
+                    rowIndex: 'exitIp3Guid'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            // Assert
+            expect(originalStateWithEntryExitActions.exitActionInputParameters.length).toStrictEqual(3);
+            expect(newState.exitActionInputParameters.length).toStrictEqual(2);
         });
     });
 });
