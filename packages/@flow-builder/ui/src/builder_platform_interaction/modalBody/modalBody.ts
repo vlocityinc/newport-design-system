@@ -19,7 +19,9 @@ export default class ModalBody extends LightningElement {
     }
 
     get bodyTextOneClass() {
-        return this.bodyVariant === modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE ? '' : 'slds-text-align_center';
+        return this.bodyVariant === modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
+            ? ''
+            : 'slds-text-align_left slds-p-horizontal_small';
     }
 
     get hasUsedByContent() {
