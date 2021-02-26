@@ -104,7 +104,9 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
             this.isComponentPreviewSupportedInOrg &&
             this.extensionsDescribeReturned &&
             this.isExtensionAllowedToPreview &&
-            this.isExtensionDetailAvailable
+            // We keep isExtensionAvailableInExtensionCache as it is possible that describeExtensions call returned null from server
+            // and in this case we don't want isDisplayComponentPreview to falsely return true when extensionCache doesn't have the extension
+            this.isExtensionAvailableInExtensionCache
         );
     }
 
@@ -112,7 +114,7 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
         return orgHasComponentPreview();
     }
 
-    get isExtensionDetailAvailable() {
+    get isExtensionAvailableInExtensionCache() {
         return getCachedExtensionType(this.screenfield.type.name);
     }
 
@@ -270,7 +272,7 @@ export default class ScreenExtensionFieldWrapper extends LightningElement {
     };
 
     logExtensionPreviewData = (type) => {
-        const cachedExtension: any = this.isExtensionDetailAvailable
+        const cachedExtension: any = this.isExtensionAvailableInExtensionCache
             ? getCachedExtensions([this.screenfield.type.name])
             : null;
         const data = {
