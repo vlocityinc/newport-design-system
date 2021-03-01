@@ -32,7 +32,11 @@
                 <div class="slds-media__figure">
                     <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
                 </div>
-                <div class="slds-media__body">{labels.wayToFindRecordsInfoMessage}</div>
+                <div class="slds-media__body">
+                    <lightning-formatted-rich-text
+                        value={labels.wayToFindRecordsInfoMessage}
+                    ></lightning-formatted-rich-text>
+                </div>
             </div>
         </div>
     </div>

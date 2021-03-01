@@ -6,6 +6,7 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_BUTTON_MENU: 'lightning-button-menu',
     LIGHTNING_COMBOBOX: 'lightning-combobox',
     LIGHTNING_FORMATTED_TEXT: 'lightning-formatted-text',
+    LIGHTNING_FORMATTED_RICH_TEXT: 'lightning-formatted-rich-text',
     LIGHTNING_FORMATTED_URL: 'lightning-formatted-url',
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_HELPTEXT: 'lightning-helptext',

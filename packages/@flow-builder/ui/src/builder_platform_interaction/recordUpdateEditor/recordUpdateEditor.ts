@@ -97,7 +97,7 @@ export default class RecordUpdateEditor extends LightningElement {
     get recordFilterOptions() {
         let noCriteria = format(LABELS.filterNoCriteriaUpdate, this.recordEntityName);
         if (this.isTriggeringRecord) {
-            noCriteria = format(LABELS.filterNoCriteriaUpdateTriggering, this.recordEntityName);
+            noCriteria = LABELS.filterNoCriteriaUpdateTriggering;
         }
 
         return [
@@ -141,7 +141,7 @@ export default class RecordUpdateEditor extends LightningElement {
         if (triggerType && isRecordChangeTriggerType(triggerType) && this.dollarRecordName()) {
             return [
                 {
-                    label: format(LABELS.triggeringRecordLabel, this.dollarRecordName()),
+                    label: format(LABELS.triggeringRecordLabel, this.dollarRecordName().toLowerCase()),
                     value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
                 },
                 ...opts
@@ -156,7 +156,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get recordFilterTitle() {
-        return this.isTriggeringRecord ? format(this.labels.findRecordsLabel, this.recordEntityName) : undefined;
+        return this.isTriggeringRecord ? this.labels.findRecordsLabel : undefined;
     }
 
     /**

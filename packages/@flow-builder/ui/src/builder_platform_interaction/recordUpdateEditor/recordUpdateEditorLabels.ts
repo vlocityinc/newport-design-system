@@ -22,8 +22,8 @@ import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionLis
 import wayToFindRecordsInfoMessage from '@salesforce/label/FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage';
 import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringRecordLabel';
 import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterNoCriteriaUpdateTriggering';
-import recordSingularLabel from '@salesforce/label/FlowBuilderElementConfig.recordSingularLabel';
-import recordPluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordPluralLabel';
+import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
+import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
 import findRecordsLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.findRecords';
 
 export const LABELS = {

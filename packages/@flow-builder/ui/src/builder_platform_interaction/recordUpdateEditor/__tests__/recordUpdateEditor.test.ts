@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return Object.assign({}, actual, {
         getElementByGuid: jest.fn().mockReturnValue({}),
         getTriggerType: jest.fn().mockReturnValue({}),
-        getStartObject: jest.fn().mockReturnValue({})
+        getStartObject: jest.fn().mockReturnValue('MockEntityName')
     });
 });
 
@@ -234,6 +234,9 @@ const getConditionList = (recordFilter) =>
 
 const getInputOutputAssignments = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+
+const getLightningFormattedRichText = (recordUpdateEditor) =>
+    recordUpdateEditor.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_RICH_TEXT);
 
 const selectors = {
     recordFilterTitle: '.slds-text-heading_small',
@@ -531,7 +534,7 @@ describe('record-update-editor', () => {
                 expect(getLightningRadioGroup(recordUpdateEditor).disabled).toBeTruthy();
             });
             it('has info message', () => {
-                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage).textContent).toBe(
+                expect(getLightningFormattedRichText(recordUpdateEditor).value).toBe(
                     'FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage'
                 );
             });
