@@ -143,7 +143,7 @@ describe('StageStepEditor', () => {
             }
         },
         actor: { value: 'orchestrator@salesforce.com' },
-        inputParameters: JSON.parse(JSON.stringify(mockInputParameters)), // mockInputParameters,
+        inputParameters: mockInputParameters,
         entryAction: {
             actionName: {
                 value: 'someEntryActionName'
@@ -152,7 +152,7 @@ describe('StageStepEditor', () => {
                 value: 'someEntryActionType'
             }
         },
-        entryActionInputParameters: JSON.parse(JSON.stringify(mockInputParameters)),
+        entryActionInputParameters: mockInputParameters,
 
         exitAction: {
             actionName: {
@@ -162,7 +162,7 @@ describe('StageStepEditor', () => {
                 value: 'someExitActionType'
             }
         },
-        exitActionInputParameters: JSON.parse(JSON.stringify(mockInputParameters))
+        exitActionInputParameters: mockInputParameters
     };
 
     let editor;

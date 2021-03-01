@@ -81,17 +81,14 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
         return createStageStep(getElementByGuid(childReference.childReference) as any);
     });
 
-    if (existingStage.exitAction) {
-        newStage.exitAction = createActionCall(existingStage.exitAction);
-    } else if (existingStage.exitActionName && existingStage.exitActionType) {
-        newStage.exitAction = createActionCall({
-            actionName: existingStage.exitActionName,
-            actionType: existingStage.exitActionType
-        });
-    }
-
+    // set up Exit Action
+    newStage.exitAction = createActionCallHelper(
+        existingStage.exitAction,
+        existingStage.exitActionName,
+        existingStage.exitActionType
+    );
     newStage.exitActionInputParameters = existingStage.exitActionInputParameters
-        ? existingStage.exitActionInputParameters.map((inputParameter) => createInputParameter(inputParameter))
+        ? existingStage.exitActionInputParameters.map((p) => createInputParameter(p))
         : [];
 
     newStage.maxConnections = 1;
@@ -258,15 +255,7 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
     const newOrchestratedStage = baseCanvasElement(orchestratedStage);
     const { stageSteps, exitActionInputParameters, exitAction, exitActionName, exitActionType } = orchestratedStage;
 
-    let exitActionCall;
-    if (exitAction) {
-        exitActionCall = createActionCall(exitAction);
-    } else if (!!exitActionName && !!exitActionType) {
-        exitActionCall = createActionCall({
-            actionName: exitActionName,
-            actionType: exitActionType
-        });
-    }
+    const exitActionCall = createActionCallHelper(exitAction, exitActionName, exitActionType);
 
     const { items, childReferences } = createStageStepsWithReferences(stageSteps);
 
@@ -390,12 +379,24 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
     return comboboxitems;
 }
 
-/**
- * Note: When creating StageSteps during initial load, the output parameters are not
- * available.  They are injected asynchronously by preloadLib.loadParametersForStageStepsInFlow
- * @param step
- */
-export function createStageStep(step: StageStep): StageStep {
+const createActionCallHelper = (
+    action: InvocableAction | undefined,
+    actionName: string | undefined,
+    actionType: string | undefined
+): InvocableAction | undefined => {
+    let actionCall;
+    if (action) {
+        actionCall = createActionCall(action);
+    } else if (actionName && actionType) {
+        actionCall = createActionCall({
+            actionName,
+            actionType
+        });
+    }
+    return actionCall;
+};
+
+const setupStepWithLabels = (step: StageStep): StageStep => {
     const baseStep = { ...step };
 
     // Default label
@@ -417,7 +418,16 @@ export function createStageStep(step: StageStep): StageStep {
         baseStep.stepTypeLabel = LABELS.workStepLabel;
     }
 
-    const newStep = <StageStep>baseChildElement(baseStep, ELEMENT_TYPE.STAGE_STEP);
+    return <StageStep>baseChildElement(baseStep, ELEMENT_TYPE.STAGE_STEP);
+};
+
+/**
+ * Note: When creating StageSteps during initial load, the output parameters are not
+ * available.  They are injected asynchronously by preloadLib.loadParametersForStageStepsInFlow
+ * @param step
+ */
+export function createStageStep(step: StageStep): StageStep {
+    const newStep = setupStepWithLabels(step);
     newStep.dataType = FLOW_DATA_TYPE.STAGE_STEP.value;
 
     const {
@@ -432,15 +442,8 @@ export function createStageStep(step: StageStep): StageStep {
     } = step;
 
     // set up Step Action
-    if (action) {
-        newStep.action = createActionCall(action);
-    } else {
-        newStep.action = createActionCall({
-            actionName: step.actionName,
-            actionType: step.actionType
-        });
-    }
-    newStep.inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
+    newStep.action = createActionCallHelper(action, step.actionName, step.actionType);
+    newStep.inputParameters = inputParameters.map((p) => createInputParameter(p));
     // Make sure valueDataType (expected by the ui) is set
     newStep.outputParameters = outputParameters.map((outputParameter) =>
         createOutputParameter({
@@ -455,31 +458,12 @@ export function createStageStep(step: StageStep): StageStep {
             (condition) => <UI.Condition>createCondition(condition)
         );
     }
-
-    if (entryAction) {
-        newStep.entryAction = createActionCall(entryAction);
-    } else if (step.entryActionName && step.entryActionType) {
-        newStep.entryAction = createActionCall({
-            actionName: step.entryActionName,
-            actionType: step.entryActionType
-        });
-    }
-    newStep.entryActionInputParameters = entryActionInputParameters.map((inputParameter) =>
-        createInputParameter(inputParameter)
-    );
+    newStep.entryAction = createActionCallHelper(entryAction, step.entryActionName, step.entryActionType);
+    newStep.entryActionInputParameters = entryActionInputParameters.map((p) => createInputParameter(p));
 
     // set up Step's Exit Criteria
-    if (exitAction) {
-        newStep.exitAction = createActionCall(exitAction);
-    } else if (step.exitActionName && step.exitActionType) {
-        newStep.exitAction = createActionCall({
-            actionName: step.exitActionName,
-            actionType: step.exitActionType
-        });
-    }
-    newStep.exitActionInputParameters = exitActionInputParameters.map((inputParameter) =>
-        createInputParameter(inputParameter)
-    );
+    newStep.exitAction = createActionCallHelper(exitAction, step.exitActionName, step.exitActionType);
+    newStep.exitActionInputParameters = exitActionInputParameters.map((p) => createInputParameter(p));
 
     return { ...step, ...newStep };
 }

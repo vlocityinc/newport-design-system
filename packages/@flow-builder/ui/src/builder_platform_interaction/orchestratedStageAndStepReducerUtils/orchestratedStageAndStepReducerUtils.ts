@@ -64,13 +64,13 @@ export const mergeParameters = <T extends OrchestratedStage | StageStep>(
  * @param state the OrchestratedStage or StageStep
  * @param detail the GUID of the row item that is being unset
  */
-export const updateParameterItem = <T extends OrchestratedStage | StageStep>(state: T, detail): T => {
-    const property: string | undefined = findInputParameterProperty(state, detail.rowIndex);
+export const updateParameterItem = <T extends OrchestratedStage | StageStep>(state: T, param): T => {
+    const property: string | undefined = findInputParameterProperty(state, param.rowIndex);
 
     if (!property) {
         return state;
     }
-    return updateParameterItemByProperty(state, detail, property);
+    return updateParameterItemByProperty(state, param, property);
 };
 
 /**
