@@ -694,11 +694,13 @@ describe('Start element', () => {
             });
 
             it('availableConnections should have only one regular available connection for non record triggered flow', () => {
-                expect.assertions(2);
+                expect.assertions(3);
                 startElementFromFlow.triggerType = 'Scheduled';
                 const result = createStartElementWithConnectors(startElementFromFlow);
-                expect(result.elements.existingStart.availableConnections.length).toEqual(1);
-                expect(result.elements.existingStart.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
+                const startElement = result.elements[existingStartElementGuid];
+                expect(startElement.availableConnections.length).toEqual(1);
+                expect(startElement.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
+                expect(startElement.defaultConnectorLabel).toBe(undefined);
             });
 
             it('availableConnections should be an empty array when a connector exists for flows that do not support time triggers', () => {
@@ -729,7 +731,7 @@ describe('Start element', () => {
             });
 
             it('start element includes immediate connector in availableConnections for Record Trigger Flows', () => {
-                expect.assertions(2);
+                expect.assertions(3);
                 startElementFromFlow.triggerType = 'RecordAfterSave';
                 startElementFromFlow.recordTriggerType = 'Create';
                 startElementFromFlow.object = 'Account';
@@ -737,6 +739,7 @@ describe('Start element', () => {
                 const startElement = result.elements[existingStartElementGuid];
                 expect(startElement.availableConnections).toHaveLength(4);
                 expect(startElement.availableConnections[3].type).toEqual('IMMEDIATE');
+                expect(startElement.defaultConnectorLabel).toBe(LABELS.immediateConnectorLabel);
             });
 
             it('are included in element map for all scheduled paths present', () => {

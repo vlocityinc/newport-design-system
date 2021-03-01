@@ -255,7 +255,8 @@ export function createStartElementWithConnectors(
             childReferences,
             elementType,
             connectorCount,
-            availableConnections
+            availableConnections,
+            defaultConnectorLabel: LABELS.immediateConnectorLabel
         });
         return baseCanvasElementsArrayToMap([newStartElement, ...timeTriggers], connectors);
     }
