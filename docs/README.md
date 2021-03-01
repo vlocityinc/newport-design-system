@@ -45,7 +45,7 @@ To debug a test:
 `yarn lwc-test --debug src/builder_platform_interaction/editor/__tests__/editor.test.ts`
 
 To update all the snapshots in a package:
-`yarn lwc-test --updateSnapshot`
+`yarn test:unit --updateSnapshot`
 
 ## SFCI Setup and CLCO
 
