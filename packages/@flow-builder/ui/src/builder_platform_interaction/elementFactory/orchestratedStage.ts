@@ -448,7 +448,8 @@ export function createStageStep(step: StageStep): StageStep {
     newStep.outputParameters = outputParameters.map((outputParameter) =>
         createOutputParameter({
             ...outputParameter,
-            valueDataType: outputParameter.dataType
+            // If the outputParameter doesn't have a dataType field, it was already transformed and stored with valueDataType instead.
+            valueDataType: outputParameter.dataType ? outputParameter.dataType : outputParameter.valueDataType
         })
     );
 

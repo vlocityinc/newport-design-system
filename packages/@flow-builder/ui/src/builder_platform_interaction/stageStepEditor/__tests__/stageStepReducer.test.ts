@@ -354,6 +354,7 @@ describe('StageStep Reducer', () => {
                 const event = {
                     type: OrchestrationActionValueChangedEvent.EVENT_NAME,
                     detail: {
+                        actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP,
                         value: {
                             actionName: 'someAction'
                         },

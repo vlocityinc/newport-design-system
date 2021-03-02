@@ -142,7 +142,13 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
         };
 
         let usedElements: UsedByElement[] = usedBy([state.guid]);
-        if (usedElements && usedElements.length > 0) {
+        // We only show this Alert Modal if a change happens to the Step Flow.
+        // Entry/Exit Criteria Flows can be modified without raising concern.
+        if (
+            event.detail.actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP &&
+            usedElements &&
+            usedElements.length > 0
+        ) {
             usedElements = usedElements.filter((usingElement) => {
                 return hasOutputsReference(getElementByGuid(usingElement.guid), state.guid);
             });
