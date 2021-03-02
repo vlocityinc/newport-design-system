@@ -233,6 +233,13 @@
   "label" : "Call Script",
   "qualifiedApiName" : "lbpm:flowScript",
   "source" : "Standard"
+},
+    {
+  "description" : "Flow wrapper component for cadence steps.",
+  "extensionType" : "aura",
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "runtime_sales_cadence:cadenceFlowWrapper",
+  "source" : "Standard"
 }
   ]
 }
