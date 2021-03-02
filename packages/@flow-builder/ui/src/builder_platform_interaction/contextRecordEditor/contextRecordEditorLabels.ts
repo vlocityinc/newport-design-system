@@ -11,6 +11,8 @@ import everyTimeConditionsMet from '@salesforce/label/FlowBuilderRecordEditor.ev
 import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderRecordEditor.onlyWhenChangesMeetConditions';
 import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES } from 'builder_platform_interaction/flowMetadata';
 import requireChangeOptionsHelptext from '@salesforce/label/FlowBuilderRecordEditor.requireChangeOptionsHelptext';
+import disableRadioGroupInformationText from '@salesforce/label/FlowBuilderOutcome.disableRadioGroupInformationText';
+
 export const LABELS = {
     chooseObjectAndRecord,
     contextObjectHeader,
@@ -20,7 +22,8 @@ export const LABELS = {
     object,
     objectPlaceholder,
     requireRecordChangeOption,
-    requireChangeOptionsHelptext
+    requireChangeOptionsHelptext,
+    disableRadioGroupInformationText
 };
 
 export const requireRecordChangeOptions = () => {

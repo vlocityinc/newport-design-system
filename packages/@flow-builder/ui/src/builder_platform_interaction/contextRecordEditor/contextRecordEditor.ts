@@ -22,6 +22,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { requireRecordChangeOptions } from './contextRecordEditorLabels';
 import { isExecuteOnlyWhenChangeMatchesConditionsPossible } from 'builder_platform_interaction/storeUtils';
+import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
@@ -52,6 +53,8 @@ export default class contextRecordEditor extends LightningElement {
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
     processType;
+
+    private disableRecordChangeOptionsIndicator = false;
 
     @api
     get node() {
@@ -157,6 +160,10 @@ export default class contextRecordEditor extends LightningElement {
         return this.fields;
     }
 
+    get disableRecordChangeOptions(): boolean {
+        return this.disableRecordChangeOptionsIndicator;
+    }
+
     /**
      * update the fields of the selected entity
      */
@@ -252,6 +259,14 @@ export default class contextRecordEditor extends LightningElement {
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
         this.startElement = contextReducer(this.startElement, event);
+        this.disableRecordChangeOptionsIndicator = this.hasFilterWithOperator(FlowComparisonOperator.IsChanged);
+        if (this.disableRecordChangeOptionsIndicator) {
+            this.requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        } else {
+            this.requireRecordChangeOption = this.startElement.doesRequireRecordChangedToMeetCriteria
+                ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+                : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        }
         this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
@@ -320,5 +335,17 @@ export default class contextRecordEditor extends LightningElement {
             true,
             oldRRCMC
         );
+    }
+
+    hasFilterWithOperator(operator: FlowComparisonOperator): boolean {
+        const operators = [];
+        if (this.startElement.filters != null) {
+            this.startElement.filters.forEach((key) => {
+                if (key.operator != null && key.operator.value != null) {
+                    operators.push(key.operator.value);
+                }
+            });
+        }
+        return operators.includes(operator);
     }
 }

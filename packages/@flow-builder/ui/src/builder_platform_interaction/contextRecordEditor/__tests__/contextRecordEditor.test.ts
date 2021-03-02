@@ -1,7 +1,7 @@
 // @ts-nocheck
 import contextRecordEditor from '../contextRecordEditor';
 import { createElement } from 'lwc';
-import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE, FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -54,7 +54,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 });
 
 const SELECTORS = {
-    ...INTERACTION_COMPONENTS_SELECTORS
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    DISABLE_RADIOGROUP_INFORMATION_TEXT: 'div.slds-scoped-notification'
 };
 
 function createComponentForTest(node) {
@@ -102,7 +103,8 @@ describe('context-record-editor', () => {
         beforeSaveNewStartElementWithFiltersOnCreate,
         scheduledNewStartElementWithFilters,
         scheduledNewStartElementWithoutFilters,
-        scheduledJourneyStartElement;
+        scheduledJourneyStartElement,
+        startElementWithFiltersIsChangedOperator;
     beforeEach(() => {
         scheduledNewStartElement = () => ({
             description: { value: '', error: null },
@@ -279,8 +281,95 @@ describe('context-record-editor', () => {
             startTime: undefined,
             triggerType: { value: 'ScheduledJourney', error: null }
         });
+        startElementWithFiltersIsChangedOperator = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterLogic: { value: CONDITION_LOGIC.AND, error: null },
+            filters: [
+                {
+                    rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
+                    leftHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSideDataType: {
+                        value: '',
+                        error: null
+                    },
+                    operator: {
+                        value: FlowComparisonOperator.IsChanged,
+                        error: null
+                    }
+                }
+            ],
+            frequency: { value: 'Once', error: null },
+            startDate: undefined,
+            startTime: undefined,
+            recordTriggerType: { value: 'Update', error: null },
+            triggerType: { value: 'Scheduled', error: null }
+        });
     });
 
+    describe('handle record change options radio group when IsChanged operator is selected', () => {
+        let contextEditor;
+        beforeEach(() => {
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
+            contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
+        });
+        it('record change options radio group is disabled', async () => {
+            contextEditor.node = startElementWithFiltersIsChangedOperator();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+            getRecordFilter(contextEditor).dispatchEvent(propertyChangeEvent);
+            await ticks(1);
+
+            const requireRecordChangeOptionsRadioGroup = contextEditor.shadowRoot.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
+            );
+
+            expect(requireRecordChangeOptionsRadioGroup).not.toBe(null);
+        });
+        it('record change options radio group value is trueEveryTime', async () => {
+            contextEditor.node = startElementWithFiltersIsChangedOperator();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+            getRecordFilter(contextEditor).dispatchEvent(propertyChangeEvent);
+            await ticks(1);
+
+            const requireRecordChangeOptionsRadioGroup = contextEditor.shadowRoot.querySelector(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
+            );
+
+            expect(requireRecordChangeOptionsRadioGroup.value).toBe('trueEveryTime');
+        });
+        it('shows the information text div for record change options radio group', async () => {
+            contextEditor.node = startElementWithFiltersIsChangedOperator();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+            getRecordFilter(contextEditor).dispatchEvent(propertyChangeEvent);
+            await ticks(1);
+
+            expect(contextEditor.shadowRoot.querySelector(SELECTORS.DISABLE_RADIOGROUP_INFORMATION_TEXT)).not.toBe(
+                null
+            );
+        });
+    });
     it('entity picker (object) value should be "Account" for scheduled', () => {
         const contextEditor = createComponentForTest(scheduledNewStartElement());
         expect(getEntityResourcePicker(contextEditor).value).toBe('Account');

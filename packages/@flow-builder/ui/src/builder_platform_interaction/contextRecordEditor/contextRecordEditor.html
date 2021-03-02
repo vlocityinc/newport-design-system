@@ -71,12 +71,23 @@
                         label={labels.requireRecordChangeOption}
                         options={requireRecordChangeOptions}
                         value={requireRecordChangeOption}
+                        disabled={disableRecordChangeOptions}
                         onchange={handleRequireRecordChangeOptionOnChange}
                         class="slds-m-top_x-small executeWhenOption"
                         variant="label-hidden"
                     >
                     </lightning-radio-group>
                 </div>
+            </div>
+
+            <div
+                if:true={disableRecordChangeOptions}
+                class="slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-right_small slds-m-bottom_small"
+            >
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">{labels.disableRadioGroupInformationText}</div>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ import { LABELS, outcomeExecuteWhenOptions } from '../outcomeLabels';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FlowComparisonOperator } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
@@ -77,7 +78,7 @@ const outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator = {
     name: { value: 'Test Dev Name' },
     guid: { value: '123' },
     conditionLogic: { value: '1' },
-    conditions: [{ name: 'condition1', rowIndex: 0, operator: { value: 'IsChanged' } }],
+    conditions: [{ name: 'condition1', rowIndex: 0, operator: { value: FlowComparisonOperator.IsChanged } }],
     doesRequireRecordChangedToMeetCriteria: true,
     showOutcomeExecutionOptions: true
 };
