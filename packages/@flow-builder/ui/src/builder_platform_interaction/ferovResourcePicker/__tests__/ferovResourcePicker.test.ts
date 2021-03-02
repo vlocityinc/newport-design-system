@@ -471,6 +471,22 @@ describe('ferov-resource-picker', () => {
             await ticks(1);
             expect(ferovResourcePicker.value).toEqual(displayText);
         });
+        it('when combobox changes to picklist value item, displayText from combobox item is stored and added to event', async () => {
+            const pick1 = 'pick1';
+            const pick2 = 'pick2';
+            const ferovResourcePicker = setupComponentUnderTest(props);
+            ferovResourcePicker.activePicklistValues = [
+                { value: pick1, label: pick1 },
+                { value: pick2, label: pick2 }
+            ];
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const event = new ComboboxStateChangedEvent({ value: pick2 + '-' + pick2, displayText: pick2 });
+            baseResourcePicker.dispatchEvent(event);
+            await ticks(1);
+            expect(ferovResourcePicker.value).toEqual(pick2);
+            expect(event.detail.displayText).toEqual(pick2);
+            expect(event.detail.item).toBeNull();
+        });
     });
     describe('handles system & global variables', () => {
         beforeEach(() => {

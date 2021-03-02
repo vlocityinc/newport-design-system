@@ -228,12 +228,24 @@ export default class FerovResourcePicker extends LightningElement {
     _rules;
 
     /** Event handlers */
-
     handleItemSelected(event) {
-        this.value = event.detail.item;
+        if (this.isPicklistItem(event.detail.item)) {
+            // if picklist, the value should be the displayText that the user sees and we need to clear the item
+            const displayText = event.detail.item.displayText;
+            event.detail.displayText = displayText;
+            event.detail.item = null;
+            this.value = displayText;
+        } else {
+            this.value = event.detail.item;
+        }
     }
 
     handleComboboxChanged(event) {
+        if (this.isPicklistItem(event.detail.item)) {
+            // if picklist, the value should be the displayText that the user sees and we need to clear the item
+            event.detail.displayText = event.detail.item.displayText;
+            event.detail.item = null;
+        }
         const item = event.detail.item;
         const displayText = event.detail.displayText;
 
@@ -297,6 +309,16 @@ export default class FerovResourcePicker extends LightningElement {
     }
 
     /** HELPER METHODS */
+    isPicklistItem(item) {
+        const matchPicklistItem = (picklistItem) => {
+            if (picklistItem.label) {
+                return picklistItem.value + '-' + picklistItem.label === item.value;
+            }
+            return picklistItem.value === item.value;
+        };
+        return this.activePicklistValues && this.activePicklistValues.find(matchPicklistItem);
+    }
+
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
         this.value = normalizedValue.itemOrDisplayText;
