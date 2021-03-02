@@ -259,6 +259,9 @@ describe('record-update-editor', () => {
     describe('new', () => {
         describe('using sObject', () => {
             let recordUpdateEditor;
+            beforeAll(() => {
+                (getTriggerType as jest.Mock).mockReturnValue({});
+            });
             beforeEach(() => {
                 recordUpdateEditor = createComponentForTest(newElementNode);
             });
@@ -293,6 +296,9 @@ describe('record-update-editor', () => {
         });
         describe('using triggeringRecord', () => {
             let recordUpdateEditor;
+            beforeAll(() => {
+                (getTriggerType as jest.Mock).mockReturnValue(MOCK_AFTER_SAVE);
+            });
             beforeEach(() => {
                 recordUpdateEditor = createComponentForTest(triggeringRecordElement);
             });
@@ -305,6 +311,8 @@ describe('record-update-editor', () => {
             it('has a visible radioGroup', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
                 expect(wayToFindRecords).not.toBeNull();
+                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD);
             });
             it('has visible recordFilters where filter logic is NO_CONDITIONS and filters are empty', () => {
                 const recordFilter = getRecordFilter(recordUpdateEditor);
@@ -322,6 +330,7 @@ describe('record-update-editor', () => {
             beforeAll(() => {
                 // @ts-ignore
                 Store.setMockState(flowWithAllElementsUIModel);
+                (getTriggerType as jest.Mock).mockReturnValue({});
             });
             afterAll(() => {
                 // @ts-ignore

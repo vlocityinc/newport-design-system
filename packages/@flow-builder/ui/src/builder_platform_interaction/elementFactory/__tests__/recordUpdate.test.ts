@@ -7,7 +7,8 @@ import {
     ELEMENT_TYPE,
     CONNECTOR_TYPE,
     CONDITION_LOGIC,
-    RECORD_UPDATE_WAY_TO_FIND_RECORDS
+    RECORD_UPDATE_WAY_TO_FIND_RECORDS,
+    FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
@@ -135,6 +136,76 @@ describe('recordUpdate Mutation', () => {
         it('has no common mutable object with subflow metadata passed as parameter', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingSobject);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingSobject);
+        });
+    });
+    describe('recordUpdate function for context record ($Record)', () => {
+        it('has wayToFindRecords set to sobjectReference, when input assignments are empty', () => {
+            const recordUpdateUsingContextRecord = {
+                name: 'RecordUpdate1',
+                description: '',
+                filters: [],
+                inputAssignments: [],
+                inputReference: '$Record'
+            };
+            const mutatedRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                filters: [
+                    {
+                        leftHandSide: '',
+                        operator: '',
+                        rightHandSide: '',
+                        rightHandSideDataType: ''
+                    }
+                ],
+                inputAssignments: [
+                    {
+                        leftHandSide: '',
+                        rightHandSide: '',
+                        rightHandSideDataType: ''
+                    }
+                ],
+                inputReference: '$Record',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
+            };
+            const factoriedRecordUpdate = createRecordUpdate(
+                recordUpdateUsingContextRecord,
+                FLOW_TRIGGER_TYPE.AFTER_SAVE
+            );
+            expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
+        });
+        it('has wayToFindRecords set to triggeringRecord, when input assignments are populated', () => {
+            const recordUpdateUsingContextRecord = {
+                name: 'RecordUpdate1',
+                description: '',
+                inputAssignments: [
+                    {
+                        field: 'description',
+                        value: { stringValue: 'myDescription' }
+                    }
+                ],
+                inputReference: '$Record'
+            };
+            const mutatedRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                inputAssignments: [
+                    {
+                        leftHandSide: '.description',
+                        rightHandSide: 'myDescription',
+                        rightHandSideDataType: 'String'
+                    }
+                ],
+                inputReference: '$Record',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+            };
+            const factoriedRecordUpdate = createRecordUpdate(
+                recordUpdateUsingContextRecord,
+                FLOW_TRIGGER_TYPE.AFTER_SAVE
+            );
+            expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
         });
     });
     describe('recordUpdate function using Fields', () => {

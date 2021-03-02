@@ -48,6 +48,18 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
         createAvailableConnection(availableConnection)
     );
 
+    // If wayToFindRecords haven't been set, which is true when we are translating from UDD
+    if (!wayToFindRecords) {
+        wayToFindRecords = setWayToFindRecords(
+            wayToFindRecords,
+            object,
+            inputReference,
+            triggerType,
+            startObject,
+            inputAssignments
+        );
+    }
+
     // Triggering record displays one empty assignment off the bat.
     if (inputAssignments.length === 0) {
         inputAssignments.push(createExpressionListRowItemWithoutOperator({}));
@@ -62,11 +74,6 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
     // TODO set filter logic to no_conditions when TRIGGERING_RECORD
     if (!filters[0].leftHandSide && filterLogic === CONDITION_LOGIC.AND) {
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-    }
-
-    // If wayToFindRecords haven't been set, which is true when we are translating from UDD
-    if (!wayToFindRecords) {
-        wayToFindRecords = setWayToFindRecords(wayToFindRecords, object, inputReference, triggerType, startObject);
     }
 
     // handles incompatible switches between processTypes and triggerTypes.
@@ -109,11 +116,15 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
 /**
  * Function decides what option we need to set for RECORD_UPDATE_WAY_TO_FIND_RECORDS.
  */
-function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerType, startObject) {
+function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerType, startObject, inputAssignments) {
     if (object !== '') {
         // When the object is set, we find records to update by "Specify conditions to identify records, and set fields individually."
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP;
-    } else if (inputReference !== '' && inputReference === SYSTEM_VARIABLE_RECORD_PREFIX) {
+    } else if (
+        inputReference !== '' &&
+        inputReference === SYSTEM_VARIABLE_RECORD_PREFIX &&
+        inputAssignments.length > 0
+    ) {
         // inputReference is set to $Record, when wayToFindRecords is supposed to be "Update triggering <object name> Record"
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD;
     } else if (inputReference === '' && startObject && isRecordChangeTriggerType(triggerType)) {
