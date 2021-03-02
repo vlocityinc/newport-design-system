@@ -31,6 +31,7 @@ import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobje
 import Palette from 'builder_platform_interaction/palette';
 import { TestComponent } from './testComponent';
 import { ComboboxTestComponent } from './comboboxTestUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -366,37 +367,39 @@ export class ExtensionPropertiesEditorTestComponent extends TestComponent<Screen
 }
 
 export class AutomaticFieldPropertiesEditorTestComponent extends TestComponent<ScreenAutomaticFieldPropertiesEditor> {
-    private static AUTOFIELD_DESC_VALUE_SELECTOR = "[class*='autofield-description-value']";
+    private static AUTOFIELD_DESC_VALUE_SELECTOR =
+        "tr[class*='{0}'] > td > " +
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT +
+        "[class*='autofield-description-value']";
 
-    public getAutomaticFieldName() {
-        return this.getAutomaticFieldValues()[0] as any;
+    public getFieldNameFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-field-name');
     }
-    public getAutomaticFieldLabel() {
-        return this.getAutomaticFieldValues()[1] as any;
+    public getFieldLabelFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-field-label');
     }
-    public getAutomaticFieldDataType() {
-        return this.getAutomaticFieldValues()[2] as any;
+    public getFieldDataTypeFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-datatype');
     }
-    public getAutomaticFieldObject() {
-        return this.getAutomaticFieldValues()[3] as any;
+    public getFieldObjectFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-object');
     }
-    public getAutomaticFieldIsRequired() {
-        return this.getAutomaticFieldValues()[4] as any;
+    public getFieldIsRequiredFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-required');
     }
-    public getAutomaticFieldIsCreateable() {
-        return this.getAutomaticFieldValues()[5] as any;
+    public getFieldIsCreateableFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-createable');
     }
-    public getAutomaticFieldIsUpdateable() {
-        return this.getAutomaticFieldValues()[6] as any;
+    public getFieldIsUpdateableFormattedTextElement() {
+        return this.getFieldValueFormattedTextElement('autofield-updateable');
     }
-    public getAutomaticFieldHelptext() {
-        return this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_HELPTEXT) as any;
+    public getFieldHelptextElement() {
+        return this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_HELPTEXT) as { content: string } | null;
     }
-    private getAutomaticFieldValues() {
-        return this.element.shadowRoot!.querySelectorAll(
-            SELECTORS.LIGHTNING_FORMATTED_TEXT +
-                AutomaticFieldPropertiesEditorTestComponent.AUTOFIELD_DESC_VALUE_SELECTOR
-        );
+    private getFieldValueFormattedTextElement(valueKey: string) {
+        return this.element.shadowRoot!.querySelector(
+            format(AutomaticFieldPropertiesEditorTestComponent.AUTOFIELD_DESC_VALUE_SELECTOR, valueKey)
+        ) as { value: string } | null;
     }
 }
 

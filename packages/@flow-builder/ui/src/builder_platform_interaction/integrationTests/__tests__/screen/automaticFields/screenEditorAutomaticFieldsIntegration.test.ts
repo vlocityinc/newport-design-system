@@ -324,70 +324,71 @@ describe('ScreenEditor automatic fields', () => {
                             .click();
                     });
                     it('field name matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldName().value
-                        ).toEqual(expectedName);
-                    });
-                    it('field label matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldLabel().value
-                        ).toEqual(expectedLabel);
-                    });
-                    it('data type matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldDataType().value
-                        ).toEqual(expectedDataType);
-                    });
-                    it('object matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldObject().value
-                        ).toEqual(expectedObject);
-                    });
-                    it('required matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldIsRequired().value
-                        ).toEqual(expectedIsRequired);
-                    });
-                    it('createable matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldIsCreateable().value
-                        ).toEqual(expectedIsCreateable);
-                    });
-                    it('updateable matches', () => {
-                        expect(
-                            screenEditor
-                                .getPropertiesEditorContainerElement()
-                                .getAutomaticFieldPropertiesEditorElement()!
-                                .getAutomaticFieldIsUpdateable().value
-                        ).toEqual(expectedIsUpdateable);
-                    });
-                    it('helptext matches', () => {
-                        const helptext = screenEditor
+                        const fieldNameElement = screenEditor
                             .getPropertiesEditorContainerElement()
                             .getAutomaticFieldPropertiesEditorElement()!
-                            .getAutomaticFieldHelptext();
+                            .getFieldNameFormattedTextElement();
+                        expect(fieldNameElement).toBeTruthy();
+                        expect(fieldNameElement!.value).toEqual(expectedName);
+                    });
+                    it('field label matches', () => {
+                        const fieldLabelElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldLabelFormattedTextElement();
+                        expect(fieldLabelElement).toBeTruthy();
+                        expect(fieldLabelElement!.value).toEqual(expectedLabel);
+                    });
+                    it('data type matches', () => {
+                        const fieldDatatypeElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldDataTypeFormattedTextElement();
+                        expect(fieldDatatypeElement).toBeTruthy();
+                        expect(fieldDatatypeElement!.value).toEqual(expectedDataType);
+                    });
+                    it('object matches', () => {
+                        const objectElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldObjectFormattedTextElement();
+                        expect(objectElement).toBeTruthy();
+                        expect(objectElement!.value).toEqual(expectedObject);
+                    });
+                    it('required matches', () => {
+                        const requiredElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldIsRequiredFormattedTextElement();
+                        expect(requiredElement).toBeTruthy();
+                        expect(requiredElement!.value).toEqual(expectedIsRequired);
+                    });
+                    it('createable matches', () => {
+                        const createableElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldIsCreateableFormattedTextElement();
+                        expect(createableElement).toBeTruthy();
+                        expect(createableElement!.value).toEqual(expectedIsCreateable);
+                    });
+                    it('updateable matches', () => {
+                        const updateableElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldIsUpdateableFormattedTextElement();
+                        expect(updateableElement).toBeTruthy();
+                        expect(updateableElement!.value).toEqual(expectedIsUpdateable);
+                    });
+                    it('helptext matches', () => {
+                        const helptextElement = screenEditor
+                            .getPropertiesEditorContainerElement()
+                            .getAutomaticFieldPropertiesEditorElement()!
+                            .getFieldHelptextElement();
                         if (expectedHelptext === null) {
-                            expect(helptext).toBeNull();
+                            expect(helptextElement).toBeNull();
                         } else {
-                            expect(helptext.content).toEqual(expectedHelptext);
+                            expect(helptextElement).toBeTruthy();
+                            expect(helptextElement!.content).toEqual(expectedHelptext);
                         }
                     });
                 }
