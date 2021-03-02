@@ -12,9 +12,8 @@ import actorSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEdit
 import actorSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.actorSelectorTooltip';
 import entrySectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.entrySectionLabel';
 import exitSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitSectionLabel';
-import startOptionBasedOnCustomFlow from '@salesforce/label/FlowBuilderStageStepEditor.startOptionBasedOnCustomFlow';
 import exitActionSelectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitActionSelectionLabel';
-import exitOptionBasedOnCustomFlow from '@salesforce/label/FlowBuilderStageStepEditor.exitOptionBasedOnCustomFlow';
+import basedOnCustomFlow from '@salesforce/label/FlowBuilderStageStepEditor.basedOnCustomFlow';
 import determinationFlowSelectorHeader from '@salesforce/label/FlowBuilderStageStepEditor.determinationFlowSelectorHeader';
 
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
@@ -55,8 +54,7 @@ export const LABELS = {
     actorSelectorTooltip,
     entrySectionLabel,
     exitSectionLabel,
-    startOptionBasedOnCustomFlow,
+    basedOnCustomFlow,
     exitActionSelectionLabel,
-    exitOptionBasedOnCustomFlow,
     determinationFlowSelectorHeader
 };
