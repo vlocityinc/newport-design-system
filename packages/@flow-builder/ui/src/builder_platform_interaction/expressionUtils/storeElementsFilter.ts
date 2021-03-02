@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     writableElementsSelector,
     readableElementsSelector,
@@ -7,21 +6,26 @@ import {
 } from 'builder_platform_interaction/selectors';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getScreenElement } from './resourceUtils';
+import { RetrieveOptions } from 'builder_platform_interaction/selectors';
 
-/**
- * @typedef ElementFilterConfig
- * @property {boolean} shouldBeWritable    if this is set, only writable elements will be returned
- * @property {string}  elementType         the element type this expression builder lives in
- * @property {Object} selectorConfig       configuration of the selector (e.g. dataType, entityName, isCollection etc...)
- */
+export type ElementFilterConfig = {
+    allowedParamTypes?: object;
+    shouldBeWritable?: boolean; // if this is set, only writable elements will be returned
+    elementType?: ELEMENT_TYPE; // the element type this expression builder lives in
+    selectorConfig?: RetrieveOptions; // configuration of the selector (e.g. dataType, entityName, isCollection etc...)
+    choices?: boolean;
+    staticChoiceGuids?: UI.Guid[];
+    dataType?: string;
+    allowsApexCollAnonymousAutoOutput?: boolean;
+};
 
 // TODO: all of this regarding filtering & selectors will be revisited with W-5462144
 
 /**
  * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
- * @returns {FilterInformation}
+ * @returns the selector
  */
-function writableOrReadableElement(shouldBeWritable) {
+function writableOrReadableElement(shouldBeWritable = false) {
     return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
 }
 
@@ -30,9 +34,14 @@ function writableOrReadableElement(shouldBeWritable) {
  * @param {Boolean} choices             optional: should this menu data only contain choices
  * @param {Array} staticChoiceGuids     optional: should this menu data only contain the choices specified
  * @param {String} dataType             data type for menu data items
- * @returns {FilterInformation}
+ * @returns the selector to be used when element is a Screen
  */
-function screenSelectors(shouldBeWritable, choices, staticChoiceGuids, dataType) {
+function screenSelectors(
+    shouldBeWritable?: boolean,
+    choices?: boolean,
+    staticChoiceGuids?: UI.Guid[],
+    dataType?: string
+) {
     return shouldBeWritable
         ? writableElementsSelector
         : choices
@@ -65,17 +74,19 @@ const CLUD_ELEMENT_TYPES = [
     ELEMENT_TYPE.RECORD_LOOKUP
 ];
 
-function getFilterInformation(config = {}) {
+function getFilterInformation(config: ElementFilterConfig = {}) {
     const { elementType, shouldBeWritable, selectorConfig } = config;
 
     if (selectorConfig) {
         return isOrCanContainSelector(selectorConfig);
     }
 
-    if (CLUD_ELEMENT_TYPES.includes(elementType)) {
+    if (elementType && CLUD_ELEMENT_TYPES.includes(elementType)) {
         return writableOrReadableElement(shouldBeWritable);
     }
-    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](config) : undefined;
+    return elementType && filterInformationProviderMap[elementType]
+        ? filterInformationProviderMap[elementType](config)
+        : undefined;
 }
 
 /*
@@ -98,7 +109,7 @@ export function flattenElements(screenElement) {
     if (!screenElement) {
         return [];
     }
-    const screenElements = [];
+    const screenElements: any[] = [];
     const fields = screenElement.fields;
     if (fields) {
         fields.forEach((field) => {
@@ -117,7 +128,7 @@ export function flattenElements(screenElement) {
  * @param {ElementFilterConfig} config contains necessary context to return the filterInformation
  * @returns {array} retrieves elements from store
  */
-export function getStoreElements(storeInstance, config) {
+export function getStoreElements(storeInstance: UI.StoreState, config: ElementFilterConfig) {
     let elements = [];
 
     const selector = getFilterInformation(config);

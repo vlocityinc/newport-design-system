@@ -37,6 +37,7 @@ import {
     getFilterCustomConditionLogicInput,
     newFilterItem
 } from '../recordFilterTestUtils';
+import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
 
 const SELECTORS = { ABBR: 'abbr' };
 
@@ -149,7 +150,6 @@ describe('Record Update Editor', () => {
             it('value should be an empty string', () => {
                 expect(recordVariablePicker.value).toBe('');
             });
-
             describe('pills', () => {
                 it('should have no pill displayed', () => {
                     const combobox = getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
@@ -347,26 +347,38 @@ describe('Record Update Editor', () => {
                         combobox.selectItemBy('text', ['FlowBuilderExpressionUtils.newResourceLabel'])
                     ).toBeDefined();
                 });
-                it('should contain all record variables', async () => {
-                    const combobox = getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
-                    await combobox.removePill();
-                    const comboboxItems = getRecordVariablePickerChildComboboxComponent(
-                        recordVariablePicker
-                    ).getItems();
-                    expect(comboboxItems).toEqual(
-                        expect.arrayContaining([
-                            expect.objectContaining({
-                                items: expect.arrayContaining([
-                                    expect.objectContaining({
-                                        text: 'accountSObjectCollectionVariable'
-                                    }),
-                                    expect.objectContaining({
-                                        text: 'caseSObjectCollectionVariable'
-                                    })
-                                ])
-                            })
-                        ])
-                    );
+                it('contains only elements that are updateable sobject or contain updateable sobject', async () => {
+                    try {
+                        addRecordVariable('onlyCreateableRecordVar', 'ProcessExceptionEvent');
+                        addRecordVariable('onlyQueryableRecordVar', 'Community');
+                        addRecordVariable('updateableAndQueryableRecordVar', 'Organization');
+                        addRecordVariable('deletableAndQueryableRecordVar', 'AccountFeed');
+                        const resourceCombobox = getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
+                        await resourceCombobox.removePill();
+                        // account is createable, queryable, updateable, deletable
+                        await expect(resourceCombobox).canSelectInCombobox('text', ['accountSObjectVariable']);
+                        // this record var is only createable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', ['onlyCreateableRecordVar']);
+                        // this record var is updateable and queryable
+                        await expect(resourceCombobox).canSelectInCombobox('text', ['updateableAndQueryableRecordVar']);
+                        // this record var is only queryable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', ['onlyQueryableRecordVar']);
+                        // this record var is queryable and deletable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', [
+                            'deletableAndQueryableRecordVar'
+                        ]);
+                    } finally {
+                        deleteVariableWithName('onlyCreateableRecordVar');
+                        deleteVariableWithName('onlyQueryableRecordVar');
+                        deleteVariableWithName('updateableAndQueryableRecordVar');
+                        deleteVariableWithName('deletableAndQueryableRecordVar');
+                    }
+                });
+                it('should contain updatable collection variables', async () => {
+                    const resourceCombobox = getRecordVariablePickerChildComboboxComponent(recordVariablePicker);
+                    await resourceCombobox.removePill();
+                    await expect(resourceCombobox).canSelectInCombobox('text', ['accountSObjectCollectionVariable']);
+                    await expect(resourceCombobox).canSelectInCombobox('text', ['caseSObjectCollectionVariable']);
                 });
             });
         });

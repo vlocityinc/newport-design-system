@@ -8,7 +8,7 @@ import { memoize } from 'builder_platform_interaction/commonUtils';
  * @param {boolean} [false] shouldMemoize Set to true to memoize the selectors and the transformation.
  * @returns {Function} A function in which a user passes the state and it transforms an appropriate piece of data.
  */
-export function createSelector(selectors, transformation, shouldMemoize) {
+export function createSelector(selectors, transformation, shouldMemoize = false) {
     if (!selectors || !selectors.length || !Array.isArray(selectors)) {
         throw new Error(`could not transform the ${selectors}.`);
     }
@@ -21,9 +21,9 @@ export function createSelector(selectors, transformation, shouldMemoize) {
         });
     }
 
-    let selector = function () {
+    let selector = function (...args: any[]) {
         // Invoke each selector with supplied arguments, collecting results into an array.
-        const dataFromSelectors = selectors.map((arg) => arg.apply(null, arguments));
+        const dataFromSelectors = selectors.map((arg) => arg.apply(null, args));
         // Invoke the transformation, passing it the array of selectors' results.
         return transformationFunc(...dataFromSelectors);
     };

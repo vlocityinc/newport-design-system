@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, isSystemElement, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
@@ -9,6 +8,7 @@ import {
     getUpdateableEntities
 } from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
+import { ApexTypeProperties } from 'builder_platform_interaction/apexTypeLib';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 import {
     SOBJECT_OR_SOBJECT_COLLECTION_FILTER,
@@ -88,7 +88,7 @@ const sortableFilter = (element) => {
     );
 };
 
-const apexClassHasSomePropertyMatching = (apexClass, filter) => {
+const apexClassHasSomePropertyMatching = (apexClass: string, filter: (ApexTypeProperty) => boolean) => {
     return Object.values(apexTypeLib.getPropertiesForClass(apexClass)).some((property) =>
         isApexTypeElement(property)
             ? apexClassHasSomePropertyMatching(property.subtype, (apexProperty) => filter(apexProperty))
@@ -96,7 +96,35 @@ const apexClassHasSomePropertyMatching = (apexClass, filter) => {
     );
 };
 
-const filterByRetrieveOptions = (elements, retrieveOptions) => {
+export type CrudFilter = ({
+    createable,
+    queryable,
+    updateable,
+    deletable
+}: {
+    createable: boolean;
+    queryable: boolean;
+    updateable: boolean;
+    deletable: boolean;
+}) => boolean;
+
+export const CREATEABLE_FILTER: CrudFilter = ({ createable }) => createable;
+export const QUERYABLE_FILTER: CrudFilter = ({ queryable }) => queryable;
+export const UPDATEABLE_FILTER: CrudFilter = ({ updateable }) => updateable;
+export const DELETABLE_FILTER: CrudFilter = ({ deletable }) => deletable;
+
+export interface RetrieveOptions {
+    allowTraversal?: boolean;
+    isCollection?: boolean; // true to retrieve only sObject collection variables. It's ignored if there is allSObjectsAndSObjectCollections property.
+    sobjectCollectionCriterion?: SOBJECT_OR_SOBJECT_COLLECTION_FILTER;
+    entityName?: string;
+    dataType?: string;
+    elementType?: string;
+    crudFilter?: CrudFilter;
+    sortable?: boolean;
+}
+
+const filterByRetrieveOptions = (elements: UI.StringKeyedMap<any>, retrieveOptions: RetrieveOptions) => {
     if (!elements) {
         return elements;
     }
@@ -149,49 +177,20 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
         filteredElements = filteredElements.filter((element) => element.elementType === retrieveOptions.elementType);
     }
 
-    if (retrieveOptions.queryable) {
-        filteredElements = filteredElements.filter(
-            (element) =>
-                queryableFilter(element) ||
+    if (retrieveOptions.crudFilter) {
+        const { crudFilter } = retrieveOptions;
+        filteredElements = filteredElements.filter((element) => {
+            const filter = (elementFilter) => (element) =>
+                elementFilter(element) ||
                 (allowTraversal &&
                     isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) =>
-                        queryableFilter(apexProperty)
-                    ))
-        );
-    }
-    if (retrieveOptions.createable) {
-        filteredElements = filteredElements.filter(
-            (element) =>
-                creatableFilter(element) ||
-                (allowTraversal &&
-                    isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) =>
-                        creatableFilter(apexProperty)
-                    ))
-        );
-    }
-    if (retrieveOptions.updateable) {
-        filteredElements = filteredElements.filter(
-            (element) =>
-                updatableFilter(element) ||
-                (allowTraversal &&
-                    isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) =>
-                        updatableFilter(apexProperty)
-                    ))
-        );
-    }
-    if (retrieveOptions.deleteable) {
-        filteredElements = filteredElements.filter(
-            (element) =>
-                deletableFilter(element) ||
-                (allowTraversal &&
-                    isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) =>
-                        deletableFilter(apexProperty)
-                    ))
-        );
+                    apexClassHasSomePropertyMatching(element.apexClass, (apexProperty) => elementFilter(apexProperty)));
+            const createable = filter(creatableFilter)(element);
+            const queryable = filter(queryableFilter)(element);
+            const updateable = filter(updatableFilter)(element);
+            const deletable = filter(deletableFilter)(element);
+            return crudFilter({ createable, queryable, updateable, deletable });
+        });
     }
     if (retrieveOptions.sortable) {
         filteredElements = filteredElements.filter(
@@ -211,7 +210,10 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
  * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
-export const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions = { isCollection: false }) => {
+export const getSObjectOrSObjectCollectionByEntityElements = (
+    elements: UI.StringKeyedMap<any>,
+    retrieveOptions: RetrieveOptions | null = { isCollection: false }
+) => {
     let allElements = getFilteredElements((element) => element.dataType === FLOW_DATA_TYPE.SOBJECT.value)(elements);
 
     if (retrieveOptions && allElements) {
@@ -226,7 +228,7 @@ export const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieve
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  * @returns {Object[]} elements that match one of the following: SObject, SObject collection, output contains SObject, apex variable which has SObject field
  */
-export const getCanContainSObjectElements = (elements, retrieveOptions) => {
+export const getCanContainSObjectElements = (elements: UI.StringKeyedMap<any>, retrieveOptions?: RetrieveOptions) => {
     const filteredElements = getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions);
     const sobjectAllElements = getFilteredElements(
         (element) => !element.isCollection && isFlowResourceWithSObjectField(element, retrieveOptions)
@@ -243,7 +245,7 @@ export const getCanContainSObjectElements = (elements, retrieveOptions) => {
  * @param {Object} an element
  * @param {Object} a set of additional requirements on the SObject (e.g. isCollection, createable/queryable/deleteable/queryable, ...)
  */
-const canElementContainSObject = (element, retrieveOptions) => {
+const canElementContainSObject = (element, retrieveOptions?: RetrieveOptions) => {
     const filterOnCanContainSObjectElement = getCanContainSObjectElements({ element }, retrieveOptions);
     return filterOnCanContainSObjectElement && filterOnCanContainSObjectElement.length > 0;
 };
@@ -253,7 +255,7 @@ const isFlowResourceWithConfig = (flowResource, config) => {
     return filteredParams && filteredParams.length > 0;
 };
 
-const getCanContainElements = (elements, retrieveOptions) => {
+const getCanContainElements = (elements: UI.StringKeyedMap<any>, retrieveOptions: RetrieveOptions) => {
     const filteredElements = filterByRetrieveOptions(elements, retrieveOptions);
     const filteredByParameters = retrieveOptions.allowTraversal
         ? getFilteredElements((element) =>
@@ -273,7 +275,7 @@ const getCanContainElements = (elements, retrieveOptions) => {
  * @param {Object} an element
  * @param {Object} a requirements on the element (e.g. isCollection, dataType, createable/queryable/deleteable/queryable, ...)
  */
-export const canElementContain = (element, retrieveOptions) => {
+export const canElementContain = (element, retrieveOptions: RetrieveOptions) => {
     if (retrieveOptions && (retrieveOptions.dataType === FLOW_DATA_TYPE.SOBJECT.value || retrieveOptions.entityName)) {
         return canElementContainSObject(element, retrieveOptions);
     }
@@ -285,7 +287,7 @@ export const canElementContain = (element, retrieveOptions) => {
  * Selects: SObject, SObject collection, elements which outputs contain SObject, apex variable with SObject field
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  */
-const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions) => {
+const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions?: RetrieveOptions) => {
     return createSelector([elementsSelector], (elements) => getCanContainSObjectElements(elements, retrieveOptions));
 };
 
@@ -293,15 +295,8 @@ const isOrCanContainsObjectOrSObjectCollectionSelector = (retrieveOptions) => {
  * Selects: Elements, Elements collection, elements which outputs contain elements, apex variable with element field that corresponds to the options
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... elements, elements of a given data type etc...
  */
-export const isOrCanContainSelector = (retrieveOptions: {
-    isCollection?: boolean;
-    dataType: string;
-    sObjectCollectionCriterion: any;
-    entityName: string;
-    allowTraversal?: boolean;
-    elementType: string;
-}) => {
-    const clonedOptions = { ...retrieveOptions };
+export const isOrCanContainSelector = (retrieveOptions: RetrieveOptions) => {
+    const clonedOptions: RetrieveOptions = { ...retrieveOptions };
     clonedOptions.allowTraversal = retrieveOptions.allowTraversal === undefined ? true : retrieveOptions.allowTraversal;
     if (clonedOptions.dataType === FLOW_DATA_TYPE.SOBJECT.value || clonedOptions.entityName) {
         return clonedOptions.allowTraversal === undefined || clonedOptions.allowTraversal
@@ -313,26 +308,12 @@ export const isOrCanContainSelector = (retrieveOptions: {
     return createSelector([elementsSelector], (elements) => getCanContainElements(elements, clonedOptions));
 };
 
-/**
- * @typedef {Object} RetrieveOptions
- *
- * @property {SOBJECT_OR_SOBJECT_COLLECTION_FILTER} sobjectCollectionCriterion - One of SOBJECT, SOBJECT_COLLECTION, SOBJECT_OR_SOBJECT_COLLECTION
- * @property {Boolean} isCollection - true to retrieve only sObject collection variables. It's ignored if there is allSObjectsAndSObjectCollections property.
- * @property {String} dataType - filter by data type.
- * @property {String} elementType - filter by element type.
- * @property {String} entityName - filter by entity name.
- * @property {Boolean} queryable - true to retrieve only queryable sObject
- * @property {Boolean} createable - true to retrieve only createable sObject
- * @property {Boolean} updateable - true to retrieve only updateable sObject
- * @property {Boolean} deleteable - true to retrieve only deleteable sObject
- */
-
 export const filteredElementsSelector = (filter) => createSelector([elementsSelector], getFilteredElements(filter));
 
 const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
 const textCompatibleTypes = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
 
-export const choiceSelector = (dataType, staticChoiceGuids) =>
+export const choiceSelector = (dataType?: string, staticChoiceGuids?: UI.Guid[]) =>
     filteredElementsSelector(
         (element) =>
             choiceTypes.includes(element.elementType) &&
@@ -376,7 +357,7 @@ export const componentInstanceScreenFieldsSelector = filteredElementsSelector(
 export const byElementTypeElementsSelector = (...elementType) =>
     filteredElementsSelector((element) => elementType.includes(element.elementType));
 
-const hasSObjectProperties = (apexClassProperties) => {
+const hasSObjectProperties = (apexClassProperties: ApexTypeProperties) => {
     return apexClassProperties
         ? Object.values(apexClassProperties).some(
               (apexClassProperty) => getFlowDataType(apexClassProperty.dataType) === FLOW_DATA_TYPE.SOBJECT.value
@@ -384,7 +365,7 @@ const hasSObjectProperties = (apexClassProperties) => {
         : false;
 };
 
-const getSObjectOrContainsSObjectParameters = (parameters) => {
+const getSObjectOrContainsSObjectParameters = (parameters: UI.StringKeyedMap<any>) => {
     return parameters
         ? Object.values(parameters).filter(
               (parameter) =>

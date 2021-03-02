@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSobjectAndQueryFieldsLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
+import { QUERYABLE_FILTER } from 'builder_platform_interaction/selectors';
 
 export default class RecordSobjectAndQueryFields extends LightningElement {
     labels = LABELS;
@@ -53,6 +54,10 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
 
     get sobjectCollectionCriterion() {
         return getSObjectOrSObjectCollectionFilter(this.isCollection);
+    }
+
+    get crudFilter() {
+        return this.queryable ? QUERYABLE_FILTER : undefined;
     }
 
     /**

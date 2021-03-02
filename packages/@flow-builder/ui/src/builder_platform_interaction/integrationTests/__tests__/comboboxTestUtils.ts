@@ -1,11 +1,13 @@
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS,
     blurEvent,
     textInputEvent,
     clickPill,
     removePill,
-    getComboboxPill
+    getComboboxPill,
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     addCurlyBraces,
@@ -16,6 +18,17 @@ import {
 import { GroupedComboboxTestComponent } from './groupedComboboxTestUtils';
 import Combobox from 'builder_platform_interaction/combobox';
 import { TestComponent } from './testComponent';
+import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
+
+export function getSObjectOrSObjectCollectionPickerCombobox(element: SObjectOrSObjectCollectionPicker & HTMLElement) {
+    return new ComboboxTestComponent(
+        deepQuerySelector(element, [
+            INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        ])
+    );
+}
 
 export class ComboboxTestComponent extends TestComponent<Combobox> {
     public getGroupedCombobox() {

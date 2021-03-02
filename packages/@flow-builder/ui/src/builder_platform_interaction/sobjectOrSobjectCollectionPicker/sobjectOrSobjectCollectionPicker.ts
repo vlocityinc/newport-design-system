@@ -1,11 +1,11 @@
-// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
-import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
+import { ElementFilterConfig, getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { CrudFilter } from 'builder_platform_interaction/selectors';
 
 /**
  * a combobox to retrieve a list of sobject and/or sobject collection variables of a specified entity or all if no entity
@@ -14,7 +14,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     static SELECTOR = 'builder_platform_interaction-sobject-or-sobject-collection-picker';
 
     @track
-    state = {
+    private state = {
         recordEntityName: '',
         value: '',
         sobjectCollectionCriterion: SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT,
@@ -26,15 +26,15 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
         return this.state.errorMessage;
     }
 
-    set errorMessage(value) {
+    set errorMessage(value: string) {
         this.state.errorMessage = value;
     }
 
     @api
-    label;
+    label?: string;
 
     @api
-    placeholder;
+    placeholder?: string;
 
     @api
     disableFieldDrilldown = false;
@@ -44,21 +44,12 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
      * @type {String}
      */
     @api
-    rowIndex;
+    rowIndex?: string;
 
     @api
-    createable;
+    crudFilter?: CrudFilter;
 
-    @api
-    updateable;
-
-    @api
-    deleteable;
-
-    @api
-    queryable;
-
-    element = undefined;
+    element: any = undefined;
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -126,7 +117,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
             this.label,
             this.placeholder,
             this.state.errorMessage,
-            'false',
+            false,
             true,
             false,
             FLOW_DATA_TYPE.SOBJECT.value,
@@ -135,7 +126,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
         );
     }
 
-    get sobjectVariableElementConfig() {
+    get sobjectVariableElementConfig(): ElementFilterConfig {
         return {
             allowedParamTypes: {
                 SObject: [
@@ -152,10 +143,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
                 dataType: 'SObject',
                 sobjectCollectionCriterion: this.sobjectCollectionCriterion,
                 entityName: this.recordEntityName,
-                createable: this.createable,
-                updateable: this.updateable,
-                queryable: this.queryable,
-                deleteable: this.deleteable
+                crudFilter: this.crudFilter
             }
         };
     }

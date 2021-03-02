@@ -17,10 +17,12 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
+import { CREATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 
 export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;
     propertyEditorElementType = ELEMENT_TYPE.RECORD_CREATE;
+    crudFilter = CREATEABLE_FILTER;
 
     /**
      * Internal state for the editor

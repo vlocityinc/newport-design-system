@@ -43,7 +43,7 @@ import {
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
-import { canElementContain } from 'builder_platform_interaction/selectors';
+import { canElementContain, RetrieveOptions } from 'builder_platform_interaction/selectors';
 import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils';
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
@@ -55,11 +55,6 @@ const isPicklistFieldAllowed = (allowedTypes) => {
         isCollection: false
     };
     return isElementAllowed(allowedTypes, picklistParam);
-};
-
-export const RESOURCE_PICKER_MODE = {
-    FEROV_MODE: 'ferov',
-    ENTITY_MODE: 'entity'
 };
 
 /**
@@ -136,7 +131,12 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @param {Object}  selectorConfig if set, means that to figure out whether or not an element is allowed, we only rely on this config (select only element or element that contains fields that fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...))
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(allowedParamTypes, element, showComplexObjectsForFields = false, selectorConfig?) {
+export function isElementAllowed(
+    allowedParamTypes,
+    element,
+    showComplexObjectsForFields = false,
+    selectorConfig?: RetrieveOptions
+) {
     // allowedParamTypes that comes along selectorConfig are only used for validation of manual entered fields.
     // menu data only relies on the  selector config
     if (selectorConfig) {
@@ -203,14 +203,14 @@ function getNewResourceItem() {
  * @param {Object[]} picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
-export const getPicklistMenuData = (picklist) => {
+export const getPicklistMenuData = (picklist: any[]) => {
     if (!Array.isArray(picklist)) {
         throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
     }
     const picklistLabel = format(picklistValuesLabel, '' + picklist.length);
     const picklistGroup = {
         label: picklistLabel,
-        items: []
+        items: [] as any[]
     };
     picklistGroup.items = picklist.map(mutatePicklistValue);
     return picklistGroup;

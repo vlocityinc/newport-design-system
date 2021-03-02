@@ -17,10 +17,12 @@ import {
     RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { UPDATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
+    crudFilter = UPDATEABLE_FILTER;
 
     @track
     state = {

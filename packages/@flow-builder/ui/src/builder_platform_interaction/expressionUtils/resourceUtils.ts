@@ -75,7 +75,7 @@ export const getItemOrDisplayText = (event) => {
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
  * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
-export const getResourceByUniqueIdentifier = (identifier) => {
+export const getResourceByUniqueIdentifier = (identifier: string): any => {
     if (identifier) {
         const complexGuid = sanitizeGuid(identifier);
         return (

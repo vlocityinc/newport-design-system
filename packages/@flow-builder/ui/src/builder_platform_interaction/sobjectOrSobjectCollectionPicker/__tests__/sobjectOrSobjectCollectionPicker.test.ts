@@ -12,6 +12,7 @@ import {
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -23,12 +24,14 @@ const mockDefaultConfig = {
 };
 
 const getFerovResourcePicker = (sobjectPickerComponent) =>
-    sobjectPickerComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
+    sobjectPickerComponent.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER
+    ) as FerovResourcePicker & HTMLElement;
 
 const createComponentUnderTest = (props?: {}) => {
     const el = createElement('builder_platform_interaction-sobject-or-sobject-collection-picker', {
         is: SObjectOrSObjectCollectionPicker
-    });
+    }) as SObjectOrSObjectCollectionPicker & HTMLElement;
     Object.assign(el, mockDefaultConfig, props);
     setDocumentBodyChildren(el);
     return el;
@@ -44,7 +47,8 @@ describe('sobject-or-sobject-collection-picker', () => {
         Store.resetStore();
     });
     describe('base resource picker', () => {
-        let ferovPicker, sobjectOrSobjectCollectionPicker;
+        let ferovPicker: FerovResourcePicker & HTMLElement;
+        let sobjectOrSobjectCollectionPicker: SObjectOrSObjectCollectionPicker & HTMLElement;
         beforeAll(() => {
             sobjectOrSobjectCollectionPicker = createComponentUnderTest();
             ferovPicker = getFerovResourcePicker(sobjectOrSobjectCollectionPicker);

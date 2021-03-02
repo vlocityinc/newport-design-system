@@ -1,15 +1,25 @@
-// @ts-nocheck
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 
-let apexClasses = null;
-let apexFieldsForClass = {};
+let apexClasses: any[] | null = null;
+let apexFieldsForClass: { [className: string]: ApexTypeProperties } = {};
+
+export type ApexTypeProperties = { [propertyName: string]: ApexTypeProperty };
+
+export type ApexTypeProperty = {
+    subtype: string;
+    apiName: string;
+    dataType: string;
+    isCollection: boolean;
+    apexClass: string;
+};
 
 /**
  * This mutates inner properties into a shape that can be handled like sobject fields
+ * @param {string} apexClassName the apex class name
  * @param {Object} property  inner property descriptor
  * @return {Object}          object with properties named like sobject field properties
  */
-const mutateProperty = (apexClassName, property) => {
+const mutateProperty = (apexClassName: string, property): ApexTypeProperty => {
     let subtype;
     if (property.objectType) {
         // service does not return the api name but the api name lower cased
@@ -46,7 +56,7 @@ const mutateProperty = (apexClassName, property) => {
  * }
  */
 
-export const setApexClasses = (classes) => {
+export const setApexClasses = (classes: any[] | null) => {
     apexFieldsForClass = {};
     apexClasses = classes;
 };
@@ -60,7 +70,7 @@ export const getApexClasses = () => apexClasses;
  * Caches properties & inner types of an apex class so they can be used for menu data, etc
  * @param {String} name     name of the apex class
  */
-export const cachePropertiesForClass = (name) => {
+export const cachePropertiesForClass = (name: string) => {
     const apexClass = (apexClasses || []).find((clazz) => clazz.durableId === name);
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
@@ -70,7 +80,7 @@ export const cachePropertiesForClass = (name) => {
     }
 };
 
-export const getPropertiesForClass = (clazz) => {
+export const getPropertiesForClass = (clazz: string) => {
     cachePropertiesForClass(clazz);
     return apexFieldsForClass[clazz];
 };
@@ -81,7 +91,7 @@ export const getPropertiesForClass = (clazz) => {
  * @param {string} propertyName
  * @return {Object|undefined} the property with the api name or undefined if there is no property with this api name
  */
-export function getApexPropertyWithName(properties, propertyName) {
+export function getApexPropertyWithName(properties: ApexTypeProperties, propertyName: string) {
     propertyName = propertyName.toLowerCase();
     for (const apiName in properties) {
         if (properties.hasOwnProperty(apiName)) {

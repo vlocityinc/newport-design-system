@@ -1,6 +1,7 @@
-// @ts-nocheck
+import { Store } from 'builder_platform_interaction/storeLib';
+import { RetrieveOptions } from 'builder_platform_interaction/selectors';
 import { filterAndMutateMenuData, filterFieldsForChosenElement, getChildrenItemsPromise } from './menuDataRetrieval';
-import { getStoreElements } from './storeElementsFilter';
+import { ElementFilterConfig, getStoreElements } from './storeElementsFilter';
 
 /**
  * Retrieve fields of selected element
@@ -21,7 +22,7 @@ const getFieldMenuData = (
         allowSObjectFieldsTraversal = true,
         allowElementFields = true,
         shouldBeWritable = false,
-        selectorConfig,
+        selectorConfig = undefined as RetrieveOptions | undefined,
         showMultiPicklistGlobalVariables = false
     } = {}
 ) => {
@@ -44,7 +45,7 @@ const getFieldMenuData = (
 };
 
 const getFerovMenuData = (
-    elementConfig,
+    elementConfig: ElementFilterConfig | undefined,
     propertyEditorElementType,
     populateParamTypesFn,
     allowGlobalConstants,
@@ -94,10 +95,10 @@ const getFerovMenuData = (
  * @returns {Item[]} Array of resources
  */
 export const getMenuData = (
-    elementConfig,
-    propertyEditorElementType,
+    elementConfig: ElementFilterConfig | undefined,
+    propertyEditorElementType: string,
     populateParamTypesFn,
-    storeInstance,
+    storeInstance: Store,
     parentItem,
     fields,
     {

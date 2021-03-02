@@ -4,6 +4,9 @@ export abstract class TestComponent<E> {
     private _element: E & HTMLElement;
 
     constructor(element: E & HTMLElement) {
+        if (!element) {
+            throw new Error('element needs to be defined');
+        }
         this._element = element;
     }
 

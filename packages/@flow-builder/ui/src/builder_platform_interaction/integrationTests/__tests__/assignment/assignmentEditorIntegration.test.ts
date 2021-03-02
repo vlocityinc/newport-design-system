@@ -19,7 +19,7 @@ import {
     addNewResourceEventListener,
     removeNewResourceEventListener,
     setNextInlineResource
-} from '../inlineResourceTestUtils';
+} from '../resourceTestUtils';
 import { getStartElement } from 'builder_platform_interaction/storeUtils';
 import { updateElement } from 'builder_platform_interaction/actions';
 

@@ -7,6 +7,8 @@ import { createComponentUnderTest, ScreenEditorTestComponent } from '../../scree
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ComboboxTestComponent } from '../../comboboxTestUtils';
+import { addRecordVariable, deleteVariableWithName } from '../../resourceTestUtils';
 import { setContext } from 'builder_platform_interaction/contextLib';
 import { context } from 'serverData/GetContext/context.json';
 
@@ -61,6 +63,35 @@ describe('ScreenEditor automatic fields', () => {
                 expect(
                     screenEditor.getPropertiesEditorContainerElement().getAutomaticFieldPropertiesEditorElement
                 ).toBeTruthy();
+            });
+        });
+        describe('"Select Object" combobox', () => {
+            let combobox: ComboboxTestComponent;
+            beforeAll(async () => {
+                screenEditor = await createScreenEditor('screenWithAutomaticFields');
+                combobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
+                addRecordVariable('onlyCreateableRecordVar', 'ProcessExceptionEvent');
+                addRecordVariable('onlyQueryableRecordVar', 'Community');
+                addRecordVariable('updateableAndQueryableRecordVar', 'Organization');
+                addRecordVariable('deletableAndQueryableRecordVar', 'AccountFeed');
+            });
+            afterAll(() => {
+                deleteVariableWithName('onlyCreateableRecordVar');
+                deleteVariableWithName('onlyQueryableRecordVar');
+                deleteVariableWithName('updateableAndQueryableRecordVar');
+                deleteVariableWithName('deletableAndQueryableRecordVar');
+            });
+            it('should only display createable or updateable record resources', async () => {
+                // account is createable, queryable, updateable, deletable
+                await expect(combobox).canSelectInCombobox('text', ['accountSObjectVariable']);
+                // this record var is only createable
+                await expect(combobox).canSelectInCombobox('text', ['onlyCreateableRecordVar']);
+                // this record var is updateable and queryable
+                await expect(combobox).canSelectInCombobox('text', ['updateableAndQueryableRecordVar']);
+                // this record var is only queryable
+                await expect(combobox).not.canSelectInCombobox('text', ['onlyQueryableRecordVar']);
+                // this record var is queryable and deletable
+                await expect(combobox).not.canSelectInCombobox('text', ['deletableAndQueryableRecordVar']);
             });
         });
         describe('Screen field selection', () => {

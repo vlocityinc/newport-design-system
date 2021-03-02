@@ -11,12 +11,14 @@ import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { DELETABLE_FILTER } from 'builder_platform_interaction/selectors';
 
 /**
  * Record Delete Editor class
  */
 export default class RecordDeleteEditor extends LightningElement {
     labels = LABELS;
+    crudFilter = DELETABLE_FILTER;
 
     @track
     state = {

@@ -45,18 +45,16 @@ import {
     getRadioGroups,
     getEntityResourcePicker,
     getOutputBaseResourcePickerCombobox,
-    removePillAndGetGroupedCombobox
+    removePillAndGetGroupedCombobox,
+    getSObjectOrSObjectCollectionPicker,
+    getRecordStoreOption,
+    getRecordInputOutputAssignments
 } from './cludEditorTestUtils';
 import { getFieldToFerovExpressionBuilders } from '../recordFilterTestUtils';
+import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
-const getSObjectOrSObjectCollectionPicker = (recordEditor) =>
-    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
-const getRecordStoreOption = (recordEditor) =>
-    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
-const getInputOutputAssignments = (recordEditor) =>
-    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 const getEntityResourcePickerComboboxElement = (entityResourcePicker) =>
     new ComboboxTestComponent(
         deepQuerySelector(entityResourcePicker, [
@@ -381,7 +379,7 @@ describe('Record Create Editor', () => {
                     await comboboxElement.typeLiteralValue(apiName);
                 };
                 const clickAddFieldButton = async () => {
-                    const inputAssignments = getInputOutputAssignments(recordCreateElement);
+                    const inputAssignments = getRecordInputOutputAssignments(recordCreateElement);
                     const addFieldButton = deepQuerySelector(inputAssignments, [
                         INTERACTION_COMPONENTS_SELECTORS.LIST,
                         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON
@@ -428,7 +426,7 @@ describe('Record Create Editor', () => {
                     expect(recordCreateElement.node.object.error).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                     );
-                    expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
+                    expect(getRecordInputOutputAssignments(recordCreateElement)).toBeNull();
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
@@ -437,20 +435,20 @@ describe('Record Create Editor', () => {
                 });
                 it('enter an invalid value in the entity resource picker should not display other element but should display an error', async () => {
                     await selectEntity('invalidValue');
-                    expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
+                    expect(getRecordInputOutputAssignments(recordCreateElement)).toBeNull();
                     expect(getOutputResourcePicker(recordCreateElement)).toBeNull();
                     expect(recordCreateElement.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
                 });
                 it('enter a valid value in the entity resource picker should not display an error', async () => {
                     await selectEntity('Case');
                     expect(recordCreateElement.node.object.error).toBeNull();
-                    expect(getInputOutputAssignments(recordCreateElement)).not.toBeNull();
+                    expect(getRecordInputOutputAssignments(recordCreateElement)).not.toBeNull();
                     expect(getOutputResourcePicker(recordCreateElement)).not.toBeNull();
                 });
                 describe('Input Assignments', () => {
                     let inputAssignments;
                     beforeEach(() => {
-                        inputAssignments = getInputOutputAssignments(recordCreateElement);
+                        inputAssignments = getRecordInputOutputAssignments(recordCreateElement);
                     });
                     test('input Assignments should be visible and correctly displayed (with pill for RHS)', async () => {
                         const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(inputAssignments);
@@ -544,7 +542,7 @@ describe('Record Create Editor', () => {
                     });
                     it('Should display no fields once all creatable fields have been selected', async () => {
                         await selectEntity('Feed Item');
-                        inputAssignments = getInputOutputAssignments(recordCreateElement);
+                        inputAssignments = getRecordInputOutputAssignments(recordCreateElement);
                         const feedItemFieldsArray: { creatable; apiName }[] = Object.values(feedItemFields);
                         const creatableFields = feedItemFieldsArray
                             .filter((field) => field.creatable)
@@ -663,6 +661,35 @@ describe('Record Create Editor', () => {
                     expect(getResourceCombobox(recordCreateElement).element.errorMessage).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
                     );
+                });
+                it('should only contain elements that are creatable sobject or contain creatable sobject', async () => {
+                    try {
+                        addRecordVariable('onlyCreateableRecordVar', 'ProcessExceptionEvent');
+                        addRecordVariable('onlyQueryableRecordVar', 'Community');
+                        addRecordVariable('updateableAndQueryableRecordVar', 'Organization');
+                        addRecordVariable('deletableAndQueryableRecordVar', 'AccountFeed');
+                        const resourceCombobox = getResourceCombobox(recordCreateElement);
+                        await resourceCombobox.removePill();
+                        // account is createable, queryable, updateable, deletable
+                        await expect(resourceCombobox).canSelectInCombobox('text', ['accountSObjectVariable']);
+                        // this record var is only createable
+                        await expect(resourceCombobox).canSelectInCombobox('text', ['onlyCreateableRecordVar']);
+                        // this record var is updateable and queryable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', [
+                            'updateableAndQueryableRecordVar'
+                        ]);
+                        // this record var is only queryable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', ['onlyQueryableRecordVar']);
+                        // this record var is queryable and deletable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', [
+                            'deletableAndQueryableRecordVar'
+                        ]);
+                    } finally {
+                        deleteVariableWithName('onlyCreateableRecordVar');
+                        deleteVariableWithName('onlyQueryableRecordVar');
+                        deleteVariableWithName('updateableAndQueryableRecordVar');
+                        deleteVariableWithName('deletableAndQueryableRecordVar');
+                    }
                 });
                 describe('pills', () => {
                     it('displays selected "inputReference" (sObject) pill', () => {

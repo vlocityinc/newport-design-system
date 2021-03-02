@@ -18,6 +18,7 @@ import Combobox from 'builder_platform_interaction/combobox';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { CrudFilter } from 'builder_platform_interaction/selectors';
 
 const SUPPORTED_FIELD_DATA_TYPES = [
     FieldDataType.String,
@@ -54,6 +55,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     showNoFieldIllustration = false;
     showSpinner = false;
     labels = LABELS;
+    crudFilter: CrudFilter = ({ createable, updateable }) => createable || updateable;
 
     private isRecordVariableSetViaApi = false;
     private hasNewRecordVariable = false;

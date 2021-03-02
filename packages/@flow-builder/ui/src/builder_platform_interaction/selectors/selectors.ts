@@ -1,4 +1,3 @@
-// @ts-nocheck
 export { canvasSelector } from './canvasSelector';
 export {
     filteredElementsSelector,
@@ -10,7 +9,11 @@ export {
     componentInstanceScreenFieldsSelector,
     byElementTypeElementsSelector,
     canElementContain,
-    isOrCanContainSelector
+    isOrCanContainSelector,
+    CREATEABLE_FILTER,
+    UPDATEABLE_FILTER,
+    QUERYABLE_FILTER,
+    DELETABLE_FILTER
 } from './menuDataSelector';
-
+export type { RetrieveOptions, CrudFilter } from './menuDataSelector';
 export { apexClassesSelector } from './peripheralDataSelectors';

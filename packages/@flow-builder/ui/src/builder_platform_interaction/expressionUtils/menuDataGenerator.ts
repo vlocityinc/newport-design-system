@@ -461,7 +461,7 @@ export function getMenuItemsForField(
  * @returns {Object} representation of flow element in shape combobox needs
  */
 export function mutateFlowResourceToComboboxShape(resource) {
-    const newElement = {
+    const newElement: UI.ComboboxItem = {
         iconSize: ICON_SIZE
     };
 

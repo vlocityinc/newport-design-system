@@ -36,6 +36,7 @@ import {
     newFilterItem,
     getFieldToFerovExpressionBuilders
 } from '../recordFilterTestUtils';
+import { addRecordVariable, deleteVariableWithName } from '../resourceTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true
@@ -299,6 +300,33 @@ describe('Record Delete Editor', () => {
                 it('does not contain element that is not sobject or does not contain sobject', async () => {
                     const recordVariablePicker = await removePillAndGetGroupedCombobox(recordDeleteComponent);
                     await expectCannotBeSelectedInResourcePicker(['apexCarVariable'], recordVariablePicker);
+                });
+                it('contains only elements that are deletable sobject or contain deletable sobject', async () => {
+                    try {
+                        addRecordVariable('onlyCreateableRecordVar', 'ProcessExceptionEvent');
+                        addRecordVariable('onlyQueryableRecordVar', 'Community');
+                        addRecordVariable('updateableAndQueryableRecordVar', 'Organization');
+                        addRecordVariable('deletableAndQueryableRecordVar', 'AccountFeed');
+                        const resourceCombobox = getResourceCombobox(recordDeleteComponent);
+                        await resourceCombobox.removePill();
+                        // account is createable, queryable, updateable, deletable
+                        await expect(resourceCombobox).canSelectInCombobox('text', ['accountSObjectVariable']);
+                        // this record var is only createable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', ['onlyCreateableRecordVar']);
+                        // this record var is updateable and queryable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', [
+                            'updateableAndQueryableRecordVar'
+                        ]);
+                        // this record var is only queryable
+                        await expect(resourceCombobox).not.canSelectInCombobox('text', ['onlyQueryableRecordVar']);
+                        // this record var is queryable and deletable
+                        await expect(resourceCombobox).canSelectInCombobox('text', ['deletableAndQueryableRecordVar']);
+                    } finally {
+                        deleteVariableWithName('onlyCreateableRecordVar');
+                        deleteVariableWithName('onlyQueryableRecordVar');
+                        deleteVariableWithName('updateableAndQueryableRecordVar');
+                        deleteVariableWithName('deletableAndQueryableRecordVar');
+                    }
                 });
                 describe('pills', () => {
                     it('displays a pill with the selected value', async () => {

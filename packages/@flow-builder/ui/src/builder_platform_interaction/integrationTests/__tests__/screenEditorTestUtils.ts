@@ -30,7 +30,7 @@ import ScreenInputField from 'builder_platform_interaction/screenInputField';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import Palette from 'builder_platform_interaction/palette';
 import { TestComponent } from './testComponent';
-import { ComboboxTestComponent } from './comboboxTestUtils';
+import { getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 
 const SELECTORS = {
@@ -100,14 +100,7 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
     }
 
     public getSObjectPickerCombobox() {
-        return new ComboboxTestComponent(
-            this.deepQuerySelector([
-                INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER,
-                INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
-                INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-                INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-            ])
-        );
+        return getSObjectOrSObjectCollectionPickerCombobox(this.getSObjectPickerElement());
     }
 
     public getPaletteElement() {
