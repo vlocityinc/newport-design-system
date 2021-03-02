@@ -8,6 +8,7 @@
             menu-opened={nodeInfo.menuOpened}
             is-canvas-ready={isCanvasReady}
             is-node-getting-deleted={nodeInfo.toBeDeleted}
+            has-error={nodeInfo.config.hasError}
             canvas-mode={canvasMode}
             onclick={handleButtonClick}
             ondblclick={handleOnDblClick}
@@ -49,6 +50,17 @@
                 + {nodeInfo.node.incomingGoTo.length} Incoming
             </div>
         </div>
+
+        <!--Error icon-->
+        <lightning-icon
+            if:true={nodeInfo.config.hasError}
+            icon-name="utility:error"
+            variant="error"
+            size="xx-small"
+            alternative-text={labels.errorIconAlternativeText}
+            title={labels.errorIconTitle}
+            class="error-icon slds-is-absolute slds-button-icon_small"
+        ></lightning-icon>
     </div>
 
     <x-lazy

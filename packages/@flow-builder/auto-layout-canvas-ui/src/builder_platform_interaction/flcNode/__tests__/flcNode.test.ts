@@ -30,7 +30,8 @@ const selectors = {
     selectionCheckbox: '.selection-checkbox',
     textContainerElementType: '.text-element-type',
     textElementLabel: '.text-element-label',
-    textElementGotoCount: '.text-element-goto-count'
+    textElementGotoCount: '.text-element-goto-count',
+    errorIcon: '.error-icon'
 };
 
 describe('FlcNode', () => {
@@ -258,7 +259,8 @@ describe('FlcNode', () => {
                 label: 'End',
                 type: NodeType.END
             },
-            menuOpened: false
+            menuOpened: false,
+            config: {}
         };
 
         it('Should show the element type for Decision Element', () => {
@@ -307,7 +309,8 @@ describe('FlcNode', () => {
                 label: 'start',
                 type: NodeType.END
             },
-            menuOpened: false
+            menuOpened: false,
+            config: {}
         };
 
         const startLabelNodeInfo = {
@@ -319,7 +322,8 @@ describe('FlcNode', () => {
                 type: NodeType.START,
                 description: 'start description'
             },
-            menuOpened: false
+            menuOpened: false,
+            config: {}
         };
 
         it('Should show the label for Decision Element', () => {
@@ -477,6 +481,52 @@ describe('FlcNode', () => {
                 .querySelector(selectors.buttonMenu)
                 .dispatchEvent(new CustomEvent('dblclick', {}));
             expect(eventCallback).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Error Icon', () => {
+        it('Should not be displayed if node config has no error', () => {
+            const nodeInfo = {
+                guid: 'guid',
+                config: {
+                    hasError: false
+                },
+                metadata: {
+                    icon: 'dummyIcon',
+                    label: 'elementType',
+                    type: NodeType.DEFAULT
+                },
+                menuOpened: false
+            };
+
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const errorIcon = flcNodeComponent.shadowRoot.querySelector(selectors.errorIcon);
+            expect(errorIcon).toBeNull();
+        });
+
+        it('Should be displayed if node config has error', () => {
+            const nodeInfo = {
+                guid: 'guid',
+                config: {
+                    hasError: true
+                },
+                metadata: {
+                    icon: 'dummyIcon',
+                    label: 'elementType',
+                    type: NodeType.DEFAULT
+                },
+                menuOpened: false
+            };
+
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const errorIcon = flcNodeComponent.shadowRoot.querySelector(selectors.errorIcon);
+            expect(errorIcon).not.toBeNull();
         });
     });
 });

@@ -198,6 +198,7 @@ export interface ConnectorRenderInfo {
     connectorBadgeLabel?: string;
     isNew?: boolean;
     toBeDeleted: boolean;
+    isHighlighted: boolean;
 }
 
 function getBranchLayoutKey(parentGuid: string, childIndex: number) {

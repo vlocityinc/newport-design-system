@@ -269,7 +269,7 @@ function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, c
             return ref.childReference === childReference;
         });
         if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            branchIndexToHighlight += 1; // To account for the immediate path at index 0
+            branchIndexToHighlight! += 1; // To account for the immediate path at index 0
         }
     }
 
@@ -299,6 +299,15 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
                 !(element as ParentNodeModel).children[branchIndexToHighlight]
             ) {
                 highlightInfo.highlightNext = true;
+            }
+
+            // For loop elements that don't have any elements in the loop back branch, directly set highlightLoopBack to true
+            if (
+                element.nodeType === NodeType.LOOP &&
+                branchIndexToHighlight === LOOP_BACK_INDEX &&
+                !(element as ParentNodeModel).children[branchIndexToHighlight]
+            ) {
+                highlightInfo.highlightLoopBack = true;
             }
         } else if (!element.config.hasError && !fulfillsBranchingCriteria(element, element.nodeType)) {
             // If no branch index to highlight was found and the element is not a branching

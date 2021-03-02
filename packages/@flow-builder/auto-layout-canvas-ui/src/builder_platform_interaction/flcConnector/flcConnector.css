@@ -22,11 +22,14 @@ svg.fault.connector-to-be-deleted {
     stroke-width: 6;
 }
 
-lightning-combobox {
-    position: absolute;
-    width: 96px;
-    z-index: 2;
-    transform: translate(-50%, -50%);
+svg.connector-highlighted {
+    stroke: #ffb75d;
+    stroke-width: 6;
+    z-index: 0;
+}
+
+svg.fault.connector-highlighted {
+    stroke-dasharray: none;
 }
 
 .connector-badge {
@@ -39,9 +42,17 @@ lightning-combobox {
     border: 1px solid var(--lwc-colorBorder);
 }
 
+.connector-badge.connector-highlighted {
+    border-color: var(--lwc-colorBorderWarning);
+}
+
 .fault-badge {
     background-color: var(--lwc-colorBorderError);
     color: var(--lwc-colorTextBrandPrimary);
+}
+
+.fault-badge.connector-highlighted {
+    border-color: var(--lwc-colorBorderDestructiveHover);
 }
 
 builder_platform_interaction-flc-button-menu {

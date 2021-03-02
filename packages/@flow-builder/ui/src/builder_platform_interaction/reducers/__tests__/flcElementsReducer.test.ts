@@ -1498,7 +1498,7 @@ describe('flc-elements-reducer', () => {
 
         it('When highlighting loop connectors', () => {
             const flowModel = {
-                guid1: { guid: 'guid1', nodeType: NodeType.LOOP, next: 'end', config: {} },
+                guid1: { guid: 'guid1', nodeType: NodeType.LOOP, next: 'end', config: {}, children: ['guid2'] },
                 guid2: { guid: 'guid2', parent: 'guid1', config: {} }
             };
 
@@ -1523,9 +1523,33 @@ describe('flc-elements-reducer', () => {
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
         });
 
+        it('When highlighting loop connectors with no children', () => {
+            const flowModel = {
+                guid1: { guid: 'guid1', nodeType: NodeType.LOOP, next: 'end', config: {}, children: [null] }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.LOOP_NEXT, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.LOOP_END, source: 'guid1' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', {
+                highlightNext: true,
+                highlightLoopBack: true,
+                branchIndexesToHighlight: [LOOP_BACK_INDEX]
+            });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
         it('When highlighting loop connector with error in loop back', () => {
             const flowModel = {
-                guid1: { nodeType: NodeType.LOOP, next: 'end', config: {} },
+                guid1: { nodeType: NodeType.LOOP, next: 'end', config: {}, children: ['guid2'] },
                 guid2: { parent: 'guid1', config: { hasError: true } }
             };
 

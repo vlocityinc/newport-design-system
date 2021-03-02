@@ -74,7 +74,8 @@ const createComponentUnderTest = (
     variant = '',
     connectionInfo = {},
     isNodeGettingDeleted = false,
-    canvasMode = AutoLayoutCanvasMode.DEFAULT
+    canvasMode = AutoLayoutCanvasMode.DEFAULT,
+    hasError = false
 ) => {
     const el = createElement('builder_platform_interaction-flc-button-menu', {
         is: FlcButtonMenu
@@ -84,6 +85,7 @@ const createComponentUnderTest = (
     el.canvasMode = canvasMode;
     el.variant = variant;
     el.connectionInfo = connectionInfo;
+    el.hasError = hasError;
     setDocumentBodyChildren(el);
     return el;
 };
@@ -96,7 +98,8 @@ const selectors = {
     circularTriggerButton: '.circular-icon',
     toBeDeletedButton: '.node-to-be-deleted',
     endElement: '.is-end-element',
-    nodeInSelectionMode: '.node-in-selection-mode'
+    nodeInSelectionMode: '.node-in-selection-mode',
+    hasError: '.has-error'
 };
 
 describe('the button menu', () => {
@@ -132,6 +135,12 @@ describe('the button menu', () => {
     it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', () => {
         const cmp = createComponentUnderTest(screenMetadata, undefined, undefined, true);
         const button = cmp.shadowRoot.querySelector(selectors.toBeDeletedButton);
+        expect(button).not.toBeNull();
+    });
+
+    it('should add "has-error" class when hasError is specified in node config', () => {
+        const cmp = createComponentUnderTest(screenMetadata, undefined, undefined, true, undefined, true);
+        const button = cmp.shadowRoot.querySelector(selectors.hasError);
         expect(button).not.toBeNull();
     });
 

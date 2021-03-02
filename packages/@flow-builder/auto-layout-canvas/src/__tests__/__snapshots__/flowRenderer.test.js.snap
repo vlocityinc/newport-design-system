@@ -152,7 +152,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -186,6 +186,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -211,6 +212,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -248,6 +250,1664 @@ L 3, 120",
         "label": "end-guid",
         "nodeType": "end",
         "prev": "start-guid",
+      },
+      "toBeDeleted": false,
+    },
+  ],
+}
+`;
+
+exports[`flowRenderer renderFlow flow with decision with highlighted and merged branch 1`] = `
+Object {
+  "geometry": Object {
+    "h": 384,
+    "w": 352,
+    "x": 0,
+    "y": 0,
+  },
+  "isTerminal": true,
+  "layoutConfig": Object {
+    "branch": Object {
+      "defaultWidth": 264,
+      "emptyWidth": 176,
+    },
+    "connector": Object {
+      "curveRadius": 16,
+      "icon": Object {
+        "h": 20,
+        "w": 20,
+      },
+      "menu": Object {
+        "h": 328,
+        "w": 100,
+      },
+      "strokeWidth": 6,
+      "types": Object {
+        "straight": Object {
+          "addOffset": 60,
+          "h": 120,
+          "labelOffset": 48,
+          "variants": Object {
+            "branchHead": Object {
+              "addOffset": 84,
+              "h": 144,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+              },
+            },
+            "branchHeadEmpty": Object {
+              "addOffset": 84,
+              "h": 120,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "branchTail": Object {
+              "h": 96,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
+            "fault": Object {
+              "labelOffset": 24,
+              "svgMarginTop": 24,
+            },
+            "postMerge": Object {
+              "addOffset": 36,
+              "h": 96,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+              },
+            },
+            "postMergeTail": Object {
+              "addOffset": 36,
+              "h": 72,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "grid": Object {
+      "h": 24,
+      "w": 132,
+    },
+    "menu": Object {
+      "marginBottom": 24,
+    },
+    "node": Object {
+      "icon": Object {
+        "h": 48,
+        "w": 48,
+      },
+      "offsetX": 88,
+      "w": 264,
+    },
+  },
+  "nodes": Array [
+    Object {
+      "config": Object {},
+      "flows": Array [],
+      "geometry": Object {
+        "h": 120,
+        "w": 48,
+        "x": 0,
+        "y": 0,
+      },
+      "guid": "start-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "start-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "start",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 60,
+        },
+        "connectionInfo": Object {
+          "next": "branch-guid",
+          "prev": "start-guid",
+        },
+        "geometry": Object {
+          "h": 120,
+          "w": 6,
+          "x": 0,
+          "y": 0,
+        },
+        "isFault": undefined,
+        "isHighlighted": false,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 0
+L 3, 120",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
+        "config": Object {},
+        "elementType": "start",
+        "guid": "start-guid",
+        "isCanvasElement": true,
+        "isTerminal": true,
+        "label": "start-guid",
+        "next": "branch-guid",
+        "nodeType": "start",
+        "parent": "root",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "conditionOptions": undefined,
+      "config": Object {
+        "highlightInfo": Object {
+          "branchIndexesToHighlight": Array [
+            1,
+          ],
+          "highlightNext": true,
+        },
+      },
+      "defaultConnectorLabel": "Default Connector Label",
+      "flows": Array [
+        Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 176,
+            "x": -88,
+            "y": 0,
+          },
+          "isTerminal": false,
+          "layoutConfig": Object {
+            "branch": Object {
+              "defaultWidth": 264,
+              "emptyWidth": 176,
+            },
+            "connector": Object {
+              "curveRadius": 16,
+              "icon": Object {
+                "h": 20,
+                "w": 20,
+              },
+              "menu": Object {
+                "h": 328,
+                "w": 100,
+              },
+              "strokeWidth": 6,
+              "types": Object {
+                "straight": Object {
+                  "addOffset": 60,
+                  "h": 120,
+                  "labelOffset": 48,
+                  "variants": Object {
+                    "branchHead": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                      },
+                    },
+                    "branchHeadEmpty": Object {
+                      "addOffset": 84,
+                      "h": 120,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "branchTail": Object {
+                      "h": 96,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                    },
+                    "fault": Object {
+                      "labelOffset": 24,
+                      "svgMarginTop": 24,
+                    },
+                    "postMerge": Object {
+                      "addOffset": 36,
+                      "h": 96,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                      },
+                    },
+                    "postMergeTail": Object {
+                      "addOffset": 36,
+                      "h": 72,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "grid": Object {
+              "h": 24,
+              "w": 132,
+            },
+            "menu": Object {
+              "marginBottom": 24,
+            },
+            "node": Object {
+              "icon": Object {
+                "h": 48,
+                "w": 48,
+              },
+              "offsetX": 88,
+              "w": 264,
+            },
+          },
+          "nodes": Array [],
+          "preConnector": Object {
+            "addInfo": Object {
+              "menuOpened": false,
+              "offsetY": 84,
+            },
+            "connectionInfo": Object {
+              "childIndex": 0,
+              "parent": "branch-guid",
+            },
+            "geometry": Object {
+              "h": 120,
+              "w": 6,
+              "x": 0,
+              "y": 0,
+            },
+            "isFault": false,
+            "isHighlighted": false,
+            "labelOffsetY": 48,
+            "labelType": 1,
+            "svgInfo": Object {
+              "geometry": Object {
+                "h": 120,
+                "w": 6,
+                "x": -3,
+                "y": 0,
+              },
+              "path": "M 3, 24
+L 3, 96",
+            },
+            "toBeDeleted": false,
+            "type": "straight",
+          },
+        },
+        Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 176,
+            "x": 88,
+            "y": 0,
+          },
+          "isTerminal": false,
+          "layoutConfig": Object {
+            "branch": Object {
+              "defaultWidth": 264,
+              "emptyWidth": 176,
+            },
+            "connector": Object {
+              "curveRadius": 16,
+              "icon": Object {
+                "h": 20,
+                "w": 20,
+              },
+              "menu": Object {
+                "h": 328,
+                "w": 100,
+              },
+              "strokeWidth": 6,
+              "types": Object {
+                "straight": Object {
+                  "addOffset": 60,
+                  "h": 120,
+                  "labelOffset": 48,
+                  "variants": Object {
+                    "branchHead": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                      },
+                    },
+                    "branchHeadEmpty": Object {
+                      "addOffset": 84,
+                      "h": 120,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "branchTail": Object {
+                      "h": 96,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                    },
+                    "fault": Object {
+                      "labelOffset": 24,
+                      "svgMarginTop": 24,
+                    },
+                    "postMerge": Object {
+                      "addOffset": 36,
+                      "h": 96,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                      },
+                    },
+                    "postMergeTail": Object {
+                      "addOffset": 36,
+                      "h": 72,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "grid": Object {
+              "h": 24,
+              "w": 132,
+            },
+            "menu": Object {
+              "marginBottom": 24,
+            },
+            "node": Object {
+              "icon": Object {
+                "h": 48,
+                "w": 48,
+              },
+              "offsetX": 88,
+              "w": 264,
+            },
+          },
+          "nodes": Array [],
+          "preConnector": Object {
+            "addInfo": Object {
+              "menuOpened": false,
+              "offsetY": 84,
+            },
+            "connectionInfo": Object {
+              "childIndex": 1,
+              "parent": "branch-guid",
+            },
+            "connectorBadgeLabel": "Default Connector Label",
+            "geometry": Object {
+              "h": 120,
+              "w": 6,
+              "x": 0,
+              "y": 0,
+            },
+            "isFault": false,
+            "isHighlighted": true,
+            "labelOffsetY": 48,
+            "labelType": 1,
+            "svgInfo": Object {
+              "geometry": Object {
+                "h": 120,
+                "w": 6,
+                "x": -3,
+                "y": 0,
+              },
+              "path": "M 3, 24
+L 3, 96",
+            },
+            "toBeDeleted": false,
+            "type": "straight",
+          },
+        },
+      ],
+      "geometry": Object {
+        "h": 216,
+        "w": 352,
+        "x": 0,
+        "y": 120,
+      },
+      "guid": "branch-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "branch-guid",
+      "logicConnectors": Array [
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 0,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 24,
+            "w": 88,
+            "x": -88,
+            "y": 0,
+          },
+          "isFault": undefined,
+          "isHighlighted": false,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 33,
+              "w": 91,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 91, 3
+L 19, 3
+A 16 16 0 0 0, 3, 19
+L 3, 27",
+          },
+          "toBeDeleted": false,
+          "type": "branchLeft",
+        },
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 1,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 24,
+            "w": 88,
+            "x": 0,
+            "y": 0,
+          },
+          "isFault": undefined,
+          "isHighlighted": true,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 33,
+              "w": 97,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 3, 3
+L 75, 3
+A 16 16 0 0 1, 91, 19
+L 91, 27",
+          },
+          "toBeDeleted": false,
+          "type": "branchRight",
+        },
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 0,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 48,
+            "w": 88,
+            "x": -88,
+            "y": 96,
+          },
+          "isFault": undefined,
+          "isHighlighted": false,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 48,
+              "w": 97,
+              "x": -3,
+              "y": 0,
+            },
+            "path": "M 3, 0
+L 3, 8
+A 16 16 0 0 0, 19, 24
+L 75, 24
+A 16 16 0 0 1, 91, 40
+L 91, 48",
+          },
+          "toBeDeleted": false,
+          "type": "mergeLeft",
+        },
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 0,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 48,
+            "w": 88,
+            "x": 0,
+            "y": 96,
+          },
+          "isFault": undefined,
+          "isHighlighted": true,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 48,
+              "w": 94,
+              "x": -3,
+              "y": 0,
+            },
+            "path": "M 91, 0
+L 91, 8
+A 16 16 0 0 1, 75, 24
+L 19, 24
+A 16 16 0 0 0, 3, 40
+L 3, 48",
+          },
+          "toBeDeleted": false,
+          "type": "mergeRight",
+        },
+      ],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "branch",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 36,
+        },
+        "connectionInfo": Object {
+          "next": "end-guid",
+          "prev": "branch-guid",
+        },
+        "geometry": Object {
+          "h": 96,
+          "w": 6,
+          "x": 0,
+          "y": 120,
+        },
+        "isFault": undefined,
+        "isHighlighted": true,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 24
+L 3, 144",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "children": Array [
+          null,
+          null,
+        ],
+        "config": Object {
+          "highlightInfo": Object {
+            "branchIndexesToHighlight": Array [
+              1,
+            ],
+            "highlightNext": true,
+          },
+        },
+        "defaultConnectorLabel": "Default Connector Label",
+        "elementType": "branch",
+        "guid": "branch-guid",
+        "isCanvasElement": true,
+        "label": "branch-guid",
+        "next": "end-guid",
+        "nodeType": "branch",
+        "prev": "start-guid",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "config": undefined,
+      "flows": Array [],
+      "geometry": Object {
+        "h": 0,
+        "w": 48,
+        "x": 0,
+        "y": 336,
+      },
+      "guid": "end-guid",
+      "isNew": false,
+      "isTerminal": true,
+      "label": "end-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "end",
+      },
+      "node": Object {
+        "elementType": "END_ELEMENT",
+        "guid": "end-guid",
+        "isCanvasElement": true,
+        "label": "end-guid",
+        "nodeType": "end",
+        "prev": "branch-guid",
+      },
+      "toBeDeleted": false,
+    },
+  ],
+}
+`;
+
+exports[`flowRenderer renderFlow flow with decision with highlighted branch 1`] = `
+Object {
+  "geometry": Object {
+    "h": 384,
+    "w": 352,
+    "x": 0,
+    "y": 0,
+  },
+  "isTerminal": true,
+  "layoutConfig": Object {
+    "branch": Object {
+      "defaultWidth": 264,
+      "emptyWidth": 176,
+    },
+    "connector": Object {
+      "curveRadius": 16,
+      "icon": Object {
+        "h": 20,
+        "w": 20,
+      },
+      "menu": Object {
+        "h": 328,
+        "w": 100,
+      },
+      "strokeWidth": 6,
+      "types": Object {
+        "straight": Object {
+          "addOffset": 60,
+          "h": 120,
+          "labelOffset": 48,
+          "variants": Object {
+            "branchHead": Object {
+              "addOffset": 84,
+              "h": 144,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+              },
+            },
+            "branchHeadEmpty": Object {
+              "addOffset": 84,
+              "h": 120,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "branchTail": Object {
+              "h": 96,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
+            "fault": Object {
+              "labelOffset": 24,
+              "svgMarginTop": 24,
+            },
+            "postMerge": Object {
+              "addOffset": 36,
+              "h": 96,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+              },
+            },
+            "postMergeTail": Object {
+              "addOffset": 36,
+              "h": 72,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "grid": Object {
+      "h": 24,
+      "w": 132,
+    },
+    "menu": Object {
+      "marginBottom": 24,
+    },
+    "node": Object {
+      "icon": Object {
+        "h": 48,
+        "w": 48,
+      },
+      "offsetX": 88,
+      "w": 264,
+    },
+  },
+  "nodes": Array [
+    Object {
+      "config": Object {},
+      "flows": Array [],
+      "geometry": Object {
+        "h": 120,
+        "w": 48,
+        "x": 0,
+        "y": 0,
+      },
+      "guid": "start-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "start-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "start",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 60,
+        },
+        "connectionInfo": Object {
+          "next": "branch-guid",
+          "prev": "start-guid",
+        },
+        "geometry": Object {
+          "h": 120,
+          "w": 6,
+          "x": 0,
+          "y": 0,
+        },
+        "isFault": undefined,
+        "isHighlighted": false,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 0
+L 3, 120",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
+        "config": Object {},
+        "elementType": "start",
+        "guid": "start-guid",
+        "isCanvasElement": true,
+        "isTerminal": true,
+        "label": "start-guid",
+        "next": "branch-guid",
+        "nodeType": "start",
+        "parent": "root",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "conditionOptions": undefined,
+      "config": Object {
+        "highlightInfo": Object {
+          "branchIndexesToHighlight": Array [
+            1,
+          ],
+        },
+      },
+      "defaultConnectorLabel": "Default Connector Label",
+      "flows": Array [
+        Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 176,
+            "x": -88,
+            "y": 0,
+          },
+          "isTerminal": false,
+          "layoutConfig": Object {
+            "branch": Object {
+              "defaultWidth": 264,
+              "emptyWidth": 176,
+            },
+            "connector": Object {
+              "curveRadius": 16,
+              "icon": Object {
+                "h": 20,
+                "w": 20,
+              },
+              "menu": Object {
+                "h": 328,
+                "w": 100,
+              },
+              "strokeWidth": 6,
+              "types": Object {
+                "straight": Object {
+                  "addOffset": 60,
+                  "h": 120,
+                  "labelOffset": 48,
+                  "variants": Object {
+                    "branchHead": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                      },
+                    },
+                    "branchHeadEmpty": Object {
+                      "addOffset": 84,
+                      "h": 120,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "branchTail": Object {
+                      "h": 96,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                    },
+                    "fault": Object {
+                      "labelOffset": 24,
+                      "svgMarginTop": 24,
+                    },
+                    "postMerge": Object {
+                      "addOffset": 36,
+                      "h": 96,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                      },
+                    },
+                    "postMergeTail": Object {
+                      "addOffset": 36,
+                      "h": 72,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "grid": Object {
+              "h": 24,
+              "w": 132,
+            },
+            "menu": Object {
+              "marginBottom": 24,
+            },
+            "node": Object {
+              "icon": Object {
+                "h": 48,
+                "w": 48,
+              },
+              "offsetX": 88,
+              "w": 264,
+            },
+          },
+          "nodes": Array [],
+          "preConnector": Object {
+            "addInfo": Object {
+              "menuOpened": false,
+              "offsetY": 84,
+            },
+            "connectionInfo": Object {
+              "childIndex": 0,
+              "parent": "branch-guid",
+            },
+            "geometry": Object {
+              "h": 120,
+              "w": 6,
+              "x": 0,
+              "y": 0,
+            },
+            "isFault": false,
+            "isHighlighted": false,
+            "labelOffsetY": 48,
+            "labelType": 1,
+            "svgInfo": Object {
+              "geometry": Object {
+                "h": 120,
+                "w": 6,
+                "x": -3,
+                "y": 0,
+              },
+              "path": "M 3, 24
+L 3, 96",
+            },
+            "toBeDeleted": false,
+            "type": "straight",
+          },
+        },
+        Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 176,
+            "x": 88,
+            "y": 0,
+          },
+          "isTerminal": false,
+          "layoutConfig": Object {
+            "branch": Object {
+              "defaultWidth": 264,
+              "emptyWidth": 176,
+            },
+            "connector": Object {
+              "curveRadius": 16,
+              "icon": Object {
+                "h": 20,
+                "w": 20,
+              },
+              "menu": Object {
+                "h": 328,
+                "w": 100,
+              },
+              "strokeWidth": 6,
+              "types": Object {
+                "straight": Object {
+                  "addOffset": 60,
+                  "h": 120,
+                  "labelOffset": 48,
+                  "variants": Object {
+                    "branchHead": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                      },
+                    },
+                    "branchHeadEmpty": Object {
+                      "addOffset": 84,
+                      "h": 120,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "branchTail": Object {
+                      "h": 96,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                    },
+                    "fault": Object {
+                      "labelOffset": 24,
+                      "svgMarginTop": 24,
+                    },
+                    "postMerge": Object {
+                      "addOffset": 36,
+                      "h": 96,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                      },
+                    },
+                    "postMergeTail": Object {
+                      "addOffset": 36,
+                      "h": 72,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "grid": Object {
+              "h": 24,
+              "w": 132,
+            },
+            "menu": Object {
+              "marginBottom": 24,
+            },
+            "node": Object {
+              "icon": Object {
+                "h": 48,
+                "w": 48,
+              },
+              "offsetX": 88,
+              "w": 264,
+            },
+          },
+          "nodes": Array [],
+          "preConnector": Object {
+            "addInfo": Object {
+              "menuOpened": false,
+              "offsetY": 84,
+            },
+            "connectionInfo": Object {
+              "childIndex": 1,
+              "parent": "branch-guid",
+            },
+            "connectorBadgeLabel": "Default Connector Label",
+            "geometry": Object {
+              "h": 120,
+              "w": 6,
+              "x": 0,
+              "y": 0,
+            },
+            "isFault": false,
+            "isHighlighted": true,
+            "labelOffsetY": 48,
+            "labelType": 1,
+            "svgInfo": Object {
+              "geometry": Object {
+                "h": 120,
+                "w": 6,
+                "x": -3,
+                "y": 0,
+              },
+              "path": "M 3, 24
+L 3, 96",
+            },
+            "toBeDeleted": false,
+            "type": "straight",
+          },
+        },
+      ],
+      "geometry": Object {
+        "h": 216,
+        "w": 352,
+        "x": 0,
+        "y": 120,
+      },
+      "guid": "branch-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "branch-guid",
+      "logicConnectors": Array [
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 0,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 24,
+            "w": 88,
+            "x": -88,
+            "y": 0,
+          },
+          "isFault": undefined,
+          "isHighlighted": false,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 33,
+              "w": 91,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 91, 3
+L 19, 3
+A 16 16 0 0 0, 3, 19
+L 3, 27",
+          },
+          "toBeDeleted": false,
+          "type": "branchLeft",
+        },
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 1,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 24,
+            "w": 88,
+            "x": 0,
+            "y": 0,
+          },
+          "isFault": undefined,
+          "isHighlighted": true,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 33,
+              "w": 97,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 3, 3
+L 75, 3
+A 16 16 0 0 1, 91, 19
+L 91, 27",
+          },
+          "toBeDeleted": false,
+          "type": "branchRight",
+        },
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 0,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 48,
+            "w": 88,
+            "x": -88,
+            "y": 96,
+          },
+          "isFault": undefined,
+          "isHighlighted": false,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 48,
+              "w": 97,
+              "x": -3,
+              "y": 0,
+            },
+            "path": "M 3, 0
+L 3, 8
+A 16 16 0 0 0, 19, 24
+L 75, 24
+A 16 16 0 0 1, 91, 40
+L 91, 48",
+          },
+          "toBeDeleted": false,
+          "type": "mergeLeft",
+        },
+        Object {
+          "connectionInfo": Object {
+            "childIndex": 0,
+            "parent": "branch-guid",
+          },
+          "geometry": Object {
+            "h": 48,
+            "w": 88,
+            "x": 0,
+            "y": 96,
+          },
+          "isFault": undefined,
+          "isHighlighted": false,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 48,
+              "w": 94,
+              "x": -3,
+              "y": 0,
+            },
+            "path": "M 91, 0
+L 91, 8
+A 16 16 0 0 1, 75, 24
+L 19, 24
+A 16 16 0 0 0, 3, 40
+L 3, 48",
+          },
+          "toBeDeleted": false,
+          "type": "mergeRight",
+        },
+      ],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "branch",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 36,
+        },
+        "connectionInfo": Object {
+          "next": "end-guid",
+          "prev": "branch-guid",
+        },
+        "geometry": Object {
+          "h": 96,
+          "w": 6,
+          "x": 0,
+          "y": 120,
+        },
+        "isFault": undefined,
+        "isHighlighted": false,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 24
+L 3, 144",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "children": Array [
+          null,
+          null,
+        ],
+        "config": Object {
+          "highlightInfo": Object {
+            "branchIndexesToHighlight": Array [
+              1,
+            ],
+          },
+        },
+        "defaultConnectorLabel": "Default Connector Label",
+        "elementType": "branch",
+        "guid": "branch-guid",
+        "isCanvasElement": true,
+        "label": "branch-guid",
+        "next": "end-guid",
+        "nodeType": "branch",
+        "prev": "start-guid",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "config": undefined,
+      "flows": Array [],
+      "geometry": Object {
+        "h": 0,
+        "w": 48,
+        "x": 0,
+        "y": 336,
+      },
+      "guid": "end-guid",
+      "isNew": false,
+      "isTerminal": true,
+      "label": "end-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "end",
+      },
+      "node": Object {
+        "elementType": "END_ELEMENT",
+        "guid": "end-guid",
+        "isCanvasElement": true,
+        "label": "end-guid",
+        "nodeType": "end",
+        "prev": "branch-guid",
       },
       "toBeDeleted": false,
     },
@@ -407,7 +2067,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -441,6 +2101,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -466,6 +2127,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -479,7 +2141,7 @@ L 3, 120",
     },
     Object {
       "conditionOptions": undefined,
-      "config": undefined,
+      "config": Object {},
       "defaultConnectorLabel": "Default Connector Label",
       "flows": Array [
         Object {
@@ -633,7 +2295,7 @@ L 3, 120",
           },
           "nodes": Array [
             Object {
-              "config": undefined,
+              "config": Object {},
               "flows": Array [],
               "geometry": Object {
                 "h": 96,
@@ -667,6 +2329,7 @@ L 3, 120",
                   "y": 0,
                 },
                 "isFault": undefined,
+                "isHighlighted": false,
                 "labelOffsetY": 48,
                 "labelType": 0,
                 "svgInfo": Object {
@@ -684,6 +2347,7 @@ L 3, 72",
               },
               "node": Object {
                 "childIndex": 0,
+                "config": Object {},
                 "elementType": "default",
                 "guid": "branch-left-head-guid",
                 "label": "default",
@@ -709,6 +2373,7 @@ L 3, 72",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -892,6 +2557,7 @@ L 3, 144",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -932,6 +2598,7 @@ L 3, 216",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -960,6 +2627,7 @@ L 3, 27",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -988,6 +2656,7 @@ L 135, 27",
             "y": 216,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -1018,6 +2687,7 @@ L 135, 48",
             "y": 216,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -1058,6 +2728,7 @@ L 3, 48",
           "y": 240,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -1078,6 +2749,7 @@ L 3, 144",
           "branch-left-head-guid",
           null,
         ],
+        "config": Object {},
         "defaultConnectorLabel": "Default Connector Label",
         "elementType": "branch",
         "guid": "branch-guid",
@@ -1274,7 +2946,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -1308,6 +2980,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -1333,6 +3006,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -1345,7 +3019,7 @@ L 3, 120",
       "toBeDeleted": false,
     },
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 284,
@@ -1379,6 +3053,7 @@ L 3, 120",
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -1395,6 +3070,7 @@ L 3, 284",
         "type": "straight",
       },
       "node": Object {
+        "config": Object {},
         "elementType": "Screen",
         "guid": "screen-guid",
         "isCanvasElement": true,
@@ -1590,7 +3266,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -1624,6 +3300,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -1649,6 +3326,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -1662,7 +3340,7 @@ L 3, 120",
     },
     Object {
       "conditionOptions": undefined,
-      "config": undefined,
+      "config": Object {},
       "defaultConnectorLabel": "Default Connector Label",
       "flows": Array [
         Object {
@@ -1831,6 +3509,7 @@ L 3, 120",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -2014,6 +3693,7 @@ L 3, 96",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -2054,6 +3734,7 @@ L 3, 96",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -2082,6 +3763,7 @@ L 3, 27",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -2110,6 +3792,7 @@ L 91, 27",
             "y": 96,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -2140,6 +3823,7 @@ L 91, 48",
             "y": 96,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -2180,6 +3864,7 @@ L 3, 48",
           "y": 120,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -2200,6 +3885,7 @@ L 3, 144",
           null,
           null,
         ],
+        "config": Object {},
         "defaultConnectorLabel": "Default Connector Label",
         "elementType": "branch",
         "guid": "branch-guid",
@@ -2396,7 +4082,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -2430,6 +4116,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -2455,6 +4142,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -2468,7 +4156,7 @@ L 3, 120",
     },
     Object {
       "conditionOptions": undefined,
-      "config": undefined,
+      "config": Object {},
       "defaultConnectorLabel": "Default Connector Label",
       "flows": Array [
         Object {
@@ -2637,6 +4325,7 @@ L 3, 120",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -2819,6 +4508,7 @@ L 3, 96",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -3002,6 +4692,7 @@ L 3, 168",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 1,
             "svgInfo": Object {
@@ -3042,6 +4733,7 @@ L 3, 96",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -3070,6 +4762,7 @@ L 3, 27",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -3098,6 +4791,7 @@ L 179, 27",
             "y": 96,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -3128,6 +4822,7 @@ L 179, 48",
             "y": 96,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -3168,6 +4863,7 @@ L 3, 48",
           "y": 120,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -3189,6 +4885,7 @@ L 3, 144",
           null,
           null,
         ],
+        "config": Object {},
         "defaultConnectorLabel": "Default Connector Label",
         "elementType": "branch",
         "guid": "branch-guid",
@@ -3385,7 +5082,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -3419,6 +5116,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -3444,6 +5142,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -3457,7 +5156,7 @@ L 3, 120",
     },
     Object {
       "conditionOptions": undefined,
-      "config": undefined,
+      "config": Object {},
       "defaultConnectorLabel": undefined,
       "flows": Array [
         Object {
@@ -3626,6 +5325,7 @@ L 3, 120",
               "y": 0,
             },
             "isFault": false,
+            "isHighlighted": false,
             "labelOffsetY": 48,
             "labelType": 2,
             "svgInfo": Object {
@@ -3665,6 +5365,7 @@ L 3, 96",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelOffsetY": 48,
           "labelType": 3,
           "svgInfo": Object {
@@ -3697,6 +5398,7 @@ L 91, 171",
             "y": 0,
           },
           "isFault": undefined,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -3739,6 +5441,7 @@ L 3, 3",
           "y": 144,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -3758,6 +5461,1177 @@ L 3, 144",
         "children": Array [
           null,
         ],
+        "config": Object {},
+        "elementType": "loop",
+        "guid": "loop-guid",
+        "isCanvasElement": true,
+        "label": "loop-guid",
+        "next": "end-guid",
+        "nodeType": "loop",
+        "prev": "start-guid",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "config": undefined,
+      "flows": Array [],
+      "geometry": Object {
+        "h": 0,
+        "w": 48,
+        "x": 0,
+        "y": 360,
+      },
+      "guid": "end-guid",
+      "isNew": false,
+      "isTerminal": true,
+      "label": "end-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "end",
+      },
+      "node": Object {
+        "elementType": "END_ELEMENT",
+        "guid": "end-guid",
+        "isCanvasElement": true,
+        "label": "end-guid",
+        "nodeType": "end",
+        "prev": "loop-guid",
+      },
+      "toBeDeleted": false,
+    },
+  ],
+}
+`;
+
+exports[`flowRenderer renderFlow flow with highlighted fault branch 1`] = `
+Object {
+  "geometry": Object {
+    "h": 360,
+    "w": 528,
+    "x": 0,
+    "y": 0,
+  },
+  "isTerminal": true,
+  "layoutConfig": Object {
+    "branch": Object {
+      "defaultWidth": 264,
+      "emptyWidth": 176,
+    },
+    "connector": Object {
+      "curveRadius": 16,
+      "icon": Object {
+        "h": 20,
+        "w": 20,
+      },
+      "menu": Object {
+        "h": 328,
+        "w": 100,
+      },
+      "strokeWidth": 6,
+      "types": Object {
+        "straight": Object {
+          "addOffset": 60,
+          "h": 120,
+          "labelOffset": 48,
+          "variants": Object {
+            "branchHead": Object {
+              "addOffset": 84,
+              "h": 144,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+              },
+            },
+            "branchHeadEmpty": Object {
+              "addOffset": 84,
+              "h": 120,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "branchTail": Object {
+              "h": 96,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
+            "fault": Object {
+              "labelOffset": 24,
+              "svgMarginTop": 24,
+            },
+            "postMerge": Object {
+              "addOffset": 36,
+              "h": 96,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+              },
+            },
+            "postMergeTail": Object {
+              "addOffset": 36,
+              "h": 72,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "grid": Object {
+      "h": 24,
+      "w": 132,
+    },
+    "menu": Object {
+      "marginBottom": 24,
+    },
+    "node": Object {
+      "icon": Object {
+        "h": 48,
+        "w": 48,
+      },
+      "offsetX": 88,
+      "w": 264,
+    },
+  },
+  "nodes": Array [
+    Object {
+      "config": Object {},
+      "flows": Array [],
+      "geometry": Object {
+        "h": 120,
+        "w": 48,
+        "x": 0,
+        "y": 0,
+      },
+      "guid": "start-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "start-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "start",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 60,
+        },
+        "connectionInfo": Object {
+          "next": "action-element-one",
+          "prev": "start-guid",
+        },
+        "geometry": Object {
+          "h": 120,
+          "w": 6,
+          "x": 0,
+          "y": 0,
+        },
+        "isFault": undefined,
+        "isHighlighted": false,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 0
+L 3, 120",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
+        "config": Object {},
+        "elementType": "start",
+        "guid": "start-guid",
+        "isCanvasElement": true,
+        "isTerminal": true,
+        "label": "start-guid",
+        "next": "action-element-one",
+        "nodeType": "start",
+        "parent": "root",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "conditionOptions": undefined,
+      "config": Object {
+        "highlightInfo": Object {
+          "branchIndexesToHighlight": Array [
+            -1,
+          ],
+        },
+      },
+      "defaultConnectorLabel": undefined,
+      "faultFlow": Object {
+        "geometry": Object {
+          "h": 168,
+          "w": 264,
+          "x": 264,
+          "y": 120,
+        },
+        "isTerminal": false,
+        "layoutConfig": Object {
+          "branch": Object {
+            "defaultWidth": 264,
+            "emptyWidth": 176,
+          },
+          "connector": Object {
+            "curveRadius": 16,
+            "icon": Object {
+              "h": 20,
+              "w": 20,
+            },
+            "menu": Object {
+              "h": 328,
+              "w": 100,
+            },
+            "strokeWidth": 6,
+            "types": Object {
+              "straight": Object {
+                "addOffset": 60,
+                "h": 120,
+                "labelOffset": 48,
+                "variants": Object {
+                  "branchHead": Object {
+                    "addOffset": 84,
+                    "h": 144,
+                    "variants": Object {
+                      "center": Object {
+                        "svgMarginBottom": -24,
+                      },
+                      "edge": Object {
+                        "svgMarginTop": 24,
+                      },
+                      "fault": Object {
+                        "labelOffset": 24,
+                        "svgMarginTop": 24,
+                      },
+                    },
+                  },
+                  "branchHeadEmpty": Object {
+                    "addOffset": 84,
+                    "h": 120,
+                    "variants": Object {
+                      "center": Object {
+                        "svgMarginBottom": -24,
+                      },
+                      "edge": Object {
+                        "svgMarginBottom": 24,
+                        "svgMarginTop": 24,
+                      },
+                      "edgeBottom": Object {
+                        "svgMarginBottom": 24,
+                      },
+                      "fault": Object {
+                        "labelOffset": 24,
+                        "svgMarginTop": 24,
+                      },
+                      "loop": Object {
+                        "svgMarginBottom": 48,
+                      },
+                    },
+                  },
+                  "branchTail": Object {
+                    "h": 96,
+                    "variants": Object {
+                      "center": Object {
+                        "svgMarginBottom": -24,
+                      },
+                      "edge": Object {
+                        "svgMarginBottom": 24,
+                      },
+                      "edgeBottom": Object {
+                        "svgMarginBottom": 24,
+                      },
+                      "loop": Object {
+                        "svgMarginBottom": 48,
+                      },
+                    },
+                  },
+                  "defaultLabel": Object {
+                    "addOffset": 84,
+                    "h": 144,
+                  },
+                  "fault": Object {
+                    "labelOffset": 24,
+                    "svgMarginTop": 24,
+                  },
+                  "postMerge": Object {
+                    "addOffset": 36,
+                    "h": 96,
+                    "svgMarginTop": 24,
+                    "variants": Object {
+                      "center": Object {
+                        "svgMarginBottom": -24,
+                      },
+                      "edge": Object {
+                        "svgMarginBottom": 24,
+                      },
+                      "edgeBottom": Object {
+                        "svgMarginBottom": 24,
+                      },
+                    },
+                  },
+                  "postMergeTail": Object {
+                    "addOffset": 36,
+                    "h": 72,
+                    "svgMarginTop": 24,
+                    "variants": Object {
+                      "center": Object {
+                        "svgMarginBottom": -24,
+                      },
+                      "edge": Object {
+                        "svgMarginBottom": 24,
+                      },
+                      "edgeBottom": Object {
+                        "svgMarginBottom": 24,
+                      },
+                      "loop": Object {
+                        "svgMarginBottom": 48,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          "grid": Object {
+            "h": 24,
+            "w": 132,
+          },
+          "menu": Object {
+            "marginBottom": 24,
+          },
+          "node": Object {
+            "icon": Object {
+              "h": 48,
+              "w": 48,
+            },
+            "offsetX": 88,
+            "w": 264,
+          },
+        },
+        "nodes": Array [
+          Object {
+            "config": Object {},
+            "flows": Array [],
+            "geometry": Object {
+              "h": 0,
+              "w": 48,
+              "x": 0,
+              "y": 120,
+            },
+            "guid": "fault-branch-head-guid-one",
+            "isNew": false,
+            "isTerminal": true,
+            "label": "default",
+            "logicConnectors": Array [],
+            "menuOpened": false,
+            "metadata": Object {
+              "icon": "standard:default",
+              "type": "end",
+            },
+            "node": Object {
+              "childIndex": -1,
+              "config": Object {},
+              "elementType": "END_ELEMENT",
+              "guid": "fault-branch-head-guid-one",
+              "label": "default",
+              "nodeType": "end",
+              "parent": "action-element-one",
+            },
+            "toBeDeleted": false,
+          },
+        ],
+        "preConnector": Object {
+          "addInfo": Object {
+            "menuOpened": false,
+            "offsetY": 60,
+          },
+          "connectionInfo": Object {
+            "childIndex": -1,
+            "parent": "action-element-one",
+          },
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          "isFault": true,
+          "isHighlighted": true,
+          "labelOffsetY": 24,
+          "labelType": 4,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 120,
+              "w": 6,
+              "x": -3,
+              "y": 0,
+            },
+            "path": "M 3, 24
+L 3, 120",
+          },
+          "toBeDeleted": false,
+          "type": "straight",
+        },
+      },
+      "flows": Array [],
+      "geometry": Object {
+        "h": 120,
+        "w": 264,
+        "x": 0,
+        "y": 120,
+      },
+      "guid": "action-element-one",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "action-guid",
+      "logicConnectors": Array [
+        Object {
+          "connectionInfo": Object {
+            "childIndex": -1,
+            "parent": "root",
+          },
+          "geometry": Object {
+            "h": 24,
+            "w": 264,
+            "x": 0,
+            "y": 0,
+          },
+          "isFault": true,
+          "isHighlighted": true,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 33,
+              "w": 273,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 3, 3
+L 251, 3
+A 16 16 0 0 1, 267, 19
+L 267, 27",
+          },
+          "toBeDeleted": false,
+          "type": "branchRight",
+        },
+      ],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "default",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 60,
+        },
+        "connectionInfo": Object {
+          "next": "end-guid",
+          "prev": "action-element-one",
+        },
+        "geometry": Object {
+          "h": 120,
+          "w": 6,
+          "x": 0,
+          "y": 0,
+        },
+        "isFault": undefined,
+        "isHighlighted": false,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 0
+L 3, 120",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "config": Object {
+          "highlightInfo": Object {
+            "branchIndexesToHighlight": Array [
+              -1,
+            ],
+          },
+        },
+        "elementType": "default",
+        "fault": "fault-branch-head-guid-one",
+        "guid": "action-element-one",
+        "isCanvasElement": true,
+        "label": "action-guid",
+        "next": "end-guid",
+        "nodeType": "default",
+        "prev": "start-guid",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "config": undefined,
+      "flows": Array [],
+      "geometry": Object {
+        "h": 0,
+        "w": 48,
+        "x": 0,
+        "y": 240,
+      },
+      "guid": "end-guid",
+      "isNew": false,
+      "isTerminal": true,
+      "label": "end-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "end",
+      },
+      "node": Object {
+        "elementType": "END_ELEMENT",
+        "guid": "end-guid",
+        "isCanvasElement": true,
+        "label": "end-guid",
+        "nodeType": "end",
+        "prev": "action-element-one",
+      },
+      "toBeDeleted": false,
+    },
+  ],
+}
+`;
+
+exports[`flowRenderer renderFlow flow with highlighted loop branches 1`] = `
+Object {
+  "geometry": Object {
+    "h": 408,
+    "w": 324,
+    "x": 0,
+    "y": 0,
+  },
+  "isTerminal": true,
+  "layoutConfig": Object {
+    "branch": Object {
+      "defaultWidth": 264,
+      "emptyWidth": 176,
+    },
+    "connector": Object {
+      "curveRadius": 16,
+      "icon": Object {
+        "h": 20,
+        "w": 20,
+      },
+      "menu": Object {
+        "h": 328,
+        "w": 100,
+      },
+      "strokeWidth": 6,
+      "types": Object {
+        "straight": Object {
+          "addOffset": 60,
+          "h": 120,
+          "labelOffset": 48,
+          "variants": Object {
+            "branchHead": Object {
+              "addOffset": 84,
+              "h": 144,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+              },
+            },
+            "branchHeadEmpty": Object {
+              "addOffset": 84,
+              "h": 120,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "branchTail": Object {
+              "h": 96,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+            "defaultLabel": Object {
+              "addOffset": 84,
+              "h": 144,
+            },
+            "fault": Object {
+              "labelOffset": 24,
+              "svgMarginTop": 24,
+            },
+            "postMerge": Object {
+              "addOffset": 36,
+              "h": 96,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+              },
+            },
+            "postMergeTail": Object {
+              "addOffset": 36,
+              "h": 72,
+              "svgMarginTop": 24,
+              "variants": Object {
+                "center": Object {
+                  "svgMarginBottom": -24,
+                },
+                "edge": Object {
+                  "svgMarginBottom": 24,
+                },
+                "edgeBottom": Object {
+                  "svgMarginBottom": 24,
+                },
+                "loop": Object {
+                  "svgMarginBottom": 48,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "grid": Object {
+      "h": 24,
+      "w": 132,
+    },
+    "menu": Object {
+      "marginBottom": 24,
+    },
+    "node": Object {
+      "icon": Object {
+        "h": 48,
+        "w": 48,
+      },
+      "offsetX": 88,
+      "w": 264,
+    },
+  },
+  "nodes": Array [
+    Object {
+      "config": Object {},
+      "flows": Array [],
+      "geometry": Object {
+        "h": 120,
+        "w": 48,
+        "x": 0,
+        "y": 0,
+      },
+      "guid": "start-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "start-guid",
+      "logicConnectors": Array [],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "start",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 60,
+        },
+        "connectionInfo": Object {
+          "next": "loop-guid",
+          "prev": "start-guid",
+        },
+        "geometry": Object {
+          "h": 120,
+          "w": 6,
+          "x": 0,
+          "y": 0,
+        },
+        "isFault": undefined,
+        "isHighlighted": false,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 0
+L 3, 120",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "childIndex": 0,
+        "childReferences": Array [
+          Object {
+            "childReference": "child-reference-guid-1",
+          },
+          Object {
+            "childReference": "child-reference-guid-2",
+          },
+        ],
+        "config": Object {},
+        "elementType": "start",
+        "guid": "start-guid",
+        "isCanvasElement": true,
+        "isTerminal": true,
+        "label": "start-guid",
+        "next": "loop-guid",
+        "nodeType": "start",
+        "parent": "root",
+      },
+      "toBeDeleted": false,
+    },
+    Object {
+      "conditionOptions": undefined,
+      "config": Object {
+        "highlightInfo": Object {
+          "branchIndexesToHighlight": Array [
+            0,
+          ],
+          "highlightLoopBack": true,
+          "highlightNext": true,
+        },
+      },
+      "defaultConnectorLabel": undefined,
+      "flows": Array [
+        Object {
+          "geometry": Object {
+            "h": 144,
+            "w": 176,
+            "x": 0,
+            "y": 0,
+          },
+          "isTerminal": false,
+          "layoutConfig": Object {
+            "branch": Object {
+              "defaultWidth": 264,
+              "emptyWidth": 176,
+            },
+            "connector": Object {
+              "curveRadius": 16,
+              "icon": Object {
+                "h": 20,
+                "w": 20,
+              },
+              "menu": Object {
+                "h": 328,
+                "w": 100,
+              },
+              "strokeWidth": 6,
+              "types": Object {
+                "straight": Object {
+                  "addOffset": 60,
+                  "h": 120,
+                  "labelOffset": 48,
+                  "variants": Object {
+                    "branchHead": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                      },
+                    },
+                    "branchHeadEmpty": Object {
+                      "addOffset": 84,
+                      "h": 120,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "branchTail": Object {
+                      "h": 96,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                    "defaultLabel": Object {
+                      "addOffset": 84,
+                      "h": 144,
+                    },
+                    "fault": Object {
+                      "labelOffset": 24,
+                      "svgMarginTop": 24,
+                    },
+                    "postMerge": Object {
+                      "addOffset": 36,
+                      "h": 96,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                      },
+                    },
+                    "postMergeTail": Object {
+                      "addOffset": 36,
+                      "h": 72,
+                      "svgMarginTop": 24,
+                      "variants": Object {
+                        "center": Object {
+                          "svgMarginBottom": -24,
+                        },
+                        "edge": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "edgeBottom": Object {
+                          "svgMarginBottom": 24,
+                        },
+                        "loop": Object {
+                          "svgMarginBottom": 48,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "grid": Object {
+              "h": 24,
+              "w": 132,
+            },
+            "menu": Object {
+              "marginBottom": 24,
+            },
+            "node": Object {
+              "icon": Object {
+                "h": 48,
+                "w": 48,
+              },
+              "offsetX": 88,
+              "w": 264,
+            },
+          },
+          "nodes": Array [],
+          "preConnector": Object {
+            "addInfo": Object {
+              "menuOpened": false,
+              "offsetY": 84,
+            },
+            "connectionInfo": Object {
+              "childIndex": 0,
+              "parent": "loop-guid",
+            },
+            "geometry": Object {
+              "h": 144,
+              "w": 6,
+              "x": 0,
+              "y": 0,
+            },
+            "isFault": false,
+            "isHighlighted": true,
+            "labelOffsetY": 48,
+            "labelType": 2,
+            "svgInfo": Object {
+              "geometry": Object {
+                "h": 144,
+                "w": 6,
+                "x": -3,
+                "y": 0,
+              },
+              "path": "M 3, 0
+L 3, 96",
+            },
+            "toBeDeleted": false,
+            "type": "straight",
+          },
+        },
+      ],
+      "geometry": Object {
+        "h": 240,
+        "w": 176,
+        "x": 0,
+        "y": 120,
+      },
+      "guid": "loop-guid",
+      "isNew": false,
+      "isTerminal": false,
+      "label": "loop-guid",
+      "logicConnectors": Array [
+        Object {
+          "connectionInfo": Object {
+            "parent": "loop-guid",
+          },
+          "geometry": Object {
+            "h": 144,
+            "w": 88,
+            "x": -88,
+            "y": 0,
+          },
+          "isFault": undefined,
+          "isHighlighted": true,
+          "labelOffsetY": 48,
+          "labelType": 3,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 177,
+              "w": 94,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 91, 3
+L 19, 3
+A 16 16 0 0 0, 3, 19
+L 3, 131
+A 16 16 0 0 0, 19, 147
+L 75, 147
+A 16 16 0 0 1, 91, 163
+L 91, 171",
+          },
+          "toBeDeleted": false,
+          "type": "loopAfterLast",
+        },
+        Object {
+          "connectionInfo": Object {
+            "parent": "loop-guid",
+          },
+          "geometry": Object {
+            "h": 144,
+            "w": 88,
+            "x": 0,
+            "y": 0,
+          },
+          "isFault": undefined,
+          "isHighlighted": true,
+          "labelType": 0,
+          "svgInfo": Object {
+            "geometry": Object {
+              "h": 126,
+              "w": 97,
+              "x": -3,
+              "y": -3,
+            },
+            "path": "M 3, 99
+L 3, 107
+A 16 16 0 0 0, 19, 123
+L 75, 123
+A 16 16 0 0 0, 91, 107
+L 91, 19
+A 16 16 0 0 0, 75, 3
+L 3, 3",
+          },
+          "toBeDeleted": false,
+          "type": "loopBack",
+        },
+      ],
+      "menuOpened": false,
+      "metadata": Object {
+        "icon": "standard:default",
+        "type": "loop",
+      },
+      "nextConnector": Object {
+        "addInfo": Object {
+          "menuOpened": false,
+          "offsetY": 36,
+        },
+        "connectionInfo": Object {
+          "next": "end-guid",
+          "prev": "loop-guid",
+        },
+        "geometry": Object {
+          "h": 96,
+          "w": 6,
+          "x": 0,
+          "y": 144,
+        },
+        "isFault": undefined,
+        "isHighlighted": true,
+        "labelOffsetY": 48,
+        "labelType": 0,
+        "svgInfo": Object {
+          "geometry": Object {
+            "h": 120,
+            "w": 6,
+            "x": -3,
+            "y": 0,
+          },
+          "path": "M 3, 24
+L 3, 144",
+        },
+        "toBeDeleted": false,
+        "type": "straight",
+      },
+      "node": Object {
+        "children": Array [
+          null,
+        ],
+        "config": Object {
+          "highlightInfo": Object {
+            "branchIndexesToHighlight": Array [
+              0,
+            ],
+            "highlightLoopBack": true,
+            "highlightNext": true,
+          },
+        },
         "elementType": "loop",
         "guid": "loop-guid",
         "isCanvasElement": true,
@@ -3953,7 +6827,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -3987,6 +6861,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -4012,6 +6887,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -4025,7 +6901,7 @@ L 3, 120",
     },
     Object {
       "conditionOptions": undefined,
-      "config": undefined,
+      "config": Object {},
       "defaultConnectorLabel": undefined,
       "faultFlow": Object {
         "geometry": Object {
@@ -4178,7 +7054,7 @@ L 3, 120",
         },
         "nodes": Array [
           Object {
-            "config": undefined,
+            "config": Object {},
             "flows": Array [],
             "geometry": Object {
               "h": 0,
@@ -4198,6 +7074,7 @@ L 3, 120",
             },
             "node": Object {
               "childIndex": -1,
+              "config": Object {},
               "elementType": "END_ELEMENT",
               "guid": "fault-branch-head-guid-one",
               "label": "default",
@@ -4223,6 +7100,7 @@ L 3, 120",
             "y": 0,
           },
           "isFault": true,
+          "isHighlighted": false,
           "labelOffsetY": 24,
           "labelType": 4,
           "svgInfo": Object {
@@ -4263,6 +7141,7 @@ L 3, 120",
             "y": 0,
           },
           "isFault": true,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -4301,6 +7180,7 @@ L 531, 27",
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -4317,6 +7197,7 @@ L 3, 120",
         "type": "straight",
       },
       "node": Object {
+        "config": Object {},
         "elementType": "default",
         "fault": "fault-branch-head-guid-one",
         "guid": "action-element-one",
@@ -4330,7 +7211,7 @@ L 3, 120",
     },
     Object {
       "conditionOptions": undefined,
-      "config": undefined,
+      "config": Object {},
       "defaultConnectorLabel": undefined,
       "faultFlow": Object {
         "geometry": Object {
@@ -4483,7 +7364,7 @@ L 3, 120",
         },
         "nodes": Array [
           Object {
-            "config": undefined,
+            "config": Object {},
             "flows": Array [],
             "geometry": Object {
               "h": 0,
@@ -4503,6 +7384,7 @@ L 3, 120",
             },
             "node": Object {
               "childIndex": -1,
+              "config": Object {},
               "elementType": "END_ELEMENT",
               "guid": "fault-branch-head-guid-two",
               "label": "default",
@@ -4528,6 +7410,7 @@ L 3, 120",
             "y": 0,
           },
           "isFault": true,
+          "isHighlighted": false,
           "labelOffsetY": 24,
           "labelType": 4,
           "svgInfo": Object {
@@ -4568,6 +7451,7 @@ L 3, 120",
             "y": 0,
           },
           "isFault": true,
+          "isHighlighted": false,
           "labelType": 0,
           "svgInfo": Object {
             "geometry": Object {
@@ -4606,6 +7490,7 @@ L 267, 27",
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -4622,6 +7507,7 @@ L 3, 120",
         "type": "straight",
       },
       "node": Object {
+        "config": Object {},
         "elementType": "default",
         "fault": "fault-branch-head-guid-two",
         "guid": "action-element-two",
@@ -4818,7 +7704,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -4852,6 +7738,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -4877,6 +7764,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -4889,7 +7777,7 @@ L 3, 120",
       "toBeDeleted": false,
     },
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -4923,6 +7811,7 @@ L 3, 120",
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -4939,6 +7828,7 @@ L 3, 120",
         "type": "straight",
       },
       "node": Object {
+        "config": Object {},
         "elementType": "Screen",
         "guid": "screen-guid",
         "isCanvasElement": true,
@@ -5134,7 +8024,7 @@ Object {
   },
   "nodes": Array [
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -5168,6 +8058,7 @@ Object {
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -5193,6 +8084,7 @@ L 3, 120",
             "childReference": "child-reference-guid-2",
           },
         ],
+        "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
         "isCanvasElement": true,
@@ -5205,7 +8097,7 @@ L 3, 120",
       "toBeDeleted": false,
     },
     Object {
-      "config": undefined,
+      "config": Object {},
       "flows": Array [],
       "geometry": Object {
         "h": 120,
@@ -5239,6 +8131,7 @@ L 3, 120",
           "y": 0,
         },
         "isFault": undefined,
+        "isHighlighted": false,
         "labelOffsetY": 48,
         "labelType": 0,
         "svgInfo": Object {
@@ -5255,6 +8148,7 @@ L 3, 120",
         "type": "straight",
       },
       "node": Object {
+        "config": Object {},
         "elementType": "Screen",
         "guid": "screen-guid",
         "isCanvasElement": true,

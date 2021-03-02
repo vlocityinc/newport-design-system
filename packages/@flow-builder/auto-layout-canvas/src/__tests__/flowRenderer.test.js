@@ -10,7 +10,11 @@ import {
     getFlowWithEmptyLoopContext,
     getFlowWithTwoFaults,
     getSimpleFlowContext,
-    getFlowWithDynamicNodeComponent
+    getFlowWithDynamicNodeComponent,
+    getFlowWithHighlightedLoopBranches,
+    getFlowWithHighlightedFaultBranch,
+    getFlowWithHighlightedDecisionBranch,
+    getFlowWithHighlightedAndMergedDecisionBranch
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -36,12 +40,30 @@ describe('flowRenderer', () => {
             renderAndAssert(getFlowWithDecisionWithOneElementOnLeftBranchContext());
         });
 
+        it('flow with decision with highlighted branch', () => {
+            renderAndAssert(getFlowWithHighlightedDecisionBranch());
+        });
+
+        it('flow with decision with highlighted and merged branch', () => {
+            renderAndAssert(getFlowWithHighlightedAndMergedDecisionBranch());
+        });
+
         it('flow with empty loop context', () => {
             renderAndAssert(getFlowWithEmptyLoopContext());
         });
+
+        it('flow with highlighted loop branches', () => {
+            renderAndAssert(getFlowWithHighlightedLoopBranches());
+        });
+
+        it('flow with highlighted fault branch', () => {
+            renderAndAssert(getFlowWithHighlightedFaultBranch());
+        });
+
         it('flow with two faults', () => {
             renderAndAssert(getFlowWithTwoFaults());
         });
+
         it('flow with dynamic node component', () => {
             renderAndAssert(getFlowWithDynamicNodeComponent());
         });

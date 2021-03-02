@@ -81,6 +81,11 @@
     z-index: 10;
 }
 
+.error-icon {
+    top: -17px;
+    left: -16px;
+}
+
 .dynamic-component {
     position: absolute;
     top: 0;

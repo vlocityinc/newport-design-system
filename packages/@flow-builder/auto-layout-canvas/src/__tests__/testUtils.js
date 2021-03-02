@@ -1,6 +1,7 @@
 import { areAllBranchesTerminals, isBranchingElement } from '../modelUtils';
 import NodeType from '../NodeType';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
+import { FAULT_INDEX, LOOP_BACK_INDEX } from '../model';
 
 const layoutConfig = getDefaultLayoutConfig();
 
@@ -31,7 +32,8 @@ const START_ELEMENT = {
     childIndex: 0,
     isTerminal: true,
     isCanvasElement: true,
-    childReferences: [{ childReference: 'child-reference-guid-1' }, { childReference: 'child-reference-guid-2' }]
+    childReferences: [{ childReference: 'child-reference-guid-1' }, { childReference: 'child-reference-guid-2' }],
+    config: {}
 };
 
 const END_ELEMENT = {
@@ -49,7 +51,8 @@ const BRANCH_ELEMENT = {
     nodeType: NodeType.BRANCH,
     children: [null, null],
     defaultConnectorLabel: 'Default Connector Label',
-    isCanvasElement: true
+    isCanvasElement: true,
+    config: {}
 };
 
 const LOOP_ELEMENT = {
@@ -58,7 +61,8 @@ const LOOP_ELEMENT = {
     elementType: NodeType.LOOP,
     nodeType: NodeType.LOOP,
     children: [null],
-    isCanvasElement: true
+    isCanvasElement: true,
+    config: {}
 };
 
 const SCREEN_ELEMENT = {
@@ -66,7 +70,8 @@ const SCREEN_ELEMENT = {
     label: SCREEN_ELEMENT_GUID,
     elementType: SCREEN_ELEMENT_TYPE,
     nodeType: NodeType.DEFAULT,
-    isCanvasElement: true
+    isCanvasElement: true,
+    config: {}
 };
 
 const ACTION_ELEMENT = {
@@ -74,7 +79,8 @@ const ACTION_ELEMENT = {
     label: ACTION_ELEMENT_GUID,
     elementType: NodeType.DEFAULT,
     nodeType: NodeType.DEFAULT,
-    isCanvasElement: true
+    isCanvasElement: true,
+    config: {}
 };
 
 function getElementByType(type) {
@@ -153,7 +159,8 @@ function createElementWithElementType(guid, elementType, nodeType) {
         guid,
         elementType,
         label: 'default',
-        nodeType
+        nodeType,
+        config: {}
     };
 }
 
@@ -293,6 +300,42 @@ function getFlowWithEmptyLoopContext() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithHighlightedLoopBranches() {
+    const loopElement = {
+        ...LOOP_ELEMENT,
+        config: {
+            highlightInfo: { highlightNext: true, highlightLoopBack: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] }
+        }
+    };
+
+    const flowModel = createFlow([loopElement]);
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWithHighlightedFaultBranch() {
+    let faultBranchHeadElement = createElementWithElementType(
+        'fault-branch-head-guid-one',
+        'END_ELEMENT',
+        NodeType.END
+    );
+    const actionElement = {
+        ...ACTION_ELEMENT,
+        guid: 'action-element-one',
+        fault: faultBranchHeadElement.guid,
+        config: { highlightInfo: { branchIndexesToHighlight: [FAULT_INDEX] } }
+    };
+    faultBranchHeadElement = {
+        ...faultBranchHeadElement,
+        parent: actionElement.guid,
+        childIndex: -1
+    };
+    const elements = linkElements([START_ELEMENT, actionElement, END_ELEMENT]);
+    elements.push(faultBranchHeadElement);
+
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    return createFlowRenderContext({ flowModel });
+}
+
 function getFlowWithEmptyDeciisionWith3BranchesContext() {
     const branchElement = { ...BRANCH_ELEMENT, children: [null, null, null] };
 
@@ -320,6 +363,26 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
         }
     };
     return createFlowRenderContext({ flowModel, interactionState });
+}
+
+function getFlowWithHighlightedDecisionBranch() {
+    const branchElement = {
+        ...BRANCH_ELEMENT,
+        config: { highlightInfo: { branchIndexesToHighlight: [1] } }
+    };
+
+    const flowModel = createFlow([branchElement]);
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWithHighlightedAndMergedDecisionBranch() {
+    const branchElement = {
+        ...BRANCH_ELEMENT,
+        config: { highlightInfo: { branchIndexesToHighlight: [1], highlightNext: true } }
+    };
+
+    const flowModel = createFlow([branchElement]);
+    return createFlowRenderContext({ flowModel });
 }
 
 function getFlowWithNonTerminalImmediateBranch() {
@@ -443,7 +506,11 @@ function getFlowWithTwoFaults() {
         guid: 'action-element-one',
         fault: faultBranchHeadElementOne.guid
     };
-    faultBranchHeadElementOne = { ...faultBranchHeadElementOne, parent: actionElementOne.guid, childIndex: -1 };
+    faultBranchHeadElementOne = {
+        ...faultBranchHeadElementOne,
+        parent: actionElementOne.guid,
+        childIndex: -1
+    };
     let faultBranchHeadElementTwo = createElementWithElementType(
         'fault-branch-head-guid-two',
         'END_ELEMENT',
@@ -454,7 +521,11 @@ function getFlowWithTwoFaults() {
         guid: 'action-element-two',
         fault: faultBranchHeadElementTwo.guid
     };
-    faultBranchHeadElementTwo = { ...faultBranchHeadElementTwo, parent: actionElementTwo.guid, childIndex: -1 };
+    faultBranchHeadElementTwo = {
+        ...faultBranchHeadElementTwo,
+        parent: actionElementTwo.guid,
+        childIndex: -1
+    };
     const elements = linkElements([START_ELEMENT, actionElementOne, actionElementTwo, END_ELEMENT]);
     elements.push(faultBranchHeadElementOne, faultBranchHeadElementTwo);
     const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
@@ -504,5 +575,9 @@ export {
     getFlowWithDynamicNodeComponent,
     getFlowWithTerminalImmediateBranch,
     getFlowWithBranchNodeInImmediateBranch,
+    getFlowWithHighlightedLoopBranches,
+    getFlowWithHighlightedDecisionBranch,
+    getFlowWithHighlightedAndMergedDecisionBranch,
+    getFlowWithHighlightedFaultBranch,
     createFlow
 };

@@ -73,6 +73,7 @@ function createStraightConnectorSvgInfo(
  * @param isBranchGettingDeleted - True if the current branch is getting deleted
  * @param showAdd - Whether to show the add button
  * @param connectorBadgeLabel - The label of the standard branch connector. Undefined for Default and Fault Connector
+ * @param isHighlighted - Whether this connector is highlighted
  * @returns The ConnectorRenderInfo for the connector
  */
 function createConnectorToNextNode(
@@ -87,7 +88,8 @@ function createConnectorToNextNode(
     variants: ConnectorVariant[],
     isBranchGettingDeleted: boolean,
     addOffset: number | undefined,
-    connectorBadgeLabel?: string
+    connectorBadgeLabel: string | undefined,
+    isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
@@ -109,7 +111,8 @@ function createConnectorToNextNode(
         type: connectorType,
         connectorBadgeLabel,
         isFault,
-        toBeDeleted: isBranchGettingDeleted
+        toBeDeleted: isBranchGettingDeleted,
+        isHighlighted
     };
 
     if (!connectorRenderInfo.connectorBadgeLabel) {
@@ -199,6 +202,7 @@ function getBranchSvgInfo(
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
  * @param toBeDeleted - True if the connector is going to get deleted
+ * @param isHighlighted - Whether this connector is highlighted
  * @returns a ConnectorRenderInfo for the branch connector
  */
 function createBranchConnector(
@@ -208,7 +212,8 @@ function createBranchConnector(
     connectorType: ConnectorType.BRANCH_LEFT | ConnectorType.BRANCH_RIGHT,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean
+    toBeDeleted: boolean,
+    isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const svgInfo = getBranchSvgInfo(w, h, connectorType, layoutConfig);
@@ -223,7 +228,8 @@ function createBranchConnector(
             parent,
             childIndex
         },
-        toBeDeleted
+        toBeDeleted,
+        isHighlighted
     };
 }
 
@@ -238,6 +244,7 @@ function createBranchConnector(
  * @param layoutConfig  - The layout config
  * @param isFault - Whether this is part of a fault connector
  * @param toBeDeleted - True if the connector is going to get deleted
+ * @param isHighlighted - True if the connector is highlighted
  * @returns a ConnectorRenderInfo for the merge connector
  */
 function createMergeConnector(
@@ -247,7 +254,8 @@ function createMergeConnector(
     connectorType: ConnectorType.MERGE_LEFT | ConnectorType.MERGE_RIGHT,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean
+    toBeDeleted: boolean,
+    isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     return {
@@ -260,7 +268,8 @@ function createMergeConnector(
             parent,
             childIndex
         },
-        toBeDeleted
+        toBeDeleted,
+        isHighlighted
     };
 }
 
@@ -273,6 +282,7 @@ function createMergeConnector(
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
  * @param toBeDeleted - True if the connector is going to get deleted
+ * @param isHighlighted - Whether this connector is highlighted
  * @returns a ConnectorRenderInfo for the loop connector
  */
 function createLoopAfterLastConnector(
@@ -280,7 +290,8 @@ function createLoopAfterLastConnector(
     geometry: Geometry,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean
+    toBeDeleted: boolean,
+    isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const connectorType = ConnectorType.LOOP_AFTER_LAST;
@@ -296,7 +307,8 @@ function createLoopAfterLastConnector(
         },
         isFault,
         labelOffsetY: labelOffset,
-        toBeDeleted
+        toBeDeleted,
+        isHighlighted
     };
 }
 
@@ -310,6 +322,7 @@ function createLoopAfterLastConnector(
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
  * @param toBeDeleted - True if the connector is going to get deleted
+ * @param isHighlighted - Whether this connector is highlighted
  * @returns a ConnectorRenderInfo for the loop connector
  */
 function createLoopBackConnector(
@@ -317,7 +330,8 @@ function createLoopBackConnector(
     geometry: Geometry,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean
+    toBeDeleted: boolean,
+    isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const connectorType = ConnectorType.LOOP_BACK;
@@ -331,7 +345,8 @@ function createLoopBackConnector(
         type: connectorType,
         labelType: ConnectorLabelType.NONE,
         isFault,
-        toBeDeleted
+        toBeDeleted,
+        isHighlighted
     };
 }
 

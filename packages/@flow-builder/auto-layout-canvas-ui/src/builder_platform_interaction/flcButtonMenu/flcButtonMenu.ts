@@ -32,6 +32,9 @@ export default class FlcButtonMenu extends LightningElement {
     isNodeGettingDeleted;
 
     @api
+    hasError;
+
+    @api
     canvasMode!: AutoLayoutCanvasMode;
 
     @api
@@ -100,6 +103,7 @@ export default class FlcButtonMenu extends LightningElement {
             'node-in-selection-mode': this.canvasMode !== AutoLayoutCanvasMode.DEFAULT,
             connector: this.variant === 'connector',
             'node-to-be-deleted': this.isNodeGettingDeleted,
+            'has-error': this.hasError,
             'circular-icon': this.variant !== 'connector' && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',
             'slds-button_icon-x-small': this.iconSize === 'x-small',

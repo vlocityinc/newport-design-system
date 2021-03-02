@@ -69,7 +69,8 @@ export default class FlcConnector extends LightningElement {
         const labelType = this.connectorInfo.labelType;
 
         return classSet('connector-badge slds-align_absolute-center slds-badge').add({
-            'fault-badge': labelType === ConnectorLabelType.FAULT
+            'fault-badge': labelType === ConnectorLabelType.FAULT,
+            'connector-highlighted': this.connectorInfo.isHighlighted
         });
     }
 
@@ -95,7 +96,8 @@ export default class FlcConnector extends LightningElement {
      */
     get svgClassName() {
         return classSet(this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type).add({
-            'connector-to-be-deleted': this.connectorInfo.toBeDeleted
+            'connector-to-be-deleted': this.connectorInfo.toBeDeleted,
+            'connector-highlighted': this.connectorInfo.isHighlighted
         });
     }
 

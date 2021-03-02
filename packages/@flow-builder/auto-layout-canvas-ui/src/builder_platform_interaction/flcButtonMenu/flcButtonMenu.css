@@ -19,6 +19,7 @@ button.node-in-selection-mode:hover {
     transform: scale(1);
 }
 
+button.has-error,
 button.node-to-be-deleted {
     background-color: #f4f6f9;
     border-color: var(--lwc-colorBorderError);

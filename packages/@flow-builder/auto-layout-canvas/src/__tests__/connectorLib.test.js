@@ -25,6 +25,7 @@ describe('connectorLib', () => {
             { x: 0, y: 0, w: 88, h: 168 },
             getDefaultLayoutConfig(),
             false,
+            false,
             false
         );
 
@@ -37,7 +38,8 @@ describe('connectorLib', () => {
             { x: -88, y: 0, w: 88, h: 168 },
             getDefaultLayoutConfig(),
             false,
-            false
+            false,
+            true
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -50,7 +52,9 @@ describe('connectorLib', () => {
             { x: 0, y: 0, w: 100, h: 28 },
             ConnectorType.BRANCH_LEFT,
             getDefaultLayoutConfig(),
-            false
+            false,
+            true,
+            true
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -63,7 +67,9 @@ describe('connectorLib', () => {
             { x: 0, y: 0, w: 100, h: 28 },
             ConnectorType.MERGE_LEFT,
             getDefaultLayoutConfig(),
-            false
+            false,
+            true,
+            true
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
