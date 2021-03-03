@@ -316,7 +316,7 @@ export default class FerovResourcePicker extends LightningElement {
             }
             return picklistItem.value === item.value;
         };
-        return this.activePicklistValues && this.activePicklistValues.find(matchPicklistItem);
+        return item && this.activePicklistValues && this.activePicklistValues.find(matchPicklistItem);
     }
 
     initializeResourcePicker = (normalizedValue) => {
