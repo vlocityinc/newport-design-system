@@ -91,7 +91,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
                     id: generateGuid()
                 });
 
-                end = getEndInterviewInfo(debugData, true);
+                end = getEndInterviewInfo(debugData);
             }
         } else {
             end = getEndInterviewInfo(debugData);
@@ -144,17 +144,13 @@ function getStartInterviewInfo(debugData) {
  * @param {Object} debugData the debug interview response
  * @return {Object} end debug interview info
  */
-function getEndInterviewInfo(debugData, hasTerminated = false) {
+function getEndInterviewInfo(debugData) {
     let end;
     const duration = ((debugData.endInterviewTime.getTime() - debugData.startInterviewTime.getTime()) / 1000).toFixed(
         2
     );
     const dateTime = formatDateHelper(debugData.endInterviewTime);
-    let status = debugData.interviewStatus;
-    if (status === STATUS.WAITING && !!hasTerminated) {
-        status = STATUS.FINISHED;
-    }
-    switch (status) {
+    switch (debugData.interviewStatus) {
         case STATUS.FINISHED:
             end = {
                 title: LABELS.interviewFinishHeader,

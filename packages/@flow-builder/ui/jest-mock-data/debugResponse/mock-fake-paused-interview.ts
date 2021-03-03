@@ -66,7 +66,7 @@ export const fakePausedInterview = {
 };
 
 export const fakePausedInterviewWithoutAlarmEvent = {
-    interviewStatus: 'WAITING',
+    interviewStatus: 'FINISHED',
     debugTrace: [
         {
             lines: [

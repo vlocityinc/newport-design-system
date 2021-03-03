@@ -914,7 +914,6 @@ export default class Editor extends LightningElement {
             this.currentFlowId = undefined;
             updateStoreAfterSaveAsNewFlowIsFailed(storeInstance);
             updateUrl();
-            this.ifBlockResume = false;
         } else if (!data.isSuccess && this.saveType === SaveType.NEW_VERSION) {
             updateStoreAfterSaveAsNewVersionIsFailed(
                 storeInstance,
@@ -922,6 +921,9 @@ export default class Editor extends LightningElement {
                 this.originalFlowDescription,
                 this.originalFlowInterviewLabel
             );
+        }
+
+        if (data && !data.isSuccess) {
             this.ifBlockResume = false;
         }
 

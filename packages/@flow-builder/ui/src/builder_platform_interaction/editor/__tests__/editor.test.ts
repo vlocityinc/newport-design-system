@@ -121,10 +121,27 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
 });
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
-        fetch: jest.fn(),
+        fetch: jest.fn().mockImplementation((actionType, callback, params) => {
+            if (actionType === actual.SERVER_ACTION_TYPE.SAVE_FLOW) {
+                if (params.flow.fullName === 'FAIL') {
+                    callback({
+                        data: { isSuccess: false }
+                    });
+                } else if (params.flow.fullName === 'ERROR') {
+                    callback({
+                        error: { error: 'Something Wrong' }
+                    });
+                } else {
+                    jest.fn().mockResolvedValue({});
+                }
+            } else {
+                jest.fn().mockResolvedValue({});
+            }
+        }),
         fetchOnce: jest.fn().mockResolvedValue({}),
-        SERVER_ACTION_TYPE: jest.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE
     };
 });
 
@@ -1449,31 +1466,58 @@ describe('in debug mode', () => {
         nodeUpdate(elementToAdd);
         expect(debugToast).not.toHaveBeenCalled();
     });
-    it('resume during debug mode will be blocked if there is saved change', async () => {
-        const editorComponent = createComponentUnderTest({
-            flowId: '301RM0000000E4N',
-            builderType: 'new',
-            builderMode: 'debugMode',
-            builderConfig: {
-                supportedProcessTypes: ['right'],
-                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
-            }
+    describe('save during debug', () => {
+        let editorComponent;
+
+        beforeEach(async () => {
+            editorComponent = createComponentUnderTest({
+                flowId: '301RM0000000E4N',
+                builderType: 'new',
+                builderMode: 'debugMode',
+                builderConfig: {
+                    supportedProcessTypes: ['right'],
+                    componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+                }
+            });
+            editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+            await ticks(1);
+
+            const editElementEvent = new EditElementEvent('1');
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(editElementEvent);
+            await ticks();
+
+            expect(editorComponent.blockDebugResume).toBeFalsy();
         });
-        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
-        await ticks(1);
 
-        const editElementEvent = new EditElementEvent('1');
-        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
-        canvasContainer.dispatchEvent(editElementEvent);
-        await ticks();
+        it('resume during debug mode will be blocked if there is saved change', async () => {
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const save = toolbar.shadowRoot.querySelector(selectors.save);
+            save.click();
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
-        const save = toolbar.shadowRoot.querySelector(selectors.save);
-        save.click();
+            expect(editorComponent.blockDebugResume).toBeTruthy();
+        });
 
-        const saveFetchCallIndex = fetch.mock.calls.length - 1;
-        expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
+        it('resume during debug mode will be released if save fails', async () => {
+            const flow = { fullName: 'FAIL' };
+            translateUIModelToFlow.mockReturnValue(flow);
 
-        expect(editorComponent.blockDebugResume).toBeTruthy();
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const save = toolbar.shadowRoot.querySelector(selectors.save);
+            save.click();
+
+            expect(editorComponent.blockDebugResume).toBeFalsy();
+        });
+
+        it('resume during debug mode will be released if save has error', async () => {
+            const flow = { fullName: 'ERROR' };
+            translateUIModelToFlow.mockReturnValue(flow);
+
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const save = toolbar.shadowRoot.querySelector(selectors.save);
+            save.click();
+
+            expect(editorComponent.blockDebugResume).toBeFalsy();
+        });
     });
 });
