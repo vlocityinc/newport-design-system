@@ -115,11 +115,33 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
             HTMLElement;
     }
 
-    public getFieldsLabels() {
+    /**
+     * Returns the array of fields links
+     * @param {String} label - object's field label
+     * @returns {Array<HTMLAnchorElement>} array of fields anchors
+     */
+    public getFieldsAnchorElements() {
         const paletteItems = Array.from(
             this.getPaletteElement().shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_ITEM)
         );
-        return Array.from(paletteItems).map((paletteItem) => paletteItem.shadowRoot!.querySelector('a')!.textContent);
+        return paletteItems.map((paletteItem) => paletteItem.shadowRoot!.querySelector('a')!);
+    }
+
+    public getFieldsLabels() {
+        return this.getFieldsAnchorElements().map((fieldLink) => fieldLink!.textContent);
+    }
+
+    /**
+     * For a given field label click on its link
+     * @param {String} label - object's field label
+     */
+    public async clickOnFieldByLabel(label: string) {
+        const fieldsLinks = this.getFieldsAnchorElements() || [];
+        const field = fieldsLinks.find((fieldLink) => fieldLink!.textContent === label);
+        if (field) {
+            field.click();
+            await ticks();
+        }
     }
 }
 

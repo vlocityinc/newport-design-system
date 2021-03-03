@@ -239,6 +239,36 @@ describe('ScreenEditor automatic fields', () => {
                         'Account Number'
                     );
                 });
+                test('Select existing autofield, remove pill, select distinct object from combobox, add autofield from this object, reselect first autofield: should display pill', async () => {
+                    // Select existing autofield "accountSObjectVariable.name" on the canvas
+                    await canvas
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                        .click();
+
+                    // remove pill for record variable "accountSObjectVariable"
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
+                    await sobjectPickerCombobox.removePill();
+
+                    // select "objectWithAllPossiblFieldsVariable" record variable through the autofield palette combobox
+                    await sobjectPickerCombobox.selectItemBy('text', ['objectWithAllPossiblFieldsVariable']);
+
+                    // add new "objectWithAllPossiblFieldsVariable" autofield (ie: "Checkbox Field") to the screen
+                    await screenEditor.getAutomaticFieldsPaletteElement().clickOnFieldByLabel('Checkbox Field');
+
+                    // reselect 'accountSObjectVariable.Name' autofield on the canvas
+                    await canvas
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                        .click();
+
+                    const comboboxElement = sobjectPickerCombobox.element;
+                    expect(comboboxElement.hasPill).toBe(true);
+                    expect(comboboxElement.pill).toEqual({
+                        iconName: 'utility:sobject',
+                        label: 'accountSObjectVariable'
+                    });
+                });
             });
         });
         describe('Automatic field in canvas', () => {

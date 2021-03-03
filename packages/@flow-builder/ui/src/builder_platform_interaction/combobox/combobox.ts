@@ -465,7 +465,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * The error message to display when the combobox is required, but has no value
-     * @param {String} message the message to display
+     * @returns {string | null} the message to display
      */
     @api
     get messageWhenValueMissing(): string | null {
@@ -605,9 +605,13 @@ export default class Combobox extends LightningElement {
         return this.isPillSupported && !!this.state.pill;
     }
 
+    /**
+     * Removes the pill (ie: reset corresponding internal component state, no {@link RemoveMergeFieldPillEvent} dispatched)
+     */
     @api
-    resetPill(): void {
+    resetPill() {
         this.state.pill = null;
+        this._itemSelected = false;
     }
 
     /**
