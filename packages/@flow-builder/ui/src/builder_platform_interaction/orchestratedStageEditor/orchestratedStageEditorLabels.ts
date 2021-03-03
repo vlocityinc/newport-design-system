@@ -22,6 +22,7 @@ import exitActionSelectionLabel from '@salesforce/label/FlowBuilderOrchestratedS
 import exitOptionBasedOnAllStepsComplete from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnAllStepsComplete';
 import basedOnCustomFlow from '@salesforce/label/FlowBuilderOrchestratedStageEditor.basedOnCustomFlow';
 import determinationFlowSelectorHeader from '@salesforce/label/FlowBuilderOrchestratedStageEditor.determinationFlowSelectorHeader';
+import criteriaActionHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaActionHelpText';
 
 export const LABELS = {
     outcomesSectionHeader,
@@ -45,5 +46,6 @@ export const LABELS = {
     exitActionSelectionLabel,
     exitOptionBasedOnAllStepsComplete,
     basedOnCustomFlow,
-    determinationFlowSelectorHeader
+    determinationFlowSelectorHeader,
+    criteriaActionHelpText
 };

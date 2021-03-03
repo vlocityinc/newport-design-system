@@ -15,6 +15,8 @@ import exitSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitS
 import exitActionSelectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitActionSelectionLabel';
 import basedOnCustomFlow from '@salesforce/label/FlowBuilderStageStepEditor.basedOnCustomFlow';
 import determinationFlowSelectorHeader from '@salesforce/label/FlowBuilderStageStepEditor.determinationFlowSelectorHeader';
+import criteriaBasedOnStepHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaBasedOnStepHelpText';
+import criteriaActionHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaActionHelpText';
 
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
@@ -56,5 +58,7 @@ export const LABELS = {
     exitSectionLabel,
     basedOnCustomFlow,
     exitActionSelectionLabel,
-    determinationFlowSelectorHeader
+    determinationFlowSelectorHeader,
+    criteriaBasedOnStepHelpText,
+    criteriaActionHelpText
 };

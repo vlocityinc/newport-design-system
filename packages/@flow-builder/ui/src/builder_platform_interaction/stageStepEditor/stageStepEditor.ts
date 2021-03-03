@@ -415,6 +415,24 @@ export default class StageStepEditor extends LightningElement {
         return ELEMENT_TYPE.STAGE_STEP;
     }
 
+    get entryCriteriaHelpText() {
+        if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE) {
+            return this.labels.criteriaBasedOnStepHelpText;
+        } else if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE) {
+            return this.labels.criteriaActionHelpText;
+        }
+        // a value of null will not display any Tooltip Icon
+        return null;
+    }
+
+    get exitCriteriaHelpText() {
+        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE) {
+            return this.labels.criteriaActionHelpText;
+        }
+        // a value of null will not display any Tooltip Icon
+        return null;
+    }
+
     get actorComboBoxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.actorSelectorLabel, // Label

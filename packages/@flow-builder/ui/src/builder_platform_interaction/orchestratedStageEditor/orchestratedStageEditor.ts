@@ -127,6 +127,14 @@ export default class OrchestratedStageEditor extends LightningElement {
         ];
     }
 
+    get exitCriteriaHelpText() {
+        if (this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE) {
+            return this.labels.criteriaActionHelpText;
+        }
+        // a value of null will not display any Tooltip Icon
+        return null;
+    }
+
     get isExitCriteriaBasedOnCustomAction(): boolean {
         return this.selectedExitCriteria === EXIT_CRITERIA.ON_DETERMINATION_COMPLETE;
     }
