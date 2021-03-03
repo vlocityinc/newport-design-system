@@ -23,7 +23,7 @@ import { createActionCall } from './actionCall';
 import { ParameterListRowItem } from './base/baseList';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
 // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000095RTIIA2/view
@@ -344,7 +344,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
             .map((outputParameter) => {
                 return createOutputParameter({
                     ...outputParameter,
-                    valueDataType: outputParameter.dataType
+                    valueDataType: getFlowType(outputParameter.dataType).value
                 });
             });
     }

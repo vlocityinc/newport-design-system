@@ -53,6 +53,11 @@ const mockOutputParameters = [
         dataType: 'sobject',
         sobjectType: 'U__record',
         isOutput: true
+    },
+    {
+        name: 'aNumber',
+        dataType: 'double',
+        isOutput: true
     }
 ];
 
@@ -750,11 +755,16 @@ describe('OrchestratedStage', () => {
                 step.actionName = mockActionWithOutputParametersName;
                 const data = getStageStepChildren(step);
                 const outputChildren = data.Outputs.getChildrenItems();
-                expect(Object.keys(outputChildren)).toHaveLength(1);
+                expect(Object.keys(outputChildren)).toHaveLength(2);
                 expect(outputChildren.record).toMatchObject({
                     name: 'record',
                     apiName: 'record',
-                    dataType: 'sobject'
+                    dataType: 'SObject'
+                });
+                expect(outputChildren.aNumber).toMatchObject({
+                    name: 'aNumber',
+                    apiName: 'aNumber',
+                    dataType: 'Number'
                 });
             });
         });
