@@ -50,8 +50,7 @@ describe('ScreenEditor Flow Extension Integration', () => {
             })
         );
         await ticks(50);
-        screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
-        await ticks(1);
+        await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
         jest.advanceTimersByTime(300);
         await ticks(1);
         const extensionPropertiesEditor = screenEditor

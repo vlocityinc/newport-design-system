@@ -3,7 +3,11 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { resetState, setupStateForFlow } from '../../integrationTestUtils';
 import { FlowScreenFieldType, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createComponentUnderTest, ScreenEditorTestComponent } from '../../screenEditorTestUtils';
+import {
+    createComponentUnderTest,
+    ScreenCanvasTestComponent,
+    ScreenEditorTestComponent
+} from '../../screenEditorTestUtils';
 import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -54,10 +58,10 @@ describe('ScreenEditor automatic fields', () => {
                 screenEditor = await createScreenEditor('screenWithAutomaticFields');
             });
             it('should contain in first tab the components palette', () => {
-                expect(screenEditor.getComponentsPalette()).not.toEqual(null);
+                expect(screenEditor.getComponentsPaletteElement()).not.toEqual(null);
             });
             it('should contain in second tab the automatic field palette', () => {
-                expect(screenEditor.getAutomaticFieldsPalette()).not.toEqual(null);
+                expect(screenEditor.getAutomaticFieldsPaletteElement()).not.toEqual(null);
             });
             it('should contain in third tab the automatic field property editor', () => {
                 expect(
@@ -69,7 +73,7 @@ describe('ScreenEditor automatic fields', () => {
             let combobox: ComboboxTestComponent;
             beforeAll(async () => {
                 screenEditor = await createScreenEditor('screenWithAutomaticFields');
-                combobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
+                combobox = screenEditor.getAutomaticFieldsPaletteElement().getSObjectPickerCombobox();
                 addRecordVariable('onlyCreateableRecordVar', 'ProcessExceptionEvent');
                 addRecordVariable('onlyQueryableRecordVar', 'Community');
                 addRecordVariable('updateableAndQueryableRecordVar', 'Organization');
@@ -95,7 +99,7 @@ describe('ScreenEditor automatic fields', () => {
             });
         });
         describe('Screen field selection', () => {
-            let canvas;
+            let canvas: ScreenCanvasTestComponent;
             describe.each`
                 testTitlePart | screenName                              | componentName
                 ${' NO'}      | ${'screenWithAutomaticFields'}          | ${'numberScreenField1'}
@@ -123,7 +127,9 @@ describe('ScreenEditor automatic fields', () => {
                     await canvas
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
                         .click();
-                    const sobjectPickerCombobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
                     const comboboxElement = sobjectPickerCombobox.element;
                     expect(comboboxElement.value.displayText).toBe('{!accountSObjectVariable}');
                     expect(comboboxElement.hasPill).toBe(true);
@@ -131,7 +137,9 @@ describe('ScreenEditor automatic fields', () => {
                         iconName: 'utility:sobject',
                         label: 'accountSObjectVariable'
                     });
-                    expect(screenEditor.getAutomaticFieldsPalette().getFieldsLabels()).toContainEqual('Account Number');
+                    expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
+                        'Account Number'
+                    );
                 });
                 it('should display the record object (with correct value and  pill icon/label) and fields when 2 different automatic fields from same Object are selected on canvas', async () => {
                     await canvas
@@ -142,8 +150,9 @@ describe('ScreenEditor automatic fields', () => {
                             'accountSObjectVariable.Description'
                         )!
                         .click();
-                    const sobjectPickerCombobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
-                    await ticks(1);
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
                     const comboboxElement = sobjectPickerCombobox.element;
                     expect(comboboxElement.value.displayText).toBe('{!accountSObjectVariable}');
                     expect(comboboxElement.hasPill).toBe(true);
@@ -151,7 +160,9 @@ describe('ScreenEditor automatic fields', () => {
                         iconName: 'utility:sobject',
                         label: 'accountSObjectVariable'
                     });
-                    expect(screenEditor.getAutomaticFieldsPalette().getFieldsLabels()).toContainEqual('Account Number');
+                    expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
+                        'Account Number'
+                    );
                 });
                 it('should change accordingly the record object (with correct value and  pill icon/label) and fields when automatic fields from different Objects are selected on canvas', async () => {
                     await canvas
@@ -162,8 +173,9 @@ describe('ScreenEditor automatic fields', () => {
                             'objectWithAllPossiblFieldsVariable.Text_Field__c'
                         )!
                         .click();
-                    const sobjectPickerCombobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
-                    await ticks(1);
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
                     const comboboxElement = sobjectPickerCombobox.element;
                     expect(comboboxElement.value.displayText).toBe('{!objectWithAllPossiblFieldsVariable}');
                     expect(comboboxElement.hasPill).toBe(true);
@@ -171,15 +183,19 @@ describe('ScreenEditor automatic fields', () => {
                         iconName: 'utility:sobject',
                         label: 'objectWithAllPossiblFieldsVariable'
                     });
-                    expect(screenEditor.getAutomaticFieldsPalette().getFieldsLabels()).toContainEqual('Text Field');
+                    expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
+                        'Text Field'
+                    );
                 });
 
-                it('Display the correct pill and value (no error message) for the record object, and fields after removing pill on first record object and new record object selection', async () => {
+                it('Displays the correct pill and value (no error message) for the record object, and fields after removing pill on first record object and new record object selection', async () => {
                     await canvas
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
                         .click();
 
-                    const sobjectPickerCombobox = screenEditor.getAutomaticFieldsPalette().getSObjectPickerCombobox();
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
                     await sobjectPickerCombobox.removePill();
                     const comboboxElement = sobjectPickerCombobox.element;
                     await canvas
@@ -187,7 +203,6 @@ describe('ScreenEditor automatic fields', () => {
                             'objectWithAllPossiblFieldsVariable.Text_Field__c'
                         )!
                         .click();
-                    await ticks(1);
                     expect(comboboxElement.value.displayText).toBe('{!objectWithAllPossiblFieldsVariable}');
                     expect(comboboxElement.errorMessage).toBeNull();
                     expect(comboboxElement.hasPill).toBe(true);
@@ -195,7 +210,34 @@ describe('ScreenEditor automatic fields', () => {
                         iconName: 'utility:sobject',
                         label: 'objectWithAllPossiblFieldsVariable'
                     });
-                    expect(screenEditor.getAutomaticFieldsPalette().getFieldsLabels()).toContainEqual('Text Field');
+                    expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
+                        'Text Field'
+                    );
+                });
+                it('Displays the correct pill and value (no error message) for the record object, and fields after removing pill on first record object and automatic field with same object is selected on canvas', async () => {
+                    await canvas
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                        .click();
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
+                    await sobjectPickerCombobox.removePill();
+                    const comboboxElement = sobjectPickerCombobox.element;
+                    await canvas
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
+                            'accountSObjectVariable.NumberOfEmployees'
+                        )!
+                        .click();
+                    expect(comboboxElement.value.displayText).toBe('{!accountSObjectVariable}');
+                    expect(comboboxElement.errorMessage).toBeNull();
+                    expect(comboboxElement.hasPill).toBe(true);
+                    expect(comboboxElement.pill).toEqual({
+                        iconName: 'utility:sobject',
+                        label: 'accountSObjectVariable'
+                    });
+                    expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
+                        'Account Number'
+                    );
                 });
             });
         });
@@ -432,17 +474,27 @@ describe('ScreenEditor automatic fields', () => {
                 screenEditor = await createScreenEditor('screenWithAutomaticFields');
             });
             it('should not have a tabset', () => {
-                expect(screenEditor.getTabset()).toBeNull();
+                expect(screenEditor.getTabsetElement()).toBeNull();
             });
             it('should contain a palette with proper CSS class', () => {
-                const palette = screenEditor.getEditorPalette();
+                const palette = screenEditor.getComponentsPaletteElement();
                 expect(palette).toBeTruthy();
                 expect(palette!.shadowRoot!.querySelector('div')!.className).toContain('slds-panel_docked-left');
             });
             it('should contain a palette with a button to open AppExchange', () => {
-                const palette = screenEditor.getEditorPalette();
+                const palette = screenEditor.getComponentsPaletteElement();
                 expect(palette).toBeTruthy();
                 expect(palette!.shadowRoot!.querySelector(INTERACTION_COMPONENTS_SELECTORS.BUTTON_BANNER)).toBeTruthy();
+            });
+            it('should display the automatic field properties when we click on an automatic field on canvas', async () => {
+                await screenEditor
+                    .getCanvas()
+                    .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                    .click();
+                const automaticFieldPropertiesEditor = screenEditor
+                    .getPropertiesEditorContainerElement()
+                    .getAutomaticFieldPropertiesEditorElement();
+                expect(automaticFieldPropertiesEditor!.getFieldNameFormattedTextElement()!.value).toEqual('Name');
             });
         });
     });

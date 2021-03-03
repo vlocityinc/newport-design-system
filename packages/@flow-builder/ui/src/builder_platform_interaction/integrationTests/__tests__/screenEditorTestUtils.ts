@@ -47,31 +47,42 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenCanvasTestComponent(canvasElement);
     }
 
-    public getTabset() {
+    /**
+     * @returns the tabset or null if the automatic fields org perm is not set
+     */
+    public getTabsetElement() {
         return this.element.shadowRoot!.querySelector<HTMLElement & { activeTabValue: ScreenEditorTab }>(
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TABSET
-        )!;
+        );
     }
 
     public isFieldsTabActive() {
-        return this.getTabset().activeTabValue === ScreenEditorTab.Fields;
+        const tabset = this.getTabsetElement();
+        return tabset == null ? false : tabset.activeTabValue === ScreenEditorTab.Fields;
     }
 
     public isComponentsTabActive() {
-        return this.getTabset().activeTabValue === ScreenEditorTab.Components;
+        const tabset = this.getTabsetElement();
+        return tabset == null ? false : tabset.activeTabValue === ScreenEditorTab.Components;
     }
 
-    public getComponentsPalette() {
-        const tabset = this.getTabset();
+    public getComponentsPaletteElement() {
+        const tabset = this.getTabsetElement();
+        if (!tabset) {
+            // automatic fields org perm not set
+            return this.element.shadowRoot?.querySelector<Element>(
+                INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_PALETTE
+            );
+        }
         const componentsTab = tabset.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as HTMLElement;
         return (componentsTab.shadowRoot!.querySelector('slot')!.assignedNodes()[0] as Element).querySelector(
             INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_PALETTE
         ) as ScreenEditorPalette & HTMLElement;
     }
 
-    public getAutomaticFieldsPalette() {
-        const tabset = this.getTabset();
-        const automaticFieldsTab = tabset.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
+    public getAutomaticFieldsPaletteElement() {
+        const tabset = this.getTabsetElement();
+        const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
         const paletteElement = (automaticFieldsTab
             .shadowRoot!.querySelector('slot')!
             .assignedNodes()[0] as Element).querySelector(
@@ -85,10 +96,6 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
         ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
         return new PropertiesEditorContainerTestComponent(element);
-    }
-
-    public getEditorPalette() {
-        return this.element.shadowRoot?.querySelector<Element>(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_PALETTE);
     }
 }
 
@@ -177,8 +184,9 @@ export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
 }
 
 export class ScreenEditorHighlightTestComponent extends TestComponent<ScreenEditorHighlight> {
-    public click() {
+    public async click() {
         this.element.shadowRoot!.querySelector('div')!.click();
+        await ticks(50);
     }
     public getScreenField() {
         const screenFieldElement = this.element.querySelector(SELECTORS.SCREEN_FIELD)! as ScreenField & HTMLElement;

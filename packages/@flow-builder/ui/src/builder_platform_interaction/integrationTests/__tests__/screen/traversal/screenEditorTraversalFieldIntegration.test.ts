@@ -60,8 +60,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(50);
-                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
-                await ticks(50);
+                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
             });
             it('shows up chevrons on fields', async () => {
                 const extensionPropertiesEditor = screenEditor
@@ -94,8 +93,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(1000);
-                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('FileUpload')!.click();
-                await ticks(70);
+                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('FileUpload')!.click();
             });
             it('does not show up chevrons on fields', async () => {
                 const extensionPropertiesEditor = screenEditor

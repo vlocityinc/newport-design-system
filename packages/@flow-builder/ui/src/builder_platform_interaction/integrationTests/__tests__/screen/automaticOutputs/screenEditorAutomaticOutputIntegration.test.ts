@@ -83,8 +83,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(50);
-                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('askAddress')!.click();
-                await ticks(50);
+                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('askAddress')!.click();
             });
             it('Advanced Option checkbox should be unchecked', async () => {
                 expect(

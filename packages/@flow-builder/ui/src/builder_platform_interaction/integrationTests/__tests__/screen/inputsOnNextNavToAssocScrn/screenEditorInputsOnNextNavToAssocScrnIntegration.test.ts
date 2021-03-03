@@ -28,8 +28,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(50);
-                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
-                await ticks(50);
+                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
             });
             it('InputsOnNextNavToAssocScrn should be in USE_STORED_VALUES mode', () => {
                 expect(
@@ -51,8 +50,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(50);
-                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
-                await ticks(50);
+                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
             });
             it('Should update the radio group', async () => {
                 await screenEditor

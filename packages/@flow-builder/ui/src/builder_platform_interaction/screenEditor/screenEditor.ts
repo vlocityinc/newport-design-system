@@ -21,6 +21,7 @@ import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
 
 export enum ScreenEditorTab {
     Components = 'componentsTab',
@@ -44,6 +45,8 @@ export default class ScreenEditor extends LightningElement {
     labels = LABELS;
 
     orgHasFlowBuilderAutomaticFields = orgHasFlowBuilderAutomaticFields();
+
+    private objectFieldReferenceChanged = false;
 
     /**
      * Screen node getter
@@ -103,7 +106,20 @@ export default class ScreenEditor extends LightningElement {
     }
 
     renderedCallback() {
+        if (this.objectFieldReferenceChanged) {
+            this.getAutomaticFieldPalette()?.setRecordVariableAndResetPill(this.automaticFieldRecordVariableGuid);
+        }
         setScreenElement(this.screen);
+    }
+
+    getAutomaticFieldPalette() {
+        const tabset = this.template.querySelector('lightning-tabset');
+        const automaticFieldsTab = tabset?.shadowRoot?.querySelector('slot')?.assignedNodes()[1];
+        const automaticFieldPalette = automaticFieldsTab?.shadowRoot
+            ?.querySelector('slot')
+            ?.assignedNodes()[0]
+            ?.querySelector(ScreenEditorAutomaticFieldPalette.SELECTOR);
+        return automaticFieldPalette ? (automaticFieldPalette as ScreenEditorAutomaticFieldPalette) : null;
     }
 
     disconnectedCallback() {
@@ -216,6 +232,7 @@ export default class ScreenEditor extends LightningElement {
         if (screenFieldNode.fieldType === FlowScreenFieldType.ObjectProvided) {
             this.activeTab = ScreenEditorTab.Fields;
             this.automaticFieldRecordVariableGuid = sanitizeGuid(screenFieldNode.objectFieldReference).guidOrLiteral;
+            this.objectFieldReferenceChanged = true;
         } else {
             this.activeTab = ScreenEditorTab.Components;
         }

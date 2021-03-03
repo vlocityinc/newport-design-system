@@ -47,6 +47,7 @@ const supportedAutomaticFieldFilter = (field: FieldDefinition): boolean =>
     noCompoundFieldFilter(field);
 
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-screen-editor-automatic-field-palette';
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
     showNoItemsIllustration = true;
     sobjectPickerErrorMessage?: String | null;
@@ -99,7 +100,8 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         return this.state.recordVariable;
     }
 
-    set recordVariable(value: string) {
+    @api
+    setRecordVariableAndResetPill(value: string) {
         this.isRecordVariableSetViaApi = true;
         this.setRecordVariableAndErrorMessage(value, null);
     }
@@ -114,11 +116,11 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     private setRecordVariableAndErrorMessage(recordVariable, errorMessage: string | null) {
+        this.sobjectPickerErrorMessage = errorMessage;
         if (this.state.recordVariable !== recordVariable) {
+            this.state.recordVariable = recordVariable;
             this.hasNewRecordVariable = true;
             this.searchPattern = null;
-            this.state.recordVariable = recordVariable;
-            this.sobjectPickerErrorMessage = errorMessage;
             if (
                 this.state.recordVariable != null &&
                 this.state.recordVariable !== '' &&
