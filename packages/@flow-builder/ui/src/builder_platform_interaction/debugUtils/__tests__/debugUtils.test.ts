@@ -145,11 +145,11 @@ describe('debug utils', () => {
 
     it('test date formatter', () => {
         const start = new Date('June 17, 2020 03:24:00');
-        const outputDateAndTime = formatDateHelper(start).dateAndTime;
+        const outputDateAndTime = formatDateHelper(start, 'en-US').dateAndTime;
         expect(outputDateAndTime).toMatch('June 17, 2020, 3:24 AM');
-        const outputDate = formatDateHelper(start).date;
+        const outputDate = formatDateHelper(start, 'en-US').date;
         expect(outputDate).toMatch('June 17, 2020');
-        const outputTime = formatDateHelper(start).time;
+        const outputTime = formatDateHelper(start, 'en-US').time;
         expect(outputTime).toMatch('3:24 AM');
     });
 });

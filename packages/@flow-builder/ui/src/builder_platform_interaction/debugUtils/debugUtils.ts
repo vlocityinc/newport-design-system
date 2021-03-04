@@ -183,14 +183,14 @@ function getEndInterviewInfo(debugData) {
  * @param dateTime Javascript Date object
  * @return {String} date in specified format in user default locale
  */
-export function formatDateHelper(dateTime) {
+export function formatDateHelper(dateTime, locale = undefined) {
     const dateAndTime = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     const date = { year: 'numeric', month: 'long', day: 'numeric' };
     const time = { hour: 'numeric', minute: 'numeric' };
     return {
-        dateAndTime: dateTime.toLocaleDateString(undefined, dateAndTime),
-        date: dateTime.toLocaleDateString(undefined, date),
-        time: dateTime.toLocaleTimeString(undefined, time)
+        dateAndTime: dateTime.toLocaleDateString(locale, dateAndTime),
+        date: dateTime.toLocaleDateString(locale, date),
+        time: dateTime.toLocaleTimeString(locale, time)
     };
 }
 

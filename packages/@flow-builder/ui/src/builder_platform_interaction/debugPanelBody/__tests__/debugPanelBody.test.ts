@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { LABELS } from '../debugPanelBodyLabels';
+import { LABELS, failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches } from '../debugPanelBodyLabels';
 import DebugPanelBody from '../debugPanelBody';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -32,9 +32,40 @@ const varEqualSignNull = {
     lines: ['var4 = null'],
     title: TITLE
 };
-const failedFind = {
-    lines: [LABELS.failedFind],
-    title: TITLE
+
+const failedCrudOperations = {
+    failedRecordLookups: {
+        lines: [failedToCRUDRecordAbsoluteMatches[0]],
+        title: TITLE
+    },
+    failedRecordLookup: {
+        lines: [failedToCRUDRecordAbsoluteMatches[1]],
+        title: TITLE
+    },
+    failedRecordCreates: {
+        lines: [failedToCRUDRecordAbsoluteMatches[2]],
+        title: TITLE
+    },
+    failedRecordCreate: {
+        lines: [failedToCRUDRecordAbsoluteMatches[3]],
+        title: TITLE
+    },
+    failedRecordUpdates: {
+        lines: [failedToCRUDRecordRelativeMatches[0] + ' {!sobjectCCollectionVariable}.'],
+        title: TITLE
+    },
+    failedRecordUpdate: {
+        lines: [failedToCRUDRecordAbsoluteMatches[4]],
+        title: TITLE
+    },
+    failedRecordDeletes: {
+        lines: [failedToCRUDRecordRelativeMatches[1] + ' {!sobjectCCollectionVariable}.'],
+        title: TITLE
+    },
+    failedRecordDelete: {
+        lines: [failedToCRUDRecordAbsoluteMatches[5]],
+        title: TITLE
+    }
 };
 const varNameIsNull = {
     lines: ['null = text'],
@@ -48,7 +79,10 @@ const nullPartofStringAtEnd = {
     lines: ['{!var} = annull'],
     title: TITLE
 };
-
+const failedCRUDNonAbsoluteMatch = {
+    lines: [failedToCRUDRecordAbsoluteMatches[0] + 'extra string at end'],
+    title: TITLE
+};
 const nullAtEnd = {
     lines: ['emailBody = this is null'],
     title: TITLE
@@ -122,6 +156,7 @@ const waitEventsWithResumeBlock = {
     ]),
     ifblockresume: true
 };
+
 describe('GovernorLimits cases check:', () => {
     let debugPanelBody;
     describe('governor limit field in entry', () => {
@@ -197,55 +232,7 @@ describe('debug-panel-body', () => {
             expect(submitbutton).not.toBeNull();
         });
     });
-    describe('warning icons positive cases', () => {
-        it('has warning icon when there variable "Equals" null', () => {
-            debugPanelBody = createComponentUnderTest(varEqualsNull);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).not.toBeNull();
-        });
-        it('has warning icon when there variable "=" null', () => {
-            debugPanelBody = createComponentUnderTest(varEqualSignNull);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).not.toBeNull();
-        });
-        it('has warning when record not found', () => {
-            debugPanelBody = createComponentUnderTest(failedFind);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).not.toBeNull();
-        });
-    });
-    describe('Warning Icon negative cases', () => {
-        it('will not have warning icons for base cases', () => {
-            debugPanelBody = createComponentUnderTest(NORMALINPUT);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).toBeNull();
-        });
-        it('has no warning when the name of a var is null', () => {
-            debugPanelBody = createComponentUnderTest(varNameIsNull);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).toBeNull();
-        });
-        it('has no warning when null is part of a string', () => {
-            debugPanelBody = createComponentUnderTest(nullPartofString);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).toBeNull();
-        });
-        it('has no warning when null is part of a string and null is at the end', () => {
-            debugPanelBody = createComponentUnderTest(nullPartofStringAtEnd);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).toBeNull();
-        });
-        it('has no warning when null is at the end', () => {
-            debugPanelBody = createComponentUnderTest(nullAtEnd);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).toBeNull();
-        });
-        it('has no warning when this = null is a value', () => {
-            debugPanelBody = createComponentUnderTest(twoEquals);
-            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            expect(warningIcon).toBeNull();
-        });
-    });
+
     describe('Error boxes should appear for strings with Error Occurred:', () => {
         beforeEach(() => {
             debugPanelBody = createComponentUnderTest(errorOccurredString);
@@ -318,6 +305,104 @@ describe('debug-panel-body', () => {
 
             const text = temp.textContent;
             expect(text).toContain(stringEndsWithColon.expected);
+        });
+    });
+});
+
+describe('warning icon test cases', () => {
+    let debugPanelBody;
+
+    describe('warning icon positive cases for failed crud', () => {
+        it('has warning when a single record is not found', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordLookup);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a multiple records are not found', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordLookups);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a single record is not created', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordCreate);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a multiple records are not created', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordCreates);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a single record is not updated', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordUpdate);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a multiple records are not updated', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordUpdates);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a single record is not deleted', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordDelete);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when a multiple records are not deleted', () => {
+            debugPanelBody = createComponentUnderTest(failedCrudOperations.failedRecordDeletes);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+    });
+    describe('warning icons positive cases for null', () => {
+        it('has warning icon when there variable "Equals" null', () => {
+            debugPanelBody = createComponentUnderTest(varEqualsNull);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
+            console.log(normal);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning icon when there variable "=" null', () => {
+            debugPanelBody = createComponentUnderTest(varEqualSignNull);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+    });
+    describe('Warning Icon negative cases', () => {
+        it('will not have warning icons for base cases', () => {
+            debugPanelBody = createComponentUnderTest(NORMALINPUT);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when the name of a var is null', () => {
+            debugPanelBody = createComponentUnderTest(varNameIsNull);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when null is part of a string', () => {
+            debugPanelBody = createComponentUnderTest(nullPartofString);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when null is part of a string and null is at the end', () => {
+            debugPanelBody = createComponentUnderTest(nullPartofStringAtEnd);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when null is at the end', () => {
+            debugPanelBody = createComponentUnderTest(nullAtEnd);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when this = null is a value', () => {
+            debugPanelBody = createComponentUnderTest(twoEquals);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when failed CRUD message is not an absolute match', () => {
+            debugPanelBody = createComponentUnderTest(failedCRUDNonAbsoluteMatch);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
         });
     });
 });

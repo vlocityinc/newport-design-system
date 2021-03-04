@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { LABELS } from './debugPanelBodyLabels';
+import { LABELS, failedToCRUDRecordAbsoluteMatches, failedToCRUDRecordRelativeMatches } from './debugPanelBodyLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ResumeDebugFlowEvent } from 'builder_platform_interaction/events';
@@ -171,11 +172,16 @@ export default class debugPanelBody extends LightningElement {
     }
 
     needsWarningIcon(currString) {
-        return (
+        if (
             currString.match(NULL) ||
             currString.match(EQUALSNULL) ||
             currString.includes(NULLPARENS) ||
-            currString === LABELS.failedFind
+            failedToCRUDRecordAbsoluteMatches.includes(currString)
+        ) {
+            return true;
+        }
+        return (
+            failedToCRUDRecordRelativeMatches.map((e) => currString.startsWith(e)).filter((e) => e === true).length > 0
         );
     }
 }
