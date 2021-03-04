@@ -2,7 +2,11 @@ import { api, LightningElement } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    hasScreenFieldVisibilityCondition,
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
+    ScreenFieldName
+} from 'builder_platform_interaction/screenEditorUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
@@ -12,12 +16,22 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     private static INTEGER_NUMBER_VALUES = { integer: 8, scale: 0 };
     private static TEXT_AREA_MAX_LENGTH = 255;
 
-    labels = LABELS;
+    private labels = LABELS;
+    private _field;
+    private objectManagerLink = '';
+    private expandedSectionName = '';
+
+    set field(value) {
+        this._field = value;
+        this.expandedSectionNames = hasScreenFieldVisibilityCondition(this._field!)
+            ? SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+            : '';
+    }
 
     @api
-    field;
-
-    objectManagerLink: String = '';
+    get field() {
+        return this._field;
+    }
 
     constructor() {
         super();
@@ -96,7 +110,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 break;
             }
             case ScreenFieldName.LargeTextArea: {
-                const length = this.field.length;
+                const length = this.field.length!;
                 if (length <= ScreenAutomaticFieldPropertiesEditor.TEXT_AREA_MAX_LENGTH) {
                     dataType = format(this.labels.automaticFieldDataTypeTextArea, length);
                 } else {
@@ -105,7 +119,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 break;
             }
             case ScreenFieldName.Number: {
-                const precision = this.field.precision;
+                const precision = this.field.precision!;
                 if (precision === 0) {
                     // Specific case where the number is an INTEGER
                     // This type is available only on OOTB object/field
@@ -141,7 +155,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     }
 
     private get isRequired() {
-        const required = this.field.isRequired;
+        const required = this.field!.isRequired;
         if (required === undefined) {
             // Happens when user doesn't have access to referenced entity/field
             return '';

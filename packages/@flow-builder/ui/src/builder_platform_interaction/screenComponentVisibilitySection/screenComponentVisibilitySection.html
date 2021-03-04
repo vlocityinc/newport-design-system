@@ -1,7 +1,7 @@
 <template>
     <lightning-accordion-section
         if:true={conditionalFieldVisibilityAllowed}
-        name="componentVisibility"
+        name={accordionSectionName}
         label={labels.componentVisbilitySectionTitle}
     >
         <builder_platform_interaction-component-visibility visibility-rule={field.visibilityRule} guid={field.guid}>

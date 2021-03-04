@@ -1339,6 +1339,20 @@
                         "outputParameters": [],
                         "processMetadataValues": [],
                         "scale": 0,
+                        "visibilityRule": {
+                            "conditionLogic": "and",
+                            "conditions": [
+                                {
+                                    "leftValueReference": "slider_1.value",
+                                    "operator": "GreaterThanOrEqualTo",
+                                    "processMetadataValues": [],
+                                    "rightValue": {
+                                        "numberValue": 50
+                                    }
+                                }
+                            ],
+                            "processMetadataValues": []
+                        },
                         "storeOutputAutomatically": false
                     },
                     {

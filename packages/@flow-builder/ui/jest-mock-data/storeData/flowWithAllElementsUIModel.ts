@@ -8,12 +8,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 50,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -31,11 +26,7 @@ export const flowWithAllElementsUIModel = {
             ],
             doesRequireRecordChangedToMeetCriteria: false,
             childReferences: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                }
-            ]
+            availableConnections: [{ type: 'REGULAR' }]
         },
         '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3': {
             guid: '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
@@ -46,25 +37,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 652,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'quickAction',
             actionName: 'LogACall',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'Boolean',
@@ -80,12 +59,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 649,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'chatterPost',
             actionName: 'chatterPost',
             dataTypeMappings: [],
@@ -104,14 +78,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
@@ -127,25 +94,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 367,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'component',
             actionName: 'c:LightningComponentWithApexNoSObject',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
@@ -161,25 +116,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 367,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'component',
             actionName: 'c:LightningWithApexContainsSObject',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
@@ -195,25 +138,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 47,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'externalService',
             actionName: 'BankServiceNew.addAccount',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
@@ -229,12 +160,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 187,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'AllTypesApexAction',
             dataTypeMappings: [],
@@ -278,14 +204,7 @@ export const flowWithAllElementsUIModel = {
                     valueDataType: 'reference'
                 }
             ],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'Boolean',
@@ -301,25 +220,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 182,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'generateDraftAccount',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'ActionOutput',
@@ -335,12 +242,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 183,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'generateDraftAccount',
             dataTypeMappings: [],
@@ -353,14 +255,7 @@ export const flowWithAllElementsUIModel = {
                     valueDataType: 'reference'
                 }
             ],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'Boolean',
@@ -376,25 +271,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 34,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'GetAccount',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'SObject',
@@ -414,25 +297,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 49,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'GetAccounts',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'SObject',
@@ -452,25 +323,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 218,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'ApexTypeCollectionAction',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'Apex',
@@ -490,32 +349,15 @@ export const flowWithAllElementsUIModel = {
             locationY: 186,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'InvocableGetAccountName',
             dataTypeMappings: [],
             inputParameters: [
-                {
-                    rowIndex: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
-                    name: 'accountIds',
-                    value: '',
-                    valueDataType: ''
-                }
+                { rowIndex: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66', name: 'accountIds', value: '', valueDataType: '' }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'String',
@@ -535,25 +377,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 209,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'InvocableGetAccountsNames',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'String',
@@ -573,12 +403,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 72,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'GetCarAction',
             dataTypeMappings: [],
@@ -591,14 +416,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'ActionOutput',
@@ -614,25 +432,13 @@ export const flowWithAllElementsUIModel = {
             locationY: 57,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'apex',
             actionName: 'GetAccountName',
             dataTypeMappings: [],
             inputParameters: [],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'APEX_CALL',
             dataType: 'ActionOutput',
@@ -648,12 +454,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 670,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'quickAction',
             actionName: 'Case.LogACall',
             dataTypeMappings: [],
@@ -666,14 +467,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
@@ -689,12 +483,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 39,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'emailAlert',
             actionName: 'Account.my_email_alert',
             dataTypeMappings: [],
@@ -707,14 +496,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'EMAIL_ALERT',
             dataType: 'Boolean',
@@ -730,12 +512,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 661,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'component',
             actionName: 'c:localActionSample',
             dataTypeMappings: [],
@@ -754,14 +531,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'Boolean',
@@ -777,12 +547,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 49,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             actionType: 'submit',
             actionName: 'submit',
             dataTypeMappings: [],
@@ -801,14 +566,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             outputParameters: [],
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'ActionCall',
             dataType: 'ActionOutput',
@@ -824,12 +582,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 216,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignmentItems: [
                 {
                     rowIndex: 'e62ce284-ccf2-46af-8446-c0a110a4bba0',
@@ -858,12 +611,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 177,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignmentItems: [
                 {
                     rowIndex: '6cb9b58e-4246-44c0-85a9-8f7d32172da6',
@@ -885,28 +633,14 @@ export const flowWithAllElementsUIModel = {
             locationY: 472,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            childReferences: [
-                {
-                    childReference: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b'
-                }
-            ],
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+            childReferences: [{ childReference: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b' }],
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,
             availableConnections: [
-                {
-                    type: 'REGULAR',
-                    childReference: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b'
-                },
-                {
-                    type: 'DEFAULT'
-                }
+                { type: 'REGULAR', childReference: '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b' },
+                { type: 'DEFAULT' }
             ]
         },
         '4b09a9f9-b658-4b5d-90c5-cbdb83b6484b': {
@@ -936,28 +670,14 @@ export const flowWithAllElementsUIModel = {
             locationY: 801,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
-            childReferences: [
-                {
-                    childReference: 'b93ea139-c9df-49cb-a42e-52c5f496ab07'
-                }
-            ],
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+            childReferences: [{ childReference: 'b93ea139-c9df-49cb-a42e-52c5f496ab07' }],
             defaultConnectorLabel: 'Default Outcome',
             elementType: 'Decision',
             maxConnections: 2,
             availableConnections: [
-                {
-                    type: 'REGULAR',
-                    childReference: 'b93ea139-c9df-49cb-a42e-52c5f496ab07'
-                },
-                {
-                    type: 'DEFAULT'
-                }
+                { type: 'REGULAR', childReference: 'b93ea139-c9df-49cb-a42e-52c5f496ab07' },
+                { type: 'DEFAULT' }
             ]
         },
         'b93ea139-c9df-49cb-a42e-52c5f496ab07': {
@@ -1472,12 +1192,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 507,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             flowName: 'flowWithActiveAndLatest',
             inputAssignments: [
                 {
@@ -1493,8 +1208,8 @@ export const flowWithAllElementsUIModel = {
             storeOutputAutomatically: true,
             dataType: 'SubflowOutput'
         },
-        '1f5acf67-1b31-46ba-b0a5-42c9c27510f7': {
-            guid: '1f5acf67-1b31-46ba-b0a5-42c9c27510f7',
+        'a084e300-bca6-4e92-b8c8-9b2490b3cc5c': {
+            guid: 'a084e300-bca6-4e92-b8c8-9b2490b3cc5c',
             name: 'create_multiple_from_apex_two_level_traversal',
             description: '',
             label: 'create multiple from apex two level traversal',
@@ -1502,28 +1217,16 @@ export const flowWithAllElementsUIModel = {
             locationY: 297,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: '',
-            objectIndex: 'ddd9900e-25a1-4ef5-825f-bde05b6231ae',
+            objectIndex: '12adeaa5-22e0-4adf-9cc9-10762c6ac494',
             getFirstRecordOnly: false,
             inputReference: '9b2579d0-01d3-45b0-b6b2-bb016b085511.testOne.acctListField',
-            inputReferenceIndex: 'a084e300-bca6-4e92-b8c8-9b2490b3cc5c',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            inputReferenceIndex: 'ddd9900e-25a1-4ef5-825f-bde05b6231ae',
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
-            assignRecordIdToReferenceIndex: '12adeaa5-22e0-4adf-9cc9-10762c6ac494',
+            assignRecordIdToReferenceIndex: '1aeb52b7-9963-431b-a046-e41cfd1f5ef9',
             dataType: 'Boolean'
         },
         '1875750b-574e-40d4-adff-7aa4f06fc0fe': {
@@ -1535,12 +1238,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 669,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: '5abbcb4e-faba-4750-91f2-46c9509713ea',
             inputAssignments: [
@@ -1560,14 +1258,7 @@ export const flowWithAllElementsUIModel = {
             getFirstRecordOnly: true,
             inputReference: '',
             inputReferenceIndex: '8ca8f838-4af4-4ae6-89fd-abdcc075a85e',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
             assignRecordIdToReference: 'f317c423-f755-4d64-bd4a-e218107b57db',
@@ -1584,12 +1275,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 530,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: 'b3ab254b-af11-4c5e-b0c5-949f27d4bccb',
             inputAssignments: [
@@ -1609,14 +1295,7 @@ export const flowWithAllElementsUIModel = {
             getFirstRecordOnly: true,
             inputReference: '',
             inputReferenceIndex: '9fa9376a-5212-49a1-980b-ddca1dd82388',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
             assignRecordIdToReference: '',
@@ -1624,8 +1303,8 @@ export const flowWithAllElementsUIModel = {
             dataType: 'String',
             storeOutputAutomatically: true
         },
-        '1aeb52b7-9963-431b-a046-e41cfd1f5ef9': {
-            guid: '1aeb52b7-9963-431b-a046-e41cfd1f5ef9',
+        '5114b9f1-31d0-4d80-a988-50fa057294c1': {
+            guid: '5114b9f1-31d0-4d80-a988-50fa057294c1',
             name: 'createFromAnAccount',
             description: '',
             label: 'createFromAnAccount',
@@ -1633,32 +1312,20 @@ export const flowWithAllElementsUIModel = {
             locationY: 533,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: '',
-            objectIndex: '5a519501-1819-4874-a19d-3f964a138b2b',
+            objectIndex: '34c2635d-312f-482e-8354-6074fccf7fa8',
             getFirstRecordOnly: true,
             inputReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
-            inputReferenceIndex: '5114b9f1-31d0-4d80-a988-50fa057294c1',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            inputReferenceIndex: '5a519501-1819-4874-a19d-3f964a138b2b',
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
-            assignRecordIdToReferenceIndex: '34c2635d-312f-482e-8354-6074fccf7fa8',
+            assignRecordIdToReferenceIndex: '12a6ba74-604b-4f52-b6ea-56a3eece9919',
             dataType: 'Boolean'
         },
-        '12a6ba74-604b-4f52-b6ea-56a3eece9919': {
-            guid: '12a6ba74-604b-4f52-b6ea-56a3eece9919',
+        '337b5789-e021-4e7b-ab5d-582c80803cca': {
+            guid: '337b5789-e021-4e7b-ab5d-582c80803cca',
             name: 'createFromMultipleAccounts',
             description: '',
             label: 'createFromMultipleAccounts',
@@ -1666,32 +1333,20 @@ export const flowWithAllElementsUIModel = {
             locationY: 662,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: '',
-            objectIndex: 'fd6ee2ac-fe05-4c7b-9b70-bc611c531126',
+            objectIndex: '402e3689-0dfb-44a0-8fea-b43c63293cd6',
             getFirstRecordOnly: false,
             inputReference: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
-            inputReferenceIndex: '337b5789-e021-4e7b-ab5d-582c80803cca',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            inputReferenceIndex: 'fd6ee2ac-fe05-4c7b-9b70-bc611c531126',
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
-            assignRecordIdToReferenceIndex: '402e3689-0dfb-44a0-8fea-b43c63293cd6',
+            assignRecordIdToReferenceIndex: 'cb2c1f94-a09d-4690-9c2b-1a2f37e16dbb',
             dataType: 'Boolean'
         },
-        'cb2c1f94-a09d-4690-9c2b-1a2f37e16dbb': {
-            guid: 'cb2c1f94-a09d-4690-9c2b-1a2f37e16dbb',
+        '23a963ec-f168-4151-804b-9541689dc879': {
+            guid: '23a963ec-f168-4151-804b-9541689dc879',
             name: 'withApexDefSingleSObjectVariable',
             description: '',
             label: 'withApexDefSingleSObjectVariable',
@@ -1699,32 +1354,20 @@ export const flowWithAllElementsUIModel = {
             locationY: 668,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: '',
-            objectIndex: '131babab-443d-4e7f-99dc-3b2ecd50baa5',
+            objectIndex: '2329aa7a-2605-400b-b066-a773bd8633f6',
             getFirstRecordOnly: true,
             inputReference: '54aae715-8881-4a52-b7a9-25c385d1488e.account',
-            inputReferenceIndex: '23a963ec-f168-4151-804b-9541689dc879',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            inputReferenceIndex: '131babab-443d-4e7f-99dc-3b2ecd50baa5',
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
-            assignRecordIdToReferenceIndex: '2329aa7a-2605-400b-b066-a773bd8633f6',
+            assignRecordIdToReferenceIndex: 'd08b12f4-ac7b-4cb4-a3ff-621131fc450f',
             dataType: 'Boolean'
         },
-        'd08b12f4-ac7b-4cb4-a3ff-621131fc450f': {
-            guid: 'd08b12f4-ac7b-4cb4-a3ff-621131fc450f',
+        '83d39edd-dc5c-43e8-b58b-999c0c6efcbc': {
+            guid: '83d39edd-dc5c-43e8-b58b-999c0c6efcbc',
             name: 'withApexDefSObjectCollectionVariable',
             description: '',
             label: 'withApexDefSObjectCollectionVariable',
@@ -1732,32 +1375,20 @@ export const flowWithAllElementsUIModel = {
             locationY: 665,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: '',
-            objectIndex: '1ac79856-9d88-4a1f-b51b-099537bd458c',
+            objectIndex: '497e601c-a901-4061-86c7-0852b1c9dd33',
             getFirstRecordOnly: false,
             inputReference: 'e5b4998c-a36e-407f-afb7-2301eda53b8d.accounts',
-            inputReferenceIndex: '83d39edd-dc5c-43e8-b58b-999c0c6efcbc',
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            inputReferenceIndex: '1ac79856-9d88-4a1f-b51b-099537bd458c',
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             maxConnections: 2,
             elementType: 'RecordCreate',
-            assignRecordIdToReferenceIndex: '497e601c-a901-4061-86c7-0852b1c9dd33',
+            assignRecordIdToReferenceIndex: 'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f',
             dataType: 'Boolean'
         },
-        'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f': {
-            guid: 'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f',
+        '8eff1e35-f996-490c-b2f1-f981186f4092': {
+            guid: '8eff1e35-f996-490c-b2f1-f981186f4092',
             name: 'get_account_into_apex_variable',
             description: '',
             label: 'get account into apex variable',
@@ -1765,52 +1396,35 @@ export const flowWithAllElementsUIModel = {
             locationY: 465,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
-            objectIndex: '8eff1e35-f996-490c-b2f1-f981186f4092',
+            objectIndex: 'e2a97477-cbab-4d4f-9f9f-f5c57cc6500f',
             outputReference: '48cb0159-3cde-48ad-9877-644e3cc4b5e9.acct',
             assignNullValuesIfNoRecordsFound: false,
             filterLogic: 'no_conditions',
             filters: [
                 {
-                    rowIndex: '44c3a9ec-e8ee-43ce-9f4e-71048c744dfb',
+                    rowIndex: '1562fcaa-21e3-4ab7-9950-bd34c7c5c444',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
                 }
             ],
-            queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '1562fcaa-21e3-4ab7-9950-bd34c7c5c444'
-                }
-            ],
+            queriedFields: [{ field: 'Id', rowIndex: 'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4' }],
             sortOrder: 'NotSorted',
             sortField: '',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
-            outputReferenceIndex: 'e2a97477-cbab-4d4f-9f9f-f5c57cc6500f',
+            outputReferenceIndex: '44c3a9ec-e8ee-43ce-9f4e-71048c744dfb',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
-        'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4': {
-            guid: 'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4',
+        '51dd4b43-d68c-4aee-a601-12c30e7c926f': {
+            guid: '51dd4b43-d68c-4aee-a601-12c30e7c926f',
             name: 'get_accounts_into_apex_variable',
             description: '',
             label: 'get accounts into apex variable',
@@ -1818,45 +1432,28 @@ export const flowWithAllElementsUIModel = {
             locationY: 175,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
-            objectIndex: '51dd4b43-d68c-4aee-a601-12c30e7c926f',
+            objectIndex: '8712ca46-d9c0-49ba-9641-bd15e2d1dcbe',
             outputReference: '48cb0159-3cde-48ad-9877-644e3cc4b5e9.acctListField',
             assignNullValuesIfNoRecordsFound: false,
             filterLogic: 'no_conditions',
             filters: [
                 {
-                    rowIndex: '5bea7404-f581-4e0a-8ff3-701b3bfa7e5c',
+                    rowIndex: '1181502b-7460-4f6a-b7ef-6e4851d39430',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
                 }
             ],
-            queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '1181502b-7460-4f6a-b7ef-6e4851d39430'
-                }
-            ],
+            queriedFields: [{ field: 'Id', rowIndex: 'bb8b3e41-169b-442e-83e3-240cd49b7032' }],
             sortOrder: 'NotSorted',
             sortField: '',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '8712ca46-d9c0-49ba-9641-bd15e2d1dcbe',
+            outputReferenceIndex: '5bea7404-f581-4e0a-8ff3-701b3bfa7e5c',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: false,
@@ -1871,12 +1468,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 987,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: 'e89486d4-cd00-4c09-b4f4-539075ae4924',
             filterLogic: 'and',
@@ -1897,26 +1489,13 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '7b238465-d71b-489c-8223-425066aaf928'
-                },
-                {
-                    field: 'Name',
-                    rowIndex: '6f408b05-42aa-4ee2-8bbc-7756dcf10eac'
-                }
+                { field: 'Id', rowIndex: '7b238465-d71b-489c-8223-425066aaf928' },
+                { field: 'Name', rowIndex: '6f408b05-42aa-4ee2-8bbc-7756dcf10eac' }
             ],
             sortOrder: 'Desc',
             sortField: 'BillingCity',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
             outputReferenceIndex: '5889818c-cb99-4524-a6fb-79c576f21d26',
             dataType: 'SObject',
@@ -1935,12 +1514,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 1135,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: '46a0552e-a492-4f1a-8870-500c1a3feea3',
             filterLogic: 'and',
@@ -1961,34 +1535,15 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '8d846e45-cc1d-4e65-b9c5-35c5436a3252'
-                },
-                {
-                    field: 'BillingAddress',
-                    rowIndex: '79801a91-e263-46a7-9e2a-83a6e156dda0'
-                },
-                {
-                    field: 'Name',
-                    rowIndex: 'aa2ec166-4d80-47f5-8492-ec14cbf5003e'
-                },
-                {
-                    field: 'CreatedDate',
-                    rowIndex: 'c5af56a6-a978-408f-966c-3db2f473cbe9'
-                }
+                { field: 'Id', rowIndex: '8d846e45-cc1d-4e65-b9c5-35c5436a3252' },
+                { field: 'BillingAddress', rowIndex: '79801a91-e263-46a7-9e2a-83a6e156dda0' },
+                { field: 'Name', rowIndex: 'aa2ec166-4d80-47f5-8492-ec14cbf5003e' },
+                { field: 'CreatedDate', rowIndex: 'c5af56a6-a978-408f-966c-3db2f473cbe9' }
             ],
             sortOrder: 'Desc',
             sortField: 'Name',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
             outputReferenceIndex: '807ef621-63b9-43a5-abf0-4c3b81726be3',
             dataType: 'SObject',
@@ -2007,12 +1562,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 1125,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: '56f09f71-a9c4-4235-83a9-803f922b80e5',
             outputAssignments: [
@@ -2044,14 +1594,7 @@ export const flowWithAllElementsUIModel = {
             sortOrder: 'Asc',
             sortField: 'Name',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
             outputReferenceIndex: '4b1e528d-7a33-40c3-862d-1eb9dda0633f',
             dataType: 'Boolean',
@@ -2059,8 +1602,8 @@ export const flowWithAllElementsUIModel = {
             getFirstRecordOnly: true,
             variableAndFieldMapping: 'manual'
         },
-        'bb8b3e41-169b-442e-83e3-240cd49b7032': {
-            guid: 'bb8b3e41-169b-442e-83e3-240cd49b7032',
+        '7b60da07-b6e5-4fb4-a895-3328fbd7983f': {
+            guid: '7b60da07-b6e5-4fb4-a895-3328fbd7983f',
             name: 'lookupAccountsManual',
             description: '',
             label: 'lookupAccountsManual',
@@ -2068,45 +1611,28 @@ export const flowWithAllElementsUIModel = {
             locationY: 352,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
-            objectIndex: '7b60da07-b6e5-4fb4-a895-3328fbd7983f',
+            objectIndex: '073edaa5-eb09-4bc8-9f20-43c320d56d18',
             outputReference: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
             assignNullValuesIfNoRecordsFound: false,
             filterLogic: 'no_conditions',
             filters: [
                 {
-                    rowIndex: '4297d5ea-aed3-421e-a33b-e988e84d10ac',
+                    rowIndex: '4bd9ced3-d8dc-454b-9c6a-07e747528517',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
                     operator: ''
                 }
             ],
-            queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '4bd9ced3-d8dc-454b-9c6a-07e747528517'
-                }
-            ],
+            queriedFields: [{ field: 'Id', rowIndex: '4b0617d9-3abe-42ab-8ed4-ab1e5944d884' }],
             sortOrder: 'NotSorted',
             sortField: '',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '073edaa5-eb09-4bc8-9f20-43c320d56d18',
+            outputReferenceIndex: '4297d5ea-aed3-421e-a33b-e988e84d10ac',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: false,
@@ -2121,12 +1647,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 984,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: '48d95e2c-7c52-4423-b36a-86c4790064a5',
             filterLogic: 'no_conditions',
@@ -2143,14 +1664,7 @@ export const flowWithAllElementsUIModel = {
             sortOrder: 'NotSorted',
             sortField: '',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
             outputReferenceIndex: 'fda10f1b-f93e-46d5-99f0-e09f9c52c147',
             dataType: 'SObject',
@@ -2169,12 +1683,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 987,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
             objectIndex: 'c9ebe244-887a-4821-811c-f9f17a670037',
             filterLogic: 'no_conditions',
@@ -2191,14 +1700,7 @@ export const flowWithAllElementsUIModel = {
             sortOrder: 'NotSorted',
             sortField: '',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
             outputReferenceIndex: 'ed46d2ed-f940-4fbe-9b66-fba94ae66e70',
             dataType: 'SObject',
@@ -2208,8 +1710,8 @@ export const flowWithAllElementsUIModel = {
             getFirstRecordOnly: false,
             variableAndFieldMapping: 'automatic'
         },
-        '4b0617d9-3abe-42ab-8ed4-ab1e5944d884': {
-            guid: '4b0617d9-3abe-42ab-8ed4-ab1e5944d884',
+        '852e1dd4-eb4e-48a7-8319-977137281a8d': {
+            guid: '852e1dd4-eb4e-48a7-8319-977137281a8d',
             name: 'lookupRecordOutputReference',
             description: '',
             label: 'lookupRecordOutputReference',
@@ -2217,20 +1719,15 @@ export const flowWithAllElementsUIModel = {
             locationY: 983,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             object: 'Account',
-            objectIndex: '852e1dd4-eb4e-48a7-8319-977137281a8d',
+            objectIndex: '329f0584-f250-4be0-a094-4060ca2ca6f3',
             outputReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
             assignNullValuesIfNoRecordsFound: true,
             filterLogic: 'and',
             filters: [
                 {
-                    rowIndex: '35467ed7-75b9-4c62-b04a-6a0df25679a5',
+                    rowIndex: '452ba7ae-00a1-46ea-a315-a63aa41d1b32',
                     leftHandSide: 'Account.BillingAddress',
                     rightHandSide: 'San Francisco',
                     rightHandSideDataType: 'String',
@@ -2238,28 +1735,15 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             queriedFields: [
-                {
-                    field: 'Id',
-                    rowIndex: '452ba7ae-00a1-46ea-a315-a63aa41d1b32'
-                },
-                {
-                    field: 'BillingAddress',
-                    rowIndex: '5e35bc6f-e544-486e-b90b-81e885e849c8'
-                }
+                { field: 'Id', rowIndex: '5e35bc6f-e544-486e-b90b-81e885e849c8' },
+                { field: 'BillingAddress', rowIndex: 'c9474ff0-3abd-469e-8923-91825f843f9f' }
             ],
             sortOrder: 'Asc',
             sortField: 'AnnualRevenue',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '329f0584-f250-4be0-a094-4060ca2ca6f3',
+            outputReferenceIndex: 'babb725d-f89c-45e7-bf59-453c06cbfff1',
             dataType: 'Boolean',
             storeOutputAutomatically: false,
             getFirstRecordOnly: true,
@@ -2274,12 +1758,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 469,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             inputReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
             inputReferenceIndex: '8232343e-c77f-4502-9234-793bc5470183',
             object: '',
@@ -2287,14 +1766,7 @@ export const flowWithAllElementsUIModel = {
             filterLogic: 'and',
             filters: [],
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordDelete',
             dataType: 'Boolean',
             useSobject: true
@@ -2308,12 +1780,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 832,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             inputReference: '',
             inputReferenceIndex: '1219bee3-aea6-4567-b155-e5ddb4a543bd',
             object: 'Account',
@@ -2343,14 +1810,7 @@ export const flowWithAllElementsUIModel = {
                 }
             ],
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordDelete',
             dataType: 'Boolean',
             useSobject: false
@@ -2364,23 +1824,11 @@ export const flowWithAllElementsUIModel = {
             locationY: 833,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             inputReference: '',
             inputReferenceIndex: '611f9934-04ec-47a9-8a9f-ade6f3b66435',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordUpdate',
             inputAssignments: [
                 {
@@ -2434,23 +1882,11 @@ export const flowWithAllElementsUIModel = {
             locationY: 831,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             inputReference: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
             inputReferenceIndex: '596820f5-a4db-43e2-bd41-6880327aca98',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'FAULT'
-                }
-            ],
+            availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
             elementType: 'RecordUpdate',
             inputAssignments: [
                 {
@@ -2475,8 +1911,8 @@ export const flowWithAllElementsUIModel = {
             dataType: 'Boolean',
             wayToFindRecords: 'sObjectReference'
         },
-        'c9474ff0-3abd-469e-8923-91825f843f9f': {
-            guid: 'c9474ff0-3abd-469e-8923-91825f843f9f',
+        '4bdae41a-fbb6-487f-9507-275c854fbc3c': {
+            guid: '4bdae41a-fbb6-487f-9507-275c854fbc3c',
             name: 'loopOnAccountAutoOutput',
             description: '',
             label: 'loopOnAccountAutoOutput',
@@ -2484,33 +1920,21 @@ export const flowWithAllElementsUIModel = {
             locationY: 342,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '4bdae41a-fbb6-487f-9507-275c854fbc3c',
+            assignNextValueToReferenceIndex: '926b62ad-1eae-4dea-972c-40fa752c46e4',
             collectionReference: '3f70f36b-030f-4b90-ba09-866642ba5d4b',
-            collectionReferenceIndex: '926b62ad-1eae-4dea-972c-40fa752c46e4',
+            collectionReferenceIndex: 'ded1ecdb-e998-4c3b-a729-344d44e9c3d4',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
             subtype: 'Account'
         },
-        'ded1ecdb-e998-4c3b-a729-344d44e9c3d4': {
-            guid: 'ded1ecdb-e998-4c3b-a729-344d44e9c3d4',
+        '875f212c-ce7a-482e-900a-5a11b9e83a62': {
+            guid: '875f212c-ce7a-482e-900a-5a11b9e83a62',
             name: 'loopOnApexAutoOutput',
             description: '',
             label: 'loopOnApexAutoOutput',
@@ -2518,26 +1942,14 @@ export const flowWithAllElementsUIModel = {
             locationY: 503,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '875f212c-ce7a-482e-900a-5a11b9e83a62',
+            assignNextValueToReferenceIndex: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99',
             collectionReference: 'ba8a8e41-3944-4099-9655-065f054e811f',
-            collectionReferenceIndex: 'a4523c0d-9291-4c0a-b5ba-1168e4d17d99',
+            collectionReferenceIndex: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'Apex',
@@ -2552,31 +1964,19 @@ export const flowWithAllElementsUIModel = {
             locationY: 455,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
             assignNextValueToReferenceIndex: 'ee652516-7b62-402f-88a2-1ab887b55072',
             collectionReference: '48cb0159-3cde-48ad-9877-644e3cc4b5e9.acctListField',
             collectionReferenceIndex: '0fa2da7a-22de-4045-ab83-711522e52bb6',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: false
         },
-        'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f': {
-            guid: 'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f',
+        '6fe68205-b480-4ba1-abfd-ce650b968aa8': {
+            guid: '6fe68205-b480-4ba1-abfd-ce650b968aa8',
             name: 'loopOnLocalActionSobjectCollInApexAutoOutput',
             description: '',
             label: 'loopOnLocalActionSobjectCollInApexAutoOutput',
@@ -2584,33 +1984,21 @@ export const flowWithAllElementsUIModel = {
             locationY: 333,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '6fe68205-b480-4ba1-abfd-ce650b968aa8',
+            assignNextValueToReferenceIndex: '291464ff-dda0-4384-a6b0-1cee49e14879',
             collectionReference: '2e01b9c4-5144-4db2-9543-7899c5c34329.apexWithSObject.acctListField',
-            collectionReferenceIndex: '291464ff-dda0-4384-a6b0-1cee49e14879',
+            collectionReferenceIndex: '05c643f6-c379-43eb-80e9-ed2b9ea5dac8',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
             subtype: 'Account'
         },
-        '05c643f6-c379-43eb-80e9-ed2b9ea5dac8': {
-            guid: '05c643f6-c379-43eb-80e9-ed2b9ea5dac8',
+        '12fb3b06-c2c3-46a8-99e6-0fd31f08d028': {
+            guid: '12fb3b06-c2c3-46a8-99e6-0fd31f08d028',
             name: 'loopOnNestedApexTypeAutoOutput',
             description: '',
             label: 'loopOnNestedApexTypeAutoOutput',
@@ -2618,33 +2006,21 @@ export const flowWithAllElementsUIModel = {
             locationY: 306,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '12fb3b06-c2c3-46a8-99e6-0fd31f08d028',
+            assignNextValueToReferenceIndex: '88b31e32-25ee-4d52-83f0-4b9c4b23af08',
             collectionReference: '9b2579d0-01d3-45b0-b6b2-bb016b085511.testOne.acctListField',
-            collectionReferenceIndex: '88b31e32-25ee-4d52-83f0-4b9c4b23af08',
+            collectionReferenceIndex: '232488b7-0f88-4cfc-88c4-0d5f4b2a4373',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
             subtype: 'Account'
         },
-        '232488b7-0f88-4cfc-88c4-0d5f4b2a4373': {
-            guid: '232488b7-0f88-4cfc-88c4-0d5f4b2a4373',
+        '6e2691cf-2d89-4ee4-8c99-b95971c49da0': {
+            guid: '6e2691cf-2d89-4ee4-8c99-b95971c49da0',
             name: 'loopOnScreenCompInSectionColl',
             description: '',
             label: 'loopOnScreenCompInSectionColl',
@@ -2652,33 +2028,21 @@ export const flowWithAllElementsUIModel = {
             locationY: 510,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '6e2691cf-2d89-4ee4-8c99-b95971c49da0',
-            collectionReference: '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836.accounts',
-            collectionReferenceIndex: 'd7127657-00e8-4d96-b56d-3b7126ec9692',
+            assignNextValueToReferenceIndex: 'd7127657-00e8-4d96-b56d-3b7126ec9692',
+            collectionReference: 'f4b58a0a-045d-49d4-b1c7-888e895a4484.accounts',
+            collectionReferenceIndex: '4371db38-52ba-4a94-b31b-75848b050e63',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
             subtype: 'Account'
         },
-        '4371db38-52ba-4a94-b31b-75848b050e63': {
-            guid: '4371db38-52ba-4a94-b31b-75848b050e63',
+        '10a13e6e-f0be-4491-8148-7dc7bcfc3ded': {
+            guid: '10a13e6e-f0be-4491-8148-7dc7bcfc3ded',
             name: 'loopOnScreenCompSObjectCollAutoOutput',
             description: '',
             label: 'loopOnScreenCompSObjectCollAutoOutput',
@@ -2686,33 +2050,21 @@ export const flowWithAllElementsUIModel = {
             locationY: 334,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '10a13e6e-f0be-4491-8148-7dc7bcfc3ded',
+            assignNextValueToReferenceIndex: '6bd7fb1e-1f4f-4420-8ad4-0641e859d182',
             collectionReference: '57402670-a93f-4621-a8e4-6045f765731b.accounts',
-            collectionReferenceIndex: '6bd7fb1e-1f4f-4420-8ad4-0641e859d182',
+            collectionReferenceIndex: '1d77fcef-86db-4398-9e95-fe10f1554ab7',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
             subtype: 'Account'
         },
-        '1d77fcef-86db-4398-9e95-fe10f1554ab7': {
-            guid: '1d77fcef-86db-4398-9e95-fe10f1554ab7',
+        '86488742-59ae-41c6-81c5-df64825d4c6b': {
+            guid: '86488742-59ae-41c6-81c5-df64825d4c6b',
             name: 'loopOnSobjectCollectionInApexTypeAutoOutput',
             description: '',
             label: 'loopOnSobjectCollectionInApexTypeAutoOutput',
@@ -2720,26 +2072,14 @@ export const flowWithAllElementsUIModel = {
             locationY: 506,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '86488742-59ae-41c6-81c5-df64825d4c6b',
+            assignNextValueToReferenceIndex: 'e8244d51-bc66-4700-831a-9bfeb05fc5a7',
             collectionReference: '48cb0159-3cde-48ad-9877-644e3cc4b5e9.acctListField',
-            collectionReferenceIndex: 'e8244d51-bc66-4700-831a-9bfeb05fc5a7',
+            collectionReferenceIndex: 'd2f9a0fc-fe13-46d4-8916-ff2aafd35cda',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',
@@ -2754,31 +2094,19 @@ export const flowWithAllElementsUIModel = {
             locationY: 501,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: '58d4a602-1abb-46e4-8c10-54c225dd56af',
             assignNextValueToReferenceIndex: '2a4b3b65-06a5-4679-bac9-98dc536c68d4',
             collectionReference: '013c0515-5f96-493f-bf5b-3d261350a4e6',
             collectionReferenceIndex: '67b32c2b-a683-4ffe-a867-79300f3a25e0',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: false
         },
-        'd2f9a0fc-fe13-46d4-8916-ff2aafd35cda': {
-            guid: 'd2f9a0fc-fe13-46d4-8916-ff2aafd35cda',
+        '2c880f0a-391e-4655-8b5c-9f39c0c36a92': {
+            guid: '2c880f0a-391e-4655-8b5c-9f39c0c36a92',
             name: 'loopOnTextCollectionAutoOutput',
             description: '',
             label: 'loopOnTextCollectionAutoOutput',
@@ -2786,26 +2114,14 @@ export const flowWithAllElementsUIModel = {
             locationY: 336,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             assignNextValueToReference: null,
-            assignNextValueToReferenceIndex: '2c880f0a-391e-4655-8b5c-9f39c0c36a92',
+            assignNextValueToReferenceIndex: '8b35de0b-9d89-4f4e-86d6-96ff4e5d9a5c',
             collectionReference: '013c0515-5f96-493f-bf5b-3d261350a4e6',
-            collectionReferenceIndex: '8b35de0b-9d89-4f4e-86d6-96ff4e5d9a5c',
+            collectionReferenceIndex: '9d9cf957-471a-49d1-bf9c-6d93f9edd2ab',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    type: 'LOOP_NEXT'
-                },
-                {
-                    type: 'LOOP_END'
-                }
-            ],
+            availableConnections: [{ type: 'LOOP_NEXT' }, { type: 'LOOP_END' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'String',
@@ -2820,12 +2136,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 485,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -2834,21 +2145,11 @@ export const flowWithAllElementsUIModel = {
             showFooter: true,
             showHeader: true,
             childReferences: [
-                {
-                    childReference: 'f876df5e-ccc8-43a5-921f-4730c6c8052b'
-                },
-                {
-                    childReference: 'ac2ad112-16a7-4f97-bb41-7d5a0a41679f'
-                },
-                {
-                    childReference: '78207ca6-8bba-401b-a2e8-1c279842b990'
-                },
-                {
-                    childReference: 'd3d400b8-db5e-4704-8b34-3dc777de7ab2'
-                },
-                {
-                    childReference: '57402670-a93f-4621-a8e4-6045f765731b'
-                }
+                { childReference: 'f876df5e-ccc8-43a5-921f-4730c6c8052b' },
+                { childReference: 'ac2ad112-16a7-4f97-bb41-7d5a0a41679f' },
+                { childReference: '78207ca6-8bba-401b-a2e8-1c279842b990' },
+                { childReference: 'd3d400b8-db5e-4704-8b34-3dc777de7ab2' },
+                { childReference: '57402670-a93f-4621-a8e4-6045f765731b' }
             ],
             elementType: 'Screen',
             maxConnections: 1
@@ -2860,10 +2161,7 @@ export const flowWithAllElementsUIModel = {
             dataType: 'LightningComponentOutput',
             defaultValue: '',
             defaultValueIndex: 'a198d5b1-0303-44f8-9d32-59611aba0a07',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'flowruntime:email',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -2894,10 +2192,7 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
@@ -2910,10 +2205,7 @@ export const flowWithAllElementsUIModel = {
             choiceReferences: [],
             defaultValue: '',
             defaultValueIndex: '4899e1df-446e-4158-a942-9b376323c325',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'flowruntime:email',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -2944,10 +2236,7 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
@@ -2961,10 +2250,7 @@ export const flowWithAllElementsUIModel = {
             dataType: 'LightningComponentOutput',
             defaultValue: '',
             defaultValueIndex: 'e2c8ac9f-000d-47e0-9f60-c9f564fa6e59',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'c:HelloWorld',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -2982,10 +2268,7 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
@@ -2999,10 +2282,7 @@ export const flowWithAllElementsUIModel = {
             dataType: 'LightningComponentOutput',
             defaultValue: '',
             defaultValueIndex: '026b8ee9-572a-40c0-9442-00e58400855d',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'c:noSobjectOutputComp',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -3020,10 +2300,7 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
@@ -3037,10 +2314,7 @@ export const flowWithAllElementsUIModel = {
             dataType: 'LightningComponentOutput',
             defaultValue: '',
             defaultValueIndex: 'e4b8d861-0407-4edd-8002-1b887499cd44',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'c:sobjectCollectionOutputComp',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -3058,10 +2332,7 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
@@ -3077,12 +2348,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 788,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -3090,11 +2356,7 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            childReferences: [
-                {
-                    childReference: 'aca838b1-ea76-436d-a081-732171fdbc11'
-                }
-            ],
+            childReferences: [{ childReference: 'aca838b1-ea76-436d-a081-732171fdbc11' }],
             elementType: 'Screen',
             maxConnections: 1
         },
@@ -3104,13 +2366,10 @@ export const flowWithAllElementsUIModel = {
             choiceReferences: [],
             defaultValue: '',
             defaultValueIndex: 'bd1b7ef3-fc33-485d-a9d2-8f6187bf842b',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'DisplayText',
             fieldText:
-                '<p>address : {!91f8d923-79e4-4a85-9621-3334fac4abe5.street}</p><p>email : {!ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff.value}</p>',
+                '<p>address : {!530b5897-614d-4b9d-9ee6-9d2ff19e26da.street}</p><p>email : {!9aba628e-835b-448a-ac6b-a3764ac735b4.value}</p>',
             helpText: '',
             inputParameters: [],
             isNewField: false,
@@ -3126,10 +2385,7 @@ export const flowWithAllElementsUIModel = {
                 type: 'String'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: []
         },
@@ -3142,12 +2398,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 483,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -3155,11 +2406,7 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            childReferences: [
-                {
-                    childReference: '975adb96-3950-4767-8f2a-47e2958202f2'
-                }
-            ],
+            childReferences: [{ childReference: '975adb96-3950-4767-8f2a-47e2958202f2' }],
             elementType: 'Screen',
             maxConnections: 1
         },
@@ -3170,10 +2417,7 @@ export const flowWithAllElementsUIModel = {
             dataType: 'LightningComponentOutput',
             defaultValue: '',
             defaultValueIndex: 'e2de9f05-aae8-4dc3-a061-e5d17e4562e1',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'flowruntime:address',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -3191,10 +2435,7 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
@@ -3210,12 +2451,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 1018,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -3224,27 +2460,13 @@ export const flowWithAllElementsUIModel = {
             showFooter: true,
             showHeader: true,
             childReferences: [
-                {
-                    childReference: 'c5488001-ae8b-4364-984a-57778117437b'
-                },
-                {
-                    childReference: '8994b409-64e9-438f-8532-1c5f0ed172af'
-                },
-                {
-                    childReference: 'efbed9ce-b23f-43d3-bbe8-f9ddc2234909'
-                },
-                {
-                    childReference: '4e231f09-fd41-4fa3-8f1e-8515f6376c61'
-                },
-                {
-                    childReference: 'beff1133-9fcb-4002-a540-e0740e0f3633'
-                },
-                {
-                    childReference: '13071101-a221-4af9-a430-5d6a2e4c7f28'
-                },
-                {
-                    childReference: '0596012b-9bd5-4182-87ce-0e1f231967ef'
-                }
+                { childReference: 'c5488001-ae8b-4364-984a-57778117437b' },
+                { childReference: 'f4b19fd9-74ef-4f38-aa3b-549f6d105a77' },
+                { childReference: 'c046997e-c0ed-4c78-a861-05be31e4d0ac' },
+                { childReference: '523f076c-5b60-402f-8617-d93833186fbe' },
+                { childReference: 'b1d673a1-a2cd-4106-ae02-5d184d3aaa37' },
+                { childReference: '1fa12c04-abe3-44d7-87d2-132178cb5c70' },
+                { childReference: '9598b9ad-7b8d-4a74-bf1b-32020d902af1' }
             ],
             elementType: 'Screen',
             maxConnections: 1
@@ -3255,10 +2477,7 @@ export const flowWithAllElementsUIModel = {
             choiceReferences: [],
             defaultValue: '',
             defaultValueIndex: '5c56f33d-c558-409b-837d-a835f74010ae',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3269,23 +2488,28 @@ export const flowWithAllElementsUIModel = {
             scale: '0',
             elementType: 'SCREEN_FIELD',
             visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
+                conditions: [
+                    {
+                        rowIndex: '8994b409-64e9-438f-8532-1c5f0ed172af',
+                        leftHandSide: '55c07deb-dcd5-45e2-ad9a-c80b7bc17362.value',
+                        rightHandSide: '50',
+                        rightHandSideDataType: 'Number',
+                        operator: 'GreaterThanOrEqualTo'
+                    }
+                ],
+                conditionLogic: 'and'
             },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.Name',
             childReferences: []
         },
-        '8994b409-64e9-438f-8532-1c5f0ed172af': {
-            guid: '8994b409-64e9-438f-8532-1c5f0ed172af',
+        'f4b19fd9-74ef-4f38-aa3b-549f6d105a77': {
+            guid: 'f4b19fd9-74ef-4f38-aa3b-549f6d105a77',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'f4b19fd9-74ef-4f38-aa3b-549f6d105a77',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'efbed9ce-b23f-43d3-bbe8-f9ddc2234909',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3295,24 +2519,18 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.NumberOfEmployees',
             childReferences: []
         },
-        'efbed9ce-b23f-43d3-bbe8-f9ddc2234909': {
-            guid: 'efbed9ce-b23f-43d3-bbe8-f9ddc2234909',
+        'c046997e-c0ed-4c78-a861-05be31e4d0ac': {
+            guid: 'c046997e-c0ed-4c78-a861-05be31e4d0ac',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'c046997e-c0ed-4c78-a861-05be31e4d0ac',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '4e231f09-fd41-4fa3-8f1e-8515f6376c61',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3322,24 +2540,18 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '1a934031-6241-4115-9514-61184d4c5b75.Name',
             childReferences: []
         },
-        '4e231f09-fd41-4fa3-8f1e-8515f6376c61': {
-            guid: '4e231f09-fd41-4fa3-8f1e-8515f6376c61',
+        '523f076c-5b60-402f-8617-d93833186fbe': {
+            guid: '523f076c-5b60-402f-8617-d93833186fbe',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '523f076c-5b60-402f-8617-d93833186fbe',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'beff1133-9fcb-4002-a540-e0740e0f3633',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3349,24 +2561,18 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.Description',
             childReferences: []
         },
-        'beff1133-9fcb-4002-a540-e0740e0f3633': {
-            guid: 'beff1133-9fcb-4002-a540-e0740e0f3633',
+        'b1d673a1-a2cd-4106-ae02-5d184d3aaa37': {
+            guid: 'b1d673a1-a2cd-4106-ae02-5d184d3aaa37',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'b1d673a1-a2cd-4106-ae02-5d184d3aaa37',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '13071101-a221-4af9-a430-5d6a2e4c7f28',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3376,25 +2582,19 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '796969f1-a892-4b16-836e-209180057a2b.Text_Field__c',
             childReferences: []
         },
-        '13071101-a221-4af9-a430-5d6a2e4c7f28': {
-            guid: '13071101-a221-4af9-a430-5d6a2e4c7f28',
+        '1fa12c04-abe3-44d7-87d2-132178cb5c70': {
+            guid: '1fa12c04-abe3-44d7-87d2-132178cb5c70',
             name: 'numberScreenField1',
             choiceReferences: [],
             dataType: 'Number',
             defaultValue: '',
-            defaultValueIndex: '1fa12c04-abe3-44d7-87d2-132178cb5c70',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '0596012b-9bd5-4182-87ce-0e1f231967ef',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'InputField',
             fieldText: 'numberScreenField1',
             helpText: '',
@@ -3413,23 +2613,17 @@ export const flowWithAllElementsUIModel = {
                 type: 'Number'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: []
         },
-        '0596012b-9bd5-4182-87ce-0e1f231967ef': {
-            guid: '0596012b-9bd5-4182-87ce-0e1f231967ef',
+        '9598b9ad-7b8d-4a74-bf1b-32020d902af1': {
+            guid: '9598b9ad-7b8d-4a74-bf1b-32020d902af1',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '9598b9ad-7b8d-4a74-bf1b-32020d902af1',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '02209f51-9747-443f-8b81-87d5ee84cfd7',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3439,16 +2633,13 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '37c4575e-32f8-46d9-aeea-737953c256b2.ActivatedDate',
             childReferences: []
         },
-        '02209f51-9747-443f-8b81-87d5ee84cfd7': {
-            guid: '02209f51-9747-443f-8b81-87d5ee84cfd7',
+        'b6131670-d12f-4df5-9560-2a476767e9e4': {
+            guid: 'b6131670-d12f-4df5-9560-2a476767e9e4',
             name: 'screenWithAutomaticFieldsInSection',
             description: '',
             label: 'screenWithAutomaticFieldsInSection',
@@ -3456,12 +2647,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 1025,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -3469,24 +2655,17 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            childReferences: [
-                {
-                    childReference: 'b6131670-d12f-4df5-9560-2a476767e9e4'
-                }
-            ],
+            childReferences: [{ childReference: 'a0d930b7-520b-48e7-844e-df473e4214b7' }],
             elementType: 'Screen',
             maxConnections: 1
         },
-        'c27e44ab-6e20-496f-80c0-623c207ab098': {
-            guid: 'c27e44ab-6e20-496f-80c0-623c207ab098',
+        'c133671f-83c0-486e-aafc-faed91142185': {
+            guid: 'c133671f-83c0-486e-aafc-faed91142185',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'c133671f-83c0-486e-aafc-faed91142185',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '38e03c17-22d6-403f-91bf-6d9bd0caa696',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3496,24 +2675,18 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.Name',
             childReferences: []
         },
-        '38e03c17-22d6-403f-91bf-6d9bd0caa696': {
-            guid: '38e03c17-22d6-403f-91bf-6d9bd0caa696',
+        '64576cb6-0939-475e-8e1b-76feee5be4be': {
+            guid: '64576cb6-0939-475e-8e1b-76feee5be4be',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '64576cb6-0939-475e-8e1b-76feee5be4be',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '060e2e3d-c798-4c96-b7c8-4b694bbcb5d5',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3523,24 +2696,18 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.NumberOfEmployees',
             childReferences: []
         },
-        '060e2e3d-c798-4c96-b7c8-4b694bbcb5d5': {
-            guid: '060e2e3d-c798-4c96-b7c8-4b694bbcb5d5',
+        'a91df44d-d786-4ab8-be03-9211069ed720': {
+            guid: 'a91df44d-d786-4ab8-be03-9211069ed720',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'a91df44d-d786-4ab8-be03-9211069ed720',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'b9810123-08cd-465b-ae9a-ca0c2afb3a9a',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3550,71 +2717,45 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '796969f1-a892-4b16-836e-209180057a2b.Text_Field__c',
             childReferences: []
         },
-        '247e0c32-5050-4a90-977f-f33c989ad9f9': {
-            guid: '247e0c32-5050-4a90-977f-f33c989ad9f9',
+        '8ee25bae-66aa-4c1d-bf28-938976a1d25b': {
+            guid: '8ee25bae-66aa-4c1d-bf28-938976a1d25b',
             name: 'screenWithAutomaticFieldsInSection_Section1_Column1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '8ee25bae-66aa-4c1d-bf28-938976a1d25b',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '79c59df8-63ef-4817-8939-4951da8d22c9',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
-                {
-                    rowIndex: '3a823f11-0023-4a28-bca2-2331299c86f7',
-                    name: 'width',
-                    value: '6',
-                    valueDataType: 'String'
-                }
+                { rowIndex: 'c27e44ab-6e20-496f-80c0-623c207ab098', name: 'width', value: '6', valueDataType: 'String' }
             ],
             isNewField: false,
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: [
-                {
-                    childReference: 'c27e44ab-6e20-496f-80c0-623c207ab098'
-                },
-                {
-                    childReference: '38e03c17-22d6-403f-91bf-6d9bd0caa696'
-                },
-                {
-                    childReference: '060e2e3d-c798-4c96-b7c8-4b694bbcb5d5'
-                }
+                { childReference: 'c133671f-83c0-486e-aafc-faed91142185' },
+                { childReference: '64576cb6-0939-475e-8e1b-76feee5be4be' },
+                { childReference: 'a91df44d-d786-4ab8-be03-9211069ed720' }
             ]
         },
-        '23ae0ea4-4d33-4dcc-a579-013e91fd4159': {
-            guid: '23ae0ea4-4d33-4dcc-a579-013e91fd4159',
+        '46c2961d-5cf6-443b-95d4-91d406c02a37': {
+            guid: '46c2961d-5cf6-443b-95d4-91d406c02a37',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '46c2961d-5cf6-443b-95d4-91d406c02a37',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'e713f058-3d86-43ff-9da6-c8cd70863c95',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3624,24 +2765,18 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.SicDesc',
             childReferences: []
         },
-        'e713f058-3d86-43ff-9da6-c8cd70863c95': {
-            guid: 'e713f058-3d86-43ff-9da6-c8cd70863c95',
+        '17d626e2-e27c-4bf0-9670-5abc582a22fb': {
+            guid: '17d626e2-e27c-4bf0-9670-5abc582a22fb',
             name: '',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '17d626e2-e27c-4bf0-9670-5abc582a22fb',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'df72b5ae-20df-4ebf-9c93-3f87b91d7791',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'ObjectProvided',
             fieldText: '',
             helpText: '',
@@ -3651,68 +2786,44 @@ export const flowWithAllElementsUIModel = {
             outputParameters: [],
             scale: '0',
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             objectFieldReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.Description',
             childReferences: []
         },
-        'b9810123-08cd-465b-ae9a-ca0c2afb3a9a': {
-            guid: 'b9810123-08cd-465b-ae9a-ca0c2afb3a9a',
+        '90712d11-6f61-40e4-97ff-72f835ca759c': {
+            guid: '90712d11-6f61-40e4-97ff-72f835ca759c',
             name: 'screenWithAutomaticFieldsInSection_Section1_Column2',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '90712d11-6f61-40e4-97ff-72f835ca759c',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '31ac8e99-5705-49f2-a2ef-bf2f6a4a22e0',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
-                {
-                    rowIndex: 'b15d6409-4439-4dc2-8a3d-4956e56ba21a',
-                    name: 'width',
-                    value: '6',
-                    valueDataType: 'String'
-                }
+                { rowIndex: '23ae0ea4-4d33-4dcc-a579-013e91fd4159', name: 'width', value: '6', valueDataType: 'String' }
             ],
             isNewField: false,
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: [
-                {
-                    childReference: '23ae0ea4-4d33-4dcc-a579-013e91fd4159'
-                },
-                {
-                    childReference: 'e713f058-3d86-43ff-9da6-c8cd70863c95'
-                }
+                { childReference: '46c2961d-5cf6-443b-95d4-91d406c02a37' },
+                { childReference: '17d626e2-e27c-4bf0-9670-5abc582a22fb' }
             ]
         },
-        'b6131670-d12f-4df5-9560-2a476767e9e4': {
-            guid: 'b6131670-d12f-4df5-9560-2a476767e9e4',
+        'a0d930b7-520b-48e7-844e-df473e4214b7': {
+            guid: 'a0d930b7-520b-48e7-844e-df473e4214b7',
             name: 'screenWithAutomaticFieldsInSection_Section1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'a0d930b7-520b-48e7-844e-df473e4214b7',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '247e0c32-5050-4a90-977f-f33c989ad9f9',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'RegionContainer',
             fieldText: '',
             helpText: '',
@@ -3730,22 +2841,15 @@ export const flowWithAllElementsUIModel = {
                 description: 'FlowBuilderScreenEditor.fieldTypeDescriptionSection'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: [
-                {
-                    childReference: '247e0c32-5050-4a90-977f-f33c989ad9f9'
-                },
-                {
-                    childReference: 'b9810123-08cd-465b-ae9a-ca0c2afb3a9a'
-                }
+                { childReference: '8ee25bae-66aa-4c1d-bf28-938976a1d25b' },
+                { childReference: '90712d11-6f61-40e4-97ff-72f835ca759c' }
             ]
         },
-        'df72b5ae-20df-4ebf-9c93-3f87b91d7791': {
-            guid: 'df72b5ae-20df-4ebf-9c93-3f87b91d7791',
+        'b0d41663-ba7b-4020-8f88-6c83151e3a83': {
+            guid: 'b0d41663-ba7b-4020-8f88-6c83151e3a83',
             name: 'ScreenWithSection',
             description: '',
             label: 'ScreenWithSection',
@@ -3753,12 +2857,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 637,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -3767,40 +2866,29 @@ export const flowWithAllElementsUIModel = {
             showFooter: true,
             showHeader: true,
             childReferences: [
-                {
-                    childReference: 'b0d41663-ba7b-4020-8f88-6c83151e3a83'
-                },
-                {
-                    childReference: '09238073-9b8a-4280-9f23-e44be298f4b0'
-                },
-                {
-                    childReference: 'fd3f7f93-d285-4327-ad6d-2b080ee334b2'
-                },
-                {
-                    childReference: '91f8d923-79e4-4a85-9621-3334fac4abe5'
-                }
+                { childReference: '652434b1-40e0-404e-9e4d-e6864e4f8bdb' },
+                { childReference: 'df134372-8b3c-4bbd-875a-7513e76bec39' },
+                { childReference: 'ba867a87-724c-4775-963b-2fc43169444f' },
+                { childReference: '530b5897-614d-4b9d-9ee6-9d2ff19e26da' }
             ],
             elementType: 'Screen',
             maxConnections: 1
         },
-        'e12fdd35-1aeb-4465-b52c-73a201e704a7': {
-            guid: 'e12fdd35-1aeb-4465-b52c-73a201e704a7',
+        '55c07deb-dcd5-45e2-ad9a-c80b7bc17362': {
+            guid: '55c07deb-dcd5-45e2-ad9a-c80b7bc17362',
             name: 'slider_1',
             choiceReferences: [],
             dataType: 'LightningComponentOutput',
             defaultValue: '',
-            defaultValueIndex: '55c07deb-dcd5-45e2-ad9a-c80b7bc17362',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'f8d71fe5-b8d5-4def-b47b-dd4aef4b47dc',
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'flowruntime:slider',
             fieldType: 'ComponentInstance',
             fieldText: '',
             helpText: '',
             inputParameters: [
                 {
-                    rowIndex: '096f6fc9-8bb1-4738-9365-5e8fd66eaa14',
+                    rowIndex: '09238073-9b8a-4280-9f23-e44be298f4b0',
                     name: 'label',
                     value: 'slider_1',
                     valueDataType: 'String'
@@ -3818,32 +2906,26 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
-        'a339198f-0294-4416-a67a-2782d735acad': {
-            guid: 'a339198f-0294-4416-a67a-2782d735acad',
+        '5bd09db6-7e3f-41e3-a0c7-dbef33840655': {
+            guid: '5bd09db6-7e3f-41e3-a0c7-dbef33840655',
             name: 'ScreenWithSection_Section1_Column1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '5bd09db6-7e3f-41e3-a0c7-dbef33840655',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '4be9885e-987b-4fab-b204-58dd28d0829c',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
                 {
-                    rowIndex: '0d21d5a2-6e85-4023-8e2b-846d05bfb367',
+                    rowIndex: 'e12fdd35-1aeb-4465-b52c-73a201e704a7',
                     name: 'width',
                     value: '12',
                     valueDataType: 'String'
@@ -3853,32 +2935,19 @@ export const flowWithAllElementsUIModel = {
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
-            childReferences: [
-                {
-                    childReference: 'e12fdd35-1aeb-4465-b52c-73a201e704a7'
-                }
-            ]
+            childReferences: [{ childReference: '55c07deb-dcd5-45e2-ad9a-c80b7bc17362' }]
         },
-        'b0d41663-ba7b-4020-8f88-6c83151e3a83': {
-            guid: 'b0d41663-ba7b-4020-8f88-6c83151e3a83',
+        '652434b1-40e0-404e-9e4d-e6864e4f8bdb': {
+            guid: '652434b1-40e0-404e-9e4d-e6864e4f8bdb',
             name: 'ScreenWithSection_Section1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '652434b1-40e0-404e-9e4d-e6864e4f8bdb',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'a339198f-0294-4416-a67a-2782d735acad',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'RegionContainer',
             fieldText: '',
             helpText: '',
@@ -3896,28 +2965,18 @@ export const flowWithAllElementsUIModel = {
                 description: 'FlowBuilderScreenEditor.fieldTypeDescriptionSection'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
-            childReferences: [
-                {
-                    childReference: 'a339198f-0294-4416-a67a-2782d735acad'
-                }
-            ]
+            childReferences: [{ childReference: '5bd09db6-7e3f-41e3-a0c7-dbef33840655' }]
         },
-        '09238073-9b8a-4280-9f23-e44be298f4b0': {
-            guid: '09238073-9b8a-4280-9f23-e44be298f4b0',
+        'df134372-8b3c-4bbd-875a-7513e76bec39': {
+            guid: 'df134372-8b3c-4bbd-875a-7513e76bec39',
             name: 'number_2',
             choiceReferences: [],
             dataType: 'Number',
             defaultValue: '',
-            defaultValueIndex: 'df134372-8b3c-4bbd-875a-7513e76bec39',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'fd3f7f93-d285-4327-ad6d-2b080ee334b2',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'InputField',
             fieldText: 'number_2',
             helpText: '',
@@ -3936,24 +2995,18 @@ export const flowWithAllElementsUIModel = {
                 type: 'Number'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: []
         },
-        'fd01968e-736a-4bbf-9324-f6e7f915b6fe': {
-            guid: 'fd01968e-736a-4bbf-9324-f6e7f915b6fe',
+        '2aacf35d-91f7-42cc-a668-f0b682615d6b': {
+            guid: '2aacf35d-91f7-42cc-a668-f0b682615d6b',
             name: 'text_2',
             choiceReferences: [],
             dataType: 'String',
             defaultValue: '',
-            defaultValueIndex: '2aacf35d-91f7-42cc-a668-f0b682615d6b',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '9abf51ab-a289-45b0-853c-040be0ed9eb7',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'InputField',
             fieldText: 'text_2',
             helpText: '',
@@ -3972,72 +3025,48 @@ export const flowWithAllElementsUIModel = {
                 type: 'String'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: []
         },
-        'd5a45e74-78b4-41c3-844d-b0536f90c54b': {
-            guid: 'd5a45e74-78b4-41c3-844d-b0536f90c54b',
+        'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7': {
+            guid: 'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7',
             name: 'ScreenWithSection_Section2_Column1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '2e27b2ec-9bb9-493d-9151-d9022471680f',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
-                {
-                    rowIndex: '363280ef-e5f4-414b-9988-1200b330e5cb',
-                    name: 'width',
-                    value: '6',
-                    valueDataType: 'String'
-                }
+                { rowIndex: 'fd01968e-736a-4bbf-9324-f6e7f915b6fe', name: 'width', value: '6', valueDataType: 'String' }
             ],
             isNewField: false,
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
-            childReferences: [
-                {
-                    childReference: 'fd01968e-736a-4bbf-9324-f6e7f915b6fe'
-                }
-            ]
+            childReferences: [{ childReference: '2aacf35d-91f7-42cc-a668-f0b682615d6b' }]
         },
-        'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff': {
-            guid: 'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff',
+        '9aba628e-835b-448a-ac6b-a3764ac735b4': {
+            guid: '9aba628e-835b-448a-ac6b-a3764ac735b4',
             name: 'email_2',
             choiceReferences: [],
             dataType: 'LightningComponentOutput',
             defaultValue: '',
-            defaultValueIndex: '9aba628e-835b-448a-ac6b-a3764ac735b4',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '016e92d2-b409-4a9d-89c0-50e637967cbc',
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'flowruntime:email',
             fieldType: 'ComponentInstance',
             fieldText: '',
             helpText: '',
             inputParameters: [
                 {
-                    rowIndex: '0dfdcc2f-0bb7-4357-80ed-337890bd89e6',
+                    rowIndex: '0918a8eb-38a1-4294-b329-39aa5b0bbd13',
                     name: 'label',
                     value: 'email_2',
                     valueDataType: 'String'
@@ -4055,34 +3084,24 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
-        '0918a8eb-38a1-4294-b329-39aa5b0bbd13': {
-            guid: '0918a8eb-38a1-4294-b329-39aa5b0bbd13',
+        '91280889-13e2-4de0-8390-32d05b8918e5': {
+            guid: '91280889-13e2-4de0-8390-32d05b8918e5',
             name: 'accounts',
             choiceReferences: [
-                {
-                    choiceReference: 'd6b5b39e-c834-4449-9ade-38629b8676d9'
-                },
-                {
-                    choiceReference: '57776352-a679-4bdc-876b-77d987c29fc5'
-                }
+                { choiceReference: 'cb5ce4eb-b9b6-43d1-b2ea-f74e7b6db814' },
+                { choiceReference: 'fa63fff1-36e9-4574-9586-72f3ef2b334d' }
             ],
             dataType: 'String',
             defaultValue: '',
-            defaultValueIndex: '91280889-13e2-4de0-8390-32d05b8918e5',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '5bb2cc21-9ba8-4d14-90b5-f81c92e919a8',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'DropdownBox',
             fieldText: 'Accounts',
             helpText: '',
@@ -4103,8 +3122,8 @@ export const flowWithAllElementsUIModel = {
             visibilityRule: {
                 conditions: [
                     {
-                        rowIndex: '5bb2cc21-9ba8-4d14-90b5-f81c92e919a8',
-                        leftHandSide: 'e12fdd35-1aeb-4465-b52c-73a201e704a7.value',
+                        rowIndex: '91f8d923-79e4-4a85-9621-3334fac4abe5',
+                        leftHandSide: '55c07deb-dcd5-45e2-ad9a-c80b7bc17362.value',
                         rightHandSide: '50',
                         rightHandSideDataType: 'Number',
                         operator: 'GreaterThanOrEqualTo'
@@ -4115,60 +3134,39 @@ export const flowWithAllElementsUIModel = {
             fields: [],
             childReferences: []
         },
-        '9abf51ab-a289-45b0-853c-040be0ed9eb7': {
-            guid: '9abf51ab-a289-45b0-853c-040be0ed9eb7',
+        'd99d05ca-bae7-459a-9551-10f32d89aeb9': {
+            guid: 'd99d05ca-bae7-459a-9551-10f32d89aeb9',
             name: 'ScreenWithSection_Section2_Column2',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'd99d05ca-bae7-459a-9551-10f32d89aeb9',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '5a93c395-dd94-498e-9383-50caf96c6748',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
-                {
-                    rowIndex: 'db83d1da-0f30-4796-8075-843918cf6c01',
-                    name: 'width',
-                    value: '6',
-                    valueDataType: 'String'
-                }
+                { rowIndex: 'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff', name: 'width', value: '6', valueDataType: 'String' }
             ],
             isNewField: false,
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: [
-                {
-                    childReference: 'ec3a2e92-54b4-4cc1-aa0b-2026ce47d2ff'
-                },
-                {
-                    childReference: '0918a8eb-38a1-4294-b329-39aa5b0bbd13'
-                }
+                { childReference: '9aba628e-835b-448a-ac6b-a3764ac735b4' },
+                { childReference: '91280889-13e2-4de0-8390-32d05b8918e5' }
             ]
         },
-        'fd3f7f93-d285-4327-ad6d-2b080ee334b2': {
-            guid: 'fd3f7f93-d285-4327-ad6d-2b080ee334b2',
+        'ba867a87-724c-4775-963b-2fc43169444f': {
+            guid: 'ba867a87-724c-4775-963b-2fc43169444f',
             name: 'ScreenWithSection_Section2',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'ba867a87-724c-4775-963b-2fc43169444f',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'd5a45e74-78b4-41c3-844d-b0536f90c54b',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'RegionContainer',
             fieldText: '',
             helpText: '',
@@ -4186,31 +3184,21 @@ export const flowWithAllElementsUIModel = {
                 description: 'FlowBuilderScreenEditor.fieldTypeDescriptionSection'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: [
-                {
-                    childReference: 'd5a45e74-78b4-41c3-844d-b0536f90c54b'
-                },
-                {
-                    childReference: '9abf51ab-a289-45b0-853c-040be0ed9eb7'
-                }
+                { childReference: 'ffdc5988-95d5-483c-b1ba-6b2adb5e8df7' },
+                { childReference: 'd99d05ca-bae7-459a-9551-10f32d89aeb9' }
             ]
         },
-        '91f8d923-79e4-4a85-9621-3334fac4abe5': {
-            guid: '91f8d923-79e4-4a85-9621-3334fac4abe5',
+        '530b5897-614d-4b9d-9ee6-9d2ff19e26da': {
+            guid: '530b5897-614d-4b9d-9ee6-9d2ff19e26da',
             name: 'address_2',
             choiceReferences: [],
             dataType: 'LightningComponentOutput',
             defaultValue: '',
-            defaultValueIndex: '530b5897-614d-4b9d-9ee6-9d2ff19e26da',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'e17f4b88-f725-4ebb-8d7b-78e179ea4c8c',
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'flowruntime:address',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -4228,18 +3216,15 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
-        'e17f4b88-f725-4ebb-8d7b-78e179ea4c8c': {
-            guid: 'e17f4b88-f725-4ebb-8d7b-78e179ea4c8c',
+        '9b6b8f63-fff0-477e-92b7-3e315551288b': {
+            guid: '9b6b8f63-fff0-477e-92b7-3e315551288b',
             name: 'screenWithSectionAndLightningComp',
             description: '',
             label: 'screenWithSectionAndLightningComp',
@@ -4247,12 +3232,7 @@ export const flowWithAllElementsUIModel = {
             locationY: 633,
             isCanvasElement: true,
             connectorCount: 0,
-            config: {
-                isSelected: false,
-                isHighlighted: false,
-                isSelectable: true,
-                hasError: false
-            },
+            config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
             allowBack: true,
             allowFinish: true,
             allowPause: true,
@@ -4261,27 +3241,20 @@ export const flowWithAllElementsUIModel = {
             showFooter: true,
             showHeader: true,
             childReferences: [
-                {
-                    childReference: '9b6b8f63-fff0-477e-92b7-3e315551288b'
-                },
-                {
-                    childReference: 'a5b1853e-6b7e-4568-9b24-37414be4b4d7'
-                }
+                { childReference: 'd6ff3600-dcdb-404b-8a8b-8a90226a575b' },
+                { childReference: '90845b6c-c12e-4689-adaf-19d8127d9f99' }
             ],
             elementType: 'Screen',
             maxConnections: 1
         },
-        '9b6b8f63-fff0-477e-92b7-3e315551288b': {
-            guid: '9b6b8f63-fff0-477e-92b7-3e315551288b',
+        'd6ff3600-dcdb-404b-8a8b-8a90226a575b': {
+            guid: 'd6ff3600-dcdb-404b-8a8b-8a90226a575b',
             name: 'someText',
             choiceReferences: [],
             dataType: 'String',
             defaultValue: '',
-            defaultValueIndex: 'd6ff3600-dcdb-404b-8a8b-8a90226a575b',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'a5b1853e-6b7e-4568-9b24-37414be4b4d7',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'InputField',
             fieldText: 'someText',
             helpText: '',
@@ -4300,24 +3273,18 @@ export const flowWithAllElementsUIModel = {
                 type: 'String'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: []
         },
-        'a5dd0d8d-9a71-4f0f-9ad0-573d34041554': {
-            guid: 'a5dd0d8d-9a71-4f0f-9ad0-573d34041554',
+        '1ce942af-1f5f-421c-b55b-07edf0fb0401': {
+            guid: '1ce942af-1f5f-421c-b55b-07edf0fb0401',
             name: 'screenCompInSectionColumnWithSingleSObjectAutoOutput',
             choiceReferences: [],
             dataType: 'LightningComponentOutput',
             defaultValue: '',
-            defaultValueIndex: '1ce942af-1f5f-421c-b55b-07edf0fb0401',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'bf86df65-a565-4f4c-9a88-3785f2785230',
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'c:HelloWorld',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -4335,68 +3302,44 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
-        '888dc04a-b0c7-49af-804a-8af6951151a0': {
-            guid: '888dc04a-b0c7-49af-804a-8af6951151a0',
+        '13cd8d8c-6bf4-4f50-95bb-32adde864b80': {
+            guid: '13cd8d8c-6bf4-4f50-95bb-32adde864b80',
             name: 'screenWithSectionAndLightningComp_Section1_Column1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '13cd8d8c-6bf4-4f50-95bb-32adde864b80',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '483bad31-107e-420d-8598-721d6db44c47',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
-                {
-                    rowIndex: '8f54aa39-0bda-422e-a4ad-3e2ac0155234',
-                    name: 'width',
-                    value: '6',
-                    valueDataType: 'String'
-                }
+                { rowIndex: 'a5dd0d8d-9a71-4f0f-9ad0-573d34041554', name: 'width', value: '6', valueDataType: 'String' }
             ],
             isNewField: false,
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
-            childReferences: [
-                {
-                    childReference: 'a5dd0d8d-9a71-4f0f-9ad0-573d34041554'
-                }
-            ]
+            childReferences: [{ childReference: '1ce942af-1f5f-421c-b55b-07edf0fb0401' }]
         },
-        '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836': {
-            guid: '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836',
+        'f4b58a0a-045d-49d4-b1c7-888e895a4484': {
+            guid: 'f4b58a0a-045d-49d4-b1c7-888e895a4484',
             name: 'screenCompInSectionColumnWithSObjectCollAutoOutput',
             choiceReferences: [],
             dataType: 'LightningComponentOutput',
             defaultValue: '',
-            defaultValueIndex: 'f4b58a0a-045d-49d4-b1c7-888e895a4484',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: 'b3226572-8133-4f57-a49e-b9863ea7da7b',
+            validationRule: { formulaExpression: null, errorMessage: null },
             extensionName: 'c:sobjectCollectionOutputComp',
             fieldType: 'ComponentInstance',
             fieldText: '',
@@ -4414,67 +3357,43 @@ export const flowWithAllElementsUIModel = {
                 source: 'local'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             inputsOnNextNavToAssocScrn: 'UseStoredValues',
             dynamicTypeMappings: [],
             storeOutputAutomatically: true,
             childReferences: []
         },
-        'bf86df65-a565-4f4c-9a88-3785f2785230': {
-            guid: 'bf86df65-a565-4f4c-9a88-3785f2785230',
+        'b1594536-54c8-4f1d-96fc-ebfd501ca433': {
+            guid: 'b1594536-54c8-4f1d-96fc-ebfd501ca433',
             name: 'screenWithSectionAndLightningComp_Section1_Column2',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: 'b1594536-54c8-4f1d-96fc-ebfd501ca433',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '1936abb6-dc8c-4180-a4dd-7172ba4841df',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'Region',
             fieldText: '',
             helpText: '',
             inputParameters: [
-                {
-                    rowIndex: '9dfb762b-b721-4ac5-b787-edcdd6f02574',
-                    name: 'width',
-                    value: '6',
-                    valueDataType: 'String'
-                }
+                { rowIndex: '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836', name: 'width', value: '6', valueDataType: 'String' }
             ],
             isNewField: false,
             isRequired: false,
             outputParameters: [],
             scale: '0',
-            type: {
-                name: 'Column',
-                fieldType: 'Region'
-            },
+            type: { name: 'Column', fieldType: 'Region' },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
-            childReferences: [
-                {
-                    childReference: '1a024e7c-0ada-4ab4-8211-9e3b1a4e9836'
-                }
-            ]
+            childReferences: [{ childReference: 'f4b58a0a-045d-49d4-b1c7-888e895a4484' }]
         },
-        'a5b1853e-6b7e-4568-9b24-37414be4b4d7': {
-            guid: 'a5b1853e-6b7e-4568-9b24-37414be4b4d7',
+        '90845b6c-c12e-4689-adaf-19d8127d9f99': {
+            guid: '90845b6c-c12e-4689-adaf-19d8127d9f99',
             name: 'screenWithSectionAndLightningComp_Section1',
             choiceReferences: [],
             defaultValue: '',
-            defaultValueIndex: '90845b6c-c12e-4689-adaf-19d8127d9f99',
-            validationRule: {
-                formulaExpression: null,
-                errorMessage: null
-            },
+            defaultValueIndex: '888dc04a-b0c7-49af-804a-8af6951151a0',
+            validationRule: { formulaExpression: null, errorMessage: null },
             fieldType: 'RegionContainer',
             fieldText: '',
             helpText: '',
@@ -4492,22 +3411,15 @@ export const flowWithAllElementsUIModel = {
                 description: 'FlowBuilderScreenEditor.fieldTypeDescriptionSection'
             },
             elementType: 'SCREEN_FIELD',
-            visibilityRule: {
-                conditionLogic: 'no_conditions',
-                conditions: []
-            },
+            visibilityRule: { conditionLogic: 'no_conditions', conditions: [] },
             fields: [],
             childReferences: [
-                {
-                    childReference: '888dc04a-b0c7-49af-804a-8af6951151a0'
-                },
-                {
-                    childReference: 'bf86df65-a565-4f4c-9a88-3785f2785230'
-                }
+                { childReference: '13cd8d8c-6bf4-4f50-95bb-32adde864b80' },
+                { childReference: 'b1594536-54c8-4f1d-96fc-ebfd501ca433' }
             ]
         },
-        'b3226572-8133-4f57-a49e-b9863ea7da7b': {
-            guid: 'b3226572-8133-4f57-a49e-b9863ea7da7b',
+        'c0582ee6-8e57-4803-a24a-55004897c2c5': {
+            guid: 'c0582ee6-8e57-4803-a24a-55004897c2c5',
             name: 'stage1',
             description: '',
             isActive: false,
@@ -4515,8 +3427,8 @@ export const flowWithAllElementsUIModel = {
             label: 'stage1',
             elementType: 'Stage'
         },
-        'c0582ee6-8e57-4803-a24a-55004897c2c5': {
-            guid: 'c0582ee6-8e57-4803-a24a-55004897c2c5',
+        'c11af199-2852-4caa-b90c-7c763d1480d4': {
+            guid: 'c11af199-2852-4caa-b90c-7c763d1480d4',
             name: 'numberChoice',
             description: '',
             elementType: 'Choice',
@@ -4524,12 +3436,12 @@ export const flowWithAllElementsUIModel = {
             choiceText: 'Choice 1',
             storedValue: null,
             storedValueDataType: null,
-            storedValueIndex: 'c11af199-2852-4caa-b90c-7c763d1480d4',
+            storedValueIndex: '57776352-a679-4bdc-876b-77d987c29fc5',
             isShowInputSelected: false,
             isValidateSelected: false
         },
-        '57776352-a679-4bdc-876b-77d987c29fc5': {
-            guid: '57776352-a679-4bdc-876b-77d987c29fc5',
+        'fa63fff1-36e9-4574-9586-72f3ef2b334d': {
+            guid: 'fa63fff1-36e9-4574-9586-72f3ef2b334d',
             name: 'other',
             description: '',
             elementType: 'Choice',
@@ -4537,16 +3449,13 @@ export const flowWithAllElementsUIModel = {
             choiceText: 'Other',
             storedValue: 'other',
             storedValueDataType: 'String',
-            storedValueIndex: 'fa63fff1-36e9-4574-9586-72f3ef2b334d',
+            storedValueIndex: 'd6b5b39e-c834-4449-9ade-38629b8676d9',
             isShowInputSelected: true,
             isValidateSelected: false,
-            userInput: {
-                isRequired: false,
-                promptText: 'Please specify'
-            }
+            userInput: { isRequired: false, promptText: 'Please specify' }
         },
-        'd6b5b39e-c834-4449-9ade-38629b8676d9': {
-            guid: 'd6b5b39e-c834-4449-9ade-38629b8676d9',
+        'cb5ce4eb-b9b6-43d1-b2ea-f74e7b6db814': {
+            guid: 'cb5ce4eb-b9b6-43d1-b2ea-f74e7b6db814',
             name: 'recordChoiceSet',
             description: '',
             limit: '5',
@@ -4556,26 +3465,26 @@ export const flowWithAllElementsUIModel = {
             sortOrder: 'Asc',
             elementType: 'DynamicChoice',
             object: 'Account',
-            objectIndex: 'cb5ce4eb-b9b6-43d1-b2ea-f74e7b6db814',
+            objectIndex: '66372d1b-81f8-4269-b7f8-80f1723485ca',
             sortField: 'AccountSource',
             filterLogic: 'or',
             filters: [
                 {
-                    rowIndex: '0d5c72c9-56a2-49e9-81cf-d0552a8d968c',
+                    rowIndex: '5e649f27-18a2-47ae-abad-c0f33d2e2a1b',
                     leftHandSide: 'Account.BillingCity',
                     rightHandSide: '37cfa784-b1db-4323-8baa-51d1da0c010f.BillingCity',
                     rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 },
                 {
-                    rowIndex: '5e649f27-18a2-47ae-abad-c0f33d2e2a1b',
+                    rowIndex: '4683e0c5-8dd8-4426-88dc-d280167ca0e4',
                     leftHandSide: 'Account.BillingCountry',
                     rightHandSide: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.BillingCountry',
                     rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 },
                 {
-                    rowIndex: '4683e0c5-8dd8-4426-88dc-d280167ca0e4',
+                    rowIndex: '1f5acf67-1b31-46ba-b0a5-42c9c27510f7',
                     leftHandSide: 'Account.Name',
                     rightHandSide: '37cfa784-b1db-4323-8baa-51d1da0c010f.Name',
                     rightHandSideDataType: 'reference',
@@ -4584,7 +3493,7 @@ export const flowWithAllElementsUIModel = {
             ],
             outputAssignments: [
                 {
-                    rowIndex: '66372d1b-81f8-4269-b7f8-80f1723485ca',
+                    rowIndex: '0d5c72c9-56a2-49e9-81cf-d0552a8d968c',
                     leftHandSide: 'Account.Id',
                     rightHandSide: 'd385d33b-7ce5-4c7a-a867-690dfb63ea97'
                 }
@@ -4618,43 +3527,43 @@ export const flowWithAllElementsUIModel = {
         'a733e74b-1a25-43dc-b43c-d126c849023d',
         'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
         '0c77e4b9-7c32-4ce0-862d-ab58bb5b7553',
-        '1f5acf67-1b31-46ba-b0a5-42c9c27510f7',
+        'a084e300-bca6-4e92-b8c8-9b2490b3cc5c',
         '1875750b-574e-40d4-adff-7aa4f06fc0fe',
         'ac66cdf6-9167-4628-8faa-079f39e2e32b',
-        '1aeb52b7-9963-431b-a046-e41cfd1f5ef9',
-        '12a6ba74-604b-4f52-b6ea-56a3eece9919',
-        'cb2c1f94-a09d-4690-9c2b-1a2f37e16dbb',
-        'd08b12f4-ac7b-4cb4-a3ff-621131fc450f',
-        'b1ccd7d0-6210-4c95-a3c8-1e01ef242a3f',
-        'd4fae3cf-4fd2-443f-89d2-9c4f7e72deb4',
+        '5114b9f1-31d0-4d80-a988-50fa057294c1',
+        '337b5789-e021-4e7b-ab5d-582c80803cca',
+        '23a963ec-f168-4151-804b-9541689dc879',
+        '83d39edd-dc5c-43e8-b58b-999c0c6efcbc',
+        '8eff1e35-f996-490c-b2f1-f981186f4092',
+        '51dd4b43-d68c-4aee-a601-12c30e7c926f',
         '37cfa784-b1db-4323-8baa-51d1da0c010f',
         'aef5864b-0e6b-4c61-9fe8-a2db15831cd6',
         '90eda190-3bb2-4db1-92c4-d0c1b52d26b1',
-        'bb8b3e41-169b-442e-83e3-240cd49b7032',
+        '7b60da07-b6e5-4fb4-a895-3328fbd7983f',
         '1a934031-6241-4115-9514-61184d4c5b75',
         'dbfccfa4-49b4-4385-a998-4ac4e9d630aa',
-        '4b0617d9-3abe-42ab-8ed4-ab1e5944d884',
+        '852e1dd4-eb4e-48a7-8319-977137281a8d',
         '3980ef9a-c9c0-4635-a6af-13682830ba4b',
         'fde9b89d-7177-4303-889d-5293eaeb58aa',
         '30a1ebac-fff2-4a83-b844-7f0a8faf33b9',
         'de99983e-4f45-4dbd-b0e1-c38008ec2c44',
-        'c9474ff0-3abd-469e-8923-91825f843f9f',
-        'ded1ecdb-e998-4c3b-a729-344d44e9c3d4',
+        '4bdae41a-fbb6-487f-9507-275c854fbc3c',
+        '875f212c-ce7a-482e-900a-5a11b9e83a62',
         '7e331ab0-6782-4244-93b3-5bbcdad069e4',
-        'c9c2a575-1e1a-4bb4-a78d-0f8c2f56610f',
-        '05c643f6-c379-43eb-80e9-ed2b9ea5dac8',
-        '232488b7-0f88-4cfc-88c4-0d5f4b2a4373',
-        '4371db38-52ba-4a94-b31b-75848b050e63',
-        '1d77fcef-86db-4398-9e95-fe10f1554ab7',
+        '6fe68205-b480-4ba1-abfd-ce650b968aa8',
+        '12fb3b06-c2c3-46a8-99e6-0fd31f08d028',
+        '6e2691cf-2d89-4ee4-8c99-b95971c49da0',
+        '10a13e6e-f0be-4491-8148-7dc7bcfc3ded',
+        '86488742-59ae-41c6-81c5-df64825d4c6b',
         '4a3e2a6c-d306-4c6b-98b5-c4bf1839644b',
-        'd2f9a0fc-fe13-46d4-8916-ff2aafd35cda',
+        '2c880f0a-391e-4655-8b5c-9f39c0c36a92',
         '030e4398-87bd-4390-a8fd-a348fcd3b323',
         '19362806-09c5-46a5-b274-bebe980379cf',
         '7ba5860c-9e90-4a76-a600-591f1c42fa54',
         '1ab5b2e1-0763-4cb4-a106-f1dcf5920728',
-        '02209f51-9747-443f-8b81-87d5ee84cfd7',
-        'df72b5ae-20df-4ebf-9c93-3f87b91d7791',
-        'e17f4b88-f725-4ebb-8d7b-78e179ea4c8c'
+        'b6131670-d12f-4df5-9560-2a476767e9e4',
+        'b0d41663-ba7b-4020-8f88-6c83151e3a83',
+        '9b6b8f63-fff0-477e-92b7-3e315551288b'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,

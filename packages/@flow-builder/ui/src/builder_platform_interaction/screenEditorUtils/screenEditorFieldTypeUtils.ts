@@ -376,12 +376,11 @@ export function isRegionField(field) {
 }
 
 /**
+ * Is the given screen field an automatic field?
  * @param {object} field to test
- * @returns Indicates if specified field is an automatic field
+ * @returns {boolean} true if the screen field is an automatic field, otherwise false
  */
-export function isAutomaticField(field): boolean {
-    return field && field.fieldType === FlowScreenFieldType.ObjectProvided;
-}
+export const isAutomaticField = (field: UI.ScreenField) => field?.fieldType === FlowScreenFieldType.ObjectProvided;
 
 /**
  * @param {object} field - field to test
@@ -553,9 +552,13 @@ export function getFieldChoiceData(field) {
     return [];
 }
 
-export function hasScreenFieldVisibilityCondition(field) {
-    return field.visibilityRule && field.visibilityRule.conditions.length > 0;
-}
+/**
+ * Has the given screen field some visibility rules in place?
+ * @param {object} field - screen field to be checked
+ * @returns {boolean} true if the screen field has some visibility rule, otherwise false
+ */
+export const hasScreenFieldVisibilityCondition = (field: UI.ScreenField) =>
+    field?.visibilityRule?.conditions?.length > 0;
 
 export const getScreenFieldName = (field: FieldDefinition): ScreenFieldName | undefined => {
     return field.extraTypeInfo === ExtraTypeInfo.PlainTextarea

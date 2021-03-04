@@ -5,7 +5,10 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import ScreenAutomaticFieldPropertiesEditor from 'builder_platform_interaction/screenAutomaticFieldPropertiesEditor';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
+    ScreenFieldName
+} from 'builder_platform_interaction/screenEditorUtils';
 import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
@@ -21,41 +24,39 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
-        return {
-            elements: mockFlowWithAllElementsUIModel.elements
-        };
-    };
-    const getStore = function () {
-        return {
-            getCurrentState
-        };
-    };
+    const getCurrentState = () => ({
+        elements: mockFlowWithAllElementsUIModel.elements
+    });
+
     const storeLib = require('builder_platform_interaction_mocks/storeLib');
     // Overriding mock storeLib to have custom getStore function
-    storeLib.Store.getStore = getStore;
+    storeLib.Store.getStore = () => ({
+        getCurrentState
+    });
     return storeLib;
 });
-
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    return {
-        getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
-            if (entityName === 'Account') {
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
+        switch (entityName) {
+            case 'Account':
                 return mockAccountFields;
-            } else if (entityName === 'Object_with_all_possible_fields__c') {
+            case 'Object_with_all_possible_fields__c':
                 return mockObjectWithAllPossibleFieldsFields;
-            }
-            return undefined;
-        }),
-        getEntity: jest.fn().mockImplementation((entityName) => {
-            return mockEntities.find((entity) => entity.apiName.toLowerCase() === entityName.toLowerCase());
-        })
-    };
-});
-
+            default:
+                return undefined;
+        }
+    }),
+    getEntity: jest
+        .fn()
+        .mockImplementation((entityName) =>
+            mockEntities.find((entity) => entity.apiName.toLowerCase() === entityName.toLowerCase())
+        )
+}));
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
-    const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
+    const { SERVER_ACTION_TYPE } = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
         SERVER_ACTION_TYPE,
         fetchOnce: (serverActionType) => {
@@ -68,9 +69,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         }
     };
 });
-
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
-
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber', () => ({ default: 'Number({0}, {1})' }), {
     virtual: true
 });
@@ -87,40 +86,38 @@ jest.mock(
         virtual: true
     }
 );
+const SELECTORS = {
+    DESCRIPTION_VALUE_SELECTOR_FORMAT: `tr.{0} > td > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}.autofield-description-value`,
+    DATATYPE: 'autofield-datatype',
+    IS_REQUIRED: 'autofield-required',
+    CREATEABLE: 'autofield-createable',
+    UPDATEABLE: 'autofield-updateable'
+};
 
-const DESCRIPTION_VALUE_SELECTOR =
-    "tr[class*='{0}'] > td > " +
-    LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT +
-    "[class*='autofield-description-value']";
+const getAutomaticFieldPropertyValue = (comp, fieldCssClassName) =>
+    comp.shadowRoot.querySelector(format.call(null, SELECTORS.DESCRIPTION_VALUE_SELECTOR_FORMAT, fieldCssClassName))
+        .value;
 
-function getDataTypeValue(comp) {
-    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-datatype')).value;
-}
+const getDataTypeValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.DATATYPE);
+const getIsRequiredValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.IS_REQUIRED);
+const getIsCreateableValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.CREATEABLE);
+const getIsUpdateableValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.UPDATEABLE);
 
-function getIsRequiredValue(comp) {
-    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-required')).value;
-}
+const getObjectManagerLinkUrl = (comp) =>
+    comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL).value;
 
-function getIsCreateableValue(comp) {
-    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-createable')).value;
-}
-
-function getIsUpdateableValue(comp) {
-    return comp.shadowRoot.querySelector(format(DESCRIPTION_VALUE_SELECTOR, 'autofield-updateable')).value;
-}
-
-function getObjectManagerLinkUrl(comp) {
-    return comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL).value;
-}
-
-function createComponentForTest(field) {
+const createComponentForTest = (field) => {
     const element = createElement('builder_platform_interaction-screen-automatic-field-properties-editor', {
         is: ScreenAutomaticFieldPropertiesEditor
     });
     Object.assign(element, { field });
     setDocumentBodyChildren(element);
     return element;
-}
+};
+
+const getAccordion = (comp) => comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ACCORDION);
+const getComponentFieldVisibilitySection = (comp) =>
+    getAccordion(comp).shadowRoot.querySelector('slot').assignedNodes()[0];
 
 describe('Data types formatting with tokens', () => {
     let component;
@@ -174,7 +171,7 @@ describe('Data types formatting with tokens', () => {
 
 describe('Link to Object Manager', () => {
     it('should return the Lightning link to field list page when not using Classic experience', async () => {
-        (getPreferredExperience as jest.Mock).mockReturnValue('NOT' + CLASSIC_EXPERIENCE);
+        (getPreferredExperience as jest.Mock).mockReturnValue(`NOT${CLASSIC_EXPERIENCE}`);
         const field = createScreenFieldWithFields(objectWithAllPossibleFieldsVariableTextFieldAutomaticField);
         const component = createComponentForTest(field);
         await ticks();
@@ -249,5 +246,25 @@ describe('isUpdateable', () => {
         const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
         const component = createComponentForTest(field);
         expect(getIsUpdateableValue(component)).toBeTruthy();
+    });
+});
+describe('Field visibility', () => {
+    describe.each`
+        titleToken | objectVariable                                                | activeSectionName
+        ${''}      | ${accountVariableNameAutomaticField}                          | ${SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME}
+        ${' NO'}   | ${objectWithAllPossibleFieldsVariableTextFieldAutomaticField} | ${''}
+    `('Object variable with$titleToken visibility rules', ({ objectVariable, activeSectionName }) => {
+        let component;
+        beforeAll(() => {
+            const screenField = createScreenFieldWithFields(objectVariable);
+            component = createComponentForTest(screenField);
+        });
+        it('displays the "screenComponentVisibilitySection" component', () => {
+            expect(getComponentFieldVisibilitySection(component)).not.toBeNull();
+        });
+        it(`sets the active section name of the accordion to "${activeSectionName}"`, () => {
+            const accordion = getAccordion(component);
+            expect(accordion.activeSectionName).toBe(activeSectionName);
+        });
     });
 });

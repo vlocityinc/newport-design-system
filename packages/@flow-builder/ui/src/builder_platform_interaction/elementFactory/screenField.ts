@@ -346,7 +346,9 @@ const createAutomaticFieldFromScreenField = (
     const { objectFieldReference } = screenField;
     return createAutomaticFieldFromEntityField(
         getVariableOrField(objectFieldReference, elements),
-        objectFieldReference
+        objectFieldReference,
+        null,
+        screenField
     );
 };
 
@@ -359,9 +361,10 @@ const objectFieldReferenceToLabel = (objectFieldReference: string): string => {
 const createAutomaticFieldFromEntityField = (
     entityField: FieldDefinition,
     objectFieldReference: string,
-    typeName?: string
+    typeName?: string,
+    screenField?: UI.ScreenField = {}
 ): UI.ScreenField => {
-    const newScreenField = baseElement();
+    const newScreenField = baseElement(screenField);
     const {
         defaultValue,
         defaultValueDataType,
@@ -370,7 +373,7 @@ const createAutomaticFieldFromEntityField = (
         choiceReferences,
         visibilityRule,
         defaultValueFerovObject
-    } = getCommonValues(newScreenField);
+    } = getCommonValues(screenField);
     typeName = typeName ? typeName : entityField ? getScreenFieldName(entityField) : undefined;
     return Object.assign(newScreenField, {
         name: undefined,

@@ -23,11 +23,13 @@ import {
     objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
     accountSObjectVariable,
     objectWithAllPossibleFieldsVariable,
+    slider1,
+    email2 as mockScreenFieldEmail,
     flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
 } from 'mock/storeData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getMetadataAutomaticField } from 'mock/flows/mock-flow';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 
@@ -90,26 +92,14 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-const mockGetScreenFieldTypeByNameEmail = () => ({
-    category: 'Input',
-    description: 'Email Component',
-    fieldType: 'ComponentInstance',
-    genericTypes: undefined,
-    icon: 'standard:email',
-    label: 'Email',
-    marker: undefined,
-    name: 'flowruntime:email',
-    source: 'server'
-});
-
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
     return Object.assign({}, actual, {
-        getScreenFieldTypeByName: jest.fn().mockImplementation((name) => {
-            return name === 'flowruntime:email'
-                ? mockGetScreenFieldTypeByNameEmail()
-                : actual.getScreenFieldTypeByName(name);
-        })
+        getScreenFieldTypeByName: jest
+            .fn()
+            .mockImplementation((name) =>
+                name === 'flowruntime:email' ? mockScreenFieldEmail : actual.getScreenFieldTypeByName(name)
+            )
     });
 });
 
@@ -475,19 +465,51 @@ describe('screenField', () => {
                 expect(actualResult.childReferences).toHaveLength(1);
             });
         });
-        it('converts automatic fields to UI model', () => {
-            const actualResult = createScreenField(
-                getMetadataAutomaticField(
-                    flowWithAllElements,
-                    'screenWithAutomaticFields',
-                    'accountSObjectVariable.Name'
-                )
-            );
-            expect(actualResult).toMatchObject({
-                fieldType: 'ObjectProvided',
-                objectFieldReference: 'accountSObjectVariable.Name'
+        describe('automatic fields', () => {
+            it('with visibility rule', () => {
+                const screenField = createScreenField(
+                    getMetadataAutomaticField(
+                        flowWithAllElements,
+                        'screenWithAutomaticFields',
+                        `${accountSObjectVariable.name}.Name`
+                    )
+                );
+                expect(screenField).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference: `${accountSObjectVariable.name}.Name`,
+                    dataType: undefined,
+                    visibilityRule: {
+                        conditions: [
+                            {
+                                rowIndex: expect.any(String),
+                                leftHandSide: `${slider1.name}.value`,
+                                rightHandSide: '50',
+                                rightHandSideDataType: 'Number',
+                                operator: 'GreaterThanOrEqualTo'
+                            }
+                        ],
+                        conditionLogic: CONDITION_LOGIC.AND
+                    }
+                });
             });
-            expect(actualResult.dataType).toBeUndefined();
+            it('with NO visibility rules', () => {
+                const screenField = createScreenField(
+                    getMetadataAutomaticField(
+                        flowWithAllElements,
+                        'screenWithAutomaticFields',
+                        `${objectWithAllPossibleFieldsVariable.name}.Text_Field__c`
+                    )
+                );
+                expect(screenField).toMatchObject({
+                    fieldType: FlowScreenFieldType.ObjectProvided,
+                    objectFieldReference: `${objectWithAllPossibleFieldsVariable.name}.Text_Field__c`,
+                    dataType: undefined,
+                    visibilityRule: {
+                        conditionLogic: CONDITION_LOGIC.NO_CONDITIONS,
+                        conditions: []
+                    }
+                });
+            });
         });
     });
     describe('Creating duplicated screen fields', () => {
@@ -551,17 +573,33 @@ describe('screenField', () => {
                         label: 'Account Name'
                     },
                     isRequired: false,
-                    helpText: ''
+                    helpText: '',
+                    visibilityRule: {
+                        conditions: [
+                            {
+                                rowIndex: expect.any(String),
+                                leftHandSide: `${slider1.guid}.value`,
+                                rightHandSide: '50',
+                                rightHandSideDataType: 'Number',
+                                operator: 'GreaterThanOrEqualTo'
+                            }
+                        ],
+                        conditionLogic: CONDITION_LOGIC.AND
+                    }
                 });
             });
-            it('correctly set helpText, isRequired, length, precision and scale from record field definition', () => {
+            it('correctly sets helpText, isRequired, length, precision and scale from record field definition and visibilityRule', () => {
                 const result = createScreenFieldWithFields(objectWithAllPossibleFieldsVariableTextFieldAutomaticField);
                 expect(result).toMatchObject({
                     isRequired: true,
                     helpText: 'the help text for this field',
                     length: 128,
                     precision: 0,
-                    scale: 0
+                    scale: 0,
+                    visibilityRule: {
+                        conditions: [],
+                        conditionLogic: CONDITION_LOGIC.NO_CONDITIONS
+                    }
                 });
             });
             it('does not fail when no access to the referenced object', () => {
@@ -708,22 +746,34 @@ describe('screenField', () => {
             });
         });
         describe('automatic fields', () => {
-            it('converts automatic field to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(accountVariableNameAutomaticField);
-                expect(actualResult).toMatchObject({
+            it('with visibility rule', () => {
+                const screenFieldMetadata = createScreenFieldMetadataObject(accountVariableNameAutomaticField);
+                expect(screenFieldMetadata).toMatchObject({
                     fieldType: FlowScreenFieldType.ObjectProvided,
                     objectFieldReference: `${accountSObjectVariable.guid}.Name`,
                     dataType: undefined,
                     name: undefined,
                     fieldText: undefined,
-                    helpText: undefined
+                    helpText: undefined,
+                    visibilityRule: {
+                        conditionLogic: CONDITION_LOGIC.AND,
+                        conditions: [
+                            {
+                                leftValueReference: `${slider1.guid}.value`,
+                                rightValue: {
+                                    numberValue: '50'
+                                },
+                                operator: 'GreaterThanOrEqualTo'
+                            }
+                        ]
+                    }
                 });
             });
-            it('converts automatic field with helptext defined in the UDD to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(
+            it('automatic field with helptext defined in the UDD and NO visibility rules', () => {
+                const screenFieldMetadata = createScreenFieldMetadataObject(
                     objectWithAllPossibleFieldsVariableTextFieldAutomaticField
                 );
-                expect(actualResult).toMatchObject({
+                expect(screenFieldMetadata).toMatchObject({
                     fieldType: FlowScreenFieldType.ObjectProvided,
                     objectFieldReference: `${objectWithAllPossibleFieldsVariable.guid}.Text_Field__c`,
                     dataType: undefined,
@@ -731,12 +781,13 @@ describe('screenField', () => {
                     fieldText: undefined,
                     helpText: undefined
                 });
+                expect(screenFieldMetadata.visibilityRule).toBeUndefined();
             });
-            it('converts created automatic field to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(
+            it('created automatic field', () => {
+                const screenFieldMetadata = createScreenFieldMetadataObject(
                     createAutomaticField(ScreenFieldName.TextBox, `${accountSObjectVariable.name}.Name`)
                 );
-                expect(actualResult).toMatchObject({
+                expect(screenFieldMetadata).toMatchObject({
                     fieldType: FlowScreenFieldType.ObjectProvided,
                     objectFieldReference: `${accountSObjectVariable.name}.Name`,
                     dataType: undefined,

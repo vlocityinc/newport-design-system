@@ -52,4 +52,14 @@
             </div>
         </div>
     </div>
+    <div>
+        <lightning-accordion
+            allow-multiple-sections-open
+            active-section-name={expandedSectionNames}
+            class="slds-has-divider slds-p-top_none"
+        >
+            <builder_platform_interaction-screen-component-visibility-section field={field}>
+            </builder_platform_interaction-screen-component-visibility-section>
+        </lightning-accordion>
+    </div>
 </template>

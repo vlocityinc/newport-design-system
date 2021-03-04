@@ -547,9 +547,13 @@ describe('screen reducer', () => {
         });
     });
     describe('add automatic field', () => {
+        let objectFieldReference, screen;
+        beforeEach(() => {
+            objectFieldReference = accountSObjectVariable.name + '.Name';
+            screen = createTestScreen(SCREEN_NAME, null);
+        });
+
         it('inserts a field at a specific position', () => {
-            const screen = createTestScreen(SCREEN_NAME, null);
-            const objectFieldReference = accountSObjectVariable.name + '.Name';
             const event = createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference, 5);
             const newScreen = screenReducer(screen, event);
             expect(newScreen.fields).toHaveLength(screen.fields.length + 1);
@@ -558,8 +562,6 @@ describe('screen reducer', () => {
         });
 
         it('adds a field at the end of the array', () => {
-            const screen = createTestScreen(SCREEN_NAME, null);
-            const objectFieldReference = accountSObjectVariable.name + '.Name';
             const event = createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference);
             const newScreen = screenReducer(screen, event);
             expect(newScreen.fields).toHaveLength(screen.fields.length + 1);
