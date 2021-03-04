@@ -307,12 +307,21 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   border: 2px solid $color-border-input-active;
 }
 
-.nds-radio_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
-  cursor: pointer;
-}
+.nds-radio_custom-group.nds-img-wrapper_cont {
+  label.nds-img_no-width-height {
+    cursor: pointer;
+  }
+  input[type="radio"] {
+    &:checked+label.nds-img_no-width-height {
+      border: 2px solid $color-border-input-active;
+    }
 
-.nds-radio_custom-group.nds-img-wrapper_cont input[type="radio"]:checked+label.nds-img_no-width-height {
-  border: 2px solid $color-border-input-active;
+    &:focus+label.nds-img_no-width-height,
+    &:active+label.nds-img_no-width-height {
+      @include focus-radio;
+      z-index: $z-index-default; // Raises box shadow above adjacent buttons
+    }
+    }
 }
 
 .nds-img_select-container {
