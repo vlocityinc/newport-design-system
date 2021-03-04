@@ -13,7 +13,7 @@ import {
     getOrchestratedStageChildren,
     getStageStepChildren
 } from '../orchestratedStage';
-import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseChildElement,
@@ -742,6 +742,7 @@ describe('OrchestratedStage', () => {
 
             it('is present if there are output parameters', () => {
                 step.actionName = mockActionWithOutputParametersName;
+                step.actionType = ACTION_TYPE.CREATE_WORK_ITEM;
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(2);
                 expect(data.Outputs).toMatchObject({
@@ -753,6 +754,7 @@ describe('OrchestratedStage', () => {
             });
             it('getChildrenItems returns output parameters', () => {
                 step.actionName = mockActionWithOutputParametersName;
+                step.actionType = ACTION_TYPE.CREATE_WORK_ITEM;
                 const data = getStageStepChildren(step);
                 const outputChildren = data.Outputs.getChildrenItems();
                 expect(Object.keys(outputChildren)).toHaveLength(2);

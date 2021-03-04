@@ -314,6 +314,20 @@ export function getOrchestratedStageChildren(): UI.StringKeyedMap<any> {
     };
 }
 
+const getActionNameAndType = (
+    action: InvocableAction | undefined,
+    name: string | undefined,
+    type: string | undefined
+): { actionName: string | undefined; actionType: string | undefined } => {
+    if (action) {
+        return {
+            actionName: action.actionName,
+            actionType: action.actionType
+        };
+    }
+    return { actionName: name, actionType: type };
+};
+
 export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any> {
     // Explicit cast should be safe since we should only call this version
     // with StageSteps
@@ -327,15 +341,17 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
         }
     };
 
+    const { actionName, actionType } = getActionNameAndType(step.action, step.actionName, step.actionType);
+
     let outputParameters: ParameterListRowItem[] = [];
     if (step.outputParameters.length > 0) {
         // Use the already loaded output parameters
         outputParameters = step.outputParameters;
-    } else if (step.actionName) {
+    } else if (actionName && actionType) {
         // check for asynchronously loaded output parameters for the associated action
         outputParameters = getParametersForInvocableAction({
-            actionName: step.actionName,
-            actionType: step.actionType,
+            actionName,
+            actionType,
             dataTypeMappings: []
         })
             .filter((parameter) => {
