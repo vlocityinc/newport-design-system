@@ -151,9 +151,7 @@
       &[disabled]~.nds-radio_faux,
       &[disabled]~.nds-radio--faux,
       &[disabled]+.nds-radio_button__label,
-      &[disabled]+.nds-radio--button__label,
-      &[disabled]~.nds-radio_button__label,
-      &[disabled]~.nds-radio--button__label {
+      &[disabled]+.nds-radio--button__label {
         background-color: transparent;
         color: $color-text-button-default-disabled;
 
@@ -168,9 +166,7 @@
       &[disabled]:checked~.nds-radio_faux,
       &[disabled]:checked~.nds-radio--faux,
       &[disabled]:checked+.nds-radio_button__label,
-      &[disabled]:checked+.nds-radio--button__label,
-      &[disabled]:checked~.nds-radio_button__label,
-      &[disabled]:checked~.nds-radio--button__label {
+      &[disabled]:checked+.nds-radio--button__label {
 
         &:hover,
         &:focus {
