@@ -21,6 +21,7 @@
     <aura:attribute name="enableRollbackCB" type="Boolean" default="false"/>
     <aura:attribute name="runAsCB" type="Boolean" default="false"/>
     <aura:attribute name="debugWaitsCB" type="Boolean" default="true"/>
+    <aura:attribute name="isDMLTrigger" type="Boolean" default="false"/>
 
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
@@ -59,14 +60,23 @@
 
         <lightning:input class="slds-p-bottom_small" type="checkbox" 
                 aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}" 
-                checked="{!v.enableRollbackCB}"/>
-        <lightning:input class="slds-p-bottom_small" type="checkbox"
-                aura:id="isDebugWaitsBox" label="{!$Label.FlowDebug.DebugWaits}"
-                checked="{!v.debugWaitsCB}"/>
-
+                checked="{!v.enableRollbackCB}"
+                disabled="{!v.isDMLTrigger}"/>
+        <aura:if isTrue="{!v.isDMLTrigger}">
+            <lightning:input class="slds-p-bottom_small" type="checkbox"
+                    aura:id="isIgnoreEntryCriteriaCB" label="{!$Label.FlowDebug.IgnoreEntryCriteria}"
+                    checked="true"
+                    disabled="true"
+                    fieldLevelHelp="{!$Label.FlowDebug.IgnoreEntryCriteriaDisabledHelp}"/>
+            <aura:set attribute="else">
+                <lightning:input class="slds-p-bottom_small" type="checkbox"
+                    aura:id="isDebugWaitsBox" label="{!$Label.FlowDebug.DebugWaits}"
+                    checked="{!v.debugWaitsCB}"/>
+            </aura:set>
+        </aura:if>
         <aura:if isTrue="{!v.shouldHasInputs}">
             <!-- Input Variables -->
-            <aura:if isTrue="{!c.isDMLDebug}">
+            <aura:if isTrue="{!v.isDMLTrigger}">
                 <div class="slds-p-top_medium">
                     <h2>{#$Label.FlowDebug.InputRecordForRecordTrigger}</h2>
                 </div>
@@ -82,7 +92,7 @@
                 </div>
                 <aura:set attribute="else">
                     <aura:if isTrue="{!v.hasInputs}">
-                        <aura:if isTrue="{!c.isDMLDebug}">                            
+                        <aura:if isTrue="{!v.isDMLTrigger}">                            
                             <div aura:id="inputValuesRecordTrigger" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesRecordTrigger}</div>                            
                             <aura:set attribute="else">
                                 <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>                                

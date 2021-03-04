@@ -66,11 +66,16 @@
                     runAs: false,
                     debugAsUserId: null,
                     enableRollback: false,
-                    debugWaits: true
+                    debugWaits: true,
+                    ignoreEntryCriteria: false
                 },
                 "Default getDebugInput doesn't work correctly"
             );
             $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+            $A.test.assertUndefinedOrNull(
+                cmp.find('isIgnoreEntryCriteriaCB'),
+                'Should not show ignore entry criteria checkbox'
+            );
         }
     },
 
@@ -123,7 +128,8 @@
                     runAs: true,
                     debugAsUserId: null,
                     enableRollback: true,
-                    debugWaits: false
+                    debugWaits: false,
+                    ignoreEntryCriteria: false
                 },
                 "getDebugInput doesn't reflect value changes of checkboxes correctly"
             );
@@ -690,6 +696,54 @@
                     $A.test.assertTrue(inputs.length === 2, 'Collection variable should not show up');
                     // inputs[0] is aura$expression by default, inputs.length = 1 means there are no input variables
                     $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs should return true');
+                }
+            );
+        }
+    },
+
+    /**
+     * Test that the checkbox configuration is correct for DML triggers:
+     * Debug as user enabled
+     * Run flow in rollback mode checked and disabled
+     * Pause elements does not appear
+     * Skip entry criteria checked and disabled for now
+     */
+    testDMLTriggerCheckboxes: {
+        attributes: {
+            processType: 'AutoLaunchedFlow',
+            triggerType: 'RecordAfterSave'
+        },
+        test: function (cmp) {
+            $A.test.addWaitFor(
+                false,
+                function () {
+                    return $A.test.isActionPending('doInit');
+                },
+                function (cmp) {
+                    $A.test.assertFalse(
+                        cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
+                        'DebugAsUser should not be checked by default'
+                    );
+                    $A.test.assertTrue(
+                        cmp.find('isIgnoreEntryCriteriaCB').get('v.checked'),
+                        'IgnoreEntryCriteria should be checked'
+                    );
+                    $A.test.assertTrue(
+                        cmp.find('isIgnoreEntryCriteriaCB').get('v.disabled'),
+                        'IgnoreEntryCriteria should be disabled'
+                    );
+                    $A.test.assertTrue(
+                        cmp.find('isEnableRollbackModeBox').get('v.checked'),
+                        'EnableRollback should be checked'
+                    );
+                    $A.test.assertTrue(
+                        cmp.find('isEnableRollbackModeBox').get('v.disabled'),
+                        'EnableRollback should be disabled'
+                    );
+                    $A.test.assertUndefinedOrNull(
+                        cmp.find('isDebugWaitsBox'),
+                        'Should not show the debug waits checkbox'
+                    );
                 }
             );
         }

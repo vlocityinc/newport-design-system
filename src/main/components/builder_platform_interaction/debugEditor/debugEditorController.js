@@ -33,17 +33,16 @@
     },
 
     getDebugInput: function (cmp, event, helper) {
+        var debugWaitsBox = cmp.find('isDebugWaitsBox');
+        var ignoreEntryCriteriaBox = cmp.find('isIgnoreEntryCriteriaCB');
         var debugInput = {
             inputs: helper.readAllInputs(cmp),
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             debugAsUserId: cmp.getDebugAsUserId(),
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
-            debugWaits: cmp.find('isDebugWaitsBox').get('v.checked')
+            debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false,
+            ignoreEntryCriteria: ignoreEntryCriteriaBox ? ignoreEntryCriteriaBox.get('v.checked') : false
         };
         return debugInput;
-    },
-
-    isDMLDebug: function (cmp) {
-        return helper.isRecordChangeTriggerType(cmp.get('v.triggerType'));
     }
 });

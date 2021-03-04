@@ -23,6 +23,8 @@
             });
             $A.enqueueAction(action);
             cmp.set('v.shouldHasInputs', true);
+            cmp.set('v.isDMLTrigger', true);
+            cmp.set('v.enableRollbackCB', true);
         } else {
             var action = cmp.get('c.getFlowInputOutputVariables');
             action.setParams({ flowName: flowName });
@@ -255,11 +257,13 @@
             // if checked, retrieve runAsUser
             selectedUser = cmp.get('v.runAsSelected');
         }
+
+        var debugWaitsBox = cmp.find('isDebugWaitsBox');
         this.previousOptions = {
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             runAsSelected: selectedUser,
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
-            debugWaits: cmp.find('isDebugWaitsBox').get('v.checked')
+            debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false
         };
     },
 

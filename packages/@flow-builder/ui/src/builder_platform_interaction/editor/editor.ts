@@ -1034,7 +1034,8 @@ export default class Editor extends LightningElement {
                 useLatestSubflow: true,
                 showGovernorlimit: true,
                 debugAsUserId: debugOptions.debugAsUserId,
-                debugWaits: !!debugOptions.debugWaits
+                debugWaits: !!debugOptions.debugWaits,
+                ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria
             }
         );
     };
