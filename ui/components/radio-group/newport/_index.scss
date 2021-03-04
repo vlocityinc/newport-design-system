@@ -133,9 +133,14 @@
       &:focus~.nds-radio_faux,
       &:focus~.nds-radio--faux,
       &:focus+.nds-radio_button__label,
-      &:focus+.nds-radio--button__label {
-        outline: 0;
-        box-shadow: none;
+      &:focus+.nds-radio--button__label,
+      &:active+.nds-radio_faux,
+      &:active+.nds-radio--faux,
+      &:active~.nds-radio_faux,
+      &:active~.nds-radio--faux,
+      &:active+.nds-radio_button__label,
+      &:active+.nds-radio--button__label {
+        @include focus-radio;
         z-index: $z-index-default; // Raises box shadow above adjacent buttons
       }
 
@@ -146,7 +151,9 @@
       &[disabled]~.nds-radio_faux,
       &[disabled]~.nds-radio--faux,
       &[disabled]+.nds-radio_button__label,
-      &[disabled]+.nds-radio--button__label {
+      &[disabled]+.nds-radio--button__label,
+      &[disabled]~.nds-radio_button__label,
+      &[disabled]~.nds-radio--button__label {
         background-color: transparent;
         color: $color-text-button-default-disabled;
 
@@ -161,7 +168,9 @@
       &[disabled]:checked~.nds-radio_faux,
       &[disabled]:checked~.nds-radio--faux,
       &[disabled]:checked+.nds-radio_button__label,
-      &[disabled]:checked+.nds-radio--button__label {
+      &[disabled]:checked+.nds-radio--button__label,
+      &[disabled]:checked~.nds-radio_button__label,
+      &[disabled]:checked~.nds-radio--button__label {
 
         &:hover,
         &:focus {
