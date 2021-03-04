@@ -107,9 +107,14 @@
       &:focus~.nds-checkbox_faux,
       &:focus~.nds-checkbox--faux,
       &:focus+.nds-checkbox_button__label,
-      &:focus+.nds-checkbox--button__label {
-        outline: 0;
-        box-shadow: none;
+      &:focus+.nds-checkbox--button__label,
+      &:active+.nds-checkbox_faux,
+      &:active+.nds-checkbox--faux,
+      &:active~.nds-checkbox_faux,
+      &:active~.nds-checkbox--faux,
+      &:active+.nds-checkbox_button__label,
+      &:active+.nds-checkbox--button__label {
+        @include focus-radio;
         z-index: $z-index-default; // Raises box shadow above adjacent buttons
       }
 

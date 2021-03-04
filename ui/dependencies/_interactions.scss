@@ -6,6 +6,11 @@
   box-shadow: $shadow-button-focus;
 }
 
+@mixin focus-radio {
+  outline: 0;
+  box-shadow: $shadow-radio-focus;
+}
+
 @mixin focus-inverse {
   outline: none;
   box-shadow: $shadow-button-focus-inverse;
