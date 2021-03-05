@@ -28,7 +28,6 @@ import { InvocableAction } from 'builder_platform_interaction/invocableActionLib
 import { createActionCall } from '../actionCall';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
-import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
@@ -489,33 +488,7 @@ describe('OrchestratedStage', () => {
         describe('exit criteria', () => {
             it('default to when all stageSteps are completed', () => {
                 const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
-
-                const step1 = getElementByGuid(orchestratedStageFromStore.childReferences[0].childReference);
-                expect(orchestratedStage.exitConditions[0]).toEqual({
-                    leftValueReference: step1.name + '.Status',
-                    operator: RULE_OPERATOR.EQUAL_TO,
-                    rightValue: {
-                        stringValue: 'Completed'
-                    }
-                });
-
-                const step2 = getElementByGuid(orchestratedStageFromStore.childReferences[1].childReference);
-                expect(orchestratedStage.exitConditions[1]).toEqual({
-                    leftValueReference: step2.name + '.Status',
-                    operator: RULE_OPERATOR.EQUAL_TO,
-                    rightValue: {
-                        stringValue: 'Completed'
-                    }
-                });
-
-                const step3 = getElementByGuid(orchestratedStageFromStore.childReferences[2].childReference);
-                expect(orchestratedStage.exitConditions[2]).toEqual({
-                    leftValueReference: step3.name + '.Status',
-                    operator: RULE_OPERATOR.EQUAL_TO,
-                    rightValue: {
-                        stringValue: 'Completed'
-                    }
-                });
+                expect(orchestratedStage.exitConditions).toEqual(undefined);
             });
         });
 

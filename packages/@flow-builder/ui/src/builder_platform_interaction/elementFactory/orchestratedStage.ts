@@ -21,7 +21,6 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createOutputParameter } from './outputParameter';
 import { createActionCall } from './actionCall';
 import { ParameterListRowItem } from './base/baseList';
-import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 
@@ -491,19 +490,6 @@ export function createOrchestratedStageMetadataObject(
 ): OrchestratedStage {
     const { childReferences } = orchestratedStage;
 
-    // Hardcoded exit criteria for the step.  This will eventually be moved
-    // to be backend
-    const exitConditions = childReferences.map(({ childReference }) => {
-        const step: StageStep = <StageStep>getElementByGuid(childReference);
-        return {
-            leftValueReference: `${step.name}.Status`,
-            operator: RULE_OPERATOR.EQUAL_TO,
-            rightValue: {
-                stringValue: 'Completed'
-            }
-        };
-    });
-
     const stageSteps = childReferences.map(({ childReference }) => {
         const step: StageStep = <StageStep>getElementByGuid(childReference);
 
@@ -543,7 +529,6 @@ export function createOrchestratedStageMetadataObject(
         baseCanvasElementMetadataObject(orchestratedStage, config),
         {
             stageSteps,
-            exitConditions,
             exitActionName:
                 orchestratedStage.exitAction && orchestratedStage.exitAction.actionName
                     ? orchestratedStage.exitAction.actionName
