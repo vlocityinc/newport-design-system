@@ -130,7 +130,7 @@
     &:focus ~ .nds-radio--faux,
     &:focus + .nds-radio_button__label,
     &:focus + .nds-radio--button__label {
-      @include focus-button;
+      @include focus-radio;
       z-index: $z-index-default; // Raises box shadow above adjacent buttons
     }
 
