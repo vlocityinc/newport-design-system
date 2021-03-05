@@ -16,6 +16,7 @@ $elevation-shadow-8: $offset-none ($offset-large) + px ($offset-large) + px $off
 $shadow-action-overflow-footer: $offset-none (-$offset-x-small) + px ($offset-medium) + px $palette-gray-2 !default;
 $shadow-button-focus-inverse: $offset-none $offset-none ($offset-small) + px $palette-gray-4 !default;
 $shadow-button-focus: $offset-none $offset-none ($offset-small) + px $science-blue !default;
+$shadow-radio-focus: $offset-none $offset-none ($offset-small)+px ($offset-x-small)+px $newport-color-brand-focus !default;
 $shadow-button: $offset-none 1px 1px $offset-none $black-transparent-05 !default;
 $shadow-docked: $offset-none (-$offset-x-small) + px ($offset-x-small) + px $offset-none $black-transparent-16 !default;
 $shadow-drag: $offset-none ($offset-x-small) + px ($offset-medium) + px $offset-none $black-transparent-40 !default;
