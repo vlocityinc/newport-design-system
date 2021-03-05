@@ -95,8 +95,7 @@ const SELECTORS = {
 };
 
 const getAutomaticFieldPropertyValue = (comp, fieldCssClassName) =>
-    comp.shadowRoot.querySelector(format.call(null, SELECTORS.DESCRIPTION_VALUE_SELECTOR_FORMAT, fieldCssClassName))
-        .value;
+    comp.shadowRoot.querySelector(format(SELECTORS.DESCRIPTION_VALUE_SELECTOR_FORMAT, fieldCssClassName)).value;
 
 const getDataTypeValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.DATATYPE);
 const getIsRequiredValue = (comp) => getAutomaticFieldPropertyValue(comp, SELECTORS.IS_REQUIRED);
@@ -116,7 +115,7 @@ const createComponentForTest = (field) => {
 };
 
 const getAccordion = (comp) => comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ACCORDION);
-const getComponentFieldVisibilitySection = (comp) =>
+const getScreenComponentFieldVisibilitySection = (comp) =>
     getAccordion(comp).shadowRoot.querySelector('slot').assignedNodes()[0];
 
 describe('Data types formatting with tokens', () => {
@@ -260,7 +259,7 @@ describe('Field visibility', () => {
             component = createComponentForTest(screenField);
         });
         it('displays the "screenComponentVisibilitySection" component', () => {
-            expect(getComponentFieldVisibilitySection(component)).not.toBeNull();
+            expect(getScreenComponentFieldVisibilitySection(component)).not.toBeNull();
         });
         it(`sets the active section name of the accordion to "${activeSectionName}"`, () => {
             const accordion = getAccordion(component);

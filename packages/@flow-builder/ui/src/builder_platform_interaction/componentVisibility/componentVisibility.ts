@@ -1,18 +1,36 @@
-// @ts-nocheck
-import { LightningElement, api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 import {
+    DeleteConditionEvent,
     UpdateConditionEvent,
-    UpdateConditionLogicEvent,
-    DeleteConditionEvent
+    UpdateConditionLogicEvent
 } from 'builder_platform_interaction/events';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
+import { hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './componentVisibilityLabels';
 
 // maximum number of visibility conditions allowed
 const MAX_CONDITIONS = 10;
+
+const CONDITION_LOGIC_OPTIONS = [
+    {
+        value: CONDITION_LOGIC.NO_CONDITIONS,
+        label: LABELS.noConditionsLabel
+    },
+    {
+        value: CONDITION_LOGIC.AND,
+        label: LABELS.andConditionLogicLabel
+    },
+    {
+        value: CONDITION_LOGIC.OR,
+        label: LABELS.orConditionLogicLabel
+    },
+    {
+        value: CONDITION_LOGIC.CUSTOM_LOGIC,
+        label: LABELS.customConditionLogicLabel
+    }
+];
 
 /**
  * Component displayed in the "Component Visibility" screen editor section.
@@ -28,24 +46,7 @@ export default class ComponentVisibility extends LightningElement {
 
     labels = LABELS;
     showDeleteConditionButton = false;
-    conditionLogicOptions = [
-        {
-            value: CONDITION_LOGIC.NO_CONDITIONS,
-            label: this.labels.noConditionsLabel
-        },
-        {
-            value: CONDITION_LOGIC.AND,
-            label: this.labels.andConditionLogicLabel
-        },
-        {
-            value: CONDITION_LOGIC.OR,
-            label: this.labels.orConditionLogicLabel
-        },
-        {
-            value: CONDITION_LOGIC.CUSTOM_LOGIC,
-            label: this.labels.customConditionLogicLabel
-        }
-    ];
+    conditionLogicOptions = CONDITION_LOGIC_OPTIONS;
 
     // used to display the popover at a given index after rendering
     _popoverIndex = -1;
@@ -56,8 +57,7 @@ export default class ComponentVisibility extends LightningElement {
 
     get conditionsWithPrefixes() {
         const { conditions, conditionLogic } = this.visibilityRule;
-        const res = getConditionsWithPrefixes(conditionLogic, conditions);
-        return res;
+        return getConditionsWithPrefixes(conditionLogic, conditions);
     }
 
     get showDeleteCondition() {
@@ -167,7 +167,7 @@ export default class ComponentVisibility extends LightningElement {
             this._popoverIndex = index;
             this.displayPopover(this._popoverIndex);
 
-            // delete any new condtion that was present
+            // delete any new condition that was present
             this.deleteNewCondition();
         }
     };
@@ -241,7 +241,7 @@ export default class ComponentVisibility extends LightningElement {
      * @param {number} index of condition used to anchor the popover
      */
     displayPopover(index) {
-        // hide the popover if it is alreay opened
+        // hide the popover if it is already opened
         hidePopover();
 
         const nth = index + 1;
