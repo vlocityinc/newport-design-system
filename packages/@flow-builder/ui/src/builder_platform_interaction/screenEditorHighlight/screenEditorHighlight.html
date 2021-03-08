@@ -20,7 +20,7 @@
         </div>
 
         <div if:false={shouldPreventEvents} class="highlight-frame">
-            <slot name="screen-element"></slot>
+            <slot name="screen-element" tabindex="-1"></slot>
             <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
                 <div if:true={isElementWithVisibilityConditions} class="visibility-icon-container visibility">
                     <lightning-icon
@@ -69,7 +69,7 @@
         </div>
 
         <div if:true={shouldPreventEvents} class="slds-grid slds-is-relative">
-            <slot name="screen-element"></slot>
+            <slot name="screen-element" tabindex="-1"></slot>
             <div class="slds-size_full slds-is-absolute highlight-frame">
                 <div
                     if:true={shouldDisplayIcons}
