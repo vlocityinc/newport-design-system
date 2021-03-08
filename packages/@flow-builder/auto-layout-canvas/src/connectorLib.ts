@@ -88,12 +88,13 @@ function createConnectorToNextNode(
     variants: ConnectorVariant[],
     isBranchGettingDeleted: boolean,
     addOffset: number | undefined,
+    labelOffset: number | undefined,
     connectorBadgeLabel: string | undefined,
     isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
-    const { labelOffset, svgMarginTop = 0, svgMarginBottom = 0 } = getConnectorConfig(
+    const { svgMarginTop = 0, svgMarginBottom = 0 } = getConnectorConfig(
         layoutConfig,
         connectorType,
         ...(variants || [])
@@ -291,11 +292,11 @@ function createLoopAfterLastConnector(
     layoutConfig: LayoutConfig,
     isFault: boolean,
     toBeDeleted: boolean,
+    labelOffset: number,
     isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const connectorType = ConnectorType.LOOP_AFTER_LAST;
-    const { labelOffset } = getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT);
 
     return {
         labelType: ConnectorLabelType.LOOP_AFTER_LAST,

@@ -39,6 +39,7 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             false,
+            48,
             true
         );
 
@@ -85,7 +86,11 @@ describe('connectorLib', () => {
             false,
             getDefaultLayoutConfig(),
             false,
-            ConnectorVariant.DEFAULT
+            ConnectorVariant.DEFAULT,
+            false,
+            0,
+            48,
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();

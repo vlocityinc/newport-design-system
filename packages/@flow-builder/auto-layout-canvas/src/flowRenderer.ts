@@ -289,7 +289,7 @@ function createNextConnector(
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
     const { flowModel, progress, nodeLayoutMap, interactionState, isDeletingBranch } = context;
-    const { y, joinOffsetY, addOffset } = getLayout(node.guid, progress, nodeLayoutMap);
+    const { y, joinOffsetY, addOffset, labelOffset } = getLayout(node.guid, progress, nodeLayoutMap);
     const { nodeType } = node;
 
     let height = getNextConnectorHeight(parentNode, node, context, y);
@@ -337,6 +337,7 @@ function createNextConnector(
         [mainVariant, variant],
         isDeletingBranch,
         showAdd ? addOffset : undefined,
+        labelOffset,
         connectorBadgeLabel,
         !!node.config.highlightInfo?.highlightNext
     );
@@ -704,6 +705,7 @@ function createPreConnector(
         variants,
         isDeletingBranch,
         branchLayout.addOffset,
+        branchLayout.labelOffset,
         connectorBadgeLabel,
         isHighlighted
     );
@@ -842,6 +844,7 @@ function createLoopAfterLastConnector(
         layoutConfig,
         context.isFault,
         connectorToBeDeleted,
+        branchLayout.labelOffset,
         isHighlighted
     );
 }

@@ -14,7 +14,9 @@ import {
     getFlowWithDynamicNodeComponent,
     BRANCH_ELEMENT,
     LOOP_ELEMENT,
-    END_ELEMENT
+    END_ELEMENT,
+    getFlowWithScheduledPathsContext,
+    getFlowWithOnlyImmediateScheduledPathContext
 } from './testUtils';
 
 function calculateLayoutAndAssert(ctx) {
@@ -65,6 +67,27 @@ describe('layout', () => {
             calculateLayoutAndAssert(createFlowRenderContext({ flowModel }));
         });
 
+        it('flow with loop and nested loop - loop menu opened', () => {
+            const nestedLoopElement = { ...LOOP_ELEMENT, children: [null] };
+            const loopElement = { ...LOOP_ELEMENT, children: [[nestedLoopElement]] };
+
+            const flowModel = createFlow([loopElement]);
+            const interactionState = {
+                menuInfo: {
+                    key: 'loop-guid',
+                    type: 0,
+                    needToPosition: false,
+                    geometry: {
+                        w: 300,
+                        h: 221,
+                        x: 0,
+                        y: 0
+                    }
+                }
+            };
+            calculateLayoutAndAssert(createFlowRenderContext({ flowModel, interactionState }));
+        });
+
         it('flow with loop with ended branch', () => {
             const loopElement = { ...LOOP_ELEMENT, children: [[END_ELEMENT]] };
 
@@ -99,8 +122,41 @@ describe('layout', () => {
             calculateLayoutAndAssert(createFlowRenderContext({ flowModel }));
         });
 
+        it('flow with decision with 3 branches with decision menu opened', () => {
+            const nestedBranch = { ...BRANCH_ELEMENT, children: [null, null, null] };
+            const branchElement = { ...BRANCH_ELEMENT, children: [[END_ELEMENT], null, [nestedBranch]] };
+
+            const flowModel = createFlow([branchElement]);
+            const interactionState = {
+                menuInfo: {
+                    key: 'branch-guid',
+                    type: 0,
+                    needToPosition: false,
+                    geometry: {
+                        w: 300,
+                        h: 221,
+                        x: 0,
+                        y: 0
+                    }
+                }
+            };
+            calculateLayoutAndAssert(createFlowRenderContext({ flowModel, interactionState }));
+        });
+
         it('flow with dynamic node component', () => {
             calculateLayoutAndAssert(getFlowWithDynamicNodeComponent());
+        });
+
+        it('flow with scheduled paths', () => {
+            calculateLayoutAndAssert(getFlowWithScheduledPathsContext());
+        });
+
+        it('flow with only the immediate scheduled path with start menu closed', () => {
+            calculateLayoutAndAssert(getFlowWithOnlyImmediateScheduledPathContext());
+        });
+
+        it('flow with only the immediate scheduled path with start menu opened', () => {
+            calculateLayoutAndAssert(getFlowWithOnlyImmediateScheduledPathContext(true));
         });
     });
 });

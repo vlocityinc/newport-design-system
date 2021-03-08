@@ -21,26 +21,29 @@ import ConnectorType from './ConnectorTypeEnum';
 export const NO_OFFSET = 0;
 
 /**
- * Computes the offset of the (+) button relative to the top of the connector
+ * Computes the offset of the (+) button and branch label relative to the top of the connector
  *
- * @param addAlign - The alignment for the add button (top or bottom)
+ * @param addAndLabelAlign - The alignment for the add button (top or bottom) and the branch label
  * @param height - The height of the connector
  * @param config - The config for the connector
  * @param extraNodeHeight - The extra height for custom nodes
- *
- * @return The offset of the add button relative to the top of the connector
+ * @return The offset of the add button and branch label relative to the top of the connector
  */
-function getAddOffset(
-    addAlign: VerticalAlign,
+function getAddAndLabelOffsets(
+    addAndLabelAlign: VerticalAlign,
     height: number,
     config: ConnectorTypeLayoutConfig,
     extraNodeHeight: number
-) {
-    const { addOffset, h } = config;
+): { addOffset: number; labelOffset: number } {
+    const { labelOffset, addOffset, h } = config;
     const addOffsetFromTop = addOffset + extraNodeHeight;
     const addOffsetFromBottom = height - (h - addOffset);
+    const labelOffsetFromTop = labelOffset != null ? labelOffset + extraNodeHeight : 0;
+    const labelOffsetFromBottom = labelOffset != null ? height - (h - labelOffset) : 0;
 
-    return addAlign === VerticalAlign.TOP ? addOffsetFromTop : addOffsetFromBottom;
+    return addAndLabelAlign === VerticalAlign.TOP
+        ? { addOffset: addOffsetFromTop, labelOffset: labelOffsetFromTop }
+        : { addOffset: addOffsetFromBottom, labelOffset: labelOffsetFromBottom };
 }
 
 function getMenuNeedToPosition(key: NodeRef, context: FlowRenderContext): boolean {
@@ -95,7 +98,8 @@ function createDefaultLayout(): LayoutInfo {
         h: 0,
         joinOffsetY: 0,
         offsetX: 0,
-        addOffset: 0
+        addOffset: 0,
+        labelOffset: 0
     };
 }
 
@@ -156,15 +160,23 @@ function calculateExtraHeightForMenu({
     const halfIconSize = layoutConfig.node.icon.h / 2;
 
     let extraHeight;
-
     if (menuInfo.type === MenuType.CONNECTOR) {
         const addTriggerOffset = getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset;
         const heightFromMenuTriggerToNextNode = connectorHeight - addTriggerOffset - (hasNext ? halfIconSize : 0);
         const menuSpacingToNextNode = heightFromMenuTriggerToNextNode - menuHeight;
         extraHeight = menuMarginBottom - menuSpacingToNextNode;
     } else {
-        const addTriggerOffset = getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset;
-        extraHeight = menuHeight - (addTriggerOffset + joinOffsetY) + menuMarginBottom;
+        // For connector variants default_label, branch_head or branch_head_empty,
+        // the labelOffset is used to to calculate the extraHeight instead of addOffset
+        const { labelOffset, addOffset } = getConnectorConfig(layoutConfig, connectorType, connectorVariant);
+        extraHeight = menuHeight + menuMarginBottom;
+        extraHeight =
+            labelOffset != null &&
+            (connectorVariant === ConnectorVariant.DEFAULT_LABEL ||
+                connectorVariant === ConnectorVariant.BRANCH_HEAD ||
+                connectorVariant === ConnectorVariant.BRANCH_HEAD_EMPTY)
+                ? extraHeight - labelOffset
+                : extraHeight - (addOffset + joinOffsetY);
     }
 
     return extraHeight > 0 ? extraHeight : 0;
@@ -310,6 +322,13 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
 
     const joinOffsetY = branchingInfo.h;
 
+    const { addOffset, labelOffset } = getAddAndLabelOffsets(
+        addAlign,
+        height - joinOffsetY,
+        connectorConfig,
+        extraHeightForNode
+    );
+
     layoutInfo = {
         prevLayout: isNew ? undefined : cloneLayout(layoutInfo.layout),
         layout: {
@@ -319,7 +338,8 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
             x: 0,
             joinOffsetY,
             offsetX: Math.max(branchingInfo.offsetX, layoutConfig.node.offsetX),
-            addOffset: getAddOffset(addAlign, height - joinOffsetY, connectorConfig, extraHeightForNode)
+            addOffset,
+            labelOffset
         }
     };
 
@@ -448,10 +468,13 @@ function calculateBranchLayout(
     if (nextNodeConnectorType) {
         const connectorConfig = getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant);
         height = connectorConfig.h;
-        branchLayout.addOffset = getAddOffset(VerticalAlign.TOP, height, connectorConfig, 0);
+        const { addOffset, labelOffset } = getAddAndLabelOffsets(VerticalAlign.TOP, height, connectorConfig, 0);
+        branchLayout.addOffset = addOffset;
+        branchLayout.labelOffset = labelOffset;
     }
 
     const menuInfo = getMenuInfo(getBranchLayoutKey(parentNodeModel.guid, childIndex), context);
+    const parentMenuInfo = getMenuInfo(parentNodeModel.guid, context);
 
     if (menuInfo != null) {
         const menuKey = getBranchLayoutKey(parentNodeModel.guid, childIndex);
@@ -468,6 +491,21 @@ function calculateBranchLayout(
                   connectorVariant: nextNodeConnectorVariant,
                   joinOffsetY: 0
               });
+    } else if (parentMenuInfo && parentMenuInfo.type === MenuType.NODE) {
+        // ensures that associated branch height is adjusted when parent node menu is maximized
+        height += calculateExtraHeightForMenu({
+            hasNext: branchHeadGuid != null,
+            menuInfo: parentMenuInfo,
+            connectorType: nextNodeConnectorType,
+            connectorHeight: height,
+            layoutConfig,
+            connectorVariant: nextNodeConnectorVariant,
+            joinOffsetY: 0
+        });
+        const connectorConfig = getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant);
+        const { addOffset, labelOffset } = getAddAndLabelOffsets(VerticalAlign.BOTTOM, height, connectorConfig, 0);
+        branchLayout.addOffset = addOffset;
+        branchLayout.labelOffset = labelOffset;
     }
 
     const faultLayouts = [];
@@ -529,7 +567,7 @@ function getNextNodeConnectorVariant(
     parentNodeType: NodeType,
     parentNodeModel: ParentNodeModel
 ) {
-    let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.DEFAULT;
+    let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.FAULT;
 
     if (fulfillsBranchingCriteria(parentNodeModel, parentNodeType) || parentNodeType === NodeType.LOOP) {
         nextNodeConnectorVariant =

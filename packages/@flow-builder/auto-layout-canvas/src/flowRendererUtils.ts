@@ -21,6 +21,7 @@ export interface LayoutInfo {
     joinOffsetY: number;
     offsetX: number;
     addOffset: number;
+    labelOffset: number;
 }
 
 export interface NodeLayout {
@@ -225,7 +226,7 @@ export function tweenValue(prevValue: number, value: number, progress: number): 
  * @returns A LayoutInfo that with the tweened values
  */
 function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number): LayoutInfo {
-    const { x, y, w, h, offsetX, joinOffsetY, addOffset } = layout;
+    const { x, y, w, h, offsetX, joinOffsetY, addOffset, labelOffset } = layout;
 
     return {
         x: tweenValue(prevLayout.x, x, progress),
@@ -234,7 +235,9 @@ function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number): La
         h: tweenValue(prevLayout.h, h, progress),
         offsetX: tweenValue(prevLayout.offsetX, offsetX, progress),
         joinOffsetY: tweenValue(prevLayout.joinOffsetY, joinOffsetY, progress),
-        addOffset: prevLayout.addOffset !== 0 ? tweenValue(prevLayout.addOffset, addOffset, progress) : addOffset
+        addOffset: prevLayout.addOffset !== 0 ? tweenValue(prevLayout.addOffset, addOffset, progress) : addOffset,
+        labelOffset:
+            prevLayout.labelOffset !== 0 ? tweenValue(prevLayout.labelOffset, labelOffset, progress) : labelOffset
     };
 }
 

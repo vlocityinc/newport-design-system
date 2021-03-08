@@ -48,7 +48,10 @@ Object {
 
 exports[`connectorLib createConnectorToNextNode 1`] = `
 Object {
-  "addInfo": undefined,
+  "addInfo": Object {
+    "menuOpened": false,
+    "offsetY": 0,
+  },
   "connectionInfo": Object {
     "next": "nextGuid",
     "prev": "prevGuid",
@@ -92,7 +95,7 @@ Object {
       "startOffset": undefined,
     },
   },
-  "toBeDeleted": undefined,
+  "toBeDeleted": false,
   "type": "straight",
 }
 `;

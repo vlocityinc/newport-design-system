@@ -348,6 +348,45 @@ function getFlowWithDecisionWithEndedLeftBranchContext() {
     return getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead);
 }
 
+function getFlowWithScheduledPathsContext() {
+    const flowModel = getFlowWithNonTerminalImmediateBranch();
+    const interactionState = {
+        menuInfo: {
+            key: 'start-guid',
+            type: 0,
+            needToPosition: false,
+            geometry: {
+                w: 300,
+                h: 221,
+                x: 0,
+                y: 0
+            }
+        }
+    };
+    return createFlowRenderContext({ flowModel, interactionState });
+}
+
+function getFlowWithOnlyImmediateScheduledPathContext(parentNodeMenuOpened = false) {
+    const flowModel = getFlowWithOnlyImmediateBranch();
+    if (parentNodeMenuOpened) {
+        const interactionState = {
+            menuInfo: {
+                key: 'start-guid',
+                type: 0,
+                needToPosition: false,
+                geometry: {
+                    w: 300,
+                    h: 221,
+                    x: 0,
+                    y: 0
+                }
+            }
+        };
+        return createFlowRenderContext({ flowModel, interactionState });
+    }
+    return createFlowRenderContext({ flowModel });
+}
+
 function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
     leftBranchHead = leftBranchHead || createDefaultElement('branch-left-head-guid');
     const branchElement = { ...BRANCH_ELEMENT, children: [null, null] };
@@ -401,6 +440,22 @@ function getFlowWithNonTerminalImmediateBranch() {
     flow['screen1-guid'].isTerminal = false;
     flow['screen1-guid'].childIndex = 0;
     flow['screen1-guid'].next = null;
+
+    return flow;
+}
+
+function getFlowWithOnlyImmediateBranch() {
+    const flow = createFlow([{ ...SCREEN_ELEMENT, guid: 'screen1-guid' }]);
+    flow[START_ELEMENT_GUID].childReferences = [];
+    flow[START_ELEMENT_GUID].availableConnections = [
+        {
+            type: 'IMMEDIATE'
+        }
+    ];
+    flow[START_ELEMENT_GUID].next = 'screen1-guid';
+    flow['screen1-guid'].prev = START_ELEMENT_GUID;
+    flow['screen1-guid'].next = END_ELEMENT_GUID;
+    flow[END_ELEMENT_GUID].prev = 'screen1-guid';
 
     return flow;
 }
@@ -529,7 +584,20 @@ function getFlowWithTwoFaults() {
     const elements = linkElements([START_ELEMENT, actionElementOne, actionElementTwo, END_ELEMENT]);
     elements.push(faultBranchHeadElementOne, faultBranchHeadElementTwo);
     const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
-    return createFlowRenderContext({ flowModel });
+    const interactionState = {
+        menuInfo: {
+            key: 'action-element-one',
+            type: 0,
+            needToPosition: false,
+            geometry: {
+                w: 300,
+                h: 221,
+                x: 0,
+                y: 0
+            }
+        }
+    };
+    return createFlowRenderContext({ flowModel, interactionState });
 }
 
 function getFlowWithDynamicNodeComponent() {
@@ -575,6 +643,8 @@ export {
     getFlowWithDynamicNodeComponent,
     getFlowWithTerminalImmediateBranch,
     getFlowWithBranchNodeInImmediateBranch,
+    getFlowWithScheduledPathsContext,
+    getFlowWithOnlyImmediateScheduledPathContext,
     getFlowWithHighlightedLoopBranches,
     getFlowWithHighlightedDecisionBranch,
     getFlowWithHighlightedAndMergedDecisionBranch,

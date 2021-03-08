@@ -7,7 +7,8 @@ import {
     ParentNodeModel,
     BranchHeadNodeModel,
     HighlightInfo,
-    StartNodeModel
+    StartNodeModel,
+    START_IMMEDIATE_INDEX
 } from './model';
 
 import NodeType from './NodeType';
@@ -1502,7 +1503,7 @@ export function updateChildrenOnAddingOrUpdatingTimeTriggers(
         }
         // If 0th branch has an element, connect the last element on the 0th branch to start's next. Set start's next to
         // 0th branch's branch head. Also update the previous pointers correctly
-        const immediateBranchHeadElementGuid = parentElement.children[0];
+        const immediateBranchHeadElementGuid = parentElement.children[START_IMMEDIATE_INDEX];
         const immediateBranchHeadElement = immediateBranchHeadElementGuid
             ? resolveBranchHead(flowModel, immediateBranchHeadElementGuid)
             : null;
