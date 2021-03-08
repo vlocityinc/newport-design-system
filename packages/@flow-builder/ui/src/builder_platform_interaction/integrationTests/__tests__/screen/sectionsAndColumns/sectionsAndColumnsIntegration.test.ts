@@ -64,7 +64,7 @@ describe('ScreenEditor', () => {
             expect(addressElement).toBeTruthy();
             await addressElement!.click();
             const extensionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getExtensionPropertiesEditor();
             expect(extensionPropertiesEditor).toBeTruthy();
         });
@@ -75,7 +75,7 @@ describe('ScreenEditor', () => {
             expect(section).toBeTruthy();
             await section!.click();
             const sectionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getSectionFieldPropertiesEditor();
             expect(sectionPropertiesEditor).toBeTruthy();
         });
@@ -84,7 +84,7 @@ describe('ScreenEditor', () => {
             expect(slider).toBeTruthy();
             await slider!.click();
             const extensionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getExtensionPropertiesEditor();
             expect(extensionPropertiesEditor).toBeTruthy();
         });
@@ -92,9 +92,7 @@ describe('ScreenEditor', () => {
             // Select slider component in canvas and verify the API name of the slider on the extension properties editor
             let slider = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('slider_1');
             await slider!.click();
-            let extensionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
-                .getExtensionPropertiesEditor();
+            let extensionPropertiesEditor = screenEditor.getPropertiesEditorContainer().getExtensionPropertiesEditor();
             expect(extensionPropertiesEditor!.getApiName()).toEqual('slider_1');
 
             // Change the API name of the slider
@@ -103,17 +101,13 @@ describe('ScreenEditor', () => {
             // Select the address component on the canvas and verify API name
             const address = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('address_2');
             await address!.click();
-            extensionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
-                .getExtensionPropertiesEditor();
+            extensionPropertiesEditor = screenEditor.getPropertiesEditorContainer().getExtensionPropertiesEditor();
             expect(extensionPropertiesEditor!.getApiName()).toEqual('address_2');
 
             // Select the slider again and verify it has the updated API name
             slider = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('slider_2');
             await slider!.click();
-            extensionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
-                .getExtensionPropertiesEditor();
+            extensionPropertiesEditor = screenEditor.getPropertiesEditorContainer().getExtensionPropertiesEditor();
             expect(extensionPropertiesEditor!.getApiName()).toEqual('slider_2');
         });
         it('Select the Text screen field in the first Column in the second Section and verify the input properties editor', async () => {
@@ -121,7 +115,7 @@ describe('ScreenEditor', () => {
             expect(text).toBeTruthy();
             await text!.click();
             const inputFieldPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getInputFieldPropertiesEditorElement();
             expect(inputFieldPropertiesEditor).not.toEqual(null);
         });
@@ -130,7 +124,7 @@ describe('ScreenEditor', () => {
             expect(email).toBeTruthy();
             await email!.click();
             const extensionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getExtensionPropertiesEditor();
             expect(extensionPropertiesEditor).toBeTruthy();
         });
@@ -143,7 +137,7 @@ describe('ScreenEditor', () => {
             await section.click();
             expect(section.getColumnCount()).toBe(2);
             const sectionPropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getSectionFieldPropertiesEditor();
             sectionPropertiesEditor!.clickAddColumn();
             await ticks(50);
@@ -154,7 +148,7 @@ describe('ScreenEditor', () => {
             expect(picklist).toBeTruthy();
             await picklist!.click();
             const choicePropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getChoiceFieldPropertiesEditorElement();
             expect(choicePropertiesEditor).not.toEqual(null);
             const propertyFields = choicePropertiesEditor!.shadowRoot!.querySelectorAll(
@@ -173,7 +167,7 @@ describe('ScreenEditor', () => {
             const picklist = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');
             await picklist!.click();
             const choicePropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getChoiceFieldPropertiesEditorElement()!;
             const propertyFields = choicePropertiesEditor.shadowRoot!.querySelectorAll(
                 SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR
@@ -195,7 +189,7 @@ describe('ScreenEditor', () => {
             const picklist = screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accounts');
             await picklist!.click();
             const choicePropertiesEditor = screenEditor
-                .getPropertiesEditorContainerElement()
+                .getPropertiesEditorContainer()
                 .getChoiceFieldPropertiesEditorElement();
             const conditionListItem = deepQuerySelector(choicePropertiesEditor, [
                 SELECTORS.SCREEN_COMPONENT_VISIBILITY_SECTION,

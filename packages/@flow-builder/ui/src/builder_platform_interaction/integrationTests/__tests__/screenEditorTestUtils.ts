@@ -80,7 +80,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         ) as ScreenEditorPalette & HTMLElement;
     }
 
-    public getAutomaticFieldsPaletteElement() {
+    public getAutomaticFieldsPalette() {
         const tabset = this.getTabsetElement();
         const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
         const paletteElement = (automaticFieldsTab
@@ -91,7 +91,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenEditorAutomaticFieldsPaletteTestComponent(paletteElement);
     }
 
-    public getPropertiesEditorContainerElement() {
+    public getPropertiesEditorContainer() {
         const element = this.element.shadowRoot!.querySelector(
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
         ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
@@ -121,8 +121,12 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
      * @returns {Array<HTMLAnchorElement>} array of fields anchors
      */
     public getFieldsAnchorElements() {
+        const paletteElement = this.getPaletteElement();
+        if (!paletteElement) {
+            return [];
+        }
         const paletteItems = Array.from(
-            this.getPaletteElement().shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_ITEM)
+            paletteElement.shadowRoot!.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.PALETTE_ITEM)
         );
         return paletteItems.map((paletteItem) => paletteItem.shadowRoot!.querySelector('a')!);
     }

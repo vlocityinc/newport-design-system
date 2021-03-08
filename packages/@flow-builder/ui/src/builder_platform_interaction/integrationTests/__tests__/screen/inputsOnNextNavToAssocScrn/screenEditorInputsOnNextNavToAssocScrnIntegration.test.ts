@@ -33,7 +33,7 @@ describe('ScreenEditor', () => {
             it('InputsOnNextNavToAssocScrn should be in USE_STORED_VALUES mode', () => {
                 expect(
                     screenEditor
-                        .getPropertiesEditorContainerElement()
+                        .getPropertiesEditorContainer()
                         .getExtensionPropertiesEditor()!
                         .getInputsOnNextNavToAssocScrnOption()
                 ).toEqual(InputsOnNextNavToAssocScrnOption.USE_STORED_VALUES);
@@ -54,12 +54,12 @@ describe('ScreenEditor', () => {
             });
             it('Should update the radio group', async () => {
                 await screenEditor
-                    .getPropertiesEditorContainerElement()
+                    .getPropertiesEditorContainer()
                     .getExtensionPropertiesEditor()!
                     .setInputsOnNextNavToAssocScrnOption(InputsOnNextNavToAssocScrnOption.RESET_VALUES);
                 expect(
                     screenEditor
-                        .getPropertiesEditorContainerElement()
+                        .getPropertiesEditorContainer()
                         .getExtensionPropertiesEditor()!
                         .getInputsOnNextNavToAssocScrnOption()
                 ).toEqual(InputsOnNextNavToAssocScrnOption.RESET_VALUES);

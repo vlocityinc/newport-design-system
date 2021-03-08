@@ -39,7 +39,7 @@ jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
 
 const getTitleFromExtensionPropertiesEditorElement = (screenEditor: ScreenEditorTestComponent) => {
     return screenEditor
-        .getPropertiesEditorContainerElement()
+        .getPropertiesEditorContainer()
         .getExtensionPropertiesEditor()!
         .element.shadowRoot!.querySelector('h3');
 };
@@ -88,13 +88,13 @@ describe('ScreenEditor', () => {
             it('Advanced Option checkbox should be unchecked', async () => {
                 expect(
                     screenEditor
-                        .getPropertiesEditorContainerElement()
+                        .getPropertiesEditorContainer()
                         .getExtensionPropertiesEditor()!
                         .getAdvancedOptionsCheckbox()
                 ).not.toEqual(null);
                 expect(
                     screenEditor
-                        .getPropertiesEditorContainerElement()
+                        .getPropertiesEditorContainer()
                         .getExtensionPropertiesEditor()!
                         .isAdvancedOptionsChecked()
                 ).toBe(false);
@@ -119,12 +119,12 @@ describe('ScreenEditor', () => {
             });
             it('should display the outputs', async () => {
                 await screenEditor
-                    .getPropertiesEditorContainerElement()
+                    .getPropertiesEditorContainer()
                     .getExtensionPropertiesEditor()!
                     .setAdvancedOptions(true);
                 expect(
                     screenEditor
-                        .getPropertiesEditorContainerElement()
+                        .getPropertiesEditorContainer()
                         .getExtensionPropertiesEditor()!
                         .isAdvancedOptionsChecked()
                 ).toBe(true);

@@ -64,7 +64,7 @@ describe('ScreenEditor', () => {
             });
             it('shows up chevrons on fields', async () => {
                 const extensionPropertiesEditor = screenEditor
-                    .getPropertiesEditorContainerElement()
+                    .getPropertiesEditorContainer()
                     .getExtensionPropertiesEditor();
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const combobox = getCombobox(extensionPropertiesEditor!.element);
@@ -97,7 +97,7 @@ describe('ScreenEditor', () => {
             });
             it('does not show up chevrons on fields', async () => {
                 const extensionPropertiesEditor = screenEditor
-                    .getPropertiesEditorContainerElement()
+                    .getPropertiesEditorContainer()
                     .getExtensionPropertiesEditor();
                 const groupedCombobox = getCombobox(extensionPropertiesEditor!.element).getGroupedCombobox();
                 const accountCreatedByItem = await groupedCombobox.selectItemBy(

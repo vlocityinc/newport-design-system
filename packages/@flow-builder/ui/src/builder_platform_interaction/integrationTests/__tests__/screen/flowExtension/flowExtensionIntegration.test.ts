@@ -53,9 +53,7 @@ describe('ScreenEditor Flow Extension Integration', () => {
         await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
         jest.advanceTimersByTime(300);
         await ticks(1);
-        const extensionPropertiesEditor = screenEditor
-            .getPropertiesEditorContainerElement()
-            .getExtensionPropertiesEditor();
+        const extensionPropertiesEditor = screenEditor.getPropertiesEditorContainer().getExtensionPropertiesEditor();
         expect(extensionPropertiesEditor!.getApiNameScreenPropertyField()).not.toEqual(null);
     });
 });

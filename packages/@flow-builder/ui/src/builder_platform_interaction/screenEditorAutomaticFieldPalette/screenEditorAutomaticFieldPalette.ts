@@ -114,21 +114,21 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     private setRecordVariableAndErrorMessage(recordVariable, errorMessage: string | null) {
+        if (this.sobjectPickerErrorMessage === errorMessage && this.state.recordVariable === recordVariable) {
+            return;
+        }
         this.sobjectPickerErrorMessage = errorMessage;
-        if (this.state.recordVariable !== recordVariable) {
-            this.state.recordVariable = recordVariable;
-            this.hasNewRecordVariable = true;
-            this.searchPattern = null;
-            if (
-                this.state.recordVariable != null &&
-                this.state.recordVariable !== '' &&
-                this.sobjectPickerErrorMessage == null
-            ) {
-                this.updateFields();
-                this.showNoItemsIllustration = false;
-            } else {
-                this.showNoItemsIllustration = true;
-            }
+        this.state.recordVariable = recordVariable;
+        this.searchPattern = null;
+        if (
+            this.state.recordVariable != null &&
+            this.state.recordVariable !== '' &&
+            this.sobjectPickerErrorMessage == null
+        ) {
+            this.updateFields();
+            this.showNoItemsIllustration = false;
+        } else {
+            this.showNoItemsIllustration = true;
         }
     }
 
