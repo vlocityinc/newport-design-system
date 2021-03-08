@@ -58,9 +58,6 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     labels = LABELS;
     crudFilter: CrudFilter = ({ createable, updateable }) => createable || updateable;
 
-    private isRecordVariableSetViaApi = false;
-    private hasNewRecordVariable = false;
-
     @api
     searchPattern?: string | null;
 
@@ -104,6 +101,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     setRecordVariableAndResetPill(value: string) {
         this.isRecordVariableSetViaApi = true;
         this.setRecordVariableAndErrorMessage(value, null);
+        this.resetPill();
     }
 
     /**
@@ -262,14 +260,6 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         setDragFieldValue(fieldTypeName);
     }
 
-    renderedCallback() {
-        if (this.isRecordVariableSetViaApi && this.hasNewRecordVariable) {
-            this.isRecordVariableSetViaApi = false;
-            this.hasNewRecordVariable = false;
-            this.resetPill();
-        }
-    }
-
     /**
      * @returns the Object selection combobox
      * @private
@@ -291,9 +281,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         const combobox = this.getObjectCombobox();
         if (combobox) {
             combobox.errorMessage = null;
-            if (combobox.hasPill) {
-                combobox.resetPill();
-            }
+            combobox.resetPill();
         }
     }
 }

@@ -100,6 +100,19 @@ describe('ScreenEditor automatic fields', () => {
         });
         describe('Screen field selection', () => {
             let canvas: ScreenCanvasTestComponent;
+            const expectSObjectPickerContainsSObjectVariableWithPillAndNoError = (variableName) => {
+                const sobjectPickerCombobox = screenEditor
+                    .getAutomaticFieldsPaletteElement()
+                    .getSObjectPickerCombobox();
+                const comboboxElement = sobjectPickerCombobox.element;
+                expect(comboboxElement.value.displayText).toBe(`{!${variableName}}`);
+                expect(comboboxElement.errorMessage).toBeNull();
+                expect(comboboxElement.hasPill).toBe(true);
+                expect(comboboxElement.pill).toEqual({
+                    iconName: 'utility:sobject',
+                    label: variableName
+                });
+            };
             describe.each`
                 testTitlePart | screenName                              | componentName
                 ${' NO'}      | ${'screenWithAutomaticFields'}          | ${'numberScreenField1'}
@@ -127,16 +140,7 @@ describe('ScreenEditor automatic fields', () => {
                     await canvas
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
                         .click();
-                    const sobjectPickerCombobox = screenEditor
-                        .getAutomaticFieldsPaletteElement()
-                        .getSObjectPickerCombobox();
-                    const comboboxElement = sobjectPickerCombobox.element;
-                    expect(comboboxElement.value.displayText).toBe('{!accountSObjectVariable}');
-                    expect(comboboxElement.hasPill).toBe(true);
-                    expect(comboboxElement.pill).toEqual({
-                        iconName: 'utility:sobject',
-                        label: 'accountSObjectVariable'
-                    });
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('accountSObjectVariable');
                     expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
                         'Account Number'
                     );
@@ -150,16 +154,7 @@ describe('ScreenEditor automatic fields', () => {
                             'accountSObjectVariable.Description'
                         )!
                         .click();
-                    const sobjectPickerCombobox = screenEditor
-                        .getAutomaticFieldsPaletteElement()
-                        .getSObjectPickerCombobox();
-                    const comboboxElement = sobjectPickerCombobox.element;
-                    expect(comboboxElement.value.displayText).toBe('{!accountSObjectVariable}');
-                    expect(comboboxElement.hasPill).toBe(true);
-                    expect(comboboxElement.pill).toEqual({
-                        iconName: 'utility:sobject',
-                        label: 'accountSObjectVariable'
-                    });
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('accountSObjectVariable');
                     expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
                         'Account Number'
                     );
@@ -173,16 +168,7 @@ describe('ScreenEditor automatic fields', () => {
                             'objectWithAllPossiblFieldsVariable.Text_Field__c'
                         )!
                         .click();
-                    const sobjectPickerCombobox = screenEditor
-                        .getAutomaticFieldsPaletteElement()
-                        .getSObjectPickerCombobox();
-                    const comboboxElement = sobjectPickerCombobox.element;
-                    expect(comboboxElement.value.displayText).toBe('{!objectWithAllPossiblFieldsVariable}');
-                    expect(comboboxElement.hasPill).toBe(true);
-                    expect(comboboxElement.pill).toEqual({
-                        iconName: 'utility:sobject',
-                        label: 'objectWithAllPossiblFieldsVariable'
-                    });
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('objectWithAllPossiblFieldsVariable');
                     expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
                         'Text Field'
                     );
@@ -197,19 +183,12 @@ describe('ScreenEditor automatic fields', () => {
                         .getAutomaticFieldsPaletteElement()
                         .getSObjectPickerCombobox();
                     await sobjectPickerCombobox.removePill();
-                    const comboboxElement = sobjectPickerCombobox.element;
                     await canvas
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
                             'objectWithAllPossiblFieldsVariable.Text_Field__c'
                         )!
                         .click();
-                    expect(comboboxElement.value.displayText).toBe('{!objectWithAllPossiblFieldsVariable}');
-                    expect(comboboxElement.errorMessage).toBeNull();
-                    expect(comboboxElement.hasPill).toBe(true);
-                    expect(comboboxElement.pill).toEqual({
-                        iconName: 'utility:sobject',
-                        label: 'objectWithAllPossiblFieldsVariable'
-                    });
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('objectWithAllPossiblFieldsVariable');
                     expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
                         'Text Field'
                     );
@@ -222,19 +201,33 @@ describe('ScreenEditor automatic fields', () => {
                         .getAutomaticFieldsPaletteElement()
                         .getSObjectPickerCombobox();
                     await sobjectPickerCombobox.removePill();
-                    const comboboxElement = sobjectPickerCombobox.element;
                     await canvas
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
                             'accountSObjectVariable.NumberOfEmployees'
                         )!
                         .click();
-                    expect(comboboxElement.value.displayText).toBe('{!accountSObjectVariable}');
-                    expect(comboboxElement.errorMessage).toBeNull();
-                    expect(comboboxElement.hasPill).toBe(true);
-                    expect(comboboxElement.pill).toEqual({
-                        iconName: 'utility:sobject',
-                        label: 'accountSObjectVariable'
-                    });
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('accountSObjectVariable');
+                    expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
+                        'Account Number'
+                    );
+                });
+                test('Set an incorrect value in the combobox, select another autofield : should display pill for the autofield, with no error', async () => {
+                    await canvas
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
+                        .click();
+                    const sobjectPickerCombobox = screenEditor
+                        .getAutomaticFieldsPaletteElement()
+                        .getSObjectPickerCombobox();
+                    await sobjectPickerCombobox.typeReferenceOrValue('{!accountSObjectVariable.Name}sdkjjk', true);
+                    expect(sobjectPickerCombobox.element.errorMessage).toEqual(
+                        'FlowBuilderCombobox.genericErrorMessage'
+                    );
+                    await canvas
+                        .getScreenEditorHighlightForScreenFieldWithObjectFieldReference(
+                            'accountSObjectVariable.Description'
+                        )!
+                        .click();
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('accountSObjectVariable');
                     expect(screenEditor.getAutomaticFieldsPaletteElement().getFieldsLabels()).toContainEqual(
                         'Account Number'
                     );
@@ -261,13 +254,7 @@ describe('ScreenEditor automatic fields', () => {
                     await canvas
                         .getScreenEditorHighlightForScreenFieldWithObjectFieldReference('accountSObjectVariable.Name')!
                         .click();
-
-                    const comboboxElement = sobjectPickerCombobox.element;
-                    expect(comboboxElement.hasPill).toBe(true);
-                    expect(comboboxElement.pill).toEqual({
-                        iconName: 'utility:sobject',
-                        label: 'accountSObjectVariable'
-                    });
+                    expectSObjectPickerContainsSObjectVariableWithPillAndNoError('accountSObjectVariable');
                 });
             });
         });

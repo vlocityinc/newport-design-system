@@ -108,6 +108,7 @@ export default class ScreenEditor extends LightningElement {
     renderedCallback() {
         if (this.objectFieldReferenceChanged) {
             this.getAutomaticFieldPalette()?.setRecordVariableAndResetPill(this.automaticFieldRecordVariableGuid);
+            this.objectFieldReferenceChanged = false;
         }
         setScreenElement(this.screen);
     }

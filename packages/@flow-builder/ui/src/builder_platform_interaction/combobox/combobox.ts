@@ -392,6 +392,10 @@ export default class Combobox extends LightningElement {
             }
             this._waitingForMenuDataDropDown = false;
         }
+        if (this.hasPill) {
+            // recreate the pill : the icon comes from the menu data
+            this._createPill(true);
+        }
     }
 
     @api
@@ -611,7 +615,9 @@ export default class Combobox extends LightningElement {
     @api
     resetPill() {
         this.state.pill = null;
+        this._isPillRemoved = false;
         this._itemSelected = false;
+        this._isPillClicked = false;
     }
 
     /**
@@ -1244,12 +1250,12 @@ export default class Combobox extends LightningElement {
      * Built pill (if supported) for merge field and update corresponding tracked field
      * @private
      */
-    private _createPill(): void {
+    private _createPill(force = false): void {
         if (
             this.isPillSupported &&
             !this.disabled &&
             this._isMergeField &&
-            !this.pill &&
+            (!this.pill || force) &&
             this._item &&
             this.state.displayText &&
             !this.errorMessage
