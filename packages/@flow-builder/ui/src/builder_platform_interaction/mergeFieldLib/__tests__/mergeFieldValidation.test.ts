@@ -19,20 +19,31 @@ import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { mockScreenElement } from 'mock/calloutData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+
+const mockUncommitedScreenFieldInScreenWithAutomaticFieldName = 'numberScreenField1';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const lookupScreenField = jest.requireActual('mock/storeData').lookupScreenField;
     return Object.assign({}, jest.requireActual('builder_platform_interaction/storeUtils'), {
-        getElementByDevName: (name) =>
-            name === 'lookupScreenField'
-                ? lookupScreenField
-                : jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
+        getElementByDevName: (name) => {
+            switch (name) {
+                case 'lookupScreenField':
+                    return lookupScreenField;
+                case mockUncommitedScreenFieldInScreenWithAutomaticFieldName:
+                    // we want it to be uncommited
+                    return undefined;
+                default:
+                    return jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name);
+            }
+        }
     });
 });
 
@@ -123,9 +134,15 @@ jest.mock('@salesforce/label/FlowBuilderCombobox.genericErrorMessage', () => ({ 
     virtual: true
 });
 
+let mockScreen = mockScreenElement;
+const hydrateFieldsNames = (screen) => {
+    screen.fields.forEach((field) => (field.name = { value: field.name, error: '' }));
+};
+const mockScreenWithAutomaticFields = getMetadataFlowElementByName(flowWithAllElements, 'screenWithAutomaticFields');
+
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getScreenElement: jest.fn().mockImplementation(() => mockScreenElement),
+        getScreenElement: jest.fn().mockImplementation(() => mockScreen),
         isElementAllowed: jest.requireActual('builder_platform_interaction/expressionUtils').isElementAllowed
     };
 });
@@ -160,6 +177,7 @@ describe('Merge field validation', () => {
         setMockState(flowWithAllElementsUIModel);
     });
     afterEach(() => {
+        mockScreen = mockScreenElement;
         resetStore();
     });
     it('Returns a validation error when it is not a valid merge field', () => {
@@ -563,6 +581,11 @@ describe('Merge field validation', () => {
                         `The "invalidSectionColumnText" resource doesn't exist in this flow.`
                     )
                 ]);
+            });
+            it('Returns no validation error when validating an uncommited element of a screen containing automatic fields', () => {
+                hydrateFieldsNames(mockScreenWithAutomaticFields);
+                mockScreen = mockScreenWithAutomaticFields;
+                expect(validateMergeField(`{!${mockUncommitedScreenFieldInScreenWithAutomaticFieldName}}`)).toEqual([]);
             });
         });
 

@@ -255,7 +255,7 @@ export class MergeFieldsValidation {
             const fields = screen.fields;
             for (let i = 0; i < fields.length; i++) {
                 const field = fields[i];
-                if (field.name.value === referenceValue) {
+                if (field.name && field.name.value === referenceValue) {
                     return field;
                 }
                 const foundField = this._getUncommittedElement(field, referenceValue);

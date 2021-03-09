@@ -7241,7 +7241,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7333,7 +7333,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7425,7 +7425,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7517,7 +7517,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7609,7 +7609,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7701,7 +7701,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7793,7 +7793,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7885,7 +7885,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],
@@ -7977,7 +7977,7 @@
       "left":{
         "canBeApexProperty":"CanBe",
         "canBeSobjectField":"MustBe",
-        "canBeSystemVariable":"CanBe",
+        "canBeSystemVariable":"MustBe",
         "cannotBeElements":[
 
         ],

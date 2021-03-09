@@ -11,14 +11,6 @@
     },
     {
       "category":"Flow",
-      "dataType":"String",
-      "devName":"AppProcess",
-      "isAssignable":false,
-      "isAvailableInBuilder":true,
-      "isCollection":false
-    },
-    {
-      "category":"Flow",
       "dataType":"Date",
       "devName":"CurrentDate",
       "isAssignable":false,
