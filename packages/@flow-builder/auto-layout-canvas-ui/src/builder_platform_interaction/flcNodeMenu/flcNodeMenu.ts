@@ -7,7 +7,8 @@ import {
     AddElementFaultEvent,
     CloseMenuEvent,
     ClearHighlightedPathEvent,
-    MoveFocusToNodeEvent
+    MoveFocusToNodeEvent,
+    DeleteBranchElementEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
@@ -194,7 +195,7 @@ export default class FlcNodeMenu extends Menu {
             this.dispatchEvent(new EditElementEvent(this.guid));
         } else if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE) {
             this.dispatchEvent(
-                new DeleteElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)
+                new DeleteBranchElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)
             );
         }
     };

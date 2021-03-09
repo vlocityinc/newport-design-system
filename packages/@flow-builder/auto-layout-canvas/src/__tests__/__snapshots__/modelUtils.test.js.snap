@@ -908,35 +908,39 @@ exports[`modelUtils deleteElement persisting a terminated branch that has a regu
 Object {
   "branch-head-one": Object {
     "guid": "branch-head-one",
-    "next": "last-element",
+    "next": "branch-one-end",
     "prev": "first-element",
+  },
+  "branch-one-end": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "branch-one-end",
+    "next": null,
+    "nodeType": "end",
+    "prev": "branch-head-one",
   },
   "first-element": Object {
     "guid": "first-element",
-    "isTerminal": false,
+    "isTerminal": true,
     "next": "branch-head-one",
     "prev": null,
-  },
-  "last-element": Object {
-    "guid": "last-element",
-    "next": null,
-    "prev": "branch-head-one",
   },
 }
 `;
 
 exports[`modelUtils deleteElement persisting a terminated branch that has end element as branch head 1`] = `
 Object {
+  "branch-head-one": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "branch-head-one",
+    "next": null,
+    "nodeType": "end",
+    "prev": "first-element",
+  },
   "first-element": Object {
     "guid": "first-element",
-    "isTerminal": false,
-    "next": "last-element",
+    "isTerminal": true,
+    "next": "branch-head-one",
     "prev": null,
-  },
-  "last-element": Object {
-    "guid": "last-element",
-    "next": null,
-    "prev": "first-element",
   },
 }
 `;

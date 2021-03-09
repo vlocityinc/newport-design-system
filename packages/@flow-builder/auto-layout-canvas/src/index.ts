@@ -63,6 +63,7 @@ export {
     deleteBranch,
     areAllBranchesTerminals,
     assertAutoLayoutState,
+    resolveChild,
     resolveParent,
     resolveBranchHead,
     isRoot,

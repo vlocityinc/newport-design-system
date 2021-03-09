@@ -6,7 +6,8 @@ import {
     HighlightPathsToDeleteEvent,
     CloseMenuEvent,
     ClearHighlightedPathEvent,
-    MoveFocusToNodeEvent
+    MoveFocusToNodeEvent,
+    DeleteBranchElementEvent
 } from 'builder_platform_interaction/flcEvents';
 import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
@@ -830,16 +831,16 @@ describe('Node Menu', () => {
                 expect(deleteButton.variant).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonVariant);
             });
 
-            it('Clicking the Delete Button should dispatch DeleteElementEvent', () => {
+            it('Clicking the Delete Button should dispatch DeleteBranchElementEvent', () => {
                 const callback = jest.fn();
-                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                menu.addEventListener(DeleteBranchElementEvent.EVENT_NAME, callback);
                 deleteButton.click();
                 expect(callback).toHaveBeenCalled();
             });
 
-            it('Clicking the Delete Button should dispatch DeleteElementEvent with right details', () => {
+            it('Clicking the Delete Button should dispatch DeleteBranchElementEvent with right details', () => {
                 const callback = jest.fn();
-                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                menu.addEventListener(DeleteBranchElementEvent.EVENT_NAME, callback);
                 deleteButton.click();
                 expect(callback.mock.calls[0][0]).toMatchObject({
                     detail: {
@@ -868,7 +869,7 @@ describe('Node Menu', () => {
 
             it('Pressing escape while focus is on the Delete Button does not fire the DeleteElementEvent', () => {
                 const callback = jest.fn();
-                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                menu.addEventListener(DeleteBranchElementEvent.EVENT_NAME, callback);
                 deleteButton.focus();
                 menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).not.toHaveBeenCalled();

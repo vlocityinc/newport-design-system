@@ -5,7 +5,6 @@ import {
     getFlowWithTerminalImmediateBranch,
     getFlowWithBranchNodeInImmediateBranch,
     BRANCH_ELEMENT,
-    START_ELEMENT,
     SCREEN_ELEMENT,
     BRANCH_ELEMENT_GUID,
     START_ELEMENT_GUID,
@@ -34,7 +33,7 @@ import {
     updateChildrenOnAddingOrUpdatingTimeTriggers
 } from '../modelUtils';
 
-import { FAULT_INDEX, Guid, HighlightInfo } from '../model';
+import { FAULT_INDEX } from '../model';
 import NodeType from '../NodeType';
 
 const elementService = (elements) => {
@@ -240,8 +239,7 @@ describe('modelUtils', () => {
                     guid: 'branch-guid:0-head1-guid',
                     isCanvasElement: true,
                     parent: 'branch-guid',
-                    childIndex: 0,
-                    parent: 'branch-guid'
+                    childIndex: 0
                 },
                 'end-guid': {
                     guid: 'end-guid',
@@ -249,8 +247,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'end-guid',
-                    nodeType: 'end',
                     prev: 'branch-guid'
                 },
                 root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
@@ -298,8 +294,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'end-guid',
-                    nodeType: 'end',
                     prev: 'branch-guid'
                 },
                 root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },
@@ -340,8 +334,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'end-guid',
-                    nodeType: 'end',
                     prev: 'start-guid'
                 }
             };
@@ -368,8 +360,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'end-guid',
-                    nodeType: 'end',
                     prev: 'random-guid'
                 },
                 'random-guid': { guid: 'random-guid', isCanvasElement: true, prev: 'start-guid', next: 'end-guid' }
@@ -430,8 +420,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'end-guid',
-                    nodeType: 'end',
                     prev: 'branch-guid'
                 },
                 root: { guid: 'root', elementType: 'root', nodeType: 'root', children: ['start-guid'] },

@@ -895,6 +895,7 @@ function deleteElement(
 
     let nextElement;
     let addEndElement = false;
+    let shouldDeleteBeyondMergingPoint = false;
 
     const parentElement = findParentElement(element, state);
 
@@ -905,20 +906,14 @@ function deleteElement(
 
             if (headElement) {
                 if (next != null) {
-                    let tailElement = findLastElement(headElement, state);
+                    const tailElement = findLastElement(headElement, state);
 
-                    // In case the tail element is an End element, delete the end element
-                    // and connect End element's previous element to 'next'
-                    if (tailElement.nodeType === NodeType.END) {
-                        delete state[tailElement.guid];
-                        if (tailElement.prev) {
-                            // Setting End element's previous element as the tail element
-                            tailElement = state[tailElement.prev];
-                        }
-                    }
-
-                    // Need to check in the store for the case when End element is the only element in the branch
-                    if (tailElement && state[tailElement.guid]) {
+                    // If the branch to persist is terminated, elements beyond the
+                    // merging point need to be deleted, otherwise tail element needs
+                    // to be linked properly
+                    if (headElement.isTerminal) {
+                        shouldDeleteBeyondMergingPoint = true;
+                    } else {
                         tailElement.next = next;
                         linkElement(state, tailElement);
                     }
@@ -954,6 +949,9 @@ function deleteElement(
     }
 
     deleteElementAndDescendents(elementService, state, element.guid, childIndexToKeep);
+    if (shouldDeleteBeyondMergingPoint && next != null) {
+        deleteElementAndDescendents(elementService, state, next);
+    }
 
     const branchHead = (parent != null
         ? nextElement
@@ -1609,6 +1607,8 @@ export {
     deleteFault,
     deleteBranch,
     getChild,
+    resolveChild,
+    resolveNode,
     resolveBranchHead,
     resolveParent,
     inlineBranches,

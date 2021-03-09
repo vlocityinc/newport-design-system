@@ -2,9 +2,9 @@
 import { createElement } from 'lwc';
 import FlcBuilder from 'builder_platform_interaction/flcBuilder';
 import { flowModel, elementsMetadata /* , nodeLayoutMap,*/ } from './mockData';
-import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
-import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
+import { ToggleMenuEvent, DeleteBranchElementEvent } from 'builder_platform_interaction/flcEvents';
+import { invokeModal, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ClickToZoomEvent, DeleteElementEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
@@ -84,7 +84,15 @@ jest.mock('builder_platform_interaction/flcNodeStartMenu', () =>
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     const autoLayoutCanvas = jest.requireActual('builder_platform_interaction/autoLayoutCanvas');
-    const { NodeType, getDefaultLayoutConfig, panzoom, toggleFlowMenu } = autoLayoutCanvas;
+    const {
+        NodeType,
+        getDefaultLayoutConfig,
+        panzoom,
+        resolveNode,
+        resolveChild,
+        toggleFlowMenu,
+        modalBodyVariant
+    } = autoLayoutCanvas;
     const { flowRenderInfo } = require('./mockData');
 
     return {
@@ -100,6 +108,10 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
                 type: NodeType.BRANCH
             }
         })),
+        resolveNode,
+        resolveChild,
+        invokeModal: jest.fn(),
+        modalBodyVariant,
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         NodeType
@@ -394,6 +406,139 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(flow, event);
 
             expect(getSpinner()).toBeNull();
+        });
+    });
+
+    describe('modal', () => {
+        it('calls the invokeModal function when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: '1c397973-762d-443f-9780-2b9777b6d6a3',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(
+                ['1c397973-762d-443f-9780-2b9777b6d6a3'],
+                'Decision',
+                0
+            );
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(invokeModal).toHaveBeenCalled();
+        });
+        it('dispatches a deleteElement event when deleting an element and persist no branches', async () => {
+            const callback = jest.fn();
+            cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: '1c397973-762d-443f-9780-2b9777b6d6a3',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(
+                ['1c397973-762d-443f-9780-2b9777b6d6a3'],
+                'Decision',
+                null
+            );
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('dispatches a deleteElement event when deleting an element and the branch to persist is not terminated', async () => {
+            const callback = jest.fn();
+            cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: '1c397973-762d-443f-9780-2b9777b6d6a3',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(
+                ['1c397973-762d-443f-9780-2b9777b6d6a3'],
+                'Decision',
+                1
+            );
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('dispatches a deleteElement event when deleting an element and next element is end element', async () => {
+            const callback = jest.fn();
+            cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: '9731c397-443f-9780-762d-d6a32b9777b6',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(
+                ['9731c397-443f-9780-762d-d6a32b9777b6'],
+                'Decision',
+                0
+            );
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('dispatches a deleteElement event when deleting an element and head element is null', async () => {
+            const callback = jest.fn();
+            cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: '1c397973-762d-443f-9780-2b9777b6d6a3',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(
+                ['1c397973-762d-443f-9780-2b9777b6d6a3'],
+                'Decision',
+                -1
+            );
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(callback).toHaveBeenCalled();
+        });
+        it('dispatches a deleteElement event when deleting an element and next element is null', async () => {
+            const callback = jest.fn();
+            cmp.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            const flow = getFlow();
+            const nodeToggleMenuEvent = new ToggleMenuEvent({
+                guid: '4b54cd8b-6bba-407b-a02b-c2129290162e',
+                left: 702.0999755859375,
+                offsetX: 2.4000244140625,
+                top: 140,
+                type: MenuType.NODE,
+                elementMetadata: { supportsMenu: true }
+            });
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            const nodeMenu = getNodeMenu();
+            const deleteBranchElementEvent = new DeleteBranchElementEvent(
+                ['4b54cd8b-6bba-407b-a02b-c2129290162e'],
+                'Decision',
+                0
+            );
+            await dispatchEvent(nodeMenu, deleteBranchElementEvent);
+            expect(callback).toHaveBeenCalled();
         });
     });
 });

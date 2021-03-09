@@ -15,3 +15,4 @@ export { ClearHighlightedPathEvent } from './clearHighlightedPathEvent';
 export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';
 export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';
 export { GoToPathEvent } from './goToPathEvent';
+export { DeleteBranchElementEvent } from './deleteBranchElementEvent';

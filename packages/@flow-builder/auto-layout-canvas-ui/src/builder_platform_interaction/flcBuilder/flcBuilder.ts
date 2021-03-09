@@ -18,7 +18,12 @@ import {
     FlowRenderContext,
     FlowRenderInfo,
     FlowInteractionState,
-    Dimension
+    Dimension,
+    resolveNode,
+    resolveChild,
+    invokeModal,
+    modalBodyVariant,
+    ParentNodeModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -33,7 +38,8 @@ import {
     ToggleMenuEvent,
     NodeResizeEvent,
     MoveFocusToNodeEvent,
-    MoveFocusToConnectorEvent
+    MoveFocusToConnectorEvent,
+    DeleteBranchElementEvent
 } from 'builder_platform_interaction/flcEvents';
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
 import {
@@ -45,6 +51,8 @@ import {
 import { getFocusPath } from './alcBuilderUtils';
 
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+
+import { LABELS } from './flcBuilderLabels';
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
@@ -970,6 +978,54 @@ export default class FlcBuilder extends LightningElement {
         // updated immediately
         if (this._flowRenderContext.dynamicNodeDimensionMap.size >= this.dynamicNodeCountAtLoad) {
             this.updateFlowRenderContext();
+        }
+    };
+
+    handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
+        const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
+        const selectedElement = resolveNode(this._flowModel, selectedElementGUID[0]);
+        const { next } = selectedElement;
+        let nextElement;
+
+        if (childIndexToKeep != null) {
+            const headElement = resolveChild(this._flowModel, selectedElement as ParentNodeModel, childIndexToKeep);
+            if (next != null) {
+                nextElement = resolveNode(this._flowModel, next);
+            }
+
+            // When the branch to persist is terminated and the deleting element's next is not an end element,
+            // a warning modal would be invoked, otherwise a DeleteEelementEvent would be dispatched
+            if (headElement && headElement.isTerminal && nextElement && nextElement.nodeType !== NodeType.END) {
+                invokeModal({
+                    headerData: {
+                        headerTitle: LABELS.deleteWarningHeaderTitle
+                    },
+                    bodyData: {
+                        bodyTextOne: LABELS.deleteWarningBodyTextLabel,
+                        bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
+                    },
+                    footerData: {
+                        buttonOne: {
+                            buttonVariant: 'Brand',
+                            buttonLabel: LABELS.cancelButtonLabel
+                        },
+                        buttonTwo: {
+                            buttonLabel: LABELS.confirmDeleteLabel,
+                            buttonCallback: () => {
+                                this.dispatchEvent(
+                                    new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep)
+                                );
+                            }
+                        }
+                    },
+                    headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                    bodyClass: 'slds-p-around_medium'
+                });
+            } else {
+                this.dispatchEvent(new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep));
+            }
+        } else {
+            this.dispatchEvent(new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep));
         }
     };
 }
