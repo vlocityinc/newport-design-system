@@ -478,7 +478,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     } else {
         // For screen fields fetch icon based on data type instead of screen field type.
         if (resource.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
-            resourceIcon = getIconNameFromDataType(resource.type.dataType);
+            resourceIcon = getIconNameFromDataType(resource.dataType);
         } else {
             resourceIcon = resource.type ? resource.type.icon : resource.iconName;
         }
