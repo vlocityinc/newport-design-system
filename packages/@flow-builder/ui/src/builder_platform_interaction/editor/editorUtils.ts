@@ -990,7 +990,8 @@ export const screenFieldsReferencedByLoops = (flowMetadata: any): Metadata.Scree
 export const debugInterviewResponseCallback = (
     data: Array,
     storeInstance: Store,
-    hasUnsavedChanges: boolean
+    hasUnsavedChanges: boolean,
+    keepHighlightOnError: boolean
 ): Object => {
     // Setup the debug data object for the debug panel
     const interviewData = (data && data[0]) || {};
@@ -1011,7 +1012,7 @@ export const debugInterviewResponseCallback = (
             const elementsToDecorate = getElementsWithError(canvasDecorator);
             storeInstance.dispatch(decorateCanvas({ connectorsToHighlight, elementsToDecorate }));
         }
-    } else {
+    } else if (!keepHighlightOnError) {
         // Else, clear any existing highlights on the canvas
         storeInstance.dispatch(clearCanvasDecoration);
     }

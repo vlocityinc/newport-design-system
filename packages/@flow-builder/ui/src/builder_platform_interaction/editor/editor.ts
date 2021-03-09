@@ -1060,7 +1060,8 @@ export default class Editor extends LightningElement {
                         const response = debugInterviewResponseCallback(
                             data,
                             storeInstance,
-                            this.properties.hasUnsavedChanges
+                            this.properties.hasUnsavedChanges,
+                            true
                         );
                         this.debugData = Object.assign(response, {
                             startInterviewTime,

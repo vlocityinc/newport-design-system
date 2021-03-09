@@ -58,7 +58,6 @@
   "formulas" : [ ],
   "interviewLabel" : "TestFileBasedScreen {!$Flow.CurrentDateTime}",
   "isAdditionalPermissionRequiredToRun" : false,
-  "isOverridable" : false,
   "isTemplate" : true,
   "label" : "FTest-TestFileBasedScreen",
   "loops" : [ ],

@@ -1555,6 +1555,24 @@ describe('Editor Utils Test', () => {
             });
         });
 
+        it('does not fire the clear canvas decoration action on errors if keepHighlightOnError is true', () => {
+            const data = [
+                {
+                    interviewStatus: 'error',
+                    debugTrace: '',
+                    errors: 'errors',
+                    startInterviewTime: new Date(),
+                    endInterviewTime: new Date()
+                },
+                {}
+            ];
+            debugInterviewResponseCallback(data, storeInstance, false, true);
+
+            expect(dispatch).not.toHaveBeenCalledWith({
+                type: 'clearCanvasDecoration'
+            });
+        });
+
         it('fires the clear canvas decoration action if there are errors', () => {
             const data = [
                 {
