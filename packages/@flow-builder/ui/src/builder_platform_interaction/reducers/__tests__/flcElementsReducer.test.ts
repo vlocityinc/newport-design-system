@@ -1404,6 +1404,28 @@ describe('flc-elements-reducer', () => {
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
         });
 
+        it('When highlighting Start element immediate connector with no children/time triggers defined', () => {
+            const flowModel = {
+                guid1: {
+                    nodeType: NodeType.START,
+                    elementType: ELEMENT_TYPE.START_ELEMENT,
+                    next: 'end',
+                    config: {}
+                }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [{ type: CONNECTOR_TYPE.IMMEDIATE, source: 'guid1' }]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
         it('When highlighting Start element child connector', () => {
             const flowModel = {
                 guid1: {
@@ -1566,6 +1588,30 @@ describe('flc-elements-reducer', () => {
             const decoratedElements = new Map<Guid, HighlightInfo>();
             decoratedElements.set('guid1', { highlightNext: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] });
             decoratedElements.set('guid2', {});
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When highlighting loop connector with error and no error on same element in loop back', () => {
+            const flowModel = {
+                guid1: { guid: 'guid1', nodeType: NodeType.LOOP, next: 'end', config: {}, children: ['guid2'] },
+                guid2: { guid: 'guid2', parent: 'guid1', config: { hasError: true } }
+            };
+
+            flcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.LOOP_NEXT, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid2' },
+                        { type: CONNECTOR_TYPE.LOOP_NEXT, source: 'guid1' },
+                        { type: CONNECTOR_TYPE.FAULT, source: 'guid2' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', { highlightLoopBack: true, branchIndexesToHighlight: [LOOP_BACK_INDEX] });
+            decoratedElements.set('guid2', { highlightNext: true });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
         });

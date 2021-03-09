@@ -262,7 +262,7 @@ function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, c
         branchIndexToHighlight = element.childReferences!.length;
     } else if (connectorType === CONNECTOR_TYPE.LOOP_NEXT) {
         branchIndexToHighlight = LOOP_BACK_INDEX;
-    } else if (connectorType === CONNECTOR_TYPE.IMMEDIATE) {
+    } else if (connectorType === CONNECTOR_TYPE.IMMEDIATE && (element as ParentNodeModel).children) {
         branchIndexToHighlight = START_IMMEDIATE_INDEX;
     } else if (childReference && element.childReferences) {
         branchIndexToHighlight = element.childReferences.findIndex((ref) => {
@@ -290,7 +290,9 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
         const branchIndexToHighlight = getBranchIndexToHighlight(element, connector.type, connector.childSource);
         if (branchIndexToHighlight != null) {
             highlightInfo.branchIndexesToHighlight = highlightInfo.branchIndexesToHighlight || [];
-            highlightInfo.branchIndexesToHighlight.push(branchIndexToHighlight);
+            if (!highlightInfo.branchIndexesToHighlight.includes(branchIndexToHighlight)) {
+                highlightInfo.branchIndexesToHighlight.push(branchIndexToHighlight);
+            }
             // For branching elements that don't have any elements or End in the branch to highlight,
             // set highlightNext to true to indicate that we need to highlight the merge point after the highlighted branch
             if (
@@ -309,7 +311,7 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
             ) {
                 highlightInfo.highlightLoopBack = true;
             }
-        } else if (!element.config.hasError && !fulfillsBranchingCriteria(element, element.nodeType)) {
+        } else if (connector.type !== CONNECTOR_TYPE.FAULT && !fulfillsBranchingCriteria(element, element.nodeType)) {
             // If no branch index to highlight was found and the element is not a branching
             // or error-ed element, just set highlightNext to true
             highlightInfo.highlightNext = true;
