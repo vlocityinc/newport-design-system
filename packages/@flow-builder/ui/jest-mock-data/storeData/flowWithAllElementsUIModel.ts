@@ -3132,6 +3132,7 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'and'
             },
             fields: [],
+            singleOrMultiSelect: 'SingleSelect',
             childReferences: []
         },
         'd99d05ca-bae7-459a-9551-10f32d89aeb9': {

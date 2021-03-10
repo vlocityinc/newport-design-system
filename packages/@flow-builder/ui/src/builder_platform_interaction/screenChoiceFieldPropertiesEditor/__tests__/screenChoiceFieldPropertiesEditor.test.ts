@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenChoiceFieldPropertiesEditor, {
-    ChoiceDisplayOptions,
     DISPLAY_TYPE_COMBOBOX_SELECTOR
 } from '../screenChoiceFieldPropertiesEditor';
 import {
@@ -13,12 +12,11 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent, ScreenEditorEventName } from 'builder_platform_interaction/events';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
-
+import { ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
 const mockEvent = new Event('test');
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -657,74 +655,23 @@ describe('screen-choice-field-properties-editor for single select, type Number',
         });
     });
     describe('switching type of choice', () => {
-        it('Should display a popup warning if field is used by another element', async () => {
+        it('Should dispatch a singleormultichoicetypechanged event', async () => {
             usebyMock.usedBy.mockReturnValueOnce(['parentGuid', 'someGuid']);
-            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
-            visualDisplayTypeCombobox.dispatchEvent(
-                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
+            const visualDisplayRadioGroup = getVisualDisplayRadioGroup(screenChoiceFieldPropEditor);
+            const choiceChangedSpy = jest.fn();
+            screenChoiceFieldPropEditor.addEventListener(
+                ScreenEditorEventName.SingleOrMultiChoiceTypeChanged,
+                choiceChangedSpy
             );
-            await ticks(1);
-            expect(invokeModal).toBeCalledWith(
-                expect.objectContaining({
-                    bodyData: {
-                        bodyTextOne: 'FlowBuilderScreenEditor.choiceDisplayTypeWarningBody'
-                    },
-                    footerData: {
-                        buttonOne: {
-                            buttonLabel: 'FlowBuilderAlertModal.okayButtonLabel'
-                        }
-                    },
-                    headerData: {
-                        headerTitle: 'FlowBuilderScreenEditor.choiceDisplayTypeWarningHeader'
+            visualDisplayRadioGroup.dispatchEvent(
+                new CustomEvent('change', {
+                    detail: {
+                        value: ChoiceDisplayOptions.MULTI_SELECT
                     }
                 })
             );
-        });
-        it('Should NOT display a popup warning if field is NOT used by another element', async () => {
-            usebyMock.usedBy.mockReturnValueOnce(['parentGuid']);
-            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
-            visualDisplayTypeCombobox.dispatchEvent(
-                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
-            );
             await ticks(1);
-            expect(invokeModal).not.toBeCalled();
-        });
-    });
-});
-describe('screen-choice-field-properties-editor for single select, type String', () => {
-    let screenChoiceFieldPropEditor;
-    beforeEach(() => {
-        const testField = createTestScreenField(fieldName, FlowScreenFieldType.DropdownBox, SCREEN_NO_DEF_VALUE, {
-            dataType: FLOW_DATA_TYPE.STRING.value
-        });
-        testField.choiceReferences[0] = {
-            choiceReference: { value: 'choice-PICKLIST', error: null }
-        };
-        testField.choiceReferences[1] = {
-            choiceReference: { value: 'choice-altPCS', error: null }
-        };
-        screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: testField
-        });
-    });
-    describe('switching type of choice', () => {
-        it('Should NOT display a popup warning if field is used by another element', async () => {
-            usebyMock.usedBy.mockReturnValueOnce(['parentGuid', 'someGuid']);
-            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
-            visualDisplayTypeCombobox.dispatchEvent(
-                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
-            );
-            await ticks(1);
-            expect(invokeModal).not.toBeCalled();
-        });
-        it('Should NOT display a popup warning if field is NOT used by another element', async () => {
-            usebyMock.usedBy.mockReturnValueOnce(['parentGuid']);
-            const visualDisplayTypeCombobox = getDisplayTypeCombobox(screenChoiceFieldPropEditor);
-            visualDisplayTypeCombobox.dispatchEvent(
-                new PropertyChangedEvent('choiceDisplayType', FlowScreenFieldType.MultiSelectPicklist, null, null, null)
-            );
-            await ticks(1);
-            expect(invokeModal).not.toBeCalled();
+            expect(choiceChangedSpy).toHaveBeenCalled();
         });
     });
 });

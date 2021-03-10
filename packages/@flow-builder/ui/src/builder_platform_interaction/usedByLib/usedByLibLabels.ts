@@ -6,6 +6,8 @@ import deleteAlertMultiDeleteBodyTextLabel from '@salesforce/label/FlowBuilderAl
 import deleteAlertListSectionHeader from '@salesforce/label/FlowBuilderAlertModal.listSectionHeader';
 import deleteAlertOkayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import interviewLabelLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.instanceLabel';
+import choiceDisplayTypeWarningHeader from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypeWarningHeader';
+import choiceDisplayTypeWarningBody from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypeWarningBody';
 
 export const LABELS = {
     deleteAlertSingleDeleteHeaderTitle,
@@ -14,5 +16,7 @@ export const LABELS = {
     deleteAlertMultiDeleteBodyTextLabel,
     deleteAlertListSectionHeader,
     deleteAlertOkayButtonLabel,
-    interviewLabelLabel
+    interviewLabelLabel,
+    choiceDisplayTypeWarningHeader,
+    choiceDisplayTypeWarningBody
 };

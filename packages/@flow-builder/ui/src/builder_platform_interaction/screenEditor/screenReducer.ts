@@ -394,6 +394,27 @@ const changeChoice = (screen, event, field) => {
 };
 
 /**
+ * Change the singleOrMultiSelect value
+ * @param screen - The screen.
+ * @param event - The change choice event.
+ * @param field - The field that the choice should be changed in.
+ */
+const singleOrMultiChoiceTypeChanged = (screen, event: CustomEvent, field) => {
+    const singleOrMultiSelect = Object.assign(
+        {},
+        {
+            singleOrMultiSelect: event.detail.newTypeChoice
+        }
+    );
+
+    const updatedScreenField = Object.assign({}, field, singleOrMultiSelect);
+
+    // Replace the field in the screen
+    const positions = screen.getFieldIndexesByGUID(field.guid);
+    return updateAncestors(screen, positions, updatedScreenField);
+};
+
+/**
  * Change a choice of a screenField.
  * @param {*} screen - The screen.
  * @param {*} event - The change choice screen field display event.
@@ -1000,6 +1021,9 @@ export const screenReducer = (state, event, selectedNode?) => {
 
         case ScreenEditorEventName.ChoiceChanged:
             return changeChoice(state, event, selectedNode);
+
+        case ScreenEditorEventName.SingleOrMultiChoiceTypeChanged:
+            return singleOrMultiChoiceTypeChanged(state, event, selectedNode);
 
         case ScreenEditorEventName.ChoiceDeleted:
             return deleteChoice(state, event, selectedNode);

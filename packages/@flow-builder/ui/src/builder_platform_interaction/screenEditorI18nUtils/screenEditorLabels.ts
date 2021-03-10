@@ -139,8 +139,6 @@ import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAut
 import automaticFieldHighlightHeaderFieldLabel from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldHighlightHeaderFieldLabel';
 import altTextVisibilityCondition from '@salesforce/label/FlowBuilderScreenEditor.altTextVisibilityCondition';
 import nonePicklistPlaceholder from '@salesforce/label/FlowBuilderScreenEditor.nonePicklistPlaceholder';
-import choiceDisplayTypeWarningHeader from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypeWarningHeader';
-import choiceDisplayTypeWarningBody from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypeWarningBody';
 import automaticFieldVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldVisibilitySectionTitle';
 
 export const LABELS = {
@@ -285,7 +283,5 @@ export const LABELS = {
     automaticFieldHighlightHeaderFieldLabel,
     altTextVisibilityCondition,
     nonePicklistPlaceholder,
-    choiceDisplayTypeWarningHeader,
-    choiceDisplayTypeWarningBody,
     automaticFieldVisibilitySectionTitle
 };

@@ -183,6 +183,11 @@ export function invokeUsedByAlertModal(
         }
     }
 
+    if (elementType === ELEMENT_TYPE.CHOICE) {
+        headerTitle = LABELS.choiceDisplayTypeWarningHeader;
+        bodyTextOne = LABELS.choiceDisplayTypeWarningBody;
+    }
+
     // Invoking the alert modal
     invokeModal({
         headerData: {

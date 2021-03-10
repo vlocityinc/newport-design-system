@@ -6,7 +6,8 @@ import {
     processScreenExtensionTypes,
     processRequiredParamsForExtensionsInScreen,
     isRegionContainerField,
-    isRegionField
+    isRegionField,
+    ChoiceDisplayOptions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { screenReducer } from './screenReducer';
@@ -24,6 +25,10 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
+import {
+    createChoiceDisplayChangedEvent,
+    createSingleOrMultiChoiceTypeChangedEvent
+} from 'builder_platform_interaction/events';
 
 export enum ScreenEditorTab {
     Components = 'componentsTab',
@@ -375,9 +380,44 @@ export default class ScreenEditor extends LightningElement {
     };
 
     handleChoiceDisplayChanged = (event) => {
+        const { screenElement, newDisplayType } = event.detail;
+        const usedByElements = usedByStoreAndElementState(
+            screenElement.guid,
+            this.screen.guid,
+            this.getAllScreenFields(this.screen.fields)
+        );
+        if (this.isWarningNeeded(usedByElements, screenElement, newDisplayType)) {
+            const displayTypeEvent = createChoiceDisplayChangedEvent(this.selectedNode, this.selectedNode.fieldType);
+            this.screen = screenReducer(this.screen, displayTypeEvent, this.selectedNode);
+            const typeChoiceEvent = createSingleOrMultiChoiceTypeChangedEvent(
+                this.selectedNode,
+                ChoiceDisplayOptions.SINGLE_SELECT
+            );
+            this.screen = screenReducer(this.screen, typeChoiceEvent, this.selectedNode);
+
+            invokeUsedByAlertModal(usedByElements, [screenElement.guid], ELEMENT_TYPE.CHOICE);
+            this.resetSelectedNode();
+        } else {
+            this.screen = screenReducer(this.screen, event, this.selectedNode);
+            this.resetSelectedNode();
+        }
+    };
+
+    handleSingleOrMultiChoiceTypeChanged = (event) => {
         this.screen = screenReducer(this.screen, event, this.selectedNode);
         this.resetSelectedNode();
     };
+
+    isWarningNeeded(usedByElements, screenElement, newDisplayType) {
+        return (
+            screenElement.dataType !== 'String' &&
+            (screenElement.fieldType === FlowScreenFieldType.DropdownBox ||
+                screenElement.fieldType === FlowScreenFieldType.RadioButtons) &&
+            (newDisplayType === FlowScreenFieldType.MultiSelectCheckboxes ||
+                newDisplayType === FlowScreenFieldType.MultiSelectPicklist) &&
+            usedByElements.length > 0
+        );
+    }
 
     /**
      * Resets the selected node to ensure re-rendering

@@ -9,6 +9,7 @@ export enum ScreenEditorEventName {
     ChoiceAdded = 'choiceadded',
     ChoiceChanged = 'choicechanged',
     ChoiceDisplayChanged = 'choicedisplaychanged',
+    SingleOrMultiChoiceTypeChanged = 'singleormultichoicetypechanged',
     ChoiceDeleted = 'choicedeleted',
     ColumnWidthChanged = 'columnwidthchanged',
     ChoiceReset = 'choicereset'
@@ -180,6 +181,19 @@ export function createChoiceDisplayChangedEvent(screenElement, newDisplayType) {
     return createScreenEditorEvent(ScreenEditorEventName.ChoiceDisplayChanged, {
         screenElement,
         newDisplayType
+    });
+}
+
+/**
+ * Creates an event to be fired whenn the user wants to change the type of a choice screen field (SingleSelect vs MultiSelect).
+ * @param screenElement - The choice screen field to change type of
+ * @param newTypeChoice - New type to which type of choice screen field should change to
+ * @returns SingleOrMultiChoiceTypeChangedEvent
+ */
+export function createSingleOrMultiChoiceTypeChangedEvent(screenElement, newTypeChoice): CustomEvent {
+    return createScreenEditorEvent(ScreenEditorEventName.SingleOrMultiChoiceTypeChanged, {
+        screenElement,
+        newTypeChoice
     });
 }
 

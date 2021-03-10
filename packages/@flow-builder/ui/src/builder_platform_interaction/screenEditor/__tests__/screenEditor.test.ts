@@ -13,7 +13,8 @@ import { createElement } from 'lwc';
 import {
     createTestScreen,
     createTestScreenField,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    SCREEN_NO_DEF_VALUE
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     PropertyChangedEvent,
@@ -25,7 +26,8 @@ import {
     createScreenElementDeselectedEvent,
     DynamicTypeMappingChangeEvent,
     createColumnWidthChangedEvent,
-    createAddAutomaticScreenFieldEvent
+    createAddAutomaticScreenFieldEvent,
+    createChoiceDisplayChangedEvent
 } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -34,9 +36,12 @@ import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_intera
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
+import { ScreenFieldName, ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import * as usebyMock from 'builder_platform_interaction/usedByLib';
 
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
@@ -63,8 +68,25 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
-const EDITOR_CONTAINER_ELEMENT_NAME = 'builder_platform_interaction-screen-properties-editor-container';
+jest.mock('builder_platform_interaction/builderUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/builderUtils');
+    return Object.assign({}, actual, {
+        invokeModal: jest.fn()
+    });
+});
+
+jest.mock('builder_platform_interaction/usedByLib', () => {
+    return {
+        usedByStoreAndElementState: jest.fn(),
+        invokeUsedByAlertModal: jest.fn()
+    };
+});
+
+const getScreenEditorCanvas = (screen) =>
+    screen.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_CANVAS);
+
+const getScreenPropertyEditorContainer = (screen) =>
+    screen.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields),
@@ -157,7 +179,7 @@ describe('Event handling on editor', () => {
         test('event adds a field to the end by default', async () => {
             // handleAddScreenField (onaddscreenfield)
             const length = screenEditorElement.node.fields.length;
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency'));
             await ticks(1);
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
@@ -165,7 +187,7 @@ describe('Event handling on editor', () => {
         });
         test('event can add a field to a specific position', async () => {
             const length = screenEditorElement.node.fields.length;
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
             await ticks(1);
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
@@ -176,7 +198,7 @@ describe('Event handling on editor', () => {
         test('event adds a field to the end by default', async () => {
             const objectFieldReference = accountSObjectVariable.guid + '.Name';
             const length = screenEditorElement.node.fields.length;
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference));
             await ticks(1);
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
@@ -185,7 +207,9 @@ describe('Event handling on editor', () => {
         test('event can add a field to a specific position', async () => {
             const objectFieldReference = accountSObjectVariable.guid + '.Name';
             const length = screenEditorElement.node.fields.length;
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_CANVAS
+            );
             canvas.dispatchEvent(createAddAutomaticScreenFieldEvent(ScreenFieldName.TextBox, objectFieldReference, 0));
             await ticks(1);
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
@@ -196,9 +220,9 @@ describe('Event handling on editor', () => {
     describe('delete screen field event', () => {
         it('invokes the delete confirmation modal with the right data', async () => {
             // handleDeleteScreenElement - Field (onscreenelementdeleted)
-            await ticks(1);
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
+            await ticks(1);
             const callParams = invokeModal.mock.calls[0][0];
             expect(callParams.headerData.headerTitle).toBe(LABELS.deleteConfirmation);
             expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteConsequence);
@@ -207,7 +231,7 @@ describe('Event handling on editor', () => {
             expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
         });
         it('invokes the delete confirmation modal when the target is a section', async () => {
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[8]));
             await ticks(1);
             const callParams = invokeModal.mock.calls[0][0];
@@ -218,7 +242,7 @@ describe('Event handling on editor', () => {
             expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
         });
         it('invokes the delete confirmation modal when the target is a column of a section', async () => {
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[8].fields[0]));
             await ticks(1);
             const callParams = invokeModal.mock.calls[0][0];
@@ -230,12 +254,12 @@ describe('Event handling on editor', () => {
         });
         it('calls the provided callback post confirmation modal', async () => {
             // handleDeleteScreenElement - Field (onscreenelementdeleted)
-            await ticks(1);
             const callback = jest.fn();
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(
                 createScreenElementDeletedEvent(screenEditorElement.node.fields[1], null, null, callback)
             );
+            await ticks(1);
             invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonCallback();
             expect(callback).toHaveBeenCalled();
         });
@@ -243,86 +267,88 @@ describe('Event handling on editor', () => {
 
     it('property change changes screen property', async () => {
         // handlePropertyChanged(onpropertychanged)
-        await ticks(1);
         const newPausedText = {
             value: 'screen-editor-test.js property change paused text',
             error: null
         };
-        const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+        const editor = getScreenPropertyEditorContainer(screenEditorElement);
         editor.dispatchEvent(
             new PropertyChangedEvent('pausedText', newPausedText, null, null, screenEditorElement.node.pausedText)
         );
+        await ticks(1);
         expect(screenEditorElement.node.pausedText.value).toBe(newPausedText.value);
         expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
     });
 
     it('select screen element sets the current node to the selected element', async () => {
         // handleSelectScreenElement (onscreenelementselected)
-        await ticks(1);
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const canvas = getScreenEditorCanvas(screenEditorElement);
         const field = screenEditorElement.node.fields[3];
         canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+        await ticks(1);
         expect(screenEditorElement.getSelectedNode().guid).toBe(field.guid);
     });
 
     it('deselect screen element sets the screen as the selected node', async () => {
         // handleDeselectScreenElement - Canvas (onscreenelementdeselected)
-        await ticks(1);
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const canvas = getScreenEditorCanvas(screenEditorElement);
 
         // Select field
         const field = screenEditorElement.node.fields[3];
         canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+        await ticks(1);
         expect(screenEditorElement.getSelectedNode().guid).toBe(field.guid);
 
         // Clear selection
         canvas.dispatchEvent(createScreenElementDeselectedEvent(field));
+        await ticks(1);
         expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
     });
 
     it('selecting the screen in the properties editor container breadcrumbs header screen as the selected node', async () => {
         // handleDeselectScreenElement - Property Editor Container (onscreennodeselected)
-        await ticks(1);
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const canvas = getScreenEditorCanvas(screenEditorElement);
 
         // Select field
         const field = screenEditorElement.node.fields[3];
         canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+        await ticks(1);
         expect(screenEditorElement.getSelectedNode().guid).toBe(field.guid);
 
         // Select screen element in the editor container breadcrumbs
-        const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+        const editor = getScreenPropertyEditorContainer(screenEditorElement);
         editor.dispatchEvent(createScreenNodeSelectedEvent(field));
+        await ticks(1);
         expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
     });
 
     it('rearranges fields', async () => {
         // handleReorder (onreorderlist)
-        await ticks(1);
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const canvas = getScreenEditorCanvas(screenEditorElement);
         const field1 = screenEditorElement.node.fields[3];
         const field2 = screenEditorElement.node.fields[5];
         canvas.dispatchEvent(createScreenElementMovedEvent(field1.guid, screenEditorElement.node.guid, 6));
+        await ticks(1);
         expect(screenEditorElement.node.fields[4].guid).toBe(field2.guid);
         expect(screenEditorElement.node.fields[5].guid).toBe(field1.guid);
     });
 
     it('drag a field into selected section', async () => {
-        await ticks(1);
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const canvas = getScreenEditorCanvas(screenEditorElement);
         const field1 = screenEditorElement.node.fields[7];
         let section = screenEditorElement.node.fields[8];
         // Select section
         canvas.dispatchEvent(createScreenElementSelectedEvent(section));
+        await ticks(1);
         // drag field1 into section
         canvas.dispatchEvent(createScreenElementMovedEvent(field1.guid, section.fields[0].guid, 0));
+        await ticks(1);
         section = screenEditorElement.getSelectedNode();
         expect(section.fields[0].fields[0].guid).toBe(field1.guid);
     });
 
     it('width of column changed', async () => {
-        await ticks(1);
-        const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+        const editor = getScreenPropertyEditorContainer(screenEditorElement);
         editor.dispatchEvent(
             createColumnWidthChangedEvent(
                 screenEditorElement.node.fields[8].fields[0].guid,
@@ -330,6 +356,7 @@ describe('Event handling on editor', () => {
                 screenEditorElement.node.fields[8].guid
             )
         );
+        await ticks(1);
         expect(screenEditorElement.node.fields[8].fields[0].inputParameters[0].value).toBe('7');
     });
 });
@@ -362,8 +389,8 @@ describe('Extension events', () => {
     describe('Screen field property editor events', () => {
         it('Value of DisplayText field changed', async () => {
             await ticks(1);
-            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const editor = getScreenPropertyEditorContainer(screenEditorElement);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
 
             // Select the field to be changed.
             const field = screenEditorElement.node.fields[0];
@@ -383,8 +410,8 @@ describe('Extension events', () => {
         });
         it('Name of DisplayText field changed', async () => {
             await ticks(1);
-            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            const editor = getScreenPropertyEditorContainer(screenEditorElement);
+            const canvas = getScreenEditorCanvas(screenEditorElement);
 
             // Select the field to be changed.
             const field = screenEditorElement.node.fields[0];
@@ -437,7 +464,7 @@ describe('Extension events', () => {
 
                 const originalNode = screenEditorElement.node;
 
-                const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+                const editor = getScreenPropertyEditorContainer(screenEditorElement);
                 const event = createAddScreenFieldEvent('pausedText', 0, parent.guid);
 
                 editor.dispatchEvent(event);
@@ -462,7 +489,7 @@ describe('Extension events', () => {
                     }
                 };
 
-                const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+                const editor = getScreenPropertyEditorContainer(screenEditorElement);
                 const event = createAddScreenFieldEvent('pausedText', 0, parent.guid);
 
                 editor.dispatchEvent(event);
@@ -481,11 +508,11 @@ describe('Extension events', () => {
             const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
 
             return Promise.resolve().then(async () => {
-                const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+                const editor = getScreenPropertyEditorContainer(screenEditorElement);
                 mockScreenReducer = jest.fn((state) => {
                     return state;
                 });
-                const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+                const canvas = getScreenEditorCanvas(screenEditorElement);
                 canvas.dispatchEvent(createScreenElementSelectedEvent(screenField));
 
                 editor.dispatchEvent(expectedEvent);
@@ -513,11 +540,11 @@ describe('Extension events', () => {
             const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
 
             return Promise.resolve().then(async () => {
-                const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+                const editor = getScreenPropertyEditorContainer(screenEditorElement);
                 mockScreenReducer = jest.fn((state, event, node) =>
                     mockedReducerThatUpdatesScreenFieldName(state, event, node)
                 );
-                const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+                const canvas = getScreenEditorCanvas(screenEditorElement);
                 canvas.dispatchEvent(createScreenElementSelectedEvent(screenField));
 
                 editor.dispatchEvent(expectedEvent);
@@ -530,12 +557,12 @@ describe('Extension events', () => {
     });
 
     it('handles dynamictypemappingchange event', async () => {
-        const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+        const editor = getScreenPropertyEditorContainer(screenEditorElement);
 
         mockScreenReducer = jest.fn((state) => state);
 
         // Select the field to be changed.
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+        const canvas = getScreenEditorCanvas(screenEditorElement);
         const field = screenEditorElement.node.fields[0];
         canvas.dispatchEvent(createScreenElementSelectedEvent(field));
 
@@ -563,6 +590,126 @@ describe('Extension events', () => {
         });
         expect(mockScreenReducer.mock.calls[0][2]).toMatchObject({
             name: { value: SCREEN_FIELD_NAME }
+        });
+    });
+    describe('Switching Display Type Screen Choice field with dataType IS NOT String', () => {
+        let screenEditorElement;
+        let screen;
+        beforeEach(() => {
+            mockScreenReducer = jest.fn((state, event, node) => {
+                return actual.screenReducer(state, event, node);
+            });
+
+            screen = createTestScreen(SCREEN_NAME, ['Checkbox']);
+            screen.showHeader = true;
+            screen.elementType = ELEMENT_TYPE.SCREEN;
+            screen.fields = [];
+            screenField = createTestScreenField(SCREEN_FIELD_NAME, ScreenFieldName.Checkbox, SCREEN_NO_DEF_VALUE, {
+                dataType: 'Number',
+                validation: false,
+                helpText: false
+            });
+            screenField.singleOrMultiSelect = ChoiceDisplayOptions.MULTI_SELECT;
+            screenField.fieldType = FlowScreenFieldType.DropdownBox;
+            screen.fields.push(screenField);
+            screenEditorElement = createComponentUnderTest({ node: screen });
+
+            // Make sure screen is created with the expected fields.
+            expect(screen.fields).toHaveLength(1);
+        });
+        it('Should invoke a modal when switching to MultiSelectCheckboxes', async () => {
+            // The field is used somewhere
+            usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
+            // Select the field to be changed.
+            const canvas = getScreenEditorCanvas(screenEditorElement);
+            const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
+
+            const field = screenEditorElement.node.fields[0];
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+            await ticks(1);
+
+            // Dispatch change Display Type
+            editorContainer.dispatchEvent(
+                createChoiceDisplayChangedEvent(field, FlowScreenFieldType.MultiSelectCheckboxes)
+            );
+            await ticks(1);
+            expect(usebyMock.invokeUsedByAlertModal).toBeCalledWith(['someGuid'], [field.guid], 'Choice');
+        });
+        it('Should NOT invoke a modal when switching to RadioButtonsMultiSelectCheckboxes', async () => {
+            // The field is used somewhere
+            usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
+            // Select the field to be changed.
+            const canvas = getScreenEditorCanvas(screenEditorElement);
+            const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
+
+            const field = screenEditorElement.node.fields[0];
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+            await ticks(1);
+
+            // Dispatch change Display Type
+            editorContainer.dispatchEvent(createChoiceDisplayChangedEvent(field, FlowScreenFieldType.RadioButtons));
+            await ticks(1);
+            expect(usebyMock.invokeUsedByAlertModal).not.toBeCalled();
+        });
+    });
+    describe('Switching Display Type Screen Choice field with dataType IS String', () => {
+        let screenEditorElement;
+        let screen;
+        beforeEach(() => {
+            mockScreenReducer = jest.fn((state, event, node) => {
+                return actual.screenReducer(state, event, node);
+            });
+
+            screen = createTestScreen(SCREEN_NAME, ['Checkbox']);
+            screen.showHeader = true;
+            screen.elementType = ELEMENT_TYPE.SCREEN;
+            screen.fields = [];
+            screenField = createTestScreenField(SCREEN_FIELD_NAME, ScreenFieldName.Checkbox, SCREEN_NO_DEF_VALUE, {
+                dataType: 'String',
+                validation: false,
+                helpText: false
+            });
+            screenField.singleOrMultiSelect = ChoiceDisplayOptions.MULTI_SELECT;
+            screenField.fieldType = FlowScreenFieldType.DropdownBox;
+            screen.fields.push(screenField);
+            screenEditorElement = createComponentUnderTest({ node: screen });
+
+            // Make sure screen is created with the expected fields.
+            expect(screen.fields).toHaveLength(1);
+        });
+        it('Should NOT invoke a modal when switching to MultiSelectCheckboxes', async () => {
+            // The field is used somewhere
+            usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
+            // Select the field to be changed.
+            const canvas = getScreenEditorCanvas(screenEditorElement);
+            const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
+
+            const field = screenEditorElement.node.fields[0];
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+            await ticks(1);
+
+            // Dispatch change Display Type
+            editorContainer.dispatchEvent(
+                createChoiceDisplayChangedEvent(field, FlowScreenFieldType.MultiSelectCheckboxes)
+            );
+            await ticks(1);
+            expect(usebyMock.invokeUsedByAlertModal).not.toBeCalled();
+        });
+        it('Should NOT invoke a modal when switching to RadioButtonsMultiSelectCheckboxes', async () => {
+            // The field is used somewhere
+            usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
+            // Select the field to be changed.
+            const canvas = getScreenEditorCanvas(screenEditorElement);
+            const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
+
+            const field = screenEditorElement.node.fields[0];
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+            await ticks(1);
+
+            // Dispatch change Display Type
+            editorContainer.dispatchEvent(createChoiceDisplayChangedEvent(field, FlowScreenFieldType.RadioButtons));
+            await ticks(1);
+            expect(usebyMock.invokeUsedByAlertModal).not.toBeCalled();
         });
     });
 });

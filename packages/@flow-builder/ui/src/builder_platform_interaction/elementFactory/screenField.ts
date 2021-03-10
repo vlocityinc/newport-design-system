@@ -12,7 +12,8 @@ import {
     getScreenFieldType,
     InputsOnNextNavToAssocScrnOption,
     getScreenFieldName,
-    ScreenFieldName
+    ScreenFieldName,
+    ChoiceDisplayOptions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -55,7 +56,8 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         storeOutputAutomatically,
         dynamicTypeMappings,
         fields,
-        inputsOnNextNavToAssocScrn
+        inputsOnNextNavToAssocScrn,
+        singleOrMultiSelect
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -85,6 +87,9 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
     } else {
         storeOutputAutomatically = undefined;
         type = screenField.fieldType === FlowScreenFieldType.ObjectProvided ? type : getScreenFieldType(screenField);
+
+        singleOrMultiSelect = setSingleOrMultiSelectValue(type);
+
         if (isRegionField(screenField)) {
             inputParameters = inputParameters.map((inputParameter) => createInputParameter(inputParameter));
         } else {
@@ -137,9 +142,30 @@ export function createScreenField(screenField: UI.ScreenField, isNewField = fals
         dynamicTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
         objectFieldReference !== undefined ? { objectFieldReference } : {},
-        defaultValueFerovObject
+        defaultValueFerovObject,
+        singleOrMultiSelect ? { singleOrMultiSelect } : undefined
     );
 }
+
+const setSingleOrMultiSelectValue = (type) => {
+    let singleOrMultiSelect;
+    if (
+        type &&
+        type.fieldType &&
+        (type.fieldType === FlowScreenFieldType.RadioButtons || type.fieldType === FlowScreenFieldType.DropdownBox)
+    ) {
+        singleOrMultiSelect = ChoiceDisplayOptions.SINGLE_SELECT;
+    } else if (
+        type &&
+        type.fieldType &&
+        (type.fieldType === FlowScreenFieldType.MultiSelectCheckboxes ||
+            type.fieldType === FlowScreenFieldType.MultiSelectPicklist)
+    ) {
+        singleOrMultiSelect = ChoiceDisplayOptions.MULTI_SELECT;
+    }
+
+    return singleOrMultiSelect;
+};
 
 const getCommonValues = (screenField) => {
     const { defaultValueDataType, defaultSelectedChoiceReference } = screenField;

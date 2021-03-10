@@ -5,7 +5,8 @@ import {
     createChoiceAddedEvent,
     createChoiceChangedEvent,
     createChoiceDeletedEvent,
-    createChoiceDisplayChangedEvent
+    createChoiceDisplayChangedEvent,
+    createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -20,21 +21,15 @@ import {
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import {
     hasScreenFieldVisibilityCondition,
-    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME
+    SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME,
+    ChoiceDisplayOptions
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
-import { usedBy } from 'builder_platform_interaction/usedByLib';
-import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 
 export const DISPLAY_TYPE_COMBOBOX_SELECTOR = 'builder_platform_interaction-screen-property-field.display-combobox';
-
-export enum ChoiceDisplayOptions {
-    SINGLE_SELECT = 'SingleSelect',
-    MULTI_SELECT = 'MultiSelect'
-}
 
 /*
  * Screen element property editor for the radio field.
@@ -43,7 +38,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
     private _field;
-    private singleOrMultiSelectOption;
     expandedSectionNames = [CHOICES_SECTION_NAME];
     _activePicklistValues = [];
     _oldPicklistChoiceData;
@@ -69,6 +63,11 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     @api
     editorParams;
 
+    renderedCallback() {
+        // This is needed to select the correct value if the warning is displayed.
+        this.getDisplayTypeLightningCombobox().value = this.displayTypeValue;
+    }
+
     get defaultValueResourcePickerConfig() {
         // If choice references contains at least one picklist choice set or record choice set, return
         // ferovResourcePickerConfig. Otherwise, return  currentStaticChoicesResourcePickerConfig.
@@ -93,13 +92,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get isStringDataType() {
         const { dataType = null } = this.field;
         return dataType === 'String';
-    }
-
-    get isSingleSelectDisplayTypeSelected() {
-        return (
-            this.displayTypeValue === FlowScreenFieldType.DropdownBox ||
-            this.displayTypeValue === FlowScreenFieldType.RadioButtons
-        );
     }
 
     updateActivePicklistValues(fieldChoiceData) {
@@ -186,48 +178,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     handleSingleOrMultiSelectChange = (event) => {
         event.stopPropagation();
-        this.singleOrMultiSelectOption = event.detail.value;
+        this.dispatchEvent(createSingleOrMultiChoiceTypeChangedEvent(this.field, event.detail.value));
     };
-
-    isWarningNeeded(newDisplayType) {
-        const usedByElements = usedBy([this.field.guid]);
-        return (
-            this.isSingleSelectDisplayTypeSelected &&
-            (isMultiSelectCheckboxField({ fieldType: newDisplayType }) ||
-                isMultiSelectPicklistField({ fieldType: newDisplayType })) &&
-            !this.isStringDataType &&
-            usedByElements.length > 1
-        );
-    }
-
-    displayWarning() {
-        invokeModal({
-            headerData: {
-                headerTitle: LABELS.choiceDisplayTypeWarningHeader
-            },
-            bodyData: {
-                bodyTextOne: LABELS.choiceDisplayTypeWarningBody
-            },
-            footerData: {
-                buttonOne: {
-                    buttonLabel: LABELS.okayButtonLabel
-                }
-            }
-        });
-    }
 
     handleChoiceDisplayTypeChanged = (event) => {
         event.stopPropagation();
-        if (event && event.detail) {
-            const newDisplayType = event.detail.value;
-            if (this.isWarningNeeded(newDisplayType)) {
-                this.singleOrMultiSelectOptionValue = ChoiceDisplayOptions.SINGLE_SELECT;
-                this.getDisplayTypeLightningCombobox().value = this.displayTypeValue;
-                this.displayWarning();
-            } else {
-                this.dispatchEvent(createChoiceDisplayChangedEvent(this.field, event.detail.value));
-            }
-        }
+        this.dispatchEvent(createChoiceDisplayChangedEvent(this.field, event.detail.value));
     };
 
     get fieldChoices() {
@@ -360,23 +316,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         ];
     }
 
-    set singleOrMultiSelectOptionValue(value) {
-        this.singleOrMultiSelectOption = value;
-    }
-
     get singleOrMultiSelectOptionValue() {
-        if (this.singleOrMultiSelectOption) {
-            return this.singleOrMultiSelectOption;
-        } else if (isMultiSelectPicklistField(this.field) || isMultiSelectCheckboxField(this.field)) {
-            this.singleOrMultiSelectOption = ChoiceDisplayOptions.MULTI_SELECT;
-        } else {
-            this.singleOrMultiSelectOption = ChoiceDisplayOptions.SINGLE_SELECT;
-        }
-        return this.singleOrMultiSelectOption;
+        return this.field.singleOrMultiSelect;
     }
 
     get displayTypeOptions() {
-        if (this.singleOrMultiSelectOption === ChoiceDisplayOptions.SINGLE_SELECT) {
+        if (this.singleOrMultiSelectOptionValue === ChoiceDisplayOptions.SINGLE_SELECT) {
             return [
                 {
                     label: this.labels.fieldTypeLabelPicklist,

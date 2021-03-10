@@ -39,6 +39,11 @@ const DATA_TYPE_TO_FIELD_NAME = {
     [FLOW_DATA_TYPE.BOOLEAN.value]: ScreenFieldName.Checkbox
 };
 
+export enum ChoiceDisplayOptions {
+    SINGLE_SELECT = 'SingleSelect',
+    MULTI_SELECT = 'MultiSelect'
+}
+
 /**
  * All screen field types
  * Property type represents the actual data type of the field (used as part of ferov handling)
