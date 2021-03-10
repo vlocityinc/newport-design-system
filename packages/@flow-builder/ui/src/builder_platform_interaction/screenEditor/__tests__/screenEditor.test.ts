@@ -206,6 +206,28 @@ describe('Event handling on editor', () => {
             expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
             expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
         });
+        it('invokes the delete confirmation modal when the target is a section', async () => {
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[8]));
+            await ticks(1);
+            const callParams = invokeModal.mock.calls[0][0];
+            expect(callParams.headerData.headerTitle).toBe(LABELS.deleteConfirmation);
+            expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteSectionConsequence);
+            expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
+            expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
+            expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+        });
+        it('invokes the delete confirmation modal when the target is a column of a section', async () => {
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[8].fields[0]));
+            await ticks(1);
+            const callParams = invokeModal.mock.calls[0][0];
+            expect(callParams.headerData.headerTitle).toBe(LABELS.deleteColumnConfirmation);
+            expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteColumnConsequence);
+            expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
+            expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
+            expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+        });
         it('calls the provided callback post confirmation modal', async () => {
             // handleDeleteScreenElement - Field (onscreenelementdeleted)
             await ticks(1);

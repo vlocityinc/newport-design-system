@@ -62,6 +62,9 @@ import errorMessage from '@salesforce/label/FlowBuilderScreenEditor.errorMessage
 import deleteAlternativeText from '@salesforce/label/FlowBuilderScreenEditor.deleteAlternativeText';
 import cancel from '@salesforce/label/FlowBuilderScreenEditor.cancel';
 import deleteConfirmation from '@salesforce/label/FlowBuilderScreenEditor.deleteConfirmation';
+import deleteColumnConfirmation from '@salesforce/label/FlowBuilderScreenEditor.deleteColumnConfirmation';
+import deleteColumnConsequence from '@salesforce/label/FlowBuilderScreenEditor.deleteColumnConsequence';
+import deleteSectionConsequence from '@salesforce/label/FlowBuilderScreenEditor.deleteSectionConsequence';
 import deleteConsequence from '@salesforce/label/FlowBuilderScreenEditor.deleteConsequence';
 import errorIconTitle from '@salesforce/label/FlowBuilderScreenEditor.errorIconTitle';
 import togglePropertiesPanelTitle from '@salesforce/label/FlowBuilderScreenEditor.togglePropertiesPanelTitle';
@@ -205,6 +208,9 @@ export const LABELS = {
     cancel,
     deleteConfirmation,
     deleteConsequence,
+    deleteColumnConfirmation,
+    deleteColumnConsequence,
+    deleteSectionConsequence,
     errorIconTitle,
     togglePropertiesPanelTitle,
     apiNameLabel,

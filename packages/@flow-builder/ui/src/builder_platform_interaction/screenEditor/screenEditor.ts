@@ -4,7 +4,9 @@ import {
     isScreen,
     getAllScreenFieldTypes,
     processScreenExtensionTypes,
-    processRequiredParamsForExtensionsInScreen
+    processRequiredParamsForExtensionsInScreen,
+    isRegionContainerField,
+    isRegionField
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { screenReducer } from './screenReducer';
@@ -299,13 +301,22 @@ export default class ScreenEditor extends LightningElement {
                     event.callback();
                 }
             };
+            const element = event.detail.screenElement;
+            let title = LABELS.deleteConfirmation;
+            let bodyText = LABELS.deleteConsequence;
+            if (isRegionContainerField(element)) {
+                bodyText = LABELS.deleteSectionConsequence;
+            } else if (isRegionField(element)) {
+                title = LABELS.deleteColumnConfirmation;
+                bodyText = LABELS.deleteColumnConsequence;
+            }
             // Invoking the delete confirmation modal
             invokeModal({
                 headerData: {
-                    headerTitle: LABELS.deleteConfirmation
+                    headerTitle: title
                 },
                 bodyData: {
-                    bodyTextOne: LABELS.deleteConsequence
+                    bodyTextOne: bodyText
                 },
                 footerData: {
                     buttonOne: {
