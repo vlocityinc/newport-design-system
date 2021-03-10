@@ -1449,13 +1449,23 @@ describe('modelUtils', () => {
                 { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
             ]);
+
+            flow[START_ELEMENT_GUID].childReferences = [{ childReference: 'child-reference-guid-1' }];
+            flow['child-reference-guid-1'] = {
+                elementType: 'TimeTrigger',
+                label: 't1',
+                guid: 'child-reference-guid-1',
+                name: 't1',
+                offSetNumber: '1',
+                offSetUnit: 'DaysAfter',
+                timeSource: 'RecordTriggerEvent'
+            };
             const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
                 elementService(flow),
                 flow,
                 START_ELEMENT_GUID,
-                ['start-guid:0-screen1-guid', 'start-guid:1-screen2-guid']
+                [null, null]
             );
-
             expect(nextFlow).toMatchSnapshot();
         });
 
@@ -1470,6 +1480,7 @@ describe('modelUtils', () => {
                 START_ELEMENT_GUID,
                 [null, null]
             );
+            flowWithChildren[START_ELEMENT_GUID].childReferences = [];
             const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
                 elementService(flowWithChildren),
                 flowWithChildren,

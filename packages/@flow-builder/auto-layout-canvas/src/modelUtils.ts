@@ -1490,6 +1490,22 @@ export function updateChildrenOnAddingOrUpdatingTimeTriggers(
         } else {
             // To handle the case when children have not yet been added
             parentElement.children = updatedChildrenGuids;
+            // If the parent had a next element it should become the first child (with childIndex = 0)
+            const nextElementGuid = parentElement.next!;
+            const nextElement = resolveNode(flowModel, nextElementGuid) as BranchHeadNodeModel;
+            parentElement.children[0] = nextElementGuid;
+            nextElement.parent = parentElement.guid;
+            nextElement.isTerminal = true;
+            nextElement.childIndex = 0;
+            parentElement.next = null;
+
+            for (let i = 1; i < updatedChildrenGuids.length; i++) {
+                const endElement = createEndElement(elementService, flowModel) as BranchHeadNodeModel;
+                endElement.childIndex = i;
+                endElement.parent = parentElement.guid;
+                endElement.isTerminal = true;
+                updatedChildrenGuids[i] = endElement.guid;
+            }
         }
     } else if (children) {
         // Case when deleting all time triggers
