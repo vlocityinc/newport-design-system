@@ -31,6 +31,38 @@ const createComponentUnderTest = (props) => {
 };
 
 describe('Screen Component Visibility Section', () => {
+    describe('Labels', () => {
+        describe('Accordion section label', () => {
+            it('defaults to FlowBuilderScreenEditor.componentVisbilitySectionTitle', () => {
+                const element = createComponentUnderTest();
+
+                expect(element.accordionSectionLabel).toEqual('FlowBuilderScreenEditor.componentVisbilitySectionTitle');
+            });
+            it('correctly sets the desired value', () => {
+                const customAccordionSectionLabel = 'my own label';
+                const element = createComponentUnderTest({
+                    accordionSectionLabel: customAccordionSectionLabel
+                });
+
+                expect(element.accordionSectionLabel).toEqual(customAccordionSectionLabel);
+            });
+        });
+        describe('Visibility logic combobox label', () => {
+            it('defaults to undefined', () => {
+                const element = createComponentUnderTest();
+
+                expect(element.visibilityLogicComboboxLabel).toBeUndefined();
+            });
+            it('correctly sets the desired value', () => {
+                const customVisibilityLogicComboboxLabel = 'my own label';
+                const element = createComponentUnderTest({
+                    visibilityLogicComboboxLabel: customVisibilityLogicComboboxLabel
+                });
+
+                expect(element.visibilityLogicComboboxLabel).toEqual(customVisibilityLogicComboboxLabel);
+            });
+        });
+    });
     it('Component Visibility is not displayed when ConditionalFieldVisibility feature not present', () => {
         isConditionalFieldVisibilitySupported.mockImplementation(() => false);
 

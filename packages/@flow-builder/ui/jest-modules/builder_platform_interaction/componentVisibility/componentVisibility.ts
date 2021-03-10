@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 
 export default class ComponentVisiblity extends LightningElement {
@@ -7,4 +6,7 @@ export default class ComponentVisiblity extends LightningElement {
 
     @api
     visibilityRule;
+
+    @api
+    logicComboboxLabel;
 }

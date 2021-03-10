@@ -11,6 +11,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
+import automaticFieldLogicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.automaticFieldLogicComboboxLabel';
 
 export default class ScreenAutomaticFieldPropertiesEditor extends LightningElement {
     private static INTEGER_NUMBER_VALUES = { integer: 8, scale: 0 };
@@ -18,8 +19,9 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
 
     private labels = LABELS;
     private _field;
-    private objectManagerLink = '';
-    private expandedSectionName = '';
+
+    objectManagerLink = '';
+    visibilityLogicComboboxLabel = automaticFieldLogicComboboxLabel;
 
     set field(value) {
         this._field = value;

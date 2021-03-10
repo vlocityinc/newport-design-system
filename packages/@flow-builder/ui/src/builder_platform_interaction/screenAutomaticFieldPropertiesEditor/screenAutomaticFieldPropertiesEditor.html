@@ -58,7 +58,11 @@
             active-section-name={expandedSectionNames}
             class="slds-has-divider slds-p-top_none"
         >
-            <builder_platform_interaction-screen-component-visibility-section field={field}>
+            <builder_platform_interaction-screen-component-visibility-section
+                field={field}
+                accordion-section-label={labels.automaticFieldVisibilitySectionTitle}
+                visibility-logic-combobox-label={visibilityLogicComboboxLabel}
+            >
             </builder_platform_interaction-screen-component-visibility-section>
         </lightning-accordion>
     </div>

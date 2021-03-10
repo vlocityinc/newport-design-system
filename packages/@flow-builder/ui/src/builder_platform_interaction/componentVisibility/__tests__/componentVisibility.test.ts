@@ -86,6 +86,35 @@ describe('Component Visibility', () => {
     afterEach(() => {
         removeDocumentBodyChildren();
     });
+    describe('logic combobox label', () => {
+        it('defaults to FlowBuilderComponentVisibility.logicComboboxLabel', () => {
+            const element = createComponentUnderTest();
+
+            expect(element.logicComboboxLabel).toEqual('FlowBuilderComponentVisibility.logicComboboxLabel');
+        });
+        it('defaults to FlowBuilderComponentVisibility.logicComboboxLabel if logicComboboxLabel set to null', () => {
+            const element = createComponentUnderTest({ logicComboboxLabel: null, visibilityRule: getVisibilityRule() });
+
+            expect(element.logicComboboxLabel).toEqual('FlowBuilderComponentVisibility.logicComboboxLabel');
+        });
+        it('defaults to FlowBuilderComponentVisibility.logicComboboxLabel if logicComboboxLabel set to undefined', () => {
+            const element = createComponentUnderTest({
+                logicComboboxLabel: undefined,
+                visibilityRule: getVisibilityRule()
+            });
+
+            expect(element.logicComboboxLabel).toEqual('FlowBuilderComponentVisibility.logicComboboxLabel');
+        });
+        it('correctly sets the desired value', () => {
+            const customLogicComboboxLabel = 'my own label';
+            const element = createComponentUnderTest({
+                logicComboboxLabel: customLogicComboboxLabel,
+                visibilityRule: getVisibilityRule()
+            });
+
+            expect(element.logicComboboxLabel).toEqual(customLogicComboboxLabel);
+        });
+    });
     it('when click condition, shows popover', () => {
         const element = createComponentUnderTest({
             visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])

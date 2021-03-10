@@ -44,7 +44,7 @@ import choiceDisplayType from '@salesforce/label/FlowBuilderScreenEditor.choiceD
 import buttonHelpTextAltText from '@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText';
 import screenContainerOptions from '@salesforce/label/FlowBuilderScreenEditor.screenContainerOptions';
 import screenContainerTooltip from '@salesforce/label/FlowBuilderScreenEditor.screenContainerTooltip';
-import componentVisbilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.componentVisbilitySectionTitle';
+import componentVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.componentVisbilitySectionTitle';
 import showHeader from '@salesforce/label/FlowBuilderScreenEditor.showHeader';
 import showFooter from '@salesforce/label/FlowBuilderScreenEditor.showFooter';
 import navigationOptions from '@salesforce/label/FlowBuilderScreenEditor.navigationOptions';
@@ -138,6 +138,7 @@ import altTextVisibilityCondition from '@salesforce/label/FlowBuilderScreenEdito
 import nonePicklistPlaceholder from '@salesforce/label/FlowBuilderScreenEditor.nonePicklistPlaceholder';
 import choiceDisplayTypeWarningHeader from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypeWarningHeader';
 import choiceDisplayTypeWarningBody from '@salesforce/label/FlowBuilderScreenEditor.choiceDisplayTypeWarningBody';
+import automaticFieldVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldVisibilitySectionTitle';
 
 export const LABELS = {
     errorRequired,
@@ -223,7 +224,7 @@ export const LABELS = {
     dateTimeDataType,
     dynamicRecordChoiceLabel,
     appExchangeButtonLabel,
-    componentVisbilitySectionTitle,
+    componentVisibilitySectionTitle,
     columnsSectionTitle,
     maxColumns,
     addColumn,
@@ -279,5 +280,6 @@ export const LABELS = {
     altTextVisibilityCondition,
     nonePicklistPlaceholder,
     choiceDisplayTypeWarningHeader,
-    choiceDisplayTypeWarningBody
+    choiceDisplayTypeWarningBody,
+    automaticFieldVisibilitySectionTitle
 };

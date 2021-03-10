@@ -8,7 +8,12 @@ export default class ScreenComponentVisibilitySection extends LightningElement {
     @api
     field;
 
-    labels = LABELS;
+    @api
+    accordionSectionLabel = LABELS.componentVisibilitySectionTitle;
+
+    @api
+    visibilityLogicComboboxLabel;
+
     accordionSectionName = SCREEN_FIELD_VISIBILITY_ACCORDION_SECTION_NAME;
 
     get conditionalFieldVisibilityAllowed() {

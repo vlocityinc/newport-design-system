@@ -44,7 +44,6 @@ export default class ComponentVisibility extends LightningElement {
     @api
     visibilityRule;
 
-    labels = LABELS;
     showDeleteConditionButton = false;
     conditionLogicOptions = CONDITION_LOGIC_OPTIONS;
 
@@ -54,6 +53,17 @@ export default class ComponentVisibility extends LightningElement {
     // Workaround to deal with the onclick event of the "Add Condition" button which bubbles out
     // of the ConditionList component
     _addConditionClicked = false;
+
+    _logicComboboxLabel: string | null = null;
+
+    get logicComboboxLabel() {
+        return this._logicComboboxLabel || LABELS.logicComboboxLabel;
+    }
+
+    @api
+    set logicComboboxLabel(label) {
+        this._logicComboboxLabel = label;
+    }
 
     get conditionsWithPrefixes() {
         const { conditions, conditionLogic } = this.visibilityRule;
