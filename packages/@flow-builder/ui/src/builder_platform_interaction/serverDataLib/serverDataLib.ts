@@ -48,7 +48,8 @@ export const SERVER_ACTION_TYPE = {
     RUN_DEBUG: 'runDebug',
     RETRIEVE_INTERVIEW_HISTORY: 'retrieveInterviewHistory',
     GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS: 'getObjectManagerUrls',
-    RESUME_DEBUG_INTERVIEW: 'resumeDebugInterview'
+    RESUME_DEBUG_INTERVIEW: 'resumeDebugInterview',
+    GET_AUTOMATIC_FIELD_BETA_URLS: 'getAutomaticFieldBetaUrls'
 };
 
 const actionConfig = {
@@ -97,7 +98,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.RUN_DEBUG]: 'c.runDebugInterview',
     [SERVER_ACTION_TYPE.RETRIEVE_INTERVIEW_HISTORY]: 'c.retrieveInterviewHistory',
     [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: 'c.getObjectManagerUrls',
-    [SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW]: 'c.resumeDebugInterview'
+    [SERVER_ACTION_TYPE.RESUME_DEBUG_INTERVIEW]: 'c.resumeDebugInterview',
+    [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS]: 'c.getAutomaticFieldBetaUrls'
 };
 
 let auraFetch;
@@ -196,7 +198,8 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_PALETTE]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: (params) => params.builderType,
     [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS]: () =>
-        SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS
+        SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS,
+    [SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS]: () => SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS
 };
 
 const fetchOnceCache = {};

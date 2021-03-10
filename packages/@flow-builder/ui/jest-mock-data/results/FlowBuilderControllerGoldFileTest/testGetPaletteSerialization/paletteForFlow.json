@@ -57,10 +57,6 @@
           {
             "name":"RecordDelete",
             "type":"element"
-          },
-          {
-            "name":"Rollback",
-            "type":"element"
           }
         ]
       }

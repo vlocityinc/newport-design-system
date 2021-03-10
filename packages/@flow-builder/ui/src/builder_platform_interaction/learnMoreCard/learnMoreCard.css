@@ -1,0 +1,8 @@
+.learn-more-card {
+    border-radius: var(--lwc-borderRadiusMedium);
+    background-color: var(--lwc-brandLight);
+}
+
+.popup-footer {
+    background-color: transparent;
+}

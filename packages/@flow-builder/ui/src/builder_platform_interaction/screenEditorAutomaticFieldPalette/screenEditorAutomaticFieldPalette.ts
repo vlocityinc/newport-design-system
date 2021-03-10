@@ -1,4 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
@@ -56,6 +57,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     showNoFieldIllustration = false;
     showSpinner = false;
     labels = LABELS;
+    knowledgeArticleLink = '';
     crudFilter: CrudFilter = ({ createable, updateable }) => createable || updateable;
 
     @api
@@ -98,10 +100,21 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     @api
+    get knowledgeArticleUrl() {
+        return this.knowledgeArticleLink;
+    }
+
+    @api
     setRecordVariableAndResetPill(value: string) {
         this.isRecordVariableSetViaApi = true;
         this.setRecordVariableAndErrorMessage(value, null);
         this.resetPill();
+    }
+
+    connectedCallback() {
+        fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS).then(({ automaticFieldKnowledgeArticle }) => {
+            this.knowledgeArticleLink = automaticFieldKnowledgeArticle;
+        });
     }
 
     /**

@@ -1,0 +1,43 @@
+<template>
+    <div class="slds-m-top_small slds-m-horizontal_small slds-p-horizontal_xx-small learn-more-card">
+        <lightning-icon icon-name="utility:info_alt" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+        <lightning-button
+            variant="base"
+            label={popupTriggerLabel}
+            title={popupTriggerTitle}
+            class="slds-text-body_small"
+            onclick={handlePopupTriggerClick}
+        ></lightning-button>
+        <span class="slds-text-body_small"><lightning-formatted-text value={sideText}></lightning-formatted-text></span>
+    </div>
+    <lightning-popup aria-describedby="popup-body" onautofocus={handlePopupAutofocus}>
+        <div class="slds-popover slds-popover_large slds-nubbin_top-left">
+            <lightning-button-icon
+                icon-name="utility:close"
+                variant="bare"
+                title={popupCloseButtonTitle}
+                alternative-text={popupCloseButtonAssistiveText}
+                onclick={handlePopupCloseClick}
+                class="slds-float_right slds-popover__close"
+            >
+            </lightning-button-icon>
+            <div id="popup-body" class="slds-popover__body">
+                <lightning-formatted-text value={popupBodyText}></lightning-formatted-text>
+            </div>
+            <footer class="slds-popover__footer slds-p-vertical_x-small popup-footer">
+                <div class="slds-grid slds-grid_vertical-align-center">
+                    <lightning-icon
+                        icon-name="utility:open"
+                        size="x-small"
+                        class="slds-m-right_xx-small"
+                    ></lightning-icon>
+                    <lightning-formatted-url
+                        value={popupLinkUrl}
+                        label={popupLinkLabel}
+                        target="_blank"
+                    ></lightning-formatted-url>
+                </div>
+            </footer>
+        </div>
+    </lightning-popup>
+</template>

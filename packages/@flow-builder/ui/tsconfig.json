@@ -95,6 +95,7 @@
             "builder_platform_interaction/invocableActionLib": ["./src/builder_platform_interaction/invocableActionLib/invocableActionLib.ts"],
             "builder_platform_interaction/keyboardShortcutsListBody": ["./src/builder_platform_interaction/keyboardShortcutsListBody/keyboardShortcutsListBody.ts"],
             "builder_platform_interaction/labelDescription": ["./src/builder_platform_interaction/labelDescription/labelDescription.ts"],
+            "builder_platform_interaction/learnMoreCard": ["./src/builder_platform_interaction/learnMoreCard/learnMoreCard.ts"],
             "builder_platform_interaction/leftPanel": ["./src/builder_platform_interaction/leftPanel/leftPanel.ts"],
             "builder_platform_interaction/leftPanelElements": ["./src/builder_platform_interaction/leftPanelElements/leftPanelElements.ts"],
             "builder_platform_interaction/leftPanelResources": ["./src/builder_platform_interaction/leftPanelResources/leftPanelResources.ts"],

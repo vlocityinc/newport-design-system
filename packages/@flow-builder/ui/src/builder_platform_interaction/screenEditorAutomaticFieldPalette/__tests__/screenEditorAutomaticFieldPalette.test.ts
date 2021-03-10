@@ -22,6 +22,7 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     dragStartEvent
 } from 'builder_platform_interaction/builderTestUtils';
+import { automaticFieldBetaUrls as mockAutomaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 
 let mockAccountFields = accountFields;
@@ -77,6 +78,20 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         InputsOnNextNavToAssocScrnOption,
         getFieldByGuid,
         getScreenFieldName
+    };
+});
+jest.mock('builder_platform_interaction/serverDataLib', () => {
+    const { SERVER_ACTION_TYPE } = jest.requireActual('builder_platform_interaction/serverDataLib');
+    return {
+        SERVER_ACTION_TYPE,
+        fetchOnce: (serverActionType) => {
+            switch (serverActionType) {
+                case SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS:
+                    return Promise.resolve(mockAutomaticFieldBetaUrls);
+                default:
+                    return Promise.reject().catch();
+            }
+        }
     };
 });
 
@@ -157,6 +172,9 @@ describe('Screen editor automatic field palette', () => {
         });
         test('should not display spinner', () => {
             expect(getSpinner(element)).toBeNull();
+        });
+        test('should have received the expected knowledge article URL from the backend', () => {
+            expect(element.knowledgeArticleUrl).toEqual(mockAutomaticFieldBetaUrls.automaticFieldKnowledgeArticle);
         });
     });
 

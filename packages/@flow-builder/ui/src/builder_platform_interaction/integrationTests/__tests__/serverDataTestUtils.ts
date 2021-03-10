@@ -55,6 +55,7 @@ import { lightningWithApexContainsSObjectActionDetails } from 'serverData/GetInv
 import { context } from 'serverData/GetContext/context.json';
 import { allTypesApexActionDetails } from 'serverData/GetInvocableActionDetails/allTypesApexActionDetails.json';
 import { objectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
+import { automaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
 
 const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -236,6 +237,7 @@ const allAuraActions = {
     }),
     'c.getTriggerTypeInfo': createGetter([]),
     'c.getObjectManagerUrls': createGetter(objectManagerUrls),
+    'c.getAutomaticFieldBetaUrls': createGetter(automaticFieldBetaUrls),
     'c.getContext': createGetter(context)
 };
 
