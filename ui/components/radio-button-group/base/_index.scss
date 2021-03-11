@@ -118,7 +118,7 @@
       #{$left}: -0.125rem;
       bottom: -0.125rem;
       display: block;
-      z-index: 999;
+      z-index: ($z-index-default + 1);
       border-radius: 0.25rem;
     }
 
