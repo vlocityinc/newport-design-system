@@ -322,10 +322,11 @@ export function addEndElementsAndConnectorsTransform(
  * the resulting state with the original state
  *
  * @param state - A Free Form Canvas UI flow state
+ * @param flowDefId - Flow definition id
  * @param gackIfFail - If we should gack if the conversion fails
  * @return true if can be convertd to Auto Layout Canvas
  */
-export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, gackIfFail = true) {
+export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, flowDefId: string, gackIfFail = true) {
     let canConvert = false;
 
     try {
@@ -341,7 +342,7 @@ export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, gackIfFa
         logInteraction(
             'flcConversionUtils',
             'flcConversionUtils',
-            { operationStatus: 'convert to auto layout canvas failed' },
+            { flowDefId, operationStatus: 'convert to auto layout canvas failed' },
             ''
         );
 
@@ -360,9 +361,10 @@ export function canConvertToAutoLayoutCanvas(storeState: UI.StoreState, gackIfFa
  * the resulting state with the original state
  *
  * @param storeState - An Auto Canvas UI flow state
+ * @param flowDefId - Flow definition id
  * @return true if can be converted to Free From
  */
-export function canConvertToFreeFormCanvas(storeState: UI.StoreState) {
+export function canConvertToFreeFormCanvas(storeState: UI.StoreState, flowDefId: string) {
     let canConvert = false;
 
     try {
@@ -384,7 +386,7 @@ export function canConvertToFreeFormCanvas(storeState: UI.StoreState) {
         logInteraction(
             'flcConversionUtils',
             'flcConversionUtils',
-            { operationStatus: CONVERT_TO_FREE_FORM_FAILED },
+            { flowDefId, operationStatus: CONVERT_TO_FREE_FORM_FAILED },
             ''
         );
 
@@ -397,11 +399,12 @@ export function canConvertToFreeFormCanvas(storeState: UI.StoreState) {
 // adds conversion check to convertToAutoLayoutCanvas
 const safeConvertToAutoLayoutCanvas = (
     storeState: UI.StoreState,
-    options: Partial<ConvertToAutoLayoutCanvasOptions> = {}
+    options: Partial<ConvertToAutoLayoutCanvasOptions> = {},
+    flowDefId: string
 ): UI.StoreState => {
     storeState = deepCopy(storeState);
 
-    if (!canConvertToAutoLayoutCanvas(storeState)) {
+    if (!canConvertToAutoLayoutCanvas(storeState, flowDefId)) {
         throw new Error(CONVERT_TO_AUTO_LAYOUT_FAILED);
     }
 
@@ -412,6 +415,7 @@ const safeConvertToAutoLayoutCanvas = (
 const safeConvertToFreeFormCanvas = (storeState: UI.StoreState, startElementCoords: number[]): UI.StoreState => {
     storeState = deepCopy(storeState);
 
+    // need to add flowDefId as param when below code is not skipped any more
     // skip for now
     // if (!canConvertToFreeFormCanvas(storeState)) {
     //     throw new Error(CONVERT_TO_FREE_FORM_FAILED);
