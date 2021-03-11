@@ -315,13 +315,14 @@ export default class ScreenEditor extends LightningElement {
                 title = LABELS.deleteColumnConfirmation;
                 bodyText = LABELS.deleteColumnConsequence;
             }
+            const isAutomaticField = event.detail.screenElement.fieldType === FlowScreenFieldType.ObjectProvided;
             // Invoking the delete confirmation modal
             invokeModal({
                 headerData: {
-                    headerTitle: title
+                    headerTitle: isAutomaticField ? LABELS.automaticFieldDeleteConfirmation : title
                 },
                 bodyData: {
-                    bodyTextOne: bodyText
+                    bodyTextOne: isAutomaticField ? LABELS.automaticFieldDeleteConsequence : bodyText
                 },
                 footerData: {
                     buttonOne: {

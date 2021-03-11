@@ -48,13 +48,13 @@ export default class ComponentVisibility extends LightningElement {
     conditionLogicOptions = CONDITION_LOGIC_OPTIONS;
 
     // used to display the popover at a given index after rendering
-    _popoverIndex = -1;
+    private _popoverIndex = -1;
 
     // Workaround to deal with the onclick event of the "Add Condition" button which bubbles out
     // of the ConditionList component
-    _addConditionClicked = false;
+    private _addConditionClicked = false;
 
-    _logicComboboxLabel: string | null = null;
+    private _logicComboboxLabel: string | null = null;
 
     get logicComboboxLabel() {
         return this._logicComboboxLabel || LABELS.logicComboboxLabel;

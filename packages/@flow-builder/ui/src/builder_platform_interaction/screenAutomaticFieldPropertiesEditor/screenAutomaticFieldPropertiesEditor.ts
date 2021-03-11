@@ -35,8 +35,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
         return this._field;
     }
 
-    constructor() {
-        super();
+    connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_OBJECT_MANAGER_URLS, {
             disableErrorModal: true
         }).then((data) => this.setObjectManagerUrl(data));

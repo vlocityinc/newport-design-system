@@ -39,6 +39,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ScreenFieldName, ChoiceDisplayOptions } from 'builder_platform_interaction/screenEditorUtils';
 import { flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel, accountSObjectVariable } from 'mock/storeData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { createAutomaticField } from 'builder_platform_interaction/elementFactory';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
@@ -154,6 +155,9 @@ jest.mock('../screenReducer', () => {
         screenReducer: (state, event, node) => mockScreenReducer(state, event, node)
     };
 });
+
+const NB_SCREEN_FIELDS = 10;
+
 describe('Event handling on editor', () => {
     let screenEditorElement;
     beforeEach(() => {
@@ -167,12 +171,17 @@ describe('Event handling on editor', () => {
         screen.elementType = ELEMENT_TYPE.SCREEN;
         const sectionField = createTestScreenField('Section', 'Section');
         const columnField = createTestScreenField('Column', 'Column');
+        const automaticScreenField = createAutomaticField(
+            ScreenFieldName.TextBox,
+            `${accountSObjectVariable.name}.Name`
+        );
         columnField.inputParameters.push({ name: 'width', value: 12 });
         sectionField.fields.push(columnField);
         screen.fields.push(sectionField);
+        screen.fields.push(automaticScreenField);
         screenEditorElement = createComponentUnderTest({ node: screen });
 
-        expect(screen.fields).toHaveLength(9);
+        expect(screen.fields).toHaveLength(NB_SCREEN_FIELDS);
     });
 
     describe('add screen field', () => {
@@ -218,39 +227,41 @@ describe('Event handling on editor', () => {
     });
 
     describe('delete screen field event', () => {
+        const getFieldWithObjectFieldReference = (objectFieldReference: string): UI.ScreenField => {
+            return screenEditorElement.node.fields.find((field) => field.objectFieldReference === objectFieldReference);
+        };
+        const expectInvokeModalCalledForDeleteConfirmation = (
+            expectedDeleteConfirmationLabel: string,
+            expectedDeleteConsequenceLabel: string
+        ) => {
+            const callParams = invokeModal.mock.calls[0][0];
+            expect(callParams.headerData.headerTitle).toBe(expectedDeleteConfirmationLabel);
+            expect(callParams.bodyData.bodyTextOne).toBe(expectedDeleteConsequenceLabel);
+            expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
+            expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
+            expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+        };
         it('invokes the delete confirmation modal with the right data', async () => {
             // handleDeleteScreenElement - Field (onscreenelementdeleted)
             const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
             await ticks(1);
-            const callParams = invokeModal.mock.calls[0][0];
-            expect(callParams.headerData.headerTitle).toBe(LABELS.deleteConfirmation);
-            expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteConsequence);
-            expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
-            expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
-            expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+            expectInvokeModalCalledForDeleteConfirmation(LABELS.deleteConfirmation, LABELS.deleteConsequence);
         });
         it('invokes the delete confirmation modal when the target is a section', async () => {
             const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[8]));
             await ticks(1);
-            const callParams = invokeModal.mock.calls[0][0];
-            expect(callParams.headerData.headerTitle).toBe(LABELS.deleteConfirmation);
-            expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteSectionConsequence);
-            expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
-            expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
-            expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+            expectInvokeModalCalledForDeleteConfirmation(LABELS.deleteConfirmation, LABELS.deleteSectionConsequence);
         });
         it('invokes the delete confirmation modal when the target is a column of a section', async () => {
             const canvas = getScreenEditorCanvas(screenEditorElement);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[8].fields[0]));
             await ticks(1);
-            const callParams = invokeModal.mock.calls[0][0];
-            expect(callParams.headerData.headerTitle).toBe(LABELS.deleteColumnConfirmation);
-            expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteColumnConsequence);
-            expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
-            expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
-            expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+            expectInvokeModalCalledForDeleteConfirmation(
+                LABELS.deleteColumnConfirmation,
+                LABELS.deleteColumnConsequence
+            );
         });
         it('calls the provided callback post confirmation modal', async () => {
             // handleDeleteScreenElement - Field (onscreenelementdeleted)
@@ -262,6 +273,16 @@ describe('Event handling on editor', () => {
             await ticks(1);
             invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonCallback();
             expect(callback).toHaveBeenCalled();
+        });
+        it('invokes the delete confirmation with accurate labels on automatic field', () => {
+            const canvas = getScreenEditorCanvas(screenEditorElement);
+            canvas.dispatchEvent(
+                createScreenElementDeletedEvent(getFieldWithObjectFieldReference(`${accountSObjectVariable.name}.Name`))
+            );
+            expectInvokeModalCalledForDeleteConfirmation(
+                LABELS.automaticFieldDeleteConfirmation,
+                LABELS.automaticFieldDeleteConsequence
+            );
         });
     });
 

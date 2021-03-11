@@ -140,6 +140,8 @@ import automaticFieldHighlightHeaderFieldLabel from '@salesforce/label/FlowBuild
 import altTextVisibilityCondition from '@salesforce/label/FlowBuilderScreenEditor.altTextVisibilityCondition';
 import nonePicklistPlaceholder from '@salesforce/label/FlowBuilderScreenEditor.nonePicklistPlaceholder';
 import automaticFieldVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldVisibilitySectionTitle';
+import automaticFieldDeleteConfirmation from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConfirmation';
+import automaticFieldDeleteConsequence from '@salesforce/label/FlowBuilderScreenEditor.automaticFieldDeleteConsequence';
 
 export const LABELS = {
     errorRequired,
@@ -283,5 +285,7 @@ export const LABELS = {
     automaticFieldHighlightHeaderFieldLabel,
     altTextVisibilityCondition,
     nonePicklistPlaceholder,
-    automaticFieldVisibilitySectionTitle
+    automaticFieldVisibilitySectionTitle,
+    automaticFieldDeleteConfirmation,
+    automaticFieldDeleteConsequence
 };
