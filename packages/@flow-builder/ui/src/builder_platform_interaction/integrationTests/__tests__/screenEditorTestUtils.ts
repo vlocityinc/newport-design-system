@@ -32,6 +32,7 @@ import Palette from 'builder_platform_interaction/palette';
 import { TestComponent } from './testComponent';
 import { getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
+import ScreenEditorAutomaticFieldLegalPopover from 'builder_platform_interaction/screenEditorAutomaticFieldLegalPopover';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -91,11 +92,53 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenEditorAutomaticFieldsPaletteTestComponent(paletteElement);
     }
 
+    public getAutomaticFieldLegalPopover() {
+        const tabset = this.getTabsetElement();
+        const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
+        const popoverElement = automaticFieldsTab
+            .shadowRoot!.querySelector('slot')!
+            .assignedNodes()[1] as ScreenEditorAutomaticFieldLegalPopover & HTMLElement;
+        return new ScreenEditorAutomaticFieldLegalPopoverTestComponent(popoverElement);
+    }
+
     public getPropertiesEditorContainer() {
         const element = this.element.shadowRoot!.querySelector(
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
         ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
         return new PropertiesEditorContainerTestComponent(element);
+    }
+}
+
+export class ScreenEditorAutomaticFieldLegalPopoverTestComponent extends TestComponent<ScreenEditorAutomaticFieldLegalPopover> {
+    public getPopupElement() {
+        return this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_POPUP) as HTMLElement & {
+            isVisible: () => boolean;
+        };
+    }
+
+    public isVisible() {
+        return this.getPopupElement().isVisible();
+    }
+
+    public async clickOnCloseButton() {
+        const popupElement = this.getPopupElement();
+        const closeButton = popupElement.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON) as HTMLElement;
+        closeButton.click();
+        await ticks();
+    }
+
+    public getFormattedUrlElement() {
+        const popupElement = this.getPopupElement();
+        return (
+            (popupElement.querySelector(SELECTORS.LIGHTNING_FORMATTED_URL) as HTMLElement & {
+                value: string;
+                label: string;
+            }) || null
+        );
+    }
+
+    public getAgreementUrl() {
+        return this.getFormattedUrlElement()?.value;
     }
 }
 

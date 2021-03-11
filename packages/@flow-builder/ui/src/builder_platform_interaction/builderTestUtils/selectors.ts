@@ -76,6 +76,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RICH_LABEL: 'builder_platform_interaction-rich-label',
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     ROW: 'builder_platform_interaction-row',
+    SCREEN_AUTOMATIC_FIELD_LEGAL_POPOVER: 'builder_platform_interaction-screen-editor-automatic-field-legal-popover',
     SCREEN_AUTOMATIC_FIELD_PALETTE: 'builder_platform_interaction-screen-editor-automatic-field-palette',
     SCREEN_AUTOMATIC_FIELD_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-automatic-field-properties-editor',
     SCREEN_CANVAS: 'builder_platform_interaction-screen-canvas',

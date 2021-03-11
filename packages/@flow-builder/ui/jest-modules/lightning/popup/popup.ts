@@ -7,7 +7,17 @@
 import { LightningElement, api } from 'lwc';
 
 export default class Popup extends LightningElement {
+    _visible = false;
     @api alignment;
-    @api close() {}
-    @api show() {}
+    @api close() {
+        this._visible = false;
+    }
+    @api show() {
+        this._visible = true;
+    }
+
+    @api
+    isVisible() {
+        return this._visible;
+    }
 }

@@ -22,6 +22,7 @@
         "^lightning/baseCombobox$": "<rootDir>/jest-modules/lightning/baseCombobox/baseCombobox",
         "^lightning/inputRichText$": "<rootDir>/jest-modules/lightning/inputRichText/inputRichText",
         "^lightning/popup$": "<rootDir>/jest-modules/lightning/popup/popup",
+        "^lightning/primitiveIcon$": "<rootDir>/jest-modules/lightning/primitiveIcon/primitiveIcon",
         "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1"
     },
     "moduleFileExtensions": ["ts", "js", "html"],
