@@ -48,19 +48,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 const mockInputParameters = [
     { name: { value: 'ip1' }, value: { value: 'ip1Value' }, rowIndex: 'ip1Guid' },
-    { name: { value: 'appProcessInstanceId' }, rowIndex: 'appProcessInstanceIdGuid' },
-    { name: { value: 'appProcessStepInstanceId' }, rowIndex: 'appProcessStepInstanceIdGuid' },
-    { name: { value: 'actionInput__recordId' }, rowIndex: 'actionInput__recordIdGuid' },
-    {
-        name: { value: 'actionInput__stepDescription' },
-        value: { value: 'step description' },
-        rowIndex: 'actionInput__stepDescriptionGuid'
-    },
-    {
-        name: { value: 'actionInput__stepLabel' },
-        value: { value: 'step_label' },
-        rowIndex: 'actionInput__stepLabelGuid'
-    }
+    { name: { value: 'ActionInput__orchInstanceId' }, rowIndex: 'ActionInput__orchInstanceIdGuid' },
+    { name: { value: 'ActionInput__stepInstanceId' }, rowIndex: 'ActionInput__stepInstanceIdGuid' },
+    { name: { value: 'ActionInput__recordId' }, rowIndex: 'ActionInput__recordIdGuid' }
 ];
 const mockActionDetails = {
     parameters: mockInputParameters

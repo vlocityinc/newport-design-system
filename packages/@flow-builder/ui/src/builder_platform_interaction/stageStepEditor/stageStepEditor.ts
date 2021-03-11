@@ -51,14 +51,8 @@ export enum EXIT_CRITERIA {
     ON_DETERMINATION_COMPLETE = 'on_determination_complete'
 }
 
-// process instance id, step instance id, context record id, step label and description are common fields on all actions that are not inputs to the action itself
-const HIDDEN_INPUT_PARAMETER_NAMES = [
-    'appProcessInstanceId',
-    'appProcessStepInstanceId',
-    'actionInput__recordId',
-    'actionInput__stepDescription',
-    'actionInput__stepLabel'
-];
+// Standard inputs that should not show up as inputs associated with the selected action
+const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
 export default class StageStepEditor extends LightningElement {
     labels = LABELS;
@@ -503,10 +497,9 @@ export default class StageStepEditor extends LightningElement {
      */
     filterActionInputParameters(inputParameters: ParameterListRowItem[] = []): ParameterListRowItem[] {
         return inputParameters.filter((inputParameter: ParameterListRowItem) => {
-            return (
-                !HIDDEN_INPUT_PARAMETER_NAMES.includes(<string>inputParameter.name) &&
-                !HIDDEN_INPUT_PARAMETER_NAMES.includes((<ValueWithError>inputParameter.name).value)
-            );
+            return typeof inputParameter.name === 'string'
+                ? !inputParameter.name.startsWith(STANDARD_INPUT_PREFIX)
+                : !inputParameter.name.value.startsWith(STANDARD_INPUT_PREFIX);
         });
     }
 
