@@ -417,9 +417,9 @@ export default class StageStepEditor extends LightningElement {
 
     get entryCriteriaHelpText() {
         if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE) {
-            return this.labels.criteriaBasedOnStepHelpText;
-        } else if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE) {
             return this.labels.criteriaActionHelpText;
+        } else if (this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE) {
+            return this.labels.criteriaBasedOnStepHelpText;
         }
         // a value of null will not display any Tooltip Icon
         return null;

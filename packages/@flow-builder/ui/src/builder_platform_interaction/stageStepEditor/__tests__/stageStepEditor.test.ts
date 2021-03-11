@@ -22,6 +22,7 @@ import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/inv
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { LABELS } from '../stageStepEditorLabels';
 
 jest.mock('../stageStepReducer', () => {
     return {
@@ -188,6 +189,7 @@ describe('StageStepEditor', () => {
             editor = createComponentUnderTest(nodeParamsWithDeterminations);
             const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
             expect(entryCriteriaDropdown.value).toEqual(ENTRY_CRITERIA.ON_DETERMINATION_COMPLETE);
+            expect(entryCriteriaDropdown.fieldLevelHelp).toEqual(LABELS.criteriaActionHelpText);
         });
 
         it('Label Description Component', () => {
