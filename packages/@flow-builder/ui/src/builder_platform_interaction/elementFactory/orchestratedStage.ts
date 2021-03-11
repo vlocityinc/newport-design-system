@@ -21,15 +21,20 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createOutputParameter } from './outputParameter';
 import { createActionCall } from './actionCall';
 import { ParameterListRowItem } from './base/baseList';
-import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
-import { FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
+
+export const ASSIGNEE_PROPERTY_NAME = 'assignee';
+export const ASSIGNEE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(ASSIGNEE_PROPERTY_NAME);
 
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
 // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000095RTIIA2/view
 export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
-    actor?: ValueWithError;
+
+    // TODO: type should be Ferov
+    assignees: { assignee: any; assigneeType: string }[];
 
     entryConditions?: UI.Condition[];
     entryConditionLogic?: string;
@@ -453,7 +458,8 @@ export function createStageStep(step: StageStep): StageStep {
         entryAction,
         entryActionInputParameters = [],
         exitAction,
-        exitActionInputParameters = []
+        exitActionInputParameters = [],
+        assignees = []
     } = step;
 
     // set up Step Action
@@ -467,6 +473,31 @@ export function createStageStep(step: StageStep): StageStep {
             valueDataType: outputParameter.dataType ? outputParameter.dataType : outputParameter.valueDataType
         })
     );
+
+    // Coming from metadata object - convert assignee
+    if (
+        step.assignees &&
+        step.assignees.length > 0 &&
+        (assignees[0].assignee.stringValue || assignees[0].assignee.referenceValue)
+    ) {
+        newStep.assignees = assignees.map((assigneeFromMetadata) => {
+            return {
+                assignee: createFEROV(
+                    assigneeFromMetadata.assignee,
+                    ASSIGNEE_PROPERTY_NAME,
+                    ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+                ),
+                assigneeType: assigneeFromMetadata.assigneeType
+            };
+        });
+    } else {
+        newStep.assignees = assignees.map((assignee) => {
+            return {
+                assignee: Object.assign({}, assignee.assignee),
+                assigneeType: assignee.assigneeType
+            };
+        });
+    }
 
     // set up Step's Entry Criteria
     if (entryConditions) {
@@ -512,6 +543,29 @@ export function createOrchestratedStageMetadataObject(
             actionType: step.action ? step.action.actionType : null,
             inputParameters: inputParametersMetadata,
             description: step.description,
+            assignees: step.assignees.map((assigneeUI) => {
+                let assigneeForMetadata = assigneeUI.assignee.assignee;
+
+                let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
+                if (assigneeUI.assignee.elementReference) {
+                    assigneeForMetadata = assigneeUI.assignee.elementReference;
+                    ferovDataType = FEROV_DATA_TYPE.REFERENCE;
+                    // } else if (getResourceByUniqueIdentifier(assigneeUI.assignee.assignee)) {
+                    //     ferovDataType = getFerovDataTypeForValidId(assigneeUI.assignee.assignee);
+                }
+
+                return {
+                    assignee: createFEROVMetadataObject(
+                        {
+                            assignee: assigneeForMetadata,
+                            assigneeDataType: ferovDataType
+                        },
+                        ASSIGNEE_PROPERTY_NAME,
+                        ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+                    ),
+                    assigneeType: assigneeUI.assigneeType
+                };
+            }),
             entryActionName: step.entryAction && step.entryAction.actionName ? step.entryAction.actionName : null,
             entryActionType: step.entryAction && step.entryAction.actionType ? step.entryAction.actionType : null,
             entryActionInputParameters: entryActionInputParametersMetadata,

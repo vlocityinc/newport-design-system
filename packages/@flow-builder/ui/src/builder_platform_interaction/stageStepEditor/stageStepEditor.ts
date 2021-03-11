@@ -20,12 +20,15 @@ import { stageStepReducer } from './stageStepReducer';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
 import {
+    ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
+    ASSIGNEE_PROPERTY_NAME,
+    createFEROVMetadataObject,
     getOtherItemsInOrchestratedStage,
     ParameterListRowItem,
     StageStep
 } from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
     getParameterListWarnings,
@@ -39,6 +42,10 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getFerovDataTypeForValidId,
+    getResourceByUniqueIdentifier
+} from 'builder_platform_interaction/expressionUtils';
 
 export enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
@@ -399,8 +406,11 @@ export default class StageStepEditor extends LightningElement {
     }
 
     get actorValue() {
-        if (this.element && this.element.actor && this.element.actor.value != null) {
-            return this.element.actor;
+        if (this.element && this.element.assignees && this.element.assignees.length > 0) {
+            if (this.element.assignees[0].assignee.elementReference) {
+                return this.element.assignees[0].assignee.elementReference;
+            }
+            return this.element.assignees[0].assignee.assignee;
         }
         return null;
     }
@@ -694,12 +704,38 @@ export default class StageStepEditor extends LightningElement {
 
     handleActorChanged = (event) => {
         event.stopPropagation();
-        let newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        if (newValue === '') {
-            newValue = null;
+
+        let assignee = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        if (assignee === '') {
+            assignee = null;
         }
+        // const assignees = [
+        //     {
+        //         assignee,
+        //         assigneeType: 'User'
+        //     }
+        // ];
+
+        let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
+        if (getResourceByUniqueIdentifier(assignee)) {
+            ferovDataType = getFerovDataTypeForValidId(assignee);
+        }
+
+        const assignees = [
+            {
+                assignee: createFEROVMetadataObject(
+                    {
+                        assignee,
+                        assigneeDataType: ferovDataType
+                    },
+                    ASSIGNEE_PROPERTY_NAME,
+                    ASSIGNEE_DATA_TYPE_PROPERTY_NAME
+                ),
+                assigneeType: 'User'
+            }
+        ];
         const error = event.detail.item ? event.detail.item.error : event.detail.error;
-        const updateActor = new PropertyChangedEvent('actor', newValue, error);
+        const updateActor = new PropertyChangedEvent('assignees', assignees, error);
         this.element = stageStepReducer(this.element!, updateActor);
         this.actorErrorMessage = error;
         this.dispatchEvent(new UpdateNodeEvent(this.element));

@@ -123,7 +123,8 @@ getElementByGuid.mockImplementation((guid) => {
             inputParameters: [<ParameterListRowItem>{ name: 'ip' }],
             outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }],
             entryActionInputParameters: [<ParameterListRowItem>jest.fn()],
-            exitActionInputParameters: [<ParameterListRowItem>jest.fn()]
+            exitActionInputParameters: [<ParameterListRowItem>jest.fn()],
+            assignees: []
         };
     }
 
@@ -155,7 +156,8 @@ duplicateCanvasElementWithChildElements
         const duplicatedChildElements = {
             duplicatedStageStepGuid: {
                 guid: 'duplicatedStageStepGuid',
-                name: 'duplicatedStageStepName'
+                name: 'duplicatedStageStepName',
+                assignees: []
             }
         };
         const updatedChildReferences = [
@@ -263,21 +265,27 @@ describe('OrchestratedStage', () => {
             baseChildElement.mockClear();
         });
         it('calls baseChildElement with elementType = STAGE_STEP', () => {
-            createStageStep({});
+            createStageStep({
+                assignees: []
+            });
             expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.STAGE_STEP);
         });
 
         it('calls baseChildElement with a step type of "work step"', () => {
             const workStepLabel = 'FlowBuilderElementConfig.workStepLabel';
-            createStageStep({});
+            createStageStep({
+                assignees: []
+            });
             expect(baseChildElement.mock.calls[0][0]).toEqual({
-                stepTypeLabel: workStepLabel
+                stepTypeLabel: workStepLabel,
+                assignees: []
             });
         });
 
         it('uses existing values when passed in an item object', () => {
             const mockItem = {
-                label: 'foo'
+                label: 'foo',
+                assignees: []
             };
 
             createStageStep(mockItem);
@@ -287,7 +295,8 @@ describe('OrchestratedStage', () => {
 
         it('uses the default name and label if none provided', () => {
             const mockItem = {
-                parent: existingOrchestratedStageWithChildren.guid
+                parent: existingOrchestratedStageWithChildren.guid,
+                assignees: []
             };
 
             const item = createStageStep(mockItem);
@@ -303,7 +312,8 @@ describe('OrchestratedStage', () => {
 
         it('uses existing action if provided', () => {
             const mockItem = {
-                action: <InvocableAction>jest.fn()
+                action: <InvocableAction>jest.fn(),
+                assignees: []
             };
 
             const item = createStageStep(mockItem);
@@ -313,7 +323,8 @@ describe('OrchestratedStage', () => {
 
         it('uses existing input parameters if provided', () => {
             const mockItem = {
-                inputParameters: [<InvocableAction>jest.fn()]
+                inputParameters: [<InvocableAction>jest.fn()],
+                assignees: []
             };
 
             const item = createStageStep(mockItem);
@@ -324,13 +335,31 @@ describe('OrchestratedStage', () => {
 
         it('uses existing output parameters if provided', () => {
             const mockItem = {
-                outputParameters: [<InvocableAction>jest.fn()]
+                outputParameters: [<InvocableAction>jest.fn()],
+                assignees: []
             };
 
             const item = createStageStep(mockItem);
 
             expect(item.outputParameters).toHaveLength(1);
             expect(item.outputParameters[0]).toEqual(createOutputParameter(mockItem.outputParameters[0]));
+        });
+        it('sets assignees', () => {
+            const mockItem = {
+                assignees: [
+                    {
+                        assignee: {
+                            assignee: 'foo'
+                        },
+                        assigneeType: 'User'
+                    }
+                ]
+            };
+
+            const item = createStageStep(mockItem);
+
+            expect(item.assignees).toHaveLength(1);
+            expect(item.assignees[0]).toEqual(mockItem.assignees[0]);
         });
     });
 
@@ -344,7 +373,8 @@ describe('OrchestratedStage', () => {
                 stageSteps: [
                     {
                         guid: 'item1',
-                        entryConditions: []
+                        entryConditions: [],
+                        assignees: []
                     }
                 ]
             };
@@ -392,15 +422,18 @@ describe('OrchestratedStage', () => {
                 stageSteps: [
                     {
                         name: 'step1',
-                        guid: 'step1'
+                        guid: 'step1',
+                        assignees: []
                     },
                     {
                         name: 'step2',
-                        guid: 'step2'
+                        guid: 'step2',
+                        assignees: []
                     },
                     {
                         name: 'step3',
-                        guid: 'step3'
+                        guid: 'step3',
+                        assignees: []
                     }
                 ]
             };
@@ -621,7 +654,8 @@ describe('OrchestratedStage', () => {
             expect(pastedChildElements).toEqual({
                 duplicatedStageStepGuid: {
                     guid: 'duplicatedStageStepGuid',
-                    name: 'duplicatedStageStepName'
+                    name: 'duplicatedStageStepName',
+                    assignees: []
                 }
             });
         });
@@ -654,7 +688,8 @@ describe('OrchestratedStage', () => {
             expect(duplicatedChildElements).toEqual({
                 duplicatedStageStepGuid: {
                     guid: 'duplicatedStageStepGuid',
-                    name: 'duplicatedStageStepName'
+                    name: 'duplicatedStageStepName',
+                    assignees: []
                 }
             });
         });

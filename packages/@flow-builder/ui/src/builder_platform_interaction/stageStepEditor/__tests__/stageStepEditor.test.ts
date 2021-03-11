@@ -115,7 +115,12 @@ describe('StageStepEditor', () => {
                 value: 'someActionType'
             }
         },
-        actor: { value: 'orchestrator@salesforce.com' },
+        assignees: [
+            {
+                assignee: { assignee: 'orchestrator@salesforce.com' },
+                assigneeType: 'User'
+            }
+        ],
         inputParameters: mockInputParameters
     };
 
@@ -133,7 +138,7 @@ describe('StageStepEditor', () => {
                 value: 'someActionType'
             }
         },
-        actor: { value: 'orchestrator@salesforce.com' },
+        assignees: [{ assignee: 'orchestrator@salesforce.com', assigneeType: 'User' }],
         inputParameters: mockInputParameters,
         entryAction: {
             actionName: {
@@ -410,7 +415,7 @@ describe('StageStepEditor', () => {
             });
         });
 
-        describe('actor selection', () => {
+        describe('assignee selection', () => {
             it('sets combobox config correctly', () => {
                 const actorSelector = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
                 expect(actorSelector).toBeDefined();
@@ -443,7 +448,14 @@ describe('StageStepEditor', () => {
                 // Until then use the more brittle `.mocks`
                 expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
                     expect.objectContaining({
-                        value: comboboxEvent.detail.displayText,
+                        value: [
+                            {
+                                assignee: {
+                                    stringValue: comboboxEvent.detail.displayText
+                                },
+                                assigneeType: 'User'
+                            }
+                        ],
                         error: comboboxEvent.detail.error
                     })
                 );
@@ -462,7 +474,14 @@ describe('StageStepEditor', () => {
                 // Until then use the more brittle `.mocks`
                 expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
                     expect.objectContaining({
-                        value: itemSelectedEvent.detail.item.value,
+                        value: [
+                            {
+                                assignee: {
+                                    stringValue: itemSelectedEvent.detail.item.value
+                                },
+                                assigneeType: 'User'
+                            }
+                        ],
                         error: itemSelectedEvent.detail.item.error
                     })
                 );
