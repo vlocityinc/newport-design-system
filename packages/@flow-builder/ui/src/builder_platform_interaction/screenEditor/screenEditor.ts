@@ -7,7 +7,8 @@ import {
     processRequiredParamsForExtensionsInScreen,
     isRegionContainerField,
     isRegionField,
-    ChoiceDisplayOptions
+    ChoiceDisplayOptions,
+    ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { screenReducer } from './screenReducer';
@@ -381,33 +382,48 @@ export default class ScreenEditor extends LightningElement {
     };
 
     handleChoiceDisplayChanged = (event) => {
-        const { screenElement, newDisplayType } = event.detail;
+        this.screen = screenReducer(this.screen, event, this.selectedNode);
+        this.resetSelectedNode();
+    };
+
+    handleSingleOrMultiChoiceTypeChanged = (event) => {
+        const singleOrMulti = event.detail.newTypeChoice;
+        let newDisplayType;
+
+        newDisplayType =
+            singleOrMulti === ChoiceDisplayOptions.SINGLE_SELECT
+                ? ScreenFieldName.DropdownBox
+                : ScreenFieldName.MultiSelectCheckboxes;
+
+        newDisplayType = this.getNewDisplayTypeOrWarnUser(this.selectedNode, newDisplayType);
+
+        if (newDisplayType) {
+            this.screen = screenReducer(this.screen, event, this.selectedNode);
+            const displayTypeEvent = createChoiceDisplayChangedEvent(this.selectedNode, newDisplayType);
+            this.screen = screenReducer(this.screen, displayTypeEvent, this.selectedNode);
+        } else {
+            // Set the singleOrMulti choice type back to what it was
+            const typeChoiceEvent = createSingleOrMultiChoiceTypeChangedEvent(
+                this.selectedNode,
+                this.selectedNode.singleOrMultiSelect
+            );
+            this.screen = screenReducer(this.screen, typeChoiceEvent, this.selectedNode);
+        }
+        this.resetSelectedNode();
+    };
+
+    getNewDisplayTypeOrWarnUser(screenElement, newDisplayType) {
         const usedByElements = usedByStoreAndElementState(
             screenElement.guid,
             this.screen.guid,
             this.getAllScreenFields(this.screen.fields)
         );
         if (this.isWarningNeeded(usedByElements, screenElement, newDisplayType)) {
-            const displayTypeEvent = createChoiceDisplayChangedEvent(this.selectedNode, this.selectedNode.fieldType);
-            this.screen = screenReducer(this.screen, displayTypeEvent, this.selectedNode);
-            const typeChoiceEvent = createSingleOrMultiChoiceTypeChangedEvent(
-                this.selectedNode,
-                ChoiceDisplayOptions.SINGLE_SELECT
-            );
-            this.screen = screenReducer(this.screen, typeChoiceEvent, this.selectedNode);
-
             invokeUsedByAlertModal(usedByElements, [screenElement.guid], ELEMENT_TYPE.CHOICE);
-            this.resetSelectedNode();
-        } else {
-            this.screen = screenReducer(this.screen, event, this.selectedNode);
-            this.resetSelectedNode();
+            newDisplayType = null;
         }
-    };
-
-    handleSingleOrMultiChoiceTypeChanged = (event) => {
-        this.screen = screenReducer(this.screen, event, this.selectedNode);
-        this.resetSelectedNode();
-    };
+        return newDisplayType;
+    }
 
     isWarningNeeded(usedByElements, screenElement, newDisplayType) {
         return (

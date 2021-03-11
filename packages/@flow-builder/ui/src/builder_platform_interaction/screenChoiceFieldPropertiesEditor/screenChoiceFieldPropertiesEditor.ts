@@ -14,9 +14,7 @@ import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib'
 import {
     getFieldChoiceData,
     isMultiSelectCheckboxField,
-    isMultiSelectPicklistField,
-    isPicklistField,
-    isRadioField
+    isMultiSelectPicklistField
 } from 'builder_platform_interaction/screenEditorUtils';
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 import {
@@ -29,7 +27,7 @@ import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platfor
 const CHOICES_SECTION_NAME = 'choicesSection';
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 
-export const DISPLAY_TYPE_COMBOBOX_SELECTOR = 'builder_platform_interaction-screen-property-field.display-combobox';
+export const SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR = 'lightning-radio-group';
 
 /*
  * Screen element property editor for the radio field.
@@ -42,10 +40,8 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     _activePicklistValues = [];
     _oldPicklistChoiceData;
 
-    getDisplayTypeLightningCombobox() {
-        return this.template
-            .querySelector(DISPLAY_TYPE_COMBOBOX_SELECTOR)
-            .shadowRoot.querySelector('lightning-combobox');
+    getSingleOrMultiRadioButtons() {
+        return this.template.querySelector(SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR);
     }
 
     set field(value) {
@@ -65,7 +61,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     renderedCallback() {
         // This is needed to select the correct value if the warning is displayed.
-        this.getDisplayTypeLightningCombobox().value = this.displayTypeValue;
+        this.getSingleOrMultiRadioButtons().value = this.field.singleOrMultiSelect;
     }
 
     get defaultValueResourcePickerConfig() {
@@ -346,16 +342,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get displayTypeValue() {
-        let displayTypeValue;
-        if (isMultiSelectPicklistField(this.field)) {
-            displayTypeValue = FlowScreenFieldType.MultiSelectPicklist;
-        } else if (isMultiSelectCheckboxField(this.field)) {
-            displayTypeValue = FlowScreenFieldType.MultiSelectCheckboxes;
-        } else if (isPicklistField(this.field)) {
-            displayTypeValue = FlowScreenFieldType.DropdownBox;
-        } else if (isRadioField(this.field)) {
-            displayTypeValue = FlowScreenFieldType.RadioButtons;
-        }
-        return displayTypeValue;
+        return this.field.fieldType;
     }
 }

@@ -1,8 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import ScreenChoiceFieldPropertiesEditor, {
-    DISPLAY_TYPE_COMBOBOX_SELECTOR
-} from '../screenChoiceFieldPropertiesEditor';
+import ScreenChoiceFieldPropertiesEditor from '../screenChoiceFieldPropertiesEditor';
 import {
     query,
     createTestScreenField,
@@ -100,16 +98,14 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
 });
 
 const SELECTORS = {
-    NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
+    ...INTERACTION_COMPONENTS_SELECTORS,
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
-    DATA_TYPE: 'builder_platform_interaction-data-type-picker',
     DEFAULT_VALUE: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
     CHOICE_SELECTOR: 'builder_platform_interaction-screen-property-field[name="choice"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
-    COMPONENT_VISIBILITY: 'builder_platform_interaction-screen-component-visibility-section',
     SCALE: 'builder_platform_interaction-screen-property-field.scale',
     DISPLAY_RADIO_GROUP: 'lightning-radio-group.test-display-radio-group',
-    DISPLAY_TYPE_COMBOBOX: DISPLAY_TYPE_COMBOBOX_SELECTOR
+    DISPLAY_TYPE_COMBOBOX: 'builder_platform_interaction-screen-property-field.display-combobox'
 };
 
 const fieldName = 'field1';
@@ -144,6 +140,14 @@ const getVisualDisplayRadioGroup = (screenChoiceFieldPropEditor) => {
     return screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_RADIO_GROUP);
 };
 
+const getLabelDescription = (screenChoiceFieldPropEditor) => {
+    return screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
+};
+
+const getDataTypePicker = (screenChoiceFieldPropEditor) => {
+    return screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
+};
+
 describe('screen-choice-field-properties-editor for radio field, type String', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
@@ -161,11 +165,11 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
         expect(scale).toBeFalsy();
     });
     it('API Name field should be filled in', () => {
-        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = getLabelDescription(screenChoiceFieldPropEditor);
         expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
     it('Label field should be filled in', () => {
-        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = getLabelDescription(screenChoiceFieldPropEditor);
         expect(nameAndLabelField).toBeDefined();
         expect(nameAndLabelField.label.value).toBe(fieldName);
     });
@@ -179,12 +183,12 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
     it('Datatype drop down is set to required', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.required).toBeTruthy();
     });
     it('Datatype drop down and set', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.value).toBeDefined();
         expect(dataTypeDropDown.value.dataType).toBe('TextBox');
@@ -212,11 +216,11 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
         expect(scale).toBeFalsy();
     });
     it('API Name field should be filled in', () => {
-        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = getLabelDescription(screenChoiceFieldPropEditor);
         expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
     it('Label field should be filled in', () => {
-        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = getLabelDescription(screenChoiceFieldPropEditor);
         expect(nameAndLabelField).toBeDefined();
         expect(nameAndLabelField.label.value).toBe(fieldName);
     });
@@ -230,18 +234,18 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
     it('Datatype drop down is set to not required', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.required).toBeFalsy();
     });
     it('Datatype drop down is set to Text', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.value).toBeDefined();
         expect(dataTypeDropDown.value.dataType).toBe('TextBox');
     });
     it('Datatype drop down is disabled', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
     });
@@ -265,11 +269,11 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
         });
     });
     it('API Name field should be filled in', () => {
-        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = getLabelDescription(screenChoiceFieldPropEditor);
         expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
     it('Label field should be filled in', () => {
-        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        const nameAndLabelField = getLabelDescription(screenChoiceFieldPropEditor);
         expect(nameAndLabelField).toBeDefined();
         expect(nameAndLabelField.label.value).toBe(fieldName);
     });
@@ -283,12 +287,12 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
     it('Datatype drop down is set to not required', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.required).toBeFalsy();
     });
     it('Datatype drop down and set', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.value).toBeDefined();
         expect(dataTypeDropDown.value.dataType).toBe('Number');
@@ -473,7 +477,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
         });
     });
     it('DataType drop down is disabled', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
     });
@@ -490,7 +494,7 @@ describe('screen-choice-field-properties-editor for new field', () => {
         });
     });
     it('DataType drop down is enabled', () => {
-        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
         expect(dataTypeDropDown.typeAndCollectionDisabled).toBeFalsy();
     });
@@ -503,7 +507,10 @@ describe('screen-choise-field-properties-editor component visibility', () => {
     });
 
     it('section is present', () => {
-        const componentVisibilitySection = query(screenChoiseFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
+        const componentVisibilitySection = query(
+            screenChoiseFieldPropEditor,
+            SELECTORS.SCREEN_COMPONENT_VISIBILITY_SECTION
+        );
         expect(componentVisibilitySection).not.toBeNull();
     });
 });

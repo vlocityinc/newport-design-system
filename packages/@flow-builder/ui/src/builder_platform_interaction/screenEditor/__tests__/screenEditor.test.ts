@@ -27,7 +27,7 @@ import {
     DynamicTypeMappingChangeEvent,
     createColumnWidthChangedEvent,
     createAddAutomaticScreenFieldEvent,
-    createChoiceDisplayChangedEvent
+    createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -613,7 +613,7 @@ describe('Extension events', () => {
             name: { value: SCREEN_FIELD_NAME }
         });
     });
-    describe('Switching Display Type Screen Choice field with dataType IS NOT String', () => {
+    describe('Switching type of choice of Screen Choice field with dataType IS NOT String', () => {
         let screenEditorElement;
         let screen;
         beforeEach(() => {
@@ -630,7 +630,7 @@ describe('Extension events', () => {
                 validation: false,
                 helpText: false
             });
-            screenField.singleOrMultiSelect = ChoiceDisplayOptions.MULTI_SELECT;
+            screenField.singleOrMultiSelect = ChoiceDisplayOptions.SINGLE_SELECT;
             screenField.fieldType = FlowScreenFieldType.DropdownBox;
             screen.fields.push(screenField);
             screenEditorElement = createComponentUnderTest({ node: screen });
@@ -638,7 +638,7 @@ describe('Extension events', () => {
             // Make sure screen is created with the expected fields.
             expect(screen.fields).toHaveLength(1);
         });
-        it('Should invoke a modal when switching to MultiSelectCheckboxes', async () => {
+        it('Should invoke a modal when switching to MultiSelect', async () => {
             // The field is used somewhere
             usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
             // Select the field to be changed.
@@ -649,31 +649,15 @@ describe('Extension events', () => {
             canvas.dispatchEvent(createScreenElementSelectedEvent(field));
             await ticks(1);
 
-            // Dispatch change Display Type
+            // Dispatch Single Or Multi Choice Type changed
             editorContainer.dispatchEvent(
-                createChoiceDisplayChangedEvent(field, FlowScreenFieldType.MultiSelectCheckboxes)
+                createSingleOrMultiChoiceTypeChangedEvent(field, ChoiceDisplayOptions.MULTI_SELECT)
             );
             await ticks(1);
             expect(usebyMock.invokeUsedByAlertModal).toBeCalledWith(['someGuid'], [field.guid], 'Choice');
         });
-        it('Should NOT invoke a modal when switching to RadioButtonsMultiSelectCheckboxes', async () => {
-            // The field is used somewhere
-            usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
-            // Select the field to be changed.
-            const canvas = getScreenEditorCanvas(screenEditorElement);
-            const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
-
-            const field = screenEditorElement.node.fields[0];
-            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
-            await ticks(1);
-
-            // Dispatch change Display Type
-            editorContainer.dispatchEvent(createChoiceDisplayChangedEvent(field, FlowScreenFieldType.RadioButtons));
-            await ticks(1);
-            expect(usebyMock.invokeUsedByAlertModal).not.toBeCalled();
-        });
     });
-    describe('Switching Display Type Screen Choice field with dataType IS String', () => {
+    describe('Switching type of choice os Screen Choice field with dataType IS String', () => {
         let screenEditorElement;
         let screen;
         beforeEach(() => {
@@ -690,17 +674,17 @@ describe('Extension events', () => {
                 validation: false,
                 helpText: false
             });
-            screenField.singleOrMultiSelect = ChoiceDisplayOptions.MULTI_SELECT;
+            screenField.singleOrMultiSelect = ChoiceDisplayOptions.SINGLE_SELECT;
             screenField.fieldType = FlowScreenFieldType.DropdownBox;
             screen.fields.push(screenField);
             screenEditorElement = createComponentUnderTest({ node: screen });
 
             // Make sure screen is created with the expected fields.
             expect(screen.fields).toHaveLength(1);
-        });
-        it('Should NOT invoke a modal when switching to MultiSelectCheckboxes', async () => {
             // The field is used somewhere
             usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
+        });
+        it('Should NOT invoke a modal when switching to MultiSelect', async () => {
             // Select the field to be changed.
             const canvas = getScreenEditorCanvas(screenEditorElement);
             const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
@@ -709,28 +693,48 @@ describe('Extension events', () => {
             canvas.dispatchEvent(createScreenElementSelectedEvent(field));
             await ticks(1);
 
-            // Dispatch change Display Type
+            // Dispatch Single Or Multi Choice Type changed
             editorContainer.dispatchEvent(
-                createChoiceDisplayChangedEvent(field, FlowScreenFieldType.MultiSelectCheckboxes)
+                createSingleOrMultiChoiceTypeChangedEvent(field, ChoiceDisplayOptions.MULTI_SELECT)
             );
             await ticks(1);
             expect(usebyMock.invokeUsedByAlertModal).not.toBeCalled();
         });
-        it('Should NOT invoke a modal when switching to RadioButtonsMultiSelectCheckboxes', async () => {
-            // The field is used somewhere
-            usebyMock.usedByStoreAndElementState.mockReturnValueOnce(['someGuid']);
+        it('Should set display type to MultiSelectCheckboxes by default when swithing from singleSelect to multiSelect', async () => {
             // Select the field to be changed.
             const canvas = getScreenEditorCanvas(screenEditorElement);
             const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
 
-            const field = screenEditorElement.node.fields[0];
+            let field = screenEditorElement.node.fields[0];
             canvas.dispatchEvent(createScreenElementSelectedEvent(field));
             await ticks(1);
 
-            // Dispatch change Display Type
-            editorContainer.dispatchEvent(createChoiceDisplayChangedEvent(field, FlowScreenFieldType.RadioButtons));
+            // Dispatch Single Or Multi Choice Type changed
+            editorContainer.dispatchEvent(
+                createSingleOrMultiChoiceTypeChangedEvent(field, ChoiceDisplayOptions.MULTI_SELECT)
+            );
             await ticks(1);
-            expect(usebyMock.invokeUsedByAlertModal).not.toBeCalled();
+            field = screenEditorElement.node.fields[0];
+            expect(field.fieldType).toBe(ScreenFieldName.MultiSelectCheckboxes);
+        });
+        it('Should set display type to DropdownBox by default when swithing from multiSelect to singleSelect', async () => {
+            // Select the field to be changed.
+            const canvas = getScreenEditorCanvas(screenEditorElement);
+            const editorContainer = getScreenPropertyEditorContainer(screenEditorElement);
+
+            let field = screenEditorElement.node.fields[0];
+            screenField.singleOrMultiSelect = ChoiceDisplayOptions.MULTI_SELECT;
+            screenField.fieldType = FlowScreenFieldType.MultiSelectCheckboxes;
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+            await ticks(1);
+
+            // Dispatch Single Or Multi Choice Type changed
+            editorContainer.dispatchEvent(
+                createSingleOrMultiChoiceTypeChangedEvent(field, ChoiceDisplayOptions.SINGLE_SELECT)
+            );
+            await ticks(1);
+            field = screenEditorElement.node.fields[0];
+            expect(field.fieldType).toBe(ScreenFieldName.DropdownBox);
         });
     });
 });
