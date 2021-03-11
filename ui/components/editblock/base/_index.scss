@@ -333,7 +333,7 @@
     padding: 2rem;
     position: relative;
     width: 100%;
-    z-index: 8888;
+    z-index: $z-index-modal;
     background: $color-border-tab-active;
 
     svg.nds-editblock_close {
@@ -406,7 +406,7 @@
 
   .nds-editblock_inline__edit-block {
     position: relative;
-    z-index: 99;
+    z-index: $z-index-spinner;
     margin-top: -5.1rem;
     background-color: $color-border-tab-active;
   }
