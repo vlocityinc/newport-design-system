@@ -219,6 +219,8 @@ export default class Editor extends LightningElement {
 
     debugData;
 
+    fromEmailDebugging;
+
     _guardrailsParams;
 
     /**
@@ -2259,6 +2261,7 @@ export default class Editor extends LightningElement {
                         if (!error && !this.flowRetrieveError) {
                             this.builderMode = BUILDER_MODE.DEBUG_MODE;
                             this.hideDebugAgainButton = true;
+                            this.fromEmailDebugging = true;
                             this.debugData = debugInterviewResponseCallback(data, storeInstance, null);
                             this.clearUndoRedoStack();
                         }

@@ -14,6 +14,8 @@ import { copyAndUpdateDebugTraceObject } from 'builder_platform_interaction/debu
 export default class DebugPanel extends LightningElement {
     @api ifBlockResume;
 
+    @api fromEmailDebugging;
+
     TRANSACTION_ENTRY = 'TransactionInfoEntry';
     // initial component rendering always blocks transaction boundaries
     blockedEntries = [this.TRANSACTION_ENTRY];
@@ -26,38 +28,23 @@ export default class DebugPanel extends LightningElement {
     errorMessage = '';
     headerTitle = LABELS.debugInspector;
     showGovLim = false;
-    comboboxPlaceholderText = LABELS.basicFilter;
 
-    filterOptions = [
-        {
-            label: LABELS.basicFilter,
-            isSelected: true,
-            isDefault: true
-        },
-        {
-            label: LABELS.govLimFilter,
-            isSelected: false,
-            isDefault: false
-        },
-        {
-            label: LABELS.transactionFilter,
-            isSelected: false,
-            isDefault: false
-        }
-    ];
-
-    handleCustomFilter(event) {
-        this.filterOptions = Object.assign([], event.detail.selection);
-        for (let i = 0; i < this.filterOptions.length; i++) {
-            const option = this.filterOptions[i];
-            if (option.label === LABELS.govLimFilter) {
-                this.showGovLim = option.isSelected;
-            }
-            if (option.label === LABELS.transactionFilter) {
-                if (option.isSelected) {
-                    this.blockedEntries = this.blockedEntries.filter((e) => e === !this.TRANSACTION_ENTRY);
-                } else {
-                    this.blockedEntries.push(this.TRANSACTION_ENTRY);
+    handleFilter(event) {
+        const filterOptions = Object.assign([], event.detail.selection);
+        if (filterOptions.length === 0) {
+            this.handleDefaultFilter();
+        } else {
+            for (let i = 0; i < filterOptions.length; i++) {
+                const option = filterOptions[i];
+                if (option.label === LABELS.govLimFilter) {
+                    this.showGovLim = option.isSelected;
+                }
+                if (option.label === LABELS.transactionFilter) {
+                    if (option.isSelected) {
+                        this.blockedEntries = this.blockedEntries.filter((e) => e === !this.TRANSACTION_ENTRY);
+                    } else if (!this.blockedEntries.includes(this.TRANSACTION_ENTRY)) {
+                        this.blockedEntries.push(this.TRANSACTION_ENTRY);
+                    }
                 }
             }
         }
@@ -67,7 +54,6 @@ export default class DebugPanel extends LightningElement {
     handleDefaultFilter() {
         this.showGovLim = false;
         this.blockedEntries.push(this.TRANSACTION_ENTRY);
-        this.removeBlockedEntries();
     }
 
     get hasErrors() {
@@ -97,11 +83,11 @@ export default class DebugPanel extends LightningElement {
             const traces = copyAndUpdateDebugTraceObject(data);
             this.debugTracesFull = traces.debugTraces;
             this.debugTraceCopy = traces.copyTraces;
-            this.removeBlockedEntries();
         } else if (this.hasErrors) {
-            this.debugTraces = this.debugTraceCopy;
+            this.debugTracesFull = this.debugTraceCopy;
             this.errorMessage = data.error;
         }
+        this.removeBlockedEntries();
     }
 
     removeBlockedEntries() {

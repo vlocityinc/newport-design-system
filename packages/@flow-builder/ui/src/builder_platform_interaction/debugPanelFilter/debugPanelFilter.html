@@ -1,0 +1,44 @@
+<template>
+    <div>
+        <!-- gear icon -->
+        <lightning-button-icon
+            icon-name="utility:settings"
+            onclick={handleDropdown}
+            class="slds-m-bottom_x-small slds-m-left_small filterButton"
+            variant="border-filled"
+            size="medium"
+            title={filterOpenPopoverAltText}
+            alternative-text={filterOpenPopoverAltText}
+        >
+        </lightning-button-icon>
+
+        <!-- display selected options-->
+        <lightning-formatted-text value={selectedOptions} class="slds-m-left_small selectedOptions">
+        </lightning-formatted-text>
+    </div>
+
+    <template if:true={showOptions}>
+        <section
+            aria-label={filterPopoverAltText}
+            aria-describedby="popover-body-id"
+            class="slds-popover slds-nubbin_top-left slds-m-top_x-small"
+            role="popover"
+        >
+            <!--- close popover icon -->
+            <lightning-button-icon
+                icon-name="utility:close"
+                onclick={handleDropdown}
+                variant="bare"
+                alternative-text={filterClosePopoverAltText}
+                class="slds-float_right slds-popover__close"
+                title={filterClosePopoverAltText}
+            >
+            </lightning-button-icon>
+            <!-- popover body-->
+            <div id="popover-body-id" class="slds-popover__body">
+                <lightning-checkbox-group options={options} value={value} onchange={handleChange}>
+                </lightning-checkbox-group>
+            </div>
+        </section>
+    </template>
+</template>

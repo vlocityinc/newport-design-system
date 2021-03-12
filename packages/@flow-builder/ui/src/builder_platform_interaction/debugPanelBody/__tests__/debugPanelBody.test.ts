@@ -358,8 +358,6 @@ describe('warning icon test cases', () => {
         it('has warning icon when there variable "Equals" null', () => {
             debugPanelBody = createComponentUnderTest(varEqualsNull);
             const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
-            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
-            console.log(normal);
             expect(warningIcon).not.toBeNull();
         });
         it('has warning icon when there variable "=" null', () => {

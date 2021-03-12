@@ -3,16 +3,12 @@
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
     <div class="slds-border_bottom">
-        <div class="slds-grid slds-m-left_xxx-small slds-m-vertical_small slds-gutters">
-            <div class="slds-col slds-size_4-of-6">
-                <builder_platform_interaction-multi-select-combobox
-                    options={filterOptions}
-                    placeholder-text={comboboxPlaceholderText}
-                    oncomboboxselection={handleCustomFilter}
-                    ondefaultcomboboxselection={handleDefaultFilter}
-                >
-                </builder_platform_interaction-multi-select-combobox>
-            </div>
+        <div class="slds-m-left_xxx-small slds-m-vertical_small">
+            <builder_platform_interaction-debug-panel-filter
+                from-email-debugging={fromEmailDebugging}
+                onpanelfilter={handleFilter}
+            >
+            </builder_platform_interaction-debug-panel-filter>
         </div>
     </div>
     <div class="slds-panel__body slds-scrollable--y">

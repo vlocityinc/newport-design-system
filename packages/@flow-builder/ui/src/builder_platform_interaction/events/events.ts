@@ -118,7 +118,5 @@ export { DeleteAllConditionsEvent } from './deleteAllConditionsEvent';
 export { CreateEntryConditionsEvent } from './createEntryConditionsEvent';
 export { OrchestrationActionValueChangedEvent } from './orchestrationActionValueChangedEvent';
 export { ResumeDebugFlowEvent } from './debugPanelEvents/resumeDebugFlowEvent';
-export { MultiSelectOptionEvent } from './multiSelectComboboxEvents/multiSelectOptionEvent';
-export { MultiSelectComboboxEvent } from './multiSelectComboboxEvents/multiSelectComboboxEvent';
-export { DefaultMultiSelectComboboxEvent } from './multiSelectComboboxEvents/defaultMultiSelectComboboxEvent';
 export { ORCHESTRATED_ACTION_CATEGORY } from './orchestratedActionCategory';
+export { DebugPanelFilterEvent } from './debugPanelEvents/debugPanelFilterEvent';
