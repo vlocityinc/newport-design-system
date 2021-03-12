@@ -39,9 +39,10 @@ export default class LearnMoreCard extends LightningElement {
         });
     }
 
-    // Skipping the autofocus of the first tabbable element (which would focus the close icon)
+    // Focus the popup link instead of its first tabbable element, which would be the close icon
     handlePopupAutofocus(e: Event) {
         e.preventDefault();
+        this.template.querySelector('lightning-formatted-url').focus();
     }
 
     handlePopupKeydown(e: KeyboardEvent) {
