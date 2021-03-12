@@ -159,7 +159,7 @@ export const isAutoLayoutCanvasOnly = (processType) => {
     // TODO: This is a hack based on hardcoded process type.  This will be replaced
     //  (along with other hardcoded app process references in 234)
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008lMMtIAM/view
-    return processType === FLOW_PROCESS_TYPE.APP_PROCESS;
+    return processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
 };
 
 const COLLATION = [FLOW_PROCESS_TYPE.FLOW, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW];

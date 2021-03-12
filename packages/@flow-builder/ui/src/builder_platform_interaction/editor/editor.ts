@@ -404,9 +404,9 @@ export default class Editor extends LightningElement {
     get usePanelForPropertyEditor() {
         return (
             (this.builderConfig && this.builderConfig.usePanelForPropertyEditor) ||
-            // Hardcoded for App Process PoC
-            // TODO: remove in 232: https://gus.lightning.force.com/lightning/_classic/%2Fa07B00000089r2hIAA
-            this.properties.processType === FLOW_PROCESS_TYPE.APP_PROCESS
+            // Hardcoded for Orchestrator
+            // TODO:  W-8146747 - remove in 234
+            this.properties.processType === FLOW_PROCESS_TYPE.ORCHESTRATOR
         );
     }
 
@@ -415,8 +415,8 @@ export default class Editor extends LightningElement {
      */
     get isRightPanelVariableWidth() {
         // Hardcoded for App Process PoC
-        // TODO: remove in 232: https://gus.lightning.force.com/lightning/_classic/%2Fa07B00000089r2hIAA
-        return this.properties.processType === FLOW_PROCESS_TYPE.APP_PROCESS;
+        // TODO:  W-8146747 - remove in 234
+        return this.properties.processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
     get useNewDebugExperience() {

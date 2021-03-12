@@ -89,7 +89,7 @@
       "supportedProcessTypes":[
         "ActionCadenceFlow",
         "ActionPlan",
-        "AppProcess",
+        "Orchestrator",
         "Appointments",
         "AutoLaunchedFlow",
         "CartAsyncFlow",

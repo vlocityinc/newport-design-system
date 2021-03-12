@@ -65,7 +65,7 @@ describe('transaction controlled actions', () => {
 
 describe('isAutoLayoutCanvasOnly', () => {
     test('returns true only for app process', () => {
-        const isSupported = isAutoLayoutCanvasOnly(FLOW_PROCESS_TYPE.APP_PROCESS);
+        const isSupported = isAutoLayoutCanvasOnly(FLOW_PROCESS_TYPE.ORCHESTRATOR);
         expect(isSupported).toBe(true);
     });
     test('returns false for other process types', () => {

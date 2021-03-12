@@ -14,7 +14,7 @@ export const FLOW_PROCESS_TYPE = {
     ACTION_PLAN: 'ActionPlan',
     APPOINTMENTS: 'Appointments',
     AUTO_LAUNCHED_FLOW: 'AutoLaunchedFlow',
-    APP_PROCESS: 'AppProcess',
+    ORCHESTRATOR: 'Orchestrator',
     CHECKOUT_FLOW: 'CheckoutFlow',
     CONTACT_REQUEST_FLOW: 'ContactRequestFlow',
     CUSTOM_EVENT: 'CustomEvent',

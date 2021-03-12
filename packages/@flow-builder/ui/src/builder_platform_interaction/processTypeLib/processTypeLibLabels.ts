@@ -23,7 +23,7 @@ export const LABELS = {
     [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]: newFieldServiceMobileDescription,
     [FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB]: newFieldServiceWebDescription,
     [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: newContactRequestFlowDescription,
-    [FLOW_PROCESS_TYPE.APP_PROCESS]: newAppProcessDescription,
+    [FLOW_PROCESS_TYPE.ORCHESTRATOR]: newAppProcessDescription,
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowDescription,
