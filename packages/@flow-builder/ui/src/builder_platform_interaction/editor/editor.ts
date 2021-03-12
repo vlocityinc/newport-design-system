@@ -54,7 +54,8 @@ import {
     FLOW_STATUS,
     isSystemElement,
     FLOW_PROCESS_TYPE,
-    FLOW_TRIGGER_TYPE
+    FLOW_TRIGGER_TYPE,
+    RECOMMENDATION_STRATEGY
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -91,6 +92,7 @@ import {
     setErrorMessage,
     closeModalAndNavigateTo,
     createStartElement,
+    createVariableElement,
     isGuardrailsEnabled,
     getToolboxElements,
     getElementsMetadata,
@@ -2417,6 +2419,28 @@ export default class Editor extends LightningElement {
         storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType(payload));
 
         createStartElement(storeInstance, triggerType);
+
+        // create the variables for Recommendation Strategy Flow
+        if (processType === FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY) {
+            createVariableElement(
+                storeInstance,
+                RECOMMENDATION_STRATEGY.OUTPUT_RECOMMENDATIONS_VARIABLE,
+                FLOW_DATA_TYPE.SOBJECT.value,
+                RECOMMENDATION_STRATEGY.OBJECT_NAME,
+                true,
+                false,
+                true
+            );
+            createVariableElement(
+                storeInstance,
+                RECOMMENDATION_STRATEGY.RECORD_ID_VARIABLE,
+                FLOW_DATA_TYPE.STRING.value,
+                null,
+                false,
+                true,
+                false
+            );
+        }
         this.disableSave = false;
     };
 

@@ -11,6 +11,7 @@ import {
     decorateCanvas,
     clearCanvasDecoration
 } from 'builder_platform_interaction/actions';
+import { createVariable } from 'builder_platform_interaction/elementFactory';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_interaction/events';
@@ -740,6 +741,32 @@ export const createStartElement = (storeInstance, triggerType) => {
 
     storeInstance.dispatch(addElement(startElement));
     return startElement;
+};
+
+/**
+ *
+ * Create variable element
+ *
+ * @param {object} storeInstance store instance
+ * @param {String} name variable name
+ * @param {String} dataType data type
+ * @param {String} subtype data subtype
+ * @param {Boolean} isCollection is collection variable?
+ * @param {Boolean} isInput is input variable?
+ * @param {Boolean} isOutput is output variable?
+ */
+export const createVariableElement = (
+    storeInstance,
+    name,
+    dataType,
+    subtype,
+    isCollection = false,
+    isInput = false,
+    isOutput = false
+) => {
+    const varElement = createVariable({ name, dataType, subtype, isCollection, isInput, isOutput });
+    storeInstance.dispatch(addElement(varElement));
+    return varElement;
 };
 
 /**

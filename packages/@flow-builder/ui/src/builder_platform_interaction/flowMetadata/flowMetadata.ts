@@ -35,7 +35,8 @@ export const FLOW_PROCESS_TYPE = {
     WORKFLOW: 'Workflow',
     SALES_ENTRY_EXPERIENCE_FLOW: 'SalesEntryExperienceFlow',
     FSCLENDING: 'FSCLending',
-    ROUTING_FLOW: 'RoutingFlow'
+    ROUTING_FLOW: 'RoutingFlow',
+    RECOMMENDATION_STRATEGY: 'RecommendationStrategy'
 };
 
 export enum ELEMENT_TYPE {
@@ -381,6 +382,12 @@ export const START_ELEMENT_FIELDS = {
 
 export const COLLECTION_PROCESSOR_SUB_TYPE = {
     SORT: 'SortCollectionProcessor'
+};
+
+export const RECOMMENDATION_STRATEGY = {
+    OBJECT_NAME: 'Recommendation',
+    OUTPUT_RECOMMENDATIONS_VARIABLE: 'outputRecommendations',
+    RECORD_ID_VARIABLE: 'recordId'
 };
 
 export enum FlowScreenFieldType {
