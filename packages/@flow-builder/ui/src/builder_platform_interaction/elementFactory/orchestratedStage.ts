@@ -478,6 +478,7 @@ export function createStageStep(step: StageStep): StageStep {
     if (
         step.assignees &&
         step.assignees.length > 0 &&
+        assignees[0].assignee &&
         (assignees[0].assignee.stringValue || assignees[0].assignee.referenceValue)
     ) {
         newStep.assignees = assignees.map((assigneeFromMetadata) => {
@@ -550,8 +551,6 @@ export function createOrchestratedStageMetadataObject(
                 if (assigneeUI.assignee.elementReference) {
                     assigneeForMetadata = assigneeUI.assignee.elementReference;
                     ferovDataType = FEROV_DATA_TYPE.REFERENCE;
-                    // } else if (getResourceByUniqueIdentifier(assigneeUI.assignee.assignee)) {
-                    //     ferovDataType = getFerovDataTypeForValidId(assigneeUI.assignee.assignee);
                 }
 
                 return {

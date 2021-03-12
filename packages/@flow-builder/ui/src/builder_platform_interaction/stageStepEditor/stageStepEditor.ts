@@ -709,12 +709,6 @@ export default class StageStepEditor extends LightningElement {
         if (assignee === '') {
             assignee = null;
         }
-        // const assignees = [
-        //     {
-        //         assignee,
-        //         assigneeType: 'User'
-        //     }
-        // ];
 
         let ferovDataType: string | null = FEROV_DATA_TYPE.STRING;
         if (getResourceByUniqueIdentifier(assignee)) {
