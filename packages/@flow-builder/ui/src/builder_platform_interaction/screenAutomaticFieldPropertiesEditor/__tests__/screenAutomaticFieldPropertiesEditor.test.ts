@@ -14,9 +14,10 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import {
     accountVariableNameAutomaticField,
     objectWithAllPossibleFieldsVariableTextFieldAutomaticField,
-    flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel
+    flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel,
+    objectWithAllPossibleFieldsVariable
 } from 'mock/storeData';
-import { createScreenFieldWithFields } from 'builder_platform_interaction/elementFactory';
+import { createScreenFieldWithFields, createAutomaticField } from 'builder_platform_interaction/elementFactory';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { objectManagerUrls as mockObjectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManagerUrls.json';
 import { CLASSIC_EXPERIENCE, getPreferredExperience } from 'builder_platform_interaction/contextLib';
@@ -211,6 +212,15 @@ describe('isRequired', () => {
         const field = createScreenFieldWithFields(accountVariableNameAutomaticField);
         const component = createComponentForTest(field);
         expect(getIsRequiredValue(component)).toBeTruthy();
+    });
+    it('is false whatever the setting is for boolean field', () => {
+        const automaticScreenField = createAutomaticField(
+            ScreenFieldName.Checkbox,
+            `${objectWithAllPossibleFieldsVariable.name}.Checkbox_Field__c`
+        );
+        const field = createScreenFieldWithFields(automaticScreenField);
+        const component = createComponentForTest(field);
+        expect(getIsRequiredValue(component)).toBe('FlowBuilderAutomaticFieldEditor.isRequiredFalse');
     });
 });
 

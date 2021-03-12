@@ -20,6 +20,10 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     private labels = LABELS;
     private _field;
 
+    private getFieldTypeName = (): ScreenFieldName => {
+        return this._field?.type.name;
+    };
+
     objectManagerLink = '';
     visibilityLogicComboboxLabel = automaticFieldLogicComboboxLabel;
 
@@ -96,7 +100,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
 
     private get dataType() {
         let dataType: String;
-        switch (this.field.type.name) {
+        switch (this.getFieldTypeName()) {
             case ScreenFieldName.DateTime: {
                 dataType = this.labels.automaticFieldDataTypeDateTime;
                 break;
@@ -161,7 +165,9 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
             // Happens when user doesn't have access to referenced entity/field
             return '';
         }
-        return required ? this.labels.automaticFieldIsRequiredTrue : this.labels.automaticFieldIsRequiredFalse;
+        return required && this.getFieldTypeName() !== ScreenFieldName.Checkbox
+            ? this.labels.automaticFieldIsRequiredTrue
+            : this.labels.automaticFieldIsRequiredFalse;
     }
 
     private get isCreateable() {
