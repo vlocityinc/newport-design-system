@@ -51,6 +51,8 @@ export enum ExtraTypeInfo {
 /**
  * Array of objects representing flow data types
  * Can be consumed by lightning-combobox
+ * TODO W-5303776: We should get info about what data types are supported for variables
+ * and constants from a service
  * TODO: Update list to use proper icons per designs, this is a dependency TD-0051198
  */
 const FLOW_DATA_TYPE = {
@@ -58,61 +60,76 @@ const FLOW_DATA_TYPE = {
         label: DATA_TYPE_LABELS.textDataTypeLabel,
         value: 'String',
         iconName: 'standard:text',
-        utilityIconName: 'utility:text'
+        utilityIconName: 'utility:text',
+        supportedForVariables: true,
+        supportedForConstants: true
     },
     SOBJECT: {
         label: DATA_TYPE_LABELS.sObjectDataTypeLabel,
         value: 'SObject',
         iconName: 'standard:sobject',
-        utilityIconName: 'utility:sobject'
+        utilityIconName: 'utility:sobject',
+        supportedForVariables: true
     },
     NUMBER: {
         label: DATA_TYPE_LABELS.numberDataTypeLabel,
         value: 'Number',
         iconName: 'standard:topic2',
-        utilityIconName: 'utility:topic2'
+        utilityIconName: 'utility:topic2',
+        supportedForVariables: true,
+        supportedForConstants: true
     },
     CURRENCY: {
         label: DATA_TYPE_LABELS.currencyDataTypeLabel,
         value: 'Currency',
         iconName: 'standard:currency',
-        utilityIconName: 'utility:currency'
+        utilityIconName: 'utility:currency',
+        supportedForVariables: true,
+        supportedForConstants: true
     },
     BOOLEAN: {
         label: DATA_TYPE_LABELS.booleanDataTypeLabel,
         value: 'Boolean',
         iconName: 'standard:cms',
-        utilityIconName: 'utility:crossfilter'
+        utilityIconName: 'utility:crossfilter',
+        supportedForVariables: true,
+        supportedForConstants: true
     },
     DATE: {
         label: DATA_TYPE_LABELS.dateDataTypeLabel,
         value: 'Date',
         iconName: 'standard:event',
-        utilityIconName: 'utility:event'
+        utilityIconName: 'utility:event',
+        supportedForVariables: true,
+        supportedForConstants: true
     },
     DATE_TIME: {
         label: DATA_TYPE_LABELS.dateTimeDataTypeLabel,
         value: 'DateTime',
         iconName: 'standard:date_time',
-        utilityIconName: 'utility:date_time'
+        utilityIconName: 'utility:date_time',
+        supportedForVariables: true
     },
     PICKLIST: {
         label: DATA_TYPE_LABELS.picklistDataTypeLabel,
         value: 'Picklist',
         iconName: 'standard:picklist_type',
-        utilityIconName: 'utility:picklist_type'
+        utilityIconName: 'utility:picklist_type',
+        supportedForVariables: true
     },
     MULTI_PICKLIST: {
         label: DATA_TYPE_LABELS.multiPicklistDataTypeLabel,
         value: 'Multipicklist',
         iconName: 'standard:multi_picklist',
-        utilityIconName: 'utility:multi_picklist'
+        utilityIconName: 'utility:multi_picklist',
+        supportedForVariables: true
     },
     APEX: {
         label: DATA_TYPE_LABELS.apexDataTypeLabel,
         value: 'Apex',
         iconName: 'standard:apex',
-        utilityIconName: 'utility:apex'
+        utilityIconName: 'utility:apex',
+        supportedForVariables: true
     },
     LIGHTNING_COMPONENT_OUTPUT: {
         label: DATA_TYPE_LABELS.lightningComponentOutputDataTypeLabel,

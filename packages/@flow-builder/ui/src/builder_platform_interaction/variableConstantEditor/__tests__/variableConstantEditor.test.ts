@@ -18,7 +18,7 @@ import {
     getResourceByUniqueIdentifier,
     getFerovDataTypeForValidId
 } from 'builder_platform_interaction/expressionUtils';
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
@@ -205,9 +205,7 @@ describe('variable-constant-editor', () => {
             const dataTypePicker = variableEditor.shadowRoot
                 .querySelector('builder_platform_interaction-data-type-picker')
                 .shadowRoot.querySelector('lightning-combobox');
-            // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT, ACTION_OUTPUT nor SUBFLOW_OUTPUT
-            const expectedLength = Object.values(FLOW_DATA_TYPE).length - 3;
-            expect(dataTypePicker.options).toHaveLength(expectedLength);
+            expect(dataTypePicker.options).toHaveLength(10);
         });
 
         it('handles change event when data type option is selected', async () => {

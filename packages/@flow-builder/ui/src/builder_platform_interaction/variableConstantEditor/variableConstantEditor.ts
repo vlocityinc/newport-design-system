@@ -53,19 +53,8 @@ const DATATYPES_WITH_NO_DEFAULT_VALUE = [
     FLOW_DATA_TYPE.SOBJECT.value,
     FLOW_DATA_TYPE.APEX.value
 ];
-const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE).filter(
-    (type) =>
-        type !== FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT &&
-        type !== FLOW_DATA_TYPE.ACTION_OUTPUT &&
-        type !== FLOW_DATA_TYPE.SUBFLOW_OUTPUT
-);
-const flowDataTypeConstantMenuItems = [
-    FLOW_DATA_TYPE.STRING,
-    FLOW_DATA_TYPE.NUMBER,
-    FLOW_DATA_TYPE.CURRENCY,
-    FLOW_DATA_TYPE.DATE,
-    FLOW_DATA_TYPE.BOOLEAN
-];
+const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE).filter((type) => type.supportedForVariables);
+const flowDataTypeConstantMenuItems = Object.values(FLOW_DATA_TYPE).filter((type) => type.supportedForConstants);
 
 // TODO: This is being used by the assessWarning function, which is not being used at this time. I will leave
 // this here hard coded and we will move it to the labels file if and when we start using the assessWarning function.
