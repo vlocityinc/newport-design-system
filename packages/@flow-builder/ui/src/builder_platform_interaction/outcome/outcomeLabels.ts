@@ -17,7 +17,7 @@ import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutc
 import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
 import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderOutcome.onlyWhenChangesMeetConditions';
 import outcomeExecuteWhenOptionsHelptext from '@salesforce/label/FlowBuilderOutcome.outcomeExecuteWhenOptionsHelptext';
-import disableRadioGroupInformationText from '@salesforce/label/FlowBuilderOutcome.disableRadioGroupInformationText';
+import disableRadioGroupDecisionText from '@salesforce/label/FlowBuilderOutcome.disableRadioGroupDecisionText';
 
 export const LABELS = {
     outcomeDetailsHeader,
@@ -37,7 +37,7 @@ export const LABELS = {
     everyTimeConditionsMet,
     onlyWhenChangesMeetConditions,
     outcomeExecuteWhenOptionsHelptext,
-    disableRadioGroupInformationText
+    disableRadioGroupDecisionText
 };
 
 export const EXECUTE_OUTCOME_WHEN_OPTION_VALUES = {
