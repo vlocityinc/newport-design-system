@@ -44,6 +44,12 @@ export default class LearnMoreCard extends LightningElement {
         e.preventDefault();
     }
 
+    handlePopupKeydown(e: KeyboardEvent) {
+        if (e.key === 'Escape') {
+            e.stopPropagation();
+        }
+    }
+
     handlePopupCloseClick() {
         this.popup.close();
     }

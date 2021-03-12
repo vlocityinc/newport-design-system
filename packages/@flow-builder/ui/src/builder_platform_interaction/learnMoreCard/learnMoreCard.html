@@ -10,7 +10,7 @@
         ></lightning-button>
         <span class="slds-text-body_small"><lightning-formatted-text value={sideText}></lightning-formatted-text></span>
     </div>
-    <lightning-popup aria-describedby="popup-body" onautofocus={handlePopupAutofocus}>
+    <lightning-popup aria-describedby="popup-body" onautofocus={handlePopupAutofocus} onkeydown={handlePopupKeydown}>
         <div class="slds-popover slds-popover_large slds-nubbin_top-left">
             <lightning-button-icon
                 icon-name="utility:close"
