@@ -1101,8 +1101,9 @@ export const elementTypeToConfigMap: {
         // A step in a stage is not a canvas element, but is a first class element
         descriptor: 'builder_platform_interaction:stageStepEditor',
         nodeConfig: {
-            iconName: 'standard:screen',
-            utilityIconName: 'utility:screen'
+            iconName: 'standard:work_order_item',
+            utilityIconName: 'standard:work_order_item',
+            iconBackgroundColor: 'background-dark-blue'
         },
         labels: {
             singular: LABELS.stageStepSingularLabel,
