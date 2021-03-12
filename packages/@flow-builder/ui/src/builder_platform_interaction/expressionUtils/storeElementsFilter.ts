@@ -94,8 +94,13 @@ function getFilterInformation(config: ElementFilterConfig = {}) {
  * */
 function addUncommittedElementsFromLocalStorage(elements) {
     const screenElements = flattenElements(getScreenElement());
-    if (screenElements && screenElements.length > 0) {
-        elements = elements.concat(screenElements);
+    const existingGuids = elements?.length > 0 ? elements.map((element) => element?.guid) : [];
+    if (screenElements?.length > 0) {
+        for (let x = 0; x < screenElements.length; x++) {
+            if (!existingGuids.includes(screenElements[x].guid)) {
+                elements.push(screenElements[x]);
+            }
+        }
     }
     return elements;
 }
