@@ -75,8 +75,8 @@ export default class FlcConnectorMenu extends Menu {
             this.hasEndElement,
             this.isPasteAvailable,
             this.canMergeEndedBranch,
-            this.canAddGoto,
-            this.hasGoto
+            false,
+            false
         );
     }
 
