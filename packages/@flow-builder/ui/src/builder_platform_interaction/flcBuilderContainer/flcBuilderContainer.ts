@@ -202,4 +202,13 @@ export default class FlcBuilderContainer extends LightningElement {
             flcBuilder.closeNodeOrConnectorMenu();
         }
     }
+
+    /**
+     * Set focus on flcBuilder when focus is set on the container
+     */
+    @api
+    focus() {
+        const flcBuilder = this.template.querySelector('builder_platform_interaction-flc-builder');
+        flcBuilder.focus();
+    }
 }

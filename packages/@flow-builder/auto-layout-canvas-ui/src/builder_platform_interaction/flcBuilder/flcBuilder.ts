@@ -493,6 +493,14 @@ export default class FlcBuilder extends LightningElement {
     }
 
     /**
+     * When focus is initiated on the canvas, set focus on the Start element
+     */
+    @api
+    focus() {
+        this._focusOnNode(this.getStartElementGuid());
+    }
+
+    /**
      * Zoom to full scale when clicking on a node or connector button
      *
      * @param {Object} param0  - The top and left position of the menu button
@@ -723,15 +731,19 @@ export default class FlcBuilder extends LightningElement {
         flcFlow.findConnector(pathToFocusNode, event.detail.index).focus();
     };
 
+    _focusOnNode = (elementGuid: Guid) => {
+        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
+        const flcFlow = this.template.querySelector('builder_platform_interaction-flc-flow');
+        flcFlow.findNode(pathToFocusNode).focus();
+    };
+
     /**
      * Handles moving focus to the node from the Start/Regular Node Menu
      * @param event - moveFocusToNode event coming from nodeMenu or startMenu
      */
     handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
         event.stopPropagation();
-        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: event.detail.focusGuid }]);
-        const flcFlow = this.template.querySelector('builder_platform_interaction-flc-flow');
-        flcFlow.findNode(pathToFocusNode).focus();
+        this._focusOnNode(event.detail.focusGuid);
     };
 
     /**

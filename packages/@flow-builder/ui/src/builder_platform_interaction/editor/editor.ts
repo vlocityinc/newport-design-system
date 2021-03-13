@@ -170,7 +170,8 @@ const PANELS = {
     HEADER: 'builder_platform_interaction-header',
     TOOLBAR: 'builder_platform_interaction-toolbar',
     TOOLBOX: 'builder_platform_interaction-left-panel',
-    CANVAS: 'builder_platform_interaction-canvas-container'
+    FREEFORM_CANVAS: 'builder_platform_interaction-canvas-container',
+    AUTOLAYOUT_CANVAS: 'builder_platform_interaction-flc-builder-container'
 };
 
 const EDITOR_COMPONENT_CONFIGS = {
@@ -1872,6 +1873,15 @@ export default class Editor extends LightningElement {
         }
     };
 
+    /**
+     * Get currently active canvas component (autolayout or freeform)
+     */
+    _getCanvasComponent = () => {
+        return (
+            this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS) || this.template.querySelector(PANELS.FREEFORM_CANVAS)
+        );
+    };
+
     handleShiftFocus = (shiftBackward) => {
         const currentlyFocusedElement =
             this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
@@ -1879,7 +1889,7 @@ export default class Editor extends LightningElement {
         switch (currentlyFocusedElement) {
             case PANELS.HEADER:
                 if (shiftBackward) {
-                    this.template.querySelector(PANELS.CANVAS).focus();
+                    this._getCanvasComponent().focus();
                 } else {
                     this.template.querySelector(PANELS.TOOLBAR).focus();
                 }
@@ -1888,22 +1898,30 @@ export default class Editor extends LightningElement {
             case PANELS.TOOLBAR:
                 if (shiftBackward) {
                     this.template.querySelector(PANELS.HEADER).focus();
-                } else {
+                } else if (this.template.querySelector(PANELS.TOOLBOX)) {
                     this.template.querySelector(PANELS.TOOLBOX).focus();
+                } else {
+                    this._getCanvasComponent().focus();
                 }
+
                 break;
 
             case PANELS.TOOLBOX:
                 if (shiftBackward) {
                     this.template.querySelector(PANELS.TOOLBAR).focus();
                 } else {
-                    this.template.querySelector(PANELS.CANVAS).focus();
+                    this._getCanvasComponent().focus();
                 }
                 break;
 
-            case PANELS.CANVAS:
+            case PANELS.AUTOLAYOUT_CANVAS:
+            case PANELS.FREEFORM_CANVAS:
                 if (shiftBackward) {
-                    this.template.querySelector(PANELS.TOOLBOX).focus();
+                    if (this.template.querySelector(PANELS.TOOLBOX)) {
+                        this.template.querySelector(PANELS.TOOLBOX).focus();
+                    } else {
+                        this.template.querySelector(PANELS.TOOLBAR).focus();
+                    }
                 } else {
                     this.template.querySelector(PANELS.HEADER).focus();
                 }
