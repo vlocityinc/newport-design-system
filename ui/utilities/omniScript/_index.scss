@@ -52,3 +52,63 @@
     }
   }
 }
+
+@mixin reset-size($size, $columns: 12) {
+  @for $i from 1 through $columns {
+      .nds-#{$size}-size_#{$i}-of-#{$columns} {
+          width: percentage($i/$columns);
+          flex: 0 0 percentage($i/$columns);
+          max-width: percentage($i/$columns);
+      }
+  }
+}
+
+@mixin reset-order($size: false) {
+  @for $i from 1 through 12 {
+      .nds#{if($size, "-" + $size, "")}-order_#{$i} {
+          order: $i;
+      }
+  }
+}
+
+// Support for flexipage regions.
+.nds-flexipage-container {
+  &_small {
+
+    [class*=nds-medium-size],
+    [class*=nds-large-size] {
+      width: 100%; // override width
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    @include reset-order();
+
+    .nds-modal__container {
+      @include reset-size(medium);
+      @include reset-size(large);
+      @include reset-order(medium);
+      @include reset-order(large);
+    }
+
+    .omniscript-sfl-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &_medium {
+    [class*=nds-large-size] {
+      width: 100%;
+    }
+
+    @include reset-order(medium);
+
+    .slds-modal__container {
+      @include reset-size(large);
+      @include reset-order(large);
+    }
+  }
+
+}
