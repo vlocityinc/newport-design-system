@@ -26,7 +26,8 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { isScheduledPathSupported } from 'builder_platform_interaction/processTypeLib';
+import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
     getConnectionProperties,
     addRegularConnectorToAvailableConnections
@@ -76,10 +77,12 @@ export function findStartYOffset(startElement: UI.Start): number {
  *      a) Create - Time Triggers are always available
  *      b) Update/CreateAndUpdate - Time Triggers are only available when
  *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
+ * 2) Process type is autolaunched
  * @param startElement start element metadata structure
  */
 export function shouldSupportTimeTriggers(startElement: UI.Start | Metadata.Start) {
     return (
+        isScheduledPathSupported(getProcessType()) &&
         startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
         startElement.object &&
         (startElement.recordTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||

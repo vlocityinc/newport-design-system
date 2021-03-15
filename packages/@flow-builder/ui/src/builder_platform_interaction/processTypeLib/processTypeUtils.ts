@@ -162,6 +162,14 @@ export const isAutoLayoutCanvasOnly = (processType) => {
     return processType === FLOW_PROCESS_TYPE.ORCHESTRATOR;
 };
 
+/**
+ * Scheduled Paths are supported exclusively for Auto Launched Flows. Returns true iff process type is auto launched.
+ * @param processtype
+ */
+export const isScheduledPathSupported = (processType) => {
+    return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+};
+
 const COLLATION = [FLOW_PROCESS_TYPE.FLOW, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW];
 
 const compareProcessTypes = (left, right) => {

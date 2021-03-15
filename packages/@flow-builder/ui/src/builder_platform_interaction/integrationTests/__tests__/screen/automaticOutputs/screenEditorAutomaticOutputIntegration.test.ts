@@ -29,6 +29,10 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
             return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
                 : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+        }),
+        // isScheduledPathSupported shall return true iff process type is Autolaunched
+        isScheduledPathSupported: jest.fn(() => {
+            return false;
         })
     };
 });

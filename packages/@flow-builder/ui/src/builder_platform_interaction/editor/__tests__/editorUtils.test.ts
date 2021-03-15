@@ -161,7 +161,8 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     return {
         isConfigurableStartSupported: jest.fn().mockImplementation(() => {
             return true;
-        })
+        }),
+        isScheduledPathSupported: jest.fn()
     };
 });
 
@@ -209,7 +210,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             return {
                 guid: 'startGuid'
             };
-        })
+        }),
+        getProcessType: jest.fn()
     };
 });
 

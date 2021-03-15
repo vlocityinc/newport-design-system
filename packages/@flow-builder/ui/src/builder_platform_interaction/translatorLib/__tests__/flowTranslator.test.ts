@@ -54,7 +54,8 @@ function resetMockGenerateGuidPseudoRandom() {
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     return Object.assign({}, actual, {
-        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn().mockReturnValue('Supported')
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn().mockReturnValue('Supported'),
+        isScheduledPathSupported: jest.fn().mockReturnValue(true)
     });
 });
 

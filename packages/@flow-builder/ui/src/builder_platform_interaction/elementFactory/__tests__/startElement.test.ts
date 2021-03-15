@@ -56,7 +56,7 @@ const existingStartElementWithChildren = {
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeUtils', () => ({
-    getProcessType: jest.fn(),
+    getProcessType: jest.fn().mockName('getProcessType').mockReturnValue('AutoLaunchedFlow'),
     getElementByGuid: jest.fn()
 }));
 
@@ -175,6 +175,13 @@ describe('Start element', () => {
 
             it('No object is defined', () => {
                 expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+            });
+
+            describe('and processType is not autolaunched', () => {
+                it('scheduled paths should not be supported', () => {
+                    storeLib.getProcessType = jest.fn().mockName('getProcessType').mockReturnValue('Orchestrator');
+                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
             });
 
             describe('recordTriggerType is Create', () => {
