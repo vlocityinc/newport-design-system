@@ -55,6 +55,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
 const MOCK_AFTER_SAVE: string = FLOW_TRIGGER_TYPE.AFTER_SAVE;
 const MOCK_BEFORE_SAVE: string = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+const MOCK_BEFORE_DELETE: string = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
+const MOCK_SCHEDULED: string = FLOW_TRIGGER_TYPE.SCHEDULED;
 
 const createComponentForTest = (node: {}) => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
@@ -546,6 +548,58 @@ describe('record-update-editor', () => {
                 expect(getLightningFormattedRichText(recordUpdateEditor).value).toBe(
                     'FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage'
                 );
+            });
+        });
+        describe('using triggeringRecord for before delete', () => {
+            let recordUpdateEditor, updateElement;
+            beforeAll(() => {
+                // @ts-ignore
+                Store.setMockState(recordTriggeredFlowUIModel);
+                (getTriggerType as jest.Mock).mockReturnValue(MOCK_BEFORE_DELETE);
+            });
+            afterAll(() => {
+                // @ts-ignore
+                Store.resetStore();
+            });
+            beforeEach(() => {
+                updateElement = getElementByName('Update_Triggering_Record');
+                const recordUpdateNode = getElementForPropertyEditor(updateElement);
+                recordUpdateEditor = createComponentForTest(recordUpdateNode);
+            });
+            it('has a radioGroup with 3 options', () => {
+                const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
+                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordUpdateEditor.triggeringRecordLabel');
+                expect(wayToFindRecords.options[1].label).toBe(
+                    'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
+                );
+                expect(wayToFindRecords.options[2].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
+            });
+        });
+        describe('using triggeringRecord for scheduled flow', () => {
+            let recordUpdateEditor, updateElement;
+            beforeAll(() => {
+                // @ts-ignore
+                Store.setMockState(recordTriggeredFlowUIModel);
+                (getTriggerType as jest.Mock).mockReturnValue(MOCK_SCHEDULED);
+            });
+            afterAll(() => {
+                // @ts-ignore
+                Store.resetStore();
+            });
+            beforeEach(() => {
+                updateElement = getElementByName('Update_Triggering_Record');
+                const recordUpdateNode = getElementForPropertyEditor(updateElement);
+                recordUpdateEditor = createComponentForTest(recordUpdateNode);
+            });
+            it('has a radioGroup with 3 options', () => {
+                const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
+                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordUpdateEditor.triggeringRecordLabel');
+                expect(wayToFindRecords.options[1].label).toBe(
+                    'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
+                );
+                expect(wayToFindRecords.options[2].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
             });
         });
         describe('using fields', () => {

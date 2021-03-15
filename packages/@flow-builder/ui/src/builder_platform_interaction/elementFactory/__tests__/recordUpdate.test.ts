@@ -18,7 +18,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getTriggerType: () => {
             return undefined;
         },
-        getStartObject: jest.fn().mockReturnValue({})
+        getStartObject: () => {
+            return undefined;
+        }
     });
 });
 
@@ -136,6 +138,70 @@ describe('recordUpdate Mutation', () => {
         it('has no common mutable object with subflow metadata passed as parameter', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingSobject);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingSobject);
+        });
+    });
+    describe('createRecordUpdate function for triggering record', () => {
+        describe('we expect wayToFindRecords to be triggeringRecord', () => {
+            const inputRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                inputReference: ''
+            };
+            const mutatedRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+            };
+            it.each`
+                triggerType                        | startObject
+                ${FLOW_TRIGGER_TYPE.BEFORE_SAVE}   | ${'defined'}
+                ${FLOW_TRIGGER_TYPE.AFTER_SAVE}    | ${'defined'}
+                ${FLOW_TRIGGER_TYPE.BEFORE_DELETE} | ${'defined'}
+                ${FLOW_TRIGGER_TYPE.SCHEDULED}     | ${'defined'}
+                ${FLOW_TRIGGER_TYPE.BEFORE_SAVE}   | ${undefined}
+            `('should be triggeringRecord for $triggerType and $startObject', async ({ triggerType, startObject }) => {
+                const factoriedRecordUpdate = createRecordUpdate(inputRecordUpdate, triggerType, startObject);
+                expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
+            });
+        });
+        describe('we expect wayToFindRecords to not be triggeringRecord', () => {
+            const inputRecordUpdate = {
+                name: 'RecordUpdate1',
+                inputReference: ''
+            };
+            const mutatedRecordUpdate = {
+                name: 'RecordUpdate1',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
+            };
+            it.each`
+                triggerType  | startObject
+                ${undefined} | ${'defined'}
+                ${undefined} | ${undefined}
+            `(
+                'should not be triggeringRecord for $triggerType and $startObject',
+                async ({ triggerType, startObject }) => {
+                    const factoriedRecordUpdate = createRecordUpdate(inputRecordUpdate, triggerType, startObject);
+                    expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
+                }
+            );
+        });
+        it('should be sobject reference if its triggerRecord with no triggerType', () => {
+            const inputRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                inputReference: '',
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+            };
+            const mutatedRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
+            };
+            const factoriedRecordUpdate = createRecordUpdate(inputRecordUpdate, undefined);
+            expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
         });
     });
     describe('recordUpdate function for context record ($Record)', () => {

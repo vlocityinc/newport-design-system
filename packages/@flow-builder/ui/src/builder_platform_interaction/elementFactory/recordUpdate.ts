@@ -26,7 +26,7 @@ import { createExpressionListRowItemWithoutOperator } from './base/baseList';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getTriggerType, getStartObject } from 'builder_platform_interaction/storeUtils';
-import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
@@ -90,7 +90,7 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
         object = '';
     } else if (
         wayToFindRecords === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD &&
-        !isRecordChangeTriggerType(triggerType)
+        !doesSupportTriggeringRecordUpdate(triggerType)
     ) {
         // If triggerType is not record-change, TriggeringRecord option is not available.
         // inputReference is available when switching to sObjectReference, so no need to clean it up.
@@ -127,7 +127,7 @@ function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerTy
     ) {
         // inputReference is set to $Record, when wayToFindRecords is supposed to be "Update triggering <object name> Record"
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD;
-    } else if (inputReference === '' && startObject && isRecordChangeTriggerType(triggerType)) {
+    } else if (inputReference === '' && startObject && doesSupportTriggeringRecordUpdate(triggerType)) {
         // inputReference is not set, triggerType is record-changed and object on startElement is set.
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD;
     } else {

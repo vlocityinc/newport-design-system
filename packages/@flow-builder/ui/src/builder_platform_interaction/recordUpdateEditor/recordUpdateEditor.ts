@@ -16,7 +16,7 @@ import {
     FLOW_TRIGGER_TYPE,
     RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
-import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { doesSupportTriggeringRecordUpdate } from 'builder_platform_interaction/triggerTypeLib';
 import { UPDATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 
 export default class RecordUpdateEditor extends LightningElement {
@@ -140,7 +140,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
         // add triggering record option only if its record change trigger and object on start is set
         const triggerType: string | undefined = getTriggerType();
-        if (triggerType && isRecordChangeTriggerType(triggerType) && this.dollarRecordName()) {
+        if (triggerType && doesSupportTriggeringRecordUpdate(triggerType) && this.dollarRecordName()) {
             return [
                 {
                     label: format(LABELS.triggeringRecordLabel, this.dollarRecordName().toLowerCase()),

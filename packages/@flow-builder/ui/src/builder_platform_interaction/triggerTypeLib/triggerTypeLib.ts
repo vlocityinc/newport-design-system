@@ -49,6 +49,21 @@ export const isRecordChangeTriggerType = (triggerType) => {
 };
 
 /**
+ * Whether or not this trigger type supports a triggering record update
+ * NOTE: Delete this method in favor of getTriggerHasCriteria if and when we support ScheduledJourneys
+ * @param {String} triggerType
+ * @returns {Boolean} true if the trigger type can have triggering record update, false otherwise
+ */
+export const doesSupportTriggeringRecordUpdate = (triggerType) => {
+    return (
+        triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
+        triggerType === FLOW_TRIGGER_TYPE.BEFORE_DELETE ||
+        triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
+        triggerType === FLOW_TRIGGER_TYPE.SCHEDULED
+    );
+};
+
+/**
  * Whether or not this trigger type has criteria
  * @param {String} triggerType
  * @returns {Boolean} true if it has criteria, false otherwise
