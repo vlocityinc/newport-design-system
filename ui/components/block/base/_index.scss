@@ -85,7 +85,8 @@
 
   // stylelint-disable-next-line selector-class-pattern
   label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'].toggleElement,
-  .nds-block_container>label~.nds-block_body[aria-expanded='false'] {
+  .nds-block_container>label~.nds-block_body[aria-expanded='false'],
+  &:not(.nds-is-open)>.nds-block_container>label~.nds-block_body {
     max-height: 0;
     overflow: hidden;
     transition: opacity 1s, max-height 1s ease-out;
