@@ -18,6 +18,11 @@ import determinationFlowSelectorHeader from '@salesforce/label/FlowBuilderStageS
 import criteriaBasedOnStepHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaBasedOnStepHelpText';
 import criteriaActionHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaActionHelpText';
 
+import recordSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectionSectionLabel';
+import recordSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectorLabel';
+import recordSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectorPlaceholder';
+import recordSelectorTooltip from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectorTooltip';
+
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
@@ -60,5 +65,9 @@ export const LABELS = {
     exitActionSelectionLabel,
     determinationFlowSelectorHeader,
     criteriaBasedOnStepHelpText,
-    criteriaActionHelpText
+    criteriaActionHelpText,
+    recordSelectionSectionLabel,
+    recordSelectorLabel,
+    recordSelectorPlaceholder,
+    recordSelectorTooltip
 };

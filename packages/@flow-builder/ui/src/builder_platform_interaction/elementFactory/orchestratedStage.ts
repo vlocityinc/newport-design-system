@@ -27,11 +27,16 @@ import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov'
 export const ASSIGNEE_PROPERTY_NAME = 'assignee';
 export const ASSIGNEE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(ASSIGNEE_PROPERTY_NAME);
 
+// Used to extra related record for display in its own input
+export const RELATED_RECORD_INPUT_PARAMETER_NAME = 'ActionInput__RecordId';
+
 // TODO: Move to UIModel.d.ts after action dependencies have been moved there
 // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000095RTIIA2/view
 export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
+
+    relatedRecordItem?: ParameterListRowItem;
 
     // TODO: type should be Ferov
     assignees: { assignee: any; assigneeType: string }[];
@@ -461,7 +466,8 @@ export function createStageStep(step: StageStep): StageStep {
         entryActionInputParameters = [],
         exitAction,
         exitActionInputParameters = [],
-        assignees = []
+        assignees = [],
+        relatedRecordItem = null
     } = step;
 
     // set up Step Action
@@ -477,6 +483,20 @@ export function createStageStep(step: StageStep): StageStep {
                 outputParameter.maxOccurs && outputParameter.maxOccurs > 1 ? true : outputParameter.isCollection
         })
     );
+
+    // Coming from the UI, just use relatedRecordItem.
+    if (relatedRecordItem) {
+        newStep.relatedRecordItem = Object.assign({}, relatedRecordItem);
+    } else {
+        // Coming from metadata.  Get the related record out of the input parameters
+        newStep.inputParameters.some((inputParameter) => {
+            if (inputParameter.name === RELATED_RECORD_INPUT_PARAMETER_NAME) {
+                newStep.relatedRecordItem = Object.assign({}, inputParameter);
+                return true;
+            }
+            return false;
+        });
+    }
 
     // Coming from metadata object - convert assignee
     if (
@@ -533,7 +553,18 @@ export function createOrchestratedStageMetadataObject(
             ? step.entryConditions.map((condition) => createConditionMetadataObject(condition))
             : null;
 
-        const inputParametersMetadata = step.inputParameters.map((p) => createInputParameterMetadataObject(p));
+        // Inject related record item input param
+        const inputParametersWithRelatedRecord: ParameterListRowItem[] = step.inputParameters.map((p) => {
+            if (p.name === RELATED_RECORD_INPUT_PARAMETER_NAME) {
+                return step.relatedRecordItem!;
+            }
+
+            return p;
+        });
+
+        const inputParametersMetadata = inputParametersWithRelatedRecord.map((p) =>
+            createInputParameterMetadataObject(p)
+        );
         const entryActionInputParametersMetadata = step.entryActionInputParameters.map((p) =>
             createInputParameterMetadataObject(p)
         );

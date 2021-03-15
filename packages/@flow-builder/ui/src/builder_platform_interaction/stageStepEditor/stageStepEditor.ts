@@ -25,6 +25,7 @@ import {
     createFEROVMetadataObject,
     getOtherItemsInOrchestratedStage,
     ParameterListRowItem,
+    RELATED_RECORD_INPUT_PARAMETER_NAME,
     StageStep
 } from 'builder_platform_interaction/elementFactory';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
@@ -100,6 +101,9 @@ export default class StageStepEditor extends LightningElement {
 
     @track
     actorErrorMessage;
+
+    recordPickerId = generateGuid();
+    recordErrorMessage;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -260,10 +264,6 @@ export default class StageStepEditor extends LightningElement {
         return this.stepStartOptions[0].value;
     }
 
-    get openSections(): string[] {
-        return ['startSection', 'itemImplementationSection', 'actorSelectionSection', 'finishSection'];
-    }
-
     get isStartCriteriaBasedOnStep(): boolean {
         return this.selectedEntryCriteria === ENTRY_CRITERIA.ON_STEP_COMPLETE;
     }
@@ -403,6 +403,33 @@ export default class StageStepEditor extends LightningElement {
             };
         }
         return null;
+    }
+
+    get recordValue() {
+        return this.element?.relatedRecordItem ? this.element.relatedRecordItem.value : null;
+    }
+
+    get recordComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.recordSelectorLabel, // Label
+            this.labels.recordSelectorPlaceholder, // Placeholder
+            this.error, // errorMessage
+            true, // literalsAllowed
+            true, // required
+            false, // disabled
+            FLOW_DATA_TYPE.STRING.value,
+            true, // enableFieldDrilldown,
+            true, // allowSObjectFields
+            LIGHTNING_INPUT_VARIANTS.STANDARD,
+            this.labels.recordSelectorTooltip // Field-level Help
+        );
+    }
+
+    get recordElementParam() {
+        return {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+            collection: false
+        };
     }
 
     get actorValue() {
@@ -733,5 +760,50 @@ export default class StageStepEditor extends LightningElement {
         this.element = stageStepReducer(this.element!, updateActor);
         this.actorErrorMessage = error;
         this.dispatchEvent(new UpdateNodeEvent(this.element));
+    };
+
+    handleRecordChanged = (event) => {
+        event.stopPropagation();
+
+        let recordIdValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        if (recordIdValue === '') {
+            recordIdValue = null;
+        }
+
+        let valueDataType: string = FEROV_DATA_TYPE.STRING;
+        if (getResourceByUniqueIdentifier(recordIdValue)) {
+            const ferovDataType: string | null = getFerovDataTypeForValidId(recordIdValue);
+            if (ferovDataType) {
+                valueDataType = ferovDataType;
+            }
+        }
+
+        const error = event.detail.item ? event.detail.item.error : event.detail.error;
+
+        const inputParam: ParameterListRowItem | undefined = this.element!.inputParameters.find((p) => {
+            const name = typeof p.name === 'string' ? p.name : p.name.value;
+            return name === RELATED_RECORD_INPUT_PARAMETER_NAME;
+        });
+
+        // Only update the element if an actual change in value has occurred
+        const sanitizedValue = removeCurlyBraces(recordIdValue);
+        if (!inputParam || !inputParam.value || (<ValueWithError>inputParam.value).value !== sanitizedValue) {
+            let valueToSet: ParameterListRowItem | null = null;
+
+            if (recordIdValue) {
+                valueToSet = {
+                    // Empty string only if no action has been selected yet
+                    rowIndex: inputParam ? inputParam.rowIndex : '',
+                    name: RELATED_RECORD_INPUT_PARAMETER_NAME,
+                    value: recordIdValue,
+                    valueDataType
+                };
+            }
+
+            const updateRecord = new PropertyChangedEvent('relatedRecordItem', valueToSet, error);
+            this.element = stageStepReducer(this.element!, updateRecord);
+
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
     };
 }

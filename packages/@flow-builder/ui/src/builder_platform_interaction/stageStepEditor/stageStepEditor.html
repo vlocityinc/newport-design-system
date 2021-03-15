@@ -124,9 +124,27 @@
     </div>
 
     <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+        <span class="slds-text-heading_small">{labels.recordSelectionSectionLabel}</span>
+        <builder_platform_interaction-ferov-resource-picker
+            class="slds-col slds-size_3-of-3 recordPicker"
+            combobox-config={recordComboBoxConfig}
+            property-editor-element-type={propertyEditorElementType}
+            element-param={recordElementParam}
+            rules={resourcePickerRules}
+            error-message={recordErrorMessage}
+            row-index={_recordPickerId}
+            oncomboboxstatechanged={handleRecordChanged}
+            onitemselected={handleRecordChanged}
+            value={recordValue}
+            is-pill-supported
+            hide-global-constants
+        ></builder_platform_interaction-ferov-resource-picker>
+    </div>
+
+    <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
         <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
         <builder_platform_interaction-ferov-resource-picker
-            class="slds-col slds-size_3-of-3"
+            class="slds-col slds-size_3-of-3 actorPicker"
             combobox-config={actorComboBoxConfig}
             property-editor-element-type={propertyEditorElementType}
             element-param={actorElementParam}

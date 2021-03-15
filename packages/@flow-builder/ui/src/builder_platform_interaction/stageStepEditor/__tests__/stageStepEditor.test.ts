@@ -46,11 +46,12 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+const RELATED_RECORD_ID = 'mockRecordId';
 const mockInputParameters = [
     { name: { value: 'ip1' }, value: { value: 'ip1Value' }, rowIndex: 'ip1Guid' },
     { name: { value: 'ActionInput__orchInstanceId' }, rowIndex: 'ActionInput__orchInstanceIdGuid' },
     { name: { value: 'ActionInput__stepInstanceId' }, rowIndex: 'ActionInput__stepInstanceIdGuid' },
-    { name: { value: 'ActionInput__recordId' }, rowIndex: 'ActionInput__recordIdGuid' }
+    { name: { value: 'ActionInput__RecordId' }, rowIndex: 'ActionInput__RecordIdGuid', value: RELATED_RECORD_ID }
 ];
 const mockActionDetails = {
     parameters: mockInputParameters
@@ -97,7 +98,8 @@ const selectors = {
     ENTRY_CRITERIA_ITEM: 'builder_platform_interaction-combobox',
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
-    ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker'
+    RELATED_RECORD_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.recordPicker',
+    ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker'
 };
 
 describe('StageStepEditor', () => {
@@ -107,6 +109,11 @@ describe('StageStepEditor', () => {
         label: 'someLabel',
         description: 'someDescription',
         entryConditions: [],
+        relatedRecordItem: {
+            name: { value: 'ActionInput__RecordId' },
+            rowIndex: 'ActionInput__RecordIdGuid',
+            value: RELATED_RECORD_ID
+        },
         action: {
             actionName: {
                 value: 'someActionName'
@@ -436,7 +443,7 @@ describe('StageStepEditor', () => {
                 });
                 expect(actorSelector.rules).toEqual([]);
                 expect(actorSelector.errorMessage).toBe(undefined);
-                expect(actorSelector.value).toBe('orchestrator@salesforce.com');
+                expect(actorSelector.value).toBe(nodeParams.assignees[0].assignee.assignee);
             });
 
             it('node should be updated on combobox state changed', () => {
@@ -482,6 +489,65 @@ describe('StageStepEditor', () => {
                                 assigneeType: 'User'
                             }
                         ],
+                        error: itemSelectedEvent.detail.item.error
+                    })
+                );
+            });
+        });
+
+        describe('related record selection', () => {
+            it('sets combobox config correctly', () => {
+                const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+                expect(recordSelector).toBeDefined();
+                expect(recordSelector.propertyEditorElementType).toBe('STAGE_STEP');
+                expect(recordSelector.elementParam).toEqual({ collection: false, dataType: 'String' });
+                expect(recordSelector.comboboxConfig).toEqual({
+                    allowSObjectFields: true,
+                    disabled: false,
+                    enableFieldDrilldown: true,
+                    errorMessage: undefined,
+                    fieldLevelHelp: 'FlowBuilderStageStepEditor.recordSelectorTooltip',
+                    label: 'FlowBuilderStageStepEditor.recordSelectorLabel',
+                    literalsAllowed: true,
+                    placeholder: 'FlowBuilderStageStepEditor.recordSelectorPlaceholder',
+                    required: true,
+                    type: 'String',
+                    variant: 'standard'
+                });
+                expect(recordSelector.rules).toEqual([]);
+                expect(recordSelector.errorMessage).toBe(undefined);
+                expect(recordSelector.value).toBe(RELATED_RECORD_ID);
+            });
+
+            it('node should be updated on combobox state changed', () => {
+                const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+                const comboboxEvent = new ComboboxStateChangedEvent(null, '{!$Record}', 'Some error', false);
+                recordSelector.dispatchEvent(comboboxEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                    expect.objectContaining({
+                        value: expect.objectContaining({ value: comboboxEvent.detail.displayText }),
+                        error: comboboxEvent.detail.error
+                    })
+                );
+            });
+
+            it('node should be updated on item selected with item', () => {
+                const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+                const itemSelectedEvent = new ItemSelectedEvent({
+                    value: 'some value',
+                    error: 'itemError',
+                    displayText: '{!$record}'
+                });
+                recordSelector.dispatchEvent(itemSelectedEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                expect(stageStepReducer.mock.calls[2][1].detail).toEqual(
+                    expect.objectContaining({
+                        value: expect.objectContaining({ value: itemSelectedEvent.detail.item.value }),
                         error: itemSelectedEvent.detail.item.error
                     })
                 );

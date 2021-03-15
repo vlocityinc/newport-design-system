@@ -11,7 +11,8 @@ import {
     createDuplicateOrchestratedStage,
     createPastedOrchestratedStage,
     getOrchestratedStageChildren,
-    getStageStepChildren
+    getStageStepChildren,
+    RELATED_RECORD_INPUT_PARAMETER_NAME
 } from '../orchestratedStage';
 import { ACTION_TYPE, CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -122,7 +123,11 @@ getElementByGuid.mockImplementation((guid) => {
             label: `${guid}-label`,
             name: `${guid}-name`,
             description: `${guid}-description`,
-            inputParameters: [<ParameterListRowItem>{ name: 'ip' }],
+            relatedRecordItem: <ParameterListRowItem>{ name: `relatedRecord-${guid}` },
+            inputParameters: [
+                <ParameterListRowItem>{ name: 'ip' },
+                <ParameterListRowItem>{ name: RELATED_RECORD_INPUT_PARAMETER_NAME }
+            ],
             outputParameters: [<ParameterListRowItem>{ name: 'op1' }, <ParameterListRowItem>{ name: 'op2' }],
             entryActionInputParameters: [<ParameterListRowItem>jest.fn()],
             exitActionInputParameters: [<ParameterListRowItem>jest.fn()],
@@ -363,6 +368,34 @@ describe('OrchestratedStage', () => {
             expect(item.assignees).toHaveLength(1);
             expect(item.assignees[0]).toEqual(mockItem.assignees[0]);
         });
+        describe('relatedRecordItem', () => {
+            it('is set from existing relatedRecordItem if present', () => {
+                const mockItem = {
+                    relatedRecordItem: { value: 'foo' }
+                };
+                const item = createStageStep(mockItem);
+
+                expect(item.relatedRecordItem).toEqual(mockItem.relatedRecordItem);
+            });
+            it('is set from input param if present', () => {
+                const mockItem = {
+                    inputParameters: [
+                        { name: 'someInputParam1', value: { value: '1' } },
+                        { name: RELATED_RECORD_INPUT_PARAMETER_NAME, value: { value: 'someValue' } },
+                        { name: 'someInputParam2', value: { value: '2' } }
+                    ]
+                };
+                const item = createStageStep(mockItem);
+
+                expect(item.relatedRecordItem).toEqual(mockItem.inputParameters[1]);
+            });
+            it('is undefined if no existing relatedRecordItem or input parameters present', () => {
+                const mockItem = {};
+                const item = createStageStep(mockItem);
+
+                expect(item.relatedRecordItem).toBeUndefined();
+            });
+        });
     });
 
     describe('createOrchestratedStageWithItemReferencesWhenUpdatingFromPropertyEditor', () => {
@@ -540,7 +573,7 @@ describe('OrchestratedStage', () => {
                 expect(orchestratedStage.stageSteps[0].description).toEqual(
                     `${orchestratedStage.stageSteps[0].guid}-description`
                 );
-                expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(1);
+                expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(2);
                 expect(orchestratedStage.stageSteps[0].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(orchestratedStage.stageSteps[0].inputParameters[0])
                 );
@@ -553,7 +586,7 @@ describe('OrchestratedStage', () => {
                 expect(orchestratedStage.stageSteps[1].description).toEqual(
                     `${orchestratedStage.stageSteps[1].guid}-description`
                 );
-                expect(orchestratedStage.stageSteps[1].inputParameters).toHaveLength(1);
+                expect(orchestratedStage.stageSteps[1].inputParameters).toHaveLength(2);
                 expect(orchestratedStage.stageSteps[1].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(orchestratedStage.stageSteps[1].inputParameters[0])
                 );
@@ -566,10 +599,28 @@ describe('OrchestratedStage', () => {
                 expect(orchestratedStage.stageSteps[2].description).toEqual(
                     `${orchestratedStage.stageSteps[2].guid}-description`
                 );
-                expect(orchestratedStage.stageSteps[2].inputParameters).toHaveLength(1);
+                expect(orchestratedStage.stageSteps[2].inputParameters).toHaveLength(2);
                 expect(orchestratedStage.stageSteps[2].inputParameters[0]).toEqual(
                     createInputParameterMetadataObject(orchestratedStage.stageSteps[2].inputParameters[0])
                 );
+            });
+            it('inject relatedRecordId in to the action inputs', () => {
+                const orchestratedStage = createOrchestratedStageMetadataObject(orchestratedStageFromStore);
+
+                expect(orchestratedStage.stageSteps[0].inputParameters).toHaveLength(2);
+                expect(orchestratedStage.stageSteps[0].inputParameters[1]).toEqual({
+                    name: `relatedRecord-${orchestratedStage.stageSteps[0].guid}`
+                });
+
+                expect(orchestratedStage.stageSteps[1].inputParameters).toHaveLength(2);
+                expect(orchestratedStage.stageSteps[1].inputParameters[1]).toEqual({
+                    name: `relatedRecord-${orchestratedStage.stageSteps[1].guid}`
+                });
+
+                expect(orchestratedStage.stageSteps[2].inputParameters).toHaveLength(2);
+                expect(orchestratedStage.stageSteps[2].inputParameters[1]).toEqual({
+                    name: `relatedRecord-${orchestratedStage.stageSteps[2].guid}`
+                });
             });
         });
     });

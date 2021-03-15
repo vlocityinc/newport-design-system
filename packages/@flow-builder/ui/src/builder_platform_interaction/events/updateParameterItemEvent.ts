@@ -1,8 +1,24 @@
 // @ts-nocheck
 const eventName = 'updateparameteritem';
 
-export class UpdateParameterItemEvent {
-    constructor(isInput, rowIndex, name, value = null, valueDataType = null, error = null) {
+type UpdateParameterItemEventDetail = {
+    isInput: boolean;
+    rowIndex: string;
+    name: string;
+    value: string;
+    valueDataType: string;
+    error: string;
+};
+
+export class UpdateParameterItemEvent extends CustomEvent<UpdateParameterItemEventDetail> {
+    constructor(
+        isInput: boolean,
+        rowIndex: string,
+        name: string,
+        value: string | null = null,
+        valueDataType: string | null = null,
+        error: string | null = null
+    ) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
