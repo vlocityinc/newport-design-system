@@ -241,7 +241,23 @@ function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number): La
     };
 }
 
+function createDefaultLayout(): LayoutInfo {
+    return {
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0,
+        joinOffsetY: 0,
+        offsetX: 0,
+        addOffset: 0,
+        labelOffset: 0
+    };
+}
+
 function getLayout(nodeGuid: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
+    if (!nodeLayoutMap[nodeGuid]) {
+        return createDefaultLayout();
+    }
     return getLayoutByKey(nodeGuid, progress, nodeLayoutMap);
 }
 
@@ -261,6 +277,9 @@ function getBranchLayout(
     nodeLayoutMap: NodeLayoutMap
 ): LayoutInfo {
     const key = getBranchLayoutKey(parentGuid, childIndex);
+    if (!nodeLayoutMap[key]) {
+        return createDefaultLayout();
+    }
     return getLayoutByKey(key, progress, nodeLayoutMap);
 }
 
@@ -302,4 +321,12 @@ const getMergeOutcomeCount = (flowModel: FlowModel, branchingElement: ParentNode
         return child == null || !(flowModel[child] as BranchHeadNodeModel).isTerminal ? count + 1 : count;
     }, 0);
 
-export { getBranchLayoutKey, getBranchLayout, tween, getLayout, getConnectorConfig, getMergeOutcomeCount };
+export {
+    getBranchLayoutKey,
+    getBranchLayout,
+    tween,
+    createDefaultLayout,
+    getLayout,
+    getConnectorConfig,
+    getMergeOutcomeCount
+};

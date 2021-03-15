@@ -8,6 +8,7 @@ import {
     LayoutInfo,
     NodeLayout,
     NodeLayoutMap,
+    createDefaultLayout,
     getBranchLayoutKey,
     InteractionMenuInfo,
     Dimension,
@@ -88,19 +89,6 @@ function calculateFlowLayout(context: FlowRenderContext): void {
     const startNodeIndex = 0;
     calculateBranchLayout(context.flowModel.root as ParentNodeModel, startNodeIndex, context, 0);
     // console.log(context.nodeLayoutMap);
-}
-
-function createDefaultLayout(): LayoutInfo {
-    return {
-        x: 0,
-        y: 0,
-        w: 0,
-        h: 0,
-        joinOffsetY: 0,
-        offsetX: 0,
-        addOffset: 0,
-        labelOffset: 0
-    };
 }
 
 function getBranchLayout(parentGuid: string, childIndex: number, nodeLayoutMap: NodeLayoutMap): NodeLayout {

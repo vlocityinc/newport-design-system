@@ -170,7 +170,7 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
         metadata,
         config,
         flows: [],
-        isNew: nodeLayoutMap[guid].prevLayout == null && progress === 0,
+        isNew: !nodeLayoutMap[guid] || (nodeLayoutMap[guid].prevLayout == null && progress === 0),
         logicConnectors: [],
         isTerminal: nodeType === NodeType.END,
         toBeDeleted: isElementGuidToDelete(context, guid) || isDeletingBranch,
