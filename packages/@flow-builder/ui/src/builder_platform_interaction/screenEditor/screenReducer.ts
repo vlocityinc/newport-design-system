@@ -54,7 +54,6 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**
@@ -379,14 +378,11 @@ const changeChoice = (screen, event, field) => {
         throw new Error('Invalid position for choice deletion: ' + event.detail.position);
     }
 
-    const originalChoice = field.choiceReferences[event.detail.position];
-
     const hydratedChoice = hydrateWithErrors(createChoiceReference(event.detail.newValue.value));
     hydratedChoice.choiceReference.error = event.detail.newValue.error;
     const updatedChoices = replaceItem(field.choiceReferences, hydratedChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
-
-    clearDefaultValueIfNecessary(updatedField, originalChoice);
+    clearDefaultValueIfNecessary(updatedField);
 
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
@@ -458,51 +454,28 @@ const changeChoiceScreenFieldDisplay = (screen, event, field) => {
  * @param {*} field - The field that the choice should be deleted from.
  */
 const deleteChoice = (screen, event, field) => {
-    const originalChoice = field.choiceReferences[event.detail.position];
     const updatedChoices = deleteItem(field.choiceReferences, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
-    clearDefaultValueIfNecessary(updatedField, originalChoice);
+    clearDefaultValueIfNecessary(updatedField);
 
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
     return updateAncestors(screen, positions, updatedField);
 };
 
-const clearDefaultValueIfNecessary = (updatedField, originalChoice) => {
+const clearDefaultValueIfNecessary = (updatedField) => {
     if (updatedField.defaultValue && updatedField.defaultValue.value) {
-        // Do we still have any picklist or record choice sets in choiceReferences? If so, leave the
+        // Do we still have any choices in choiceReferences? If so, leave the
         // default value as is and return;
-        if (
-            updatedField.choiceReferences.find((choiceReference) => {
-                const choice = getElementByGuid(choiceReference.choiceReference.value);
-                return (
-                    choice &&
-                    (choice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET ||
-                        choice.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET)
-                );
-            })
-        ) {
-            return;
+        for (let i = 0; i < updatedField.choiceReferences.length; i++) {
+            if (updatedField.choiceReferences[i].choiceReference.value) {
+                return;
+            }
         }
-        // If default value was set for this field, check to see if its set to the choice that was just
-        // changed. If it was, then clear the default value as it may no longer be valid.
-        if (updatedField.defaultValue.value === originalChoice.choiceReference.value) {
-            updatedField.defaultValue.value = null;
-            return;
-        }
-        // If the default value is not set to one of the current static choices, then we
-        // need to clear the default value.
-        if (
-            !updatedField.choiceReferences.find(
-                (choiceReference) => choiceReference.choiceReference.value === updatedField.defaultValue.value
-            )
-        ) {
-            updatedField.defaultValue.value = null;
-        }
+        updatedField.defaultValue.value = null;
     }
 };
-
 /**
  * Update the width input param on the given column with provided value
  * @param {*} column - The column to update.

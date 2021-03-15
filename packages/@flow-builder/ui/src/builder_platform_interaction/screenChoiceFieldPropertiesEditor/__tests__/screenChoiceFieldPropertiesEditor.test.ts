@@ -368,42 +368,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
     });
 });
 
-describe('Default value for choice based field with static choices only', () => {
-    let screenChoiceFieldPropEditor;
-    beforeEach(() => {
-        // Create a radio field with 3 choices, plus a placeholder, which indicates that
-        // the user wants to add another choice, but hasn't set it yet.
-        const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-            dataType: FLOW_DATA_TYPE.STRING.value,
-            createChoices: true
-        });
-        testField.choiceReferences.push({
-            choiceReference: { value: '', error: null }
-        });
-        testField.defaultValue = 'choice1';
-        screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: testField
-        });
-    });
-    it('Default value is set to the string literal value specified in the screen field data', () => {
-        const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
-        expect(defaultValue).toBeDefined();
-        expect(defaultValue.value).toBeDefined();
-        expect(defaultValue.value).toEqual('choice1');
-    });
-    it('Default value ferov resource picker shows all static choices associated with the field', () => {
-        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
-        expect(defaultValueProp).toBeDefined();
-        const ferovResourcePicker = query(defaultValueProp, INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
-        expect(ferovResourcePicker.elementConfig.choices).toBeTruthy();
-        expect(ferovResourcePicker.elementConfig.staticChoiceGuids).toHaveLength(3);
-        expect(ferovResourcePicker.elementConfig.staticChoiceGuids[0]).toMatch('choice0');
-        expect(ferovResourcePicker.elementConfig.staticChoiceGuids[1]).toMatch('choice1');
-        expect(ferovResourcePicker.elementConfig.staticChoiceGuids[2]).toMatch('choice2');
-    });
-});
-
-describe('Default value for choice based field with a dynamic choice set', () => {
+describe('Default value for choice based field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         const testField = createTestScreenField(fieldName, FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
@@ -641,8 +606,8 @@ describe('screen-choise-field-properties-editor expanded picklist values', () =>
         });
     });
     it('shows expanded picklist choices in default field for first picklist', () => {
-        const defaultValDropDown = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
-        expect(defaultValDropDown.activePicklistValues).toEqual(['val1']);
+        const defaultValueElement = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE);
+        expect(defaultValueElement.activePicklistValues).toEqual(['val1']);
     });
 });
 describe('screen-choice-field-properties-editor for single select, type Number', () => {

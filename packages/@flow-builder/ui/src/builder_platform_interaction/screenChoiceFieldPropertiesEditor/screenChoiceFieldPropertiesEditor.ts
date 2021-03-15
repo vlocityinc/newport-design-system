@@ -64,22 +64,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         this.getSingleOrMultiRadioButtons().value = this.field.singleOrMultiSelect;
     }
 
-    get defaultValueResourcePickerConfig() {
-        // If choice references contains at least one picklist choice set or record choice set, return
-        // ferovResourcePickerConfig. Otherwise, return  currentStaticChoicesResourcePickerConfig.
-        const fieldChoices = this.fieldChoices;
-        if (
-            fieldChoices.find(
-                (fieldChoice) =>
-                    fieldChoice.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET ||
-                    fieldChoice.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET
-            )
-        ) {
-            return this.ferovResourcePickerConfig;
-        }
-        return this.currentStaticChoicesResourcePickerConfig;
-    }
-
     get isScaleEnabled() {
         const { dataType = null } = this.field;
         return dataType === 'Number' || dataType === 'Currency';
@@ -196,23 +180,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         };
     }
 
-    get currentStaticChoicesResourcePickerConfig() {
-        return {
-            allowLiterals: false,
-            collection: false,
-            hideGlobalConstants: true,
-            hideSystemVariables: true,
-            hideGlobalVariables: true,
-            hideNewResource: true,
-            elementConfig: {
-                elementType: ELEMENT_TYPE.SCREEN,
-                dataType: this.field.dataType,
-                choices: true,
-                staticChoiceGuids: this.currentStaticChoiceGuids
-            }
-        };
-    }
-
     get choiceResourcePickerConfig() {
         return {
             allowLiterals: false,
@@ -274,7 +241,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get defaultValueVisible() {
         // If the there is at least one choice, user should be able to set a default value
         const choiceData = getFieldChoiceData(this.field);
-        return choiceData.length > 1 || (choiceData.length === 1 && choiceData[0].name !== '');
+        for (let i = 0; i < choiceData.length; i++) {
+            if (choiceData[i].name !== '') {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Convert flow data type to the value from the data type drop down list.
@@ -285,18 +257,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             }
         }
         throw new Error('Unable to find Flow data type for provided screen field input type: ' + newValue);
-    }
-
-    // Returns all the guids for all the static choices in choice references.
-    get currentStaticChoiceGuids() {
-        const staticChoiceGuids = [];
-        const choices = getFieldChoiceData(this.field);
-        for (let i = 0; i < choices.length; i++) {
-            if (choices[i].elementType === ELEMENT_TYPE.CHOICE) {
-                staticChoiceGuids.push(choices[i].guid);
-            }
-        }
-        return staticChoiceGuids.length > 0 ? staticChoiceGuids : null;
     }
 
     get singleOrMultiSelectOptions() {

@@ -101,7 +101,7 @@ it('change choice screen field by changing the last choice', () => {
     expect(newScreen.fields[0].choiceReferences[2].choiceReference.value).toBe(newChoice.name);
 });
 
-it('defaultValue is cleared when corresponding choice is changed and we only have static choices', () => {
+it('defaultValue is not cleared when a choice is changed', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
@@ -114,7 +114,7 @@ it('defaultValue is cleared when corresponding choice is changed and we only hav
         choiceReference: { value: 'choice1', error: null }
     });
     field.choiceReferences.push({
-        choiceReference: { value: 'choice2', error: null }
+        choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
     });
     field.defaultValue = { value: 'choice1', error: null };
     screen.fields.push(field);
@@ -131,49 +131,13 @@ it('defaultValue is cleared when corresponding choice is changed and we only hav
     };
     const newScreen = screenReducer(screen, event, screen.fields[0]);
 
-    // The default value should be cleared, along with the choice change.
+    // The default value should still be present.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
-    expect(newScreen.fields[0].defaultValue.value).toBeNull();
-});
-
-it('defaultValue should not be cleared when unrelated choice is changed and we only have static choices', () => {
-    const screen = createTestScreen(SCREEN_NAME, []);
-    screen.fields = [];
-    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: FLOW_DATA_TYPE.STRING.value,
-        validation: false,
-        helpText: false
-    });
-    field.choiceReferences = [];
-    field.choiceReferences.push({
-        choiceReference: { value: 'choice1', error: null }
-    });
-    field.choiceReferences.push({
-        choiceReference: { value: 'choice2', error: null }
-    });
-    field.defaultValue = { value: 'choice1', error: null };
-    screen.fields.push(field);
-
-    // Change choice which is current default value
-    const newChoice = createChoice({ name: 'newChoice' });
-    const event = {
-        type: ScreenEditorEventName.ChoiceChanged,
-        detail: {
-            screenElement: field,
-            newValue: { value: newChoice.name, error: null },
-            position: 1
-        }
-    };
-    const newScreen = screenReducer(screen, event, screen.fields[0]);
-
-    // The default value should not be cleared, along with the choice change.
-    expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(newChoice.name);
     expect(newScreen.fields[0].defaultValue.value).toBe('choice1');
 });
 
-it('defaultValue is not cleared when a choice is changed and we have have at least one dynamic choice set', () => {
+it('defaultValue is cleared when a choice is changed and we have no more choices', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
     const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
@@ -185,63 +149,23 @@ it('defaultValue is not cleared when a choice is changed and we have have at lea
     field.choiceReferences.push({
         choiceReference: { value: 'choice1', error: null }
     });
-    field.choiceReferences.push({
-        choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
-    });
-    field.defaultValue = { value: 'test', error: null };
+    field.defaultValue = { value: 'choice1', error: null };
     screen.fields.push(field);
 
     // Change choice which is current default value
-    const newChoice = createChoice({ name: 'newChoice' });
     const event = {
         type: ScreenEditorEventName.ChoiceChanged,
         detail: {
             screenElement: field,
-            newValue: { value: newChoice.name, error: null },
+            newValue: { value: null, error: null },
             position: 0
-        }
-    };
-    const newScreen = screenReducer(screen, event, screen.fields[0]);
-
-    // The default value should not be cleared, along with the choice change.
-    expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
-    expect(newScreen.fields[0].defaultValue.value).toBe('test');
-});
-
-it('defaultValue is cleared when a choice is changed and we have no more dynamic choice sets', () => {
-    const screen = createTestScreen(SCREEN_NAME, []);
-    screen.fields = [];
-    const field = createTestScreenField('radio1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: FLOW_DATA_TYPE.STRING.value,
-        validation: false,
-        helpText: false
-    });
-    field.choiceReferences = [];
-    field.choiceReferences.push({
-        choiceReference: { value: 'choice1', error: null }
-    });
-    field.choiceReferences.push({
-        choiceReference: { value: MOCK_PICKLIST_CHOICE_SET_PREFIX + '1', error: null }
-    });
-    field.defaultValue = { value: 'test', error: null };
-    screen.fields.push(field);
-
-    // Change choice which is current default value
-    const newChoice = createChoice({ name: 'newChoice' });
-    const event = {
-        type: ScreenEditorEventName.ChoiceChanged,
-        detail: {
-            screenElement: field,
-            newValue: { value: newChoice.name, error: null },
-            position: 1
         }
     };
     const newScreen = screenReducer(screen, event, screen.fields[0]);
 
     // The default value should be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(newChoice.name);
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toEqual('');
     expect(newScreen.fields[0].defaultValue.value).toBeNull();
 });
 
@@ -353,56 +277,6 @@ it('Delete last choice from radio screen field', () => {
     expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices - 1);
     expect(newScreen.fields[0].choiceReferences[0]).toBe(field.choiceReferences[0]);
     expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
-});
-
-it('Delete choice from radio screen field when it was the defaultValue and we only have static choices', () => {
-    // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: FLOW_DATA_TYPE.STRING.value,
-        createChoices: true
-    });
-    field.defaultValue = { value: 'choice1', error: null };
-    const screen = createTestScreen(SCREEN_NAME, []);
-    screen.fields = [field];
-
-    // Delete the choice that is the defaultValue
-    const event = {
-        type: ScreenEditorEventName.ChoiceDeleted,
-        detail: {
-            screenElement: field,
-            position: 1
-        }
-    };
-    const newScreen = screenReducer(screen, event, screen.fields[0]);
-
-    // DefaultValue should be gone because its corresponding choice was deleted.
-    expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].defaultValue.value).toBeNull();
-});
-
-it('Deleting choice from radio screen field when it is not the defaultValue and we only have static choices', () => {
-    // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', FlowScreenFieldType.RadioButtons, SCREEN_NO_DEF_VALUE, {
-        dataType: FLOW_DATA_TYPE.STRING.value,
-        createChoices: true
-    });
-    field.defaultValue = { value: 'choice1', error: null };
-    const screen = createTestScreen(SCREEN_NAME, []);
-    screen.fields = [field];
-
-    // Delete the choice that is the defaultValue
-    const event = {
-        type: ScreenEditorEventName.ChoiceDeleted,
-        detail: {
-            screenElement: field,
-            position: 0
-        }
-    };
-    const newScreen = screenReducer(screen, event, screen.fields[0]);
-
-    // DefaultValue should be gone because its corresponding choice was deleted.
-    expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].defaultValue.value).toBe('choice1');
 });
 
 it('validate all when choice based field has no choice associated with it', () => {
