@@ -196,4 +196,16 @@ describe('createConditionMetadataObject', () => {
             rightValue: mockRightValue
         });
     });
+
+    it('converts empty operator to null', () => {
+        const mockRightValue = 'bar';
+        createFEROVMetadataObject.mockReturnValueOnce(mockRightValue);
+        const condition = { leftHandSide: 'foo', operator: '' };
+        const result = createConditionMetadataObject(condition);
+        expect(result).toMatchObject({
+            leftValueReference: condition.leftHandSide,
+            operator: null,
+            rightValue: mockRightValue
+        });
+    });
 });

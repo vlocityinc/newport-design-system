@@ -87,7 +87,7 @@ export function createConditionMetadataObject(condition) {
         {
             leftValueReference: leftHandSide,
             rightValue,
-            operator
+            operator: operator === '' ? null : operator
         }
     );
 }
