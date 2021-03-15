@@ -3,7 +3,7 @@ import { createParameterListRowItem } from './base/baseList';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export function createOutputParameter(outputParameter = {}) {
-    const { name, assignToReference, value, valueDataType, dataType, rowIndex } = outputParameter;
+    const { name, assignToReference, value, valueDataType, dataType, isCollection, rowIndex } = outputParameter;
 
     let valueFerov;
     if (!valueDataType) {
@@ -22,6 +22,7 @@ export function createOutputParameter(outputParameter = {}) {
             value,
             valueDataType,
             dataType,
+            isCollection,
             rowIndex
         },
         valueFerov

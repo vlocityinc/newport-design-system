@@ -364,7 +364,8 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
             .map((outputParameter) => {
                 return createOutputParameter({
                     ...outputParameter,
-                    valueDataType: getFlowType(outputParameter.dataType).value
+                    valueDataType: getFlowType(outputParameter.dataType).value,
+                    isCollection: outputParameter.maxOccurs > 1
                 });
             });
     }
@@ -387,7 +388,8 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
                             label: output.name,
                             name: output.name,
                             apiName: output.name,
-                            dataType: output.valueDataType
+                            dataType: output.valueDataType,
+                            isCollection: output.isCollection
                         })
                 );
 
@@ -470,7 +472,9 @@ export function createStageStep(step: StageStep): StageStep {
         createOutputParameter({
             ...outputParameter,
             // If the outputParameter doesn't have a dataType field, it was already transformed and stored with valueDataType instead.
-            valueDataType: outputParameter.dataType ? outputParameter.dataType : outputParameter.valueDataType
+            valueDataType: outputParameter.dataType ? outputParameter.dataType : outputParameter.valueDataType,
+            isCollection:
+                outputParameter.maxOccurs && outputParameter.maxOccurs > 1 ? true : outputParameter.isCollection
         })
     );
 

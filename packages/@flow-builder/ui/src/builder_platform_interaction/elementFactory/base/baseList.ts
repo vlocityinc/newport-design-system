@@ -23,6 +23,8 @@ export type ParameterListRowItem = {
     warnings?: MERGE_WARNING_TYPE[];
     // When coming from the api
     dataType?: string;
+    isCollection?: boolean;
+    maxOccurs?: number;
 };
 
 export const RHS_PROPERTY = 'rightHandSide';
@@ -84,12 +86,13 @@ export function createExpressionListRowItemWithoutOperatorAndRHSDataType(listRow
  * @returns {Object} new parameter list row item object
  */
 export function createParameterListRowItem(listRowItem = {}): ParameterListRowItem {
-    const { name = '', value = '', valueDataType = '', rowIndex = generateGuid() } = listRowItem;
+    const { name = '', value = '', valueDataType = '', rowIndex = generateGuid(), isCollection } = listRowItem;
 
     return {
         rowIndex,
         name,
         value,
-        valueDataType
+        valueDataType,
+        isCollection
     };
 }

@@ -33,6 +33,12 @@ describe('outputParameter', () => {
             const result = createOutputParameter(mockElement);
             expect(result.rowIndex).toEqual(mockElement.rowIndex);
         });
+
+        it('uses isCollection from the element', () => {
+            const mockElement = { isCollection: true };
+            const result = createOutputParameter(mockElement);
+            expect(result.isCollection).toEqual(mockElement.isCollection);
+        });
     });
 
     describe('createOutputParameterMetadataObject', () => {
