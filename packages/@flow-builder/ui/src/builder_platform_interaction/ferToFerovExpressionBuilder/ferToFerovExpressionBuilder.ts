@@ -165,7 +165,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
         if (fieldName && fields[fieldName]) {
             const field = fields[fieldName];
             lhsState.activePicklistValues = field.activePicklistValues || false;
-            lhsState.param = elementToParam(field);
+            lhsState.param = elementToParam(field, value.isSystemVariableField);
         }
         return lhsState;
     }

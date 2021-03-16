@@ -167,8 +167,10 @@ export function fetch(
 
 const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_APEX_PLUGINS]: () => 'default',
-    [SERVER_ACTION_TYPE.GET_RULES]: () => SERVER_ACTION_TYPE.GET_RULES,
-    [SERVER_ACTION_TYPE.GET_OPERATORS]: () => SERVER_ACTION_TYPE.GET_OPERATORS,
+    [SERVER_ACTION_TYPE.GET_RULES]: (params) =>
+        `${params.flowProcessType}-${params.flowTriggerType}-${params.recordTriggerType}`,
+    [SERVER_ACTION_TYPE.GET_OPERATORS]: (params) =>
+        `${params.flowProcessType}-${params.flowTriggerType}-${params.recordTriggerType}`,
     [SERVER_ACTION_TYPE.GET_ENTITIES]: () => SERVER_ACTION_TYPE.GET_ENTITIES,
     [SERVER_ACTION_TYPE.GET_ENTITY]: () => (params) => `${params.entityApiName}`,
     [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: () => SERVER_ACTION_TYPE.GET_RESOURCE_TYPES,

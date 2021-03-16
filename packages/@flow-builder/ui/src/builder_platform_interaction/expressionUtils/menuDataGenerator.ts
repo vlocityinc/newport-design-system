@@ -110,6 +110,8 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
  * @param {String} iconAlternativeText alternativeText for the icon of the menu item
  * @param {String} value the value of the menu item
  * @param {Object} parent the parent flow element of the second level item in combobox shape
+ * @param {boolean} isSystemVariableField true for fields if the root parent is $Record
+ * @param {boolean} haveSystemVariableFields true for spannable sobject fields whose root parent is $Record
  * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
  * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
  * @param {boolean} isCollection true if is a collection
@@ -125,6 +127,8 @@ const createMenuItem = ({
     iconAlternativeText,
     value,
     parent,
+    isSystemVariableField,
+    haveSystemVariableFields,
     dataType,
     subtype,
     isCollection,
@@ -139,6 +143,8 @@ const createMenuItem = ({
     iconSize: ICON_SIZE,
     value,
     parent,
+    isSystemVariableField,
+    haveSystemVariableFields,
     dataType,
     subtype,
     isCollection,
@@ -202,6 +208,8 @@ function createMenuItemForField({
     displayText = '',
     value,
     parent,
+    isSystemVariableField,
+    haveSystemVariableFields,
     hasNext = false,
     dataType,
     subtype,
@@ -219,6 +227,8 @@ function createMenuItemForField({
         dataType,
         subtype,
         parent,
+        isSystemVariableField,
+        haveSystemVariableFields,
         isCollection,
         getChildrenItems
     });
@@ -251,6 +261,7 @@ function getMenuItemForSpannableSObjectField(
     return createMenuItemForField({
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
+        haveSystemVariableFields: showAsFieldReference ? parent.haveSystemVariableFields : null,
         hasNext: true,
         text,
         value,
@@ -397,6 +408,7 @@ export function getMenuItemForField(
         subtype,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
+        isSystemVariableField: parent ? parent.haveSystemVariableFields : false,
         text,
         value: parent ? parent.value + '.' + apiName : apiName,
         hasNext,
@@ -474,6 +486,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
         elementCategory = systemGlobalVariableCategoryLabel;
         newElement.text = SYSTEM_VARIABLE_RECORD_PREFIX;
         newElement.value = SYSTEM_VARIABLE_RECORD_PREFIX;
+        newElement.haveSystemVariableFields = resource.haveSystemVariableFields;
         isNonElement = false;
     } else {
         // For screen fields fetch icon based on data type instead of screen field type.

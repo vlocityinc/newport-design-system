@@ -1042,7 +1042,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
         if (lhsElementOrField && !newError) {
             newValue = item.value;
-            newLhsParam = elementToParam(lhsElementOrField);
+            newLhsParam = elementToParam(lhsElementOrField, item.isSystemVariableField);
         } else if (newValue && !newError) {
             newError = genericErrorMessage;
         }

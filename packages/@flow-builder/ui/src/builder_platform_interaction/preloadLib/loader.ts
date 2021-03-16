@@ -118,14 +118,18 @@ class Loader {
         return this.apexClassesLoaded.promiseWithTimeout;
     }
 
-    public loadOnProcessTypeChange(flowProcessType, flowDefinitionId) {
+    public loadOnProcessTypeChange(flowProcessType, flowTriggerType, recordTriggerType, flowDefinitionId) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
         const loadActionsPromise = loadActions(flowProcessType);
         loadApexPlugins();
         loadSubflows(flowProcessType, flowDefinitionId);
         const loadPalettePromise = loadPalette(flowProcessType);
-        const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(flowProcessType);
+        const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
+            flowProcessType,
+            flowTriggerType,
+            recordTriggerType
+        );
         return {
             loadActionsPromise,
             loadPeripheralMetadataPromise,
@@ -151,14 +155,14 @@ class Loader {
         return this.apexClassesLoaded.promise;
     }
 
-    private loadPeripheralMetadata(flowProcessType) {
+    private loadPeripheralMetadata(flowProcessType, flowTriggerType, recordTriggerType) {
         logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
         return getAuraCallback(() =>
             // TODO: Use Promise.allSettled() & Promise.finally() when supported by LWC
             promiseFinally(
                 promiseAllSettled([
-                    loadRules(),
-                    loadOperators(),
+                    loadRules(flowProcessType, flowTriggerType, recordTriggerType),
+                    loadOperators(flowProcessType, flowTriggerType, recordTriggerType),
                     loadEventTypes(),
                     // Get workflow enabled entities for before-save trigger object list
                     loadEntities('ALL')
@@ -253,10 +257,32 @@ export const loadOnStart = () => loader.loadOnStart();
  * - apex plugins
  * - subflows
  * @param {String} processType Process type
+ * @param {String} triggerType Trigger type
+ * @param {String} recordTriggerType Record Trigger type
  * @param {String} flowDefinitionId
  */
-export const loadOnProcessTypeChange = (processType, flowDefinitionId?) =>
-    loader.loadOnProcessTypeChange(processType, flowDefinitionId);
+export const loadOnProcessTypeChange = (
+    flowProcessType: string,
+    flowTriggerType?: string,
+    flowRecordTriggerType?: string,
+    flowDefinitionId?: string
+) => loader.loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, flowDefinitionId);
+
+/**
+ * Triggers loading of operators and operator rules
+ * @param {String} processType Process type
+ * @param {String} triggerType Trigger type
+ * @param {String} recordTriggerType Record Trigger type
+ * @param {String} flowDefinitionId
+ */
+export const loadOperatorsAndRulesOnTriggerTypeChange = (
+    flowProcessType: string,
+    flowTriggerType?: string,
+    flowRecordTriggerType?: string
+) => {
+    loadRules(flowProcessType, flowTriggerType, flowRecordTriggerType);
+    loadOperators(flowProcessType, flowTriggerType, flowRecordTriggerType);
+};
 
 /**
  * Load all apex classes

@@ -118,6 +118,7 @@ import {
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadOnStart,
     loadOnProcessTypeChange,
+    loadOperatorsAndRulesOnTriggerTypeChange,
     initializeLoader,
     loadEntity,
     loadEventType,
@@ -281,6 +282,7 @@ export default class Editor extends LightningElement {
     originalFlowInterviewLabel;
     keyboardInteractions;
     triggerType;
+    recordTriggerType;
     guardrailsEngine;
 
     @track
@@ -651,7 +653,9 @@ export default class Editor extends LightningElement {
         const { status, processType: flowProcessType, definitionId } = currentState.properties;
         this.flowStatus = status;
         const flowTriggerType = getTriggerType();
+        const flowRecordTriggerType = getRecordTriggerType();
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
+        const recordTriggerTypeChanged = flowRecordTriggerType !== this.recordTriggerType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
         if (flowProcessTypeChanged || triggerTypeChanged) {
             this.spinners.showAutoLayoutSpinner = true;
@@ -664,7 +668,7 @@ export default class Editor extends LightningElement {
                     loadActionsPromise,
                     loadPeripheralMetadataPromise,
                     loadPalettePromise
-                } = loadOnProcessTypeChange(flowProcessType, definitionId);
+                } = loadOnProcessTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, definitionId);
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
 
                 loadActionsPromise.then(() => {
@@ -710,6 +714,14 @@ export default class Editor extends LightningElement {
                     this.spinners.showAutoLayoutSpinner = false;
                 }
             });
+        }
+        // load operators and operator rules when triggerType or recordTriggerType is changed
+        if (triggerTypeChanged || recordTriggerTypeChanged) {
+            this.triggerType = flowTriggerType;
+            this.recordTriggerType = flowRecordTriggerType;
+            this.propertyEditorBlockerCalls.push(
+                loadOperatorsAndRulesOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType)
+            );
         }
 
         this.properties = currentState.properties;

@@ -108,9 +108,10 @@ export const setOperators = (allOperators = {}) => {
  * Also, we may want to extend this in the future to include properties such as 'canBeField' which
  * are not present in the store elements
  * @param {Object} element          flow element (FER) from the store
+ * @param {Boolean} isSystemVariableField true if it is a $Record field or $Record spannable field
  * @returns {Object}                the new param object representing the store element
  */
-export const elementToParam = (element) => {
+export const elementToParam = (element, isSystemVariableField?) => {
     if (!element || Object.keys(element).length === 0) {
         throw new Error(`Element must be non empty object but instead was ${element}`);
     }
@@ -131,7 +132,8 @@ export const elementToParam = (element) => {
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
         // it has 'collection', so we have to account for both options
         [IS_COLLECTION]: !!element[IS_COLLECTION] || !!element.isCollection,
-        [IS_SYSTEM_VARIABLE]: element[IS_SYSTEM_VARIABLE] || element.category === systemVariableCategory
+        [IS_SYSTEM_VARIABLE]:
+            element[IS_SYSTEM_VARIABLE] || element.category === systemVariableCategory || isSystemVariableField
     };
 };
 

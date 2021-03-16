@@ -31,6 +31,7 @@ export const recordTriggeredFlowUIModel = {
                     operator: 'EqualTo'
                 }
             ],
+            haveSystemVariableFields: true,
             dataType: 'SObject',
             subtype: 'Account',
             isCollection: false,

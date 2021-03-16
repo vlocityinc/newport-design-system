@@ -159,6 +159,8 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         objectContainer,
         // If the start element is linked to an sobject, then make the element look like a data element.
         name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
+        // used to mark $Record.field as system variable
+        haveSystemVariableFields: object ? true : undefined,
         dataType: object ? FLOW_DATA_TYPE.SOBJECT.value : undefined,
         subtype: object ? object : undefined,
         isCollection: object ? false : undefined,

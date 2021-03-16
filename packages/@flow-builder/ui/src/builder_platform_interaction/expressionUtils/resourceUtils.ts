@@ -265,7 +265,7 @@ export const populateLhsStateForField = (fields, fieldName, fieldParent, isField
             showSubText: isFieldOnSobjectVar
         });
         lhsState.activePicklistValues = field.activePicklistValues || false;
-        lhsState.param = elementToParam(field);
+        lhsState.param = elementToParam(field, field.isSystemVariable);
     }
     return lhsState;
 };

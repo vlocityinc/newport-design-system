@@ -39,10 +39,19 @@ export const loadSubflows = (flowProcessType, flowDefinitionId) =>
         setSubflows
     );
 
-export const loadRules = () => fetchOnce(SERVER_ACTION_TYPE.GET_RULES, {}, { disableErrorModal: true }).then(setRules);
+export const loadRules = (flowProcessType, flowTriggerType, recordTriggerType) =>
+    fetchOnce(
+        SERVER_ACTION_TYPE.GET_RULES,
+        { flowProcessType, flowTriggerType, recordTriggerType },
+        { disableErrorModal: true }
+    ).then(setRules);
 
-export const loadOperators = () =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS, {}, { disableErrorModal: true }).then(setOperators);
+export const loadOperators = (flowProcessType, flowTriggerType, recordTriggerType) =>
+    fetchOnce(
+        SERVER_ACTION_TYPE.GET_OPERATORS,
+        { flowProcessType, flowTriggerType, recordTriggerType },
+        { disableErrorModal: true }
+    ).then(setOperators);
 
 export const loadEventTypes = () =>
     fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { eventType: RUNTIME }, { disableErrorModal: true }).then((data) => {

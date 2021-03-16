@@ -35,6 +35,7 @@ export const scheduleTriggeredFlowUIModel = {
                     operator: ''
                 }
             ],
+            haveSystemVariableFields: true,
             dataType: 'SObject',
             subtype: 'Account',
             isCollection: false,
