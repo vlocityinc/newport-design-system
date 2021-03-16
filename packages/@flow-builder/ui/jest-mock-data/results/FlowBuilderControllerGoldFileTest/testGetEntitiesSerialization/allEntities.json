@@ -1311,6 +1311,46 @@
       "updateable":true
     },
     {
+      "apiName":"AppointmentScheduleAggregate",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Schedule Aggregate",
+      "entityLabelPlural":"Appointment Schedule Aggregates",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AppointmentScheduleAggregateOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Schedule Aggregate Owner Rule",
+      "entityLabelPlural":"Appointment Schedule Aggregate Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AppointmentScheduleAggregateShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Schedule Aggregate Share",
+      "entityLabelPlural":"Appointment Schedule Aggregate Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AppointmentScheduleLog",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Appointment Schedule Log",
+      "entityLabelPlural":"Appointment Schedule Logs",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"AppointmentTopicTimeSlot",
       "createable":true,
       "custom":false,
@@ -1369,26 +1409,6 @@
       "entityLabelPlural":"Approval Requests",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"ArticleRecMonthlyMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Article Recommendation Monthly Metrics",
-      "entityLabelPlural":"Article Recommendation Monthly Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgArticleRecMonthlyMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Article Recommendation Monthly Metrics",
-      "entityLabelPlural":"Article Recommendation Monthly Metrics",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"Asset",
@@ -2677,26 +2697,6 @@
       "deletable":false,
       "entityLabel":"Bot Sessions Metric",
       "entityLabelPlural":"Bot Sessions Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"BranchManagementMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"BranchManagementMetrics",
-      "entityLabelPlural":"BranchManagementMetrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgBranchManagementMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"BranchManagementMetrics",
-      "entityLabelPlural":"BranchManagementMetrics",
       "queryable":true,
       "updateable":false
     },
@@ -4501,16 +4501,6 @@
       "updateable":true
     },
     {
-      "apiName":"CollabUserEngagementMetric",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Collaboration User Engagement Metric",
-      "entityLabelPlural":"Collaboration User Engagement Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"ColorDefinition",
       "createable":false,
       "custom":false,
@@ -5009,16 +4999,6 @@
       "entityLabelPlural":"Component Resource Link",
       "queryable":true,
       "updateable":false
-    },
-    {
-      "apiName":"ComputedComponentMetadata",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"ComputedComponentMetadata",
-      "entityLabelPlural":"ComputedComponentMetadatas",
-      "queryable":true,
-      "updateable":true
     },
     {
       "apiName":"ConferenceNumber",
@@ -7201,16 +7181,6 @@
       "updateable":true
     },
     {
-      "apiName":"DataAssetUsageTrackingInfo",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Data Asset Usage Tracking Info",
-      "entityLabelPlural":"DataAssetUsageTrackingInfo",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"DataCategory",
       "createable":true,
       "custom":false,
@@ -7577,16 +7547,6 @@
       "deletable":true,
       "entityLabel":"Data.com SocialKey Metrics",
       "entityLabelPlural":"Data.com SocialKey Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"DataAssetSemanticGraphEdge",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"DataAssetSemanticGraphEdge Info",
-      "entityLabelPlural":"DataAssetSemanticGraphEdge",
       "queryable":true,
       "updateable":true
     },
@@ -8776,7 +8736,7 @@
       "custom":false,
       "deletable":true,
       "entityLabel":"Entity",
-      "entityLabelPlural":"Entity Blocklist Entries",
+      "entityLabelPlural":"Entity Blacklist Entries",
       "queryable":true,
       "updateable":true
     },
@@ -9019,16 +8979,6 @@
       "entityLabelPlural":"Event Log Files",
       "queryable":true,
       "updateable":false
-    },
-    {
-      "apiName":"EventLogFileAnalyticJob",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Event Log File Analytic Job",
-      "entityLabelPlural":"Event Log File Analytic Jobs",
-      "queryable":true,
-      "updateable":true
     },
     {
       "apiName":"CrossOrgEventLogFileMetrics",
@@ -12671,6 +12621,16 @@
       "updateable":false
     },
     {
+      "apiName":"HawkingTenantProvStatus",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Hawking Tenant Provision Status",
+      "entityLabelPlural":"Hawking Tenant Provision Statuses",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"HistoricalDataFilter",
       "createable":true,
       "custom":false,
@@ -12957,16 +12917,6 @@
       "deletable":true,
       "entityLabel":"IDE Workspace",
       "entityLabelPlural":"IDE Workspaces",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"IPAddressRange",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"IP Address Range",
-      "entityLabelPlural":"IP Address Ranges",
       "queryable":true,
       "updateable":true
     },
@@ -13611,6 +13561,16 @@
       "updateable":true
     },
     {
+      "apiName":"InteractionRollback",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Interaction Rollback",
+      "entityLabelPlural":"Interaction Rollbacks",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"InteractionDecision",
       "createable":true,
       "custom":false,
@@ -13667,16 +13627,6 @@
       "deletable":true,
       "entityLabel":"Interaction Stage",
       "entityLabelPlural":"Interaction Stages",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"InteractionStageStepAssignee",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Interaction Stage Step Assignee",
-      "entityLabelPlural":"Interaction Stage Step Assignees",
       "queryable":true,
       "updateable":true
     },
@@ -14531,26 +14481,6 @@
       "updateable":true
     },
     {
-      "apiName":"CrossOrgLightningExitByPageMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Lightning Exit By Page Metrics",
-      "entityLabelPlural":"Lightning Exit By Page Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningExitByPageMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Lightning Exit By Page Metrics",
-      "entityLabelPlural":"Lightning Exit By Page Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"LightningExperienceTheme",
       "createable":true,
       "custom":false,
@@ -14691,106 +14621,6 @@
       "updateable":true
     },
     {
-      "apiName":"CrossOrgLightningToggleMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Lightning Toggle Metrics",
-      "entityLabelPlural":"Lightning Toggle Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningToggleMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Lightning Toggle Metrics",
-      "entityLabelPlural":"Lightning Toggle Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgLightningUsageByAppTypeMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Lightning Usage By App Type Metrics",
-      "entityLabelPlural":"Lightning Usage By App Type Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningUsageByAppTypeMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Lightning Usage By App Type Metrics",
-      "entityLabelPlural":"Lightning Usage By App Type Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgLightningUsageByBrowserMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Lightning Usage By Browser Metrics",
-      "entityLabelPlural":"Lightning Usage By Browser Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningUsageByBrowserMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Lightning Usage By Browser Metrics",
-      "entityLabelPlural":"Lightning Usage By Browser Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgLightningUsageByFlexiPageMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Lightning Usage By FlexiPage Metrics",
-      "entityLabelPlural":"Lightning Usage By FlexiPage Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningUsageByFlexiPageMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Lightning Usage By FlexiPage Metrics",
-      "entityLabelPlural":"Lightning Usage By FlexiPage Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgLightningUsageByPageMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Lightning Usage By Page Metrics",
-      "entityLabelPlural":"Lightning Usage By Page Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningUsageByPageMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Lightning Usage By Page Metrics",
-      "entityLabelPlural":"Lightning Usage By Page Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"LightningComponentBundle",
       "createable":true,
       "custom":false,
@@ -14821,12 +14651,132 @@
       "updateable":true
     },
     {
+      "apiName":"CrossOrgLightningExitByPageMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LightningExitByPageMetrics",
+      "entityLabelPlural":"LightningExitByPageMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningExitByPageMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"LightningExitByPageMetrics",
+      "entityLabelPlural":"LightningExitByPageMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"LightningOnboardingConfig",
       "createable":true,
       "custom":false,
       "deletable":true,
       "entityLabel":"LightningOnboardingConfig",
       "entityLabelPlural":"LightningOnboardingConfigs",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgLightningToggleMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LightningToggleMetrics",
+      "entityLabelPlural":"LightningToggleMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningToggleMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"LightningToggleMetrics",
+      "entityLabelPlural":"LightningToggleMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgLightningUsageByAppTypeMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LightningUsageByAppTypeMetrics",
+      "entityLabelPlural":"LightningUsageByAppTypeMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningUsageByAppTypeMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"LightningUsageByAppTypeMetrics",
+      "entityLabelPlural":"LightningUsageByAppTypeMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgLightningUsageByBrowserMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LightningUsageByBrowserMetrics",
+      "entityLabelPlural":"LightningUsageByBrowserMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningUsageByBrowserMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"LightningUsageByBrowserMetrics",
+      "entityLabelPlural":"LightningUsageByBrowserMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgLightningUsageByFlexiPageMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LightningUsageByFlexiPageMetrics",
+      "entityLabelPlural":"LightningUsageByFlexiPageMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningUsageByFlexiPageMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"LightningUsageByFlexiPageMetrics",
+      "entityLabelPlural":"LightningUsageByFlexiPageMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgLightningUsageByPageMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LightningUsageByPageMetrics",
+      "entityLabelPlural":"LightningUsageByPageMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningUsageByPageMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"LightningUsageByPageMetrics",
+      "entityLabelPlural":"LightningUsageByPageMetrics",
       "queryable":true,
       "updateable":true
     },
@@ -15019,16 +14969,6 @@
       "entityLabelPlural":"List Email Sent Results",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"ListEmailSentResultChangeEvent",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"List Email Sent Result Change Event",
-      "entityLabelPlural":"List Email Sent Result Change Event",
-      "queryable":false,
-      "updateable":false
     },
     {
       "apiName":"ListEmailShare",
@@ -15871,16 +15811,6 @@
       "updateable":true
     },
     {
-      "apiName":"ManagedContentLink2",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Managed Content Link",
-      "entityLabelPlural":"Managed Content Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"ManagedContentNode",
       "createable":true,
       "custom":false,
@@ -15917,6 +15847,16 @@
       "deletable":true,
       "entityLabel":"Managed Content Node Type",
       "entityLabelPlural":"Managed Content Node Types",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ManagedContentOnlineStatus",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Managed Content Online Status",
+      "entityLabelPlural":"Managed Content Online Status",
       "queryable":true,
       "updateable":true
     },
@@ -15967,16 +15907,6 @@
       "deletable":true,
       "entityLabel":"Managed Content Release Share",
       "entityLabelPlural":"Managed Content Release Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ManagedContentResource",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Managed Content Resource",
-      "entityLabelPlural":"Managed Content Resources",
       "queryable":true,
       "updateable":true
     },
@@ -16067,16 +15997,6 @@
       "deletable":true,
       "entityLabel":"Managed Content Space Permission",
       "entityLabelPlural":"Managed Content Space Permissions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ManagedContentSpaceResource",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Managed Content Space Resource",
-      "entityLabelPlural":"Managed Content Space Resource",
       "queryable":true,
       "updateable":true
     },
@@ -17231,16 +17151,6 @@
       "updateable":false
     },
     {
-      "apiName":"OcrUsageMetric",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"OcrUsageMetric",
-      "entityLabelPlural":"OcrUsageMetrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"OmniRoutingEventStore",
       "createable":true,
       "custom":false,
@@ -17836,7 +17746,7 @@
       "custom":false,
       "deletable":true,
       "entityLabel":"Org Metric Scan Result",
-      "entityLabelPlural":"Org Metric Scan Results",
+      "entityLabelPlural":"Org Metric Scan Result",
       "queryable":true,
       "updateable":true
     },
@@ -20561,36 +20471,6 @@
       "updateable":true
     },
     {
-      "apiName":"PromptError",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Prompt Error",
-      "entityLabelPlural":"Prompt Errors",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PromptErrorOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Prompt Error Owner Rule",
-      "entityLabelPlural":"Prompt Error Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PromptErrorShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Prompt Error Share",
-      "entityLabelPlural":"Prompt Error Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"PromptVersion",
       "createable":true,
       "custom":false,
@@ -21611,16 +21491,6 @@
       "updateable":true
     },
     {
-      "apiName":"CrossOrgReplyRecMonthlyMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reply Recommendations Monthly Metrics",
-      "entityLabelPlural":"Reply Recommendations Monthly Metrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
       "apiName":"ReplyReportAbuse",
       "createable":true,
       "custom":false,
@@ -22549,46 +22419,6 @@
       "entityLabelPlural":"SOS Session Share",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"ActionCadenceAsyncJob",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Sales Cadence Async Job",
-      "entityLabelPlural":"Sales Cadence Async Jobs",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ActionCadenceAsyncJobOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Sales Cadence Async Job Owner Rule",
-      "entityLabelPlural":"Sales Cadence Async Job Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ActionCadenceAsyncJobShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Sales Cadence Async Job Share",
-      "entityLabelPlural":"Sales Cadence Async Job Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"SalesforceCustomerAccount",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Salesforce Customer Account",
-      "entityLabelPlural":"Salesforce Customer Accounts",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"SamplingStrategy",
@@ -25701,6 +25531,36 @@
       "updateable":true
     },
     {
+      "apiName":"TopicLabel",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Topic Label",
+      "entityLabelPlural":"Topic Labels",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"TopicLabelOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Topic Label Owner Rule",
+      "entityLabelPlural":"Topic Label Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"TopicLabelShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Topic Label Share",
+      "entityLabelPlural":"Topic Label Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"TopicNameChange",
       "createable":true,
       "custom":false,
@@ -26301,16 +26161,6 @@
       "updateable":false
     },
     {
-      "apiName":"TwoFactorWebAuthN",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Two-Factor WebAuthN",
-      "entityLabelPlural":"Two-Factor WebAuthNs",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"CrossOrgTwoFAUserAdoptionMetrics",
       "createable":false,
       "custom":false,
@@ -26379,6 +26229,16 @@
       "entityLabelPlural":"Unpublished Feed Entities",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"UnsubscribedListEmail",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Unsubscribed ListEmail",
+      "entityLabelPlural":"Unsubscribed ListEmails",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"UsageAggregateBD",
@@ -28291,14 +28151,14 @@
       "updateable":false
     },
     {
-      "apiName":"AuthorizationFormTextFeed",
-      "createable":false,
+      "apiName":"ComputedComponentMetadata",
+      "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"__MISSING LABEL__ PropertyFile - val AuthorizationFormText not found in section StandardFeedLabel",
-      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val AuthorizationFormText not found in section StandardFeedLabel",
+      "entityLabel":"__MISSING LABEL__ PropertyFile - val Entity not found in section udd_ComputedComponentMetadata",
+      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val Entity not found in section udd_ComputedComponentMetadata",
       "queryable":true,
-      "updateable":false
+      "updateable":true
     },
     {
       "apiName":"ImageFeed",

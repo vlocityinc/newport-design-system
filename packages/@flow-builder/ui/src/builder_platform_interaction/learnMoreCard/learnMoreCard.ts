@@ -5,13 +5,7 @@ export default class LearnMoreCard extends LightningElement {
     popupTriggerLabel = '';
 
     @api
-    popupTriggerTitle = '';
-
-    @api
     sideText = '';
-
-    @api
-    popupCloseButtonTitle = '';
 
     @api
     popupCloseButtonAssistiveText = '';

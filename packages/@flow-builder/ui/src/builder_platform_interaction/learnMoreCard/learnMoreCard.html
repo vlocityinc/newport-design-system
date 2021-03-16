@@ -1,21 +1,28 @@
 <template>
-    <div class="slds-m-top_small slds-m-horizontal_small slds-p-horizontal_xx-small learn-more-card">
-        <lightning-icon icon-name="utility:info_alt" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
-        <lightning-button
-            variant="base"
-            label={popupTriggerLabel}
-            title={popupTriggerTitle}
-            class="slds-text-body_small popup-trigger"
-            onclick={handlePopupTriggerClick}
-        ></lightning-button>
-        <span class="slds-text-body_small"><lightning-formatted-text value={sideText}></lightning-formatted-text></span>
+    <div class="slds-m-top_small slds-m-horizontal_small slds-p-around_xx-small learn-more-card">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-12">
+                <lightning-icon icon-name="utility:info_alt" size="x-small"></lightning-icon>
+            </div>
+            <div class="slds-col slds-size_11-of-12">
+                <span class="slds-text-body_small">
+                    <lightning-formatted-text value={sideText}></lightning-formatted-text>
+                    &nbsp;
+                </span>
+                <lightning-button
+                    variant="base"
+                    label={popupTriggerLabel}
+                    class="slds-text-body_small popup-trigger"
+                    onclick={handlePopupTriggerClick}
+                ></lightning-button>
+            </div>
+        </div>
     </div>
     <lightning-popup aria-describedby="popup-body" onautofocus={handlePopupAutofocus} onkeydown={handlePopupKeydown}>
         <div class="slds-popover slds-popover_large slds-nubbin_top-left">
             <lightning-button-icon
                 icon-name="utility:close"
                 variant="bare"
-                title={popupCloseButtonTitle}
                 alternative-text={popupCloseButtonAssistiveText}
                 onclick={handlePopupCloseClick}
                 class="slds-float_right slds-popover__close"

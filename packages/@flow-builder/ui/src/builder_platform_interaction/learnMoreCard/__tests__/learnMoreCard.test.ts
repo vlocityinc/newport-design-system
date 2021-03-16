@@ -24,7 +24,7 @@ function createComponentForTest(props: LearnMoreCardProps): LearnMoreCard {
     return element;
 }
 
-function getPropertyFromSelector(comp: LearnMoreCard, selector: string, property: string): any {
+function getPropertyFromSelector(comp: LearnMoreCard, selector: string, property: string): string {
     return comp.shadowRoot.querySelector(selector)[property];
 }
 
@@ -34,16 +34,8 @@ function getPopupTriggerLabel(comp: LearnMoreCard): string {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON, 'label');
 }
 
-function getPopupTriggerTitle(comp: LearnMoreCard): string {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON, 'title');
-}
-
 function getSideText(comp: LearnMoreCard): string {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT, 'value');
-}
-
-function getPopupCloseButtonTitle(comp: LearnMoreCard): string {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON, 'title');
 }
 
 function getPopupCloseButtonAssistiveText(comp: LearnMoreCard): string {
@@ -88,14 +80,8 @@ describe('The learn more card', () => {
         test('Popup trigger label', () => {
             expect(getPopupTriggerLabel(component)).toEqual('popupTriggerLabel');
         });
-        test('Popup trigger title', () => {
-            expect(getPopupTriggerTitle(component)).toEqual('popupTriggerTitle');
-        });
         test('Side text', () => {
             expect(getSideText(component)).toEqual('sideText');
-        });
-        test('Popup close button title', () => {
-            expect(getPopupCloseButtonTitle(component)).toEqual('popupCloseButtonTitle');
         });
         test('Popup close button assistive text', () => {
             expect(getPopupCloseButtonAssistiveText(component)).toEqual('popupCloseButtonAssistiveText');

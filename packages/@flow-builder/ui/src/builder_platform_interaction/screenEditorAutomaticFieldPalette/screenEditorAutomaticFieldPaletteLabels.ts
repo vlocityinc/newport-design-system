@@ -10,9 +10,7 @@ import noFieldsIllustrationTitle from '@salesforce/label/FlowBuilderScreenEditor
 import noFieldsIllustrationDescription from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.noFieldsIllustrationDescription';
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 import betaLearnMoreButtonLabel from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaLearnMoreButtonLabel';
-import betaLearnMoreButtonTitle from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaLearnMoreButtonTitle';
-import betaLearnMoreEndText from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaLearnMoreEndText';
-import betaPopupCloseButtonTitle from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaPopupCloseButtonTitle';
+import betaLearnMoreSideText from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaLearnMoreSideText';
 import betaPopupCloseButtonAssistiveText from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaPopupCloseButtonAssistiveText';
 import betaPopupBodyText from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaPopupBodyText';
 import betaKnowledgeArticleButtonLabel from '@salesforce/label/FlowBuilderScreenEditorAutomaticFieldPalette.betaKnowledgeArticleButtonLabel';
@@ -30,9 +28,7 @@ export const LABELS = {
     noFieldsIllustrationDescription,
     spinnerAlternativeText,
     betaLearnMoreButtonLabel,
-    betaLearnMoreButtonTitle,
-    betaLearnMoreEndText,
-    betaPopupCloseButtonTitle,
+    betaLearnMoreSideText,
     betaPopupCloseButtonAssistiveText,
     betaPopupBodyText,
     betaKnowledgeArticleButtonLabel
