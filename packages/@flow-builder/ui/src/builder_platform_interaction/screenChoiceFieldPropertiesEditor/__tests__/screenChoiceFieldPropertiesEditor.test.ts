@@ -182,10 +182,10 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
         expect(renderedRequiredCheckbox).toBeDefined();
         expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to required', () => {
+    it('Datatype drop down is set to not required', () => {
         const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);
         expect(dataTypeDropDown).toBeDefined();
-        expect(dataTypeDropDown.required).toBeTruthy();
+        expect(dataTypeDropDown.required).toBeFalsy();
     });
     it('Datatype drop down and set', () => {
         const dataTypeDropDown = getDataTypePicker(screenChoiceFieldPropEditor);

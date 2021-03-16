@@ -203,12 +203,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         );
     }
 
-    get isDataTypeRequired() {
-        // These field types don't offer a dataType option. We just display the only valid setting
-        // available. For the the rest, dataType is a configurable and required setting.
-        return !isMultiSelectCheckboxField(this.field) && !isMultiSelectPicklistField(this.field);
-    }
-
     get dataTypePickerValue() {
         return this.field.dataType ? this.getInputTypeFromFieldDataType : { dataType: null };
     }
