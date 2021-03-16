@@ -1686,6 +1686,24 @@
                                         "processMetadataValues": [],
                                         "scale": 0,
                                         "storeOutputAutomatically": false
+                                    },
+                                    {
+                                        "choiceReferences": [],
+                                        "dataType": "DateTime",
+                                        "dataTypeMappings": [],
+                                        "defaultValue": {
+                                            "elementReference": "$System.OriginDateTime"
+                                        },
+                                        "fieldText": "dateTimeInSection",
+                                        "fieldType": "InputField",
+                                        "fields": [],
+                                        "inputParameters": [],
+                                        "isRequired": false,
+                                        "name": "dateTimeInSection",
+                                        "outputParameters": [],
+                                        "processMetadataValues": [],
+                                        "scale": 0,
+                                        "storeOutputAutomatically": false
                                     }
                                 ],
                                 "inputParameters": [

@@ -5,7 +5,10 @@ import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { flowWithAllElementsUIModel, screenWithSection } from 'mock/storeData';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { setExtensionDescriptions } from 'builder_platform_interaction/flowExtensionLib';
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
@@ -357,6 +360,19 @@ describe('When field type is Section', () => {
         section.fields[1].fields[0].name.value = '';
         section = screenValidation.validateAll(section);
         expect(section.fields[1].fields[0].name.error).toBe('FlowBuilderValidation.cannotBeBlank');
+    });
+});
+
+describe('When Section have child fields', () => {
+    it('should not set an error if default value is a reference', () => {
+        Store.setMockState(flowWithAllElementsUIModel);
+        setExtensionDescriptions(mockFlowExtensionDetails);
+        const screenNode = getElementForPropertyEditor(screenWithSection);
+        const screen = screenValidation.validateAll(screenNode);
+        expect(screen.fields[2].fields[0].fields[1].defaultValue).toMatchObject({
+            error: null,
+            value: '$System.OriginDateTime'
+        });
     });
 });
 

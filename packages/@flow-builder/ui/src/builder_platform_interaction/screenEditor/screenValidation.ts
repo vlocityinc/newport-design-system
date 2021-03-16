@@ -330,7 +330,7 @@ export const getRulesForField = (field, newValueIsReference = false) => {
         getRulesForExtensionField(field, rules);
     } else if (isRegionContainerField(field) || isRegionField(field)) {
         rules.fields = (childField) => {
-            return getRulesForField(childField);
+            return getRulesForField(childField, childField.defaultValueDataType === 'reference');
         };
     } else {
         getRulesForInputField(field, rules, newValueIsReference);
