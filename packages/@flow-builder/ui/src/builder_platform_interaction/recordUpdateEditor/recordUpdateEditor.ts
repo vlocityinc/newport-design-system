@@ -141,9 +141,13 @@ export default class RecordUpdateEditor extends LightningElement {
         // add triggering record option only if its record change trigger and object on start is set
         const triggerType: string | undefined = getTriggerType();
         if (triggerType && doesSupportTriggeringRecordUpdate(triggerType) && this.dollarRecordName()) {
+            const label =
+                triggerType === FLOW_TRIGGER_TYPE.SCHEDULED
+                    ? LABELS.triggeringScheduledRecordLabel
+                    : LABELS.triggeringRecordLabel;
             return [
                 {
-                    label: format(LABELS.triggeringRecordLabel, this.dollarRecordName().toLowerCase()),
+                    label: format(label, this.dollarRecordName().toLowerCase()),
                     value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
                 },
                 ...opts

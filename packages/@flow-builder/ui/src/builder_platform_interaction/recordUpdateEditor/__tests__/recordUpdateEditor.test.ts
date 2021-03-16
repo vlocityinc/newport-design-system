@@ -595,7 +595,9 @@ describe('record-update-editor', () => {
             it('has a radioGroup with 3 options', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
                 expect(wayToFindRecords.options).toHaveLength(3);
-                expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordUpdateEditor.triggeringRecordLabel');
+                expect(wayToFindRecords.options[0].label).toBe(
+                    'FlowBuilderRecordUpdateEditor.triggeringScheduledRecordLabel'
+                );
                 expect(wayToFindRecords.options[1].label).toBe(
                     'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
                 );

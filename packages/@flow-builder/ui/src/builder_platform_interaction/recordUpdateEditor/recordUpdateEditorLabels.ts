@@ -21,6 +21,7 @@ import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.or
 import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 import wayToFindRecordsInfoMessage from '@salesforce/label/FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage';
 import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringRecordLabel';
+import triggeringScheduledRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringScheduledRecordLabel';
 import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterNoCriteriaUpdateTriggering';
 import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
 import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
@@ -43,6 +44,7 @@ export const LABELS = {
     usingCriteriaLabel,
     waysToFindRecordsTitle,
     triggeringRecordLabel,
+    triggeringScheduledRecordLabel,
     filterNoCriteriaUpdate,
     filterNoCriteriaUpdateTriggering,
     andConditionLogicLabel,
