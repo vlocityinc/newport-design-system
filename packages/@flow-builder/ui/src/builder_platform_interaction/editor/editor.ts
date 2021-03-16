@@ -749,7 +749,7 @@ export default class Editor extends LightningElement {
     canConvertToAutoLayoutCheck(gack = false) {
         return canConvertToAutoLayoutCanvas(
             addEndElementsAndConnectorsTransform(deepCopy(storeInstance.getCurrentState())),
-            this.flowDefId,
+            this.properties.definitionId,
             gack
         );
     }
@@ -1723,7 +1723,10 @@ export default class Editor extends LightningElement {
         logInteraction(
             'toggle-canvas-button',
             'toolbar',
-            { flowDefId: this.flowDefId, newMode: this.properties.isAutoLayoutCanvas ? 'free-form' : 'auto-layout' },
+            {
+                flowDefId: this.properties.definitionId,
+                newMode: this.properties.isAutoLayoutCanvas ? 'free-form' : 'auto-layout'
+            },
             'click'
         );
         if (!this.properties.isAutoLayoutCanvas) {
@@ -2062,7 +2065,7 @@ export default class Editor extends LightningElement {
             `saveas-menu-done-button`,
             'modal',
             {
-                flowDefId: this.flowDefId,
+                flowDefId: this.properties.definitionId,
                 saveType,
                 canvasMode: this.properties.isAutoLayoutCanvas ? 'auto-layout' : 'free-form'
             },
@@ -2412,7 +2415,10 @@ export default class Editor extends LightningElement {
         logInteraction(
             'canvas-mode-checkbox',
             'canvas-selection-modal',
-            { flowDefId: this.flowDefId, selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form' },
+            {
+                flowDefId: this.properties.definitionId,
+                selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
+            },
             'click'
         );
         // Updating the isAutoLayoutCanvas property in the store based on user's selection.
