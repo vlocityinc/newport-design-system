@@ -2,6 +2,7 @@
     <lightning-popup
         aria-describedby="popup-body"
         aria-labelledby="popup-heading"
+        onautofocus={handleAutofocus}
         onclickout={handleClickout}
         onkeydown={handleKeyDown}
     >
@@ -35,8 +36,7 @@
                                 <p>
                                     {labels.legalText}&nbsp;
                                     <lightning-formatted-url
-                                        if:true={hasAgreementUrl}
-                                        value={automaticFieldLegalAgreements}
+                                        value={automaticFieldLegalAgreementsUrl}
                                         label={labels.agreementUrlLabel}
                                         target="_blank"
                                     >

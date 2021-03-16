@@ -5,17 +5,15 @@ import { LABELS } from './screenEditorAutomaticFieldLegalPopoverLabels';
 export default class ScreenEditorAutomaticFieldLegalPopover extends LightningElement {
     protected labels = LABELS;
     private needToDisplayLegalPopup = true;
+    private needToFocusOnUrl = true;
     @track
-    private automaticFieldLegalAgreements?: string;
+    private automaticFieldLegalAgreementsUrl?: string;
 
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS).then(
-            ({ automaticFieldLegalAgreements }) => (this.automaticFieldLegalAgreements = automaticFieldLegalAgreements)
+            ({ automaticFieldLegalAgreements }) =>
+                (this.automaticFieldLegalAgreementsUrl = automaticFieldLegalAgreements)
         );
-    }
-
-    get hasAgreementUrl() {
-        return !!this.automaticFieldLegalAgreements;
     }
 
     handleKeyDown = (event: KeyboardEvent) => {
@@ -29,16 +27,25 @@ export default class ScreenEditorAutomaticFieldLegalPopover extends LightningEle
         event.preventDefault();
     };
 
+    handleAutofocus(e: Event) {
+        // we will focus on the popup link once we get the url
+        e.preventDefault();
+    }
+
     renderedCallback() {
         if (this.needToDisplayLegalPopup) {
             this.needToDisplayLegalPopup = false;
             this.showPopup();
+        } else if (this.needToFocusOnUrl && this.automaticFieldLegalAgreementsUrl != null) {
+            this.needToFocusOnUrl = false;
+            // formattedUrlElement is null if popup already closed
+            this.formattedUrlElement?.focus();
         }
     }
 
     showPopup() {
         const popupLocation = this.template.querySelector('.popupLocation');
-        this.popup.show(popupLocation, {
+        this.popupElement.show(popupLocation, {
             reference: { horizontal: 'left', vertical: 'top' },
             popup: { horizontal: 'left', vertical: 'bottom' },
             padding: 1,
@@ -47,10 +54,14 @@ export default class ScreenEditorAutomaticFieldLegalPopover extends LightningEle
     }
 
     handleCloseButtonClick = () => {
-        this.popup.close();
+        this.popupElement.close();
     };
 
-    get popup() {
+    get formattedUrlElement() {
+        return this.popupElement?.querySelector('lightning-formatted-url') as HTMLElement | null;
+    }
+
+    get popupElement() {
         return this.template.querySelector('lightning-popup');
     }
 }
