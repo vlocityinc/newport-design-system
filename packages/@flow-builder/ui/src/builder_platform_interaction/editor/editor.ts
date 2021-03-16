@@ -170,6 +170,8 @@ const NEWDEBUG = 'new debug';
 const RESTARTDEBUG = 'restart debug';
 
 const EDITOR = 'EDITOR';
+const TOGGLE_CANVAS_MODE = 'TOGGLE_CANVAS_MODE';
+const ADD_ELEMENT = 'ADD_ELEMENT';
 const APP_NAME = 'FLOW_BUILDER';
 
 const PANELS = {
@@ -1681,6 +1683,7 @@ export default class Editor extends LightningElement {
      * @param setupInAutoLayoutCanvas - Determines what mode to setup the Canvas in
      */
     updateCanvasMode(setupInAutoLayoutCanvas = false) {
+        logPerfTransactionStart(TOGGLE_CANVAS_MODE);
         this.spinners.showAutoLayoutSpinner = true;
         try {
             // updatedHasUnsavedChangesProperty should be set to true only when toggling canvas modes.
@@ -1731,8 +1734,14 @@ export default class Editor extends LightningElement {
             this.clearUndoRedoStack();
 
             this.spinners.showAutoLayoutSpinner = false;
+
+            logPerfTransactionEnd(TOGGLE_CANVAS_MODE, {
+                isSuccess: true,
+                newMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
+            });
         } catch (e) {
             this.spinners.showAutoLayoutSpinner = false;
+            logPerfTransactionEnd(TOGGLE_CANVAS_MODE, { isSuccess: false });
             throw e;
         }
     }
@@ -2161,6 +2170,8 @@ export default class Editor extends LightningElement {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
+
+        logPerfTransactionStart(ADD_ELEMENT);
         const nodeForStore: UI.Element = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
 
@@ -2181,6 +2192,8 @@ export default class Editor extends LightningElement {
         }
         this.dispatchAddElement(payload);
         this._isAddingResourceViaLeftPanel = false;
+
+        logPerfTransactionEnd(ADD_ELEMENT, { elementType: nodeForStore.elementType });
     };
 
     /**
@@ -2276,6 +2289,7 @@ export default class Editor extends LightningElement {
         if (!this.isFlowServerCallInProgress && this.spinners.showFlowMetadataSpinner) {
             this.spinners.showFlowMetadataSpinner = false;
             logPerfTransactionEnd(EDITOR, {
+                flowId: this.flowId,
                 numOfNodes: currentState.canvasElements.length,
                 numOfConnectors: currentState.connectors.length
             });

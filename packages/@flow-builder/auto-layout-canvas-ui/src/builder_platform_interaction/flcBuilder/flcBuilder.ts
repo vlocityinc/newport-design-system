@@ -49,9 +49,7 @@ import {
     AutoLayoutCanvasContext
 } from 'builder_platform_interaction/flcComponentsUtils';
 import { getFocusPath } from './alcBuilderUtils';
-
-import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
-
+import { commands, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './flcBuilderLabels';
 
 const MAX_ZOOM = 1;
@@ -78,6 +76,12 @@ const FULL_OPACITY_CLASS = 'full-opacity';
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
 
 const { KeyboardInteractions } = keyboardInteractionUtils;
+
+const { logPerfTransactionEnd, logPerfTransactionStart } = loggingUtils;
+
+const AUTOLAYOUT_CANVAS = 'AUTOLAYOUT_CANVAS';
+
+const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 
 // needed to compensate for floating point arithmetic imprecisions
 const FUDGE = 0.02;
@@ -155,6 +159,7 @@ export default class FlcBuilder extends LightningElement {
     constructor() {
         super();
         this.keyboardInteractions = new KeyboardInteractions();
+        logPerfTransactionStart(AUTOLAYOUT_CANVAS, null, null);
     }
 
     @track
@@ -391,6 +396,9 @@ export default class FlcBuilder extends LightningElement {
                 });
             }
         }
+
+        const numberOfElements = this._flowModel && Object.keys(this._flowModel).length;
+        logPerfTransactionEnd(AUTOLAYOUT_CANVAS, { numberOfElements }, null);
     }
 
     /**
@@ -659,6 +667,7 @@ export default class FlcBuilder extends LightningElement {
     }
 
     dispatchFlcSelectionEvent({ isSelected, canvasElementGUID }) {
+        logPerfTransactionStart(AUTOLAYOUT_CANVAS_SELECTION, null, null);
         // transforms the elementsMetadata array to a map
         const elementsMetadataMap = this._convertToElementMetadataMap();
         const flowModel = this._flowModel;
@@ -681,6 +690,14 @@ export default class FlcBuilder extends LightningElement {
             this._topSelectedGuid
         );
         this.dispatchEvent(flcSelectionEvent);
+        logPerfTransactionEnd(
+            AUTOLAYOUT_CANVAS_SELECTION,
+            {
+                numberOfSelectedElements: canvasElementGuidsToSelect.length,
+                numberOfDeselectedElements: canvasElementGuidsToDeselect.length
+            },
+            null
+        );
     }
 
     /**
