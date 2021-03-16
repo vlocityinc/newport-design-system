@@ -1,15 +1,6 @@
 {
   "flowExtensionsForFieldServiceMobile":[
     {
-  "category" : "Input",
-  "description" : "Lookup Component",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "label" : "Lookup",
-  "qualifiedApiName" : "flowruntime:lookup",
-  "source" : "Standard"
-},
-    {
   "description" : "Upload and attach files to records.",
   "extensionType" : "aura",
   "fieldsToNull" : [ ],

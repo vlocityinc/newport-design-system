@@ -52,9 +52,9 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
     get displayedFields() {
         return [
             {
-                key: 'autofield-field-name',
-                label: this.labels.automaticFieldFieldName,
-                value: this.fieldName
+                key: 'autofield-object',
+                label: this.labels.automaticFieldObject,
+                value: this.object
             },
             {
                 key: 'autofield-field-label',
@@ -62,14 +62,14 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 value: this.fieldLabel
             },
             {
+                key: 'autofield-field-name',
+                label: this.labels.automaticFieldFieldName,
+                value: this.fieldName
+            },
+            {
                 key: 'autofield-datatype',
                 label: this.labels.automaticFieldDataType,
                 value: this.dataType
-            },
-            {
-                key: 'autofield-object',
-                label: this.labels.automaticFieldObject,
-                value: this.object
             },
             {
                 key: 'autofield-required',
@@ -77,14 +77,14 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 value: this.isRequired
             },
             {
-                key: 'autofield-createable',
-                label: this.labels.automaticFieldIsCreateable,
-                value: this.isCreateable
-            },
-            {
                 key: 'autofield-updateable',
                 label: this.labels.automaticFieldIsUpdateable,
                 value: this.isUpdateable
+            },
+            {
+                key: 'autofield-createable',
+                label: this.labels.automaticFieldIsCreateable,
+                value: this.isCreateable
             }
         ];
     }

@@ -89,7 +89,6 @@
       "supportedProcessTypes":[
         "ActionCadenceFlow",
         "ActionPlan",
-        "Orchestrator",
         "Appointments",
         "AutoLaunchedFlow",
         "CartAsyncFlow",
@@ -108,6 +107,7 @@
         "ManagedContentFlow",
         "OfflineFlow",
         "OrchestrationFlow",
+        "Orchestrator",
         "RecommendationStrategy",
         "RoutingFlow",
         "SalesEntryExperienceFlow",

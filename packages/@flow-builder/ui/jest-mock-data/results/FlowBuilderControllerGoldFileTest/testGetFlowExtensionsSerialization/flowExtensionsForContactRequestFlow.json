@@ -8,27 +8,6 @@
   "source" : "Unmanaged"
 },
     {
-  "category" : "Inputs",
-  "description" : "The description",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "genericTypes" : {
-    "done" : true,
-    "entityTypeName" : "FlowExtensionGenericType",
-    "records" : [ {
-      "fieldsToNull" : [ ],
-      "label" : "T",
-      "name" : "T",
-      "superType" : "SOBJECT"
-    } ],
-    "size" : 1,
-    "totalSize" : 1
-  },
-  "label" : "custom lookup",
-  "qualifiedApiName" : "c:lookup",
-  "source" : "Unmanaged"
-},
-    {
   "extensionType" : "aura",
   "fieldsToNull" : [ ],
   "label" : "Hello World",
@@ -100,8 +79,9 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "Phone",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Phone",
   "qualifiedApiName" : "flowruntime:phone",
@@ -124,8 +104,9 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "URL Component",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "URL",
   "qualifiedApiName" : "flowruntime:url",
@@ -153,71 +134,6 @@
 },
     {
   "category" : "Inputs",
-  "description" : "A raptor testing component",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "genericTypes" : {
-    "done" : true,
-    "entityTypeName" : "FlowExtensionGenericType",
-    "records" : [ {
-      "description" : "Generic sobject",
-      "fieldsToNull" : [ ],
-      "label" : "Dynamic type T",
-      "name" : "T",
-      "superType" : "SOBJECT"
-    } ],
-    "size" : 1,
-    "totalSize" : 1
-  },
-  "label" : "LWC Test Component",
-  "qualifiedApiName" : "interactiontest:lwcDynTypedScreensTestComponent",
-  "source" : "Standard"
-},
-    {
-  "category" : "Inputs",
-  "description" : "A raptor testing component",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "genericTypes" : {
-    "done" : true,
-    "entityTypeName" : "FlowExtensionGenericType",
-    "records" : [ {
-      "description" : "Generic sobject",
-      "fieldsToNull" : [ ],
-      "label" : "Dynamic type T",
-      "name" : "T",
-      "superType" : "SOBJECT"
-    } ],
-    "size" : 1,
-    "totalSize" : 1
-  },
-  "label" : "LWC Test Component",
-  "qualifiedApiName" : "interactiontest:lwcDynTypes",
-  "source" : "Standard"
-},
-    {
-  "description" : "A raptor recored picker",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "genericTypes" : {
-    "done" : true,
-    "entityTypeName" : "FlowExtensionGenericType",
-    "records" : [ {
-      "description" : "Select the api name of the SObject this component is going to be looking for",
-      "fieldsToNull" : [ ],
-      "label" : "Object API Name",
-      "name" : "T",
-      "superType" : "SOBJECT"
-    } ],
-    "size" : 1,
-    "totalSize" : 1
-  },
-  "label" : "LWC Record Picker",
-  "qualifiedApiName" : "interactiontest:lwcGenericLookup",
-  "source" : "Standard"
-},
-    {
-  "category" : "Inputs",
   "configurationEditor" : "c-cpe-cmp",
   "description" : "A raptor testing component",
   "extensionType" : "lwc",
@@ -232,13 +148,6 @@
   "fieldsToNull" : [ ],
   "label" : "Call Script",
   "qualifiedApiName" : "lbpm:flowScript",
-  "source" : "Standard"
-},
-    {
-  "description" : "Flow wrapper component for cadence steps.",
-  "extensionType" : "aura",
-  "fieldsToNull" : [ ],
-  "qualifiedApiName" : "runtime_sales_cadence:cadenceFlowWrapper",
   "source" : "Standard"
 }
   ]

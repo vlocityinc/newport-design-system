@@ -125,8 +125,9 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "URL Component",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "URL",
   "qualifiedApiName" : "flowruntime:url",

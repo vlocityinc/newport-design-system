@@ -967,6 +967,7 @@
         "AssetRelationship",
         "AssetWarranty",
         "AssignedResource",
+        "AuthorizationFormText",
         "Campaign",
         "CampaignChild__c",
         "Case",
