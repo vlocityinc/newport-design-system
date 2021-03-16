@@ -487,6 +487,8 @@ export function invokeDebugEditor(attributes) {
     const processType = attributes.processType;
     const triggerType = attributes.triggerType;
     const rerun = attributes.rerun;
+    const isCreateOrUpdate = attributes.isCreateOrUpdate;
+    const dollarRecordName = attributes.dollarRecordName;
 
     showDebugEditorPopover(
         'builder_platform_interaction:modalHeader',
@@ -497,7 +499,9 @@ export function invokeDebugEditor(attributes) {
             flowId,
             processType,
             triggerType,
-            rerun
+            rerun,
+            isCreateOrUpdate,
+            dollarRecordName
         },
         {
             flavor: 'small slds-modal_medium'
@@ -634,7 +638,9 @@ function showDebugEditorPopover(
         flowId: cmpAttributes.flowId,
         processType: cmpAttributes.processType,
         triggerType: cmpAttributes.triggerType,
-        rerun: cmpAttributes.rerun
+        rerun: cmpAttributes.rerun,
+        isCreateOrUpdate: cmpAttributes.isCreateOrUpdate,
+        dollarRecordName: cmpAttributes.dollarRecordName
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);

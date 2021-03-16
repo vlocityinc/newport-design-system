@@ -55,13 +55,14 @@ import {
     isSystemElement,
     FLOW_PROCESS_TYPE,
     FLOW_TRIGGER_TYPE,
-    RECOMMENDATION_STRATEGY
+    RECOMMENDATION_STRATEGY,
+    FLOW_TRIGGER_SAVE_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
-import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP, getEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loggingUtils, commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
@@ -131,7 +132,12 @@ import {
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import { getTriggerType, getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import {
+    getTriggerType,
+    getElementByGuid,
+    getRecordTriggerType,
+    getStartObject
+} from 'builder_platform_interaction/storeUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
@@ -1041,7 +1047,8 @@ export default class Editor extends LightningElement {
                 showGovernorlimit: true,
                 debugAsUserId: debugOptions.debugAsUserId,
                 debugWaits: !!debugOptions.debugWaits,
-                ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria
+                ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria,
+                dmlType: debugOptions.dmlType
             }
         );
     };
@@ -1106,6 +1113,18 @@ export default class Editor extends LightningElement {
             const flowDevName = currentState.properties.name;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
             if ((runOrDebug === NEWDEBUG || runOrDebug === RESTARTDEBUG) && this.useNewDebugExperience) {
+                let triggerSaveType = null;
+                let startObject = null;
+                let createOrUpdate = false;
+                if (isRecordChangeTriggerType(this.triggerType)) {
+                    triggerSaveType = getRecordTriggerType();
+                    createOrUpdate = triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
+                    startObject = getStartObject();
+                    if (startObject) {
+                        // This should never be empty in a record change trigger where the debug button is clickable, but might as well check.
+                        startObject = getEntity(startObject).entityLabel;
+                    }
+                }
                 this.queueOpenFlowDebugEditor(() => {
                     return {
                         flowId: this.flowId,
@@ -1113,6 +1132,8 @@ export default class Editor extends LightningElement {
                         processType: this.properties.processType,
                         triggerType: this.triggerType,
                         rerun: runOrDebug === RESTARTDEBUG,
+                        isCreateOrUpdate: createOrUpdate,
+                        dollarRecordName: startObject,
                         runDebugInterviewCallback: this.runDebugInterviewCallback
                     };
                 });

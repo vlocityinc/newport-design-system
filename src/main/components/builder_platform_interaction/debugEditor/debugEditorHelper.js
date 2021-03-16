@@ -25,6 +25,7 @@
             cmp.set('v.shouldHasInputs', true);
             cmp.set('v.isDMLTrigger', true);
             cmp.set('v.enableRollbackCB', true);
+            cmp.set('v.createOrUpdateOptions', this.getCreateOrUpdateOptions());
         } else {
             var action = cmp.get('c.getFlowInputOutputVariables');
             action.setParams({ flowName: flowName });
@@ -167,6 +168,7 @@
             cmp.set('v.enableRollbackCB', this.previousOptions.enableRollback);
             cmp.set('v.runAsCB', this.previousOptions.runAs);
             cmp.set('v.showDebugAsUserLookup', this.previousOptions.runAs);
+            cmp.set('v.saveType', this.previousOptions.saveType);
             if (cmp.get('v.showDebugAsUserLookup')) {
                 cmp.set('v.runAsSelected', this.previousOptions.runAsSelected);
             }
@@ -259,11 +261,13 @@
         }
 
         var debugWaitsBox = cmp.find('isDebugWaitsBox');
+        var saveTypeRadio = cmp.find('debugCreateOrUpdate');
         this.previousOptions = {
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             runAsSelected: selectedUser,
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
-            debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false
+            debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false,
+            saveType: saveTypeRadio ? saveTypeRadio.get('v.value') : this.CREATE
         };
     },
 
@@ -275,5 +279,15 @@
     /**
      * Preserve the previous debug options for Debug Again
      */
-    previousOptions: null
+    previousOptions: null,
+
+    CREATE: 'Create',
+    UPDATE: 'Update',
+
+    getCreateOrUpdateOptions: function () {
+        return [
+            { label: $A.get('{!$Label.FlowDebug.DMLCreate}'), value: this.CREATE },
+            { label: $A.get('{!$Label.FlowDebug.DMLUpdate}'), value: this.UPDATE }
+        ];
+    }
 });

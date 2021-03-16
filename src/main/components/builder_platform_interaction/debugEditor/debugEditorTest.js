@@ -67,7 +67,8 @@
                     debugAsUserId: null,
                     enableRollback: false,
                     debugWaits: true,
-                    ignoreEntryCriteria: false
+                    ignoreEntryCriteria: false,
+                    dmlType: ''
                 },
                 "Default getDebugInput doesn't work correctly"
             );
@@ -129,7 +130,8 @@
                     debugAsUserId: null,
                     enableRollback: true,
                     debugWaits: false,
-                    ignoreEntryCriteria: false
+                    ignoreEntryCriteria: false,
+                    dmlType: ''
                 },
                 "getDebugInput doesn't reflect value changes of checkboxes correctly"
             );
@@ -382,7 +384,8 @@
     testDollarRecordInputVariable: {
         attributes: {
             processType: 'AutoLaunchedFlow',
-            triggerType: 'RecordAfterSave'
+            triggerType: 'RecordAfterSave',
+            isCreateOrUpdate: false
         },
         mocks: [
             {
@@ -432,6 +435,9 @@
                         cmp.find('inputValuesRecordTrigger'),
                         'Text for $Record variables does not show up.'
                     );
+
+                    //Create / Update radio should not show up
+                    $A.test.assertUndefined(cmp.find('debugCreateOrUpdate'), 'Create or Update radio shows up');
                 }
             );
         }
@@ -711,7 +717,8 @@
     testDMLTriggerCheckboxes: {
         attributes: {
             processType: 'AutoLaunchedFlow',
-            triggerType: 'RecordAfterSave'
+            triggerType: 'RecordAfterSave',
+            isCreateOrUpdate: false
         },
         test: function (cmp) {
             $A.test.addWaitFor(
@@ -744,6 +751,53 @@
                         cmp.find('isDebugWaitsBox'),
                         'Should not show the debug waits checkbox'
                     );
+                }
+            );
+        }
+    },
+
+    testCreateOrUpdateRadio: {
+        attributes: {
+            processType: 'AutoLaunchedFlow',
+            triggerType: 'RecordAfterSave',
+            isCreateOrUpdate: true,
+            dollarRecordName: 'Account'
+        },
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getDollarRecordInputVariable' },
+                        answers: [
+                            {
+                                value: {
+                                    variables: [
+                                        {
+                                            dataType: 'SObject',
+                                            isCollection: false,
+                                            isInput: true,
+                                            isOutput: false,
+                                            name: '$Record',
+                                            objectType: 'Account'
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function (cmp) {
+            $A.test.addWaitFor(
+                false,
+                function () {
+                    return $A.test.isActionPending('doInit');
+                },
+                function (cmp) {
+                    $A.test.assertNotNull(cmp.find('debugCreateOrUpdate'), 'Create or Update Radio does not show up');
                 }
             );
         }

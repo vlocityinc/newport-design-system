@@ -4,8 +4,10 @@
     <aura:attribute name="flowName" type="String"/>
     <aura:attribute name="flowId" type="String"/>
     <aura:attribute name="processType" type="String"/>
-    <aura:attribute name="triggerType" type="String"/>
+    <aura:attribute name="triggerType" type="String"/>    
     <aura:attribute name="rerun" type="Boolean"/>
+    <aura:attribute name="isCreateOrUpdate" type="Boolean"/>
+    <aura:attribute name="dollarRecordName" type="String"/>
 
     <!-- Values for component capabilities -->
     <aura:attribute name="shouldHasDebugAsUser" type="Boolean" default="true"/>
@@ -22,6 +24,9 @@
     <aura:attribute name="runAsCB" type="Boolean" default="false"/>
     <aura:attribute name="debugWaitsCB" type="Boolean" default="true"/>
     <aura:attribute name="isDMLTrigger" type="Boolean" default="false"/>
+    
+    <aura:attribute name="createOrUpdateOptions" type="List"/>
+    <aura:attribute name="saveType" type="String" default="Create"/>
 
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
@@ -90,8 +95,19 @@
                 <div class="outer-div slds-p-top_medium">
                     <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
                 </div>
-                <aura:set attribute="else">
+                <aura:set attribute="else">                    
                     <aura:if isTrue="{!v.hasInputs}">
+                        <aura:if isTrue="{!v.isCreateOrUpdate}">
+                            <lightning:radioGroup
+                            class="slds-p-bottom_small"
+                            aura:id="debugCreateOrUpdate"
+                            label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
+                            options="{!v.createOrUpdateOptions}"
+                            value="{!v.saveType}"                          
+                            required="true"
+                            type="radio"
+                            />
+                        </aura:if>
                         <aura:if isTrue="{!v.isDMLTrigger}">                            
                             <div aura:id="inputValuesRecordTrigger" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesRecordTrigger}</div>                            
                             <aura:set attribute="else">
