@@ -30,7 +30,7 @@ import {
     createChoiceDisplayChangedEvent,
     createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
-
+import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
 export enum ScreenEditorTab {
     Components = 'componentsTab',
     Fields = 'fieldsTab'
@@ -323,6 +323,7 @@ export default class ScreenEditor extends LightningElement {
                     headerTitle: isAutomaticField ? LABELS.automaticFieldDeleteConfirmation : title
                 },
                 bodyData: {
+                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE,
                     bodyTextOne: isAutomaticField ? LABELS.automaticFieldDeleteConsequence : bodyText
                 },
                 footerData: {
@@ -334,7 +335,8 @@ export default class ScreenEditor extends LightningElement {
                         buttonLabel: LABELS.deleteAlternativeText,
                         buttonCallback: deleteCallBack
                     }
-                }
+                },
+                bodyClass: 'slds-p-around_medium'
             });
         }
     };
