@@ -98,6 +98,9 @@ describe('ScreenEditor automatic fields', () => {
                 screenEditor = await createScreenEditor('screenWithAutomaticFields');
                 disclaimer = screenEditor.getAutomaticFieldBetaDisclaimer();
             });
+            it('should be displayed in the Fields palette', () => {
+                expect(disclaimer).toBeTruthy();
+            });
             it('should have its popup visible when its trigger is clicked', async () => {
                 await disclaimer.clickOnTriggerButton();
                 expect(disclaimer.isPopupVisible()).toEqual(true);
