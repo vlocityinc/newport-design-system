@@ -16,7 +16,6 @@ import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUti
  */
 export default class ScreenEditorHighlight extends LightningElement {
     @api screenElement;
-    @api highlighIcon;
     @api property;
     @api preventEvents = false;
     @api displayIcons = false;
@@ -54,9 +53,13 @@ export default class ScreenEditorHighlight extends LightningElement {
         return booleanAttributeValue(this, 'displayIcons');
     }
 
+    get highlightIcon() {
+        return (
+            (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || 'utility:connected_apps'
+        );
+    }
+
     connectedCallback() {
-        this.highlightIcon =
-            (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || 'utility:connected_apps';
         this.isAutomaticScreenField = this.screenElement && screenEditorUtils.isAutomaticField(this.screenElement);
     }
 

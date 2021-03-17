@@ -15,7 +15,8 @@ import {
     HOVERING_CLASS,
     CONTAINER_DIV_SELECTOR,
     VISIBILITY_ICON,
-    VISIBILITY_ICON_CONTAINER
+    VISIBILITY_ICON_CONTAINER,
+    HIGHLIGHT_DIV_HEADER
 } from 'builder_platform_interaction/screenEditorUtils';
 import {
     flowWithAllElementsUIModel,
@@ -52,6 +53,8 @@ const clickHighlight = async (highlight, callback) => {
 const getVisibilityIconContainer = (element) => element.shadowRoot.querySelector(VISIBILITY_ICON_CONTAINER);
 const getVisibilityIconNoShadow = (parent) => parent.querySelector(VISIBILITY_ICON);
 const getHeaderBadge = (element) => element.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE);
+const getHeader = (element) => element.shadowRoot.querySelector(HIGHLIGHT_DIV_HEADER);
+const getIconInHeader = (parent) => parent.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
 
 describe('Click highlight', () => {
     let highlight;
@@ -136,7 +139,7 @@ describe('highlight behavior on hover', () => {
         expect(highlightDiv.classList).not.toContain(HOVERING_CLASS);
     });
 });
-describe('Header (Visibility Icon/Badge)', () => {
+describe('Header (Icon/Visibility Icon/Badge)', () => {
     let element: ScreenEditorHighlight;
     beforeAll(() => {
         // @ts-ignore
@@ -145,6 +148,26 @@ describe('Header (Visibility Icon/Badge)', () => {
     afterAll(() => {
         // @ts-ignore
         Store.resetStore();
+    });
+    describe('Icon', () => {
+        describe('when icon changes in screen field', () => {
+            beforeEach(() => {
+                element = createComponentForTest({ screenElement: emailScreenField });
+            });
+            it('hightlight icon should be correct', async () => {
+                const header = getHeader(element);
+                expect(header).not.toBeNull();
+                const icon = getIconInHeader(header);
+                expect(icon).not.toBeNull();
+                expect(icon.iconName).toEqual('standard:lightning_component');
+                const screenField = emailScreenField;
+                screenField.type.icon = 'foobar';
+                element.screenElement = screenField;
+                await ticks(1);
+                expect(icon).not.toBeNull();
+                expect(icon.iconName).toEqual('foobar');
+            });
+        });
     });
     describe('Visibility Icon', () => {
         describe('screen field has visibility condition', () => {

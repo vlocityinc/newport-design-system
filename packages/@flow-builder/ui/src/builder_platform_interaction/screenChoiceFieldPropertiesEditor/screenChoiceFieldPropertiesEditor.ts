@@ -234,13 +234,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     get defaultValueVisible() {
         // If the there is at least one choice, user should be able to set a default value
-        const choiceData = getFieldChoiceData(this.field);
-        for (let i = 0; i < choiceData.length; i++) {
-            if (choiceData[i].name !== '') {
-                return true;
-            }
-        }
-        return false;
+        return getFieldChoiceData(this.field).some((choice) => choice.name !== '');
     }
 
     // Convert flow data type to the value from the data type drop down list.
