@@ -65,7 +65,7 @@ import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platfo
 import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP, getEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { loggingUtils, commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { loggingUtils, commands, keyboardInteractionUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent, NewResourceEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -154,6 +154,7 @@ import {
     addEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
 
+const { generateGuid } = storeUtils;
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
 const {
     ShiftFocusForwardCommand,
@@ -369,6 +370,8 @@ export default class Editor extends LightningElement {
     supportedElements = [];
     supportedActions = [];
 
+    flowInitDefinitionId;
+
     /** Whether canvas elements are available. Don't render the canvas until then. */
     get hasCanvasElements() {
         return (
@@ -485,6 +488,10 @@ export default class Editor extends LightningElement {
         ];
 
         this.guardrailsEngine = new FlowGuardrailsExecutor();
+
+        // generate a guid as flow definitionId so that the definitionId of a newly created and
+        // unsaved flow won't be undefined and can be logged using loglines
+        this.flowInitDefinitionId = generateGuid();
 
         // Initializing store
         storeInstance = Store.getStore(
@@ -769,7 +776,7 @@ export default class Editor extends LightningElement {
     canConvertToAutoLayoutCheck(gack = false) {
         return canConvertToAutoLayoutCanvas(
             addEndElementsAndConnectorsTransform(deepCopy(storeInstance.getCurrentState())),
-            this.properties.definitionId,
+            this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
             gack
         );
     }
@@ -1766,7 +1773,7 @@ export default class Editor extends LightningElement {
             'toggle-canvas-button',
             'toolbar',
             {
-                flowDefId: this.properties.definitionId,
+                flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
                 newMode: this.properties.isAutoLayoutCanvas ? 'free-form' : 'auto-layout'
             },
             'click'
@@ -2107,7 +2114,7 @@ export default class Editor extends LightningElement {
             `saveas-menu-done-button`,
             'modal',
             {
-                flowDefId: this.properties.definitionId,
+                flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
                 saveType,
                 canvasMode: this.properties.isAutoLayoutCanvas ? 'auto-layout' : 'free-form'
             },
@@ -2462,7 +2469,10 @@ export default class Editor extends LightningElement {
         logInteraction(
             'canvas-mode-checkbox',
             'canvas-selection-modal',
-            { selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form' },
+            {
+                flowDefId: this.properties.definitionId ? this.properties.definitionId : this.flowInitDefinitionId,
+                selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
+            },
             'click'
         );
         // Updating the isAutoLayoutCanvas property in the store based on user's selection.
