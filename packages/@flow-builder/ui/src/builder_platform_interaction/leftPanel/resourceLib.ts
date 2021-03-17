@@ -76,6 +76,8 @@ export const getResourceIconName = (element) => {
         return 'utility:connected_apps';
     } else if (elementType === ELEMENT_TYPE.RECORD_CREATE && storeOutputAutomatically) {
         return getDataTypeIcons('String', 'utility');
+    } else if (elementType === ELEMENT_TYPE.STAGE_STEP) {
+        return 'utility:retail_execution';
     } else if (dataType) {
         return getDataTypeIcons(dataType, 'utility');
     }

@@ -25,6 +25,7 @@ const PROCESS_TYPES_ICONS = new Map([
     [FLOW_PROCESS_TYPE.JOURNEY_BUILDER_INTEGRATION, 'utility:builder'],
     [FLOW_PROCESS_TYPE.LOGIN_FLOW, 'utility:password'],
     [FLOW_PROCESS_TYPE.MANAGED_CONTENT_FLOW, 'utility:cases'],
+    [FLOW_PROCESS_TYPE.ORCHESTRATOR, 'utility:orchestrator'],
     [FLOW_PROCESS_TYPE.ORCHESTRATION_FLOW, 'utility:classic_interface'],
     [FLOW_PROCESS_TYPE.SURVEY, 'utility:survey'],
     [FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW, 'utility:user'],

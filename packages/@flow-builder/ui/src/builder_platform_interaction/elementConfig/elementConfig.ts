@@ -1102,7 +1102,7 @@ export const elementTypeToConfigMap: {
         descriptor: 'builder_platform_interaction:stageStepEditor',
         nodeConfig: {
             iconName: 'standard:work_order_item',
-            utilityIconName: 'standard:work_order_item',
+            utilityIconName: 'utility:retail_execution',
             iconBackgroundColor: 'background-dark-blue'
         },
         labels: {
