@@ -47,6 +47,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
     ILLUSTRATION: 'builder_platform_interaction-illustration',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
+    LEARN_MORE_CARD: 'builder_platform_interaction-learn-more-card',
     LEFT_PANEL: 'builder_platform_interaction-left-panel',
     LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',
     LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',

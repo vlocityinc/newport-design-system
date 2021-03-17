@@ -3,10 +3,6 @@
     background-color: var(--lwc-brandLight);
 }
 
-.popup-trigger {
-    --sds-c-button-text-color: #0b5cab;
-}
-
 .popup-footer {
     background-color: transparent;
 }

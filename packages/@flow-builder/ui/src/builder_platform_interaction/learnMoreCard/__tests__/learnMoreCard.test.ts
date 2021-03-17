@@ -30,19 +30,19 @@ function getPropertyFromSelector(comp: LearnMoreCard, selector: string, property
 
 // Functions allowing to get specific element properties
 
-function getPopupTriggerLabel(comp: LearnMoreCard): string {
+function getPopupTriggerLabel(comp: LearnMoreCard) {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON, 'label');
 }
 
-function getSideText(comp: LearnMoreCard): string {
+function getSideText(comp: LearnMoreCard) {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT, 'value');
 }
 
-function getPopupCloseButtonAssistiveText(comp: LearnMoreCard): string {
+function getPopupCloseButtonAssistiveText(comp: LearnMoreCard) {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON, 'alternativeText');
 }
 
-function getPopupBodyText(comp: LearnMoreCard): string {
+function getPopupBodyText(comp: LearnMoreCard) {
     return getPropertyFromSelector(
         comp,
         `.slds-popover__body > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}`,
@@ -50,11 +50,11 @@ function getPopupBodyText(comp: LearnMoreCard): string {
     );
 }
 
-function getPopupLinkLabel(comp: LearnMoreCard): string {
+function getPopupLinkLabel(comp: LearnMoreCard) {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL, 'label');
 }
 
-function getPopupLinkUrl(comp: LearnMoreCard): string {
+function getPopupLinkUrl(comp: LearnMoreCard) {
     return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL, 'value');
 }
 

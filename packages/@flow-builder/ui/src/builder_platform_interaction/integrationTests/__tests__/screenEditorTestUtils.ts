@@ -33,6 +33,7 @@ import { TestComponent } from './testComponent';
 import { getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
 import ScreenEditorAutomaticFieldLegalPopover from 'builder_platform_interaction/screenEditorAutomaticFieldLegalPopover';
+import LearnMoreCard from 'builder_platform_interaction/learnMoreCard';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -92,6 +93,20 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenEditorAutomaticFieldsPaletteTestComponent(paletteElement);
     }
 
+    public getAutomaticFieldBetaDisclaimer() {
+        const tabset = this.getTabsetElement();
+        const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
+        const paletteElement = (automaticFieldsTab
+            .shadowRoot!.querySelector('slot')!
+            .assignedNodes()[0] as Element).querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELD_PALETTE
+        ) as ScreenEditorAutomaticFieldPalette & HTMLElement;
+        const betaDisclaimer = paletteElement.shadowRoot!.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.LEARN_MORE_CARD
+        ) as LearnMoreCard & HTMLElement;
+        return new ScreenEditorAutomaticFieldBetaDisclaimerTestComponent(betaDisclaimer);
+    }
+
     public getAutomaticFieldLegalPopover() {
         const tabset = this.getTabsetElement();
         const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
@@ -106,6 +121,30 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
         ) as ScreenEditorPropertiesEditorContainer & HTMLElement;
         return new PropertiesEditorContainerTestComponent(element);
+    }
+}
+
+export class ScreenEditorAutomaticFieldBetaDisclaimerTestComponent extends TestComponent<LearnMoreCard> {
+    public getPopupElement = () =>
+        this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_POPUP) as HTMLElement & {
+            isVisible: () => boolean;
+        };
+
+    public isPopupVisible = () => this.getPopupElement().isVisible();
+
+    public async clickOnTriggerButton() {
+        const triggerButton = this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_BUTTON) as HTMLElement & {
+            click: () => void;
+        };
+        triggerButton.click();
+        await ticks();
+    }
+
+    public async clickOnCloseButton() {
+        const popupElement = this.getPopupElement();
+        const closeButton = popupElement.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON) as HTMLElement;
+        closeButton.click();
+        await ticks();
     }
 }
 
