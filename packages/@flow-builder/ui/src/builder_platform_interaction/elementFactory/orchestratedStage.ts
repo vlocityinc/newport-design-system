@@ -490,7 +490,7 @@ export function createStageStep(step: StageStep): StageStep {
     } else {
         // Coming from metadata.  Get the related record out of the input parameters
         newStep.inputParameters.some((inputParameter) => {
-            if (inputParameter.name === RELATED_RECORD_INPUT_PARAMETER_NAME) {
+            if (inputParameter.name === RELATED_RECORD_INPUT_PARAMETER_NAME && inputParameter.value) {
                 newStep.relatedRecordItem = Object.assign({}, inputParameter);
                 return true;
             }

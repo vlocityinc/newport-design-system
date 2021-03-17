@@ -377,7 +377,7 @@ describe('OrchestratedStage', () => {
 
                 expect(item.relatedRecordItem).toEqual(mockItem.relatedRecordItem);
             });
-            it('is set from input param if present', () => {
+            it('is set from input param if present and not falsy', () => {
                 const mockItem = {
                     inputParameters: [
                         { name: 'someInputParam1', value: { value: '1' } },
@@ -389,11 +389,26 @@ describe('OrchestratedStage', () => {
 
                 expect(item.relatedRecordItem).toEqual(mockItem.inputParameters[1]);
             });
-            it('is undefined if no existing relatedRecordItem or input parameters present', () => {
-                const mockItem = {};
-                const item = createStageStep(mockItem);
+            describe('is undefined', () => {
+                it('if no existing relatedRecordItem', () => {
+                    const mockItem = {};
+                    const item = createStageStep(mockItem);
 
-                expect(item.relatedRecordItem).toBeUndefined();
+                    expect(item.relatedRecordItem).toBeUndefined();
+                });
+                it('if input parameter is falsy', () => {
+                    const mockItem = {
+                        inputParameters: [
+                            { name: 'someInputParam1', value: { value: '1' } },
+                            { name: RELATED_RECORD_INPUT_PARAMETER_NAME, value: '' },
+                            { name: 'someInputParam2', value: { value: '2' } }
+                        ]
+                    };
+
+                    const item = createStageStep(mockItem);
+
+                    expect(item.relatedRecordItem).toBeUndefined();
+                });
             });
         });
     });
