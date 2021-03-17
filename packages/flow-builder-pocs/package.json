@@ -26,6 +26,6 @@
     },
     "dependencies": {
         "@lbf/command": "^0.4.16",
-        "axios": "^0.20.0"
+        "axios": "^0.21.1"
     }
 }
