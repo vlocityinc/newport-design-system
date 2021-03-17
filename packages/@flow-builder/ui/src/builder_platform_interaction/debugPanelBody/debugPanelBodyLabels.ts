@@ -42,6 +42,6 @@ export const failedToCRUDRecordAbsoluteMatches = [
 ];
 
 export const failedToCRUDRecordRelativeMatches = [
-    failedRecordUpdates.replace('{0}', ''),
-    failedRecordDeletes.replace('{0}', '')
+    failedRecordUpdates.replace('{0}', '').replace('.', '').trim(),
+    failedRecordDeletes.replace('{0}', '').replace('.', '').trim()
 ];
