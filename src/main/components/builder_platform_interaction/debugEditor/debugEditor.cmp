@@ -4,7 +4,7 @@
     <aura:attribute name="flowName" type="String"/>
     <aura:attribute name="flowId" type="String"/>
     <aura:attribute name="processType" type="String"/>
-    <aura:attribute name="triggerType" type="String"/>    
+    <aura:attribute name="triggerType" type="String"/>
     <aura:attribute name="rerun" type="Boolean"/>
     <aura:attribute name="isCreateOrUpdate" type="Boolean"/>
     <aura:attribute name="dollarRecordName" type="String"/>
@@ -13,7 +13,7 @@
     <aura:attribute name="shouldHasDebugAsUser" type="Boolean" default="true"/>
     <aura:attribute name="showIsDebugAsUserAllowed" type="Boolean" default="false"/>
     <aura:attribute name="showIsDebugAsUserAllowedInNonPrd" type="Boolean" default="true"/>
-    <aura:attribute name="showDebugAsUserLookup" type="Boolean" default="false"/> 
+    <aura:attribute name="showDebugAsUserLookup" type="Boolean" default="false"/>
     <aura:attribute name="runAsHelptext" type="String"/>
     <aura:attribute name="runAsSelected" type="String"/>
     <aura:attribute name="shouldHasInputs" type="Boolean" default="true"/>
@@ -24,29 +24,29 @@
     <aura:attribute name="runAsCB" type="Boolean" default="false"/>
     <aura:attribute name="debugWaitsCB" type="Boolean" default="true"/>
     <aura:attribute name="isDMLTrigger" type="Boolean" default="false"/>
-    
+
     <aura:attribute name="createOrUpdateOptions" type="List"/>
     <aura:attribute name="saveType" type="String" default="Create"/>
 
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
     <aura:method name="getDebugInput" action="{!c.getDebugInput}"/>
-    
+
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
+
     <div class="slds-p-vertical_x-large slds-p-horizontal_large">
         <!-- Debug Options -->
         <div class="slds-p-bottom_medium">
             <h2>{#$Label.FlowDebug.FlowProperties}</h2>
         </div>
-        
+
         <aura:if isTrue="{!v.shouldHasDebugAsUser}">
-            <lightning:input class="slds-p-bottom_small" type="checkbox" 
-                aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}" 
+            <lightning:input class="slds-p-bottom_small" type="checkbox"
+                aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}"
                 checked="{!v.runAsCB}" onchange="{!c.handleDebugAsUserCheck}"
                 fieldLevelHelp="{!v.runAsHelptext}" disabled="{!(!v.showIsDebugAsUserAllowed || !v.showIsDebugAsUserAllowedInNonPrd)}"/>
-                
+
             <aura:if isTrue="{!v.showDebugAsUserLookup}">
                 <div class="slds-p-bottom_small" name="debugAsUserList">
                     <forceSearch:inputLookupDesktop
@@ -54,19 +54,28 @@
                         label="{!$Label.FlowDebug.RunThisFlowAs}"
                         entities="[{ name: 'User' }]"
                         maxRows="5"
-                        enableCreateNew="false" 
+                        enableCreateNew="false"
                         maxValues="1"
-                        source="Event"      
+                        source="Event"
                         displayErrorOnBlur="false"
                         values="{!v.runAsSelected}"/>
                 </div>
             </aura:if>
         </aura:if>
 
-        <lightning:input class="slds-p-bottom_small" type="checkbox" 
-                aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}" 
+       <aura:if isTrue="{!v.isDMLTrigger}">
+           <lightning:input class="slds-p-bottom_small" type="checkbox"
+                aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}"
                 checked="{!v.enableRollbackCB}"
-                disabled="{!v.isDMLTrigger}"/>
+                disabled="{!v.isDMLTrigger}"
+                fieldLevelHelp="{!$Label.FlowDebug.rollbackInfo}"/>
+           <aura:set attribute="else">
+                <lightning:input class="slds-p-bottom_small" type="checkbox"
+                     aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}"
+                     checked="{!v.enableRollbackCB}"/>
+           </aura:set>
+       </aura:if>
+
         <aura:if isTrue="{!v.isDMLTrigger}">
             <lightning:input class="slds-p-bottom_small" type="checkbox"
                     aura:id="isIgnoreEntryCriteriaCB" label="{!$Label.FlowDebug.IgnoreEntryCriteria}"
@@ -95,7 +104,7 @@
                 <div class="outer-div slds-p-top_medium">
                     <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
                 </div>
-                <aura:set attribute="else">                    
+                <aura:set attribute="else">
                     <aura:if isTrue="{!v.hasInputs}">
                         <aura:if isTrue="{!v.isCreateOrUpdate}">
                             <lightning:radioGroup
@@ -103,17 +112,17 @@
                             aura:id="debugCreateOrUpdate"
                             label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
                             options="{!v.createOrUpdateOptions}"
-                            value="{!v.saveType}"                          
+                            value="{!v.saveType}"
                             required="true"
                             type="radio"
                             />
                         </aura:if>
-                        <aura:if isTrue="{!v.isDMLTrigger}">                            
-                            <div aura:id="inputValuesRecordTrigger" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesRecordTrigger}</div>                            
+                        <aura:if isTrue="{!v.isDMLTrigger}">
+                            <div aura:id="inputValuesRecordTrigger" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesRecordTrigger}</div>
                             <aura:set attribute="else">
-                                <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>                                
+                                <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
                             </aura:set>
-                        </aura:if>                        
+                        </aura:if>
                         <aura:set attribute="else">
                             <div aura:id="inputValuesNone" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
                         </aura:set>
@@ -123,7 +132,7 @@
         </aura:if>
 
         <div class="slds-is-relative">
-            <div aria-hidden="false" aura:id="flowInput" class="content">{!v.body}</div>  
+            <div aria-hidden="false" aura:id="flowInput" class="content">{!v.body}</div>
         </div>
     </div>
 

@@ -63,7 +63,7 @@
         var prevOrDefaultInputs = rerun && this.previousInputs.length > 0 ? this.previousInputs : data.variables;
         for (var i = 0; i < prevOrDefaultInputs.length; i++) {
             var currentVar = prevOrDefaultInputs[i];
-            var childComp = this._createSimpleInput(currentVar);
+            var childComp = this._createSimpleInput(cmp, currentVar);
             if (childComp) {
                 // undefined for unsupported input types
                 body.push(childComp);
@@ -201,7 +201,7 @@
      *
      * @return {Aura} field, the flowruntime:<input_datatype> component
      */
-    _createSimpleInput: function (argument) {
+    _createSimpleInput: function (cmp, argument) {
         if (argument.isCollection === true || argument.isInput === false) {
             return undefined; // unsupported
         }
@@ -212,10 +212,20 @@
         var descriptor = 'flowruntime:' + compType;
 
         var attributes =
-            argument.dataType === 'SObject'
+            argument.dataType != 'SObject'
                 ? {
                       name: argument.name,
                       label: argument.name,
+                      isRequired: false,
+                      errorMessage: null,
+                      value: argument.value,
+                      helpText: null,
+                      triggersUpdate: false
+                  }
+                : argument.name === '$Record'
+                ? {
+                      name: argument.name,
+                      label: cmp.get('v.dollarRecordName'),
                       searchEntities: [{ name: argument.objectType }],
                       isRequired: false,
                       helpText: null,
@@ -226,11 +236,12 @@
                 : {
                       name: argument.name,
                       label: argument.name,
+                      searchEntities: [{ name: argument.objectType }],
                       isRequired: false,
-                      errorMessage: null,
-                      value: argument.value,
                       helpText: null,
-                      triggersUpdate: false
+                      errorMessage: null,
+                      triggerUpdate: false,
+                      value: argument.value
                   };
 
         var field;
