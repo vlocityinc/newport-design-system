@@ -56,14 +56,6 @@ describe('Zoom Panel', () => {
             marqueeButton.click();
             expect(callBack).toHaveBeenCalled();
         });
-        it('sets zoomToFitClicked to false when marquee button is clicked', () => {
-            const zoomPanelElement = createComponentUnderTest({
-                showMarqueeButton: true
-            });
-            const marqueeButton = zoomPanelElement.shadowRoot.querySelector(selectors.marqueeButton);
-            marqueeButton.click();
-            expect(zoomPanelElement.zoomToFitClicked).toBeFalsy();
-        });
     });
 
     describe('Zoom button group', () => {
