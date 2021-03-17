@@ -55,6 +55,8 @@ export default class ActionSelector extends LightningElement {
 
     @api labelOverride: string | null = null;
 
+    @api required = false;
+
     private readonly elementTypeToLabelMap = {
         [ELEMENT_TYPE.ACTION_CALL]: this.labels.actionSearchInputLabel,
         [ELEMENT_TYPE.EXTERNAL_SERVICE]: this.labels.actionSearchInputLabel,
