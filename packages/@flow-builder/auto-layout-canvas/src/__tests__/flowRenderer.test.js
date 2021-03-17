@@ -14,7 +14,8 @@ import {
     getFlowWithHighlightedLoopBranches,
     getFlowWithHighlightedFaultBranch,
     getFlowWithHighlightedDecisionBranch,
-    getFlowWithHighlightedAndMergedDecisionBranch
+    getFlowWithHighlightedAndMergedDecisionBranch,
+    getComplicatedFlow
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -46,6 +47,10 @@ describe('flowRenderer', () => {
 
         it('flow with decision with highlighted and merged branch', () => {
             renderAndAssert(getFlowWithHighlightedAndMergedDecisionBranch());
+        });
+
+        it('flow with decision with one terminated branch, fault element and nested decisions', () => {
+            renderAndAssert(getComplicatedFlow());
         });
 
         it('flow with empty loop context', () => {

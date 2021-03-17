@@ -59,6 +59,7 @@ export interface FlowInteractionState {
     deletionPathInfo: {
         childIndexToKeep: number;
         elementGuidToDelete: Guid;
+        shouldDeleteBeyondMergingPoint: boolean;
     } | null;
 }
 
@@ -256,6 +257,7 @@ function createDefaultLayout(): LayoutInfo {
 
 function getLayout(nodeGuid: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
     if (!nodeLayoutMap[nodeGuid]) {
+        // An example of this scenario is when the user tries to paste rapidly on the canvas
         return createDefaultLayout();
     }
     return getLayoutByKey(nodeGuid, progress, nodeLayoutMap);
@@ -278,6 +280,7 @@ function getBranchLayout(
 ): LayoutInfo {
     const key = getBranchLayoutKey(parentGuid, childIndex);
     if (!nodeLayoutMap[key]) {
+        // An example of this scenario is when the user tries to paste rapidly on the canvas
         return createDefaultLayout();
     }
     return getLayoutByKey(key, progress, nodeLayoutMap);

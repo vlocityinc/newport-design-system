@@ -23,7 +23,8 @@ import {
     resolveChild,
     invokeModal,
     modalBodyVariant,
-    ParentNodeModel
+    ParentNodeModel,
+    FlowModel
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     ZOOM_ACTION,
@@ -726,13 +727,46 @@ export default class FlcBuilder extends LightningElement {
     };
 
     /**
+     * When the branch to persist is terminated and the deleting element's next is not an end element,
+     * all branches beyond the merging point are getting deleted
+     */
+    checkShouldDeleteBeyondMergingPoint(
+        flow: FlowModel,
+        selectedElementGUID: string,
+        childIndexToKeep: number | null | undefined
+    ): boolean {
+        const selectedElement = resolveNode(this._flowModel, selectedElementGUID);
+        const { next } = selectedElement;
+        let nextElement;
+
+        if (childIndexToKeep != null) {
+            const headElement = resolveChild(this._flowModel, selectedElement as ParentNodeModel, childIndexToKeep);
+            if (next != null) {
+                nextElement = resolveNode(this._flowModel, next);
+            }
+            return !!(headElement && headElement.isTerminal && nextElement && nextElement.nodeType !== NodeType.END);
+        }
+        return false;
+    }
+
+    /**
      * Highlights the path to be deleted
      */
     handleHighlightPathsToDelete = (event) => {
+        const { elementGuidToDelete, childIndexToKeep } = event.detail;
+        // Set shouldDeleteBeyondMergingPoint to true, when the branch to persist is terminated and
+        // the deleting element's next is not an end element
+        const shouldDeleteBeyondMergingPoint = this.checkShouldDeleteBeyondMergingPoint(
+            this._flowModel,
+            elementGuidToDelete,
+            childIndexToKeep
+        );
+
         const interactionState = updateDeletionPathInfo(
             event.detail.elementGuidToDelete,
             event.detail.childIndexToKeep,
-            this._flowRenderContext.interactionState
+            this._flowRenderContext.interactionState,
+            shouldDeleteBeyondMergingPoint
         );
         this.updateFlowRenderContext({ interactionState });
     };
@@ -1012,19 +1046,10 @@ export default class FlcBuilder extends LightningElement {
 
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
-        const selectedElement = resolveNode(this._flowModel, selectedElementGUID[0]);
-        const { next } = selectedElement;
-        let nextElement;
-
         if (childIndexToKeep != null) {
-            const headElement = resolveChild(this._flowModel, selectedElement as ParentNodeModel, childIndexToKeep);
-            if (next != null) {
-                nextElement = resolveNode(this._flowModel, next);
-            }
-
-            // When the branch to persist is terminated and the deleting element's next is not an end element,
-            // a warning modal would be invoked, otherwise a DeleteEelementEvent would be dispatched
-            if (headElement && headElement.isTerminal && nextElement && nextElement.nodeType !== NodeType.END) {
+            if (this.checkShouldDeleteBeyondMergingPoint(this._flowModel, selectedElementGUID[0], childIndexToKeep)) {
+                // When the branch to persist is terminated and the deleting element's next is not an end element,
+                // a warning modal would be invoked, otherwise a DeleteEelementEvent would be dispatched
                 invokeModal({
                     headerData: {
                         headerTitle: LABELS.deleteWarningHeaderTitle

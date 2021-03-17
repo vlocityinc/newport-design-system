@@ -2462,10 +2462,7 @@ export default class Editor extends LightningElement {
         logInteraction(
             'canvas-mode-checkbox',
             'canvas-selection-modal',
-            {
-                flowDefId: this.properties.definitionId,
-                selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
-            },
+            { selectedMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form' },
             'click'
         );
         // Updating the isAutoLayoutCanvas property in the store based on user's selection.

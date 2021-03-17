@@ -71,11 +71,13 @@ function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionS
 function updateDeletionPathInfo(
     elementGuidToDelete: Guid,
     childIndexToKeep: number,
-    interactionState: FlowInteractionState
+    interactionState: FlowInteractionState,
+    shouldDeleteBeyondMergingPoint: boolean
 ): FlowInteractionState {
     const deletionPathInfo = {
         elementGuidToDelete,
-        childIndexToKeep
+        childIndexToKeep,
+        shouldDeleteBeyondMergingPoint
     };
     return { ...interactionState, deletionPathInfo };
 }

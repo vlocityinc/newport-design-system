@@ -72,6 +72,9 @@
     <aura:dependency resource="markup://builder_platform_interaction:scheduleTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:platformEventEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:rollbackEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:modalHeaderForAutoLayout" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:modalBodyForAutoLayout" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:modalFooterForAutoLayout" type="MODULE" />
 
     <!-- Events -->
     <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />

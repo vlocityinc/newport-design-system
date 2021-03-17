@@ -273,6 +273,14 @@ function getNextConnectorHeight(
     return height;
 }
 
+function isDeletingBeyondMergePoint(guid: string, context: FlowRenderContext) {
+    return !!(
+        isElementGuidToDelete(context, guid) &&
+        context.interactionState.deletionPathInfo &&
+        context.interactionState.deletionPathInfo.shouldDeleteBeyondMergingPoint
+    );
+}
+
 /**
  * Creates the next node connector for a node
  *
@@ -335,7 +343,7 @@ function createNextConnector(
         context.layoutConfig,
         context.isFault,
         [mainVariant, variant],
-        isDeletingBranch,
+        isDeletingBranch || isDeletingBeyondMergePoint(node.guid, context),
         showAdd ? addOffset : undefined,
         labelOffset,
         connectorBadgeLabel,
@@ -370,6 +378,9 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
     const connectorVariant = getConnectorVariant(parentNode, childIndex, context);
 
     while (node) {
+        if (node.prev && isDeletingBeyondMergePoint(node.prev, context)) {
+            context.isDeletingBranch = true;
+        }
         const nodeRenderInfo = renderNode(parentNode, node, context, connectorVariant);
         nodeRenderInfos.push(nodeRenderInfo);
         node = node.next != null ? resolveNode(flowModel, node.next) : null;
@@ -897,6 +908,7 @@ function renderFlow(context: FlowRenderContext, progress: number): FlowRenderInf
     const rootNode = getRootNode(context.flowModel);
 
     const flowRenderInfo = renderFlowHelper(rootNode as ParentNodeModel, 0, context);
+    context.isDeletingBranch = false;
     return flowRenderInfo;
 }
 
