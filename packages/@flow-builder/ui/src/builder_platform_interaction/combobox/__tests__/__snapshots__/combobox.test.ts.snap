@@ -8,6 +8,9 @@ exports[`Combobox pill supported pill icon should  have a pill icon for selected
         <label
           class="slds-form-element__label"
         />
+        <lightning-helptext>
+          #shadow-root(open)
+        </lightning-helptext>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -35,6 +38,9 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
         <label
           class="slds-form-element__label"
         />
+        <lightning-helptext>
+          #shadow-root(open)
+        </lightning-helptext>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -59,6 +65,9 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
         <label
           class="slds-form-element__label"
         />
+        <lightning-helptext>
+          #shadow-root(open)
+        </lightning-helptext>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -83,6 +92,9 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
         <label
           class="slds-form-element__label"
         />
+        <lightning-helptext>
+          #shadow-root(open)
+        </lightning-helptext>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -113,6 +125,9 @@ exports[`Combobox pill supported required displays required element for required
         <label
           class="slds-form-element__label"
         />
+        <lightning-helptext>
+          #shadow-root(open)
+        </lightning-helptext>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -137,6 +152,9 @@ exports[`Combobox pill supported required does NOT display required element for 
         <label
           class="slds-form-element__label"
         />
+        <lightning-helptext>
+          #shadow-root(open)
+        </lightning-helptext>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
