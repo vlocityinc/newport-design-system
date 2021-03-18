@@ -718,7 +718,8 @@
         attributes: {
             processType: 'AutoLaunchedFlow',
             triggerType: 'RecordAfterSave',
-            isCreateOrUpdate: false
+            isCreateOrUpdate: false,
+            ignoreEntryCriteria: true
         },
         test: function (cmp) {
             $A.test.addWaitFor(
@@ -735,7 +736,7 @@
                         cmp.find('isIgnoreEntryCriteriaCB').get('v.checked'),
                         'IgnoreEntryCriteria should be checked'
                     );
-                    $A.test.assertTrue(
+                    $A.test.assertFalse(
                         cmp.find('isIgnoreEntryCriteriaCB').get('v.disabled'),
                         'IgnoreEntryCriteria should be disabled'
                     );

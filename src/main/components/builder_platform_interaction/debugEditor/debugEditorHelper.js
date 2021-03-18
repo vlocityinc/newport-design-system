@@ -169,6 +169,7 @@
             cmp.set('v.runAsCB', this.previousOptions.runAs);
             cmp.set('v.showDebugAsUserLookup', this.previousOptions.runAs);
             cmp.set('v.saveType', this.previousOptions.saveType);
+            cmp.set('v.ignoreEntryCriteria', this.previousOptions.ignoreEntryCriteria);
             if (cmp.get('v.showDebugAsUserLookup')) {
                 cmp.set('v.runAsSelected', this.previousOptions.runAsSelected);
             }
@@ -273,12 +274,14 @@
 
         var debugWaitsBox = cmp.find('isDebugWaitsBox');
         var saveTypeRadio = cmp.find('debugCreateOrUpdate');
+        var ignoreEntryCriteriaBox = cmp.find('isIgnoreEntryCriteriaCB');
         this.previousOptions = {
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             runAsSelected: selectedUser,
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
             debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false,
-            saveType: saveTypeRadio ? saveTypeRadio.get('v.value') : this.CREATE
+            saveType: saveTypeRadio ? saveTypeRadio.get('v.value') : this.CREATE,
+            ignoreEntryCriteria: ignoreEntryCriteriaBox ? ignoreEntryCriteriaBox.get('v.checked') : false
         };
     },
 

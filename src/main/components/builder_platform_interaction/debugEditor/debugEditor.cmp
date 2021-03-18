@@ -24,6 +24,7 @@
     <aura:attribute name="runAsCB" type="Boolean" default="false"/>
     <aura:attribute name="debugWaitsCB" type="Boolean" default="true"/>
     <aura:attribute name="isDMLTrigger" type="Boolean" default="false"/>
+    <aura:attribute name="ignoreEntryCriteria" type="Boolean" default="false"/>
 
     <aura:attribute name="createOrUpdateOptions" type="List"/>
     <aura:attribute name="saveType" type="String" default="Create"/>
@@ -79,8 +80,7 @@
         <aura:if isTrue="{!v.isDMLTrigger}">
             <lightning:input class="slds-p-bottom_small" type="checkbox"
                     aura:id="isIgnoreEntryCriteriaCB" label="{!$Label.FlowDebug.IgnoreEntryCriteria}"
-                    checked="true"
-                    disabled="true"
+                    checked="{!v.ignoreEntryCriteria}"
                     fieldLevelHelp="{!$Label.FlowDebug.IgnoreEntryCriteriaDisabledHelp}"/>
             <aura:set attribute="else">
                 <lightning:input class="slds-p-bottom_small" type="checkbox"
