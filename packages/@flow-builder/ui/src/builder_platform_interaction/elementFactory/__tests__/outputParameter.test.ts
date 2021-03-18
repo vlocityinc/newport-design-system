@@ -39,6 +39,24 @@ describe('outputParameter', () => {
             const result = createOutputParameter(mockElement);
             expect(result.isCollection).toEqual(mockElement.isCollection);
         });
+
+        describe('subtype', () => {
+            it('uses existing subtype from element', () => {
+                const mockElement = { subtype: 'Account' };
+                const result = createOutputParameter(mockElement);
+                expect(result.subtype).toEqual(mockElement.subtype);
+            });
+            it('uses sobjectType from element', () => {
+                const mockElement = { sobjectType: 'Account' };
+                const result = createOutputParameter(mockElement);
+                expect(result.subtype).toEqual(mockElement.sobjectType);
+            });
+            it('uses apexClass from element', () => {
+                const mockElement = { apexClass: 'someApexClass' };
+                const result = createOutputParameter(mockElement);
+                expect(result.subtype).toEqual(mockElement.apexClass);
+            });
+        });
     });
 
     describe('createOutputParameterMetadataObject', () => {

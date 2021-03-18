@@ -67,13 +67,17 @@ export const scheduleTriggeredFlowUIModel = {
                     rowIndex: '6d690706-908c-4d94-9513-1b219301b4c5',
                     name: 'text',
                     value: 'this is a post to chatter',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: 'e682f03e-925a-4d84-adc3-f1c5ceea0201',
                     name: 'subjectNameOrId',
                     value: 'Automation Builder Simplification',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -197,7 +201,9 @@ export const scheduleTriggeredFlowUIModel = {
                     rowIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
                     name: 'FlowExecutionErrorEvent',
                     value: '',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             }
         },

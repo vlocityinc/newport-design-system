@@ -25,7 +25,9 @@ const storeInputParameterWithDefaultValueAsString = {
     name: 'name',
     value: 'My name',
     valueDataType: 'String',
-    rowIndex: mockGuid
+    rowIndex: mockGuid,
+    subtype: '',
+    isCollection: false
 };
 
 const flowInputParameterWithDefaultValueAsReference = {
@@ -40,7 +42,9 @@ const storeInputParameterWithDefaultValueAsReference = {
     name: 'phone',
     value: 'var_text',
     valueDataType: 'reference',
-    rowIndex: mockGuid
+    rowIndex: mockGuid,
+    subtype: '',
+    isCollection: false
 };
 
 const flowOutputParameterWithDefaultValue = {
@@ -53,7 +57,9 @@ const storeOutputParameterWithDefaultValue = {
     name: 'accountId',
     value: 'var_text',
     valueDataType: 'reference',
-    rowIndex: mockGuid
+    rowIndex: mockGuid,
+    subtype: '',
+    isCollection: false
 };
 
 const apexPluginMetaData = {

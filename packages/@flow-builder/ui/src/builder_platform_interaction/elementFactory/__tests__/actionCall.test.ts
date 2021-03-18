@@ -77,7 +77,9 @@ const storeInputParameterWithDefaultValueAsString = {
     name: 'text',
     value: 'This is message',
     valueDataType: 'String',
-    rowIndex: mockGuid
+    rowIndex: mockGuid,
+    subtype: '',
+    isCollection: false
 };
 
 const flowInputParameterWithDefaultValueAsReference = {
@@ -91,18 +93,24 @@ const storeInputParameterWithDefaultValueAsReference = {
     name: 'subjectNameOrId',
     value: 'var_text',
     valueDataType: 'reference',
-    rowIndex: mockGuid
+    rowIndex: mockGuid,
+    subtype: '',
+    isCollection: false
 };
 
 const flowOutputParameterWithDefaultValue = {
     name: 'feedId',
-    assignToReference: 'var_text'
+    assignToReference: 'var_text',
+    subtype: '',
+    isCollection: false
 };
 
 const storeOutputParameterWithDefaultValue = {
     name: 'feedId',
     value: 'var_text',
     valueDataType: 'reference',
+    isCollection: false,
+    subtype: '',
     rowIndex: mockGuid
 };
 

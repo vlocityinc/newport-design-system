@@ -85,13 +85,17 @@ const subflowInStore = {
             rowIndex: '23fa7962-13db-47af-8720-2ea11d203769',
             name: 'inputNumberVariable',
             value: '3',
-            valueDataType: 'Number'
+            valueDataType: 'Number',
+            subtype: '',
+            isCollection: false
         },
         {
             rowIndex: 'cd5d9949-9e44-444a-8d49-7018be2c0ec9',
             name: 'inputOutputNumberVariable',
             value: 'numberVariable1',
-            valueDataType: 'reference'
+            valueDataType: 'reference',
+            subtype: '',
+            isCollection: false
         }
     ],
     outputAssignments: [
@@ -99,7 +103,9 @@ const subflowInStore = {
             rowIndex: '4024e59b-c767-430d-a811-020df5ddf160',
             name: 'outputNumberVariable',
             value: 'numberVariable2',
-            valueDataType: 'reference'
+            valueDataType: 'reference',
+            subtype: '',
+            isCollection: false
         }
     ],
     maxConnections: 1,

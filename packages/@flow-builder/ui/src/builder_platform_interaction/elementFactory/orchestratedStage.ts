@@ -394,6 +394,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
                             name: output.name,
                             apiName: output.name,
                             dataType: output.valueDataType,
+                            subtype: output.subtype,
                             isCollection: output.isCollection
                         })
                 );

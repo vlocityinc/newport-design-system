@@ -13,6 +13,7 @@ const parameterListRowItem = {
     name: 'myInput',
     value: 'hello',
     valueDataType: 'String',
+    subtype: 'Account',
     isCollection: true
 };
 
@@ -85,6 +86,7 @@ describe('createParameterListRowItem function', () => {
             name: 'myInput',
             value: 'hello',
             valueDataType: 'String',
+            subtype: 'Account',
             isCollection: true
         };
         const actualResult = createParameterListRowItem(parameterListRowItem);

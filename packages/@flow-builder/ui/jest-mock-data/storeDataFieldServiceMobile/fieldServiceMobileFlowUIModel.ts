@@ -441,13 +441,17 @@ export const fieldServiceMobileFlowUIModel = {
                     rowIndex: 'd6c3ef6f-7fc6-4cf7-a440-9ff753bb8c0f',
                     name: 'label',
                     value: 'ed85c895-feb5-45cb-b486-49cfd9da8e20.AccountSource',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
                     name: 'recordId',
                     value: '6d690706-908c-4d94-9513-1b219301b4c5',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,

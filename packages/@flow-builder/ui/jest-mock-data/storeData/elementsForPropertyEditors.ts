@@ -325,7 +325,12 @@ export const elementsForPropertyEditors = {
                 valueDataType: {
                     value: 'String',
                     error: null
-                }
+                },
+                subtype: {
+                    value: '',
+                    error: null
+                },
+                isCollection: false
             },
             {
                 rowIndex: 'b8a65817-59f3-4fa9-a0a8-73602ab6a45a',
@@ -340,7 +345,12 @@ export const elementsForPropertyEditors = {
                 valueDataType: {
                     value: 'String',
                     error: null
-                }
+                },
+                subtype: {
+                    value: '',
+                    error: null
+                },
+                isCollection: false
             }
         ],
         isNewField: false,
@@ -444,7 +454,12 @@ export const elementsForPropertyEditors = {
                 valueDataType: {
                     value: 'String',
                     error: null
-                }
+                },
+                subtype: {
+                    value: '',
+                    error: null
+                },
+                isCollection: false
             },
             {
                 rowIndex: '142d47b8-8c11-4740-a8dc-60d7747a08bb',
@@ -459,7 +474,12 @@ export const elementsForPropertyEditors = {
                 valueDataType: {
                     value: 'String',
                     error: null
-                }
+                },
+                subtype: {
+                    value: '',
+                    error: null
+                },
+                isCollection: false
             }
         ],
         isNewField: false,

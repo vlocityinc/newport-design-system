@@ -94,13 +94,17 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '6d690706-908c-4d94-9513-1b219301b4c5',
                     name: 'subjectNameOrId',
                     value: 'jsmith@salesforce.com',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: 'e682f03e-925a-4d84-adc3-f1c5ceea0201',
                     name: 'text',
                     value: 'This is my message',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -243,25 +247,33 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '4968239c-5e3d-45ee-9339-f575c917e223',
                     name: 'accountParam',
                     value: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
                     name: 'idParam',
                     value: '58d4a602-1abb-46e4-8c10-54c225dd56af',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
                     name: 'numberParam',
                     value: '8ca42594-136e-4ab4-b3d6-ff72c2c0dc2e',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: '04e1c283-fc0b-4928-a495-89d956368769',
                     name: 'stringParam',
                     value: '58d4a602-1abb-46e4-8c10-54c225dd56af',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [
@@ -269,13 +281,17 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'a193d56e-2ee7-422d-a3ff-664fc82a0fd8',
                     name: 'outputNumberParam',
                     value: '8ca42594-136e-4ab4-b3d6-ff72c2c0dc2e',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
                     name: 'outputStringParam',
                     value: '58d4a602-1abb-46e4-8c10-54c225dd56af',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             availableConnections: [
@@ -350,7 +366,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
                     name: 'generatedAccount',
                     value: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             availableConnections: [
@@ -504,7 +522,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'cc44cf67-84c7-4dc5-b851-44d57be8fa66',
                     name: 'accountIds',
                     value: '',
-                    valueDataType: ''
+                    valueDataType: '',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -587,7 +607,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'a6849bcb-05b6-4898-8cc1-12ff825524c5',
                     name: 'names',
                     value: 'Clio',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -662,7 +684,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'bb597c66-db1e-4636-85b6-31f89b320bd4',
                     name: 'contextId',
                     value: '58d4a602-1abb-46e4-8c10-54c225dd56af',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -703,7 +727,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '956ee0bf-ff21-44f4-9917-65676160e094',
                     name: 'SObjectRowId',
                     value: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929.Id',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -744,13 +770,17 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
                     name: 'subject',
                     value: 'team',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
                     name: 'greeting',
                     value: 'hello',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -791,13 +821,17 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'd6c3ef6f-7fc6-4cf7-a440-9ff753bb8c0f',
                     name: 'nextApproverIds',
                     value: '013c0515-5f96-493f-bf5b-3d261350a4e6',
-                    valueDataType: 'reference'
+                    valueDataType: 'reference',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
                     name: 'objectId',
                     value: '$GlobalConstant.EmptyString',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputParameters: [],
@@ -1484,7 +1518,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '20719b7b-1961-4eda-a3f3-b42d939e604a',
                     name: 'input1',
                     value: 'a string',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             outputAssignments: [],
@@ -2873,13 +2909,17 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'c3ba5281-2d20-4596-99d0-94b9368c1d70',
                     name: 'label',
                     value: 'emailScreenFieldAutomaticOutput',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: '142d47b8-8c11-4740-a8dc-60d7747a08bb',
                     name: 'placeholder',
                     value: 'your email address',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -2923,13 +2963,17 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '7f18c878-eb8d-49d8-8b87-8d8ddcdf4daa',
                     name: 'label',
                     value: 'emailScreenField',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 },
                 {
                     rowIndex: 'b8a65817-59f3-4fa9-a0a8-73602ab6a45a',
                     name: 'placeholder',
                     value: 'your email',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -3584,7 +3628,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'c27e44ab-6e20-496f-80c0-623c207ab098',
                     name: 'width',
                     value: '6',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -3685,7 +3731,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '23ae0ea4-4d33-4dcc-a579-013e91fd4159',
                     name: 'width',
                     value: '6',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -3811,7 +3859,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '09238073-9b8a-4280-9f23-e44be298f4b0',
                     name: 'label',
                     value: 'slider_1',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -3854,7 +3904,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'e12fdd35-1aeb-4465-b52c-73a201e704a7',
                     name: 'width',
                     value: '12',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -4042,7 +4094,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'fd01968e-736a-4bbf-9324-f6e7f915b6fe',
                     name: 'width',
                     value: '6',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -4088,7 +4142,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '5bb2cc21-9ba8-4d14-90b5-f81c92e919a8',
                     name: 'label',
                     value: 'email_2',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -4182,7 +4238,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: '016e92d2-b409-4a9d-89c0-50e637967cbc',
                     name: 'width',
                     value: '6',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -4412,7 +4470,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'bf86df65-a565-4f4c-9a88-3785f2785230',
                     name: 'width',
                     value: '6',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,
@@ -4491,7 +4551,9 @@ export const flowWithAllElementsUIModel = {
                     rowIndex: 'b3226572-8133-4f57-a49e-b9863ea7da7b',
                     name: 'width',
                     value: '6',
-                    valueDataType: 'String'
+                    valueDataType: 'String',
+                    subtype: '',
+                    isCollection: false
                 }
             ],
             isNewField: false,

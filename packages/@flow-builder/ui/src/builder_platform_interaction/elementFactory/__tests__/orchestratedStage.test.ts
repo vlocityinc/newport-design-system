@@ -788,6 +788,7 @@ describe('OrchestratedStage', () => {
                         name: 'foo',
                         apiName: 'foo',
                         dataType: 'string',
+                        subtype: 'Account',
                         valueDataType: 'string',
                         label: 'foo',
                         isCollection: true
