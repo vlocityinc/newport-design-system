@@ -61,7 +61,12 @@ export default class FlcConnector extends LightningElement {
         };
     }
 
+    // TODO: W-9025580 [Trust] Review how badge is displayed
+    // based on if scheduled path is supported or not
     get hasConnectorBadge() {
+        if (this.connectorInfo.labelType === ConnectorLabelType.BRANCH) {
+            return this.connectorInfo.connectorBadgeLabel != null;
+        }
         return this.connectorInfo.labelType !== ConnectorLabelType.NONE;
     }
 

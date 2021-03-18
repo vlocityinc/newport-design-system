@@ -1,5 +1,5 @@
 {
-  "rules":[
+  "rulesForRecordTriggerTypeCreate":[
     {
       "comparisonOperator":{
         "value":"EqualTo"

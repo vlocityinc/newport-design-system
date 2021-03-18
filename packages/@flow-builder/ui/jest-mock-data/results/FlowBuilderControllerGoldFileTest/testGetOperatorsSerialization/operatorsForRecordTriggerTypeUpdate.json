@@ -1,5 +1,5 @@
 {
-  "operators":{
+  "operatorsForRecordTriggerTypeUpdate":{
     "Add":"Add",
     "NotEqualTo":"Does Not Equal",
     "AddItem":"Add Item",
@@ -12,6 +12,7 @@
     "LessThanOrEqualTo":"Less Than or Equal",
     "RemovePosition":"Remove Position",
     "AssignCount":"Equals Count",
+    "IsChanged":"Is Changed",
     "RemoveBeforeFirst":"Remove Before First",
     "RemoveFirst":"Remove First",
     "AddAtStart":"Add At Start",

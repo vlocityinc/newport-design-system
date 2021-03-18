@@ -1,5 +1,5 @@
 {
-  "operators":{
+  "operatorsForRecordTriggerTypeCreate":{
     "Add":"Add",
     "NotEqualTo":"Does Not Equal",
     "AddItem":"Add Item",

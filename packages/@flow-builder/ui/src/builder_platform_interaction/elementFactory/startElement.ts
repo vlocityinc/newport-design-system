@@ -81,8 +81,15 @@ export function findStartYOffset(startElement: UI.Start): number {
  * @param startElement start element metadata structure
  */
 export function shouldSupportTimeTriggers(startElement: UI.Start | Metadata.Start) {
+    // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
+    // The need for the process type check is to ensure that scheduled paths are not rendered for process type
+    // othe rthan autolaunched.
+    // A cleaner way to perform this check is to update process type utils method
+    // to use the feature-processType check.
+    // Refer W-8931057 [Scheduled Paths] Scheduled Path errors are not linked on the builder
+    const schedulePathSupported = getProcessType() === null ? true : isScheduledPathSupported(getProcessType());
     return (
-        isScheduledPathSupported(getProcessType()) &&
+        schedulePathSupported &&
         startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
         startElement.object &&
         (startElement.recordTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
