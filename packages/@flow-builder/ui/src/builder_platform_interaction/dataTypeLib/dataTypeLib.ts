@@ -153,14 +153,14 @@ const FLOW_DATA_TYPE = {
         label: DATA_TYPE_LABELS.stageStepDataTypeLabel,
         value: 'STAGE_STEP',
         iconName: 'standard:output',
-        utilityIconName: 'utility:flow',
+        utilityIconName: 'utility:retail_execution',
         elementType: ELEMENT_TYPE.STAGE_STEP
     },
     ORCHESTRATED_STAGE: {
         label: DATA_TYPE_LABELS.orchestratedStageDataTypeLabel,
         value: 'ORCHESTRATED_STAGE',
         iconName: 'standard:output',
-        utilityIconName: 'utility:flow',
+        utilityIconName: 'utility:jump_to_right',
         elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE
     }
 };
