@@ -63,7 +63,11 @@ export default class ResourceDetails extends LightningElement {
     }
 
     handleEditButtonClicked() {
-        const editElementEvent = new EditElementEvent(this.resourceDetails.elementGuid);
+        const editElementEvent = new EditElementEvent(
+            this.resourceDetails.elementGuid,
+            EditElementEvent.EVENT_NAME,
+            this.resourceDetails.elementType
+        );
         this.dispatchEvent(editElementEvent);
         logInteraction(
             `edit-element-button`,

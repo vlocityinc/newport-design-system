@@ -20,7 +20,7 @@ import {
     mockLoopOnApexTypeInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { clickEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 
@@ -39,7 +39,7 @@ const createComponentUnderTest = (details) => {
 
 const ASSIGNMENT_DETAILS = {
     elementType: 'ASSIGNMENT',
-    guid: 'guid1',
+    elementGuid: 'guid1',
     label: 'Assignment',
     iconName: 'Assignment_Icon',
     description: 'Assignment_Desc',
@@ -55,6 +55,7 @@ const ASSIGNMENT_DETAILS = {
 
 const SELECTORS = {
     footerButtons: '.panel-footer lightning-button',
+    editButton: '.panel-footer lightning-button.editbutton',
     detailsSection: '.resource-detail-panel-body',
     usedBySection: '.test-used-by-section',
     createdBySection: '.test-created-by-section',
@@ -75,7 +76,7 @@ describe('Resource Details', () => {
     describe('For elements', () => {
         it('should display Edit Button', () => {
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            const editBtn = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons)[1];
+            const editBtn = element.shadowRoot.querySelector(SELECTORS.editButton);
             expect(editBtn.label).toBe(LABELS.editButtonLabel);
             expect(editBtn.title).toBe(LABELS.editButtonLabel);
         });
@@ -97,21 +98,19 @@ describe('Resource Details', () => {
             expect(eventCallback).toHaveBeenCalled();
             expect(logInteraction).toHaveBeenCalled();
         });
-        it('handle edit click SHOULD fire EditElementEvent with outcome canvasElementGUID', async () => {
+        it('handle edit click SHOULD fire EditElementEvent with outcome canvasElementGUID and element type', async () => {
             const eventCallback = jest.fn();
-            const guid = 'guid1';
+            const guid = ASSIGNMENT_DETAILS.elementGuid;
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
             element.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
             await ticks(2);
-            const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
-            const editButtonClickedEvent = new EditElementEvent(guid);
-            footerButtons[1].dispatchEvent(editButtonClickedEvent);
+            const editButton = element.shadowRoot.querySelector(SELECTORS.editButton);
+            editButton.dispatchEvent(clickEvent());
             await ticks(1);
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    canvasElementGUID: guid
-                }
+            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
+                canvasElementGUID: guid,
+                elementType: ASSIGNMENT_DETAILS.elementType
             });
         });
 
