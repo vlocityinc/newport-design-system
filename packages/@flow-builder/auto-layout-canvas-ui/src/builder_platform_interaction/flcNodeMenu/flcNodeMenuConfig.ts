@@ -61,10 +61,10 @@ export const getMenuConfiguration = (
         ? [ELEMENT_ACTION_CONFIG.COPY_ACTION]
         : [ELEMENT_ACTION_CONFIG.COPY_ACTION, ELEMENT_ACTION_CONFIG.DELETE_ACTION];
 
-    if (canHaveFaultConnector && !disableDeleteElements) {
-        nodeActions.push(
-            elementHasFault ? ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION : ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
-        );
+    if (canHaveFaultConnector && !elementHasFault) {
+        nodeActions.push(ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION);
+    } else if (elementHasFault && !disableDeleteElements) {
+        nodeActions.push(ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION);
     }
 
     const menuConfiguration = {

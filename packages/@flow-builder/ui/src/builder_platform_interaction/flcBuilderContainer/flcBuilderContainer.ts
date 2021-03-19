@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getConfigForElementType,
     getChildElementTypesWithOverridenProperties
@@ -20,12 +20,24 @@ const LEFT_PANE_WIDTH = 320;
 
 let startElementMetadata = null;
 
+function canHaveFaultConnector(startElementMetadata, metadata) {
+    // W-8985288: clean this up to make canHaveFaultConnector more dynamic than a static attribute in elementConfig
+    if (
+        metadata.elementType === ELEMENT_TYPE.RECORD_UPDATE &&
+        startElementMetadata.triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE
+    ) {
+        return false;
+    }
+    return metadata.canHaveFaultConnector;
+}
+
 function augmentElementsMetadata(elementsMetadata) {
-    const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
-    const endElement = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
+    const startElement: UI.ElementConfig = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
+    const endElement: UI.ElementConfig = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
 
     elementsMetadata = elementsMetadata.map((metadata) => ({
         ...metadata,
+        canHaveFaultConnector: canHaveFaultConnector(startElementMetadata, metadata),
         type: getFlcElementType(metadata.elementType)
     }));
 

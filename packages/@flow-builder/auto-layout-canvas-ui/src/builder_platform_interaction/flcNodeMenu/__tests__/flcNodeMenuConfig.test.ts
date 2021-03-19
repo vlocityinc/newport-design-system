@@ -101,6 +101,36 @@ describe('getMenuConfiguration tests', () => {
             expect(configuration.body.nodeActions[2].label).toBe(LABELS.deleteFaultActionLabel);
         });
 
+        it.each`
+            canHaveFaultConnector | elementHasFault | faultAction
+            ${false}              | ${false}        | ${undefined}
+            ${false}              | ${true}         | ${ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION}
+            ${true}               | ${false}        | ${ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION}
+            ${true}               | ${true}         | ${ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION}
+        `(
+            'should have faultAction set to $faultAction, when chfc: $canHaveFaultConnector, ehf: $elementHasFault',
+            async ({ canHaveFaultConnector, elementHasFault, faultAction }) => {
+                configuration = getMenuConfiguration(
+                    getElementMetadata(NodeType.DEFAULT, canHaveFaultConnector),
+                    CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE,
+                    elementHasFault,
+                    false
+                );
+                if (faultAction) {
+                    expect(configuration.body.nodeActions).toEqual([
+                        ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                        ELEMENT_ACTION_CONFIG.DELETE_ACTION,
+                        faultAction
+                    ]);
+                } else {
+                    expect(configuration.body.nodeActions).toEqual([
+                        ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                        ELEMENT_ACTION_CONFIG.DELETE_ACTION
+                    ]);
+                }
+            }
+        );
+
         it('Should have Footer', () => {
             expect(configuration.footer).toBeDefined();
         });
@@ -188,7 +218,10 @@ describe('getMenuConfiguration tests', () => {
         });
 
         it('Body should have the right actions', () => {
-            expect(configuration.body.nodeActions).toEqual([ELEMENT_ACTION_CONFIG.COPY_ACTION]);
+            expect(configuration.body.nodeActions).toEqual([
+                ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
+            ]);
         });
     });
 });
