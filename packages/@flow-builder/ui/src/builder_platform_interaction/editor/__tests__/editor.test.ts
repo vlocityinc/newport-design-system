@@ -805,7 +805,7 @@ describe('property editor', () => {
         expect(rightPanel).not.toBeNull();
     });
 
-    it('for resource is always opened in a modal', async () => {
+    it('for new resource is always opened in a modal', async () => {
         expect.assertions(1);
 
         mockStoreState.properties.processType = 'right';
@@ -831,6 +831,39 @@ describe('property editor', () => {
             mode: 'addnewresource',
             nodeUpdate: expect.anything()
         });
+    });
+
+    it('for edit resource is always opened in a modal', async () => {
+        expect.assertions(1);
+
+        mockStoreState.properties.processType = 'right';
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'editMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                usePanelForPropertyEditor: true,
+                componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
+            }
+        });
+
+        const event = new EditElementEvent('1', EditElementEvent.EVENT_NAME, ELEMENT_TYPE.CONSTANT);
+
+        await ticks(1);
+        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+
+        await ticks(1);
+
+        expect(invokePropertyEditor).toHaveBeenCalledWith(
+            PROPERTY_EDITOR,
+            expect.objectContaining({
+                mode: 'editelement',
+                node: mockStoreState.elements['1'],
+                nodeUpdate: expect.anything(),
+                newResourceCallback: expect.anything()
+            })
+        );
     });
 
     describe('in modal', () => {

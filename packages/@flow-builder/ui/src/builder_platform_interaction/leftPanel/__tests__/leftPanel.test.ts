@@ -338,7 +338,8 @@ describe('left-panel', () => {
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: {
-                        canvasElementGUID: guid
+                        canvasElementGUID: guid,
+                        elementType: type
                     }
                 });
             });

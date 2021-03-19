@@ -137,7 +137,11 @@ export default class LeftPanel extends LightningElement {
 
     handleResourceClicked(event) {
         const canvasElementGUID = event.detail.guid;
-        const editElementEvent = new EditElementEvent(canvasElementGUID);
+        const editElementEvent = new EditElementEvent(
+            canvasElementGUID,
+            EditElementEvent.EVENT_NAME,
+            event.detail.elementType
+        );
         this.dispatchEvent(editElementEvent);
     }
 

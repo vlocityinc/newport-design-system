@@ -1,72 +1,73 @@
 // @ts-nocheck
-import { LightningElement, track, api } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 
 import {
+    focusOnDockingPanel,
     getPropertyEditorConfig,
-    invokePropertyEditor,
-    PROPERTY_EDITOR,
+    hidePopover,
+    invokeAutoLayoutWelcomeMat,
+    invokeDebugEditor,
+    invokeKeyboardHelpDialog,
+    invokeModal,
     invokeModalInternalData,
     invokeNewFlowModal,
-    invokeAutoLayoutWelcomeMat,
-    invokeKeyboardHelpDialog,
-    focusOnDockingPanel,
-    invokeDebugEditor,
-    hidePopover,
-    invokeModal,
+    invokePropertyEditor,
     modalBodyVariant,
-    modalFooterVariant
+    modalFooterVariant,
+    PROPERTY_EDITOR
 } from 'builder_platform_interaction/builderUtils';
-import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
-    updateFlow,
-    doDuplicate,
+    ADD_START_ELEMENT,
     addElement,
     addElementFault,
-    deleteElementFault,
-    updateElement,
-    selectOnCanvas,
-    selectionOnFixedCanvas,
-    flcCreateConnection,
-    pasteOnFixedCanvas,
-    undo,
-    redo,
+    clearCanvasDecoration,
     clearUndoRedo,
-    updatePropertiesAfterCreatingFlowFromTemplate,
-    updatePropertiesAfterCreatingFlowFromProcessType,
-    updatePropertiesAfterActivateButtonPress,
-    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
-    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
-    TOGGLE_ON_CANVAS,
+    deleteElementFault,
     DESELECT_ON_CANVAS,
+    doDuplicate,
+    flcCreateConnection,
     MARQUEE_SELECT_ON_CANVAS,
-    ADD_START_ELEMENT,
+    pasteOnFixedCanvas,
+    redo,
+    removeLastCreatedInlineResource,
+    SELECTION_ON_FIXED_CANVAS,
+    selectionOnFixedCanvas,
+    selectOnCanvas,
+    TOGGLE_ON_CANVAS,
+    undo,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
-    SELECTION_ON_FIXED_CANVAS,
-    clearCanvasDecoration,
+    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
+    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
+    UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
+    updateElement,
+    updateFlow,
     updateFlowOnCanvasModeToggle,
     updateIsAutoLayoutCanvasProperty,
-    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
+    updatePropertiesAfterActivateButtonPress,
+    updatePropertiesAfterCreatingFlowFromProcessType,
+    updatePropertiesAfterCreatingFlowFromTemplate
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
-    FLOW_STATUS,
-    isSystemElement,
     FLOW_PROCESS_TYPE,
+    FLOW_STATUS,
+    FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
-    RECOMMENDATION_STRATEGY,
-    FLOW_TRIGGER_SAVE_TYPE
+    isSystemElement,
+    RECOMMENDATION_STRATEGY
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
-import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP, getEntity } from 'builder_platform_interaction/sobjectLib';
+import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platform_interaction/undoRedoLib';
+import { fetchFieldsForEntity, getEntity, MANAGED_SETUP, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { loggingUtils, commands, keyboardInteractionUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
-import { EditElementEvent, NewResourceEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
+import { commands, keyboardInteractionUtils, loggingUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
+import { EditElementEvent, LocatorIconClickedEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
@@ -74,70 +75,69 @@ import { getElementForPropertyEditor, getElementForStore } from 'builder_platfor
 import { diffFlow } from 'builder_platform_interaction/metadataUtils';
 import {
     canRunDebugWith,
-    getElementsToBeDeleted,
-    getSaveType,
-    updateStoreAfterSaveFlowIsSuccessful,
-    updateUrl,
-    updateStoreAfterSaveAsNewFlowIsFailed,
-    updateStoreAfterSaveAsNewVersionIsFailed,
-    setFlowErrorsAndWarnings,
-    flowPropertiesCallback,
-    saveAsFlowCallback,
-    getCopiedChildElements,
-    getCopiedData,
-    getPasteElementGuidMaps,
-    getDuplicateElementGuidMaps,
-    getConnectorToDuplicate,
-    highlightCanvasElement,
-    getSelectedFlowEntry,
-    setErrorMessage,
     closeModalAndNavigateTo,
     createStartElement,
     createVariableElement,
-    isGuardrailsEnabled,
-    getToolboxElements,
+    debugInterviewResponseCallback,
+    flowPropertiesCallback,
+    getConnectorToDuplicate,
+    getCopiedChildElements,
+    getCopiedData,
+    getDuplicateElementGuidMaps,
     getElementsMetadata,
+    getElementsToBeDeleted,
+    getPasteElementGuidMaps,
+    getSaveType,
+    getSelectedFlowEntry,
+    getToolboxElements,
+    highlightCanvasElement,
+    isGuardrailsEnabled,
+    saveAsFlowCallback,
     screenFieldsReferencedByLoops,
-    debugInterviewResponseCallback
+    setErrorMessage,
+    setFlowErrorsAndWarnings,
+    updateStoreAfterSaveAsNewFlowIsFailed,
+    updateStoreAfterSaveAsNewVersionIsFailed,
+    updateStoreAfterSaveFlowIsSuccessful,
+    updateUrl
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
+    BUILDER_MODE,
     getProcessTypes,
-    setProcessTypes,
     getRunInModes,
-    setRunInModes,
-    setBuilderType,
     isVersioningDataInitialized,
-    BUILDER_MODE
+    setBuilderType,
+    setProcessTypes,
+    setRunInModes
 } from 'builder_platform_interaction/systemLib';
 import { isAutoLayoutCanvasOnly, isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import {
-    loadFieldsForComplexTypesInFlow,
-    loadParametersForInvocableApexActionsInFlowFromMetadata,
-    loadOnStart,
-    loadOnProcessTypeChange,
-    loadOperatorsAndRulesOnTriggerTypeChange,
     initializeLoader,
+    loadAllSupportedFeatures,
     loadEntity,
     loadEventType,
-    loadVersioningData,
-    loadFieldsForExtensionsInFlowFromMetadata
+    loadFieldsForComplexTypesInFlow,
+    loadFieldsForExtensionsInFlowFromMetadata,
+    loadOnProcessTypeChange,
+    loadOnStart,
+    loadOperatorsAndRulesOnTriggerTypeChange,
+    loadParametersForInvocableApexActionsInFlowFromMetadata,
+    loadVersioningData
 } from 'builder_platform_interaction/preloadLib';
 import {
-    isAutoLayoutCanvasEnabled,
+    CLASSIC_EXPERIENCE,
     getPreferredExperience,
-    CLASSIC_EXPERIENCE
+    isAutoLayoutCanvasEnabled
 } from 'builder_platform_interaction/contextLib';
-import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import {
-    getTriggerType,
     getElementByGuid,
     getRecordTriggerType,
-    getStartObject
+    getStartObject,
+    getTriggerType
 } from 'builder_platform_interaction/storeUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
@@ -147,11 +147,11 @@ import { getConfigForElement } from 'builder_platform_interaction/elementConfig'
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
 
 import {
+    addEndElementsAndConnectorsTransform,
+    canConvertToAutoLayoutCanvas,
     convertToAutoLayoutCanvas,
     convertToFreeFormCanvas,
-    canConvertToAutoLayoutCanvas,
-    removeEndElementsAndConnectorsTransform,
-    addEndElementsAndConnectorsTransform
+    removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
 
 const { generateGuid } = storeUtils;
@@ -197,6 +197,8 @@ type NodeWithParent = {
     element: UI.Element;
     parentGuid: UI.Guid;
 };
+
+const ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL = [ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.TEXT_TEMPLATE, ELEMENT_TYPE.FORMULA];
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -1691,7 +1693,12 @@ export default class Editor extends LightningElement {
         if (event && event.detail && event.type) {
             const mode = event.detail.mode;
             const guid = event.detail.canvasElementGUID;
-            this.editElement(mode, guid);
+
+            const elementType: string | undefined = event.detail.elementType;
+
+            const forceModal = elementType && ELEMENT_TYPES_TO_ALWAYS_EDIT_IN_MODAL.includes(elementType);
+
+            this.editElement(mode, guid, forceModal);
         }
     };
 
@@ -2050,10 +2057,11 @@ export default class Editor extends LightningElement {
     /**
      * Method to open the property editor of the element needs to be edited
      *
-     * @param {object} mode - Mode of the event being handled
-     * @param {string} - Guid of element being currently edited
+     * @param mode - Mode of the event being handled
+     * @param guid - Guid of element being currently edited
+     * @param forceModal - If true, the editor will be opened in a modal
      */
-    editElement(mode: any, guid: string) {
+    editElement(mode: any, guid: string, forceModal = false) {
         const element = storeInstance.getCurrentState().elements[guid];
         if (element && element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
             this.closeAutoLayoutContextualMenu();
@@ -2076,7 +2084,7 @@ export default class Editor extends LightningElement {
                     newResourceCallback,
                     processType
                 };
-            });
+            }, forceModal);
             if (element && element.isCanvasElement && !this.properties.isAutoLayoutCanvas) {
                 storeInstance.dispatch(
                     selectOnCanvas({
