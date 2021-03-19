@@ -57,7 +57,7 @@
   .nds-lookup.nds-knowledge-component {
     height: 100%;
 
-    >label.nds-form-element__label {
+    >button.nds-knowledge-toggle {
       font-size: 0.875rem;
       margin-bottom: 1rem;
       position: absolute;
@@ -199,9 +199,7 @@
       background: $white;
 
       .nds-knowledge-data_wrapper-search.nds-lookup__search-input {
-        input {
-          padding-#{$left}: 2rem;
-        }
+        margin-top: 2rem;
       }
 
       .nds-knowledge-data_wrapper-search {
