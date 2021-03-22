@@ -5,7 +5,7 @@ Flows are defined in [flows](flows) folder. These flows are all in "metadata for
 
 If the change you want to make is not specific to a specific flow type, modify [flowWithAllElements.json](flows/flowWithAllElements.json) by following [these steps](flows/readme.txt).
 
-If the change is specific to a specific flow type, change corresponding flow in [flows](flows) (`autoLaunchedFlowScheduledJourney.json`, `contactRequestFlow.json`, `fieldServiceMobileFlow.json`, `recordTriggeredFlow.json`, `scheduleTriggeredFlow.json`) by following the same steps.
+If the change is specific to a specific flow type, change corresponding flow in [flows](flows) (`autoLaunchedFlowScheduled.json`, `contactRequestFlow.json`, `fieldServiceMobileFlow.json`, `recordTriggeredFlow.json`, `scheduleTriggeredFlow.json`) by following the same steps.
 
 **Never edit flows manually, always get flow json from server side call**
 

@@ -3,7 +3,7 @@
     "createdDate": "2019-09-06T13:36:31.000+0000",
     "definitionId": "300xx000000bsOzAAI",
     "fieldsToNull": [],
-    "fullName": "autolaunchedFlowScheduledJourney",
+    "fullName": "autolaunchedFlowScheduled",
     "id": "301xx000003GgHXAA0",
     "lastModifiedBy": {
         "fieldsToNull": [],
@@ -12,7 +12,7 @@
     "lastModifiedById": "005xx000001X8efAAC",
     "lastModifiedDate": "2019-09-06T13:36:33.000+0000",
     "manageableState": "unmanaged",
-    "masterLabel": "autolaunchedFlowScheduledJourney",
+    "masterLabel": "autolaunchedFlowScheduled",
     "metadata": {
         "start": {
             "locationX": 59,
@@ -20,7 +20,7 @@
             "connector": {
                 "targetReference": "wait1"
             },
-            "triggerType": "ScheduledJourney",
+            "triggerType": "Scheduled",
             "schedule": {
                 "startDate": "2019-11-18",
                 "startTime": "05:45:00.000",
@@ -35,8 +35,8 @@
                 "name": "postToChatter",
                 "description": "",
                 "label": "postToChatter",
-                "locationX": 563,
-                "locationY": 174,
+                "locationX": 559,
+                "locationY": 171,
                 "actionType": "chatterPost",
                 "actionName": "chatterPost",
                 "inputParameters": [
@@ -242,9 +242,9 @@
             }
         ],
         "description": "",
-        "interviewLabel": "flow {!$Flow.CurrentDateTime}",
+        "interviewLabel": "autolaunchedFlowScheduled {!$Flow.CurrentDateTime}",
         "isTemplate": false,
-        "label": "autolaunchedFlowScheduledJourney",
+        "label": "autolaunchedFlowScheduled",
         "processMetadataValues": [
             {
                 "name": "BuilderType",
