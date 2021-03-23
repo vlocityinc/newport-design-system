@@ -1814,7 +1814,8 @@ export default class Editor extends LightningElement {
                     bodyClass: 'slds-p-around_medium',
                     footerClass: 'slds-theme_default'
                 });
-            } else if (this.properties.hasUnsavedChanges) {
+            } else if (!this.isUndoDisabled) {
+                // Show a warning modal if there are unsaved changes (besides the canvas mode change) on toggle
                 invokeModal({
                     headerData: {
                         headerTitle: LABELS.unsavedChangesHeaderTitle
