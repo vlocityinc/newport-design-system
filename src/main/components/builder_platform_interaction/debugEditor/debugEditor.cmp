@@ -42,6 +42,18 @@
             <h2>{#$Label.FlowDebug.FlowProperties}</h2>
         </div>
 
+        <aura:if isTrue="{!v.isDMLTrigger}">
+            <lightning:input class="slds-p-bottom_small" type="checkbox"
+                    aura:id="isIgnoreEntryCriteriaCB" label="{!$Label.FlowDebug.IgnoreEntryCriteria}"
+                    checked="{!v.ignoreEntryCriteria}"
+                    fieldLevelHelp="{!$Label.FlowDebug.IgnoreEntryCriteriaDisabledHelp}"/>
+            <aura:set attribute="else">
+                <lightning:input class="slds-p-bottom_small" type="checkbox"
+                    aura:id="isDebugWaitsBox" label="{!$Label.FlowDebug.DebugWaits}"
+                    checked="{!v.debugWaitsCB}"/>
+            </aura:set>
+        </aura:if>
+
         <aura:if isTrue="{!v.shouldHasDebugAsUser}">
             <lightning:input class="slds-p-bottom_small" type="checkbox"
                 aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}"
@@ -77,17 +89,6 @@
            </aura:set>
        </aura:if>
 
-        <aura:if isTrue="{!v.isDMLTrigger}">
-            <lightning:input class="slds-p-bottom_small" type="checkbox"
-                    aura:id="isIgnoreEntryCriteriaCB" label="{!$Label.FlowDebug.IgnoreEntryCriteria}"
-                    checked="{!v.ignoreEntryCriteria}"
-                    fieldLevelHelp="{!$Label.FlowDebug.IgnoreEntryCriteriaDisabledHelp}"/>
-            <aura:set attribute="else">
-                <lightning:input class="slds-p-bottom_small" type="checkbox"
-                    aura:id="isDebugWaitsBox" label="{!$Label.FlowDebug.DebugWaits}"
-                    checked="{!v.debugWaitsCB}"/>
-            </aura:set>
-        </aura:if>
         <aura:if isTrue="{!v.shouldHasInputs}">
             <!-- Input Variables -->
             <aura:if isTrue="{!v.isDMLTrigger}">
