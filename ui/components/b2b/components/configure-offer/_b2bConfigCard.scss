@@ -2,6 +2,9 @@
 .nds-b2b-card {
   margin: 1.5rem 0;
   background: $white;
+  &.nds-b2b-promo-spacing{
+    margin: 0 0 1.5rem 0;
+  }
   input.nds-b2b-card_checkbox {
     position: absolute;
     opacity: 0;
