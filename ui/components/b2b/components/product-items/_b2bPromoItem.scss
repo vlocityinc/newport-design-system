@@ -6,7 +6,6 @@
   max-height: $b2b-product-item-min-height;
   border-radius: 0.3rem;
   border: 1px solid $white-smoke;
-  border-top: 0.3125rem solid $azure;
   padding: 0.8rem;
   margin-bottom: 0.7rem;
   position: relative;
@@ -16,10 +15,12 @@
     pointer-events: none;
   }
   .nds-b2b-promo-name {
-    font-size: $font-size-5;
+    color: $black-primary;
+    font-size: 0.9rem;
   }
   .nds-b2b-promo-description {
-    font-weight: $font-weight-light;
+    font-weight: 0.8rem;
+    color: $black-primary;
     font-size: $font-size-2;
     margin-top: 0.3rem;
     @include multiLineEllipsis(1rem, 2);
