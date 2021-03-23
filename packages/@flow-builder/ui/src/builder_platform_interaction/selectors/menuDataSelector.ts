@@ -82,7 +82,8 @@ const sortableFilter = (element) => {
     return (
         (!element.elementType ||
             element.elementType === ELEMENT_TYPE.VARIABLE ||
-            element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) &&
+            element.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
+            element.elementType === ELEMENT_TYPE.APEX_CALL) &&
         element.dataType &&
         isSortable(element.dataType, element.isCollection)
     );

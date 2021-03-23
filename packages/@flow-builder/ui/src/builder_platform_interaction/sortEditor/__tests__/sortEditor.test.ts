@@ -10,11 +10,14 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { SORT_OUTPUT_OPTION } from 'builder_platform_interaction/sortEditorLib';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import { ComboboxTestComponent } from '../../integrationTests/__tests__/comboboxTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
-    require('builder_platform_interaction_mocks/ferovResourcePicker')
-);
+
+const ACCOUNT_SOBJECT_COLLECTION_VARIABLE = 'accountSObjectCollectionVariable';
+const APEX_COMPLEX_TYPE_COLLECTION_VARIABLE = 'apexComplexTypeCollectionVariable';
+const APEX_CALL_STRING_COLLECTION_VARIABLE = 'apexCall_anonymous_strings';
+const STRING_COLLECTION_VARIABLE = 'stringCollectionVariable1';
 
 const defaultEmptyElementInfo = {
     collectionReference: { value: null, error: null },
@@ -30,7 +33,7 @@ const defaultEmptyElementInfo = {
 };
 
 const testElementInfoWithSObjectCollection = {
-    collectionReference: { value: 'accountSObjectCollectionVariable', error: null },
+    collectionReference: { value: ACCOUNT_SOBJECT_COLLECTION_VARIABLE, error: null },
     limit: { value: null, error: null },
     sortOptions: [
         {
@@ -49,7 +52,7 @@ const testElementInfoWithSObjectCollection = {
 };
 
 const testElementInfoWithApexCollection = {
-    collectionReference: { value: 'apexComplexTypeCollectionVariable', error: null },
+    collectionReference: { value: APEX_COMPLEX_TYPE_COLLECTION_VARIABLE, error: null },
     limit: { value: null, error: null },
     sortOptions: [
         {
@@ -61,8 +64,21 @@ const testElementInfoWithApexCollection = {
     ]
 };
 
+const testElementInfoWithApexCallCollection = {
+    collectionReference: { value: APEX_CALL_STRING_COLLECTION_VARIABLE, error: null },
+    limit: { value: null, error: null },
+    sortOptions: [
+        {
+            sortField: { value: null, error: null },
+            sortOrder: { value: 'Asc', erro: null },
+            doesPutEmptyStringAndNullFirst: false,
+            rowIndex: 'r1'
+        }
+    ]
+};
+
 const testElementInfoWithStringCollection = {
-    collectionReference: { value: 'stringCollectionVariable1', error: null },
+    collectionReference: { value: STRING_COLLECTION_VARIABLE, error: null },
     limit: { value: '3', error: null },
     sortOptions: [
         {
@@ -109,6 +125,16 @@ const getSortOutputRadioGroup = (sortCollectionOutput) =>
 const getLimitText = (sortCollectionOutput) =>
     sortCollectionOutput.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT);
 
+const getBaseResourcePicker = (ferovResourcePicker) =>
+    ferovResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+
+const getCombobox = (flowCollection) => {
+    const baseResourcePicker = getBaseResourcePicker(flowCollection);
+    return new ComboboxTestComponent(
+        baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX)
+    );
+};
+
 describe('sort-editor', () => {
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
@@ -117,6 +143,11 @@ describe('sort-editor', () => {
         Store.resetStore();
     });
     describe('new sort collection mode', () => {
+        const GROUP_LABELS = {
+            APEX_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL',
+            COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL',
+            RECORD_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL'
+        };
         let sortEditor;
         beforeEach(() => {
             sortEditor = createComponentUnderTest();
@@ -130,6 +161,46 @@ describe('sort-editor', () => {
         it('should have no selected flow collection', () => {
             const flowCollection = getFlowCollection(sortEditor);
             expect(flowCollection.value).toEqual('');
+        });
+        it('should contain apex collection variables from flowWithAllElementsUIModel', () => {
+            const flowCollection = getFlowCollection(sortEditor);
+            const groupedCombobox = getCombobox(flowCollection).getGroupedCombobox();
+            expect(
+                groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.APEX_COLLECTION_VARIABLES,
+                    'displayText',
+                    '{!' + APEX_COMPLEX_TYPE_COLLECTION_VARIABLE + '}'
+                )
+            ).toBeDefined();
+        });
+        it('should contain collection variables from flowWithAllElementsUIModel', () => {
+            const flowCollection = getFlowCollection(sortEditor);
+            const groupedCombobox = getCombobox(flowCollection).getGroupedCombobox();
+            expect(
+                groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.COLLECTION_VARIABLES,
+                    'displayText',
+                    '{!' + STRING_COLLECTION_VARIABLE + '}'
+                )
+            ).toBeDefined();
+            expect(
+                groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.COLLECTION_VARIABLES,
+                    'displayText',
+                    '{!' + APEX_CALL_STRING_COLLECTION_VARIABLE + '}'
+                )
+            ).toBeDefined();
+        });
+        it('should contain sObject collection variables from flowWithAllElementsUIModel', () => {
+            const flowCollection = getFlowCollection(sortEditor);
+            const groupedCombobox = getCombobox(flowCollection).getGroupedCombobox();
+            expect(
+                groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.RECORD_COLLECTION_VARIABLES,
+                    'displayText',
+                    '{!' + ACCOUNT_SOBJECT_COLLECTION_VARIABLE + '}'
+                )
+            ).toBeDefined();
         });
         it('should not have sort options section', () => {
             expect(getSortOptionsSection(sortEditor)).toBeNull();
@@ -153,9 +224,7 @@ describe('sort-editor', () => {
             });
             it('should have selected flow collection', () => {
                 const flowCollection = getFlowCollection(sortEditor);
-                expect(flowCollection.value.value).toEqual(
-                    testElementInfoWithSObjectCollection.collectionReference.value
-                );
+                expect(flowCollection.value).toEqual(testElementInfoWithSObjectCollection.collectionReference.value);
             });
             it('should have sort options section', () => {
                 expect(getSortOptionsSection(sortEditor)).not.toBeNull();
@@ -183,7 +252,7 @@ describe('sort-editor', () => {
             });
             it('should have selected flow collection', () => {
                 const flowCollection = getFlowCollection(sortEditor);
-                expect(flowCollection.value.value).toEqual(testElementInfoWithApexCollection.collectionReference.value);
+                expect(flowCollection.value).toEqual(testElementInfoWithApexCollection.collectionReference.value);
             });
             it('should have sort options section', () => {
                 expect(getSortOptionsSection(sortEditor)).not.toBeNull();
@@ -193,6 +262,38 @@ describe('sort-editor', () => {
                 const sortOptions = getSortOptions(sortOptionList);
                 expect(sortOptions).toHaveLength(1);
                 expect(getFieldPicker(sortOptions[0])).not.toBeNull();
+            });
+            it('should have sort output section', () => {
+                expect(getSortOutputSection(sortEditor)).not.toBeNull();
+            });
+        });
+        describe('Apex Action output collection', () => {
+            let sortEditor;
+            beforeEach(() => {
+                sortEditor = createComponentUnderTest({ elementInfo: testElementInfoWithApexCallCollection });
+            });
+            it('should not be null', () => {
+                expect(sortEditor).not.toBeNull();
+            });
+            it('should have the flow collection combobox', () => {
+                expect(getFlowCollection(sortEditor)).not.toBeNull();
+            });
+            it('should have selected flow collection', () => {
+                const flowCollection = getFlowCollection(sortEditor);
+                expect(flowCollection.value).toEqual(testElementInfoWithApexCallCollection.collectionReference.value);
+            });
+            it('should have sort options section', () => {
+                expect(getSortOptionsSection(sortEditor)).not.toBeNull();
+            });
+            it('should not have field in sort option', () => {
+                const sortOptionList = getSortOptionsSection(sortEditor);
+                const sortOptions = getSortOptions(sortOptionList);
+                expect(sortOptions).toHaveLength(1);
+            });
+            it('should not contains a field picker', () => {
+                const sortOptions = getSortOptions(getSortOptionsSection(sortEditor));
+                const fieldPicker = getFieldPicker(sortOptions[0]);
+                expect(fieldPicker).toBeNull();
             });
             it('should have sort output section', () => {
                 expect(getSortOutputSection(sortEditor)).not.toBeNull();
@@ -211,9 +312,7 @@ describe('sort-editor', () => {
             });
             it('should have selected flow collection', () => {
                 const flowCollection = getFlowCollection(sortEditor);
-                expect(flowCollection.value.value).toEqual(
-                    testElementInfoWithStringCollection.collectionReference.value
-                );
+                expect(flowCollection.value).toEqual(testElementInfoWithStringCollection.collectionReference.value);
             });
             it('should have sort options section', () => {
                 expect(getSortOptionsSection(sortEditor)).not.toBeNull();
