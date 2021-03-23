@@ -6,6 +6,7 @@ import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { childElementTypeToParentDescriptorKeyMap } from 'builder_platform_interaction/elementConfig';
 
 export default class ClickableMessage extends LightningElement {
     @api info;
@@ -39,16 +40,10 @@ export default class ClickableMessage extends LightningElement {
                         pubSub.publish(editElementEvent.type, editElementPayload);
                         break;
                     case errorType.PARENT_CHILD_ERROR: {
-                        const editElementEventPC: any = new EditElementEvent(parentGuid);
-                        const locatorIconClickedEventPC: any = new LocatorIconClickedEvent(parentGuid);
-
-                        const editElementPayloadPC: any = {
-                            mode: editElementEvent.detail.mode,
-                            canvasElementGUID: parentGuid
-                        };
-                        const highlightElementPayloadPC: any = { elementGuid: parentGuid };
-                        pubSub.publish(locatorIconClickedEventPC.type, highlightElementPayloadPC);
-                        pubSub.publish(editElementEventPC.type, editElementPayloadPC);
+                        editElementPayload.mode =
+                            childElementTypeToParentDescriptorKeyMap[element.elementType] || editElementPayload.mode;
+                        pubSub.publish(locatorIconClickedEvent.type, highlightElementPayload);
+                        pubSub.publish(editElementEvent.type, editElementPayload);
                         break;
                     }
                     case errorType.START_ELEMENT_ERROR:

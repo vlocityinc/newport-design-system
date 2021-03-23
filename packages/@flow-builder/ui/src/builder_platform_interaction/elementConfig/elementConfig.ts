@@ -1271,3 +1271,12 @@ export function getChildReferencesKeys(): { singular: string; plural: string } {
         plural: 'childReferences'
     };
 }
+
+/**
+ * @constant childElementTypeToParentDescriptorKeyMap - Map of childElement types to their
+ *                      respective descriptor key of parent descriptor map if applicable
+ * @type {object}
+ */
+export const childElementTypeToParentDescriptorKeyMap = {
+    [ELEMENT_TYPE.TIME_TRIGGER]: EDIT_START_TIME_TRIGGERS
+};
