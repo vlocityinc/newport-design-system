@@ -19,7 +19,6 @@ const p4 = new P4({ P4PORT: getP4Port(process) });
 
 const POM_PROPERTIES_TO_CHECK = [
     ['aura.version'],
-    ['lwc.api.version'],
     ['lwc.version'],
     ['spring.version'],
     ['google.closure-compiler.version', 'com.google.javascript', 'closure-compiler']

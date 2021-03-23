@@ -57,7 +57,8 @@
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
         "utils:copy-to-nba": "./scripts/copyToNba.sh -b $npm_package_config_branch",
         "postinstall": "./scripts/fix-lwc-testrunner.sh",
-        "genTsConfig": "node ./scripts/genTsConfig.js"
+        "genTsConfig": "node ./scripts/genTsConfig.js",
+        "mvn:precompiled-lwc-components:package": "PRECOMPILE_LWC_COMPONENTS=true mvn package"
     },
     "repository": {
         "type": "git",

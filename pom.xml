@@ -7,9 +7,8 @@
     <version>232-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>1.3198</aura.version>
-        <lwc.api.version>0.232.11</lwc.api.version>
-        <lwc.version>1.17.6-232.0</lwc.version>
+        <aura.version>1.3201</aura.version>
+        <lwc.version>1.17.6-232.6</lwc.version>
         <spring.version>5.2.8.RELEASE</spring.version>
         <google.closure-compiler.version>v20130411-sfdc-patch1</google.closure-compiler.version>
 
@@ -163,11 +162,6 @@
                                         <artifactId>*</artifactId>
                                     </exclusion>
                                 </exclusions>
-                            </dependency>
-                            <dependency>
-                                <groupId>com.salesforce.lwc</groupId>
-                                <artifactId>lwc-api</artifactId>
-                                <version>${lwc.api.version}</version>
                             </dependency>
                             <!-- lock aura version to what's used everywhere else -->
                             <dependency>
