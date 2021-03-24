@@ -264,12 +264,14 @@
   .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
     visibility: visible;
   }
-&:focus,
-&:active {
-  @include focus-button;
-  z-index: $z-index-default; // Raises box shadow above adjacent buttons
+  &:focus,
+  &:active {
+    @include focus-button;
+    z-index: $z-index-default; // Raises box shadow above adjacent buttons
+  }
 }
-}
+
+
 
 
 
@@ -317,18 +319,6 @@
   white-space: nowrap;
   overflow: hidden;
 }
-
-// @media screen and (max-width: 48em) {
-//   /* stylelint-disable selector-class-pattern */
-//   .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
-//     overflow: visible;
-//     position: relative;
-//     height: 3rem;
-//   }
-//   /* stylelint-enable selector-class-pattern */
-// }
-
-
 /**
  * Inline Edit Block
  */
@@ -357,6 +347,17 @@
       color: $color-blue-text-primary;
       border: 1px solid $color-border-input;
       font-weight: 500;
+    }
+  }
+
+  :focus,
+  :active {
+    outline: none;
+
+    >svg.nds-editblock_close,
+    >svg.nds-editblock_delete {
+      @include focus-button;
+      z-index: $z-index-default; // Raises box shadow above adjacent buttons
     }
   }
 
@@ -398,6 +399,11 @@
     form {
       border: 1px solid $color-border-input;
       border-radius: 0.25rem;
+      &:focus,
+      &:active {
+        @include focus-button;
+        z-index: $z-index-default; // Raises box shadow above adjacent buttons
+      }
     }
 
     .nds-edit-block_inline-action-container {
