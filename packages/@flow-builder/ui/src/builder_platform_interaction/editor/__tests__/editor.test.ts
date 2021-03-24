@@ -1478,6 +1478,27 @@ describe('in debug mode', () => {
         nodeUpdate(elementToAdd);
         expect(debugToast).toHaveBeenCalledTimes(1);
     });
+    it('debug toast event is fired correctly on clicking done in property editor for elements with no label like Start', async () => {
+        expect.assertions(1);
+        const debugToast = jest.fn();
+        const editorComponent = createComponentUnderTest();
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        canvasContainer.dispatchEvent(editElementEvent);
+        editorComponent.addEventListener('debugtoastevent', debugToast);
+        await ticks(1);
+
+        const elementToAdd = {
+            a: 1,
+            elementType: ELEMENT_TYPE.START_ELEMENT
+        };
+
+        const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
+        nodeUpdate(elementToAdd);
+        expect(debugToast).toHaveBeenCalledTimes(1);
+    });
     it('no debug toast event is fired on clicking done in property editor in edit mode', async () => {
         expect.assertions(1);
         const debugToast = jest.fn();

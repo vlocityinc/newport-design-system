@@ -153,6 +153,7 @@ import {
     convertToFreeFormCanvas,
     removeEndElementsAndConnectorsTransform
 } from 'builder_platform_interaction/flcConversionUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const { generateGuid } = storeUtils;
 const { logInteraction, logPerfTransactionEnd, logPerfTransactionStart, setAppName } = loggingUtils;
@@ -2166,7 +2167,7 @@ export default class Editor extends LightningElement {
     deMutateAndUpdateNodeCollection = (node) => {
         if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
             const elementTypeLabel = getConfigForElement(node).labels.singular;
-            const elementLabel = node.label.value;
+            const elementLabel = getValueFromHydratedItem(node.label);
             const debugToastEvent = new CustomEvent('debugtoastevent', {
                 detail: {
                     elementTypeLabel,
