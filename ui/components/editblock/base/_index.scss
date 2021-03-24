@@ -350,14 +350,18 @@
     }
   }
 
-  :focus,
-  :active {
-    outline: none;
+  [role="button"],
+  [tabindex="0"]:not(.nds-editblock_add-button) {
 
-    >svg.nds-editblock_close,
-    >svg.nds-editblock_delete {
-      @include focus-button;
-      z-index: $z-index-default; // Raises box shadow above adjacent buttons
+    &:focus,
+    &:active {
+      outline: none;
+
+      >svg,
+      &.nds-grid {
+        @include focus-button;
+        z-index: $z-index-default; // Raises box shadow above adjacent buttons
+      }
     }
   }
 
