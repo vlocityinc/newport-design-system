@@ -2,13 +2,9 @@
 import { readonly } from 'lwc';
 import { translateFlowToUIModel } from '../flowToUiTranslator';
 import { translateUIModelToFlow } from '../uiToFlowTranslator';
-import { flowWithVariables } from 'mock/flows/flowWithVariables';
-import { flowWithAssignments } from 'mock/flows/flowWithAssignments';
 import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
-import { flowCollectionServicesDemo } from 'mock/flows/flowCollectionServicesDemo';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { flowLegalNameChange } from 'mock/flows/flowLegalNameChange';
 import { deepFindMatchers, goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -23,6 +19,10 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { flowWithVariables } from './flows/flowWithVariables';
+import { flowWithAssignments } from './flows/flowWithAssignments';
+import { flowLegalNameChange } from './flows/flowLegalNameChange';
+import { flowCollectionServicesDemo } from './flows/flowCollectionServicesDemo';
 
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);

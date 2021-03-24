@@ -79,7 +79,7 @@ describe('Subflow Editor (new subflow)', () => {
             const actionSelectorElement = getActionSelectorElement(propertyEditor);
             const actionComboboxElement = getActionSelectorComboboxElement(actionSelectorElement);
             actionComboboxElement.dispatchEvent(selectEvent('mynamespace__subflow'));
-            await ticks(50);
+            await ticks(1);
             subflowElement = getSubflowEditorElement(propertyEditor);
         });
         it('let the user enter label, api name and description', () => {

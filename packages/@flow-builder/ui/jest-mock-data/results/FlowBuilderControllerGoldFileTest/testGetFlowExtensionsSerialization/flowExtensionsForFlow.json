@@ -92,8 +92,9 @@
   "source" : "Standard"
 },
     {
+  "category" : "Input",
   "description" : "Name Component",
-  "extensionType" : "aura",
+  "extensionType" : "lwc",
   "fieldsToNull" : [ ],
   "label" : "Name",
   "qualifiedApiName" : "flowruntime:name",

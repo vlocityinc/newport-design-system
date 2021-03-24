@@ -38,10 +38,11 @@ import { flowExtensionsForContactRequestFlow } from 'serverData/GetFlowExtension
 import { flowExtensionsForFieldServiceMobile } from 'serverData/GetFlowExtensions/flowExtensionsForFieldServiceMobile.json';
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
 import { setAuraFetch, setAuraGetCallback } from 'builder_platform_interaction/serverDataLib';
-import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
+import { mockSubflows } from 'mock/calloutData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
+import { flowWithAllTypesVariables } from 'serverData/GetFlowInputOutputVariables/flowWithAllTypesVariables.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { flowEntries } from 'serverData/GetFlowEntries/flowEntries.json';
@@ -218,8 +219,8 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
     }),
     'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
-        FlowWithAllTypesVariables: mockSubflowAllTypesVariables,
-        mynamespace__subflow: mockSubflowAllTypesVariables,
+        flowWithAllTypesVariables,
+        mynamespace__subflow: flowWithAllTypesVariables,
         flowWithActiveAndLatest,
         flowWithNoActiveVersion
     }),

@@ -598,7 +598,6 @@
         ],
         "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
         "isAdditionalPermissionRequiredToRun": false,
-        "isOverridable": false,
         "isTemplate": false,
         "label": "flowWithAllElements",
         "loops": [
@@ -1339,6 +1338,7 @@
                         "outputParameters": [],
                         "processMetadataValues": [],
                         "scale": 0,
+                        "storeOutputAutomatically": false,
                         "visibilityRule": {
                             "conditionLogic": "and",
                             "conditions": [
@@ -1352,8 +1352,7 @@
                                 }
                             ],
                             "processMetadataValues": []
-                        },
-                        "storeOutputAutomatically": false
+                        }
                     },
                     {
                         "choiceReferences": [],
@@ -1961,14 +1960,162 @@
         "start": {
             "doesRequireRecordChangedToMeetCriteria": false,
             "filters": [],
-            "locationX": 66,
-            "locationY": 50,
+            "locationX": 58,
+            "locationY": 51,
             "processMetadataValues": [],
             "scheduledPaths": []
         },
         "status": "InvalidDraft",
         "steps": [],
         "subflows": [
+            {
+                "flowName": "flowWithAllTypesVariables",
+                "inputAssignments": [
+                    {
+                        "name": "inputOutputAccountColVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "accountSObjectCollectionVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputAccountVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "accountSObjectVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputBoolVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "booleanVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputCurrencyVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "currencyVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputDateTimeVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "dateTimeVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputDateVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "dateVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputNumberVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "numberVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputNumberVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "numberVariable"
+                        }
+                    },
+                    {
+                        "name": "inputOutputStringVar",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "stringVariable"
+                        }
+                    },
+                    {
+                        "name": "inputNotAvailableParam",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "stringVariable"
+                        }
+                    }
+                ],
+                "label": "subflow with all type variables",
+                "locationX": 1043,
+                "locationY": 543,
+                "name": "subflow_with_all_type_variables",
+                "outputAssignments": [
+                    {
+                        "assignToReference": "accountSObjectCollectionVariable",
+                        "name": "inputOutputAccountColVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "accountSObjectVariable",
+                        "name": "inputOutputAccountVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "booleanVariable",
+                        "name": "inputOutputBoolVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "currencyVariable",
+                        "name": "inputOutputCurrencyVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "dateTimeVariable",
+                        "name": "inputOutputDateTimeVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "dateVariable",
+                        "name": "inputOutputDateVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "numberVariable",
+                        "name": "inputOutputNumberVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "numberVariable",
+                        "name": "inputOutputNumberVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "stringCollectionVariable1",
+                        "name": "inputOutputStringColVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "stringVariable",
+                        "name": "inputOutputStringVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "stringCollectionVariable1",
+                        "name": "latestOutputStringColVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "stringVariable",
+                        "name": "latestOutputStringVar",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "assignToReference": "stringVariable",
+                        "name": "outputNotAvailableParam",
+                        "processMetadataValues": []
+                    }
+                ],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            },
             {
                 "flowName": "flowWithActiveAndLatest",
                 "inputAssignments": [
@@ -2105,6 +2252,15 @@
                 "scale": 0
             },
             {
+                "dataType": "Boolean",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "booleanVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
                 "dataType": "SObject",
                 "isCollection": false,
                 "isInput": false,
@@ -2174,6 +2330,15 @@
                 "scale": 0
             },
             {
+                "dataType": "DateTime",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "dateTimeVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
                 "dataType": "Date",
                 "isCollection": false,
                 "isInput": false,
@@ -2191,6 +2356,15 @@
                 "objectType": "FeedItem",
                 "processMetadataValues": [],
                 "scale": 0
+            },
+            {
+                "dataType": "Number",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "numberCollectionVariable",
+                "processMetadataValues": [],
+                "scale": 2
             },
             {
                 "dataType": "Number",

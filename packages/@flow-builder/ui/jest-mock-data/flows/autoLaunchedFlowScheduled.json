@@ -241,6 +241,51 @@
                 "iterationOrder": "Asc"
             }
         ],
+        "recordCreates": [
+            {
+                "name": "Create_Record_using_Fields",
+                "description": "",
+                "label": "Create Record using Fields",
+                "locationX": 779,
+                "locationY": 189,
+                "elementSubtype": null,
+                "object": "Account",
+                "inputAssignments": [
+                    {
+                        "field": "BillingCity",
+                        "value": {
+                            "elementReference": "stringVariable"
+                        }
+                    },
+                    {
+                        "field": "Name",
+                        "value": {
+                            "elementReference": "textVariable"
+                        }
+                    }
+                ],
+                "storeOutputAutomatically": false,
+                "assignRecordIdToReference": "stringVariable"
+            },
+            {
+                "name": "Create_Record_Using_SObject",
+                "description": "",
+                "label": "Create Record Using SObject",
+                "locationX": 824,
+                "locationY": 320,
+                "elementSubtype": null,
+                "inputReference": "accountVariable"
+            },
+            {
+                "name": "Create_Record_Using_SObject_Collection",
+                "description": "",
+                "label": "Create Record Using SObject Collection",
+                "locationX": 788,
+                "locationY": 459,
+                "elementSubtype": null,
+                "inputReference": "accounts"
+            }
+        ],
         "description": "",
         "interviewLabel": "autolaunchedFlowScheduled {!$Flow.CurrentDateTime}",
         "isTemplate": false,

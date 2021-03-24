@@ -91,17 +91,17 @@
       "elementType":"Start"
     },
     {
-      "labelEdit":"Edit Collection Sort (Beta)",
+      "labelEdit":"Edit Collection Sort",
       "isElementSubtype":true,
       "color":"background-orange",
       "name":"SortCollectionProcessor",
       "icon":"standard:sort",
       "description":"Sort items in a collection.",
-      "label":"Collection Sort (Beta)",
-      "labelNew":"New Collection Sort (Beta)",
+      "label":"Collection Sort",
+      "labelNew":"New Collection Sort",
       "classification":"Node",
       "elementType":"CollectionProcessor",
-      "labelPlural":"Collection Sorts (Beta)",
+      "labelPlural":"Collection Sorts",
       "configComponent":"builder_platform_interaction:sortEditor"
     }
   ]

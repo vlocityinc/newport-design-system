@@ -11,14 +11,10 @@ import {
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    flowWithCreateRecordUsingSObject,
-    flowWithCreateRecordUsingSObjectCollection,
-    flowWithCreateRecordUsingFields
-} from 'mock/flows/flowWithCreateRecord';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getAdvancedOptionCheckbox,
@@ -113,17 +109,12 @@ describe('Record Create Editor', () => {
     describe('Working in auto launched flow', () => {
         beforeAll(async () => {
             store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+            translateFlowToUIAndDispatch(autoLaunchedFlowScheduled, store);
         });
         afterAll(() => {
             resetState();
         });
         describe('name and dev name', () => {
-            beforeAll(() => {
-                translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObject, store);
-            });
-            afterAll(() => {
-                store.dispatch({ type: 'INIT' });
-            });
             beforeEach(() => {
                 const element = getElementByDevName('Create_Record_Using_SObject');
                 recordCreateNode = getElementForPropertyEditor(element);
@@ -211,19 +202,13 @@ describe('Record Create Editor', () => {
             });
             it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill)', async () => {
                 const combobox = getResourceCombobox(recordCreateElement);
-                await combobox.typeMergeField('{!vAccount}');
+                await combobox.typeMergeField('{!accountVariable}');
                 expect(combobox.element.hasPill).toBe(true);
-                expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
+                expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'accountVariable' });
             });
         });
         describe('Existing element', () => {
             describe('Working with sObject', () => {
-                beforeAll(() => {
-                    translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObject, store);
-                });
-                afterAll(() => {
-                    store.dispatch({ type: 'INIT' });
-                });
                 beforeEach(() => {
                     const element = getElementByDevName('Create_Record_Using_SObject');
                     recordCreateNode = getElementForPropertyEditor(element);
@@ -245,7 +230,7 @@ describe('Record Create Editor', () => {
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                         iconName: 'utility:sobject',
-                        label: 'vAccount'
+                        label: 'accountVariable'
                     });
                 });
                 it('sObject Or SObject Collection Picker should contain "New Resource"', async () => {
@@ -268,14 +253,17 @@ describe('Record Create Editor', () => {
                         expect(combobox.element.hasPill).toBe(true);
                         await combobox.clickPill();
                         expect(combobox.element.hasPill).toBe(false);
-                        expect(combobox.element.value.displayText).toEqual('{!vAccount}');
+                        expect(combobox.element.value.displayText).toEqual('{!accountVariable}');
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
                         const combobox = getResourceCombobox(recordCreateElement);
                         await combobox.removePill();
-                        await combobox.typeMergeField('{!vAccount}');
+                        await combobox.typeMergeField('{!accountVariable}');
                         expect(combobox.element.hasPill).toBe(true);
-                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
+                        expect(combobox.element.pill).toEqual({
+                            iconName: 'utility:sobject',
+                            label: 'accountVariable'
+                        });
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display no pill but error message (once pill has been cleared))', async () => {
                         const combobox = getResourceCombobox(recordCreateElement);
@@ -287,19 +275,16 @@ describe('Record Create Editor', () => {
                     it('select and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
                         const combobox = getResourceCombobox(recordCreateElement);
                         await combobox.removePill();
-                        await combobox.selectItemBy('text', ['vAccount']);
+                        await combobox.selectItemBy('text', ['accountVariable']);
                         expect(combobox.element.hasPill).toBe(true);
-                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccount' });
+                        expect(combobox.element.pill).toEqual({
+                            iconName: 'utility:sobject',
+                            label: 'accountVariable'
+                        });
                     });
                 });
             });
             describe('Working with sObject Collection', () => {
-                beforeAll(() => {
-                    translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObjectCollection, store);
-                });
-                afterAll(() => {
-                    store.dispatch({ type: 'INIT' });
-                });
                 beforeEach(() => {
                     const element = getElementByDevName('Create_Record_Using_SObject_Collection');
                     recordCreateNode = getElementForPropertyEditor(element);
@@ -324,7 +309,7 @@ describe('Record Create Editor', () => {
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
                         iconName: 'utility:sobject',
-                        label: 'vAccounts'
+                        label: 'accounts'
                     });
                 });
                 it('sObject Or SObject Collection Picker should contain "New Resource"', async () => {
@@ -347,14 +332,14 @@ describe('Record Create Editor', () => {
                         expect(combobox.element.hasPill).toBe(true);
                         await combobox.clickPill();
                         expect(combobox.element.hasPill).toBe(false);
-                        expect(combobox.element.value.displayText).toEqual('{!vAccounts}');
+                        expect(combobox.element.value.displayText).toEqual('{!accounts}');
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
                         const combobox = getResourceCombobox(recordCreateElement);
                         await combobox.removePill();
-                        await combobox.typeMergeField('{!vAccounts}');
+                        await combobox.typeMergeField('{!accounts}');
                         expect(combobox.element.hasPill).toBe(true);
-                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccounts' });
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'accounts' });
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display no pill but error message (once pill has been cleared))', async () => {
                         const combobox = getResourceCombobox(recordCreateElement);
@@ -366,9 +351,9 @@ describe('Record Create Editor', () => {
                     it('select and blur with "sobjectOrSobjectCollectionPicker" sobject variable display pill (once pill has been cleared))', async () => {
                         const combobox = getResourceCombobox(recordCreateElement);
                         await combobox.removePill();
-                        await combobox.selectItemBy('text', ['vAccounts']);
+                        await combobox.selectItemBy('text', ['accounts']);
                         expect(combobox.element.hasPill).toBe(true);
-                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'vAccounts' });
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'accounts' });
                     });
                 });
             });
@@ -385,24 +370,18 @@ describe('Record Create Editor', () => {
                         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON
                     ]);
                     addFieldButton.dispatchEvent(clickEvent());
-                    await ticks(50);
+                    await ticks(1);
                 };
-                beforeAll(() => {
-                    translateFlowToUIAndDispatch(flowWithCreateRecordUsingFields, store);
-                });
-                afterAll(() => {
-                    resetState();
-                });
                 beforeEach(async () => {
                     const element = getElementByDevName('Create_Record_using_Fields');
                     recordCreateNode = getElementForPropertyEditor(element);
                     recordCreateElement = createComponentForTest(recordCreateNode);
-                    await ticks(50);
+                    // needed (to be set at 4) otherwise "Should only display creatable fields" fails (nothing shows up in the fields)
+                    await ticks(4);
                 });
-                it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', async () => {
+                it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
-                    await ticks(1);
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                     expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
                     expect(radioGroupElements).toHaveLength(2);
@@ -464,13 +443,13 @@ describe('Record Create Editor', () => {
                         expect(baseExpressionBuilder.rhsValue).toMatchObject({
                             category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
                             dataType: 'String',
-                            displayText: '{!vBillingCity}',
+                            displayText: '{!stringVariable}',
                             hasNext: false,
                             iconName: 'utility:text',
                             iconSize: 'xx-small',
                             subtype: null,
                             subText: 'FlowBuilderDataTypes.textDataTypeLabel',
-                            text: 'vBillingCity',
+                            text: 'stringVariable',
                             type: 'option-card'
                         });
 
@@ -478,7 +457,7 @@ describe('Record Create Editor', () => {
                         expect(rhsCombobox.element.hasPill).toBe(true);
                         expect(rhsCombobox.element.pill).toEqual({
                             iconName: 'utility:text',
-                            label: 'vBillingCity'
+                            label: 'stringVariable'
                         });
 
                         expressionBuilder = fieldToFerovExpressionBuilders[1];
@@ -492,20 +471,20 @@ describe('Record Create Editor', () => {
                         expect(baseExpressionBuilder.rhsValue).toMatchObject({
                             category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
                             dataType: 'String',
-                            displayText: '{!vName}',
+                            displayText: '{!textVariable}',
                             hasNext: false,
                             iconName: 'utility:text',
                             iconSize: 'xx-small',
                             subtype: null,
                             subText: 'FlowBuilderDataTypes.textDataTypeLabel',
-                            text: 'vName',
+                            text: 'textVariable',
                             type: 'option-card'
                         });
                         rhsCombobox = await expressionBuilder.getRhsCombobox();
                         expect(rhsCombobox.element.hasPill).toBe(true);
                         expect(rhsCombobox.element.pill).toEqual({
                             iconName: 'utility:text',
-                            label: 'vName'
+                            label: 'textVariable'
                         });
                     });
                     it('Removing the selected field should not change the value if the RHS has a value', async () => {

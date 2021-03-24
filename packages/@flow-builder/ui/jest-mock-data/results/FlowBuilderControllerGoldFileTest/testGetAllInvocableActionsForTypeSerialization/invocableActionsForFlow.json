@@ -208,23 +208,6 @@
       "iconId":null,
       "allowsTransactionControl":false,
       "iconName":null,
-      "description":"Calculate forecasts for an account based on the formulae associated with the forecast set.",
-      "label":"Calculate Advanced Account Forecast",
-      "type":"calculateAdvancedAccountForecast",
-      "fillColor":null,
-      "isStandard":true,
-      "name":"calculateAdvancedAccountForecast",
-      "configurationEditor":null,
-      "category":"Calculate Advanced Account Forecast",
-      "genericTypes":[
-
-      ],
-      "durableId":"calculateAdvancedAccountForecast-calculateAdvancedAccountForecast"
-    },
-    {
-      "iconId":null,
-      "allowsTransactionControl":false,
-      "iconName":null,
       "description":"Post to the feed for a specific record, user, or Chatter group.",
       "label":"Post to Chatter",
       "type":"chatterPost",

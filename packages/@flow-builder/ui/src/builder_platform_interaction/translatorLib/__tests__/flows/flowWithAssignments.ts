@@ -1,4 +1,4 @@
-// @ts-nocheck
+// To be only used by flowTranslator.test.ts DO NOT USE elsewhere
 export const flowWithAssignments = {
     createdById: '005xx000001Sv6AAAS',
     createdDate: '2018-09-30T19:17:42.000+0000',

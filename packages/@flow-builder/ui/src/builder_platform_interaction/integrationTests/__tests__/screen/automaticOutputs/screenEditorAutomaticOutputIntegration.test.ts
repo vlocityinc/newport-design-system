@@ -1,7 +1,7 @@
 import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { flowWithScreenAndLightningComponentAddress } from 'mock/flows/flowWithScreenAndLightningComponentAddress';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
@@ -71,14 +71,14 @@ describe('ScreenEditor', () => {
                 })
             });
             store = Store.getStore(reducer as StoreReducer);
-            translateFlowToUIAndDispatch(flowWithScreenAndLightningComponentAddress, store);
+            translateFlowToUIAndDispatch(flowWithAllElements, store);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });
         });
         describe('Test component values', () => {
             beforeEach(async () => {
-                const element = getElementByDevName('ScreenFlowAskAdress');
+                const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
                 screenEditor = new ScreenEditorTestComponent(
                     createComponentUnderTest({
@@ -87,7 +87,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(50);
-                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('askAddress')!.click();
+                await screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
             });
             it('Advanced Option checkbox should be unchecked', async () => {
                 expect(
@@ -109,7 +109,7 @@ describe('ScreenEditor', () => {
         });
         describe('modify from automatic to advanced', () => {
             beforeEach(async () => {
-                const element = getElementByDevName('ScreenFlowAskAdress');
+                const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
                 screenEditor = new ScreenEditorTestComponent(
                     createComponentUnderTest({
@@ -118,7 +118,7 @@ describe('ScreenEditor', () => {
                     })
                 );
                 await ticks(50);
-                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('askAddress')!.click();
+                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('Address')!.click();
                 await ticks(50);
             });
             it('should display the outputs', async () => {
