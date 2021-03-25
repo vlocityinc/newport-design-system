@@ -262,6 +262,7 @@ export default class contextRecordEditor extends LightningElement {
         this.disableRecordChangeOptionsIndicator = this.hasFilterWithOperator(FlowComparisonOperator.IsChanged);
         if (this.disableRecordChangeOptionsIndicator) {
             this.requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+            this.startElement.doesRequireRecordChangedToMeetCriteria = false;
         } else {
             this.requireRecordChangeOption = this.startElement.doesRequireRecordChangedToMeetCriteria
                 ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS

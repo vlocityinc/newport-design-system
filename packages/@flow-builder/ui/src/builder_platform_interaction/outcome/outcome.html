@@ -29,6 +29,7 @@
         condition-logic={outcome.conditionLogic}
         logic-combobox-label={labels.outcomeConditionsHeader}
         container-element-type={elementTypeForExpressionBuilder}
+        onupdatecondition={handleIsChangedOperatorEvent}
     >
         <div slot="conditions">
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">

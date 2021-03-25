@@ -36,14 +36,10 @@ export default class Outcome extends LightningElement {
 
         this.disableRadioGroupIndicator = this.hasConditionWithOperator(FlowComparisonOperator.IsChanged);
 
-        if (this.disableRadioGroupIndicator) {
-            this.outcomeExecutionOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
-        } else {
-            this.outcomeExecutionOption =
-                this.element.showOutcomeExecutionOptions && this.element.doesRequireRecordChangedToMeetCriteria
-                    ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
-                    : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
-        }
+        this.outcomeExecutionOption =
+            this.element.showOutcomeExecutionOptions && this.element.doesRequireRecordChangedToMeetCriteria
+                ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+                : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
     }
 
     /** Focus the label field of the label description component */
@@ -140,6 +136,17 @@ export default class Outcome extends LightningElement {
     handleOutcomeExecutionOptionOnChange(event) {
         event.stopPropagation();
         this.outcomeExecutionOption = event.detail.value;
+        this.dispatchExecuteWhenOptionChangedEvent();
+    }
+
+    handleIsChangedOperatorEvent(event) {
+        if (event?.detail?.value?.operator?.value === FlowComparisonOperator.IsChanged) {
+            this.outcomeExecutionOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+            this.dispatchExecuteWhenOptionChangedEvent();
+        }
+    }
+
+    dispatchExecuteWhenOptionChangedEvent() {
         const doesRequireRecordChangedToMeetCriteria =
             this.outcomeExecutionOption !== EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
         const executeWhenEvent = new ExecuteWhenOptionChangedEvent(

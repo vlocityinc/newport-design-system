@@ -79,7 +79,7 @@ const outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator = {
     guid: { value: '123' },
     conditionLogic: { value: '1' },
     conditions: [{ name: 'condition1', rowIndex: 0, operator: { value: FlowComparisonOperator.IsChanged } }],
-    doesRequireRecordChangedToMeetCriteria: true,
+    doesRequireRecordChangedToMeetCriteria: false,
     showOutcomeExecutionOptions: true
 };
 
@@ -388,8 +388,6 @@ describe('Outcome', () => {
         it('execute outcome radio group selection value is changed to trueEveryTime if trueOnChangeOnly is selected', async () => {
             const element = createComponentUnderTest();
             element.outcome = outcomeWithShowOptionsAndPriorConditionSetWithIsChangedOperator;
-            element.showOutcomeExecutionOptions = true;
-            element.doesRequireRecordChangedToMeetCriteria = true;
 
             await ticks(1);
             const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
