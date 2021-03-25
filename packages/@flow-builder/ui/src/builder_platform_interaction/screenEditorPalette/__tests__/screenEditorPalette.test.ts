@@ -2,15 +2,16 @@
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
-import { dragStartEvent, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    dragStartEvent,
+    setDocumentBodyChildren,
+    INTERACTION_COMPONENTS_SELECTORS,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
-        orgHasFlowBuilderAutomaticFields: jest.fn().mockReturnValue(true),
-        isTestMode: jest.fn().mockReturnValue(false)
-    };
-});
+const mockedContextLib = require('builder_platform_interaction_mocks/contextLib');
+jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
@@ -121,6 +122,14 @@ describe('Screen Editor Palette', () => {
 
         expect(dataTransfer.getData('text')).toBe(JSON.stringify({ fieldTypeName: 'LargeTextArea' }));
         expect(dataTransfer.effectAllowed).toBe('copy');
+    });
+    it('displays App Exchange banner without automatic fields org perm', () => {
+        mockedContextLib.orgHasFlowBuilderAutomaticFields = jest.fn().mockReturnValue(false);
+        expect(element.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BUTTON_BANNER)).toBeTruthy();
+    });
+    it('displays App Exchange banner with automatic fields org perm', () => {
+        mockedContextLib.orgHasFlowBuilderAutomaticFields = jest.fn().mockReturnValue(true);
+        expect(element.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BUTTON_BANNER)).toBeTruthy();
     });
 });
 

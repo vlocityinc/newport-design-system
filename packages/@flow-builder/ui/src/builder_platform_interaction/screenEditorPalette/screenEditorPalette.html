@@ -37,11 +37,9 @@
             >
             </builder_platform_interaction-palette>
         </div>
-        <template if:false={orgHasFlowBuilderAutomaticFields}>
-            <builder_platform_interaction-button-banner
-                label={labels.appExchangeButtonLabel}
-                link={appExchangeLink}
-            ></builder_platform_interaction-button-banner>
-        </template>
+        <builder_platform_interaction-button-banner
+            label={labels.appExchangeButtonLabel}
+            link={appExchangeLink}
+        ></builder_platform_interaction-button-banner>
     </div>
 </template>
