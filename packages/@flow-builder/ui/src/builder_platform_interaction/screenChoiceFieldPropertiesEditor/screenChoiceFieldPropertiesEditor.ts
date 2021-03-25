@@ -250,12 +250,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get singleOrMultiSelectOptions() {
         return [
             {
-                label: this.labels.singleSelectChoiceDisplay,
-                value: ChoiceDisplayOptions.SINGLE_SELECT
-            },
-            {
                 label: this.labels.multiSelectChoiceDisplay,
                 value: ChoiceDisplayOptions.MULTI_SELECT
+            },
+            {
+                label: this.labels.singleSelectChoiceDisplay,
+                value: ChoiceDisplayOptions.SINGLE_SELECT
             }
         ];
     }
