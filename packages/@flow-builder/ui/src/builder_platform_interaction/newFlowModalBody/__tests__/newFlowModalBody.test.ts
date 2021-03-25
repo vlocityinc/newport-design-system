@@ -5,13 +5,13 @@ import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import { ProcessTypeSelectedEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
 import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
-let mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
+let mockProcessTypesPromise = Promise.resolve(processTypes);
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 let mockFlowEntriesPromise = Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
 
@@ -69,8 +69,7 @@ const getErrorMessage = (modalBody) => modalBody.shadowRoot.querySelector('.erro
 
 const getErrorClosingButton = (modalBody) => modalBody.shadowRoot.querySelector('lightning-button-icon');
 
-const getProcessType = (processTypeName) =>
-    MOCK_ALL_PROCESS_TYPES.find((processType) => processType.name === processTypeName);
+const getProcessType = (processTypeName) => processTypes.find((processType) => processType.name === processTypeName);
 
 const resetProcessTypesCache = () => setProcessTypes([]);
 
@@ -159,7 +158,7 @@ describe('new-flow-modal-body', () => {
         });
         it('shows correct number of process types in navigation', () => {
             const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
-            expect(processTypesNavigation.processTypes).toHaveLength(MOCK_ALL_PROCESS_TYPES.length);
+            expect(processTypesNavigation.processTypes).toHaveLength(processTypes.length);
         });
 
         it('selects "all" as the default process type', () => {
@@ -408,7 +407,7 @@ describe('fetch server data error cases', () => {
             await ticks(10);
         });
         afterAll(() => {
-            mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
+            mockProcessTypesPromise = Promise.resolve(processTypes);
         });
         it('should show process types error message', async () => {
             const errorMessage = newFlowModalBody.errorMessage;

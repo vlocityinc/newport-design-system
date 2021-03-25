@@ -4,13 +4,26 @@ import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
 import { ALL_PROCESS_TYPE, getProcessTypeIcon } from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
-import {
-    //    MOCK_PROCESS_TYPES,
-    MOCK_ALL_PROCESS_TYPES
-} from 'mock/processTypesData';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { processTypes as baseProcessType } from 'serverData/GetProcessTypes/processTypes.json';
 
-const createComponentUnderTest = (processTypes = MOCK_ALL_PROCESS_TYPES) => {
+const mostProcessTypes = [
+    ...baseProcessType,
+    {
+        label: 'Checkout Flow',
+        name: FLOW_PROCESS_TYPE.CHECKOUT_FLOW
+    },
+    {
+        label: 'Routing Flow',
+        name: FLOW_PROCESS_TYPE.ROUTING_FLOW
+    },
+    {
+        label: 'Well no icon yet',
+        name: 'WeDoNotKnowYou'
+    }
+];
+
+const createComponentUnderTest = (processTypes = mostProcessTypes) => {
     const el = createElement('builder_platform_interaction-process-types-vertical-navigation', {
         is: ProcessTypesVerticalNavigation
     });
@@ -38,7 +51,7 @@ describe('process-types-vertical-navigation ', () => {
         });
 
         test('number of process types', () => {
-            expect(processTypesVerticalNavigation.items).toHaveLength(MOCK_ALL_PROCESS_TYPES.length + 1); // 'ALL' entry included
+            expect(processTypesVerticalNavigation.items).toHaveLength(mostProcessTypes.length + 1); // 'ALL' entry included
         });
 
         test('"All" entry in first place (among process types) (API)', () => {

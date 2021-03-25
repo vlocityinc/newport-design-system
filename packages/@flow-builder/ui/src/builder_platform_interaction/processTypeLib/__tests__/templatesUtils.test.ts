@@ -9,15 +9,7 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
-import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
-
-jest.mock('builder_platform_interaction/systemLib', () => {
-    return {
-        getProcessTypes: jest.fn().mockImplementation(() => {
-            return require('mock/processTypesData').MOCK_ALL_PROCESS_TYPES;
-        })
-    };
-});
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
 jest.mock('builder_platform_interaction/contextLib', () => {
     return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
@@ -30,8 +22,7 @@ commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
-const getProcessType = (processTypeName) =>
-    MOCK_ALL_PROCESS_TYPES.find((processType) => processType.name === processTypeName);
+const getProcessType = (processTypeName) => processTypes.find((processType) => processType.name === processTypeName);
 
 describe('templatesUtils', () => {
     describe('getting the process types tiles', () => {
@@ -81,7 +72,7 @@ describe('templatesUtils', () => {
             ]);
         });
         it('should return the new checkout flow tile with default title and description in label file', () => {
-            const checkoutProcessType = getProcessType(FLOW_PROCESS_TYPE.CHECKOUT_FLOW);
+            const checkoutProcessType = { label: 'Checkout Flow', name: FLOW_PROCESS_TYPE.CHECKOUT_FLOW };
             expect(checkoutProcessType).not.toBeUndefined();
             const checkoutProcessTypeTile = createFlowEntryTilesForProcessTypes([checkoutProcessType]);
             expect(checkoutProcessTypeTile).toEqual([
@@ -100,7 +91,7 @@ describe('templatesUtils', () => {
     });
     describe('caching the templates', () => {
         beforeEach(() => {
-            cacheTemplates(MOCK_ALL_PROCESS_TYPES, ALL_PROCESS_TYPE.name, MOCK_ALL_TEMPLATES);
+            cacheTemplates(processTypes, ALL_PROCESS_TYPE.name, MOCK_ALL_TEMPLATES);
         });
         it('should cache all the templates', () => {
             expect(getTemplates([ALL_PROCESS_TYPE.name])).toEqual(MOCK_ALL_TEMPLATES);
@@ -117,7 +108,7 @@ describe('templatesUtils', () => {
             expect(autoTemplates).toEqual(expect.arrayContaining([MOCK_AUTO_TEMPLATE]));
         });
         it('should cache empty list by other process type', () => {
-            const checkoutTemplates = getTemplates([FLOW_PROCESS_TYPE.CHECKOUT_FLOW]);
+            const checkoutTemplates = getTemplates([FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]);
             expect(checkoutTemplates).toHaveLength(0);
         });
     });

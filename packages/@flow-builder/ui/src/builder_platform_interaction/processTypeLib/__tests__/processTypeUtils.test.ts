@@ -1,21 +1,18 @@
-// @ts-nocheck
 import {
     getProcessTypesWithIcons,
     getProcessTypeTransactionControlledActionsSupport,
     isAutoLayoutCanvasOnly
 } from '../processTypeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
-
-const getProcessTypesWithIconsWithProcessTypes = getProcessTypesWithIcons.bind(null, MOCK_ALL_PROCESS_TYPES);
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
 describe('processTypesUtils', () => {
     test('No filtering: all process types returned', () => {
-        const actualResult = getProcessTypesWithIconsWithProcessTypes();
-        expect(actualResult).toHaveLength(MOCK_ALL_PROCESS_TYPES.length);
+        const actualResult = getProcessTypesWithIcons(processTypes);
+        expect(actualResult).toHaveLength(processTypes.length);
     });
     test('Icon fetched (NO fallback)', () => {
-        const actualResult = getProcessTypesWithIconsWithProcessTypes();
+        const actualResult = getProcessTypesWithIcons(processTypes);
         expect(actualResult).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
@@ -27,7 +24,8 @@ describe('processTypesUtils', () => {
         );
     });
     test('Default icon fetched (fallback)', () => {
-        const actualResult = getProcessTypesWithIconsWithProcessTypes();
+        const processTypesWithUnknown = [...processTypes, { label: 'Well no icon yet', name: 'WeDoNotKnowYou' }];
+        const actualResult = getProcessTypesWithIcons(processTypesWithUnknown);
         expect(actualResult).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({

@@ -4,8 +4,8 @@ import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemp
 import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
 import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
-import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
@@ -25,14 +25,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/systemLib', () => {
-    return {
-        getProcessTypes: jest.fn().mockImplementation(() => {
-            return require('mock/processTypesData').MOCK_ALL_PROCESS_TYPES;
-        })
-    };
-});
-
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
@@ -42,7 +34,7 @@ function createComponentForTest({ processType = ALL_PROCESS_TYPE.name } = {}) {
     const el = createElement('builder_platform_interaction-process-types-templates', { is: ProcessTypesTemplates });
     Object.assign(el, {
         processType,
-        processTypes: MOCK_ALL_PROCESS_TYPES,
+        processTypes,
         blankItems: [
             {
                 label: 'process type a',
