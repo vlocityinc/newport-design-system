@@ -11,13 +11,15 @@ import {
     decision1 as mockDecision,
     decision1Outcome1 as mockOutcome
 } from 'mock/storeData';
+import { recordTriggeredFlowUIModel, startElement } from 'mock/storeDataRecordTriggered';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { childElementTypeToParentDescriptorKeyMap } from 'builder_platform_interaction/elementConfig';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByDevName: jest.fn((name) => {
             return name !== mockOutcome.name
-                ? name.startsWith('ScreenWithSection_')
+                ? name.startsWith('ScreenWithSection_') || name.startsWith('myTimeTrigger')
                     ? jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
                     : { guid: '1' }
                 : mockOutcome;
@@ -359,6 +361,42 @@ describe('clickableErrorMessage', () => {
             const editElementPayload = {
                 mode: editElementEvent.detail.mode,
                 canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
+        });
+    });
+    describe('parent element has multiple descriptors', () => {
+        // recordTriggeredFlowUIModel has TimeTrigger component needed to test
+        beforeAll(() => {
+            Store.setMockState(recordTriggeredFlowUIModel);
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
+        it('when erroneous element has a parent with multiple descriptors, if its elementType defined in childElementTypeToParentDescriptorKeyMap, open its own editor', () => {
+            // TimeTrigger is a child element of Start_Element, its elementType is defined in childElementTypeToParentDescriptorKeyMap
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: 'myTimeTrigger2DaysBefore',
+                        errorCode: 'FLOW_SCHEDULED_PATH_INCOMPATIBLE_WITH_FLOW_TRIGGER_TYPE',
+                        message: 'myTimeTrigger2DaysBefore - (Scheduled Path) - some error message'
+                    }
+                }
+            });
+            const childElement = getElementByDevName(errorMsgComponentParentChild.info.message.erroneousElementApiName);
+            const parentElement = startElement;
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parentElement.guid);
+            const highlightElementPayload = { elementGuid: parentElement.guid };
+            const editElementEvent = new EditElementEvent(parentElement.guid);
+
+            const editElementPayload = {
+                mode: childElementTypeToParentDescriptorKeyMap[childElement.elementType],
+                canvasElementGUID: parentElement.guid
             };
             errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
             expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
