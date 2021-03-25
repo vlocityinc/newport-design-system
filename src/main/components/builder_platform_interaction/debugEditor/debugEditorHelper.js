@@ -228,7 +228,7 @@
                       name: argument.name,
                       label: cmp.get('v.dollarRecordName'),
                       searchEntities: [{ name: argument.objectType }],
-                      isRequired: false,
+                      isRequired: true,
                       helpText: null,
                       errorMessage: null,
                       triggerUpdate: false,
