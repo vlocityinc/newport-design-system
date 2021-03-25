@@ -5,7 +5,12 @@ import { LABELS } from './recordUpdateEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { ENTITY_TYPE, fetchFieldsForEntity, getUpdateableEntities } from 'builder_platform_interaction/sobjectLib';
+import {
+    ENTITY_TYPE,
+    fetchFieldsForEntity,
+    getUpdateableEntities,
+    getEntity
+} from 'builder_platform_interaction/sobjectLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
@@ -147,7 +152,7 @@ export default class RecordUpdateEditor extends LightningElement {
                     : LABELS.triggeringRecordLabel;
             return [
                 {
-                    label: format(label, this.dollarRecordName().toLowerCase()),
+                    label: format(label, getEntity(this.dollarRecordName())?.entityLabel?.toLowerCase()),
                     value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
                 },
                 ...opts
