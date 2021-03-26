@@ -3,7 +3,7 @@ pipeline:
     github_source:
         repo: automation-platform/sfci-pipelines
         branch: useHugeFlavor
-release_branches: ['master', '230', '228']
+release_branches: ['master', '232', '230', '228']
 precompile_lwc_components: true
 code_coverage_gus_team_name: 'Automation Builder Simplification'
 validations:
