@@ -193,6 +193,7 @@ export interface ConnectorRenderInfo {
     labelType: ConnectorLabelType;
     geometry: Geometry;
     svgInfo: SvgInfo;
+    goToTargetLabel?: string | undefined;
     addInfo?: ConnectorAddInfo;
     connectionInfo: ConnectorConnectionInfo;
     isFault: boolean;

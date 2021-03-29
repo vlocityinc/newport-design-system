@@ -14,6 +14,7 @@ import {
     connectToElement,
     addFault,
     updateChildren,
+    createGoToConnection,
     decorateElements,
     clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
@@ -112,6 +113,15 @@ describe('reducer', () => {
                 BRANCH_ELEMENT_GUID,
                 updatedChildrenGuids
             );
+        });
+    });
+
+    describe('createGoToConnection', () => {
+        it('delegates to createGoToConnection', () => {
+            const flowModel = {};
+            const action = actions.createGoToConnectionAction('sourceGuid', null, 'targetGuid');
+            configuredReducer(flowModel, action);
+            expect(createGoToConnection).toHaveBeenLastCalledWith(flowModel, 'sourceGuid', null, 'targetGuid');
         });
     });
 

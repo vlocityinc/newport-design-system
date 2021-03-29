@@ -112,6 +112,34 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                             }
                         }
                     }
+                },
+                goTo: {
+                    addOffset: gridHeight * 2.5,
+                    h: gridHeight * 4.5,
+                    labelOffset: gridHeight * 2,
+                    variants: {
+                        postMerge: {
+                            addOffset: gridHeight * 1.5,
+                            h: gridHeight * 3.5,
+                            svgMarginTop: gridHeight
+                        },
+                        branchHead: {
+                            addOffset: gridHeight * 3.5,
+                            h: gridHeight * 5.5,
+                            variants: {
+                                edge: {
+                                    svgMarginTop: gridHeight
+                                },
+                                fault: {
+                                    svgMarginTop: gridHeight
+                                }
+                            }
+                        },
+                        fault: {
+                            labelOffset: gridHeight,
+                            svgMarginTop: gridHeight
+                        }
+                    }
                 }
             }
         },

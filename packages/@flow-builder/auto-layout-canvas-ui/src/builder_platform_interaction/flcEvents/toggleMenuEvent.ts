@@ -9,6 +9,7 @@ interface ToggleMenuEventDetail {
     type: MenuType;
     elementMetadata: ElementMetadata;
 
+    prev?: Guid;
     next?: Guid;
     guid?: Guid;
     parent?: Guid;

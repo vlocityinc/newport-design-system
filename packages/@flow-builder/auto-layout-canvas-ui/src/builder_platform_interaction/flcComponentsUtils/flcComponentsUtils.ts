@@ -13,9 +13,14 @@ import {
     NodeRenderInfo,
     FlowRenderInfo,
     findParentElement,
+    findFirstElement,
     getChild,
     Geometry,
-    FlowRenderContext
+    FlowRenderContext,
+    hasGoToConnectionOnNext,
+    hasGoToConnectionOnBranchHead,
+    FAULT_INDEX,
+    MenuType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
@@ -117,7 +122,11 @@ function _getChildBranchElements(
 
         // Iterating over different branches of a given parent element
         for (let i = 0; i < branchRootsToVisitStack.length; i++) {
-            let currentBranchElement = flowModel[branchRootsToVisitStack[i]!];
+            const branchRootGuid = branchRootsToVisitStack[i];
+            let currentBranchElement =
+                branchRootGuid && !hasGoToConnectionOnBranchHead(flowModel, parentElement, i)
+                    ? flowModel[branchRootGuid]
+                    : null;
 
             // Traversing down a given branch
             while (
@@ -130,7 +139,10 @@ function _getChildBranchElements(
                 branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
                     _getSubtreeElements(elementsMetadata, action, currentBranchElement as ParentNodeModel, flowModel)
                 );
-                currentBranchElement = flowModel[currentBranchElement.next!];
+                currentBranchElement =
+                    currentBranchElement.next && !hasGoToConnectionOnNext(flowModel, currentBranchElement)
+                        ? flowModel[currentBranchElement.next]
+                        : null;
             }
         }
     }
@@ -153,7 +165,10 @@ function _getFaultBranchElements(
     flowModel: FlowModel
 ): Guid[] {
     let branchElementGuidsToSelectOrDeselect: Guid[] = [];
-    let currentBranchElement = flowModel[parentElement.fault!];
+    let currentBranchElement =
+        parentElement.fault && !hasGoToConnectionOnBranchHead(flowModel, parentElement, FAULT_INDEX)
+            ? flowModel[parentElement.fault]
+            : null;
 
     // Iterate only up till the End Element of the Fault Branch
     while (currentBranchElement != null && !isSystemElement(elementsMetadata, currentBranchElement.elementType)) {
@@ -162,7 +177,10 @@ function _getFaultBranchElements(
         branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
             _getSubtreeElements(elementsMetadata, action, currentBranchElement as ParentNodeModel, flowModel)
         );
-        currentBranchElement = flowModel[currentBranchElement.next!];
+        currentBranchElement =
+            currentBranchElement.next && !hasGoToConnectionOnNext(flowModel, currentBranchElement)
+                ? flowModel[currentBranchElement.next]
+                : null;
     }
 
     return branchElementGuidsToSelectOrDeselect;
@@ -215,7 +233,7 @@ function _getSelectableCanvasElementGuids(
     let selectableCanvasElementGuids: Guid[] = [];
     if (topSelectedGuid) {
         const topSelectedElement = flowModel[topSelectedGuid];
-        let currentCanvasElement = topSelectedElement;
+        let currentCanvasElement = topSelectedElement as NodeModel | null;
 
         // All the elements in the chain above (excluding the Start Element) should be selectable
         while (currentCanvasElement && !isSystemElement(elementsMetadata, currentCanvasElement.elementType)) {
@@ -242,7 +260,10 @@ function _getSelectableCanvasElementGuids(
                 )
             );
 
-            currentCanvasElement = flowModel[currentCanvasElement.next!];
+            currentCanvasElement =
+                currentCanvasElement.next && !hasGoToConnectionOnNext(flowModel, currentCanvasElement)
+                    ? flowModel[currentCanvasElement.next]
+                    : null;
         }
     }
 
@@ -374,7 +395,10 @@ const getCanvasElementDeselectionData = (
         // Top-most element is being deselected, we don't need to deselect anything else. Just have to reset the
         // topSelectedGuid to the next selected element (if any). In case the next element is not selected, reset
         // topSelectedGuid to null
-        const nextCanvasElement = flowModel[deselectedCanvasElement.next!];
+        const nextCanvasElement =
+            deselectedCanvasElement.next && !hasGoToConnectionOnNext(flowModel, deselectedCanvasElement)
+                ? flowModel[deselectedCanvasElement.next]
+                : null;
         if (nextCanvasElement && nextCanvasElement.config && nextCanvasElement.config.isSelected) {
             topSelectedGuid = nextCanvasElement.guid;
         } else {
@@ -394,7 +418,7 @@ const getCanvasElementDeselectionData = (
             )
         );
     } else {
-        let currentCanvasElement = deselectedCanvasElement;
+        let currentCanvasElement = deselectedCanvasElement as NodeModel | null;
         // Deselecting one of the middle elements, should deselect everything else in the vertical chain
         // (i.e. till the the point element.next is not null) below as well
         while (currentCanvasElement && currentCanvasElement.config && currentCanvasElement.config.isSelected) {
@@ -410,7 +434,10 @@ const getCanvasElementDeselectionData = (
                 )
             );
 
-            currentCanvasElement = flowModel[currentCanvasElement.next!];
+            currentCanvasElement =
+                currentCanvasElement.next && !hasGoToConnectionOnNext(flowModel, currentCanvasElement)
+                    ? flowModel[currentCanvasElement.next]
+                    : null;
         }
     }
 
@@ -442,7 +469,7 @@ const getCanvasElementDeselectionDataOnToggleOff = (
     const topSelectedElement = flowModel[topSelectedGuid];
     let canvasElementGuidsToDeselect: Guid[] = [];
 
-    let currentCanvasElement = topSelectedElement;
+    let currentCanvasElement = topSelectedElement as NodeModel | null;
     // When toggling out of the selection mode, everything needs to be deselected
     while (currentCanvasElement && currentCanvasElement.config && currentCanvasElement.config.isSelected) {
         canvasElementGuidsToDeselect.push(currentCanvasElement.guid);
@@ -456,7 +483,10 @@ const getCanvasElementDeselectionDataOnToggleOff = (
                 flowModel
             )
         );
-        currentCanvasElement = flowModel[currentCanvasElement.next!];
+        currentCanvasElement =
+            currentCanvasElement.next && !hasGoToConnectionOnNext(flowModel, currentCanvasElement)
+                ? flowModel[currentCanvasElement.next]
+                : null;
     }
 
     return {
@@ -661,7 +691,7 @@ function getFlcMenuData(
 ) {
     const detail = event.detail;
 
-    const { guid, next, parent, childIndex } = detail;
+    const { guid, prev, next, parent, childIndex, type } = detail;
 
     const { flowModel, elementsMetadata } = context;
 
@@ -675,12 +705,13 @@ function getFlcMenuData(
     let canMergeEndedBranch = false;
     let isTargetEnd = false;
     if (targetElement != null) {
-        const targetParentElement = findParentElement(targetElement, flowModel);
+        const targetBranchHeadElement = findFirstElement(targetElement, flowModel);
+        const targetParentElement = flowModel[targetBranchHeadElement.parent];
         const isTargetParentRoot =
             getElementMetadata(elementsMetadata, targetParentElement.elementType).type === NodeType.ROOT;
 
         isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === NodeType.END;
-        canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
+        canMergeEndedBranch = targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot && isTargetEnd;
     }
 
     const parentElement = (parent != null
@@ -688,6 +719,19 @@ function getFlcMenuData(
         : findParentElement(flowModel[guid!], flowModel)) as ParentNodeModel;
 
     const hasEndElement = targetGuid == null && !isInLoop(flowModel, parentElement, elementsMetadata);
+
+    let isGoToConnector = false;
+
+    // Setting the isGoToConnector property to true for goTo connectors
+    if (
+        type === MenuType.CONNECTOR &&
+        ((prev && next && hasGoToConnectionOnNext(flowModel, flowModel[prev])) ||
+            (parent &&
+                childIndex != null &&
+                hasGoToConnectionOnBranchHead(flowModel, flowModel[parent] as ParentNodeModel, childIndex)))
+    ) {
+        isGoToConnector = true;
+    }
 
     return {
         canMergeEndedBranch,
@@ -697,7 +741,8 @@ function getFlcMenuData(
         ...detail,
         connectorMenu: detail.type,
         next: targetGuid,
-        style
+        style,
+        isGoToConnector
     };
 }
 
@@ -718,6 +763,7 @@ export {
     ICON_SHAPE,
     AutoLayoutCanvasMode,
     connectorKey,
+    getCssStyle,
     getStyleFromGeometry,
     getFlcNodeData,
     getFlcCompoundNodeData,

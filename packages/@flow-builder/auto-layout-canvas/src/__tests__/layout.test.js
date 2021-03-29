@@ -16,7 +16,11 @@ import {
     LOOP_ELEMENT,
     END_ELEMENT,
     getFlowWithScheduledPathsContext,
-    getFlowWithOnlyImmediateScheduledPathContext
+    getFlowWithOnlyImmediateScheduledPathContext,
+    getFlowWhenGoingToPreviousElement,
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement
 } from './testUtils';
 
 function calculateLayoutAndAssert(ctx) {
@@ -145,6 +149,42 @@ describe('layout', () => {
 
         it('flow with dynamic node component', () => {
             calculateLayoutAndAssert(getFlowWithDynamicNodeComponent());
+        });
+
+        it('flow with a GoTo connection to the previous element', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingToPreviousElement(false, false));
+        });
+
+        it('flow with a GoTo connection to the previous element and source node menu is open', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingToPreviousElement(true, false));
+        });
+
+        it('flow with a GoTo connection to the previous element and goTo connector menu is open', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingToPreviousElement(false, true));
+        });
+
+        it('flow with a GoTo connection from parent first branch to the previous element', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(false, false, false));
+        });
+
+        it('flow with a GoTo connection from parent first branch to the previous element and the source node menu is open', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(true, false, false));
+        });
+
+        it('flow with a GoTo connection from parent first branch to the previous element when merge connector menu is open', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(false, true, false));
+        });
+
+        it('flow with a GoTo connection from parent first branch to the previous element when branch head connector menu is open', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(false, false, true));
+        });
+
+        it('flow with a GoTo connection from parent default branch to the previous element', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingFromParentDefaultBranchToPreviousElement());
+        });
+
+        it('flow with a GoTo connection from parent fault branch to the previous element', () => {
+            calculateLayoutAndAssert(getFlowWhenGoingFromParentFaultBranchToPreviousElement());
         });
 
         it('flow with scheduled paths', () => {

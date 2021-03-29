@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { NodeType, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
@@ -45,7 +45,7 @@ const checkSelectionDeselectionResultEquality = (
     }
 };
 
-function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
+function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement, expectedIsGoToConnector) {
     const flowModel = {
         root: {
             guid: 'root',
@@ -61,7 +61,8 @@ function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
                 isSelected: false
             },
             prev: null,
-            next: 'branch-guid'
+            next: 'branch-guid',
+            incomingGoTo: ['branch-guid:o2', 'guid5']
         },
         'branch-guid': {
             guid: 'branch-guid',
@@ -69,9 +70,17 @@ function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
             config: {
                 isSelected: false
             },
+            childReferences: [
+                {
+                    childReference: 'o1'
+                },
+                {
+                    childReference: 'o2'
+                }
+            ],
             prev: 'guid1',
             next: 'guid3',
-            children: ['guid4', null]
+            children: ['guid4', 'guid1', 'guid5', null]
         },
         guid3: {
             guid: 'guid3',
@@ -91,7 +100,20 @@ function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
             parent: 'branch-guid',
             prev: null,
             next: null,
-            childIndex: 0
+            childIndex: 0,
+            isTerminal: true
+        },
+        guid5: {
+            guid: 'guid5',
+            elementType: ELEMENT_TYPE_SCREEN,
+            config: {
+                isSelected: false
+            },
+            parent: 'branch-guid',
+            prev: null,
+            next: 'guid1',
+            childIndex: 2,
+            isTerminal: true
         }
     };
 
@@ -109,6 +131,7 @@ function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
     });
 
     expect(menuData.hasEndElement).toEqual(expectedHasEndElement);
+    expect(menuData.isGoToConnector).toEqual(expectedIsGoToConnector);
 }
 
 describe('FLC Canvas Utils test', () => {
@@ -134,24 +157,21 @@ describe('FLC Canvas Utils test', () => {
     });
 
     describe('getFlcMenuData', () => {
-        it('hasEndElement is true on branch when next element is not end node', () => {
-            const hasEndElement = true;
-
+        it('hasEndElement is true and isGoToConnector is false on branch when next element is not end node', () => {
             testGetFlcMenuData(
                 {
                     top: 0,
                     left: 0,
                     elementMetadata: { type: NodeType.DEFAULT },
                     parent: 'branch-guid',
-                    childIndex: 1
+                    childIndex: 3
                 },
-                hasEndElement
+                true,
+                false
             );
         });
 
-        it('hasEndElement is false on branch when next element is end node', () => {
-            const hasEndElement = false;
-
+        it('hasEndElement is false and isGoToConnector is false on branch when next element is end node', () => {
             testGetFlcMenuData(
                 {
                     top: 0,
@@ -160,7 +180,37 @@ describe('FLC Canvas Utils test', () => {
                     parent: 'branch-guid',
                     childIndex: 0
                 },
-                hasEndElement
+                false,
+                false
+            );
+        });
+
+        it('hasEndElement is false and isGoToConnector is true on branch that has a GoTo connection at branch head', () => {
+            testGetFlcMenuData(
+                {
+                    top: 0,
+                    left: 0,
+                    parent: 'branch-guid',
+                    childIndex: 1,
+                    type: MenuType.CONNECTOR
+                },
+                false,
+                true
+            );
+        });
+
+        it('hasEndElement is false and isGoToConnector is true when there is a GoTo connection to the next element', () => {
+            testGetFlcMenuData(
+                {
+                    guid: 'guid5',
+                    top: 0,
+                    left: 0,
+                    prev: 'guid5',
+                    next: 'guid1',
+                    type: MenuType.CONNECTOR
+                },
+                false,
+                true
             );
         });
     });
@@ -268,18 +318,26 @@ describe('FLC Canvas Utils test', () => {
                         isSelected: true
                     },
                     prev: null,
-                    next: 'guid2'
+                    next: 'guid2',
+                    incomingGoTo: ['guid2:default']
                 },
                 guid2: {
                     guid: 'guid2',
                     elementType: ELEMENT_TYPE_WAIT,
+                    nodeType: NodeType.BRANCH,
                     config: {
                         isSelected: false
                     },
                     prev: 'guid1',
                     next: 'guid3',
-                    children: ['guid4', null],
-                    fault: 'guid5'
+                    children: ['guid4', 'guid1'],
+                    fault: 'guid5',
+                    incomingGoTo: ['guid4'],
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ]
                 },
                 guid3: {
                     guid: 'guid3',
@@ -298,10 +356,11 @@ describe('FLC Canvas Utils test', () => {
                     },
                     parent: 'guid2',
                     prev: null,
-                    next: null,
+                    next: 'guid2',
                     childIndex: 0,
                     children: [null, null],
-                    fault: 'guid6'
+                    fault: 'guid6',
+                    isTerminal: true
                 },
                 guid5: {
                     guid: 'guid5',
@@ -366,12 +425,22 @@ describe('FLC Canvas Utils test', () => {
                 guid2: {
                     guid: 'guid2',
                     elementType: ELEMENT_TYPE_DECISION,
+                    nodeType: NodeType.BRANCH,
                     config: {
                         isSelected: false
                     },
                     prev: 'guid1',
                     next: 'guid3',
-                    children: ['guid4', 'guid5', 'guid7']
+                    children: ['guid4', 'guid6', 'guid5'],
+                    incomingGoTo: ['guid4'],
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
                 },
                 guid3: {
                     guid: 'guid3',
@@ -391,8 +460,9 @@ describe('FLC Canvas Utils test', () => {
                     },
                     parent: 'guid2',
                     prev: null,
-                    next: null,
-                    childIndex: 0
+                    next: 'guid2',
+                    childIndex: 0,
+                    isTerminal: true
                 },
                 guid5: {
                     guid: 'guid5',
@@ -403,7 +473,7 @@ describe('FLC Canvas Utils test', () => {
                     parent: 'guid2',
                     prev: null,
                     next: null,
-                    childIndex: 1
+                    childIndex: 2
                 },
                 guid6: {
                     guid: 'guid6',
@@ -414,15 +484,8 @@ describe('FLC Canvas Utils test', () => {
                     parent: 'guid3',
                     prev: null,
                     next: null,
-                    childIndex: 0
-                },
-                guid7: {
-                    guid: 'guid7',
-                    elementType: ELEMENT_TYPE_END_ELEMENT,
-                    parent: 'guid2',
-                    prev: null,
-                    next: null,
-                    childIndex: 2
+                    childIndex: 0,
+                    incomingGoTo: ['guid2:o2']
                 }
             };
 
@@ -542,18 +605,26 @@ describe('FLC Canvas Utils test', () => {
                             isSelected: false
                         },
                         prev: null,
-                        next: 'guid2'
+                        next: 'guid2',
+                        incomingGoTo: ['guid2:default']
                     },
                     guid2: {
                         guid: 'guid2',
                         elementType: ELEMENT_TYPE_WAIT,
+                        nodeType: NodeType.BRANCH,
                         config: {
                             isSelected: true
                         },
                         prev: 'guid1',
                         next: 'guid3',
-                        children: ['guid4', null],
-                        fault: 'guid5'
+                        children: ['guid4', 'guid1'],
+                        fault: 'guid5',
+                        incomingGoTo: ['guid4', 'guid4:fault'],
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            }
+                        ]
                     },
                     guid3: {
                         guid: 'guid3',
@@ -567,15 +638,17 @@ describe('FLC Canvas Utils test', () => {
                     guid4: {
                         guid: 'guid4',
                         elementType: ELEMENT_TYPE_WAIT,
+                        nodeType: NodeType.BRANCH,
                         config: {
                             isSelected: true
                         },
                         parent: 'guid2',
                         prev: null,
-                        next: null,
+                        next: 'guid2',
                         childIndex: 0,
                         children: [null, null],
-                        fault: 'guid6'
+                        fault: 'guid2',
+                        isTerminal: true
                     },
                     guid5: {
                         guid: 'guid5',
@@ -586,17 +659,6 @@ describe('FLC Canvas Utils test', () => {
                         parent: 'guid2',
                         prev: null,
                         next: 'end2',
-                        childIndex: -1
-                    },
-                    guid6: {
-                        guid: 'guid6',
-                        elementType: ELEMENT_TYPE_SCREEN,
-                        config: {
-                            isSelected: true
-                        },
-                        parent: 'guid4',
-                        prev: null,
-                        next: 'end3',
                         childIndex: -1
                     },
                     end1: {
@@ -610,12 +672,6 @@ describe('FLC Canvas Utils test', () => {
                         elementType: ELEMENT_TYPE_END_ELEMENT,
                         prev: 'guid5',
                         next: null
-                    },
-                    end3: {
-                        guid: 'end3',
-                        elementType: ELEMENT_TYPE_END_ELEMENT,
-                        prev: 'guid6',
-                        next: null
                     }
                 };
 
@@ -623,7 +679,7 @@ describe('FLC Canvas Utils test', () => {
                 checkSelectionDeselectionResultEquality(
                     result,
                     [],
-                    ['guid2', 'guid4', 'guid6', 'guid5'],
+                    ['guid2', 'guid4', 'guid5'],
                     ['guid3', 'guid2', 'guid1'],
                     'guid3'
                 );
@@ -692,7 +748,8 @@ describe('FLC Canvas Utils test', () => {
                         prev: 'guid1',
                         next: 'guid3',
                         children: ['guid4', null],
-                        fault: 'guid5'
+                        fault: 'guid5',
+                        incomingGoTo: ['guid4', 'guid5']
                     },
                     guid3: {
                         guid: 'guid3',
@@ -711,10 +768,11 @@ describe('FLC Canvas Utils test', () => {
                         },
                         parent: 'guid2',
                         prev: null,
-                        next: null,
+                        next: 'guid2',
                         childIndex: 0,
                         children: [null, null],
-                        fault: 'guid6'
+                        fault: 'guid6',
+                        isTerminal: true
                     },
                     guid5: {
                         guid: 'guid5',
@@ -724,7 +782,7 @@ describe('FLC Canvas Utils test', () => {
                         },
                         parent: 'guid2',
                         prev: null,
-                        next: 'end2',
+                        next: 'guid2',
                         childIndex: -1
                     },
                     guid6: {
@@ -742,12 +800,6 @@ describe('FLC Canvas Utils test', () => {
                         guid: 'end1',
                         elementType: ELEMENT_TYPE_END_ELEMENT,
                         prev: 'guid3',
-                        next: null
-                    },
-                    end2: {
-                        guid: 'end2',
-                        elementType: ELEMENT_TYPE_END_ELEMENT,
-                        prev: 'guid5',
                         next: null
                     },
                     end3: {
@@ -777,17 +829,27 @@ describe('FLC Canvas Utils test', () => {
                             isSelected: true
                         },
                         prev: null,
-                        next: 'guid2'
+                        next: 'guid2',
+                        incomingGoTo: ['guid2:o2']
                     },
                     guid2: {
                         guid: 'guid2',
                         elementType: ELEMENT_TYPE_DECISION,
+                        nodeType: NodeType.BRANCH,
                         config: {
                             isSelected: true
                         },
                         prev: 'guid1',
                         next: 'guid3',
-                        children: ['guid4', 'guid5']
+                        children: ['guid4', 'guid1', 'guid5'],
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            }
+                        ]
                     },
                     guid3: {
                         guid: 'guid3',
@@ -818,7 +880,7 @@ describe('FLC Canvas Utils test', () => {
                         parent: 'guid2',
                         prev: null,
                         next: null,
-                        childIndex: 1
+                        childIndex: 2
                     }
                 };
 
@@ -881,7 +943,8 @@ describe('FLC Canvas Utils test', () => {
                     },
                     prev: null,
                     next: 'guid2',
-                    children: ['guid3', 'guid4']
+                    children: ['guid3', 'guid4'],
+                    incomingGoTo: ['guid3']
                 },
                 guid2: {
                     guid: 'guid2',
@@ -900,8 +963,9 @@ describe('FLC Canvas Utils test', () => {
                     },
                     parent: 'guid1',
                     prev: null,
-                    next: null,
-                    childIndex: 0
+                    next: 'guid1',
+                    childIndex: 0,
+                    isTerminal: true
                 },
                 guid4: {
                     guid: 'guid4',

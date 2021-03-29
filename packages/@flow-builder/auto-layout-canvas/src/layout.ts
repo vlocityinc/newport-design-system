@@ -1,5 +1,20 @@
-import { NodeModel, resolveNode, ParentNodeModel, NodeRef, Guid, getElementMetadata, FAULT_INDEX } from './model';
-import { areAllBranchesTerminals, shouldSupportTimeTriggers, fulfillsBranchingCriteria } from './modelUtils';
+import {
+    NodeModel,
+    resolveNode,
+    ParentNodeModel,
+    NodeRef,
+    Guid,
+    getElementMetadata,
+    FAULT_INDEX,
+    FlowModel
+} from './model';
+import {
+    areAllBranchesTerminals,
+    shouldSupportTimeTriggers,
+    fulfillsBranchingCriteria,
+    hasGoToConnectionOnNext,
+    hasGoToConnectionOnBranchHead
+} from './modelUtils';
 import {
     FlowRenderContext,
     LayoutConfig,
@@ -108,12 +123,89 @@ function cloneLayout(layout?: LayoutInfo): LayoutInfo {
 /**
  * Get the type of the next node connector
  *
- * @param elementType - The current node's ElementType
- * @param nodeGuid - The current node's guid
+ * @param flowModel - The flow model
+ * @param nodeModel - Model of the source node
+ * @param elementType - The current node's NodeType
  * @returns The ConnectorType of the next node connector or null if there is no next node connector
  */
-function getNextNodeConnectorType(nodeType: NodeType): ConnectorType | null {
-    return nodeType === NodeType.END || nodeType === NodeType.ROOT ? null : ConnectorType.STRAIGHT;
+function getNextNodeConnectorType(
+    flowModel: FlowModel,
+    nodeModel: NodeModel,
+    elementType: NodeType
+): ConnectorType | null {
+    if (nodeModel.next && hasGoToConnectionOnNext(flowModel, nodeModel)) {
+        return ConnectorType.GO_TO;
+    }
+    return elementType === NodeType.END || elementType === NodeType.ROOT ? null : ConnectorType.STRAIGHT;
+}
+
+/**
+ * Get the variant for the next node connector
+ *
+ * @param nodeModel - Model of the source node
+ * @param elementType - The current node's NodeType
+ * @returns Variant of the next node connector
+ */
+function getNextNodeConnectorVariant(nodeModel: NodeModel, elementType: NodeType): ConnectorVariant {
+    let nextNodeConnectorVariant =
+        fulfillsBranchingCriteria(nodeModel, elementType) || elementType === NodeType.LOOP
+            ? ConnectorVariant.POST_MERGE
+            : !(nodeModel as ParentNodeModel).children && shouldSupportTimeTriggers(nodeModel)
+            ? ConnectorVariant.DEFAULT_LABEL
+            : ConnectorVariant.DEFAULT;
+
+    if (nodeModel.next == null) {
+        nextNodeConnectorVariant =
+            nextNodeConnectorVariant === ConnectorVariant.POST_MERGE
+                ? ConnectorVariant.POST_MERGE_TAIL
+                : ConnectorVariant.BRANCH_TAIL;
+    }
+
+    return nextNodeConnectorVariant;
+}
+
+/**
+ * Get the type of the branch head connector
+ *
+ * @param flowModel - The flow model
+ * @param parentNodeModel - Model of the parent node
+ * @param childIndex - The branch index we are evaluating for
+ * @param parentNodeType - Parent Node's NodeType
+ * @returns The ConnectorType of the branch head connector
+ */
+function getBranchHeadConnectorType(
+    flowModel: FlowModel,
+    parentNodeModel: ParentNodeModel,
+    childIndex: number,
+    parentNodeType: NodeType
+): ConnectorType | null {
+    if (hasGoToConnectionOnBranchHead(flowModel, parentNodeModel, childIndex)) {
+        return ConnectorType.GO_TO;
+    }
+    return parentNodeType === NodeType.END || parentNodeType === NodeType.ROOT ? null : ConnectorType.STRAIGHT;
+}
+
+/**
+ * Get the variant for the next node connector
+ *
+ * @param branchHeadGuid - The branch head guid
+ * @param parentNodeModel - Model of the parent node
+ * @param parentNodeType - Parent Node's NodeType
+ * @returns Variant of the branch head connector
+ */
+function getBranchHeadConnectorVariant(
+    branchHeadGuid: Guid | null,
+    parentNodeModel: ParentNodeModel,
+    parentNodeType: NodeType
+) {
+    let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.FAULT;
+
+    if (fulfillsBranchingCriteria(parentNodeModel, parentNodeType) || parentNodeType === NodeType.LOOP) {
+        nextNodeConnectorVariant =
+            branchHeadGuid == null ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD;
+    }
+
+    return nextNodeConnectorVariant;
 }
 
 /**
@@ -219,21 +311,8 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     }
 
     const elementType = getElementType(context, nodeModel);
-    // nodeModel.next == null => tail
-    const nextNodeConnectorType = getNextNodeConnectorType(elementType);
-    let nextNodeConnectorVariant =
-        fulfillsBranchingCriteria(nodeModel, elementType) || elementType === NodeType.LOOP
-            ? ConnectorVariant.POST_MERGE
-            : !(nodeModel as ParentNodeModel).children && shouldSupportTimeTriggers(nodeModel)
-            ? ConnectorVariant.DEFAULT_LABEL
-            : ConnectorVariant.DEFAULT;
-
-    if (nodeModel.next == null) {
-        nextNodeConnectorVariant =
-            nextNodeConnectorVariant === ConnectorVariant.POST_MERGE
-                ? ConnectorVariant.POST_MERGE_TAIL
-                : ConnectorVariant.BRANCH_TAIL;
-    }
+    const nextNodeConnectorType = getNextNodeConnectorType(flowModel, nodeModel, elementType);
+    const nextNodeConnectorVariant = getNextNodeConnectorVariant(nodeModel, elementType);
 
     const nextNodeConnectorHeight =
         nextNodeConnectorType != null
@@ -300,7 +379,11 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
         });
     }
 
-    const connectorConfig = getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, nextNodeConnectorVariant);
+    const connectorConfig = getConnectorConfig(
+        layoutConfig,
+        nextNodeConnectorType ? nextNodeConnectorType : ConnectorType.STRAIGHT,
+        nextNodeConnectorVariant
+    );
 
     layoutInfo = layoutInfo || {
         layout
@@ -392,7 +475,19 @@ function calculateBranchingLayout(nodeModel: ParentNodeModel, context: FlowRende
             branchLayout.x = branchOffsetX + branchLayout.offsetX;
 
             branchOffsetX += branchLayout.w;
-            h = Math.max(h, branchLayout.h);
+            if (hasGoToConnectionOnBranchHead(context.flowModel, nodeModel, i)) {
+                // When all branches are empty and merge together, and one of them has a goTo connection
+                // we add some extra height to add some space between the goTo connector and the merge point
+                h = Math.max(
+                    h,
+                    branchLayout.h +
+                        getConnectorConfig(context.layoutConfig, ConnectorType.STRAIGHT, ConnectorVariant.BRANCH_TAIL)
+                            .h /
+                            2
+                );
+            } else {
+                h = Math.max(h, branchLayout.h);
+            }
             return branchLayout;
         });
 
@@ -445,11 +540,10 @@ function calculateBranchLayout(
 
     const parentNodeType = getElementType(context, parentNodeModel);
     const branchHeadGuid = getLayoutChildOrFault(parentNodeModel, childIndex);
-
     let node: NodeModel | null = branchHeadGuid != null ? resolveNode(flowModel, branchHeadGuid) : null;
 
-    const nextNodeConnectorType = getNextNodeConnectorType(parentNodeType)!;
-    const nextNodeConnectorVariant = getNextNodeConnectorVariant(branchHeadGuid, parentNodeType, parentNodeModel);
+    const nextNodeConnectorType = getBranchHeadConnectorType(flowModel, parentNodeModel, childIndex, parentNodeType)!;
+    const nextNodeConnectorVariant = getBranchHeadConnectorVariant(branchHeadGuid, parentNodeModel, parentNodeType);
 
     let height = 0;
 
@@ -500,28 +594,31 @@ function calculateBranchLayout(
 
     let leftWidth = 0;
     let rightWidth = 0;
-
     let prevNode;
-    while (node) {
-        const { layout } = calculateNodeLayout(node, context, height);
 
-        if (node.fault != null) {
-            const faultLayoutObject = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;
+    // Iterating down the nodes and calculating the node layout only if there' no GoTo connection from the branch
+    if (!hasGoToConnectionOnBranchHead(flowModel, parentNodeModel, childIndex)) {
+        while (node) {
+            const { layout } = calculateNodeLayout(node, context, height);
 
-            // extra height so that the fault doesn't overlap with the merge connectors
-            faultLayoutObject.y = height + layoutConfig.grid.h;
-            faultLayouts.push(faultLayoutObject);
+            if (node.fault != null) {
+                const faultLayoutObject = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;
+
+                // extra height so that the fault doesn't overlap with the merge connectors
+                faultLayoutObject.y = height + layoutConfig.grid.h;
+                faultLayouts.push(faultLayoutObject);
+            }
+
+            layout.y = height;
+
+            rightWidth = Math.max(layout.w - layout.offsetX, rightWidth);
+            leftWidth = Math.max(leftWidth, layout.offsetX);
+            height += layout.h;
+
+            const next = node.next;
+            prevNode = node;
+            node = next && !hasGoToConnectionOnNext(flowModel, node) ? resolveNode(flowModel, next) : null;
         }
-
-        layout.y = height;
-
-        rightWidth = Math.max(layout.w - layout.offsetX, rightWidth);
-        leftWidth = Math.max(leftWidth, layout.offsetX);
-        height += layout.h;
-
-        const next = node.next;
-        prevNode = node;
-        node = next ? resolveNode(flowModel, next) : null;
     }
 
     // Updating layout for all the Fault Branches in a given flow (straight line) such that they don't overlap
@@ -540,29 +637,10 @@ function calculateBranchLayout(
         leftWidth = rightWidth = layoutConfig.branch.emptyWidth / 2;
     }
 
-    return Object.assign(branchLayout, { w: leftWidth + rightWidth, h: height, offsetX: leftWidth });
-}
-
-/**
- * Get the variant for the next node connector
- *
- * @param parentNodeType - The parent node type
- * @param branchHeadGuid - The branch head guid
- * @returns The next node connector variant
- */
-function getNextNodeConnectorVariant(
-    branchHeadGuid: Guid | null,
-    parentNodeType: NodeType,
-    parentNodeModel: ParentNodeModel
-) {
-    let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.FAULT;
-
-    if (fulfillsBranchingCriteria(parentNodeModel, parentNodeType) || parentNodeType === NodeType.LOOP) {
-        nextNodeConnectorVariant =
-            branchHeadGuid == null ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD;
-    }
-
-    return nextNodeConnectorVariant;
+    // TODO: Update this as needed when adding GoTo connector svg
+    return hasGoToConnectionOnBranchHead(flowModel, parentNodeModel, childIndex)
+        ? Object.assign(branchLayout, { w: layoutConfig.node.w, h: height, offsetX: layoutConfig.node.offsetX })
+        : Object.assign(branchLayout, { w: leftWidth + rightWidth, h: height, offsetX: leftWidth });
 }
 
 /**

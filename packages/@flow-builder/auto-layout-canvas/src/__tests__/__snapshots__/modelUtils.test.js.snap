@@ -834,6 +834,78 @@ Object {
 }
 `;
 
+exports[`modelUtils deleteElement end element in nested branch with ended left branch inlines 1`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      "branch-guid:0-branch-guid",
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "branch-guid:0-branch-guid": Object {
+    "childIndex": 0,
+    "children": Array [
+      null,
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid:0-branch-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "label": "branch-guid",
+    "nodeType": "branch",
+    "parent": "branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "branch-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils deleteElement in nested branch with ended left branch inlines 1`] = `
 Object {
   "branch-guid": Object {
@@ -872,6 +944,94 @@ Object {
     "nodeType": "end",
     "parent": "branch-guid",
     "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "branch-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils deleteElement in triple nested branch with ended left branch inlines firstMergeableNonNullNext 1`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      "branch-guid:0-branch-guid",
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "branch-guid:0-branch-guid": Object {
+    "childIndex": 0,
+    "children": Array [
+      "branch-guid:0-branch-guid:0-branch-guid:0-branch-guid",
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid:0-branch-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "label": "branch-guid",
+    "nodeType": "branch",
+    "parent": "branch-guid",
+  },
+  "branch-guid:0-branch-guid:0-branch-guid:0-branch-guid": Object {
+    "childIndex": 0,
+    "children": Array [
+      null,
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid:0-branch-guid:0-branch-guid:0-branch-guid",
+    "isCanvasElement": true,
+    "isTerminal": false,
+    "label": "branch-guid",
+    "nodeType": "branch",
+    "parent": "branch-guid:0-branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
   },
   "root": Object {
     "children": Array [
@@ -1499,7 +1659,7 @@ Object {
 }
 `;
 
-exports[`modelUtils updateChildren when all branches terminals after the update, delete the parent next and decendents 1`] = `
+exports[`modelUtils updateChildren when all branches terminals after the update, delete the parent next and descendants 1`] = `
 Object {
   "branch-guid": Object {
     "children": Array [

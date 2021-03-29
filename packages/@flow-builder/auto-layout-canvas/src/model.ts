@@ -1,5 +1,11 @@
 import NodeType from './NodeType';
 
+export enum GOTO_CONNECTION_SUFFIX {
+    DEFAULT = 'default',
+    FAULT = 'fault',
+    IMMEDIATE = 'immediate'
+}
+
 export type Guid = string;
 
 export interface FlowModel {
@@ -38,7 +44,7 @@ export interface NodeModel {
     fault: NodeRef;
 
     // goto
-    incomingGoTo: Array<Guid>;
+    incomingGoTo?: Array<Guid>;
 }
 
 export interface StartNodeModel extends NodeModel {

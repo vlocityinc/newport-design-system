@@ -119,7 +119,8 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         modalBodyVariant,
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
-        NodeType
+        NodeType,
+        hasGoToConnectionOnNext: jest.fn()
     };
 });
 

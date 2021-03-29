@@ -294,13 +294,18 @@ function convertBranchToAutoLayout(
     let currentElement: NodeModel | null = branchHead;
 
     while (currentElement != null) {
+        // TODO: update this to have the correct goto array
+        if (
+            currentElement.elementType !== ELEMENT_TYPE.START_ELEMENT &&
+            currentElement.elementType !== ELEMENT_TYPE.END_ELEMENT
+        ) {
+            currentElement.incomingGoTo = [];
+        }
+
         if (currentElement.elementType === ELEMENT_TYPE.END_ELEMENT) {
             branchHead.isTerminal = true;
             break;
         }
-
-        // TODO: update this to have the correct goto array
-        currentElement.incomingGoTo = [];
 
         const { fault, isLoop, isBranching } = conversionInfos[currentElement.guid];
 

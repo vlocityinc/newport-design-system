@@ -22,6 +22,11 @@ svg.fault.connector-to-be-deleted {
     stroke-width: 6;
 }
 
+svg.goTo {
+    stroke-dasharray: 1 11;
+    stroke-linecap: round;
+}
+
 svg.connector-highlighted {
     stroke: #ffb75d;
     stroke-width: 6;
@@ -66,4 +71,14 @@ builder_platform_interaction-flc-button-menu {
 
 builder_platform_interaction-flc-button-menu.slds-is-open .circle-text {
     transform: rotate(-135deg);
+}
+
+.go-to-info {
+    color: var(--lwc-colorTextDestructive);
+    display: inline-flex;
+    font-style: italic;
+}
+
+.go-to-target-label {
+    max-width: 80px;
 }

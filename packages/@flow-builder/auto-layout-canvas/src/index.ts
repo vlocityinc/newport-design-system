@@ -70,6 +70,8 @@ export {
     getTargetGuidsForReconnection,
     InsertAt,
     createRootElement,
+    hasGoToConnectionOnNext,
+    hasGoToConnectionOnBranchHead,
     isBranchingElement,
     fulfillsBranchingCriteria
 } from './modelUtils';

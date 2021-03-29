@@ -47,19 +47,65 @@ function createStraightConnectorSvgInfo(
         h: height
     };
 
-    const path = createSvgPath({
+    const { path, endLocation } = createSvgPath({
         start: createOffsetLocation({ x: 0, y: svgMarginTop }, [strokeWidth / 2, 0]),
         offsets: [[0, height - svgMarginBottom - svgMarginTop]]
     });
 
     return {
         geometry,
-        path
+        path,
+        endLocation
     };
 }
 
 /**
- * Creates a ConnectorRenderInfo for a connector that links a node to its next node
+ * Creates an SvgInfo for a GoTo connector
+ *
+ * @param height - The connector height
+ * @param svgMarginTop - The top margin
+ * @param svgMarginBottom - The bottom margin
+ * @param layoutConfig  - The layout config
+ * @returns The SvgInfo for the connector
+ */
+function createGoToConnectorSvgInfo(
+    height: number,
+    svgMarginTop: number,
+    svgMarginBottom: number,
+    layoutConfig: LayoutConfig
+): SvgInfo {
+    const { strokeWidth, curveRadius } = layoutConfig.connector;
+    const { w, h } = layoutConfig.grid;
+
+    if (svgMarginBottom < 0) {
+        height += -svgMarginBottom;
+    }
+
+    const geometry = {
+        x: -strokeWidth / 2,
+        y: 0,
+        w,
+        h: height
+    };
+
+    const { path, endLocation } = createSvgPath({
+        start: createOffsetLocation({ x: 0, y: svgMarginTop }, [strokeWidth / 2, 0]),
+        offsets: [
+            [0, height - svgMarginBottom - svgMarginTop - h],
+            [curveRadius, curveRadius],
+            [w / 4 - 2 * curveRadius, 0]
+        ]
+    });
+
+    return {
+        geometry,
+        path,
+        endLocation
+    };
+}
+
+/**
+ * Creates a ConnectorRenderInfo for a connector (regular or goTo) that links a node to its next node.
  *
  * @param connectionInfo - The connector connection info
  * @param connectorType - Type of the connector being created
@@ -90,7 +136,8 @@ function createConnectorToNextNode(
     addOffset: number | undefined,
     labelOffset: number | undefined,
     connectorBadgeLabel: string | undefined,
-    isHighlighted: boolean
+    isHighlighted: boolean,
+    goToTargetLabel: string | undefined
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
@@ -107,7 +154,11 @@ function createConnectorToNextNode(
         geometry,
         addInfo: addOffset != null ? { offsetY: addOffset, menuOpened } : undefined,
         connectionInfo,
-        svgInfo: createStraightConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig),
+        svgInfo:
+            connectorType === ConnectorType.GO_TO
+                ? createGoToConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig)
+                : createStraightConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig),
+        goToTargetLabel,
         labelOffsetY: labelOffset,
         type: connectorType,
         connectorBadgeLabel,

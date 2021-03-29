@@ -15,6 +15,9 @@ const BRANCH_ELEMENT_GUID = 'branch-guid';
 const LOOP_ELEMENT_GUID = 'loop-guid';
 const SCREEN_ELEMENT_GUID = 'screen-guid';
 const ACTION_ELEMENT_GUID = 'action-guid';
+const BASIC_ELEMENT_GUID = 'head-guid';
+const GOTO_TARGET_GUID = 'goto-target-guid';
+const GOTO_SOURCE_GUID = 'goto-source-guid';
 
 const ROOT_ELEMENT = {
     guid: ROOT_ELEMENT_GUID,
@@ -82,6 +85,24 @@ const ACTION_ELEMENT = {
     config: {}
 };
 
+const GOTO_TARGET_ELEMENT = {
+    guid: GOTO_TARGET_GUID,
+    label: SCREEN_ELEMENT_GUID,
+    elementType: SCREEN_ELEMENT_TYPE,
+    nodeType: NodeType.DEFAULT,
+    isCanvasElement: true,
+    config: {}
+};
+
+const GOTO_SOURCE_ELEMENT = {
+    guid: GOTO_SOURCE_GUID,
+    label: SCREEN_ELEMENT_GUID,
+    elementType: SCREEN_ELEMENT_TYPE,
+    nodeType: NodeType.DEFAULT,
+    isCanvasElement: true,
+    config: {}
+};
+
 function getElementByType(type) {
     let element;
 
@@ -106,6 +127,12 @@ function getElementByType(type) {
             break;
         case LOOP_ELEMENT_GUID:
             element = LOOP_ELEMENT;
+            break;
+        case GOTO_TARGET_GUID:
+            element = GOTO_TARGET_ELEMENT;
+            break;
+        case GOTO_SOURCE_GUID:
+            element = GOTO_SOURCE_ELEMENT;
             break;
         default:
             element = null;
@@ -428,7 +455,11 @@ function getFlowWithNonTerminalImmediateBranch() {
         { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
         { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
     ]);
-    flow[START_ELEMENT_GUID].childReferences = [];
+    flow[START_ELEMENT_GUID].childReferences = [
+        {
+            childReference: 'scheduledPath1'
+        }
+    ];
     flow[START_ELEMENT_GUID].children = ['screen1-guid', null];
     flow[START_ELEMENT_GUID].next = 'screen2-guid';
     flow['screen2-guid'].prev = START_ELEMENT_GUID;
@@ -463,7 +494,14 @@ function getFlowWithTerminalImmediateBranch() {
     // create elements
     const start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
     start.children = ['screen1-guid', null, null];
-    start.childReferences = [];
+    start.childReferences = [
+        {
+            childReference: 'scheduledPath1'
+        },
+        {
+            childReference: 'scheduledPath2'
+        }
+    ];
     let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
     screen1.isTerminal = true;
     screen1 = linkBranchOrFault(start, screen1, 0);
@@ -497,7 +535,14 @@ function getFlowWithBranchNodeInImmediateBranch() {
     // configure node properties and make connections
     start = {
         ...start,
-        childReferences: [],
+        childReferences: [
+            {
+                childReference: 'scheduledPath1'
+            },
+            {
+                childReference: 'scheduledPath2'
+            }
+        ],
         children: ['screen1-guid', null, null],
         next: 'screen2-guid'
     };
@@ -749,6 +794,157 @@ function getFlowWithDynamicNodeComponent() {
     return context;
 }
 
+function getFlowWhenGoingToPreviousElement(isNodeMenuOpen, isConnectorMenuOpen) {
+    const flowModel = createFlow([GOTO_TARGET_GUID, GOTO_SOURCE_GUID]);
+    delete flowModel[END_ELEMENT_GUID];
+    flowModel[GOTO_TARGET_GUID].incomingGoTo = [GOTO_SOURCE_GUID];
+    flowModel[GOTO_SOURCE_GUID].next = GOTO_TARGET_GUID;
+    if (isNodeMenuOpen) {
+        const interactionState = {
+            menuInfo: {
+                key: GOTO_SOURCE_GUID,
+                type: 0,
+                needToPosition: false,
+                geometry: {
+                    w: 300,
+                    h: 221,
+                    x: 0,
+                    y: 0
+                }
+            }
+        };
+        return createFlowRenderContext({ flowModel, interactionState });
+    }
+
+    if (isConnectorMenuOpen) {
+        const interactionState = {
+            menuInfo: {
+                key: GOTO_SOURCE_GUID,
+                type: 1,
+                needToPosition: false,
+                geometry: {
+                    w: 300,
+                    h: 221,
+                    x: 0,
+                    y: 0
+                }
+            }
+        };
+        return createFlowRenderContext({ flowModel, interactionState });
+    }
+
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromParentFirstBranchToPreviousElement(
+    isNodeMenuOpen,
+    isConnectorMenuOpen,
+    isBranchConnectorMenuOpen
+) {
+    const branchElement = { ...BRANCH_ELEMENT, children: [SCREEN_ELEMENT_GUID, null, null] };
+    branchElement.childReferences = [
+        {
+            childReference: 'o1'
+        },
+        {
+            childReference: 'o2'
+        }
+    ];
+
+    const elements = linkElements([START_ELEMENT, SCREEN_ELEMENT, branchElement, END_ELEMENT]);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    flowModel[SCREEN_ELEMENT_GUID].incomingGoTo = [
+        `${branchElement.guid}:${branchElement.childReferences[0].childReference}`
+    ];
+
+    if (isNodeMenuOpen) {
+        const interactionState = {
+            menuInfo: {
+                key: BRANCH_ELEMENT_GUID,
+                type: 0,
+                needToPosition: false,
+                geometry: {
+                    w: 300,
+                    h: 221,
+                    x: 0,
+                    y: 0
+                }
+            }
+        };
+        return createFlowRenderContext({ flowModel, interactionState });
+    }
+
+    if (isConnectorMenuOpen) {
+        const interactionState = {
+            menuInfo: {
+                key: BRANCH_ELEMENT_GUID,
+                type: 1,
+                needToPosition: false,
+                geometry: {
+                    w: 300,
+                    h: 221,
+                    x: 0,
+                    y: 0
+                }
+            }
+        };
+        return createFlowRenderContext({ flowModel, interactionState });
+    }
+
+    if (isBranchConnectorMenuOpen) {
+        const interactionState = {
+            menuInfo: {
+                key: `${BRANCH_ELEMENT_GUID}:0`,
+                type: 1,
+                needToPosition: false,
+                geometry: {
+                    w: 300,
+                    h: 221,
+                    x: 0,
+                    y: 0
+                }
+            }
+        };
+        return createFlowRenderContext({ flowModel, interactionState });
+    }
+
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromParentDefaultBranchToPreviousElement() {
+    const branchElement = { ...BRANCH_ELEMENT, children: [null, null, SCREEN_ELEMENT_GUID] };
+    branchElement.childReferences = [
+        {
+            childReference: 'o1'
+        },
+        {
+            childReference: 'o2'
+        }
+    ];
+
+    const elements = linkElements([START_ELEMENT, SCREEN_ELEMENT, branchElement, END_ELEMENT]);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    flowModel[SCREEN_ELEMENT_GUID].incomingGoTo = [`${branchElement.guid}:default`];
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromParentFaultBranchToPreviousElement() {
+    const branchElement = { ...BRANCH_ELEMENT, children: [null, null, null], fault: SCREEN_ELEMENT_GUID };
+    branchElement.childReferences = [
+        {
+            childReference: 'pauseConfig1'
+        },
+        {
+            childReference: 'pauseConfig2'
+        }
+    ];
+
+    const elements = linkElements([START_ELEMENT, SCREEN_ELEMENT, branchElement, END_ELEMENT]);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    flowModel[SCREEN_ELEMENT_GUID].incomingGoTo = [`${branchElement.guid}:fault`];
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -776,6 +972,10 @@ export {
     getFlowWithDecisionWithEndedLeftBranchContext,
     getFlowWithTwoFaults,
     getFlowWithDynamicNodeComponent,
+    getFlowWhenGoingToPreviousElement,
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement,
     getFlowWithTerminalImmediateBranch,
     getFlowWithBranchNodeInImmediateBranch,
     getFlowWithScheduledPathsContext,

@@ -24,6 +24,7 @@ import {
     addElementFault,
     clearCanvasDecoration,
     clearUndoRedo,
+    createGoToConnection,
     deleteElementFault,
     DESELECT_ON_CANVAS,
     doDuplicate,
@@ -145,7 +146,7 @@ import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
-
+import { CreateGoToConnectionEvent } from 'builder_platform_interaction/flcEvents';
 import {
     addEndElementsAndConnectorsTransform,
     canConvertToAutoLayoutCanvas,
@@ -2004,6 +2005,14 @@ export default class Editor extends LightningElement {
 
     handleFlcCreateConnection = (event) => {
         storeInstance.dispatch(flcCreateConnection(event.detail));
+    };
+
+    /**
+     * Handles the CreateGoToConnectionEvent coming from flcBuilder and dispatches an action to create a GoTo connector
+     * @param event - CreateGoToConnectionEvent coming from flcBuilder
+     */
+    handleGoToCreation = (event: CreateGoToConnectionEvent) => {
+        storeInstance.dispatch(createGoToConnection(event.detail));
     };
 
     @api

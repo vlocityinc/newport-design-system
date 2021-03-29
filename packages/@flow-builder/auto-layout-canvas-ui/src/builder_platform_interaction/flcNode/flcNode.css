@@ -63,7 +63,7 @@
 }
 
 .text-incoming-goto {
-    color: #c23934;
+    color: var(--lwc-colorTextDestructive);
     font-style: italic;
 }
 

@@ -46,7 +46,153 @@ Object {
 }
 `;
 
-exports[`connectorLib createConnectorToNextNode 1`] = `
+exports[`connectorLib createConnectorToNextNode with GoTo connector type and Branch Head 1`] = `
+Object {
+  "addInfo": Object {
+    "menuOpened": false,
+    "offsetY": 84,
+  },
+  "connectionInfo": Object {
+    "childIndex": 0,
+    "parent": "parentGuid",
+  },
+  "connectorBadgeLabel": "Badge Label",
+  "geometry": Object {
+    "h": 132,
+    "w": 6,
+    "x": 0,
+    "y": 0,
+  },
+  "goToTargetLabel": "Target Label",
+  "isFault": false,
+  "isHighlighted": false,
+  "labelOffsetY": 48,
+  "labelType": 1,
+  "svgInfo": Object {
+    "endLocation": undefined,
+    "geometry": Object {
+      "h": 132,
+      "w": 132,
+      "x": -3,
+      "y": 0,
+    },
+    "path": undefined,
+  },
+  "toBeDeleted": false,
+  "type": "goTo",
+}
+`;
+
+exports[`connectorLib createConnectorToNextNode with GoTo connector type and Default variant 1`] = `
+Object {
+  "addInfo": Object {
+    "menuOpened": false,
+    "offsetY": 60,
+  },
+  "connectionInfo": Object {
+    "next": "nextGuid",
+    "prev": "prevGuid",
+  },
+  "geometry": Object {
+    "h": 108,
+    "w": 6,
+    "x": 0,
+    "y": 0,
+  },
+  "goToTargetLabel": "Target Label",
+  "isFault": false,
+  "isHighlighted": false,
+  "labelOffsetY": 48,
+  "labelType": 0,
+  "svgInfo": Object {
+    "endLocation": undefined,
+    "geometry": Object {
+      "h": 108,
+      "w": 132,
+      "x": -3,
+      "y": 0,
+    },
+    "path": undefined,
+  },
+  "toBeDeleted": false,
+  "type": "goTo",
+}
+`;
+
+exports[`connectorLib createConnectorToNextNode with GoTo connector type and Fault variant 1`] = `
+Object {
+  "addInfo": Object {
+    "menuOpened": false,
+    "offsetY": 60,
+  },
+  "connectionInfo": Object {
+    "childIndex": -1,
+    "parent": "parentGuid",
+  },
+  "connectorBadgeLabel": "Fault Badge Label",
+  "geometry": Object {
+    "h": 108,
+    "w": 6,
+    "x": 0,
+    "y": 0,
+  },
+  "goToTargetLabel": "Target Label",
+  "isFault": false,
+  "isHighlighted": false,
+  "labelOffsetY": 24,
+  "labelType": 4,
+  "svgInfo": Object {
+    "endLocation": undefined,
+    "geometry": Object {
+      "h": 108,
+      "w": 132,
+      "x": -3,
+      "y": 0,
+    },
+    "path": undefined,
+  },
+  "toBeDeleted": false,
+  "type": "goTo",
+}
+`;
+
+exports[`connectorLib createConnectorToNextNode with GoTo connector type and Post Merge variant 1`] = `
+Object {
+  "addInfo": Object {
+    "menuOpened": false,
+    "offsetY": 36,
+  },
+  "connectionInfo": Object {
+    "next": "nextGuid",
+    "prev": "prevGuid",
+  },
+  "geometry": Object {
+    "h": 120,
+    "w": 6,
+    "x": 0,
+    "y": 96,
+  },
+  "goToTargetLabel": "Target Label",
+  "isFault": false,
+  "isHighlighted": false,
+  "labelOffsetY": 48,
+  "labelType": 0,
+  "svgInfo": Object {
+    "endLocation": undefined,
+    "geometry": Object {
+      "h": 120,
+      "w": 132,
+      "x": -3,
+      "y": 0,
+    },
+    "path": undefined,
+  },
+  "toBeDeleted": false,
+  "type": "goTo",
+}
+`;
+
+exports[`connectorLib createConnectorToNextNode with Straight connector type 1`] = `
 Object {
   "addInfo": Object {
     "menuOpened": false,
@@ -62,38 +208,20 @@ Object {
     "x": 0,
     "y": 0,
   },
+  "goToTargetLabel": undefined,
   "isFault": false,
   "isHighlighted": undefined,
   "labelOffsetY": 48,
   "labelType": 0,
   "svgInfo": Object {
+    "endLocation": undefined,
     "geometry": Object {
       "h": 144,
       "w": 6,
       "x": -3,
       "y": 0,
     },
-    "path": Object {
-      "pathParams": Object {
-        "offsets": Array [
-          Array [
-            0,
-            144,
-          ],
-        ],
-        "start": Object {
-          "location": Object {
-            "x": 0,
-            "y": 0,
-          },
-          "offset": Array [
-            3,
-            0,
-          ],
-        },
-      },
-      "startOffset": undefined,
-    },
+    "path": undefined,
   },
   "toBeDeleted": false,
   "type": "straight",

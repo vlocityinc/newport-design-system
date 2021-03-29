@@ -4,7 +4,7 @@ import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent, MoveFocusToConnectorEvent, GoToPathEvent } from 'builder_platform_interaction/flcEvents';
-import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION, GOTO_ACTION } from '../flcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION, GOTO_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -327,7 +327,7 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('should dispatch merge path event when merge path is specified ', async () => {
+    it('should dispatch gotopath event when goto path is specified ', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [
                 {
@@ -336,9 +336,9 @@ describe('connector menu', () => {
                     items: [
                         {
                             guid: 1,
-                            icon: 'utility:merge',
-                            label: 'Merge with existing path',
-                            elementType: MERGE_PATH_ACTION,
+                            icon: 'utility:level_down',
+                            label: 'Goto another element',
+                            elementType: GOTO_ACTION,
                             rowClass: 'slds-listbox__item action-row-line-height'
                         }
                     ],
@@ -349,7 +349,7 @@ describe('connector menu', () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const callback = jest.fn();
-        cmp.addEventListener('mergewithexistingpath', callback);
+        cmp.addEventListener('gotopath', callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });

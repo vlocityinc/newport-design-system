@@ -16,6 +16,7 @@ export interface Geometry {
 export interface SvgInfo {
     geometry: Geometry;
     path: string;
+    endLocation: Location;
 }
 
 export type Offset = [number, number];
@@ -108,9 +109,12 @@ function createOffsetLocation(location: Location, offset: Offset): Location {
  *
  * @param pathParams - The svg path params
  * @param startOffset - The offset for the start location
- * @returns A string that represents an svg path
+ * @returns An object containing a string that represents an svg path and the end location of the svg
  */
-function createSvgPath(pathParams: SvgPathParams, startOffset: Offset = [0, 0]): string {
+function createSvgPath(
+    pathParams: SvgPathParams,
+    startOffset: Offset = [0, 0]
+): { path: string; endLocation: Location } {
     const { start, offsets } = pathParams;
     let location = createOffsetLocation(start, startOffset);
     const segments = [`M ${location.x}, ${location.y}`];
@@ -120,11 +124,11 @@ function createSvgPath(pathParams: SvgPathParams, startOffset: Offset = [0, 0]):
         location = createOffsetLocation(location, offsets[i]);
     }
 
-    return segments.join('\n');
+    return { path: segments.join('\n'), endLocation: location };
 }
 
 /**
- * Creates an SvgInfo (path and geometry) for an svg
+ * Creates an SvgInfo (path, geometry and endLocation) for an svg
  *
  * @param width - The width of the svg
  * @param height - The height of the svg
@@ -169,9 +173,12 @@ function createSvgInfo(svgPathParams: SvgPathParams, offset: Offset = [0, 0]): S
     const width = maxX - minX;
     const height = maxY - minY;
 
+    const { path, endLocation } = createSvgPath(svgPathParams, offset);
+
     return {
         geometry: createSvgGeometry(Math.abs(width), Math.abs(height), offset),
-        path: createSvgPath(svgPathParams, offset)
+        path,
+        endLocation
     };
 }
 

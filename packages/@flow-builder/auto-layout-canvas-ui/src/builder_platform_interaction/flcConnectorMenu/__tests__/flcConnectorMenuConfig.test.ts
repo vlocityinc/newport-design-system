@@ -48,89 +48,69 @@ const metaData = [
 ];
 
 describe('connector menu config', () => {
-    it('Match Snapshot with both paste and merge option', () => {
-        expect(configureMenu(metaData, false, true, true)).toMatchSnapshot();
+    it('Match Snapshot with both paste and goto option', () => {
+        expect(configureMenu(metaData, false, true, true, false)).toMatchSnapshot();
     });
 
     it('actionSection should have the right label', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].label).toBe(LABELS.actionSectionLabel);
+        expect(configureMenu(metaData, false, true, false, false).sections[0].label).toBe(LABELS.actionSectionLabel);
     });
 
     it('pasteItem should have the right label', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].items[0].label).toBe(LABELS.pasteItemLabel);
-    });
-
-    it('pasteSection item should have the right icon', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].items[0].icon).toBe('utility:paste');
-    });
-
-    it('pasteSection item should have the right rowClass', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].items[0].rowClass).toBe(
-            'slds-listbox__item action-row-line-height'
+        expect(configureMenu(metaData, false, true, false, false).sections[0].items[0].label).toBe(
+            LABELS.pasteItemLabel
         );
     });
 
-    it('mergePath should have the right label', () => {
-        expect(configureMenu(metaData, false, true, true).sections[0].items[1].label).toBe(LABELS.mergePathItemLabel);
+    it('pasteSection item should have the right icon', () => {
+        expect(configureMenu(metaData, false, true, false, false).sections[0].items[0].icon).toBe('utility:paste');
     });
 
-    it('mergePath item should have the right icon', () => {
-        expect(configureMenu(metaData, false, true, true).sections[0].items[1].icon).toBe('utility:merge');
-    });
-
-    it('mergePath item should have the right icon class', () => {
-        expect(configureMenu(metaData, false, true, true).sections[0].items[1].iconClass).toBe('branch-merge');
-    });
-
-    it('mergePath item should have the right rowClass', () => {
-        expect(configureMenu(metaData, false, true, true).sections[0].items[1].rowClass).toBe(
+    it('pasteSection item should have the right rowClass', () => {
+        expect(configureMenu(metaData, false, true, false, false).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
     it('goToPath should have the right label', () => {
-        expect(configureMenu(metaData, false, true, true, true, false).sections[0].items[0].label).toBe(
-            LABELS.goToPathItemLabel
+        expect(configureMenu(metaData, false, true, true, false).sections[0].items[0].label).toBe(
+            `${LABELS.goToPathItemLabel} (WIP)`
         );
     });
 
     it('goToPath item should have the right icon', () => {
-        expect(configureMenu(metaData, false, true, true, true, false).sections[0].items[0].icon).toBe(
-            'utility:level_down'
-        );
+        expect(configureMenu(metaData, false, true, true, false).sections[0].items[0].icon).toBe('utility:level_down');
     });
 
     it('goToPath item should have the right rowClass', () => {
-        expect(configureMenu(metaData, false, true, true, true, false).sections[0].items[0].rowClass).toBe(
+        expect(configureMenu(metaData, false, true, true, false).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
     it('reRoute/delete should be displayed and GoTo should not', () => {
-        const menu = configureMenu(metaData, false, true, true, true, true);
+        const menu = configureMenu(metaData, false, true, false, true);
         expect(menu.sections[0].items[0].label).toBe(LABELS.reRouteGoToPathItemLabel);
         expect(menu.sections[0].items[1].label).toBe(LABELS.deleteGoToPathItemLabel);
         expect(menu.sections[0].items[2].label).toBe(LABELS.pasteItemLabel);
     });
 
     it('reRoutePath item should have the right icon', () => {
-        expect(configureMenu(metaData, false, true, true, true, true).sections[0].items[0].icon).toBe(
-            'utility:level_down'
-        );
+        expect(configureMenu(metaData, false, true, false, true).sections[0].items[0].icon).toBe('utility:level_down');
     });
 
     it('reRoutePath item should have the right rowClass', () => {
-        expect(configureMenu(metaData, false, true, true, true, true).sections[0].items[0].rowClass).toBe(
+        expect(configureMenu(metaData, false, true, false, true).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
     it('deletePath item should have the right icon', () => {
-        expect(configureMenu(metaData, false, true, true, true, true).sections[0].items[1].icon).toBe('utility:delete');
+        expect(configureMenu(metaData, false, true, false, true).sections[0].items[1].icon).toBe('utility:delete');
     });
 
     it('deletePath item should have the right rowClass', () => {
-        expect(configureMenu(metaData, false, true, true, true, true).sections[0].items[1].rowClass).toBe(
+        expect(configureMenu(metaData, false, true, false, true).sections[0].items[1].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });

@@ -12,7 +12,9 @@ const selectors = {
     connectorToBeDeletedSVG: '.connector-to-be-deleted',
     addElementButton: '.circle-text',
     defaultConnectorBadge: '.connector-badge span',
-    faultConnectorBadge: '.connector-badge.fault-badge span'
+    faultConnectorBadge: '.connector-badge.fault-badge span',
+    goToTargetLabel: '.go-to-info .go-to-target-label span',
+    goToTargetArrow: '.go-to-info span'
 };
 
 const geometry = {
@@ -24,7 +26,8 @@ const geometry = {
 
 const svgInfo = {
     geometry,
-    path: 'M 10, 20'
+    path: 'M 10, 20',
+    endLocation: { x: 10, y: 20 }
 };
 
 const addInfo = {
@@ -85,6 +88,26 @@ const getFaultConnectorInfo = () => {
         labelOffsetY,
         toBeDeleted: false,
         labelType: ConnectorLabelType.FAULT
+    };
+};
+
+const getGoToConnectorInfo = (toBeDeleted = false) => {
+    return {
+        type: 'goTo',
+        geometry,
+        svgInfo,
+        addInfo,
+        connectionInfo: {
+            next: 'nextGuid1',
+            parent: 'parentGuid1',
+            childIndex: 1
+        },
+        isFault: false,
+        labelOffsetY,
+        connectorBadgeLabel: 'Default Connector Label',
+        toBeDeleted,
+        labelType: ConnectorLabelType.BRANCH,
+        goToTargetLabel: 'Next Element'
     };
 };
 
@@ -149,8 +172,40 @@ describe('Auto-Layout connector tests', () => {
     });
 
     it('"+" button should be hidden when disableAddElements is true', () => {
-        const regularConnector = createComponentUnderTest(getRegularConnectorInfo(), {}, true);
+        const regularConnector = createComponentUnderTest(
+            getRegularConnectorInfo(),
+            AutoLayoutCanvasMode.DEFAULT,
+            true
+        );
         const addElementButton = regularConnector.shadowRoot.querySelector(selectors.addElementButton);
         expect(addElementButton).toBeNull();
+    });
+
+    it('Should have the target info (label) on a GoTo connector', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(goToConnectorInfo, AutoLayoutCanvasMode.DEFAULT);
+        const goToTargetLabel = goToConnector.shadowRoot.querySelector(selectors.goToTargetLabel);
+        expect(goToTargetLabel).not.toBeNull();
+    });
+
+    it('Should have the right text content on the target info (label) of the GoTo connector', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(goToConnectorInfo, AutoLayoutCanvasMode.DEFAULT);
+        const goToTargetLabel = goToConnector.shadowRoot.querySelector(selectors.goToTargetLabel);
+        expect(goToTargetLabel.textContent).toBe(goToConnectorInfo.goToTargetLabel);
+    });
+
+    it('Should have the target info (arrow) on a GoTo connector', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(goToConnectorInfo, AutoLayoutCanvasMode.DEFAULT);
+        const goToTargetArrow = goToConnector.shadowRoot.querySelectorAll(selectors.goToTargetArrow)[1];
+        expect(goToTargetArrow).not.toBeNull();
+    });
+
+    it('Should have the right text content on the target info (arrow) of the GoTo connector', () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = createComponentUnderTest(goToConnectorInfo, AutoLayoutCanvasMode.DEFAULT);
+        const goToTargetArrow = goToConnector.shadowRoot.querySelectorAll(selectors.goToTargetArrow)[1];
+        expect(goToTargetArrow.textContent).toBe('→');
     });
 });

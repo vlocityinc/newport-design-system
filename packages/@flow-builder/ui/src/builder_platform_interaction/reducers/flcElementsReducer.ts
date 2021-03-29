@@ -13,6 +13,7 @@ import {
     ADD_FAULT,
     DELETE_FAULT,
     FLC_CREATE_CONNECTION,
+    CREATE_GOTO_CONNECTION,
     ADD_PARENT_WITH_CHILDREN,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
@@ -75,6 +76,7 @@ const getElementService = (flowModel: UI.Elements) => {
  * @param action - with type and payload
  * @return new state after reduction
  */
+/* eslint-disable-next-line complexity */
 export default function flcElementsReducer(state: Readonly<UI.Elements>, action: any): Readonly<UI.Elements> {
     const metadata = getElementsMetadata();
 
@@ -96,6 +98,16 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
             const { insertAt, targetGuid } = action.payload;
             const connectToElementAction = actions.connectToElementAction(insertAt, targetGuid);
             nextState = autoLayoutCanvasReducer(nextState, connectToElementAction);
+            break;
+        }
+        case CREATE_GOTO_CONNECTION: {
+            const { sourceGuid, sourceBranchIndex, targetGuid } = action.payload;
+            const createGoToConnectionAction = actions.createGoToConnectionAction(
+                sourceGuid,
+                sourceBranchIndex,
+                targetGuid
+            );
+            nextState = autoLayoutCanvasReducer(nextState, createGoToConnectionAction);
             break;
         }
         case ADD_FAULT: {
@@ -135,14 +147,17 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
             // redo
             const element = _getElementFromActionPayload(action.payload);
             const updatedChildren = getNextChildren(state[element.guid], element);
-            const alcAction = actions.updateChildrenAction(element.guid, updatedChildren);
+            const alcAction = actions.updateChildrenAction(state[element.guid] as ParentNodeModel, updatedChildren);
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }
         case MODIFY_START_WITH_TIME_TRIGGERS: {
             const element = _getElementFromActionPayload(action.payload);
             const updatedChildren = getNextChildren(state[element.guid], element);
-            const alcAction = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(element.guid, updatedChildren);
+            const alcAction = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                state[element.guid] as ParentNodeModel,
+                updatedChildren
+            );
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }

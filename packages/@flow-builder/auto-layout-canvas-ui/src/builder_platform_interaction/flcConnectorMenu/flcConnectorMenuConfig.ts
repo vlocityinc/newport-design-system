@@ -9,7 +9,6 @@ import { storeUtils } from 'builder_platform_interaction/sharedUtils';
 const { generateGuid } = storeUtils;
 
 export const PASTE_ACTION = 'Paste';
-export const MERGE_PATH_ACTION = 'mergePath';
 export const GOTO_ACTION = 'goTo';
 export const GOTO_REROUTE_ACTION = 'goToReroute';
 export const GOTO_DELETE_ACTION = 'goToDelete';
@@ -34,18 +33,6 @@ const pasteActionItem = {
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const mergeActionItem = {
-    guid: generateGuid(),
-    icon: 'utility:merge',
-    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-    iconClass: 'branch-merge',
-    iconSize: 'x-small',
-    iconVariant: '',
-    label: LABELS.mergePathItemLabel,
-    elementType: MERGE_PATH_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height'
-};
-
 const addGoToActionItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
@@ -53,7 +40,7 @@ const addGoToActionItem = {
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
-    label: LABELS.goToPathItemLabel,
+    label: `${LABELS.goToPathItemLabel} (WIP)`,
     elementType: GOTO_ACTION,
     rowClass: 'slds-listbox__item action-row-line-height'
 };
@@ -86,26 +73,24 @@ const deleteGoToActionItem = {
  * Create FLC menu configuration from the elements metadata
  * @param elementsMetadata
  * @param showEndElement - Whether to show the end element item
- * @param canMergePath - Whether to show the merge path item
  * @param isPasteAvailable - If paste is available
  * @param canAddGoto - Is the next element END
- * @param hasGoto - Is this a Goto connection
+ * @param isGoToConnector - Is this a Goto connection
  */
 export const configureMenu = (
     elementsMetadata: ElementMetadata[],
     showEndElement: boolean,
     isPasteAvailable: boolean,
-    canMergePath: boolean,
     canAddGoto: boolean,
-    hasGoto: boolean
+    isGoToConnector: boolean
 ) => {
     const sectionDefinitionsMap = {};
 
     let extraSections: MenuSection[] = [];
     actionSection.items = [];
 
-    if (isPasteAvailable || canMergePath || canAddGoto || hasGoto) {
-        if (hasGoto) {
+    if (isPasteAvailable || canAddGoto || isGoToConnector) {
+        if (isGoToConnector) {
             actionSection.items.push(rerouteGoToActionItem);
             actionSection.items.push(deleteGoToActionItem);
         } else if (canAddGoto) {
@@ -114,10 +99,6 @@ export const configureMenu = (
 
         if (isPasteAvailable) {
             actionSection.items.push(pasteActionItem);
-        }
-
-        if (canMergePath) {
-            actionSection.items.push(mergeActionItem);
         }
 
         extraSections = [actionSection];

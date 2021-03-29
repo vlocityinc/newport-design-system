@@ -8,6 +8,7 @@ import {
     BranchHeadNodeModel,
     HighlightInfo,
     StartNodeModel,
+    GOTO_CONNECTION_SUFFIX,
     START_IMMEDIATE_INDEX
 } from './model';
 
@@ -45,6 +46,72 @@ const deleteElementOptionsDefaults = {
 export interface ElementService {
     deleteElement: (guid: Guid) => void;
     createEndElement: () => Guid;
+}
+
+/**
+ * Returns true if there's a GoTo between the source element and it's 'next' element
+ * @param flowModel - The flow model
+ * @param sourceElement - The source of the potential goTo connection
+ */
+function hasGoToConnectionOnNext(flowModel: FlowModel, sourceElement: NodeModel): boolean {
+    if (flowModel[sourceElement.next!].incomingGoTo) {
+        return flowModel[sourceElement.next!].incomingGoTo!.includes(sourceElement.guid);
+    }
+    return false;
+}
+
+/**
+ * Returns the suffix for the GoTo connection being pushed into the Target element's incomingGoTo []
+ * @param sourceElement - The Parent Element
+ * @param sourceBranchIndex - The branch index on which the GoTo connection is being added
+ */
+function getSuffixForGoToConnection(sourceElement: ParentNodeModel, sourceBranchIndex: number) {
+    // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
+    const defaultIndex =
+        sourceElement.nodeType === NodeType.BRANCH && sourceElement.childReferences
+            ? sourceElement.childReferences.length
+            : sourceElement.nodeType === NodeType.START
+            ? START_IMMEDIATE_INDEX
+            : null;
+    if (sourceBranchIndex === defaultIndex) {
+        return sourceElement.nodeType === NodeType.START
+            ? GOTO_CONNECTION_SUFFIX.IMMEDIATE
+            : GOTO_CONNECTION_SUFFIX.DEFAULT;
+    } else if (sourceBranchIndex === FAULT_INDEX) {
+        return GOTO_CONNECTION_SUFFIX.FAULT;
+    } else if (sourceElement.childReferences) {
+        // Accounting for Immediate Branch being on the 0th index in case of Start Element
+        return sourceElement.nodeType === NodeType.START
+            ? sourceElement.childReferences![sourceBranchIndex - 1].childReference
+            : sourceElement.childReferences![sourceBranchIndex].childReference;
+    }
+    return null;
+}
+
+/**
+ * Returns true if there's a GoTo connection from the parent on a given branch index
+ * @param flowModel - The flow model
+ * @param sourceElement - The Parent Element
+ * @param sourceBranchIndex - The branch index on which we need to check the existence of a GoTo connection
+ */
+function hasGoToConnectionOnBranchHead(
+    flowModel: FlowModel,
+    sourceElement: ParentNodeModel,
+    sourceBranchIndex: number
+): boolean {
+    if (sourceElement.nodeType === NodeType.ROOT) {
+        return false;
+    }
+
+    // Getting the target guid for the branch connection. Will be null in case the branch is empty
+    const targetGuid =
+        sourceBranchIndex === FAULT_INDEX ? sourceElement.fault : sourceElement.children[sourceBranchIndex];
+    const suffix = getSuffixForGoToConnection(sourceElement, sourceBranchIndex);
+    if (targetGuid && flowModel[targetGuid!].incomingGoTo) {
+        // Returning true if the sourceGuid:suffix combination exists in target element's incomingGoTo array
+        return flowModel[targetGuid!].incomingGoTo!.includes(`${sourceElement.guid}:${suffix}`);
+    }
+    return false;
 }
 
 /**
@@ -171,7 +238,49 @@ function connectToElement(
 }
 
 /**
- * Checks if the tail element of a branch is an end element or a branching element with all terminal branches
+ * Function to create a GoTo connector between a given source and target
+ *
+ * @param flowModel - The flow model
+ * @param sourceGuid - Guid of the source element
+ * @param sourceBranchIndex - Index of branch on which GoTo is being added
+ * @param targetGuid - Guid of the target element
+ */
+function createGoToConnection(
+    flowModel: FlowModel,
+    sourceGuid: Guid,
+    sourceBranchIndex: number | null,
+    targetGuid: Guid
+): FlowModel {
+    const sourceElement = flowModel[sourceGuid] as ParentNodeModel;
+    const targetElement = flowModel[targetGuid];
+
+    if (sourceBranchIndex == null) {
+        // Deleting the connected End Element, updating source element's next
+        // and pushing source guid into target element's incomingGoTo array
+        delete flowModel[sourceElement.next!];
+        sourceElement.next = targetGuid;
+        targetElement.incomingGoTo!.push(sourceGuid);
+    } else {
+        // Deleting the connected End Element and updating the source element's
+        // children/fault property as needed
+        if (sourceBranchIndex === FAULT_INDEX) {
+            delete flowModel[sourceElement.fault!];
+            sourceElement.fault = targetGuid;
+        } else {
+            delete flowModel[sourceElement.children[sourceBranchIndex]!];
+            sourceElement.children[sourceBranchIndex] = targetGuid;
+        }
+        const suffix = getSuffixForGoToConnection(sourceElement, sourceBranchIndex);
+        // Pushing the sourceGud:suffix combination into target element's incomingGoTo array
+        targetElement.incomingGoTo!.push(`${sourceGuid}:${suffix}`);
+    }
+
+    return flowModel;
+}
+
+/**
+ * Checks if the tail element of a branch is an end element or has a GoTo connection
+ * or is a branching element with all terminal branches
  *
  * @param elements - The flow elements
  * @param branchTail - A branch tail node
@@ -180,6 +289,7 @@ function connectToElement(
 function isEndOrAllTerminalBranchingElement(elements: FlowModel, branchTail: NodeModel) {
     return (
         branchTail.nodeType === NodeType.END ||
+        (branchTail.next && hasGoToConnectionOnNext(elements, branchTail)) ||
         (isBranchingElement(branchTail) && areAllBranchesTerminals(branchTail as ParentNodeModel, elements))
     );
 }
@@ -228,7 +338,8 @@ function linkElement(elements: FlowModel, element: NodeModel): void {
         prevElement.next = guid;
     }
 
-    if (next) {
+    // Prevents from setting GoTo Target's prev to the GoTo's Source
+    if (next && !hasGoToConnectionOnNext(elements, element)) {
         elements[next].prev = guid;
     }
 
@@ -404,7 +515,11 @@ class FlcList {
                 }
             }
 
-            curr = this.down ? currElement.next : currElement.prev;
+            curr = this.down
+                ? currElement.next && hasGoToConnectionOnNext(this.elements, currElement)
+                    ? null
+                    : currElement.next
+                : currElement.prev;
         }
 
         return { results, last: currElement || this.elements[this.head] };
@@ -418,6 +533,7 @@ class FlcList {
  * @param sourceGuid - The guid of a branch element
  * @returns An array of valid target guids
  */
+// TODO NEED TO REMOVE BEFORE MERGE WITH MAIN
 function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid): Guid[] {
     const { parent, childIndex } = findFirstElement(elements[sourceGuid], elements);
     const branchingElement = resolveParent(elements, parent);
@@ -464,8 +580,13 @@ function getMergeableGuids(elements: FlowModel, prev: Guid, branchParent: Guid, 
 
     if (areAllBranchesTerminals(branchingElement, elements)) {
         return branchingElement.children.reduce((acc: Guid[], child: NodeRef, index: number) => {
-            // only elements on other branches can be targets
-            if (child != null && index !== childIndex) {
+            // Getting the mergeable elements from the sibling branches.
+            // Also ignoring any sibling branch that has a GoTo connection at it's branchHead
+            if (
+                child != null &&
+                index !== childIndex &&
+                !hasGoToConnectionOnBranchHead(elements, branchingElement, index)
+            ) {
                 const branchElements = new FlcList(elements, child).map((element) => element.guid) as Guid[];
                 return acc.concat(branchElements);
             }
@@ -497,14 +618,18 @@ function isPrevSelectable(prevElement: ParentNodeModel): boolean {
  */
 function getNonSelectableTailElementsGuids(elements: FlowModel, branchElementToCheck: ParentNodeModel): Guid[] {
     let nonSelectableTailElementsGuids = [] as Guid[];
-    branchElementToCheck.children.forEach((child) => {
+    branchElementToCheck.children.forEach((child, i) => {
         if (!child) {
             // Branch element has an empty branch so it should not be selectable
             if (!nonSelectableTailElementsGuids.includes(branchElementToCheck.guid)) {
                 nonSelectableTailElementsGuids.push(branchElementToCheck.guid);
             }
-        } else if (!(elements[child] as BranchHeadNodeModel).isTerminal) {
-            // If the branch is not terminal, proceed down the branch
+        } else if (
+            !hasGoToConnectionOnBranchHead(elements, branchElementToCheck, i) &&
+            !(elements[child] as BranchHeadNodeModel).isTerminal
+        ) {
+            // If the branch doesn't have a GoTo on the branch head and the branch head element
+            // is not terminal, proceed down the branch
             const tailElement = findLastElement(resolveBranchHead(elements, child), elements);
             // If the tail is a branching element, then recurse down its children, otherwise add the tail to the list
             if (isBranchingElement(tailElement)) {
@@ -567,7 +692,7 @@ function getGoToableGuids(
  * @param parent - The guid of the parent element
  * @param next - the guid of a next element
  * @param canMergeEndedBranch - is merge possible
- * @returns An array of valid target guids of a mergeableGuids, goToableGuids and possibly firstMergeableNonNullNext
+ * @returns An object containing mergeableGuids, goToableGuids and possibly firstMergeableNonNullNext
  */
 function getTargetGuidsForReconnection(
     elements: FlowModel,
@@ -575,7 +700,7 @@ function getTargetGuidsForReconnection(
     parent: Guid,
     next: Guid,
     canMergeEndedBranch: boolean
-): Guid[] {
+): { mergeableGuids: Guid[]; goToableGuids: Guid[]; firstMergeableNonNullNext: Guid | null } {
     // Gets all the mergeable guids
     const mergeableGuids = canMergeEndedBranch ? getMergeableGuids(elements, prev, parent, next) : [];
     // Variable to keep track of the first non-null next element of a branching element (going up the branch)
@@ -623,9 +748,7 @@ function getTargetGuidsForReconnection(
         nonSelectableTailElementsGuids
     );
 
-    return firstMergeableNonNullNext
-        ? [...mergeableGuids, ...goToableGuids, firstMergeableNonNullNext]
-        : [...mergeableGuids, ...goToableGuids];
+    return { mergeableGuids, goToableGuids, firstMergeableNonNullNext };
 }
 
 /**
@@ -1036,6 +1159,9 @@ function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType,
     }
 
     element.nodeType = nodeType;
+    if (nodeType !== NodeType.END) {
+        element.incomingGoTo = [];
+    }
     const { prev, parent, childIndex } = insertAt;
 
     if (prev) {
@@ -1126,7 +1252,7 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
         return false;
     }
 
-    return getNonTerminalBranchIndexes(parentElement.children, state).length === 0;
+    return getNonTerminalBranchIndexes(parentElement, state).length === 0;
 }
 
 /**
@@ -1140,7 +1266,7 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
 function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
     const { children } = parentElement;
 
-    const nonTerminalBranchIndexes = getNonTerminalBranchIndexes(children, state);
+    const nonTerminalBranchIndexes = getNonTerminalBranchIndexes(parentElement, state);
 
     if (nonTerminalBranchIndexes.length === 1) {
         // we have one non-terminal branch, so we can inline
@@ -1177,10 +1303,21 @@ function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
     }
 }
 
-function getNonTerminalBranchIndexes(children: NodeRef[], state: FlowModel) {
-    return children
+/**
+ * Returns an array of indexes of the non-terminal branches of a branching element
+ * @param parentElement - The parent element
+ * @param state - The flow model
+ */
+function getNonTerminalBranchIndexes(parentElement: ParentNodeModel, state: FlowModel) {
+    return parentElement.children
         .map((child: NodeRef, index: number) => {
-            if (child == null || !resolveBranchHead(state, child).isTerminal) {
+            // A branch is not terminal if the child guid is null or
+            // if there's a regular connection between the parent and child and the child element's isTerminal is false
+            if (
+                child == null ||
+                (!hasGoToConnectionOnBranchHead(state, parentElement, index) &&
+                    !resolveBranchHead(state, child).isTerminal)
+            ) {
                 return index;
             } else {
                 return -1;
@@ -1392,18 +1529,18 @@ function minus<T>(setA: Set<T>, setB: Set<T>): Set<NonNullable<T>> {
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param parentElementGuid - The guid of the element with children
+ * @param originalParentElement - The original parent element before the update
  * @param updatedChildrenGuids - The updated children guids
  * @returns The updated flow model
  */
 export function updateChildren(
     elementService: ElementService,
     flowModel: FlowModel,
-    parentElementGuid: Guid,
+    originalParentElement: ParentNodeModel,
     updatedChildrenGuids: (Guid | null)[]
 ) {
-    const parentElement = resolveParent(flowModel, parentElementGuid);
-    const allTerminals = areAllBranchesTerminals(parentElement, flowModel);
+    const parentElement = resolveParent(flowModel, originalParentElement.guid);
+    const allTerminals = areAllBranchesTerminals(originalParentElement, flowModel);
 
     const currentChildren = new Set(parentElement.children);
     const newChildren = new Set(updatedChildrenGuids);
@@ -1459,7 +1596,7 @@ export function updateChildren(
 
         findFirstElement(parentElement, flowModel).isTerminal = true;
     } else if (next) {
-        // possibliy inline if we have a next, and a single non-terminal branch exists
+        // possibly inline if we have a next, and a single non-terminal branch exists
         inlineFromParent(flowModel, parentElement);
     }
 
@@ -1471,22 +1608,23 @@ export function updateChildren(
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param parentElementGuid - The guid of the element with children
+ * @param originalParentElement - The original parent element before the update
  * @param updatedChildrenGuids - The updated children guids
  * @returns The updated flow model
  */
 export function updateChildrenOnAddingOrUpdatingTimeTriggers(
     elementService: ElementService,
     flowModel: FlowModel,
-    parentElementGuid: Guid,
+    originalParentElement: ParentNodeModel,
     updatedChildrenGuids: (Guid | null)[]
 ) {
+    const parentElementGuid = originalParentElement.guid;
     const parentElement = resolveParent(flowModel, parentElementGuid);
     const { children, childReferences } = parentElement;
 
     if (childReferences!.length > 0) {
         if (children) {
-            updateChildren(elementService, flowModel, parentElementGuid, updatedChildrenGuids);
+            updateChildren(elementService, flowModel, originalParentElement, updatedChildrenGuids);
         } else {
             // To handle the case when children have not yet been added
             parentElement.children = updatedChildrenGuids;
@@ -1628,5 +1766,8 @@ export {
     resolveBranchHead,
     resolveParent,
     inlineBranches,
-    getTargetGuidsForReconnection
+    getTargetGuidsForReconnection,
+    createGoToConnection,
+    hasGoToConnectionOnNext,
+    hasGoToConnectionOnBranchHead
 };

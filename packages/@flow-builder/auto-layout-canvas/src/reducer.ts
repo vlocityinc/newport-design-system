@@ -1,4 +1,4 @@
-import { FlowModel, Guid, HighlightInfo } from './model';
+import { FlowModel, Guid, HighlightInfo, ParentNodeModel } from './model';
 import {
     addElement,
     deleteElement,
@@ -9,6 +9,7 @@ import {
     addFault,
     updateChildren,
     InsertAt,
+    createGoToConnection,
     decorateElements,
     clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
@@ -24,6 +25,7 @@ enum ActionType {
     DeleteFault,
     ConnectToElement,
     UpdateChildren,
+    CreateGoToConnection,
     DecorateCanvas,
     ClearCanvasDecoration,
     UpdateChildrenOnAddingOrUpdatingTimeTriggers
@@ -99,6 +101,17 @@ export function connectToElementAction(fromInsertAt: InsertAt, toElementGuid: Gu
 }
 
 /**
+ * Created the CreateGoToConnection action
+ * @param sourceGuid - Guid of the source element
+ * @param sourceBranchIndex - Index of branch on which GoTo is being added
+ * @param targetGuid - Guid of the target element
+ * @return CreateGoToConnection action
+ */
+export function createGoToConnectionAction(sourceGuid: Guid, sourceBranchIndex: number, targetGuid: Guid) {
+    return createPayloadAction(<const>ActionType.CreateGoToConnection, { sourceGuid, sourceBranchIndex, targetGuid });
+}
+
+/**
  * Creates an AddFault action
  *
  * @param elementGuid - The guid of an element to add a fault to
@@ -111,12 +124,12 @@ export function addFaultAction(elementGuid: Guid) {
 /**
  * Creates an UpdateChilldren action
  *
- * @param parentElementGuid - The parent element guid
+ * @param parentElement - The original parent element
  * @param updatedChildrenGuids - An array of new children for the parent
  * @return An UpdateChildren action
  */
-export function updateChildrenAction(parentElementGuid: Guid, updatedChildrenGuids: (Guid | null)[]) {
-    return createPayloadAction(<const>ActionType.UpdateChildren, { parentElementGuid, updatedChildrenGuids });
+export function updateChildrenAction(parentElement: ParentNodeModel, updatedChildrenGuids: (Guid | null)[]) {
+    return createPayloadAction(<const>ActionType.UpdateChildren, { parentElement, updatedChildrenGuids });
 }
 
 export function decorateCanvasAction(decoratedElements: Map<Guid, HighlightInfo>) {
@@ -127,12 +140,18 @@ export function clearCanvasDecorationAction() {
     return createPayloadAction(<const>ActionType.ClearCanvasDecoration, null);
 }
 
+/**
+ * Creates the UpdateChildrenOnAddingOrUpdatingTimeTriggers action
+ * @param parentElement - The original parent element (i.e. Start Element)
+ * @param updatedChildrenGuids - An array of new children for the parent
+ * @return UpdateChildrenOnAddingOrUpdatingTimeTriggers action
+ */
 export function updateChildrenOnAddingOrUpdatingTimeTriggersAction(
-    parentElementGuid: Guid,
+    parentElement: ParentNodeModel,
     updatedChildrenGuids: (Guid | null)[]
 ) {
     return createPayloadAction(<const>ActionType.UpdateChildrenOnAddingOrUpdatingTimeTriggers, {
-        parentElementGuid,
+        parentElement,
         updatedChildrenGuids
     });
 }
@@ -145,6 +164,7 @@ type Action = ReturnType<
     | typeof initAction
     | typeof addFaultAction
     | typeof updateChildrenAction
+    | typeof createGoToConnectionAction
     | typeof decorateCanvasAction
     | typeof clearCanvasDecorationAction
     | typeof updateChildrenOnAddingOrUpdatingTimeTriggersAction
@@ -176,13 +196,17 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             const { fromInsertAt, toElementGuid } = action.payload;
             return connectToElement(config, nextFlowModel, fromInsertAt, toElementGuid);
         }
+        case ActionType.CreateGoToConnection: {
+            const { sourceGuid, sourceBranchIndex, targetGuid } = action.payload;
+            return createGoToConnection(nextFlowModel, sourceGuid, sourceBranchIndex, targetGuid);
+        }
         case ActionType.AddFault: {
             const { elementGuid } = action.payload;
             return addFault(config, nextFlowModel, elementGuid);
         }
         case ActionType.UpdateChildren: {
-            const { parentElementGuid, updatedChildrenGuids } = action.payload;
-            return updateChildren(config, nextFlowModel, parentElementGuid, updatedChildrenGuids);
+            const { parentElement, updatedChildrenGuids } = action.payload;
+            return updateChildren(config, nextFlowModel, parentElement, updatedChildrenGuids);
         }
         case ActionType.DecorateCanvas: {
             const { decoratedElements } = action.payload;
@@ -192,11 +216,11 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return clearCanvasDecoration(nextFlowModel);
         }
         case ActionType.UpdateChildrenOnAddingOrUpdatingTimeTriggers: {
-            const { parentElementGuid, updatedChildrenGuids } = action.payload;
+            const { parentElement, updatedChildrenGuids } = action.payload;
             return updateChildrenOnAddingOrUpdatingTimeTriggers(
                 config,
                 nextFlowModel,
-                parentElementGuid,
+                parentElement,
                 updatedChildrenGuids
             );
         }

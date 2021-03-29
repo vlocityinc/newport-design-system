@@ -11,7 +11,6 @@ import {
     MenuType,
     panzoom,
     NodeType,
-    getTargetGuidsForBranchReconnect,
     getTargetGuidsForReconnection,
     Guid,
     NodeRenderInfo,
@@ -40,6 +39,7 @@ import {
     NodeResizeEvent,
     MoveFocusToNodeEvent,
     MoveFocusToConnectorEvent,
+    CreateGoToConnectionEvent,
     DeleteBranchElementEvent
 } from 'builder_platform_interaction/flcEvents';
 import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
@@ -133,9 +133,21 @@ export default class FlcBuilder extends LightningElement {
     _topSelectedGuid!: Guid | null;
 
     /* the guid of the element we are reconnecting to another element */
-    _reconnectSourceGuid!: Guid | null;
+    _currentTargetGuid!: Guid | null;
 
-    _goToReconnectGuid!: Guid | null;
+    /* the guid of the source of the GoTo connection */
+    _goToSourceGuid!: Guid | null;
+
+    _goToSourceBranchIndex!: number | null;
+
+    /* Array of guids the user can merge into */
+    _mergeableGuids!: Guid[];
+
+    /* Array of guids the user can goTo */
+    _goToableGuids!: Guid[];
+
+    /* guid of the first mergeable non-next element */
+    _firstMergeableNonNullNext!: Guid | null;
 
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
     _scale!: number;
@@ -246,7 +258,7 @@ export default class FlcBuilder extends LightningElement {
     }
 
     get isReconnecting() {
-        return this._reconnectSourceGuid != null || this._goToReconnectGuid != null;
+        return this._goToSourceGuid != null;
     }
 
     get autoLayoutCanvasContext(): AutoLayoutCanvasContext {
@@ -442,8 +454,12 @@ export default class FlcBuilder extends LightningElement {
             this.closeNodeOrConnectorMenu();
         } else {
             this._topSelectedGuid = null;
-            this._goToReconnectGuid = null;
-            this._reconnectSourceGuid = null;
+            this._goToSourceGuid = null;
+            this._goToSourceBranchIndex = null;
+            this._currentTargetGuid = null;
+            this._mergeableGuids = [];
+            this._goToableGuids = [];
+            this._firstMergeableNonNullNext = null;
 
             // make all elements selectable and unselected when exiting selection mode
             if (this._flowModel != null) {
@@ -621,51 +637,35 @@ export default class FlcBuilder extends LightningElement {
     }
 
     /**
-     * Handles the "merge with existing path" connector menu item selection
-     */
-    handleMergeWithExistingPath = (event) => {
-        event.stopPropagation();
-
-        const { targetGuid } = event.detail;
-        this._reconnectSourceGuid = targetGuid;
-
-        const selectableGuids = getTargetGuidsForBranchReconnect(this.flowModel, targetGuid);
-        if (selectableGuids.length > 1) {
-            this.dispatchEvent(new ToggleSelectionModeEvent());
-            const flcSelectionEvent = new FlcSelectionEvent([], [], selectableGuids, null);
-            this.dispatchEvent(flcSelectionEvent);
-        } else if (selectableGuids.length === 1) {
-            this.dispatchCreateConnectionEvent(selectableGuids[0]);
-        } else {
-            // no merge point or elements on other branches, so just delete the end node to reconnect
-            this.dispatchEvent(new DeleteElementEvent([targetGuid], this.flowModel[targetGuid].elementType, null));
-            this._reconnectSourceGuid = null;
-        }
-    };
-
-    /**
      * Handles the "Add GoTo" connector menu item selection
      */
     handleAddGoToItemSelection = (event) => {
         event.stopPropagation();
 
-        const { next, prev, parent, canMergeEndedBranch } = event.detail;
-        this._goToReconnectGuid = next;
+        const { prev, parent, childIndex, next, canMergeEndedBranch } = event.detail;
+        this._goToSourceGuid = prev || parent;
+        this._goToSourceBranchIndex = childIndex;
+        this._currentTargetGuid = next;
 
-        const selectableGuids = getTargetGuidsForReconnection(this.flowModel, prev, parent, next, canMergeEndedBranch);
+        const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
+            this.flowModel,
+            prev,
+            parent,
+            next,
+            canMergeEndedBranch
+        );
+        this._mergeableGuids = mergeableGuids;
+        this._goToableGuids = goToableGuids;
+        this._firstMergeableNonNullNext = firstMergeableNonNullNext;
+
+        const selectableGuids = firstMergeableNonNullNext
+            ? [...mergeableGuids, ...goToableGuids, firstMergeableNonNullNext]
+            : [...mergeableGuids, ...goToableGuids];
 
         this.dispatchEvent(new ToggleSelectionModeEvent());
         const flcSelectionEvent = new FlcSelectionEvent([], [], selectableGuids, null, true);
         this.dispatchEvent(flcSelectionEvent);
     };
-
-    dispatchCreateConnectionEvent(next) {
-        const endElement = this._flowModel[this._reconnectSourceGuid!];
-        const { prev, childIndex, parent } = endElement;
-        const insertAt = parent ? { parent, childIndex } : { prev };
-        this.dispatchEvent(new FlcCreateConnectionEvent(insertAt, next));
-        this._reconnectSourceGuid = null;
-    }
 
     dispatchFlcSelectionEvent({ isSelected, canvasElementGUID }) {
         logPerfTransactionStart(AUTOLAYOUT_CANVAS_SELECTION, null, null);
@@ -706,11 +706,29 @@ export default class FlcBuilder extends LightningElement {
      */
     handleNodeSelectionDeselection = (event) => {
         event.stopPropagation();
-        if (this._reconnectSourceGuid != null) {
-            this.dispatchCreateConnectionEvent(event.detail.canvasElementGUID);
-            this.dispatchEvent(new ToggleSelectionModeEvent());
-        } else if (this._goToReconnectGuid != null) {
-            this.dispatchFlcSelectionEvent(event.detail);
+        if (this._goToSourceGuid != null) {
+            if (this._goToableGuids.includes(event.detail.canvasElementGUID)) {
+                this.dispatchEvent(
+                    new CreateGoToConnectionEvent(
+                        this._goToSourceGuid,
+                        this._goToSourceBranchIndex,
+                        event.detail.canvasElementGUID
+                    )
+                );
+            } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
+                const endElement = this._flowModel[this._currentTargetGuid!];
+                const { prev, childIndex, parent } = endElement;
+                const insertAt = parent ? { parent, childIndex } : { prev };
+                this.dispatchEvent(new FlcCreateConnectionEvent(insertAt, event.detail.canvasElementGUID));
+            } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
+                this.dispatchEvent(
+                    new DeleteElementEvent(
+                        [this._currentTargetGuid!],
+                        this.flowModel[this._currentTargetGuid!].elementType,
+                        null
+                    )
+                );
+            }
             this.dispatchEvent(new ToggleSelectionModeEvent());
         } else {
             this.dispatchFlcSelectionEvent(event.detail);

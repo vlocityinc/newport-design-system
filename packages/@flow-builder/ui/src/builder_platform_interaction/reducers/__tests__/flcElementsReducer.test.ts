@@ -304,7 +304,12 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction('decision', ['screen1', 'screen2', 'screen3', null]);
+                const action = actions.updateChildrenAction(originalStoreState.decision, [
+                    'screen1',
+                    'screen2',
+                    'screen3',
+                    null
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -344,7 +349,13 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction('decision', ['screen1', 'screen2', 'screen3', null, null]);
+                const action = actions.updateChildrenAction(originalStoreState.decision, [
+                    'screen1',
+                    'screen2',
+                    'screen3',
+                    null,
+                    null
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -379,7 +390,11 @@ describe('flc-elements-reducer', () => {
                         payload: { canvasElement: updatedDecision }
                     });
 
-                    const action = actions.updateChildrenAction('decision', ['screen2', 'screen3', null]);
+                    const action = actions.updateChildrenAction(originalStoreState.decision, [
+                        'screen2',
+                        'screen3',
+                        null
+                    ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
@@ -410,7 +425,11 @@ describe('flc-elements-reducer', () => {
                         payload: { canvasElement: updatedDecision }
                     });
 
-                    const action = actions.updateChildrenAction('decision', ['screen1', 'screen3', null]);
+                    const action = actions.updateChildrenAction(originalStoreState.decision, [
+                        'screen1',
+                        'screen3',
+                        null
+                    ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
@@ -442,7 +461,11 @@ describe('flc-elements-reducer', () => {
                         payload: { canvasElement: updatedDecision }
                     });
 
-                    const action = actions.updateChildrenAction('decision', ['screen1', 'screen2', null]);
+                    const action = actions.updateChildrenAction(originalStoreState.decision, [
+                        'screen1',
+                        'screen2',
+                        null
+                    ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
@@ -480,7 +503,12 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction('decision', ['screen3', 'screen1', 'screen2', null]);
+                const action = actions.updateChildrenAction(originalStoreState.decision, [
+                    'screen3',
+                    'screen1',
+                    'screen2',
+                    null
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -520,7 +548,13 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction('decision', ['screen2', null, 'screen1', null, null]);
+                const action = actions.updateChildrenAction(originalStoreState.decision, [
+                    'screen2',
+                    null,
+                    'screen1',
+                    null,
+                    null
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -581,12 +615,10 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                    'assignment1',
-                    'assignment2',
-                    'assignment3',
-                    null
-                ]);
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    originalStoreState.startElement,
+                    ['assignment1', 'assignment2', 'assignment3', null]
+                );
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -626,13 +658,10 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                    'assignment1',
-                    'assignment2',
-                    'assignment3',
-                    null,
-                    null
-                ]);
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    originalStoreState.startElement,
+                    ['assignment1', 'assignment2', 'assignment3', null, null]
+                );
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -667,11 +696,10 @@ describe('flc-elements-reducer', () => {
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                        'assignment2',
-                        'assignment3',
-                        null
-                    ]);
+                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                        originalStoreState.startElement,
+                        ['assignment2', 'assignment3', null]
+                    );
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
@@ -702,11 +730,10 @@ describe('flc-elements-reducer', () => {
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                        'assignment1',
-                        'assignment3',
-                        null
-                    ]);
+                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                        originalStoreState.startElement,
+                        ['assignment1', 'assignment3', null]
+                    );
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
@@ -738,11 +765,10 @@ describe('flc-elements-reducer', () => {
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                        'assignment1',
-                        'assignment2',
-                        null
-                    ]);
+                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                        originalStoreState.startElement,
+                        ['assignment1', 'assignment2', null]
+                    );
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
@@ -780,12 +806,10 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                    'assignment3',
-                    'assignment1',
-                    'assignment2',
-                    null
-                ]);
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    originalStoreState.startElement,
+                    ['assignment3', 'assignment1', 'assignment2', null]
+                );
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -825,13 +849,10 @@ describe('flc-elements-reducer', () => {
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction('startElement', [
-                    'assignment2',
-                    null,
-                    'assignment1',
-                    null,
-                    null
-                ]);
+                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    originalStoreState.startElement,
+                    ['assignment2', null, 'assignment1', null, null]
+                );
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {

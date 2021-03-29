@@ -15,7 +15,13 @@ import {
     LOOP_BACK_INDEX,
     START_IMMEDIATE_INDEX
 } from './model';
-import { fulfillsBranchingCriteria, resolveBranchHead, shouldSupportTimeTriggers } from './modelUtils';
+import {
+    fulfillsBranchingCriteria,
+    resolveBranchHead,
+    shouldSupportTimeTriggers,
+    hasGoToConnectionOnNext,
+    hasGoToConnectionOnBranchHead
+} from './modelUtils';
 import { NO_OFFSET, getLayoutChildOrFault } from './layout';
 
 import {
@@ -47,7 +53,7 @@ const IS_BRANCH = true;
  * @param layoutConfig - The layout config
  * @param isBranch - True for a branch connector, false for a merge connector
  * @param joinOffsetY - The join offset
- * @returs The Geometry for the branch
+ * @returns The Geometry for the branch
  */
 function createBranchOrMergeConnectorGeometry(
     branchLayout: LayoutInfo,
@@ -74,16 +80,23 @@ function createBranchOrMergeConnectorGeometry(
  * @param parentNode - The branch's parent node
  * @param childIndex - The branch's index in the parent
  * @param context - The flow rendering context
+ * @param markAsTerminal - Determines if the flows needs to be marked as terminal or not
  * @returns A FlowRenderInfo for the rendered empty flow
  */
-function renderEmptyFlow(parentNode: NodeModel, childIndex: number, context: FlowRenderContext): FlowRenderInfo {
+function renderEmptyFlow(
+    parentNode: ParentNodeModel,
+    childIndex: number,
+    context: FlowRenderContext,
+    markAsTerminal: boolean
+): FlowRenderInfo {
     const { progress, nodeLayoutMap } = context;
     const { x, h, w } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
 
     return {
         geometry: { x, y: 0, h, w },
         nodes: [],
-        isTerminal: false,
+        // Marking the flow as terminal when there's a GoTo on the parent's branch
+        isTerminal: markAsTerminal,
         layoutConfig: context.layoutConfig
     };
 }
@@ -195,7 +208,7 @@ function renderNode(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): NodeRenderInfo {
-    const { layoutConfig, progress, nodeLayoutMap } = context;
+    const { layoutConfig, progress, nodeLayoutMap, flowModel } = context;
     const { nodeType } = node;
 
     const nodeRenderInfo =
@@ -235,7 +248,12 @@ function renderNode(
     }
 
     if (nodeType !== NodeType.END && (!nodeRenderInfo.isTerminal || nodeType === NodeType.LOOP)) {
-        nodeRenderInfo.nextConnector = createNextConnector(parentNode, node, context, variant);
+        if (node.next && hasGoToConnectionOnNext(flowModel, node)) {
+            // Draw out GoTo Connector
+            nodeRenderInfo.nextConnector = createGoToConnector(node, context, variant);
+        } else {
+            nodeRenderInfo.nextConnector = createNextConnector(parentNode, node, context, variant);
+        }
     }
 
     return nodeRenderInfo;
@@ -347,7 +365,118 @@ function createNextConnector(
         showAdd ? addOffset : undefined,
         labelOffset,
         connectorBadgeLabel,
-        !!node.config.highlightInfo?.highlightNext
+        !!node.config.highlightInfo?.highlightNext,
+        undefined
+    );
+}
+
+/**
+ * Creates a GoTo connector to the next node (doesn't include the GoTo connectors on branch head)
+ *
+ * @param node - The source node for the connector
+ * @param context - The flow rendering context
+ * @param variant - The connector variant
+ * @returns A ConnectorRenderInfo for the node's next goTo connector
+ */
+function createGoToConnector(
+    node: NodeModel,
+    context: FlowRenderContext,
+    variant: ConnectorVariant
+): ConnectorRenderInfo {
+    const { progress, nodeLayoutMap, interactionState, isDeletingBranch, layoutConfig, flowModel } = context;
+    const { joinOffsetY, addOffset, labelOffset, h } = getLayout(node.guid, progress, nodeLayoutMap);
+    const { nodeType } = node;
+
+    const mainVariant =
+        fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
+            ? ConnectorVariant.POST_MERGE
+            : ConnectorVariant.DEFAULT;
+
+    const connectorBadgeLabel =
+        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node) ? node.defaultConnectorLabel : undefined;
+
+    return connectorLib.createConnectorToNextNode(
+        { prev: node.guid, next: node.next },
+        ConnectorType.GO_TO,
+        ConnectorLabelType.NONE,
+        joinOffsetY,
+        h - joinOffsetY,
+        isMenuOpened(node.guid, MenuType.CONNECTOR, interactionState),
+        layoutConfig,
+        context.isFault,
+        [mainVariant, variant],
+        isDeletingBranch,
+        addOffset,
+        labelOffset,
+        connectorBadgeLabel,
+        !!node.config.highlightInfo?.highlightNext,
+        flowModel[node.next!].label
+    );
+}
+
+/**
+ * Creates a GoTo connector at the branch head
+ *
+ * @param parentNode - The branch's parent node
+ * @param childIndex - The branch index
+ * @param context - The flow rendering index
+ * @param conditionOptions - The conditions options
+ * @param isHighlighted - Whether to highlight this connector
+ * @returns A ConnectorRenderInfo for the node's branch head goTo connector
+ */
+function createGoToConnectorOnParentBranch(
+    parentNode: ParentNodeModel,
+    childIndex: number,
+    context: FlowRenderContext,
+    conditionOptions: Option[],
+    isHighlighted: boolean
+): ConnectorRenderInfo {
+    const { interactionState, isDeletingBranch, flowModel, progress, nodeLayoutMap } = context;
+    const { addOffset, labelOffset, h } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
+    const childCount = childIndex === FAULT_INDEX ? 1 : parentNode.children.length;
+
+    const variant = getConnectorVariant(parentNode, childIndex, context);
+    const { nodeType } = parentNode;
+
+    const defaultConditionIndex =
+        nodeType === NodeType.BRANCH ? childCount - 1 : nodeType === NodeType.START ? START_IMMEDIATE_INDEX : null;
+
+    let connectorBadgeLabel;
+    if (childIndex === defaultConditionIndex) {
+        connectorBadgeLabel = parentNode.defaultConnectorLabel;
+    } else if (childIndex !== FAULT_INDEX) {
+        connectorBadgeLabel =
+            nodeType === NodeType.START
+                ? conditionOptions && conditionOptions[childIndex - 1].label
+                : conditionOptions && conditionOptions[childIndex].label;
+    }
+
+    let variants = [variant];
+    if (nodeType === NodeType.BRANCH || nodeType === NodeType.LOOP || nodeType === NodeType.START) {
+        variants = [ConnectorVariant.BRANCH_HEAD, variant];
+    }
+
+    return connectorLib.createConnectorToNextNode(
+        { parent: parentNode.guid, childIndex },
+        ConnectorType.GO_TO,
+        getConnectorLabelType({
+            isFault: childIndex === FAULT_INDEX,
+            isLoop: nodeType === NodeType.LOOP
+        }),
+        NO_OFFSET,
+        h,
+        isMenuOpened(getBranchLayoutKey(parentNode.guid, childIndex), MenuType.CONNECTOR, interactionState),
+        context.layoutConfig,
+        context.isFault || childIndex === FAULT_INDEX,
+        variants,
+        isDeletingBranch,
+        addOffset,
+        labelOffset,
+        connectorBadgeLabel,
+        isHighlighted,
+        childIndex === FAULT_INDEX
+            ? flowModel[parentNode.fault!].label
+            : flowModel[parentNode.children[childIndex]!].label
     );
 }
 
@@ -363,10 +492,12 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
     const { flowModel, progress, nodeLayoutMap } = context;
 
     const layoutChild = childIndex === FAULT_INDEX ? parentNode.fault : parentNode.children[childIndex];
-    const branchHead = layoutChild == null ? null : resolveBranchHead(flowModel, layoutChild);
+    const branchHead = layoutChild == null ? null : resolveNode(flowModel, layoutChild);
 
-    if (branchHead == null) {
-        return renderEmptyFlow(parentNode, childIndex, context);
+    // Rendering an empty flow when no element exists on the branch or when there's a GoTo connection from the branch itself
+    const hasGoToOnBranchHead = hasGoToConnectionOnBranchHead(flowModel, parentNode, childIndex);
+    if (branchHead == null || hasGoToOnBranchHead) {
+        return renderEmptyFlow(parentNode, childIndex, context, hasGoToOnBranchHead);
     }
 
     const { x, w, h } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
@@ -383,10 +514,10 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
         }
         const nodeRenderInfo = renderNode(parentNode, node, context, connectorVariant);
         nodeRenderInfos.push(nodeRenderInfo);
-        node = node.next != null ? resolveNode(flowModel, node.next) : null;
+        node = node.next && !hasGoToConnectionOnNext(flowModel, node) ? resolveNode(flowModel, node.next) : null;
     }
 
-    const isTerminal = !!branchHead.isTerminal;
+    const isTerminal = !!(branchHead as BranchHeadNodeModel).isTerminal;
 
     return {
         geometry: { x, y: 0, w, h },
@@ -528,7 +659,25 @@ function renderBranches(
         const flowRenderInfo = renderFlowHelper(node, i, context);
         const child = getLayoutChildOrFault(node, i);
         const height = child == null ? layout.joinOffsetY : getLayout(child, progress, nodeLayoutMap).y;
-        flowRenderInfo.preConnector = createPreConnector(node, i, context, height, conditionOptions!, isHighlighted);
+        if (child && hasGoToConnectionOnBranchHead(flowModel, node, i)) {
+            // Draw out GoTo Connector
+            flowRenderInfo.preConnector = createGoToConnectorOnParentBranch(
+                node,
+                i,
+                context,
+                conditionOptions!,
+                isHighlighted
+            );
+        } else {
+            flowRenderInfo.preConnector = createPreConnector(
+                node,
+                i,
+                context,
+                height,
+                conditionOptions!,
+                isHighlighted
+            );
+        }
 
         //  Resetting context.isDeletingBranch to false after rendering each branch of the parent element being deleted
         if (isElementGuidToDelete(context, node.guid)) {
@@ -594,7 +743,7 @@ function getConnectorVariant(
         return ConnectorVariant.FAULT;
     }
 
-    const { progress, nodeLayoutMap } = context;
+    const { progress, nodeLayoutMap, flowModel } = context;
     const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
     let variant = ConnectorVariant.DEFAULT;
 
@@ -606,7 +755,10 @@ function getConnectorVariant(
     let firstNonTerminalBranch = true;
 
     children.forEach((child, i) => {
-        const isTerminal = child != null && resolveBranchHead(context.flowModel, child).isTerminal;
+        // isTerminal should be true whenever the child is either a GoTo target or has it's isTerminal set to true
+        const isTerminal =
+            child != null &&
+            (hasGoToConnectionOnBranchHead(flowModel, parentNode, i) || resolveBranchHead(flowModel, child).isTerminal);
 
         if (!isTerminal) {
             if (firstNonTerminalBranch) {
@@ -718,7 +870,8 @@ function createPreConnector(
         branchLayout.addOffset,
         branchLayout.labelOffset,
         connectorBadgeLabel,
-        isHighlighted
+        isHighlighted,
+        undefined
     );
 }
 

@@ -76,7 +76,7 @@ describe('connectorLib', () => {
         expect(connectorRenderInfo).toMatchSnapshot();
     });
 
-    it('createConnectorToNextNode', () => {
+    it('createConnectorToNextNode with Straight connector type', () => {
         const connectorRenderInfo = createConnectorToNextNode(
             { next: 'nextGuid', prev: 'prevGuid' },
             ConnectorType.STRAIGHT,
@@ -91,6 +91,94 @@ describe('connectorLib', () => {
             0,
             48,
             undefined
+        );
+
+        expect(connectorRenderInfo).toMatchSnapshot();
+    });
+
+    it('createConnectorToNextNode with GoTo connector type and Branch Head', () => {
+        const connectorRenderInfo = createConnectorToNextNode(
+            { parent: 'parentGuid', childIndex: 0 },
+            ConnectorType.GO_TO,
+            ConnectorLabelType.BRANCH,
+            0,
+            132,
+            false,
+            getDefaultLayoutConfig(),
+            false,
+            [ConnectorVariant.BRANCH_HEAD, ConnectorVariant.EDGE],
+            false,
+            84,
+            48,
+            'Badge Label',
+            false,
+            'Target Label'
+        );
+
+        expect(connectorRenderInfo).toMatchSnapshot();
+    });
+
+    it('createConnectorToNextNode with GoTo connector type and Default variant', () => {
+        const connectorRenderInfo = createConnectorToNextNode(
+            { next: 'nextGuid', prev: 'prevGuid' },
+            ConnectorType.GO_TO,
+            ConnectorLabelType.NONE,
+            0,
+            108,
+            false,
+            getDefaultLayoutConfig(),
+            false,
+            [ConnectorVariant.DEFAULT, ConnectorVariant.CENTER],
+            false,
+            60,
+            48,
+            undefined,
+            false,
+            'Target Label'
+        );
+
+        expect(connectorRenderInfo).toMatchSnapshot();
+    });
+
+    it('createConnectorToNextNode with GoTo connector type and Post Merge variant', () => {
+        const connectorRenderInfo = createConnectorToNextNode(
+            { next: 'nextGuid', prev: 'prevGuid' },
+            ConnectorType.GO_TO,
+            ConnectorLabelType.NONE,
+            96,
+            120,
+            false,
+            getDefaultLayoutConfig(),
+            false,
+            [ConnectorVariant.POST_MERGE, ConnectorVariant.CENTER],
+            false,
+            36,
+            48,
+            undefined,
+            false,
+            'Target Label'
+        );
+
+        expect(connectorRenderInfo).toMatchSnapshot();
+    });
+
+    it('createConnectorToNextNode with GoTo connector type and Fault variant', () => {
+        const connectorRenderInfo = createConnectorToNextNode(
+            { parent: 'parentGuid', childIndex: -1 },
+            ConnectorType.GO_TO,
+            ConnectorLabelType.FAULT,
+            0,
+            108,
+            false,
+            getDefaultLayoutConfig(),
+            false,
+            [ConnectorVariant.FAULT, ConnectorVariant.CENTER],
+            false,
+            60,
+            24,
+            'Fault Badge Label',
+            false,
+            'Target Label'
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();

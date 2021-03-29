@@ -1,7 +1,6 @@
 export { FlcSelectDeselectNodeEvent } from './flcSelectDeselectNodeEvent';
 export { FlcSelectionEvent } from './flcSelectionEvent';
 export { FlcCreateConnectionEvent } from './flcCreateConnectionEvent';
-export { MergeWithExistingPathEvent } from './mergeWithExistingPathEvent';
 export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
 export { SelectMenuItemEvent } from './selectMenuItemEvent';
 export { ToggleMenuEvent } from './toggleMenuEvent';
@@ -15,4 +14,5 @@ export { ClearHighlightedPathEvent } from './clearHighlightedPathEvent';
 export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';
 export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';
 export { GoToPathEvent } from './goToPathEvent';
+export { CreateGoToConnectionEvent } from './createGoToConnectionEvent';
 export { DeleteBranchElementEvent } from './deleteBranchElementEvent';

@@ -15,7 +15,11 @@ import {
     getFlowWithHighlightedFaultBranch,
     getFlowWithHighlightedDecisionBranch,
     getFlowWithHighlightedAndMergedDecisionBranch,
-    getComplicatedFlow
+    getComplicatedFlow,
+    getFlowWhenGoingToPreviousElement,
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -71,6 +75,35 @@ describe('flowRenderer', () => {
 
         it('flow with dynamic node component', () => {
             renderAndAssert(getFlowWithDynamicNodeComponent());
+        });
+        it('flow with a GoTo connection to the previous element', () => {
+            renderAndAssert(getFlowWhenGoingToPreviousElement(false, false));
+        });
+        it('flow with a GoTo connection to the previous element and source node menu is open', () => {
+            renderAndAssert(getFlowWhenGoingToPreviousElement(true, false));
+        });
+        it('flow with a GoTo connection to the previous element and goTo connector menu is open', () => {
+            renderAndAssert(getFlowWhenGoingToPreviousElement(false, true));
+        });
+        it('flow with a GoTo connection from parent first branch to the previous element', () => {
+            renderAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(false, false, false));
+        });
+        it('flow with a GoTo connection from parent first branch to the previous element and the source node menu is open', () => {
+            renderAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(true, false, false));
+        });
+
+        it('flow with a GoTo connection from parent first branch to the previous element when merge connector menu is open', () => {
+            renderAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(false, true, false));
+        });
+
+        it('flow with a GoTo connection from parent first branch to the previous element when branch head connector menu is open', () => {
+            renderAndAssert(getFlowWhenGoingFromParentFirstBranchToPreviousElement(false, false, true));
+        });
+        it('flow with a GoTo connection from parent default branch to the previous element', () => {
+            renderAndAssert(getFlowWhenGoingFromParentDefaultBranchToPreviousElement());
+        });
+        it('flow with a GoTo connection from parent fault branch to the previous element', () => {
+            renderAndAssert(getFlowWhenGoingFromParentFaultBranchToPreviousElement());
         });
 
         describe('with menu', () => {

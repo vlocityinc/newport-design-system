@@ -1,7 +1,11 @@
 import { LightningElement, api } from 'lwc';
 import { classSet } from 'lightning/utils';
 import { ConnectorRenderInfo, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { getStyleFromGeometry, AutoLayoutCanvasMode } from 'builder_platform_interaction/flcComponentsUtils';
+import {
+    getCssStyle,
+    getStyleFromGeometry,
+    AutoLayoutCanvasMode
+} from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorLabels';
 
 /**
@@ -59,6 +63,17 @@ export default class FlcConnector extends LightningElement {
             style: getStyleFromGeometry(geometry),
             path
         };
+    }
+
+    /**
+     * Gets the location for the goToTargetLabel using the end location of the goTo connector svg
+     */
+    get goToTargetLabelStyle() {
+        const { svgInfo } = this.connectorInfo;
+        return getCssStyle({
+            left: svgInfo.endLocation.x + 5,
+            top: svgInfo.endLocation.y - 10
+        });
     }
 
     // TODO: W-9025580 [Trust] Review how badge is displayed

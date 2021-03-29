@@ -32,4 +32,11 @@
             ></lightning-icon>
         </builder_platform_interaction-flc-button-menu>
     </template>
+
+    <div if:true={connectorInfo.goToTargetLabel} class="slds-is-absolute go-to-info" style={goToTargetLabelStyle}>
+        <div class="slds-m-right_xx-small slds-truncate go-to-target-label">
+            <span>{connectorInfo.goToTargetLabel}</span>
+        </div>
+        <span>&#x2192;</span>
+    </div>
 </template>

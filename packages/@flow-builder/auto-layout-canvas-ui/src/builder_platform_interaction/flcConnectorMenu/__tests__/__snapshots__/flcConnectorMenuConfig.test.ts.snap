@@ -1,12 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`connector menu config Match Snapshot with both paste and merge option 1`] = `
+exports[`connector menu config Match Snapshot with both paste and goto option 1`] = `
 Object {
   "sections": Array [
     Object {
       "guid": 1,
       "heading": "",
       "items": Array [
+        Object {
+          "elementType": "goTo",
+          "guid": 1,
+          "icon": "utility:level_down",
+          "iconClass": "",
+          "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
+          "iconSize": "x-small",
+          "iconVariant": "",
+          "label": "AlcConnectorContextualMenu.goToPathItemLabel (WIP)",
+          "rowClass": "slds-listbox__item action-row-line-height",
+        },
         Object {
           "elementType": "Paste",
           "guid": 1,
@@ -16,17 +27,6 @@ Object {
           "iconSize": "x-small",
           "iconVariant": "",
           "label": "AlcConnectorContextualMenu.pasteItemLabel",
-          "rowClass": "slds-listbox__item action-row-line-height",
-        },
-        Object {
-          "elementType": "mergePath",
-          "guid": 1,
-          "icon": "utility:merge",
-          "iconClass": "branch-merge",
-          "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
-          "iconSize": "x-small",
-          "iconVariant": "",
-          "label": "AlcConnectorContextualMenu.mergePathItemLabel",
           "rowClass": "slds-listbox__item action-row-line-height",
         },
       ],

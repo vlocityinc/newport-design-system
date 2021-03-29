@@ -30,7 +30,7 @@ export default class FlcConnectorMenu extends LightningElement {
     canAddGoto!: boolean;
 
     @api
-    hasGoto!: boolean;
+    isGoToConnector!: boolean;
 
     @api
     openedWithKeyboard;

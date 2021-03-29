@@ -18,7 +18,10 @@ enum ConnectorType {
     LOOP_BACK = 'loopBack',
 
     /* after last loop connector */
-    LOOP_AFTER_LAST = 'loopAfterLast'
+    LOOP_AFTER_LAST = 'loopAfterLast',
+
+    /* goto connector */
+    GO_TO = 'goTo'
 }
 
 export default ConnectorType;

@@ -5,12 +5,11 @@ import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
     CloseMenuEvent,
     PasteEvent,
-    MergeWithExistingPathEvent,
     MoveFocusToConnectorEvent,
     GoToPathEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
-import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION, GOTO_ACTION } from './flcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION, GOTO_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -58,9 +57,8 @@ export default class FlcConnectorMenu extends Menu {
     @api
     canAddGoto!: boolean;
 
-    // TODO
     @api
-    hasGoto!: boolean;
+    isGoToConnector!: boolean;
 
     @api
     openedWithKeyboard;
@@ -74,9 +72,8 @@ export default class FlcConnectorMenu extends Menu {
             this.elementsMetadata,
             this.hasEndElement,
             this.isPasteAvailable,
-            this.canMergeEndedBranch,
-            false,
-            false
+            this.canAddGoto,
+            this.isGoToConnector
         );
     }
 
@@ -102,11 +99,10 @@ export default class FlcConnectorMenu extends Menu {
                 this.dispatchEvent(new PasteEvent(this.prev!, this.next!, this.parent!, this.childIndex!));
                 this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
                 break;
-            case MERGE_PATH_ACTION:
-                this.dispatchEvent(new MergeWithExistingPathEvent(this.next!));
-                break;
             case GOTO_ACTION:
-                this.dispatchEvent(new GoToPathEvent(this.next!, this.prev, this.parent, this.canMergeEndedBranch));
+                this.dispatchEvent(
+                    new GoToPathEvent(this.next!, this.prev, this.parent, this.childIndex, this.canMergeEndedBranch)
+                );
                 break;
             default: {
                 const { prev, parent, childIndex } = this;

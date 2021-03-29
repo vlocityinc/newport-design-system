@@ -52,7 +52,7 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
     let { config } = <UI.BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
 
-    // TODO: Need to remove, currently used to suppot alc copy/paste
+    // TODO: Need to remove, currently used to support alc copy/paste
     copyFlcExtraProps(canvasElement, newCanvasElement);
 
     return Object.assign(newCanvasElement, {
