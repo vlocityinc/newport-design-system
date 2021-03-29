@@ -47,8 +47,6 @@ public void testGetAllGlobalVariablesSerialization() throws Exception {
 }
 ```
 
-*Note : Currently, there is no gold file for flow extension details (see [W-8208977](https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008guYXIAY/view))*
-
 2) submit `FlowBuilderControllerGoldFileTest` and gold files to precheckin and wait until the gold files are checked in Perforce.
 
 3) update the gold files in the git repository using

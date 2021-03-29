@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import SubflowEditor from '../subflowEditor';
 import { mockSubflows } from 'mock/calloutData';
-import { mockSubflowVariables } from 'mock/calloutData';
+import { flowWithAllTypesVariables as mockSubflowVariables } from 'serverData/GetFlowInputOutputVariables/flowWithAllTypesVariables.json';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
@@ -119,7 +119,7 @@ const subflowNode = {
         {
             rowIndex: 'fb1782fd-1434-41dc-89ff-675f209be855',
             name: {
-                value: 'inputNumberVariable',
+                value: 'inputNumberVar',
                 error: null
             },
             value: {
@@ -133,7 +133,7 @@ const subflowNode = {
         {
             rowIndex: '84499160-72eb-4c03-baa7-ee5641f80477',
             name: {
-                value: 'outputNumberVariable',
+                value: 'outputNumberVar',
                 error: null
             },
             value: {
@@ -182,7 +182,6 @@ describe('subflow-editor', () => {
         });
     });
     it('property changed event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         subflowEditor = createComponentUnderTest(subflowNode, {
             isNewMode: false
         });
@@ -199,7 +198,6 @@ describe('subflow-editor', () => {
         );
     });
     it('update parameter event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         subflowEditor = createComponentUnderTest(subflowNode, {
             isNewMode: false
         });
@@ -211,7 +209,7 @@ describe('subflow-editor', () => {
         const event = new UpdateParameterItemEvent(
             true,
             'fb1782fd-1434-41dc-89ff-675f209be855',
-            'inputNumberVariable',
+            'inputNumberVar',
             '5',
             'Number',
             null
@@ -224,7 +222,6 @@ describe('subflow-editor', () => {
         );
     });
     it('delete parameter event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         subflowEditor = createComponentUnderTest(subflowNode, {
             isNewMode: false
         });
@@ -233,7 +230,7 @@ describe('subflow-editor', () => {
 
         await ticks(1);
 
-        const event = new DeleteParameterItemEvent(true, 'fb1782fd-1434-41dc-89ff-675f209be855', 'inputNumberVariable');
+        const event = new DeleteParameterItemEvent(true, 'fb1782fd-1434-41dc-89ff-675f209be855', 'inputNumberVar');
         getBaseCalloutEditor(subflowEditor).dispatchEvent(event);
         expect(updateNodeCallback).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -242,7 +239,6 @@ describe('subflow-editor', () => {
         );
     });
     it('use advanced options selection change event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         subflowEditor = createComponentUnderTest(subflowNode, {
             isNewMode: false
         });
