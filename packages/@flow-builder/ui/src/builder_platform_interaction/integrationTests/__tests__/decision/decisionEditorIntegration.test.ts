@@ -173,6 +173,7 @@ const createComponentForTest = (node) => {
 };
 
 const describeSkip = describe.skip;
+// see W-5332738
 describeSkip('Decision Editor', () => {
     describe('label and description', () => {
         it('Adding name autofills dev name', () => {
