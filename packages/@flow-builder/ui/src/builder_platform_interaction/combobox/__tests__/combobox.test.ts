@@ -1507,6 +1507,33 @@ describe('Combobox', () => {
                 expect(combobox).toMatchSnapshot();
             });
         });
+
+        describe('fieldLevelText', () => {
+            it('is displayed if present', async () => {
+                createCombobox({ isPillSupported: true, fieldLevelHelp: 'foo' });
+                combobox.menuData = secondLevelMenuData;
+                const [comboboxItem] = secondLevelMenuData;
+                groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+                await ticks(1);
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+                expect(combobox).toMatchSnapshot();
+            });
+            it('is not displayed if not present', async () => {
+                createCombobox({ isPillSupported: true });
+                combobox.menuData = secondLevelMenuData;
+                const [comboboxItem] = secondLevelMenuData;
+                groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+                await ticks(1);
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+
+                const helpText = combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_HELPTEXT);
+                expect(helpText).toBeFalsy();
+                expect(combobox).toMatchSnapshot();
+            });
+        });
+
         it('does not display pill if disabled', async () => {
             createCombobox({ isPillSupported: true });
             combobox.menuData = secondLevelMenuData;
