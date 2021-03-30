@@ -19,7 +19,8 @@ import {
     getFlowWhenGoingToPreviousElement,
     getFlowWhenGoingFromParentFirstBranchToPreviousElement,
     getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
-    getFlowWhenGoingFromParentFaultBranchToPreviousElement
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement,
+    getFlowWithGoToOnTheNestedBranchElement
 } from './testUtils';
 
 function renderAndAssert(ctx) {
@@ -104,6 +105,9 @@ describe('flowRenderer', () => {
         });
         it('flow with a GoTo connection from parent fault branch to the previous element', () => {
             renderAndAssert(getFlowWhenGoingFromParentFaultBranchToPreviousElement());
+        });
+        it('flow with a GoTo connection from the nested decision branch to the parent decision', () => {
+            renderAndAssert(getFlowWithGoToOnTheNestedBranchElement());
         });
 
         describe('with menu', () => {

@@ -11,6 +11,7 @@ import {
     ParentNodeModel,
     Guid
 } from './model';
+import { hasGoToConnectionOnBranchHead } from './modelUtils';
 import MenuType from './MenuType';
 
 export interface LayoutInfo {
@@ -321,8 +322,12 @@ function getConnectorConfig(
  * @return the number of outcomes that merge back
  */
 const getMergeOutcomeCount = (flowModel: FlowModel, branchingElement: ParentNodeModel) =>
-    branchingElement.children.reduce((count, child) => {
-        return child == null || !(flowModel[child] as BranchHeadNodeModel).isTerminal ? count + 1 : count;
+    branchingElement.children.reduce((count, child, index) => {
+        return child == null ||
+            (!hasGoToConnectionOnBranchHead(flowModel, branchingElement, index) &&
+                !(flowModel[child] as BranchHeadNodeModel).isTerminal)
+            ? count + 1
+            : count;
     }, 0);
 
 export {

@@ -945,6 +945,49 @@ function getFlowWhenGoingFromParentFaultBranchToPreviousElement() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithGoToOnTheNestedBranchElement() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        parent: 'root',
+        childIndex: 0,
+        next: 'decision1-guid'
+    };
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'outcome1-guid' }],
+        children: [null, 'decision2-guid'],
+        prev: 'start-guid',
+        next: 'end1-guid',
+        incomingGoTo: ['decision2-guid:outcome2-guid']
+    };
+    decision2 = {
+        ...decision2,
+        childIndex: 1,
+        parent: 'decision1-guid',
+        childReferences: [{ childReference: 'outcome2-guid' }],
+        children: ['decision1-guid', null],
+        prev: null,
+        next: null,
+        isTerminal: false
+    };
+    end1 = { ...end1, prev: 'decision1-guid' };
+
+    const elements = [root, start, decision1, decision2, end1];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -976,6 +1019,7 @@ export {
     getFlowWhenGoingFromParentFirstBranchToPreviousElement,
     getFlowWhenGoingFromParentDefaultBranchToPreviousElement,
     getFlowWhenGoingFromParentFaultBranchToPreviousElement,
+    getFlowWithGoToOnTheNestedBranchElement,
     getFlowWithTerminalImmediateBranch,
     getFlowWithBranchNodeInImmediateBranch,
     getFlowWithScheduledPathsContext,
