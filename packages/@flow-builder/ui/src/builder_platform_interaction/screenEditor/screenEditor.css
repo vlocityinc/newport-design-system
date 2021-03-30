@@ -2,6 +2,10 @@
     height: calc(100vh - 300px); /* TD Remove W-4738595 / W-4986347 */
 }
 
+.screen-editor-container-with-tabs {
+    height: calc(100vh - 340px);
+}
+
 .tab-container-components {
     height: calc(100vh - 380px);
 }

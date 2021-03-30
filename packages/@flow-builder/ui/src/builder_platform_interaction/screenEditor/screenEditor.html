@@ -3,10 +3,10 @@
         <lightning-spinner variant="brand" alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
     </div>
     <!-- main container for editor -->
-    <div if:true={screen} class="slds-grid">
+    <div if:true={screen} class={screenEditorContainerCssClass}>
         <!-- this div is the container for the left panel-->
         <template if:false={orgHasFlowBuilderAutomaticFields}>
-            <div class="slds-size_small slds-grow-none slds-shrink-none screen-editor-container">
+            <div class="slds-size_small slds-grow-none slds-shrink-none">
                 <builder_platform_interaction-screen-editor-palette
                     screen-field-types={screenFieldTypes}
                     extension-types={extensionTypes}

@@ -53,6 +53,9 @@ export default class ScreenEditor extends LightningElement {
     labels = LABELS;
 
     orgHasFlowBuilderAutomaticFields = orgHasFlowBuilderAutomaticFields();
+    screenEditorContainerCssClass = this.orgHasFlowBuilderAutomaticFields
+        ? 'slds-grid screen-editor-container-with-tabs'
+        : 'slds-grid screen-editor-container';
 
     private objectFieldReferenceChanged = false;
 
