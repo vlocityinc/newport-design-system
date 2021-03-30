@@ -12,7 +12,7 @@ import {
     UpdateParameterItemEvent,
     PropertyChangedEvent,
     DeleteParameterItemEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
     DynamicTypeMappingChangeEvent
@@ -24,7 +24,7 @@ import {
     deleteParameterItem,
     MERGE_WITH_PARAMETERS,
     REMOVE_UNSET_PARAMETERS,
-    updateUseAdvancedOptionSelection,
+    updateManuallyAssignVariables,
     updateInputParameterItemConfigurationEditor
 } from 'builder_platform_interaction/calloutEditorLib';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
@@ -202,8 +202,8 @@ export const invocableActionReducer = (state, event, elements) => {
             return updateParameterItem(state, event.detail);
         case DeleteParameterItemEvent.EVENT_NAME:
             return deleteParameterItem(state, event.detail);
-        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
-            return updateUseAdvancedOptionSelection(state, event.detail);
+        case ManuallyAssignVariablesChangedEvent.EVENT_NAME:
+            return updateManuallyAssignVariables(state, event.detail);
         case MERGE_WITH_DATA_TYPE_MAPPINGS:
             return mergeWithDataTypeMappings(state, event.detail);
         case MERGE_WITH_PARAMETERS:

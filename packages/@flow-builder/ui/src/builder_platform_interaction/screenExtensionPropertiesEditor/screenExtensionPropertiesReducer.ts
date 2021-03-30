@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
 import { superTypeToFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -29,7 +29,7 @@ const useAdvancedOptionsSelectionChanged = (state, props, { useAdvancedOptions }
 
 export function screenExtensionPropertiesEventReducer(state, props, event) {
     switch (event.type) {
-        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+        case ManuallyAssignVariablesChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, props, event.detail);
         default:
             return state;

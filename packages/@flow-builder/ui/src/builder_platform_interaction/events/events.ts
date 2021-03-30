@@ -88,7 +88,7 @@ export { ProcessTypeSelectedEvent } from './processTypeSelectedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
 export { CannotRetrieveTemplatesEvent } from './cannotRetrieveTemplatesEvent';
 export { NumberRecordToStoreChangedEvent } from './numberRecordToStoreChangedEvent';
-export { UseAdvancedOptionsSelectionChangedEvent } from './useAdvancedOptionsSelectionChangedEvent';
+export { ManuallyAssignVariablesChangedEvent } from './manuallyAssignVariablesChangedEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
 export { RichTextPlainTextSwitchChangedEvent } from './richTextPlainTextSwitchChangedEvent';
 export { ToggleFlowStatusEvent } from './toolbarEvents/toggleFlowStatusEvent';

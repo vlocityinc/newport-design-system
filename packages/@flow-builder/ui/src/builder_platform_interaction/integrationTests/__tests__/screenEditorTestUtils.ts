@@ -18,7 +18,7 @@ import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/scre
 import ScreenEditorPropertiesEditorContainer from 'builder_platform_interaction/screenPropertiesEditorContainer';
 import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
 import ScreenField from 'builder_platform_interaction/screenField';
-import UseAdvancedOptionsCheckbox from 'builder_platform_interaction/useAdvancedOptionsCheckbox';
+import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
 import ScreenPropertyField from 'builder_platform_interaction/screenPropertyField';
 import { InputsOnNextNavToAssocScrnOption } from 'builder_platform_interaction/screenEditorUtils';
 import ScreenSectionFieldPropertiesEditor from 'builder_platform_interaction/screenSectionFieldPropertiesEditor';
@@ -440,8 +440,8 @@ export class ExtensionPropertiesEditorTestComponent extends TestComponent<Screen
     }
 
     public getAdvancedOptionsCheckbox() {
-        return this.element.shadowRoot!.querySelector<UseAdvancedOptionsCheckbox & HTMLElement>(
-            SELECTORS.USE_ADVANCED_OPTIONS_CHECKBOX
+        return this.element.shadowRoot!.querySelector<ManuallyAssignVariablesCheckbox & HTMLElement>(
+            SELECTORS.MANUALLY_ASSIGN_VARIABLES_CHECKBOX
         );
     }
 

@@ -12,8 +12,8 @@ import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from 
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
-    getAutomaticOutputAdvancedOptionCheckboxFromAcc,
-    getAutomaticOutputAdvancedOptionComponentFromAcc,
+    getManuallyAssignVariablesCheckboxInputElementFromAcc,
+    getManuallyAssignVariablesCheckboxFromAcc,
     getOutputParameterItemsFromAcc,
     getAdvancedAccordionOutputDiv,
     verifyOutputParameter
@@ -81,31 +81,31 @@ describe('Invocable Action Editor', () => {
         });
     });
     describe('autolaunched flow with an action', () => {
-        it('should display "useAdvancedOptionsComponent"', () => {
-            const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponentFromAcc(coreActionElement);
-            expect(advancedOptionComponent).not.toBeNull();
+        it('should display "Manually Assign Variables" checkbox', () => {
+            const checkboxComponent = getManuallyAssignVariablesCheckboxFromAcc(coreActionElement);
+            expect(checkboxComponent).not.toBeNull();
         });
-        it('should have "useAdvancedOptionsCheckbox" unchecked', () => {
-            const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
-            expect(advancedOptionCheckbox).toBeDefined();
-            expect(advancedOptionCheckbox.type).toBe('checkbox');
-            expect(advancedOptionCheckbox.checked).toBe(false);
+        it('should have "Manually Assign Variables" unchecked', () => {
+            const inputElement = getManuallyAssignVariablesCheckboxInputElementFromAcc(coreActionElement);
+            expect(inputElement).toBeDefined();
+            expect(inputElement.type).toBe('checkbox');
+            expect(inputElement.checked).toBe(false);
         });
         it('should have the output parameter displayed', () => {
             const parameterListOutputDiv = getAdvancedAccordionOutputDiv(coreActionElement);
             expect(parameterListOutputDiv).toBeNull();
         });
-        describe('modify from automatic to advanced', () => {
+        describe('modify from automatic to manually assign variables', () => {
             beforeEach(async () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
+                const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElementFromAcc(coreActionElement);
                 advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
                 await ticks(50);
             });
-            it('should have "useAdvancedOptionsCheckbox" checked', () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckboxFromAcc(coreActionElement);
-                expect(advancedOptionCheckbox).toBeDefined();
-                expect(advancedOptionCheckbox.type).toBe('checkbox');
-                expect(advancedOptionCheckbox.checked).toBe(true);
+            it('should have "Manually Assign Variables" checked', () => {
+                const inputElement = getManuallyAssignVariablesCheckboxInputElementFromAcc(coreActionElement);
+                expect(inputElement).toBeDefined();
+                expect(inputElement.type).toBe('checkbox');
+                expect(inputElement.checked).toBe(true);
             });
             it('should have the output parameter displayed', () => {
                 const outputParameters = getOutputParameterItemsFromAcc(coreActionElement);

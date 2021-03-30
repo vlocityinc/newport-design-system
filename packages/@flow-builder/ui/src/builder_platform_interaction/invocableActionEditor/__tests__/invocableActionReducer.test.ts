@@ -6,7 +6,7 @@ import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInv
 import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/elementFactory';
@@ -381,10 +381,10 @@ describe('invocable-action-reducer', () => {
     describe('Automatic output handling', () => {
         let newState, event;
         beforeEach(() => {
-            event = new UseAdvancedOptionsSelectionChangedEvent(false);
+            event = new ManuallyAssignVariablesChangedEvent(false);
             newState = invocableActionReducer(outputWithErrorState, event);
         });
-        it('Remove errors on UseAdvancedOptionsSelectionChangedEvent', () => {
+        it('Remove errors on ManuallyAssignVariablesChangedEvent', () => {
             expect(newState).not.toBe(outputWithErrorState);
             expect(newState.storeOutputAutomatically).toBe(true);
             expect(newState.outputParameters[0].value).not.toBeDefined();

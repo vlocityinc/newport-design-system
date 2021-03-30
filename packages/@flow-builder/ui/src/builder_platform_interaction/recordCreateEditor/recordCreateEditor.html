@@ -78,13 +78,12 @@
                 ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
             >
             </builder_platform_interaction-record-input-output-assignments>
-            <!-- Advance Option selection checkbox -->
-            <builder_platform_interaction-use-advanced-options-checkbox
+            <builder_platform_interaction-manually-assign-variables-checkbox
                 if:true={isAutomaticOutputHandlingSupported}
                 is-advanced-mode={isAdvancedMode}
-                onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+                onmanuallyassignvariableschanged={handleManuallyAssignVariablesChanged}
             >
-            </builder_platform_interaction-use-advanced-options-checkbox>
+            </builder_platform_interaction-manually-assign-variables-checkbox>
             <div if:true={isAdvancedModeOrAutomaticOutputNotSupported} class={storeNewIdCss}>
                 <h3 class="slds-text-heading_small slds-p-around_small">{storeNewIdTitle}</h3>
                 <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">

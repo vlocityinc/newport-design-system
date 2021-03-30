@@ -343,10 +343,10 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     /**
-     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * Handles selection/deselection of 'Manually Assign Variables' checkbox
      * @param {Object} event - event
      */
-    handleAdvancedOptionsSelectionChange(event) {
+    handleManuallyAssignVariablesChanged(event) {
         this.state = screenExtensionPropertiesEventReducer(this.state, this, event);
     }
 

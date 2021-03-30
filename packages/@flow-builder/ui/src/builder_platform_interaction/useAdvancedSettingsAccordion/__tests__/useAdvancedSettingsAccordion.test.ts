@@ -4,8 +4,8 @@ import UseAdvancedSettingsAccordion from '../useAdvancedSettingsAccordion';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 
@@ -125,7 +125,7 @@ describe('use-advanced-settings-accordion', () => {
             advancedSettings = createComponentForTest(advancedSettingsAttr(defaultParameterListConfig, false));
         });
         it('Should not display the Use Advanced Option checkbox', () => {
-            const advancedOption = getUseAdvancedOptionComponent(advancedSettings);
+            const advancedOption = getManuallyAssignVariablesCheckbox(advancedSettings);
             expect(advancedOption).toBeNull();
         });
         it('should not contains output div header', () => {
@@ -145,7 +145,7 @@ describe('use-advanced-settings-accordion', () => {
             );
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(advancedSettings);
+            const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElement(advancedSettings);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(false);
@@ -171,7 +171,7 @@ describe('use-advanced-settings-accordion', () => {
             );
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(advancedSettings);
+            const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElement(advancedSettings);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(true);

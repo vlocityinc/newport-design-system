@@ -12,7 +12,7 @@ import {
     UpdateRecordFieldAssignmentEvent,
     RecordStoreOptionChangedEvent,
     PropertyChangedEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    ManuallyAssignVariablesChangedEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import * as store from 'mock/storeData';
@@ -529,7 +529,7 @@ describe('record-lookup-reducer', () => {
                 beforeAll(() => {
                     originalState = getElementForPropertyEditor(lookupRecordAutomaticOutputWithFields);
                     const changeFromAutomaticToAdvancedModeEvent = {
-                        type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                        type: ManuallyAssignVariablesChangedEvent.EVENT_NAME,
                         detail: {
                             useAdvancedOptions: true
                         }
@@ -568,7 +568,7 @@ describe('record-lookup-reducer', () => {
                 beforeAll(() => {
                     originalState = getElementForPropertyEditor(getAccountsAutomaticWithFieldsAndFilters);
                     const changeFromAutomaticToAdvancedModeEvent = {
-                        type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                        type: ManuallyAssignVariablesChangedEvent.EVENT_NAME,
                         detail: {
                             useAdvancedOptions: true
                         }

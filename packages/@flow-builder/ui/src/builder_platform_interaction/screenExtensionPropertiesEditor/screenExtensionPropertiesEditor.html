@@ -97,12 +97,12 @@
 
                         <lightning-accordion-section name="advanced" label={labels.extensionAdvanced}>
                             <div if:true={isAdvancedCheckboxDisplayed} class="slds-m-top_small">
-                                <builder_platform_interaction-use-advanced-options-checkbox
+                                <builder_platform_interaction-manually-assign-variables-checkbox
                                     is-advanced-mode={isAdvancedMode}
-                                    onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+                                    onmanuallyassignvariableschanged={handleManuallyAssignVariablesChanged}
                                     input-parent-div-css=""
                                 >
-                                </builder_platform_interaction-use-advanced-options-checkbox>
+                                </builder_platform_interaction-manually-assign-variables-checkbox>
                             </div>
 
                             <div

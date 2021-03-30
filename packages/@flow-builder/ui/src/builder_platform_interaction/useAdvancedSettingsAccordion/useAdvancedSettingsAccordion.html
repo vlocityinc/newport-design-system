@@ -3,12 +3,11 @@
         <lightning-accordion allow-multiple-sections-open>
             <lightning-accordion-section name="advancedAccordion" label={labels.advancedAccordionLabel}>
                 <div if:true={showOutputSection}>
-                    <!-- Advance Option selection checkbox -->
-                    <builder_platform_interaction-use-advanced-options-checkbox
+                    <builder_platform_interaction-manually-assign-variables-checkbox
                         if:true={automaticOutputHandlingSupported}
                         is-advanced-mode={isAdvancedMode}
                     >
-                    </builder_platform_interaction-use-advanced-options-checkbox>
+                    </builder_platform_interaction-manually-assign-variables-checkbox>
                     <div if:true={isAdvancedMode} class={cssDivAdvancedMode}>
                         <h3 class="slds-text-heading_small slds-p-around_small outputHeader">{outputHeader}</h3>
                         <div class="slds-p-horizontal_small outputs">

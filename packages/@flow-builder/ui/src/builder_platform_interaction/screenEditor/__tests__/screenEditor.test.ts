@@ -32,7 +32,7 @@ import {
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -526,7 +526,7 @@ describe('Extension events', () => {
             });
         });
         it('calls the reducer on advanced options checkbox event', () => {
-            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
+            const expectedEvent = new ManuallyAssignVariablesChangedEvent(true);
 
             return Promise.resolve().then(async () => {
                 const editor = getScreenPropertyEditorContainer(screenEditorElement);
@@ -558,7 +558,7 @@ describe('Extension events', () => {
         };
         // const checkNodeReset = () =>
         it('reset the selected node on advanced options checkbox event', () => {
-            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
+            const expectedEvent = new ManuallyAssignVariablesChangedEvent(true);
 
             return Promise.resolve().then(async () => {
                 const editor = getScreenPropertyEditorContainer(screenEditorElement);

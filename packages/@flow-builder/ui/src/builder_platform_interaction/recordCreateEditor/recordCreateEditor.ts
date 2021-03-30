@@ -329,10 +329,10 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     /**
-     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * Handles selection/deselection of 'Manually Assign Variables' checkbox
      * @param {Object} event - event
      */
-    handleAdvancedOptionsSelectionChange(event) {
+    handleManuallyAssignVariablesChanged(event) {
         event.stopPropagation();
         this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, event);
     }

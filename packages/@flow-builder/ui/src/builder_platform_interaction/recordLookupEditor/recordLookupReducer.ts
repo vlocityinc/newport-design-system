@@ -18,7 +18,7 @@ import {
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
     NumberRecordToStoreChangedEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     RecordStoreOptionChangedEvent,
     VariableAndFieldMappingChangedEvent
 } from 'builder_platform_interaction/events';
@@ -417,7 +417,7 @@ export const recordLookupReducer = (state, event) => {
             return updateRecordFieldAssignment(state, event);
         case NumberRecordToStoreChangedEvent.EVENT_NAME:
             return numberRecordToStoreChanged(state, event.detail);
-        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+        case ManuallyAssignVariablesChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, event.detail);
         case RecordStoreOptionChangedEvent.EVENT_NAME:
             return recordStoreOptionAndWayToStoreChanged(state, event.detail);

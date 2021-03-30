@@ -13,8 +13,8 @@ import {
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import {
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
@@ -595,27 +595,29 @@ describe('record-create-editor', () => {
                     expect(outputResourcePickerForId).toBeNull();
                 });
                 it('Advanced Option Component should be visible', () => {
-                    expect(getUseAdvancedOptionComponent(recordCreateEditor)).not.toBeNull();
+                    expect(getManuallyAssignVariablesCheckbox(recordCreateEditor)).not.toBeNull();
                 });
-                it('"useAdvancedOptionsCheckbox" should be unchecked', async () => {
+                it('"manuallyAssignVariablesCheckbox" should be unchecked', async () => {
                     await ticks(1);
-                    const advancedOptionCheckbox = getAdvancedOptionCheckbox(recordCreateEditor);
-                    expect(advancedOptionCheckbox).toBeDefined();
-                    expect(advancedOptionCheckbox.type).toBe('checkbox');
-                    expect(advancedOptionCheckbox.checked).toBe(false);
+                    const checkbox = getManuallyAssignVariablesCheckboxInputElement(recordCreateEditor);
+                    expect(checkbox).toBeDefined();
+                    expect(checkbox.type).toBe('checkbox');
+                    expect(checkbox.checked).toBe(false);
                 });
                 it('storeOutputAutomatically should be true', () => {
                     expect(recordCreateEditor.node.storeOutputAutomatically).toBe(true);
                 });
                 describe('Handle Events with advanced option', () => {
-                    let advancedOptionCheckbox;
+                    let manuallyAssignVariablesCheckbox;
                     beforeEach(() => {
-                        advancedOptionCheckbox = getAdvancedOptionCheckbox(recordCreateEditor);
-                        advancedOptionCheckbox.dispatchEvent(toggleOnChangeEvent);
+                        manuallyAssignVariablesCheckbox = getManuallyAssignVariablesCheckboxInputElement(
+                            recordCreateEditor
+                        );
+                        manuallyAssignVariablesCheckbox.dispatchEvent(toggleOnChangeEvent);
                     });
-                    it('Use adavanced checkbox should be checked', async () => {
+                    it('Manually assign variables checkbox should be checked', async () => {
                         await ticks(1);
-                        expect(advancedOptionCheckbox.checked).toBe(true);
+                        expect(manuallyAssignVariablesCheckbox.checked).toBe(true);
                     });
                     it('"outputResourcePicker" component for id should be displayed', () => {
                         const outputResourcePickerForId = getOutputResourcePickerForId(recordCreateEditor);

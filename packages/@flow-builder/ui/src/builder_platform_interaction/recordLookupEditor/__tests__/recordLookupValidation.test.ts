@@ -6,7 +6,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { recordLookupReducer } from '../recordLookupReducer';
 import { LABELS } from 'builder_platform_interaction/validationRules';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -441,7 +441,7 @@ describe('Record Lookup Validation (automatic mode single record)', () => {
     });
     it('Switching from automatic to advanced (manual) mode should cause validation errors ("outputReference" required field error message)', () => {
         const event = {
-            type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+            type: ManuallyAssignVariablesChangedEvent.EVENT_NAME,
             detail: {
                 useAdvancedOptions: true
             }

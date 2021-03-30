@@ -1,7 +1,8 @@
-// @ts-nocheck
-const eventName = 'useadvancedoptionsselectionchanged';
+const eventName = 'manuallyassignvariableschanged';
 
-export class UseAdvancedOptionsSelectionChangedEvent extends Event {
+export class ManuallyAssignVariablesChangedEvent extends Event {
+    readonly detail;
+
     constructor(useAdvancedOptions) {
         super(eventName, {
             cancelable: false,

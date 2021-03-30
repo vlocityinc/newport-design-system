@@ -4,14 +4,14 @@ import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screen
 import {
     query,
     createTestScreenField,
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     ticks,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
 import {
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     ItemSelectedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorTypeMappingChangeEvent,
@@ -459,31 +459,31 @@ describe('Screen Extension Properties Editor', () => {
     });
 
     describe('Automated output', () => {
-        it('shows up Use Advanced Options when Automated Output enabled', () => {
+        it('shows up Manuallay Assign Variables checkbox component when Automated Output supported', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
-            const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(extensionEditor);
-            expect(useAdvancedOptionsCheckbox).toBeDefined();
-            expect(useAdvancedOptionsCheckbox.checked).toBe(false);
+            const checkbox = getManuallyAssignVariablesCheckboxInputElement(extensionEditor);
+            expect(checkbox).toBeDefined();
+            expect(checkbox.checked).toBe(false);
         });
-        it('has empty styling on Use Advanced Option component', () => {
+        it('has empty styling on Manually Assign Variables checkbox component', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
-            const useAdvancedOptionComponent = getUseAdvancedOptionComponent(extensionEditor);
-            const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
+            const manuallyAssignVariablesCheckboxComponent = getManuallyAssignVariablesCheckbox(extensionEditor);
+            const inputParentDivCss = manuallyAssignVariablesCheckboxComponent.shadowRoot.querySelector('div');
             expect(inputParentDivCss.className).toBe('');
         });
-        it('does not show up Use Advanced Options when Automated Output disabled', () => {
+        it('does not show up Manually Assign Variables checkbox when Automated Output is not supported', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn().mockImplementationOnce(() => 'Unsupported');
             const extensionEditor = createComponentForTestWithProperties();
-            expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
+            expect(getManuallyAssignVariablesCheckbox(extensionEditor)).toBeNull();
         });
-        it('handles use advanced option checkbox event', async () => {
+        it('handles ManuallyAssignVariablesChangedEvent', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
-            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
+            const expectedEvent = new ManuallyAssignVariablesChangedEvent(true);
             await Promise.resolve();
-            getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(expectedEvent);
+            getManuallyAssignVariablesCheckbox(extensionEditor).dispatchEvent(expectedEvent);
             await Promise.resolve();
             expect(screenExtensionPropertiesEventReducer).toHaveBeenCalled();
             expect(screenExtensionPropertiesEventReducer.mock.calls[0][0]).toMatchObject({
@@ -503,7 +503,7 @@ describe('Screen Extension Properties Editor', () => {
         it('does not show the checkbox up when screen field has no output', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
-            expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
+            expect(getManuallyAssignVariablesCheckbox(extensionEditor)).toBeNull();
         });
         it('does not show the store output variable section when screen field has no output', () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');

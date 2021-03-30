@@ -17,8 +17,8 @@ import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     deepQuerySelector,
     focusoutEvent,
     clickEvent,
@@ -394,9 +394,9 @@ describe('Record Create Editor', () => {
                     const outputResource = getOutputResourcePicker(recordCreateElement);
                     expect(outputResource.value.value).toBe(recordCreateElement.node.assignRecordIdToReference.value);
                 });
-                it('use advanced checkbox component should not be visible', () => {
-                    const useAdvancedOptionCheckBox = getUseAdvancedOptionComponent(recordCreateElement);
-                    expect(useAdvancedOptionCheckBox).toBeNull();
+                it('manually assign variables checkbox component should not be visible', () => {
+                    const checkbox = getManuallyAssignVariablesCheckbox(recordCreateElement);
+                    expect(checkbox).toBeNull();
                 });
                 it('removing the entity should hide input assignment but store option element should remained', async () => {
                     const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
@@ -577,15 +577,15 @@ describe('Record Create Editor', () => {
                 const outputResource = getOutputResourcePicker(recordCreateElement);
                 expect(outputResource).toBeNull();
             });
-            it('"useAdvancedOptionsCheckbox" should be visible', () => {
-                const useAdvancedOptionCheckBox = getUseAdvancedOptionComponent(recordCreateElement);
-                expect(useAdvancedOptionCheckBox).not.toBeNull();
+            it('"manuallyAssignVariablesCheckbox" should be visible', () => {
+                const checkbox = getManuallyAssignVariablesCheckbox(recordCreateElement);
+                expect(checkbox).not.toBeNull();
             });
-            it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
-                const advancedOptionCheckbox = getAdvancedOptionCheckbox(recordCreateElement);
-                expect(advancedOptionCheckbox).toBeDefined();
-                expect(advancedOptionCheckbox.type).toBe('checkbox');
-                expect(advancedOptionCheckbox.checked).toBe(false);
+            it('"manuallyAssignVariablesCheckbox" should be unchecked', () => {
+                const checkbox = getManuallyAssignVariablesCheckboxInputElement(recordCreateElement);
+                expect(checkbox).toBeDefined();
+                expect(checkbox.type).toBe('checkbox');
+                expect(checkbox.checked).toBe(false);
             });
         });
         describe('sObject Or SObject Collection Picker', () => {

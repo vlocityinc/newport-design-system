@@ -25,7 +25,7 @@ import {
     UpdateConditionLogicEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     DynamicTypeMappingChangeEvent,
     InputsOnNextNavToAssocScrnChangeEvent
 } from 'builder_platform_interaction/events';
@@ -1022,7 +1022,7 @@ export const screenReducer = (state, event, selectedNode?) => {
         case UpdateConditionEvent.EVENT_NAME:
             return updateCondition(state, selectedNode, event);
 
-        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+        case ManuallyAssignVariablesChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, selectedNode, event.detail);
 
         case DynamicTypeMappingChangeEvent.EVENT_NAME:

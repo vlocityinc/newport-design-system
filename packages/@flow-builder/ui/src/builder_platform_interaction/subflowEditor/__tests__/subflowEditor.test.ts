@@ -9,7 +9,7 @@ import {
     SetPropertyEditorTitleEvent,
     UpdateNodeEvent,
     PropertyChangedEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     UpdateParameterItemEvent,
     DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
@@ -246,7 +246,7 @@ describe('subflow-editor', () => {
         subflowEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
 
         await ticks(1);
-        const event = new UseAdvancedOptionsSelectionChangedEvent(true);
+        const event = new ManuallyAssignVariablesChangedEvent(true);
         getBaseCalloutEditor(subflowEditor).dispatchEvent(event);
         expect(updateNodeCallback).toHaveBeenCalledWith(
             expect.objectContaining({

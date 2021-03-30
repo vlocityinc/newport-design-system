@@ -3,8 +3,8 @@ import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from './integrationTestUtils';
 import {
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     deepQuerySelector
@@ -190,23 +190,23 @@ export const getElementGuid = (elementDevName) => {
     return element === undefined ? undefined : element.guid;
 };
 
-export const getAutomaticOutputAdvancedOptionCheckbox = (actionEditor) => {
+export const getManuallyAssignVariablesCheckboxInputElementFromActionEditor = (actionEditor) => {
     const parameterList = getParameterList(actionEditor);
-    return getAdvancedOptionCheckbox(parameterList);
+    return getManuallyAssignVariablesCheckboxInputElement(parameterList);
 };
 
-export const getAutomaticOutputAdvancedOptionComponent = (actionEditor) => {
+export const getManuallyAssignVariablesCheckboxFromActionEditor = (actionEditor) => {
     const parameterList = getParameterList(actionEditor);
-    return getUseAdvancedOptionComponent(parameterList);
+    return getManuallyAssignVariablesCheckbox(parameterList);
 };
 /**
  * Helper method to get the automatic advanced option checkbox from the accordion. This is
  * for handling automation outputs via invocable action editor
  * @param actionEditor
  */
-export const getAutomaticOutputAdvancedOptionCheckboxFromAcc = (actionEditor) => {
+export const getManuallyAssignVariablesCheckboxInputElementFromAcc = (actionEditor) => {
     const advancedAccordion = getAdvancedAccordion(actionEditor);
-    return getAdvancedOptionCheckbox(advancedAccordion);
+    return getManuallyAssignVariablesCheckboxInputElement(advancedAccordion);
 };
 
 /**
@@ -214,7 +214,7 @@ export const getAutomaticOutputAdvancedOptionCheckboxFromAcc = (actionEditor) =>
  * for handling automation outputs via invocable action editor
  * @param actionEditor
  */
-export const getAutomaticOutputAdvancedOptionComponentFromAcc = (actionEditor) => {
+export const getManuallyAssignVariablesCheckboxFromAcc = (actionEditor) => {
     const advancedAccordion = getAdvancedAccordion(actionEditor);
-    return getUseAdvancedOptionComponent(advancedAccordion);
+    return getManuallyAssignVariablesCheckbox(advancedAccordion);
 };

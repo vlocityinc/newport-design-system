@@ -3,19 +3,19 @@ import {
     screenExtensionPropertiesEventReducer,
     screenExtensionPropertiesPropsToStateReducer
 } from '../screenExtensionPropertiesReducer';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import {
     createScreenFieldWithDynamicTypes,
     createFlowExtensionWithDynamicTypes
 } from './screenExtensionDynamicTypesMocks';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 
-const selectAdvancedModeEvent = new UseAdvancedOptionsSelectionChangedEvent(false);
-const selectManualModeEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
+const selectAdvancedModeEvent = new ManuallyAssignVariablesChangedEvent(false);
+const selectManualModeEvent = new ManuallyAssignVariablesChangedEvent(true);
 
 describe('Screen extension properties reducer', () => {
     describe('event reducer', () => {
-        describe('useAdvancedOptionsSelectionChanged', () => {
+        describe('manuallyAssignVariablesChanged', () => {
             describe('storeOutputAutomatically update', () => {
                 const initialState = {
                     outputParameters: []

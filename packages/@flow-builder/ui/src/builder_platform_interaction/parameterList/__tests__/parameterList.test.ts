@@ -5,15 +5,15 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     ConfigurationEditorTypeMappingChangeEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
-import UseAdvancedOptionsCheckbox from 'builder_platform_interaction/useAdvancedOptionsCheckbox';
+import ManuallyAssignVariablesCheckbox from 'builder_platform_interaction/manuallyAssignVariablesCheckbox';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -338,16 +338,16 @@ describe('parameter-list', () => {
             const outputsDiv = getOutputsDiv(parameterList);
             expect(outputsDiv).toBeNull();
         });
-        it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(parameterList);
-            expect(advancedOptionCheckbox).toBeDefined();
-            expect(advancedOptionCheckbox.type).toBe('checkbox');
-            expect(advancedOptionCheckbox.checked).toBe(false);
+        it('Display the Manually Assign Variables checkbox', () => {
+            const inputElement = getManuallyAssignVariablesCheckboxInputElement(parameterList);
+            expect(inputElement).toBeDefined();
+            expect(inputElement.type).toBe('checkbox');
+            expect(inputElement.checked).toBe(false);
         });
-        it('Has default styling on Use Advanced Option component', () => {
-            const useAdvancedOptionComponent = getUseAdvancedOptionComponent(parameterList);
-            const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
-            expect(inputParentDivCss.className).toBe(UseAdvancedOptionsCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS);
+        it('Has default styling on Manually Assign Variables checkbox component', () => {
+            const component = getManuallyAssignVariablesCheckbox(parameterList);
+            const inputParentDivCss = component.shadowRoot.querySelector('div');
+            expect(inputParentDivCss.className).toBe(ManuallyAssignVariablesCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS);
         });
         it('should not contains output div header', () => {
             const outputHeader = getOutputHeader(parameterList);
@@ -364,7 +364,7 @@ describe('parameter-list', () => {
             expect(parameterItems).toHaveLength(defaultInputParameters.length);
         });
         it('Should not display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getUseAdvancedOptionComponent(parameterList);
+            const advancedOptionCheckbox = getManuallyAssignVariablesCheckbox(parameterList);
             expect(advancedOptionCheckbox).toBeNull();
         });
         it('should not contains output div header', () => {
@@ -378,7 +378,7 @@ describe('parameter-list', () => {
             parameterList = createComponentForTest(parameterListWithOutputs(false, true));
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(parameterList);
+            const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElement(parameterList);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(true);
@@ -436,7 +436,7 @@ describe('parameter-list', () => {
             expect(parameterItems).toHaveLength(defaultOutputParameters.length);
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(parameterList);
+            const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElement(parameterList);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(true);
@@ -496,9 +496,9 @@ describe('parameter-list', () => {
                 rowIndex: undefined
             });
         });
-        it('Has overriden styling on Use Advanced Option component', () => {
-            const useAdvancedOptionComponent = getUseAdvancedOptionComponent(parameterList);
-            const inputParentDivCss = useAdvancedOptionComponent.shadowRoot.querySelector('div');
+        it('Has overriden styling on Manually Assign Variables component', () => {
+            const component = getManuallyAssignVariablesCheckbox(parameterList);
+            const inputParentDivCss = component.shadowRoot.querySelector('div');
             expect(inputParentDivCss.className).toBe('slds-form_stacked slds-m-top_medium');
         });
     });
@@ -507,9 +507,9 @@ describe('parameter-list', () => {
         beforeEach(() => {
             parameterList = createComponentForTest(defaultParameterList(false, true, false));
         });
-        it('Should not display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getUseAdvancedOptionComponent(parameterList);
-            expect(advancedOptionCheckbox).toBeNull();
+        it('Should not display the Manually Assign Variables checkbox', () => {
+            const component = getManuallyAssignVariablesCheckbox(parameterList);
+            expect(component).toBeNull();
         });
         it('should not contains output div header', () => {
             const outputHeader = getOutputHeader(parameterList);

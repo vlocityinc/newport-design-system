@@ -13,7 +13,7 @@ import {
     PropertyChangedEvent,
     UpdateParameterItemEvent,
     DeleteParameterItemEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
     DynamicTypeMappingChangeEvent
@@ -21,8 +21,8 @@ import {
 import {
     untilNoFailure,
     ticks,
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent,
+    getManuallyAssignVariablesCheckboxInputElement,
+    getManuallyAssignVariablesCheckbox,
     setDocumentBodyChildren
 } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, FLOW_TRANSACTION_MODEL } from 'builder_platform_interaction/flowMetadata';
@@ -310,7 +310,6 @@ describe('Invocable Action editor', () => {
         });
     });
     it('property changed event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -327,7 +326,6 @@ describe('Invocable Action editor', () => {
         );
     });
     it('property changed event updates the value of flow transactionModel', async () => {
-        expect.assertions(2);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -349,7 +347,6 @@ describe('Invocable Action editor', () => {
         expect(actionEditorCmp.getNode().flowTransactionModel.value).toBe(FLOW_TRANSACTION_MODEL.CURRENT_TRANSACTION);
     });
     it('update parameter event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -374,7 +371,6 @@ describe('Invocable Action editor', () => {
         );
     });
     it('delete parameter event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -392,7 +388,6 @@ describe('Invocable Action editor', () => {
         );
     });
     it('configuration editor input value changed event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -410,7 +405,6 @@ describe('Invocable Action editor', () => {
         );
     });
     it('configuration editor input value deleted event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -427,8 +421,7 @@ describe('Invocable Action editor', () => {
             })
         );
     });
-    it('use advanced options selection change event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
+    test('ManuallyAssignVariablesChangedEvent event dispatches an UpdateNodeEvent', async () => {
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -436,7 +429,7 @@ describe('Invocable Action editor', () => {
         actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
 
         await ticks(1);
-        const event = new UseAdvancedOptionsSelectionChangedEvent(true);
+        const event = new ManuallyAssignVariablesChangedEvent(true);
         getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
         expect(updateNodeCallback).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -445,7 +438,6 @@ describe('Invocable Action editor', () => {
         );
     });
     it('dynamic data type mapping change event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
         const actionEditorCmp = createComponentUnderTest(defaultNode, {
             isNewMode: false
         });
@@ -556,12 +548,14 @@ describe('Invocable Action editor', () => {
             );
             expect(transactionControlPicker).not.toBeNull();
         });
-        it('Should display the Advanced Checkbox', () => {
+        it('Should display the Manually Assign Variables Checkbox', () => {
             const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(advancedSettingsAccordion);
-            expect(advancedOptionCheckbox).toBeDefined();
-            expect(advancedOptionCheckbox.type).toBe('checkbox');
-            expect(advancedOptionCheckbox.checked).toBe(false);
+            const manuallyAssignCheckboxInputElement = getManuallyAssignVariablesCheckboxInputElement(
+                advancedSettingsAccordion
+            );
+            expect(manuallyAssignCheckboxInputElement).toBeDefined();
+            expect(manuallyAssignCheckboxInputElement.type).toBe('checkbox');
+            expect(manuallyAssignCheckboxInputElement.checked).toBe(false);
         });
         it('Does not display the output div', () => {
             const outputsDiv = getOutputsDiv(parameterList);
@@ -598,12 +592,12 @@ describe('Invocable Action editor', () => {
             const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
             expect(advancedSettingsAccordion).not.toBeNull();
         });
-        it('Should display the Advanced Checkbox', () => {
+        it('Should display the Manually Assign Variables Checkbox', () => {
             const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(advancedSettingsAccordion);
-            expect(advancedOptionCheckbox).toBeDefined();
-            expect(advancedOptionCheckbox.type).toBe('checkbox');
-            expect(advancedOptionCheckbox.checked).toBe(false);
+            const checkboxInputElement = getManuallyAssignVariablesCheckboxInputElement(advancedSettingsAccordion);
+            expect(checkboxInputElement).toBeDefined();
+            expect(checkboxInputElement.type).toBe('checkbox');
+            expect(checkboxInputElement.checked).toBe(false);
         });
         it('Does not display the output div', () => {
             const outputsDiv = getOutputsDiv(parameterList);
@@ -637,10 +631,10 @@ describe('Invocable Action editor', () => {
             );
             expect(transactionControlPicker).not.toBeNull();
         });
-        it('Should not display the Advanced Checkbox Component', () => {
+        it('Should not display the Manually Assign Variables Checkbox Component', () => {
             const advancedSettingsAccordion = getAdvancedSettingsAccordion(invocableActionEditor);
-            const advancedOptionComponent = getUseAdvancedOptionComponent(advancedSettingsAccordion);
-            expect(advancedOptionComponent).toBeNull();
+            const checkbox = getManuallyAssignVariablesCheckbox(advancedSettingsAccordion);
+            expect(checkbox).toBeNull();
         });
         it('should contains output div header', () => {
             const outputHeader = getOutputHeader(parameterList);

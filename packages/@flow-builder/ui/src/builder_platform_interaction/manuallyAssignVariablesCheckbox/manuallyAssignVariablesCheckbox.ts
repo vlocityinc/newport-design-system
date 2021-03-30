@@ -1,11 +1,11 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { LABELS } from './useAdvancedOptionsCheckboxLabels';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './manuallyAssignVariablesCheckboxLabels';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
-function advancedOptionsSelectionChangeCallBack(event) {
-    this.dispatchEvent(new UseAdvancedOptionsSelectionChangedEvent(event.detail.checked));
+function confirmationModalButtonCallback(event) {
+    this.dispatchEvent(new ManuallyAssignVariablesChangedEvent(event.detail.checked));
 }
 
 function confirmationModalParameter(event) {
@@ -23,13 +23,13 @@ function confirmationModalParameter(event) {
             buttonTwo: {
                 buttonVariant: LABELS.confirm,
                 buttonLabel: LABELS.confirm,
-                buttonCallback: advancedOptionsSelectionChangeCallBack.bind(this, event)
+                buttonCallback: confirmationModalButtonCallback.bind(this, event)
             }
         }
     };
 }
 
-export default class UseAdvancedOptionsCheckbox extends LightningElement {
+export default class ManuallyAssignVariablesCheckbox extends LightningElement {
     static DEFAULT_INPUT_PARENT_DIV_CSS = 'slds-form_stacked slds-p-left_small';
 
     labels = LABELS;
@@ -38,22 +38,22 @@ export default class UseAdvancedOptionsCheckbox extends LightningElement {
     isAdvancedMode;
 
     @api
-    inputParentDivCss = UseAdvancedOptionsCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS;
+    inputParentDivCss = ManuallyAssignVariablesCheckbox.DEFAULT_INPUT_PARENT_DIV_CSS;
 
     /**
-     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * Handles selection/deselection of 'Manually Assign Variables' checkbox
      * @param {Object} event - event
      */
-    handleUseAdvancedOptionsSelectionChange(event) {
+    handleChangeEvent(event) {
         event.stopPropagation();
         const checkbox = event.target;
         checkbox.checked = !checkbox.checked;
 
         if (!event.detail.checked) {
-            // Invoking the deselect Use Advanced Options confirmation modal
+            // Invoking the deselect confirmation modal
             invokeModal(confirmationModalParameter.call(this, event));
         } else {
-            advancedOptionsSelectionChangeCallBack.call(this, event);
+            confirmationModalButtonCallback.call(this, event);
         }
     }
 }

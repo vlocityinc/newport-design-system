@@ -11,7 +11,7 @@ import {
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
     RecordStoreOptionChangedEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    ManuallyAssignVariablesChangedEvent
 } from 'builder_platform_interaction/events';
 
 const PROP_NAMES = {
@@ -170,7 +170,7 @@ export const recordCreateReducer = (state, event, isAutomaticOutputHandlingSuppo
             return updateRecordRecordFieldAssignment(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail, isAutomaticOutputHandlingSupported);
-        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+        case ManuallyAssignVariablesChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, event.detail);
         case RecordStoreOptionChangedEvent.EVENT_NAME:
             return recordStoreOptionAndWayToStoreChanged(state, event.detail);

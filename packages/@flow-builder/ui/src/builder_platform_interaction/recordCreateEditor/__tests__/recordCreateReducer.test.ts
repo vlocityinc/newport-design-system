@@ -8,7 +8,7 @@ import {
     PropertyChangedEvent,
     RecordStoreOptionChangedEvent,
     UpdateRecordFieldAssignmentEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    ManuallyAssignVariablesChangedEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
@@ -502,7 +502,7 @@ describe('record-create-reducer', () => {
                     beforeAll(() => {
                         originalState = recordCreateUsingFieldsManualWithIdState;
                         const changeFromAutomaticToAdvancedModeEvent = {
-                            type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                            type: ManuallyAssignVariablesChangedEvent.EVENT_NAME,
                             detail: {
                                 useAdvancedOptions: false
                             }
@@ -693,7 +693,7 @@ describe('record-create-reducer', () => {
                 describe('uncheck use Advanced Options', () => {
                     beforeAll(() => {
                         const changeFromAutomaticToAdvancedModeEvent = {
-                            type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                            type: ManuallyAssignVariablesChangedEvent.EVENT_NAME,
                             detail: {
                                 useAdvancedOptions: false
                             }
@@ -911,9 +911,7 @@ describe('record-create-reducer', () => {
                 describe('check use Advanced Options', () => {
                     let newState;
                     beforeAll(() => {
-                        const changeFromAutomaticToAdvancedModeEvent = new UseAdvancedOptionsSelectionChangedEvent(
-                            true
-                        );
+                        const changeFromAutomaticToAdvancedModeEvent = new ManuallyAssignVariablesChangedEvent(true);
                         newState = recordCreateReducer(originalState, changeFromAutomaticToAdvancedModeEvent, true);
                     });
                     it('new state different than original one', () => {

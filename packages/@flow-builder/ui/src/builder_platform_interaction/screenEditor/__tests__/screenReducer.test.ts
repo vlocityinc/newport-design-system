@@ -10,7 +10,7 @@ import {
     createScreenElementMovedEvent,
     createScreenElementDeletedEvent,
     createAddScreenFieldEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
+    ManuallyAssignVariablesChangedEvent,
     DynamicTypeMappingChangeEvent,
     createColumnWidthChangedEvent,
     createAddAutomaticScreenFieldEvent
@@ -471,9 +471,9 @@ describe('screen reducer', () => {
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
     });
-    describe('on UseAdvancedOptionsSelectionChanged', () => {
+    describe('on ManuallyAssignVariablesChangedEvent', () => {
         it('updates screen field with expected option', () => {
-            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
+            const expectedEvent = new ManuallyAssignVariablesChangedEvent(true);
             const field = createTestScreenField('fieldName', 'Extension', 'fieldValue', {}, true);
             const screen = createTestScreenWithFields('screenName', [field], {});
 

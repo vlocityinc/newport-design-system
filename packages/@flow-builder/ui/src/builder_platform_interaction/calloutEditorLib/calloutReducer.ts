@@ -231,7 +231,7 @@ const removeOutputErrors = (state) => {
     return state;
 };
 
-export const updateUseAdvancedOptionSelection = (state, { useAdvancedOptions }) => {
+export const updateManuallyAssignVariables = (state, { useAdvancedOptions }) => {
     state = removeOutputErrors(state);
     return updateProperties(state, {
         storeOutputAutomatically: !useAdvancedOptions

@@ -27,8 +27,8 @@ import {
     findParameterElement,
     filterParameterElements,
     getElementGuid,
-    getAutomaticOutputAdvancedOptionCheckbox,
-    getAutomaticOutputAdvancedOptionComponent
+    getManuallyAssignVariablesCheckboxInputElementFromActionEditor,
+    getManuallyAssignVariablesCheckboxFromActionEditor
 } from '../baseCalloutEditorTestUtils';
 import {
     ticks,
@@ -59,30 +59,32 @@ describe('Subflow Editor', () => {
         resetState();
     });
     describe('Subflow Editor with automatic output', () => {
-        describe('use Advanced Options Component', () => {
+        describe('use Manually Assign Variables checkbox Component', () => {
             beforeAll(() => {
                 const element = getElementByDevName('subflowAutomaticOutput');
                 subflowNode = getElementForPropertyEditor(element);
                 subflowElement = createComponentForTest(subflowNode, EditElementEvent.EVENT_NAME);
             });
-            test('"useAdvancedOptionsCheckbox" should be unchecked', () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
+            test('"Manually Assign Variables" should be unchecked', () => {
+                const advancedOptionCheckbox = getManuallyAssignVariablesCheckboxInputElementFromActionEditor(
+                    subflowElement
+                );
 
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');
                 expect(advancedOptionCheckbox.checked).toBe(false);
             });
-            describe('modify from automatic to advanced', () => {
+            describe('modify from automatic to manual', () => {
                 beforeAll(async () => {
-                    const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
-                    advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
+                    const inputElement = getManuallyAssignVariablesCheckboxInputElementFromActionEditor(subflowElement);
+                    inputElement.dispatchEvent(checkboxChangeEvent(true));
                     await ticks(1);
                 });
-                test('"useAdvancedOptionsCheckbox" should checked', () => {
-                    const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
-                    expect(advancedOptionCheckbox).toBeDefined();
-                    expect(advancedOptionCheckbox.type).toBe('checkbox');
-                    expect(advancedOptionCheckbox.checked).toBe(true);
+                test('"Manually Assign Variables" should checked', () => {
+                    const inputElement = getManuallyAssignVariablesCheckboxInputElementFromActionEditor(subflowElement);
+                    expect(inputElement).toBeDefined();
+                    expect(inputElement.type).toBe('checkbox');
+                    expect(inputElement.checked).toBe(true);
                 });
             });
         });
@@ -705,16 +707,16 @@ describe('Subflow Editor', () => {
                     });
                 });
             });
-            describe('use Advanced Options Component', () => {
-                test('"useAdvancedOptionsComponent" should be display', () => {
-                    const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponent(subflowElement);
-                    expect(advancedOptionComponent).not.toBeNull();
+            describe('Manually Assign Variables Checkbox Component', () => {
+                test('"manuallyAssignVariablesCheckbox" component should be displayed', () => {
+                    const component = getManuallyAssignVariablesCheckboxFromActionEditor(subflowElement);
+                    expect(component).not.toBeNull();
                 });
-                test('"useAdvancedOptionsCheckbox" should be checked', () => {
-                    const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
-                    expect(advancedOptionCheckbox).toBeDefined();
-                    expect(advancedOptionCheckbox.type).toBe('checkbox');
-                    expect(advancedOptionCheckbox.checked).toBe(true);
+                test('"Manually Assign Variables" should be checked', () => {
+                    const inputElement = getManuallyAssignVariablesCheckboxInputElementFromActionEditor(subflowElement);
+                    expect(inputElement).toBeDefined();
+                    expect(inputElement.type).toBe('checkbox');
+                    expect(inputElement.checked).toBe(true);
                 });
             });
             describe('error cases', () => {

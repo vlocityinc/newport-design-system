@@ -519,7 +519,7 @@ exports[`record-create-editor existing element using sObject single record chang
               </div>
             </div>
         </builder_platform_interaction-record-input-output-assignments>
-        <builder_platform_interaction-use-advanced-options-checkbox>
+        <builder_platform_interaction-manually-assign-variables-checkbox>
           #shadow-root(open)
             <div
               class="slds-form_stacked slds-p-left_small"
@@ -528,7 +528,7 @@ exports[`record-create-editor existing element using sObject single record chang
                 #shadow-root(open)
               </lightning-input>
             </div>
-        </builder_platform_interaction-use-advanced-options-checkbox>
+        </builder_platform_interaction-manually-assign-variables-checkbox>
       </div>
     </div>
 </builder_platform_interaction-record-create-editor>

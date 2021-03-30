@@ -4,7 +4,7 @@ import LoopEditor from '../loopEditor';
 import { validate } from '../loopValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { loopReducer } from '../loopReducer';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { ManuallyAssignVariablesChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -59,7 +59,7 @@ describe('Loop Validation', () => {
         });
         it('Switching from advanced (manual) to automatic mode should not cause validation errors', () => {
             const event = {
-                type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                type: ManuallyAssignVariablesChangedEvent.EVENT_NAME,
                 detail: {
                     useAdvancedOptions: false
                 }
