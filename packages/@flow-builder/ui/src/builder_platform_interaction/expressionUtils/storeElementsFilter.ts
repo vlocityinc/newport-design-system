@@ -93,7 +93,8 @@ function getFilterInformation(config: ElementFilterConfig = {}) {
  * Add uncommitted elements to the list of elements retrieved from store
  * */
 function addUncommittedElementsFromLocalStorage(elements) {
-    const screenElements = flattenElements(getScreenElement());
+    const currentScreen: any = getScreenElement();
+    const screenElements = flattenElements(currentScreen);
     const existingGuids = elements?.length > 0 ? elements.map((element) => element?.guid) : [];
     if (screenElements?.length > 0) {
         for (let x = 0; x < screenElements.length; x++) {
@@ -102,7 +103,65 @@ function addUncommittedElementsFromLocalStorage(elements) {
             }
         }
     }
+
+    elements = removeUncommittedDeletedElementsFromLocalStorage(elements, currentScreen);
+
     return elements;
+}
+
+/*
+ * Find and remove elements that have been deleted from local storage
+ */
+function removeUncommittedDeletedElementsFromLocalStorage(elements: UI.ScreenField[], currentScreen: UI.CanvasElement) {
+    if (currentScreen) {
+        // Get all guids from current screen
+        const screenElementsGuids = getAllGuids(currentScreen);
+        const ccurrentScreenGuid = currentScreen.guid;
+        // get current screen from store
+        const currentScreenInStore = elements.find((el) => el?.guid === ccurrentScreenGuid);
+        const guidsInScreenFromStore: UI.Guid[] = getAllGuidsFromChildRef(currentScreenInStore, elements);
+        // Compare length of Guids arrays
+        if (guidsInScreenFromStore.length !== screenElementsGuids.length) {
+            const filteredArray = guidsInScreenFromStore.filter((guid) => !screenElementsGuids.includes(guid));
+            // Remove elements deleted from local storage
+            filteredArray.forEach((guid) => {
+                const elementToRemove = guidsInScreenFromStore.find((element) => element === guid);
+                const index = elements.findIndex((el) => el.guid === elementToRemove);
+                if (index > 0) {
+                    elements.splice(index, 1);
+                }
+            });
+        }
+    }
+    return elements;
+}
+
+function getAllGuids(screenElement) {
+    if (!screenElement) {
+        return [];
+    }
+    const screenElementsGuids: any[] = [];
+    const fields = screenElement.fields;
+    if (fields) {
+        fields.forEach((field) => {
+            if (field?.name?.value !== '') {
+                screenElementsGuids.push(field.guid);
+            }
+            screenElementsGuids.push(...getAllGuids(field));
+        });
+    }
+    return screenElementsGuids;
+}
+
+function getAllGuidsFromChildRef(screenElement, elements) {
+    const guids: UI.Guid[] = [];
+    screenElement?.childReferences.forEach((child) => {
+        if (child) {
+            const childElement = elements.find((el) => el.guid === child?.childReference);
+            guids.push(child?.childReference, ...getAllGuidsFromChildRef(childElement, elements));
+        }
+    });
+    return guids;
 }
 
 /**

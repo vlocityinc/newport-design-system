@@ -4,6 +4,7 @@ export const mockScreenElement = {
     allowPause: true,
     connectorCount: 0,
     elementType: 'Screen',
+    guid: 'ef49374c-ba9b-4c15-8ffc-f1551c62abcde',
     fields: [
         {
             elementType: 'SCREEN_FIELD',
