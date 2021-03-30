@@ -379,6 +379,32 @@ describe('Start element', () => {
             expectedResult.frequency = undefined;
             expect(actualResult).toMatchObject(expectedResult);
         });
+
+        describe('create start element haveSystemVariableFields', () => {
+            it('haveSystemVariableFields not set when object is empty', () => {
+                startMetadata.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+                startMetadata.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
+                startMetadata.object = '';
+                const actualResult = createStartElement(startMetadata);
+                expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+                expectedResult.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
+                expectedResult.object = '';
+                expectedResult.haveSystemVariableFields = undefined;
+                expect(actualResult).toMatchObject(expectedResult);
+            });
+            it('haveSystemVariableFields set to true when object is set', () => {
+                startMetadata.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+                startMetadata.object = 'Account';
+                startMetadata.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
+                const actualResult = createStartElement(startMetadata);
+                expectedResult.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+                expectedResult.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
+                expectedResult.object = 'Account';
+                expectedResult.haveSystemVariableFields = true;
+                expectedResult.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                expect(actualResult).toMatchObject(expectedResult);
+            });
+        });
     });
 
     describe('createStartElementForPropertyEditor function', () => {

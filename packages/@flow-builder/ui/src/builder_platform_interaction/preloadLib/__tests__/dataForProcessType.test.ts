@@ -7,12 +7,15 @@ import {
     loadWorkflowEnabledEntities,
     loadGlobalVariables,
     loadSystemVariables,
-    loadProcessTypeFeatures
+    loadProcessTypeFeatures,
+    loadOperators,
+    loadRules
 } from '../dataForProcessType';
 import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { setEventTypes, setEntities, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
 import { setGlobalVariables, setSystemVariables, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
+import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -55,6 +58,13 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 jest.mock('builder_platform_interaction/comboboxCache', () => {
     return {
         addToParentElementCache: jest.fn()
+    };
+});
+
+jest.mock('builder_platform_interaction/ruleLib', () => {
+    return {
+        setRules: jest.fn(),
+        setOperators: jest.fn()
     };
 });
 
@@ -187,6 +197,52 @@ describe('dataForProcessType', () => {
             fetchOnce.mockRejectedValue('error');
             await expect(loadProcessTypeFeatures('a')).rejects.toEqual('error');
             expect(setProcessTypeFeature).toBeCalledTimes(0);
+        });
+    });
+
+    describe('load operators', () => {
+        it('invokes call out and call back', async () => {
+            fetchOnce.mockResolvedValue('operators');
+            await loadOperators('AutoLaunchedFlow', 'RecordAfterSave', 'Update');
+            expect(fetchOnce).toBeCalledWith(
+                SERVER_ACTION_TYPE.GET_OPERATORS,
+                {
+                    flowProcessType: 'AutoLaunchedFlow',
+                    flowTriggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update'
+                },
+                expect.anything()
+            );
+            expect(setOperators).toBeCalledTimes(1);
+        });
+
+        it('does not invoke call back on error', async () => {
+            fetchOnce.mockRejectedValue('error');
+            await expect(loadOperators('AutoLaunchedFlow', 'RecordAfterSave', 'Update')).rejects.toEqual('error');
+            expect(setOperators).toBeCalledTimes(0);
+        });
+    });
+
+    describe('load rules', () => {
+        it('invokes call out and call back', async () => {
+            fetchOnce.mockResolvedValue('rules');
+            await loadRules('AutoLaunchedFlow', 'RecordAfterSave', 'Update');
+            expect(fetchOnce).toBeCalledWith(
+                SERVER_ACTION_TYPE.GET_RULES,
+                {
+                    flowProcessType: 'AutoLaunchedFlow',
+                    flowTriggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update'
+                },
+                expect.anything()
+            );
+            expect(setRules).toBeCalledTimes(1);
+        });
+
+        it('does not invoke call back on error', async () => {
+            fetchOnce.mockRejectedValue('error');
+            await expect(loadRules('AutoLaunchedFlow', 'RecordAfterSave', 'Update')).rejects.toEqual('error');
+            expect(setRules).toBeCalledTimes(0);
         });
     });
 });

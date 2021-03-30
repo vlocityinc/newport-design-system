@@ -155,6 +155,7 @@ declare namespace UI {
     interface Start extends BaseCanvasElementWithFilter, Schedule {
         doesRequireRecordChangedToMeetCriteria: boolean;
         triggerType?: string;
+        haveSystemVariableFields?: boolean;
         object: string;
         objectIndex?: string;
         objectContainer?: string;

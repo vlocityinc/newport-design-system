@@ -3,6 +3,7 @@ import {
     initializeLoader,
     loadOnStart,
     loadOnProcessTypeChange,
+    loadOperatorsAndRulesOnTriggerTypeChange,
     clearLoader,
     loadApexClasses,
     GET_APEX_TYPES_TIMEOUT_MS
@@ -231,8 +232,11 @@ describe('Loader', () => {
         describe('loadOnProcessTypeChange', () => {
             it('initiates loading of peripheral metadata', async () => {
                 const processType = 'process_type_1';
+                const triggerType = 'record_after_save';
+                const recordTriggerType = 'update';
                 loadOnStart();
-                const promise = loadOnProcessTypeChange(processType).loadPeripheralMetadataPromise;
+                const promise = loadOnProcessTypeChange(processType, triggerType, recordTriggerType)
+                    .loadPeripheralMetadataPromise;
                 expect(promise).not.toBeNull();
                 await promise;
                 // Resolves to nothing currently in that there is no need to handle loaded data down in the promise chain.
@@ -243,7 +247,9 @@ describe('Loader', () => {
                 expect(loadActions).toBeCalledWith(processType);
                 expect(loadApexPlugins).toBeCalledTimes(1);
                 expect(loadRules).toBeCalledTimes(1);
+                expect(loadRules).toBeCalledWith(processType, triggerType, recordTriggerType);
                 expect(loadOperators).toBeCalledTimes(1);
+                expect(loadOperators).toBeCalledWith(processType, triggerType, recordTriggerType);
                 expect(loadEventTypes).toBeCalledTimes(1);
                 expect(loadEntities).toBeCalledWith('ALL');
                 expect(loadResourceTypes).toBeCalledWith(processType);
@@ -268,6 +274,18 @@ describe('Loader', () => {
                 await promise;
                 expect(promise).resolves.toEqual();
                 expect(invokeModal).toBeCalledTimes(1);
+            });
+        });
+        describe('loadOperatorsAndRulesOnTriggerTypeChange', () => {
+            it('initiates loading of operators and rules', () => {
+                const processType = 'process_type_1';
+                const triggerType = 'record_after_save';
+                const recordTriggerType = 'update';
+                loadOperatorsAndRulesOnTriggerTypeChange(processType, triggerType, recordTriggerType);
+                expect(loadRules).toBeCalledTimes(1);
+                expect(loadRules).toBeCalledWith(processType, triggerType, recordTriggerType);
+                expect(loadOperators).toBeCalledTimes(1);
+                expect(loadOperators).toBeCalledWith(processType, triggerType, recordTriggerType);
             });
         });
     });
