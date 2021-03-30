@@ -58,7 +58,7 @@ To add a new branch under SFCI you need to do the following:
 ```text
 git_organization_name: automation-platform
 git_repository_name: ui-interaction-builder-components
-git_branches: 226 226-freeze 228 228-freeze 230
+git_branches: 226 226-freeze 228 228-freeze 230 232 master
 existing_Jenkins_URL: https://automation-builderci.dop.sfdc.net
 jenkinsfile_path: Jenkinsfile
 ```
