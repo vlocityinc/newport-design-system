@@ -15,4 +15,5 @@ export { MoveFocusToNodeEvent } from './moveFocusToNodeEvent';
 export { MoveFocusToConnectorEvent } from './moveFocusToConnectorEvent';
 export { GoToPathEvent } from './goToPathEvent';
 export { CreateGoToConnectionEvent } from './createGoToConnectionEvent';
+export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';
 export { DeleteBranchElementEvent } from './deleteBranchElementEvent';

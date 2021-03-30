@@ -29,6 +29,7 @@ import {
     DESELECT_ON_CANVAS,
     doDuplicate,
     flcCreateConnection,
+    deleteGoToConnection,
     MARQUEE_SELECT_ON_CANVAS,
     pasteOnFixedCanvas,
     redo,
@@ -146,7 +147,7 @@ import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
-import { CreateGoToConnectionEvent } from 'builder_platform_interaction/flcEvents';
+import { CreateGoToConnectionEvent, DeleteGoToConnectionEvent } from 'builder_platform_interaction/flcEvents';
 import {
     addEndElementsAndConnectorsTransform,
     canConvertToAutoLayoutCanvas,
@@ -2013,6 +2014,14 @@ export default class Editor extends LightningElement {
      */
     handleGoToCreation = (event: CreateGoToConnectionEvent) => {
         storeInstance.dispatch(createGoToConnection(event.detail));
+    };
+
+    /**
+     * Handles the DeleteGoToConnectionEvent coming from flcConnectorMenu and dispatches an action to delete a GoTo connector
+     * @param event DeleteGoToConnectionEvent coming from flcConnectorMenu
+     */
+    handleGoToDeletion = (event: DeleteGoToConnectionEvent) => {
+        storeInstance.dispatch(deleteGoToConnection(event.detail));
     };
 
     @api

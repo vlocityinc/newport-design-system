@@ -10,6 +10,7 @@ import {
     updateChildren,
     InsertAt,
     createGoToConnection,
+    deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
@@ -26,6 +27,7 @@ enum ActionType {
     ConnectToElement,
     UpdateChildren,
     CreateGoToConnection,
+    DeleteGoToConnection,
     DecorateCanvas,
     ClearCanvasDecoration,
     UpdateChildrenOnAddingOrUpdatingTimeTriggers
@@ -112,6 +114,16 @@ export function createGoToConnectionAction(sourceGuid: Guid, sourceBranchIndex: 
 }
 
 /**
+ * Create the DeleteGoToConnection action
+ * @param sourceGuid - Guid of the source element
+ * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
+ * @return DeleteGoToConnection action
+ */
+export function deleteGoToConnectionAction(sourceGuid: Guid, sourceBranchIndex: number) {
+    return createPayloadAction(<const>ActionType.DeleteGoToConnection, { sourceGuid, sourceBranchIndex });
+}
+
+/**
  * Creates an AddFault action
  *
  * @param elementGuid - The guid of an element to add a fault to
@@ -165,6 +177,7 @@ type Action = ReturnType<
     | typeof addFaultAction
     | typeof updateChildrenAction
     | typeof createGoToConnectionAction
+    | typeof deleteGoToConnectionAction
     | typeof decorateCanvasAction
     | typeof clearCanvasDecorationAction
     | typeof updateChildrenOnAddingOrUpdatingTimeTriggersAction
@@ -199,6 +212,10 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
         case ActionType.CreateGoToConnection: {
             const { sourceGuid, sourceBranchIndex, targetGuid } = action.payload;
             return createGoToConnection(nextFlowModel, sourceGuid, sourceBranchIndex, targetGuid);
+        }
+        case ActionType.DeleteGoToConnection: {
+            const { sourceGuid, sourceBranchIndex } = action.payload;
+            return deleteGoToConnection(config, nextFlowModel, sourceGuid, sourceBranchIndex);
         }
         case ActionType.AddFault: {
             const { elementGuid } = action.payload;

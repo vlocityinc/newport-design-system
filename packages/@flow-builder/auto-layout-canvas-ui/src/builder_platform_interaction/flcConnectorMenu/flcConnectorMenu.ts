@@ -6,10 +6,11 @@ import {
     CloseMenuEvent,
     PasteEvent,
     MoveFocusToConnectorEvent,
-    GoToPathEvent
+    GoToPathEvent,
+    DeleteGoToConnectionEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
-import { configureMenu, PASTE_ACTION, GOTO_ACTION } from './flcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION, GOTO_ACTION, GOTO_DELETE_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -103,6 +104,9 @@ export default class FlcConnectorMenu extends Menu {
                 this.dispatchEvent(
                     new GoToPathEvent(this.next!, this.prev, this.parent, this.childIndex, this.canMergeEndedBranch)
                 );
+                break;
+            case GOTO_DELETE_ACTION:
+                this.dispatchEvent(new DeleteGoToConnectionEvent(this.prev || this.parent, this.childIndex));
                 break;
             default: {
                 const { prev, parent, childIndex } = this;

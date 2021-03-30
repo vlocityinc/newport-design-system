@@ -17,7 +17,8 @@ import {
     ADD_PARENT_WITH_CHILDREN,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
-    MODIFY_START_WITH_TIME_TRIGGERS
+    MODIFY_START_WITH_TIME_TRIGGERS,
+    DELETE_GOTO_CONNECTION
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -108,6 +109,12 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
                 targetGuid
             );
             nextState = autoLayoutCanvasReducer(nextState, createGoToConnectionAction);
+            break;
+        }
+        case DELETE_GOTO_CONNECTION: {
+            const { sourceGuid, sourceBranchIndex } = action.payload;
+            const deleteGoToConnectionAction = actions.deleteGoToConnectionAction(sourceGuid, sourceBranchIndex);
+            nextState = autoLayoutCanvasReducer(nextState, deleteGoToConnectionAction);
             break;
         }
         case ADD_FAULT: {

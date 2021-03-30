@@ -31,6 +31,7 @@ import {
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
     createGoToConnection,
+    deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers,
@@ -2646,6 +2647,448 @@ describe('modelUtils', () => {
             expect(createGoToConnection(flowModel, 'branchElement', FAULT_INDEX, 'screen1')).toMatchObject(
                 updatedFlowModel
             );
+        });
+    });
+
+    describe('deleteGoToConnection function', () => {
+        let flowModel = {};
+        beforeEach(() => {
+            flowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['branchElement', 'startEnd', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null,
+                    incomingGoTo: ['start:t1']
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    prev: 'start',
+                    incomingGoTo: ['branchElement:o1', 'branchElement:default', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'screen1'],
+                    fault: 'screen1',
+                    incomingGoTo: ['start:immediate', 'screen2'],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'branchElement',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                }
+            };
+        });
+
+        it('deleteGoToConncetion with start (0th aka immediate branch) as the source and branchElement as the target should update the state correctly', () => {
+            const flowModelAfterDeletion = deleteGoToConnection(
+                elementService(flowModel),
+                flowModel,
+                'start',
+                START_IMMEDIATE_INDEX,
+                'branchElement'
+            );
+            const expectedFlowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['end-hook-guid', 'startEnd', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null,
+                    incomingGoTo: ['start:t1']
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    prev: 'start',
+                    incomingGoTo: ['branchElement:o1', 'branchElement:default', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'screen1'],
+                    fault: 'screen1',
+                    incomingGoTo: ['screen2'],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'branchElement',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                },
+                'end-hook-guid': {
+                    childIndex: 0,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: NodeType.END,
+                    parent: 'start'
+                }
+            };
+            expect(flowModelAfterDeletion).toMatchObject(expectedFlowModel);
+        });
+
+        it('deleteGoToConncetion with screen2 as the source and branchElement as the target should update the state correctly', () => {
+            const flowModelAfterDeletion = deleteGoToConnection(
+                elementService(flowModel),
+                flowModel,
+                'screen2',
+                undefined,
+                'branchElement'
+            );
+            const expectedFlowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['branchElement', 'startEnd', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null,
+                    incomingGoTo: ['start:t1']
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    prev: 'start',
+                    incomingGoTo: ['branchElement:o1', 'branchElement:default', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'screen1'],
+                    fault: 'screen1',
+                    incomingGoTo: ['start:immediate'],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'end-hook-guid',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                },
+                'end-hook-guid': {
+                    guid: 'end-hook-guid',
+                    nodeType: NodeType.END,
+                    prev: 'screen2'
+                }
+            };
+            expect(flowModelAfterDeletion).toEqual(expectedFlowModel);
+        });
+
+        it('deleteGoToConncetion with branchElement (0th branch) as the source and screen1 as the target should update the state correctly', () => {
+            const flowModelAfterDeletion = deleteGoToConnection(
+                elementService(flowModel),
+                flowModel,
+                'branchElement',
+                0,
+                'screen1'
+            );
+            const expectedFlowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['branchElement', 'startEnd', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null,
+                    incomingGoTo: ['start:t1']
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    prev: 'start',
+                    incomingGoTo: ['branchElement:default', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['end-hook-guid', 'screen2', 'screen1'],
+                    fault: 'screen1',
+                    incomingGoTo: ['start:immediate', 'screen2'],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'branchElement',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                },
+                'end-hook-guid': {
+                    childIndex: 0,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: NodeType.END,
+                    parent: 'branchElement'
+                }
+            };
+            expect(flowModelAfterDeletion).toEqual(expectedFlowModel);
+        });
+
+        it('deleteGoToConncetion with branchElement (default branch) as the source and screen1 as the target should update the state correctly', () => {
+            const flowModelAfterDeletion = deleteGoToConnection(
+                elementService(flowModel),
+                flowModel,
+                'branchElement',
+                2,
+                'screen1'
+            );
+            const expectedFlowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['branchElement', 'startEnd', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null,
+                    incomingGoTo: ['start:t1']
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    prev: 'start',
+                    incomingGoTo: ['branchElement:o1', 'branchElement:fault']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'end-hook-guid'],
+                    fault: 'screen1',
+                    incomingGoTo: ['start:immediate', 'screen2'],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'branchElement',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                },
+                'end-hook-guid': {
+                    childIndex: 2,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: NodeType.END,
+                    parent: 'branchElement'
+                }
+            };
+            expect(flowModelAfterDeletion).toEqual(expectedFlowModel);
+        });
+
+        it('deleteGoToConncetion with branchElement (fault branch) as the source and screen1 as the target should update the state correctly', () => {
+            const flowModelAfterDeletion = deleteGoToConnection(
+                elementService(flowModel),
+                flowModel,
+                'branchElement',
+                FAULT_INDEX,
+                'screen1'
+            );
+            const expectedFlowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['branchElement', 'startEnd', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null,
+                    incomingGoTo: ['start:t1']
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    prev: 'start',
+                    incomingGoTo: ['branchElement:o1', 'branchElement:default']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['screen1', 'screen2', 'screen1'],
+                    fault: 'end-hook-guid',
+                    incomingGoTo: ['start:immediate', 'screen2'],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'branchElement',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                },
+                'end-hook-guid': {
+                    childIndex: -1,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: NodeType.END,
+                    parent: 'branchElement'
+                }
+            };
+            expect(flowModelAfterDeletion).toEqual(expectedFlowModel);
         });
     });
 

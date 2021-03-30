@@ -15,6 +15,7 @@ import {
     addFault,
     updateChildren,
     createGoToConnection,
+    deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
     updateChildrenOnAddingOrUpdatingTimeTriggers
@@ -122,6 +123,15 @@ describe('reducer', () => {
             const action = actions.createGoToConnectionAction('sourceGuid', null, 'targetGuid');
             configuredReducer(flowModel, action);
             expect(createGoToConnection).toHaveBeenLastCalledWith(flowModel, 'sourceGuid', null, 'targetGuid');
+        });
+    });
+
+    describe('deleteGoToConnection', () => {
+        it('delegates to deleteGoToConnection', () => {
+            const flowModel = {};
+            const action = actions.deleteGoToConnectionAction('sourceGuid', null);
+            configuredReducer(flowModel, action);
+            expect(deleteGoToConnection).toHaveBeenLastCalledWith(elementService, flowModel, 'sourceGuid', null);
         });
     });
 

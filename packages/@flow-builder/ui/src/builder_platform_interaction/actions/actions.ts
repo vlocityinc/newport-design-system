@@ -37,6 +37,7 @@ export const MARQUEE_SELECT_ON_CANVAS = 'MARQUEE_SELECT_ON_CANVAS';
 
 export const FLC_CREATE_CONNECTION = 'FLC_CREATE_CONNECTION';
 export const CREATE_GOTO_CONNECTION = 'CREATE_GOTO_CONNECTION';
+export const DELETE_GOTO_CONNECTION = 'DELETE_GOTO_CONNECTION';
 export const ADD_FAULT = 'ADD_FAULT';
 export const DELETE_FAULT = 'DELETE_FAULT';
 export const SELECTION_ON_FIXED_CANVAS = 'SELECTION_ON_FIXED_CANVAS';
@@ -371,6 +372,7 @@ export const selectionOnFixedCanvas = (payload) => createAction(SELECTION_ON_FIX
 
 export const flcCreateConnection = (payload) => createAction(FLC_CREATE_CONNECTION, payload);
 export const createGoToConnection = (payload) => createAction(CREATE_GOTO_CONNECTION, payload);
+export const deleteGoToConnection = (payload) => createAction(DELETE_GOTO_CONNECTION, payload);
 export const addElementFault = (payload) => createAction(ADD_FAULT, payload);
 
 export const deleteElementFault = (payload) => createAction(DELETE_FAULT, payload);

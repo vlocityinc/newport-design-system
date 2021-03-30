@@ -279,6 +279,78 @@ function createGoToConnection(
 }
 
 /**
+ * Function to remove a GoTo connection from incomingGoTo and update related elements' properties
+ * @param flowModel - The flow model
+ * @param sourceElement - The source element
+ * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
+ */
+function removeSourceFromIncomingGoTo(
+    flowModel: FlowModel,
+    sourceElement: NodeModel,
+    sourceBranchIndex: number | null
+) {
+    if (sourceBranchIndex == null) {
+        // When goto has a previous element, remove sourceGuid from incomingGoTo
+        const targetElement = flowModel[sourceElement.next!];
+        targetElement.incomingGoTo = targetElement.incomingGoTo!.filter((goto) => goto !== sourceElement.guid);
+    } else {
+        // When goto is present at the branch head, get the targetElement from the children property
+        // at the right index or the Fault property
+        let targetElement;
+        if (sourceBranchIndex === FAULT_INDEX) {
+            targetElement = flowModel[sourceElement.fault!];
+        } else {
+            targetElement = flowModel[(sourceElement as ParentNodeModel).children![sourceBranchIndex]!];
+        }
+        // Remove sourceGuid:suffix from incomingGoTo
+        const suffix = getSuffixForGoToConnection(sourceElement as ParentNodeModel, sourceBranchIndex);
+        targetElement.incomingGoTo = targetElement.incomingGoTo!.filter(
+            (goto) => goto !== `${sourceElement.guid}:${suffix}`
+        );
+    }
+    return flowModel;
+}
+
+/**
+ * Function to delete a GoTo connector between a given source and target
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param sourceGuid - Guid of the source element
+ * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
+ */
+function deleteGoToConnection(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    sourceGuid: Guid,
+    sourceBranchIndex: number | null
+): FlowModel {
+    const sourceElement = flowModel[sourceGuid] as ParentNodeModel;
+    removeSourceFromIncomingGoTo(flowModel, sourceElement, sourceBranchIndex);
+
+    // Add and connect the end element
+    const endElement = createEndElement(elementService, flowModel);
+    flowModel[endElement.guid] = endElement;
+    if (sourceBranchIndex == null) {
+        // When goto has a previous element, connect the source element to a newly created
+        // End element by updating the next property
+        sourceElement.next = endElement.guid;
+        endElement.prev = sourceGuid;
+    } else {
+        // When goto is present at the branch head, connect the source element to a newly created
+        // End element by updating the children property at the right index or the Fault property
+        if (sourceBranchIndex === FAULT_INDEX) {
+            sourceElement.fault = endElement.guid;
+        } else {
+            sourceElement.children[sourceBranchIndex] = endElement.guid;
+        }
+        (endElement as BranchHeadNodeModel).parent = sourceGuid;
+        (endElement as BranchHeadNodeModel).childIndex = sourceBranchIndex;
+        (endElement as BranchHeadNodeModel).isTerminal = true;
+    }
+    return flowModel;
+}
+
+/**
  * Checks if the tail element of a branch is an end element or has a GoTo connection
  * or is a branching element with all terminal branches
  *
@@ -1768,6 +1840,8 @@ export {
     inlineBranches,
     getTargetGuidsForReconnection,
     createGoToConnection,
+    deleteGoToConnection,
+    removeSourceFromIncomingGoTo,
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead
 };
