@@ -2648,6 +2648,104 @@ describe('modelUtils', () => {
                 updatedFlowModel
             );
         });
+
+        it('createGoToConnection with reroute where screen2 is the source and rerouting target from branchElement to screen1', () => {
+            flowModel.screen2.next = 'branchElement';
+            flowModel.branchElement.incomingGoTo = ['screen2'];
+
+            const updatedFlowModel = {
+                start: {
+                    guid: 'start',
+                    next: 'screen1',
+                    children: ['startEnd', 't1End', null, null],
+                    nodeType: NodeType.START,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        },
+                        {
+                            childReference: 't3'
+                        }
+                    ]
+                },
+                startEnd: {
+                    guid: 'startEnd',
+                    parent: 'start',
+                    childIndex: 0,
+                    isTerminal: true,
+                    prev: null,
+                    next: null
+                },
+                t1End: {
+                    guid: 't1End',
+                    parent: 'start',
+                    childIndex: 1,
+                    isTerminal: true,
+                    prev: null,
+                    next: null
+                },
+                screen1: {
+                    guid: 'screen1',
+                    next: 'branchElement',
+                    incomingGoTo: ['screen2']
+                },
+                branchElement: {
+                    guid: 'branchElement',
+                    prev: 'screen1',
+                    children: ['end1', 'screen2', 'end3'],
+                    fault: 'end4',
+                    incomingGoTo: [],
+                    nodeType: NodeType.BRANCH,
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        },
+                        {
+                            childReference: 'o2'
+                        }
+                    ]
+                },
+                end1: {
+                    guid: 'end1',
+                    parent: 'branchElement',
+                    childIndex: 0,
+                    isTerminal: true,
+                    prev: null,
+                    next: null
+                },
+                screen2: {
+                    guid: 'screen2',
+                    next: 'screen1',
+                    parent: 'branchElement',
+                    childIndex: 1,
+                    isTerminal: true,
+                    incomingGoTo: []
+                },
+                end3: {
+                    guid: 'end3',
+                    parent: 'branchElement',
+                    childIndex: 2,
+                    isTerminal: true,
+                    prev: null,
+                    next: null
+                },
+                end4: {
+                    guid: 'end4',
+                    parent: 'branchElement',
+                    childIndex: FAULT_INDEX,
+                    isTerminal: true,
+                    prev: null,
+                    next: null
+                }
+            };
+
+            expect(createGoToConnection(flowModel, 'screen2', undefined, 'screen1', true)).toMatchObject(
+                updatedFlowModel
+            );
+        });
     });
 
     describe('deleteGoToConnection function', () => {

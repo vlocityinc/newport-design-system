@@ -244,30 +244,43 @@ function connectToElement(
  * @param sourceGuid - Guid of the source element
  * @param sourceBranchIndex - Index of branch on which GoTo is being added
  * @param targetGuid - Guid of the target element
+ * @param isReroute - Whether this is a reroute of an existing goto connection
  */
 function createGoToConnection(
     flowModel: FlowModel,
     sourceGuid: Guid,
     sourceBranchIndex: number | null,
-    targetGuid: Guid
+    targetGuid: Guid,
+    isReroute?: boolean
 ): FlowModel {
     const sourceElement = flowModel[sourceGuid] as ParentNodeModel;
     const targetElement = flowModel[targetGuid];
 
+    // If this is a reroute of an existing goto connection, first cleanup the incomingGoTo of the existing target
+    if (isReroute) {
+        flowModel = removeSourceFromIncomingGoTo(flowModel, sourceElement, sourceBranchIndex);
+    }
+
     if (sourceBranchIndex == null) {
-        // Deleting the connected End Element, updating source element's next
-        // and pushing source guid into target element's incomingGoTo array
-        delete flowModel[sourceElement.next!];
+        // Deleting the connected End Element if this is not a reroute
+        if (!isReroute) {
+            delete flowModel[sourceElement.next!];
+        }
+        // Updating source element's next and pushing source guid into target element's incomingGoTo array
         sourceElement.next = targetGuid;
         targetElement.incomingGoTo!.push(sourceGuid);
     } else {
         // Deleting the connected End Element and updating the source element's
         // children/fault property as needed
         if (sourceBranchIndex === FAULT_INDEX) {
-            delete flowModel[sourceElement.fault!];
+            if (!isReroute) {
+                delete flowModel[sourceElement.fault!];
+            }
             sourceElement.fault = targetGuid;
         } else {
-            delete flowModel[sourceElement.children[sourceBranchIndex]!];
+            if (!isReroute) {
+                delete flowModel[sourceElement.children[sourceBranchIndex]!];
+            }
             sourceElement.children[sourceBranchIndex] = targetGuid;
         }
         const suffix = getSuffixForGoToConnection(sourceElement, sourceBranchIndex);

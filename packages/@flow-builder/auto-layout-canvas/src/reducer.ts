@@ -107,10 +107,21 @@ export function connectToElementAction(fromInsertAt: InsertAt, toElementGuid: Gu
  * @param sourceGuid - Guid of the source element
  * @param sourceBranchIndex - Index of branch on which GoTo is being added
  * @param targetGuid - Guid of the target element
+ * @param isReroute - Whether this is a reroute of an existing Goto connection
  * @return CreateGoToConnection action
  */
-export function createGoToConnectionAction(sourceGuid: Guid, sourceBranchIndex: number, targetGuid: Guid) {
-    return createPayloadAction(<const>ActionType.CreateGoToConnection, { sourceGuid, sourceBranchIndex, targetGuid });
+export function createGoToConnectionAction(
+    sourceGuid: Guid,
+    sourceBranchIndex: number,
+    targetGuid: Guid,
+    isReroute?: boolean
+) {
+    return createPayloadAction(<const>ActionType.CreateGoToConnection, {
+        sourceGuid,
+        sourceBranchIndex,
+        targetGuid,
+        isReroute
+    });
 }
 
 /**
@@ -210,8 +221,8 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return connectToElement(config, nextFlowModel, fromInsertAt, toElementGuid);
         }
         case ActionType.CreateGoToConnection: {
-            const { sourceGuid, sourceBranchIndex, targetGuid } = action.payload;
-            return createGoToConnection(nextFlowModel, sourceGuid, sourceBranchIndex, targetGuid);
+            const { sourceGuid, sourceBranchIndex, targetGuid, isReroute } = action.payload;
+            return createGoToConnection(nextFlowModel, sourceGuid, sourceBranchIndex, targetGuid, isReroute);
         }
         case ActionType.DeleteGoToConnection: {
             const { sourceGuid, sourceBranchIndex } = action.payload;

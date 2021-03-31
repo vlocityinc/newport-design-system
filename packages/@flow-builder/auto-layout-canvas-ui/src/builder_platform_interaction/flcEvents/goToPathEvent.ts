@@ -1,7 +1,7 @@
 import { Guid } from 'builder_platform_interaction/autoLayoutCanvas';
 
 /**
- * Event fired when the "goTo another component" connector menu item is selected
+ * Event fired when the "goTo another component" or "reroute goto another component" connector menu item is selected
  */
 const eventName = 'gotopath';
 
@@ -11,6 +11,7 @@ interface GoToPathEventDetail {
     parent: Guid;
     childIndex: number;
     canMergeEndedBranch: boolean;
+    isReroute?: boolean;
 }
 
 export class GoToPathEvent extends CustomEvent<GoToPathEventDetail> {
@@ -20,8 +21,9 @@ export class GoToPathEvent extends CustomEvent<GoToPathEventDetail> {
      * @param parent - the guid of the parent element (possibly null)
      * @param childIndex - index of branch on which GoTo is being added
      * @param canMergeEndedBranch - is merge possible
+     * @param isReroute - whether this is a reroute of an existing goto connection
      */
-    constructor(next, prev, parent, childIndex, canMergeEndedBranch) {
+    constructor(next, prev, parent, childIndex, canMergeEndedBranch, isReroute?) {
         super(eventName, {
             bubbles: true,
             composed: true,
@@ -31,7 +33,8 @@ export class GoToPathEvent extends CustomEvent<GoToPathEventDetail> {
                 prev,
                 parent,
                 childIndex,
-                canMergeEndedBranch
+                canMergeEndedBranch,
+                isReroute
             }
         });
     }

@@ -102,11 +102,12 @@ export default function flcElementsReducer(state: Readonly<UI.Elements>, action:
             break;
         }
         case CREATE_GOTO_CONNECTION: {
-            const { sourceGuid, sourceBranchIndex, targetGuid } = action.payload;
+            const { sourceGuid, sourceBranchIndex, targetGuid, isReroute } = action.payload;
             const createGoToConnectionAction = actions.createGoToConnectionAction(
                 sourceGuid,
                 sourceBranchIndex,
-                targetGuid
+                targetGuid,
+                isReroute
             );
             nextState = autoLayoutCanvasReducer(nextState, createGoToConnectionAction);
             break;

@@ -4,7 +4,13 @@ import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { CloseMenuEvent, MoveFocusToConnectorEvent, GoToPathEvent } from 'builder_platform_interaction/flcEvents';
-import { configureMenu, PASTE_ACTION, GOTO_ACTION, GOTO_DELETE_ACTION } from '../flcConnectorMenuConfig';
+import {
+    configureMenu,
+    PASTE_ACTION,
+    GOTO_ACTION,
+    GOTO_DELETE_ACTION,
+    GOTO_REROUTE_ACTION
+} from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -115,7 +121,8 @@ jest.mock('../flcConnectorMenuConfig', () => {
         PASTE_ACTION: 'Paste',
         MERGE_PATH_ACTION: 'mergePath',
         GOTO_ACTION: 'goTo',
-        GOTO_DELETE_ACTION: 'goToDelete'
+        GOTO_DELETE_ACTION: 'goToDelete',
+        GOTO_REROUTE_ACTION: 'goToReroute'
     };
 });
 
@@ -380,6 +387,33 @@ describe('connector menu', () => {
         cmp.addEventListener('deletegotoconnection', callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
+    });
+
+    it('should dispatch gotopath event when reroute goto is clicked ', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:level_down',
+                            label: 'Reroute Goto to another element',
+                            elementType: GOTO_REROUTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const callback = jest.fn();
+        cmp.addEventListener('gotopath', callback);
+        cmp.shadowRoot.querySelector(selectors.listboxItem).click();
+        expect(callback).toHaveBeenCalledWith(expect.objectContaining({ detail: { isReroute: true } }));
     });
 
     it('Decision element row span should be present', () => {

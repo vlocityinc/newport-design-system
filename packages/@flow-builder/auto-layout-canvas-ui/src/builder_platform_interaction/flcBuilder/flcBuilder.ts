@@ -140,6 +140,9 @@ export default class FlcBuilder extends LightningElement {
 
     _goToSourceBranchIndex!: number | null;
 
+    /* whether a goto connection being made is part of rerouting an existing goto */
+    _isReroutingGoto!: boolean;
+
     /* Array of guids the user can merge into */
     _mergeableGuids!: Guid[];
 
@@ -455,6 +458,7 @@ export default class FlcBuilder extends LightningElement {
         } else {
             this._topSelectedGuid = null;
             this._goToSourceGuid = null;
+            this._isReroutingGoto = false;
             this._goToSourceBranchIndex = null;
             this._currentTargetGuid = null;
             this._mergeableGuids = [];
@@ -639,13 +643,14 @@ export default class FlcBuilder extends LightningElement {
     /**
      * Handles the "Add GoTo" connector menu item selection
      */
-    handleAddGoToItemSelection = (event) => {
+    handleAddOrRerouteGoToItemSelection = (event) => {
         event.stopPropagation();
 
-        const { prev, parent, childIndex, next, canMergeEndedBranch } = event.detail;
+        const { prev, parent, childIndex, next, canMergeEndedBranch, isReroute } = event.detail;
         this._goToSourceGuid = prev || parent;
         this._goToSourceBranchIndex = childIndex;
         this._currentTargetGuid = next;
+        this._isReroutingGoto = isReroute;
 
         const { mergeableGuids, goToableGuids, firstMergeableNonNullNext } = getTargetGuidsForReconnection(
             this.flowModel,
@@ -702,7 +707,7 @@ export default class FlcBuilder extends LightningElement {
     }
 
     /**
-     * Handles node selection and deleselection
+     * Handles node selection and deselection
      */
     handleNodeSelectionDeselection = (event) => {
         event.stopPropagation();
@@ -712,7 +717,8 @@ export default class FlcBuilder extends LightningElement {
                     new CreateGoToConnectionEvent(
                         this._goToSourceGuid,
                         this._goToSourceBranchIndex,
-                        event.detail.canvasElementGUID
+                        event.detail.canvasElementGUID,
+                        this._isReroutingGoto
                     )
                 );
             } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {

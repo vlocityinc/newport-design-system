@@ -10,6 +10,7 @@ interface CreateGoToConnectionEventDetail {
     sourceGuid: Guid;
     sourceBranchIndex: number;
     targetGuid: Guid;
+    isReroute: boolean;
 }
 
 export class CreateGoToConnectionEvent extends CustomEvent<CreateGoToConnectionEventDetail> {
@@ -17,8 +18,9 @@ export class CreateGoToConnectionEvent extends CustomEvent<CreateGoToConnectionE
      * @param sourceGuid - Guid of the source element
      * @param sourceBranchIndex - Index of branch on which GoTo is being added
      * @param targetGuid - Guid of the target element
+     * @param isReroute - Whether this is a reroute of an existing Goto connection
      */
-    constructor(sourceGuid, sourceBranchIndex, targetGuid) {
+    constructor(sourceGuid, sourceBranchIndex, targetGuid, isReroute) {
         super(eventName, {
             bubbles: true,
             composed: true,
@@ -26,7 +28,8 @@ export class CreateGoToConnectionEvent extends CustomEvent<CreateGoToConnectionE
             detail: {
                 sourceGuid,
                 sourceBranchIndex,
-                targetGuid
+                targetGuid,
+                isReroute
             }
         });
     }
