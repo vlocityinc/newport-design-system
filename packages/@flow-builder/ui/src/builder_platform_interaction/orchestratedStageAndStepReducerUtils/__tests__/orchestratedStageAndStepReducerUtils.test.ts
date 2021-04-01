@@ -2,6 +2,7 @@
 import {
     mergeParameters,
     PARAMETER_PROPERTY,
+    removeAllUnsetParameters,
     removeUnsetParameters,
     updateParameterItem
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
@@ -222,6 +223,65 @@ describe('OrchestratedStageAndStepReducerUtils', () => {
             const stateWithUnsetParam = updateProperties(mockMultiParamPropertiesObject, updatePropValue);
             const newState = removeUnsetParameters(stateWithUnsetParam, 'invalid_row_index');
             expect(newState).toBe(stateWithUnsetParam);
+        });
+    });
+
+    describe('removeAllUnsetParameters', () => {
+        it('removes from input parameters', () => {
+            const unsetParam = updateProperties(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.INPUT][0].value.value,
+                null
+            );
+            const updatePropValue = {
+                [PARAMETER_PROPERTY.INPUT]: [unsetParam, mockMultiParamPropertiesObject[PARAMETER_PROPERTY.INPUT][1]]
+            };
+            const stateWithUnsetParam = updateProperties(mockMultiParamPropertiesObject, updatePropValue);
+
+            const newState = removeAllUnsetParameters(stateWithUnsetParam);
+
+            expect(newState[PARAMETER_PROPERTY.INPUT].length).toStrictEqual(1);
+            expect(newState[PARAMETER_PROPERTY.ENTRY_INPUT].length).toStrictEqual(2);
+            expect(newState[PARAMETER_PROPERTY.EXIT_INPUT].length).toStrictEqual(2);
+        });
+
+        it('removes from entry input parameters', () => {
+            const unsetParam = updateProperties(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.ENTRY_INPUT][0].value.value,
+                null
+            );
+            const updatePropValue = {
+                [PARAMETER_PROPERTY.ENTRY_INPUT]: [
+                    unsetParam,
+                    mockMultiParamPropertiesObject[PARAMETER_PROPERTY.ENTRY_INPUT][1]
+                ]
+            };
+            const stateWithUnsetParam = updateProperties(mockMultiParamPropertiesObject, updatePropValue);
+
+            const newState = removeAllUnsetParameters(stateWithUnsetParam);
+
+            expect(newState[PARAMETER_PROPERTY.INPUT].length).toStrictEqual(2);
+            expect(newState[PARAMETER_PROPERTY.ENTRY_INPUT].length).toStrictEqual(1);
+            expect(newState[PARAMETER_PROPERTY.EXIT_INPUT].length).toStrictEqual(2);
+        });
+
+        it('removes from exit input parameters', () => {
+            const unsetParam = updateProperties(
+                mockMultiParamPropertiesObject[PARAMETER_PROPERTY.EXIT_INPUT][0].value.value,
+                null
+            );
+            const updatePropValue = {
+                [PARAMETER_PROPERTY.EXIT_INPUT]: [
+                    unsetParam,
+                    mockMultiParamPropertiesObject[PARAMETER_PROPERTY.EXIT_INPUT][1]
+                ]
+            };
+            const stateWithUnsetParam = updateProperties(mockMultiParamPropertiesObject, updatePropValue);
+
+            const newState = removeAllUnsetParameters(stateWithUnsetParam);
+
+            expect(newState[PARAMETER_PROPERTY.INPUT].length).toStrictEqual(2);
+            expect(newState[PARAMETER_PROPERTY.ENTRY_INPUT].length).toStrictEqual(2);
+            expect(newState[PARAMETER_PROPERTY.EXIT_INPUT].length).toStrictEqual(1);
         });
     });
 });

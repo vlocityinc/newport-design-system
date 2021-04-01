@@ -35,6 +35,7 @@ import { LABELS } from './stageStepEditorLabels';
 import {
     mergeParameters,
     PARAMETER_PROPERTY,
+    removeAllUnsetParameters,
     removeUnsetParameters,
     updateParameterItem
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
@@ -251,30 +252,45 @@ const deleteDeterminationAction = (state: StageStep, event: DeleteOrchestrationA
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
  */
 export const stageStepReducer = (state: StageStep, event: CustomEvent): StageStep => {
+    let newState: StageStep = state;
+
     switch (event.type) {
         case UpdateConditionEvent.EVENT_NAME:
-            return updateEntryCriteria(state, event);
+            newState = updateEntryCriteria(state, event);
+            break;
         case DeleteConditionEvent.EVENT_NAME:
-            return deleteEntryCriteria(state, event);
+            newState = deleteEntryCriteria(state, event);
+            break;
         case OrchestrationActionValueChangedEvent.EVENT_NAME:
-            return actionChanged(state, event);
+            newState = actionChanged(state, event);
+            break;
         case PropertyChangedEvent.EVENT_NAME:
-            return itemPropertyChanged(state, event);
+            newState = itemPropertyChanged(state, event);
+            break;
         case REMOVE_UNSET_PARAMETERS:
-            return removeUnsetParameters(state, event.detail.rowIndex);
+            newState = removeUnsetParameters(state, event.detail.rowIndex);
+            break;
+        case UpdateParameterItemEvent.EVENT_NAME:
+            newState = updateParameterItem(state, event.detail);
+            break;
+        case DeleteParameterItemEvent.EVENT_NAME:
+            newState = deleteParameterItem(state, event.detail);
+            break;
+        case DeleteOrchestrationActionEvent.EVENT_NAME:
+            newState = deleteDeterminationAction(state, event);
+            break;
+        case DeleteAllConditionsEvent.EVENT_NAME:
+            newState = deleteAllEntryConditions(state);
+            break;
+        case CreateEntryConditionsEvent.EVENT_NAME:
+            newState = createEntryConditions(state);
+            break;
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);
-        case UpdateParameterItemEvent.EVENT_NAME:
-            return updateParameterItem(state, event.detail);
-        case DeleteParameterItemEvent.EVENT_NAME:
-            return deleteParameterItem(state, event.detail);
-        case DeleteOrchestrationActionEvent.EVENT_NAME:
-            return deleteDeterminationAction(state, event);
-        case DeleteAllConditionsEvent.EVENT_NAME:
-            return deleteAllEntryConditions(state);
-        case CreateEntryConditionsEvent.EVENT_NAME:
-            return createEntryConditions(state);
         default:
             return state;
     }
+
+    // Remove all "not included" input parameters from state before returning it for the store
+    return removeAllUnsetParameters(newState);
 };

@@ -86,3 +86,24 @@ export const removeUnsetParameters = <T extends OrchestratedStage | StageStep>(s
     }
     return removeUnsetParametersByProperty(state, property);
 };
+
+/**
+ * Before writing the object back to the store, strip out any input parameters that have been manually excluded
+ * (via unchecking "include").  Operates on action, enbtry and exit input parameters
+ *
+ * This method should be called before any state updates which are written to the store.
+ * @param state
+ */
+export const removeAllUnsetParameters = <T extends OrchestratedStage | StageStep>(state: T): T => {
+    let newState = Object.assign({}, state);
+    state[PARAMETER_PROPERTY.INPUT]?.forEach((inputParam) => {
+        newState = removeUnsetParameters(newState, inputParam.rowIndex);
+    });
+    state[PARAMETER_PROPERTY.ENTRY_INPUT]?.forEach((inputParam) => {
+        newState = removeUnsetParameters(newState, inputParam.rowIndex);
+    });
+    state[PARAMETER_PROPERTY.EXIT_INPUT]?.forEach((inputParam) => {
+        newState = removeUnsetParameters(newState, inputParam.rowIndex);
+    });
+    return newState;
+};

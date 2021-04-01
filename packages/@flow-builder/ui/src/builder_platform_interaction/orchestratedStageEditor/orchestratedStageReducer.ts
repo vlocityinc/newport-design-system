@@ -18,7 +18,8 @@ import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMeta
 import {
     mergeParameters,
     updateParameterItem,
-    removeUnsetParameters
+    removeUnsetParameters,
+    removeAllUnsetParameters
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 
 //
@@ -122,25 +123,36 @@ const actionChanged = (
  * @returns {object} state - updated state
  */
 export const orchestratedStageReducer = (state: OrchestratedStage, event: CustomEvent): OrchestratedStage => {
+    let newState: OrchestratedStage = state;
+
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
-            return orchestratedStagePropertyChanged(state, event);
-        case MERGE_WITH_PARAMETERS:
-            return mergeParameters(state, event.detail.parameters, ORCHESTRATED_ACTION_CATEGORY.EXIT);
+            newState = orchestratedStagePropertyChanged(state, event);
+            break;
         case REMOVE_UNSET_PARAMETERS:
-            return removeUnsetParameters(state, event.detail.rowIndex);
+            newState = removeUnsetParameters(state, event.detail.rowIndex);
+            break;
         case DeleteOrchestrationActionEvent.EVENT_NAME:
-            return deleteDeterminationAction(state, event);
+            newState = deleteDeterminationAction(state, event);
+            break;
         case OrchestrationActionValueChangedEvent.EVENT_NAME:
-            return actionChanged(state, event);
+            newState = actionChanged(state, event);
+            break;
         case UpdateParameterItemEvent.EVENT_NAME:
-            return updateParameterItem(state, event.detail);
+            newState = updateParameterItem(state, event.detail);
+            break;
         case DeleteParameterItemEvent.EVENT_NAME:
-            return deleteParameterItem(state, event.detail);
+            newState = deleteParameterItem(state, event.detail);
+            break;
         // case VALIDATE_ALL:
         // TODO: validate in future WI
         //     return decisionValidation.validateAll(state);
+        case MERGE_WITH_PARAMETERS:
+            return mergeParameters(state, event.detail.parameters, ORCHESTRATED_ACTION_CATEGORY.EXIT);
         default:
             return state;
     }
+
+    // Remove all "not included" input parameters from state before returning it for the store
+    return removeAllUnsetParameters(newState);
 };

@@ -21,6 +21,7 @@ import {
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 
 const mockCondition = {
     a: 1
@@ -87,6 +88,13 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
         invokeModal: jest.fn()
     };
+});
+
+jest.mock('builder_platform_interaction/orchestratedStageAndStepReducerUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/orchestratedStageAndStepReducerUtils');
+    return Object.assign({}, actual, {
+        removeAllUnsetParameters: jest.fn((state) => state)
+    });
 });
 
 describe('StageStep Reducer', () => {
@@ -212,6 +220,21 @@ describe('StageStep Reducer', () => {
             expect(newState.entryConditions[0]).toEqual(mockHydrated);
             expect(newState).not.toBe(originalStateWithEntryCriteria);
         });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: UpdateConditionEvent.EVENT_NAME,
+                detail: {
+                    parentGUID: originalState.guid,
+                    index: 0,
+                    value: 'newValue'
+                }
+            };
+
+            const newState = stageStepReducer(originalStateWithEntryCriteria, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
     });
 
     describe('DeleteConditionEvent', () => {
@@ -230,6 +253,20 @@ describe('StageStep Reducer', () => {
 
             expect(newState.entryConditions[0]).not.toBeDefined();
             expect(newState).not.toBe(originalStateWithEntryCriteria);
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: DeleteConditionEvent.EVENT_NAME,
+                detail: {
+                    parentGUID: originalState.guid,
+                    index: 0
+                }
+            };
+
+            const newState = stageStepReducer(originalStateWithEntryCriteria, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
     });
 
@@ -258,6 +295,23 @@ describe('StageStep Reducer', () => {
                 inputParameters: [],
                 outputParameters: []
             });
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: OrchestrationActionValueChangedEvent.EVENT_NAME,
+                detail: {
+                    value: {
+                        actionName: 'someAction'
+                    },
+                    error: null,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.STEP
+                }
+            };
+
+            const newState = stageStepReducer(originalState, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
 
         describe('referenced action.Outputs', () => {
@@ -393,6 +447,21 @@ describe('StageStep Reducer', () => {
             expect(newState.foo).toEqual(hydratedValue);
             expect(newState).not.toBe(originalStateWithEntryCriteria);
         });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: 'foo',
+                    value: 'newValue',
+                    error: null
+                }
+            };
+
+            const newState = stageStepReducer(originalState, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
     });
 
     describe('DeleteOrchestrationActionEvent', () => {
@@ -437,6 +506,19 @@ describe('StageStep Reducer', () => {
             const newState = stageStepReducer(originalStateWithEntryExitActions, event);
             expect(newState).toBe(originalStateWithEntryExitActions);
         });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: DeleteOrchestrationActionEvent.EVENT_NAME,
+                detail: {
+                    guid: mockReferencedGuid,
+                    actionCategory: ORCHESTRATED_ACTION_CATEGORY.EXIT
+                }
+            };
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
     });
 
     describe('DeleteAllConditionsEvent', () => {
@@ -446,6 +528,15 @@ describe('StageStep Reducer', () => {
             };
             const newState = stageStepReducer(originalStateWithEntryCriteria, event);
             expect(newState.entryConditions).toBe(null);
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: DeleteAllConditionsEvent.EVENT_NAME
+            };
+            const newState = stageStepReducer(originalStateWithEntryCriteria, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
     });
 
@@ -458,6 +549,16 @@ describe('StageStep Reducer', () => {
             expect(originalState.entryConditions).toStrictEqual(null);
             const newState = stageStepReducer(originalState, event);
             expect(newState.entryConditions).toStrictEqual([]);
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = {
+                type: CreateEntryConditionsEvent.EVENT_NAME
+            };
+
+            const newState = stageStepReducer(originalState, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
     });
 
@@ -547,6 +648,25 @@ describe('StageStep Reducer', () => {
             // Assert
             expect(newState.entryActionInputParameters[0].value.value).toStrictEqual(newVal);
         });
+
+        it('calls removeAllUnsetParameters', () => {
+            const newVal = '$GlobalConstant.EmptyString';
+            const event = new CustomEvent(UpdateParameterItemEvent.EVENT_NAME, {
+                detail: {
+                    error: null,
+                    isInput: true,
+                    name: 'TestVar',
+                    rowIndex: 'entryIp1Guid',
+                    value: newVal,
+                    valueDataType: 'String'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
     });
 
     describe('removeUnsetParameters', () => {
@@ -580,6 +700,19 @@ describe('StageStep Reducer', () => {
             // Assert
             expect(originalStateWithEntryExitActions.exitActionInputParameters.length).toStrictEqual(3);
             expect(newState.exitActionInputParameters.length).toStrictEqual(2);
+        });
+
+        it('calls removeAllUnsetParameters', () => {
+            const event = new CustomEvent(REMOVE_UNSET_PARAMETERS, {
+                detail: {
+                    rowIndex: 'exitIp3Guid'
+                }
+            });
+
+            // Act
+            const newState = stageStepReducer(originalStateWithEntryExitActions, event);
+
+            expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
     });
 });
