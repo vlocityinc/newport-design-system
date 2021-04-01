@@ -93,7 +93,7 @@
             <!-- Input Variables -->
             <aura:if isTrue="{!v.isDMLTrigger}">   
                 <aura:set attribute="else">
-                    <div class="slds-p-top_medium">
+                    <div class="slds-p-top_small">
                         <h2>{#$Label.FlowDebug.InputValues}</h2>
                     </div>
                 </aura:set>                             
@@ -103,17 +103,7 @@
                     <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
                 </div>
                 <aura:set attribute="else">
-                    <aura:if isTrue="{!v.hasInputs}">
-                        <aura:if isTrue="{!v.isCreateOrUpdate}">
-                            <lightning:radioGroup
-                            aura:id="debugCreateOrUpdate"
-                            label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
-                            options="{!v.createOrUpdateOptions}"
-                            value="{!v.saveType}"
-                            required="true"
-                            type="radio"
-                            />
-                        </aura:if>
+                    <aura:if isTrue="{!v.hasInputs}">                        
                         <aura:if isTrue="{!v.isDMLTrigger}">
                             <div class="slds-p-top_medium">
                                 <h2>{#$Label.FlowDebug.InputRecordForRecordTrigger}</h2>
@@ -133,7 +123,18 @@
 
         <div class="slds-is-relative">
             <div aria-hidden="false" aura:id="flowInput" class="content">{!v.body}</div>
-        </div>
+            <aura:if isTrue="{!v.isCreateOrUpdate}">
+                <lightning:radioGroup
+                class="slds-p-top_small"
+                aura:id="debugCreateOrUpdate"
+                label="{!format($Label.FlowDebug.CreateOrUpdateDMLTypeLabel, v.dollarRecordName)}"
+                options="{!v.createOrUpdateOptions}"
+                value="{!v.saveType}"
+                required="true"
+                type="radio"
+                />
+            </aura:if>
+        </div>        
     </div>
 
     <!-- Libraries -->
