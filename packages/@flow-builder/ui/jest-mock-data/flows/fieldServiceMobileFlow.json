@@ -216,6 +216,7 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
                         "extensionName": "forceContent:fileUpload"
                     }
                 ],

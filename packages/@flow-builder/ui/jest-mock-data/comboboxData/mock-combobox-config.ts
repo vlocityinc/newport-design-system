@@ -170,9 +170,10 @@ export const secondLevelMenuData = [
         text: 'AnnualRevenue',
         iconAlternativeText: 'Currency',
         iconName: 'utility:currency',
+        iconSize: 'xx-small',
         subText: 'Annual Revenue',
         subtype: undefined,
-        value: '{!MyAccount.AnnualRevenue}',
+        value: 'b4c16f3b-b29c-4f73-a561-442247440fba.AnnualRevenue',
         displayText: '{!MyAccount.AnnualRevenue}',
         parent: mockAccountVar
     }

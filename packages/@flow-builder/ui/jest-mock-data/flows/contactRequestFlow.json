@@ -177,6 +177,8 @@
                         "outputParameters": [],
                         "scale": 0,
                         "fields": [],
+                        "inputsOnNextNavToAssocScrn": "UseStoredValues",
+                        "storeOutputAutomatically": false,
                         "extensionName": "flowruntime:address"
                     }
                 ],
