@@ -151,7 +151,7 @@ function validElementGuidOrThrow(flowModel: FlowModel, elementGuid: Guid) {
 }
 
 /**
- * Verifies that a child index is valid, throws an error otherwisef
+ * Verifies that a child index is valid, throws an error otherwise
  *
  * @param parentElement - The parent element
  * @param childIndex - The child index to check
@@ -325,6 +325,29 @@ function removeSourceFromIncomingGoTo(
 }
 
 /**
+ * Function to remove the original source reference from target element's incomingGoTo
+ * and updating the incomingGoTo with the new source reference
+ * @param flowModel - The flow model
+ * @param sourceElement - The source element
+ * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
+ * @param targetGuid - Guid of the GoTo target element
+ * @param newSourceGuid - Guid of the newly added element (GoTo connection's new source)
+ */
+function removeAndUpdateSourceReferenceInIncomingGoTo(
+    flowModel: FlowModel,
+    sourceElement: NodeModel,
+    sourceBranchIndex: number | null,
+    targetGuid: Guid,
+    newSourceGuid: Guid
+): FlowModel {
+    // remove original source reference from target element's incomingGoTo
+    // and push the new source guid into it
+    flowModel = removeSourceFromIncomingGoTo(flowModel, sourceElement, sourceBranchIndex);
+    flowModel[targetGuid].incomingGoTo!.push(newSourceGuid);
+    return flowModel;
+}
+
+/**
  * Function to delete a GoTo connector between a given source and target
  * @param elementService - The element service
  * @param flowModel - The flow model
@@ -390,7 +413,7 @@ function connectElements(elements: FlowModel, sourceElement: NodeModel, targetEl
     const { prev } = targetElement;
 
     if (prev != null) {
-        // if the target element has a prev element, unconnect it
+        // if the target element has a prev element, disconnect it
         elements[prev].next = null;
         targetElement.prev = null;
 
@@ -1017,7 +1040,7 @@ function deleteElementAndDescendents(
 }
 
 /**
- * Deletes all the elements of a branch as well as their descendents
+ * Deletes all the elements of a branch as well as their descendants
  *
  * @param elementService - The element service
  * @param state - The flow model
@@ -1165,7 +1188,7 @@ function deleteElement(
         ? nextElement
         : findFirstElement(resolveNode(state, prev!), state)) as BranchHeadNodeModel;
 
-    // update the branch's isTerminal and attempt to inlines
+    // update the branch's isTerminal and attempt to inline
     if (branchHead != null) {
         const branchTail = findLastElement(branchHead, state);
         branchHead.isTerminal = isEndOrAllTerminalBranchingElement(state, branchTail);
@@ -1196,7 +1219,7 @@ function deleteElement(
 }
 
 /**
- * Deletes an element's decendents recursively
+ * Deletes an element's descendants recursively
  *
  * @param elementService - The element service
  * @param state - The flow model
@@ -1248,23 +1271,56 @@ function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType,
         element.incomingGoTo = [];
     }
     const { prev, parent, childIndex } = insertAt;
+    const sourceElement = prev ? flowModel[prev] : resolveParent(flowModel, parent);
 
     if (prev) {
-        const next = flowModel[prev].next;
+        const next = sourceElement.next;
         element.prev = prev;
         if (next) {
             element.next = next;
+            if (hasGoToConnectionOnNext(flowModel, sourceElement)) {
+                // Cleaning up and updating the target element's incomingGoTo
+                // with the newly added source element
+                flowModel = removeAndUpdateSourceReferenceInIncomingGoTo(
+                    flowModel,
+                    sourceElement,
+                    childIndex,
+                    next,
+                    elementGuid
+                );
+            }
         }
+        linkElement(flowModel, element);
     } else {
         Object.assign(element, { parent, childIndex });
-    }
+        if (hasGoToConnectionOnBranchHead(flowModel, sourceElement as ParentNodeModel, childIndex)) {
+            const targetGuid =
+                childIndex === FAULT_INDEX
+                    ? sourceElement.fault
+                    : (sourceElement as ParentNodeModel).children[childIndex];
 
-    if (isBranchHead(element)) {
-        // if the element has a parent, make it the new branch head
-        const parentElement = resolveParent(flowModel, parent);
-        linkBranchOrFault(flowModel, parentElement, childIndex, element);
-    } else {
-        linkElement(flowModel, element);
+            // Cleaning up and updating the target element's incomingGoTo
+            // with the newly added source element
+            flowModel = removeAndUpdateSourceReferenceInIncomingGoTo(
+                flowModel,
+                sourceElement,
+                childIndex,
+                targetGuid!,
+                elementGuid
+            );
+
+            // Updating the next and isTerminal property of the newly added element
+            Object.assign(element, { next: targetGuid, isTerminal: true });
+
+            // Updating the fault/children property to incorporate the newly added element
+            if (childIndex === FAULT_INDEX) {
+                flowModel[sourceElement.guid].fault = elementGuid;
+            } else {
+                (flowModel[sourceElement.guid] as ParentNodeModel).children[childIndex] = elementGuid;
+            }
+        } else {
+            linkBranchOrFault(flowModel, sourceElement, childIndex, element);
+        }
     }
 
     if (element.nodeType === NodeType.END) {
@@ -1280,7 +1336,7 @@ function addElement(flowModel: FlowModel, elementGuid: Guid, nodeType: NodeType,
 }
 
 /**
- * Attemps to 'inline' a subtree starting at a parent element
+ * Attempts to 'inline' a subtree starting at a parent element
  *
  * @param flowModel - The flow model
  * @param branchParent - The parent element
@@ -1719,7 +1775,8 @@ export function updateChildrenOnAddingOrUpdatingTimeTriggers(
             parentElement.children[0] = nextElementGuid;
             nextElement.parent = parentElement.guid;
             nextElement.isTerminal = true;
-            nextElement.childIndex = 0;
+            nextElement.childIndex = START_IMMEDIATE_INDEX;
+            nextElement.prev = null;
             parentElement.next = null;
 
             for (let i = 1; i < updatedChildrenGuids.length; i++) {

@@ -215,12 +215,13 @@ function linkElements(elements) {
     let prevElement = null;
 
     return elements.map((element) => {
+        const updatedElement = { ...element };
         if (prevElement) {
-            prevElement.next = element.guid;
-            element.prev = prevElement.guid;
+            prevElement.next = updatedElement.guid;
+            updatedElement.prev = prevElement.guid;
         }
-        prevElement = element;
-        return element;
+        prevElement = updatedElement;
+        return updatedElement;
     });
 }
 

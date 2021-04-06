@@ -9,7 +9,9 @@ import {
     BRANCH_ELEMENT_GUID,
     START_ELEMENT_GUID,
     END_ELEMENT_GUID,
-    END_ELEMENT
+    END_ELEMENT,
+    getFlowWhenGoingToPreviousElement,
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement
 } from './testUtils';
 
 import {
@@ -22,7 +24,6 @@ import {
     deleteElement,
     deleteFault,
     deleteBranch,
-    getTargetGuidsForBranchReconnect,
     getTargetGuidsForReconnection,
     connectToElement,
     addElement,
@@ -166,29 +167,38 @@ describe('modelUtils', () => {
             });
             expect(elements).toMatchSnapshot();
         });
-    });
 
-    describe('getTargetGuidsForBranchReconnect', () => {
-        it('returns elements on a different branch', () => {
-            const branchingElement = { ...BRANCH_ELEMENT };
-            branchingElement.children = [
-                ['head-guid', END_ELEMENT_GUID],
-                ['head-guid', 'random-guid', END_ELEMENT_GUID]
-            ];
-
-            const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
-            expect(getTargetGuidsForBranchReconnect(elements, 'branch-guid:0-end-guid')).toEqual([
-                'branch-guid:1-head-guid',
-                'branch-guid:1-random-guid',
-                'branch-guid:1-end-guid'
-            ]);
+        it('add an element between the source element and the outgoing goTo connection', () => {
+            const flowRenderContext = getFlowWhenGoingToPreviousElement();
+            const newScreen = {
+                guid: 'new-screen-guid',
+                elementType: 'SCREEN_ELEMENT',
+                label: 'default',
+                nodeType: NodeType.DEFAULT,
+                config: {}
+            };
+            flowRenderContext.flowModel['new-screen-guid'] = newScreen;
+            addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
+                prev: 'goto-source-guid'
+            });
+            expect(flowRenderContext.flowModel).toMatchSnapshot();
         });
 
-        it('returns the merge element when parent has next', () => {
-            const branchingElement = { ...BRANCH_ELEMENT };
-            branchingElement.children = [['head-guid', END_ELEMENT_GUID], ['head-guid', 'random-guid'], ['head-guid']];
-            const elements = createFlow([branchingElement]);
-            expect(getTargetGuidsForBranchReconnect(elements, 'branch-guid:0-end-guid')).toEqual(['end-guid']);
+        it('add an element between the parent element and the branchHead goTo connector', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentFirstBranchToPreviousElement();
+            const newScreen = {
+                guid: 'new-screen-guid',
+                elementType: 'SCREEN_ELEMENT',
+                label: 'default',
+                nodeType: NodeType.DEFAULT,
+                config: {}
+            };
+            flowRenderContext.flowModel['new-screen-guid'] = newScreen;
+            addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
+                parent: 'branch-guid',
+                childIndex: 0
+            });
+            expect(flowRenderContext.flowModel).toMatchSnapshot();
         });
     });
 
