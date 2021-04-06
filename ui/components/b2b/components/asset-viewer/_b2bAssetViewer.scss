@@ -7,7 +7,7 @@
   }
 }
 .nds-b2b-asset-split-menu{
-& .slds-dropdown_left{
+  > div{
   margin-left: -4.3rem;
 }
 & .nds-b2b-asset-split-menu-style > a{
