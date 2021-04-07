@@ -15,48 +15,44 @@ type LearnMoreCardProps = {
 
 // General purpose functions
 
-function createComponentForTest(props: LearnMoreCardProps): LearnMoreCard {
+const createComponentForTest = (props: LearnMoreCardProps): LearnMoreCard => {
     const element = createElement('builder_platform_interaction-learn-more-card', {
         is: LearnMoreCard
     });
     Object.assign(element, props);
     setDocumentBodyChildren(element);
     return element;
-}
+};
 
-function getPropertyFromSelector(comp: LearnMoreCard, selector: string, property: string): string {
-    return comp.shadowRoot.querySelector(selector)[property];
-}
+const getPropertyFromSelector = (comp: LearnMoreCard, selector: string, property: string): string =>
+    comp.shadowRoot.querySelector(selector)[property];
 
 // Functions allowing to get specific element properties
 
-function getPopupTriggerLabel(comp: LearnMoreCard) {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON, 'label');
-}
+const getPopup = (comp: LearnMoreCard): HTMLElement =>
+    comp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_POPUP);
 
-function getSideText(comp: LearnMoreCard) {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT, 'value');
-}
+const getPopupTriggerLabel = (comp: LearnMoreCard) =>
+    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON, 'label');
 
-function getPopupCloseButtonAssistiveText(comp: LearnMoreCard) {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON, 'alternativeText');
-}
+const getSideText = (comp: LearnMoreCard) =>
+    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT, 'value');
 
-function getPopupBodyText(comp: LearnMoreCard) {
-    return getPropertyFromSelector(
+const getPopupCloseButtonAssistiveText = (comp: LearnMoreCard) =>
+    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON, 'alternativeText');
+
+const getPopupBodyText = (comp: LearnMoreCard) =>
+    getPropertyFromSelector(
         comp,
         `.slds-popover__body > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}`,
         'value'
     );
-}
 
-function getPopupLinkLabel(comp: LearnMoreCard) {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL, 'label');
-}
+const getPopupLinkLabel = (comp: LearnMoreCard) =>
+    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL, 'label');
 
-function getPopupLinkUrl(comp: LearnMoreCard) {
-    return getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL, 'value');
-}
+const getPopupLinkUrl = (comp: LearnMoreCard) =>
+    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_URL, 'value');
 
 // Test cases
 
@@ -94,6 +90,13 @@ describe('The learn more card', () => {
         });
         test('Popup link URL', () => {
             expect(getPopupLinkUrl(component)).toEqual('popupLinkUrl');
+        });
+        test('The event of pressing down the "Escape" key in the popup is not propagated beyond the component', () => {
+            const keyboardEscapeKeyDownEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+            const stopPropagationSpy = jest.spyOn(keyboardEscapeKeyDownEvent, 'stopPropagation');
+            const popup = getPopup(component);
+            popup.dispatchEvent(keyboardEscapeKeyDownEvent);
+            expect(stopPropagationSpy).toHaveBeenCalled();
         });
     });
 });
