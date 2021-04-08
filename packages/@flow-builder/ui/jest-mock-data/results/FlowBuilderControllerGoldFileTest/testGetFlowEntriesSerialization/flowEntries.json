@@ -72,6 +72,12 @@
       "description":"Create self-service forms to collect contact details.",
       "label":"Contact Request Flow",
       "processType":"ContactRequestFlow"
+    },
+    {
+      "icon":"utility:omni_channel",
+      "description":"Define business and routing rules for service channel conversations.",
+      "label":"Omni-Channel Flow (Beta)",
+      "processType":"RoutingFlow"
     }
   ]
 }

@@ -2800,12 +2800,24 @@
           "value":"ru_AM"
         },
         {
+          "label":"Russian (Belarus)",
+          "value":"ru_BY"
+        },
+        {
           "label":"Russian (Kazakhstan)",
           "value":"ru_KZ"
         },
         {
+          "label":"Russian (Kyrgyzstan)",
+          "value":"ru_KG"
+        },
+        {
           "label":"Russian (Lithuania)",
           "value":"ru_LT"
+        },
+        {
+          "label":"Russian (Moldova)",
+          "value":"ru_MD"
         },
         {
           "label":"Russian (Poland)",
@@ -2814,6 +2826,10 @@
         {
           "label":"Russian (Russia)",
           "value":"ru_RU"
+        },
+        {
+          "label":"Russian (Ukraine)",
+          "value":"ru_UA"
         },
         {
           "label":"Samoan (Samoa)",
@@ -7015,6 +7031,39 @@
       "sobjectName":"User",
       "sortable":false
     },
+    "UserPreferencesHideBrowseProductRedirectConfirmation":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesHideBrowseProductRedirectConfirmation",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"HideBrowseProductRedirectConfirmation",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false
+    },
     "UserPreferencesHideChatterOnboardingSplash":{
       "activePicklistValues":[
 
@@ -8137,6 +8186,39 @@
       "sobjectName":"User",
       "sortable":false
     },
+    "UserPreferencesHideInvoicesRedirectConfirmation":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesHideInvoicesRedirectConfirmation",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"HideInvoicesRedirectConfirmation",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false
+    },
     "UserPreferencesHideLearningPathModal":{
       "activePicklistValues":[
 
@@ -8324,6 +8406,39 @@
       "isSpanningAllowed":false,
       "isWorkflowFilterable":false,
       "label":"HideNowAllowGuestsMsg",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false
+    },
+    "UserPreferencesHideOnlineSalesAppWelcomeMat":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesHideOnlineSalesAppWelcomeMat",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"HideOnlineSalesAppWelcomeMat",
       "length":0,
       "precision":0,
       "referenceToNames":[
@@ -8555,6 +8670,39 @@
       "isSpanningAllowed":false,
       "isWorkflowFilterable":false,
       "label":"HideSocialAccountsAndContactsGuidedTour",
+      "length":0,
+      "precision":0,
+      "referenceToNames":[
+
+      ],
+      "relationshipName":null,
+      "required":true,
+      "scale":0,
+      "sobjectName":"User",
+      "sortable":false
+    },
+    "UserPreferencesHideStatementsRedirectConfirmation":{
+      "activePicklistValues":[
+
+      ],
+      "apiName":"UserPreferencesHideStatementsRedirectConfirmation",
+      "compoundFieldName":null,
+      "creatable":true,
+      "dataType":"Boolean",
+      "editable":true,
+      "extraTypeInfo":null,
+      "fieldDataType":"BOOLEAN",
+      "filterable":true,
+      "inlineHelpText":null,
+      "isAvailableForFormulas":false,
+      "isAvailableForMerge":false,
+      "isCalculated":false,
+      "isCompound":false,
+      "isCustom":false,
+      "isPolymorphic":false,
+      "isSpanningAllowed":false,
+      "isWorkflowFilterable":false,
+      "label":"HideStatementsRedirectConfirmation",
       "length":0,
       "precision":0,
       "referenceToNames":[

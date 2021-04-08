@@ -27,6 +27,12 @@
     {
   "fieldsToNull" : [ ],
   "isListViewManaged" : true,
+  "label" : "Omni-Channel Flow (Beta)",
+  "name" : "RoutingFlow"
+},
+    {
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
   "label" : "Screen Flow",
   "name" : "Flow"
 },

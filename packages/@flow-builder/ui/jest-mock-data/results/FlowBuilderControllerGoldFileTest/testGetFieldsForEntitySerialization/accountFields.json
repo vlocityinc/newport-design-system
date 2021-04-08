@@ -932,7 +932,7 @@
       "apiName":"Geolocation__c",
       "compoundFieldName":null,
       "creatable":false,
-      "dataType":"String",
+      "dataType":"Location",
       "editable":false,
       "extraTypeInfo":null,
       "fieldDataType":"LOCATION",
