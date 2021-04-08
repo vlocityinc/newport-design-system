@@ -6,7 +6,7 @@ import buildDeploy from './build-deploy.md';
 import customizeAButton from './customizing-a-button.md';
 import { renderAsMarkdown } from '..././../../scripts/storybook';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(renderAsMarkdown)
   .add('Introduction to Newport', () => {
     return introToNewport;

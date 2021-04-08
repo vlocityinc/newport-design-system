@@ -19,7 +19,7 @@ const options = {
 };
 const defaultValue = 'neutral';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))

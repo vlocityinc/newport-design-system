@@ -8,7 +8,7 @@ import {
 import scss from './base/_index.scss';
 import notes from './doc.md';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
 .addDecorator(commentToHTML(scss))
 .addDecorator(withDocs(notes))
 .add('Default', () => {

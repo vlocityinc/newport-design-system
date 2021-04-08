@@ -20,7 +20,7 @@ const options = {
 };
 const groupId = 'GROUP-ID1';
 
-storiesOf(`${base}`, module)
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
 .addDecorator(withKnobs)
 .addDecorator(withDocs(notes))
 .addDecorator(commentToHTML(scss))
