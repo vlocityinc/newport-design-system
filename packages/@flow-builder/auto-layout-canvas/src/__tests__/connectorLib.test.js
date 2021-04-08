@@ -40,6 +40,7 @@ describe('connectorLib', () => {
             false,
             false,
             48,
+            88,
             true
         );
 

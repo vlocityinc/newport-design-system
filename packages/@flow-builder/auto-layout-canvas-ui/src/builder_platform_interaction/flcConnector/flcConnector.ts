@@ -122,7 +122,7 @@ export default class FlcConnector extends LightningElement {
     }
 
     get connectorLabelStyle() {
-        return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY });
+        return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY, x: this.connectorInfo.labelOffsetX });
     }
 
     @api

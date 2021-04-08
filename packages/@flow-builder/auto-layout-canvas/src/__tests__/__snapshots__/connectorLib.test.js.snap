@@ -241,6 +241,7 @@ Object {
   },
   "isFault": false,
   "isHighlighted": true,
+  "labelOffsetX": 88,
   "labelOffsetY": 48,
   "labelType": 3,
   "svgInfo": Object {
@@ -251,7 +252,23 @@ Object {
     "svgPathParams": Object {
       "offsets": Array [
         Array [
-          -72,
+          72,
+          0,
+        ],
+        Array [
+          16,
+          16,
+        ],
+        Array [
+          0,
+          136,
+        ],
+        Array [
+          -16,
+          16,
+        ],
+        Array [
+          -56,
           0,
         ],
         Array [
@@ -260,27 +277,11 @@ Object {
         ],
         Array [
           0,
-          136,
-        ],
-        Array [
-          16,
-          16,
-        ],
-        Array [
-          56,
-          0,
-        ],
-        Array [
-          16,
-          16,
-        ],
-        Array [
-          0,
           8,
         ],
       ],
       "start": Object {
-        "x": 88,
+        "x": 0,
         "y": 0,
       },
     },
@@ -312,8 +313,16 @@ Object {
     "svgPathParams": Object {
       "offsets": Array [
         Array [
+          -72,
           0,
-          8,
+        ],
+        Array [
+          -16,
+          16,
+        ],
+        Array [
+          0,
+          112,
         ],
         Array [
           16,
@@ -329,20 +338,12 @@ Object {
         ],
         Array [
           0,
-          -112,
-        ],
-        Array [
-          -16,
-          -16,
-        ],
-        Array [
-          -72,
-          0,
+          -8,
         ],
       ],
       "start": Object {
-        "x": 0,
-        "y": 120,
+        "x": 88,
+        "y": 0,
       },
     },
   },

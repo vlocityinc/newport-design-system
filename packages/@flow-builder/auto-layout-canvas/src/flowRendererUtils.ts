@@ -199,6 +199,7 @@ export interface ConnectorRenderInfo {
     connectionInfo: ConnectorConnectionInfo;
     isFault: boolean;
     labelOffsetY?: number;
+    labelOffsetX?: number;
     connectorBadgeLabel?: string;
     isNew?: boolean;
     toBeDeleted: boolean;

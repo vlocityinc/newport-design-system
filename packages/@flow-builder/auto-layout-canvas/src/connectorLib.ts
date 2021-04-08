@@ -333,6 +333,8 @@ function createMergeConnector(
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
+ * @param labelOffsetY - Label offset Y
+ * @param labelOffsetX - Label offset X
  * @param toBeDeleted - True if the connector is going to get deleted
  * @param isHighlighted - Whether this connector is highlighted
  * @returns a ConnectorRenderInfo for the loop connector
@@ -343,7 +345,8 @@ function createLoopAfterLastConnector(
     layoutConfig: LayoutConfig,
     isFault: boolean,
     toBeDeleted: boolean,
-    labelOffset: number,
+    labelOffsetY: number,
+    labelOffsetX: number,
     isHighlighted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
@@ -358,7 +361,8 @@ function createLoopAfterLastConnector(
             parent
         },
         isFault,
-        labelOffsetY: labelOffset,
+        labelOffsetY,
+        labelOffsetX,
         toBeDeleted,
         isHighlighted
     };
@@ -514,20 +518,18 @@ function getMergeRightPathParams(width: number, height: number, layoutConfig: La
  */
 function getLoopBackPathParams(width: number, height: number, layoutConfig: LayoutConfig): SvgPathParams {
     const { curveRadius } = layoutConfig.connector;
-
     const offsetY = height - layoutConfig.grid.h * 2;
     const preRadiusHeight = layoutConfig.grid.h - curveRadius;
-
     return {
-        start: { x: 0, y: offsetY },
+        start: { x: width, y: 0 },
         offsets: [
-            [0, preRadiusHeight],
+            [-(width - curveRadius), 0],
+            [-curveRadius, curveRadius],
+            [0, offsetY - preRadiusHeight],
             [curveRadius, curveRadius],
-            [width - 2 * curveRadius, 0],
+            [width - curveRadius * 2, 0],
             [curveRadius, -curveRadius],
-            [0, -offsetY + preRadiusHeight],
-            [-curveRadius, -curveRadius],
-            [-(width - curveRadius), 0]
+            [0, -preRadiusHeight]
         ]
     };
 }
@@ -545,14 +547,14 @@ function getLoopAfterLastPathParams(width: number, height: number, layoutConfig:
     const preRadiusHeight = layoutConfig.grid.h - curveRadius;
 
     return {
-        start: { x: width, y: 0 },
+        start: { x: 0, y: 0 },
         offsets: [
-            [-(width - curveRadius), 0],
-            [-curveRadius, curveRadius],
+            [width - curveRadius, 0],
+            [curveRadius, curveRadius],
             [0, height - layoutConfig.grid.h - preRadiusHeight],
-            [curveRadius, curveRadius],
-            [width - curveRadius * 2, 0],
-            [curveRadius, curveRadius],
+            [-curveRadius, curveRadius],
+            [-(width - curveRadius * 2), 0],
+            [-curveRadius, curveRadius],
             [0, preRadiusHeight]
         ]
     };

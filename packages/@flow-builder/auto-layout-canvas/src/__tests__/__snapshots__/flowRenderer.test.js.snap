@@ -20038,32 +20038,33 @@ L 3, 96",
           "geometry": Object {
             "h": 144,
             "w": 88,
-            "x": -88,
+            "x": 0,
             "y": 0,
           },
           "isFault": undefined,
           "isHighlighted": false,
+          "labelOffsetX": 88,
           "labelOffsetY": 48,
           "labelType": 3,
           "svgInfo": Object {
             "endLocation": Object {
-              "x": 91,
+              "x": 3,
               "y": 171,
             },
             "geometry": Object {
               "h": 177,
-              "w": 94,
+              "w": 97,
               "x": -3,
               "y": -3,
             },
-            "path": "M 91, 3
-L 19, 3
-A 16 16 0 0 0, 3, 19
-L 3, 131
-A 16 16 0 0 0, 19, 147
-L 75, 147
-A 16 16 0 0 1, 91, 163
-L 91, 171",
+            "path": "M 3, 3
+L 75, 3
+A 16 16 0 0 1, 91, 19
+L 91, 131
+A 16 16 0 0 1, 75, 147
+L 19, 147
+A 16 16 0 0 0, 3, 163
+L 3, 171",
           },
           "toBeDeleted": false,
           "type": "loopAfterLast",
@@ -20075,7 +20076,7 @@ L 91, 171",
           "geometry": Object {
             "h": 144,
             "w": 88,
-            "x": 0,
+            "x": -88,
             "y": 0,
           },
           "isFault": undefined,
@@ -20083,23 +20084,23 @@ L 91, 171",
           "labelType": 0,
           "svgInfo": Object {
             "endLocation": Object {
-              "x": 3,
-              "y": 3,
+              "x": 91,
+              "y": 99,
             },
             "geometry": Object {
-              "h": 126,
-              "w": 97,
+              "h": 129,
+              "w": 94,
               "x": -3,
               "y": -3,
             },
-            "path": "M 3, 99
+            "path": "M 91, 3
+L 19, 3
+A 16 16 0 0 0, 3, 19
 L 3, 107
 A 16 16 0 0 0, 19, 123
 L 75, 123
 A 16 16 0 0 0, 91, 107
-L 91, 19
-A 16 16 0 0 0, 75, 3
-L 3, 3",
+L 91, 99",
           },
           "toBeDeleted": false,
           "type": "loopBack",
@@ -21354,32 +21355,33 @@ L 3, 96",
           "geometry": Object {
             "h": 144,
             "w": 88,
-            "x": -88,
+            "x": 0,
             "y": 0,
           },
           "isFault": undefined,
           "isHighlighted": true,
+          "labelOffsetX": 88,
           "labelOffsetY": 48,
           "labelType": 3,
           "svgInfo": Object {
             "endLocation": Object {
-              "x": 91,
+              "x": 3,
               "y": 171,
             },
             "geometry": Object {
               "h": 177,
-              "w": 94,
+              "w": 97,
               "x": -3,
               "y": -3,
             },
-            "path": "M 91, 3
-L 19, 3
-A 16 16 0 0 0, 3, 19
-L 3, 131
-A 16 16 0 0 0, 19, 147
-L 75, 147
-A 16 16 0 0 1, 91, 163
-L 91, 171",
+            "path": "M 3, 3
+L 75, 3
+A 16 16 0 0 1, 91, 19
+L 91, 131
+A 16 16 0 0 1, 75, 147
+L 19, 147
+A 16 16 0 0 0, 3, 163
+L 3, 171",
           },
           "toBeDeleted": false,
           "type": "loopAfterLast",
@@ -21391,7 +21393,7 @@ L 91, 171",
           "geometry": Object {
             "h": 144,
             "w": 88,
-            "x": 0,
+            "x": -88,
             "y": 0,
           },
           "isFault": undefined,
@@ -21399,23 +21401,23 @@ L 91, 171",
           "labelType": 0,
           "svgInfo": Object {
             "endLocation": Object {
-              "x": 3,
-              "y": 3,
+              "x": 91,
+              "y": 99,
             },
             "geometry": Object {
-              "h": 126,
-              "w": 97,
+              "h": 129,
+              "w": 94,
               "x": -3,
               "y": -3,
             },
-            "path": "M 3, 99
+            "path": "M 91, 3
+L 19, 3
+A 16 16 0 0 0, 3, 19
 L 3, 107
 A 16 16 0 0 0, 19, 123
 L 75, 123
 A 16 16 0 0 0, 91, 107
-L 91, 19
-A 16 16 0 0 0, 75, 3
-L 3, 3",
+L 91, 99",
           },
           "toBeDeleted": false,
           "type": "loopBack",

@@ -993,13 +993,13 @@ function createLoopAfterLastConnector(
 
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const connectorToBeDeleted = shouldDeleteConnector(context, parentGuid, childIndex);
-    const w = branchLayout.offsetX;
+    const w = branchLayout.w - branchLayout.offsetX;
 
     const geometry = {
-        x: -w,
+        x: 0,
         y: 0,
-        w,
-        h: branchLayout.h
+        h: branchLayout.h,
+        w
     };
 
     return connectorLib.createLoopAfterLastConnector(
@@ -1009,6 +1009,7 @@ function createLoopAfterLastConnector(
         context.isFault,
         connectorToBeDeleted,
         branchLayout.labelOffset,
+        w,
         isHighlighted
     );
 }
@@ -1030,13 +1031,13 @@ function createLoopBackConnector(
     const childIndex = LOOP_BACK_INDEX;
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const connectorToBeDeleted = shouldDeleteConnector(context, parentGuid, childIndex);
-    const w = branchLayout.w - branchLayout.offsetX;
+    const w = branchLayout.offsetX;
 
     const geometry = {
-        x: 0,
+        x: -w,
         y: 0,
-        h: branchLayout.h,
-        w
+        w,
+        h: branchLayout.h
     };
 
     return connectorLib.createLoopBackConnector(
