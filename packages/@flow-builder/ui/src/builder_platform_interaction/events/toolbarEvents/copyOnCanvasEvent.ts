@@ -1,7 +1,6 @@
-// @ts-nocheck
-const eventName = 'copy';
+const eventName = 'copyoncanvas';
 
-export class CopyEvent {
+export class CopyOnCanvasEvent {
     constructor() {
         return new CustomEvent(eventName, {
             cancelable: false,

@@ -32,7 +32,7 @@ export { ToggleMarqueeOnEvent } from './canvasEvents/zoomPanelEvent/toggleMarque
 export { MarqueeSelectEvent } from './canvasEvents/marqueeSelectEvent';
 export { ClickToZoomEvent } from './canvasEvents/zoomPanelEvent/zoomEvent';
 export { ToggleSelectionModeEvent } from './toolbarEvents/toggleSelectionModeEvent';
-export { CopyEvent } from './toolbarEvents/copyEvent';
+export { CopyOnCanvasEvent } from './toolbarEvents/copyOnCanvasEvent';
 export { DuplicateEvent } from './toolbarEvents/duplicateEvent';
 export { EditFlowPropertiesEvent } from './toolbarEvents/editFlowPropertiesEvent';
 export { EditFlowEvent } from './toolbarEvents/editFlowEvent';

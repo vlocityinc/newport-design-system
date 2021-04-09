@@ -3,7 +3,13 @@ import { createElement } from 'lwc';
 import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { CloseMenuEvent, MoveFocusToConnectorEvent, GoToPathEvent } from 'builder_platform_interaction/flcEvents';
+import {
+    CloseMenuEvent,
+    MoveFocusToConnectorEvent,
+    GoToPathEvent,
+    PasteOnCanvasEvent,
+    DeleteGoToConnectionEvent
+} from 'builder_platform_interaction/flcEvents';
 import {
     configureMenu,
     PASTE_ACTION,
@@ -192,7 +198,7 @@ describe('connector menu', () => {
         expect(callback).toHaveBeenCalled();
     });
 
-    it('should dispatch paste event when paste is specified ', async () => {
+    it('should dispatch PasteOnCanvasEvent event when paste is specified ', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [
                 {
@@ -214,7 +220,7 @@ describe('connector menu', () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const callback = jest.fn();
-        cmp.addEventListener('paste', callback);
+        cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });
@@ -357,12 +363,12 @@ describe('connector menu', () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const callback = jest.fn();
-        cmp.addEventListener('gotopath', callback);
+        cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });
 
-    it('should dispatch deleteGoToConncetionEvent when goto is deleted', async () => {
+    it('should dispatch DeleteGoToConnectionEvent when goto is deleted', async () => {
         configureMenu.mockReturnValueOnce({
             sections: [
                 {
@@ -384,7 +390,7 @@ describe('connector menu', () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const callback = jest.fn();
-        cmp.addEventListener('deletegotoconnection', callback);
+        cmp.addEventListener(DeleteGoToConnectionEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });
@@ -411,7 +417,7 @@ describe('connector menu', () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const callback = jest.fn();
-        cmp.addEventListener('gotopath', callback);
+        cmp.addEventListener(GoToPathEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalledWith(expect.objectContaining({ detail: { isReroute: true } }));
     });

@@ -1,15 +1,15 @@
 import { NodeRef } from 'builder_platform_interaction/autoLayoutCanvas';
 
-const eventName = 'paste';
+const eventName = 'pasteoncanvas';
 
-interface PasteEventDetail {
+interface PasteOnCanvasEventDetail {
     prev: NodeRef;
     next: NodeRef;
     parent: NodeRef;
     childIndex: number;
 }
 
-export class PasteEvent extends CustomEvent<PasteEventDetail> {
+export class PasteOnCanvasEvent extends CustomEvent<PasteOnCanvasEventDetail> {
     constructor(prev: NodeRef, next: NodeRef, parent: NodeRef, childIndex: number) {
         super(eventName, {
             cancelable: false,

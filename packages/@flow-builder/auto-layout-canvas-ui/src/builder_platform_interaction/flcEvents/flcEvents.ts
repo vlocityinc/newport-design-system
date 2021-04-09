@@ -7,7 +7,7 @@ export { ToggleMenuEvent } from './toggleMenuEvent';
 export { DeleteElementFaultEvent } from './deleteElementFaultEvent';
 export { MenuPositionUpdateEvent } from './menuPositionUpdateEvent';
 export { AddElementFaultEvent } from './addElementFaultEvent';
-export { PasteEvent } from './pasteEvent';
+export { PasteOnCanvasEvent } from './pasteOnCanvasEvent';
 export { CloseMenuEvent } from './closeMenuEvent';
 export { NodeResizeEvent } from './nodeResizeEvent';
 export { ClearHighlightedPathEvent } from './clearHighlightedPathEvent';

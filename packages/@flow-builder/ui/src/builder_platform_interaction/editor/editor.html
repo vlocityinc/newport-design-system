@@ -22,7 +22,7 @@
             ></builder_platform_interaction-header>
             <builder_platform_interaction-toolbar
                 ontoggleselectionmode={handleToggleSelectionMode}
-                oncopy={handleCopy}
+                oncopyoncanvas={handleCopy}
                 onclick={handleLeftPanelAndToolbarInteraction}
                 onduplicate={handleDuplicate}
                 oneditflowproperties={handleEditFlowProperties}
@@ -112,7 +112,7 @@
                     oneditelement={handleEditElement}
                     ontoggleselectionmode={handleToggleSelectionMode}
                     onflcselection={handleSelectionOnFixedCanvas}
-                    onpaste={handlePasteOnCanvas}
+                    onpasteoncanvas={handlePasteOnCanvas}
                     onclosepropertyeditor={handleClosePropertyEditor}
                     onnodeselected={handleNodeSelectedOnFixedCanvas}
                     onaddelementfault={handleAddElementFault}

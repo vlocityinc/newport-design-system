@@ -4,7 +4,7 @@ import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
     CloseMenuEvent,
-    PasteEvent,
+    PasteOnCanvasEvent,
     MoveFocusToConnectorEvent,
     GoToPathEvent,
     DeleteGoToConnectionEvent
@@ -103,7 +103,7 @@ export default class FlcConnectorMenu extends Menu {
 
         switch (action) {
             case PASTE_ACTION:
-                this.dispatchEvent(new PasteEvent(this.prev!, this.next!, this.parent!, this.childIndex!));
+                this.dispatchEvent(new PasteOnCanvasEvent(this.prev!, this.next!, this.parent!, this.childIndex!));
                 this.dispatchEvent(new MoveFocusToConnectorEvent(this.prev || this.parent, this.childIndex));
                 break;
             case GOTO_ACTION:

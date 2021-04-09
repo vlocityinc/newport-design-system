@@ -6,7 +6,7 @@ import {
     DuplicateEvent,
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
-    CopyEvent,
+    CopyOnCanvasEvent,
     ClosePropertyEditorEvent,
     EditFlowEvent,
     ToggleCanvasModeEvent,
@@ -529,9 +529,9 @@ describe('toolbar', () => {
                 expect(copyButton.disabled).toBeFalsy();
             });
 
-            it('Click on the Copy Button should fire the CopyEvent', () => {
+            it('Click on the Copy Button should fire the CopyOnCanvasEvent', () => {
                 const eventCallback = jest.fn();
-                toolbarComponent.addEventListener(CopyEvent.EVENT_NAME, eventCallback);
+                toolbarComponent.addEventListener(CopyOnCanvasEvent.EVENT_NAME, eventCallback);
                 toolbarComponent.shadowRoot.querySelector(selectors.copy).click();
                 expect(eventCallback).toHaveBeenCalled();
             });

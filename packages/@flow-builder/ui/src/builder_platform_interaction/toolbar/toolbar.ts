@@ -9,7 +9,7 @@ import {
     DiffFlowEvent,
     UndoEvent,
     RedoEvent,
-    CopyEvent,
+    CopyOnCanvasEvent,
     DuplicateEvent,
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
@@ -305,8 +305,8 @@ export default class Toolbar extends LightningElement {
     }
 
     handleCopyButtonClick() {
-        const copyEvent = new CopyEvent();
-        this.dispatchEvent(copyEvent);
+        const copyOnCanvasEvent = new CopyOnCanvasEvent();
+        this.dispatchEvent(copyOnCanvasEvent);
     }
 
     handleDuplicateButtonClick(event) {
