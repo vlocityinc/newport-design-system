@@ -31,8 +31,14 @@ import {
     accountSObjectVariable
 } from 'mock/storeData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
+import { rulesForRecordTriggerTypeCreate } from 'serverData/RetrieveAllRules/rulesForRecordTriggerTypeCreate.json';
+import { rulesForRecordTriggerTypeUpdate } from 'serverData/RetrieveAllRules/rulesForRecordTriggerTypeUpdate.json';
 import { PARAM_PROPERTY, setRules, getRulesForElementType } from '../rules';
-import { ELEMENT_TYPE, UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE,
+    FlowComparisonOperator
+} from 'builder_platform_interaction/flowMetadata';
 import { ASSIGNMENT, COMPARISON, setOfDistinctRhsParams } from './operatorAndRulesTestUtil';
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'EqualTo';
@@ -696,6 +702,49 @@ describe('Operator Rule Util', () => {
 
             const isRequired = isCollectionRequired(mockAllowedParams, mockDataType);
             expect(isRequired).toEqual(true);
+        });
+    });
+
+    describe('Record trigger type Update', () => {
+        beforeAll(() => {
+            setRules(rulesForRecordTriggerTypeUpdate);
+        });
+        it('should include isChanged comparison operator for element type Start', () => {
+            assignmentComparisonRules = getRulesForElementType(COMPARISON, ELEMENT_TYPE.START_ELEMENT);
+            const operators = getOperators(
+                ELEMENT_TYPE.START_ELEMENT,
+                accountSObjectVariable,
+                assignmentComparisonRules,
+                COMPARISON
+            );
+            expect(operators).toContain(FlowComparisonOperator.IsChanged);
+        });
+
+        it('should not include isChanged comparison operator for element type Record Update', () => {
+            assignmentComparisonRules = getRulesForElementType(COMPARISON, ELEMENT_TYPE.RECORD_UPDATE);
+            const operators = getOperators(
+                ELEMENT_TYPE.RECORD_UPDATE,
+                accountSObjectVariable,
+                assignmentComparisonRules,
+                COMPARISON
+            );
+            expect(operators).not.toContain(FlowComparisonOperator.IsChanged);
+        });
+    });
+
+    describe('Record trigger type Create', () => {
+        beforeAll(() => {
+            setRules(rulesForRecordTriggerTypeCreate);
+        });
+        it('should not include isChanged comparison operator for element type Start', () => {
+            assignmentComparisonRules = getRulesForElementType(COMPARISON, ELEMENT_TYPE.START_ELEMENT);
+            const operators = getOperators(
+                ELEMENT_TYPE.START_ELEMENT,
+                accountSObjectVariable,
+                assignmentComparisonRules,
+                COMPARISON
+            );
+            expect(operators).not.toContain(FlowComparisonOperator.IsChanged);
         });
     });
 
