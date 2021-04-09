@@ -233,6 +233,15 @@ describe('FlcNode', () => {
             flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
             expect(eventCallback).toHaveBeenCalled();
         });
+
+        it('The Selection Box should have aria-label set properly', () => {
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo,
+                canvasMode: AutoLayoutCanvasMode.SELECTION
+            });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox.getAttribute('aria-label')).toEqual(LABELS.checkboxLabel);
+        });
     });
 
     describe('Text Container', () => {
@@ -295,7 +304,8 @@ describe('FlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: NodeType.BRANCH
+                type: NodeType.BRANCH,
+                elementType: 'Decision'
             },
             menuOpened: false,
             label: 'elementType'
@@ -320,7 +330,8 @@ describe('FlcNode', () => {
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'start',
                 type: NodeType.START,
-                description: 'start description'
+                description: 'start description',
+                elementType: 'START_ELEMENT'
             },
             menuOpened: false,
             config: {}
@@ -527,6 +538,64 @@ describe('FlcNode', () => {
             });
             const errorIcon = flcNodeComponent.shadowRoot.querySelector(selectors.errorIcon);
             expect(errorIcon).not.toBeNull();
+        });
+    });
+
+    describe('Aria attributes', () => {
+        const decisionNodeInfo = {
+            guid: 'guid',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: NodeType.BRANCH,
+                elementType: 'Decision'
+            },
+            menuOpened: false,
+            label: 'elementType'
+        };
+
+        const startNodeInfo = {
+            guid: 'guid',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'utility:right',
+                iconBackgroundColor: 'background-green',
+                iconShape: ICON_SHAPE.CIRCLE,
+                iconSize: 'medium',
+                label: 'elementType',
+                type: NodeType.START,
+                description: 'start description',
+                elementType: 'START_ELEMENT'
+            },
+            menuOpened: false
+        };
+
+        it('Should set the aria-label and aria-haspopup properly for decision', () => {
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo: decisionNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const decisionIcon = flcNodeComponent.shadowRoot.querySelector(selectors.decisionIcon);
+            expect(decisionIcon.getAttribute('aria-label')).toEqual('[Decision] elementType');
+            expect(decisionIcon.getAttribute('aria-haspopup')).toEqual('dialog');
+        });
+
+        it('Should set the aria-label properly for start node', () => {
+            const flcNodeComponent = createComponentUnderTest({
+                nodeInfo: startNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const startIcon = flcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
+            expect(startIcon.getAttribute('aria-label')).toEqual('[START_ELEMENT] start description');
+            expect(startIcon.getAttribute('aria-haspopup')).toEqual('dialog');
         });
     });
 });

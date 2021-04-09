@@ -147,6 +147,12 @@ export default class FlcNode extends LightningElement {
         return label;
     }
 
+    get ariaLabel() {
+        // Use description in metadata as label for element whose label is not set (start node for example)
+        const label = this.nodeInfo.label ? this.nodeInfo.label : this.nodeInfo.metadata.description;
+        return `[${this.nodeInfo.metadata.elementType}] ${label}`;
+    }
+
     get showElementType() {
         return this.nodeInfo.metadata.type !== NodeType.END;
     }

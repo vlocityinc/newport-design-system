@@ -21,6 +21,8 @@
                     icon-name={nodeInfo.metadata.icon}
                     size={iconSize}
                     variant="inverse"
+                    aria-label={ariaLabel}
+                    aria-haspopup="dialog"
                 ></lightning-icon>
             </div>
 
@@ -35,6 +37,7 @@
                 size="small"
                 variant={checkboxVariant}
                 onclick={handleSelectionCheckboxClick}
+                aria-label={labels.checkboxLabel}
             ></lightning-button-icon>
         </builder_platform_interaction-flc-button-menu>
         <!-- Label and Element Type -->

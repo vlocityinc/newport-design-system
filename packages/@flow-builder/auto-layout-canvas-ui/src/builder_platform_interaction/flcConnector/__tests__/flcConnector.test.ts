@@ -14,7 +14,8 @@ const selectors = {
     defaultConnectorBadge: '.connector-badge span',
     faultConnectorBadge: '.connector-badge.fault-badge span',
     goToTargetLabel: '.go-to-info .go-to-target-label span',
-    goToTargetArrow: '.go-to-info span'
+    goToTargetArrow: '.go-to-info span',
+    flcButtonMenu: 'builder_platform_interaction-flc-button-menu'
 };
 
 const geometry = {
@@ -207,5 +208,12 @@ describe('Auto-Layout connector tests', () => {
         const goToConnector = createComponentUnderTest(goToConnectorInfo, AutoLayoutCanvasMode.DEFAULT);
         const goToTargetArrow = goToConnector.shadowRoot.querySelectorAll(selectors.goToTargetArrow)[1];
         expect(goToTargetArrow.textContent).toBe('→');
+    });
+
+    it('Should have aria attributes set properly for add button', () => {
+        const regularConnector = createComponentUnderTest(getRegularConnectorInfo(), AutoLayoutCanvasMode.DEFAULT);
+        const connectorButtonLabel = regularConnector.shadowRoot.querySelector(selectors.flcButtonMenu);
+        expect(connectorButtonLabel.getAttribute('aria-label')).toEqual(LABELS.connectorButtonLabel);
+        expect(connectorButtonLabel.getAttribute('aria-haspopup')).toEqual('dialog');
     });
 });
