@@ -29,24 +29,63 @@ export default class DebugPanel extends LightningElement {
     headerTitle = LABELS.debugInspector;
     showGovLim = false;
 
-    handleFilter(event) {
-        const filterOptions = Object.assign([], event.detail.selection);
-        if (filterOptions.length === 0) {
+    checkboxSelections: string[] = [];
+    showOptions = false;
+    filterPopoverAltText = LABELS.filterPopoverAltText;
+    filterClosePopoverAltText = LABELS.filterClosePopoverAltText;
+    filterOptions = [
+        {
+            label: LABELS.govLimFilter,
+            value: LABELS.govLimFilter
+        },
+        {
+            label: LABELS.transactionFilter,
+            value: LABELS.transactionFilter
+        }
+    ];
+
+    _selectedOptions = LABELS.basicFilter;
+
+    get selectedOptions() {
+        return this._selectedOptions;
+    }
+
+    get options() {
+        if (this.fromEmailDebugging) {
+            return this.filterOptions.filter((e) => e.label !== LABELS.govLimFilter);
+        }
+        return this.filterOptions;
+    }
+
+    handleDropdown() {
+        this.showOptions = !this.showOptions;
+    }
+
+    handleFilterChange(e) {
+        this.checkboxSelections = Object.assign([], e.detail.value);
+        if (this.checkboxSelections.length === 0) {
+            this._selectedOptions = LABELS.basicFilter;
             this.handleDefaultFilter();
         } else {
-            for (let i = 0; i < filterOptions.length; i++) {
-                const option = filterOptions[i];
-                if (option.label === LABELS.govLimFilter) {
-                    this.showGovLim = option.isSelected;
+            this._selectedOptions = this.checkboxSelections.join(', ');
+            // the checkbox group event detail value ONLY contains selected options
+            this.filterOptions = this.filterOptions.map((e) => {
+                switch (e.label) {
+                    case LABELS.govLimFilter:
+                        this.showGovLim = this.checkboxSelections.includes(LABELS.govLimFilter);
+                        break;
+                    case LABELS.transactionFilter:
+                        if (this.checkboxSelections.includes(LABELS.transactionFilter)) {
+                            this.blockedEntries = this.blockedEntries.filter((e) => e === !this.TRANSACTION_ENTRY);
+                        } else if (!this.blockedEntries.includes(this.TRANSACTION_ENTRY)) {
+                            this.blockedEntries.push(this.TRANSACTION_ENTRY);
+                        }
+                        break;
+                    default:
+                        break;
                 }
-                if (option.label === LABELS.transactionFilter) {
-                    if (option.isSelected) {
-                        this.blockedEntries = this.blockedEntries.filter((e) => e === !this.TRANSACTION_ENTRY);
-                    } else if (!this.blockedEntries.includes(this.TRANSACTION_ENTRY)) {
-                        this.blockedEntries.push(this.TRANSACTION_ENTRY);
-                    }
-                }
-            }
+                return e;
+            });
         }
         this.removeBlockedEntries();
     }

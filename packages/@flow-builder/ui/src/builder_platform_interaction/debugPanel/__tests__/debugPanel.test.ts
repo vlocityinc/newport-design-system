@@ -76,7 +76,7 @@ describe('Debug Panel for Pause and Error Resume', () => {
         debugPanelFilter.shadowRoot.querySelector(selectors.filterButton).click();
         await ticks(1);
 
-        const checkboxGroup = debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup);
+        const checkboxGroup = panel.shadowRoot.querySelector(selectors.checkboxesGroup);
         checkboxGroup.dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -131,8 +131,8 @@ describe('filter behaviour', () => {
         });
 
         it('should display transaction boundaries when filtered in', async () => {
-            debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
-            const checkboxGroup = debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup);
+            debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             expect(checkboxGroup.value).toHaveLength(1);
             expect(checkboxGroup.options).toHaveLength(2);
             checkboxGroup.dispatchEvent(
@@ -150,8 +150,8 @@ describe('filter behaviour', () => {
         });
 
         it('should display governor limits when filtered in', async () => {
-            debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.govLimFilter];
-            const checkboxGroup = debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup);
+            debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.govLimFilter];
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             expect(checkboxGroup.value).toHaveLength(1);
             expect(checkboxGroup.options).toHaveLength(2);
             checkboxGroup.dispatchEvent(
@@ -170,7 +170,7 @@ describe('filter behaviour', () => {
         });
 
         it('should NOT display transaction boundaries when filtered out', async () => {
-            const checkboxGroup = debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup);
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             checkboxGroup.dispatchEvent(
                 new CustomEvent('change', {
                     detail: {
@@ -196,7 +196,7 @@ describe('filter behaviour', () => {
         });
 
         it('should NOT display governor limits when filtered out', async () => {
-            const checkboxGroup = debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup);
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             checkboxGroup.dispatchEvent(
                 new CustomEvent('change', {
                     detail: {
@@ -241,8 +241,8 @@ describe('filter behaviour', () => {
         });
 
         it('should display transaction boundaries when filtered in', async () => {
-            debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
-            const checkboxGroup = debugPanelFilter.shadowRoot.querySelector(selectors.checkboxesGroup);
+            debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup).value = [LABELS.transactionFilter];
+            const checkboxGroup = debugPanel.shadowRoot.querySelector(selectors.checkboxesGroup);
             expect(checkboxGroup.value).toHaveLength(1);
             expect(checkboxGroup.options).toHaveLength(1);
             checkboxGroup.dispatchEvent(

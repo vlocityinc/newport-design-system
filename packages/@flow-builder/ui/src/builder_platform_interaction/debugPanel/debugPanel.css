@@ -1,10 +1,6 @@
-.debug-panel-header {
-    transition: padding 0.25s ease;
-}
-
 .slds-scrollable--y {
-    height: calc(100vh - 184px);
-    width: 24rem;
+    height: calc(100vh - 199px);
+    width: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
     overflow-y: auto;
