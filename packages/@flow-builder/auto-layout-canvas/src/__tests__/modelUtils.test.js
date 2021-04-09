@@ -11,7 +11,8 @@ import {
     END_ELEMENT_GUID,
     END_ELEMENT,
     getFlowWhenGoingToPreviousElement,
-    getFlowWhenGoingFromParentFirstBranchToPreviousElement
+    getFlowWhenGoingFromParentFirstBranchToPreviousElement,
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement
 } from './testUtils';
 
 import {
@@ -197,6 +198,23 @@ describe('modelUtils', () => {
             addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
                 parent: 'branch-guid',
                 childIndex: 0
+            });
+            expect(flowRenderContext.flowModel).toMatchSnapshot();
+        });
+
+        it('add an element between the parent element and the branchHead goTo connector on the Fault branch', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentFaultBranchToPreviousElement();
+            const newScreen = {
+                guid: 'new-screen-guid',
+                elementType: 'SCREEN_ELEMENT',
+                label: 'default',
+                nodeType: NodeType.DEFAULT,
+                config: {}
+            };
+            flowRenderContext.flowModel['new-screen-guid'] = newScreen;
+            addElement(flowRenderContext.flowModel, 'new-screen-guid', NodeType.DEFAULT, {
+                parent: 'branch-guid',
+                childIndex: FAULT_INDEX
             });
             expect(flowRenderContext.flowModel).toMatchSnapshot();
         });
@@ -1523,8 +1541,460 @@ describe('modelUtils', () => {
                 }
             };
 
-            const nextElements = deleteElement(elementService(elements), elements, elementToDelete);
+            const nextElements = deleteElement(elementService(elements), elements, elementToDelete, {
+                childIndexToKeep: undefined
+            });
             expect(nextElements).toEqual(expectedElements);
+        });
+
+        it('Deleting a branch element along with all the branches', () => {
+            const elements = {
+                root: {
+                    guid: 'root',
+                    nodeType: 'root',
+                    elementType: 'root',
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'decision-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'decision-guid': {
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision-guid',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    prev: 'start-guid',
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: ['screen-one-guid', 'screen-two-guid']
+                },
+                'screen-one-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-one-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-one-guid',
+                    next: null,
+                    nodeType: 'default',
+                    prev: null,
+                    parent: 'decision-guid',
+                    childIndex: 0,
+                    isTerminal: true
+                },
+                'screen-two-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-two-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-two-guid',
+                    next: null,
+                    nodeType: 'default',
+                    prev: null,
+                    parent: 'decision-guid',
+                    childIndex: 1,
+                    isTerminal: true
+                },
+                'end-guid': {
+                    config: {},
+                    elementType: 'end',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    next: null,
+                    nodeType: 'end',
+                    prev: 'decision-guid'
+                }
+            };
+
+            const expectedElements = {
+                root: {
+                    guid: 'root',
+                    nodeType: 'root',
+                    elementType: 'root',
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'end-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'end-guid': {
+                    config: {},
+                    elementType: 'end',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    next: null,
+                    nodeType: 'end',
+                    prev: 'start-guid'
+                }
+            };
+
+            const nextElements = deleteElement(elementService(elements), elements, 'decision-guid');
+            expect(nextElements).toEqual(expectedElements);
+        });
+
+        it('Deleting a simple element which is a GoTo source', () => {
+            const flowRenderContext = getFlowWhenGoingToPreviousElement();
+            const updatedFlowModel = deleteElement(
+                elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel,
+                'goto-source-guid'
+            );
+            const expectedFlowModel = {
+                root: {
+                    guid: 'root',
+                    nodeType: 'root',
+                    elementType: 'root',
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'goto-target-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'goto-target-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'goto-target-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'end-hook-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'end-hook-guid': {
+                    guid: 'end-hook-guid',
+                    nodeType: 'end',
+                    prev: 'goto-target-guid'
+                }
+            };
+            expect(updatedFlowModel).toEqual(expectedFlowModel);
+        });
+
+        it('Deleting simple GoTo source element from branch head location (0th index)', () => {
+            const originalFlowModel = {
+                root: {
+                    guid: 'root',
+                    nodeType: 'root',
+                    elementType: 'root',
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'decision-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'decision-guid': {
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision-guid',
+                    incomingGoTo: ['screen-guid'],
+                    isCanvasElement: true,
+                    label: 'decision-guid',
+                    next: null,
+                    nodeType: 'branch',
+                    prev: 'start-guid',
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: ['screen-guid', 'right-end-guid']
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'decision-guid',
+                    nodeType: 'default',
+                    prev: null,
+                    parent: 'decision-guid',
+                    childIndex: 0,
+                    isTerminal: true
+                },
+                'right-end-guid': {
+                    config: {},
+                    elementType: 'end',
+                    guid: 'right-end-guid',
+                    isCanvasElement: true,
+                    label: 'right-end-guid',
+                    next: null,
+                    nodeType: 'end',
+                    prev: null,
+                    parent: 'decision-guid',
+                    childIndex: 1,
+                    isTerminal: true
+                }
+            };
+            const updatedFlowModel = deleteElement(elementService(originalFlowModel), originalFlowModel, 'screen-guid');
+            const expectedFlowModel = {
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'decision-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'decision-guid': {
+                    childReferences: [
+                        {
+                            childReference: 'o1'
+                        }
+                    ],
+                    children: ['end-hook-guid', 'right-end-guid'],
+                    config: {},
+                    elementType: 'Decision',
+                    guid: 'decision-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'decision-guid',
+                    next: null,
+                    nodeType: 'branch',
+                    prev: 'start-guid'
+                },
+                'end-hook-guid': {
+                    childIndex: 0,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'decision-guid'
+                },
+                'right-end-guid': {
+                    childIndex: 1,
+                    config: {},
+                    elementType: 'end',
+                    guid: 'right-end-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'right-end-guid',
+                    next: null,
+                    nodeType: 'end',
+                    parent: 'decision-guid',
+                    prev: null
+                }
+            };
+            expect(updatedFlowModel).toEqual(expectedFlowModel);
+        });
+
+        it('Deleting simple GoTo source element from branch head location (Fault index)', () => {
+            const originalFlowModel = {
+                root: {
+                    guid: 'root',
+                    nodeType: 'root',
+                    elementType: 'root',
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'action-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'action-guid': {
+                    config: {},
+                    elementType: 'Action',
+                    guid: 'action-guid',
+                    incomingGoTo: ['screen-guid'],
+                    isCanvasElement: true,
+                    label: 'action-guid',
+                    next: 'end-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid',
+                    fault: 'screen-guid'
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'action-guid',
+                    nodeType: 'default',
+                    prev: null,
+                    parent: 'action-guid',
+                    childIndex: -1,
+                    isTerminal: true
+                },
+                'end-guid': {
+                    config: {},
+                    elementType: 'end',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    next: null,
+                    nodeType: 'end',
+                    prev: 'action-guid'
+                }
+            };
+            const updatedFlowModel = deleteElement(elementService(originalFlowModel), originalFlowModel, 'screen-guid');
+            const expectedFlowModel = {
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'action-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'action-guid': {
+                    config: {},
+                    elementType: 'Action',
+                    guid: 'action-guid',
+                    incomingGoTo: [],
+                    label: 'action-guid',
+                    isCanvasElement: true,
+                    next: 'end-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid',
+                    fault: 'end-hook-guid'
+                },
+                'end-hook-guid': {
+                    childIndex: -1,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'action-guid'
+                },
+                'end-guid': {
+                    config: {},
+                    elementType: 'end',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    next: null,
+                    nodeType: 'end',
+                    prev: 'action-guid'
+                }
+            };
+            expect(updatedFlowModel).toEqual(expectedFlowModel);
         });
     });
 

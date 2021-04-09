@@ -637,7 +637,6 @@ function calculateBranchLayout(
         leftWidth = rightWidth = layoutConfig.branch.emptyWidth / 2;
     }
 
-    // TODO: Update this as needed when adding GoTo connector svg
     return hasGoToConnectionOnBranchHead(flowModel, parentNodeModel, childIndex)
         ? Object.assign(branchLayout, { w: layoutConfig.node.w, h: height, offsetX: layoutConfig.node.offsetX })
         : Object.assign(branchLayout, { w: leftWidth + rightWidth, h: height, offsetX: leftWidth });

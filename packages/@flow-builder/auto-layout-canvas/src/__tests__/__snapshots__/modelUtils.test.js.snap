@@ -90,6 +90,97 @@ Object {
 }
 `;
 
+exports[`modelUtils addElement add an element between the parent element and the branchHead goTo connector on the Fault branch 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "pauseConfig1",
+      },
+      Object {
+        "childReference": "pauseConfig2",
+      },
+    ],
+    "children": Array [
+      null,
+      null,
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "fault": "new-screen-guid",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-guid",
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "new-screen-guid": Object {
+    "childIndex": -1,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "new-screen-guid",
+    "incomingGoTo": Array [],
+    "isTerminal": true,
+    "label": "default",
+    "next": "screen-guid",
+    "nodeType": "default",
+    "parent": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "new-screen-guid",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "child-reference-guid-1",
+      },
+      Object {
+        "childReference": "child-reference-guid-2",
+      },
+    ],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils addElement add an element between the source element and the outgoing goTo connection 1`] = `
 Object {
   "goto-source-guid": Object {

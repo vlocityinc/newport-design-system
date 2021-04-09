@@ -11,7 +11,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 function _getNestedChildGuids(childReference: UI.Guid, elements): UI.Guid[] {
     const nestedChildGuids: UI.Guid[] = [];
     const element: Element = elements[childReference];
-    if (element.childReferences) {
+    if (element?.childReferences) {
         for (let i = 0; i < element.childReferences.length; i++) {
             nestedChildGuids.push(element.childReferences[i].childReference);
             nestedChildGuids.push(..._getNestedChildGuids(element.childReferences[i].childReference, elements));

@@ -348,6 +348,42 @@ function removeAndUpdateSourceReferenceInIncomingGoTo(
 }
 
 /**
+ *
+ * @param elementService - The element service
+ * @param flowModel - The flow model
+ * @param sourceElement - Source of the GoTo connector
+ * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
+ */
+function createAndConnectEndElementOnGoToDeletion(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    sourceElement: NodeModel,
+    sourceBranchIndex: number | null
+): FlowModel {
+    // Add and connect the end element
+    const endElement = createEndElement(elementService, flowModel);
+    flowModel[endElement.guid] = endElement;
+    if (sourceBranchIndex == null) {
+        // When goto has a previous element, connect the source element to a newly created
+        // End element by updating the next property
+        sourceElement.next = endElement.guid;
+        endElement.prev = sourceElement.guid;
+    } else {
+        // When goto is present at the branch head, connect the source element to a newly created
+        // End element by updating the children property at the right index or the Fault property
+        if (sourceBranchIndex === FAULT_INDEX) {
+            sourceElement.fault = endElement.guid;
+        } else {
+            (sourceElement as ParentNodeModel).children[sourceBranchIndex] = endElement.guid;
+        }
+        (endElement as BranchHeadNodeModel).parent = sourceElement.guid;
+        (endElement as BranchHeadNodeModel).childIndex = sourceBranchIndex;
+        (endElement as BranchHeadNodeModel).isTerminal = true;
+    }
+    return flowModel;
+}
+
+/**
  * Function to delete a GoTo connector between a given source and target
  * @param elementService - The element service
  * @param flowModel - The flow model
@@ -362,28 +398,7 @@ function deleteGoToConnection(
 ): FlowModel {
     const sourceElement = flowModel[sourceGuid] as ParentNodeModel;
     removeSourceFromIncomingGoTo(flowModel, sourceElement, sourceBranchIndex);
-
-    // Add and connect the end element
-    const endElement = createEndElement(elementService, flowModel);
-    flowModel[endElement.guid] = endElement;
-    if (sourceBranchIndex == null) {
-        // When goto has a previous element, connect the source element to a newly created
-        // End element by updating the next property
-        sourceElement.next = endElement.guid;
-        endElement.prev = sourceGuid;
-    } else {
-        // When goto is present at the branch head, connect the source element to a newly created
-        // End element by updating the children property at the right index or the Fault property
-        if (sourceBranchIndex === FAULT_INDEX) {
-            sourceElement.fault = endElement.guid;
-        } else {
-            sourceElement.children[sourceBranchIndex] = endElement.guid;
-        }
-        (endElement as BranchHeadNodeModel).parent = sourceGuid;
-        (endElement as BranchHeadNodeModel).childIndex = sourceBranchIndex;
-        (endElement as BranchHeadNodeModel).isTerminal = true;
-    }
-    return flowModel;
+    return createAndConnectEndElementOnGoToDeletion(elementService, flowModel, sourceElement, sourceBranchIndex);
 }
 
 /**
@@ -1159,23 +1174,34 @@ function deleteElement(
         }
     }
 
-    nextElement = nextElement || (next ? resolveNode(state, next) : null);
+    // Adding the hasGoToConnectionOnNext check here to avoid setting the GoTo target element as the next element
+    nextElement = nextElement || (next && !hasGoToConnectionOnNext(state, element) ? resolveNode(state, next) : null);
 
-    if (parent != null) {
-        if (childIndex === FAULT_INDEX) {
-            parentElement!.fault = null;
-        } else {
-            (parentElement as ParentNodeModel).children[childIndex] = null;
-        }
-        linkBranchOrFault(state, parentElement as ParentNodeModel, childIndex, nextElement);
-    } else if (nextElement != null) {
-        nextElement.prev = prev;
-        linkElement(state, nextElement);
+    if (next && hasGoToConnectionOnNext(state, element)) {
+        // When deleting an element that has an outgoing GoTo connection,
+        // we need to remove the source reference from the target element's incomingGoTo array
+        // and instead connect the previous or parent element to a newly created end element
+        const targetElement = state[next];
+        targetElement.incomingGoTo = targetElement.incomingGoTo!.filter((goto) => goto !== element.guid);
+        const prevOrParentElement = prev ? state[prev] : state[parent];
+        state = createAndConnectEndElementOnGoToDeletion(elementService, state, prevOrParentElement, childIndex);
     } else {
-        // we're deleting the last element in a branch
-        const prevElement = prev ? resolveNode(state, prev) : null;
-        if (prevElement != null) {
-            prevElement.next = null;
+        if (parent) {
+            if (childIndex === FAULT_INDEX) {
+                parentElement!.fault = null;
+            } else {
+                (parentElement as ParentNodeModel).children[childIndex] = null;
+            }
+            linkBranchOrFault(state, parentElement as ParentNodeModel, childIndex, nextElement);
+        } else if (nextElement) {
+            nextElement.prev = prev;
+            linkElement(state, nextElement);
+        } else {
+            // we're deleting the last element in a branch
+            const prevElement = prev ? resolveNode(state, prev) : null;
+            if (prevElement) {
+                prevElement.next = null;
+            }
         }
     }
 
