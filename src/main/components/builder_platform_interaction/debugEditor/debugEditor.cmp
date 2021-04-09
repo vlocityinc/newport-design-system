@@ -29,6 +29,9 @@
     <aura:attribute name="createOrUpdateOptions" type="List"/>
     <aura:attribute name="saveType" type="String" default="Create"/>
 
+    <aura:attribute name="scheduledPathsList" type="List"/>
+    <aura:attribute name="showScheduledPathPicklist" type="Boolean" default="false"/>
+
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
     <aura:method name="getDebugInput" action="{!c.getDebugInput}"/>
@@ -37,6 +40,21 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <div class="slds-p-vertical_x-large slds-p-horizontal_large">
+
+        <aura:if isTrue="{!v.showScheduledPathPicklist}">
+            <div class="text slds-p-bottom_medium">
+                 <h2>{#$Label.FlowDebug.ChooseSchedulePath}</h2>
+            </div>
+            <div class="text slds-p-bottom_medium">{#$Label.FlowDebug.ChooseSchedulePathDesc}</div>
+
+            <lightning:select class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" aura:id="scheduledPathsPicklist" >
+                 <option value="{!$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel}">{!$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel}</option>
+                 <aura:iteration items="{!v.scheduledPathsList}" var="scheduledPath">
+                        <option value="{!scheduledPath.name}">{!scheduledPath.label}</option>
+                 </aura:iteration>
+            </lightning:select>
+        </aura:if>
+
         <!-- Debug Options -->
         <div class="slds-p-bottom_medium">
             <h2>{#$Label.FlowDebug.FlowProperties}</h2>
@@ -91,19 +109,19 @@
 
         <aura:if isTrue="{!v.shouldHasInputs}">
             <!-- Input Variables -->
-            <aura:if isTrue="{!v.isDMLTrigger}">   
+            <aura:if isTrue="{!v.isDMLTrigger}">
                 <aura:set attribute="else">
                     <div class="slds-p-top_small">
                         <h2>{#$Label.FlowDebug.InputValues}</h2>
                     </div>
-                </aura:set>                             
+                </aura:set>
             </aura:if>
             <aura:if isTrue="{!v.displaySpinner}">
                 <div class="outer-div slds-p-top_medium">
                     <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
                 </div>
                 <aura:set attribute="else">
-                    <aura:if isTrue="{!v.hasInputs}">                        
+                    <aura:if isTrue="{!v.hasInputs}">
                         <aura:if isTrue="{!v.isDMLTrigger}">
                             <div class="slds-p-top_medium">
                                 <h2>{#$Label.FlowDebug.InputRecordForRecordTrigger}</h2>
@@ -134,7 +152,7 @@
                 type="radio"
                 />
             </aura:if>
-        </div>        
+        </div>
     </div>
 
     <!-- Libraries -->

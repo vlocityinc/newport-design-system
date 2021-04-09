@@ -68,7 +68,8 @@
                     enableRollback: false,
                     debugWaits: true,
                     ignoreEntryCriteria: false,
-                    dmlType: ''
+                    dmlType: '',
+                    scheduledPathSelection: ''
                 },
                 "Default getDebugInput doesn't work correctly"
             );
@@ -76,6 +77,10 @@
             $A.test.assertUndefinedOrNull(
                 cmp.find('isIgnoreEntryCriteriaCB'),
                 'Should not show ignore entry criteria checkbox'
+            );
+            $A.test.assertUndefinedOrNull(
+                cmp.find('scheduledPathsPicklist'),
+                'Scheduled Path Picklist should not exist'
             );
         }
     },
@@ -131,7 +136,8 @@
                     enableRollback: true,
                     debugWaits: false,
                     ignoreEntryCriteria: false,
-                    dmlType: ''
+                    dmlType: '',
+                    scheduledPathSelection: ''
                 },
                 "getDebugInput doesn't reflect value changes of checkboxes correctly"
             );
@@ -800,6 +806,56 @@
                 function (cmp) {
                     $A.test.assertNotNull(cmp.find('debugCreateOrUpdate'), 'Create or Update Radio does not show up');
                 }
+            );
+        }
+    },
+
+    testScheduledPathSelection: {
+        attributes: {
+            scheduledPathsList: [
+                {
+                    label: 'Sample Scheduled Path',
+                    name: 'Sample_Scheduled_Path',
+                    offsetNumber: 2,
+                    offsetUnit: 'Days',
+                    recordField: 'CreatedDate',
+                    timeSource: 'RecordField'
+                }
+            ],
+            showScheduledPathPicklist: true
+        },
+        test: function (cmp) {
+            $A.test.assertNotNull(cmp.find('scheduledPathsPicklist'), 'Scheduled Path Picklist does not exist');
+            // Default value of scheduledPathSelection should be 'Run Immediately'
+            this.assertObjectEquals(
+                cmp.getDebugInput(),
+                {
+                    inputs: [],
+                    runAs: false,
+                    debugAsUserId: null,
+                    enableRollback: false,
+                    debugWaits: true,
+                    ignoreEntryCriteria: false,
+                    dmlType: '',
+                    scheduledPathSelection: $A.get('$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel')
+                },
+                "scheduledPathSelection default value should be 'Run Immediately'"
+            );
+            // scheduledPathSelection should change after setting picklist value to 'Sample_Scheduled_Path'
+            cmp.find('scheduledPathsPicklist').set('v.value', 'Sample_Scheduled_Path');
+            this.assertObjectEquals(
+                cmp.getDebugInput(),
+                {
+                    inputs: [],
+                    runAs: false,
+                    debugAsUserId: null,
+                    enableRollback: false,
+                    debugWaits: true,
+                    ignoreEntryCriteria: false,
+                    dmlType: '',
+                    scheduledPathSelection: 'Sample_Scheduled_Path'
+                },
+                'scheduledPathSelection value is incorrect'
             );
         }
     }

@@ -36,6 +36,7 @@
         var debugWaitsBox = cmp.find('isDebugWaitsBox');
         var ignoreEntryCriteriaBox = cmp.find('isIgnoreEntryCriteriaCB');
         var dmlTypeRadio = cmp.find('debugCreateOrUpdate');
+        var scheduledPathPicklist = cmp.find('scheduledPathsPicklist');
         var debugInput = {
             inputs: helper.readAllInputs(cmp),
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
@@ -43,7 +44,8 @@
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
             debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false,
             ignoreEntryCriteria: ignoreEntryCriteriaBox ? ignoreEntryCriteriaBox.get('v.checked') : false,
-            dmlType: dmlTypeRadio ? dmlTypeRadio.get('v.value') : ''
+            dmlType: dmlTypeRadio ? dmlTypeRadio.get('v.value') : '',
+            scheduledPathSelection: scheduledPathPicklist ? scheduledPathPicklist.get('v.value') : ''
         };
         return debugInput;
     }

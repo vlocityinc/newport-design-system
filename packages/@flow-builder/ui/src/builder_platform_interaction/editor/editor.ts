@@ -138,10 +138,11 @@ import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_
 import {
     getElementByGuid,
     getRecordTriggerType,
+    getStartElement,
     getStartObject,
     getTriggerType
 } from 'builder_platform_interaction/storeUtils';
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { createEndElement, shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
@@ -1074,7 +1075,8 @@ export default class Editor extends LightningElement {
                 debugAsUserId: debugOptions.debugAsUserId,
                 debugWaits: !!debugOptions.debugWaits,
                 ignoreEntryCriteria: !!debugOptions.ignoreEntryCriteria,
-                dmlType: debugOptions.dmlType
+                dmlType: debugOptions.dmlType,
+                scheduledPathSelection: debugOptions.scheduledPathSelection
             }
         );
     };
@@ -1142,10 +1144,14 @@ export default class Editor extends LightningElement {
                 let triggerSaveType = null;
                 let startObject = null;
                 let createOrUpdate = false;
+                let showScheduledPathPicklist = false;
+                let startElement = null;
                 if (isRecordChangeTriggerType(this.triggerType)) {
                     triggerSaveType = getRecordTriggerType();
                     createOrUpdate = triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
                     startObject = getStartObject();
+                    startElement = getStartElement();
+                    showScheduledPathPicklist = shouldSupportTimeTriggers(startElement);
                     if (startObject) {
                         // This should never be empty in a record change trigger where the debug button is clickable, but might as well check.
                         startObject = getEntity(startObject).entityLabel;
@@ -1160,6 +1166,9 @@ export default class Editor extends LightningElement {
                         rerun: runOrDebug === RESTARTDEBUG,
                         isCreateOrUpdate: createOrUpdate,
                         dollarRecordName: startObject,
+                        scheduledPathsList: this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start
+                            ?.scheduledPaths,
+                        showScheduledPathPicklist,
                         runDebugInterviewCallback: this.runDebugInterviewCallback
                     };
                 });
