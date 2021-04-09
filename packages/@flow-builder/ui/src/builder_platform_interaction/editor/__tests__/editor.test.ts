@@ -5,7 +5,6 @@ import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interact
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
 import {
-    CANVAS_EVENT,
     AddElementEvent,
     NewResourceEvent,
     ClosePropertyEditorEvent,
@@ -16,17 +15,24 @@ import {
     ToggleMarqueeOnEvent,
     SelectNodeEvent,
     DuplicateEvent,
-    ToggleSelectionModeEvent
+    ToggleSelectionModeEvent,
+    CanvasMouseUpEvent,
+    ConnectorSelectedEvent,
+    DragNodeStopEvent,
+    AddConnectionEvent
 } from 'builder_platform_interaction/events';
 import { addElement, updateCanvasElementLocation, updateElement } from 'builder_platform_interaction/actions';
 import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
-import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { deepQuerySelector, setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
-
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
 
 let mockSubscribers = [];
@@ -158,15 +164,21 @@ jest.mock('builder_platform_interaction/actions', () => {
                 updateValue: el
             };
         }),
+        addConnector: jest.fn((payload) => {
+            return {
+                type: 'ADD_CONNECTOR',
+                payload
+            };
+        }),
         deleteElements: jest.fn().mockImplementation((payload) => {
             return {
-                type: 'deleteElement',
+                type: 'DELETE_CANVAS_ELEMENT',
                 payload
             };
         }),
         updateCanvasElementLocation: jest.fn().mockImplementation((payload) => {
             return {
-                type: 'updateCanvasElementLocation',
+                type: 'UPDATE_CANVAS_ELEMENT',
                 payload
             };
         }),
@@ -175,7 +187,23 @@ jest.mock('builder_platform_interaction/actions', () => {
                 type: 'doDuplicate',
                 payload
             };
-        })
+        }),
+        toggleOnCanvas: jest.fn().mockImplementation((payload) => {
+            return {
+                type: 'TOGGLE_ON_CANVAS',
+                payload
+            };
+        }),
+        selectOnCanvas: jest.fn().mockImplementation((payload) => {
+            return {
+                type: 'SELECT_ON_CANVAS',
+                payload
+            };
+        }),
+        deselectOnCanvas: {
+            type: 'DESELECT_ON_CANVAS',
+            payload: {}
+        }
     };
 });
 
@@ -233,6 +261,9 @@ jest.mock('builder_platform_interaction/mergeFieldLib', () => {
         loadReferencesIn: jest.fn().mockResolvedValue({})
     };
 });
+const getCanvas = (editorComponent) => {
+    return deepQuerySelector(editorComponent, [selectors.CANVAS_CONTAINER, selectors.CANVAS]);
+};
 
 const createComponentUnderTest = (
     props = {
@@ -260,16 +291,11 @@ const createComponentUnderTest = (
 };
 
 const selectors = {
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS,
     root: '.editor',
     save: '.test-toolbar-save',
     addnewresource: '.test-left-panel-add-resource',
-    propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
-    canvasContainer: 'builder_platform_interaction-canvas-container',
-    leftPanel: 'builder_platform_interaction-left-panel',
-    rightPanel: 'builder_platform_interaction-right-panel',
-    debugPanel: 'builder_platform_interaction-debug-panel',
-    flcBuilderContainer: 'builder_platform_interaction-flc-builder-container',
-    toolbar: 'builder_platform_interaction-toolbar',
     canvasToggle: '.canvas-mode-toggle'
 };
 
@@ -289,52 +315,155 @@ const deselectionAction = {
 
 const deleteElementByGuid = {
     payload: {
-        selectedCanvasElementGUIDs: ['2'],
-        connectorGUIDs: ['c1', 'c2'],
-        canvasElementsToUpdate: ['1'],
-        elementType: ELEMENT_TYPE.ASSIGNMENT
+        childIndexToKeep: undefined,
+        connectorsToDelete: [
+            {
+                config: {
+                    isSelected: false
+                },
+                guid: 'c1',
+                label: 'label',
+                source: '1',
+                target: '2'
+            },
+            {
+                config: {
+                    isSelected: true
+                },
+                guid: 'c2',
+                label: 'label',
+                source: '2',
+                target: '1'
+            }
+        ],
+        elementType: undefined,
+        selectedElements: [
+            {
+                config: {
+                    isSelected: true
+                },
+                description: 'My second test node',
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
+                guid: '2',
+                label: 'Second Node',
+                locationX: '50',
+                locationY: '40'
+            }
+        ]
     },
     type: 'DELETE_CANVAS_ELEMENT'
 };
 
 const deleteElementByIsSelected = {
     payload: {
-        selectedCanvasElementGUIDs: ['2'],
-        connectorGUIDs: ['c2', 'c1'],
-        canvasElementsToUpdate: ['1'],
-        elementType: ELEMENT_TYPE.ASSIGNMENT
+        childIndexToKeep: undefined,
+        connectorsToDelete: [
+            {
+                config: {
+                    isSelected: false
+                },
+                guid: 'c1',
+                label: 'label',
+                source: '1',
+                target: '2'
+            },
+            {
+                config: {
+                    isSelected: true
+                },
+                guid: 'c2',
+                label: 'label',
+                source: '2',
+                target: '1'
+            }
+        ],
+        elementType: 'Assignment',
+        parentGUID: undefined,
+        selectedElements: [
+            {
+                config: {
+                    isSelected: true
+                },
+                description: 'My second test node',
+                elementType: 'Assignment',
+                guid: '2',
+                label: 'Second Node',
+                locationX: '50',
+                locationY: '40'
+            }
+        ]
     },
     type: 'DELETE_CANVAS_ELEMENT'
 };
 
 const deleteDecision = {
     payload: {
-        selectedCanvasElementGUIDs: ['3'],
-        connectorGUIDs: ['c4'],
-        canvasElementsToUpdate: ['5'],
-        // Event currently always thrown with 'assignment'
-        elementType: ELEMENT_TYPE.ASSIGNMENT
+        childIndexToKeep: undefined,
+        connectorsToDelete: [
+            {
+                config: {
+                    isSelected: false
+                },
+                guid: 'c3',
+                label: 'label',
+                source: '3',
+                target: '5'
+            },
+            {
+                config: {
+                    isSelected: false
+                },
+                guid: 'c4',
+                label: 'label',
+                source: '5',
+                target: '3'
+            }
+        ],
+        elementType: undefined,
+        parentGUID: undefined,
+        selectedElements: [
+            {
+                childReferences: [
+                    {
+                        childReference: '4'
+                    }
+                ],
+
+                config: {
+                    isSelected: false
+                },
+                description: 'My third test node',
+                elementType: 'Decision',
+                guid: '3',
+                label: 'Third Node',
+                locationX: '100',
+                locationY: '240'
+            }
+        ]
     },
     type: 'DELETE_CANVAS_ELEMENT'
 };
 
 const updateElementAction = {
-    payload: {
-        guid: '1',
-        elementType: ELEMENT_TYPE.ASSIGNMENT,
-        locationX: '80',
-        locationY: '70'
-    },
+    payload: [
+        {
+            canvasElementGuid: '1',
+            locationX: '80',
+            locationY: '70'
+        }
+    ],
     type: 'UPDATE_CANVAS_ELEMENT'
 };
 
 const connectorElement = {
     payload: {
-        guid: 'CONNECTOR',
+        childSource: undefined,
+        guid: 68,
         source: '1',
         target: '2',
-        label: 'Label',
-        config: { isSelected: false }
+        label: null,
+        config: { isSelected: false },
+        type: 'REGULAR'
     },
     type: 'ADD_CONNECTOR'
 };
@@ -433,59 +562,67 @@ beforeEach(() => {
     mockSubscribers = [];
 });
 
-// TODO: Since we are doing lot of refactoring in canvas, commenting these tests. Will clean up as part of this work item:
-// https://gus.my.salesforce.com/apex/ADM_WorkView?id=a07B00000058VlnIAE&sfdc.override=1
-const describeSkip = describe.skip;
-describeSkip('editor', () => {
+describe('editor', () => {
+    let editorComponent;
+    beforeEach(() => {
+        editorComponent = createComponentUnderTest({
+            flowId: '301RM0000000E4NEDIT',
+            builderType: 'new',
+            builderMode: 'editMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: {
+                    editMode: {
+                        leftPanelConfig: { showLeftPanel: true },
+                        toolbarConfig: {
+                            showCanvasModeToggle: true
+                        }
+                    }
+                }
+            }
+        });
+    });
+
     describe('saving', () => {
         it('translates the ui model to flow data', async () => {
-            const editorComponent = createComponentUnderTest();
+            // const editorComponent = createComponentUnderTest();
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const button = toolbar.shadowRoot.querySelector(selectors.save);
+            const flow = { fullName: 'Translate' };
+            translateUIModelToFlow.mockReturnValue(flow);
+            button.click();
             await ticks(1);
-            editorComponent.shadowRoot.querySelector(selectors.save).click();
             expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
             expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
         });
 
         it('passes the translated value to fetch', async () => {
-            const editorComponent = createComponentUnderTest();
-            await ticks(1);
-            const flow = { x: 1 };
-
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const button = toolbar.shadowRoot.querySelector(selectors.save);
+            const flow = { fullName: 'PassToFetch' };
             translateUIModelToFlow.mockReturnValue(flow);
-
-            editorComponent.shadowRoot.querySelector(selectors.save).click();
-            // Check against the last call to fetch.  The first is in editor.js constructor and thus
-            // unavoidable and other components included via editor.html may also have fetch calls
-            // (for example left-panel-elements
+            button.click();
+            await ticks(1);
+            expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
+            expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
             const saveFetchCallIndex = fetch.mock.calls.length - 1;
 
             expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
             expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({
-                flow
+                flow,
+                saveType: 'saveDraft'
             });
         });
     });
 
     describe('Server side fetch', () => {
-        it('getting rules', async () => {
-            createComponentUnderTest();
-            await ticks(1);
-            expect(fetch.mock.calls).toHaveLength(4);
-            expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
-        });
         it('getting flow metadata', async () => {
-            createComponentUnderTest({
-                flowId: 'flow 123'
-            });
-            await ticks(1);
-            expect(fetch.mock.calls).toHaveLength(5);
-            expect(fetch.mock.calls[3][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
+            expect(fetch.mock.calls).toHaveLength(1);
+            expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
         });
         it('getting header urls', async () => {
-            createComponentUnderTest();
-            await ticks(1);
-            expect(fetch.mock.calls).toHaveLength(4);
-            expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
+            expect(fetchOnce.mock.calls).toHaveLength(2);
+            expect(fetchOnce.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
         });
 
         // TODO: W-5403092 Add test case for fetching of sObject variable fields
@@ -493,53 +630,31 @@ describeSkip('editor', () => {
 
     describe('Canvas', () => {
         it('Checks if node selection is handled correctly when an unselected node is clicked without multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: '1',
-                    isMultiSelectKeyPressed: false
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const nodeSelectedEvent = new SelectNodeEvent('1', false, false);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(nodeSelectedEvent);
             await ticks(1);
+
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
         });
 
         it('Checks if node selection is handled correctly when a selected node is clicked without multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: '2',
-                    isMultiSelectKeyPressed: false
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const nodeSelectedEvent = new SelectNodeEvent('2', false, true);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(nodeSelectedEvent);
             await ticks(1);
+
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
         });
 
         it('Checks if node selection is handled correctly when an unselected node is clicked with multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: '1',
-                    isMultiSelectKeyPressed: true
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const nodeSelectedEvent = new SelectNodeEvent('1', true, false);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(nodeSelectedEvent);
             await ticks(1);
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
@@ -547,17 +662,9 @@ describeSkip('editor', () => {
         });
 
         it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: '2',
-                    isMultiSelectKeyPressed: true
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const nodeSelectedEvent = new SelectNodeEvent('2', true, true);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(nodeSelectedEvent);
             await ticks(1);
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
@@ -565,13 +672,9 @@ describeSkip('editor', () => {
         });
 
         it('Checks if node and connector deselection is handled correctly when a canvas is clicked', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
-                bubbles: true,
-                composed: true,
-                cancelable: true
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new CanvasMouseUpEvent();
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
             await ticks(1);
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
@@ -579,17 +682,10 @@ describeSkip('editor', () => {
         });
 
         it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    connectorGUID: 'c1',
-                    isMultiSelectKeyPressed: false
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new ConnectorSelectedEvent('c1', false);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
+
             await ticks(1);
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
@@ -597,35 +693,19 @@ describeSkip('editor', () => {
         });
 
         it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    connectorGUID: 'c2',
-                    isMultiSelectKeyPressed: false
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            await ticks(1);
+            const event = new ConnectorSelectedEvent('c2', false);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
             const spy = Store.getStore().dispatch;
+            await ticks(1);
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
         });
 
         it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    connectorGUID: 'c1',
-                    isMultiSelectKeyPressed: true
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new ConnectorSelectedEvent('c1', true);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
             await ticks(1);
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
@@ -633,17 +713,10 @@ describeSkip('editor', () => {
         });
 
         it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    connectorGUID: 'c2',
-                    isMultiSelectKeyPressed: true
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new ConnectorSelectedEvent('c2', true);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
+
             await ticks(1);
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
@@ -652,16 +725,9 @@ describeSkip('editor', () => {
 
         describe('delete of a single element', () => {
             it('deletes associated connectors and updates associated nodes', async () => {
-                const editorComponent = createComponentUnderTest();
-                const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                    bubbles: true,
-                    composed: true,
-                    cancelable: true,
-                    detail: {
-                        selectedCanvasElementGUIDs: ['2']
-                    }
-                });
-                editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+                const event = new DeleteElementEvent(['2']);
+                const canvas = getCanvas(editorComponent);
+                canvas.dispatchEvent(event);
                 await ticks(1);
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -669,17 +735,11 @@ describeSkip('editor', () => {
             });
 
             it('decision with outcomes deletes associated connectors and updates associated nodes', async () => {
-                const editorComponent = createComponentUnderTest();
-                const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                    bubbles: true,
-                    composed: true,
-                    cancelable: true,
-                    detail: {
-                        selectedCanvasElementGUIDs: ['3']
-                    }
-                });
-                editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+                const event = new DeleteElementEvent(['3']);
+                const canvas = getCanvas(editorComponent);
+                canvas.dispatchEvent(event);
                 await ticks(1);
+
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
                 expect(spy.mock.calls[0][0]).toEqual(deleteDecision);
@@ -687,53 +747,43 @@ describeSkip('editor', () => {
         });
 
         it('Checks if node and connector deletion is handled correctly when delete key is pressed', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {}
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new DeleteElementEvent('2', ELEMENT_TYPE.ASSIGNMENT);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
             await ticks(1);
+
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(deleteElementByIsSelected);
         });
 
         it('Checks if node location is updated correctly when a node stops dragging', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: '1',
-                    elementType: ELEMENT_TYPE.ASSIGNMENT,
-                    locationX: '80',
-                    locationY: '70'
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new DragNodeStopEvent([
+                [
+                    {
+                        id: '1'
+                    },
+                    {
+                        left: '80',
+                        top: '70'
+                    }
+                ]
+            ]);
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
             await ticks(1);
+
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(updateElementAction);
         });
 
         it('Checks if connections are added correctly', async () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION, {
-                bubbles: true,
-                composed: true,
-                detail: {
-                    source: '1',
-                    target: '2',
-                    label: 'Label'
-                }
-            });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            const event = new AddConnectionEvent('1', '2');
+            const canvas = getCanvas(editorComponent);
+            canvas.dispatchEvent(event);
             await ticks(1);
+
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(connectorElement);
@@ -748,7 +798,7 @@ describe('toolbar', () => {
 
             const editorComponent = createComponentUnderTest();
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
             const canvasToggle = toolbar.shadowRoot.querySelector(selectors.canvasToggle);
 
             expect(canvasToggle).toBeNull();
@@ -758,7 +808,7 @@ describe('toolbar', () => {
         it('is shown if not isAutoLayoutCanvasOnly', async () => {
             const editorComponent = createComponentUnderTest();
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
             const canvasToggle = toolbar.shadowRoot.querySelector(selectors.canvasToggle);
             expect(canvasToggle).toBeTruthy();
         });
@@ -772,7 +822,7 @@ describe('property editor', () => {
         const editorComponent = createComponentUnderTest();
 
         const editElementEvent = new EditElementEvent('1');
-        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
 
         await ticks();
@@ -797,11 +847,11 @@ describe('property editor', () => {
         });
 
         const editElementEvent = new EditElementEvent('1');
-        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
 
         await ticks(1);
-        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
         expect(rightPanel).not.toBeNull();
     });
 
@@ -931,11 +981,11 @@ describe('property editor', () => {
             });
 
             const editElementEvent = new EditElementEvent('1');
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
 
             await ticks();
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
         });
 
         it('closepropertyeditorevent closes the property editor', async () => {
@@ -944,11 +994,9 @@ describe('property editor', () => {
 
             const event = new ClosePropertyEditorEvent();
 
-            await ticks(2);
             rightPanel.dispatchEvent(event);
-
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
 
             expect(rightPanel).toBeNull();
         });
@@ -960,8 +1008,8 @@ describe('property editor', () => {
             const elementToAdd = { a: 1 };
             const event = new AddNodeEvent(elementToAdd);
 
-            await ticks(1);
             rightPanel.dispatchEvent(event);
+            await ticks(1);
 
             expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
             expect(addElement).toHaveBeenCalledWith(elementToAdd);
@@ -981,8 +1029,8 @@ describe('property editor', () => {
             };
             const event = new AddNodeEvent(payload);
 
-            await ticks(1);
             rightPanel.dispatchEvent(event);
+            await ticks(1);
 
             expect(getElementForStore).toHaveBeenCalledWith(payload);
             expect(addElement).toHaveBeenCalledWith(payload);
@@ -996,9 +1044,8 @@ describe('property editor', () => {
 
             const elementToUpdate = { a: 1 };
             const event = new UpdateNodeEvent(elementToUpdate);
-
-            await ticks(1);
             rightPanel.dispatchEvent(event);
+            await ticks(1);
 
             expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
             expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
@@ -1012,7 +1059,7 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const event = new DeleteElementEvent(['1'], 'ASSIGNMENT');
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
 
             // make sure mockStoreState matches expected state
             mockStoreState.connectors = mockStoreState.connectors.filter(
@@ -1024,7 +1071,7 @@ describe('property editor', () => {
             canvasContainer.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             expect(rightPanel).toBeNull();
         });
 
@@ -1033,11 +1080,11 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const event = new ToggleMarqueeOnEvent();
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             expect(rightPanel).toBeNull();
         });
 
@@ -1046,11 +1093,11 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const event = new ClosePropertyEditorEvent();
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             expect(rightPanel).toBeNull();
         });
 
@@ -1059,11 +1106,11 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const event = new SelectNodeEvent('1', false, false);
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             expect(rightPanel).toBeNull();
         });
 
@@ -1072,11 +1119,11 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const event = new SelectNodeEvent('2', false, true);
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
             expect(propertyEditorPanel.element.guid).toEqual('1');
         });
@@ -1092,14 +1139,14 @@ describe('property editor', () => {
             toolbar.dispatchEvent(closePropertyEditorEvent);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             expect(rightPanel).toBeNull();
 
             const duplicateEvent = new DuplicateEvent();
             toolbar.dispatchEvent(duplicateEvent);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
             expect(propertyEditorPanel.element.guid).toEqual('5');
         });
@@ -1109,9 +1156,9 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const editElementEvent = new EditElementEvent('1');
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
-
+            await ticks(1);
             const storeInstance = Store.getStore();
 
             const newX = 50;
@@ -1132,7 +1179,7 @@ describe('property editor', () => {
 
             await ticks(1);
 
-            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
 
             expect(propertyEditorPanel.element.locationX).toEqual(newX);
             expect(propertyEditorPanel.element.locationY).toEqual(newY);
@@ -1143,28 +1190,30 @@ describe('property editor', () => {
             expect(rightPanel).not.toBeNull();
 
             const editElementEvent = new EditElementEvent('1');
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
 
             await ticks(1);
 
-            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
             expect(propertyEditorPanel.params.panelConfig.isLabelCollapsibleToHeader).toEqual(true);
         });
         it('Panel Config isFieldLevelCommitEnabled is set to true', async () => {
             expect.assertions(1);
 
             const editElementEvent = new EditElementEvent('1');
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
 
             await ticks(1);
 
-            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
             expect(propertyEditorPanel.params.panelConfig.isFieldLevelCommitEnabled).toEqual(true);
         });
     });
 });
+
+const describeSkip = describe.skip;
 
 describeSkip('auto-layout', () => {
     describe('use auto layout canvas', () => {
@@ -1194,7 +1243,7 @@ describeSkip('auto-layout', () => {
                 flcBuilderContainer.dispatchEvent(editElementEvent);
 
                 await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             });
 
             it('closes the property editor when flcBuilder fire close property editor event', async () => {
@@ -1206,7 +1255,7 @@ describeSkip('auto-layout', () => {
                 flcBuilderContainer.dispatchEvent(event);
 
                 await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
                 expect(rightPanel).toBeNull();
             });
 
@@ -1219,7 +1268,7 @@ describeSkip('auto-layout', () => {
                 toolbar.dispatchEvent(event);
 
                 await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
                 expect(rightPanel).toBeNull();
             });
 
@@ -1238,7 +1287,7 @@ describeSkip('auto-layout', () => {
                 flcBuilderContainer.dispatchEvent(event);
 
                 await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
                 const propertyEditorPanel = rightPanel.querySelector(
                     'builder_platform_interaction-property-editor-panel'
                 );
@@ -1254,7 +1303,7 @@ describeSkip('auto-layout', () => {
                 flcBuilderContainer.dispatchEvent(event);
 
                 await ticks(1);
-                rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+                rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
                 const propertyEditorPanel = rightPanel.querySelector(
                     'builder_platform_interaction-property-editor-panel'
                 );
@@ -1401,7 +1450,7 @@ describe('in edit mode', () => {
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
         await ticks(1);
 
-        const leftPanel = editorComponent.shadowRoot.querySelector(selectors.leftPanel);
+        const leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
         expect(leftPanel).not.toBeNull();
     });
     it('right panel is hidden', async () => {
@@ -1416,7 +1465,7 @@ describe('in edit mode', () => {
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
         await ticks(1);
 
-        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
         expect(rightPanel).toBeNull();
     });
 });
@@ -1449,9 +1498,9 @@ describe('in debug mode', () => {
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
         await ticks(1);
 
-        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
         expect(rightPanel).not.toBeNull();
-        const debugPanel = editorComponent.shadowRoot.querySelector(selectors.debugPanel);
+        const debugPanel = editorComponent.shadowRoot.querySelector(selectors.DEBUG_PANEL);
         expect(debugPanel).not.toBeNull();
     });
     it('debug toast event is fired on clicking done in property editor', async () => {
@@ -1461,7 +1510,7 @@ describe('in debug mode', () => {
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
         await ticks(1);
         const editElementEvent = new EditElementEvent('1');
-        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
         editorComponent.addEventListener('debugtoastevent', debugToast);
         await ticks(1);
@@ -1485,7 +1534,7 @@ describe('in debug mode', () => {
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
         await ticks(1);
         const editElementEvent = new EditElementEvent('1');
-        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
         editorComponent.addEventListener('debugtoastevent', debugToast);
         await ticks(1);
@@ -1504,7 +1553,7 @@ describe('in debug mode', () => {
         const debugToast = jest.fn();
         const editorComponent = createComponentUnderTest();
         const editElementEvent = new EditElementEvent('1');
-        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
         editorComponent.addEventListener('debugtoastevent', debugToast);
         await ticks(1);
@@ -1538,7 +1587,7 @@ describe('in debug mode', () => {
             await ticks(1);
 
             const editElementEvent = new EditElementEvent('1');
-            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
             await ticks();
 
@@ -1546,7 +1595,7 @@ describe('in debug mode', () => {
         });
 
         it('resume during debug mode will be blocked if there is saved change', async () => {
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
             const save = toolbar.shadowRoot.querySelector(selectors.save);
             save.click();
 
@@ -1557,7 +1606,7 @@ describe('in debug mode', () => {
             const flow = { fullName: 'FAIL' };
             translateUIModelToFlow.mockReturnValue(flow);
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
             const save = toolbar.shadowRoot.querySelector(selectors.save);
             save.click();
 
@@ -1568,7 +1617,7 @@ describe('in debug mode', () => {
             const flow = { fullName: 'ERROR' };
             translateUIModelToFlow.mockReturnValue(flow);
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.toolbar);
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
             const save = toolbar.shadowRoot.querySelector(selectors.save);
             save.click();
 
