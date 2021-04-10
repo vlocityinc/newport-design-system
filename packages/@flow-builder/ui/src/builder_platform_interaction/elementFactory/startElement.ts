@@ -80,14 +80,22 @@ export function findStartYOffset(startElement: UI.Start): number {
  * 2) Process type is autolaunched
  * @param startElement start element metadata structure
  */
-export function shouldSupportTimeTriggers(startElement: UI.Start | Metadata.Start) {
+export function shouldSupportTimeTriggers(
+    startElement: UI.Start | Metadata.Start,
+    processType?: string | null | undefined
+) {
     // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
     // The need for the process type check is to ensure that scheduled paths are not rendered for process type
     // othe rthan autolaunched.
     // A cleaner way to perform this check is to update process type utils method
     // to use the feature-processType check.
     // Refer W-8931057 [Scheduled Paths] Scheduled Path errors are not linked on the builder
-    const schedulePathSupported = getProcessType() === null ? true : isScheduledPathSupported(getProcessType());
+
+    // process type is not always passed; in which case, fetch it from storeUtils
+    if (!processType) {
+        processType = getProcessType();
+    }
+    const schedulePathSupported = processType === null ? true : isScheduledPathSupported(processType);
     return (
         schedulePathSupported &&
         startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
@@ -207,7 +215,6 @@ export function createStartElementForPropertyEditor(startElement: UI.Start = {} 
             timeTriggers
         });
     }
-
     return newStartElement;
 }
 
@@ -220,13 +227,14 @@ export function createStartElementForPropertyEditor(startElement: UI.Start = {} 
  */
 export function createStartElementWithConnectors(
     startElement: Metadata.Start = {} as Metadata.Start,
-    startElementReference
+    startElementReference,
+    processType: string | null | undefined
 ) {
     const newStartElement = createStartElement(startElement);
 
     let connectorCount, connectors;
     let availableConnections: UI.AvailableConnection[] = [];
-    if (!shouldSupportTimeTriggers(startElement)) {
+    if (!shouldSupportTimeTriggers(startElement, processType)) {
         // Creates a REGULAR connector or pushes one into the availableConnections if needed
         connectors = startElementReference
             ? createStartElementConnector(newStartElement.guid, startElementReference)

@@ -213,6 +213,18 @@ describe('Start element', () => {
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
                     expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
                 });
+
+                it('should support time triggers for AutoLaunchedFlow', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement, 'AutoLaunchedFlow')).toBeTruthy();
+                });
+
+                it('should NOT support time triggers for process types other than AutoLaunchedFlow', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = false;
+                    expect(shouldSupportTimeTriggers(startElement, 'Orchestrator')).toBeFalsy();
+                });
             });
 
             describe('recordTriggerType is Update', () => {
@@ -243,6 +255,18 @@ describe('Start element', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
                     expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                });
+
+                it('should support time triggers when filterLogic is "and", doesRequireRecordChangedToMeetCriteria is true and process type is AutoLaunchedFlow', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement, 'AutoLaunchedFlow')).toBeTruthy();
+                });
+
+                it('should NOT support time triggers when process type is NOT AutoLaunchedFlow', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.doesRequireRecordChangedToMeetCriteria = true;
+                    expect(shouldSupportTimeTriggers(startElement, 'Orchestrator')).toBeFalsy();
                 });
             });
 

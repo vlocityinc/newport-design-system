@@ -309,7 +309,11 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
                 // end
                 const elementFactoryFunction = metadataKeyToFlowToUiFunctionMap[metadataKey];
                 if (metadataKey === METADATA_KEY.START) {
-                    elementsAndConnectors = elementFactoryFunction(metadataElement, startElementReference);
+                    elementsAndConnectors = elementFactoryFunction(
+                        metadataElement,
+                        startElementReference,
+                        metadata.processType
+                    );
                 } else {
                     elementsAndConnectors = elementFactoryFunction(metadataElement, {
                         elements: previousPhaseElements,
