@@ -1,0 +1,166 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes a footer for community with more than one section that lists label / action pairs
+ *
+ * @name nds-communities-footer
+ * @selector .nds-communities-footer
+ * @modifier
+ */
+ .nds-communities-footer {
+    background-color: $biscay;
+    min-height: 36rem;
+    color: $white;
+    padding: 5.5rem $spacing-none;
+
+    /**
+      * @summary Class that contains the body of the footer
+      *
+      * @name nds-communities-footer__body
+      * @selector .nds-communities-footer__body
+      * @modifier
+      */
+    &__body {
+        min-height: 10rem;
+
+        .nds-accordion__list-item {
+            border-top: 0;
+        }
+
+        .nds-accordion__section {
+            padding: $spacing-none $spacing-medium $spacing-medium 1.75rem;
+        }
+
+        .nds-accordion__summary-heading {
+            display: none;
+        }
+
+        .nds-is-open .nds-accordion__summary {
+            margin-bottom: $spacing-none;
+        }
+
+        /**
+          * @summary Styles coloumn header
+          *
+          * @name nds-text-heading_medium  
+          * @selector .nds-text-heading_medium
+          * @modifier
+          */
+        .nds-text-heading_medium {
+            font-weight: $font-weight-bold;
+            font-size: $font-size-5;
+            padding-bottom: $spacing-xx-large;
+        }
+
+        /**
+        * @summary Styles cell action text nds-action_text
+        *
+        * @name nds-action_text 
+        * @selector .nds-action_text
+        * @modifier
+        */
+        .nds-action_text {
+            font-weight: $nds-communities-text-thin;
+        }
+
+        /**
+        * @summary Styles column divider
+        *
+        * @name nds-divider_vertical
+        * @selector .nds-divider_vertical
+        * @modifier
+        */
+        .nds-divider {
+            opacity: 26%;
+            background: $white;
+            height: auto;
+            width: 0.1rem;
+        }
+
+        li:last-child {
+            .nds-divider {
+                display: none;
+            }
+        }
+    }
+
+    /**
+    * @summary Class that contains the column content of the footer
+    *
+    * @name nds-communities-footer_col-content
+    * @selector .nds-communities-footer_col-content
+    * @modifier
+    */
+    &__col-content {
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+    }
+   
+}
+@media screen and (max-width: 76rem) {
+    .nds-communities-footer {
+        padding: $spacing-none $spacing-none $spacing-xx-large $spacing-none;
+        min-height: 0;
+
+        &__body {
+            display: block;
+        }
+
+        &__col-content {
+            visibility: hidden;
+            opacity: 0;
+            height: 0;
+        }
+
+        .nds-accordion__section {
+            padding: $spacing-none;
+        }
+
+        .nds-accordion__summary {
+            width: 100%;
+
+            .nds-communities-footer_col-header {
+                display: none;
+            }
+            .nds-accordion__summary-heading {
+                display: block;
+                padding-left: $spacing-medium;
+                padding-right: $spacing-small;
+
+                .nds-button__icon {
+                    fill: $white;
+                }
+            }
+        }
+
+        .nds-accordion__content {
+            padding-left: $spacing-xx-large;
+            padding-right: $spacing-small;
+        }
+
+        .nds-accordion__list-item {
+            display: block;
+        }
+
+        .nds-text-heading_medium {
+            padding-bottom: 1.75rem;
+            padding-top: 1.75rem;
+            padding-left: $spacing-x-small;
+            font-weight: 400;
+            font-size: $font-size-4;
+        }
+
+        .nds-action_text {
+            font-size: $font-size-4;
+        }
+
+        .nds-divider {
+            opacity: 26%;
+            background: $white;
+            height: 1px;
+            width: auto;
+        }
+    }
+}

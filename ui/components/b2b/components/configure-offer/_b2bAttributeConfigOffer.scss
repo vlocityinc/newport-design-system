@@ -1,0 +1,184 @@
+.nds-b2b-attribute-list {
+  position: relative;
+  .nds-b2b-attribute-container {
+    margin-bottom: 1rem;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 37rem;
+    min-width: 16rem;
+    @media screen and (min-width: 48rem) {
+      width: auto;
+      margin: 0 2rem 2rem 0;
+      flex: 1;
+    }
+
+    /* Check Box */
+    .nds-b2b-attribute-config-offer_checkbox {
+      .nds-b2b-form-element_checkbox {
+        display: inline;
+        margin-right: 0.3rem;
+        .nds-checkbox [type="checkbox"]:checked ~ .nds-checkbox_faux {
+          background: $azure;
+        }
+        .nds-checkbox .nds-checkbox_faux {
+          margin-top: -0.188rem;
+        }
+      }
+      .nds-b2b-configure-text {
+        font-size: 1rem;
+        letter-spacing: 0.01rem;
+        color: $grey-35;
+      }
+      .nds-b2b-attribute-each-row {
+        margin-bottom: 0.3rem;
+      }
+    }
+
+    /* Matrix Table */
+    .nds-b2b-attribute-config-offer_matrix {
+      .nds-b2b-config-label {
+        color: $black-primary;
+        font-size: 1rem;
+        font-weight: $font-weight-regular;
+        margin-bottom: -1.375rem;
+      }
+      table {
+        width: 98%;
+      }
+      td,
+      th {
+        padding: 0.65rem;
+        padding-left: 1rem;
+      }
+      th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+      tr:not(:first-child) {
+        border-left: 1px solid $light-silver;
+        border-right: 1px solid $light-silver;
+      }
+      tr td {
+        font-size: 1rem;
+        letter-spacing: 0.0375rem;
+        font-weight: $font-weight-light;
+        color: $grey-35;
+        border-bottom: 1px solid $grey-95;
+      }
+      tr:nth-child(2) td {
+        border-top: 1px solid $light-silver;
+      }
+      tr:last-child td {
+        border-bottom: 1px solid $light-silver;
+      }
+      tr td:first-child {
+        font-weight: $font-weight-regular;
+      }
+      th:first-child {
+        width: 70vh;
+      }
+      .nds-b2b-attribute-radio {
+        margin-right: 1vw;
+        &.nds-radio [type="radio"]:checked + .nds-radio__label .nds-radio_faux {
+          border-color: $azure;
+        }
+        &.nds-radio
+          [type="radio"]:checked
+          + .nds-radio__label
+          .nds-radio_faux:after {
+          background: $azure;
+        }
+        .nds-radio_faux {
+          margin-top: -0.1875rem;
+        }
+      }
+    }
+
+    /* Combo Box */
+    .nds-b2b-attribute-config-offer_combobox {
+      margin-top: 0.9rem;
+      .nds-b2b-input {
+        //Override default styles of input box when inside nds-b2b-inputs class to give different look
+        .nds-form-container {
+          padding: 0;
+          margin-bottom: 0;
+        }
+        .nds-input {
+          border: $border-width-thin solid $color-border-input;
+          border-radius: $border-radius-medium;
+          margin-bottom: 0;
+          padding: 0.25rem 0.75rem;
+          height: 1.875rem;
+        }
+        .nds-input-has-icon_right {
+          .nds-input__icon {
+            right: $spacing-x-small;
+          }
+        }
+        .nds-input-has-icon_left {
+          .nds-input__icon {
+            left: $spacing-x-small;
+          }
+        }
+        .nds-dropdown{
+          position: relative;
+          max-height: 15rem;
+          overflow-y: auto;
+        }
+
+        input:focus,
+        input.nds-has-value:not(:focus):valid,
+        input[cloned='dirty'],
+        input.nds-input[cloned='dirty'],
+        input.nds-is-dirty.nds-not-empty,input.ng-dirty.ng-not-empty,
+        input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
+        input.ng-touched.ng-not-empty.td-input{
+          ~.nds-form-element__label,
+          +.nds-form-element__label {
+            top: .1rem;
+          }
+        }
+      }
+      .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label, .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty~.nds-form-element__label {
+        top: 0rem;
+      }
+      .nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
+        padding-left: 0.75rem;
+      }
+      .nds-b2b-configure-text {
+        font-size: 1rem;
+        letter-spacing: 0.01rem;
+        color: $grey-35;
+      }
+      .nds-b2b-trash_icon {
+        cursor: pointer;
+      }
+      .nds-combobox_container
+        .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label
+        input[readonly] {
+        font-size: 0.8125rem;
+      }
+      &.nds-b2b-combobox {
+        margin-top: 1rem;
+        .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label label {
+          color: $palette-gray-11;
+          font-weight: $font-weight-regular;
+          letter-spacing: 0.2px;
+        }
+      }
+      &.nds-b2b-combobox-position{
+        position: relative;
+        top: 1.4375rem;
+      }
+    }
+
+    .nds-b2b-attribute-config-offer_radio {
+      min-width: 23rem;
+    }
+  }
+  .nds-b2b-attribute-category-name {
+    font-size: 1rem;
+    font-weight: $font-weight-bold;
+    color: $black-primary;
+  }
+}

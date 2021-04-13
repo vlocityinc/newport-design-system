@@ -1,0 +1,298 @@
+.nds-b2b-apply-discount-modal {
+  .nds-modal__content {
+    padding: 0;
+  }
+  .nds-modal__container {
+    margin: 0;
+    padding: 0;
+    .nds-modal__close {
+      display: none;
+    }
+    @media screen and (min-width: 48rem) {
+      margin: 0 auto;
+      display: flex;
+      padding: 3rem 0;
+    }
+  }
+  .nds-b2b-modal-header {
+    font-size: 1.3rem;
+    color: $black-primary;
+    @media screen and (min-width: 48rem) {
+      font-size: 1.6vw;
+    }
+  }
+  .nds-b2b-adjust-discount {
+    background-color: $white-smoke;
+    padding: 1.5rem 0rem;
+    color: $grey-35;
+
+    .nds-b2b-discounts-container {
+      background-color: $white;
+      margin-top: 1.5rem;
+      border: 1px solid $newport-border-gray;
+      border-radius: 0.25rem;
+      width: 100%;
+      .nds-b2b-apply-discounts-table_container {
+        font-size: 1rem;
+      }
+      .nds-b2b-available-discounts-container {
+        font-size: 1rem;
+      }
+    }
+    .nds-b2b-override-header {
+      border-bottom: 1px solid $newport-border-gray;
+      padding: 0.9rem;
+      &_title {
+        font-size: 1rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+    }
+    .nds-b2b-search-discount {
+      margin: 1.5rem 1rem 1.5rem 0;
+      text-align: right;
+      .nds-b2b-search-discount_input {
+        border: 1px solid $newport-border-gray;
+        border-radius: 0.25rem;
+        padding: 0 2rem;
+        width: 20rem;
+      }
+    }
+    @media screen and (min-width: 48rem) {
+      padding: 1.5rem 2rem;
+      .nds-b2b-override-select-price {
+        padding-left: 0;
+      }
+      .nds-b2b-search-discount {
+        margin: 1.5rem 0;
+      }
+    }
+  }
+  .nds-b2b-modal-button {
+    color: $azure;
+    padding: 0.25rem 2.5rem;
+    margin: 0 1rem 0 0;
+    &.nds-b2b-primary {
+      color: $white;
+      background: $azure;
+      border: 1px solid $azure;
+    }
+  }
+}
+
+
+
+.nds-b2b-discount-card {
+  background: $white;
+  border-top: 1px solid $light-silver;
+  &:first-child {
+    border-top: none;
+  }
+  input.nds-b2b-discount-card_checkbox {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+  .nds-b2b-discount-card_container {
+    flex: 1;
+    .nds-b2b-discount-card_tabs {
+      overflow: hidden;
+      .nds-b2b-discount-card_tab {
+        width: 100%;
+        color: $white;
+        overflow: hidden;
+        transition: all 0.25s ease-in;
+        &-label {
+          display: flex;
+          position: relative;
+          justify-content: space-between;
+          padding: 1.5rem 1rem;
+          background: $white;
+          font-weight: $font-weight-bold;
+          font-size: 1.3rem;
+          color: $black-primary;
+          cursor: pointer;
+          transition: all 0.25s ease-in;
+          &.showIcon {
+            /* Icon */
+            &::after {
+              content: "\276F";
+              width: 1.3em;
+              height: 1.3em;
+              font-size: 1.6rem;
+              text-align: center;
+              transition: all 0.35s;
+              color: $palette-warm-gray-7;
+              right: 2rem;
+              position: relative;
+            }
+          }
+          .nds-b2b-discount-card_title {
+            width: 40vw;
+            font-size: 1rem;
+            font-weight: $font-weight-regular;
+            .nds-b2b-discount-status {
+              font-size: 0.6rem;
+              color: $grey-40;
+            }
+          }
+          .nds-b2b-discount-attributes_info {
+            @include cardsHeaderAttributes;
+            position: inherit;
+            width: inherit;
+            margin-top: -0.5rem;
+            overflow: auto;
+            white-space: nowrap;
+            /* Hide scrollbars */
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar {
+              display: none;
+            }
+            .nds-b2b-each-attribute {
+              min-width: auto;
+              .nds-b2b-discount-description {
+                font-size: 0.7rem;
+                color: $black-primary;
+                &.description {
+                  color: $palette-gray-7;
+                }
+              }
+            }
+            @media screen and (min-width: 48rem) {
+              position: absolute;
+              &.description {
+                margin-top: 0.5rem;
+              }
+            }
+          }
+          .nds-b2b-discount-price_info {
+            overflow: hidden;
+            display: flex;
+            position: absolute;
+            right: 1rem;
+            margin-top: -2rem;
+            .nds-b2b-each-attribute {
+              min-width: 6rem;
+              .nds-b2b-discount-price_label {
+                font-size: 0.7rem;
+                color: $palette-gray-7;
+              }
+              .nds-b2b-attribute_value {
+                font-size: 1rem;
+                font-weight: bold;
+                float: right;
+              }
+              @media screen and (min-width: 48rem){
+                min-width: 6rem;
+              }
+            }
+            @media screen and (min-width: 48rem) {
+              right: 6rem;
+              margin-top: 0;
+            }
+          }
+          .nds-b2b-discount-label-container {
+            display: block;
+            .nds-b2b-child-indicator {
+              position: absolute;
+              top: 0;
+            }
+            .nds-b2b-label-details {
+              margin-top: 2.5rem;
+            }
+          }
+          .nds-b2b-delete-menu {
+            position: absolute;
+            right: 1.5rem;
+            .nds-b2b-add-discount {
+              font-size: 0.8rem;
+              font-weight: $font-weight-regular;
+              color: $azure;
+            }
+          }
+          @media screen and (min-width: 48rem) {
+            padding: 1rem 3rem 2.25rem 1.5rem;
+            &.showIcon {
+              &::after {
+                right: 0;
+              }
+            }
+            .nds-b2b-discount-label-container {
+              display: flex;
+              .nds-b2b-label-details {
+                margin-top: 0;
+              }
+            }
+          }
+          @media screen and (min-width: 60rem) {
+            .nds-b2b-discount-attributes_info {
+              display: flex;
+            }
+          }
+        }
+        &-content {
+          padding: 0 1rem;
+          max-height: 0;
+          background: white;
+          transition: all 0.35s;
+          overflow: auto;
+          color: $grey-35;
+          position: relative;
+          @media screen and (min-width: 48rem) {
+            padding: 0 1.5rem;
+          }
+          .nds-b2b-configure-discount-row {
+            justify-content: space-between;
+            margin: 1rem 0;
+            .nds-b2b-discount-chargeType {
+              font-size: 1rem;
+              font-weight: bold;
+              @media screen and (min-width: 48rem) {
+                font-size: 0.9rem;
+                font-weight: 400;
+                margin-top: 0.5rem;
+              }
+            }
+            .nds-b2b-discount-adjustment {
+              .nds-b2b-adjustment-type-combobox {
+                margin: 0.5rem 0;
+                width: 100%;
+                @media screen and (min-width: 48rem) {
+                  width: auto;
+                }
+              }
+            }
+            .nds-b2b-discount-configure-input {
+              margin: 0;
+              width: 100%;
+              .nds-b2b-discount-input {
+                border: 1px solid $newport-border-gray;
+                border-radius: 0.25rem;
+                padding: 0 1rem;
+                &:focus {
+                  outline: none;
+                  border: 1px solid $azure;
+                }
+              }
+              @media screen and (min-width: 48rem) {
+                width: auto;
+                margin: .5rem;
+              }
+            }
+          }
+        }
+        input.nds-b2b-discount-card_checkbox:checked {
+          + .nds-b2b-discount-card_tab-label.showIcon {
+            &::after {
+              transform: rotate(90deg);
+            }
+          }
+          ~ .nds-b2b-discount-card_tab-content {
+            max-height: 500px;
+            border-top: 1px solid $light-silver;
+          }
+        }
+      }
+    }
+  }
+}

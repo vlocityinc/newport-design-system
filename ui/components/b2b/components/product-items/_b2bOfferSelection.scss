@@ -1,0 +1,46 @@
+.nds-b2b-offer-selection {
+  padding: 0.25rem;
+  width: 100%;
+  margin-bottom: 5rem;
+
+  .nds-b2b-items-container {
+    display: flex;
+    background: $white-smoke;
+    padding: 2rem 0 6rem 6rem;  
+  }
+  .nds-b2b-container_items-list {
+    width: 100%;
+  }
+  .nds-b2b-container_categories-list {
+    display: none;
+    width: 0;
+  }
+
+  @media screen and (min-width: 80rem) {
+    .nds-b2b-container_items-list {
+      width: 80%; 
+    }
+    .nds-b2b-container_categories-list {
+      width: 20%;
+      margin-right: 1rem;
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 79rem) and (min-width: 30rem) {
+    .nds-b2b-container_items-list {
+      width: 60%; 
+    }
+    .nds-b2b-items-container{
+      padding: 2rem 0 9rem 3rem;
+    }
+    .nds-b2b-container_categories-list {
+      display: block;
+      margin-right: 1rem;
+      width: 40%;
+    }
+  }
+}
+.nds-b2b-spinner {
+  position: fixed;
+}

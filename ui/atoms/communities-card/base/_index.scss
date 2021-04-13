@@ -1,0 +1,80 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+$nds-communities-text-bold: 500; 
+$nds-communities-text-thin: 100; 
+$nds-communities-box-shadow: -1px -1px 2px 0 rgba(22,50,92,0.08), 1px 2px 4px 0 rgba(22,50,92,0.08), 0 2px 16px 0 rgba(26,80,155,0.10);
+
+/**
+ * @summary Initializes a card for community
+ *
+ * @name nds-communities-card 
+ * @selector .nds-communities-card
+ * @modifier
+ */
+.nds-communities-card {
+    background: $blue-background-primary;
+    color: $color-text-brand-primary;
+    padding: $spacing-xxx-large $spacing-none;
+    min-height: 2rem;
+
+    .nds-text-heading_large {
+        font-size: $font-size-12;
+        font-weight: $nds-communities-text-bold;
+    }
+
+    .nds-text-heading_medium {
+        padding-bottom: $spacing-xx-small;
+        font-weight: $nds-communities-text-bold;
+        font-size: $font-size-9;
+    }
+    .nds-text-body_medium {
+        font-weight: $nds-communities-text-thin;
+        font-size: $font-size-5;
+    }
+
+    .nds-text-link {
+        background-color: $transparent;
+        border: $transparent;
+        font-size: $font-size-5;
+        position: relative;
+        top: -.2rem;
+    }
+
+    .nds-button__icon {
+        fill: $white;
+        margin-bottom: $spacing-xx-small;
+    }
+
+    &__bordered {
+        width: 100%; 
+        border: $border-width-thin solid $newport-border-gray;
+        border-radius: $border-radius-large;
+        box-shadow: $nds-communities-box-shadow;
+    }
+}
+
+@media screen and (max-width: 75rem) {
+    .nds-communities-card {
+        display: block;
+        text-align: center;
+        padding: $spacing-x-large $spacing-medium;
+
+        .nds-text-heading_large {
+            font-size: 2.25rem;
+        }
+    }
+}
+
+@media screen and (max-width: 30rem) {
+    .nds-communities-card {
+
+        .nds-text-heading_large {
+            font-size: 2.25rem;
+        }
+
+        .nds-text-heading_medium {
+            font-size: $font-size-8;
+        }
+    }
+}

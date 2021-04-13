@@ -1,0 +1,58 @@
+.nds-b2b-tabs {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nds-b2b-tab_item {
+    cursor: pointer;
+    color: $color-text-weak;
+    font-size: $font-size-5;
+    padding-bottom: $spacing-small;
+    border-bottom: 2px solid transparent;
+    
+    &:not(:first-child) {
+        margin-left: $spacing-x-large;
+    }
+
+    &.nds-b2b-tab_item-active {
+        color: $black-primary;
+        border-color: $azure;
+    }
+}
+
+.nds-b2b-tabs_cont {
+    padding: 0 $spacing-medium;
+
+    @include b2b-desktop-view {
+        position: absolute;
+        left: 4rem; 
+        bottom: 0;
+    }
+}
+
+.nds-b2b-tabs_default{
+    //Only override the default styles of ootb tabs if the parent class is nds-b2b-tabs 
+    //to match wireframes and leverage existing lwc
+    .nds-tabs_default {
+        background-color: transparent;
+    }
+
+    .nds-tabs_default__nav {
+        border: 0;
+    }
+    .nds-tabs_default__item {
+        padding: 0;
+        letter-spacing: 0;
+        font-size: 1rem;
+        text-transform: unset;
+        &.nds-is-active {
+            color: $black-primary;
+        }
+
+        &:not(:first-child) {
+            margin-left: $spacing-large;
+        }
+    }
+}

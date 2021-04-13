@@ -1,0 +1,176 @@
+.nds-b2b-adjust-price-modal {
+  .nds-modal__content {
+    padding: 0;
+  }
+  .nds-modal__container {
+    margin: 0;
+    padding: 0;
+    .nds-modal__close {
+      display: none;
+    }
+    @media screen and (min-width: 48rem) {
+      margin: 0 auto;
+      display: flex;
+      width: 100%;
+      padding: 3rem 0;
+    }
+  }
+  .nds-b2b-modal-header {
+    font-size: 1.3rem;
+    color: $black-primary;
+    @media screen and (min-width: 48rem) {
+      font-size: 1.6vw;
+    }
+  }
+  .nds-b2b-override-price-offer {
+    background-color: $white-smoke;
+    padding: 1.5rem 0rem;
+    color: $grey-35;
+    .nds-b2b-override-select-price {
+      .nds-radio_button-group {
+        width: auto;
+      }
+      .nds-radio_button .nds-radio_faux {
+        color: $azure;
+      }
+      .nds-radio_button [type=radio]:checked+.nds-radio_button__label {
+        background-color: $azure;
+        border-radius: 0;
+        .nds-radio_faux {
+          color: $white;
+        }
+      }
+      .nds-radio_button [type=radio]:checked+.nds-radio_button__label .nds-radio-overlay {
+        border: none;
+        border-radius: 0;
+      }
+    }
+
+    .nds-b2b-waterfall-container {
+      background-color: $white;
+      margin-top: 1.5rem;
+      border: 1px solid $newport-border-gray;
+      border-radius: 0.25rem;
+      width: 100%;
+      .nds-b2b-override-prices-container {
+        font-size: 1rem;
+        .nds-b2b-override-prices_row {
+          padding: 0.7rem 2.4rem;
+          font-size: 0.9rem;
+          .nds-b2b-delete-adjustment {
+            cursor: pointer;
+          }
+          .nds-b2b-adjustment-description {
+            font-size: .7rem;
+            color: $palette-gray-7;
+          }
+          &:hover {
+            background-color: $alice-blue;
+          }
+          &:nth-last-child(2) {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid $black-primary;
+          }
+          &.nds-b2b-no-bg {
+            &:hover {
+              background: none;
+            }
+          }
+        }
+      }
+      .nds-b2b-custom-adjustment {
+        .nds-b2b-adjustment-type-combobox {
+          width: 20vw;
+          max-width: 10rem;
+        }
+        .nds-b2b-adjustment-input {
+          width: 13vw;
+          margin-left: .5rem;
+          max-width: 7rem;
+          .nds-b2b-input-icon {
+            position: absolute;
+            top: 50%;
+            margin-top: -0.4rem;
+            line-height: 1;
+            color: $palette-gray-7;
+            margin-left: 0.8rem;
+            font-size: 0.8rem;
+            font-weight: $font-weight-bold;
+            &.right {
+              right: 0.8rem;
+            }
+          }
+          .nds-b2b-input {
+            border: 1px solid $newport-border-gray;
+            border-radius: 0.25rem;
+            padding: 0 1rem;
+            &:focus {
+              outline: none;
+              border: 1px solid $azure;
+            }
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+          }
+        }
+        .nds-b2b-add-button {
+          background-color: $white;
+          border: 1px solid $newport-border-gray;
+          font-size: 0.7rem;
+          padding: 0 1.2rem;
+          cursor: pointer;
+          transition: all 0.25s ease-in;
+          color: $azure;
+          &:hover {
+            color: $white;
+            background-color: $azure;
+          }
+        }
+      }
+    }
+    .nds-b2b-override-header {
+      border-bottom: 1px solid $newport-border-gray;
+      padding: 0.3rem;
+      &_title {
+        font-size: 1rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      &.nds-b2b-justify-content {
+        justify-content: space-between;
+      }
+      @media screen and (min-width: 48rem) {
+        padding: 0.9rem;
+      }
+    }
+    @media screen and (min-width: 48rem) {
+      padding: 1.5rem 2rem;
+    }
+  }
+  .nds-b2b-modal-button {
+    color: $azure;
+    padding: 0rem 2.5rem;
+    &.nds-b2b-primary {
+      color: $white;
+      background: $azure;
+      border: 1px solid $azure;
+    }
+  }
+  .nds-b2b-select-timelist-container {
+    justify-content: space-between;
+    .nds-b2b-time-policy-combobox {
+      width: 95%;
+      @media screen and (min-width: 48rem) {
+        width: 48%;
+      }
+      .nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
+        padding-left: 0.35rem;
+      }
+      .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty+.nds-form-element__label, .nds-form-element__control.nds-form-element__control-animated-label input.nds-is-dirty.nds-not-empty~.nds-form-element__label {
+        top: 0.2rem;
+      }
+    }
+  }
+}

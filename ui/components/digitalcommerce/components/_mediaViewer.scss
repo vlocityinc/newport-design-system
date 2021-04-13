@@ -31,7 +31,7 @@
       top: 50%;
       width: auto;
       margin-top: -1.375rem;
-      font-weight: bold;
+      font-weight: $font-weight-bold;
       font-size: 1.125rem;
       transition: 4s ease;
       border-radius: 0 0.188rem 0.188rem 0;
@@ -96,6 +96,15 @@
       }
       img.nds-dc-corousel-img {
         padding: 0.688rem 0.875rem;
+      }
+      svg.nds-dc-play-icon-overlay {
+        height: 1.563rem;
+        margin-top: 0.938rem;
+        position: absolute;
+        top: 0.25rem;
+        right: 0.938rem;
+        width: 1.563rem;
+        fill: $sky-blue-100;
       }
       .nds-dc-media-overlay.nds-dc-active-media-overlay {
         border-bottom: 0.125rem solid $newport-color-brand-orange;

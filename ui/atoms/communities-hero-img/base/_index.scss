@@ -1,0 +1,20 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initialize hero 
+ *
+ * @name nds-hero
+ * @selector .nds-hero
+ * @modifier
+ */
+ .nds-communities-card {
+ .nds-hero {
+    &_container-inner{
+        max-width: 80rem;
+        margin: $spacing-none auto;
+     }
+ }
+}
+ 
+

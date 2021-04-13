@@ -1,0 +1,394 @@
+// Layout
+.nds-b2b-card {
+  margin: 1.5rem 0;
+  background: $white;
+  input.nds-b2b-card_checkbox {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+  .nds-b2b-card_container {
+    flex: 1;
+    .nds-b2b-card_tabs {
+      overflow: hidden;
+      .nds-b2b-card_tab {
+        width: 100%;
+        color: $white;
+        overflow: hidden;
+        transition: all 0.25s ease-in;
+        &-label {
+          display: flex;
+          position: relative;
+          justify-content: space-between;
+          padding: 1.5rem 1rem;
+          background: $white;
+          font-weight: $font-weight-bold;
+          font-size: 1.3rem;
+          color: $black-primary;
+          cursor: pointer;
+          transition: all 0.25s ease-in;
+          /* Icon */
+          &.nds-b2b-expand-accordion{
+            &::after {
+              content: "\276F";
+              width: 1.3em;
+              height: 1.3em;
+              font-size: 1.6rem;
+              text-align: center;
+              transition: all 0.35s;
+              color: $palette-warm-gray-7;
+              right: 0;
+              position: relative;
+            }
+          }
+          .nds-b2b-card_title {
+            width: 100%;
+            padding-right: 2.5rem;
+            display: inherit;
+            .nds-b2b-macd-action {
+              padding: 0.5rem 0.75rem;
+              color: $white;
+              border-radius: 1.5rem;
+              background-color: green;
+              font-size: 0.75rem;
+              position: relative;
+              top: -0.3rem;
+              margin-right: 0.5rem;
+              &.Change {
+                background-color: $palette-gray-9;
+              }
+              &.Add {
+                background-color: $salem;
+              }
+              &.Disconnect {
+                background-color: $koromiko;
+              }
+            }
+            .nds-b2b-bundle-title {
+              color: $palette-gray-9;
+            }
+            @media screen and (min-width: 48rem) {
+              width: 40vw;
+              padding-right: 0;
+              display: block;
+            }
+          }
+          .nds-b2b-attributes_info {
+            @include cardsHeaderAttributes;
+            position: inherit;
+            width: inherit;
+            margin-top: -0.5rem;
+            overflow: auto;
+            white-space: nowrap;
+            /* Hide scrollbars */
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar {
+              display: none;
+            }
+            .nds-b2b-each-attribute {
+              min-width: auto;
+              .nds-b2b-attribute_label {
+                text-transform: uppercase;
+                margin-right: 0.5rem;
+              }
+              .nds-b2b-attribute_value {
+                font-size: 0.8rem;
+                font-weight: $font-weight-bold;
+                margin-right: 0.5rem;
+              }
+              &:not(:first-child):before {
+                content: " . ";
+                font-weight: $font-weight-light;
+                padding: 0 0.25rem;
+              }
+            }
+          }
+          .nds-b2b-price_info {
+            @include cardsHeaderAttributes;
+            display: flex;
+            right: 1rem;
+            overflow: auto;
+            .nds-b2b-each-attribute {
+              .nds-b2b-attribute_value {
+                border-bottom: 1px dashed $black-primary;
+                float: right;
+                &:focus {
+                  border: 1px solid $azure;
+                  border-radius: 0.25rem;
+                  padding: 0 0.5rem;
+                }
+                &.nds-b2b-no-border {
+                  border-bottom: none;
+                }
+                &.nds-b2b-adjustment-price {
+                  width: 100%;
+                  border-bottom: none;
+                  font-weight: $font-weight-light;
+                  font-size: 0.7rem;
+                  margin-top: 0.2rem;
+                }
+              }
+            }
+          }
+          .nds-b2b-quantity {
+            width: 10rem;
+            @media screen and (min-width: 60rem) {
+              width: 6rem;
+            }
+            min-height: 2rem;
+            .nds-b2b-quantity_value {
+              border: 1px solid $palette-warm-gray-5;
+              height: 1.4rem;
+              width: 4.4rem;
+              padding-left: 0.6rem;
+              font-size: 0.9rem;
+              &:focus {
+                outline: none;
+                -webkit-appearance: none;
+                margin: 0;
+              }
+              &:disabled {
+                background-color: $palette-gray-90;
+              }
+            }
+            .nds-b2b-configure_label {
+              color: $palette-warm-gray-9;
+              font-size: 0.65rem;
+              font-weight: $font-weight-regular;
+              letter-spacing: 0.4px;
+            }
+          }
+          .nds-b2b-label-container {
+            display: block;
+            width: 100%;
+            justify-content: space-between;
+            .nds-b2b-child-indicator {
+              position: absolute;
+              top: 0;
+            }
+            .nds-b2b-label-details {
+              margin-top: 1rem;
+            }
+          }
+          .nds-b2b-menu {
+            position: absolute;
+            right: 0.5rem;
+            .nds-is-open .nds-dropdown_right {
+              overflow: visible;
+              position: relative;
+              margin-top: -1.25rem;
+              z-index: 1;
+            }
+            @media screen and (min-width: 48rem) {
+              right: 0.75rem;
+            }
+          }
+          &.nds-b2b-disconnected {
+            background-color: $palette-gray-90;
+            pointer-events: none;
+            .nds-b2b-card_title {
+              .nds-b2b-each-card_title {
+                text-decoration: line-through;
+              }
+            }
+          }
+          &.nds-b2b-no-chevron {
+            &::after {
+              content: "";
+            }
+          }
+          @media screen and (min-width: 48rem) {
+            padding: 1.5rem 3rem 1.5rem 1.5rem;
+            &::after {
+              right: 0.5rem;
+            }
+            .nds-b2b-label-container {
+              display: flex;
+              .nds-b2b-label-details {
+                margin-top: 0;
+                padding-right: 1.5rem;
+                overflow: auto;
+              }
+            }
+          }
+          @media screen and (min-width: 30rem) {
+            padding: 1.5rem 3rem 1rem 1.5rem;
+            .nds-b2b-attributes_info {
+              display: flex;
+            }
+          }
+        }
+        &-content {
+          padding: 0 1rem;
+          max-height: 0;
+          background: white;
+          transition: all 0.35s;
+          color: $grey-35;
+          overflow: auto;
+          @media screen and (min-width: 48rem) {
+            padding: 0 1.5rem;
+          }
+          &.nds-b2b-card-parent {
+            padding: 0;
+            background: $white-smoke;
+          }
+          &.nds-b2b-content-disconnect {
+            pointer-events: none;
+          }
+        }
+        input.nds-b2b-card_checkbox:checked {
+          + .nds-b2b-card_tab-label {
+            &::after {
+              transform: rotate(90deg);
+            }
+          }
+          ~ .nds-b2b-expand-accordion ~ .nds-b2b-card_tab-content {
+            max-height: calc(200vh - 1.3rem);
+            border-top: 1px solid $light-silver;
+            &.nds-b2b-extra-padding {
+              padding: 1rem;
+              @media screen and (min-width: 48rem) {
+                padding: 1.5rem;
+              }
+            }
+          }
+        }
+        .nds-b2b-modal-cancel{
+          color: rgba(0, 68, 135, 1);
+        }
+      }
+    }
+  }
+  &.nds-b2b-product-group {
+    background: $white-smoke;
+    margin: 0;
+    .nds-b2b-card_container {
+      .nds-b2b-card_tabs {
+        .nds-b2b-card_tab {
+          &-label {
+            background: $white-smoke;
+            .nds-b2b-price_info {
+              .nds-b2b-each-attribute {
+                .nds-b2b-attribute_value {
+                  border-bottom: none;
+                }
+              }
+            }
+            &.nds-b2b-disconnected {
+              background-color: $palette-gray-90; 
+            }
+          }
+          &-content {
+            padding: 0;
+            background: $white-smoke;
+          }
+          input.nds-b2b-card_checkbox:checked {
+            ~ .nds-b2b-card_tab-content {
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.nds-b2b-child-card {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    .nds-b2b-card_container {
+      .nds-b2b-card_tabs {
+        .nds-b2b-card_tab {
+          &-label {
+            background: $white;
+            border-bottom: 1px solid $light-silver;
+            .nds-b2b-price_info {
+              .nds-b2b-each-attribute {
+                .nds-b2b-attribute_value {
+                  border-bottom: 1px dashed $black-primary;
+                  &:focus {
+                    border: 1px solid $azure;
+                    border-radius: 0.25rem;
+                    padding: 0 0.5rem;
+                  }
+                  &.nds-b2b-no-border {
+                    border-bottom: none;
+                  }
+                  &.nds-b2b-adjustment-price {
+                    width: 100%;
+                    border-bottom: none;
+                    font-weight: $font-weight-light;
+                    font-size: 0.7rem;
+                    margin-top: 0.2rem;
+                  }
+                }
+              }
+            }
+            &.nds-b2b-disconnected {
+              background-color: $palette-gray-90;
+            }
+          }
+          &-content {
+            padding: 0;
+            background: $white;
+            &.nds-b2b-extra-padding {
+              padding: 0 1.5rem;
+            }
+          }
+          input.nds-b2b-card_checkbox:checked {
+            ~ .nds-b2b-expand-accordion ~ .nds-b2b-card_tab-content {
+              &.nds-b2b-extra-padding {
+                padding: 1rem;
+                @media screen and (min-width: 48rem) {
+                  padding: 1.5rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    &.nds-b2b-grand-child-card {
+      margin-bottom: 0;
+    }
+  }
+}
+.nds-b2b-child-card_path {
+  background: $white;
+  padding: 0.4rem 2rem;
+  margin: 2rem 2rem 0 4rem;
+  border-bottom: 1px solid $light-silver;
+  .nds-b2b-child-card_path-title {
+    font-weight: $font-weight-light;
+    color: $azure;
+    cursor: pointer;
+    transition: all 0.35s;
+    &:hover {
+      font-weight: $font-weight-bold;
+    }
+  }
+}
+.nds-b2b-parent-attribute-container {
+  background: $white;
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+  display:inherit;
+  &.nds-b2b-disconnect {
+    padding: 0;
+  }
+}
+.nds-b2b-card-parent{	
+  .nds-b2b-parent-attribute-container{	
+    .nds-b2b-attribute-parent-padding{	
+      padding-left: 1.5rem;	
+    }	
+  }	
+}
+.nds-b2b-delete-offer {
+  .nds-modal__header {
+    background-color: $newport-color-error;
+    color: $white;
+    font-size: 1rem;
+  }
+  .nds-modal__content {
+    color: $black-primary;
+  }
+}

@@ -251,13 +251,22 @@ textarea:focus::placeholder {
   }
 }
 
-.nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label{
+.nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label {
   display: inline-block;
+  max-width: 100%;
+}
+
+.nds-form-container .nds-combobox__form-element.nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label{
+  max-width: calc(100% - 0.6em);  
+}
+
+.nds-container_fluid.nds-input-has-icon_right .nds-form-element__label label,
+.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label {
   max-width: calc(100% - 3.5rem);
 }
 
-.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label{
-  max-width: calc(100% - 3.5rem);
+.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label.nds-form_repeatable {
+  max-width: calc(100% - 4.7rem);
 }
 
 .nds-form-container .nds-form-element__control-animated-label .nds-form-element__label.nds-date-label label{

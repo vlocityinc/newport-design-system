@@ -16,8 +16,8 @@ You should be in the Storybook preview tool if you're reading this. In the left 
 
 Switch to your editor and in the project code you'll find all the files for `button` in `ui/components/buttons`. In this folder you'll see 2 sub folders:
 
-* `base` - Which contains the core css rules for all buttons and specific tokens which override different parts of the button.
-* `stateful` - This is what we call a variation and contains styles for the stateful variations of a button
+- `base` - Which contains the core css rules for all buttons and specific tokens which override different parts of the button.
+- `stateful` - This is what we call a variation and contains styles for the stateful variations of a button
 
 Let's start with changing the border-radius to get rid of the rounded corners.
 
@@ -25,13 +25,11 @@ Let's start with changing the border-radius to get rid of the rounded corners.
 
 Open the file `ui/components/buttons/_tokens.scss` and look for the following line:
 
-
 ```
 $button-border-radius: 0.25rem !default;
 ```
 
 Since we want square buttons lets change the value to be `0`:
-
 
 ```
 $button-border-radius: 0rem !default;
@@ -51,11 +49,11 @@ Back in our `_tokens.scss` file. The variable we want to edit is called `$color-
 
 ### Design token variables
 
-At this point it's worth taking a side journey to an important part of Newport's structure. If you think about a company brand and design there is usually a well defined set of colors in a color palette and instead of hardcoding HEX or RGB color values all over the place we try to *lift* them to a more central location. This means it's easier to update the values in one place and re-use them.
+At this point it's worth taking a side journey to an important part of Newport's structure. If you think about a company brand and design there is usually a well defined set of colors in a color palette and instead of hardcoding HEX or RGB color values all over the place we try to _lift_ them to a more central location. This means it's easier to update the values in one place and re-use them.
 
 So... where is `$science-blue` defined? It's in the `ui/variables/_colors.scss` file. If you open that file you'll see a long list of colors defined which we use throughout newport.
 
-Now we could edit the value of `$science-blue` to be our pink rgb value... but that doesn't make sense *pink is not BLUE*! In this situation it's better to start adding well defined color value names for your own colors. So let's add a new value for our pink. I suggest the name `$newport-pink-background`, let's append to the file:
+Now we could edit the value of `$science-blue` to be our pink rgb value... but that doesn't make sense _pink is not BLUE_! In this situation it's better to start adding well defined color value names for your own colors. So let's add a new value for our pink. I suggest the name `$newport-pink-background`, let's append to the file:
 
 ```
 $newport-pink-background: rgb(255, 170, 170);
@@ -70,7 +68,6 @@ $color-background-button-brand: $newport-pink-background !default;
 Hit save and go to the previewer:
 
 ![Changing background of button](./docs/customize-button-background.png)
-
 
 ### Changing the border-color
 

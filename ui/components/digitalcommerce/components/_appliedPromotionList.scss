@@ -1,15 +1,13 @@
 .nds-dc-applied-promo-container {
     display: flex;
-    padding: 0 .3125rem;
-    padding-right: 1rem;
-
+    padding: 0;
     .nds-dc-applied-promo {
         width: 100%;
         display: flex;
         margin: .875rem 0;
         .nds-dc-applied-promo-label {
             width: 35%;
-            padding-left: .3125rem;
+            padding-left: 0.3125rem;
             font-size: .75rem;
             line-height: $line-height-applied-promo;
             color: $newport-color-brand-orange;
@@ -18,7 +16,7 @@
             font-size: .75rem;
             line-height: $line-height-applied-promo;
             margin-top: -0.625rem;
-            width: 40%;
+            width: 35%;
             text-align: right;
         }
         .nds-dc-value-one-time {
@@ -29,7 +27,7 @@
         .nds-dc-adjustment-value-recurring {
             line-height: $line-height-applied-promo;
             margin-top: -0.625rem;
-            width: 15%;
+            width: 17%;
             margin-right: .3125rem;
             font-size: .75rem;
         }
@@ -49,34 +47,38 @@
                 height: 0.75rem;
             }
         }
-        .nds-dc-edit-column {
-            margin-left: 0;
+        .nds-dc-edit-icon {
+          width: 1rem;
+          height: 1rem;
+          margin-left: 0;
+          margin-top: 0;
+          padding-top: 0;
+          left: 0;
+          top: 0;
+          visibility: hidden;
         }
     }
     
-    @media only screen and (min-width: 30rem) {
-        padding: 0 1.875rem;
+    @media only screen and (min-width: 48rem) {
+        padding: 0px 1rem 0px 1.875rem;
         .nds-dc-applied-promo {
             .nds-dc-applied-promo-label {
                 width: 30%;
                 padding-left: 1.25rem;
-                font-size: $font-size-applied-promo;
             }
             .nds-dc-adjustment-value-one-time {
-                font-size: $font-size-applied-promo;
+                width: 40%; 
             }
-            .nds-dc-adjustment-value-recurring{
+            .nds-dc-adjustment-value-recurring {
                 width: 20%;
                 font-size: $font-size-applied-promo;
-                margin-right: unset;
+                margin-right: 0;
             }
             .nds-dc-delete-icon {
                 width: 10%;
-                margin-top: unset;
             }
-            .nds-dc-edit-column {
-                margin-left: 0; 
-                float: right;
+            .nds-dc-edit-icon {
+                margin-left: 1rem;
             }
             .nds-dc-value-one-time {
                 width: 6rem;

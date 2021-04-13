@@ -1,0 +1,45 @@
+.nds-b2b-promo-item {
+  background-color: $white;
+  max-width: $b2b-product-item-max-width;
+  min-width: $b2b-product-item-min-width;
+  min-height: $b2b-product-item-min-height;
+  max-height: $b2b-product-item-min-height;
+  border-radius: 0.3rem;
+  border: 1px solid $white-smoke;
+  border-top: 0.3125rem solid $azure;
+  padding: 0.8rem;
+  margin-bottom: 0.7rem;
+  position: relative;
+  cursor: pointer;
+
+  &.nds-b2b-loading {
+    pointer-events: none;
+  }
+  .nds-b2b-promo-name {
+    font-size: $font-size-5;
+  }
+  .nds-b2b-promo-description {
+    font-weight: $font-weight-light;
+    font-size: $font-size-2;
+    margin-top: 0.3rem;
+    @include multiLineEllipsis(1rem, 2);
+  }
+  .nds-b2b-promo-period {
+    font-size: $font-size-3;
+    margin-top: 1rem;
+    font-weight: $font-weight-regular;
+  }
+  .nds-b2b-promo-icon {
+    position: absolute;
+    margin-left: -1.6rem;
+  }
+  &:hover {
+    background-color: $alice-blue;
+    .nds-b2b-promo-description {
+      @include multiLineEllipsis(1rem, 2,$alice-blue);
+    }
+  }
+  @media screen and (min-width: 48rem) {
+    margin-right: 0.7rem;
+  }
+}

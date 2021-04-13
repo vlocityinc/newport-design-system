@@ -15,7 +15,7 @@ path like this:
 
 ```
 <svg aria-hidden="true" class="nds-icon" title="when needed">
-  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
 </svg>
 ```
 

@@ -1,0 +1,118 @@
+.nds-b2b-product-item {
+  background-color: $white;
+  max-width: 21.5rem;
+  min-width: 21.5rem;
+  min-height: $b2b-product-item-min-height;
+  max-height: $b2b-product-item-min-height;
+  border-radius: 0.35rem;
+  border: 1px solid $palette-warm-gray-4;
+  padding: 0.5rem;
+  margin: 0.5rem 0 0.7rem 0.5rem;
+  box-shadow: 0px 3px 5px 0px $palette-warm-gray-4;
+  position: relative;
+  &.nds-b2b-hide {
+    background: $palette-gray-90;
+    pointer-events: none;
+    .nds-b2b-product-item_container {
+      background: $palette-gray-90;
+      pointer-events: none;
+      border: none;
+      .nds-b2b-product-description {
+        &:after {
+          background: $palette-gray-90;
+        }
+      }
+      &:hover {
+        border: none;
+        background-color: $palette-gray-90;
+        .nds-b2b-product-description {
+          @include multiLineEllipsis(1rem, 2, $palette-gray-90);
+        }
+      }
+    }
+  }
+  &.nds-b2b-loading {
+    pointer-events: none;
+  }
+  .nds-b2b-product-item_container {
+    border: 1px solid $white;
+    border-radius: 0.3rem;
+    width: 100%;
+    height: 100%;
+    padding: 0.8rem;
+    min-height: 9rem;
+    max-height: 9rem;
+    cursor: pointer;
+
+    .nds-b2b-product-name {
+      font-size: $font-size-5;
+      color: $black-primary;
+    }
+    .nds-b2b-product-description {
+      font-weight: $font-weight-light;
+      margin-top: 0.3rem;
+      font-size: $font-size-2;
+      margin-bottom: 1.25rem;
+      color: #666666;
+      @include multiLineEllipsis(1rem, 2);
+    }
+
+    .nds-b2b-price_info {
+      overflow: hidden;
+      display: flex;
+      flex-direction: row-reverse;
+      .nds-b2b-each-attribute {
+        margin-left: 3rem;
+        font-size: 1rem;
+        font-weight: $font-weight-regular;
+        .nds-b2b-price-label {
+          color: $palette-gray-9;
+          font-size: $font-size-2;
+        }
+      }
+    }
+
+    .nds-b2b-attributes_info {
+      @include cardsHeaderAttributes;
+      overflow: auto;
+      position: inherit;
+      width: inherit;
+      margin-bottom: 1.3rem;
+      .nds-b2b-each-attribute {
+        min-width: auto;
+        .nds-b2b-attribute_label {
+          margin-right: 0.3rem;
+          &::after {
+            content: ":";
+          }
+        }
+        .nds-b2b-attribute_value {
+          font-size: 0.8rem;
+          font-weight: $font-weight-regular;
+        }
+        &:not(:first-child):before {
+          content: " . ";
+          font-weight: $font-weight-light;
+          padding: 0 0.25rem;
+        }
+      }
+    }
+    
+    &:hover {
+      border: 1px solid $hawkes-blue;
+      background-color: $alice-blue;
+      .nds-b2b-product-description {
+        @include multiLineEllipsis(1rem, 2, $alice-blue);
+      }
+    }
+  }
+  @media screen and (min-width: 48rem) {
+    margin-right: 0.7rem;
+    min-width: 17rem;
+    max-width: 17rem;
+  }
+  @media screen and (min-width: 80rem) {
+    min-width: 24rem;
+    max-width: 24rem;
+  }
+}

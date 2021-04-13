@@ -61,6 +61,10 @@
     right: 0;
     position: relative;
     min-width: 4rem;
+    &.nds-dc-disabled{
+      pointer-events: none;
+      opacity: 0.5;
+    }
   }
   
   @media only screen and (min-width: 24rem) {

@@ -1,0 +1,33 @@
+.nds-b2b-upload_wrapper {
+	min-height: calc(100vh - 20rem);
+}
+
+.nds-b2b-upload {
+	&_box {
+		border: 1px dashed $black-primary;
+		border-radius: $border-radius-medium;
+	}
+
+	&_box-filled {
+		border-style: solid;
+	}
+}
+
+.nds-b2b-dragging {
+	background-color: $alice-blue;
+}
+
+
+.nds-b2b-show_popup {
+	position: fixed;
+	background-color: $black-transparent-30;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: $z-index-dialog;
+
+	.nds-b2b-upload_wrapper {
+		min-height: 100vh;
+	}
+}

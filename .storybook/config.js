@@ -1,6 +1,14 @@
-import { configure, addParameters, addDecorator } from '@storybook/html';
-import { withA11y } from '@storybook/addon-a11y';
-import { withDesignTokens } from '../scripts/storybook/design-tokens';
+import {
+  configure,
+  addParameters,
+  addDecorator
+} from '@storybook/html';
+import {
+  withA11y
+} from '@storybook/addon-a11y';
+import {
+  withDesignTokens
+} from '../scripts/storybook/design-tokens';
 const req = require.context('../ui', true, /\.stories\.js$/);
 const reqDoc = require.context('../docs', true, /\.stories\.js$/);
 
@@ -16,9 +24,10 @@ addDecorator(withDesignTokens);
 
 addParameters({
   options: {
-    name: 'Newport Design System',
+    name: 'Newport Design System (230)',
     isFullScreen: false,
-    showPanel: true
+    showPanel: true,
+    hierarchySeparator: /\//,
   }
 });
 

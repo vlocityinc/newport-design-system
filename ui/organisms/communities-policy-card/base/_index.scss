@@ -1,0 +1,140 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary Initializes Policyholder Styling for community flexcard card
+ *
+ * @name nds-communities-policy-card
+ * @selector .nds-communities-policy-card
+ * @modifier
+ */
+ .nds-communities-policy-card {
+    .nds-text-heading_large {
+        font-size: $font-size-7;
+        font-weight: $font-weight-medium-bold;
+        color: $palette-gray-11;
+    }
+
+    .nds-text-heading_medium {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-light;
+    }
+    .nds-text-heading_medium.nds-text-link {
+        color: $blue-background-primary;
+        font-size: 1.1rem;
+    }
+    .nds-text-body_medium {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-light;
+        text-transform: none !important;
+    }
+    .nds-text-body_medium.nds-size_2-of-12 {
+        max-width: 14%;
+    }
+    .nds-text-body_medium_bold {
+        font-size: $font-size-5;
+        color: $palette-gray-11;
+        font-weight: $font-weight-medium-bold;
+    }
+    .nds-text-heading_x-small {
+        color: $palette-gray-11;
+    }
+    .nds-action_text {
+        color: $blue-background-primary;
+        text-transform: capitalize;
+    }
+    .nds-article-image {
+        img {
+            height: $spacing-xxx-large;
+            border-radius: $border-radius-medium;
+        }
+    }
+    .nds-image img {
+        max-height: 3rem;
+    }
+    .nds-communities-policy-list-fields {
+        .nds-text-heading_medium.nds-large-size_5-of-12 {
+            max-width: 28%;
+        }
+        .nds-size_1-of-12 {
+            max-width: 1rem;
+            margin: 0;
+        }
+        .nds-border_bottom.nds-size_12-of-12 {
+            padding-bottom: 1rem;
+        }
+    }
+    .nds-text-title_caps {
+        text-transform: none;
+        font-size: $font-size-5;
+        color: $blue-background-primary;
+        letter-spacing: 0;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .nds-article-image {
+        position: relative;
+        left: -0.5rem;
+    }
+    .nds-timeline__item.nds-timeline__media {
+        &::before {
+            top: 55%;
+            left: 22.2%;
+        }
+        .nds-activity-circle {
+            width: $spacing-medium;
+            height: $spacing-medium;
+            position: absolute;
+            background: $dodger-blue;
+            border-radius: $border-radius-circle;
+            text-align: $text-align-center;
+            left: 21.5%;
+        }
+    }
+    /**
+ * @summary Initializes hero for community
+ *
+ * @name nds-communities-menu-mobile
+ * @selector .nds-communities-menu-mobile
+ * @modifier
+ */
+    .nds-communities-menu-mobile {
+        background: $blue-background-primary;
+        .nds-dropdown-trigger.nds-dropdown-trigger_click {
+            display: block;
+        }
+        button.nds-button.vlocity-btn {
+            min-width: 100%;
+            text-align: $text-align-left;
+            padding: $spacing-x-small $spacing-medium;
+            font-size: $font-size-5;
+            color: $palette-gray-11;
+            border-radius: $border-radius-large;
+            :last-child {
+                float: right;
+            }
+        }
+        li.nds-dropdown__item {
+            font-size: $font-size-5;
+        }
+        .nds-dropdown_actions {
+            margin-top: $spacing-small;
+            min-width: 100%;
+            max-width: 100%;
+            a {
+                color: $palette-gray-11;
+            }
+        }
+    }
+    @media screen and (max-width: 30rem) {
+        .nds-communities-policy-state:not(:last-of-type) {
+            border-bottom: $border-width-thin solid $newport-color-grey-shaded;
+        }
+        .nds-communities-status-toast {
+            margin-top: $spacing-medium;
+        }
+    }
+}

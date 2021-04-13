@@ -1,0 +1,42 @@
+.nds-b2b-input {
+	//Override default styles of input box when inside nds-b2b-inputs class to give different look
+	.nds-form-container {
+		padding: 0;
+		margin-bottom: 0;
+	}	
+
+	.nds-input {
+		border: $border-width-thin solid $color-border-input;
+		border-radius: $border-radius-medium;
+		margin-bottom: 0;
+		padding-left: $spacing-small;
+		padding-right: $spacing-small;
+	}	
+
+	.nds-input-has-icon_right {
+		.nds-input__icon {
+			right: $spacing-x-small;
+		}
+	}
+
+	.nds-input-has-icon_left {
+		.nds-input__icon {
+			left: $spacing-x-small;
+		}
+	}
+
+	.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
+		padding-left: $spacing-small;
+	}
+}	
+
+.nds-b2b-menu_full {
+	.nds-dropdown {
+		width: 100%;
+	}
+
+	.nds-button__icon {
+		display: none;
+	}
+}
+

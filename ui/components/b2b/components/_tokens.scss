@@ -1,0 +1,61 @@
+$font-size-category-name: 0.9rem !default;
+$font-size-sub-category-name: 0.8rem !default;
+$b2b-product-item-max-width: 21rem !default;
+$b2b-product-item-min-height: 10rem !default;
+$b2b-product-item-min-width: 21rem !default;
+$b2b-popover-arrow-size: $square-icon-small;
+$b2b-popover-background: $palette-gray-2;
+$b2b-flyout-spacer: 2rem;
+$b2b-flex-display: flex;
+$b2b-flex-space-even: space-evenly;
+$b2b-flex-end: flex-end;
+$b2b-text-center: center;
+$b2b-config-promo-wrapper-blue: #a5ccef;
+$b2b-config-promo-details-blue: #1586e8;
+
+@mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount;
+  margin-right: -1em;
+  padding-right: 1em;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+}
+@mixin cardsHeaderAttributes {
+  overflow: hidden;
+  .nds-b2b-each-attribute {
+    min-width: 6rem;
+    .nds-b2b-attribute_label {
+      font-size: .7rem;
+      font-weight: 400;
+      letter-spacing: .3px;
+      color: #706E6B;
+    }
+    .nds-b2b-attribute_value {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+}
+
+@mixin Ellipsis($maxWidth: 10rem) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: $maxWidth;
+}
+
+@mixin b2b-mobile-view {
+  @media (max-width: #{(map-get($breakpoints, large))}) {
+      @content;
+  }
+}
+
+@mixin b2b-desktop-view {
+  @media (min-width: #{(map-get($breakpoints, large))}) {
+      @content;
+  }
+}

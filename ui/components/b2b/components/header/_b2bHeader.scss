@@ -1,0 +1,60 @@
+.nds-b2b-header-container {
+  background-color: $white;
+  color: $black-primary;
+  position: relative;
+  .nds-b2b-category-icon {
+    border-radius: 1rem;
+    vertical-align: text-bottom;
+    padding: 0.125rem;
+    display: inherit;
+    background: $azure;
+  }
+}
+
+.nds-b2b-header-title {
+  font-weight: $font-weight-bold;
+  font-size: 2rem;
+  margin-top: 0.8rem;
+  letter-spacing: 0.3px;
+}
+
+.nd2-b2b-nav-text {
+    vertical-align: bottom;
+}
+
+.nds-b2b-mobile-nav-icon {
+    vertical-align: super;
+}
+
+.nds-b2b-header-description {
+  margin-left: 6.7rem;
+  @media screen and (max-width: 30rem) {
+    padding-left: $spacing-large;
+  }
+}
+.nds-b2b-header-tabs {
+  position: absolute;
+  bottom: 0;
+  right: 6rem;
+}
+
+.nds-b2b-header-search-container {
+  display: flex;
+  position: absolute;
+  right: 2rem;
+  margin-top: 1rem;
+  .nds-b2b-sort-by {
+    margin: 1.5rem 0 0 1rem;
+    cursor: pointer;
+    .nds-b2b-sort-text {
+      color: $azure;
+    }
+    .nds-b2b-sort-icon {
+      display: inline-block;
+      transition: all 0.25s ease-in;
+      &.desc {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

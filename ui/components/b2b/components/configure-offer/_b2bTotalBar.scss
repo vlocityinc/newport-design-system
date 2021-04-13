@@ -1,0 +1,91 @@
+.nds-b2b-total-bar {
+  min-height: 5rem;
+  background-color: $white;
+  justify-content: space-between;
+  padding: 1.2rem 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0px -6px 11px 0px rgba(213, 213, 213, 0.67);
+  .nds-b2b-btn-container{
+    position:absolute;
+    right:2rem;
+    
+  }
+  .nds-b2b-configure_label {
+    color: $nobel;
+    font-size: 0.75rem;
+    letter-spacing: 0.4px;
+    margin-bottom: 0.4rem;
+  }
+  .nds-b2b-configure_locations {
+    color: $black-primary;
+    font-size: 1rem;
+    text-align: right;
+    font-weight: $font-weight-bold;
+  }
+  .nds-b2b-configure_container {
+    flex-grow: 5;
+  }
+  .nds-b2b-price_container {
+    flex-grow: 3;
+    width: 100%;
+    justify-content: space-between;
+    .nds-b2b-quantity_value {
+      border: 1px solid $palette-warm-gray-5;
+      height: 1.4rem;
+      width: 2.5rem;
+      text-align: center;
+    }
+    .nds-b2b-location-button {
+      display: block;
+      color: $white;
+      font-size: 0.7rem;
+      padding: 0 1rem;
+      margin-top: 0.6rem;
+      cursor: pointer;
+      background-color: $azure;
+      width: 100%;
+    }
+    
+    .nds-b2b-location-button[disabled] {
+      pointer-events: none;
+      cursor: not-allowed;
+      background-color: $disable-gray;
+    }
+    &.nds-b2b-footer-btn {
+      display: $b2b-flex-display;
+      justify-content: $b2b-flex-end;
+    }
+  }
+  .nds-b2b-qty-box {
+    border: 1px solid $palette-warm-gray-5;
+    height: 1.4rem;
+    width: 2.6rem;
+    text-align: $b2b-text-center;
+  }
+  .nds-p-bottom_small {
+    &.nds-b2b-footer {
+      display: $b2b-flex-display;
+      justify-content: $b2b-flex-space-even;
+    }
+  }
+  &.nds-b2b-align-footer {
+    padding: 1.2rem 0.5rem 0.5rem 2rem;
+  }
+  
+  @media screen and (min-width: 48rem) {
+    padding: 1.2rem 2rem;
+    .nds-b2b-configure_container {
+      margin-bottom: 0;
+    }
+    .nds-b2b-price_container {
+      width: auto;
+      .nds-b2b-location-button {
+        width: auto;
+      }
+    }
+  }
+}
