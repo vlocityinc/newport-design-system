@@ -161,6 +161,11 @@ export default class FlcBuilder extends LightningElement {
     /** pending interaction state to be processed in the next render cycle */
     _pendingInteractionState: FlowInteractionState | null = null;
 
+    /** Used for ZoomEnd trigger */
+    _eventOpenMenuAfterZoom;
+    /** Used for ZoomEnd trigger */
+    _interactionStateAfterZoom;
+
     // Number of nodes which require dynamic rendering upon initial load
     // If this is > 0, then a spinner will be shown until all dynamic nodes
     // have rendered and the canvas layout is complete
@@ -597,7 +602,16 @@ export default class FlcBuilder extends LightningElement {
         const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
 
         if (interactionState.menuInfo != null) {
-            this.openMenu(event, interactionState);
+            if (this.scale === MAX_ZOOM) {
+                this.openMenu(event, interactionState);
+            } else {
+                const connectorMenu = event.detail.type;
+                const menuButtonHalfWidth =
+                    connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+                this.zoomForMenuDisplay(event.detail, menuButtonHalfWidth);
+                this._interactionStateAfterZoom = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
+                this._eventOpenMenuAfterZoom = event;
+            }
         } else {
             this.menu = null;
             this._pendingInteractionState = null;
@@ -609,6 +623,14 @@ export default class FlcBuilder extends LightningElement {
         event.stopPropagation();
         this.closeNodeOrConnectorMenu();
     };
+
+    openMenuAfterClick() {
+        if (this._eventOpenMenuAfterZoom && this._interactionStateAfterZoom) {
+            this.openMenu(this._eventOpenMenuAfterZoom, this._interactionStateAfterZoom);
+            this._eventOpenMenuAfterZoom = null;
+            this._interactionStateAfterZoom = null;
+        }
+    }
 
     /**
      * Opens the connector or node menu
@@ -636,7 +658,6 @@ export default class FlcBuilder extends LightningElement {
         );
         this.openedWithKeyboard = event.detail.isOpenedWithKeyboard;
 
-        this.zoomForMenuDisplay(event.detail, menuButtonHalfWidth);
         this._pendingInteractionState = interactionState;
     }
 
@@ -882,7 +903,9 @@ export default class FlcBuilder extends LightningElement {
             // disable zoom keys
             filterKey: () => true
         });
-
+        const that = this;
+        const boundFunction = () => that.openMenuAfterClick();
+        this._panzoom.on('zoomend', boundFunction);
         this.panzoomMoveToCenterTop();
         this._panzoomOffsets = { x: 0, y: 0 - (this.getFlowHeight() * MIN_ZOOM) / 2 };
     }
@@ -960,7 +983,7 @@ export default class FlcBuilder extends LightningElement {
                 break;
             case ZOOM_ACTION.ZOOM_TO_VIEW:
                 if (scale + FUDGE < MAX_ZOOM) {
-                    scale = MAX_ZOOM;
+                    scale = MAX_ZOOM / scale;
                 } else {
                     return;
                 }
@@ -983,7 +1006,17 @@ export default class FlcBuilder extends LightningElement {
         }
 
         const { x, y } = this._panzoomOffsets;
-        this._panzoom.smoothZoomAbs(left + x, top + y, scale);
+        if (zoomAction === ZOOM_ACTION.ZOOM_TO_VIEW) {
+            /** smoothZoom is using  scale: scaleMultiplier * fromValue
+             * fromValue is the actual scale
+             * scaleMultiplier is the third parameter of the function.
+             * smoothZoomAbs does not trigger the zoomEnd event that we need in this case.
+             */
+            this._panzoom.smoothZoom(left + x, top + y, scale);
+            scale = MAX_ZOOM;
+        } else {
+            this._panzoom.smoothZoomAbs(left + x, top + y, scale);
+        }
         this.scale = scale;
     };
 
