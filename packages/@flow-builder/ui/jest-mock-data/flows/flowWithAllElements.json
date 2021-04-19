@@ -488,7 +488,7 @@
                 "defaultConnectorLabel": "Default Outcome",
                 "label": "decision",
                 "locationX": 1050,
-                "locationY": 472,
+                "locationY": 471,
                 "name": "decision",
                 "processMetadataValues": [],
                 "rules": [
@@ -534,6 +534,85 @@
                         "doesRequireRecordChangedToMeetCriteria": false,
                         "label": "outcome1",
                         "name": "outcome1",
+                        "processMetadataValues": []
+                    }
+                ]
+            },
+            {
+                "defaultConnectorLabel": "Default Outcome",
+                "label": "decisionWithOneOutcomeWithTwoConditions",
+                "locationX": 568,
+                "locationY": 789,
+                "name": "decisionWithOneOutcomeWithTwoConditions",
+                "processMetadataValues": [],
+                "rules": [
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "varForDecisionEditorTest",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "elementReference": "varForDecisionEditorTest"
+                                }
+                            },
+                            {
+                                "leftValueReference": "varForDecisionEditorTest",
+                                "operator": "NotEqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "elementReference": "varForDecisionEditorTest"
+                                }
+                            }
+                        ],
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "outcomeWithTwoConditions",
+                        "name": "outcomeWithTwoConditions",
+                        "processMetadataValues": []
+                    }
+                ]
+            },
+            {
+                "defaultConnectorLabel": "Default Outcome",
+                "label": "decisionWithTwoOutComes",
+                "locationX": 426,
+                "locationY": 799,
+                "name": "decisionWithTwoOutComes",
+                "processMetadataValues": [],
+                "rules": [
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "varForDecisionEditorTest",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "elementReference": "varForDecisionEditorTest"
+                                }
+                            }
+                        ],
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "firstOutcome",
+                        "name": "firstOutcome",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "varForDecisionEditorTest",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "elementReference": "varForDecisionEditorTest"
+                                }
+                            }
+                        ],
+                        "doesRequireRecordChangedToMeetCriteria": false,
+                        "label": "secondOutome",
+                        "name": "secondOutome",
                         "processMetadataValues": []
                     }
                 ]
@@ -2348,6 +2427,18 @@
                 "scale": 0
             },
             {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "doNotUseThisVar",
+                "processMetadataValues": [],
+                "scale": 0,
+                "value": {
+                    "stringValue": "doNotUseThisVariable"
+                }
+            },
+            {
                 "dataType": "SObject",
                 "isCollection": false,
                 "isInput": false,
@@ -2453,6 +2544,18 @@
                 "name": "vAccountIdFromCreate",
                 "processMetadataValues": [],
                 "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "varForDecisionEditorTest",
+                "processMetadataValues": [],
+                "scale": 0,
+                "value": {
+                    "stringValue": "varForDecisionEditorTest"
+                }
             }
         ],
         "waits": []

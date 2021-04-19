@@ -792,13 +792,15 @@ describe('isOrCanContainSelector', () => {
                 'currencyVariable',
                 'dateTimeVariable',
                 'dateVariable',
+                'doNotUseThisVar',
                 'feedItemVariable',
                 'numberVariable',
                 'objectWithAllPossiblFieldsVariable',
                 'opportunitySObjectVariable',
                 'stringVariable',
                 'vAccountId',
-                'vAccountIdFromCreate'
+                'vAccountIdFromCreate',
+                'varForDecisionEditorTest'
             ]);
         });
         it('returns single values and object that contain a single value of given entity name with allowTraversal true', () => {
@@ -847,6 +849,7 @@ describe('isOrCanContainSelector', () => {
                 'apexComplexTypeTwoVariable',
                 'apexComplexTypeVariable',
                 'createAccountWithAutomaticOutput',
+                'doNotUseThisVar',
                 'emailScreenFieldAutomaticOutput',
                 'email_2',
                 'lightningCompWithAccountOutput',
@@ -866,7 +869,8 @@ describe('isOrCanContainSelector', () => {
                 'textTemplate2',
                 'text_2',
                 'vAccountId',
-                'vAccountIdFromCreate'
+                'vAccountIdFromCreate',
+                'varForDecisionEditorTest'
             ]);
         });
         it('returns single values and object that contain a single value of given elementType allowTraversal true', () => {
@@ -892,13 +896,15 @@ describe('isOrCanContainSelector', () => {
                 'currencyVariable',
                 'dateTimeVariable',
                 'dateVariable',
+                'doNotUseThisVar',
                 'feedItemVariable',
                 'numberVariable',
                 'objectWithAllPossiblFieldsVariable',
                 'opportunitySObjectVariable',
                 'stringVariable',
                 'vAccountId',
-                'vAccountIdFromCreate'
+                'vAccountIdFromCreate',
+                'varForDecisionEditorTest'
             ]);
         });
     });
