@@ -99,6 +99,30 @@
 
 .nds-spinner_brand,
 .nds-spinner--brand {
+  width: 100px;
+  text-align: center;
+  width: 5.5rem;
+
+  & > div {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
+    background-color: $color-brand;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: nds-bounce 1.4s infinite ease-in-out both;
+    animation: nds-bounce 1.4s infinite ease-in-out both;
+  }
+
+  .nds-dot-leading {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+
+  .nds-dot-middle {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
 
   svg circle {
     fill: $color-brand;
@@ -208,3 +232,17 @@
   transform: translate(-50%, calc(-50% + 2.75rem));
 }
 /* stylelint-enable selector-class-pattern */
+
+@keyframes nds-bounce {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  50% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
