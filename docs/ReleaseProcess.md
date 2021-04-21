@@ -44,7 +44,9 @@ It should look like this:
 ```
 
 Once the file is there, submit a PR against the `224` branch and check the `[ ] Auto Integrate` option.
-This will create a PR from `224` to `master` that you will have to validate separately (you might have to resolve merge conflicts).
+Do not forget to follow the instructions on the PR template if you want the auto integration to work correctly.
+A few minutes after the merge, this will create a PR from `224` to `master` that you will have to validate separately (you might have to resolve merge conflicts).
+You will receive an email notification when the auto integration PR is ready.
 
 ### Manual integration
 
