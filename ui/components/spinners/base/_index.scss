@@ -110,17 +110,14 @@
     background-color: $color-brand;
     border-radius: 100%;
     display: inline-block;
-    -webkit-animation: nds-bounce 1.4s infinite ease-in-out both;
     animation: nds-bounce 1.4s infinite ease-in-out both;
   }
 
   .nds-dot-leading {
-    -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
   }
 
   .nds-dot-middle {
-    -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
   }
 
