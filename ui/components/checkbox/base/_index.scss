@@ -54,7 +54,7 @@
     &:checked~.nds-checkbox--faux,
     &:checked+.nds-checkbox__label .nds-checkbox_faux,
     &:checked+.nds-checkbox__label .nds-checkbox--faux {
-      background: $color-brand;
+      background: $color-brand-accessibility;
       border: 0;
       outline: unset;
 
@@ -93,7 +93,7 @@
       &:checked+.nds-checkbox__label .nds-checkbox--faux {
         content: '';
         border-color: $color-border-input-active;
-        background-color: $color-brand;
+        background-color: $color-brand-accessibility;
       }
     }
 
@@ -110,7 +110,7 @@
       left: 50%;
       width: $square-icon-x-small-content;
       height: 2px;
-      background: $color-brand;
+      background: $color-brand-accessibility;
       border: 0;
       transform: translate3d(-50%, -50%, 0);
     }
