@@ -173,6 +173,9 @@
             if (cmp.get('v.showDebugAsUserLookup')) {
                 cmp.set('v.runAsSelected', this.previousOptions.runAsSelected);
             }
+            if (cmp.get('v.showScheduledPathComboBox')) {
+                cmp.find('scheduledPathComboBox').set('v.value', this.previousOptions.scheduledPathSelection);
+            }
         }
     },
 
@@ -275,13 +278,15 @@
         var debugWaitsBox = cmp.find('isDebugWaitsBox');
         var saveTypeRadio = cmp.find('debugCreateOrUpdate');
         var ignoreEntryCriteriaBox = cmp.find('isIgnoreEntryCriteriaCB');
+        var scheduledPathComboBox = cmp.find('scheduledPathComboBox');
         this.previousOptions = {
             runAs: cmp.get('v.shouldHasDebugAsUser') && cmp.find('isDebugAsUserAllowedBox').get('v.checked'),
             runAsSelected: selectedUser,
             enableRollback: cmp.find('isEnableRollbackModeBox').get('v.checked'),
             debugWaits: debugWaitsBox ? debugWaitsBox.get('v.checked') : false,
             saveType: saveTypeRadio ? saveTypeRadio.get('v.value') : this.CREATE,
-            ignoreEntryCriteria: ignoreEntryCriteriaBox ? ignoreEntryCriteriaBox.get('v.checked') : false
+            ignoreEntryCriteria: ignoreEntryCriteriaBox ? ignoreEntryCriteriaBox.get('v.checked') : false,
+            scheduledPathSelection: scheduledPathComboBox ? scheduledPathComboBox.get('v.value') : ''
         };
     },
 

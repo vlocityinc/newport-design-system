@@ -30,7 +30,8 @@
     <aura:attribute name="saveType" type="String" default="Create"/>
 
     <aura:attribute name="scheduledPathsList" type="List"/>
-    <aura:attribute name="showScheduledPathPicklist" type="Boolean" default="false"/>
+    <aura:attribute name="showScheduledPathComboBox" type="Boolean" default="false"/>
+
 
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
@@ -41,18 +42,12 @@
 
     <div class="slds-p-vertical_x-large slds-p-horizontal_large">
 
-        <aura:if isTrue="{!v.showScheduledPathPicklist}">
+        <aura:if isTrue="{!v.showScheduledPathComboBox}">
             <div class="text slds-p-bottom_medium">
                  <h2>{#$Label.FlowDebug.ChooseSchedulePath}</h2>
             </div>
             <div class="text slds-p-bottom_medium">{#$Label.FlowDebug.ChooseSchedulePathDesc}</div>
-
-            <lightning:select class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" aura:id="scheduledPathsPicklist" >
-                 <option value="{!$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel}">{!$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel}</option>
-                 <aura:iteration items="{!v.scheduledPathsList}" var="scheduledPath">
-                        <option value="{!scheduledPath.name}">{!scheduledPath.label}</option>
-                 </aura:iteration>
-            </lightning:select>
+            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" options="{!v.scheduledPathsList}" value="{!$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel}" aura:id="scheduledPathComboBox" />
         </aura:if>
 
         <!-- Debug Options -->

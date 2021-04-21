@@ -1144,14 +1144,16 @@ export default class Editor extends LightningElement {
                 let triggerSaveType = null;
                 let startObject = null;
                 let createOrUpdate = false;
-                let showScheduledPathPicklist = false;
+                let showScheduledPathComboBox = false;
                 let startElement = null;
+                const scheduledPathsList = this.getScheduledPathsList();
                 if (isRecordChangeTriggerType(this.triggerType)) {
                     triggerSaveType = getRecordTriggerType();
                     createOrUpdate = triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
                     startObject = getStartObject();
                     startElement = getStartElement();
-                    showScheduledPathPicklist = shouldSupportTimeTriggers(startElement);
+                    showScheduledPathComboBox =
+                        shouldSupportTimeTriggers(startElement) && scheduledPathsList?.length > 0;
                     if (startObject) {
                         // This should never be empty in a record change trigger where the debug button is clickable, but might as well check.
                         startObject = getEntity(startObject).entityLabel;
@@ -1166,9 +1168,8 @@ export default class Editor extends LightningElement {
                         rerun: runOrDebug === RESTARTDEBUG,
                         isCreateOrUpdate: createOrUpdate,
                         dollarRecordName: startObject,
-                        scheduledPathsList: this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start
-                            ?.scheduledPaths,
-                        showScheduledPathPicklist,
+                        scheduledPathsList,
+                        showScheduledPathComboBox,
                         runDebugInterviewCallback: this.runDebugInterviewCallback
                     };
                 });
@@ -2558,6 +2559,20 @@ export default class Editor extends LightningElement {
         }
         this.disableSave = false;
     };
+
+    getScheduledPathsList() {
+        const scheduledPathsList = [];
+        if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.scheduledPaths) {
+            scheduledPathsList.push({
+                label: LABELS.immediateTimeTriggerLabel,
+                value: LABELS.immediateTimeTriggerLabel
+            });
+            this.guardrailsEngine.flowDataProvider.model.metadata.start.scheduledPaths.forEach((key) => {
+                scheduledPathsList.push({ label: key.label, value: key.name });
+            });
+        }
+        return scheduledPathsList;
+    }
 
     /**
      * Reset flow properties when the flow is created from a template
