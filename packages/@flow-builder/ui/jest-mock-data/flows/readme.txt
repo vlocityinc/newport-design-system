@@ -1,6 +1,6 @@
 To update flowWithAllElements.json :
 
-1) create a scratch org using https://git.soma.salesforce.com/bdufourd/Process-Automation-Test-Environments/tree/master/flowbuilder-eng
+1) create a scratch org using https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng
 2) open flowWithAllElements
 3) Change the flow
 4) Save the flow
@@ -8,7 +8,7 @@ To update flowWithAllElements.json :
 6) refresh the page (F5)
 7) copy the output from JSON.stringify(flow.metadata, null, 2)
 10) update metadata (only !) in flowWithAllElements.json 
-11) update https://git.soma.salesforce.com/bdufourd/Process-Automation-Test-Environments/tree/master/flowbuilder-eng with the new flow and anything needed by the newly added elements (e.g. apex classes)
+11) update https://git.soma.salesforce.com/automation-platform/test-environments/tree/master/flowbuilder-eng with the new flow and anything needed by the newly added elements (e.g. apex classes)
 12) run the tests suite
 
 To update autolaunchedFlowScheduled.json (and other):

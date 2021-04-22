@@ -29,6 +29,27 @@ then go to github and create the PR.
 
 Same process as for `main` except you create a feature branch off the git `224` branch.
 
+Once your changes are made, you have two options:
+
+### Auto integration
+
+Make sure the `224` branch has a `.auto-integration.yaml` file at its root.
+It should look like this:
+
+```yaml
+- source_branch: '224'
+  targets:
+      - target_branch: master
+        auto_merge: false
+```
+
+Once the file is there, submit a PR against the `224` branch and check the `[ ] Auto Integrate` option.
+Do not forget to follow the instructions on the PR template if you want the auto integration to work correctly.
+A few minutes after the merge, this will create a PR from `224` to `master` that you will have to validate separately (you might have to resolve merge conflicts).
+You will receive an email notification when the auto integration PR is ready.
+
+### Manual integration
+
 Once the changes are merged into the `224` branch, you will need to cherry-pick the commit into a new feature branch off `master` and create a PR for it.
 
 Example:

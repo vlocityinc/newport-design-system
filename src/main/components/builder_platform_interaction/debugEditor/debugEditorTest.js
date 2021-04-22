@@ -79,8 +79,8 @@
                 'Should not show ignore entry criteria checkbox'
             );
             $A.test.assertUndefinedOrNull(
-                cmp.find('scheduledPathsPicklist'),
-                'Scheduled Path Picklist should not exist'
+                cmp.find('scheduledPathComboBox'),
+                'Scheduled Path ComboBox should not exist'
             );
         }
     },
@@ -815,46 +815,24 @@
             scheduledPathsList: [
                 {
                     label: 'Sample Scheduled Path',
-                    name: 'Sample_Scheduled_Path',
-                    offsetNumber: 2,
-                    offsetUnit: 'Days',
-                    recordField: 'CreatedDate',
-                    timeSource: 'RecordField'
+                    value: 'Sample_Scheduled_Path'
                 }
             ],
-            showScheduledPathPicklist: true
+            showScheduledPathComboBox: true
         },
         test: function (cmp) {
-            $A.test.assertNotNull(cmp.find('scheduledPathsPicklist'), 'Scheduled Path Picklist does not exist');
+            $A.test.assertNotNull(cmp.find('scheduledPathComboBox'), 'Scheduled Path ComboBox does not exist');
             // Default value of scheduledPathSelection should be 'Run Immediately'
-            this.assertObjectEquals(
-                cmp.getDebugInput(),
-                {
-                    inputs: [],
-                    runAs: false,
-                    debugAsUserId: null,
-                    enableRollback: false,
-                    debugWaits: true,
-                    ignoreEntryCriteria: false,
-                    dmlType: '',
-                    scheduledPathSelection: $A.get('$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel')
-                },
+            $A.test.assertEquals(
+                $A.get('$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel'),
+                cmp.getDebugInput().scheduledPathSelection,
                 "scheduledPathSelection default value should be 'Run Immediately'"
             );
-            // scheduledPathSelection should change after setting picklist value to 'Sample_Scheduled_Path'
-            cmp.find('scheduledPathsPicklist').set('v.value', 'Sample_Scheduled_Path');
-            this.assertObjectEquals(
-                cmp.getDebugInput(),
-                {
-                    inputs: [],
-                    runAs: false,
-                    debugAsUserId: null,
-                    enableRollback: false,
-                    debugWaits: true,
-                    ignoreEntryCriteria: false,
-                    dmlType: '',
-                    scheduledPathSelection: 'Sample_Scheduled_Path'
-                },
+            // scheduledPathSelection should change after setting ComboBox value to 'Sample_Scheduled_Path'
+            cmp.find('scheduledPathComboBox').set('v.value', 'Sample_Scheduled_Path');
+            $A.test.assertEquals(
+                'Sample_Scheduled_Path',
+                cmp.getDebugInput().scheduledPathSelection,
                 'scheduledPathSelection value is incorrect'
             );
         }
