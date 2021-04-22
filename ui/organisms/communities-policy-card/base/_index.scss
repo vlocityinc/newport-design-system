@@ -41,10 +41,7 @@
     .nds-text-heading_x-small {
         color: $palette-gray-11;
     }
-    .nds-action_text {
-        color: $blue-background-primary;
-        text-transform: capitalize;
-    }
+
     .nds-article-image {
         img {
             height: $spacing-xxx-large;
@@ -55,6 +52,10 @@
         max-height: 3rem;
     }
     .nds-communities-policy-list-fields {
+        .nds-action_text {
+            color: $blue-background-primary;
+            text-transform: capitalize;
+        }
         .nds-text-heading_medium.nds-large-size_5-of-12 {
             max-width: 28%;
         }
@@ -66,7 +67,8 @@
             padding-bottom: 1rem;
         }
     }
-    .nds-text-title_caps {
+
+    .nds-text-title_caps:not(.nds-communities-policy-table-header) {
         text-transform: none;
         font-size: $font-size-5;
         color: $blue-background-primary;
