@@ -1,1 +1,1 @@
-export default 'Debug on Canvas (Beta)';
+export default 'Debug';

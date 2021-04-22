@@ -1,1 +1,1 @@
-export default 'Execute outcome when';
+export default 'When to Execute Outcome';

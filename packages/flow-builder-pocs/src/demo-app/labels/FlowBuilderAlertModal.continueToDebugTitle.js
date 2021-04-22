@@ -1,1 +1,1 @@
-export default 'Continue to Debug';
+export default 'Debug';

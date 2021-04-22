@@ -1,1 +1,1 @@
-export default 'Only when the record has newly changed to meet the conditions above';
+export default 'Only if the record that triggered the flow to run is updated to meet the condition requirements';

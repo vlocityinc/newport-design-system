@@ -1,1 +1,1 @@
-export default 'The flow interview failed at {0}. See the error in the debug details.';
+export default 'The flow interview failed on {0} at {1}. It ran for {2} seconds.';

@@ -1,1 +1,1 @@
-export default 'Templates';
+export default 'All + Templates';

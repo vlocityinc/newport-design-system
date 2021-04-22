@@ -1,1 +1,1 @@
-export default 'Select Choices';
+export default 'Configure Choices';

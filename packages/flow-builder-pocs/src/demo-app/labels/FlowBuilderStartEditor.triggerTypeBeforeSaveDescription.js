@@ -1,1 +1,1 @@
-export default 'This flow can only update fields on the record that launches the flow—before the record is saved to the database. When you use an Assignment element to set the $Record global variable’s fields, Salesforce updates the record for you.';
+export default 'To simply update the record that launches the flow, select this option to build a high-performance flow. Use an Update Records element to set the new field values.';

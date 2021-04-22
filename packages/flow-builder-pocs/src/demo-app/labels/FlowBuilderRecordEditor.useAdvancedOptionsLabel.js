@@ -1,1 +1,1 @@
-export default 'Manually assign variables (advanced)';
+export default 'Manually assign variables';

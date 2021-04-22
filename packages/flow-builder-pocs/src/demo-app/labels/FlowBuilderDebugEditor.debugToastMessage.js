@@ -1,1 +1,1 @@
-export default 'Save the flow and restart the run to reflect changes made on "{0}: {1}".';
+export default 'The {0} element "{1}" contains unsaved changes. To test those changes, save the flow before you start a debug run.';

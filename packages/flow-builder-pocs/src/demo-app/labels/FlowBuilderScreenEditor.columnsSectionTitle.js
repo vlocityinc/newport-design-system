@@ -1,1 +1,1 @@
-export default 'Columns: {0}';
+export default 'Configure Columns';

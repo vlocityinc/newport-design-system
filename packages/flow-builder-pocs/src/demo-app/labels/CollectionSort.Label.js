@@ -1,1 +1,1 @@
-export default 'Sort';
+export default 'Collection Sort';

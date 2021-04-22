@@ -1,1 +1,1 @@
-export default 'MISSING_LABEL';
+export default 'Finish the flow.';

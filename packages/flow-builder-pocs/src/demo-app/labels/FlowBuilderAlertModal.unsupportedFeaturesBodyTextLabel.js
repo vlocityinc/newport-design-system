@@ -1,1 +1,1 @@
-export default 'Autolayout does not support some of the features that freeform does. In order to open this flow you would need to resolve the following:';
+export default 'The flow contains one or more of these items, which aren’t supported in auto-layout.';

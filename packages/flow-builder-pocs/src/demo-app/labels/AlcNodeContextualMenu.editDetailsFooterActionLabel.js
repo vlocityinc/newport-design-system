@@ -1,1 +1,1 @@
-export default 'Edit Details';
+export default 'Edit Element';

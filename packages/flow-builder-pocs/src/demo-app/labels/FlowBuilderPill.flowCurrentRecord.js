@@ -1,1 +1,1 @@
-export default 'Specified Related Record';
+export default 'Current Record ID';

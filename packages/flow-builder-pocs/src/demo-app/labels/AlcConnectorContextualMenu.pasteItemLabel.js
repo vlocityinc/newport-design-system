@@ -1,1 +1,1 @@
-export default 'Paste';
+export default 'Paste Copied Elements';

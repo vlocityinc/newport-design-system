@@ -1,1 +1,1 @@
-export default 'Delete Fault';
+export default 'Delete Fault Path';

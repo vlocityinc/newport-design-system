@@ -1,1 +1,1 @@
-export default 'Error Text';
+export default 'Fault Message';

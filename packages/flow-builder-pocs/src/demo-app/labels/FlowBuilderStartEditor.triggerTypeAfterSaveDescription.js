@@ -1,1 +1,1 @@
-export default 'The flow can look up and update fields on any record—after the record is saved to the database. The flow can also perform actions, like send an email. To create or update any records, you must use Create Records or Update Records elements. The $Record global variable contains the Salesforce record that launches the flow.';
+export default 'To build a richer flow that can access any record and perform actions, select this option. This flow can access most flow elements. The $Record global variable contains the Salesforce record that launches the flow.';

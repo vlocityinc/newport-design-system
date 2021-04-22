@@ -1,1 +1,1 @@
-export default 'Remove or resolve elements that have multiple incoming connections';
+export default 'An element with multiple incoming connectors, unless it’s a Loop element or an element that completes multiple paths from the same Decision or Pause element';

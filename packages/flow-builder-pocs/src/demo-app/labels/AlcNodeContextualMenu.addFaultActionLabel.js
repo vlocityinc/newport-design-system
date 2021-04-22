@@ -1,1 +1,1 @@
-export default 'Add Fault';
+export default 'Add Fault Path';

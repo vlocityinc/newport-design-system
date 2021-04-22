@@ -1,1 +1,1 @@
-export default 'How would you like to start building?';
+export default 'How do you want to start building?';

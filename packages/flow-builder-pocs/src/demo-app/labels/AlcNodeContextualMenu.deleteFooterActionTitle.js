@@ -1,1 +1,1 @@
-export default 'Delete';
+export default 'Delete Element';

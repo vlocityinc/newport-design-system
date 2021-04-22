@@ -1,1 +1,1 @@
-export default 'Debug Log (Beta)';
+export default 'Debug Details';

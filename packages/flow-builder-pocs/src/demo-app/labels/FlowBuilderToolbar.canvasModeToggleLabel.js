@@ -1,1 +1,1 @@
-export default 'Autolayout (Beta)';
+export default 'Auto-Layout (Beta)';

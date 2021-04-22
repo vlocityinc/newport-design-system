@@ -1,1 +1,1 @@
-export default 'Active Flow Stage';
+export default 'Active Stages';

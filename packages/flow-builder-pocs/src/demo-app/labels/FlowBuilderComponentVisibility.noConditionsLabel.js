@@ -1,1 +1,1 @@
-export default 'Always Visible';
+export default 'Always';

@@ -1,1 +1,1 @@
-export default 'Platform Event Flow';
+export default 'Platform Event—Triggered Flow';

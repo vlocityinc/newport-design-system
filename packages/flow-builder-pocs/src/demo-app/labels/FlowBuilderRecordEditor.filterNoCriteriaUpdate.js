@@ -1,1 +1,1 @@
-export default 'Update All {0} Records (No Conditions)';
+export default 'None—Update All {0} Records';

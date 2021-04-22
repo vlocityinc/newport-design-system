@@ -1,0 +1,1 @@
+export default 'Triggering Event';
