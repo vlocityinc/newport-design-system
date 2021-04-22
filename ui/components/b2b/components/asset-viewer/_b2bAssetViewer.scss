@@ -1,0 +1,40 @@
+.nds-b2b-asset-groupBy{
+  padding-left:0;
+}
+.nds-b2b-split-btn{
+  button{
+    padding: 0.34rem;
+  }
+}
+.nds-b2b-asset-split-menu{
+  > div{
+  margin-left: -4.3rem;
+}
+& .nds-b2b-asset-split-menu-style > a{
+  text-decoration: none;
+  background-color: #fff; 
+  color: #000;
+}
+}
+.nds-b2b-asset-search{
+  width:100%;
+}
+.nds-b2b-asset-utility{
+  padding-left: 0;
+  padding-right:0
+}
+.nds-b2b-utility-block{
+  margin:0;
+}
+.nds-b2b-asset-tbl{
+  border-collapse:collapse;
+}
+.nds-b2b-asset-recordlink{
+  cursor:pointer;
+  text-decoration: none;
+  color:#0070d2;
+  &:hover {
+    text-decoration: underline;
+    color: #005fb2;
+  }
+}
