@@ -33,7 +33,7 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
-jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
+jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
 let mockSubscribers = [];
 let mockStoreState;
@@ -1239,20 +1239,20 @@ describeSkip('auto-layout', () => {
                 });
 
                 const editElementEvent = new EditElementEvent('1');
-                const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
-                flcBuilderContainer.dispatchEvent(editElementEvent);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
+                alcCanvasContainer.dispatchEvent(editElementEvent);
 
                 await ticks(1);
                 rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
             });
 
-            it('closes the property editor when flcBuilder fire close property editor event', async () => {
+            it('closes the property editor when alcCanvas fire close property editor event', async () => {
                 expect.assertions(2);
                 expect(rightPanel).not.toBeNull();
 
                 const event = new ClosePropertyEditorEvent();
-                const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
-                flcBuilderContainer.dispatchEvent(event);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
+                alcCanvasContainer.dispatchEvent(event);
 
                 await ticks(1);
                 rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
@@ -1283,8 +1283,8 @@ describeSkip('auto-layout', () => {
                 expect(rightPanel).not.toBeNull();
 
                 const event = new SelectNodeEvent('5', undefined, false);
-                const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
-                flcBuilderContainer.dispatchEvent(event);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
+                alcCanvasContainer.dispatchEvent(event);
 
                 await ticks(1);
                 rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
@@ -1299,8 +1299,8 @@ describeSkip('auto-layout', () => {
                 expect(rightPanel).not.toBeNull();
 
                 const event = new SelectNodeEvent('5', undefined, true);
-                const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
-                flcBuilderContainer.dispatchEvent(event);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.alcCanvasContainer);
+                alcCanvasContainer.dispatchEvent(event);
 
                 await ticks(1);
                 rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);

@@ -1,0 +1,34 @@
+<template>
+    <template if:true={preConnector}>
+        <builder_platform_interaction-alc-connector
+            style={preConnector.style}
+            class={preConnector.class}
+            connector-info={preConnector.connectorInfo}
+            canvas-mode={canvasMode}
+            disable-add-elements={disableAddElements}
+        ></builder_platform_interaction-alc-connector>
+    </template>
+    <template for:each={nodes} for:item="node">
+        <builder_platform_interaction-alc-compound-node
+            key={node.key}
+            data-key={node.key}
+            style={node.style}
+            class={node.className}
+            node={node.nodeInfo}
+            canvas-mode={canvasMode}
+            is-canvas-ready={isCanvasReady}
+            disable-add-elements={disableAddElements}
+        >
+        </builder_platform_interaction-alc-compound-node>
+    </template>
+    <template for:each={faultFlows} for:item="faultFlow">
+        <builder_platform_interaction-alc-flow
+            key={faultFlow.key}
+            data-key={faultFlow.key}
+            style={faultFlow.style}
+            flow={faultFlow.flowInfo}
+            canvas-mode={canvasMode}
+            disable-add-elements={disableAddElements}
+        ></builder_platform_interaction-alc-flow>
+    </template>
+</template>

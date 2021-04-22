@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+builder_platform_interaction-alc-canvas {
+    display: flex;
+    flex: auto;
+}

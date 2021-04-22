@@ -9,7 +9,7 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { copyFlcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
+import { copyAlcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -53,7 +53,7 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
     config = createCanvasElementConfig(config);
 
     // TODO: Need to remove, currently used to support alc copy/paste
-    copyFlcExtraProps(canvasElement, newCanvasElement);
+    copyAlcExtraProps(canvasElement, newCanvasElement);
 
     return Object.assign(newCanvasElement, {
         label,

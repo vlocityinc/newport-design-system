@@ -47,7 +47,7 @@ const SELECTORS = {
     systemModeBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.systemModeLabelText"]`
 };
 const getAppNameDiv = (header) => header.shadowRoot.querySelector(SELECTORS.appName);
-const getButtonMenu = (headerComponent) =>
+const getMenuTrigger = (headerComponent) =>
     headerComponent.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_MENU);
 const getGuardrailsMenuItems = (headerComponent) =>
     headerComponent.shadowRoot.querySelectorAll(SELECTORS.guardrailsMenuItem);
@@ -180,7 +180,7 @@ describe('header', () => {
         // @ts-ignore
         orgHasFlowBuilderGuardrails.mockReturnValue(false);
         const headerComponent = createComponentForTest();
-        expect(getButtonMenu(headerComponent)).toBeNull();
+        expect(getMenuTrigger(headerComponent)).toBeNull();
         expect(getHelpUrl(headerComponent)).not.toBeNull();
     });
 
@@ -227,13 +227,13 @@ describe('header', () => {
                 trailblazerCommunityUrl: '/TRAILBLAZER',
                 guardrailsParams: { running: false }
             });
-            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getMenuTrigger(headerComponent)).not.toBeNull();
             expect(getLigthningMenuItems(headerComponent)).toHaveLength(4);
         });
 
         it('contains flow builder items even with empty/undefined urls', () => {
             const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
-            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getMenuTrigger(headerComponent)).not.toBeNull();
             expect(getLigthningMenuItems(headerComponent)).toHaveLength(4);
         });
 
@@ -273,7 +273,7 @@ describe('header', () => {
 
         it('contains guardrails items', () => {
             const headerComponent = createComponentForTest({ guardrailsParams: { running: true, count: 1 } });
-            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getMenuTrigger(headerComponent)).not.toBeNull();
             const guardrailsMenuItems = getGuardrailsMenuItems(headerComponent);
             expect(guardrailsMenuItems).toHaveLength(2);
 
@@ -284,7 +284,7 @@ describe('header', () => {
 
         test('guardrails items rendered even when muted', () => {
             const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
-            expect(getButtonMenu(headerComponent)).not.toBeNull();
+            expect(getMenuTrigger(headerComponent)).not.toBeNull();
             expect(getGuardrailsMenuItems(headerComponent)).toHaveLength(2);
         });
     });

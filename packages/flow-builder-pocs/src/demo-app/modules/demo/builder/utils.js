@@ -1,17 +1,17 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import {
-    FlcCreateConnectionEvent,
+    AlcCreateConnectionEvent,
     AddElementFaultEvent,
     DeleteElementFaultEvent
-} from 'builder_platform_interaction/flcEvents';
+} from 'builder_platform_interaction/alcEvents';
 
 import {
     convertToAutoLayoutCanvas,
     convertToFreeFormCanvas,
     removeEndElementsAndConnectorsTransform,
     addEndElementsAndConnectorsTransform
-} from 'builder_platform_interaction/flcConversionUtils';
+} from 'builder_platform_interaction/alcConversionUtils';
 import { getTargetGuidsForBranchReconnect, findParentElement } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -299,7 +299,7 @@ function randomDeleteOrReconnectEvent(storeInstance) {
 
         const { prev, childIndex, parent } = element;
         const insertAt = parent ? { parent, childIndex } : { prev };
-        return new FlcCreateConnectionEvent(insertAt, targetGuid);
+        return new AlcCreateConnectionEvent(insertAt, targetGuid);
     }
     const deleteIndex = randomDeleteBranchIndex(element);
     return new DeleteElementEvent([element.guid], element.elementType, deleteIndex);

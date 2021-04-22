@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { NodeResizeEvent } from 'builder_platform_interaction/flcEvents';
+import { NodeResizeEvent } from 'builder_platform_interaction/alcEvents';
 import { AddElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

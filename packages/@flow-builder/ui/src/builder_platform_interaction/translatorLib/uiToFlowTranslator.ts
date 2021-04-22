@@ -6,7 +6,7 @@ import { getConfigForElementType } from 'builder_platform_interaction/elementCon
 import {
     convertToFreeFormCanvas,
     removeEndElementsAndConnectorsTransform
-} from 'builder_platform_interaction/flcConversionUtils';
+} from 'builder_platform_interaction/alcConversionUtils';
 
 const getXYTranslate = (canvasElements) => {
     const EXTRA_SPACING = 50;

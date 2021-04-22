@@ -54,7 +54,7 @@ export {
     linkElement,
     deleteBranchHeadProperties,
     linkBranchOrFault,
-    FlcList,
+    AlcList,
     findLastElement,
     findFirstElement,
     findParentElement,

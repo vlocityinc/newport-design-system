@@ -133,7 +133,7 @@ export default class startNodeContextButton extends LightningElement {
 
     /**
      * Helper function to dispatch the ArrowKeyDownEvent event that'll be handled
-     * in flcNodeStartMenu
+     * in alcStartMenu
      * @param key - The arrow key pressed
      */
     handleArrowKeyDown(key) {

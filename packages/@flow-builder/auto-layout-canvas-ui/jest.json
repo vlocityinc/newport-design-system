@@ -29,7 +29,7 @@
         "^(builder_platform_interaction)/recordEditorLib$": "<rootDir>/../ui/src/builder_platform_interaction/recordEditorLib/recordEditorLib",
         "^(builder_platform_interaction)/connectorUtils$": "<rootDir>/../ui/src/builder_platform_interaction/connectorUtils/connectorUtils",
         "^(builder_platform_interaction)/invocableActionLib$": "<rootDir>/../ui/src/builder_platform_interaction/invocableActionLib/invocableActionLib",
-        "^(builder_platform_interaction)/flcBuilderUtils$": "<rootDir>/../ui/src/builder_platform_interaction/flcBuilderUtils/flcBuilderUtils",
+        "^(builder_platform_interaction)/alcCanvasUtils$": "<rootDir>/../ui/src/builder_platform_interaction/alcCanvasUtils/alcCanvasUtils",
         "^(builder_platform_interaction)/elementFactory$": "<rootDir>/../ui/src/builder_platform_interaction/elementFactory/elementFactory",
         "^(builder_platform_interaction)/screenEditorI18nUtils$": "<rootDir>/../ui/src/builder_platform_interaction/screenEditorI18nUtils/screenEditorI18nUtils",
         "^(builder_platform_interaction)/dataTypeLib$": "<rootDir>/../ui/src/builder_platform_interaction/dataTypeLib/dataTypeLib",

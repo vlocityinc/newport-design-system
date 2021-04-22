@@ -621,7 +621,7 @@ describe('wait', () => {
         //     let existingWaitFromPropertyEditorWithNoneTerminatedChildren;
 
         beforeEach(() => {
-            //         shouldUseFlc(false);
+            //         shouldUseAlc(false);
 
             waitFromPropertyEditor = {
                 guid: newWaitGuid,

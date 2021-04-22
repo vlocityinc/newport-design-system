@@ -1,0 +1,76 @@
+<template>
+    <!-- Node Button and labels -->
+    <div class={iconContainerClasses}>
+        <builder_platform_interaction-alc-menu-trigger
+            condition-options-for-node={conditionOptionsForNode}
+            element-metadata={nodeInfo.metadata}
+            guid={nodeInfo.guid}
+            menu-opened={nodeInfo.menuOpened}
+            is-canvas-ready={isCanvasReady}
+            is-node-getting-deleted={nodeInfo.toBeDeleted}
+            has-error={nodeInfo.config.hasError}
+            canvas-mode={canvasMode}
+            onclick={handleButtonClick}
+            ondblclick={handleOnDblClick}
+        >
+            <!-- Element Icon -->
+            <div slot="trigger" class={rotateIconClass}>
+                <lightning-icon
+                    alternative-text={labels.nodeIconAltText}
+                    class={svgClass}
+                    icon-name={nodeInfo.metadata.icon}
+                    size={iconSize}
+                    variant="inverse"
+                    aria-label={ariaLabel}
+                    aria-haspopup="dialog"
+                ></lightning-icon>
+            </div>
+
+            <!-- Selection Checkbox -->
+            <lightning-button-icon
+                if:true={showCheckboxInSelectionMode}
+                slot="selection-checkbox"
+                alternative-text={labels.selectionCheckboxAltText}
+                class="selection-checkbox"
+                disabled={shouldDisableCheckbox}
+                icon-name={checkboxIconName}
+                size="small"
+                variant={checkboxVariant}
+                onclick={handleSelectionCheckboxClick}
+                aria-label={labels.checkboxLabel}
+            ></lightning-button-icon>
+        </builder_platform_interaction-alc-menu-trigger>
+        <!-- Label and Element Type -->
+        <div if:false={dynamicNodeConstructor} class={textContainerClasses}>
+            <div class="text-element-label slds-text-body_regular">{nodeLabel}</div>
+            <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
+                {nodeInfo.metadata.label}
+            </div>
+            <div
+                if:true={hasIncomingGoto}
+                class="text-element-goto-count slds-text-body_regular slds-truncate text-incoming-goto"
+            >
+                + {nodeInfo.node.incomingGoTo.length} Incoming
+            </div>
+        </div>
+
+        <!--Error icon-->
+        <lightning-icon
+            if:true={nodeInfo.config.hasError}
+            icon-name="utility:error"
+            variant="error"
+            size="xx-small"
+            alternative-text={labels.errorIconAlternativeText}
+            title={labels.errorIconTitle}
+            class="error-icon slds-is-absolute slds-button-icon_small"
+        ></lightning-icon>
+    </div>
+
+    <x-lazy
+        if:true={dynamicNodeConstructor}
+        lwc:dynamic={dynamicNodeConstructor}
+        node={nodeInfo}
+        is-default-mode={isDefaultMode}
+        class="dynamic-component"
+    ></x-lazy>
+</template>

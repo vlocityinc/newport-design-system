@@ -16,17 +16,17 @@
             "builder_platform_interaction/sharedUtils": [
                 "../../shared-utils/dist/types/index.d.js"
             ],
-            "builder_platform_interaction/flcBuilder": ["./builder_platform_interaction/flcBuilder/flcBuilder.ts"],
-            "builder_platform_interaction/flcButtonMenu": ["./builder_platform_interaction/flcButtonMenu/flcButtonMenu.ts"],
-            "builder_platform_interaction/flcComponentsUtils": ["./builder_platform_interaction/flcComponentsUtils/flcComponentsUtils.ts"],
-            "builder_platform_interaction/flcCompoundNode": ["./builder_platform_interaction/flcCompoundNode/flcCompoundNode.ts"],
-            "builder_platform_interaction/flcConnector": ["./builder_platform_interaction/flcConnector/flcConnector.ts"],
-            "builder_platform_interaction/flcConnectorMenu": ["./builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"],
-            "builder_platform_interaction/flcEvents": ["./builder_platform_interaction/flcEvents/flcEvents.ts"],
-            "builder_platform_interaction/flcFlow": ["./builder_platform_interaction/flcFlow/flcFlow.ts"],
-            "builder_platform_interaction/flcMenu": ["./builder_platform_interaction/flcMenu/flcMenu.ts"],
-            "builder_platform_interaction/flcNode": ["./builder_platform_interaction/flcNode/flcNode.ts"],
-            "builder_platform_interaction/flcNodeMenu": ["./builder_platform_interaction/flcNodeMenu/flcNodeMenu.ts"],
+            "builder_platform_interaction/alcCanvas": ["./builder_platform_interaction/alcCanvas/alcCanvas.ts"],
+            "builder_platform_interaction/alcMenuTrigger": ["./builder_platform_interaction/alcMenuTrigger/alcMenuTrigger.ts"],
+            "builder_platform_interaction/alcComponentsUtils": ["./builder_platform_interaction/alcComponentsUtils/alcComponentsUtils.ts"],
+            "builder_platform_interaction/alcCompoundNode": ["./builder_platform_interaction/alcCompoundNode/alcCompoundNode.ts"],
+            "builder_platform_interaction/alcConnector": ["./builder_platform_interaction/alcConnector/alcConnector.ts"],
+            "builder_platform_interaction/alcConnectorMenu": ["./builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
+            "builder_platform_interaction/alcEvents": ["./builder_platform_interaction/alcEvents/alcEvents.ts"],
+            "builder_platform_interaction/alcFlow": ["./builder_platform_interaction/alcFlow/alcFlow.ts"],
+            "builder_platform_interaction/alcMenu": ["./builder_platform_interaction/alcMenu/alcMenu.ts"],
+            "builder_platform_interaction/alcNode": ["./builder_platform_interaction/alcNode/alcNode.ts"],
+            "builder_platform_interaction/alcNodeMenu": ["./builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
             "builder_platform_interaction/menu": ["./builder_platform_interaction/menu/menu.ts"]
          }
     },

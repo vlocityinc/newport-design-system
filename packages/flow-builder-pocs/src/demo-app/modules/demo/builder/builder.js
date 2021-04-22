@@ -8,7 +8,7 @@ import {
     addElementFault,
     deleteElementFault,
     deleteElements,
-    flcCreateConnection,
+    alcCreateConnection,
     selectionOnFixedCanvas,
     updateIsAutoLayoutCanvasProperty,
     updateElement,
@@ -330,7 +330,7 @@ export default class Builder extends LightningElement {
                     const event = randomEvent(storeInstance);
                     if (event) {
                         this.template
-                            .querySelector('builder_platform_interaction-flc-builder-container')
+                            .querySelector('builder_platform_interaction-alc-canvas-container')
                             .dispatchEvent(event);
                         this.flowsGenerated++;
                     }
@@ -377,12 +377,12 @@ export default class Builder extends LightningElement {
         storeInstance.dispatch(deleteGoToConnection(event.detail));
     };
 
-    handleFlcCreateConnection = (event) => {
+    handleAlcCreateConnection = (event) => {
         const { insertAt, targetGuid } = event.detail;
-        storeInstance.dispatch(flcCreateConnection({ insertAt, targetGuid }));
+        storeInstance.dispatch(alcCreateConnection({ insertAt, targetGuid }));
     };
 
-    handleFlcSelection = (event) => {
+    handleAlcSelection = (event) => {
         const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids } = event.detail;
         const payload = {
             canvasElementGuidsToSelect,

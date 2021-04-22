@@ -1,0 +1,89 @@
+<template>
+    <div if:true={showSpinner} class="slds-spinner_container">
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </div>
+
+    <div
+        class="canvas"
+        style={canvasStyle}
+        onclick={handleCanvasClick}
+        onmenupositionupdate={handleMenuPositionUpdate}
+        ontogglemenu={handleToggleMenu}
+        onclosemenu={handleCloseMenu}
+    >
+        <template if:true={flow}>
+            <div class="flow-container">
+                <builder_platform_interaction-alc-flow
+                    style={flow.style}
+                    class={flow.class}
+                    flow={flow.flowInfo}
+                    is-canvas-ready={isCanvasReady}
+                    canvas-mode={autoLayoutCanvasContext.mode}
+                    disable-add-elements={disableAddElements}
+                    onalcselectdeselectnode={handleNodeSelectionDeselection}
+                    onnoderesize={handleDynamicNodeRender}
+                >
+                </builder_platform_interaction-alc-flow>
+
+                <div class={menuContainerClasses}>
+                    <template if:true={showConnectorMenu}>
+                        <builder_platform_interaction-alc-connector-menu
+                            class="menu overlay slds-dropdown"
+                            style={menu.style}
+                            prev={menu.prev}
+                            next={menu.next}
+                            parent={menu.parent}
+                            can-merge-ended-branch={menu.canMergeEndedBranch}
+                            has-end-element={menu.hasEndElement}
+                            can-add-goto={menu.isTargetEnd}
+                            is-go-to-connector={menu.isGoToConnector}
+                            child-index={menu.childIndex}
+                            is-paste-available={autoLayoutCanvasContext.isPasteAvailable}
+                            elements-metadata={menu.elementsMetadata}
+                            ongotopath={handleAddOrRerouteGoToItemSelection}
+                            opened-with-keyboard={openedWithKeyboard}
+                            onmovefocustoconnector={handleMoveFocusToConnector}
+                        ></builder_platform_interaction-alc-connector-menu>
+                    </template>
+                    <template if:true={showNodeMenu}>
+                        <builder_platform_interaction-alc-node-menu
+                            if:false={startMenuElement}
+                            class="menu overlay slds-dropdown"
+                            condition-options={menu.conditionOptionsForNode}
+                            disable-delete-elements={disableDeleteElements}
+                            element-has-fault={menu.elementHasFault}
+                            element-metadata={menu.elementMetadata}
+                            guid={menu.guid}
+                            style={menu.style}
+                            onclearhighlightedpath={handleClearHighlightedPath}
+                            onhighlightpathstodelete={handleHighlightPathsToDelete}
+                            opened-with-keyboard={openedWithKeyboard}
+                            onmovefocustonode={handleMoveFocusToNode}
+                            ondeletebranchelement={handleBranchElementDeletion}
+                        ></builder_platform_interaction-alc-node-menu>
+                        <builder_platform_interaction-alc-start-menu
+                            if:true={startMenuElement}
+                            class="menu overlay slds-dropdown"
+                            condition-options={menu.conditionOptionsForNode}
+                            element-has-fault={menu.elementHasFault}
+                            element-metadata={menu.elementMetadata}
+                            start-data={startMenuElement}
+                            guid={menu.guid}
+                            style={menu.style}
+                            supports-time-triggers={supportsTimeTriggers}
+                            onhighlightpathstodelete={handleHighlightPathsToDelete}
+                            opened-with-keyboard={openedWithKeyboard}
+                            onmovefocustonode={handleMoveFocusToNode}
+                        ></builder_platform_interaction-alc-start-menu>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+    <builder_platform_interaction-zoom-panel
+        is-zoom-in-disabled={isZoomInDisabled}
+        is-zoom-out-disabled={isZoomOutDisabled}
+        is-zoom-to-view={isZoomToView}
+        onclicktozoom={handleZoomAction}
+    ></builder_platform_interaction-zoom-panel>
+</template>

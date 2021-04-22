@@ -28,7 +28,7 @@ import {
     deleteElementFault,
     DESELECT_ON_CANVAS,
     doDuplicate,
-    flcCreateConnection,
+    alcCreateConnection,
     deleteGoToConnection,
     MARQUEE_SELECT_ON_CANVAS,
     pasteOnFixedCanvas,
@@ -148,14 +148,14 @@ import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
-import { CreateGoToConnectionEvent, DeleteGoToConnectionEvent } from 'builder_platform_interaction/flcEvents';
+import { CreateGoToConnectionEvent, DeleteGoToConnectionEvent } from 'builder_platform_interaction/alcEvents';
 import {
     addEndElementsAndConnectorsTransform,
     canConvertToAutoLayoutCanvas,
     convertToAutoLayoutCanvas,
     convertToFreeFormCanvas,
     removeEndElementsAndConnectorsTransform
-} from 'builder_platform_interaction/flcConversionUtils';
+} from 'builder_platform_interaction/alcConversionUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const { generateGuid } = storeUtils;
@@ -185,7 +185,7 @@ const PANELS = {
     TOOLBAR: 'builder_platform_interaction-toolbar',
     TOOLBOX: 'builder_platform_interaction-left-panel',
     FREEFORM_CANVAS: 'builder_platform_interaction-canvas-container',
-    AUTOLAYOUT_CANVAS: 'builder_platform_interaction-flc-builder-container'
+    AUTOLAYOUT_CANVAS: 'builder_platform_interaction-alc-canvas-container'
 };
 
 const EDITOR_COMPONENT_CONFIGS = {
@@ -1212,11 +1212,9 @@ export default class Editor extends LightningElement {
      */
     closeAutoLayoutContextualMenu = () => {
         if (this.properties.isAutoLayoutCanvas) {
-            const flcBuilderContainer = this.template.querySelector(
-                'builder_platform_interaction-flc-builder-container'
-            );
-            if (flcBuilderContainer) {
-                flcBuilderContainer.callCloseNodeOrConnectorMenuInBuilder();
+            const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+            if (alcCanvasContainer) {
+                alcCanvasContainer.callCloseNodeOrConnectorMenuInBuilder();
             }
         }
     };
@@ -1236,7 +1234,7 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles Selection on Fixed Layout Canvas
-     * @param {object} event Selection event coming from flcBuilder
+     * @param {object} event Selection event coming from alcCanvas
      */
     handleSelectionOnFixedCanvas = (event) => {
         if (event && event.detail) {
@@ -1745,7 +1743,7 @@ export default class Editor extends LightningElement {
             const flowState = storeInstance.getCurrentState();
 
             const autoLayoutCanvasContainer = this.template.querySelector(
-                'builder_platform_interaction-flc-builder-container'
+                'builder_platform_interaction-alc-canvas-container'
             );
 
             // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
@@ -1862,7 +1860,7 @@ export default class Editor extends LightningElement {
      * Handles the node selection event which is fired when node icon on
      * fixed layout canvas is clicked
      *
-     * @param {object} event - node selection event from flcNode.js
+     * @param {object} event - node selection event from alcNode.js
      */
     handleNodeSelectedOnFixedCanvas(event) {
         if (this.showPropertyEditorRightPanel && !event.detail.isSelected) {
@@ -2014,21 +2012,21 @@ export default class Editor extends LightningElement {
         focusOnDockingPanel();
     };
 
-    handleFlcCreateConnection = (event) => {
-        storeInstance.dispatch(flcCreateConnection(event.detail));
+    handleAlcCreateConnection = (event) => {
+        storeInstance.dispatch(alcCreateConnection(event.detail));
     };
 
     /**
-     * Handles the CreateGoToConnectionEvent coming from flcBuilder and dispatches an action to create a GoTo connector
-     * @param event - CreateGoToConnectionEvent coming from flcBuilder
+     * Handles the CreateGoToConnectionEvent coming from alcCanvas and dispatches an action to create a GoTo connector
+     * @param event - CreateGoToConnectionEvent coming from alcCanvas
      */
     handleGoToCreation = (event: CreateGoToConnectionEvent) => {
         storeInstance.dispatch(createGoToConnection(event.detail));
     };
 
     /**
-     * Handles the DeleteGoToConnectionEvent coming from flcConnectorMenu and dispatches an action to delete a GoTo connector
-     * @param event DeleteGoToConnectionEvent coming from flcConnectorMenu
+     * Handles the DeleteGoToConnectionEvent coming from alcConnectorMenu and dispatches an action to delete a GoTo connector
+     * @param event DeleteGoToConnectionEvent coming from alcConnectorMenu
      */
     handleGoToDeletion = (event: DeleteGoToConnectionEvent) => {
         storeInstance.dispatch(deleteGoToConnection(event.detail));

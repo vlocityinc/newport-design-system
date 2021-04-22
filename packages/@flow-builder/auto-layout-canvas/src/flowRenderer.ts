@@ -550,7 +550,7 @@ function createOptionsForConditionReferences(
     });
 }
 
-// TODO: FLC use metadata here
+// TODO: ALC use metadata here
 function getConditionReferences(parentNode: ParentNodeModel): any {
     // TODO: Use NodeType instead of elementType and update tests
     const elementType = parentNode.elementType;

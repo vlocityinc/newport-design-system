@@ -60,7 +60,7 @@
         </div>
 
         <div class="container">
-            <builder_platform_interaction-flc-builder-container
+            <builder_platform_interaction-alc-canvas-container
                 onaddelement={handleAddElement}
                 ondeleteelement={handleDeleteElement}
                 onaddelementfault={handleAddElementFault}
@@ -68,14 +68,14 @@
                 elements-metadata={elementsMetadata}
                 is-selection-mode={isSelectionMode}
                 ontoggleselectionmode={handleToggleSelectionMode}
-                onflccreateconnection={handleFlcCreateConnection}
-                onflcselection={handleFlcSelection}
+                onalccreateconnection={handleAlcCreateConnection}
+                onalcselection={handleAlcSelection}
                 disable-animation={isRunningTestMonkey}
                 disable-debounce={isRunningTestMonkey}
                 oncreategotoconnection={handleGoToCreation}
                 ondeletegotoconnection={handleGoToDeletion}
             >
-            </builder_platform_interaction-flc-builder-container>
+            </builder_platform_interaction-alc-canvas-container>
         </div>
     </div>
 </template>

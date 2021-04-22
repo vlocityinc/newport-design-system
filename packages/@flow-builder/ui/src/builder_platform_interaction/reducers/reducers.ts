@@ -5,11 +5,11 @@ import ffcElementsReducer from './elementsReducer';
 import canvasElementsReducer from './canvasElementsReducer';
 import connectorsReducer from './connectorsReducer';
 import { peripheralDataReducer } from './peripheralDataReducer';
-import flcElementsReducer from './flcElementsReducer';
+import alcElementsReducer from './alcElementsReducer';
 import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 
-const flcCombinedReducer = combinedReducer({
-    elements: flcElementsReducer,
+const alcCombinedReducer = combinedReducer({
+    elements: alcElementsReducer,
     properties: flowPropertiesReducer,
     canvasElements: canvasElementsReducer,
     connectors: connectorsReducer,
@@ -26,8 +26,8 @@ const ffcCombinedReducer = combinedReducer({
 
 const reducer = (state, action) => {
     // need to resolve the reducer dynamically, since we don't know if we are using
-    // the flc until after the module initialization time
-    return (shouldUseAutoLayoutCanvas() ? flcCombinedReducer : ffcCombinedReducer)(state, action);
+    // the alc until after the module initialization time
+    return (shouldUseAutoLayoutCanvas() ? alcCombinedReducer : ffcCombinedReducer)(state, action);
 };
 
 export { reducer };

@@ -579,15 +579,15 @@ function linkBranchOrFault(
     }
 }
 
-type FlcListCallback = (element: NodeModel, index?: number) => any;
-type FlcListPredicate = (guid: string) => boolean;
+type AlcListCallback = (element: NodeModel, index?: number) => any;
+type AlcListPredicate = (guid: string) => boolean;
 
 /**
  * Linked list interface to navigate a flow
  */
-class FlcList {
+class AlcList {
     private down: boolean;
-    private tailPredicate: FlcListPredicate;
+    private tailPredicate: AlcListPredicate;
 
     /**
      *
@@ -598,7 +598,7 @@ class FlcList {
     constructor(
         private elements: FlowModel,
         private head: string,
-        { tail, down = true }: { tail?: FlcListPredicate; down?: boolean } = {}
+        { tail, down = true }: { tail?: AlcListPredicate; down?: boolean } = {}
     ) {
         this.down = down;
 
@@ -614,15 +614,15 @@ class FlcList {
         return this._map(null, false).last;
     }
 
-    map(callback: FlcListCallback): any[] {
+    map(callback: AlcListCallback): any[] {
         return this._map(callback).results;
     }
 
-    forEach(callback: FlcListCallback) {
+    forEach(callback: AlcListCallback) {
         this._map(callback, false);
     }
 
-    _map(callback: FlcListCallback | null, accumulate = true) {
+    _map(callback: AlcListCallback | null, accumulate = true) {
         const results: NodeModel[] = [];
 
         let curr: NodeRef = this.head;
@@ -675,7 +675,7 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
     return branchingElement.children.reduce((acc: Guid[], child: NodeRef, index: number) => {
         // only elements on other branches can be targets
         if (child != null && index !== childIndex) {
-            const branchElements = new FlcList(elements, child).map((element) => element.guid) as Guid[];
+            const branchElements = new AlcList(elements, child).map((element) => element.guid) as Guid[];
             return acc.concat(branchElements);
         }
 
@@ -710,7 +710,7 @@ function getMergeableGuids(elements: FlowModel, prev: Guid, branchParent: Guid, 
                 index !== childIndex &&
                 !hasGoToConnectionOnBranchHead(elements, branchingElement, index)
             ) {
-                const branchElements = new FlcList(elements, child).map((element) => element.guid) as Guid[];
+                const branchElements = new AlcList(elements, child).map((element) => element.guid) as Guid[];
                 return acc.concat(branchElements);
             }
 
@@ -882,7 +882,7 @@ function getTargetGuidsForReconnection(
  * @returns The last element
  */
 function findLastElement(element: NodeModel, state: FlowModel): NodeModel {
-    return new FlcList(state, element.guid).last();
+    return new AlcList(state, element.guid).last();
 }
 
 /**
@@ -893,7 +893,7 @@ function findLastElement(element: NodeModel, state: FlowModel): NodeModel {
  * @returns The first element
  */
 function findFirstElement(element: NodeModel, state: FlowModel): BranchHeadNodeModel {
-    return new FlcList(state, element.guid, { down: false }).last() as BranchHeadNodeModel;
+    return new AlcList(state, element.guid, { down: false }).last() as BranchHeadNodeModel;
 }
 
 /**
@@ -1063,7 +1063,7 @@ function deleteElementAndDescendents(
  * @returns The updated flow model
  */
 function deleteBranch(elementService: ElementService, state: FlowModel, branchHeadGuid: Guid) {
-    new FlcList(state, branchHeadGuid).forEach((listElement) => {
+    new AlcList(state, branchHeadGuid).forEach((listElement) => {
         deleteElementAndDescendents(elementService, state, listElement.guid);
     });
 
@@ -1920,7 +1920,7 @@ export {
     linkElement,
     deleteBranchHeadProperties,
     linkBranchOrFault,
-    FlcList,
+    AlcList,
     findLastElement,
     findFirstElement,
     findParentElement,
