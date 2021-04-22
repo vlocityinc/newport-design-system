@@ -476,7 +476,7 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
 
     // Add a single default column for section fields
     if (type.name === getSectionFieldType().name) {
-        newScreenField.name = ScreenFieldName.Section + (sectionCount + 1);
+        newScreenField.name = ScreenFieldName.Section + (sectionCount + 1) + '_' + generateRandomSuffix();
         const newChildScreenField = createScreenField(createEmptyColumn('12'), true);
         newScreenField.fields = [newChildScreenField];
     } else if (type.name === getColumnFieldType().name) {
@@ -697,7 +697,7 @@ function createEmptyColumn(width) {
         valueDataType: FLOW_DATA_TYPE.STRING.value
     };
     return {
-        name: 'NewColumn',
+        name: 'NewColumn_' + generateRandomSuffix(),
         guid: generateGuid(),
         fieldType: getColumnFieldType().fieldType,
         fields: [],
@@ -715,4 +715,13 @@ function updateScreenFieldReferences(childReferences = [], field) {
             childReference: field.guid
         }
     ];
+}
+
+function generateRandomSuffix() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+    let randomStr = '';
+    for (let i = 0; i < 3; i++) {
+        randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return randomStr;
 }
