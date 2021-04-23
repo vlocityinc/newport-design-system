@@ -5,7 +5,7 @@ type FlowCheckType =
     | 'orphan' /* if a node that is unreachable from the start node */
     | 'reachedCount' /* if a node was reached an unexpected number of times */
     | 'unsupportedElement' /* if an unsupported element was found in the flow */
-    | 'timeTriggers' /* time trigger issue */
+    | 'scheduledPaths' /* scheduled path issue */
     | 'endInLoop' /* if an end was found in a loop */
     | 'backEdge' /* if a back edge goto was found */
     | 'crossBoundary' /* if a cross boundrary goto was found */

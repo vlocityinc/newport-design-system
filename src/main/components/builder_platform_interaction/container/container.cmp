@@ -68,7 +68,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:welcomeMatBody" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordChangeTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:contextRecordEditor" type="MODULE" />
-    <aura:dependency resource="markup://builder_platform_interaction:timeTriggerEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:scheduledPathEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:scheduleTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:platformEventEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:rollbackEditor" type="MODULE" />

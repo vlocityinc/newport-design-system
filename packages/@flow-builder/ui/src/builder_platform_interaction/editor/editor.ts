@@ -142,7 +142,7 @@ import {
     getStartObject,
     getTriggerType
 } from 'builder_platform_interaction/storeUtils';
-import { createEndElement, shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
+import { createEndElement, shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
@@ -1153,7 +1153,7 @@ export default class Editor extends LightningElement {
                     startObject = getStartObject();
                     startElement = getStartElement();
                     showScheduledPathComboBox =
-                        shouldSupportTimeTriggers(startElement) && scheduledPathsList?.length > 0;
+                        shouldSupportScheduledPaths(startElement) && scheduledPathsList?.length > 0;
                     if (startObject) {
                         // This should never be empty in a record change trigger where the debug button is clickable, but might as well check.
                         startObject = getEntity(startObject).entityLabel;
@@ -2562,8 +2562,8 @@ export default class Editor extends LightningElement {
         const scheduledPathsList = [];
         if (this.guardrailsEngine?.flowDataProvider?.model?.metadata?.start?.scheduledPaths) {
             scheduledPathsList.push({
-                label: LABELS.immediateTimeTriggerLabel,
-                value: LABELS.immediateTimeTriggerLabel
+                label: LABELS.immediateScheduledPathLabel,
+                value: LABELS.immediateScheduledPathLabel
             });
             this.guardrailsEngine.flowDataProvider.model.metadata.start.scheduledPaths.forEach((key) => {
                 scheduledPathsList.push({ label: key.label, value: key.name });

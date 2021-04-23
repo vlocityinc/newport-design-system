@@ -19,7 +19,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByDevName: jest.fn((name) => {
             return name !== mockOutcome.name
-                ? name.startsWith('ScreenWithSection_') || name.startsWith('myTimeTrigger')
+                ? name.startsWith('ScreenWithSection_') || name.startsWith('myScheduledPath')
                     ? jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
                     : { guid: '1' }
                 : mockOutcome;
@@ -370,7 +370,7 @@ describe('clickableErrorMessage', () => {
         });
     });
     describe('parent element has multiple descriptors', () => {
-        // recordTriggeredFlowUIModel has TimeTrigger component needed to test
+        // recordTriggeredFlowUIModel has ScheduledPath component needed to test
         beforeAll(() => {
             Store.setMockState(recordTriggeredFlowUIModel);
         });
@@ -378,13 +378,13 @@ describe('clickableErrorMessage', () => {
             Store.resetStore();
         });
         it('when erroneous element has a parent with multiple descriptors, if its elementType defined in childElementTypeToParentDescriptorKeyMap, open its own editor', () => {
-            // TimeTrigger is a child element of Start_Element, its elementType is defined in childElementTypeToParentDescriptorKeyMap
+            // ScheduledPath is a child element of Start_Element, its elementType is defined in childElementTypeToParentDescriptorKeyMap
             const errorMsgComponentParentChild = createComponentUnderTest({
                 info: {
                     message: {
-                        erroneousElementApiName: 'myTimeTrigger2DaysBefore',
+                        erroneousElementApiName: 'myScheduledPath2DaysBefore',
                         errorCode: 'FLOW_SCHEDULED_PATH_INCOMPATIBLE_WITH_FLOW_TRIGGER_TYPE',
-                        message: 'myTimeTrigger2DaysBefore - (Scheduled Path) - some error message'
+                        message: 'myScheduledPath2DaysBefore - (Scheduled Path) - some error message'
                     }
                 }
             });

@@ -109,7 +109,7 @@ export { AddSortOptionItemEvent } from './addSortOptionItemEvent';
 export { DeleteSortOptionItemEvent } from './deleteSortOptionItemEvent';
 export { UpdateSortCollectionOutputEvent } from './updateSortCollectionOutputEvent';
 export { InputsOnNextNavToAssocScrnChangeEvent } from './inputsOnNextNavToAssocScrnChangeEvent';
-export { DeleteTimeTriggerEvent } from './deleteTimeTriggerEvent';
+export { DeleteScheduledPathEvent } from './deleteScheduledPathEvent';
 export { CollectionReferenceChangedEvent } from './collectionReferenceChangedEvent';
 export { UpdateCollectionProcessorEvent } from './updateCollectionProcessorEvent';
 export { DummyPreviewModeEvent } from './dummyPreviewModeEvent';

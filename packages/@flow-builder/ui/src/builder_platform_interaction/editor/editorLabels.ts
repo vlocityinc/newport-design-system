@@ -16,7 +16,7 @@ import errorMessageDisconnectedElements from '@salesforce/label/FlowBuilderAlert
 import errorMessageMultipleIncomingConnections from '@salesforce/label/FlowBuilderAlertModal.errorMessageMultipleIncomingConnections';
 import errorMessageStepElement from '@salesforce/label/FlowBuilderAlertModal.errorMessageStepElement';
 import continueToDebugTitle from '@salesforce/label/FlowBuilderAlertModal.continueToDebugTitle';
-import immediateTimeTriggerLabel from '@salesforce/label/FlowBuilderStartEditor.immediateTimeTriggerLabel';
+import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
 
 export const LABELS = {
     spinnerAlternativeText,
@@ -36,5 +36,5 @@ export const LABELS = {
     errorMessageDisconnectedElements,
     errorMessageMultipleIncomingConnections,
     errorMessageStepElement,
-    immediateTimeTriggerLabel
+    immediateScheduledPathLabel
 };

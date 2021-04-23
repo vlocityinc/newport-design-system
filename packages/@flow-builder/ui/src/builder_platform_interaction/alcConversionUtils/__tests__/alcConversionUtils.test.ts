@@ -23,21 +23,21 @@ import decisionWithEmptyNestedDecision from './alcUiModels/decision-with-empty-n
 import decisionWithDecisionNext from './alcUiModels/decision-with-decision-next';
 import updatedElementConfig from './alcUiModels/updated-element-config';
 import testCaseW8010546 from './alcUiModels/test-case-W-8010546';
-import oneAssignmentInTimeTrigger from './alcUiModels/one-assignment-in-time-trigger';
+import oneAssignmentInScheduledPath from './alcUiModels/one-assignment-in-scheduled-path';
 
 import startWithOnlyImmediate from './alcUiModels/start-with-only-immediate';
-import startWithOnlyTimeTriggers from './alcUiModels/start-with-only-time-triggers';
-import startWithImmPlusTimeTrigger from './alcUiModels/start-with-imm-plus-time-trigger';
-import startWithMultipleTimeTriggers from './alcUiModels/start-with-multiple-time-triggers';
+import startWithOnlyScheduledPaths from './alcUiModels/start-with-only-scheduled-paths';
+import startWithImmPlusScheduledPath from './alcUiModels/start-with-imm-plus-scheduled-path';
+import startWithMultipleScheduledPaths from './alcUiModels/start-with-multiple-scheduled-paths';
 import startWithMergingPaths from './alcUiModels/start-with-merging-paths';
 
 import ffcSanity from './ffcUiModels/sanity.json';
 import ffcElementWithFault from './ffcUiModels/element-with-fault.json';
 import ffcElementWithFaultWithDecisionHead from './ffcUiModels/element-with-fault-with-decision-head.json';
-import ffcStartWithOnlyImmediate from './ffcUiModels/start-with-only-time-trigger.json';
-import ffcStartWithOnlyTimeTrigger from './ffcUiModels/start-with-only-time-trigger.json';
-import ffcStartWithSingleTimeTrigger from './ffcUiModels/start-with-single-time-trigger.json';
-import ffcStartWithMultipleTimeTrigger from './ffcUiModels/start-with-multiple-time-trigger.json';
+import ffcStartWithOnlyImmediate from './ffcUiModels/start-with-only-scheduled-path.json';
+import ffcStartWithOnlyScheduledPath from './ffcUiModels/start-with-only-scheduled-path.json';
+import ffcStartWithSingleScheduledPath from './ffcUiModels/start-with-single-scheduled-path.json';
+import ffcStartWithMultipleScheduledPath from './ffcUiModels/start-with-multiple-scheduled-path.json';
 import ffcStartWithMergingPaths from './ffcUiModels/start-with-merging-path.json';
 import ffcDecisionEmpty from './ffcUiModels/decision-empty.json';
 import ffcDecisionWithNestedLeftDecision from './ffcUiModels/decision-with-nested-left-decision.json';
@@ -85,7 +85,7 @@ import {
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
+import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
 const CANVAS_WIDTH = 1024;
 const startElementCoords = [CANVAS_WIDTH / 2 - 24, 48];
@@ -124,7 +124,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
             );
         },
         findStartYOffset,
-        shouldSupportTimeTriggers: jest.fn()
+        shouldSupportScheduledPaths: jest.fn()
     };
 });
 
@@ -157,8 +157,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
-shouldSupportTimeTriggers.mockImplementation((startElement) => {
-    return startElement.guid === 'time-trigger-start-element-guid';
+shouldSupportScheduledPaths.mockImplementation((startElement) => {
+    return startElement.guid === 'scheduled-path-start-element-guid';
 });
 
 function sortCanvasElementsAndConnectors({ elements, canvasElements, connectors }) {
@@ -818,14 +818,14 @@ describe('alc conversion utils', () => {
                 describe('only immediate', () => {
                     assertRoundTripFromFreeFormCanvas(ffcStartWithOnlyImmediate);
                 });
-                describe('only time triggers', () => {
-                    assertRoundTripFromFreeFormCanvas(ffcStartWithOnlyTimeTrigger);
+                describe('only scheduled paths', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithOnlyScheduledPath);
                 });
-                describe('one immediate + one time trigger', () => {
-                    assertRoundTripFromFreeFormCanvas(ffcStartWithSingleTimeTrigger);
+                describe('one immediate + one scheduled path', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithSingleScheduledPath);
                 });
-                describe('two time triggers', () => {
-                    assertRoundTripFromFreeFormCanvas(ffcStartWithMultipleTimeTrigger);
+                describe('two scheduled paths', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcStartWithMultipleScheduledPath);
                 });
                 describe('with merging imm and async path', () => {
                     assertRoundTripFromFreeFormCanvas(ffcStartWithMergingPaths);
@@ -982,13 +982,13 @@ describe('alc conversion utils', () => {
                     ];
                     assertRoundTripFromAutoLayoutCanvas(startWithOnlyImmediate, endConnectors);
                 });
-                describe('start with only time triggers', () => {
+                describe('start with only scheduled paths', () => {
                     const endConnectors = [
                         {
                             guid:
-                                'time-trigger-start-element-guid -> end-element-guid (time-trigger-start-element-guid)',
-                            source: 'time-trigger-start-element-guid',
-                            target: 'end-element-guid (time-trigger-start-element-guid)',
+                                'scheduled-path-start-element-guid -> end-element-guid (scheduled-path-start-element-guid)',
+                            source: 'scheduled-path-start-element-guid',
+                            target: 'end-element-guid (scheduled-path-start-element-guid)',
                             label: 'IMMEDIATE',
                             type: 'IMMEDIATE',
                             config: { isSelected: false }
@@ -1002,9 +1002,9 @@ describe('alc conversion utils', () => {
                             config: { isSelected: false }
                         }
                     ];
-                    assertRoundTripFromAutoLayoutCanvas(startWithOnlyTimeTriggers, endConnectors);
+                    assertRoundTripFromAutoLayoutCanvas(startWithOnlyScheduledPaths, endConnectors);
                 });
-                describe('start with immediate + one time trigger', () => {
+                describe('start with immediate + one scheduled path', () => {
                     const endConnectors = [
                         {
                             guid: 'assignment-imm-element-guid -> end-element-guid (assignment-imm-element-guid)',
@@ -1023,9 +1023,9 @@ describe('alc conversion utils', () => {
                             config: { isSelected: false }
                         }
                     ];
-                    assertRoundTripFromAutoLayoutCanvas(startWithImmPlusTimeTrigger, endConnectors);
+                    assertRoundTripFromAutoLayoutCanvas(startWithImmPlusScheduledPath, endConnectors);
                 });
-                describe('start with multiple time triggers', () => {
+                describe('start with multiple scheduled paths', () => {
                     const endConnectors = [
                         {
                             guid: 'assignment-imm-element-guid -> end-element-guid (assignment-imm-element-guid)',
@@ -1052,7 +1052,7 @@ describe('alc conversion utils', () => {
                             config: { isSelected: false }
                         }
                     ];
-                    assertRoundTripFromAutoLayoutCanvas(startWithMultipleTimeTriggers, endConnectors);
+                    assertRoundTripFromAutoLayoutCanvas(startWithMultipleScheduledPaths, endConnectors);
                 });
                 describe('merging imm and async paths', () => {
                     const endConnectors = [
@@ -1397,9 +1397,9 @@ describe('alc conversion utils', () => {
             assertCanConvertToAutoLayoutCanvas(storeState, true);
         });
         it('creates connector with default label (immediate)', () => {
-            const ffUiModel = convertToFreeFormCanvas(oneAssignmentInTimeTrigger, [0, 0]);
+            const ffUiModel = convertToFreeFormCanvas(oneAssignmentInScheduledPath, [0, 0]);
             const connector = ffUiModel.connectors.find((conn) => {
-                return conn.guid === 'time-trigger-start-element-guid -> assignment-element-guid';
+                return conn.guid === 'scheduled-path-start-element-guid -> assignment-element-guid';
             });
             expect(connector.type).toBe(CONNECTOR_TYPE.IMMEDIATE);
         });

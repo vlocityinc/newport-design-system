@@ -189,11 +189,11 @@ const scheduledTriggeredStartData = {
     triggerType: 'Scheduled'
 };
 
-const createComponentUnderTest = (metaData, startData, supportsTimeTriggers = false) => {
+const createComponentUnderTest = (metaData, startData, supportsScheduledPaths = false) => {
     const el = createElement('builder_platform_interaction-alc-start-menu', {
         is: AlcStartMenu
     });
-    el.supportsTimeTriggers = supportsTimeTriggers;
+    el.supportsScheduledPaths = supportsScheduledPaths;
     el.elementMetadata = metaData;
     el.startData = startData;
     el.guid = metaData.guid;
@@ -208,7 +208,7 @@ const selectors = {
     body: '.test-start-menu-body',
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
     contextButton: 'builder_platform_interaction-start-node-context-button',
-    timeTriggerButton: 'builder_platform_interaction-start-node-time-trigger-button'
+    scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button'
 };
 
 async function dispatchEvent(element, event) {
@@ -279,9 +279,9 @@ describe('Start Node Menu', () => {
             expect(button).toBeNull();
         });
 
-        it('Should not render time trigger button', () => {
+        it('Should not render scheduled path button', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
-            const button = body.querySelector(selectors.timeTriggerButton);
+            const button = body.querySelector(selectors.scheduledPathButton);
             expect(button).toBeNull();
         });
 
@@ -358,70 +358,70 @@ describe('Start Node Menu', () => {
             expect(button).toBeDefined();
         });
 
-        it('Should not render time trigger button if supportsTimeTriggers is set to false', () => {
+        it('Should not render scheduled path button if supportsScheduledPaths is set to false', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
-            const button = body.querySelector(selectors.timeTriggerButton);
+            const button = body.querySelector(selectors.scheduledPathButton);
             expect(button).toBeNull();
         });
 
-        it('Should render time trigger button if supportsTimeTriggers is set to true', () => {
+        it('Should render scheduled path button if supportsScheduledPaths is set to true', () => {
             const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
             const body = startMenu.shadowRoot.querySelector(selectors.body);
-            const button = body.querySelector(selectors.timeTriggerButton);
+            const button = body.querySelector(selectors.scheduledPathButton);
             expect(button).not.toBeNull();
         });
 
-        it('Focus should move correctly to the add time trigger button on arrow up from the trigger button', async () => {
+        it('Focus should move correctly to the add scheduled path button on arrow up from the trigger button', async () => {
             const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const trigger = body.querySelector(selectors.triggerButton);
-            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
-            timeTrigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            scheduledPath.shadowRoot.querySelector('div').addEventListener('focus', callback);
             await dispatchEvent(trigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
 
-        it('Focus should move correctly to the add time trigger button on arrow down from the context button', async () => {
+        it('Focus should move correctly to the add scheduled path button on arrow down from the context button', async () => {
             const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
             const body = startMenu.shadowRoot.querySelector(selectors.body);
             const context = body.querySelector(selectors.contextButton);
-            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
-            timeTrigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
+            scheduledPath.shadowRoot.querySelector('div').addEventListener('focus', callback);
             await dispatchEvent(context, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
 
-        it('Focus should move correctly to the context button on arrow up from the time trigger button', async () => {
+        it('Focus should move correctly to the context button on arrow up from the scheduled path button', async () => {
             const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
             const body = startMenu.shadowRoot.querySelector(selectors.body);
-            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const context = body.querySelector(selectors.contextButton);
             const callback = jest.fn();
             context.shadowRoot.querySelector('div').addEventListener('focus', callback);
-            await dispatchEvent(timeTrigger, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
+            await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(ArrowUp.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
 
-        it('Focus should move correctly to the trigger button on arrow down from the time trigger button', async () => {
+        it('Focus should move correctly to the trigger button on arrow down from the scheduled path button', async () => {
             const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
             const body = startMenu.shadowRoot.querySelector(selectors.body);
-            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const trigger = body.querySelector(selectors.triggerButton);
             const callback = jest.fn();
             trigger.shadowRoot.querySelector('div').addEventListener('focus', callback);
-            await dispatchEvent(timeTrigger, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
+            await dispatchEvent(scheduledPath, new ArrowKeyDownEvent(ArrowDown.COMMAND_NAME));
             expect(callback).toHaveBeenCalled();
         });
 
-        it('Pressing escape while focus is on the time trigger button should fire the CloseMenuEvent event', async () => {
+        it('Pressing escape while focus is on the scheduled path button should fire the CloseMenuEvent event', async () => {
             const startMenu = createComponentUnderTest(recordTriggeredFlowStart, recordTriggeredStartData, true);
             const body = startMenu.shadowRoot.querySelector(selectors.body);
-            const timeTrigger = body.querySelector(selectors.timeTriggerButton);
+            const scheduledPath = body.querySelector(selectors.scheduledPathButton);
             const callback = jest.fn();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
-            timeTrigger.focus();
+            scheduledPath.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
         });
@@ -521,9 +521,9 @@ describe('Start Node Menu', () => {
             expect(button).toBeDefined();
         });
 
-        it('Should not render time trigger button', () => {
+        it('Should not render scheduled path button', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
-            const button = body.querySelector(selectors.timeTriggerButton);
+            const button = body.querySelector(selectors.scheduledPathButton);
             expect(button).toBeNull();
         });
 

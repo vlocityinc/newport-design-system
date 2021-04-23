@@ -1,8 +1,8 @@
 // @ts-nocheck
 export default {
     elements: {
-        'time-trigger-start-element-guid': {
-            guid: 'time-trigger-start-element-guid',
+        'scheduled-path-start-element-guid': {
+            guid: 'scheduled-path-start-element-guid',
             description: '',
             locationX: 0,
             locationY: 0,
@@ -34,10 +34,10 @@ export default {
             ],
             childReferences: [
                 {
-                    childReference: 'time-trigger-element-guid'
+                    childReference: 'scheduled-path-element-guid'
                 },
                 {
-                    childReference: 'time-trigger2-element-guid'
+                    childReference: 'scheduled-path2-element-guid'
                 }
             ],
             availableConnections: [],
@@ -52,18 +52,18 @@ export default {
             childIndex: 0,
             isTerminal: true
         },
-        'time-trigger-element-guid': {
-            guid: 'time-trigger-element-guid',
-            elementType: 'TimeTrigger',
+        'scheduled-path-element-guid': {
+            guid: 'scheduled-path-element-guid',
+            elementType: 'ScheduledPath',
             offsetNumber: '1',
             offsetUnit: 'HoursBefore',
             timeSource: 'SLAExpirationDate__c',
             name: 'd1out',
             label: 'd1out'
         },
-        'time-trigger2-element-guid': {
-            guid: 'time-trigger2-element-guid',
-            elementType: 'TimeTrigger',
+        'scheduled-path2-element-guid': {
+            guid: 'scheduled-path2-element-guid',
+            elementType: 'ScheduledPath',
             offsetNumber: '1',
             offsetUnit: 'HoursBefore',
             timeSource: 'SLAExpirationDate__c',
@@ -98,14 +98,14 @@ export default {
             nodeType: 'default',
             prev: null,
             isTerminal: false,
-            parent: 'time-trigger-start-element-guid',
+            parent: 'scheduled-path-start-element-guid',
             next: null
         },
         'end-element-guid (assignment-async-element-guid)': {
             guid: 'end-element-guid (assignment-async-element-guid)',
             elementType: 'END_ELEMENT',
             nodeType: 'end',
-            prev: 'time-trigger-start-element-guid',
+            prev: 'scheduled-path-start-element-guid',
             next: null,
             isCanvasElement: true,
             config: {
@@ -143,7 +143,7 @@ export default {
             nodeType: 'default',
             prev: null,
             isTerminal: true,
-            parent: 'time-trigger-start-element-guid',
+            parent: 'scheduled-path-start-element-guid',
             next: 'end-element-guid (assignment-async2-element-guid)'
         },
         'end-element-guid (assignment-async2-element-guid)': {
@@ -188,7 +188,7 @@ export default {
             nodeType: 'default',
             prev: null,
             isTerminal: false,
-            parent: 'time-trigger-start-element-guid',
+            parent: 'scheduled-path-start-element-guid',
             next: null
         },
         root: {
@@ -201,7 +201,7 @@ export default {
             name: 'root',
             prev: null,
             next: null,
-            children: ['time-trigger-start-element-guid']
+            children: ['scheduled-path-start-element-guid']
         }
     },
     connectors: [],

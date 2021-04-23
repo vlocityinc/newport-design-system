@@ -13,7 +13,7 @@ import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextu
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
-export default class startNodeTriggerButton extends LightningElement {
+export default class StartNodeTriggerButton extends LightningElement {
     @api
     node = {
         config: {}

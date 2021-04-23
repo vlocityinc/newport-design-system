@@ -9,7 +9,7 @@ import {
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { findStartYOffset, shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
+import { findStartYOffset, shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 import { supportsChildren, alcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
 import { findStartElement } from 'builder_platform_interaction/alcCanvasUtils';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
@@ -231,7 +231,7 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: UI.AutoLayoutC
     const supportsMultipleConnectors = supportsChildren(alcCanvasElement) || elementConfig.canHaveFaultConnector;
     let maxConnections = 1;
 
-    if (alcCanvasElement.elementType === ELEMENT_TYPE.START_ELEMENT && shouldSupportTimeTriggers(alcCanvasElement)) {
+    if (alcCanvasElement.elementType === ELEMENT_TYPE.START_ELEMENT && shouldSupportScheduledPaths(alcCanvasElement)) {
         availableConnections.push({ type: CONNECTOR_TYPE.IMMEDIATE });
     }
 
@@ -465,7 +465,7 @@ function convertBranchToFreeForm(
                 if (
                     elementType &&
                     elementType === ELEMENT_TYPE.START_ELEMENT &&
-                    shouldSupportTimeTriggers(alcElement)
+                    shouldSupportScheduledPaths(alcElement)
                 ) {
                     addConnector(alcElementsMap, guid, targetNext, ffcStoreState, CONNECTOR_TYPE.IMMEDIATE);
                 } else {

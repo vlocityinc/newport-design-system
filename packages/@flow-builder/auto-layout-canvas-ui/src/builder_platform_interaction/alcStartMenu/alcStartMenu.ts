@@ -7,7 +7,7 @@ const { ArrowDown, ArrowUp } = commands;
 const selectors = {
     triggerButton: 'builder_platform_interaction-start-node-trigger-button',
     contextButton: 'builder_platform_interaction-start-node-context-button',
-    timeTriggerButton: 'builder_platform_interaction-start-node-time-trigger-button'
+    scheduledPathButton: 'builder_platform_interaction-start-node-scheduled-path-button'
 };
 
 export default class AlcStartMenu extends AlcNodeMenu {
@@ -26,7 +26,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
     }
 
     @api
-    supportsTimeTriggers;
+    supportsScheduledPaths;
 
     get startNode() {
         return { ...this.startData, ...{ guid: this.guid } };
@@ -40,11 +40,11 @@ export default class AlcStartMenu extends AlcNodeMenu {
 
     moveFocusToButton = (key, nextButton, prevButton) => {
         let nextFocusElement;
-        // The focus should move from trigger button -> context button -> time trigger button -> trigger button
+        // The focus should move from trigger button -> context button -> scheduled path button -> trigger button
         if (key === ArrowDown.COMMAND_NAME) {
             nextFocusElement = nextButton || prevButton;
         }
-        // The focus should move from trigger button -> time trigger button -> context button  -> trigger button
+        // The focus should move from trigger button -> scheduled path button -> context button  -> trigger button
         if (key === ArrowUp.COMMAND_NAME) {
             nextFocusElement = prevButton || nextButton;
         }
@@ -63,9 +63,9 @@ export default class AlcStartMenu extends AlcNodeMenu {
     handleTriggerButtonArrowKeyDown = (event) => {
         event.stopPropagation();
         const contextButton = this.template.querySelector(selectors.contextButton);
-        const timeTriggerButton = this.template.querySelector(selectors.timeTriggerButton);
+        const scheduledPathButton = this.template.querySelector(selectors.scheduledPathButton);
 
-        this.moveFocusToButton(event.detail.key, contextButton, timeTriggerButton);
+        this.moveFocusToButton(event.detail.key, contextButton, scheduledPathButton);
     };
 
     /**
@@ -76,17 +76,17 @@ export default class AlcStartMenu extends AlcNodeMenu {
     handleContextButtonArrowKeyDown = (event) => {
         event.stopPropagation();
         const triggerButton = this.template.querySelector(selectors.triggerButton);
-        const timeTriggerButton = this.template.querySelector(selectors.timeTriggerButton);
+        const scheduledPathButton = this.template.querySelector(selectors.scheduledPathButton);
 
-        this.moveFocusToButton(event.detail.key, timeTriggerButton, triggerButton);
+        this.moveFocusToButton(event.detail.key, scheduledPathButton, triggerButton);
     };
 
     /**
-     * Handles the ArrowKeyDownEvent coming from time trigger button and moves the focus correctly
+     * Handles the ArrowKeyDownEvent coming from scheduled path button and moves the focus correctly
      * based on the arrow key pressed
-     * @param event - ArrowKeyDownEvent coming from start-node-time-trigger-button
+     * @param event - ArrowKeyDownEvent coming from start-node-scheduled-path-button
      */
-    handleTimeTriggerButtonArrowKeyDown = (event) => {
+    handleScheduledPathButtonArrowKeyDown = (event) => {
         event.stopPropagation();
         const triggerButton = this.template.querySelector(selectors.triggerButton);
         const contextButton = this.template.querySelector(selectors.contextButton);

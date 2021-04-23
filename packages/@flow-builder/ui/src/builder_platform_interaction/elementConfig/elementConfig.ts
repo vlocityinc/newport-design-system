@@ -141,7 +141,7 @@ import {
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
 export const EDIT_START_JOURNEY_CONTEXT = 'editStartJourneyContext';
-export const EDIT_START_TIME_TRIGGERS = 'editStartTimeTriggers';
+export const EDIT_START_SCHEDULED_PATHS = 'editStartScheduledPaths';
 
 /**
  * @constant
@@ -199,7 +199,7 @@ export const elementTypeToConfigMap: {
             [EDIT_START_RECORD_CHANGE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_SCHEDULE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
-            [EDIT_START_TIME_TRIGGERS]: 'builder_platform_interaction:timeTriggersEditor'
+            [EDIT_START_SCHEDULED_PATHS]: 'builder_platform_interaction:scheduledPathsEditor'
         },
         modalSize: MODAL_SIZE.LARGE,
         nodeConfig: {
@@ -232,7 +232,7 @@ export const elementTypeToConfigMap: {
             editObject: LABELS.editObjectLabel,
             editTriggerObjectLabel: LABELS.editTriggerObjectLabel,
             editObjectAndFiltersLabel: LABELS.editObjectAndFiltersLabel,
-            editTimeTrigger: LABELS.editTimeTriggerLabel,
+            editScheduledPath: LABELS.editScheduledPathLabel,
             connectorPickerHeader: LABELS.startConnectorPickerHeader,
             comboBoxLabel: LABELS.startConnectorPickerComboBoxLabel,
             connectorPickerBodyText: LABELS.startConnectorPickerBodyText
@@ -793,12 +793,12 @@ export const elementTypeToConfigMap: {
             propertyEditor: createOutcome
         }
     },
-    [ELEMENT_TYPE.TIME_TRIGGER]: {
-        // Time Trigger is not a canvas element, but is a first class element
+    [ELEMENT_TYPE.SCHEDULED_PATH]: {
+        // Scheduled Path is not a canvas element, but is a first class element
 
         labels: {
-            singular: LABELS.timeTriggerSingularLabel,
-            plural: LABELS.timeTriggerPluralLabel
+            singular: LABELS.scheduledPathSingularLabel,
+            plural: LABELS.scheduledPathPluralLabel
         },
         isChildElement: true
     },
@@ -1278,5 +1278,5 @@ export function getChildReferencesKeys(): { singular: string; plural: string } {
  * @type {object}
  */
 export const childElementTypeToParentDescriptorKeyMap = {
-    [ELEMENT_TYPE.TIME_TRIGGER]: EDIT_START_TIME_TRIGGERS
+    [ELEMENT_TYPE.SCHEDULED_PATH]: EDIT_START_SCHEDULED_PATHS
 };

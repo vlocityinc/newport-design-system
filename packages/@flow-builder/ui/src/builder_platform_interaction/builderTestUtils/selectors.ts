@@ -115,7 +115,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     SORT_OPTION_LIST: 'builder_platform_interaction-sort-option-list',
     SORT_COLLECTION_OUTPUT: 'builder_platform_interaction-sort-collection-output',
     SUBFLOW_EDITOR: 'builder_platform_interaction-subflow-editor',
-    TIME_TRIGGER: 'builder_platform_interaction-time-trigger',
+    SCHEDULED_PATH: 'builder_platform_interaction-scheduled-path',
     TOOLBAR: 'builder_platform_interaction-toolbar',
     USE_ADVANCED_OPTIONS_CHECKBOX: 'builder_platform_interaction-use-advanced-options-checkbox',
     USE_ADVANCED_SETTINGS_ACCORDION: 'builder_platform_interaction-use-advanced-settings-accordion',

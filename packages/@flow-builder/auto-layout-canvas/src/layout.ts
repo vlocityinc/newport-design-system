@@ -10,7 +10,7 @@ import {
 } from './model';
 import {
     areAllBranchesTerminals,
-    shouldSupportTimeTriggers,
+    shouldSupportScheduledPaths,
     fulfillsBranchingCriteria,
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead
@@ -150,7 +150,7 @@ function getNextNodeConnectorVariant(nodeModel: NodeModel, elementType: NodeType
     let nextNodeConnectorVariant =
         fulfillsBranchingCriteria(nodeModel, elementType) || elementType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
-            : !(nodeModel as ParentNodeModel).children && shouldSupportTimeTriggers(nodeModel)
+            : !(nodeModel as ParentNodeModel).children && shouldSupportScheduledPaths(nodeModel)
             ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 

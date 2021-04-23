@@ -71,16 +71,16 @@ export function findStartYOffset(startElement: UI.Start): number {
 }
 
 /**
- * Helper function to figure out if time triggers are supported or not.
- * Time Triggers are only supported in the following scenarios when an object is defined:
+ * Helper function to figure out if scheduled paths are supported or not.
+ * Scheduled Paths are only supported in the following scenarios when an object is defined:
  * 1) For After_Save trigger type:
- *      a) Create - Time Triggers are always available
- *      b) Update/CreateAndUpdate - Time Triggers are only available when
+ *      a) Create - Scheduled Paths are always available
+ *      b) Update/CreateAndUpdate - Scheduled Paths are only available when
  *          doesRequireRecordChangedToMeetCriteria is true and filters are defined
  * 2) Process type is autolaunched
  * @param startElement start element metadata structure
  */
-export function shouldSupportTimeTriggers(
+export function shouldSupportScheduledPaths(
     startElement: UI.Start | Metadata.Start,
     processType?: string | null | undefined
 ) {
@@ -196,23 +196,23 @@ export function createStartElementForPropertyEditor(startElement: UI.Start = {} 
 
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { childReferences } = startElement;
-    let timeTriggers: UI.TimeTrigger[] = [];
+    let scheduledPaths: UI.ScheduledPath[] = [];
 
     if (isRecordChangeTriggerType(triggerType)) {
         if (childReferences && childReferences.length > 0) {
-            timeTriggers = childReferences.map((childReference) => {
-                const timeTrigger = createTimeTrigger(
-                    getElementByGuid(childReference.childReference) as UI.TimeTrigger
+            scheduledPaths = childReferences.map((childReference) => {
+                const scheduledPath = createScheduledPath(
+                    getElementByGuid(childReference.childReference) as UI.ScheduledPath
                 );
-                return timeTrigger;
+                return scheduledPath;
             });
         } else {
             // new trigger case
-            const newTimeTrigger = createTimeTrigger(<UI.TimeTrigger>{});
-            timeTriggers = [newTimeTrigger];
+            const newScheduledPath = createScheduledPath(<UI.ScheduledPath>{});
+            scheduledPaths = [newScheduledPath];
         }
         return Object.assign(newStartElement, {
-            timeTriggers
+            scheduledPaths
         });
     }
     return newStartElement;
@@ -234,7 +234,7 @@ export function createStartElementWithConnectors(
 
     let connectorCount, connectors;
     let availableConnections: UI.AvailableConnection[] = [];
-    if (!shouldSupportTimeTriggers(startElement, processType)) {
+    if (!shouldSupportScheduledPaths(startElement, processType)) {
         // Creates a REGULAR connector or pushes one into the availableConnections if needed
         connectors = startElementReference
             ? createStartElementConnector(newStartElement.guid, startElementReference)
@@ -248,17 +248,20 @@ export function createStartElementWithConnectors(
         // Creates an IMMEDIATE connector (Therefore,immediateConnector is passed as true here)
         connectors = createConnectorObjects(startElement, newStartElement.guid, undefined, true);
         let childReferences: UI.ChildReference[] = [],
-            timeTriggers: UI.TimeTrigger[] = [];
+            updatedScheduledPaths: UI.ScheduledPath[] = [];
         const { scheduledPaths = [] } = startElement;
 
         for (let i = 0; i < scheduledPaths.length; i++) {
-            const scheduledPath = scheduledPaths[i];
-            const timeTrigger = createTimeTrigger(scheduledPath);
-            const connector = createConnectorObjects(scheduledPath, timeTrigger.guid, newStartElement.guid);
-            timeTriggers = [...timeTriggers, timeTrigger];
+            const currentScheduledPath = scheduledPaths[i];
+            const scheduledPath = createScheduledPath(currentScheduledPath);
+            const connector = createConnectorObjects(currentScheduledPath, scheduledPath.guid, newStartElement.guid);
+            updatedScheduledPaths = [...updatedScheduledPaths, scheduledPath];
             // updating child references
-            childReferences = updateChildReferences(childReferences, timeTrigger);
-            availableConnections = addRegularConnectorToAvailableConnections(availableConnections, scheduledPath);
+            childReferences = updateChildReferences(childReferences, scheduledPath);
+            availableConnections = addRegularConnectorToAvailableConnections(
+                availableConnections,
+                currentScheduledPath
+            );
             // connector is an array. FIX it.
             connectors = [...connectors, ...connector];
         }
@@ -278,7 +281,7 @@ export function createStartElementWithConnectors(
             availableConnections,
             defaultConnectorLabel: LABELS.immediateConnectorLabel
         });
-        return baseCanvasElementsArrayToMap([newStartElement, ...timeTriggers], connectors);
+        return baseCanvasElementsArrayToMap([newStartElement, ...updatedScheduledPaths], connectors);
     }
 
     connectorCount = connectors ? connectors.length : 0;
@@ -328,12 +331,12 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
 
     if (childReferences && childReferences.length > 0) {
         scheduledPaths = childReferences.map(({ childReference }) => {
-            const timeTrigger: UI.TimeTrigger = getElementByGuid(childReference) as UI.TimeTrigger;
-            const metadataTimeTrigger = baseChildElementMetadataObject(timeTrigger, config);
+            const scheduledPath: UI.ScheduledPath = getElementByGuid(childReference) as UI.ScheduledPath;
+            const metadataScheduledPath = baseChildElementMetadataObject(scheduledPath, config);
 
             let recordField;
-            const { offsetNumber } = timeTrigger;
-            let { timeSource, offsetUnit } = timeTrigger;
+            const { offsetNumber } = scheduledPath;
+            let { timeSource, offsetUnit } = scheduledPath;
 
             let offsetNumberAsNumber = Number(offsetNumber);
 
@@ -354,7 +357,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
                 timeSource = SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD;
             }
 
-            return Object.assign(metadataTimeTrigger, {
+            return Object.assign(metadataScheduledPath, {
                 timeSource,
                 offsetUnit,
                 offsetNumber: offsetNumberAsNumber,
@@ -410,14 +413,14 @@ function getscheduledLabel(startDate, startTime, frequency) {
     return label;
 }
 
-export function createTimeTrigger(timeTrigger: UI.TimeTrigger | Metadata.ScheduledPath): UI.TimeTrigger {
-    const newTimeTrigger: UI.ChildElement = baseChildElement(timeTrigger, ELEMENT_TYPE.TIME_TRIGGER);
+export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.ScheduledPath): UI.ScheduledPath {
+    const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
 
-    const { recordField } = <Metadata.ScheduledPath>timeTrigger;
+    const { recordField } = <Metadata.ScheduledPath>scheduledPath;
 
-    let { timeSource = '', offsetUnit = '', offsetNumber = '' } = timeTrigger;
+    let { timeSource = '', offsetUnit = '', offsetNumber = '' } = scheduledPath;
 
-    // When converting from scheduledPath to timeTrigger
+    // When converting from scheduledPath to scheduledPath
     if (offsetNumber !== '') {
         let offsetNumberAsNumber = Number(offsetNumber);
         if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.HOURS) {
@@ -442,7 +445,7 @@ export function createTimeTrigger(timeTrigger: UI.TimeTrigger | Metadata.Schedul
         timeSource = recordField!;
     }
 
-    return Object.assign(newTimeTrigger, {
+    return Object.assign(newScheduledPath, {
         timeSource,
         offsetUnit,
         offsetNumber
@@ -457,8 +460,8 @@ export function createTimeTrigger(timeTrigger: UI.TimeTrigger | Metadata.Schedul
 export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     let newStartElement = createStartElement(startElement);
 
-    if (!shouldSupportTimeTriggers(startElement)) {
-        // When updating to a start element that doesn't support time triggers, replacing the Immediate available connector
+    if (!shouldSupportScheduledPaths(startElement)) {
+        // When updating to a start element that doesn't support scheduled paths, replacing the Immediate available connector
         // with a Regular one
         const updatedAvailableConnections = newStartElement.availableConnections.map((availableConnection) => {
             return availableConnection.type === CONNECTOR_TYPE.IMMEDIATE
@@ -472,28 +475,28 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
         return {
             canvasElement: newStartElement,
-            elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
-            shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement),
+            elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS,
+            shouldSupportScheduledPaths: shouldSupportScheduledPaths(newStartElement),
             startElementGuid: newStartElement.guid
         };
     }
 
-    const { timeTriggers = [] } = startElement;
+    const { scheduledPaths = [] } = startElement;
     let childReferences: UI.ChildReference[] = [];
-    let newTimeTriggers: UI.TimeTrigger[] = [];
+    let newScheduledPaths: UI.ScheduledPath[] = [];
 
-    for (let i = 0; i < timeTriggers.length; i++) {
-        const timeTrigger = timeTriggers[i];
-        if (timeTrigger.name) {
-            const newTimeTrigger = createTimeTrigger(timeTrigger);
-            childReferences = updateChildReferences(childReferences, newTimeTrigger);
-            newTimeTriggers = [...newTimeTriggers, newTimeTrigger];
+    for (let i = 0; i < scheduledPaths.length; i++) {
+        const scheduledPath = scheduledPaths[i];
+        if (scheduledPath.name) {
+            const newScheduledPath = createScheduledPath(scheduledPath);
+            childReferences = updateChildReferences(childReferences, newScheduledPath);
+            newScheduledPaths = [...newScheduledPaths, newScheduledPath];
         }
     }
 
-    const deletedCanvasElementChildren = getDeletedCanvasElementChildren(startElement, newTimeTriggers);
+    const deletedCanvasElementChildren = getDeletedCanvasElementChildren(startElement, newScheduledPaths);
 
-    const deletedTimeTriggerGuids = deletedCanvasElementChildren.map((timeTrigger) => timeTrigger.guid);
+    const deletedScheduledPathGuids = deletedCanvasElementChildren.map((scheduledPath) => scheduledPath.guid);
 
     const { defaultConnectorLabel = LABELS.immediateConnectorLabel } = startElement;
 
@@ -502,7 +505,7 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
     const { connectorCount, availableConnections } = getConnectionProperties(
         originalStartElement,
         childReferences,
-        deletedTimeTriggerGuids
+        deletedScheduledPathGuids
     );
 
     const elementSubtype = startElement.elementSubtype;
@@ -516,14 +519,14 @@ export function createStartElementWhenUpdatingFromPropertyEditor(startElement) {
 
     return {
         canvasElement: newStartElement,
-        /* This code will not be exercised till Time Triggers is supported for Auto-Layout (232)
+        /* This code will not be exercised till Scheduled Paths is supported for Auto-Layout (232)
         W-8179230 - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008gWsnIAE/view
         */
-        deletedChildElementGuids: deletedTimeTriggerGuids,
-        childElements: newTimeTriggers,
-        elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS,
+        deletedChildElementGuids: deletedScheduledPathGuids,
+        childElements: newScheduledPaths,
+        elementType: ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS,
         elementSubtype,
-        shouldSupportTimeTriggers: shouldSupportTimeTriggers(newStartElement as UI.Start),
+        shouldSupportScheduledPaths: shouldSupportScheduledPaths(newStartElement as UI.Start),
         startElementGuid: newStartElement.guid
     };
 }
@@ -533,15 +536,12 @@ function calculateMaxConnections(startElement) {
         throw new Error('Max connection cannot be calculated because startElement is not defined');
     }
     let length = 1;
-    if (startElement.timeTriggers) {
-        // Only including defined time triggers for maxConnections calculation
-        for (let i = 0; i < startElement.timeTriggers.length; i++) {
-            if (startElement.timeTriggers[i].name) {
+    if (startElement.scheduledPaths) {
+        for (let i = 0; i < startElement.scheduledPaths.length; i++) {
+            if (startElement.scheduledPaths[i].name) {
                 length++;
             }
         }
-    } else if (startElement.scheduledPaths) {
-        length = startElement.scheduledPaths.length + 1;
     } else if (startElement.childReferences) {
         length = startElement.childReferences.length + 1;
     }

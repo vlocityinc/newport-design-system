@@ -35,7 +35,7 @@ import {
     baseCanvasElement,
     createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement,
     getConnectionProperties,
-    shouldSupportTimeTriggers
+    shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
@@ -160,7 +160,7 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
                 return element.childReference;
             });
         }
-        // Order is important here, since we are resetting the start element we need to remove all the time triggers/scheduled paths and reset the available connections and connector count so that we end up with a clean and saveable start element
+        // Order is important here, since we are resetting the start element we need to remove all the scheduled paths/scheduled paths and reset the available connections and connector count so that we end up with a clean and saveable start element
         const newBaseCanvasElement = baseCanvasElement(startElement);
         const { connectorCount, availableConnections } = getConnectionProperties(
             startElement,
@@ -942,7 +942,7 @@ export const getConnectorsToHighlight = (canvasDecorator: Object): Object[] => {
                     // TODO W-8380447 Start element connector type info should come from canvas decorator
                     if (storeElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
                         connectorType =
-                            shouldSupportTimeTriggers(storeElement) && !connector.childSource
+                            shouldSupportScheduledPaths(storeElement) && !connector.childSource
                                 ? CONNECTOR_TYPE.IMMEDIATE
                                 : CONNECTOR_TYPE.REGULAR;
                     } else {

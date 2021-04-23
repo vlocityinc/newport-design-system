@@ -712,7 +712,7 @@ describe('Editor Utils Test', () => {
             saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
             expect(mocksaveFlowFn.mock.results[0].value).toBe(SaveType.CREATE);
         });
-        it('removes time triggers when saving to a different process type', () => {
+        it('removes scheduled paths when saving to a different process type', () => {
             const dispatch = jest.fn();
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
@@ -729,9 +729,9 @@ describe('Editor Utils Test', () => {
                             maxConnections: 2,
                             connectorCount: 1
                         },
-                        timeTrigger: {
+                        scheduledPath: {
                             dataType: 'Boolean',
-                            elementType: mockElementType.TIME_TRIGGER,
+                            elementType: mockElementType.SCHEDULED_PATH,
                             guid: '1',
                             label: 'pathTest',
                             name: 'pathTest',

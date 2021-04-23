@@ -10,5 +10,5 @@ export default class AlcStartMenu extends AlcNodeMenu {
     startData;
 
     @api
-    supportsTimeTriggers;
+    supportsScheduledPaths;
 }

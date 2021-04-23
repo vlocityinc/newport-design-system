@@ -8,7 +8,7 @@ import {
     EDIT_START_RECORD_CHANGE_CONTEXT,
     EDIT_START_SCHEDULE_CONTEXT,
     EDIT_START_JOURNEY_CONTEXT,
-    EDIT_START_TIME_TRIGGERS
+    EDIT_START_SCHEDULED_PATHS
 } from 'builder_platform_interaction/elementConfig';
 import {
     AddElementEvent,
@@ -148,8 +148,8 @@ const getTitleForModalHeader = (mode, element) => {
         case EDIT_START_JOURNEY_CONTEXT:
             label = elementConfig.labels.editObject;
             break;
-        case EDIT_START_TIME_TRIGGERS:
-            label = elementConfig.labels.editTimeTrigger;
+        case EDIT_START_SCHEDULED_PATHS:
+            label = elementConfig.labels.editScheduledPath;
             break;
         default:
             label = elementConfig.labels.singular;

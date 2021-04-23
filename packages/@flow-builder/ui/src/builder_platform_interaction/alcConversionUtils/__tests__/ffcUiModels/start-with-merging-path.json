@@ -13,7 +13,7 @@
         {
             "guid": "start-element-guid -> assignment-async-element-guid",
             "source": "start-element-guid",
-            "childSource": "time-trigger-element-guid",
+            "childSource": "scheduled-path-element-guid",
             "target": "assignment-async-element-guid",
             "label": "d1out",
             "type": "REGULAR",
@@ -24,7 +24,7 @@
         {
             "guid": "start-element-guid -> assignment-async2-element-guid",
             "source": "start-element-guid",
-            "childSource": "time-trigger2-element-guid",
+            "childSource": "scheduled-path2-element-guid",
             "target": "assignment-async2-element-guid",
             "label": "d2out",
             "type": "REGULAR",
@@ -65,26 +65,26 @@
             ],
             "childReferences": [
                 {
-                    "childReference": "time-trigger-element-guid"
+                    "childReference": "scheduled-path-element-guid"
                 },
                 {
-                    "childReference": "time-trigger2-element-guid"
+                    "childReference": "scheduled-path2-element-guid"
                 }
             ],
             "availableConnections": []
         },
-        "time-trigger-element-guid": {
-            "guid": "time-trigger-element-guid",
-            "elementType": "TimeTrigger",
+        "scheduled-path-element-guid": {
+            "guid": "scheduled-path-element-guid",
+            "elementType": "ScheduledPath",
             "offsetNumber": "1",
             "offsetUnit": "HoursBefore",
             "timeSource": "SLAExpirationDate__c",
             "name": "d1out",
             "label": "d1out"
         },
-        "time-trigger2-element-guid": {
-            "guid": "time-trigger2-element-guid",
-            "elementType": "TimeTrigger",
+        "scheduled-path2-element-guid": {
+            "guid": "scheduled-path2-element-guid",
+            "elementType": "ScheduledPath",
             "offsetNumber": "1",
             "offsetUnit": "HoursBefore",
             "timeSource": "SLAExpirationDate__c",

@@ -229,7 +229,7 @@ export default class AlcCanvas extends LightningElement {
     disableDeleteElements;
 
     @api
-    supportsTimeTriggers;
+    supportsScheduledPaths;
 
     @api
     set elementsMetadata(elementsMetadata: any[]) {

@@ -18,7 +18,7 @@ import {
 import {
     fulfillsBranchingCriteria,
     resolveBranchHead,
-    shouldSupportTimeTriggers,
+    shouldSupportScheduledPaths,
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead
 } from './modelUtils';
@@ -325,7 +325,7 @@ function createNextConnector(
     let mainVariant =
         fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
-            : !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node)
+            : !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
             ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 
@@ -344,12 +344,14 @@ function createNextConnector(
     }
 
     const connectorLabelType =
-        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node)
+        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
             ? ConnectorLabelType.BRANCH
             : ConnectorLabelType.NONE;
 
     const connectorBadgeLabel =
-        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node) ? node.defaultConnectorLabel : undefined;
+        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
+            ? node.defaultConnectorLabel
+            : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
@@ -393,7 +395,9 @@ function createGoToConnector(
             : ConnectorVariant.DEFAULT;
 
     const connectorBadgeLabel =
-        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node) ? node.defaultConnectorLabel : undefined;
+        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
+            ? node.defaultConnectorLabel
+            : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },

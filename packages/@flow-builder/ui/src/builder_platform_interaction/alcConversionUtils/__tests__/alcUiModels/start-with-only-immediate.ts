@@ -1,8 +1,8 @@
 // @ts-nocheck
 export default {
     elements: {
-        'time-trigger-start-element-guid': {
-            guid: 'time-trigger-start-element-guid',
+        'scheduled-path-start-element-guid': {
+            guid: 'scheduled-path-start-element-guid',
             description: '',
             locationX: 0,
             locationY: 0,
@@ -64,7 +64,7 @@ export default {
             maxConnections: 1,
             elementType: 'Assignment',
             nodeType: 'default',
-            prev: 'time-trigger-start-element-guid',
+            prev: 'scheduled-path-start-element-guid',
             next: 'end-element-guid (assignment-imm-element-guid)'
         },
         'end-element-guid (assignment-imm-element-guid)': {
@@ -91,7 +91,7 @@ export default {
             name: 'root',
             prev: null,
             next: null,
-            children: ['time-trigger-start-element-guid']
+            children: ['scheduled-path-start-element-guid']
         }
     },
     connectors: [],

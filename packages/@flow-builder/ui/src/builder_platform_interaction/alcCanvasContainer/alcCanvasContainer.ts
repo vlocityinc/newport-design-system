@@ -14,7 +14,7 @@ import {
     setElementsMetadata
 } from 'builder_platform_interaction/alcCanvasUtils';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
+import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
 const LEFT_PANE_WIDTH = 320;
 
@@ -150,7 +150,7 @@ export default class AlcCanvasContainer extends LightningElement {
     disableDebounce;
 
     @track
-    supportsTimeTriggers = false;
+    supportsScheduledPaths = false;
 
     @track
     flowModel = null;
@@ -194,7 +194,7 @@ export default class AlcCanvasContainer extends LightningElement {
         );
 
         if (startElementMetadata) {
-            this.supportsTimeTriggers = shouldSupportTimeTriggers(startElementMetadata);
+            this.supportsScheduledPaths = shouldSupportScheduledPaths(startElementMetadata);
         }
     };
 

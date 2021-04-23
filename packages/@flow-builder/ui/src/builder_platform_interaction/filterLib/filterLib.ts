@@ -40,7 +40,7 @@ export const resourceFilter = (pattern) => {
         if (
             obj.elementType === ELEMENT_TYPE.ROOT_ELEMENT ||
             obj.elementType === ELEMENT_TYPE.END_ELEMENT ||
-            obj.elementType === ELEMENT_TYPE.TIME_TRIGGER
+            obj.elementType === ELEMENT_TYPE.SCHEDULED_PATH
         ) {
             result = false;
         } else if (

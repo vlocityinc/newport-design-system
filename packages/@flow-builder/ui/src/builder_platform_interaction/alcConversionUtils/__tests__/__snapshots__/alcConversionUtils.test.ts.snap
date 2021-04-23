@@ -3850,38 +3850,38 @@ Object {
     "assignment-async-element-guid",
     "assignment-async2-element-guid",
     "assignment-imm-element-guid",
-    "time-trigger-start-element-guid",
+    "scheduled-path-start-element-guid",
   ],
   "connectors": Array [
     Object {
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-imm-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-imm-element-guid",
       "label": "IMMEDIATE",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-imm-element-guid",
       "type": "IMMEDIATE",
     },
     Object {
-      "childSource": "time-trigger2-element-guid",
+      "childSource": "scheduled-path2-element-guid",
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-async2-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-async2-element-guid",
       "label": "d2out",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-async2-element-guid",
       "type": "REGULAR",
     },
     Object {
-      "childSource": "time-trigger-element-guid",
+      "childSource": "scheduled-path-element-guid",
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-async-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-async-element-guid",
       "label": "d1out",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-async-element-guid",
       "type": "REGULAR",
     },
@@ -3962,23 +3962,23 @@ Object {
       "locationY": 336,
       "maxConnections": 1,
     },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
       "label": "d1out",
       "name": "d1out",
       "offsetNumber": "1",
       "offsetUnit": "HoursBefore",
       "timeSource": "SLAExpirationDate__c",
     },
-    "time-trigger-start-element-guid": Object {
+    "scheduled-path-start-element-guid": Object {
       "availableConnections": Array [],
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
         Object {
-          "childReference": "time-trigger2-element-guid",
+          "childReference": "scheduled-path2-element-guid",
         },
       ],
       "config": Object {
@@ -4000,7 +4000,7 @@ Object {
           "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
         },
       ],
-      "guid": "time-trigger-start-element-guid",
+      "guid": "scheduled-path-start-element-guid",
       "isCanvasElement": true,
       "locationX": 362,
       "locationY": 48,
@@ -4011,9 +4011,9 @@ Object {
       "subtype": "Account",
       "triggerType": "RecordAfterSave",
     },
-    "time-trigger2-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger2-element-guid",
+    "scheduled-path2-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path2-element-guid",
       "label": "d2out",
       "name": "d2out",
       "offsetNumber": "1",
@@ -4024,32 +4024,32 @@ Object {
 }
 `;
 
-exports[`alc conversion utils converts round trip from Auto Layout record triggered start start with immediate + one time trigger from Auto Layout Canvas 1`] = `
+exports[`alc conversion utils converts round trip from Auto Layout record triggered start start with immediate + one scheduled path from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "assignment-async-element-guid",
     "assignment-imm-element-guid",
-    "time-trigger-start-element-guid",
+    "scheduled-path-start-element-guid",
   ],
   "connectors": Array [
     Object {
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-imm-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-imm-element-guid",
       "label": "IMMEDIATE",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-imm-element-guid",
       "type": "IMMEDIATE",
     },
     Object {
-      "childSource": "time-trigger-element-guid",
+      "childSource": "scheduled-path-element-guid",
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-async-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-async-element-guid",
       "label": "d1out",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-async-element-guid",
       "type": "REGULAR",
     },
@@ -4105,20 +4105,20 @@ Object {
       "locationY": 336,
       "maxConnections": 1,
     },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
       "label": "d1out",
       "name": "d1out",
       "offsetNumber": "1",
       "offsetUnit": "HoursBefore",
       "timeSource": "SLAExpirationDate__c",
     },
-    "time-trigger-start-element-guid": Object {
+    "scheduled-path-start-element-guid": Object {
       "availableConnections": Array [],
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
       ],
       "config": Object {
@@ -4140,7 +4140,7 @@ Object {
           "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
         },
       ],
-      "guid": "time-trigger-start-element-guid",
+      "guid": "scheduled-path-start-element-guid",
       "isCanvasElement": true,
       "locationX": 362,
       "locationY": 48,
@@ -4155,44 +4155,44 @@ Object {
 }
 `;
 
-exports[`alc conversion utils converts round trip from Auto Layout record triggered start start with multiple time triggers from Auto Layout Canvas 1`] = `
+exports[`alc conversion utils converts round trip from Auto Layout record triggered start start with multiple scheduled paths from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "assignment-async-element-guid",
     "assignment-async2-element-guid",
     "assignment-imm-element-guid",
-    "time-trigger-start-element-guid",
+    "scheduled-path-start-element-guid",
   ],
   "connectors": Array [
     Object {
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-imm-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-imm-element-guid",
       "label": "IMMEDIATE",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-imm-element-guid",
       "type": "IMMEDIATE",
     },
     Object {
-      "childSource": "time-trigger2-element-guid",
+      "childSource": "scheduled-path2-element-guid",
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-async2-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-async2-element-guid",
       "label": "d2out",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-async2-element-guid",
       "type": "REGULAR",
     },
     Object {
-      "childSource": "time-trigger-element-guid",
+      "childSource": "scheduled-path-element-guid",
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-async-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-async-element-guid",
       "label": "d1out",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-async-element-guid",
       "type": "REGULAR",
     },
@@ -4273,23 +4273,23 @@ Object {
       "locationY": 336,
       "maxConnections": 1,
     },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
       "label": "d1out",
       "name": "d1out",
       "offsetNumber": "1",
       "offsetUnit": "HoursBefore",
       "timeSource": "SLAExpirationDate__c",
     },
-    "time-trigger-start-element-guid": Object {
+    "scheduled-path-start-element-guid": Object {
       "availableConnections": Array [],
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
         Object {
-          "childReference": "time-trigger2-element-guid",
+          "childReference": "scheduled-path2-element-guid",
         },
       ],
       "config": Object {
@@ -4311,7 +4311,7 @@ Object {
           "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
         },
       ],
-      "guid": "time-trigger-start-element-guid",
+      "guid": "scheduled-path-start-element-guid",
       "isCanvasElement": true,
       "locationX": 362,
       "locationY": 48,
@@ -4322,9 +4322,9 @@ Object {
       "subtype": "Account",
       "triggerType": "RecordAfterSave",
     },
-    "time-trigger2-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger2-element-guid",
+    "scheduled-path2-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path2-element-guid",
       "label": "d2out",
       "name": "d2out",
       "offsetNumber": "1",
@@ -4339,16 +4339,16 @@ exports[`alc conversion utils converts round trip from Auto Layout record trigge
 Object {
   "canvasElements": Array [
     "assignment-imm-element-guid",
-    "time-trigger-start-element-guid",
+    "scheduled-path-start-element-guid",
   ],
   "connectors": Array [
     Object {
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-imm-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-imm-element-guid",
       "label": "IMMEDIATE",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-imm-element-guid",
       "type": "IMMEDIATE",
     },
@@ -4379,7 +4379,7 @@ Object {
       "locationY": 383,
       "maxConnections": 1,
     },
-    "time-trigger-start-element-guid": Object {
+    "scheduled-path-start-element-guid": Object {
       "childReferences": Array [],
       "config": Object {
         "hasError": false,
@@ -4400,7 +4400,7 @@ Object {
           "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
         },
       ],
-      "guid": "time-trigger-start-element-guid",
+      "guid": "scheduled-path-start-element-guid",
       "isCanvasElement": true,
       "locationX": 362,
       "locationY": 48,
@@ -4415,21 +4415,21 @@ Object {
 }
 `;
 
-exports[`alc conversion utils converts round trip from Auto Layout record triggered start start with only time triggers from Auto Layout Canvas 1`] = `
+exports[`alc conversion utils converts round trip from Auto Layout record triggered start start with only scheduled paths from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "assignment-async-element-guid",
-    "time-trigger-start-element-guid",
+    "scheduled-path-start-element-guid",
   ],
   "connectors": Array [
     Object {
-      "childSource": "time-trigger-element-guid",
+      "childSource": "scheduled-path-element-guid",
       "config": Object {
         "isSelected": false,
       },
-      "guid": "time-trigger-start-element-guid -> assignment-async-element-guid",
+      "guid": "scheduled-path-start-element-guid -> assignment-async-element-guid",
       "label": "d1out",
-      "source": "time-trigger-start-element-guid",
+      "source": "scheduled-path-start-element-guid",
       "target": "assignment-async-element-guid",
       "type": "REGULAR",
     },
@@ -4460,16 +4460,16 @@ Object {
       "locationY": 336,
       "maxConnections": 1,
     },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
       "label": "d1out",
       "name": "d1out",
       "offsetNumber": "1",
       "offsetUnit": "HoursBefore",
       "timeSource": "SLAExpirationDate__c",
     },
-    "time-trigger-start-element-guid": Object {
+    "scheduled-path-start-element-guid": Object {
       "availableConnections": Array [
         Object {
           "type": "IMMEDIATE",
@@ -4477,7 +4477,7 @@ Object {
       ],
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
       ],
       "config": Object {
@@ -4499,7 +4499,7 @@ Object {
           "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
         },
       ],
-      "guid": "time-trigger-start-element-guid",
+      "guid": "scheduled-path-start-element-guid",
       "isCanvasElement": true,
       "locationX": 362,
       "locationY": 48,
@@ -11886,7 +11886,7 @@ Object {
 }
 `;
 
-exports[`alc conversion utils converts round trip from Free Form triggering record start one immediate + one time trigger from Free Form Canvas 1`] = `
+exports[`alc conversion utils converts round trip from Free Form triggering record start one immediate + one scheduled path from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -11995,12 +11995,21 @@ Object {
       "text": "root",
       "value": "root",
     },
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
     "start-element-guid": Object {
       "availableConnections": Array [],
       "childIndex": 0,
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
       ],
       "children": Array [
@@ -12040,15 +12049,6 @@ Object {
       "prev": "NULL",
       "recordTriggerType": "Create",
       "triggerType": "RecordAfterSave",
-    },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
-      "label": "d1out",
-      "name": "d1out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
     },
   },
 }
@@ -12118,12 +12118,21 @@ Object {
       "text": "root",
       "value": "root",
     },
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
     "start-element-guid": Object {
       "availableConnections": Array [],
       "childIndex": 0,
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
       ],
       "children": Array [
@@ -12164,20 +12173,11 @@ Object {
       "recordTriggerType": "Create",
       "triggerType": "RecordAfterSave",
     },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
-      "label": "d1out",
-      "name": "d1out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
-    },
   },
 }
 `;
 
-exports[`alc conversion utils converts round trip from Free Form triggering record start only time triggers from Free Form Canvas 1`] = `
+exports[`alc conversion utils converts round trip from Free Form triggering record start only scheduled paths from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -12241,12 +12241,21 @@ Object {
       "text": "root",
       "value": "root",
     },
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
     "start-element-guid": Object {
       "availableConnections": Array [],
       "childIndex": 0,
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
       ],
       "children": Array [
@@ -12287,20 +12296,11 @@ Object {
       "recordTriggerType": "Create",
       "triggerType": "RecordAfterSave",
     },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
-      "label": "d1out",
-      "name": "d1out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
-    },
   },
 }
 `;
 
-exports[`alc conversion utils converts round trip from Free Form triggering record start two time triggers from Free Form Canvas 1`] = `
+exports[`alc conversion utils converts round trip from Free Form triggering record start two scheduled paths from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -12454,15 +12454,33 @@ Object {
       "text": "root",
       "value": "root",
     },
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
+    "scheduled-path2-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path2-element-guid",
+      "label": "d2out",
+      "name": "d2out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
     "start-element-guid": Object {
       "availableConnections": Array [],
       "childIndex": 0,
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
         Object {
-          "childReference": "time-trigger2-element-guid",
+          "childReference": "scheduled-path2-element-guid",
         },
       ],
       "children": Array [
@@ -12503,24 +12521,6 @@ Object {
       "prev": "NULL",
       "recordTriggerType": "Create",
       "triggerType": "RecordAfterSave",
-    },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
-      "label": "d1out",
-      "name": "d1out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
-    },
-    "time-trigger2-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger2-element-guid",
-      "label": "d2out",
-      "name": "d2out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
     },
   },
 }
@@ -12632,15 +12632,33 @@ Object {
       "text": "root",
       "value": "root",
     },
+    "scheduled-path-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
+    "scheduled-path2-element-guid": Object {
+      "elementType": "ScheduledPath",
+      "guid": "scheduled-path2-element-guid",
+      "label": "d2out",
+      "name": "d2out",
+      "offsetNumber": "1",
+      "offsetUnit": "HoursBefore",
+      "timeSource": "SLAExpirationDate__c",
+    },
     "start-element-guid": Object {
       "availableConnections": Array [],
       "childIndex": 0,
       "childReferences": Array [
         Object {
-          "childReference": "time-trigger-element-guid",
+          "childReference": "scheduled-path-element-guid",
         },
         Object {
-          "childReference": "time-trigger2-element-guid",
+          "childReference": "scheduled-path2-element-guid",
         },
       ],
       "children": Array [
@@ -12681,24 +12699,6 @@ Object {
       "prev": "NULL",
       "recordTriggerType": "Create",
       "triggerType": "RecordAfterSave",
-    },
-    "time-trigger-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger-element-guid",
-      "label": "d1out",
-      "name": "d1out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
-    },
-    "time-trigger2-element-guid": Object {
-      "elementType": "TimeTrigger",
-      "guid": "time-trigger2-element-guid",
-      "label": "d2out",
-      "name": "d2out",
-      "offsetNumber": "1",
-      "offsetUnit": "HoursBefore",
-      "timeSource": "SLAExpirationDate__c",
     },
   },
 }

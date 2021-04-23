@@ -778,14 +778,14 @@ describe('elements-reducer', () => {
                     guid: 'startGuid',
                     childReferences: [
                         {
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ],
                     connectorCount: 0,
                     availableConnections: [
                         {
                             type: CONNECTOR_TYPE.REGULAR,
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         },
                         {
                             type: CONNECTOR_TYPE.IMMEDIATE
@@ -801,14 +801,14 @@ describe('elements-reducer', () => {
                     guid: 'startGuid',
                     childReferences: [
                         {
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ],
                     connectorCount: 1,
                     availableConnections: [
                         {
                             type: CONNECTOR_TYPE.REGULAR,
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ]
                 }
@@ -834,14 +834,14 @@ describe('elements-reducer', () => {
                     guid: 'startGuid',
                     childReferences: [
                         {
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ],
                     connectorCount: 0,
                     availableConnections: [
                         {
                             type: CONNECTOR_TYPE.REGULAR,
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         },
                         {
                             type: CONNECTOR_TYPE.REGULAR
@@ -857,14 +857,14 @@ describe('elements-reducer', () => {
                     guid: 'startGuid',
                     childReferences: [
                         {
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ],
                     connectorCount: 1,
                     availableConnections: [
                         {
                             type: CONNECTOR_TYPE.REGULAR,
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ]
                 }
@@ -877,11 +877,11 @@ describe('elements-reducer', () => {
             expect(newElementState).toEqual(newProperties);
         });
 
-        it('Should correctly filter out "Regular" start connector associated with a time trigger', () => {
+        it('Should correctly filter out "Regular" start connector associated with a scheduled path', () => {
             const connector = {
                 source: 'startGuid',
                 type: CONNECTOR_TYPE.REGULAR,
-                childSource: 'timeTrigger1'
+                childSource: 'scheduledPath1'
             };
             const oldProperties = {
                 startGuid: {
@@ -891,14 +891,14 @@ describe('elements-reducer', () => {
                     guid: 'startGuid',
                     childReferences: [
                         {
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ],
                     connectorCount: 0,
                     availableConnections: [
                         {
                             type: CONNECTOR_TYPE.REGULAR,
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         },
                         {
                             type: CONNECTOR_TYPE.REGULAR
@@ -914,7 +914,7 @@ describe('elements-reducer', () => {
                     guid: 'startGuid',
                     childReferences: [
                         {
-                            childReference: 'timeTrigger1'
+                            childReference: 'scheduledPath1'
                         }
                     ],
                     connectorCount: 1,

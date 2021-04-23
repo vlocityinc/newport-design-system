@@ -11,7 +11,7 @@
         "^(builder_platform_interaction)/elementLabelLib$": "<rootDir>/../ui/src/builder_platform_interaction/elementLabelLib/elementLabelLib",
         "^(builder_platform_interaction)/selectors$": "<rootDir>/../ui/src/builder_platform_interaction/selectors/selectors",
         "^(builder_platform_interaction)/filterTypeLib$": "<rootDir>/../ui/src/builder_platform_interaction/filterTypeLib/filterTypeLib",
-        "^(builder_platform_interaction)/startNodeTimeTriggerButton$": "<rootDir>/../ui/src/builder_platform_interaction/startNodeTimeTriggerButton/startNodeTimeTriggerButton",
+        "^(builder_platform_interaction)/startNodeScheduledPathButton$": "<rootDir>/../ui/src/builder_platform_interaction/startNodeScheduledPathButton/startNodeScheduledPathButton",
         "^(builder_platform_interaction)/ruleLib$": "<rootDir>/../ui/src/builder_platform_interaction/ruleLib/ruleLib",
         "^(builder_platform_interaction)/dateTimeUtils$": "<rootDir>/../ui/src/builder_platform_interaction/dateTimeUtils/dateTimeUtils",
         "^(builder_platform_interaction)/subflowsLib$": "<rootDir>/../ui/src/builder_platform_interaction/subflowsLib/subflowsLib",

@@ -36,7 +36,7 @@ import {
     deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
-    updateChildrenOnAddingOrUpdatingTimeTriggers,
+    updateChildrenOnAddingOrUpdatingScheduledPaths,
     areAllBranchesTerminals
 } from '../modelUtils';
 
@@ -2195,10 +2195,10 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('updateChildrenOnAddingOrUpdatingTimeTriggers', () => {
+    describe('updateChildrenOnAddingOrUpdatingScheduledPaths', () => {
         let flow;
 
-        it('adding a new timeTrigger to start element', () => {
+        it('adding a new scheduledPath to start element', () => {
             flow = createFlow([
                 { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
@@ -2206,7 +2206,7 @@ describe('modelUtils', () => {
 
             flow[START_ELEMENT_GUID].childReferences = [{ childReference: 'child-reference-guid-1' }];
             flow['child-reference-guid-1'] = {
-                elementType: 'TimeTrigger',
+                elementType: 'ScheduledPath',
                 label: 't1',
                 guid: 'child-reference-guid-1',
                 name: 't1',
@@ -2214,7 +2214,7 @@ describe('modelUtils', () => {
                 offSetUnit: 'DaysAfter',
                 timeSource: 'RecordTriggerEvent'
             };
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -2223,19 +2223,19 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting a timeTrigger', () => {
+        it('deleting a scheduledPath', () => {
             flow = createFlow([
                 { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
             ]);
-            const flowWithChildren = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const flowWithChildren = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
                 [null, null]
             );
             flowWithChildren[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flowWithChildren),
                 flowWithChildren,
                 flowWithChildren[START_ELEMENT_GUID],
@@ -2244,10 +2244,10 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting all pre-existing timeTriggers: default branch is non-terminal', () => {
+        it('deleting all pre-existing scheduledPaths: default branch is non-terminal', () => {
             flow = getFlowWithNonTerminalImmediateBranch();
             flow[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -2256,10 +2256,10 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting all pre-existing timeTriggers: default branch is terminal', () => {
+        it('deleting all pre-existing scheduledPaths: default branch is terminal', () => {
             flow = getFlowWithTerminalImmediateBranch();
             flow[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -2268,10 +2268,10 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting all pre-existing timeTriggers: default branch has branching node', () => {
+        it('deleting all pre-existing scheduledPaths: default branch has branching node', () => {
             flow = getFlowWithBranchNodeInImmediateBranch();
             flow[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],

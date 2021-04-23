@@ -47,7 +47,7 @@
                  <h2>{#$Label.FlowDebug.ChooseSchedulePath}</h2>
             </div>
             <div class="text slds-p-bottom_medium">{#$Label.FlowDebug.ChooseSchedulePathDesc}</div>
-            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" options="{!v.scheduledPathsList}" value="{!$Label.FlowBuilderStartEditor.immediateTimeTriggerLabel}" aura:id="scheduledPathComboBox" />
+            <lightning:combobox class="slds-p-bottom_medium" label="{!$Label.FlowDebug.PathForDebug}" options="{!v.scheduledPathsList}" value="{!$Label.FlowBuilderStartEditor.immediateScheduledPathLabel}" aura:id="scheduledPathComboBox" />
         </aura:if>
 
         <!-- Debug Options -->

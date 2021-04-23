@@ -1771,7 +1771,7 @@ export function updateChildren(
 }
 
 /**
- * Updates start element's children when time triggers are added or updated
+ * Updates start element's children when scheduled paths are added or updated
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
@@ -1779,7 +1779,7 @@ export function updateChildren(
  * @param updatedChildrenGuids - The updated children guids
  * @returns The updated flow model
  */
-export function updateChildrenOnAddingOrUpdatingTimeTriggers(
+export function updateChildrenOnAddingOrUpdatingScheduledPaths(
     elementService: ElementService,
     flowModel: FlowModel,
     originalParentElement: ParentNodeModel,
@@ -1814,7 +1814,7 @@ export function updateChildrenOnAddingOrUpdatingTimeTriggers(
             }
         }
     } else if (children) {
-        // Case when deleting all time triggers
+        // Case when deleting all scheduled paths
         // Delete all the branches from index 1 -> n
         for (let i = 1; i < children.length; i++) {
             if (children[i]) {
@@ -1886,12 +1886,12 @@ export function clearCanvasDecoration(flowModel: FlowModel): FlowModel {
 }
 
 /**
- * Returns boolean to indicate if the passed start node can support time triggers
+ * Returns boolean to indicate if the passed start node can support scheduled paths
  *
  * @param node - The start node
- * @returns boolean indicating if the start node supports time triggers
+ * @returns boolean indicating if the start node supports scheduled paths
  */
-export function shouldSupportTimeTriggers(node: StartNodeModel) {
+export function shouldSupportScheduledPaths(node: StartNodeModel) {
     // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
     const {
         nodeType,

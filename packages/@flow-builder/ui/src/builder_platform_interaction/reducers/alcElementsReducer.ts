@@ -17,7 +17,7 @@ import {
     ADD_PARENT_WITH_CHILDREN,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
-    MODIFY_START_WITH_TIME_TRIGGERS,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
     DELETE_GOTO_CONNECTION
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
@@ -159,10 +159,10 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }
-        case MODIFY_START_WITH_TIME_TRIGGERS: {
+        case MODIFY_START_WITH_SCHEDULED_PATHS: {
             const element = _getElementFromActionPayload(action.payload);
             const updatedChildren = getNextChildren(state[element.guid], element);
-            const alcAction = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+            const alcAction = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                 state[element.guid] as ParentNodeModel,
                 updatedChildren
             );
@@ -243,7 +243,7 @@ function getNextChildren(element, nextElement): (Guid | null)[] {
 
     if (children && nextChildren) {
         if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            // copy over the child corresponding to the default time trigger
+            // copy over the child corresponding to the default scheduled path
             nextChildren[START_IMMEDIATE_INDEX] = children[START_IMMEDIATE_INDEX];
         } else {
             // copy over the child corresponding to the default outcome

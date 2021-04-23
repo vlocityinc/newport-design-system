@@ -10,7 +10,7 @@ import {
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_START_WITH_TIME_TRIGGERS,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
@@ -537,14 +537,14 @@ describe('connectors-reducer', () => {
         });
     });
 
-    describe('MODIFY_START_WITH_TIME_TRIGGERS', () => {
-        describe('with modified time trigger label', () => {
+    describe('MODIFY_START_WITH_SCHEDULED_PATHS', () => {
+        describe('with modified scheduled path label', () => {
             it('with no connections does nothing', () => {
-                const payloadWithModifiedTimeTriggerButNoConnection = {
+                const payloadWithModifiedScheduledPathButNoConnection = {
                     canvasElement: {},
                     childElements: [
                         {
-                            guid: 'timeTriggerWithNoConnection'
+                            guid: 'scheduledPathWithNoConnection'
                         }
                     ],
                     deletedChildElementGuids: []
@@ -552,16 +552,16 @@ describe('connectors-reducer', () => {
 
                 expect(
                     reducer(connectorsState, {
-                        type: MODIFY_START_WITH_TIME_TRIGGERS,
-                        payload: payloadWithModifiedTimeTriggerButNoConnection
+                        type: MODIFY_START_WITH_SCHEDULED_PATHS,
+                        payload: payloadWithModifiedScheduledPathButNoConnection
                     })
                 ).toEqual(connectorsState);
             });
 
-            it('with connection associated with time trigger updates the connection label', () => {
+            it('with connection associated with scheduled path updates the connection label', () => {
                 const newLabel = 'new label!';
 
-                const payloadWithModifiedTimeTriggerWithConnection = {
+                const payloadWithModifiedScheduledPathWithConnection = {
                     canvasElement: {},
                     childElements: [
                         {
@@ -573,14 +573,14 @@ describe('connectors-reducer', () => {
                 };
 
                 const updatedConnectors = reducer(connectorsState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
-                    payload: payloadWithModifiedTimeTriggerWithConnection
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
+                    payload: payloadWithModifiedScheduledPathWithConnection
                 });
 
                 expect(updatedConnectors[0].label).toEqual(newLabel);
             });
 
-            it('should convert Immediate connector to Regular and remove the label when shouldSupportTimeTriggers is false', () => {
+            it('should convert Immediate connector to Regular and remove the label when shouldSupportScheduledPaths is false', () => {
                 const originalConnectorState = [
                     {
                         type: CONNECTOR_TYPE.IMMEDIATE,
@@ -591,12 +591,12 @@ describe('connectors-reducer', () => {
 
                 const payload = {
                     canvasElement: {},
-                    shouldSupportTimeTriggers: false,
+                    shouldSupportScheduledPaths: false,
                     startElementGuid: 'startGuid'
                 };
 
                 const updatedConnectors = reducer(originalConnectorState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload
                 });
 
@@ -604,7 +604,7 @@ describe('connectors-reducer', () => {
                 expect(updatedConnectors[0].label).toBeNull();
             });
 
-            it('should convert Regular connector to Immediate and add the label when shouldSupportTimeTriggers is true', () => {
+            it('should convert Regular connector to Immediate and add the label when shouldSupportScheduledPaths is true', () => {
                 const originalConnectorState = [
                     {
                         type: CONNECTOR_TYPE.REGULAR,
@@ -616,12 +616,12 @@ describe('connectors-reducer', () => {
 
                 const payload = {
                     canvasElement: {},
-                    shouldSupportTimeTriggers: true,
+                    shouldSupportScheduledPaths: true,
                     startElementGuid: 'startGuid'
                 };
 
                 const updatedConnectors = reducer(originalConnectorState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload
                 });
 
@@ -629,7 +629,7 @@ describe('connectors-reducer', () => {
                 expect(updatedConnectors[0].label).toEqual(immediateConnectorLabel);
             });
 
-            it('should not convert Regular connector to Immediate when childSource is defined and shouldSupportTimeTriggers is true', () => {
+            it('should not convert Regular connector to Immediate when childSource is defined and shouldSupportScheduledPaths is true', () => {
                 const originalConnectorState = [
                     {
                         type: CONNECTOR_TYPE.REGULAR,
@@ -641,12 +641,12 @@ describe('connectors-reducer', () => {
 
                 const payload = {
                     canvasElement: {},
-                    shouldSupportTimeTriggers: true,
+                    shouldSupportScheduledPaths: true,
                     startElementGuid: 'startGuid'
                 };
 
                 const updatedConnectors = reducer(originalConnectorState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload
                 });
 

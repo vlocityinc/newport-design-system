@@ -4,7 +4,7 @@ import {
     ADD_START_ELEMENT,
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_START_WITH_TIME_TRIGGERS,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
     PASTE_ON_FIXED_CANVAS,
@@ -567,7 +567,7 @@ describe('alc-elements-reducer', () => {
         });
     });
 
-    describe('When MODIFY_START_WITH_TIME_TRIGGERS', () => {
+    describe('When MODIFY_START_WITH_SCHEDULED_PATHS', () => {
         const startElement = {
             guid: 'startElement',
             children: ['assignment1', 'assignment2', 'assignment3', null],
@@ -611,11 +611,11 @@ describe('alc-elements-reducer', () => {
 
             it('children should be the same', () => {
                 alcElementsReducer(originalStoreState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                     originalStoreState.startElement,
                     ['assignment1', 'assignment2', 'assignment3', null]
                 );
@@ -654,11 +654,11 @@ describe('alc-elements-reducer', () => {
                 };
 
                 alcElementsReducer(storeState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                     originalStoreState.startElement,
                     ['assignment1', 'assignment2', 'assignment3', null, null]
                 );
@@ -692,11 +692,11 @@ describe('alc-elements-reducer', () => {
                     };
 
                     alcElementsReducer(storeState, {
-                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        type: MODIFY_START_WITH_SCHEDULED_PATHS,
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                         originalStoreState.startElement,
                         ['assignment2', 'assignment3', null]
                     );
@@ -726,11 +726,11 @@ describe('alc-elements-reducer', () => {
                     };
 
                     alcElementsReducer(storeState, {
-                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        type: MODIFY_START_WITH_SCHEDULED_PATHS,
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                         originalStoreState.startElement,
                         ['assignment1', 'assignment3', null]
                     );
@@ -761,11 +761,11 @@ describe('alc-elements-reducer', () => {
                     };
 
                     alcElementsReducer(storeState, {
-                        type: MODIFY_START_WITH_TIME_TRIGGERS,
+                        type: MODIFY_START_WITH_SCHEDULED_PATHS,
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                         originalStoreState.startElement,
                         ['assignment1', 'assignment2', null]
                     );
@@ -802,11 +802,11 @@ describe('alc-elements-reducer', () => {
                 };
 
                 alcElementsReducer(storeState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                     originalStoreState.startElement,
                     ['assignment3', 'assignment1', 'assignment2', null]
                 );
@@ -845,11 +845,11 @@ describe('alc-elements-reducer', () => {
                 };
 
                 alcElementsReducer(storeState, {
-                    type: MODIFY_START_WITH_TIME_TRIGGERS,
+                    type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                     originalStoreState.startElement,
                     ['assignment2', null, 'assignment1', null, null]
                 );
@@ -1425,7 +1425,7 @@ describe('alc-elements-reducer', () => {
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
         });
 
-        it('When highlighting Start element immediate connector with no children/time triggers defined', () => {
+        it('When highlighting Start element immediate connector with no children/scheduled paths defined', () => {
             const flowModel = {
                 guid1: {
                     nodeType: NodeType.START,

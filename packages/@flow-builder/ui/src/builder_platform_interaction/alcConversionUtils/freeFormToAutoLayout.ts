@@ -57,7 +57,7 @@ function findConnectionIndex(parentElement: NodeModel, childSource: UI.Guid, typ
         return 0;
     }
 
-    // Children on start element are handled by timeTriggers and these only contain paths which are not CONNECTOR_TYPE.IMMEDIATE.
+    // Children on start element are handled by scheduledPaths and these only contain paths which are not CONNECTOR_TYPE.IMMEDIATE.
     // So, adding 1 to offset the immediate path.
     const { singular, plural } = getChildReferencesKeys();
     return elementType === ELEMENT_TYPE.START_ELEMENT

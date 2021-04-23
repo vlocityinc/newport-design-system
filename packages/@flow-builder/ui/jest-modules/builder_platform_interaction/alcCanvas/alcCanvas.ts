@@ -24,7 +24,7 @@ export default class AlcCanvas extends LightningElement {
     disableDeleteElements;
 
     @api
-    supportsTimeTriggers;
+    supportsScheduledPaths;
 
     @api
     disableAnimation;

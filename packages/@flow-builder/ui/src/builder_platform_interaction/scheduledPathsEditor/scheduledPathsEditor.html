@@ -1,0 +1,42 @@
+<template>
+    <div class="slds-vertical-tabs slds-is-relative slds-grow">
+        <!-- Note: If the labels.scheduledPathListHeader string is long the + button goes to next line -->
+        <builder_platform_interaction-reorderable-vertical-navigation
+            class="slds-theme_shade slds-size_1-of-6"
+            menu-items={scheduledPathsWithImmediateTrigger}
+            active-item-id={activeScheduledPathId}
+            onitemselected={handleScheduledPathSelected}
+            hide-footer="true"
+        >
+            <div slot="header" class="slds-grid">
+                <span class="scheduledPathListHeader">{labels.scheduledPathListHeader}</span>
+                <lightning-button-icon
+                    icon-name="utility:add"
+                    variant="border-filled"
+                    class="slds-p-horizontal_xx-small"
+                    onclick={handleAddScheduledPath}
+                    title={labels.addScheduledPathButtonLabel}
+                    alternative-text={labels.addScheduledPathButtonLabel}
+                >
+                </lightning-button-icon>
+            </div>
+        </builder_platform_interaction-reorderable-vertical-navigation>
+        <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
+            <div if:true={isImmediateScheduledPath} class="test-immediate-scheduled-path">
+                <builder_platform_interaction-illustration
+                    illustration="lakeMountain"
+                    title={labels.immediateScheduledPathDetailsDescription1}
+                    body={immediateScheduledPathDetailsLabel}
+                ></builder_platform_interaction-illustration>
+            </div>
+            <builder_platform_interaction-scheduled-path
+                if:false={isImmediateScheduledPath}
+                scheduled-path={activeScheduledPath}
+                object={node.object}
+                record-trigger-type={node.recordTriggerType}
+                ondeletescheduledpath={handleDeleteScheduledPath}
+                onpropertychanged={handlePropertyChangedEvent}
+            ></builder_platform_interaction-scheduled-path>
+        </div>
+    </div>
+</template>
