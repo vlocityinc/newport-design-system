@@ -93,9 +93,10 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         getDefaultLayoutConfig,
         panzoom,
         resolveNode,
-        resolveChild,
         toggleFlowMenu,
-        modalBodyVariant
+        modalBodyVariant,
+        resolveParent,
+        isBranchTerminal
     } = autoLayoutCanvas;
     const { flowRenderInfo } = require('./mockData');
 
@@ -113,14 +114,15 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
             }
         })),
         resolveNode,
-        resolveChild,
         invokeModal: jest.fn(),
         updateDeletionPathInfo: jest.fn(),
         modalBodyVariant,
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         NodeType,
-        hasGoToConnectionOnNext: jest.fn()
+        hasGoToConnectionOnNext: jest.fn(),
+        resolveParent,
+        isBranchTerminal
     };
 });
 

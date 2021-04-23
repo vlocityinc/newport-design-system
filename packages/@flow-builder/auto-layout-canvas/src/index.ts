@@ -73,7 +73,8 @@ export {
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
     isBranchingElement,
-    fulfillsBranchingCriteria
+    fulfillsBranchingCriteria,
+    isBranchTerminal
 } from './modelUtils';
 
 export {

@@ -17,10 +17,10 @@ import {
 } from './model';
 import {
     fulfillsBranchingCriteria,
-    resolveBranchHead,
     shouldSupportScheduledPaths,
     hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead
+    hasGoToConnectionOnBranchHead,
+    isBranchTerminal
 } from './modelUtils';
 import { NO_OFFSET, getLayoutChildOrFault } from './layout';
 
@@ -760,9 +760,7 @@ function getConnectorVariant(
 
     children.forEach((child, i) => {
         // isTerminal should be true whenever the child is either a GoTo target or has it's isTerminal set to true
-        const isTerminal =
-            child != null &&
-            (hasGoToConnectionOnBranchHead(flowModel, parentNode, i) || resolveBranchHead(flowModel, child).isTerminal);
+        const isTerminal = isBranchTerminal(flowModel, parentNode, i);
 
         if (!isTerminal) {
             if (firstNonTerminalBranch) {

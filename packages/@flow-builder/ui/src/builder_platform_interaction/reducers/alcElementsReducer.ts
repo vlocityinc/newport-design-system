@@ -171,7 +171,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         }
         case DELETE_ELEMENT: {
             const { selectedElements, childIndexToKeep } = action.payload;
-            const deletedElement = { ...selectedElements[0] };
+            const deletedElement = deepCopy(selectedElements[0]);
             const alcAction = actions.deleteElementAction(deletedElement.guid, childIndexToKeep);
             nextState[deletedElement.guid] = deletedElement;
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
