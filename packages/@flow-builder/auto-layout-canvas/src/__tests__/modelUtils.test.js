@@ -12,7 +12,8 @@ import {
     END_ELEMENT,
     getFlowWhenGoingToPreviousElement,
     getFlowWhenGoingFromParentFirstBranchToPreviousElement,
-    getFlowWhenGoingFromParentFaultBranchToPreviousElement
+    getFlowWhenGoingFromParentFaultBranchToPreviousElement,
+    getFlowWhenGoingFromParentDefaultBranchToPreviousElement
 } from './testUtils';
 
 import {
@@ -36,18 +37,28 @@ import {
     deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
-    updateChildrenOnAddingOrUpdatingTimeTriggers,
-    areAllBranchesTerminals
+    updateChildrenOnAddingOrUpdatingScheduledPaths,
+    areAllBranchesTerminals,
+    getBranchIndexForGoToConnection,
+    cleanUpIncomingGoTos
 } from '../modelUtils';
 
 import { FAULT_INDEX, START_IMMEDIATE_INDEX } from '../model';
 import NodeType from '../NodeType';
 
+function generateEndElementGuid(elements) {
+    let guid = 'end-hook-guid';
+    while (elements[guid]) {
+        guid = `${guid}_0`;
+    }
+    return guid;
+}
+
 const elementService = (elements) => {
     return {
         elements,
 
-        createEndElement({ guid } = { guid: 'end-hook-guid' }) {
+        createEndElement({ guid } = { guid: generateEndElementGuid(elements) }) {
             const element = {
                 guid,
                 nodeType: NodeType.END
@@ -390,8 +401,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'head1-end1-guid',
-                    nodeType: 'end',
                     parent: 'branch-guid:0-head1-guid',
                     isTerminal: true
                 },
@@ -402,8 +411,6 @@ describe('modelUtils', () => {
                     elementType: 'END_ELEMENT',
                     nodeType: 'end',
                     isCanvasElement: true,
-                    label: 'head1-end2-guid',
-                    nodeType: 'end',
                     parent: 'branch-guid:0-head1-guid',
                     isTerminal: true
                 },
@@ -1852,7 +1859,8 @@ describe('modelUtils', () => {
                     guid: 'end-hook-guid',
                     isTerminal: true,
                     nodeType: 'end',
-                    parent: 'decision-guid'
+                    parent: 'decision-guid',
+                    prev: null
                 },
                 'right-end-guid': {
                     childIndex: 1,
@@ -1981,7 +1989,8 @@ describe('modelUtils', () => {
                     guid: 'end-hook-guid',
                     isTerminal: true,
                     nodeType: 'end',
-                    parent: 'action-guid'
+                    parent: 'action-guid',
+                    prev: null
                 },
                 'end-guid': {
                     config: {},
@@ -1995,6 +2004,473 @@ describe('modelUtils', () => {
                 }
             };
             expect(updatedFlowModel).toEqual(expectedFlowModel);
+        });
+
+        describe('Deleting Elements in a flow with multiple GoTos', () => {
+            let originalFlowModel;
+            beforeEach(() => {
+                originalFlowModel = {
+                    root: {
+                        guid: 'root',
+                        nodeType: 'root',
+                        elementType: 'root',
+                        children: ['start-guid']
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'decision-one',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            },
+                            {
+                                childReference: 'o3'
+                            }
+                        ],
+                        children: ['action', 'screen-two', 'action', 'screen-three'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: ['decision-one', 'screen-three'],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: 'decision-one',
+                        nodeType: 'branch',
+                        prev: 'screen-one'
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 1,
+                        isTerminal: false
+                    },
+                    action: {
+                        config: {},
+                        elementType: 'Action',
+                        guid: 'action',
+                        incomingGoTo: ['decision-one:o1'],
+                        label: 'action',
+                        isCanvasElement: true,
+                        next: null,
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 2,
+                        fault: 'screen-three',
+                        isTerminal: false
+                    },
+                    'screen-three': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: ['action:fault'],
+                        isCanvasElement: true,
+                        label: 'screen-three',
+                        next: 'decision-one',
+                        nodeType: 'default',
+                        prev: null,
+                        parent: 'decision-one',
+                        childIndex: 3,
+                        isTerminal: true
+                    }
+                };
+            });
+
+            it('Deleting branch element while persisting the first branch (with a GoTo on the branch head)', () => {
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'decision-one',
+                    { childIndexToKeep: 0 }
+                );
+                const expectedFlowModel = {
+                    'end-hook-guid_0_0': {
+                        guid: 'end-hook-guid_0_0',
+                        nodeType: 'end',
+                        prev: 'screen-one'
+                    },
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'end-hook-guid_0_0',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+
+            it('Deleting branch element while persisting a branch with no goTos while other branches have goTos on them', () => {
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'decision-one',
+                    { childIndexToKeep: 1 }
+                );
+                const expectedFlowModel = {
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
+                        nodeType: 'end',
+                        prev: 'screen-two'
+                    },
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'screen-two',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'screen-two': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-two',
+                        next: 'end-hook-guid',
+                        nodeType: 'default',
+                        prev: 'screen-one'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+
+            it('Deleting branch element while persisting a branch with a GoTo on the fault branch head of a nested element', () => {
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'decision-one',
+                    { childIndexToKeep: 2 }
+                );
+                const expectedFlowModel = {
+                    action: {
+                        config: {},
+                        elementType: 'Action',
+                        fault: 'end-hook-guid_0_0_0',
+                        guid: 'action',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'action',
+                        next: 'end-hook-guid',
+                        nodeType: 'default',
+                        prev: 'screen-one'
+                    },
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
+                        nodeType: 'end',
+                        prev: 'action'
+                    },
+                    'end-hook-guid_0_0_0': {
+                        childIndex: -1,
+                        guid: 'end-hook-guid_0_0_0',
+                        isTerminal: true,
+                        nodeType: 'end',
+                        parent: 'action'
+                    },
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'action',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+
+            it('Deleting branch element while persisting a branch with a GoTo on the tail', () => {
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'decision-one',
+                    { childIndexToKeep: 3 }
+                );
+                const expectedFlowModel = {
+                    'end-hook-guid_0': {
+                        guid: 'end-hook-guid_0',
+                        nodeType: 'end',
+                        prev: 'screen-three'
+                    },
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'screen-three',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'screen-three': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-three',
+                        next: 'end-hook-guid_0',
+                        nodeType: 'default',
+                        prev: 'screen-one'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+
+            it('Deleting branch element along with all the branches', () => {
+                const updatedFlowModel = deleteElement(
+                    elementService(originalFlowModel),
+                    originalFlowModel,
+                    'decision-one'
+                );
+                const expectedFlowModel = {
+                    'end-hook-guid': {
+                        guid: 'end-hook-guid',
+                        nodeType: 'end',
+                        prev: 'screen-one'
+                    },
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'end-hook-guid',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
+
+            it('Deleting an element with a GoTo on the associated Fault branch head', () => {
+                const updatedFlowModel = deleteElement(elementService(originalFlowModel), originalFlowModel, 'action');
+                const expectedFlowModel = {
+                    'decision-one': {
+                        childReferences: [
+                            {
+                                childReference: 'o1'
+                            },
+                            {
+                                childReference: 'o2'
+                            },
+                            {
+                                childReference: 'o3'
+                            }
+                        ],
+                        children: ['end-hook-guid', 'screen-two', null, 'screen-three'],
+                        config: {},
+                        elementType: 'Decision',
+                        guid: 'decision-one',
+                        incomingGoTo: ['decision-one', 'screen-three'],
+                        isCanvasElement: true,
+                        label: 'decision-one',
+                        next: 'decision-one',
+                        nodeType: 'branch',
+                        prev: 'screen-one'
+                    },
+                    'end-hook-guid': {
+                        childIndex: 0,
+                        guid: 'end-hook-guid',
+                        isTerminal: true,
+                        nodeType: 'end',
+                        parent: 'decision-one'
+                    },
+                    root: {
+                        children: ['start-guid'],
+                        elementType: 'root',
+                        guid: 'root',
+                        nodeType: 'root'
+                    },
+                    'screen-one': {
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-one',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        label: 'screen-one',
+                        next: 'decision-one',
+                        nodeType: 'default',
+                        prev: 'start-guid'
+                    },
+                    'screen-three': {
+                        childIndex: 3,
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-three',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'screen-three',
+                        next: 'decision-one',
+                        nodeType: 'default',
+                        parent: 'decision-one',
+                        prev: null
+                    },
+                    'screen-two': {
+                        childIndex: 1,
+                        config: {},
+                        elementType: 'Screen',
+                        guid: 'screen-two',
+                        incomingGoTo: [],
+                        isCanvasElement: true,
+                        isTerminal: false,
+                        label: 'screen-two',
+                        next: null,
+                        nodeType: 'default',
+                        parent: 'decision-one',
+                        prev: null
+                    },
+                    'start-guid': {
+                        childIndex: 0,
+                        config: {},
+                        elementType: 'start',
+                        guid: 'start-guid',
+                        isCanvasElement: true,
+                        isTerminal: true,
+                        label: 'start-guid',
+                        next: 'screen-one',
+                        nodeType: 'start',
+                        parent: 'root'
+                    }
+                };
+                expect(updatedFlowModel).toEqual(expectedFlowModel);
+            });
         });
     });
 
@@ -2195,10 +2671,10 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('updateChildrenOnAddingOrUpdatingTimeTriggers', () => {
+    describe('updateChildrenOnAddingOrUpdatingScheduledPaths', () => {
         let flow;
 
-        it('adding a new timeTrigger to start element', () => {
+        it('adding a new scheduledPath to start element', () => {
             flow = createFlow([
                 { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
@@ -2206,7 +2682,7 @@ describe('modelUtils', () => {
 
             flow[START_ELEMENT_GUID].childReferences = [{ childReference: 'child-reference-guid-1' }];
             flow['child-reference-guid-1'] = {
-                elementType: 'TimeTrigger',
+                elementType: 'ScheduledPath',
                 label: 't1',
                 guid: 'child-reference-guid-1',
                 name: 't1',
@@ -2214,7 +2690,7 @@ describe('modelUtils', () => {
                 offSetUnit: 'DaysAfter',
                 timeSource: 'RecordTriggerEvent'
             };
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -2223,19 +2699,19 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting a timeTrigger', () => {
+        it('deleting a scheduledPath', () => {
             flow = createFlow([
                 { ...SCREEN_ELEMENT, guid: 'screen1-guid' },
                 { ...SCREEN_ELEMENT, guid: 'screen2-guid' }
             ]);
-            const flowWithChildren = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const flowWithChildren = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
                 [null, null]
             );
             flowWithChildren[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flowWithChildren),
                 flowWithChildren,
                 flowWithChildren[START_ELEMENT_GUID],
@@ -2244,10 +2720,10 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting all pre-existing timeTriggers: default branch is non-terminal', () => {
+        it('deleting all pre-existing scheduledPaths: default branch is non-terminal', () => {
             flow = getFlowWithNonTerminalImmediateBranch();
             flow[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -2256,10 +2732,10 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting all pre-existing timeTriggers: default branch is terminal', () => {
+        it('deleting all pre-existing scheduledPaths: default branch is terminal', () => {
             flow = getFlowWithTerminalImmediateBranch();
             flow[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -2268,10 +2744,10 @@ describe('modelUtils', () => {
             expect(nextFlow).toMatchSnapshot();
         });
 
-        it('deleting all pre-existing timeTriggers: default branch has branching node', () => {
+        it('deleting all pre-existing scheduledPaths: default branch has branching node', () => {
             flow = getFlowWithBranchNodeInImmediateBranch();
             flow[START_ELEMENT_GUID].childReferences = [];
-            const nextFlow = updateChildrenOnAddingOrUpdatingTimeTriggers(
+            const nextFlow = updateChildrenOnAddingOrUpdatingScheduledPaths(
                 elementService(flow),
                 flow,
                 flow[START_ELEMENT_GUID],
@@ -3776,6 +4252,581 @@ describe('modelUtils', () => {
 
             const newFlowModel = clearCanvasDecoration(flowModel);
             expect(newFlowModel).toEqual(expectedNewFlowModel);
+        });
+    });
+
+    describe('getBranchIndexForGoToConnection', () => {
+        it('Getting the branchIndex when having an incomingGoTo from the 0th index of a decision', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentFirstBranchToPreviousElement();
+            const branchIndex = getBranchIndexForGoToConnection(flowRenderContext.flowModel, 'branch-guid', 'o1');
+            expect(branchIndex).toEqual(0);
+        });
+
+        it('Getting the branchIndex when having an incomingGoTo from the 1st index of a decision', () => {
+            const flowModel = {
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'start-guid': {
+                    guid: 'start-guid',
+                    next: 'screen1',
+                    nodeType: NodeType.START,
+                    config: {},
+                    elementType: 'start',
+                    isCanvasElement: true,
+                    label: 'start-guid',
+                    parent: 'root'
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: ['branch-guid:o2'],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'branch-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'branch-guid': {
+                    childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+                    children: [null, 'screen-guid', null],
+                    config: {},
+                    defaultConnectorLabel: 'Default Connector Label',
+                    elementType: 'branch',
+                    guid: 'branch-guid',
+                    isCanvasElement: true,
+                    label: 'branch-guid',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    prev: 'screen-guid'
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                }
+            };
+            const branchIndex = getBranchIndexForGoToConnection(flowModel, 'branch-guid', 'o2');
+            expect(branchIndex).toEqual(1);
+        });
+
+        it('Getting the branchIndex when having an incomingGoTo from the default index of a decision', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentDefaultBranchToPreviousElement();
+            const branchIndex = getBranchIndexForGoToConnection(flowRenderContext.flowModel, 'branch-guid', 'default');
+            expect(branchIndex).toEqual(2);
+        });
+
+        it('Getting the branchIndex when having an incomingGoTo from the head of a fault', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentFaultBranchToPreviousElement();
+            const branchIndex = getBranchIndexForGoToConnection(flowRenderContext.flowModel, 'branch-guid', 'fault');
+            expect(branchIndex).toEqual(FAULT_INDEX);
+        });
+
+        it('Getting the branchIndex when having an incomingGoTo from the immediate branch of Start element', () => {
+            const flowModel = {
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        }
+                    ],
+                    guid: 'start-guid',
+                    next: 'end-guid',
+                    nodeType: NodeType.START,
+                    config: {},
+                    elementType: 'start',
+                    isCanvasElement: true,
+                    label: 'start-guid',
+                    parent: 'root',
+                    children: ['assignment-guid', 'assignment-guid', null]
+                },
+                'assignment-guid': {
+                    config: {},
+                    elementType: 'Assignment',
+                    guid: 'assignment-guid',
+                    incomingGoTo: ['start-guid:immediate'],
+                    isCanvasElement: true,
+                    label: 'assignment-guid',
+                    next: null,
+                    nodeType: 'default',
+                    prev: null,
+                    parent: 'start-guid',
+                    childIndex: 1,
+                    isTerminal: false
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'start-guid'
+                }
+            };
+            const branchIndex = getBranchIndexForGoToConnection(flowModel, 'start-guid', 'immediate');
+            expect(branchIndex).toEqual(0);
+        });
+
+        it('Getting the branchIndex when having an incomingGoTo from the right most branch of Start element', () => {
+            const flowModel = {
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 't1'
+                        },
+                        {
+                            childReference: 't2'
+                        }
+                    ],
+                    guid: 'start-guid',
+                    next: 'end-guid',
+                    nodeType: NodeType.START,
+                    config: {},
+                    elementType: 'start',
+                    isCanvasElement: true,
+                    label: 'start-guid',
+                    parent: 'root',
+                    children: [null, 'assignment-guid', 'assignment-guid']
+                },
+                'assignment-guid': {
+                    config: {},
+                    elementType: 'Assignment',
+                    guid: 'assignment-guid',
+                    incomingGoTo: ['start-guid:t2'],
+                    isCanvasElement: true,
+                    label: 'assignment-guid',
+                    next: null,
+                    nodeType: 'default',
+                    prev: null,
+                    parent: 'start-guid',
+                    childIndex: 1,
+                    isTerminal: false
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'start-guid'
+                }
+            };
+            const branchIndex = getBranchIndexForGoToConnection(flowModel, 'start-guid', 't2');
+            expect(branchIndex).toEqual(2);
+        });
+    });
+
+    describe('cleanUpIncomingGoTos', () => {
+        it('Removing incomingGoTo from first branch in previous element', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentFirstBranchToPreviousElement();
+            const expectedFlowModel = {
+                'branch-guid': {
+                    childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+                    children: ['end-hook-guid', null, null],
+                    config: {},
+                    defaultConnectorLabel: 'Default Connector Label',
+                    elementType: 'branch',
+                    guid: 'branch-guid',
+                    isCanvasElement: true,
+                    label: 'branch-guid',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    prev: 'screen-guid'
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                'end-hook-guid': {
+                    childIndex: 0,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'branch-guid'
+                },
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'branch-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        { childReference: 'child-reference-guid-1' },
+                        { childReference: 'child-reference-guid-2' }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'screen-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            const newFlowModel = cleanUpIncomingGoTos(
+                flowRenderContext.flowModel,
+                elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel['screen-guid']
+            );
+            expect(newFlowModel).toEqual(expectedFlowModel);
+        });
+
+        it('Removing incomingGoTo from default branch in previous element', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentDefaultBranchToPreviousElement();
+            const expectedFlowModel = {
+                'branch-guid': {
+                    childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+                    children: [null, null, 'end-hook-guid'],
+                    config: {},
+                    defaultConnectorLabel: 'Default Connector Label',
+                    elementType: 'branch',
+                    guid: 'branch-guid',
+                    isCanvasElement: true,
+                    label: 'branch-guid',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    prev: 'screen-guid'
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                'end-hook-guid': {
+                    childIndex: 2,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'branch-guid'
+                },
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'branch-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        { childReference: 'child-reference-guid-1' },
+                        { childReference: 'child-reference-guid-2' }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'screen-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            const newFlowModel = cleanUpIncomingGoTos(
+                flowRenderContext.flowModel,
+                elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel['screen-guid']
+            );
+            expect(newFlowModel).toEqual(expectedFlowModel);
+        });
+
+        it('Removing incomingGoTo from default and first branch in previous element', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentDefaultBranchToPreviousElement();
+            flowRenderContext.flowModel['branch-guid'].childReferences = [
+                {
+                    childReference: 'o1'
+                },
+                {
+                    childReference: 'o2'
+                },
+                {
+                    childReference: 'o3'
+                }
+            ];
+            flowRenderContext.flowModel['branch-guid'].children = ['screen-guid', null, null, 'screen-guid'];
+            flowRenderContext.flowModel['screen-guid'].incomingGoTo.push('branch-guid:o1');
+            const expectedFlowModel = {
+                'branch-guid': {
+                    childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }, { childReference: 'o3' }],
+                    children: ['end-hook-guid_0', null, null, 'end-hook-guid'],
+                    config: {},
+                    defaultConnectorLabel: 'Default Connector Label',
+                    elementType: 'branch',
+                    guid: 'branch-guid',
+                    isCanvasElement: true,
+                    label: 'branch-guid',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    prev: 'screen-guid'
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                'end-hook-guid': {
+                    childIndex: 3,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'branch-guid'
+                },
+                'end-hook-guid_0': {
+                    childIndex: 0,
+                    guid: 'end-hook-guid_0',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'branch-guid'
+                },
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'branch-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        { childReference: 'child-reference-guid-1' },
+                        { childReference: 'child-reference-guid-2' }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'screen-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            const newFlowModel = cleanUpIncomingGoTos(
+                flowRenderContext.flowModel,
+                elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel['screen-guid']
+            );
+            expect(newFlowModel).toEqual(expectedFlowModel);
+        });
+
+        it('Removing incomingGoTo coming from its next element', () => {
+            const flowRenderContext = getFlowWhenGoingToPreviousElement();
+            const expectedFlowModel = {
+                root: {
+                    guid: 'root',
+                    nodeType: 'root',
+                    elementType: 'root',
+                    children: ['start-guid']
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'goto-target-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                },
+                'goto-target-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'goto-target-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'goto-source-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'goto-source-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'goto-source-guid',
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'end-hook-guid',
+                    nodeType: 'default',
+                    prev: 'goto-target-guid'
+                },
+                'end-hook-guid': {
+                    guid: 'end-hook-guid',
+                    nodeType: 'end',
+                    prev: 'goto-source-guid'
+                }
+            };
+            const newFlowModel = cleanUpIncomingGoTos(
+                flowRenderContext.flowModel,
+                elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel['goto-target-guid']
+            );
+            expect(newFlowModel).toEqual(expectedFlowModel);
+        });
+
+        it('Removing incomingGoTo coming from fault branch head', () => {
+            const flowRenderContext = getFlowWhenGoingFromParentFaultBranchToPreviousElement();
+            const expectedFlowModel = {
+                'branch-guid': {
+                    childReferences: [
+                        {
+                            childReference: 'pauseConfig1'
+                        },
+                        {
+                            childReference: 'pauseConfig2'
+                        }
+                    ],
+                    children: [null, null, null],
+                    config: {},
+                    defaultConnectorLabel: 'Default Connector Label',
+                    elementType: 'branch',
+                    fault: 'end-hook-guid',
+                    guid: 'branch-guid',
+                    isCanvasElement: true,
+                    label: 'branch-guid',
+                    next: 'end-guid',
+                    nodeType: 'branch',
+                    prev: 'screen-guid'
+                },
+                'end-guid': {
+                    elementType: 'END_ELEMENT',
+                    guid: 'end-guid',
+                    isCanvasElement: true,
+                    label: 'end-guid',
+                    nodeType: 'end',
+                    prev: 'branch-guid'
+                },
+                'end-hook-guid': {
+                    childIndex: -1,
+                    guid: 'end-hook-guid',
+                    isTerminal: true,
+                    nodeType: 'end',
+                    parent: 'branch-guid'
+                },
+                root: {
+                    children: ['start-guid'],
+                    elementType: 'root',
+                    guid: 'root',
+                    nodeType: 'root'
+                },
+                'screen-guid': {
+                    config: {},
+                    elementType: 'Screen',
+                    guid: 'screen-guid',
+                    incomingGoTo: [],
+                    isCanvasElement: true,
+                    label: 'screen-guid',
+                    next: 'branch-guid',
+                    nodeType: 'default',
+                    prev: 'start-guid'
+                },
+                'start-guid': {
+                    childIndex: 0,
+                    childReferences: [
+                        {
+                            childReference: 'child-reference-guid-1'
+                        },
+                        {
+                            childReference: 'child-reference-guid-2'
+                        }
+                    ],
+                    config: {},
+                    elementType: 'start',
+                    guid: 'start-guid',
+                    isCanvasElement: true,
+                    isTerminal: true,
+                    label: 'start-guid',
+                    next: 'screen-guid',
+                    nodeType: 'start',
+                    parent: 'root'
+                }
+            };
+            const newFlowModel = cleanUpIncomingGoTos(
+                flowRenderContext.flowModel,
+                elementService(flowRenderContext.flowModel),
+                flowRenderContext.flowModel['screen-guid']
+            );
+            expect(newFlowModel).toEqual(expectedFlowModel);
         });
     });
 });

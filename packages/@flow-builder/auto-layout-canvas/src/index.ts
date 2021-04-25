@@ -54,7 +54,7 @@ export {
     linkElement,
     deleteBranchHeadProperties,
     linkBranchOrFault,
-    FlcList,
+    AlcList,
     findLastElement,
     findFirstElement,
     findParentElement,
@@ -73,7 +73,8 @@ export {
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
     isBranchingElement,
-    fulfillsBranchingCriteria
+    fulfillsBranchingCriteria,
+    isBranchTerminal
 } from './modelUtils';
 
 export {

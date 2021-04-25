@@ -1,1 +1,1 @@
-export default 'Any Conditions Are Met (OR)';
+export default 'Any Condition Is Met (OR)';

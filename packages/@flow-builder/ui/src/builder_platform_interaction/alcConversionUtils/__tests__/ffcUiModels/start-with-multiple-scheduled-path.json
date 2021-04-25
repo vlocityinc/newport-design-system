@@ -1,0 +1,176 @@
+{
+    "connectors": [
+        {
+            "guid": "start-element-guid -> assignment-imm-element-guid",
+            "source": "start-element-guid",
+            "target": "assignment-imm-element-guid",
+            "label": "IMMEDIATE",
+            "type": "IMMEDIATE",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "start-element-guid -> assignment-async-element-guid",
+            "source": "start-element-guid",
+            "childSource": "scheduled-path-element-guid",
+            "target": "assignment-async-element-guid",
+            "label": "d1out",
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        },
+        {
+            "guid": "start-element-guid -> assignment-async2-element-guid",
+            "source": "start-element-guid",
+            "childSource": "scheduled-path2-element-guid",
+            "target": "assignment-async2-element-guid",
+            "label": "d2out",
+            "type": "REGULAR",
+            "config": {
+                "isSelected": false
+            }
+        }
+    ],
+    "elements": {
+        "start-element-guid": {
+            "guid": "start-element-guid",
+            "description": "",
+            "locationX": 362,
+            "locationY": 48,
+            "isCanvasElement": true,
+            "connectorCount": 3,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "elementType": "START_ELEMENT",
+            "maxConnections": 3,
+            "triggerType": "RecordAfterSave",
+            "recordTriggerType": "Create",
+            "filterType": "all",
+            "object": "",
+            "objectIndex": "2832cafc-39fc-41bf-95b1-c6d3881f6705",
+            "filters": [
+                {
+                    "rowIndex": "e7f9f0cf-3953-43b3-a578-3ddc8a10e4df",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "childReferences": [
+                {
+                    "childReference": "scheduled-path-element-guid"
+                },
+                {
+                    "childReference": "scheduled-path2-element-guid"
+                }
+            ],
+            "availableConnections": []
+        },
+        "scheduled-path-element-guid": {
+            "guid": "scheduled-path-element-guid",
+            "elementType": "ScheduledPath",
+            "offsetNumber": "1",
+            "offsetUnit": "HoursBefore",
+            "timeSource": "SLAExpirationDate__c",
+            "name": "d1out",
+            "label": "d1out"
+        },
+        "scheduled-path2-element-guid": {
+            "guid": "scheduled-path2-element-guid",
+            "elementType": "ScheduledPath",
+            "offsetNumber": "1",
+            "offsetUnit": "HoursBefore",
+            "timeSource": "SLAExpirationDate__c",
+            "name": "d2out",
+            "label": "d2out"
+        },
+        "assignment-async-element-guid": {
+            "guid": "assignment-async-element-guid",
+            "description": "",
+            "locationX": 488,
+            "locationY": 336,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignmentItems": [
+                {
+                    "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "maxConnections": 1,
+            "elementType": "Assignment"
+        },
+        "assignment-async2-element-guid": {
+            "guid": "assignment-async2-element-guid",
+            "description": "",
+            "locationX": 752,
+            "locationY": 336,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignmentItems": [
+                {
+                    "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "maxConnections": 1,
+            "elementType": "Assignment"
+        },
+        "assignment-imm-element-guid": {
+            "guid": "assignment-imm-element-guid",
+            "description": "",
+            "locationX": 224,
+            "locationY": 336,
+            "isCanvasElement": true,
+            "connectorCount": 0,
+            "config": {
+                "isSelected": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "hasError": false
+            },
+            "assignmentItems": [
+                {
+                    "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+                    "leftHandSide": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "operator": ""
+                }
+            ],
+            "maxConnections": 1,
+            "elementType": "Assignment"
+        }
+    },
+    "canvasElements": [
+        "assignment-imm-element-guid",
+        "assignment-async-element-guid",
+        "assignment-async2-element-guid",
+        "start-element-guid"
+    ]
+}

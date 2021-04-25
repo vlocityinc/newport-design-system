@@ -1,1 +1,1 @@
-export default 'Recommended';
+export default 'Core';

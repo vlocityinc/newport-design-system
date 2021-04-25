@@ -149,7 +149,7 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
                     Object.keys(defaultOutcomeComboboxOption).length === 0
                 ) {
                     // Adding the Regular connector type check for start element
-                    // that contains time triggers but doesn't support it
+                    // that contains scheduled paths but doesn't support it
                     defaultOutcomeComboboxOption.label = option.label;
                     defaultOutcomeComboboxOption.value = option.value;
                 }
@@ -238,7 +238,7 @@ export const getLabelAndValueForConnectorPickerOptions = (
         availableConnectionType === CONNECTOR_TYPE.REGULAR
     ) {
         // Adding the Regular connector type check for start element
-        // that contains time triggers but doesn't support it.
+        // that contains scheduled paths but doesn't support it.
         // The combobox label for the same will still read "Immediate"
         label = LABELS.immediateConnectorLabel;
     }

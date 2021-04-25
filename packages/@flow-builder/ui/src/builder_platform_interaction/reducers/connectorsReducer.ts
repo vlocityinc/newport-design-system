@@ -10,7 +10,7 @@ import {
     MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_START_WITH_TIME_TRIGGERS,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
@@ -57,14 +57,14 @@ export default function connectorsReducer(state = [], action) {
             );
         case MODIFY_DECISION_WITH_OUTCOMES:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-        case MODIFY_START_WITH_TIME_TRIGGERS:
+        case MODIFY_START_WITH_SCHEDULED_PATHS:
             return _deleteAndUpdateConnectorsForChildElements(
                 state,
                 action.payload.canvasElement.guid,
                 action.payload.canvasElement.defaultConnectorLabel,
                 action.payload.childElements,
                 action.payload.deletedChildElementGuids,
-                action.payload.shouldSupportTimeTriggers,
+                action.payload.shouldSupportScheduledPaths,
                 action.payload.startElementGuid
             );
         case DECORATE_CANVAS:
@@ -160,7 +160,7 @@ function _deleteAndUpdateConnectorsForChildElements(
     defaultConnectorLabel,
     updatedElements = [],
     deletedChildElementGuids = [],
-    shouldSupportTimeTriggers,
+    shouldSupportScheduledPaths,
     startElementGuid
 ) {
     const updatedElementGuidMap = new Map();
@@ -183,8 +183,8 @@ function _deleteAndUpdateConnectorsForChildElements(
                 });
             }
 
-            if (connector.type === CONNECTOR_TYPE.IMMEDIATE && !shouldSupportTimeTriggers) {
-                // Updating the connector label and type from Immediate -> Regular when time triggers aren't supported
+            if (connector.type === CONNECTOR_TYPE.IMMEDIATE && !shouldSupportScheduledPaths) {
+                // Updating the connector label and type from Immediate -> Regular when scheduled paths aren't supported
                 updatedConnector = updateProperties(connector, {
                     label: null,
                     type: CONNECTOR_TYPE.REGULAR
@@ -194,9 +194,9 @@ function _deleteAndUpdateConnectorsForChildElements(
             if (
                 connector.type === CONNECTOR_TYPE.REGULAR &&
                 connector.source === startElementGuid &&
-                shouldSupportTimeTriggers
+                shouldSupportScheduledPaths
             ) {
-                // Updating the start connector label and type from Regular -> Immediate when time triggers are supported
+                // Updating the start connector label and type from Regular -> Immediate when scheduled paths are supported
                 updatedConnector = updateProperties(connector, {
                     label: immediateConnectorLabel,
                     type: CONNECTOR_TYPE.IMMEDIATE

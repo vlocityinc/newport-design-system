@@ -1,1 +1,1 @@
-export default 'Record Conditions:';
+export default 'Conditions:';

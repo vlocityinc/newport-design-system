@@ -16,7 +16,7 @@ const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
-export default class startNodeContextButton extends LightningElement {
+export default class StartNodeContextButton extends LightningElement {
     @api
     node = {
         config: {}
@@ -133,7 +133,7 @@ export default class startNodeContextButton extends LightningElement {
 
     /**
      * Helper function to dispatch the ArrowKeyDownEvent event that'll be handled
-     * in flcNodeStartMenu
+     * in alcStartMenu
      * @param key - The arrow key pressed
      */
     handleArrowKeyDown(key) {

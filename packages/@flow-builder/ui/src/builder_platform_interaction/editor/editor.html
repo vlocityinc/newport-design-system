@@ -99,7 +99,7 @@
                     onnodeselected={handleNodeSelected}
                 >
                 </builder_platform_interaction-canvas-container>
-                <builder_platform_interaction-flc-builder-container
+                <builder_platform_interaction-alc-canvas-container
                     if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
@@ -111,17 +111,17 @@
                     ondeleteelement={handleElementDelete}
                     oneditelement={handleEditElement}
                     ontoggleselectionmode={handleToggleSelectionMode}
-                    onflcselection={handleSelectionOnFixedCanvas}
+                    onalcselection={handleSelectionOnFixedCanvas}
                     onpasteoncanvas={handlePasteOnCanvas}
                     onclosepropertyeditor={handleClosePropertyEditor}
                     onnodeselected={handleNodeSelectedOnFixedCanvas}
                     onaddelementfault={handleAddElementFault}
                     ondeleteelementfault={handleDeleteElementFault}
-                    onflccreateconnection={handleFlcCreateConnection}
+                    onalccreateconnection={handleAlcCreateConnection}
                     oncreategotoconnection={handleGoToCreation}
                     ondeletegotoconnection={handleGoToDeletion}
                 >
-                </builder_platform_interaction-flc-builder-container>
+                </builder_platform_interaction-alc-canvas-container>
             </div>
             <builder_platform_interaction-right-panel
                 if:true={showRightPanel}

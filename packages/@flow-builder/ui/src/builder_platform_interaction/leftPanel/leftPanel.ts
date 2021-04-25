@@ -19,7 +19,7 @@ import {
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
 import { LOOP_BACK_INDEX } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const { logInteraction } = loggingUtils;

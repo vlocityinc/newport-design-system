@@ -1,1 +1,1 @@
-export default 'Launch a flow in the background at a scheduled time and frequency.';
+export default 'Launches at a specified time and frequency for each record in a batch. This autolaunched flow runs in the background.';

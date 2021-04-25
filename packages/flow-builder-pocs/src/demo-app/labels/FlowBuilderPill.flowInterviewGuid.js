@@ -1,1 +1,1 @@
-export default 'Flow Instance Id';
+export default 'Interview GUID';

@@ -1,1 +1,1 @@
-export default 'You currently have unsaved changes in this flow. The flow interview that will be initiated with the debug button will display unmatched flow canvas comparing to the current one. Save the changes to this flow or save the current flow as a new version before you debug the flow.';
+export default 'This flow has unsaved changes. If you debug without saving the flow, the unsaved changes aren’t executed, and the canvas doesn’t show the flow’s executed path.';

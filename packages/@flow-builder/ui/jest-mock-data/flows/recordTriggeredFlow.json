@@ -30,16 +30,16 @@
             ],
             "scheduledPaths": [
                 {
-                    "name": "myTimeTrigger2DaysBefore",
-                    "label": "myTimeTrigger2DaysBefore",
+                    "name": "myScheduledPath2DaysBefore",
+                    "label": "myScheduledPath2DaysBefore",
                     "timeSource": "RecordField",
                     "offsetUnit": "Days",
                     "offsetNumber": -2,
                     "recordField": "CreatedDate"
                 },
                 {
-                    "name": "myTimeTriggerHoursAfter",
-                    "label": "myTimeTriggerHoursAfter",
+                    "name": "myScheduledPathHoursAfter",
+                    "label": "myScheduledPathHoursAfter",
                     "timeSource": "RecordField",
                     "offsetUnit": "Hours",
                     "offsetNumber": 4,

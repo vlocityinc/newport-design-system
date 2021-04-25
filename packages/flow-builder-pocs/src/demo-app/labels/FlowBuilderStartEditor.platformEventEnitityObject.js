@@ -1,1 +1,1 @@
-export default 'Choose a Platform Event That Triggers the Flow';
+export default 'Platform Event';

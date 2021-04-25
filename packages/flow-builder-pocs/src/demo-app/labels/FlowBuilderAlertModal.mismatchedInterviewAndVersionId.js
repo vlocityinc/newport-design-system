@@ -1,0 +1,1 @@
+export default "Something's wrong with your URL. To debug a flow interview, click the link directly from the flow error email or the list of paused and failed flow interviews in Setup. If doing so results in this error, contact Salesforce Customer Support with this message: Flow interview GUID {0} is incompatible with Flow version ID {1}.";

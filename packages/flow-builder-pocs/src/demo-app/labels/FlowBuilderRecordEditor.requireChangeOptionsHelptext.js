@@ -1,0 +1,1 @@
+export default "Perhaps you want the flow to run only when the triggering record is changed from not meeting the condition requirements to meeting the condition requirements. When that's the case, choose the second option.";

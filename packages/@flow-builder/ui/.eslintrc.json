@@ -29,8 +29,8 @@
                         "**/builder_platform_interaction/debugPanel/debugPanel.ts",
                         "**/builder_platform_interaction/debugPanelBody/debugPanelBody.ts",
                         "**/builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts",
-                        "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
-                        "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
+                        "**/builder_platform_interaction/alcCanvas/alcCanvas.ts",
+                        "**/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts",
                         "**/builder_platform_interaction/preloadLib/loader.ts",
                         "**/builder_platform_interaction/screenExtensionField/auraInterop.ts"
                     ],
@@ -50,11 +50,11 @@
                         "**/builder_platform_interaction/builderTestUtils/combobox.ts"
                     ],
 
-                    "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"],
+                    "no-empty-function": ["**/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
                     "no-loop-func": [
                         "**/builder_platform_interaction/translatorLib/flowToUiTranslator.ts",
-                        "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
-                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
+                        "**/builder_platform_interaction/alcConversionUtils/freeFormToAutoLayout.ts",
+                        "**/builder_platform_interaction/alcConversionUtils/autoLayoutToFreeForm.ts"
                     ],
                     "lwc-core/no-aura": [
                         "**/builder_platform_interaction/builderUtils/builderUtils.ts",
@@ -77,13 +77,13 @@
                     "lwc-core/no-process-env": ["**/jestSetup.js"],
 
                     "no-continue": [
-                        "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
-                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts"
+                        "**/builder_platform_interaction/alcConversionUtils/freeFormToAutoLayout.ts",
+                        "**/builder_platform_interaction/alcConversionUtils/autoLayoutToFreeForm.ts"
                     ],
                     "eqeqeq": [
-                        "**/builder_platform_interaction/flcConversionUtils/freeFormToAutoLayout.ts",
-                        "**/builder_platform_interaction/flcConversionUtils/autoLayoutToFreeForm.ts",
-                        "**/builder_platform_interaction/flcConversionUtils/flcConversionUtils.ts"
+                        "**/builder_platform_interaction/alcConversionUtils/freeFormToAutoLayout.ts",
+                        "**/builder_platform_interaction/alcConversionUtils/autoLayoutToFreeForm.ts",
+                        "**/builder_platform_interaction/alcConversionUtils/alcConversionUtils.ts"
                     ],
                     "@typescript-eslint/no-namespace": [
                         "**/builder_platform_interaction/integrationTests/__tests__/comboboxTestUtils.ts"

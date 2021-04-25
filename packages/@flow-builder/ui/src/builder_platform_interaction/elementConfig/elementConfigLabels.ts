@@ -50,8 +50,8 @@ import formulaSingularLabel from '@salesforce/label/FlowBuilderElementConfig.for
 import formulaPluralLabel from '@salesforce/label/FlowBuilderElementConfig.formulaPluralLabel';
 import outcomeSingularLabel from '@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel';
 import outcomePluralLabel from '@salesforce/label/FlowBuilderElementConfig.outcomePluralLabel';
-import timeTriggerSingularLabel from '@salesforce/label/FlowBuilderElementConfig.timeTriggerSingularLabel';
-import timeTriggerPluralLabel from '@salesforce/label/FlowBuilderElementConfig.timeTriggerPluralLabel';
+import scheduledPathSingularLabel from '@salesforce/label/FlowBuilderElementConfig.scheduledPathSingularLabel';
+import scheduledPathPluralLabel from '@salesforce/label/FlowBuilderElementConfig.scheduledPathPluralLabel';
 import flowPropertiesSingularLabel from '@salesforce/label/FlowBuilderElementConfig.flowPropertiesSingularLabel';
 import stageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stageSingularLabel';
 import stagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.stagePluralLabel';
@@ -146,7 +146,7 @@ import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
 import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
-import editTimeTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTimeTriggerLabel';
+import editScheduledPathLabel from '@salesforce/label/FlowBuilderElementConfig.editScheduledPathLabel';
 import editObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectLabel';
 import editTriggerObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerObjectLabel';
 import editObjectAndFiltersLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectAndFiltersLabel';
@@ -246,8 +246,8 @@ export const LABELS = {
     formulaPluralLabel,
     outcomeSingularLabel,
     outcomePluralLabel,
-    timeTriggerSingularLabel,
-    timeTriggerPluralLabel,
+    scheduledPathSingularLabel,
+    scheduledPathPluralLabel,
     flowPropertiesSingularLabel,
     stageSingularLabel,
     stagePluralLabel,
@@ -343,7 +343,7 @@ export const LABELS = {
     editPicklistChoiceSetLabel,
     editStartElementLabel,
     editTriggerLabel,
-    editTimeTriggerLabel,
+    editScheduledPathLabel,
     editObjectLabel,
     editTriggerObjectLabel,
     editObjectAndFiltersLabel,

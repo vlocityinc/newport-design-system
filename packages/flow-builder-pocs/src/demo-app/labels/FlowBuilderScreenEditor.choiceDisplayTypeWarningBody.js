@@ -1,0 +1,1 @@
+export default "Multi-select components only support the Text data type. Because this component is referenced elsewhere in the flow, you can't make this change yet. Remove all references to this component, and try again.";

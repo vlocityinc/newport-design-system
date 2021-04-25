@@ -1,1 +1,1 @@
-export default 'Build a flow for the Field Service Lightning mobile app.';
+export default 'Build a flow for the Field Service mobile app.';

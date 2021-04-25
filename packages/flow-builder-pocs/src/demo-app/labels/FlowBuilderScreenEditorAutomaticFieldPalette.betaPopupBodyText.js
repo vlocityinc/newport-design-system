@@ -1,0 +1,1 @@
+export default "To include a record field in your screen, use a predefined field from a record variable instead of creating a new screen component. Some field types aren't supported. Later in the flow, use a Create Records or Update Records element to save the field values in Salesforce.";

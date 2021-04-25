@@ -5,7 +5,7 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { createElement } from 'lwc';
 import contextRecordEditor from 'builder_platform_interaction/contextRecordEditor';
-import timeTriggersEditor from 'builder_platform_interaction/timeTriggersEditor';
+import scheduledPathsEditor from 'builder_platform_interaction/scheduledPathsEditor';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { RECORD_TIGGER_EVENT } from 'builder_platform_interaction/flowMetadata';
@@ -32,8 +32,8 @@ const SELECTORS = {
     TIME_SOURCE_COMBOBOX: '.timeSourceCombobox',
     OFFSET_NUMBER_INPUT: '.offsetNumberInput',
     OFFSET_UNIT_COMBOBOX: '.offsetUnitAndDirectionCombobox',
-    DELETE_TIME_TRIGGER_BUTTON: '.delete-time-trigger-btn',
-    IMMEDIATE_TIME_TRIGGER: '.test-immediate-time-trigger'
+    DELETE_SCHEDULED_PATH_BUTTON: '.delete-scheduled-path-btn',
+    IMMEDIATE_SCHEDULED_PATH: '.test-immediate-scheduled-path'
 };
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
@@ -62,11 +62,11 @@ const createComponentForTest = (contextRecordEditorElement) => {
     return el;
 };
 
-const createTimeTriggerComponentForTest = (timeTriggeredEditorElement) => {
-    const el = createElement('builder_platform_interaction-time-triggers-editor', {
-        is: timeTriggersEditor
+const createScheduledPathComponentForTest = (scheduledPathedEditorElement) => {
+    const el = createElement('builder_platform_interaction-scheduled-paths-editor', {
+        is: scheduledPathsEditor
     });
-    Object.assign(el, { node: timeTriggeredEditorElement });
+    Object.assign(el, { node: scheduledPathedEditorElement });
     setDocumentBodyChildren(el);
     return el;
 };
@@ -75,42 +75,42 @@ const getSObjectField = (apiName) => {
     return mockAccountFields[apiName];
 };
 
-const getReorderableVerticalNavigationItems = (timeTriggerEditor) => {
-    const verticalNavigation = deepQuerySelector(timeTriggerEditor, [SELECTORS.REORDERABLE_VERTICAL_NAVIGATION]);
+const getReorderableVerticalNavigationItems = (scheduledPathEditor) => {
+    const verticalNavigation = deepQuerySelector(scheduledPathEditor, [SELECTORS.REORDERABLE_VERTICAL_NAVIGATION]);
     return verticalNavigation.shadowRoot.querySelectorAll(SELECTORS.REORDERABLE_VERTICAL_NAVIGATION_ITEM);
 };
 
-const getReorderableVerticalNavigationTitle = (timeTriggerEditor, index) => {
-    const items = getReorderableVerticalNavigationItems(timeTriggerEditor);
+const getReorderableVerticalNavigationTitle = (scheduledPathEditor, index) => {
+    const items = getReorderableVerticalNavigationItems(scheduledPathEditor);
     return items[index].shadowRoot.querySelector('a');
 };
 
-const getAddTimeTriggerButton = (timeTriggerEditor) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.LIGHTNING_BUTTON_ICON]);
+const getAddScheduledPathButton = (scheduledPathEditor) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.LIGHTNING_BUTTON_ICON]);
 };
 
-const getImmediateTimeTrigger = (timeTriggerEditor) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.IMMEDIATE_TIME_TRIGGER]);
+const getImmediateScheduledPath = (scheduledPathEditor) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.IMMEDIATE_SCHEDULED_PATH]);
 };
 
-const getDeleteTimeTriggerButton = (timeTriggerEditor) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.DELETE_TIME_TRIGGER_BUTTON]);
+const getDeleteScheduledPathButton = (scheduledPathEditor) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.SCHEDULED_PATH, SELECTORS.DELETE_SCHEDULED_PATH_BUTTON]);
 };
 
-const getTimeSourceCombobox = (timeTriggerEditor) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.TIME_SOURCE_COMBOBOX]);
+const getTimeSourceCombobox = (scheduledPathEditor) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.SCHEDULED_PATH, SELECTORS.TIME_SOURCE_COMBOBOX]);
 };
 
-const getPathLabelInput = (timeTriggerEditor) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.LABEL_DESCRIPTION, '.label']);
+const getPathLabelInput = (scheduledPathEditor) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.SCHEDULED_PATH, SELECTORS.LABEL_DESCRIPTION, '.label']);
 };
 
-const getApiNameInput = (timeTriggerEditor) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, SELECTORS.LABEL_DESCRIPTION, '.devName']);
+const getApiNameInput = (scheduledPathEditor) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.SCHEDULED_PATH, SELECTORS.LABEL_DESCRIPTION, '.devName']);
 };
 
-const getTimeTriggerElement = (timeTriggerEditor, cssClass) => {
-    return deepQuerySelector(timeTriggerEditor, [SELECTORS.TIME_TRIGGER, cssClass]);
+const getScheduledPathElement = (scheduledPathEditor, cssClass) => {
+    return deepQuerySelector(scheduledPathEditor, [SELECTORS.SCHEDULED_PATH, cssClass]);
 };
 
 describe('Start Element Editor (context record editor)', () => {
@@ -226,8 +226,8 @@ describe('Start Element Editor (context record editor)', () => {
 });
 
 describe('Start Element Editor (Record Triggered Flow)', () => {
-    let timeTriggerComponent;
-    let timeTriggersNode;
+    let scheduledPathComponent;
+    let scheduledPathsNode;
     beforeAll(async () => {
         await setupStateForFlow(recordTriggeredFlow);
     });
@@ -236,90 +236,90 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
     });
     beforeEach(() => {
         const startElement = getElementByDevName('$Record');
-        timeTriggersNode = getElementForPropertyEditor(startElement);
-        timeTriggerComponent = createTimeTriggerComponentForTest(timeTriggersNode);
+        scheduledPathsNode = getElementForPropertyEditor(startElement);
+        scheduledPathComponent = createScheduledPathComponentForTest(scheduledPathsNode);
     });
     describe('Reorderable Vertical Navigation', () => {
         it('should have 3 items', () => {
-            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(3);
+            expect(getReorderableVerticalNavigationItems(scheduledPathComponent)).toHaveLength(3);
         });
         it('should display the Path Label as link', () => {
-            let link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 0);
-            expect(link.textContent).toBe(timeTriggersNode.timeTriggers[0].label.value);
+            let link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 0);
+            expect(link.textContent).toBe(scheduledPathsNode.scheduledPaths[0].label.value);
 
-            link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 1);
-            expect(link.textContent).toBe(timeTriggersNode.timeTriggers[1].label.value);
+            link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 1);
+            expect(link.textContent).toBe(scheduledPathsNode.scheduledPaths[1].label.value);
         });
     });
-    describe('1st  Time Trigger inner component display', () => {
-        let timeTrigger;
+    describe('1st  Scheduled Path inner component display', () => {
+        let scheduledPath;
         beforeEach(() => {
-            timeTrigger = timeTriggersNode.timeTriggers[0];
+            scheduledPath = scheduledPathsNode.scheduledPaths[0];
         });
-        it('should be display time trigger Label in the Label description Component', () => {
-            expect(getPathLabelInput(timeTriggerComponent).value).toBe(timeTrigger.label.value);
+        it('should be display scheduled path Label in the Label description Component', () => {
+            expect(getPathLabelInput(scheduledPathComponent).value).toBe(scheduledPath.label.value);
         });
-        it('should be display time trigger name in the Label description Component', () => {
-            expect(getApiNameInput(timeTriggerComponent).value).toBe(timeTrigger.name.value);
+        it('should be display scheduled path name in the Label description Component', () => {
+            expect(getApiNameInput(scheduledPathComponent).value).toBe(scheduledPath.name.value);
         });
         it('Should display the correct Time Source', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe(
-                timeTrigger.timeSource.value
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe(
+                scheduledPath.timeSource.value
             );
         });
         it('Should display the correct Offset Number', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe(
-                timeTrigger.offsetNumber.value
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe(
+                scheduledPath.offsetNumber.value
             );
         });
         it('Should display the correct Offset Unit', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
-                timeTrigger.offsetUnit.value
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
+                scheduledPath.offsetUnit.value
             );
         });
     });
-    describe('Select 2nd  Time Trigger inner component display', () => {
-        let timeTrigger;
+    describe('Select 2nd  Scheduled Path inner component display', () => {
+        let scheduledPath;
         beforeEach(async () => {
-            timeTrigger = timeTriggersNode.timeTriggers[1];
-            getReorderableVerticalNavigationTitle(timeTriggerComponent, 1).click();
+            scheduledPath = scheduledPathsNode.scheduledPaths[1];
+            getReorderableVerticalNavigationTitle(scheduledPathComponent, 1).click();
             await ticks(10);
         });
-        it('should be display time trigger Label in the Label description Component', () => {
-            expect(getPathLabelInput(timeTriggerComponent).value).toBe(timeTrigger.label.value);
+        it('should be display scheduled path Label in the Label description Component', () => {
+            expect(getPathLabelInput(scheduledPathComponent).value).toBe(scheduledPath.label.value);
         });
-        it('should be display time trigger name in the Label description Component', () => {
-            expect(getApiNameInput(timeTriggerComponent).value).toBe(timeTrigger.name.value);
+        it('should be display scheduled path name in the Label description Component', () => {
+            expect(getApiNameInput(scheduledPathComponent).value).toBe(scheduledPath.name.value);
         });
         it('Should display the correct Time Source', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe(
-                timeTrigger.timeSource.value
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe(
+                scheduledPath.timeSource.value
             );
         });
         it('Should display the correct Offset Number', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe(
-                timeTrigger.offsetNumber.value
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe(
+                scheduledPath.offsetNumber.value
             );
         });
         it('Should display the correct Offset Unit', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
-                timeTrigger.offsetUnit.value
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe(
+                scheduledPath.offsetUnit.value
             );
         });
     });
-    describe('Time Trigger Time Source Options', () => {
+    describe('Scheduled Path Time Source Options', () => {
         beforeEach(async () => {
-            getReorderableVerticalNavigationTitle(timeTriggerComponent, 0).click();
+            getReorderableVerticalNavigationTitle(scheduledPathComponent, 0).click();
             await ticks(10);
         });
         it('First Option has value Record Trigger Event', () => {
             expect.assertions(1);
-            const timeSourceOptions = getTimeSourceCombobox(timeTriggerComponent).options;
+            const timeSourceOptions = getTimeSourceCombobox(scheduledPathComponent).options;
             expect(getValueFromHydratedItem(timeSourceOptions[0].value)).toEqual(RECORD_TIGGER_EVENT);
         });
         it('Other options are of type Date Fields or Date Time Fields', () => {
             expect.assertions(3);
-            let timeSourceOptions = getTimeSourceCombobox(timeTriggerComponent).options;
+            let timeSourceOptions = getTimeSourceCombobox(scheduledPathComponent).options;
             timeSourceOptions = timeSourceOptions.slice(1);
             const filteredOptions = timeSourceOptions.filter((timeSourceOption) => {
                 timeSourceOption = getValueFromHydratedItem(timeSourceOption.value);
@@ -334,7 +334,7 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             expect(getSObjectField(timeSourceOption).dataType).toEqual('Date');
         });
         it('options have isWorkflowFilterable equals true', () => {
-            let timeSourceOptions = getTimeSourceCombobox(timeTriggerComponent).options;
+            let timeSourceOptions = getTimeSourceCombobox(scheduledPathComponent).options;
             timeSourceOptions = timeSourceOptions.slice(1);
             timeSourceOptions.forEach((option) => {
                 const timeSourceOption = getValueFromHydratedItem(option.value);
@@ -342,48 +342,48 @@ describe('Start Element Editor (Record Triggered Flow)', () => {
             });
         });
     });
-    describe('New Time Trigger', () => {
+    describe('New Scheduled Path', () => {
         beforeEach(async () => {
-            getAddTimeTriggerButton(timeTriggerComponent).click();
+            getAddScheduledPathButton(scheduledPathComponent).click();
             await ticks(10);
         });
-        it('Should display the emptyTimeTriggerLabel in the navigation menu', () => {
-            expect(getReorderableVerticalNavigationItems(timeTriggerComponent)).toHaveLength(4);
-            const link = getReorderableVerticalNavigationTitle(timeTriggerComponent, 2);
-            expect(link.textContent).toBe('FlowBuilderStartEditor.emptyTimeTriggerLabel');
+        it('Should display the emptyScheduledPathLabel in the navigation menu', () => {
+            expect(getReorderableVerticalNavigationItems(scheduledPathComponent)).toHaveLength(4);
+            const link = getReorderableVerticalNavigationTitle(scheduledPathComponent, 2);
+            expect(link.textContent).toBe('FlowBuilderStartEditor.emptyScheduledPathLabel');
         });
         it('Label should be display in the Label description Component', () => {
-            expect(getPathLabelInput(timeTriggerComponent).value).toBe('');
+            expect(getPathLabelInput(scheduledPathComponent).value).toBe('');
         });
         it('Name should be display in the Label description Component', () => {
-            expect(getApiNameInput(timeTriggerComponent).value).toBe('');
+            expect(getApiNameInput(scheduledPathComponent).value).toBe('');
         });
         it('Should select the correct Time Source', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe('');
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.TIME_SOURCE_COMBOBOX).value).toBe('');
         });
         it('Should select the correct Offset Number', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe('');
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.OFFSET_NUMBER_INPUT).value).toBe('');
         });
         it('Should select the correct Offset Unit', () => {
-            expect(getTimeTriggerElement(timeTriggerComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe('');
+            expect(getScheduledPathElement(scheduledPathComponent, SELECTORS.OFFSET_UNIT_COMBOBOX).value).toBe('');
         });
     });
-    describe('Delete Time Trigger', () => {
-        it('sets the first time trigger as active when there are 3 time triggers (including immediate) and the second one is deleted', async () => {
+    describe('Delete Scheduled Path', () => {
+        it('sets the first scheduled path as active when there are 3 scheduled paths (including immediate) and the second one is deleted', async () => {
             expect.assertions(1);
-            getReorderableVerticalNavigationTitle(timeTriggerComponent, 1).click();
+            getReorderableVerticalNavigationTitle(scheduledPathComponent, 1).click();
             await ticks(1);
-            getDeleteTimeTriggerButton(timeTriggerComponent).click();
+            getDeleteScheduledPathButton(scheduledPathComponent).click();
             await ticks(1);
-            expect(getApiNameInput(timeTriggerComponent).value).toBe(timeTriggersNode.timeTriggers[0].name.value);
+            expect(getApiNameInput(scheduledPathComponent).value).toBe(scheduledPathsNode.scheduledPaths[0].name.value);
         });
-        it('sets the immediate time trigger as active when all time triggers are deleted except immediate', async () => {
+        it('sets the immediate scheduled path as active when all scheduled paths are deleted except immediate', async () => {
             expect.assertions(1);
-            getDeleteTimeTriggerButton(timeTriggerComponent).click();
+            getDeleteScheduledPathButton(scheduledPathComponent).click();
             await ticks(1);
-            getDeleteTimeTriggerButton(timeTriggerComponent).click();
+            getDeleteScheduledPathButton(scheduledPathComponent).click();
             await ticks(1);
-            expect(getImmediateTimeTrigger(timeTriggerComponent)).not.toBe(null);
+            expect(getImmediateScheduledPath(scheduledPathComponent)).not.toBe(null);
         });
     });
 });

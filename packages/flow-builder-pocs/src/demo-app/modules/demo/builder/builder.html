@@ -42,6 +42,14 @@
                         options={freeFormTestCaseOptions}
                         onchange={handleSelectTestCase}
                     ></lightning-combobox>
+                    <lightning-input
+                        class="slds-m-left_x-small"
+                        type="checkbox"
+                        label="Run assertions"
+                        name="run-assertions"
+                        onchange={handleToggleRunAssertions}
+                        checked={runAssertions}
+                    ></lightning-input>
                 </lightning-layout-item>
                 <lightning-layout-item>
                     <button class="test-monkey-button slds-button slds-button_neutral" onclick={handleTestMonkeyClick}>
@@ -52,7 +60,7 @@
         </div>
 
         <div class="container">
-            <builder_platform_interaction-flc-builder-container
+            <builder_platform_interaction-alc-canvas-container
                 onaddelement={handleAddElement}
                 ondeleteelement={handleDeleteElement}
                 onaddelementfault={handleAddElementFault}
@@ -60,12 +68,14 @@
                 elements-metadata={elementsMetadata}
                 is-selection-mode={isSelectionMode}
                 ontoggleselectionmode={handleToggleSelectionMode}
-                onflccreateconnection={handleFlcCreateConnection}
-                onflcselection={handleFlcSelection}
+                onalccreateconnection={handleAlcCreateConnection}
+                onalcselection={handleAlcSelection}
                 disable-animation={isRunningTestMonkey}
                 disable-debounce={isRunningTestMonkey}
+                oncreategotoconnection={handleGoToCreation}
+                ondeletegotoconnection={handleGoToDeletion}
             >
-            </builder_platform_interaction-flc-builder-container>
+            </builder_platform_interaction-alc-canvas-container>
         </div>
     </div>
 </template>

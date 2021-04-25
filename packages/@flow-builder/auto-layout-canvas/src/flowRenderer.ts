@@ -17,10 +17,10 @@ import {
 } from './model';
 import {
     fulfillsBranchingCriteria,
-    resolveBranchHead,
-    shouldSupportTimeTriggers,
+    shouldSupportScheduledPaths,
     hasGoToConnectionOnNext,
-    hasGoToConnectionOnBranchHead
+    hasGoToConnectionOnBranchHead,
+    isBranchTerminal
 } from './modelUtils';
 import { NO_OFFSET, getLayoutChildOrFault } from './layout';
 
@@ -325,7 +325,7 @@ function createNextConnector(
     let mainVariant =
         fulfillsBranchingCriteria(node, nodeType) || nodeType === NodeType.LOOP
             ? ConnectorVariant.POST_MERGE
-            : !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node)
+            : !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
             ? ConnectorVariant.DEFAULT_LABEL
             : ConnectorVariant.DEFAULT;
 
@@ -344,12 +344,14 @@ function createNextConnector(
     }
 
     const connectorLabelType =
-        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node)
+        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
             ? ConnectorLabelType.BRANCH
             : ConnectorLabelType.NONE;
 
     const connectorBadgeLabel =
-        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node) ? node.defaultConnectorLabel : undefined;
+        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
+            ? node.defaultConnectorLabel
+            : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
@@ -393,7 +395,9 @@ function createGoToConnector(
             : ConnectorVariant.DEFAULT;
 
     const connectorBadgeLabel =
-        !(node as ParentNodeModel).children && shouldSupportTimeTriggers(node) ? node.defaultConnectorLabel : undefined;
+        !(node as ParentNodeModel).children && shouldSupportScheduledPaths(node)
+            ? node.defaultConnectorLabel
+            : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
@@ -550,7 +554,7 @@ function createOptionsForConditionReferences(
     });
 }
 
-// TODO: FLC use metadata here
+// TODO: ALC use metadata here
 function getConditionReferences(parentNode: ParentNodeModel): any {
     // TODO: Use NodeType instead of elementType and update tests
     const elementType = parentNode.elementType;
@@ -756,9 +760,7 @@ function getConnectorVariant(
 
     children.forEach((child, i) => {
         // isTerminal should be true whenever the child is either a GoTo target or has it's isTerminal set to true
-        const isTerminal =
-            child != null &&
-            (hasGoToConnectionOnBranchHead(flowModel, parentNode, i) || resolveBranchHead(flowModel, child).isTerminal);
+        const isTerminal = isBranchTerminal(flowModel, parentNode, i);
 
         if (!isTerminal) {
             if (firstNonTerminalBranch) {

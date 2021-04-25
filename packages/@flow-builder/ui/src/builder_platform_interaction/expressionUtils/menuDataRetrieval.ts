@@ -5,7 +5,7 @@ import {
     UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE,
     isSystemElement,
     isSectionOrColumn,
-    isTimeTrigger
+    isScheduledPath
 } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
@@ -318,7 +318,7 @@ export function filterAndMutateMenuData(
                 !isSystemElement(element.elementType) &&
                 (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
                 !isSectionOrColumn(element) &&
-                !isTimeTrigger(element) &&
+                !isScheduledPath(element) &&
                 !isAutomaticField(element)
         )
         .map((element) => {

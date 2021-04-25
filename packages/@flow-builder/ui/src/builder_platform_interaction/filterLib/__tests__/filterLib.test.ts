@@ -142,10 +142,10 @@ describe('resourceFilter', () => {
         };
         expect(filter(element)).toEqual(false);
     });
-    it('excludes time trigger (scheduled paths) elements', () => {
+    it('excludes scheduled path (scheduled paths) elements', () => {
         const filter = resourceFilter();
         const element = {
-            elementType: ELEMENT_TYPE.TIME_TRIGGER
+            elementType: ELEMENT_TYPE.SCHEDULED_PATH
         };
         expect(filter(element)).toEqual(false);
     });

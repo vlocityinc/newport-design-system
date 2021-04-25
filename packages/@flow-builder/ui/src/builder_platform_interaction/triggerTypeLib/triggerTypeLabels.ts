@@ -1,8 +1,8 @@
 /* Labels */
-import recordCreatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordCreatedTriggerType';
-import recordUpdatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordUpdatedTriggerType';
-import recordCreatedOrUpdatedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordCreatedOrUpdatedTriggerType';
-import recordDeletedTriggerType from '@salesforce/label/FlowBuilderTimeTrigger.recordDeletedTriggerType';
+import recordCreatedTriggerType from '@salesforce/label/FlowBuilderScheduledPath.recordCreatedTriggerType';
+import recordUpdatedTriggerType from '@salesforce/label/FlowBuilderScheduledPath.recordUpdatedTriggerType';
+import recordCreatedOrUpdatedTriggerType from '@salesforce/label/FlowBuilderScheduledPath.recordCreatedOrUpdatedTriggerType';
+import recordDeletedTriggerType from '@salesforce/label/FlowBuilderScheduledPath.recordDeletedTriggerType';
 
 export const LABELS = {
     recordCreatedTriggerType,

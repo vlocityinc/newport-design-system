@@ -1,1 +1,1 @@
-export default 'When switching to Autolayout from freeform with unsaved changes, component positions will be lost. It is suggested to save first so you may retain your component positions in freeform.';
+export default 'When you switch to auto-layout, all unsaved element positions are lost. To keep all element positions, save the flow before switching to auto-layout.';

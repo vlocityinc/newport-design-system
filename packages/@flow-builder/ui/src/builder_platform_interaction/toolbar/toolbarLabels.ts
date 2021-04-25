@@ -25,12 +25,12 @@ import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPop
 import warningPopOverHeader from '@salesforce/label/FlowBuilderValidation.warningPopOverHeader';
 import toolbarStatus from '@salesforce/label/FlowBuilderToolbar.toolbarStatus';
 import toolbarStatusTitle from '@salesforce/label/FlowBuilderToolbar.toolbarStatusTitle';
-import selectLabel from '@salesforce/label/FlcFlowBuilderToolbar.selectLabel';
-import selectTitle from '@salesforce/label/FlcFlowBuilderToolbar.selectTitle';
-import cutAltText from '@salesforce/label/FlcFlowBuilderToolbar.cutAltText';
-import cutTitle from '@salesforce/label/FlcFlowBuilderToolbar.cutTitle';
-import copyAltText from '@salesforce/label/FlcFlowBuilderToolbar.copyAltText';
-import copyTitle from '@salesforce/label/FlcFlowBuilderToolbar.copyTitle';
+import selectLabel from '@salesforce/label/AlcFlowBuilderToolbar.selectLabel';
+import selectTitle from '@salesforce/label/AlcFlowBuilderToolbar.selectTitle';
+import cutAltText from '@salesforce/label/AlcFlowBuilderToolbar.cutAltText';
+import cutTitle from '@salesforce/label/AlcFlowBuilderToolbar.cutTitle';
+import copyAltText from '@salesforce/label/AlcFlowBuilderToolbar.copyAltText';
+import copyTitle from '@salesforce/label/AlcFlowBuilderToolbar.copyTitle';
 
 export const LABELS = {
     undoTitle,

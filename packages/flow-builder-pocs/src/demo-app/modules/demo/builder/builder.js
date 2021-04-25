@@ -8,10 +8,12 @@ import {
     addElementFault,
     deleteElementFault,
     deleteElements,
-    flcCreateConnection,
+    alcCreateConnection,
     selectionOnFixedCanvas,
     updateIsAutoLayoutCanvasProperty,
-    updateElement
+    updateElement,
+    createGoToConnection,
+    deleteGoToConnection
 } from 'builder_platform_interaction/actions';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -60,7 +62,7 @@ function createProxyHandler(component) {
                     }
 
                     const { elements } = target.getCurrentState();
-                    if (Object.values(elements).length > 0) {
+                    if (Object.values(elements).length > 0 && component.runAssertions) {
                         // assert the state
                         try {
                             assertAutoLayoutState(elements);
@@ -138,6 +140,11 @@ function translateEventToAction(event) {
                     return null;
                 }
             }
+            if (element.screen) {
+                element.screen.label = element.screen.guid;
+            } else {
+                element.label = element.guid;
+            }
             return element;
         case DeleteElementEvent.EVENT_NAME:
             return {
@@ -159,6 +166,9 @@ export default class Builder extends LightningElement {
     undoRedoStack = [];
     undoRedoStackPointer = -1;
     updateStack = true;
+
+    @track
+    runAssertions = true;
 
     @track
     flowsGenerated = 0;
@@ -213,6 +223,10 @@ export default class Builder extends LightningElement {
         if (message) {
             showError(message, e);
         }
+    }
+
+    handleToggleRunAssertions() {
+        this.runAssertions = !this.runAssertions;
     }
 
     handleAddElement(addEvent) {
@@ -316,7 +330,7 @@ export default class Builder extends LightningElement {
                     const event = randomEvent(storeInstance);
                     if (event) {
                         this.template
-                            .querySelector('builder_platform_interaction-flc-builder-container')
+                            .querySelector('builder_platform_interaction-alc-canvas-container')
                             .dispatchEvent(event);
                         this.flowsGenerated++;
                     }
@@ -355,12 +369,20 @@ export default class Builder extends LightningElement {
         storeInstance.dispatch(deleteElementFault(event.detail.guid));
     }
 
-    handleFlcCreateConnection = (event) => {
-        const { insertAt, targetGuid } = event.detail;
-        storeInstance.dispatch(flcCreateConnection({ insertAt, targetGuid }));
+    handleGoToCreation = (event) => {
+        storeInstance.dispatch(createGoToConnection(event.detail));
     };
 
-    handleFlcSelection = (event) => {
+    handleGoToDeletion = (event) => {
+        storeInstance.dispatch(deleteGoToConnection(event.detail));
+    };
+
+    handleAlcCreateConnection = (event) => {
+        const { insertAt, targetGuid } = event.detail;
+        storeInstance.dispatch(alcCreateConnection({ insertAt, targetGuid }));
+    };
+
+    handleAlcSelection = (event) => {
         const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids } = event.detail;
         const payload = {
             canvasElementGuidsToSelect,

@@ -1,1 +1,1 @@
-export default 'column label';
+export default 'Empty';

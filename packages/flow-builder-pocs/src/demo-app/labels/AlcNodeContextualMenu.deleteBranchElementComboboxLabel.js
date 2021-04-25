@@ -1,1 +1,1 @@
-export default 'Which condition path would you like to keep?';
+export default 'Which path do you want to keep?';

@@ -1,1 +1,1 @@
-export default 'Add';
+export default 'Add Column';

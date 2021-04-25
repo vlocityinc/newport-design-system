@@ -23,7 +23,7 @@ import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import startNode from './startNode.html';
 import nodeElement from './node.html';
 import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import { shouldSupportTimeTriggers } from 'builder_platform_interaction/elementFactory';
+import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
 const { logInteraction } = loggingUtils;
 
@@ -387,8 +387,8 @@ export default class Node extends LightningElement {
         }
     }
 
-    get isTimeTrigger() {
-        return shouldSupportTimeTriggers(this.node);
+    get isScheduledPath() {
+        return shouldSupportScheduledPaths(this.node);
     }
 
     render() {

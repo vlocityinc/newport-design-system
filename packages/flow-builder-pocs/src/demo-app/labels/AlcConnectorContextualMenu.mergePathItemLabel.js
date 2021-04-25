@@ -1,1 +1,1 @@
-export default 'Merge with existing path';
+export default 'Merge with Another Path';

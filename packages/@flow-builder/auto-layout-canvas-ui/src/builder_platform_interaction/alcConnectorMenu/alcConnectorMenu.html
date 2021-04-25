@@ -1,0 +1,62 @@
+<template>
+    <builder_platform_interaction-alc-menu>
+        <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
+            <h3 class="slds-m-vertical_small slds-text-heading_small">{labels.menuHeader}</h3>
+        </div>
+        <div slot="body" class="slds-scrollable_y body-fixed-height">
+            <template for:each={menuConfiguration.sections} for:item="section">
+                <ul
+                    aria-label={section.label}
+                    class="slds-listbox slds-listbox_vertical"
+                    key={section.guid}
+                    role="group"
+                >
+                    <li class="slds-dropdown__header" if:true={section.heading} role="separator" title={section.label}>
+                        <span>{section.heading}</span>
+                    </li>
+                    <template for:each={section.items} for:item="item">
+                        <div key={item.guid}>
+                            <li
+                                class={item.rowClass}
+                                data-value={item.elementType}
+                                data-sub-type={item.elementSubtype}
+                                role="presentation"
+                                onclick={handleSelectMenuItem}
+                            >
+                                <div
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option"
+                                    tabindex="0"
+                                >
+                                    <span class={item.iconContainerClass}>
+                                        <lightning-icon
+                                            class={item.iconClass}
+                                            icon-name={item.icon}
+                                            size={item.iconSize}
+                                            variant={item.iconVariant}
+                                        ></lightning-icon>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                            >{item.label}</span
+                                        >
+                                        <span
+                                            if:true={item.description}
+                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
+                                            >{item.description}</span
+                                        >
+                                    </span>
+                                </div>
+                            </li>
+                        </div>
+                    </template>
+                    <li
+                        if:true={section.separator}
+                        class="slds-has-divider slds-m-top_none slds-p-top_none"
+                        role="separator"
+                    ></li>
+                </ul>
+            </template>
+        </div>
+    </builder_platform_interaction-alc-menu>
+</template>

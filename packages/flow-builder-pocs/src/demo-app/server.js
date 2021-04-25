@@ -22,7 +22,7 @@ app.use('/builder.js', express.static(path.resolve(__dirname, '../../build/demo-
 app.use('/', express.static(path.resolve(__dirname, 'public')));
 
 const freeFormDirName = './public/data/ffcUiModels';
-const autoLayoutDirName = './public/data/flcUiModels';
+const autoLayoutDirName = './public/data/alcUiModels';
 
 function createNewFfcTestCase(json) {
     const dir = path.resolve(__dirname, freeFormDirName);

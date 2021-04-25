@@ -9,7 +9,7 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { copyFlcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
+import { copyAlcExtraProps } from 'builder_platform_interaction/alcCanvasUtils';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -53,7 +53,7 @@ export function baseCanvasElement(canvasElement: Metadata.Element | UI.BaseCanva
     config = createCanvasElementConfig(config);
 
     // TODO: Need to remove, currently used to support alc copy/paste
-    copyFlcExtraProps(canvasElement, newCanvasElement);
+    copyAlcExtraProps(canvasElement, newCanvasElement);
 
     return Object.assign(newCanvasElement, {
         label,
@@ -349,10 +349,10 @@ export function baseChildElement(childElement: any = {}, elementType): UI.ChildE
         elementType !== ELEMENT_TYPE.OUTCOME &&
         elementType !== ELEMENT_TYPE.WAIT_EVENT &&
         elementType !== ELEMENT_TYPE.STAGE_STEP &&
-        elementType !== ELEMENT_TYPE.TIME_TRIGGER
+        elementType !== ELEMENT_TYPE.SCHEDULED_PATH
     ) {
         throw new Error(
-            'baseChildElement should only be used for outcomes, wait events, time triggers and stage steps'
+            'baseChildElement should only be used for outcomes, wait events, scheduled paths and stage steps'
         );
     } else if (
         childElement.dataType &&

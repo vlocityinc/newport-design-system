@@ -13,7 +13,7 @@ import { setupKeyboardShortcutUtil } from 'builder_platform_interaction/contextu
 const { ArrowDown, ArrowUp, EnterCommand, SpaceCommand } = commands;
 const { KeyboardInteractions } = keyboardInteractionUtils;
 
-export default class startNodeTriggerButton extends LightningElement {
+export default class StartNodeTriggerButton extends LightningElement {
     @api
     node = {
         config: {}
@@ -145,7 +145,7 @@ export default class startNodeTriggerButton extends LightningElement {
 
     /**
      * Helper function to dispatch the ArrowKeyDownEvent event that'll be handled
-     * in flcNodeStartMenu
+     * in alcStartMenu
      * @param key - The arrow key pressed
      */
     handleArrowKeyDown(key) {

@@ -18,7 +18,7 @@ import {
     deleteGoToConnection,
     decorateElements,
     clearCanvasDecoration,
-    updateChildrenOnAddingOrUpdatingTimeTriggers
+    updateChildrenOnAddingOrUpdatingScheduledPaths
 } from '../modelUtils';
 
 import NodeType from '../NodeType';
@@ -159,16 +159,16 @@ describe('reducer', () => {
         });
     });
 
-    describe('updateChildrenOnAddingOrUpdatingTimeTriggersAction', () => {
-        it('delegates to updateChildrenOnAddingOrUpdatingTimeTriggers', () => {
+    describe('updateChildrenOnAddingOrUpdatingScheduledPathsAction', () => {
+        it('delegates to updateChildrenOnAddingOrUpdatingScheduledPaths', () => {
             const flowModel = {};
             const updatedChildrenGuids = ['child-guid', null, 'child3-guid'];
-            const action = actions.updateChildrenOnAddingOrUpdatingTimeTriggersAction(
+            const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
                 START_ELEMENT_GUID,
                 updatedChildrenGuids
             );
             configuredReducer(flowModel, action);
-            expect(updateChildrenOnAddingOrUpdatingTimeTriggers).toHaveBeenLastCalledWith(
+            expect(updateChildrenOnAddingOrUpdatingScheduledPaths).toHaveBeenLastCalledWith(
                 elementService,
                 flowModel,
                 START_ELEMENT_GUID,

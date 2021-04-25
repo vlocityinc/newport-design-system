@@ -1,1 +1,1 @@
-export default 'None: Delete All Paths';
+export default 'Delete All Paths';

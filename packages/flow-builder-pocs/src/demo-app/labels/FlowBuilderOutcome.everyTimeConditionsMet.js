@@ -1,1 +1,1 @@
-export default 'Every time the conditions above are met';
+export default 'If the condition requirements are met';

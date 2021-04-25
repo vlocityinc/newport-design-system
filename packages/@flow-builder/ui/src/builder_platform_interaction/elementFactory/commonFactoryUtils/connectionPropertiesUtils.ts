@@ -75,7 +75,7 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
         flatOriginalAvailableConnections.includes(CONNECTOR_TYPE.REGULAR)
     ) {
         // Adding the Regular check to update the availableConnection type from Regular to Immediate
-        // when switching to a start element that supports time triggers
+        // when switching to a start element that supports scheduled paths
         defaultAvailableConnection.push({ type: CONNECTOR_TYPE.IMMEDIATE });
     } else {
         additionalConnectorCount += 1;
@@ -159,7 +159,7 @@ export function getConnectionProperties(
  *
  * @param availableConnections - original array of available connections
  * @param elementChild - an element child like outcome, wait event
- * or time trigger in metadata form
+ * or scheduled path in metadata form
  * @returns updated array of available connections
  */
 export function addRegularConnectorToAvailableConnections(

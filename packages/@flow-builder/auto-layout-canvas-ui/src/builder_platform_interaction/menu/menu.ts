@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
-import { SelectMenuItemEvent } from 'builder_platform_interaction/flcEvents';
+import { getStyleFromGeometry } from 'builder_platform_interaction/alcComponentsUtils';
+import { SelectMenuItemEvent } from 'builder_platform_interaction/alcEvents';
 
 export default class Menu extends LightningElement {
     @api top;

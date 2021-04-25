@@ -1,0 +1,1 @@
+export default 'If a deleted record is later recovered, the flow’s database changes and actions aren’t rolled back. Also, record recovery can’t trigger a flow to run. If you require automation for when records are recovered from the Recycle Bin, consider using an Apex after undelete trigger.';

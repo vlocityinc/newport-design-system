@@ -1,0 +1,1 @@
+export default 'Scheduled Path';

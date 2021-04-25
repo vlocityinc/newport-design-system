@@ -1,0 +1,1 @@
+export default 'The flow doesn’t have pause configurations, with pause conditions met, for time-based resume events. Resuming platform event-based resume events, whose conditions have been met, is not supported.';

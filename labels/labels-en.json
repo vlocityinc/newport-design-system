@@ -137,7 +137,9 @@
         "rowActionsDefaultAriaLabel": "Actions",
         "ariaLiveNavigationMode": "Navigation Mode",
         "ariaLiveActionMode": "Action Mode",
-        "rowNumber": "Row Number"
+        "rowNumber": "Row Number",
+        "true": "True",
+        "false": "False"
     },
     "LightningVerticalNavigation": {
         "newItems": "New Items",
@@ -241,8 +243,8 @@
         "searchForInObject": "\"{0}\" in {1}",
         "selectObject": "Choose an object",
         "typeaheadResultsListHeaderMobile": "Initial Results for \"{0}\"",
-        "none": "None",
-        "noAccess": "No access"
+        "unknownRecord": "Unknown record",
+        "none": "None"
     },
     "LightningPicklist": {
         "available": "Available",
@@ -273,5 +275,8 @@
     "LightningMessageChannel": {
         "publishWithoutContext": "Lightning Message Service - Your component must be rendered before you can publish to channel: {0}",
         "invalidScope": "Lightning Message Service - Cannot subscribe to channel {0} with invalid scope: {1}"
+    },
+    "LightningServiceCloudVoiceToolkitApi": {
+        "missingNbaParams": "\"Missing parameters. Ensure 'recordId' and 'parameters' are specified.\""
     }
 }

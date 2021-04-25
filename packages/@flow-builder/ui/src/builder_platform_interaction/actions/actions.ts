@@ -35,7 +35,7 @@ export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
 export const MARQUEE_SELECT_ON_CANVAS = 'MARQUEE_SELECT_ON_CANVAS';
 
-export const FLC_CREATE_CONNECTION = 'FLC_CREATE_CONNECTION';
+export const ALC_CREATE_CONNECTION = 'ALC_CREATE_CONNECTION';
 export const CREATE_GOTO_CONNECTION = 'CREATE_GOTO_CONNECTION';
 export const DELETE_GOTO_CONNECTION = 'DELETE_GOTO_CONNECTION';
 export const ADD_FAULT = 'ADD_FAULT';
@@ -51,8 +51,8 @@ export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
 export const ADD_WAIT_WITH_WAIT_EVENTS = 'ADD_WAIT_WITH_WAIT_EVENTS';
 export const MODIFY_WAIT_WITH_WAIT_EVENTS = 'MODIFY_WAIT_WITH_WAIT_EVENTS';
 
-export const ADD_START_WITH_TIME_TRIGGERS = 'ADD_START_WITH_TIME_TRIGGERS';
-export const MODIFY_START_WITH_TIME_TRIGGERS = 'MODIFY_START_WITH_TIME_TRIGGERS';
+export const ADD_START_WITH_SCHEDULED_PATHS = 'ADD_START_WITH_SCHEDULED_PATHS';
+export const MODIFY_START_WITH_SCHEDULED_PATHS = 'MODIFY_START_WITH_SCHEDULED_PATHS';
 
 export const UPDATE_RECORD_LOOKUP = 'UPDATE_RECORD_LOOKUP';
 
@@ -76,7 +76,7 @@ export enum PROPERTY_EDITOR_ACTION {
     ADD_EMPTY_OUTPUT_ASSIGNMENT = 'addemptyoutputassignment',
     ADD_FILTER_ITEM = 'addrecordfilter',
     ADD_SCREEN_FIELD = 'ADD_SCREEN_FIELD',
-    ADD_START_ELEMENT_TIME_TRIGGER = 'addstartelementtimetrigger',
+    ADD_START_ELEMENT_SCHEDULED_PATH = 'addstartelementscheduledpath',
     ADD_WAIT_EVENT = 'ADD_WAIT_EVENT',
     CHANGE_ACTION_TYPE = 'CHANGE_ACTION_TYPE',
     CHANGE_DATA_TYPE = 'CHANGE_DATA_TYPE',
@@ -87,7 +87,7 @@ export enum PROPERTY_EDITOR_ACTION {
     UPDATE_ELEMENT_VALUE = 'UPDATE_ELEMENT_VALUE',
     UPDATE_FILTER_ITEM = 'updaterecordfilter',
     UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE = 'updateoutputassignmentbeforeclose',
-    UPDATE_START_ELEMENT_TIME_TRIGGER = 'updatestartelementtimetrigger'
+    UPDATE_START_ELEMENT_SCHEDULED_PATH = 'updatestartelementscheduledpath'
 }
 
 export const ADD_END_ELEMENT = 'ADD_END_ELEMENT';
@@ -261,8 +261,8 @@ export const updateElement = (payload) => {
                 return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
             case ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS:
                 return createAction(MODIFY_WAIT_WITH_WAIT_EVENTS, payload);
-            case ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS:
-                return createAction(MODIFY_START_WITH_TIME_TRIGGERS, payload);
+            case ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS:
+                return createAction(MODIFY_START_WITH_SCHEDULED_PATHS, payload);
             case ELEMENT_TYPE.RECORD_LOOKUP:
                 return createAction(UPDATE_RECORD_LOOKUP, payload);
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
@@ -370,7 +370,7 @@ export const marqueeSelectOnCanvas = (payload) => createAction(MARQUEE_SELECT_ON
  */
 export const selectionOnFixedCanvas = (payload) => createAction(SELECTION_ON_FIXED_CANVAS, payload);
 
-export const flcCreateConnection = (payload) => createAction(FLC_CREATE_CONNECTION, payload);
+export const alcCreateConnection = (payload) => createAction(ALC_CREATE_CONNECTION, payload);
 export const createGoToConnection = (payload) => createAction(CREATE_GOTO_CONNECTION, payload);
 export const deleteGoToConnection = (payload) => createAction(DELETE_GOTO_CONNECTION, payload);
 export const addElementFault = (payload) => createAction(ADD_FAULT, payload);

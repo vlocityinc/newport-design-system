@@ -752,11 +752,11 @@ describe('Menu data retrieval', () => {
             });
             expect(menuData).toHaveLength(0);
         });
-        it('does not include time triggers in the result', () => {
-            const dummyTimeTrigger = {
-                elementType: 'TimeTrigger'
+        it('does not include scheduled paths in the result', () => {
+            const dummyScheduledPath = {
+                elementType: 'ScheduledPath'
             };
-            const menuData = filterAndMutateMenuData([dummyTimeTrigger], undefined, {
+            const menuData = filterAndMutateMenuData([dummyScheduledPath], undefined, {
                 showSystemVariables: false
             });
             expect(menuData).toHaveLength(0);

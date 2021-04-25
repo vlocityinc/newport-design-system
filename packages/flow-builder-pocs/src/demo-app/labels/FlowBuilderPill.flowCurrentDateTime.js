@@ -1,1 +1,1 @@
-export default 'Current Date & Time';
+export default 'Current Date/Time';

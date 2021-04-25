@@ -25,7 +25,7 @@ import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
-jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
+jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -203,7 +203,7 @@ describe('Resource tab - resource', () => {
     });
 });
 
-// Check time trigger element is not in the left panel
+// Check scheduled path element is not in the left panel
 describe('Record Triggered Flow resource tab', () => {
     let editor;
     let leftPanel;
@@ -217,10 +217,10 @@ describe('Record Triggered Flow resource tab', () => {
     afterEach(() => {
         resetState();
     });
-    it('should not have time trigger element', async () => {
+    it('should not have scheduled path element', async () => {
         const startElement = getElementByDevName('$Record');
-        const timeTriggersNode = getElementForPropertyEditor(startElement);
-        const chevron = getChevronElement(leftPanel, timeTriggersNode.timeTriggers[0].guid);
+        const scheduledPathsNode = getElementForPropertyEditor(startElement);
+        const chevron = getChevronElement(leftPanel, scheduledPathsNode.scheduledPaths[0].guid);
         expect(chevron).toBeNull();
     });
 });

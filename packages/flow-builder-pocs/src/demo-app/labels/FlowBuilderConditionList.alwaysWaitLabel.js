@@ -1,1 +1,1 @@
-export default 'No Conditions (Always Pause)';
+export default 'Always Pause Flow—No Conditions';

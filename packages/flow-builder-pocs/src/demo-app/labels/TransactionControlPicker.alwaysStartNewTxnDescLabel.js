@@ -1,0 +1,1 @@
+export default 'Before this action is executed, the current transaction is committed. The action is then executed in a new transaction. If the action fails for some reason, Salesforce can’t roll back any operations from the previous transaction.';

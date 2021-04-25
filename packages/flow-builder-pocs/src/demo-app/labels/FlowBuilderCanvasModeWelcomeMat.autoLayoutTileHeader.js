@@ -1,1 +1,1 @@
-export default 'Autolayout';
+export default 'Auto-Layout';

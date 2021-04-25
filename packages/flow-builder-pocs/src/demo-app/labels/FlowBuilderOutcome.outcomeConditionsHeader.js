@@ -1,1 +1,1 @@
-export default 'When to Execute Outcome';
+export default 'Condition Requirements to Execute Outcome';

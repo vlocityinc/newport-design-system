@@ -1,0 +1,39 @@
+.start-scheduled-path {
+    background-color: white;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.unset-start-button {
+    color: var(--lwc-brandAccessible, rgb(0, 112, 210));
+}
+
+.unset-start-button:active {
+    position: relative;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.unset-start-button:hover {
+    background-color: var(--lwc-colorGray3);
+    color: var(--lwc-colorTextLinkHover);
+    cursor: pointer;
+}
+
+.start-button-scheduled-path:active {
+    position: relative;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.start-button-scheduled-path:hover {
+    background-color: var(--lwc-colorGray3);
+    cursor: pointer;
+}
+
+.text-labels-bold {
+    font-weight: var(--lwc-fontWeightBold);
+    font-size: var(--lwc-fontSize3);
+}
+
+.edit {
+    color: var(--lwc-brandAccessible, rgb(0, 112, 210));
+}

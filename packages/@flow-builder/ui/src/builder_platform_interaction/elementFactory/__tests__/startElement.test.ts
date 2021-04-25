@@ -1,11 +1,11 @@
 // @ts-nocheck
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    shouldSupportTimeTriggers,
+    shouldSupportScheduledPaths,
     createStartElementForPropertyEditor,
     createStartElementWithConnectors,
     createStartElementMetadataObject,
-    createTimeTrigger,
+    createScheduledPath,
     createStartElement,
     createStartElementWhenUpdatingFromPropertyEditor
 } from '../startElement';
@@ -118,19 +118,19 @@ jest.mock('../base/baseElement', () => {
     return Object.assign(jest.requireActual('../base/baseElement'), {
         baseChildElement: jest.fn(),
         baseCanvasElement: jest.fn(),
-        updateChildReferences: jest.fn().mockImplementation((childReferences, timeTrigger) => {
+        updateChildReferences: jest.fn().mockImplementation((childReferences, scheduledPath) => {
             return [
                 ...childReferences,
                 {
-                    childReference: timeTrigger.guid
+                    childReference: scheduledPath.guid
                 }
             ];
         })
     });
 });
 baseChildElement
-    .mockImplementation((timeTrigger) => {
-        return Object.assign({}, timeTrigger);
+    .mockImplementation((scheduledPath) => {
+        return Object.assign({}, scheduledPath);
     })
     .mockName('baseChildElementMock');
 baseCanvasElement
@@ -150,12 +150,12 @@ getConnectionProperties.mockImplementation(() => {
         ]
     };
 });
-addRegularConnectorToAvailableConnections.mockImplementation((availableConnections, timeTrigger) => {
+addRegularConnectorToAvailableConnections.mockImplementation((availableConnections, scheduledPath) => {
     return [
         ...availableConnections,
         {
             type: 'REGULAR',
-            childReference: timeTrigger.name
+            childReference: scheduledPath.name
         }
     ];
 });
@@ -163,7 +163,7 @@ addRegularConnectorToAvailableConnections.mockImplementation((availableConnectio
 describe('Start element', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
-    describe('shouldSupportTimeTriggers function', () => {
+    describe('shouldSupportScheduledPaths function', () => {
         describe('When triggerType is AFTER_SAVE', () => {
             let startElement;
 
@@ -174,13 +174,13 @@ describe('Start element', () => {
             });
 
             it('No object is defined', () => {
-                expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
             });
 
             describe('and processType is not autolaunched', () => {
                 it('scheduled paths should not be supported', () => {
                     storeLib.getProcessType = jest.fn().mockName('getProcessType').mockReturnValue('Orchestrator');
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
             });
 
@@ -193,37 +193,37 @@ describe('Start element', () => {
                 it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
                     startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
                 });
 
                 it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
                     startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
                 });
 
                 it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
                 });
 
                 it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
                 });
 
-                it('should support time triggers for AutoLaunchedFlow', () => {
+                it('should support scheduled paths for AutoLaunchedFlow', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement, 'AutoLaunchedFlow')).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement, 'AutoLaunchedFlow')).toBeTruthy();
                 });
 
-                it('should NOT support time triggers for process types other than AutoLaunchedFlow', () => {
+                it('should NOT support scheduled paths for process types other than AutoLaunchedFlow', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement, 'Orchestrator')).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement, 'Orchestrator')).toBeFalsy();
                 });
             });
 
@@ -236,37 +236,37 @@ describe('Start element', () => {
                 it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
                     startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
 
                 it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
                     startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
 
                 it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
                 });
 
                 it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
 
-                it('should support time triggers when filterLogic is "and", doesRequireRecordChangedToMeetCriteria is true and process type is AutoLaunchedFlow', () => {
+                it('should support scheduled paths when filterLogic is "and", doesRequireRecordChangedToMeetCriteria is true and process type is AutoLaunchedFlow', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement, 'AutoLaunchedFlow')).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement, 'AutoLaunchedFlow')).toBeTruthy();
                 });
 
-                it('should NOT support time triggers when process type is NOT AutoLaunchedFlow', () => {
+                it('should NOT support scheduled paths when process type is NOT AutoLaunchedFlow', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement, 'Orchestrator')).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement, 'Orchestrator')).toBeFalsy();
                 });
             });
 
@@ -279,25 +279,25 @@ describe('Start element', () => {
                 it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
                     startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
 
                 it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
                     startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
 
                 it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeTruthy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
                 });
 
                 it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
                     startElement.filterLogic = CONDITION_LOGIC.AND;
                     startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
             });
         });
@@ -308,7 +308,7 @@ describe('Start element', () => {
                 recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.CREATE,
                 object: 'Account'
             };
-            expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+            expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
         });
 
         it('When triggerType is BEFORE_DELETE', () => {
@@ -317,7 +317,7 @@ describe('Start element', () => {
                 recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
                 object: 'Account'
             };
-            expect(shouldSupportTimeTriggers(startElement)).toBeFalsy();
+            expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
         });
     });
 
@@ -606,7 +606,7 @@ describe('Start element', () => {
                 maxConnections: 1,
                 triggerType: 'RecordAfterSave',
                 recordTriggerType: 'Create',
-                timeTriggers: [
+                scheduledPaths: [
                     {
                         offsetUnit: '',
                         timeSource: '',
@@ -631,37 +631,37 @@ describe('Start element', () => {
                 recordTriggerType: 'Create'
             });
 
-            expect(testStartElement.timeTriggers).toHaveLength(3);
-            expect(testStartElement.timeTriggers[0].guid).toEqual(childReferences[0].childReference);
-            expect(testStartElement.timeTriggers[1].guid).toEqual(childReferences[1].childReference);
-            expect(testStartElement.timeTriggers[2].guid).toEqual(childReferences[2].childReference);
+            expect(testStartElement.scheduledPaths).toHaveLength(3);
+            expect(testStartElement.scheduledPaths[0].guid).toEqual(childReferences[0].childReference);
+            expect(testStartElement.scheduledPaths[1].guid).toEqual(childReferences[1].childReference);
+            expect(testStartElement.scheduledPaths[2].guid).toEqual(childReferences[2].childReference);
         });
     });
 
-    describe('createTimeTrigger', () => {
+    describe('createScheduledPath', () => {
         beforeEach(() => {
             baseChildElement.mockClear();
         });
-        it('calls baseChildElement with elementType = TimeTrigger and an empty time trigger by default', () => {
+        it('calls baseChildElement with elementType = ScheduledPath and an empty scheduled path by default', () => {
             expect.assertions(2);
-            createTimeTrigger(<UI.TimeTrigger>{});
+            createScheduledPath(<UI.ScheduledPath>{});
             expect(baseChildElement.mock.calls[0][0]).toEqual({});
-            expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.TIME_TRIGGER);
+            expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.SCHEDULED_PATH);
         });
 
-        it('uses existing values when passed in a time trigger object', () => {
+        it('uses existing values when passed in a scheduled path object', () => {
             expect.assertions(2);
-            const existingTimeTrigger = {
+            const existingScheduledPath = {
                 name: 'Trigger1',
                 offsetUnit: TIME_OPTION.DAYS_BEFORE,
                 timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT,
                 offsetNumber: '20'
             };
 
-            const newTimeTrigger = createTimeTrigger(existingTimeTrigger);
+            const newScheduledPath = createScheduledPath(existingScheduledPath);
 
-            expect(baseChildElement.mock.calls[0][0]).toEqual(existingTimeTrigger);
-            expect(newTimeTrigger).toMatchObject(existingTimeTrigger);
+            expect(baseChildElement.mock.calls[0][0]).toEqual(existingScheduledPath);
+            expect(newScheduledPath).toMatchObject(existingScheduledPath);
         });
     });
 
@@ -742,7 +742,7 @@ describe('Start element', () => {
             expect(startElement.triggerType).toEqual('None');
         });
 
-        describe('time triggers', () => {
+        describe('scheduled paths', () => {
             it('childReferences should be an empty array for non record triggered flow', () => {
                 expect.assertions(1);
                 startElementFromFlow.triggerType = 'Scheduled';
@@ -760,7 +760,7 @@ describe('Start element', () => {
                 expect(startElement.defaultConnectorLabel).toBe(undefined);
             });
 
-            it('availableConnections should be an empty array when a connector exists for flows that do not support time triggers', () => {
+            it('availableConnections should be an empty array when a connector exists for flows that do not support scheduled paths', () => {
                 expect.assertions(1);
                 startElementFromFlow.triggerType = 'Scheduled';
                 startElementFromFlow.connector = { targetReference: 'foo' };
@@ -849,7 +849,7 @@ describe('Start element', () => {
         beforeEach(() => {
             startElementFromPropertyEditor = {
                 guid: newStartElementGuid,
-                timeTriggers: [
+                scheduledPaths: [
                     {
                         guid: 'trigger1',
                         name: 'abc'
@@ -895,11 +895,11 @@ describe('Start element', () => {
             expect(actualResult.canvasElement.availableConnections[0]).toEqual({ type: CONNECTOR_TYPE.REGULAR });
         });
 
-        it('element type is START WITH MODIFIED AND DELETED TIME TRIGGERS', () => {
+        it('element type is START WITH MODIFIED AND DELETED SCHEDULED PATHS', () => {
             expect.assertions(1);
             const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
 
-            expect(result.elementType).toEqual(ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS);
+            expect(result.elementType).toEqual(ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS);
         });
 
         it('Start element type is START_ELEMENT', () => {
@@ -909,7 +909,7 @@ describe('Start element', () => {
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.START_ELEMENT);
         });
 
-        it('When updating to a start element that does not support time triggers, Immediate available connector should be updated to Regular', () => {
+        it('When updating to a start element that does not support scheduled paths, Immediate available connector should be updated to Regular', () => {
             expect.assertions(1);
             startElementFromPropertyEditor.triggerType = 'Update';
             startElementFromPropertyEditor.availableConnections = [{ type: CONNECTOR_TYPE.IMMEDIATE }];
@@ -937,14 +937,14 @@ describe('Start element', () => {
                 });
             });
 
-            it('result has only 1 available connection (IMMEDIATE) and 1 maxConnections for a start element with blank time trigger and no connections', () => {
+            it('result has only 1 available connection (IMMEDIATE) and 1 maxConnections for a start element with blank scheduled path and no connections', () => {
                 expect.assertions(3);
-                const startElementWithBlankTimeTrigger = {
+                const startElementWithBlankScheduledPath = {
                     guid: newStartElementGuid,
-                    timeTriggers: [
+                    scheduledPaths: [
                         {
                             guid: MOCK_GUID,
-                            elementType: ELEMENT_TYPE.TIME_TRIGGER,
+                            elementType: ELEMENT_TYPE.SCHEDULED_PATH,
                             name: '',
                             label: '',
                             offsetNumber: '',
@@ -956,7 +956,7 @@ describe('Start element', () => {
                     recordTriggerType: 'Create',
                     object: 'Account'
                 };
-                const result = createStartElementWhenUpdatingFromPropertyEditor(startElementWithBlankTimeTrigger);
+                const result = createStartElementWhenUpdatingFromPropertyEditor(startElementWithBlankScheduledPath);
                 expect(result.canvasElement.availableConnections).toHaveLength(1);
                 expect(result.canvasElement.maxConnections).toEqual(1);
                 expect(result.canvasElement.availableConnections[0]).toEqual({
@@ -976,7 +976,7 @@ describe('Start element', () => {
                 expect(result.canvasElement.maxConnections).toEqual(2);
             });
 
-            it('When updating to a start element that supports time triggers, Regular available connector should be updated to Immediate', () => {
+            it('When updating to a start element that supports scheduled paths, Regular available connector should be updated to Immediate', () => {
                 expect.assertions(1);
                 startElementFromPropertyEditor.availableConnections = [{ type: CONNECTOR_TYPE.REGULAR }];
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
@@ -984,31 +984,31 @@ describe('Start element', () => {
             });
         });
 
-        describe('new/modified timeTriggers', () => {
-            let timeTriggers;
+        describe('new/modified scheduledPaths', () => {
+            let scheduledPaths;
             beforeEach(() => {
-                timeTriggers = [
+                scheduledPaths = [
                     { guid: 'a', name: MOCK_NAMES.name1 },
                     { guid: 'b', name: MOCK_NAMES.name2 },
                     { guid: 'c', name: MOCK_NAMES.name3 }
                 ];
-                startElementFromPropertyEditor.timeTriggers = timeTriggers;
+                startElementFromPropertyEditor.scheduledPaths = scheduledPaths;
             });
-            it('start element includes timeTrigger child references for all timeTriggers present', () => {
+            it('start element includes scheduledPath child references for all scheduledPaths present', () => {
                 expect.assertions(4);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.canvasElement.childReferences).toHaveLength(3);
-                expect(result.canvasElement.childReferences[0].childReference).toEqual(timeTriggers[0].guid);
-                expect(result.canvasElement.childReferences[1].childReference).toEqual(timeTriggers[1].guid);
-                expect(result.canvasElement.childReferences[2].childReference).toEqual(timeTriggers[2].guid);
+                expect(result.canvasElement.childReferences[0].childReference).toEqual(scheduledPaths[0].guid);
+                expect(result.canvasElement.childReferences[1].childReference).toEqual(scheduledPaths[1].guid);
+                expect(result.canvasElement.childReferences[2].childReference).toEqual(scheduledPaths[2].guid);
             });
-            it('includes timeTriggers for all timeTriggers present', () => {
+            it('includes scheduledPaths for all scheduledPaths present', () => {
                 expect.assertions(4);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.childElements).toHaveLength(3);
-                expect(result.childElements[0].guid).toEqual(timeTriggers[0].guid);
-                expect(result.childElements[1].guid).toEqual(timeTriggers[1].guid);
-                expect(result.childElements[2].guid).toEqual(timeTriggers[2].guid);
+                expect(result.childElements[0].guid).toEqual(scheduledPaths[0].guid);
+                expect(result.childElements[1].guid).toEqual(scheduledPaths[1].guid);
+                expect(result.childElements[2].guid).toEqual(scheduledPaths[2].guid);
             });
             it('has the right maxConnections', () => {
                 expect.assertions(1);
@@ -1017,14 +1017,14 @@ describe('Start element', () => {
             });
         });
 
-        describe('deleted time triggers', () => {
+        describe('deleted scheduled paths', () => {
             beforeEach(() => {
                 startElementFromPropertyEditor = {
                     guid: existingStartElementGuid,
                     triggerType: 'RecordAfterSave',
                     recordTriggerType: 'Create',
                     object: 'Account',
-                    timeTriggers: [
+                    scheduledPaths: [
                         {
                             guid: 'trigger1',
                             name: MOCK_NAMES.name1
@@ -1033,16 +1033,16 @@ describe('Start element', () => {
                 };
             });
 
-            it('start element does not include time trigger child references for deleted time triggers', () => {
+            it('start element does not include scheduled path child references for deleted scheduled paths', () => {
                 expect.assertions(2);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.canvasElement.childReferences).toHaveLength(1);
                 expect(result.canvasElement.childReferences[0].childReference).toEqual(
-                    startElementFromPropertyEditor.timeTriggers[0].guid
+                    startElementFromPropertyEditor.scheduledPaths[0].guid
                 );
             });
 
-            it('includes all deleted time triggers', () => {
+            it('includes all deleted scheduled paths', () => {
                 expect.assertions(3);
                 const result = createStartElementWhenUpdatingFromPropertyEditor(startElementFromPropertyEditor);
                 expect(result.deletedChildElementGuids).toHaveLength(2);
@@ -1264,7 +1264,7 @@ describe('Start element', () => {
                     frequency: 'hourly',
                     startDate: '1/1/2001',
                     startTime: '18:00:00',
-                    timeTriggers: undefined,
+                    scheduledPaths: undefined,
                     childReferences: undefined
                 };
             });
@@ -1309,8 +1309,8 @@ describe('Start element', () => {
                 }
             ];
 
-            describe('time triggers', () => {
-                it('start element includes time triggers for all time trigger child references present', () => {
+            describe('scheduled paths', () => {
+                it('start element includes scheduled paths for all scheduled path child references present', () => {
                     expect.assertions(4);
                     startElement.childReferences = [
                         {

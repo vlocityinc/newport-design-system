@@ -59,8 +59,8 @@ export enum ELEMENT_TYPE {
     LOOP = 'Loop',
     COLLECTION_PROCESSOR = 'CollectionProcessor',
     OUTCOME = 'OUTCOME',
-    TIME_TRIGGER = 'TimeTrigger',
-    START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS = 'START_WITH_MODIFIED_AND_DELETED_TIME_TRIGGERS',
+    SCHEDULED_PATH = 'ScheduledPath',
+    START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS = 'START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS',
     RECORD_CREATE = 'RecordCreate',
     RECORD_DELETE = 'RecordDelete',
     RECORD_LOOKUP = 'RecordQuery',
@@ -446,8 +446,8 @@ export function isSectionOrColumn(element) {
     );
 }
 
-export function isTimeTrigger(element) {
-    return element.elementType === ELEMENT_TYPE.TIME_TRIGGER;
+export function isScheduledPath(element) {
+    return element.elementType === ELEMENT_TYPE.SCHEDULED_PATH;
 }
 
 export function forEachMetadataFlowElement(metadata, startElementReference, callback) {

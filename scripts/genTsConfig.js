@@ -33,7 +33,7 @@ const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';
 ${pathPropertyIndent()}"lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/autoLayoutCanvas": ["../auto-layout-canvas/dist/types/index.d.js"],
 ${pathPropertyIndent()}"builder_platform_interaction/sharedUtils": ["../shared-utils/dist/types/index.d.js"],
-${pathPropertyIndent()}"builder_platform_interaction/flcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/flcEvents/flcEvents.ts"],
+${pathPropertyIndent()}"builder_platform_interaction/alcEvents": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcEvents/alcEvents.ts"],
 ${paths}
          }
     },

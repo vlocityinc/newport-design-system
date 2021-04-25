@@ -561,7 +561,7 @@ describe('decision', () => {
         });
 
         // it('sets shouldAddEndElement to true when all existing children are on the terminating branch', () => {
-        //     shouldUseFlc(true);
+        //     shouldUseAlc(true);
         //     const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
         //         existingDecisionFromPropertyEditorWithAllTerminatedChildren
         //     );
@@ -569,7 +569,7 @@ describe('decision', () => {
         // });
 
         // it('sets shouldAddEndElement to false when not all existing children are on the terminating branch', () => {
-        //     shouldUseFlc(true);
+        //     shouldUseAlc(true);
         //     const { shouldAddEndElement } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
         //         existingDecisionFromPropertyEditorWithNoneTerminatedChildren
         //     );
@@ -577,7 +577,7 @@ describe('decision', () => {
         // });
 
         // it('sets newEndElementIdx to the right index to add end element when all existing children are on the terminating branch', () => {
-        //     shouldUseFlc(true);
+        //     shouldUseAlc(true);
         //     const { newEndElementIdx } = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
         //         existingDecisionFromPropertyEditorWithAllTerminatedChildren
         //     );
@@ -585,7 +585,7 @@ describe('decision', () => {
         // });
 
         // it('sets newEndElementIdx to undefined, shouldAddEndElement as false when adding multiple outcomes from property editor and all existing children are on the terminating branch', () => {
-        //     shouldUseFlc(true);
+        //     shouldUseAlc(true);
         //     const {
         //         shouldAddEndElement,
         //         newEndElementIdx
@@ -773,7 +773,7 @@ describe('decision', () => {
             });
 
             // it('updates children property for existing decision with children', () => {
-            //     shouldUseFlc(true);
+            //     shouldUseAlc(true);
             //     const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
             //         existingDecisionFromPropertyEditorWithChildren
             //     );
@@ -782,7 +782,7 @@ describe('decision', () => {
             // });
 
             // it('deletedBranchHeadGuids should include "screen2" for existing decision with children', () => {
-            //     shouldUseFlc(true);
+            //     shouldUseAlc(true);
             //     const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
             //         existingDecisionFromPropertyEditorWithChildren
             //     );
@@ -842,13 +842,13 @@ describe('decision', () => {
             //     });
 
             //     it('deletedBranchHeadGuids should include decisions next', () => {
-            //         shouldUseFlc(true);
+            //         shouldUseAlc(true);
             //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
             //         expect(result.deletedBranchHeadGuids).toEqual(['mergingEnd1']);
             //     });
 
             //     it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-            //         shouldUseFlc(true);
+            //         shouldUseAlc(true);
             //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
             //         expect.assertions(2);
             //         expect(result.canvasElement.next).toBeNull();
@@ -921,13 +921,13 @@ describe('decision', () => {
             //     });
 
             //     it('deletedBranchHeadGuids should be empty', () => {
-            //         shouldUseFlc(true);
+            //         shouldUseAlc(true);
             //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
             //         expect(result.deletedBranchHeadGuids).toEqual([]);
             //     });
 
             //     it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-            //         shouldUseFlc(true);
+            //         shouldUseAlc(true);
             //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
             //         expect.assertions(2);
             //         expect(result.canvasElement.next).toBeNull();
@@ -1010,13 +1010,13 @@ describe('decision', () => {
             //     });
 
             //     it('deletedBranchHeadGuids should include elements before and after merging', () => {
-            //         shouldUseFlc(true);
+            //         shouldUseAlc(true);
             //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
             //         expect(result.deletedBranchHeadGuids).toEqual(['screen3', 'screen4']);
             //     });
 
             //     it('new decisions next should be null and shouldMarkBranchHeadAsTerminal should be true', () => {
-            //         shouldUseFlc(true);
+            //         shouldUseAlc(true);
             //         const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision);
             //         expect.assertions(2);
             //         expect(result.canvasElement.next).toBeNull();

@@ -161,7 +161,7 @@ declare namespace UI {
         objectContainer?: string;
         isAssignable?: boolean;
         recordTriggerType?: string;
-        timeTriggers?: TimeTrigger[];
+        scheduledPaths?: ScheduledPath[];
         childReferences: ChildReference[];
         availableConnections: AvailableConnection[];
     }
@@ -177,7 +177,7 @@ declare namespace UI {
         timeInMillis?: number;
     };
 
-    interface TimeTrigger extends ChildElement {
+    interface ScheduledPath extends ChildElement {
         timeSource: string;
         offsetUnit: string;
         offsetNumber: string;
@@ -273,7 +273,7 @@ declare namespace UI {
         editObject?: string;
         editTriggerObjectLabel?: string;
         editObjectAndFiltersLabel?: string;
-        editTimeTrigger?: string;
+        editScheduledPath?: string;
         connectorPickerHeader?: string;
         connectorPickerBodyText?: string;
         comboBoxLabel?: string;

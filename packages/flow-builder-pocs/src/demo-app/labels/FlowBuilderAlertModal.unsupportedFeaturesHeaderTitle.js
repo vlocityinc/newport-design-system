@@ -1,1 +1,1 @@
-export default 'Flow can not be opened in autolayout';
+export default 'Can’t open this flow in auto-layout';

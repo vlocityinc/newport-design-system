@@ -1,0 +1,17 @@
+builder_platform_interaction-alc-flow {
+    position: absolute;
+}
+
+builder_platform_interaction-alc-connector {
+    position: absolute;
+}
+
+builder_platform_interaction-alc-compound-node {
+    position: absolute;
+    transition: opacity 1s;
+    opacity: 1;
+}
+
+builder_platform_interaction-alc-compound-node.is-new {
+    opacity: 0.1;
+}

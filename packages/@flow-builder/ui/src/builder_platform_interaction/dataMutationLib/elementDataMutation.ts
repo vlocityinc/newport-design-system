@@ -102,7 +102,7 @@ export const getErrorsFromHydratedElement = (element, errorsList: ElementValidat
     const listOfErrors = errorsList;
     Object.entries(element).forEach(([key, value]) => {
         if (value && typeof value === 'object') {
-            // TODO: FLC find better way
+            // TODO: ALC find better way
             if (Array.isArray(value) && key !== 'children') {
                 value.forEach((item) => {
                     getErrorsFromHydratedElement(item, listOfErrors);

@@ -1,1 +1,1 @@
-export default 'If you specify an object and filter conditions, the flow runs for each record that meets the criteria. Values from each record are stored in the $Record global variable.';
+export default 'To have the scheduled flow run for a batch of records, specify the object and the conditions that each record must meet. A flow interview runs for each record in the batch. You can access and update the record’s field values in the $Record global variable.';

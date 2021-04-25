@@ -1,1 +1,1 @@
-export default 'Used for sorting Collection Variables';
+export default 'Sort items in a collection.';

@@ -16621,12 +16621,12 @@
       "updateable":false
     },
     {
-      "apiName":"MilestoneTimeTrigger",
+      "apiName":"MilestoneScheduledPath",
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"Milestone Time Trigger",
-      "entityLabelPlural":"Milestone Time Trigger",
+      "entityLabel":"Milestone Scheduled Path",
+      "entityLabelPlural":"Milestone Scheduled Path",
       "queryable":true,
       "updateable":true
     },
@@ -28101,12 +28101,12 @@
       "updateable":false
     },
     {
-      "apiName":"WorkflowTimeTrigger",
+      "apiName":"WorkflowScheduledPath",
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"Workflow Time Trigger",
-      "entityLabelPlural":"Workflow Time Trigger",
+      "entityLabel":"Workflow Scheduled Path",
+      "entityLabelPlural":"Workflow Scheduled Path",
       "queryable":true,
       "updateable":true
     },

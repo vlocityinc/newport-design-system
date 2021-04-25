@@ -1,1 +1,1 @@
-export default 'Go to autolayout';
+export default 'Lose Positions';

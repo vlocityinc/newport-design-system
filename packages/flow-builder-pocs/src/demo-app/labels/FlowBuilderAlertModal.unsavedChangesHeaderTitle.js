@@ -1,1 +1,1 @@
-export default 'Unsaved Changes';
+export default 'Lose unsaved positions?';

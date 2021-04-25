@@ -1,1 +1,1 @@
-export default 'MISSING_LABEL';
+export default '1 of 12';

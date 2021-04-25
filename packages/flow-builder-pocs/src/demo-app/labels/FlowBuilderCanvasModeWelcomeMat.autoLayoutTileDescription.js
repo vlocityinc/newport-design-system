@@ -1,1 +1,1 @@
-export default 'Canvas organization is automatic, component connections are automatic.';
+export default 'We automagically position all elements and connectors for you.';

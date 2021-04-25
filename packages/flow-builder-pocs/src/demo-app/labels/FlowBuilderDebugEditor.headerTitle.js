@@ -1,1 +1,1 @@
-export default 'Debug the Flow (Beta)';
+export default 'Debug flow';

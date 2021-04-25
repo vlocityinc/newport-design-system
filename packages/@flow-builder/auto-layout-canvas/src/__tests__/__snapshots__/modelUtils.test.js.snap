@@ -2044,10 +2044,10 @@ Object {
 }
 `;
 
-exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers adding a new timeTrigger to start element 1`] = `
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths adding a new scheduledPath to start element 1`] = `
 Object {
   "child-reference-guid-1": Object {
-    "elementType": "TimeTrigger",
+    "elementType": "ScheduledPath",
     "guid": "child-reference-guid-1",
     "label": "t1",
     "name": "t1",
@@ -2125,7 +2125,7 @@ Object {
 }
 `;
 
-exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting a timeTrigger 1`] = `
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths deleting a scheduledPath 1`] = `
 Object {
   "end-guid": Object {
     "elementType": "END_ELEMENT",
@@ -2179,7 +2179,7 @@ Object {
 }
 `;
 
-exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting all pre-existing timeTriggers: default branch has branching node 1`] = `
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths deleting all pre-existing scheduledPaths: default branch has branching node 1`] = `
 Object {
   "decision1-guid": Object {
     "availableConnections": Array [
@@ -2267,7 +2267,7 @@ Object {
 }
 `;
 
-exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting all pre-existing timeTriggers: default branch is non-terminal 1`] = `
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths deleting all pre-existing scheduledPaths: default branch is non-terminal 1`] = `
 Object {
   "end-guid": Object {
     "elementType": "END_ELEMENT",
@@ -2321,7 +2321,7 @@ Object {
 }
 `;
 
-exports[`modelUtils updateChildrenOnAddingOrUpdatingTimeTriggers deleting all pre-existing timeTriggers: default branch is terminal 1`] = `
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths deleting all pre-existing scheduledPaths: default branch is terminal 1`] = `
 Object {
   "end1-guid": Object {
     "config": Object {},

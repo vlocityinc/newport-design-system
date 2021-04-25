@@ -1,1 +1,1 @@
-export default 'Launch a flow in the background when a platform event message is received.';
+export default 'Launches when a platform event message is received. This autolaunched flow runs in the background.';
