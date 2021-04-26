@@ -334,7 +334,7 @@
     background: $color-border-tab-active;
 
     svg.nds-editblock_close {
-      fill: $color-border-input;
+      fill: $color-background-brand-primary;
       top: 0;
       #{$right}: 0;
       position: absolute;
@@ -388,7 +388,7 @@
     }
 
     .nds-editblock_delete {
-      fill: $color-border-input;
+      fill: $color-background-brand-primary;
       display: inline-block;
     }
 
