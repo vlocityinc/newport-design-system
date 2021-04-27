@@ -20,6 +20,7 @@
             "builder_platform_interaction/apexPluginEditor": ["./src/builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"],
             "builder_platform_interaction/apexTypeLib": ["./src/builder_platform_interaction/apexTypeLib/apexTypeLib.ts"],
             "builder_platform_interaction/assignmentEditor": ["./src/builder_platform_interaction/assignmentEditor/assignmentEditor.ts"],
+            "builder_platform_interaction/autoIntegrateQA": ["./src/builder_platform_interaction/autoIntegrateQA/autoIntegrateQA.ts"],
             "builder_platform_interaction/baseCalloutEditor": ["./src/builder_platform_interaction/baseCalloutEditor/baseCalloutEditor.ts"],
             "builder_platform_interaction/baseExpressionBuilder": ["./src/builder_platform_interaction/baseExpressionBuilder/baseExpressionBuilder.ts"],
             "builder_platform_interaction/baseResourcePicker": ["./src/builder_platform_interaction/baseResourcePicker/baseResourcePicker.ts"],
