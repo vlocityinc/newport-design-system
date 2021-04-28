@@ -595,6 +595,7 @@ function calculateBranchLayout(
     let leftWidth = 0;
     let rightWidth = 0;
     let prevNode;
+    let hasGoToOnNext;
 
     // Iterating down the nodes and calculating the node layout only if there' no GoTo connection from the branch
     if (!hasGoToConnectionOnBranchHead(flowModel, parentNodeModel, childIndex)) {
@@ -617,7 +618,9 @@ function calculateBranchLayout(
 
             const next = node.next;
             prevNode = node;
-            node = next && !hasGoToConnectionOnNext(flowModel, node) ? resolveNode(flowModel, next) : null;
+
+            hasGoToOnNext = next && hasGoToConnectionOnNext(flowModel, node);
+            node = next && !hasGoToOnNext ? resolveNode(flowModel, next) : null;
         }
     }
 
@@ -629,7 +632,7 @@ function calculateBranchLayout(
     });
 
     // for ended nested branches, we need to some extra height so that they dont't overlap with the merge/loop after connectors
-    if (prevNode != null && getElementType(context, prevNode) === NodeType.END) {
+    if ((prevNode != null && getElementType(context, prevNode) === NodeType.END) || hasGoToOnNext) {
         height += getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, ConnectorVariant.BRANCH_TAIL).h / 2;
     }
 

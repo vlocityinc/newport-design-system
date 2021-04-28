@@ -9320,7 +9320,7 @@ L 3, 168",
 exports[`flowRenderer renderFlow flow with a GoTo connection to the previous element 1`] = `
 Object {
   "geometry": Object {
-    "h": 348,
+    "h": 396,
     "w": 264,
     "x": 0,
     "y": 0,
@@ -9722,7 +9722,7 @@ L 20, 100",
 exports[`flowRenderer renderFlow flow with a GoTo connection to the previous element and goTo connector menu is open 1`] = `
 Object {
   "geometry": Object {
-    "h": 569,
+    "h": 617,
     "w": 264,
     "x": 0,
     "y": 0,
@@ -10124,7 +10124,7 @@ L 20, 321",
 exports[`flowRenderer renderFlow flow with a GoTo connection to the previous element and source node menu is open 1`] = `
 Object {
   "geometry": Object {
-    "h": 533,
+    "h": 581,
     "w": 264,
     "x": 0,
     "y": 0,
