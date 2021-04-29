@@ -14,9 +14,6 @@ export default class LeftPanelResources extends LightningElement {
     @api
     nonCanvasElements = [];
 
-    @api
-    showLocatorIcon;
-
     constructor() {
         super();
         logPerfTransactionStart(leftPanelResources);

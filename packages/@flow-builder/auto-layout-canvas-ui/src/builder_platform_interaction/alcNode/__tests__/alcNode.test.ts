@@ -31,7 +31,8 @@ const selectors = {
     textContainerElementType: '.text-element-type',
     textElementLabel: '.text-element-label',
     textElementGotoCount: '.text-element-goto-count',
-    errorIcon: '.error-icon'
+    errorIcon: '.error-icon',
+    iconContainer: '.icon-container'
 };
 
 describe('AlcNode', () => {
@@ -596,6 +597,95 @@ describe('AlcNode', () => {
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon.getAttribute('aria-label')).toEqual('[START_ELEMENT] start description');
             expect(startIcon.getAttribute('aria-haspopup')).toEqual('dialog');
+        });
+    });
+
+    describe('Highlighting', () => {
+        const decisionNodeInfo = {
+            guid: 'guid',
+            config: {
+                isSelected: false,
+                isSelectable: true,
+                isHighlighted: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: NodeType.BRANCH
+            },
+            flows: [
+                {
+                    geometry: { x: 0, y: 0, w: 1968, h: 2256 },
+                    isTerminal: false,
+                    layoutConfig: { grid: {}, menu: {}, connector: {}, node: {}, branch: {} },
+                    nodes: [],
+                    preConnector: {}
+                }
+            ],
+            menuOpened: false
+        };
+
+        const assignmentNodeInfo = {
+            geometry: { x: 0, y: 144, w: 48, h: 120 },
+            guid: '0c59e7db-144d-443a-9bf2-61a9e17d451a',
+            config: {
+                isSelected: false,
+                isSelectable: true,
+                isHighlighted: true
+            },
+            isNew: false,
+            isTerminal: false,
+            label: 'myAssignment',
+            logicConnectors: [],
+            menuOpened: false,
+            metadata: {},
+            nextConnector: { labelType: 0, geometry: {}, addInfo: {}, connectionInfo: {}, svgInfo: {} }
+        };
+
+        const getRecordNodeInfoWithFault = {
+            geometry: { x: 0, y: 144, w: 48, h: 120 },
+            guid: '0c59e7db-144d-443a-9bf2-61a9e17d451a',
+            config: {
+                isSelected: false,
+                isSelectable: true,
+                isHighlighted: true
+            },
+            faultFlow: {},
+            isNew: false,
+            isTerminal: false,
+            label: 'myAssignment',
+            logicConnectors: [],
+            menuOpened: false,
+            metadata: {},
+            nextConnector: { labelType: 0, geometry: {}, addInfo: {}, connectionInfo: {}, svgInfo: {} }
+        };
+
+        it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with multiple connectors', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                nodeInfo: decisionNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.iconContainer);
+            expect(decisionTextElementType.classList).toContain('highlighted-container-multioutput');
+        });
+
+        it('Should have the CSS class : "highlighted-container-multioutput" for Highlighted element with fault connectors', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                nodeInfo: getRecordNodeInfoWithFault,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.iconContainer);
+            expect(decisionTextElementType.classList).toContain('highlighted-container-multioutput');
+        });
+
+        it('Should have the CSS class : "highlighted-container" for Highlighted element with simple connector', () => {
+            const alcNodeComponent = createComponentUnderTest({
+                nodeInfo: assignmentNodeInfo,
+                canvasMode: AutoLayoutCanvasMode.DEFAULT
+            });
+            const decisionTextElementType = alcNodeComponent.shadowRoot.querySelector(selectors.iconContainer);
+            expect(decisionTextElementType.classList).toContain('highlighted-container');
         });
     });
 });

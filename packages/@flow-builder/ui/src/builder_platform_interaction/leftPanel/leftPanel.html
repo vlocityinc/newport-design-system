@@ -52,7 +52,6 @@
                         <builder_platform_interaction-left-panel-resources
                             canvas-elements={canvasElements}
                             non-canvas-elements={nonCanvasElements}
-                            show-locator-icon={showLocatorIcon}
                             onpaletteitemclicked={handleResourceClicked}
                             onshowresourcedetails={handleShowResourceDetails}
                         ></builder_platform_interaction-left-panel-resources>
@@ -63,7 +62,6 @@
                 <builder_platform_interaction-resource-details
                     if:true={showResourceDetailsPanel}
                     resource-details={resourceDetails}
-                    show-locator-icon={showLocatorIcon}
                     ondeleteresource={handleDeleteButtonClicked}
                 ></builder_platform_interaction-resource-details>
             </div>

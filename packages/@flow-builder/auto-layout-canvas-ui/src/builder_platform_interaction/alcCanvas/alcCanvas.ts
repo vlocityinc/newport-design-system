@@ -29,7 +29,8 @@ import {
     ClosePropertyEditorEvent,
     DeleteElementEvent,
     ToggleSelectionModeEvent,
-    ClickToZoomEvent
+    ClickToZoomEvent,
+    CanvasMouseUpEvent
 } from 'builder_platform_interaction/events';
 import {
     AlcSelectionEvent,
@@ -172,6 +173,9 @@ export default class AlcCanvas extends LightningElement {
     // Note: this is only used for the initial render
     dynamicNodeCountAtLoad = 0;
 
+    // Variable to keep a track of when panning is in progress
+    isPanInProgress = false;
+
     /* tracks whether the start menu as been display when first opening a flow */
     @track
     initialStartMenuDisplayed = false;
@@ -263,6 +267,13 @@ export default class AlcCanvas extends LightningElement {
     get flowModel() {
         return this._flowModel;
     }
+
+    @api
+    focusOnNode = (elementGuid: Guid) => {
+        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
+        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
+        alcFlow.findNode(pathToFocusNode).focus();
+    };
 
     get isReconnecting() {
         return this._goToSourceGuid != null;
@@ -530,7 +541,7 @@ export default class AlcCanvas extends LightningElement {
      */
     @api
     focus() {
-        this._focusOnNode(this.getStartElementGuid());
+        this.focusOnNode(this.getStartElementGuid());
     }
 
     /**
@@ -824,19 +835,13 @@ export default class AlcCanvas extends LightningElement {
         alcFlow.findConnector(pathToFocusNode, event.detail.index).focus();
     };
 
-    _focusOnNode = (elementGuid: Guid) => {
-        const pathToFocusNode = getFocusPath(this.flowModel, [{ guid: elementGuid }]);
-        const alcFlow = this.template.querySelector('builder_platform_interaction-alc-flow');
-        alcFlow.findNode(pathToFocusNode).focus();
-    };
-
     /**
      * Handles moving focus to the node from the Start/Regular Node Menu
      * @param event - moveFocusToNode event coming from nodeMenu or startMenu
      */
     handleMoveFocusToNode = (event: MoveFocusToNodeEvent) => {
         event.stopPropagation();
-        this._focusOnNode(event.detail.focusGuid);
+        this.focusOnNode(event.detail.focusGuid);
     };
 
     /**
@@ -905,6 +910,12 @@ export default class AlcCanvas extends LightningElement {
         this._panzoom.on('zoomend', boundFunction);
         this.panzoomMoveToCenterTop();
         this._panzoomOffsets = { x: 0, y: 0 - (this.getFlowHeight() * MIN_ZOOM) / 2 };
+        this._panzoom.on('pan', () => {
+            this.isPanInProgress = true;
+        });
+        this._panzoom.on('panend', () => {
+            this.isPanInProgress = false;
+        });
     }
 
     /**
@@ -1069,6 +1080,27 @@ export default class AlcCanvas extends LightningElement {
         this.closeNodeOrConnectorMenu();
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
+    };
+
+    /**
+     * Handling mouse up event for canvas. If panning is not in progress and mouse up happens directly on canvas/innerCanvas
+     * then dispatch the canvas mouse up event to deselect all the selected canvas elements and connectors. Also reset
+     * the the panning variables.
+     *
+     * @param {object} event - mouse up event
+     */
+    handleCanvasMouseUp = (event) => {
+        // We need the this.isPanInProgress check here so that we don't deselect elements when the user ends panning
+        if (
+            !this.isPanInProgress &&
+            event.currentTarget &&
+            (event.currentTarget.classList.contains('canvas') ||
+                event.currentTarget.classList.contains('flow-container'))
+        ) {
+            const canvasMouseUpEvent = new CanvasMouseUpEvent();
+            this.dispatchEvent(canvasMouseUpEvent);
+        }
+        this.isPanInProgress = false;
     };
 
     /**
