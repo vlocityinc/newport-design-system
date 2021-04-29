@@ -122,7 +122,7 @@ export default class AlcNode extends LightningElement {
     }
 
     get textContainerClasses() {
-        const shifted = (this.nodeInfo.flows || []).length > 0 || this.nodeInfo.faultFlow != null;
+        const shifted = this.isShifted;
         const hidden = this.nodeInfo.menuOpened;
         return classSet('slds-is-absolute text-container').add({
             shifted,
@@ -130,12 +130,31 @@ export default class AlcNode extends LightningElement {
         });
     }
 
+    /**
+     * Set the class for the icon container.
+     * 2 classes exist for the highlight because of different icon size and multiple connectors linked to the icon.
+     */
     get iconContainerClasses() {
-        return classSet('icon-container')
-            .add({
-                'menu-opened': this.nodeInfo.menuOpened
-            })
-            .toString();
+        let vClassSet = classSet('icon-container').add({
+            'menu-opened': this.nodeInfo.menuOpened
+        });
+
+        if (this.nodeInfo.config.isHighlighted) {
+            vClassSet = vClassSet.add({
+                'highlighted-container': this.nodeInfo.config.isHighlighted
+            });
+            if (this.isShifted) {
+                vClassSet = vClassSet.add({
+                    'highlighted-container-multioutput': this.nodeInfo.config.isHighlighted
+                });
+            }
+        }
+
+        return vClassSet.toString();
+    }
+
+    get isShifted() {
+        return (this.nodeInfo.flows || []).length > 0 || this.nodeInfo.faultFlow != null;
     }
 
     get nodeLabel() {

@@ -13,6 +13,7 @@ import {
     hasContext,
     setElementsMetadata
 } from 'builder_platform_interaction/alcCanvasUtils';
+import { deselectOnCanvas } from 'builder_platform_interaction/actions';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
 
@@ -223,4 +224,19 @@ export default class AlcCanvasContainer extends LightningElement {
         const alcCanvas = this.template.querySelector('builder_platform_interaction-alc-canvas');
         alcCanvas.focus();
     }
+
+    @api
+    focusOnNode = (elementGuid: UI.Guid) => {
+        const alcCanvas = this.template.querySelector('builder_platform_interaction-alc-canvas');
+        if (alcCanvas) {
+            alcCanvas.focusOnNode(elementGuid);
+        }
+    };
+
+    /**
+     * Handles the canvas mouse up event and dispatches an action to deselect all selected nodes and connectors.
+     */
+    handleElementDeselection = () => {
+        storeInstance.dispatch(deselectOnCanvas);
+    };
 }

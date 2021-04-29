@@ -52,9 +52,6 @@ export default class LeftPanel extends LightningElement {
     @api
     showElementsTab;
 
-    @api
-    showLocatorIcon;
-
     @api focus() {
         // Ideally, we should not use shadowRoot to access the child components. The base components
         // should provide overidden focus() method to set focus within the components.

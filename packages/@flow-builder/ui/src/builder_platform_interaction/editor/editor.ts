@@ -465,10 +465,6 @@ export default class Editor extends LightningElement {
         return !this.properties.isAutoLayoutCanvas;
     }
 
-    get showLocatorIconInLeftPanel() {
-        return !this.properties.isAutoLayoutCanvas;
-    }
-
     /** Indicates that the new flow modal is displayed */
     newFlowModalActive = false;
 
@@ -2045,7 +2041,7 @@ export default class Editor extends LightningElement {
      */
     handleHighlightOnCanvasSubscriber = (event: PubSubEvent) => {
         const { payload } = event;
-        if (payload && payload.elementGuid && !this.properties.isAutoLayoutCanvas) {
+        if (payload && payload.elementGuid) {
             const elementGuid = payload.elementGuid;
             this.highlightOnCanvas(elementGuid);
         }
@@ -2078,6 +2074,13 @@ export default class Editor extends LightningElement {
         if (canvasContainer && canvasContainer.panElementToView) {
             canvasContainer.panElementToView(elementGuid);
         }
+
+        // Zooming on element on autolayout canvas
+        const alcCanvasContainer = this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+        if (alcCanvasContainer) {
+            alcCanvasContainer.focusOnNode(elementGuid);
+        }
+
         // Highlighting the canvas element
         highlightCanvasElement(storeInstance, elementGuid);
     }

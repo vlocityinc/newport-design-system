@@ -12,9 +12,6 @@ export default class ResourceDetails extends LightningElement {
     @api
     resourceDetails;
 
-    @api
-    showLocatorIcon;
-
     @track
     state = {
         hasAutomaticOutputParameters: false

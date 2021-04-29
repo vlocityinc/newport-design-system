@@ -10,6 +10,7 @@
 
     --node-icon-half-width-with-padding: calc(var(--node-icon-width-with-padding) / 2);
     --node-icon-half-height-with-padding: calc(var(--node-icon-height-with-padding) / 2);
+    overflow: hidden;
 }
 
 .menu {
