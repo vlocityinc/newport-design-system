@@ -128,7 +128,8 @@ export const getErrorsFromHydratedElement = (element, errorsList: ElementValidat
  *
  * @param  element - source for values
  * @param errorSourceElement - hydrated element checked for errors
- * @returns A new object including all errors from the error source element
+ * @returns The existing object if no error source to merge.  Otherwise a new object including
+ * all errors from the error source element
  */
 export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
     if (!errorSourceElement) {
