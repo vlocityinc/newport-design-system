@@ -167,6 +167,10 @@ a.nds-button--inverse:focus {
     border-color: $color-border-button-brand-disabled;
     color: $color-text-button-brand-disabled;
   }
+
+  &:focus {
+    box-shadow: $shadow-inner, $shadow-outer;
+  }
 }
 
 /**

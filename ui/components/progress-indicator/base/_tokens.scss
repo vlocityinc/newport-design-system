@@ -8,3 +8,5 @@ $progress-color-border-hover: $science-blue !default;
 $progress-color-border-shade: $palette-gray-2 !default;
 $progress-color-border: $white !default;
 $progress-bar-height: 0.125rem !default;
+$progress-shadow-inner: $offset-none $offset-none $offset-none ($offset-medium) + px $white !default;
+$progress-shadow-outer: $offset-none $offset-none ($offset-x-small) + px 5px $color-border-brand-dark !default;
