@@ -1,7 +1,8 @@
-import { api, LightningElement, track } from 'lwc';
+import { api, LightningElement } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
+    mergeErrorsFromHydratedElement,
     ValueWithError
 } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -47,6 +48,7 @@ import {
     getFerovDataTypeForValidId,
     getResourceByUniqueIdentifier
 } from 'builder_platform_interaction/expressionUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 export enum ENTRY_CRITERIA {
     ON_STAGE_START = 'on_stage_start',
@@ -99,8 +101,11 @@ export default class StageStepEditor extends LightningElement {
 
     rules = [];
 
-    @track
     actorErrorMessage;
+
+    entryActionErrorMessage;
+    actionErrorMessage;
+    exitActionErrorMessage;
 
     recordPickerId = generateGuid();
     recordErrorMessage;
@@ -134,7 +139,9 @@ export default class StageStepEditor extends LightningElement {
      * @returns list of errors
      */
     @api validate(): object {
-        // const event = { type: VALIDATE_ALL };
+        const event = new CustomEvent(VALIDATE_ALL);
+        this.element = stageStepReducer(this.element!, event);
+
         return getErrorsFromHydratedElement(this.element);
     }
 
@@ -146,7 +153,7 @@ export default class StageStepEditor extends LightningElement {
     }
 
     set node(newValue) {
-        this.element = newValue;
+        this.element = mergeErrorsFromHydratedElement(newValue, this.element);
 
         if (!this.element) {
             return;
@@ -541,18 +548,19 @@ export default class StageStepEditor extends LightningElement {
     }
 
     async setActionParameters(action: InvocableAction | null, actionCategory: ORCHESTRATED_ACTION_CATEGORY) {
-        if (!action) {
-            return;
-        }
-
-        this.displayActionSpinner = true;
-
         let parameters: ParameterListRowItem[];
-        try {
-            parameters = (await fetchDetailsForInvocableAction(action)).parameters;
-        } catch (e) {
-            this.displayActionSpinner = false;
-            return;
+
+        if (!action) {
+            parameters = [];
+        } else {
+            this.displayActionSpinner = true;
+
+            try {
+                parameters = (await fetchDetailsForInvocableAction(action)).parameters;
+            } catch (e) {
+                this.displayActionSpinner = false;
+                return;
+            }
         }
 
         const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
@@ -672,47 +680,45 @@ export default class StageStepEditor extends LightningElement {
     }
 
     async handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
-        if (e.detail.value.actionName) {
-            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.STEP;
-            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
-
-            // Update the selected action
-            this.element = stageStepReducer(this.element!, orchEvt);
-
-            await this.setActionParameters(this.selectedAction, actionCategory);
-
-            // Update the node in the store
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
-        }
+        this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.STEP, e);
     }
 
     async handleEntryActionSelected(e: ValueChangedEvent<InvocableAction>) {
-        if (e.detail.value.actionName) {
-            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.ENTRY;
-            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
-
-            // Update the selected action
-            this.element = stageStepReducer(this.element!, orchEvt);
-
-            await this.setActionParameters(this.selectedEntryAction, actionCategory);
-
-            // Update the node in the store
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
-        }
+        this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.ENTRY, e);
     }
 
     async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
+        this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.EXIT, e);
+    }
+
+    async actionSelected(actionCategory: ORCHESTRATED_ACTION_CATEGORY, e: ValueChangedEvent<InvocableAction>) {
+        const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
+
+        // Update the selected action
+        this.element = stageStepReducer(this.element!, orchEvt);
+
+        // Only load parameters if a vsalid action is selected
         if (e.detail.value.actionName) {
-            const actionCategory = ORCHESTRATED_ACTION_CATEGORY.EXIT;
-            const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
-            // Update the selected action
-            this.element = stageStepReducer(this.element!, orchEvt);
-
-            await this.setActionParameters(this.selectedExitAction, actionCategory);
-
-            // Update the node in the store
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
+            if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
+                await this.setActionParameters(this.selectedAction, actionCategory);
+            } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
+                await this.setActionParameters(this.selectedEntryAction, actionCategory);
+            } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
+                await this.setActionParameters(this.selectedExitAction, actionCategory);
+            }
         }
+
+        const error = e.detail.item ? e.detail.item.error : e.detail.error;
+        if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
+            this.actionErrorMessage = error;
+        } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
+            this.entryActionErrorMessage = error;
+        } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.EXIT) {
+            this.exitActionErrorMessage = error;
+        }
+
+        // Update the node in the store
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
     handleEntryCriteriaItemChanged(e: ComboboxStateChangedEvent) {

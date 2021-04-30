@@ -516,7 +516,7 @@ export function createStageStep(step: StageStep): StageStep {
                 assigneeType: assigneeFromMetadata.assigneeType
             };
         });
-    } else {
+    } else if (assignees) {
         newStep.assignees = assignees.map((assignee) => {
             return {
                 assignee: Object.assign({}, assignee.assignee),

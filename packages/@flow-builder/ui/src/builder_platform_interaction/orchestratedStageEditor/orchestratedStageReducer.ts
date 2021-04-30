@@ -21,48 +21,22 @@ import {
     removeUnsetParameters,
     removeAllUnsetParameters
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { Validation } from 'builder_platform_interaction/validation';
 
-//
-// const deleteOutcome = (state, event) => {
-//     const usedElements = usedByStoreAndElementState(event.detail.guid, state.guid, state.outcomes);
-//     if (usedElements && usedElements.length > 0) {
-//         invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.OUTCOME);
-//     } else {
-//         const outcomes = state.outcomes.filter(outcome => {
-//             return outcome.guid !== event.detail.guid;
-//         });
-//
-//         // store guids that have been removed
-//         // TODO: W-5507691 handle addition/removal of store elements inside editors more cleanly
-//         deletedOutcomeGuids.set(event.detail.guid, true);
-//
-//         return updateProperties(state, { outcomes });
-//     }
-//     return state;
-// };
-//
+const validation = new Validation();
 
-// const validateProperty = (state, event) => {
-//     event.detail.error =
-//         event.detail.error === null
-//             ? decisionValidation.validateProperty(event.detail.propertyName, event.detail.value)
-//             : event.detail.error;
-//     if (event.detail.error === null && event.detail.propertyName === 'name') {
-//         // we need to run the outcome api name uniqueness validation within the current session of property editor
-//         event.detail.error = decisionValidation.validateOutcomeNameUniquenessLocally(
-//             state,
-//             event.detail.value,
-//             event.detail.guid
-//         );
-//     }
-// };
-//
+const validateProperty = (state, event) => {
+    event.detail.error =
+        event.detail.error === null
+            ? validation.validateProperty(event.detail.propertyName, event.detail.value, null)
+            : event.detail.error;
+};
 
 const orchestratedStagePropertyChanged = (state: OrchestratedStage, event: CustomEvent): OrchestratedStage => {
     event.detail.guid = state.guid;
 
-    // TODO: validate in future WI
-    // validateProperty(state, event);
+    validateProperty(state, event);
 
     return updateProperties(state, {
         [event.detail.propertyName]: {
@@ -144,9 +118,8 @@ export const orchestratedStageReducer = (state: OrchestratedStage, event: Custom
         case DeleteParameterItemEvent.EVENT_NAME:
             newState = deleteParameterItem(state, event.detail);
             break;
-        // case VALIDATE_ALL:
-        // TODO: validate in future WI
-        //     return decisionValidation.validateAll(state);
+        case VALIDATE_ALL:
+            return validation.validateAll(state, {});
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, ORCHESTRATED_ACTION_CATEGORY.EXIT);
         default:

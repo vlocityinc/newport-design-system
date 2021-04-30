@@ -10,6 +10,9 @@ import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/event
 import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { Validation } from 'builder_platform_interaction/validation';
+
 const mockReferencedGuid = 'referencedItemGuid';
 
 let mockHydrated;
@@ -19,6 +22,24 @@ jest.mock('builder_platform_interaction/orchestratedStageAndStepReducerUtils', (
     return Object.assign({}, actual, {
         removeAllUnsetParameters: jest.fn((state) => state)
     });
+});
+
+jest.mock('builder_platform_interaction/validation', () => {
+    const mockValidateAll = jest.fn();
+    const mockValidateProperty = jest.fn(() => {
+        return null;
+    });
+
+    const Validation = function () {
+        return {
+            validateAll: mockValidateAll,
+            validateProperty: mockValidateProperty
+        };
+    };
+
+    return {
+        Validation
+    };
 });
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
@@ -188,6 +209,25 @@ describe('OrchestratedStageReducer', () => {
 
             expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
+
+        it('calls validateProperty when property is null', () => {
+            const event = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: 'foo',
+                    value: 'newValue',
+                    error: null
+                }
+            };
+
+            orchestratedStageReducer(originalState, event);
+
+            expect(new Validation().validateProperty).toHaveBeenCalledWith(
+                event.detail.propertyName,
+                event.detail.value,
+                null
+            );
+        });
     });
 
     describe('mergeParameters', () => {
@@ -240,5 +280,13 @@ describe('OrchestratedStageReducer', () => {
 
             expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
         });
+    });
+
+    it('VALIDATE_ALL calls validateAll', () => {
+        const event = new CustomEvent(VALIDATE_ALL, {});
+        orchestratedStageReducer(originalStateWithExitAction, event);
+
+        const validation = new Validation();
+        expect(validation.validateAll).toHaveBeenCalledWith(originalStateWithExitAction, {});
     });
 });

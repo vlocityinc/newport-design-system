@@ -5,7 +5,8 @@ import OrchestratedStageEditor from 'builder_platform_interaction/orchestratedSt
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren
+    setDocumentBodyChildren,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
@@ -19,6 +20,11 @@ import {
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/events';
+import {
+    getErrorsFromHydratedElement,
+    mergeErrorsFromHydratedElement
+} from 'builder_platform_interaction/dataMutationLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 jest.mock('../orchestratedStageReducer', () => {
     return {
@@ -34,6 +40,15 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
             return mockActionsDetailsPromise;
         })
     };
+});
+
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
+
+    return Object.assign('', actual, {
+        getErrorsFromHydratedElement: jest.fn(),
+        mergeErrorsFromHydratedElement: jest.fn((e) => e)
+    });
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -113,6 +128,21 @@ describe('OrchestratedStageEditor', () => {
     });
 
     describe('node', () => {
+        describe('mergeErrorsFromHydratedElement', () => {
+            it('is called for new node', () => {
+                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(nodeParams, undefined);
+            });
+
+            it('is called for existing node', async () => {
+                await ticks(1);
+
+                const newNode = { a: 1 };
+                editor.node = newNode;
+
+                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, nodeParams);
+            });
+        });
+
         it('sets selectedExitCriteria by default', () => {
             editor = createComponentUnderTest({
                 guid: 'someGuid',
@@ -264,6 +294,22 @@ describe('OrchestratedStageEditor', () => {
             paramList.dispatchEvent(updateEvent);
 
             expect(orchestratedStageReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
+        });
+    });
+
+    describe('validation', () => {
+        it('calls reducer with validate all event', () => {
+            const node = editor.node;
+            getErrorsFromHydratedElement.mockReturnValueOnce([]);
+            editor.validate();
+            expect(orchestratedStageReducer.mock.calls[0][0]).toEqual(node);
+            expect(orchestratedStageReducer.mock.calls[0][1]).toEqual(new CustomEvent(VALIDATE_ALL));
+        });
+
+        it('gets the errors after validating', () => {
+            getErrorsFromHydratedElement.mockReturnValueOnce(editor.node);
+            editor.validate();
+            expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(editor.node);
         });
     });
 });

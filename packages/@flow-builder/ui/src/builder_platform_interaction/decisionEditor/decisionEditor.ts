@@ -2,7 +2,10 @@
 import { LightningElement, api, track } from 'lwc';
 import { decisionReducer, resetDeletedGuids } from './decisionReducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getErrorsFromHydratedElement,
+    mergeErrorsFromHydratedElement
+} from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './decisionEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -79,7 +82,8 @@ export default class DecisionEditor extends LightningElement {
     }
 
     set node(newValue) {
-        this.decisionElement = newValue;
+        this.decisionElement = mergeErrorsFromHydratedElement(newValue, this.decisionElement);
+
         if (!this.activeOutcomeId) {
             this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
         }
