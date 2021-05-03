@@ -414,6 +414,9 @@ export const fieldServiceMobileFlowUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '2bf626b1-9430-49ca-ad02-a75241931b16'

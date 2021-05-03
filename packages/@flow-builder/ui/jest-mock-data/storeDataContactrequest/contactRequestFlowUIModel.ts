@@ -348,6 +348,9 @@ export const contactRequestFlowUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '700b8f1c-98eb-48ea-90f0-35e1a864a1a8'

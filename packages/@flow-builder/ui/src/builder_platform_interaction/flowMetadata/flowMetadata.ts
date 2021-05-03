@@ -85,6 +85,12 @@ export enum ELEMENT_TYPE {
     DEFAULT = 'defaultElement'
 }
 
+export const FOOTER_LABEL_TYPE = {
+    STANDARD: 'standard',
+    CUSTOM: 'custom',
+    HIDE: 'hide'
+};
+
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',
