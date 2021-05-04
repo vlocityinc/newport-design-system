@@ -9,7 +9,8 @@ const SELECTORS = {
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
     TRIGGER_TYPE_BEFORE_SAVE: 'input.beforeSave',
     TRIGGER_TYPE_AFTER_SAVE: 'input.afterSave',
-    BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo'
+    BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo',
+    RUN_ON_SUCCESS_CHECKBOX: 'lightning-input.test-input-selection-checkbox'
 };
 
 function createComponentForTest(node) {
@@ -37,7 +38,8 @@ function recordChangeTriggerElement(flowTriggerType, recordTriggerType) {
         elementType: 'START_ELEMENT',
         guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
         triggerType: { value: flowTriggerType, error: null },
-        recordTriggerType: { value: recordTriggerType, error: null }
+        recordTriggerType: { value: recordTriggerType, error: null },
+        scheduledPaths: []
     };
 
     return triggerStartElement;
@@ -187,6 +189,31 @@ describe('record-change-trigger-editor', () => {
                 }
             });
             query(element, SELECTORS.TRIGGER_TYPE_AFTER_SAVE).dispatchEvent(event);
+
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: element.getNode() }
+                })
+            );
+        });
+
+        it('dispatched on toggleRunOnSuccess', async () => {
+            expect.assertions(1);
+            const element = createComponentForTest(
+                recordChangeTriggerElement(FLOW_TRIGGER_TYPE.AFTER_SAVE, FLOW_TRIGGER_SAVE_TYPE.CREATE)
+            );
+
+            const updateNodeCallback = jest.fn();
+            element.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            await ticks(1);
+
+            const event = new CustomEvent('change', {
+                detail: {
+                    value: true
+                }
+            });
+            query(element, SELECTORS.RUN_ON_SUCCESS_CHECKBOX).dispatchEvent(event);
 
             expect(updateNodeCallback).toHaveBeenCalledWith(
                 expect.objectContaining({

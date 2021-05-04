@@ -2037,20 +2037,8 @@ export function clearCanvasDecoration(flowModel: FlowModel): FlowModel {
  */
 export function shouldSupportScheduledPaths(node: StartNodeModel) {
     // TODO: W-8882792 Duplicated the method in rendering layer form ui layer. Find a better way to do this.
-    const {
-        nodeType,
-        triggerType,
-        object,
-        recordTriggerType,
-        doesRequireRecordChangedToMeetCriteria,
-        filterLogic
-    } = node;
-    return (
-        nodeType === NodeType.START &&
-        triggerType === 'RecordAfterSave' &&
-        object &&
-        (recordTriggerType === 'Create' || (doesRequireRecordChangedToMeetCriteria && filterLogic !== 'no_conditions'))
-    );
+    const { triggerType, object } = node;
+    return triggerType === 'RecordAfterSave' && object && object !== '';
 }
 
 export function fulfillsBranchingCriteria(node: NodeModel, type: NodeType) {

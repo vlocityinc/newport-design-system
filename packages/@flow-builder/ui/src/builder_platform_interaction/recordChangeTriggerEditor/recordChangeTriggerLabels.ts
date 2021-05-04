@@ -13,6 +13,7 @@ import triggerTypeAfterSaveDescription from '@salesforce/label/FlowBuilderStartE
 import triggerTypeBeforeDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeDeleteDescription';
 import requiredLabel from '@salesforce/label/FlowBuilderStartEditor.requiredLabel';
 import noUndeleteFlowMessage from '@salesforce/label/FlowBuilderStartEditor.noUndeleteFlowMessage';
+import runOnSuccessScheduledPathCheckboxLabel from '@salesforce/label/FlowBuilderStartEditor.runOnSuccessScheduledPathCheckboxLabel';
 
 export const LABELS = {
     createOrUpdateInputLabel,
@@ -28,5 +29,6 @@ export const LABELS = {
     triggerTypeAfterSaveDescription,
     triggerTypeBeforeDeleteDescription,
     requiredLabel,
-    noUndeleteFlowMessage
+    noUndeleteFlowMessage,
+    runOnSuccessScheduledPathCheckboxLabel
 };

@@ -7,6 +7,7 @@ import {
     createStartElementMetadataObject,
     createScheduledPath,
     createStartElement,
+    createRunOnSuccessScheduledPath,
     createStartElementWhenUpdatingFromPropertyEditor
 } from '../startElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
@@ -18,7 +19,8 @@ import {
     CONNECTOR_TYPE,
     TIME_OPTION,
     SCHEDULED_PATH_TIME_SOURCE_TYPE,
-    SCHEDULED_PATH_OFFSET_UNIT
+    SCHEDULED_PATH_OFFSET_UNIT,
+    SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseChildElement, baseCanvasElement } from '../base/baseElement';
@@ -183,129 +185,11 @@ describe('Start element', () => {
                     expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
                 });
             });
-
-            describe('recordTriggerType is Create', () => {
-                beforeEach(() => {
-                    startElement.object = 'Account';
-                    startElement.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
-                });
-
-                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
-                });
-
-                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
-                });
-
-                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
-                });
-
-                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
-                });
-
-                it('should support scheduled paths for AutoLaunchedFlow', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement, 'AutoLaunchedFlow')).toBeTruthy();
-                });
-
-                it('should NOT support scheduled paths for process types other than AutoLaunchedFlow', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement, 'Orchestrator')).toBeFalsy();
-                });
-            });
-
-            describe('recordTriggerType is Update', () => {
-                beforeEach(() => {
-                    startElement.object = 'Account';
-                    startElement.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
-                });
-
-                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
-                });
-
-                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
-                });
-
-                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
-                });
-
-                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
-                });
-
-                it('should support scheduled paths when filterLogic is "and", doesRequireRecordChangedToMeetCriteria is true and process type is AutoLaunchedFlow', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement, 'AutoLaunchedFlow')).toBeTruthy();
-                });
-
-                it('should NOT support scheduled paths when process type is NOT AutoLaunchedFlow', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement, 'Orchestrator')).toBeFalsy();
-                });
-            });
-
-            describe('recordTriggerType is CreateAndUpdate', () => {
-                beforeEach(() => {
-                    startElement.object = 'Account';
-                    startElement.recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
-                });
-
-                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is true', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
-                });
-
-                it('filterLogic is no conditions and doesRequireRecordChangedToMeetCriteria is false', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
-                });
-
-                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is true', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = true;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeTruthy();
-                });
-
-                it('filterLogic is "and" and doesRequireRecordChangedToMeetCriteria is false', () => {
-                    startElement.filterLogic = CONDITION_LOGIC.AND;
-                    startElement.doesRequireRecordChangedToMeetCriteria = false;
-                    expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
-                });
-            });
         });
 
         it('When triggerType is BEFORE_SAVE', () => {
             const startElement = {
                 triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
-                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.CREATE,
                 object: 'Account'
             };
             expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
@@ -314,7 +198,6 @@ describe('Start element', () => {
         it('When triggerType is BEFORE_DELETE', () => {
             const startElement = {
                 triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
-                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
                 object: 'Account'
             };
             expect(shouldSupportScheduledPaths(startElement)).toBeFalsy();
@@ -662,6 +545,17 @@ describe('Start element', () => {
 
             expect(baseChildElement.mock.calls[0][0]).toEqual(existingScheduledPath);
             expect(newScheduledPath).toMatchObject(existingScheduledPath);
+        });
+    });
+
+    describe('createRunOnSuccessScheduledPath', () => {
+        it('configures label, pathType and name correctly for run on success path', () => {
+            expect.assertions(3);
+            const newScheduledPath = createRunOnSuccessScheduledPath({});
+
+            expect(newScheduledPath.label).toEqual(LABELS.runOnSuccessScheduledPathLabel);
+            expect(newScheduledPath.name).toEqual('FlowBuilderStartEditor_runOnSuccessScheduledPathLabel');
+            expect(newScheduledPath.pathType).toEqual(SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
         });
     });
 

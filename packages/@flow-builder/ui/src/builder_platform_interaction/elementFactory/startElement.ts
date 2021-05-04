@@ -8,7 +8,8 @@ import {
     CONNECTOR_TYPE,
     TIME_OPTION,
     SCHEDULED_PATH_OFFSET_UNIT,
-    SCHEDULED_PATH_TIME_SOURCE_TYPE
+    SCHEDULED_PATH_TIME_SOURCE_TYPE,
+    SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -25,7 +26,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { isScheduledPathSupported } from 'builder_platform_interaction/processTypeLib';
 import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
@@ -96,14 +97,7 @@ export function shouldSupportScheduledPaths(
         processType = getProcessType();
     }
     const schedulePathSupported = processType === null ? true : isScheduledPathSupported(processType);
-    return (
-        schedulePathSupported &&
-        startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE &&
-        startElement.object &&
-        (startElement.recordTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
-            (startElement.doesRequireRecordChangedToMeetCriteria &&
-                startElement.filterLogic !== CONDITION_LOGIC.NO_CONDITIONS))
-    );
+    return schedulePathSupported && startElement.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE && startElement.object;
 }
 
 /**
@@ -337,6 +331,8 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
             let recordField;
             const { offsetNumber } = scheduledPath;
             let { timeSource, offsetUnit } = scheduledPath;
+            timeSource = timeSource === '' ? undefined : timeSource;
+            offsetUnit = offsetUnit === '' ? undefined : offsetUnit;
 
             let offsetNumberAsNumber = Number(offsetNumber);
 
@@ -413,10 +409,22 @@ function getscheduledLabel(startDate, startTime, frequency) {
     return label;
 }
 
+export function createRunOnSuccessScheduledPath(scheduledPath: UI.ScheduledPath): UI.ScheduledPath {
+    const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
+    const label = LABELS.runOnSuccessScheduledPathLabel;
+    const pathType = SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS;
+    const name = sanitizeDevName(label);
+    return Object.assign(newScheduledPath, {
+        name,
+        label,
+        pathType
+    });
+}
+
 export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.ScheduledPath): UI.ScheduledPath {
     const newScheduledPath: UI.ChildElement = baseChildElement(scheduledPath, ELEMENT_TYPE.SCHEDULED_PATH);
 
-    const { recordField } = <Metadata.ScheduledPath>scheduledPath;
+    const { recordField, pathType } = <Metadata.ScheduledPath>scheduledPath;
 
     let { timeSource = '', offsetUnit = '', offsetNumber = '' } = scheduledPath;
 
@@ -448,7 +456,8 @@ export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.S
     return Object.assign(newScheduledPath, {
         timeSource,
         offsetUnit,
-        offsetNumber
+        offsetNumber,
+        pathType
     });
 }
 
