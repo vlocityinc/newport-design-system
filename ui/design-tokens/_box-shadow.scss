@@ -15,7 +15,7 @@ $elevation-shadow-4: $offset-none ($offset-medium) + px ($offset-medium) + px $o
 $elevation-shadow-8: $offset-none ($offset-large) + px ($offset-large) + px $offset-none $black-transparent-16 !default;
 $shadow-action-overflow-footer: $offset-none (-$offset-x-small) + px ($offset-medium) + px $palette-gray-2 !default;
 $shadow-button-focus-inverse: $offset-none $offset-none ($offset-small) + px $palette-gray-4 !default;
-$shadow-button-focus: $offset-none $offset-none ($offset-small) + px $science-blue !default;
+$shadow-button-focus: $offset-none $offset-none ($offset-x-small) + px 1px $science-blue !default;
 $shadow-radio-focus: $offset-none $offset-none ($offset-small)+px ($offset-x-small)+px $newport-color-brand-focus !default;
 $shadow-button: $offset-none 1px 1px $offset-none $black-transparent-05 !default;
 $shadow-docked: $offset-none (-$offset-x-small) + px ($offset-x-small) + px $offset-none $black-transparent-16 !default;
@@ -31,3 +31,5 @@ $shadow-reminder: $offset-none ($offset-x-small) + px $offset-none $offset-none 
 $shadow-soft-primary-active: none !default;
 $shadow-soft-primary-hover: none !default;
 $shadow-soft-primary: none !default;
+$shadow-inner: $offset-none $offset-none $offset-none ($offset-medium) + px $white !default;
+$shadow-outer: $offset-none $offset-none ($offset-x-small) + px 5px $science-blue !default;
