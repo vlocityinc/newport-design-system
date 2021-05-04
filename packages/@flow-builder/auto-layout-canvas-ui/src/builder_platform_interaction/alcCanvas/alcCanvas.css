@@ -37,11 +37,6 @@ builder_platform_interaction-zoom-panel {
     bottom: 0;
 }
 
-:host {
-    margin-top: var(--node-icon-width);
-    margin-bottom: var(--node-icon-width);
-}
-
 .canvas {
     display: flex;
     flex: auto;
