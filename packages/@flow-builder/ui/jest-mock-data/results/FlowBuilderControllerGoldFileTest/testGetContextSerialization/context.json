@@ -5,6 +5,7 @@
       "orgHasComplianceBannerEnabled":false,
       "orgHasBeforeSaveEnabled":true,
       "orgHasFlowBuilderAutomaticFields":true,
+      "orgHasFlowAutomaticFieldsUseRecordPageComponents":true,
       "orgHasFlowScreenSections":true,
       "orgHasComponentPreview":true,
       "orgHasFlowBuilderGuardrails":true
@@ -110,7 +111,6 @@
         "Orchestrator",
         "RecommendationStrategy",
         "RoutingFlow",
-        "SalesEntryExperienceFlow",
         "Survey",
         "SurveyEnrich",
         "TransactionSecurityFlow",
