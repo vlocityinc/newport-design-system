@@ -37,6 +37,11 @@ svg.fault.connector-highlighted {
     stroke-dasharray: none;
 }
 
+svg.goTo.connector-highlighted {
+    stroke: #ffb75d;
+    stroke-dasharray: none;
+}
+
 .connector-badge {
     position: absolute;
     height: 24px;

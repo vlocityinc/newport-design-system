@@ -444,7 +444,9 @@ function getFlowWithHighlightedDecisionBranch() {
 function getFlowWithHighlightedAndMergedDecisionBranch() {
     const branchElement = {
         ...BRANCH_ELEMENT,
-        config: { highlightInfo: { branchIndexesToHighlight: [1], highlightNext: true } }
+        config: {
+            highlightInfo: { branchIndexesToHighlight: [1], mergeBranchIndexesToHighlight: [1], highlightNext: true }
+        }
     };
 
     const flowModel = createFlow([branchElement]);

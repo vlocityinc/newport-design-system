@@ -45,7 +45,8 @@ import {
     FlowModel,
     NodeModel,
     fulfillsBranchingCriteria,
-    ParentNodeModel
+    ParentNodeModel,
+    findFirstElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -296,6 +297,18 @@ function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, c
 }
 
 /**
+ * Helper function to update highlight info on a parent element and include a merge branch index to highlight
+ * @param parentHighlightInfo HighlightInfo object on parent element
+ * @param mergeBranchIndexToHighlight index of the merge branch to be highlighted on parent element
+ */
+function setMergeBranchIndexesToHighlight(parentHighlightInfo: HighlightInfo, mergeBranchIndexToHighlight: number) {
+    parentHighlightInfo!.mergeBranchIndexesToHighlight = parentHighlightInfo!.mergeBranchIndexesToHighlight || [];
+    if (!parentHighlightInfo!.mergeBranchIndexesToHighlight.includes(mergeBranchIndexToHighlight)) {
+        parentHighlightInfo!.mergeBranchIndexesToHighlight.push(mergeBranchIndexToHighlight);
+    }
+}
+
+/**
  * Helper function to get the list of elements to decorate after the decorate canvas action is fired
  * @param state flow state
  * @param connectorsToHighlight array of connectors to highlight from the decorate action payload
@@ -340,22 +353,34 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
         // go up it's branch chain to it's parent element to highlight merge points correctly
         if (!element.next && highlightInfo.highlightNext) {
             let parentElement = findParentElement(element, state);
+            let branchHeadElement = findFirstElement(element, state);
+            let mergeBranchIndexToHighlight = branchHeadElement.childIndex;
 
             // If the parent is a not a loop and not a branch with a next element,
-            // set highlightNext so that we highlight the merge point after it's branches,
-            // and keep going up it's branch chain to do the same for all it's parents that meet the criteria
+            // set highlightNext so that we highlight the merge point after it's branches
+            // Also, set the index for which of it's merge branches need to be highlighted
+            // Finally, keep going up it's branch chain to do the same for all it's parents that meet the same criteria
             while (parentElement.nodeType !== NodeType.LOOP && !parentElement.next) {
-                decoratedElements.get(parentElement.guid)!.highlightNext = true;
+                const parentHighlightInfo = decoratedElements.get(parentElement.guid) || {};
+                parentHighlightInfo!.highlightNext = true;
+                setMergeBranchIndexesToHighlight(parentHighlightInfo, mergeBranchIndexToHighlight);
+                decoratedElements.set(parentElement.guid, parentHighlightInfo);
+
+                branchHeadElement = findFirstElement(parentElement, state);
+                mergeBranchIndexToHighlight = branchHeadElement && branchHeadElement.childIndex;
                 parentElement = findParentElement(parentElement, state);
             }
 
             // If the final parent is a loop element, highlight the end of the loop back connector,
-            // else it is a branch whose next also needs to be highlighted
+            // else it is a branch element whose next and merge branch also need to be highlighted
+            const parentHighlightInfo = decoratedElements.get(parentElement.guid) || {};
             if (parentElement.nodeType === NodeType.LOOP) {
-                decoratedElements.get(parentElement.guid)!.highlightLoopBack = true;
+                parentHighlightInfo.highlightLoopBack = true;
             } else {
-                decoratedElements.get(parentElement.guid)!.highlightNext = true;
+                parentHighlightInfo.highlightNext = true;
+                setMergeBranchIndexesToHighlight(parentHighlightInfo, mergeBranchIndexToHighlight);
             }
+            decoratedElements.set(parentElement.guid, parentHighlightInfo);
         }
 
         decoratedElements.set(elementGuid, highlightInfo);

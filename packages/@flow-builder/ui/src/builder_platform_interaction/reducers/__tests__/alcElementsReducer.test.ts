@@ -1532,8 +1532,62 @@ describe('alc-elements-reducer', () => {
                 }
             });
             const decoratedElements = new Map<Guid, HighlightInfo>();
-            decoratedElements.set('guid1', { branchIndexesToHighlight: [0], highlightNext: true });
-            decoratedElements.set('guid2', { branchIndexesToHighlight: [0], highlightNext: true });
+            decoratedElements.set('guid1', {
+                branchIndexesToHighlight: [0],
+                mergeBranchIndexesToHighlight: [0],
+                highlightNext: true
+            });
+            decoratedElements.set('guid2', {
+                branchIndexesToHighlight: [0],
+                mergeBranchIndexesToHighlight: [0],
+                highlightNext: true
+            });
+            decoratedElements.set('guid3', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When setting mergeBranchIndexesToHighlight on parent branch elements', () => {
+            const flowModel = {
+                guid1: {
+                    guid: 'guid1',
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['guid3', null, 'guid2'],
+                    nodeType: NodeType.BRANCH,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: {
+                    guid: 'guid2',
+                    parent: 'guid1',
+                    childIndex: 2,
+                    childReferences: [{ childReference: 'childGuid3' }],
+                    children: [null, 'guid3'],
+                    nodeType: NodeType.BRANCH,
+                    config: {}
+                },
+                guid3: { guid: 'guid3', parent: 'guid2', childIndex: 1, config: {} }
+            };
+
+            alcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1', childSource: 'childGuid1' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid3' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', {
+                branchIndexesToHighlight: [0],
+                mergeBranchIndexesToHighlight: [2],
+                highlightNext: true
+            });
+            decoratedElements.set('guid2', {
+                mergeBranchIndexesToHighlight: [1],
+                highlightNext: true
+            });
             decoratedElements.set('guid3', { highlightNext: true });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);

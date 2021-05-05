@@ -16,6 +16,7 @@ export interface HighlightInfo {
     highlightNext?: boolean;
     highlightLoopBack?: boolean;
     branchIndexesToHighlight?: Array<number>;
+    mergeBranchIndexesToHighlight?: Array<number>;
 }
 
 export interface NodeModel {
