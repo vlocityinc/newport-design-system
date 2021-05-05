@@ -14,7 +14,6 @@ validations:
 core:
     module_name: 'ui-interaction-builder-components'
     version_property_name: 'ui-interaction-builder-components.version'
-    next_version: '234.46'
 build_resource_size: huge
 
 # targeting the "communities/centos-sfci-nodejs-jdk11" Docker image with Git 2.29.1, Node 14.15.4, Yarn 1.22.10
