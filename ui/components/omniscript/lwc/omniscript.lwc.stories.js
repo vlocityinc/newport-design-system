@@ -20,23 +20,23 @@ const options = {
 };
 const groupId = 'GROUP-ID1';
 
-storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
-.addDecorator(withKnobs)
-.addDecorator(withDocs(notes))
-.addDecorator(commentToHTML(scss))
-.add('LWC Omniscript', () => {
-  requestAnimationFrame(() => {
-    const bpView = document.getElementById(`VlocityBPView`);
-    bpView.addEventListener('change', event => {
-      if (event.target.value) {
-        event.target.classList.add('nds-has-value');
-      } else {
-        event.target.classList.remove('nds-has-value');
-      }
+storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''), module)
+  .addDecorator(withKnobs)
+  .addDecorator(withDocs(notes))
+  .addDecorator(commentToHTML(scss))
+  .add('LWC Omniscript', () => {
+    requestAnimationFrame(() => {
+      const bpView = document.getElementById(`VlocityBPView`);
+      bpView.addEventListener('change', event => {
+        if (event.target.value) {
+          event.target.classList.add('nds-has-value');
+        } else {
+          event.target.classList.remove('nds-has-value');
+        }
+      });
     });
-  });
-  const width = number(label, defaultValue, options, groupId);
-  return withExample(`<vloc_mg-omniscript-preview id="a0Z1J00000FGWtHUAX"
+    const width = number(label, defaultValue, options, groupId);
+    return withExample(`<vloc_mg-omniscript-preview id="a0Z1J00000FGWtHUAX"
   data-aura-rendered-by="6:0"
   vloc_mg-omniscriptpreview_omniscriptpreview_nds-host="">
   <div vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
@@ -3028,4 +3028,4 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
     width: max-content;
   }
   </style>`);
-});
+  });
