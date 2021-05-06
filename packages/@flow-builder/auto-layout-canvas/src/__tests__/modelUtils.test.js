@@ -231,7 +231,7 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('getTargetGuidsForReconnection', () => {
+    describe('', () => {
         it('No branches are merged and undefined parent parameter', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             branchingElement.children = [
@@ -246,7 +246,8 @@ describe('modelUtils', () => {
                     'branch-guid:0-random-guid2',
                     undefined,
                     'branch-guid:0-end-guid',
-                    true
+                    true,
+                    undefined
                 )
             ).toEqual({
                 firstMergeableNonNullNext: null,
@@ -261,7 +262,7 @@ describe('modelUtils', () => {
 
             const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
             expect(
-                getTargetGuidsForReconnection(elements, undefined, 'branch-guid', 'branch-guid:0-end-guid', true)
+                getTargetGuidsForReconnection(elements, undefined, 'branch-guid', 'branch-guid:0-end-guid', true, 0)
             ).toEqual({
                 firstMergeableNonNullNext: null,
                 goToableGuids: [],
@@ -307,7 +308,9 @@ describe('modelUtils', () => {
                     parent: 'root'
                 }
             };
-            expect(getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false)).toEqual({
+            expect(
+                getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
+            ).toEqual({
                 firstMergeableNonNullNext: null,
                 goToableGuids: [],
                 mergeableGuids: []
@@ -358,7 +361,9 @@ describe('modelUtils', () => {
                     parent: 'root'
                 }
             };
-            expect(getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false)).toEqual({
+            expect(
+                getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
+            ).toEqual({
                 firstMergeableNonNullNext: null,
                 goToableGuids: ['branch-guid'],
                 mergeableGuids: []
@@ -428,7 +433,14 @@ describe('modelUtils', () => {
                 }
             };
             expect(
-                getTargetGuidsForReconnection(elements, undefined, 'branch-guid:0-head1-guid', 'head1-end1-guid', true)
+                getTargetGuidsForReconnection(
+                    elements,
+                    undefined,
+                    'branch-guid:0-head1-guid',
+                    'head1-end1-guid',
+                    true,
+                    0
+                )
             ).toEqual({
                 firstMergeableNonNullNext: 'screen1',
                 goToableGuids: ['branch-guid'],
@@ -459,7 +471,9 @@ describe('modelUtils', () => {
                     prev: 'start-guid'
                 }
             };
-            expect(getTargetGuidsForReconnection(elements, 'start-guid', undefined, 'end-guid', false)).toEqual({
+            expect(
+                getTargetGuidsForReconnection(elements, 'start-guid', undefined, 'end-guid', false, undefined)
+            ).toEqual({
                 firstMergeableNonNullNext: null,
                 goToableGuids: [],
                 mergeableGuids: []
@@ -490,7 +504,9 @@ describe('modelUtils', () => {
                 },
                 'random-guid': { guid: 'random-guid', isCanvasElement: true, prev: 'start-guid', next: 'end-guid' }
             };
-            expect(getTargetGuidsForReconnection(elements, 'random-guid', undefined, 'end-guid', false)).toEqual({
+            expect(
+                getTargetGuidsForReconnection(elements, 'random-guid', undefined, 'end-guid', false, undefined)
+            ).toEqual({
                 firstMergeableNonNullNext: null,
                 goToableGuids: [],
                 mergeableGuids: []
@@ -565,7 +581,9 @@ describe('modelUtils', () => {
                     parent: 'root'
                 }
             };
-            expect(getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false)).toEqual({
+            expect(
+                getTargetGuidsForReconnection(elements, 'branch-guid', undefined, 'end-guid', false, undefined)
+            ).toEqual({
                 firstMergeableNonNullNext: null,
                 goToableGuids: ['branch-guid', 'branch-guid2'],
                 mergeableGuids: []
@@ -657,7 +675,7 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(getTargetGuidsForReconnection(flowModel, undefined, 'decision2', 'end1', true)).toEqual({
+            expect(getTargetGuidsForReconnection(flowModel, undefined, 'decision2', 'end1', true, 0)).toEqual({
                 firstMergeableNonNullNext: 'end',
                 goToableGuids: ['screen1', 'decision1', 'screen2'],
                 mergeableGuids: ['screen3']

@@ -238,11 +238,28 @@ function validInsertAtOrThrow(flowModel: FlowModel, insertAt: InsertAt) {
 }
 
 /**
+ * Checks if there is a GoTo connection.
+ *
+ * @param flowModel - The flow model
+ * @param from - The insert point
+ * @returns true if there is a GoTo connection
+ */
+function isGoToConnector(flowModel: FlowModel, from: InsertAt): boolean {
+    const { prev, parent, childIndex } = from;
+    return (prev && flowModel[prev].next && hasGoToConnectionOnNext(flowModel, flowModel[prev])) ||
+        (parent &&
+            childIndex != null &&
+            hasGoToConnectionOnBranchHead(flowModel, flowModel[parent] as ParentNodeModel, childIndex))
+        ? true
+        : false;
+}
+
+/**
  * Creates a connection from an InsertAt location to a target element.
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param fromInsertAt - The insert point. For now the InsertAt location must have an end element
+ * @param fromInsertAt - The insert point. For now the InsertAt location must have an end element unless there is a GoTo
  * @param toElementGuid - The guid of the element to connect to
  * @returns The updated flow model
  */
@@ -252,6 +269,13 @@ function connectToElement(
     fromInsertAt: InsertAt,
     toElementGuid: Guid
 ): FlowModel {
+    if (isGoToConnector(flowModel, fromInsertAt)) {
+        flowModel =
+            fromInsertAt.parent != null
+                ? deleteGoToConnection(elementService, flowModel, fromInsertAt.parent, fromInsertAt.childIndex)
+                : deleteGoToConnection(elementService, flowModel, fromInsertAt.prev, null);
+    }
+
     const endElement = getNodeAtInsertAt(flowModel, fromInsertAt);
     if (!endElement || endElement.nodeType !== NodeType.END) {
         throw new Error('When connecting, a end node must be at insertAt');
@@ -743,16 +767,18 @@ function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid)
  *
  * @param elements - The flow model
  * @param prev - The guid of a previous element
- * @param branchParent - The guid of the parent element
- * @param next - the guid of a next element
+ * @param branchParentGuid - The guid of the parent element
+ * @param index - The index of the child
  * @returns An array of valid mergeable target guids
  */
-function getMergeableGuids(elements: FlowModel, prev: Guid, branchParent: Guid, next: Guid): Guid[] {
-    const { parent, childIndex } = findFirstElement(elements[next], elements);
+function getMergeableGuids(elements: FlowModel, prev: Guid, branchParentGuid: Guid, index: number): Guid[] {
+    const { parent, childIndex } = prev
+        ? findFirstElement(elements[prev], elements)
+        : { parent: branchParentGuid, childIndex: index };
     const branchingElement = elements[parent] as ParentNodeModel;
 
     // Making sure we do not include the branchParent if there is a goTo from the merge point to it
-    if (branchingElement.next && branchingElement.next !== branchParent && branchingElement.next !== prev) {
+    if (branchingElement.next && branchingElement.next !== branchParentGuid && branchingElement.next !== prev) {
         return [branchingElement.next];
     }
 
@@ -867,6 +893,7 @@ function getGoToableGuids(
  * @param parent - The guid of the parent element
  * @param next - the guid of a next element
  * @param canMergeEndedBranch - is merge possible
+ * @param childIndex - The index of the child
  * @returns An object containing mergeableGuids, goToableGuids and possibly firstMergeableNonNullNext
  */
 function getTargetGuidsForReconnection(
@@ -874,19 +901,24 @@ function getTargetGuidsForReconnection(
     prev: Guid,
     parent: Guid,
     next: Guid,
-    canMergeEndedBranch: boolean
+    canMergeEndedBranch: boolean,
+    childIndex: number
 ): { mergeableGuids: Guid[]; goToableGuids: Guid[]; firstMergeableNonNullNext: Guid | null } {
     // Gets all the mergeable guids
-    const mergeableGuids = canMergeEndedBranch ? getMergeableGuids(elements, prev, parent, next) : [];
+    const mergeableGuids = canMergeEndedBranch ? getMergeableGuids(elements, prev, parent, childIndex) : [];
     // Variable to keep track of the first non-null next element of a branching element (going up the branch)
     // that the user can merge into
     let firstMergeableNonNullNext = null;
 
     let isSteppingOutOfFault = false;
-    let branchHead = prev ? findFirstElement(elements[prev], elements) : resolveBranchHead(elements, next);
-    let branchParent = elements[branchHead.parent];
+    let branchHead = prev
+        ? findFirstElement(elements[prev], elements)
+        : hasGoToConnectionOnBranchHead(elements, elements[parent] as ParentNodeModel, childIndex) // If GoTo on branchHead then return null since there is element for branchHead
+        ? null
+        : resolveBranchHead(elements, next);
+    let branchParent = branchHead ? elements[branchHead.parent] : elements[parent];
 
-    if (branchHead.childIndex === FAULT_INDEX) {
+    if (childIndex === FAULT_INDEX || branchHead?.childIndex === FAULT_INDEX) {
         isSteppingOutOfFault = true;
     }
 

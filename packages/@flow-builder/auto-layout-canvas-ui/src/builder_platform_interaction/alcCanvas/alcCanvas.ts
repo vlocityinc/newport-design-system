@@ -688,7 +688,8 @@ export default class AlcCanvas extends LightningElement {
             prev,
             parent,
             next,
-            canMergeEndedBranch
+            canMergeEndedBranch,
+            childIndex
         );
         this._mergeableGuids = mergeableGuids;
         this._goToableGuids = goToableGuids;
@@ -753,9 +754,21 @@ export default class AlcCanvas extends LightningElement {
                     )
                 );
             } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
-                const endElement = this._flowModel[this._currentTargetGuid!];
-                const { prev, childIndex, parent } = endElement;
-                const insertAt = parent ? { parent, childIndex } : { prev };
+                let sourceElement;
+                let insertAt;
+                if (this._isReroutingGoto) {
+                    // When a GoTo is present we need to use _goToSourceBranchIndex to generate insertAt
+                    sourceElement = this._flowModel[this._goToSourceGuid];
+                    insertAt =
+                        this._goToSourceBranchIndex != null
+                            ? { parent: sourceElement.guid, childIndex: this._goToSourceBranchIndex }
+                            : { prev: sourceElement.guid };
+                } else {
+                    sourceElement = this._flowModel[this._currentTargetGuid!];
+                    const { prev, childIndex, parent } = sourceElement;
+                    insertAt = parent ? { parent, childIndex } : { prev };
+                }
+
                 this.dispatchEvent(new AlcCreateConnectionEvent(insertAt, event.detail.canvasElementGUID));
             } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
                 this.dispatchEvent(
