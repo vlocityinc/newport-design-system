@@ -1092,6 +1092,7 @@ export default class AlcCanvas extends LightningElement {
     handleCanvasMouseUp = (event) => {
         // We need the this.isPanInProgress check here so that we don't deselect elements when the user ends panning
         if (
+            !this._isSelectionMode &&
             !this.isPanInProgress &&
             event.currentTarget &&
             (event.currentTarget.classList.contains('canvas') ||
