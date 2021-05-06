@@ -159,7 +159,7 @@ describe('alc builder container', () => {
                 getCurrentState: jest.fn(() => {
                     return {
                         elements: { startGuid: { elementType: 'START_ELEMENT' } },
-                        properties: { processType: 'autolaunched' }
+                        properties: { processType: 'autolaunched', isAutoLayoutCanvas: true }
                     };
                 }),
                 subscribe: jest.fn(() => jest.fn()),

@@ -159,6 +159,8 @@ export default class AlcCanvasContainer extends LightningElement {
 
     rootElement = null;
 
+    isAutoLayoutCanvas = true;
+
     get canvasOffsets() {
         return this.isSelectionMode
             ? [LEFT_PANE_WIDTH, NODE_ICON_HALF_HEIGHT_WITH_PADDING]
@@ -185,7 +187,10 @@ export default class AlcCanvasContainer extends LightningElement {
 
     mapCanvasStateToStore = () => {
         const storeState = storeInstance.getCurrentState();
-        const { elements } = storeState;
+        const { elements, properties } = storeState;
+
+        // W-7868857: check the mode to avoid rendering a flow that has been switched to free form
+        this.isAutoLayoutCanvas = properties.isAutoLayoutCanvas;
 
         this.rootElement =
             this.rootElement || Object.values(elements).find((ele) => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
