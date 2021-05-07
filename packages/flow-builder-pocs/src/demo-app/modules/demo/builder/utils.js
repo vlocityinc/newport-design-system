@@ -161,6 +161,10 @@ function pick(ele) {
         delete res.next;
     }
 
+    if (prev == null) {
+        delete res.prev;
+    }
+
     return res;
 }
 

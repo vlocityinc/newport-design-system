@@ -49,6 +49,11 @@ import ffcLoopEmptyWithAfterLast from './ffcUiModels/loop-empty-with-after-last.
 import ffcLoopEmpty from './ffcUiModels/loop-empty.json';
 import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen.json';
 import ffcComplex1 from './ffcUiModels/complex1.json';
+import ffcComplex2 from './ffcUiModels/complex2.json';
+import ffcComplex3 from './ffcUiModels/complex3.json';
+import ffcComplex4 from './ffcUiModels/complex4.json';
+import ffcComplex5 from './ffcUiModels/complex5.json';
+import ffcComplex6 from './ffcUiModels/complex6.json';
 import ffcDecisionWithMultipleOutcomes from './ffcUiModels/decision-with-multiple-outcomes.json';
 import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault.json';
 import ffcUpdatedElementConfig from './ffcUiModels/updated-element-config.json';
@@ -855,6 +860,21 @@ describe('alc conversion utils', () => {
                 });
                 describe('complex 1', () => {
                     assertRoundTripFromFreeFormCanvas(ffcComplex1);
+                });
+                describe('complex 2', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcComplex2);
+                });
+                describe('complex 3', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcComplex3);
+                });
+                describe('complex 4', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcComplex4);
+                });
+                describe('complex 5', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcComplex5);
+                });
+                describe('complex 6', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcComplex6);
                 });
             });
             describe('wait', () => {

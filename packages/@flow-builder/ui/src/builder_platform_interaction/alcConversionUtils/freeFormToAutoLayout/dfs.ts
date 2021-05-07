@@ -373,9 +373,10 @@ function checkIntervals(ctx: DfsContext) {
         // or outside the outermost interval.
         if (currentInterval) {
             const innermostInterval = currentInterval;
-            const outermostInterval = intervalStack[0];
 
-            for (const out of outs) {
+            for (let j = 0; j < outs.length; j++) {
+                const out = outs[j];
+                const edgeType = conversionInfos[out.source].edgeTypes![j];
                 const targetTopoSortIndex = conversionInfos[out.target].topologicalSortIndex!;
 
                 // if we loop back, check that we are not inside a branching interval
@@ -399,7 +400,7 @@ function checkIntervals(ctx: DfsContext) {
                     }
                 }
 
-                if (!(targetTopoSortIndex <= innermostInterval[1] || targetTopoSortIndex > outermostInterval[1])) {
+                if (targetTopoSortIndex > innermostInterval[1] && edgeType !== 'tree') {
                     throw new Error('invalid target in intervals');
                 }
             }

@@ -909,7 +909,8 @@ export default class AlcCanvas extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
 
-            this.initialStartMenuDisplayed = this.template.querySelector(START_MENU_SELECTOR) != null;
+            this.initialStartMenuDisplayed =
+                this.initialStartMenuDisplayed || this.template.querySelector(START_MENU_SELECTOR) != null;
 
             // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
             if (!this.initialStartMenuDisplayed) {
