@@ -155,17 +155,21 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         case MODIFY_DECISION_WITH_OUTCOMES: {
             // redo
             const element = _getElementFromActionPayload(action.payload);
-            const updatedChildren = getNextChildren(state[element.guid], element);
-            const alcAction = actions.updateChildrenAction(state[element.guid] as ParentNodeModel, updatedChildren);
+            const originalChildReferences = deepCopy((state[element.guid] as ParentNodeModel).childReferences);
+            const updatedChildReferences = deepCopy(nextState[element.guid].childReferences);
+            nextState[element.guid].childReferences = originalChildReferences;
+            const alcAction = actions.updateChildrenAction(element.guid, updatedChildReferences);
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }
         case MODIFY_START_WITH_SCHEDULED_PATHS: {
             const element = _getElementFromActionPayload(action.payload);
-            const updatedChildren = getNextChildren(state[element.guid], element);
+            const originalChildReferences = deepCopy((state[element.guid] as ParentNodeModel).childReferences);
+            const updatedChildReferences = deepCopy(nextState[element.guid].childReferences);
+            nextState[element.guid].childReferences = originalChildReferences;
             const alcAction = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                state[element.guid] as ParentNodeModel,
-                updatedChildren
+                element.guid,
+                updatedChildReferences
             );
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
@@ -229,43 +233,6 @@ function getChildren(element: UI.CanvasElement): (Guid | null)[] | null {
     }
 
     return Array(childCount).fill(null);
-}
-
-/**
- * Computes and returns the new children for an element
- *
- * @param element - The previous state of the element
- * @param nextElement - The next state of the element
- * @return The new children array for the element
- */
-function getNextChildren(element, nextElement): (Guid | null)[] {
-    const { children } = element;
-    const nextChildren = getChildren(nextElement)!;
-
-    if (children && nextChildren) {
-        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            // copy over the child corresponding to the default scheduled path
-            nextChildren[START_IMMEDIATE_INDEX] = children[START_IMMEDIATE_INDEX];
-        } else {
-            // copy over the child corresponding to the default outcome
-            nextChildren[nextChildren.length - 1] = children[children.length - 1];
-        }
-        nextElement.childReferences.forEach((childReference, i) => {
-            const currentIndex = element.childReferences.findIndex((ref) => {
-                return ref.childReference === childReference.childReference;
-            });
-
-            if (currentIndex !== -1) {
-                if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-                    nextChildren[i + 1] = children[currentIndex + 1];
-                } else {
-                    nextChildren[i] = children[currentIndex];
-                }
-            }
-        });
-    }
-
-    return nextChildren;
 }
 
 /**

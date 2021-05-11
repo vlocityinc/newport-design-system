@@ -65,7 +65,7 @@ function hasGoToConnectionOnNext(flowModel: FlowModel, sourceElement: NodeModel)
  * @param sourceElement - The Parent Element
  * @param sourceBranchIndex - The branch index on which the GoTo connection is being added
  */
-function getSuffixForGoToConnection(sourceElement: ParentNodeModel, sourceBranchIndex: number) {
+function getSuffixForGoToConnection(sourceElement: NodeModel | ParentNodeModel, sourceBranchIndex: number) {
     // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
     const defaultIndex =
         sourceElement.nodeType === NodeType.BRANCH && sourceElement.childReferences
@@ -131,7 +131,7 @@ export function getBranchIndexForGoToConnection(
  */
 function hasGoToConnectionOnBranchHead(
     flowModel: FlowModel,
-    sourceElement: ParentNodeModel,
+    sourceElement: NodeModel | ParentNodeModel,
     sourceBranchIndex: number
 ): boolean {
     if (sourceElement.nodeType === NodeType.ROOT) {
@@ -140,7 +140,9 @@ function hasGoToConnectionOnBranchHead(
 
     // Getting the target guid for the branch connection. Will be null in case the branch is empty
     const targetGuid =
-        sourceBranchIndex === FAULT_INDEX ? sourceElement.fault : sourceElement.children[sourceBranchIndex];
+        sourceBranchIndex === FAULT_INDEX
+            ? sourceElement.fault
+            : (sourceElement as ParentNodeModel).children[sourceBranchIndex];
     const suffix = getSuffixForGoToConnection(sourceElement, sourceBranchIndex);
     if (targetGuid && flowModel[targetGuid!].incomingGoTo) {
         // Returning true if the sourceGuid:suffix combination exists in target element's incomingGoTo array
@@ -432,7 +434,7 @@ function removeAndUpdateSourceReferenceInIncomingGoTo(
  * @param sourceElement - Source of the GoTo connector
  * @param sourceBranchIndex - Index of branch on which GoTo is being deleted
  */
-function createAndConnectEndElementOnGoToDeletion(
+function createAndConnectEndElement(
     elementService: ElementService,
     flowModel: FlowModel,
     sourceElement: NodeModel,
@@ -476,8 +478,8 @@ function deleteGoToConnection(
     sourceBranchIndex: number | null
 ): FlowModel {
     const sourceElement = flowModel[sourceGuid] as ParentNodeModel;
-    removeSourceFromIncomingGoTo(flowModel, sourceElement, sourceBranchIndex);
-    return createAndConnectEndElementOnGoToDeletion(elementService, flowModel, sourceElement, sourceBranchIndex);
+    flowModel = removeSourceFromIncomingGoTo(flowModel, sourceElement, sourceBranchIndex);
+    return createAndConnectEndElement(elementService, flowModel, sourceElement, sourceBranchIndex);
 }
 
 /**
@@ -1098,28 +1100,6 @@ export function isBranchHead(node: NodeModel): node is BranchHeadNodeModel {
  *
  * @param elementService - The element service
  * @param state - The flow model
- * @param elementWithFaultGuid - The guid of the element with the fault
- * @return the updated flow model
- */
-function deleteFault(elementService: ElementService, state: FlowModel, elementWithFaultGuid: Guid): FlowModel {
-    const elementWithFault = state[elementWithFaultGuid];
-    const { fault } = elementWithFault;
-
-    if (fault) {
-        // @ts-ignore
-        delete elementWithFault.fault;
-
-        deleteBranch(elementService, state, fault);
-    }
-
-    return state;
-}
-
-/**
- * Deletes an element's fault
- *
- * @param elementService - The element service
- * @param state - The flow model
  * @param elementGuid - The element guid
  * @return the updated flow model
  */
@@ -1304,6 +1284,113 @@ function cleanUpGoTos(
     }
 
     return flowModel;
+}
+
+/**
+ * Cleans up any goTos present in the child branches getting deleted and then deletes the branches
+ * @param elementService - The element service
+ * @param flowModel - The state of elements in the store
+ * @param originalParentElement - Original state of the parent element
+ * @param parentElement - Current state of the parent element (with updated childReferences)
+ * @returns The updated flow model
+ */
+function cleanUpAndDeleteChildBranchesWithGoTos(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    parentElement: ParentNodeModel,
+    updatedChildReferences: { childReference: string }[]
+): FlowModel {
+    const originalChildReferenceGuids = parentElement.childReferences?.map(
+        (childReferenceObject) => childReferenceObject.childReference
+    );
+    const updatedChildReferenceGuids = updatedChildReferences.map(
+        (childReferenceObject) => childReferenceObject.childReference
+    );
+
+    // Comparing originalChildReferences against newChildReferences to compute the
+    // branch indexes from the originalParentElement that need to be deleted
+    const branchIndexesToDelete = [] as number[];
+    originalChildReferenceGuids?.forEach((childReference, i) => {
+        if (updatedChildReferenceGuids && !updatedChildReferenceGuids.includes(childReference)) {
+            // Accounting for the immediate branch to get the right branch index
+            const branchIndexToDelete = parentElement.nodeType === NodeType.START ? i + 1 : i;
+            if (parentElement.children[branchIndexToDelete]) {
+                if (hasGoToConnectionOnBranchHead(flowModel, parentElement, branchIndexToDelete)) {
+                    // We don't need to store this branch index since there's no element
+                    // within the branch that needs to be deleted
+                    flowModel = removeSourceFromIncomingGoTo(flowModel, parentElement, branchIndexToDelete);
+                } else {
+                    branchIndexesToDelete.push(branchIndexToDelete);
+                }
+            }
+        }
+    });
+
+    // Cleaning up all incoming and outgoing GoTos present within these branches
+    branchIndexesToDelete.forEach((branchIndex) => {
+        const branchHeadGuid = parentElement.children[branchIndex];
+        flowModel = cleanUpBranchGoTos(flowModel, elementService, branchHeadGuid!);
+    });
+
+    branchIndexesToDelete.forEach((branchIndex) => {
+        const branchHeadGuid = parentElement.children[branchIndex];
+        flowModel = deleteBranch(elementService, flowModel, branchHeadGuid!);
+    });
+
+    return flowModel;
+}
+
+/**
+ * Cleans up any GoTos present on a given fault or next (beyond the merge point) branch and deletes all the elements in that branch
+ * @param elementService - The element service
+ * @param flowModel - The state of elements in the store
+ * @param parentElement - Element whose branches are being deleted
+ * @param branchIndexToDelete - Index of the branch getting deleted. This is null when deleting all elements beyond the merge point
+ * @param branchHeadGuid - Guid of the deleted branch's branch head element
+ * @returns The updated flow model
+ */
+function cleanUpAndDeleteFaultOrNextBranchWithGoTos(
+    elementService: ElementService,
+    flowModel: FlowModel,
+    parentElement: NodeModel | ParentNodeModel,
+    branchIndexToDelete: number | null,
+    branchHeadGuid: Guid
+): FlowModel {
+    const hasGoTo =
+        branchIndexToDelete == null
+            ? hasGoToConnectionOnNext(flowModel, parentElement)
+            : hasGoToConnectionOnBranchHead(flowModel, parentElement, branchIndexToDelete);
+    if (hasGoTo) {
+        // Clean up the target element's incomingGoTo
+        flowModel = removeSourceFromIncomingGoTo(flowModel, parentElement, branchIndexToDelete);
+    } else {
+        // Clean up any incoming/outgoing GoTos present in the branch and then delete the branch
+        flowModel = cleanUpBranchGoTos(flowModel, elementService, branchHeadGuid);
+        deleteBranch(elementService, flowModel, branchHeadGuid);
+    }
+
+    return flowModel;
+}
+
+/**
+ * Deletes an element's fault
+ *
+ * @param elementService - The element service
+ * @param state - The flow model
+ * @param elementWithFaultGuid - The guid of the element with the fault
+ * @return the updated flow model
+ */
+function deleteFault(elementService: ElementService, state: FlowModel, elementWithFaultGuid: Guid): FlowModel {
+    const elementWithFault = state[elementWithFaultGuid];
+    const { fault } = elementWithFault;
+
+    if (fault) {
+        state = cleanUpAndDeleteFaultOrNextBranchWithGoTos(elementService, state, elementWithFault, FAULT_INDEX, fault);
+        // @ts-ignore
+        delete elementWithFault.fault;
+    }
+
+    return state;
 }
 
 /**
@@ -1849,22 +1936,46 @@ export function addFault(elementService: ElementService, flowModel: FlowModel, e
 
     return flowModel;
 }
-
 /**
- * Returns the items of SetA that are not in SetB, excluding null and undefined values
+ * Computes and returns the new children for an element
  *
- * @param setA
- * @param setB
+ * @param element - The previous state of the element
+ * @param nextElement - The next state of the element
+ * @return The new children array for the element
  */
-function minus<T>(setA: Set<T>, setB: Set<T>): Set<NonNullable<T>> {
-    const minusSet = new Set<NonNullable<T>>();
-    for (const value of setA.values()) {
-        if (!setB.has(value) && value != null) {
-            minusSet.add(value!);
-        }
+/**
+ * Computes and returns the new children for an element
+ * @param parentElement - Current state of the element
+ * @param updatedChildReferences - Updated childReferences array
+ * @returns The updated children array
+ */
+function getUpdatedChildren(
+    parentElement: ParentNodeModel,
+    updatedChildReferences: { childReference: string }[]
+): (Guid | null)[] {
+    const childCount = updatedChildReferences.length + 1;
+    const updatedChildren = Array(childCount).fill(null);
+    if (parentElement.nodeType === NodeType.START) {
+        updatedChildren[START_IMMEDIATE_INDEX] = parentElement.children[START_IMMEDIATE_INDEX];
+    } else {
+        updatedChildren[updatedChildren.length - 1] = parentElement.children[parentElement.children.length - 1];
     }
 
-    return minusSet;
+    updatedChildReferences.forEach((childReferenceObject, i) => {
+        const currentIndex = parentElement.childReferences!.findIndex((ref) => {
+            return ref.childReference === childReferenceObject.childReference;
+        });
+
+        if (currentIndex !== -1) {
+            if (parentElement.nodeType === NodeType.START) {
+                updatedChildren[i + 1] = parentElement.children[currentIndex + 1];
+            } else {
+                updatedChildren[i] = parentElement.children[currentIndex];
+            }
+        }
+    });
+
+    return updatedChildren;
 }
 
 /**
@@ -1872,68 +1983,66 @@ function minus<T>(setA: Set<T>, setB: Set<T>): Set<NonNullable<T>> {
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param originalParentElement - The original parent element before the update
- * @param updatedChildrenGuids - The updated children guids
+ * @param parentElementGuid - The guid of the parent element
+ * @param updatedChildReferences - Updated childReferences array
  * @returns The updated flow model
  */
 export function updateChildren(
     elementService: ElementService,
     flowModel: FlowModel,
-    originalParentElement: ParentNodeModel,
-    updatedChildrenGuids: (Guid | null)[]
+    parentElementGuid: Guid,
+    updatedChildReferences: { childReference: string }[]
 ) {
-    const parentElement = resolveParent(flowModel, originalParentElement.guid);
-    const allTerminals = areAllBranchesTerminals(originalParentElement, flowModel);
+    const parentElement = resolveParent(flowModel, parentElementGuid);
+    const allTerminalsBeforeUpdate = areAllBranchesTerminals(parentElement, flowModel);
 
-    const currentChildren = new Set(parentElement.children);
-    const newChildren = new Set(updatedChildrenGuids);
+    // Cleaning up the GoTos on the branches getting deleted
+    // and then deleting the elements present in those branches
+    flowModel = cleanUpAndDeleteChildBranchesWithGoTos(
+        elementService,
+        flowModel,
+        parentElement,
+        updatedChildReferences
+    );
 
-    const childrenAdded = minus(newChildren, currentChildren);
-    if (childrenAdded.size > 0) {
-        throw new Error("can't update the children array with guids that weren't previously in it");
-    }
+    // Calculating the new children [] based on the updated childReferences
+    // and after GoTos have been cleaned up
+    parentElement.children = getUpdatedChildren(parentElement, updatedChildReferences);
+    parentElement.childReferences = updatedChildReferences;
 
-    const childrenRemoved = minus(currentChildren, newChildren);
-
-    // for children that have been removed, delete their branch
-    for (const child of childrenRemoved) {
-        if (child != null) {
-            deleteBranch(elementService, flowModel, child);
-        }
-    }
-
-    // recompute childIndex for the remaining branches
-    updatedChildrenGuids.forEach((child, i) => {
-        if (child) {
+    // Recompute childIndex for the remaining branches
+    parentElement.children.forEach((child, i) => {
+        if (child && !hasGoToConnectionOnBranchHead(flowModel, parentElement, i)) {
             const branchHead = resolveBranchHead(flowModel, child);
             branchHead.childIndex = i;
         }
     });
 
-    // if all the branches were terminating before the update, then make any new branch terminate
-    // as well by adding an end element
-    if (allTerminals) {
-        for (let i = 0; i < updatedChildrenGuids.length; i++) {
-            const child = updatedChildrenGuids[i];
+    // If all the branches were terminating before the update, or if there's a GoTo
+    // from parent element's next to the parentElement itself (self-loop) then make any
+    // new branch terminate as well by adding an end element
+    if (allTerminalsBeforeUpdate || parentElement.next === parentElement.guid) {
+        for (let i = 0; i < parentElement.children.length; i++) {
+            const child = parentElement.children[i];
             if (child == null) {
-                const endElement = createEndElement(elementService, flowModel) as BranchHeadNodeModel;
-                endElement.childIndex = i;
-                endElement.parent = parentElement.guid;
-                endElement.isTerminal = true;
-                updatedChildrenGuids[i] = endElement.guid;
+                flowModel = createAndConnectEndElement(elementService, flowModel, parentElement, i);
             }
         }
     }
 
-    parentElement.children = updatedChildrenGuids;
-
-    // if all branches are terminals after the update, then delete the parent's next if it has one
+    // if all branches are terminals after the update, then delete the parent's next element and beyond if there are any
     const allTerminalsAfterUpdate = areAllBranchesTerminals(parentElement, flowModel);
     const { next } = parentElement;
 
     if (allTerminalsAfterUpdate) {
         if (next) {
-            deleteBranch(elementService, flowModel, next);
+            flowModel = cleanUpAndDeleteFaultOrNextBranchWithGoTos(
+                elementService,
+                flowModel,
+                parentElement,
+                null,
+                next
+            );
         }
         parentElement.next = null;
 
@@ -1951,26 +2060,26 @@ export function updateChildren(
  *
  * @param elementService - The element service
  * @param flowModel - The flow model
- * @param originalParentElement - The original parent element before the update
- * @param updatedChildrenGuids - The updated children guids
+ * @param parentElementGuid - The guid of the parent element
+ * @param updatedChildReferences - Updated childReferences array
  * @returns The updated flow model
  */
 export function updateChildrenOnAddingOrUpdatingScheduledPaths(
     elementService: ElementService,
     flowModel: FlowModel,
-    originalParentElement: ParentNodeModel,
-    updatedChildrenGuids: (Guid | null)[]
+    parentElementGuid: Guid,
+    updatedChildReferences: { childReference: string }[]
 ) {
-    const parentElementGuid = originalParentElement.guid;
     const parentElement = resolveParent(flowModel, parentElementGuid);
-    const { children, childReferences } = parentElement;
 
-    if (childReferences!.length > 0) {
-        if (children) {
-            updateChildren(elementService, flowModel, originalParentElement, updatedChildrenGuids);
+    if (updatedChildReferences!.length > 0) {
+        if (parentElement.children) {
+            flowModel = updateChildren(elementService, flowModel, parentElementGuid, updatedChildReferences);
         } else {
             // To handle the case when children have not yet been added
-            parentElement.children = updatedChildrenGuids;
+            parentElement.children = Array(updatedChildReferences.length + 1).fill(null);
+            parentElement.childReferences = updatedChildReferences;
+
             // If the parent had a next element it should become the first child (with childIndex = 0)
             const nextElementGuid = parentElement.next!;
             const nextElement = resolveNode(flowModel, nextElementGuid) as BranchHeadNodeModel;
@@ -1981,51 +2090,86 @@ export function updateChildrenOnAddingOrUpdatingScheduledPaths(
             nextElement.prev = null;
             parentElement.next = null;
 
-            for (let i = 1; i < updatedChildrenGuids.length; i++) {
-                const endElement = createEndElement(elementService, flowModel) as BranchHeadNodeModel;
-                endElement.childIndex = i;
-                endElement.parent = parentElement.guid;
-                endElement.isTerminal = true;
-                updatedChildrenGuids[i] = endElement.guid;
+            for (let i = 1; i < parentElement.children.length; i++) {
+                flowModel = createAndConnectEndElement(elementService, flowModel, parentElement, i);
             }
         }
-    } else if (children) {
+    } else if (parentElement.children) {
         // Case when deleting all scheduled paths
         // Delete all the branches from index 1 -> n
-        for (let i = 1; i < children.length; i++) {
-            if (children[i]) {
-                deleteBranch(elementService, flowModel, children[i]!);
-            }
-        }
-        // If 0th branch has an element, connect the last element on the 0th branch to start's next. Set start's next to
-        // 0th branch's branch head. Also update the previous pointers correctly
-        const immediateBranchHeadElementGuid = parentElement.children[START_IMMEDIATE_INDEX];
-        const immediateBranchHeadElement = immediateBranchHeadElementGuid
+        flowModel = cleanUpAndDeleteChildBranchesWithGoTos(
+            elementService,
+            flowModel,
+            parentElement,
+            updatedChildReferences
+        );
+
+        const hasGoToOnImmediateBranchHead = hasGoToConnectionOnBranchHead(
+            flowModel,
+            parentElement,
+            START_IMMEDIATE_INDEX
+        );
+        let immediateBranchHeadElementGuid = hasGoToOnImmediateBranchHead
+            ? null
+            : parentElement.children[START_IMMEDIATE_INDEX];
+        let immediateBranchHeadElement = immediateBranchHeadElementGuid
             ? resolveBranchHead(flowModel, immediateBranchHeadElementGuid)
             : null;
-        if (immediateBranchHeadElement) {
-            const lastElementInBranch = findLastElement(immediateBranchHeadElement, flowModel);
-            if (!immediateBranchHeadElement.isTerminal) {
-                // If the branch head is NOT terminal: connect last element in branch to next element
-                lastElementInBranch.next = parentElement.next;
-                flowModel[parentElement.next!].prev = lastElementInBranch.guid;
-            } else {
-                // If branch head is terminal: delete any elements beyond merge point
-                if (parentElement.next) {
-                    deleteBranch(elementService, flowModel, parentElement.next);
+
+        // If the immediate branch has GoTo on the branch head or is terminated, then cleaning up the GoTos
+        // present on the elements beyond the merge point and deleting all these elements as well (if any)
+        if (hasGoToOnImmediateBranchHead || (immediateBranchHeadElement && immediateBranchHeadElement.isTerminal)) {
+            if (parentElement.next) {
+                flowModel = cleanUpAndDeleteFaultOrNextBranchWithGoTos(
+                    elementService,
+                    flowModel,
+                    parentElement,
+                    null,
+                    parentElement.next
+                );
+
+                // If there was a GoTo on the immediate branch head, then it would have been deleted
+                // and replaced by an End element by now, hence updating the immediateBranchHeadElementGuid
+                // and immediateBranchHeadElement
+                if (hasGoToOnImmediateBranchHead) {
+                    immediateBranchHeadElementGuid = parentElement.children[START_IMMEDIATE_INDEX];
+                    immediateBranchHeadElement = resolveBranchHead(flowModel, immediateBranchHeadElementGuid!);
                 }
             }
-            // Connect parent to the branch head and remove branch head properties of the branch head as it is not
+        }
+
+        if (immediateBranchHeadElement) {
+            if (!immediateBranchHeadElement.isTerminal) {
+                // If the branch head is NOT terminal: connect last element in branch to next element
+                const lastElementInBranch = findLastElement(immediateBranchHeadElement, flowModel);
+                lastElementInBranch.next = parentElement.next;
+                if (hasGoToConnectionOnNext(flowModel, parentElement)) {
+                    // If there's a GoTo present at the merge point, then ensuring that
+                    // the target element has the correct source reference (i.e. lastElementInBranch) in it's incomingGoTo
+                    flowModel = removeAndUpdateSourceReferenceInIncomingGoTo(
+                        flowModel,
+                        parentElement,
+                        null,
+                        parentElement.next!,
+                        lastElementInBranch.guid
+                    );
+                } else {
+                    flowModel[parentElement.next!].prev = lastElementInBranch.guid;
+                }
+
+                if (lastElementInBranch.nodeType === NodeType.BRANCH) {
+                    // To handle branch nodes' branches that are terminal
+                    inlineFromParent(flowModel, lastElementInBranch as ParentNodeModel);
+                }
+            }
+            // Connect Start Element to immediateBranchHeadElement and remove branch head properties as it is not a
             // branch head anymore
             parentElement.next = immediateBranchHeadElementGuid;
             immediateBranchHeadElement.prev = parentElementGuid;
             deleteBranchHeadProperties(immediateBranchHeadElement);
-            if (lastElementInBranch.nodeType === NodeType.BRANCH) {
-                // To handle branch nodes' branches that are terminal
-                inlineFromParent(flowModel, lastElementInBranch as ParentNodeModel);
-            }
         }
         delete (parentElement as StartNodeModel).children;
+        parentElement.childReferences = updatedChildReferences;
     }
 
     return flowModel;

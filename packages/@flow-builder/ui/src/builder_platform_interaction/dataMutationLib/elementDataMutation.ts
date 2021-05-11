@@ -13,7 +13,16 @@ export type ElementValidationError = {
     errorString: string;
 };
 
-const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
+const DEFAULT_BLACK_LIST = [
+    'guid',
+    'elementType',
+    'locationX',
+    'locationY',
+    'rowIndex',
+    'availableConnections',
+    'children',
+    'incomingGoTo'
+];
 
 /**
  * Returns true if the input item is hydrated with errors.
@@ -31,12 +40,7 @@ const doHydrateWithErrors = (element, blackList) => {
             if (typeof val === 'string' || val === null) {
                 element[key] = { value: val, error: null };
             } else if (typeof val === 'object') {
-                // TODO: ALC find better way
-                if (key === 'children') {
-                    element[key] = val;
-                } else {
-                    doHydrateWithErrors(val, blackList);
-                }
+                doHydrateWithErrors(val, blackList);
             }
         });
 
