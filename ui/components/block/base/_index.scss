@@ -121,7 +121,7 @@
     opacity: 0.5;
   }
 
-  &:not(.nds-is-open)>.nds-block_container>.nds-block_body>.nds-grid.nds-wrap {
+  &:not(.nds-is-open)>.nds-block_container>.nds-block_body>.nds-grid {
     display: none;
   }
 }
