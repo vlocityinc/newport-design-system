@@ -12,6 +12,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Accepted Formats",
   "maxOccurs" : 1
 },
@@ -24,6 +25,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Allow Multiple Files",
   "maxOccurs" : 1
 },
@@ -36,6 +38,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Content Document IDs",
   "maxOccurs" : 2000
 },
@@ -48,6 +51,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Content Version IDs",
   "maxOccurs" : 2000
 },
@@ -60,6 +64,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Disabled",
   "maxOccurs" : 1
 },
@@ -72,6 +77,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "File Upload Label",
   "maxOccurs" : 1
 },
@@ -84,6 +90,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Hover Text",
   "maxOccurs" : 1
 },
@@ -96,6 +103,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Related Record ID",
   "maxOccurs" : 1
 },
@@ -108,6 +116,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Uploaded File Names",
   "maxOccurs" : 2000
 }
@@ -124,6 +133,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Account",
   "maxOccurs" : 1,
   "objectType" : "Account"
@@ -136,6 +146,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Greeting",
   "maxOccurs" : 1
 },
@@ -147,6 +158,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Subject",
   "maxOccurs" : 1
 }
@@ -163,6 +175,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Accounts",
   "maxOccurs" : 2000,
   "objectType" : "Account"
@@ -182,6 +195,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Disabled",
   "maxOccurs" : 1
 },
@@ -195,6 +209,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "Label",
   "maxOccurs" : 1
 },
@@ -208,6 +223,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Placeholder Text",
   "maxOccurs" : 1
 },
@@ -221,6 +237,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Read Only",
   "maxOccurs" : 1
 },
@@ -234,6 +251,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Required",
   "maxOccurs" : 1
 },
@@ -246,6 +264,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : true,
   "label" : "Value",
   "maxOccurs" : 1
 }
@@ -264,6 +283,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "Label",
   "maxOccurs" : 1
 },
@@ -277,6 +297,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Range Maximum",
   "maxOccurs" : 1
 },
@@ -290,6 +311,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Range Minimum",
   "maxOccurs" : 1
 },
@@ -302,6 +324,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Slider Size",
   "maxOccurs" : 1
 },
@@ -315,6 +338,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Step Size",
   "maxOccurs" : 1
 },
@@ -328,6 +352,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Value",
   "maxOccurs" : 1
 }
@@ -345,6 +370,7 @@
   "isInput" : true,
   "isOutput" : false,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Help text for pattern",
   "maxOccurs" : 1
 },
@@ -357,6 +383,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Object API Name",
   "maxOccurs" : 1
 },
@@ -369,6 +396,7 @@
   "isInput" : false,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "The selected Record",
   "maxOccurs" : 1,
   "objectType" : "{T}"
@@ -382,6 +410,7 @@
   "isInput" : true,
   "isOutput" : false,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "User Prompt",
   "maxOccurs" : 1
 }
@@ -399,6 +428,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "City Value",
   "maxOccurs" : 1
 },
@@ -411,6 +441,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Country Options",
   "maxOccurs" : 1
 },
@@ -423,6 +454,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Country Value",
   "maxOccurs" : 1
 },
@@ -436,6 +468,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Label",
   "maxOccurs" : 1
 },
@@ -448,6 +481,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Postal Code Value",
   "maxOccurs" : 1
 },
@@ -460,6 +494,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "State/Province Options",
   "maxOccurs" : 1
 },
@@ -472,6 +507,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "State/Province Value",
   "maxOccurs" : 1
 },
@@ -484,6 +520,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Street Value",
   "maxOccurs" : 1
 }
@@ -501,6 +538,7 @@
   "isInput" : true,
   "isOutput" : false,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "Field API Name",
   "maxOccurs" : 1
 },
@@ -513,6 +551,7 @@
   "isInput" : true,
   "isOutput" : false,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "Label",
   "maxOccurs" : 1
 },
@@ -525,6 +564,7 @@
   "isInput" : true,
   "isOutput" : false,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "Object API Name",
   "maxOccurs" : 1
 },
@@ -537,6 +577,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Record Id",
   "maxOccurs" : 1
 },
@@ -549,6 +590,7 @@
   "isInput" : false,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Record Name",
   "maxOccurs" : 1
 },
@@ -561,6 +603,7 @@
   "isInput" : true,
   "isOutput" : false,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Required",
   "maxOccurs" : 1
 }
@@ -577,6 +620,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Greeting",
   "maxOccurs" : 1
 },
@@ -588,6 +632,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Subject",
   "maxOccurs" : 1
 }
@@ -605,6 +650,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Horizontal Alignment",
   "maxOccurs" : 1
 },
@@ -617,6 +663,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Image Alt Text",
   "maxOccurs" : 1
 },
@@ -629,6 +676,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Image CSS",
   "maxOccurs" : 1
 },
@@ -641,6 +689,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Image Height",
   "maxOccurs" : 1
 },
@@ -653,6 +702,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : true,
+  "isTranslatable" : false,
   "label" : "Image Name",
   "maxOccurs" : 1
 },
@@ -665,6 +715,7 @@
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
+  "isTranslatable" : false,
   "label" : "Image Width",
   "maxOccurs" : 1
 }
