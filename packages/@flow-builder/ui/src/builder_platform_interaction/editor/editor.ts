@@ -612,6 +612,12 @@ export default class Editor extends LightningElement {
         return !!this.rightPanelConfig.showDebugPanel;
     }
 
+    get showDebugButton() {
+        // Hardcoded to hide debug button in orchestrator
+        // TODO:  W-8146747
+        return !!this.toolbarConfig.showDebugButton && this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
+    }
+
     get showRightPanel() {
         return this.showPropertyEditorRightPanel || this.showDebugPanel;
     }
