@@ -14,6 +14,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestU
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
+import { setup } from '@sa11y/jest';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
 
@@ -206,6 +207,13 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('zoom', () => {
+        beforeAll(() => {
+            setup();
+        });
+        it('accessibility', async () => {
+            const zoomPanel = getZoomPanel();
+            await expect(zoomPanel).toBeAccessible();
+        });
         it('zoom-in/zoom-out actions', async () => {
             const zoomPanel = getZoomPanel();
 
