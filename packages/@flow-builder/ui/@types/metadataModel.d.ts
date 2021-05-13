@@ -70,6 +70,7 @@ declare namespace Metadata {
         recordField?: string;
         pathType?: string;
         connector: Connector;
+        label?: string;
     }
 
     interface Connector extends BaseElement {

@@ -392,7 +392,7 @@ export const COLLECTION_PROCESSOR_SUB_TYPE = {
 };
 
 export const SCHEDULED_PATH_TYPE = {
-    RUN_ON_SUCCESS: 'RunOnSuccess'
+    RUN_ON_SUCCESS: 'AfterCommit'
 };
 
 export const RECOMMENDATION_STRATEGY = {

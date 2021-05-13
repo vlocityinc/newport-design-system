@@ -44,6 +44,7 @@ const newStartElementGuid = 'newStart';
 const existingStartElementGuid = 'existingStart';
 const startElementWithChildrenGuid = 'newStartWithChildren';
 const existingStartElementWithChildrenGuid = 'existingStartWithChildren';
+const runOnSuccessScheduledPathChildReferenceGuid = 'runOnSuccessChildReference';
 
 const existingStartElement = {
     guid: existingStartElementGuid,
@@ -109,6 +110,12 @@ getElementByGuid.mockImplementation((guid) => {
             offsetNumber: 20,
             offsetUnit: TIME_OPTION.HOURS_BEFORE,
             timeSource: 'abc'
+        };
+    } else if (guid === runOnSuccessScheduledPathChildReferenceGuid) {
+        return {
+            name: 'Run On Success',
+            label: 'Run_On_Success',
+            pathType: 'AfterCommit'
         };
     }
     return {
@@ -285,6 +292,26 @@ describe('Start element', () => {
             expectedResult.triggerType = FLOW_TRIGGER_TYPE.NONE;
             expectedResult.frequency = undefined;
             expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('label and name should be added to the runOnSuccess scheduled path', () => {
+            expect.assertions(2);
+            startMetadata.scheduledPaths = [
+                {
+                    pathType: 'AfterCommit'
+                }
+            ];
+            try {
+                const actualResult = createStartElement(startMetadata);
+                expect(actualResult.scheduledPaths[0].label).toEqual(
+                    'FlowBuilderStartEditor.runOnSuccessScheduledPathLabel'
+                );
+                expect(actualResult.scheduledPaths[0].name).toEqual(
+                    'FlowBuilderStartEditor_runOnSuccessScheduledPathLabel'
+                );
+            } finally {
+                delete startMetadata.scheduledPaths;
+            }
         });
 
         describe('create start element haveSystemVariableFields', () => {
@@ -1241,6 +1268,20 @@ describe('Start element', () => {
                         timeSource: SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD,
                         recordField: 'abc'
                     });
+                });
+
+                it('start element with run on success scheduled path has pathType configured but no label', () => {
+                    expect.assertions(3);
+                    startElement.childReferences = [
+                        {
+                            childReference: runOnSuccessScheduledPathChildReferenceGuid
+                        }
+                    ];
+                    const actualResult = createStartElementMetadataObject(startElement);
+
+                    expect(actualResult.scheduledPaths).toHaveLength(1);
+                    expect(actualResult.scheduledPaths[0].pathType).toEqual('AfterCommit');
+                    expect(actualResult.scheduledPaths[0].label).toBeUndefined();
                 });
             });
             describe('With filter logic = no_conditions', () => {

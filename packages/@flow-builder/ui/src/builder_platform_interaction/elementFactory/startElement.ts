@@ -111,8 +111,16 @@ export function createStartElement(startElement: UI.Start | Metadata.Start) {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
         object = '',
-        filters = []
+        filters = [],
+        scheduledPaths
     } = startElement;
+    const runOnSuccessPath =
+        scheduledPaths &&
+        (scheduledPaths as Metadata.ScheduledPath[])!.find((el) => el.pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS);
+    if (runOnSuccessPath) {
+        const label = LABELS.runOnSuccessScheduledPathLabel;
+        Object.assign(runOnSuccessPath, { label, name: sanitizeDevName(label) });
+    }
     const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
@@ -329,7 +337,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
             const metadataScheduledPath = baseChildElementMetadataObject(scheduledPath, config);
 
             let recordField;
-            const { offsetNumber } = scheduledPath;
+            const { offsetNumber, pathType } = scheduledPath;
             let { timeSource, offsetUnit } = scheduledPath;
             timeSource = timeSource === '' ? undefined : timeSource;
             offsetUnit = offsetUnit === '' ? undefined : offsetUnit;
@@ -351,6 +359,13 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
             if (timeSource !== SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT) {
                 recordField = timeSource;
                 timeSource = SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_FIELD;
+            }
+
+            if (pathType === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS) {
+                delete metadataScheduledPath.label;
+                return Object.assign(metadataScheduledPath, {
+                    pathType
+                });
             }
 
             return Object.assign(metadataScheduledPath, {
