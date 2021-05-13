@@ -54,6 +54,10 @@ export interface ElementService {
  * @param sourceElement - The source of the potential goTo connection
  */
 function hasGoToConnectionOnNext(flowModel: FlowModel, sourceElement: NodeModel): boolean {
+    if (sourceElement.next == null) {
+        return false;
+    }
+
     if (flowModel[sourceElement.next!].incomingGoTo) {
         return flowModel[sourceElement.next!].incomingGoTo!.includes(sourceElement.guid);
     }
@@ -66,10 +70,11 @@ function hasGoToConnectionOnNext(flowModel: FlowModel, sourceElement: NodeModel)
  * @param sourceBranchIndex - The branch index on which the GoTo connection is being added
  */
 function getSuffixForGoToConnection(sourceElement: NodeModel | ParentNodeModel, sourceBranchIndex: number) {
+    const childReferences = (sourceElement as ParentNodeModel).childReferences;
     // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
     const defaultIndex =
-        sourceElement.nodeType === NodeType.BRANCH && sourceElement.childReferences
-            ? sourceElement.childReferences.length
+        sourceElement.nodeType === NodeType.BRANCH && childReferences
+            ? childReferences.length
             : sourceElement.nodeType === NodeType.START
             ? START_IMMEDIATE_INDEX
             : null;
@@ -79,11 +84,11 @@ function getSuffixForGoToConnection(sourceElement: NodeModel | ParentNodeModel, 
             : GOTO_CONNECTION_SUFFIX.DEFAULT;
     } else if (sourceBranchIndex === FAULT_INDEX) {
         return GOTO_CONNECTION_SUFFIX.FAULT;
-    } else if (sourceElement.childReferences) {
+    } else if (childReferences) {
         // Accounting for Immediate Branch being on the 0th index in case of Start Element
         return sourceElement.nodeType === NodeType.START
-            ? sourceElement.childReferences![sourceBranchIndex - 1].childReference
-            : sourceElement.childReferences![sourceBranchIndex].childReference;
+            ? childReferences![sourceBranchIndex - 1].childReference
+            : childReferences![sourceBranchIndex].childReference;
     }
     return null;
 }
@@ -100,7 +105,7 @@ export function getBranchIndexForGoToConnection(
     sourceGuid: Guid,
     goToSuffix: GOTO_CONNECTION_SUFFIX
 ): number {
-    const sourceElement = flowModel[sourceGuid];
+    const sourceElement = resolveParent(flowModel, sourceGuid);
 
     if (goToSuffix === GOTO_CONNECTION_SUFFIX.IMMEDIATE || goToSuffix === GOTO_CONNECTION_SUFFIX.DEFAULT) {
         // Should be START_IMMEDIATE_INDEX for Start Node and length of childReferences for other branching elements
@@ -143,6 +148,11 @@ function hasGoToConnectionOnBranchHead(
         sourceBranchIndex === FAULT_INDEX
             ? sourceElement.fault
             : (sourceElement as ParentNodeModel).children[sourceBranchIndex];
+
+    if (targetGuid == null) {
+        return false;
+    }
+
     const suffix = getSuffixForGoToConnection(sourceElement, sourceBranchIndex);
     if (targetGuid && flowModel[targetGuid!].incomingGoTo) {
         // Returning true if the sourceGuid:suffix combination exists in target element's incomingGoTo array
@@ -2248,5 +2258,6 @@ export {
     removeSourceFromIncomingGoTo,
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
-    isBranchTerminal
+    isBranchTerminal,
+    getSuffixForGoToConnection
 };

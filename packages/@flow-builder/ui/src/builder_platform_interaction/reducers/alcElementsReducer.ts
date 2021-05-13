@@ -26,7 +26,7 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { getElementsMetadata, supportsChildren } from 'builder_platform_interaction/alcCanvasUtils';
+import { getElementsMetadata, supportsChildren, getAlcElementType } from 'builder_platform_interaction/alcCanvasUtils';
 
 import {
     deleteBranchHeadProperties,
@@ -41,15 +41,14 @@ import {
     reducer,
     actions,
     Guid,
-    NodeType,
     FlowModel,
-    NodeModel,
     fulfillsBranchingCriteria,
     ParentNodeModel,
-    findFirstElement
+    findFirstElement,
+    NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
-import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import { getSubElementGuids } from './reducersUtils';
 
@@ -90,6 +89,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         case ADD_START_ELEMENT: {
             const startElement = action.payload;
             nextState[startElement.guid] = startElement;
+            startElement.nodeType = NodeType.START;
 
             const endElementGuid = elementService.createEndElement();
             const initAction = actions.initAction(action.payload.guid, endElementGuid);
@@ -136,6 +136,8 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case ADD_PARENT_WITH_CHILDREN: {
             const element = _getElementFromActionPayload(action.payload);
+            element.nodeType = getAlcElementType(element.elementType);
+
             if (!nextState[element.guid]) {
                 nextState[element.guid] = element;
             }
@@ -163,6 +165,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             break;
         }
         case MODIFY_START_WITH_SCHEDULED_PATHS: {
+            // TODO: refactor this code, almost identical as above
             const element = _getElementFromActionPayload(action.payload);
             const originalChildReferences = deepCopy((state[element.guid] as ParentNodeModel).childReferences);
             const updatedChildReferences = deepCopy(nextState[element.guid].childReferences);
@@ -220,11 +223,11 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
  * @param element - An element that can have a children
  * @return An nulled array of n children, where n is the number of children the element can have
  */
-function getChildren(element: UI.CanvasElement): (Guid | null)[] | null {
+function getChildren(element: ParentNodeModel): (Guid | null)[] | null {
     let childCount;
-    const { elementType, childReferences } = element;
+    const { childReferences, nodeType } = element;
 
-    if (elementType === ELEMENT_TYPE.LOOP) {
+    if (nodeType === NodeType.LOOP) {
         childCount = 1;
     } else if (childReferences && childReferences.length > 0) {
         childCount = childReferences.length + 1;
@@ -241,21 +244,28 @@ function getChildren(element: UI.CanvasElement): (Guid | null)[] | null {
  * @param connectorType connector type to highlight
  * @param childReference child guid associated with the connector to highlight (eg. outcome guid)
  */
-function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, childReference?: Guid): number | null {
+function getBranchIndexToHighlight(
+    element: ParentNodeModel,
+    connectorType: string,
+    childReference?: Guid
+): number | null {
     let branchIndexToHighlight: number | null = null;
+
+    const { childReferences, children } = element;
+
     if (connectorType === CONNECTOR_TYPE.FAULT && element.fault) {
         branchIndexToHighlight = FAULT_INDEX;
     } else if (connectorType === CONNECTOR_TYPE.DEFAULT) {
-        branchIndexToHighlight = element.childReferences!.length;
+        branchIndexToHighlight = childReferences.length;
     } else if (connectorType === CONNECTOR_TYPE.LOOP_NEXT) {
         branchIndexToHighlight = LOOP_BACK_INDEX;
-    } else if (connectorType === CONNECTOR_TYPE.IMMEDIATE && (element as ParentNodeModel).children) {
+    } else if (connectorType === CONNECTOR_TYPE.IMMEDIATE && children) {
         branchIndexToHighlight = START_IMMEDIATE_INDEX;
-    } else if (childReference && element.childReferences) {
-        branchIndexToHighlight = element.childReferences.findIndex((ref) => {
+    } else if (childReferences != null && childReference) {
+        branchIndexToHighlight = childReferences.findIndex((ref) => {
             return ref.childReference === childReference;
         });
-        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+        if (element.nodeType === NodeType.START) {
             branchIndexToHighlight! += 1; // To account for the immediate path at index 0
         }
     }
@@ -269,9 +279,9 @@ function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, c
  * @param mergeBranchIndexToHighlight index of the merge branch to be highlighted on parent element
  */
 function setMergeBranchIndexesToHighlight(parentHighlightInfo: HighlightInfo, mergeBranchIndexToHighlight: number) {
-    parentHighlightInfo!.mergeBranchIndexesToHighlight = parentHighlightInfo!.mergeBranchIndexesToHighlight || [];
-    if (!parentHighlightInfo!.mergeBranchIndexesToHighlight.includes(mergeBranchIndexToHighlight)) {
-        parentHighlightInfo!.mergeBranchIndexesToHighlight.push(mergeBranchIndexToHighlight);
+    parentHighlightInfo.mergeBranchIndexesToHighlight = parentHighlightInfo.mergeBranchIndexesToHighlight || [];
+    if (!parentHighlightInfo.mergeBranchIndexesToHighlight.includes(mergeBranchIndexToHighlight)) {
+        parentHighlightInfo.mergeBranchIndexesToHighlight.push(mergeBranchIndexToHighlight);
     }
 }
 
@@ -286,7 +296,12 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
         const elementGuid = connector.source;
         const element = state[elementGuid];
         const highlightInfo = decoratedElements.get(elementGuid) || {};
-        const branchIndexToHighlight = getBranchIndexToHighlight(element, connector.type, connector.childSource);
+        const elementAsParent = element as ParentNodeModel;
+        const branchIndexToHighlight = getBranchIndexToHighlight(
+            elementAsParent,
+            connector.type,
+            connector.childSource
+        );
         if (branchIndexToHighlight != null) {
             highlightInfo.branchIndexesToHighlight = highlightInfo.branchIndexesToHighlight || [];
             if (!highlightInfo.branchIndexesToHighlight.includes(branchIndexToHighlight)) {
@@ -297,7 +312,7 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
             if (
                 fulfillsBranchingCriteria(element, element.nodeType) &&
                 branchIndexToHighlight !== FAULT_INDEX &&
-                !(element as ParentNodeModel).children[branchIndexToHighlight]
+                !elementAsParent.children[branchIndexToHighlight]
             ) {
                 highlightInfo.highlightNext = true;
             }
@@ -306,7 +321,7 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
             if (
                 element.nodeType === NodeType.LOOP &&
                 branchIndexToHighlight === LOOP_BACK_INDEX &&
-                !(element as ParentNodeModel).children[branchIndexToHighlight]
+                !elementAsParent.children[branchIndexToHighlight]
             ) {
                 highlightInfo.highlightLoopBack = true;
             }
@@ -329,7 +344,7 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
             // Finally, keep going up it's branch chain to do the same for all it's parents that meet the same criteria
             while (parentElement.nodeType !== NodeType.LOOP && !parentElement.next) {
                 const parentHighlightInfo = decoratedElements.get(parentElement.guid) || {};
-                parentHighlightInfo!.highlightNext = true;
+                parentHighlightInfo.highlightNext = true;
                 setMergeBranchIndexesToHighlight(parentHighlightInfo, mergeBranchIndexToHighlight);
                 decoratedElements.set(parentElement.guid, parentHighlightInfo);
 
@@ -450,10 +465,10 @@ function _getUniquePastedElementName(name: string, blacklistNames: string[] = []
 /**
  * Helper function to get unique dev names for child elements
  *
- * @param {Object} cutOrCopiedChildElements - list of guids of the child elements to paste
- * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
+ * @param cutOrCopiedChildElements - list of child elements to paste
+ * @param blacklistNames - blacklisted list of names to check against in addition to store
  */
-function _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames) {
+function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], blacklistNames: string[]) {
     const childElementNameMap = {};
     const cutOrCopiedChildElementsArray = Object.values(cutOrCopiedChildElements) as any;
     for (let i = 0; i < cutOrCopiedChildElementsArray.length; i++) {
@@ -470,12 +485,12 @@ function _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames)
 
 /**
  * Function to paste elements on Fixed Canvas
- * @param {Object} elements - State of elements in the store
- * @param {Object} payload - Contains the data needed for pasting the cut or copied elements
+ * @param elements - State of elements in the store
+ * @param payload - Contains the data needed for pasting the cut or copied elements
  * @returns newState - The updated state of elements in the store
  */
 function _pasteOnFixedCanvas(
-    elements,
+    elements: any,
     {
         canvasElementGuidMap,
         childElementGuidMap,
@@ -558,7 +573,7 @@ function _pasteOnFixedCanvas(
     }
 
     // Adding end elements to the pasted fault branches
-    const pastedElementGuids = Object.values(canvasElementGuidMap) as any;
+    const pastedElementGuids = Object.values(canvasElementGuidMap) as Guid[];
     for (let i = 0; i < pastedElementGuids.length; i++) {
         const pastedElement = newState[pastedElementGuids[i]];
         if (pastedElement.fault) {
@@ -567,7 +582,7 @@ function _pasteOnFixedCanvas(
             const endElement = createEndElement({
                 prev: lastFaultBranchElement.guid,
                 next: null
-            }) as any;
+            });
             endElement.nodeType = NodeType.END;
             newState[endElement.guid] = endElement;
             lastFaultBranchElement.next = endElement.guid;

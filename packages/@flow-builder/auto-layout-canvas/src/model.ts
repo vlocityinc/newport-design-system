@@ -33,7 +33,6 @@ export interface NodeModel {
         highlightInfo?: HighlightInfo | null;
     };
 
-    childReferences?: Array<{ childReference: string }>;
     defaultConnectorLabel?: string;
 
     // The auto-layout node type corresponding to the element
@@ -63,6 +62,7 @@ export interface StartNodeModel extends NodeModel {
 
 export interface ParentNodeModel extends NodeModel {
     children: NodeRef[];
+    childReferences: Array<{ childReference: string }>;
 }
 
 export interface BranchHeadNodeModel extends NodeModel {
