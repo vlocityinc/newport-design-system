@@ -58,8 +58,7 @@ import {
     FLOW_STATUS,
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
-    isSystemElement,
-    RECOMMENDATION_STRATEGY
+    isSystemElement
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -79,7 +78,6 @@ import {
     canRunDebugWith,
     closeModalAndNavigateTo,
     createStartElement,
-    createVariableElement,
     debugInterviewResponseCallback,
     flowPropertiesCallback,
     getConnectorToDuplicate,
@@ -142,7 +140,11 @@ import {
     getStartObject,
     getTriggerType
 } from 'builder_platform_interaction/storeUtils';
-import { createEndElement, shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
+import {
+    createEndElement,
+    shouldSupportScheduledPaths,
+    createVariable
+} from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
@@ -373,6 +375,8 @@ export default class Editor extends LightningElement {
 
     processTypeLoading = false;
 
+    requiredVariablesLoading = false;
+
     supportedElements = [];
     supportedActions = [];
 
@@ -559,7 +563,8 @@ export default class Editor extends LightningElement {
             this.spinners.showDebugSpinner ||
             this.processTypeLoading ||
             this.spinners.showAutoLayoutSpinner ||
-            this.spinners.showRetrieveInterviewHistorySpinner
+            this.spinners.showRetrieveInterviewHistorySpinner ||
+            this.requiredVariablesLoading
         );
     }
 
@@ -605,6 +610,12 @@ export default class Editor extends LightningElement {
 
     get showDebugPanel() {
         return !!this.rightPanelConfig.showDebugPanel;
+    }
+
+    get showDebugButton() {
+        // Hardcoded to hide debug button in orchestrator
+        // TODO:  W-8146747
+        return !!this.toolbarConfig.showDebugButton && this.properties.processType !== FLOW_PROCESS_TYPE.ORCHESTRATOR;
     }
 
     get showRightPanel() {
@@ -2537,28 +2548,31 @@ export default class Editor extends LightningElement {
 
         createStartElement(storeInstance, triggerType);
 
-        // create the variables for Recommendation Strategy Flow
-        if (processType === FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY) {
-            createVariableElement(
-                storeInstance,
-                RECOMMENDATION_STRATEGY.OUTPUT_RECOMMENDATIONS_VARIABLE,
-                FLOW_DATA_TYPE.SOBJECT.value,
-                RECOMMENDATION_STRATEGY.OBJECT_NAME,
-                true,
-                false,
-                true
-            );
-            createVariableElement(
-                storeInstance,
-                RECOMMENDATION_STRATEGY.RECORD_ID_VARIABLE,
-                FLOW_DATA_TYPE.STRING.value,
-                null,
-                false,
-                true,
-                false
-            );
-        }
+        // create required variables if needed
+        this.createRequiredVariables(processType);
         this.disableSave = false;
+    };
+
+    createRequiredVariables = (flowProcessType) => {
+        this.requiredVariablesLoading = true;
+        fetchOnce(SERVER_ACTION_TYPE.GET_AUTO_GENERATED_REQUIRED_VARIABLES, { flowProcessType })
+            .then((data) => {
+                data.forEach((variable) => {
+                    const varElement = createVariable({
+                        name: variable.name,
+                        dataType: variable.dataType,
+                        subtype: variable.objectType,
+                        isCollection: variable.isCollection,
+                        isInput: variable.isInput,
+                        isOutput: variable.isOutput
+                    });
+                    storeInstance.dispatch(addElement(varElement));
+                });
+                this.requiredVariablesLoading = false;
+            })
+            .catch(() => {
+                this.requiredVariablesLoading = false;
+            });
     };
 
     getScheduledPathsList() {

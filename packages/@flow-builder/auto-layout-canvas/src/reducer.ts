@@ -1,4 +1,4 @@
-import { FlowModel, Guid, HighlightInfo, ParentNodeModel } from './model';
+import { FlowModel, Guid, HighlightInfo } from './model';
 import {
     addElement,
     deleteElement,
@@ -145,14 +145,14 @@ export function addFaultAction(elementGuid: Guid) {
 }
 
 /**
- * Creates an UpdateChilldren action
+ * Creates an UpdateChildren action
  *
- * @param parentElement - The original parent element
- * @param updatedChildrenGuids - An array of new children for the parent
+ * @param parentElementGuid - The guid of the parent element
+ * @param updatedChildReferences - Updated childReferences array
  * @return An UpdateChildren action
  */
-export function updateChildrenAction(parentElement: ParentNodeModel, updatedChildrenGuids: (Guid | null)[]) {
-    return createPayloadAction(<const>ActionType.UpdateChildren, { parentElement, updatedChildrenGuids });
+export function updateChildrenAction(parentElementGuid: Guid, updatedChildReferences: { childReference: string }[]) {
+    return createPayloadAction(<const>ActionType.UpdateChildren, { parentElementGuid, updatedChildReferences });
 }
 
 export function decorateCanvasAction(decoratedElements: Map<Guid, HighlightInfo>) {
@@ -165,17 +165,17 @@ export function clearCanvasDecorationAction() {
 
 /**
  * Creates the UpdateChildrenOnAddingOrUpdatingScheduledPaths action
- * @param parentElement - The original parent element (i.e. Start Element)
- * @param updatedChildrenGuids - An array of new children for the parent
+ * @param parentElementGuid - The guid of the parent element (i.e. Start Element)
+ * @param updatedChildReferences - Updated childReferences array
  * @return UpdateChildrenOnAddingOrUpdatingScheduledPaths action
  */
 export function updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-    parentElement: ParentNodeModel,
-    updatedChildrenGuids: (Guid | null)[]
+    parentElementGuid: Guid,
+    updatedChildReferences: { childReference: string }[]
 ) {
     return createPayloadAction(<const>ActionType.UpdateChildrenOnAddingOrUpdatingScheduledPaths, {
-        parentElement,
-        updatedChildrenGuids
+        parentElementGuid,
+        updatedChildReferences
     });
 }
 
@@ -233,8 +233,8 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return addFault(config, nextFlowModel, elementGuid);
         }
         case ActionType.UpdateChildren: {
-            const { parentElement, updatedChildrenGuids } = action.payload;
-            return updateChildren(config, nextFlowModel, parentElement, updatedChildrenGuids);
+            const { parentElementGuid, updatedChildReferences } = action.payload;
+            return updateChildren(config, nextFlowModel, parentElementGuid, updatedChildReferences);
         }
         case ActionType.DecorateCanvas: {
             const { decoratedElements } = action.payload;
@@ -244,12 +244,12 @@ function reducer(config: ElementService, flowModel: Readonly<FlowModel>, action:
             return clearCanvasDecoration(nextFlowModel);
         }
         case ActionType.UpdateChildrenOnAddingOrUpdatingScheduledPaths: {
-            const { parentElement, updatedChildrenGuids } = action.payload;
+            const { parentElementGuid, updatedChildReferences } = action.payload;
             return updateChildrenOnAddingOrUpdatingScheduledPaths(
                 config,
                 nextFlowModel,
-                parentElement,
-                updatedChildrenGuids
+                parentElementGuid,
+                updatedChildReferences
             );
         }
         default:

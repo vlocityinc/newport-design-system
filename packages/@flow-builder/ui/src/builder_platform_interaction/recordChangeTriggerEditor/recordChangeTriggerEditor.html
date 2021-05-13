@@ -89,4 +89,16 @@
             </fieldset>
         </div>
     </div>
+
+    <div class="slds-p-horizontal_small slds-p-top_small slds-m-bottom_large">
+        <lightning-input
+            label={runOnSuccessScheduledPathCheckboxLabel}
+            type="checkbox"
+            disabled={disableRunOnSuccessScheduledPathCheckbox}
+            checked={checkRunOnSuccessScheduledPath}
+            onchange={toggleRunOnSuccessScheduledPath}
+            class="test-input-selection-checkbox"
+        >
+        </lightning-input>
+    </div>
 </template>

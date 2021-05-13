@@ -68,6 +68,7 @@ declare namespace Metadata {
         offsetUnit: string;
         offsetNumber: string;
         recordField?: string;
+        pathType?: string;
         connector: Connector;
     }
 

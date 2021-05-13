@@ -69,14 +69,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -160,14 +153,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -226,14 +212,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -320,14 +299,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -413,14 +385,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -480,14 +445,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -552,14 +510,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -624,14 +575,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -712,14 +656,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -797,14 +734,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -865,14 +795,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -921,14 +844,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1132,14 +1048,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1202,14 +1111,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1290,14 +1192,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1385,9 +1280,624 @@ Object {
 }
 `;
 
+exports[`modelUtils updateChildren Adding a branch and avoiding a self-loop 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      "screen1-guid",
+      "end-hook-guid",
+      "screen2-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "incomingGoTo": Array [
+      "decision1-guid",
+    ],
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "end-hook-guid": Object {
+    "childIndex": 1,
+    "guid": "end-hook-guid",
+    "isTerminal": true,
+    "nodeType": "end",
+    "parent": "decision1-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen1-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "default",
+    "parent": "decision1-guid",
+  },
+  "screen2-guid": Object {
+    "childIndex": 2,
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen2-guid",
+    "isTerminal": false,
+    "label": "default",
+    "next": null,
+    "nodeType": "default",
+    "parent": "decision1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Adding and reordering branches when GoTo is present on a branch head 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o3",
+      },
+      Object {
+        "childReference": "o2",
+      },
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      null,
+      null,
+      "screen-guid",
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-guid",
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "branch-guid:o1",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Deletes a branch with an outgoing/incoming GoTo connector 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      null,
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-hook-guid",
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-hook-guid": Object {
+    "guid": "end-hook-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Deleting a branch that has an incomingGoTo from a sibling branch and there is also a GoTo from the merge point 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      "end-hook-guid_0",
+      "end-hook-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "incomingGoTo": Array [],
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "end-hook-guid": Object {
+    "childIndex": 1,
+    "guid": "end-hook-guid",
+    "isTerminal": true,
+    "nodeType": "end",
+    "parent": "decision1-guid",
+  },
+  "end-hook-guid_0": Object {
+    "childIndex": 0,
+    "guid": "end-hook-guid_0",
+    "isTerminal": true,
+    "nodeType": "end",
+    "parent": "decision1-guid",
+    "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Deleting a branch that has an incomingGoTo from a sibling branch and there is no merge point 1`] = `
+Object {
+  "decision1-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      "end2-guid",
+      "end-hook-guid",
+    ],
+    "config": Object {},
+    "elementType": "BRANCH_ELEMENT",
+    "guid": "decision1-guid",
+    "incomingGoTo": Array [],
+    "label": "default",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "start-guid",
+  },
+  "end-hook-guid": Object {
+    "childIndex": 1,
+    "guid": "end-hook-guid",
+    "isTerminal": true,
+    "nodeType": "end",
+    "parent": "decision1-guid",
+  },
+  "end2-guid": Object {
+    "childIndex": 0,
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end2-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "parent": "decision1-guid",
+    "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "isTerminal": true,
+    "label": "default",
+    "next": "decision1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Deleting all outcomes that merge into a merge point with a GoTo connection 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "screen-guid",
+      "end-guid",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-guid": Object {
+    "childIndex": 1,
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "parent": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "branch-guid:o1",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Deleting all outcomes that merge into a merge point with a GoTo further down 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
+    "children": Array [
+      "screen-guid",
+      "end-guid",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-guid": Object {
+    "childIndex": 1,
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "parent": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "branch-guid:o1",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Deleting multiple branches that are going to the same element from the branch head 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o3",
+      },
+    ],
+    "children": Array [
+      "end-guid",
+      "screen-guid",
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": null,
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-guid": Object {
+    "childIndex": 0,
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "end-guid",
+    "next": null,
+    "nodeType": "end",
+    "parent": "branch-guid",
+    "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [
+      "branch-guid:default",
+    ],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildren Reorders and deletes a branch with a GoTo on the branch head 1`] = `
+Object {
+  "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+    ],
+    "children": Array [
+      null,
+      null,
+    ],
+    "config": Object {},
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "isCanvasElement": true,
+    "label": "branch-guid",
+    "next": "end-guid",
+    "nodeType": "branch",
+    "prev": "screen-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "isCanvasElement": true,
+    "label": "end-guid",
+    "nodeType": "end",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen-guid": Object {
+    "config": Object {},
+    "elementType": "Screen",
+    "guid": "screen-guid",
+    "incomingGoTo": Array [],
+    "isCanvasElement": true,
+    "label": "screen-guid",
+    "next": "branch-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "start",
+    "guid": "start-guid",
+    "isCanvasElement": true,
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": "screen-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils updateChildren deletes branch elements when removing a child 1`] = `
 Object {
   "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
     "children": Array [
       "branch-guid:0-head1-guid",
       "branch-guid:2-head3-guid",
@@ -1444,14 +1954,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1468,6 +1971,17 @@ Object {
 exports[`modelUtils updateChildren handles new empty branch in left-most position 1`] = `
 Object {
   "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o3",
+      },
+      Object {
+        "childReference": "o1",
+      },
+      Object {
+        "childReference": "o2",
+      },
+    ],
     "children": Array [
       null,
       "branch-guid:0-head1-guid",
@@ -1538,108 +2052,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
-    "config": Object {},
-    "elementType": "start",
-    "guid": "start-guid",
-    "isCanvasElement": true,
-    "isTerminal": true,
-    "label": "start-guid",
-    "next": "branch-guid",
-    "nodeType": "start",
-    "parent": "root",
-  },
-}
-`;
-
-exports[`modelUtils updateChildren handles new empty branch in right-most position 1`] = `
-Object {
-  "branch-guid": Object {
-    "children": Array [
-      "branch-guid:0-head1-guid",
-      "branch-guid:1-head2-guid",
-      "branch-guid:2-head3-guid",
-      null,
-    ],
-    "config": Object {},
-    "defaultConnectorLabel": "Default Connector Label",
-    "elementType": "branch",
-    "guid": "branch-guid",
-    "isCanvasElement": true,
-    "label": "branch-guid",
-    "next": "end-guid",
-    "nodeType": "branch",
-    "prev": "start-guid",
-  },
-  "branch-guid:0-end-guid": Object {
-    "elementType": "END_ELEMENT",
-    "guid": "branch-guid:0-end-guid",
-    "isCanvasElement": true,
-    "label": "end-guid",
-    "nodeType": "end",
-    "prev": "branch-guid:0-head1-guid",
-  },
-  "branch-guid:0-head1-guid": Object {
-    "childIndex": 0,
-    "guid": "branch-guid:0-head1-guid",
-    "isCanvasElement": true,
-    "isTerminal": true,
-    "next": "branch-guid:0-end-guid",
-    "parent": "branch-guid",
-  },
-  "branch-guid:1-head2-guid": Object {
-    "childIndex": 1,
-    "guid": "branch-guid:1-head2-guid",
-    "isCanvasElement": true,
-    "isTerminal": false,
-    "next": "branch-guid:1-random-guid",
-    "parent": "branch-guid",
-  },
-  "branch-guid:1-random-guid": Object {
-    "guid": "branch-guid:1-random-guid",
-    "isCanvasElement": true,
-    "prev": "branch-guid:1-head2-guid",
-  },
-  "branch-guid:2-head3-guid": Object {
-    "childIndex": 2,
-    "guid": "branch-guid:2-head3-guid",
-    "isCanvasElement": true,
-    "isTerminal": false,
-    "parent": "branch-guid",
-  },
-  "end-guid": Object {
-    "elementType": "END_ELEMENT",
-    "guid": "end-guid",
-    "isCanvasElement": true,
-    "label": "end-guid",
-    "nodeType": "end",
-    "prev": "branch-guid",
-  },
-  "root": Object {
-    "children": Array [
-      "start-guid",
-    ],
-    "elementType": "root",
-    "guid": "root",
-    "nodeType": "root",
-  },
-  "start-guid": Object {
-    "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1656,10 +2069,18 @@ Object {
 exports[`modelUtils updateChildren reorders the children 1`] = `
 Object {
   "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+      Object {
+        "childReference": "o1",
+      },
+    ],
     "children": Array [
       "branch-guid:1-head2-guid",
-      "branch-guid:2-head3-guid",
       "branch-guid:0-head1-guid",
+      "branch-guid:2-head3-guid",
     ],
     "config": Object {},
     "defaultConnectorLabel": "Default Connector Label",
@@ -1680,7 +2101,7 @@ Object {
     "prev": "branch-guid:0-head1-guid",
   },
   "branch-guid:0-head1-guid": Object {
-    "childIndex": 2,
+    "childIndex": 1,
     "guid": "branch-guid:0-head1-guid",
     "isCanvasElement": true,
     "isTerminal": true,
@@ -1701,7 +2122,7 @@ Object {
     "prev": "branch-guid:1-head2-guid",
   },
   "branch-guid:2-head3-guid": Object {
-    "childIndex": 1,
+    "childIndex": 2,
     "guid": "branch-guid:2-head3-guid",
     "isCanvasElement": true,
     "isTerminal": false,
@@ -1725,14 +2146,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1749,10 +2163,18 @@ Object {
 exports[`modelUtils updateChildren reorders the children of parent with null children 1`] = `
 Object {
   "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o2",
+      },
+      Object {
+        "childReference": "o1",
+      },
+    ],
     "children": Array [
-      "branch-guid:2-head3-guid",
-      "branch-guid:0-head1-guid",
       null,
+      "branch-guid:0-head1-guid",
+      "branch-guid:2-head3-guid",
     ],
     "config": Object {},
     "defaultConnectorLabel": "Default Connector Label",
@@ -1781,7 +2203,7 @@ Object {
     "parent": "branch-guid",
   },
   "branch-guid:2-head3-guid": Object {
-    "childIndex": 0,
+    "childIndex": 2,
     "guid": "branch-guid:2-head3-guid",
     "isCanvasElement": true,
     "isTerminal": false,
@@ -1805,14 +2227,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1829,10 +2244,18 @@ Object {
 exports[`modelUtils updateChildren reorders, removes and adds child 1`] = `
 Object {
   "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o3",
+      },
+      Object {
+        "childReference": "o1",
+      },
+    ],
     "children": Array [
       null,
-      "branch-guid:2-head3-guid",
       "branch-guid:0-head1-guid",
+      "branch-guid:2-head3-guid",
     ],
     "config": Object {},
     "defaultConnectorLabel": "Default Connector Label",
@@ -1853,7 +2276,7 @@ Object {
     "prev": "branch-guid:0-head1-guid",
   },
   "branch-guid:0-head1-guid": Object {
-    "childIndex": 2,
+    "childIndex": 1,
     "guid": "branch-guid:0-head1-guid",
     "isCanvasElement": true,
     "isTerminal": true,
@@ -1861,7 +2284,7 @@ Object {
     "parent": "branch-guid",
   },
   "branch-guid:2-head3-guid": Object {
-    "childIndex": 1,
+    "childIndex": 2,
     "guid": "branch-guid:2-head3-guid",
     "isCanvasElement": true,
     "isTerminal": false,
@@ -1885,14 +2308,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1909,6 +2325,11 @@ Object {
 exports[`modelUtils updateChildren when all branches terminals after the update, delete the parent next and descendants 1`] = `
 Object {
   "branch-guid": Object {
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+    ],
     "children": Array [
       "branch-guid:0-head1-guid",
       "branch-guid:2-head3-guid",
@@ -1965,14 +2386,7 @@ Object {
   },
   "start-guid": Object {
     "childIndex": 0,
-    "childReferences": Array [
-      Object {
-        "childReference": "child-reference-guid-1",
-      },
-      Object {
-        "childReference": "child-reference-guid-2",
-      },
-    ],
+    "childReferences": Array [],
     "config": Object {},
     "elementType": "start",
     "guid": "start-guid",
@@ -1990,10 +2404,18 @@ exports[`modelUtils updateChildren when parent has all terminals, creates end no
 Object {
   "branch-guid": Object {
     "childIndex": 0,
+    "childReferences": Array [
+      Object {
+        "childReference": "o1",
+      },
+      Object {
+        "childReference": "o2",
+      },
+    ],
     "children": Array [
       "branch-guid:0-end1",
-      "branch-guid:1-end2",
       "end-hook-guid",
+      "branch-guid:1-end2",
     ],
     "config": Object {},
     "defaultConnectorLabel": "Default Connector Label",
@@ -2017,7 +2439,7 @@ Object {
     "parent": "branch-guid",
   },
   "branch-guid:1-end2": Object {
-    "childIndex": 1,
+    "childIndex": 2,
     "elementType": "END_ELEMENT",
     "guid": "branch-guid:1-end2",
     "isCanvasElement": true,
@@ -2027,7 +2449,7 @@ Object {
     "parent": "branch-guid",
   },
   "end-hook-guid": Object {
-    "childIndex": 2,
+    "childIndex": 1,
     "guid": "end-hook-guid",
     "isTerminal": true,
     "nodeType": "end",
@@ -2040,6 +2462,161 @@ Object {
     "elementType": "root",
     "guid": "root",
     "nodeType": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths Deleting all scheduled paths when there is a GoTo from Immediate branch to a scheduled path branch with no merge point 1`] = `
+Object {
+  "end-hook-guid": Object {
+    "guid": "end-hook-guid",
+    "nodeType": "end",
+    "prev": "start-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "end-hook-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths Deleting all scheduled paths when there is a GoTo from Scheduled Path branch to Immediate branch with a merge point 1`] = `
+Object {
+  "end1-guid": Object {
+    "config": Object {},
+    "elementType": "END_ELEMENT",
+    "guid": "end1-guid",
+    "label": "default",
+    "next": null,
+    "nodeType": "end",
+    "prev": "screen2-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen1-guid",
+    "incomingGoTo": Array [],
+    "label": "default",
+    "next": "screen2-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen2-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen2-guid",
+    "label": "default",
+    "next": "end1-guid",
+    "nodeType": "default",
+    "prev": "screen1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths Deleting all scheduled paths when there is a GoTo from merge point to Immediate branch 1`] = `
+Object {
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "screen1-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen1-guid",
+    "incomingGoTo": Array [
+      "screen2-guid",
+    ],
+    "label": "default",
+    "next": "screen2-guid",
+    "nodeType": "default",
+    "prev": "start-guid",
+  },
+  "screen2-guid": Object {
+    "config": Object {},
+    "elementType": "SCREEN_ELEMENT",
+    "guid": "screen2-guid",
+    "label": "default",
+    "next": "screen1-guid",
+    "nodeType": "default",
+    "prev": "screen1-guid",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "screen1-guid",
+    "nodeType": "start",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils updateChildrenOnAddingOrUpdatingScheduledPaths Deleting all scheduled paths with a GoTo on Immediate branch Head and further down the merge point 1`] = `
+Object {
+  "end-hook-guid_0": Object {
+    "guid": "end-hook-guid_0",
+    "nodeType": "end",
+    "prev": "start-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+    "nodeType": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "childReferences": Array [],
+    "config": Object {},
+    "elementType": "START_ELEMENT",
+    "guid": "start-guid",
+    "label": "default",
+    "next": "end-hook-guid_0",
+    "nodeType": "start",
+    "parent": "root",
   },
 }
 `;

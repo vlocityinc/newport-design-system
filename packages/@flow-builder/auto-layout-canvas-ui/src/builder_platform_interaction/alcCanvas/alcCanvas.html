@@ -1,4 +1,5 @@
 <template>
+    <div if:true={lastClickedElementGuid} class="canvas-overlay" onclick={handleOverlayClick}></div>
     <div if:true={showSpinner} class="slds-spinner_container">
         <lightning-spinner variant="brand"></lightning-spinner>
     </div>

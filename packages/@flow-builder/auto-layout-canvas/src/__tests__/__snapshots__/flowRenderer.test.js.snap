@@ -237,14 +237,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -527,14 +520,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -1726,14 +1712,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -3210,14 +3189,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -4409,14 +4381,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -5608,14 +5573,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -6807,14 +6765,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -9554,14 +9505,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -9956,14 +9900,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -10358,14 +10295,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -10760,14 +10690,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -10788,6 +10711,9 @@ L 3, 120",
             1,
           ],
           "highlightNext": true,
+          "mergeBranchIndexesToHighlight": Array [
+            1,
+          ],
         },
       },
       "defaultConnectorLabel": "Default Connector Label",
@@ -11427,6 +11353,9 @@ L 3, 144",
               1,
             ],
             "highlightNext": true,
+            "mergeBranchIndexesToHighlight": Array [
+              1,
+            ],
           },
         },
         "defaultConnectorLabel": "Default Connector Label",
@@ -11710,14 +11639,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -12658,14 +12580,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -17331,14 +17246,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -17689,14 +17597,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -18625,14 +18526,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -19778,14 +19672,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -20433,14 +20320,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -21087,14 +20967,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -21758,14 +21631,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -22752,14 +22618,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",
@@ -23110,14 +22969,7 @@ L 3, 120",
       },
       "node": Object {
         "childIndex": 0,
-        "childReferences": Array [
-          Object {
-            "childReference": "child-reference-guid-1",
-          },
-          Object {
-            "childReference": "child-reference-guid-2",
-          },
-        ],
+        "childReferences": Array [],
         "config": Object {},
         "elementType": "start",
         "guid": "start-guid",

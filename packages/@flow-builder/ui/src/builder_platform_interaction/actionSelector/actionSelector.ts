@@ -195,6 +195,8 @@ export default class ActionSelector extends LightningElement {
             }
 
             this.updateActionCombo();
+        } else {
+            this.state.selectedActionValue = null;
         }
     }
 

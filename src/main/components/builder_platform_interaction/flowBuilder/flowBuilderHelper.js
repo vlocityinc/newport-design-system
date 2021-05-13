@@ -40,7 +40,7 @@
         alertModal = cmp.find('builderUtils').invokeModal;
         var newErrorMessage = errorMessage ? errorMessage : $A.get('$Label.FlowBuilderAlertModal.errorMessage');
         var errorId =
-            gackId === 0 ? '' : ' (' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId) + ')';
+            gackId === 0 ? '' : ' ' + $A.util.format($A.get('$Label.FlowBuilderAlertModal.errorCode'), gackId) + '.';
         var bodyOne = $A.get('$Label.FlowBuilderAlertModal.flowPageError') + errorId;
         alertModal({
             headerData: {
@@ -54,7 +54,7 @@
 
             footerData: {
                 buttonOne: {
-                    buttonLabel: $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel'),
+                    buttonLabel: $A.get('$Label.FlowBuilderAlertModal.gotItButtonLabel'),
                     buttonCallback: 'Brand'
                 }
             }

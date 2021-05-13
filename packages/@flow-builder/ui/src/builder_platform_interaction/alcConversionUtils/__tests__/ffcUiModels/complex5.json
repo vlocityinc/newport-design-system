@@ -1,0 +1,583 @@
+{
+    "canvasElements": [
+        "8deb2092-a995-4ac6-8725-aa8ae3192859",
+        "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+        "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+        "d9974434-9afd-4efb-aa8b-4583e830a125",
+        "97b070b5-0657-47ee-bb95-800405a7bcd0",
+        "f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2",
+        "3a80a441-2059-485e-be98-d7bb44bf137e",
+        "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc"
+    ],
+    "connectors": [
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "8deb2092-a995-4ac6-8725-aa8ae3192859 -> 04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+            "label": null,
+            "source": "8deb2092-a995-4ac6-8725-aa8ae3192859",
+            "target": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+            "type": "REGULAR"
+        },
+        {
+            "childSource": "57300021-9010-483a-a5fb-3f0340920c74",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd -> f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "label": null,
+            "source": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+            "target": "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "type": "REGULAR"
+        },
+        {
+            "childSource": "93d3159f-7403-4799-96c3-4f1d3d78bf52",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd -> a0506ab1-02eb-4e4b-af72-15134f5946cc",
+            "label": null,
+            "source": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+            "target": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+            "type": "REGULAR"
+        },
+        {
+            "childSource": "552f2982-e851-4239-9c76-1f85d2b8da86",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "a0506ab1-02eb-4e4b-af72-15134f5946cc -> d9974434-9afd-4efb-aa8b-4583e830a125",
+            "label": null,
+            "source": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+            "target": "d9974434-9afd-4efb-aa8b-4583e830a125",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "d9974434-9afd-4efb-aa8b-4583e830a125 -> 97b070b5-0657-47ee-bb95-800405a7bcd0",
+            "label": "LOOP_NEXT",
+            "source": "d9974434-9afd-4efb-aa8b-4583e830a125",
+            "target": "97b070b5-0657-47ee-bb95-800405a7bcd0",
+            "type": "LOOP_NEXT"
+        },
+        {
+            "childSource": "b6a31731-81cf-427a-8ace-f1bb9d7a90cc",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "97b070b5-0657-47ee-bb95-800405a7bcd0 -> f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2",
+            "label": null,
+            "source": "97b070b5-0657-47ee-bb95-800405a7bcd0",
+            "target": "f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2 -> d9974434-9afd-4efb-aa8b-4583e830a125",
+            "label": null,
+            "source": "f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2",
+            "target": "d9974434-9afd-4efb-aa8b-4583e830a125",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "97b070b5-0657-47ee-bb95-800405a7bcd0 -> 3a80a441-2059-485e-be98-d7bb44bf137e",
+            "label": "DEFAULT",
+            "source": "97b070b5-0657-47ee-bb95-800405a7bcd0",
+            "target": "3a80a441-2059-485e-be98-d7bb44bf137e",
+            "type": "DEFAULT"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "3a80a441-2059-485e-be98-d7bb44bf137e -> d9974434-9afd-4efb-aa8b-4583e830a125",
+            "label": "LOOP_END",
+            "source": "3a80a441-2059-485e-be98-d7bb44bf137e",
+            "target": "d9974434-9afd-4efb-aa8b-4583e830a125",
+            "type": "LOOP_END"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "d9974434-9afd-4efb-aa8b-4583e830a125 -> f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "label": "LOOP_END",
+            "source": "d9974434-9afd-4efb-aa8b-4583e830a125",
+            "target": "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "type": "LOOP_END"
+        },
+        {
+            "childSource": "96a0372d-b243-4dcf-88a2-3d961f19bffa",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "a0506ab1-02eb-4e4b-af72-15134f5946cc -> f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "label": null,
+            "source": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+            "target": "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "a0506ab1-02eb-4e4b-af72-15134f5946cc -> f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "label": "DEFAULT",
+            "source": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+            "target": "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "type": "DEFAULT"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd -> f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "label": "DEFAULT",
+            "source": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+            "target": "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "type": "DEFAULT"
+        }
+    ],
+    "elements": {
+        "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd": {
+            "availableConnections": [
+                {
+                    "type": "FAULT"
+                }
+            ],
+            "childReferences": [
+                {
+                    "childReference": "57300021-9010-483a-a5fb-3f0340920c74"
+                },
+                {
+                    "childReference": "93d3159f-7403-4799-96c3-4f1d3d78bf52"
+                }
+            ],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 3,
+            "defaultConnectorLabel": "DEFAULT",
+            "description": "",
+            "elementType": "Wait",
+            "guid": "04141b3e-9ec4-48fa-94ea-f7da5f12a6cd",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 488,
+            "locationY": 206,
+            "maxConnections": 4,
+            "name": ""
+        },
+        "3a80a441-2059-485e-be98-d7bb44bf137e": {
+            "alcInsertAt": {
+                "childIndex": 1,
+                "parent": "97b070b5-0657-47ee-bb95-800405a7bcd0"
+            },
+            "assignNextValueToReference": null,
+            "assignNextValueToReferenceIndex": "de4be497-9351-43cc-bb15-ad2399e2f039",
+            "availableConnections": [
+                {
+                    "type": "LOOP_NEXT"
+                }
+            ],
+            "collectionReference": null,
+            "collectionReferenceIndex": "b321fb06-ab39-4f42-861d-770454bb78eb",
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 1,
+            "description": "",
+            "elementType": "Loop",
+            "guid": "3a80a441-2059-485e-be98-d7bb44bf137e",
+            "isCanvasElement": true,
+            "iterationOrder": "Asc",
+            "label": "",
+            "locationX": 1016,
+            "locationY": 686,
+            "maxConnections": 2,
+            "name": "",
+            "storeOutputAutomatically": true
+        },
+        "552f2982-e851-4239-9c76-1f85d2b8da86": {
+            "conditionLogic": "no_conditions",
+            "conditions": [],
+            "dataType": "Boolean",
+            "elementType": "WAIT_EVENT",
+            "eventType": "AlarmEvent",
+            "eventTypeIndex": "f60027c9-6739-493f-918f-7714016f1f34",
+            "guid": "552f2982-e851-4239-9c76-1f85d2b8da86",
+            "inputParameters": [
+                {
+                    "name": "AlarmTime",
+                    "rowIndex": "5669221c-27a3-4e59-9787-3ef9c1703284",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffset",
+                    "rowIndex": "5a3a7c8b-3da2-4b6c-9f6d-20e8c39b2cec",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffsetUnit",
+                    "rowIndex": "54cb70f6-a6ed-4084-a4a9-0b71c177f4bf",
+                    "value": "",
+                    "valueDataType": ""
+                }
+            ],
+            "label": "",
+            "name": "",
+            "outputParameters": {
+                "AlarmTime": {
+                    "name": "AlarmTime",
+                    "rowIndex": "b8206266-ff4c-4f05-ab6a-fd81eba30bd4",
+                    "value": "",
+                    "valueDataType": "reference"
+                },
+                "Status": {
+                    "name": "Status",
+                    "rowIndex": "cfc09c02-0674-473f-9ad4-50667c36d4dc",
+                    "value": "",
+                    "valueDataType": "reference"
+                }
+            }
+        },
+        "57300021-9010-483a-a5fb-3f0340920c74": {
+            "conditionLogic": "no_conditions",
+            "conditions": [],
+            "dataType": "Boolean",
+            "elementType": "WAIT_EVENT",
+            "eventType": "AlarmEvent",
+            "eventTypeIndex": "6c1e3efc-20ca-4c4b-b85f-6580c6999dba",
+            "guid": "57300021-9010-483a-a5fb-3f0340920c74",
+            "inputParameters": [
+                {
+                    "name": "AlarmTime",
+                    "rowIndex": "06290ce8-75bf-439b-90f7-c9c964512d84",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffset",
+                    "rowIndex": "f7a08d2d-890d-4420-a334-0a8674ba1e7d",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffsetUnit",
+                    "rowIndex": "a15876da-f7c1-46e7-9afc-00f57b36976c",
+                    "value": "",
+                    "valueDataType": ""
+                }
+            ],
+            "label": "",
+            "name": "",
+            "outputParameters": {
+                "AlarmTime": {
+                    "name": "AlarmTime",
+                    "rowIndex": "09895283-48fb-4485-91d9-82c1d6e152ec",
+                    "value": "",
+                    "valueDataType": "reference"
+                },
+                "Status": {
+                    "name": "Status",
+                    "rowIndex": "7885fda9-0f3b-4425-83bf-5c241e31cad4",
+                    "value": "",
+                    "valueDataType": "reference"
+                }
+            }
+        },
+        "8deb2092-a995-4ac6-8725-aa8ae3192859": {
+            "availableConnections": [],
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 1,
+            "description": "",
+            "elementType": "START_ELEMENT",
+            "filterLogic": "and",
+            "filters": [
+                {
+                    "leftHandSide": "",
+                    "operator": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "rowIndex": "066ee863-b2d5-4b98-aa89-8aa4007dfe07"
+                }
+            ],
+            "guid": "8deb2092-a995-4ac6-8725-aa8ae3192859",
+            "isCanvasElement": true,
+            "locationX": 362,
+            "locationY": 48,
+            "maxConnections": 1,
+            "object": "",
+            "objectIndex": "aa462add-81a9-45f9-9fca-43396830f4c7",
+            "triggerType": "None"
+        },
+        "93d3159f-7403-4799-96c3-4f1d3d78bf52": {
+            "conditionLogic": "no_conditions",
+            "conditions": [],
+            "dataType": "Boolean",
+            "elementType": "WAIT_EVENT",
+            "eventType": "AlarmEvent",
+            "eventTypeIndex": "6c1e3efc-20ca-4c4b-b85f-6580c6999dba",
+            "guid": "93d3159f-7403-4799-96c3-4f1d3d78bf52",
+            "inputParameters": [
+                {
+                    "name": "AlarmTime",
+                    "rowIndex": "06290ce8-75bf-439b-90f7-c9c964512d84",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffset",
+                    "rowIndex": "f7a08d2d-890d-4420-a334-0a8674ba1e7d",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffsetUnit",
+                    "rowIndex": "a15876da-f7c1-46e7-9afc-00f57b36976c",
+                    "value": "",
+                    "valueDataType": ""
+                }
+            ],
+            "label": "",
+            "name": "",
+            "outputParameters": {
+                "AlarmTime": {
+                    "name": "AlarmTime",
+                    "rowIndex": "09895283-48fb-4485-91d9-82c1d6e152ec",
+                    "value": "",
+                    "valueDataType": "reference"
+                },
+                "Status": {
+                    "name": "Status",
+                    "rowIndex": "7885fda9-0f3b-4425-83bf-5c241e31cad4",
+                    "value": "",
+                    "valueDataType": "reference"
+                }
+            }
+        },
+        "96a0372d-b243-4dcf-88a2-3d961f19bffa": {
+            "conditionLogic": "no_conditions",
+            "conditions": [],
+            "dataType": "Boolean",
+            "elementType": "WAIT_EVENT",
+            "eventType": "AlarmEvent",
+            "eventTypeIndex": "f60027c9-6739-493f-918f-7714016f1f34",
+            "guid": "96a0372d-b243-4dcf-88a2-3d961f19bffa",
+            "inputParameters": [
+                {
+                    "name": "AlarmTime",
+                    "rowIndex": "5669221c-27a3-4e59-9787-3ef9c1703284",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffset",
+                    "rowIndex": "5a3a7c8b-3da2-4b6c-9f6d-20e8c39b2cec",
+                    "value": "",
+                    "valueDataType": ""
+                },
+                {
+                    "name": "TimeOffsetUnit",
+                    "rowIndex": "54cb70f6-a6ed-4084-a4a9-0b71c177f4bf",
+                    "value": "",
+                    "valueDataType": ""
+                }
+            ],
+            "label": "",
+            "name": "",
+            "outputParameters": {
+                "AlarmTime": {
+                    "name": "AlarmTime",
+                    "rowIndex": "b8206266-ff4c-4f05-ab6a-fd81eba30bd4",
+                    "value": "",
+                    "valueDataType": "reference"
+                },
+                "Status": {
+                    "name": "Status",
+                    "rowIndex": "cfc09c02-0674-473f-9ad4-50667c36d4dc",
+                    "value": "",
+                    "valueDataType": "reference"
+                }
+            }
+        },
+        "97b070b5-0657-47ee-bb95-800405a7bcd0": {
+            "availableConnections": [],
+            "childReferences": [
+                {
+                    "childReference": "b6a31731-81cf-427a-8ace-f1bb9d7a90cc"
+                }
+            ],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 2,
+            "defaultConnectorLabel": "DEFAULT",
+            "description": "",
+            "elementType": "Decision",
+            "guid": "97b070b5-0657-47ee-bb95-800405a7bcd0",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 840,
+            "locationY": 566,
+            "maxConnections": 2,
+            "name": ""
+        },
+        "a0506ab1-02eb-4e4b-af72-15134f5946cc": {
+            "availableConnections": [
+                {
+                    "type": "FAULT"
+                }
+            ],
+            "childReferences": [
+                {
+                    "childReference": "552f2982-e851-4239-9c76-1f85d2b8da86"
+                },
+                {
+                    "childReference": "96a0372d-b243-4dcf-88a2-3d961f19bffa"
+                }
+            ],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 3,
+            "defaultConnectorLabel": "DEFAULT",
+            "description": "",
+            "elementType": "Wait",
+            "guid": "a0506ab1-02eb-4e4b-af72-15134f5946cc",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 708,
+            "locationY": 326,
+            "maxConnections": 4,
+            "name": ""
+        },
+        "b6a31731-81cf-427a-8ace-f1bb9d7a90cc": {
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "leftHandSide": "",
+                    "operator": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "rowIndex": "be169ffa-c685-4df1-96e5-fc0c2572c83a"
+                }
+            ],
+            "dataType": "Boolean",
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "elementType": "OUTCOME",
+            "guid": "b6a31731-81cf-427a-8ace-f1bb9d7a90cc",
+            "label": "",
+            "name": ""
+        },
+        "d9974434-9afd-4efb-aa8b-4583e830a125": {
+            "alcInsertAt": {
+                "childIndex": 0,
+                "parent": "a0506ab1-02eb-4e4b-af72-15134f5946cc"
+            },
+            "assignNextValueToReference": null,
+            "assignNextValueToReferenceIndex": "55221590-85c5-4982-a56e-3c8542a8ecd4",
+            "availableConnections": [],
+            "collectionReference": null,
+            "collectionReferenceIndex": "6ccf7f54-abea-47ad-b2a1-d661b13be3ac",
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 2,
+            "description": "",
+            "elementType": "Loop",
+            "guid": "d9974434-9afd-4efb-aa8b-4583e830a125",
+            "isCanvasElement": true,
+            "iterationOrder": "Asc",
+            "label": "",
+            "locationX": 576,
+            "locationY": 446,
+            "maxConnections": 2,
+            "name": "",
+            "storeOutputAutomatically": true
+        },
+        "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc": {
+            "allowBack": true,
+            "allowFinish": true,
+            "allowPause": true,
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 0,
+            "description": "",
+            "elementType": "Screen",
+            "guid": "f06c5b0a-44e5-4a45-afb3-6fa66a2fc4bc",
+            "helpText": "",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 488,
+            "locationY": 1286,
+            "maxConnections": 1,
+            "name": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true
+        },
+        "f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2": {
+            "allowBack": true,
+            "allowFinish": true,
+            "allowPause": true,
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 1,
+            "description": "",
+            "elementType": "Screen",
+            "guid": "f4fe3722-5a9d-4e3e-a77c-756dbf00c6e2",
+            "helpText": "",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 664,
+            "locationY": 686,
+            "maxConnections": 1,
+            "name": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true
+        }
+    }
+}

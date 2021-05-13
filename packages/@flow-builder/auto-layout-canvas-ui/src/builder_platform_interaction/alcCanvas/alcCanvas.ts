@@ -30,7 +30,8 @@ import {
     DeleteElementEvent,
     ToggleSelectionModeEvent,
     ClickToZoomEvent,
-    CanvasMouseUpEvent
+    CanvasMouseUpEvent,
+    EditElementEvent
 } from 'builder_platform_interaction/events';
 import {
     AlcSelectionEvent,
@@ -52,6 +53,9 @@ import {
 import { getFocusPath } from './alcCanvasUtils';
 import { commands, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './alcCanvasLabels';
+
+// alloted time between click events in ms, where two clicks are interpreted as a double click
+const DOUBLE_CLICK_THRESHOLD = 250;
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
@@ -185,6 +189,9 @@ export default class AlcCanvas extends LightningElement {
         this.keyboardInteractions = new KeyboardInteractions();
         logPerfTransactionStart(AUTOLAYOUT_CANVAS, null, null);
     }
+
+    // stash the last clicked element guid until the DOUBLE_CLICK_THRESHOLD is exceeded
+    lastClickedElementGuid: string | null = null;
 
     @track
     isZoomToView = true;
@@ -560,10 +567,33 @@ export default class AlcCanvas extends LightningElement {
         this.handleZoomAction(SYNTHETIC_ZOOM_TO_VIEW_EVENT, { top, left });
     }
 
+    /**
+     * Hack required to process double clicks on an element when a menu is opened (See @W-8984298):
+     *
+     * Since the first click of a double click will close the previously opened menu,
+     * the second click might not land on the element as it might have changed location
+     * because of the new layout. As a workaround, we create a transiant transplarent
+     * overlay over the whole canvas to capture the second click and process it.
+     *
+     * see @W-8984298
+     */
+    handleOverlayClick() {
+        this.dispatchEvent(new EditElementEvent(this.lastClickedElementGuid));
+        this.lastClickedElementGuid = null;
+    }
+
     handleMenuPositionUpdate(event) {
         let menuInfo = this._flowRenderContext.interactionState.menuInfo!;
 
         if (menuInfo != null && menuInfo.needToPosition) {
+            this.lastClickedElementGuid = menuInfo.key;
+
+            // eslint-disable-next-line @lwc/lwc/no-async-operation
+            setTimeout(() => {
+                // clear the guid after the double click threshold is exceeded
+                this.lastClickedElementGuid = null;
+            }, DOUBLE_CLICK_THRESHOLD);
+
             this._animatePromise.then(() => {
                 menuInfo = { ...menuInfo, needToPosition: false };
 
@@ -688,7 +718,8 @@ export default class AlcCanvas extends LightningElement {
             prev,
             parent,
             next,
-            canMergeEndedBranch
+            canMergeEndedBranch,
+            childIndex
         );
         this._mergeableGuids = mergeableGuids;
         this._goToableGuids = goToableGuids;
@@ -753,9 +784,21 @@ export default class AlcCanvas extends LightningElement {
                     )
                 );
             } else if (this._mergeableGuids.includes(event.detail.canvasElementGUID)) {
-                const endElement = this._flowModel[this._currentTargetGuid!];
-                const { prev, childIndex, parent } = endElement;
-                const insertAt = parent ? { parent, childIndex } : { prev };
+                let sourceElement;
+                let insertAt;
+                if (this._isReroutingGoto) {
+                    // When a GoTo is present we need to use _goToSourceBranchIndex to generate insertAt
+                    sourceElement = this._flowModel[this._goToSourceGuid];
+                    insertAt =
+                        this._goToSourceBranchIndex != null
+                            ? { parent: sourceElement.guid, childIndex: this._goToSourceBranchIndex }
+                            : { prev: sourceElement.guid };
+                } else {
+                    sourceElement = this._flowModel[this._currentTargetGuid!];
+                    const { prev, childIndex, parent } = sourceElement;
+                    insertAt = parent ? { parent, childIndex } : { prev };
+                }
+
                 this.dispatchEvent(new AlcCreateConnectionEvent(insertAt, event.detail.canvasElementGUID));
             } else if (this._firstMergeableNonNullNext === event.detail.canvasElementGUID) {
                 this.dispatchEvent(
@@ -866,7 +909,8 @@ export default class AlcCanvas extends LightningElement {
             // first render, no animation
             this.renderFlow(1);
 
-            this.initialStartMenuDisplayed = this.template.querySelector(START_MENU_SELECTOR) != null;
+            this.initialStartMenuDisplayed =
+                this.initialStartMenuDisplayed || this.template.querySelector(START_MENU_SELECTOR) != null;
 
             // reset the nodeLayoutMap to prevent animations until the start menu has been displayed
             if (!this.initialStartMenuDisplayed) {
@@ -1092,6 +1136,7 @@ export default class AlcCanvas extends LightningElement {
     handleCanvasMouseUp = (event) => {
         // We need the this.isPanInProgress check here so that we don't deselect elements when the user ends panning
         if (
+            !this._isSelectionMode &&
             !this.isPanInProgress &&
             event.currentTarget &&
             (event.currentTarget.classList.contains('canvas') ||

@@ -5,13 +5,16 @@ import { flowModel, elementsMetadata /* , nodeLayoutMap,*/ } from './mockData';
 import {
     ToggleMenuEvent,
     DeleteBranchElementEvent,
-    HighlightPathsToDeleteEvent
+    HighlightPathsToDeleteEvent,
+    MenuPositionUpdateEvent
 } from 'builder_platform_interaction/alcEvents';
 import { invokeModal, MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClickToZoomEvent, DeleteElementEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { commands } from 'builder_platform_interaction/sharedUtils';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { setup } from '@sa11y/jest';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
 
@@ -167,6 +170,7 @@ describe('Auto Layout Canvas', () => {
         cmp = createComponentForTest();
     });
 
+    const getOverlay = () => cmp.shadowRoot.querySelector('.canvas-overlay');
     const getFlow = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-flow');
     const getZoomPanel = () => cmp.shadowRoot.querySelector('builder_platform_interaction-zoom-panel');
     const getNodeMenu = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-node-menu');
@@ -203,6 +207,13 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('zoom', () => {
+        beforeAll(() => {
+            setup();
+        });
+        it('accessibility', async () => {
+            const zoomPanel = getZoomPanel();
+            await expect(zoomPanel).toBeAccessible();
+        });
         it('zoom-in/zoom-out actions', async () => {
             const zoomPanel = getZoomPanel();
 
@@ -373,6 +384,48 @@ describe('Auto Layout Canvas', () => {
                 })
             );
             checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+        });
+
+        it('node menu opened, double clicking on another node fires an EditElementEvent', async () => {
+            //
+            // see alcCanvas.handleOverlayClick for more information about this test sequence
+            //
+
+            await closeStartMenu();
+
+            checkMenusOpened(!NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            const flow = getFlow();
+
+            // open the menu for a node
+            await dispatchEvent(flow, nodeToggleMenuEvent2);
+            checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            // open the menu for another node
+            await dispatchEvent(flow, nodeToggleMenuEvent);
+            checkMenusOpened(NODE_MENU_OPENED, !CONNECTOR_MENU_OPENED);
+
+            // fire the a menu position update event (as done by alcMenuTrigger in this scenario)
+            const menuUpdateEvent = new MenuPositionUpdateEvent({ ...nodeToggleMenuEvent, needToPosition: true });
+            await dispatchEvent(flow, menuUpdateEvent);
+
+            // at this point the overlay should be present to capture the second click
+            const overlay = getOverlay();
+            expect(overlay).toBeTruthy();
+
+            // send the second click to the overlay
+            const editElementCallback = jest.fn();
+            cmp.addEventListener(EditElementEvent.EVENT_NAME, editElementCallback);
+            await dispatchEvent(
+                overlay,
+                new CustomEvent('click', {
+                    bubbles: true,
+                    cancelable: false
+                })
+            );
+
+            // check that the EditElementEvent was fired
+            expect(editElementCallback).toHaveBeenCalled();
         });
 
         /* Skip this test, we are using the zoomEnd event to open the menu

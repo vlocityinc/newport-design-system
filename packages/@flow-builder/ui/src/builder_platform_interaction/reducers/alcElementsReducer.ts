@@ -45,7 +45,8 @@ import {
     FlowModel,
     NodeModel,
     fulfillsBranchingCriteria,
-    ParentNodeModel
+    ParentNodeModel,
+    findFirstElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { CONNECTOR_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -154,17 +155,21 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         case MODIFY_DECISION_WITH_OUTCOMES: {
             // redo
             const element = _getElementFromActionPayload(action.payload);
-            const updatedChildren = getNextChildren(state[element.guid], element);
-            const alcAction = actions.updateChildrenAction(state[element.guid] as ParentNodeModel, updatedChildren);
+            const originalChildReferences = deepCopy((state[element.guid] as ParentNodeModel).childReferences);
+            const updatedChildReferences = deepCopy(nextState[element.guid].childReferences);
+            nextState[element.guid].childReferences = originalChildReferences;
+            const alcAction = actions.updateChildrenAction(element.guid, updatedChildReferences);
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
         }
         case MODIFY_START_WITH_SCHEDULED_PATHS: {
             const element = _getElementFromActionPayload(action.payload);
-            const updatedChildren = getNextChildren(state[element.guid], element);
+            const originalChildReferences = deepCopy((state[element.guid] as ParentNodeModel).childReferences);
+            const updatedChildReferences = deepCopy(nextState[element.guid].childReferences);
+            nextState[element.guid].childReferences = originalChildReferences;
             const alcAction = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                state[element.guid] as ParentNodeModel,
-                updatedChildren
+                element.guid,
+                updatedChildReferences
             );
             nextState = autoLayoutCanvasReducer(nextState, alcAction);
             break;
@@ -231,43 +236,6 @@ function getChildren(element: UI.CanvasElement): (Guid | null)[] | null {
 }
 
 /**
- * Computes and returns the new children for an element
- *
- * @param element - The previous state of the element
- * @param nextElement - The next state of the element
- * @return The new children array for the element
- */
-function getNextChildren(element, nextElement): (Guid | null)[] {
-    const { children } = element;
-    const nextChildren = getChildren(nextElement)!;
-
-    if (children && nextChildren) {
-        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            // copy over the child corresponding to the default scheduled path
-            nextChildren[START_IMMEDIATE_INDEX] = children[START_IMMEDIATE_INDEX];
-        } else {
-            // copy over the child corresponding to the default outcome
-            nextChildren[nextChildren.length - 1] = children[children.length - 1];
-        }
-        nextElement.childReferences.forEach((childReference, i) => {
-            const currentIndex = element.childReferences.findIndex((ref) => {
-                return ref.childReference === childReference.childReference;
-            });
-
-            if (currentIndex !== -1) {
-                if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-                    nextChildren[i + 1] = children[currentIndex + 1];
-                } else {
-                    nextChildren[i] = children[currentIndex];
-                }
-            }
-        });
-    }
-
-    return nextChildren;
-}
-
-/**
  * Computes which branch index to highlight on a given element based on connector type or child reference
  * @param element store element
  * @param connectorType connector type to highlight
@@ -293,6 +261,18 @@ function getBranchIndexToHighlight(element: NodeModel, connectorType?: string, c
     }
 
     return branchIndexToHighlight;
+}
+
+/**
+ * Helper function to update highlight info on a parent element and include a merge branch index to highlight
+ * @param parentHighlightInfo HighlightInfo object on parent element
+ * @param mergeBranchIndexToHighlight index of the merge branch to be highlighted on parent element
+ */
+function setMergeBranchIndexesToHighlight(parentHighlightInfo: HighlightInfo, mergeBranchIndexToHighlight: number) {
+    parentHighlightInfo!.mergeBranchIndexesToHighlight = parentHighlightInfo!.mergeBranchIndexesToHighlight || [];
+    if (!parentHighlightInfo!.mergeBranchIndexesToHighlight.includes(mergeBranchIndexToHighlight)) {
+        parentHighlightInfo!.mergeBranchIndexesToHighlight.push(mergeBranchIndexToHighlight);
+    }
 }
 
 /**
@@ -340,22 +320,34 @@ function getDecoratedElements(state: FlowModel, connectorsToHighlight: any[]): M
         // go up it's branch chain to it's parent element to highlight merge points correctly
         if (!element.next && highlightInfo.highlightNext) {
             let parentElement = findParentElement(element, state);
+            let branchHeadElement = findFirstElement(element, state);
+            let mergeBranchIndexToHighlight = branchHeadElement.childIndex;
 
             // If the parent is a not a loop and not a branch with a next element,
-            // set highlightNext so that we highlight the merge point after it's branches,
-            // and keep going up it's branch chain to do the same for all it's parents that meet the criteria
+            // set highlightNext so that we highlight the merge point after it's branches
+            // Also, set the index for which of it's merge branches need to be highlighted
+            // Finally, keep going up it's branch chain to do the same for all it's parents that meet the same criteria
             while (parentElement.nodeType !== NodeType.LOOP && !parentElement.next) {
-                decoratedElements.get(parentElement.guid)!.highlightNext = true;
+                const parentHighlightInfo = decoratedElements.get(parentElement.guid) || {};
+                parentHighlightInfo!.highlightNext = true;
+                setMergeBranchIndexesToHighlight(parentHighlightInfo, mergeBranchIndexToHighlight);
+                decoratedElements.set(parentElement.guid, parentHighlightInfo);
+
+                branchHeadElement = findFirstElement(parentElement, state);
+                mergeBranchIndexToHighlight = branchHeadElement && branchHeadElement.childIndex;
                 parentElement = findParentElement(parentElement, state);
             }
 
             // If the final parent is a loop element, highlight the end of the loop back connector,
-            // else it is a branch whose next also needs to be highlighted
+            // else it is a branch element whose next and merge branch also need to be highlighted
+            const parentHighlightInfo = decoratedElements.get(parentElement.guid) || {};
             if (parentElement.nodeType === NodeType.LOOP) {
-                decoratedElements.get(parentElement.guid)!.highlightLoopBack = true;
+                parentHighlightInfo.highlightLoopBack = true;
             } else {
-                decoratedElements.get(parentElement.guid)!.highlightNext = true;
+                parentHighlightInfo.highlightNext = true;
+                setMergeBranchIndexesToHighlight(parentHighlightInfo, mergeBranchIndexToHighlight);
             }
+            decoratedElements.set(parentElement.guid, parentHighlightInfo);
         }
 
         decoratedElements.set(elementGuid, highlightInfo);

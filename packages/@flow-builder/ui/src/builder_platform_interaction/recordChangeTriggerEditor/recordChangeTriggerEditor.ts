@@ -8,7 +8,8 @@ import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE,
-    START_ELEMENT_FIELDS
+    START_ELEMENT_FIELDS,
+    SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 
@@ -72,6 +73,18 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         return this.startElement.recordTriggerType ? this.startElement.recordTriggerType.value : CREATE;
     }
 
+    get runOnSuccessScheduledPathCheckboxLabel() {
+        return LABELS.runOnSuccessScheduledPathCheckboxLabel;
+    }
+
+    get checkRunOnSuccessScheduledPath() {
+        return (
+            this.startElement.scheduledPaths &&
+            this.startElement.scheduledPaths.length > 0 &&
+            this.startElement.scheduledPaths[0].pathType?.value === SCHEDULED_PATH_TYPE.RUN_ON_SUCCESS
+        );
+    }
+
     get createOrUpdateOptions() {
         return [
             {
@@ -124,6 +137,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     get isDeleteRecordTriggerType() {
         return this.startElement.recordTriggerType.value === DELETE;
+    }
+
+    get disableRunOnSuccessScheduledPathCheckbox() {
+        return !this.isAfterSave;
     }
 
     /**
@@ -179,5 +196,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     handleTypeAfterSave() {
         this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, AFTER_SAVE);
+    }
+
+    toggleRunOnSuccessScheduledPath(event) {
+        event.stopPropagation();
+        this._updateField(START_ELEMENT_FIELDS.IS_RUN_ON_SUCCESS_PATH_ENABLED, event.detail.checked);
     }
 }

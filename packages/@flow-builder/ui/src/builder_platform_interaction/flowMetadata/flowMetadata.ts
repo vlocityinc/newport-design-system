@@ -85,6 +85,12 @@ export enum ELEMENT_TYPE {
     DEFAULT = 'defaultElement'
 }
 
+export const FOOTER_LABEL_TYPE = {
+    STANDARD: 'standard',
+    CUSTOM: 'custom',
+    HIDE: 'hide'
+};
+
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',
@@ -377,11 +383,16 @@ export const START_ELEMENT_FIELDS = {
     START_DATE: 'startDate',
     START_TIME: 'startTime',
     FILTER_LOGIC: 'filterLogic',
+    IS_RUN_ON_SUCCESS_PATH_ENABLED: 'runOnSuccess',
     REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
 };
 
 export const COLLECTION_PROCESSOR_SUB_TYPE = {
     SORT: 'SortCollectionProcessor'
+};
+
+export const SCHEDULED_PATH_TYPE = {
+    RUN_ON_SUCCESS: 'RunOnSuccess'
 };
 
 export const RECOMMENDATION_STRATEGY = {

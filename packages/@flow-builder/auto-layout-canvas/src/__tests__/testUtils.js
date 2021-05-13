@@ -15,7 +15,6 @@ const BRANCH_ELEMENT_GUID = 'branch-guid';
 const LOOP_ELEMENT_GUID = 'loop-guid';
 const SCREEN_ELEMENT_GUID = 'screen-guid';
 const ACTION_ELEMENT_GUID = 'action-guid';
-const BASIC_ELEMENT_GUID = 'head-guid';
 const GOTO_TARGET_GUID = 'goto-target-guid';
 const GOTO_SOURCE_GUID = 'goto-source-guid';
 
@@ -34,7 +33,7 @@ const START_ELEMENT = {
     childIndex: 0,
     isTerminal: true,
     isCanvasElement: true,
-    childReferences: [{ childReference: 'child-reference-guid-1' }, { childReference: 'child-reference-guid-2' }],
+    childReferences: [],
     config: {}
 };
 
@@ -225,7 +224,7 @@ function linkElements(elements) {
     });
 }
 
-function createFlow(rootBranchElements, addStartAndEnd = true, hasChildReferences = true) {
+function createFlow(rootBranchElements, addStartAndEnd = true) {
     const elementsMap = {};
     const rootElement = { ...ROOT_ELEMENT };
     elementsMap[rootElement.guid] = rootElement;
@@ -444,7 +443,9 @@ function getFlowWithHighlightedDecisionBranch() {
 function getFlowWithHighlightedAndMergedDecisionBranch() {
     const branchElement = {
         ...BRANCH_ELEMENT,
-        config: { highlightInfo: { branchIndexesToHighlight: [1], highlightNext: true } }
+        config: {
+            highlightInfo: { branchIndexesToHighlight: [1], mergeBranchIndexesToHighlight: [1], highlightNext: true }
+        }
     };
 
     const flowModel = createFlow([branchElement]);
@@ -989,6 +990,287 @@ function getFlowWithGoToOnTheNestedBranchElement() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithGoToOnTheMergePoint() {
+    const branchElement = { ...BRANCH_ELEMENT, children: [SCREEN_ELEMENT_GUID, null, null, null] };
+    branchElement.childReferences = [
+        {
+            childReference: 'o1'
+        },
+        {
+            childReference: 'o2'
+        },
+        {
+            childReference: 'o3'
+        }
+    ];
+
+    const elements = linkElements([START_ELEMENT, SCREEN_ELEMENT, branchElement]);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    flowModel[END_ELEMENT_GUID] = END_ELEMENT;
+    flowModel[END_ELEMENT_GUID] = { ...END_ELEMENT, parent: BRANCH_ELEMENT_GUID, childIndex: 3, isTerminal: true };
+    flowModel[BRANCH_ELEMENT_GUID].children = [SCREEN_ELEMENT_GUID, null, null, END_ELEMENT_GUID];
+    flowModel[BRANCH_ELEMENT_GUID].next = SCREEN_ELEMENT_GUID;
+    flowModel[SCREEN_ELEMENT_GUID].incomingGoTo = [
+        `${branchElement.guid}:${branchElement.childReferences[0].childReference}`,
+        branchElement.guid
+    ];
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromMergePointToParent() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        parent: 'root',
+        childIndex: 0,
+        next: 'decision1-guid'
+    };
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'o1' }],
+        children: ['screen1-guid', 'screen2-guid'],
+        prev: 'start-guid',
+        next: 'decision1-guid',
+        incomingGoTo: ['decision1-guid']
+    };
+    screen1 = {
+        ...screen1,
+        parent: 'decision1-guid',
+        childIndex: 0,
+        next: null,
+        isTerminal: false
+    };
+    screen2 = {
+        ...screen2,
+        parent: 'decision1-guid',
+        childIndex: 1,
+        next: null,
+        isTerminal: false
+    };
+
+    const elements = [root, start, decision1, screen1, screen2];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromSiblingBranch() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        parent: 'root',
+        childIndex: 0,
+        next: 'decision1-guid'
+    };
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+        children: ['screen1-guid', 'end2-guid', 'screen1-guid'],
+        prev: 'start-guid',
+        next: null,
+        incomingGoTo: []
+    };
+    screen1 = {
+        ...screen1,
+        parent: 'decision1-guid',
+        childIndex: 0,
+        next: 'end1-guid',
+        isTerminal: true,
+        incomingGoTo: ['decision1-guid:default']
+    };
+    end1 = {
+        ...end1,
+        prev: 'screen1-guid',
+        next: null
+    };
+    end2 = {
+        ...end2,
+        prev: null,
+        next: null,
+        parent: 'decision1-guid',
+        childIndex: 1,
+        isTerminal: true
+    };
+
+    const elements = [root, start, decision1, screen1, end1, end2];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromImmediateToScheduledPathBranch() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [
+            {
+                childReference: 't1'
+            },
+            {
+                childReference: 't2'
+            }
+        ],
+        children: ['screen1-guid', 'end1-guid', 'screen1-guid'],
+        parent: 'root',
+        childIndex: 0,
+        next: null
+    };
+    screen1 = {
+        ...screen1,
+        parent: 'start-guid',
+        childIndex: 2,
+        next: 'end2-guid',
+        isTerminal: true,
+        incomingGoTo: ['start-guid:immediate']
+    };
+    end1 = {
+        ...end1,
+        parent: 'start-guid',
+        childIndex: 1,
+        next: null,
+        isTerminal: true
+    };
+    end2 = {
+        ...end2,
+        prev: 'screen1-guid',
+        next: null
+    };
+
+    const elements = [root, start, screen1, end1, end2];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWhenGoingFromScheduledPathToImmediateBranch() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [
+            {
+                childReference: 't1'
+            },
+            {
+                childReference: 't2'
+            }
+        ],
+        children: ['screen1-guid', null, 'screen1-guid'],
+        parent: 'root',
+        childIndex: 0,
+        next: 'end1-guid'
+    };
+    screen1 = {
+        ...screen1,
+        parent: 'start-guid',
+        childIndex: 0,
+        next: 'screen2-guid',
+        isTerminal: false,
+        incomingGoTo: ['start-guid:t2']
+    };
+    screen2 = {
+        ...screen2,
+        prev: 'screen1-guid',
+        next: null
+    };
+    end1 = {
+        ...end1,
+        prev: 'start-guid',
+        next: null
+    };
+
+    const elements = [root, start, screen1, screen2, end1];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
+function getFlowWithGoToOnImmediateBranchHead() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen3 = createElementWithElementType('screen3-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [
+            {
+                childReference: 't1'
+            },
+            {
+                childReference: 't2'
+            }
+        ],
+        children: ['screen3-guid', null, 'screen1-guid'],
+        parent: 'root',
+        childIndex: 0,
+        next: 'screen2-guid'
+    };
+    screen1 = {
+        ...screen1,
+        parent: 'start-guid',
+        childIndex: 2,
+        next: null,
+        isTerminal: false,
+        incomingGoTo: ['screen3-guid']
+    };
+    screen2 = {
+        ...screen2,
+        prev: 'start-guid',
+        next: 'screen3-guid',
+        incomingGoTo: []
+    };
+    screen3 = {
+        ...screen3,
+        prev: 'screen2-guid',
+        next: 'screen1-guid',
+        incomingGoTo: ['start-guid:immediate']
+    };
+
+    const elements = [root, start, screen1, screen2, screen3];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -1030,5 +1312,11 @@ export {
     getFlowWithHighlightedAndMergedDecisionBranch,
     getFlowWithHighlightedFaultBranch,
     getComplicatedFlow,
-    createFlow
+    createFlow,
+    getFlowWithGoToOnTheMergePoint,
+    getFlowWhenGoingFromMergePointToParent,
+    getFlowWhenGoingFromSiblingBranch,
+    getFlowWhenGoingFromImmediateToScheduledPathBranch,
+    getFlowWhenGoingFromScheduledPathToImmediateBranch,
+    getFlowWithGoToOnImmediateBranchHead
 };

@@ -19,8 +19,7 @@ import {
     FlowRenderContext,
     hasGoToConnectionOnNext,
     hasGoToConnectionOnBranchHead,
-    FAULT_INDEX,
-    MenuType
+    FAULT_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
@@ -691,7 +690,7 @@ function getAlcMenuData(
 ) {
     const detail = event.detail;
 
-    const { guid, prev, next, parent, childIndex, type } = detail;
+    const { guid, prev, next, parent, childIndex } = detail;
 
     const { flowModel, elementsMetadata } = context;
 
@@ -704,14 +703,36 @@ function getAlcMenuData(
 
     let canMergeEndedBranch = false;
     let isTargetEnd = false;
+    let isGoToConnector = false;
     if (targetElement != null) {
-        const targetBranchHeadElement = findFirstElement(targetElement, flowModel);
-        const targetParentElement = flowModel[targetBranchHeadElement.parent];
-        const isTargetParentRoot =
-            getElementMetadata(elementsMetadata, targetParentElement.elementType).type === NodeType.ROOT;
+        // Checking for GoTo on branchHead and setting canMergeEndedBranch accordingly
+        if (
+            parent &&
+            childIndex != null &&
+            hasGoToConnectionOnBranchHead(flowModel, flowModel[parent] as ParentNodeModel, childIndex)
+        ) {
+            canMergeEndedBranch =
+                childIndex !== FAULT_INDEX &&
+                getElementMetadata(elementsMetadata, flowModel[parent].elementType).type !== NodeType.ROOT;
+            isGoToConnector = true;
+        } else {
+            const hasGoToOnNext = prev && next && hasGoToConnectionOnNext(flowModel, flowModel[prev]);
+            const targetBranchHeadElement = hasGoToOnNext
+                ? findFirstElement(flowModel[prev!], flowModel)
+                : findFirstElement(targetElement, flowModel);
+            const targetParentElement = flowModel[targetBranchHeadElement.parent];
+            const isTargetParentRoot =
+                getElementMetadata(elementsMetadata, targetParentElement.elementType).type === NodeType.ROOT;
 
-        isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === NodeType.END;
-        canMergeEndedBranch = targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot && isTargetEnd;
+            if (hasGoToOnNext) {
+                canMergeEndedBranch = targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot;
+                isGoToConnector = true;
+            } else {
+                isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === NodeType.END;
+                canMergeEndedBranch =
+                    targetBranchHeadElement.childIndex !== FAULT_INDEX && !isTargetParentRoot && isTargetEnd;
+            }
+        }
     }
 
     const parentElement = (parent != null
@@ -719,19 +740,6 @@ function getAlcMenuData(
         : findParentElement(flowModel[guid!], flowModel)) as ParentNodeModel;
 
     const hasEndElement = targetGuid == null && !isInLoop(flowModel, parentElement, elementsMetadata);
-
-    let isGoToConnector = false;
-
-    // Setting the isGoToConnector property to true for goTo connectors
-    if (
-        type === MenuType.CONNECTOR &&
-        ((prev && next && hasGoToConnectionOnNext(flowModel, flowModel[prev])) ||
-            (parent &&
-                childIndex != null &&
-                hasGoToConnectionOnBranchHead(flowModel, flowModel[parent] as ParentNodeModel, childIndex)))
-    ) {
-        isGoToConnector = true;
-    }
 
     return {
         canMergeEndedBranch,

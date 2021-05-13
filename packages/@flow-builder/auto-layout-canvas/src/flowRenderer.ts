@@ -160,6 +160,16 @@ function shouldDeleteConnector(context: FlowRenderContext, nodeGuid: Guid, curre
 function isBranchHighlighted(node: NodeModel, branchIndex: number) {
     return !!node.config.highlightInfo?.branchIndexesToHighlight?.includes(branchIndex);
 }
+
+/**
+ * Checks if a given merge branch on a node is highlighted
+ * @param node Branch node to check
+ * @param branchIndex Index of the branch to check against
+ */
+function isMergeBranchHighlighted(node: NodeModel, branchIndex: number) {
+    return !!node.config.highlightInfo?.mergeBranchIndexesToHighlight?.includes(branchIndex);
+}
+
 /**
  * Renders a non-branching node
  *
@@ -946,7 +956,7 @@ function createMergeConnectors(
             // or if it's associated with the element being deleted and not equal to it's childIndexToKeep
             const connectorToBeDeleted = shouldDeleteConnector(context, parentNode.guid, mergeIndex);
             const isHighlighted =
-                isBranchHighlighted(parentNode, mergeIndex) && parentNode.config.highlightInfo!.highlightNext;
+                isMergeBranchHighlighted(parentNode, mergeIndex) && parentNode.config.highlightInfo!.highlightNext;
 
             const isLeft = i === 0;
             const branchLayout = getBranchLayout(parentNode.guid, mergeIndex, progress, nodeLayoutMap);

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
+import { LABELS } from './modalBodyLabels';
 
 export default class ModalBody extends LightningElement {
     @api bodyTextOne;
@@ -11,6 +12,7 @@ export default class ModalBody extends LightningElement {
     @api bodyVariant;
     @api showBodyTwoVariant;
     activeSection = [];
+    labels = LABELS;
 
     get bodyTextContainerClass() {
         return this.bodyVariant === modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE

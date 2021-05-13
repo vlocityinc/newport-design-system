@@ -159,7 +159,7 @@ describe('alc builder container', () => {
                 getCurrentState: jest.fn(() => {
                     return {
                         elements: { startGuid: { elementType: 'START_ELEMENT' } },
-                        properties: { processType: 'autolaunched' }
+                        properties: { processType: 'autolaunched', isAutoLayoutCanvas: true }
                     };
                 }),
                 subscribe: jest.fn(() => jest.fn()),
@@ -184,11 +184,11 @@ describe('alc builder container', () => {
 
     it('offsets when in selection mode', async () => {
         await ticks(1);
-        expect(getAlcCanvas().offsets).toEqual([0, 0]);
+        expect(getAlcCanvas().offsets).toEqual([0, 28]);
 
         cmp.isSelectionMode = true;
         await ticks(1);
-        expect(getAlcCanvas().offsets).toEqual([320, 0]);
+        expect(getAlcCanvas().offsets).toEqual([320, 28]);
     });
 
     it('intializes augmented metadata types correctly', async () => {

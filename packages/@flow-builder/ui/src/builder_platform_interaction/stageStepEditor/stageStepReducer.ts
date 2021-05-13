@@ -39,10 +39,20 @@ import {
     removeUnsetParameters,
     updateParameterItem
 } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
+import { Validation } from 'builder_platform_interaction/validation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
+const validation = new Validation();
+
+const validateProperty = (state, event) => {
+    event.detail.error =
+        event.detail.error === null
+            ? validation.validateProperty(event.detail.propertyName, event.detail.value, null)
+            : event.detail.error;
+};
 const itemPropertyChanged = (state: StageStep, event: CustomEvent): StageStep => {
     event.detail.guid = state.guid;
-    // validateProperty(state, event);
+    validateProperty(state, event);
     return updateProperties(state, {
         [event.detail.propertyName]: {
             error: event.detail.error,
@@ -285,6 +295,8 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
         case CreateEntryConditionsEvent.EVENT_NAME:
             newState = createEntryConditions(state);
             break;
+        case VALIDATE_ALL:
+            return validation.validateAll(state, {});
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);
         default:

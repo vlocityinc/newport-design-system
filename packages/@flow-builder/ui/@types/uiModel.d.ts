@@ -178,9 +178,10 @@ declare namespace UI {
     };
 
     interface ScheduledPath extends ChildElement {
-        timeSource: string;
-        offsetUnit: string;
-        offsetNumber: string;
+        timeSource?: string;
+        offsetUnit?: string;
+        offsetNumber?: string;
+        pathType?: string;
     }
 
     type ConnectorType = string;

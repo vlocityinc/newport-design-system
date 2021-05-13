@@ -15,7 +15,7 @@ import {
     createScreenFieldWithFieldReferences,
     createScreenFieldWithFields
 } from '../screenField';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     createPastedCanvasElement,
@@ -316,7 +316,7 @@ describe('screen', () => {
                 ]
             };
         });
-
+        // TODO: add test for footer labels when metadata changes are finished on backend, commit with work item W-9142863
         it('includes the return value of a call to baseCanvasElementMetadataObject', () => {
             createScreenMetadataObject(screenFromStore);
             expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(screenFromStore, {});
@@ -361,6 +361,51 @@ describe('screen', () => {
             expect(screen.elementType).toEqual(ELEMENT_TYPE.SCREEN);
         });
 
+        describe('custom footer labels', () => {
+            it('creates correct footer label type when allow is true and label is present', () => {
+                screenFromFlow.allowFinish = true;
+                screenFromFlow.nextOrFinishLabel = 'testFinishLabel';
+                screenFromFlow.allowBack = true;
+                screenFromFlow.backLabel = 'testBackLabel';
+                screenFromFlow.allowPause = true;
+                screenFromFlow.pauseLabel = 'testPauseLabel';
+                const result = createScreenWithFieldReferences(screenFromFlow);
+                const screen = result.elements[existingScreenGuid];
+                expect(screen.nextOrFinishLabelType).toEqual(FOOTER_LABEL_TYPE.CUSTOM);
+                expect(screen.nextOrFinishLabel).toEqual('testFinishLabel');
+                expect(screen.backLabelType).toEqual(FOOTER_LABEL_TYPE.CUSTOM);
+                expect(screen.backLabel).toEqual('testBackLabel');
+                expect(screen.pauseLabelType).toEqual(FOOTER_LABEL_TYPE.CUSTOM);
+                expect(screen.pauseLabel).toEqual('testPauseLabel');
+            });
+            it('creates correct footer label type when allow is false and label is present', () => {
+                screenFromFlow.allowFinish = false;
+                screenFromFlow.nextOrFinishLabel = 'testFinishLabel';
+                screenFromFlow.allowBack = false;
+                screenFromFlow.backLabel = 'testBackLabel';
+                screenFromFlow.allowPause = false;
+                screenFromFlow.pauseLabel = 'testPauseLabel';
+                const result = createScreenWithFieldReferences(screenFromFlow);
+                const screen = result.elements[existingScreenGuid];
+                expect(screen.nextOrFinishLabelType).toEqual(FOOTER_LABEL_TYPE.HIDE);
+                expect(screen.backLabelType).toEqual(FOOTER_LABEL_TYPE.HIDE);
+                expect(screen.pauseLabelType).toEqual(FOOTER_LABEL_TYPE.HIDE);
+            });
+            it('creates correct footer label type when allow is true and label is not present', () => {
+                screenFromFlow.allowFinish = true;
+                screenFromFlow.nextOrFinishLabel = null;
+                screenFromFlow.allowBack = true;
+                screenFromFlow.backLabel = null;
+                screenFromFlow.allowPause = true;
+                screenFromFlow.pauseLabel = null;
+                const result = createScreenWithFieldReferences(screenFromFlow);
+                const screen = result.elements[existingScreenGuid];
+                expect(screen.nextOrFinishLabelType).toEqual(FOOTER_LABEL_TYPE.STANDARD);
+                expect(screen.backLabelType).toEqual(FOOTER_LABEL_TYPE.STANDARD);
+                expect(screen.pauseLabelType).toEqual(FOOTER_LABEL_TYPE.STANDARD);
+            });
+        });
+
         describe('fields', () => {
             it('screen includes fields present', () => {
                 const result = createScreenWithFieldReferences(screenFromFlow);
@@ -403,6 +448,27 @@ describe('screen', () => {
         it('screen element type is SCREEN', () => {
             const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
             expect(result.screen.elementType).toEqual(ELEMENT_TYPE.SCREEN);
+        });
+
+        describe('footer label clear', () => {
+            it('clears footer button labels when type is standard', () => {
+                screenFromPropertyEditor.nextOrFinishLabel = 'testLabel';
+                screenFromPropertyEditor.nextOrFinishLabelType = FOOTER_LABEL_TYPE.STANDARD;
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.screen.nextOrFinishLabel).toBeNull();
+            });
+            it('clears footer button labels when type is hide', () => {
+                screenFromPropertyEditor.nextOrFinishLabel = 'testLabel';
+                screenFromPropertyEditor.nextOrFinishLabelType = FOOTER_LABEL_TYPE.HIDE;
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.screen.nextOrFinishLabel).toBeNull();
+            });
+            it('does not clear footer button labels when type is custom', () => {
+                screenFromPropertyEditor.nextOrFinishLabel = 'testLabel';
+                screenFromPropertyEditor.nextOrFinishLabelType = FOOTER_LABEL_TYPE.CUSTOM;
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.screen.nextOrFinishLabel).toEqual('testLabel');
+            });
         });
 
         describe('new/modified fields', () => {

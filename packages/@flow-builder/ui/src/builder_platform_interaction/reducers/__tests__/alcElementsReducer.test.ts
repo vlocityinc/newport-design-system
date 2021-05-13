@@ -304,12 +304,7 @@ describe('alc-elements-reducer', () => {
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction(originalStoreState.decision, [
-                    'screen1',
-                    'screen2',
-                    'screen3',
-                    null
-                ]);
+                const action = actions.updateChildrenAction(decision.guid, updatedDecision.childReferences);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
@@ -343,24 +338,30 @@ describe('alc-elements-reducer', () => {
                         }
                     ]
                 };
-
+                storeState[decision.guid] = updatedDecision;
                 alcElementsReducer(storeState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction(originalStoreState.decision, [
-                    'screen1',
-                    'screen2',
-                    'screen3',
-                    null,
-                    null
+                const action = actions.updateChildrenAction(decision.guid, [
+                    {
+                        childReference: 'outcome1'
+                    },
+                    {
+                        childReference: 'outcome2'
+                    },
+                    {
+                        childReference: 'outcome3'
+                    },
+                    {
+                        childReference: 'outcome4'
+                    }
                 ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
-                        ...storeState,
-                        decision
+                        ...storeState
                     },
                     action
                 );
@@ -384,22 +385,25 @@ describe('alc-elements-reducer', () => {
                             }
                         ]
                     };
+                    storeState[decision.guid] = updatedDecision;
 
                     alcElementsReducer(storeState, {
                         type: MODIFY_DECISION_WITH_OUTCOMES,
                         payload: { canvasElement: updatedDecision }
                     });
 
-                    const action = actions.updateChildrenAction(originalStoreState.decision, [
-                        'screen2',
-                        'screen3',
-                        null
+                    const action = actions.updateChildrenAction(decision.guid, [
+                        {
+                            childReference: 'outcome2'
+                        },
+                        {
+                            childReference: 'outcome3'
+                        }
                     ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
-                            ...storeState,
-                            decision
+                            ...storeState
                         },
                         action
                     );
@@ -419,22 +423,25 @@ describe('alc-elements-reducer', () => {
                             }
                         ]
                     };
+                    storeState[decision.guid] = updatedDecision;
 
                     alcElementsReducer(storeState, {
                         type: MODIFY_DECISION_WITH_OUTCOMES,
                         payload: { canvasElement: updatedDecision }
                     });
 
-                    const action = actions.updateChildrenAction(originalStoreState.decision, [
-                        'screen1',
-                        'screen3',
-                        null
+                    const action = actions.updateChildrenAction(decision.guid, [
+                        {
+                            childReference: 'outcome1'
+                        },
+                        {
+                            childReference: 'outcome3'
+                        }
                     ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
-                            ...storeState,
-                            decision
+                            ...storeState
                         },
                         action
                     );
@@ -455,22 +462,25 @@ describe('alc-elements-reducer', () => {
                             }
                         ]
                     };
+                    storeState[decision.guid] = updatedDecision;
 
                     alcElementsReducer(storeState, {
                         type: MODIFY_DECISION_WITH_OUTCOMES,
                         payload: { canvasElement: updatedDecision }
                     });
 
-                    const action = actions.updateChildrenAction(originalStoreState.decision, [
-                        'screen1',
-                        'screen2',
-                        null
+                    const action = actions.updateChildrenAction(decision.guid, [
+                        {
+                            childReference: 'outcome1'
+                        },
+                        {
+                            childReference: 'outcome2'
+                        }
                     ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
-                            ...storeState,
-                            decision
+                            ...storeState
                         },
                         action
                     );
@@ -497,23 +507,28 @@ describe('alc-elements-reducer', () => {
                         }
                     ]
                 };
+                storeState[decision.guid] = updatedDecision;
 
                 alcElementsReducer(storeState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction(originalStoreState.decision, [
-                    'screen3',
-                    'screen1',
-                    'screen2',
-                    null
+                const action = actions.updateChildrenAction(decision.guid, [
+                    {
+                        childReference: 'outcome3'
+                    },
+                    {
+                        childReference: 'outcome1'
+                    },
+                    {
+                        childReference: 'outcome2'
+                    }
                 ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
-                        ...storeState,
-                        decision
+                        ...storeState
                     },
                     action
                 );
@@ -542,24 +557,31 @@ describe('alc-elements-reducer', () => {
                         }
                     ]
                 };
+                storeState[decision.guid] = updatedDecision;
 
                 alcElementsReducer(storeState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,
                     payload: { canvasElement: updatedDecision }
                 });
 
-                const action = actions.updateChildrenAction(originalStoreState.decision, [
-                    'screen2',
-                    null,
-                    'screen1',
-                    null,
-                    null
+                const action = actions.updateChildrenAction(decision.guid, [
+                    {
+                        childReference: 'outcome2'
+                    },
+                    {
+                        childReference: 'outcome4'
+                    },
+                    {
+                        childReference: 'outcome1'
+                    },
+                    {
+                        childReference: 'outcome5'
+                    }
                 ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
-                        ...storeState,
-                        decision
+                        ...storeState
                     },
                     action
                 );
@@ -616,8 +638,8 @@ describe('alc-elements-reducer', () => {
                 });
 
                 const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                    originalStoreState.startElement,
-                    ['assignment1', 'assignment2', 'assignment3', null]
+                    startElement.guid,
+                    startElement.childReferences
                 );
 
                 expect(reducer()).toHaveBeenLastCalledWith(
@@ -652,21 +674,31 @@ describe('alc-elements-reducer', () => {
                         }
                     ]
                 };
+                storeState[startElement.guid] = updatedStartElement;
 
                 alcElementsReducer(storeState, {
                     type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                    originalStoreState.startElement,
-                    ['assignment1', 'assignment2', 'assignment3', null, null]
-                );
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(startElement.guid, [
+                    {
+                        childReference: 'scheduledPath1'
+                    },
+                    {
+                        childReference: 'scheduledPath2'
+                    },
+                    {
+                        childReference: 'scheduledPath3'
+                    },
+                    {
+                        childReference: 'scheduledPath4'
+                    }
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
-                        ...storeState,
-                        startElement
+                        ...storeState
                     },
                     action
                 );
@@ -690,21 +722,25 @@ describe('alc-elements-reducer', () => {
                             }
                         ]
                     };
+                    storeState[startElement.guid] = updatedStartElement;
 
                     alcElementsReducer(storeState, {
                         type: MODIFY_START_WITH_SCHEDULED_PATHS,
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                        originalStoreState.startElement,
-                        ['assignment2', 'assignment3', null]
-                    );
+                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(startElement.guid, [
+                        {
+                            childReference: 'scheduledPath2'
+                        },
+                        {
+                            childReference: 'scheduledPath3'
+                        }
+                    ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
-                            ...storeState,
-                            startElement
+                            ...storeState
                         },
                         action
                     );
@@ -724,21 +760,25 @@ describe('alc-elements-reducer', () => {
                             }
                         ]
                     };
+                    storeState[startElement.guid] = updatedStartElement;
 
                     alcElementsReducer(storeState, {
                         type: MODIFY_START_WITH_SCHEDULED_PATHS,
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                        originalStoreState.startElement,
-                        ['assignment1', 'assignment3', null]
-                    );
+                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(startElement.guid, [
+                        {
+                            childReference: 'scheduledPath1'
+                        },
+                        {
+                            childReference: 'scheduledPath3'
+                        }
+                    ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
-                            ...storeState,
-                            startElement
+                            ...storeState
                         },
                         action
                     );
@@ -759,21 +799,25 @@ describe('alc-elements-reducer', () => {
                             }
                         ]
                     };
+                    storeState[startElement.guid] = updatedStartElement;
 
                     alcElementsReducer(storeState, {
                         type: MODIFY_START_WITH_SCHEDULED_PATHS,
                         payload: { canvasElement: updatedStartElement }
                     });
 
-                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                        originalStoreState.startElement,
-                        ['assignment1', 'assignment2', null]
-                    );
+                    const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(startElement.guid, [
+                        {
+                            childReference: 'scheduledPath1'
+                        },
+                        {
+                            childReference: 'scheduledPath2'
+                        }
+                    ]);
 
                     expect(reducer()).toHaveBeenLastCalledWith(
                         {
-                            ...storeState,
-                            startElement
+                            ...storeState
                         },
                         action
                     );
@@ -800,21 +844,28 @@ describe('alc-elements-reducer', () => {
                         }
                     ]
                 };
+                storeState[startElement.guid] = updatedStartElement;
 
                 alcElementsReducer(storeState, {
                     type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                    originalStoreState.startElement,
-                    ['assignment3', 'assignment1', 'assignment2', null]
-                );
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(startElement.guid, [
+                    {
+                        childReference: 'scheduledPath3'
+                    },
+                    {
+                        childReference: 'scheduledPath1'
+                    },
+                    {
+                        childReference: 'scheduledPath2'
+                    }
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
-                        ...storeState,
-                        startElement
+                        ...storeState
                     },
                     action
                 );
@@ -843,21 +894,31 @@ describe('alc-elements-reducer', () => {
                         }
                     ]
                 };
+                storeState[startElement.guid] = updatedStartElement;
 
                 alcElementsReducer(storeState, {
                     type: MODIFY_START_WITH_SCHEDULED_PATHS,
                     payload: { canvasElement: updatedStartElement }
                 });
 
-                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(
-                    originalStoreState.startElement,
-                    ['assignment2', null, 'assignment1', null, null]
-                );
+                const action = actions.updateChildrenOnAddingOrUpdatingScheduledPathsAction(startElement.guid, [
+                    {
+                        childReference: 'scheduledPath2'
+                    },
+                    {
+                        childReference: 'scheduledPath4'
+                    },
+                    {
+                        childReference: 'scheduledPath1'
+                    },
+                    {
+                        childReference: 'scheduledPath5'
+                    }
+                ]);
 
                 expect(reducer()).toHaveBeenLastCalledWith(
                     {
-                        ...storeState,
-                        startElement
+                        ...storeState
                     },
                     action
                 );
@@ -1532,8 +1593,62 @@ describe('alc-elements-reducer', () => {
                 }
             });
             const decoratedElements = new Map<Guid, HighlightInfo>();
-            decoratedElements.set('guid1', { branchIndexesToHighlight: [0], highlightNext: true });
-            decoratedElements.set('guid2', { branchIndexesToHighlight: [0], highlightNext: true });
+            decoratedElements.set('guid1', {
+                branchIndexesToHighlight: [0],
+                mergeBranchIndexesToHighlight: [0],
+                highlightNext: true
+            });
+            decoratedElements.set('guid2', {
+                branchIndexesToHighlight: [0],
+                mergeBranchIndexesToHighlight: [0],
+                highlightNext: true
+            });
+            decoratedElements.set('guid3', { highlightNext: true });
+            const expectedAction = actions.decorateCanvasAction(decoratedElements);
+            expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);
+        });
+
+        it('When setting mergeBranchIndexesToHighlight on parent branch elements', () => {
+            const flowModel = {
+                guid1: {
+                    guid: 'guid1',
+                    childReferences: [{ childReference: 'childGuid1' }, { childReference: 'childGuid2' }],
+                    children: ['guid3', null, 'guid2'],
+                    nodeType: NodeType.BRANCH,
+                    next: 'end',
+                    config: {}
+                },
+                guid2: {
+                    guid: 'guid2',
+                    parent: 'guid1',
+                    childIndex: 2,
+                    childReferences: [{ childReference: 'childGuid3' }],
+                    children: [null, 'guid3'],
+                    nodeType: NodeType.BRANCH,
+                    config: {}
+                },
+                guid3: { guid: 'guid3', parent: 'guid2', childIndex: 1, config: {} }
+            };
+
+            alcElementsReducer(flowModel, {
+                type: DECORATE_CANVAS,
+                payload: {
+                    connectorsToHighlight: [
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid1', childSource: 'childGuid1' },
+                        { type: CONNECTOR_TYPE.REGULAR, source: 'guid3' }
+                    ]
+                }
+            });
+            const decoratedElements = new Map<Guid, HighlightInfo>();
+            decoratedElements.set('guid1', {
+                branchIndexesToHighlight: [0],
+                mergeBranchIndexesToHighlight: [2],
+                highlightNext: true
+            });
+            decoratedElements.set('guid2', {
+                mergeBranchIndexesToHighlight: [1],
+                highlightNext: true
+            });
             decoratedElements.set('guid3', { highlightNext: true });
             const expectedAction = actions.decorateCanvasAction(decoratedElements);
             expect(reducer()).toHaveBeenLastCalledWith(flowModel, expectedAction);

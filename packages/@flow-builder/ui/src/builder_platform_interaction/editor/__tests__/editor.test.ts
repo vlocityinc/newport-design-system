@@ -296,7 +296,8 @@ const selectors = {
     root: '.editor',
     save: '.test-toolbar-save',
     addnewresource: '.test-left-panel-add-resource',
-    canvasToggle: '.canvas-mode-toggle'
+    canvasToggle: '.canvas-mode-toggle',
+    debug: '.test-toolbar-debug'
 };
 
 const element = (guid, type) => {
@@ -1467,6 +1468,40 @@ describe('in edit mode', () => {
 
         const rightPanel = editorComponent.shadowRoot.querySelector(selectors.RIGHT);
         expect(rightPanel).toBeNull();
+    });
+    it('debug button is hidden in orchestrator', async () => {
+        expect.assertions(1);
+
+        mockStoreState.properties.processType = 'Orchestrator';
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showDebugButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const debugButton = editorComponent.shadowRoot.querySelector(selectors.debug);
+        expect(debugButton).toBeNull();
+    });
+    it('debug button is displayed other than orchestrator', async () => {
+        expect.assertions(1);
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showDebugButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const debugButton = editorComponent.shadowRoot.querySelector(selectors.debug);
+        expect(debugButton).toBeDefined();
     });
 });
 describe('in debug mode', () => {

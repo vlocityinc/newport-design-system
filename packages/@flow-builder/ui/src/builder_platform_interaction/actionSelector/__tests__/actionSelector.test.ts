@@ -166,6 +166,15 @@ describe('Action selector', () => {
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.subflowComboboxPlaceholder');
         });
     });
+    it('When selected action is null combobox value is empty', async () => {
+        actionSelectorComponent = createComponentUnderTest();
+        actionSelectorComponent.selectedAction = null;
+        await Promise.resolve();
+        const interactionCombobox = actionSelectorComponent.shadowRoot.querySelector(
+            INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+        );
+        expect(interactionCombobox.value).toEqual('');
+    });
     describe('When action type changes', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();

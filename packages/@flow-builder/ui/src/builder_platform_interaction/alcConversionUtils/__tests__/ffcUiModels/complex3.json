@@ -1,0 +1,331 @@
+{
+    "canvasElements": [
+        "7457ae80-f39e-4654-ae74-f9580cf9ae8d",
+        "66cd8050-8332-4589-b86a-6056b558d72f",
+        "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+        "42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+        "814f3b77-41fb-4d07-91c0-cc82ee7fab28",
+        "090f351d-93f8-4200-9c2a-b773130e63e9",
+        "fc10cf24-8eb2-4cb8-860d-f5b475ef2997"
+    ],
+    "connectors": [
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "7457ae80-f39e-4654-ae74-f9580cf9ae8d -> 66cd8050-8332-4589-b86a-6056b558d72f",
+            "label": null,
+            "source": "7457ae80-f39e-4654-ae74-f9580cf9ae8d",
+            "target": "66cd8050-8332-4589-b86a-6056b558d72f",
+            "type": "REGULAR"
+        },
+        {
+            "childSource": "2cd17664-5a55-4376-9e4e-de35d9d2c9d4",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "66cd8050-8332-4589-b86a-6056b558d72f -> fc10cf24-8eb2-4cb8-860d-f5b475ef2997",
+            "label": null,
+            "source": "66cd8050-8332-4589-b86a-6056b558d72f",
+            "target": "fc10cf24-8eb2-4cb8-860d-f5b475ef2997",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "66cd8050-8332-4589-b86a-6056b558d72f -> 36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+            "label": "DEFAULT",
+            "source": "66cd8050-8332-4589-b86a-6056b558d72f",
+            "target": "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+            "type": "DEFAULT"
+        },
+        {
+            "childSource": "cf46b3fa-f31b-49a8-ae4a-798910205463",
+            "config": {
+                "isSelected": false
+            },
+            "guid": "36ce28e6-d7fd-4429-884c-2b777d0aaa27 -> 42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "label": null,
+            "source": "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+            "target": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5 -> 814f3b77-41fb-4d07-91c0-cc82ee7fab28",
+            "label": "LOOP_NEXT",
+            "source": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "target": "814f3b77-41fb-4d07-91c0-cc82ee7fab28",
+            "type": "LOOP_NEXT"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "814f3b77-41fb-4d07-91c0-cc82ee7fab28 -> 42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "label": null,
+            "source": "814f3b77-41fb-4d07-91c0-cc82ee7fab28",
+            "target": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "type": "REGULAR"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5 -> 090f351d-93f8-4200-9c2a-b773130e63e9",
+            "label": "LOOP_END",
+            "source": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "target": "090f351d-93f8-4200-9c2a-b773130e63e9",
+            "type": "LOOP_END"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "36ce28e6-d7fd-4429-884c-2b777d0aaa27 -> 090f351d-93f8-4200-9c2a-b773130e63e9",
+            "label": "DEFAULT",
+            "source": "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+            "target": "090f351d-93f8-4200-9c2a-b773130e63e9",
+            "type": "DEFAULT"
+        },
+        {
+            "config": {
+                "isSelected": false
+            },
+            "guid": "090f351d-93f8-4200-9c2a-b773130e63e9 -> fc10cf24-8eb2-4cb8-860d-f5b475ef2997",
+            "label": null,
+            "source": "090f351d-93f8-4200-9c2a-b773130e63e9",
+            "target": "fc10cf24-8eb2-4cb8-860d-f5b475ef2997",
+            "type": "REGULAR"
+        }
+    ],
+    "elements": {
+        "090f351d-93f8-4200-9c2a-b773130e63e9": {
+            "allowBack": true,
+            "allowFinish": true,
+            "allowPause": true,
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 1,
+            "description": "",
+            "elementType": "Screen",
+            "guid": "090f351d-93f8-4200-9c2a-b773130e63e9",
+            "helpText": "",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 664,
+            "locationY": 878,
+            "maxConnections": 1,
+            "name": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true
+        },
+        "2cd17664-5a55-4376-9e4e-de35d9d2c9d4": {
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "leftHandSide": "",
+                    "operator": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "rowIndex": "986f62cf-6430-42c8-a36d-09923646b731"
+                }
+            ],
+            "dataType": "Boolean",
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "elementType": "OUTCOME",
+            "guid": "2cd17664-5a55-4376-9e4e-de35d9d2c9d4",
+            "label": "",
+            "name": ""
+        },
+        "36ce28e6-d7fd-4429-884c-2b777d0aaa27": {
+            "availableConnections": [],
+            "childReferences": [
+                {
+                    "childReference": "cf46b3fa-f31b-49a8-ae4a-798910205463"
+                }
+            ],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 2,
+            "defaultConnectorLabel": "DEFAULT",
+            "description": "",
+            "elementType": "Decision",
+            "guid": "36ce28e6-d7fd-4429-884c-2b777d0aaa27",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 664,
+            "locationY": 326,
+            "maxConnections": 2,
+            "name": ""
+        },
+        "42973d40-2b0e-4d84-abe4-0bcc216f3ad5": {
+            "alcInsertAt": {
+                "childIndex": 0,
+                "parent": "36ce28e6-d7fd-4429-884c-2b777d0aaa27"
+            },
+            "assignNextValueToReference": null,
+            "assignNextValueToReferenceIndex": "949f9c47-693d-451e-9406-70b1b93f9ddd",
+            "availableConnections": [],
+            "collectionReference": null,
+            "collectionReferenceIndex": "613e13c6-7c61-4447-94e2-5eee0059345c",
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 2,
+            "description": "",
+            "elementType": "Loop",
+            "guid": "42973d40-2b0e-4d84-abe4-0bcc216f3ad5",
+            "isCanvasElement": true,
+            "iterationOrder": "Asc",
+            "label": "",
+            "locationX": 576,
+            "locationY": 446,
+            "maxConnections": 2,
+            "name": "",
+            "storeOutputAutomatically": true
+        },
+        "66cd8050-8332-4589-b86a-6056b558d72f": {
+            "availableConnections": [],
+            "childReferences": [
+                {
+                    "childReference": "2cd17664-5a55-4376-9e4e-de35d9d2c9d4"
+                }
+            ],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 2,
+            "defaultConnectorLabel": "DEFAULT",
+            "description": "",
+            "elementType": "Decision",
+            "guid": "66cd8050-8332-4589-b86a-6056b558d72f",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 488,
+            "locationY": 206,
+            "maxConnections": 2,
+            "name": ""
+        },
+        "7457ae80-f39e-4654-ae74-f9580cf9ae8d": {
+            "availableConnections": [],
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 1,
+            "description": "",
+            "elementType": "START_ELEMENT",
+            "filterLogic": "and",
+            "filters": [
+                {
+                    "leftHandSide": "",
+                    "operator": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "rowIndex": "a3d5865e-5780-4b94-998d-9c86bc04c55b"
+                }
+            ],
+            "guid": "7457ae80-f39e-4654-ae74-f9580cf9ae8d",
+            "isCanvasElement": true,
+            "locationX": 362,
+            "locationY": 48,
+            "maxConnections": 1,
+            "object": "",
+            "objectIndex": "64bac89e-c93b-4699-a422-224fc7e2bb57",
+            "triggerType": "None"
+        },
+        "814f3b77-41fb-4d07-91c0-cc82ee7fab28": {
+            "allowBack": true,
+            "allowFinish": true,
+            "allowPause": true,
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 1,
+            "description": "",
+            "elementType": "Screen",
+            "guid": "814f3b77-41fb-4d07-91c0-cc82ee7fab28",
+            "helpText": "",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 664,
+            "locationY": 566,
+            "maxConnections": 1,
+            "name": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true
+        },
+        "cf46b3fa-f31b-49a8-ae4a-798910205463": {
+            "conditionLogic": "and",
+            "conditions": [
+                {
+                    "leftHandSide": "",
+                    "operator": "",
+                    "rightHandSide": "",
+                    "rightHandSideDataType": "",
+                    "rowIndex": "393d6bb7-8321-41a0-beb5-3dbd6be6dbfb"
+                }
+            ],
+            "dataType": "Boolean",
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "elementType": "OUTCOME",
+            "guid": "cf46b3fa-f31b-49a8-ae4a-798910205463",
+            "label": "",
+            "name": ""
+        },
+        "fc10cf24-8eb2-4cb8-860d-f5b475ef2997": {
+            "allowBack": true,
+            "allowFinish": true,
+            "allowPause": true,
+            "childReferences": [],
+            "config": {
+                "hasError": false,
+                "isHighlighted": false,
+                "isSelectable": true,
+                "isSelected": false
+            },
+            "connectorCount": 0,
+            "description": "",
+            "elementType": "Screen",
+            "guid": "fc10cf24-8eb2-4cb8-860d-f5b475ef2997",
+            "helpText": "",
+            "isCanvasElement": true,
+            "label": "",
+            "locationX": 488,
+            "locationY": 1094,
+            "maxConnections": 1,
+            "name": "",
+            "pausedText": "",
+            "showFooter": true,
+            "showHeader": true
+        }
+    }
+}

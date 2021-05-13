@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { updateProperties } from './objectMutation';
+import { replaceItem } from './arrayMutation';
 
 export type ValueWithError = {
     value: string;
@@ -11,7 +13,16 @@ export type ElementValidationError = {
     errorString: string;
 };
 
-const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
+const DEFAULT_BLACK_LIST = [
+    'guid',
+    'elementType',
+    'locationX',
+    'locationY',
+    'rowIndex',
+    'availableConnections',
+    'children',
+    'incomingGoTo'
+];
 
 /**
  * Returns true if the input item is hydrated with errors.
@@ -29,12 +40,7 @@ const doHydrateWithErrors = (element, blackList) => {
             if (typeof val === 'string' || val === null) {
                 element[key] = { value: val, error: null };
             } else if (typeof val === 'object') {
-                // TODO: ALC find better way
-                if (key === 'children') {
-                    element[key] = val;
-                } else {
-                    doHydrateWithErrors(val, blackList);
-                }
+                doHydrateWithErrors(val, blackList);
             }
         });
 
@@ -118,6 +124,50 @@ export const getErrorsFromHydratedElement = (element, errorsList: ElementValidat
         }
     });
     return listOfErrors;
+};
+
+/**
+ * Walks all attributes of the element recursively and merge errors from the source
+ * element where present
+ *
+ * @param  element - source for values
+ * @param errorSourceElement - hydrated element checked for errors
+ * @returns The existing object if no error source to merge.  Otherwise a new object including
+ * all errors from the error source element
+ */
+export const mergeErrorsFromHydratedElement = (element, errorSourceElement) => {
+    if (!errorSourceElement) {
+        return element;
+    }
+
+    const mergedElement = Object.assign({}, element);
+
+    Object.entries(element).forEach(([key, value]) => {
+        if (value && typeof value === 'object') {
+            if (Array.isArray(value) && key !== 'children') {
+                mergedElement[value] = [];
+                if (errorSourceElement[key]) {
+                    value.forEach((item, index) => {
+                        mergedElement[key] = replaceItem(
+                            mergedElement[key],
+                            // Wrap the key value pair in an "item" so it can be processed by mergeErrorsFromHydratedElement
+                            mergeErrorsFromHydratedElement({ item }, { item: errorSourceElement[key][index] }).item,
+                            index
+                        );
+                    });
+                }
+            } else if (isItemHydratedWithErrors(errorSourceElement[key])) {
+                const errorString = errorSourceElement[key].error;
+                if (errorString !== null) {
+                    mergedElement[key] = updateProperties(mergedElement[key], { error: errorString });
+                }
+            } else if (errorSourceElement[key]) {
+                mergedElement[key] = mergeErrorsFromHydratedElement(value, errorSourceElement[key]);
+            }
+        }
+    });
+
+    return mergedElement;
 };
 
 /**

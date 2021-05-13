@@ -3291,6 +3291,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: 'e713f058-3d86-43ff-9da6-c8cd70863c95'
@@ -3556,6 +3559,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '2e27b2ec-9bb9-493d-9151-d9022471680f'
@@ -3621,6 +3627,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '2aacf35d-91f7-42cc-a668-f0b682615d6b'
@@ -3689,6 +3698,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '5a93c395-dd94-498e-9383-50caf96c6748'
@@ -3943,6 +3955,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '888dc04a-b0c7-49af-804a-8af6951151a0'
@@ -4244,6 +4259,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '5e649f27-18a2-47ae-abad-c0f33d2e2a1b'
@@ -4789,6 +4807,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
+            nextOrFinishLabelType: 'standard',
+            backLabelType: 'standard',
+            pauseLabelType: 'standard',
             childReferences: [
                 {
                     childReference: '4bd9ced3-d8dc-454b-9c6a-07e747528517'

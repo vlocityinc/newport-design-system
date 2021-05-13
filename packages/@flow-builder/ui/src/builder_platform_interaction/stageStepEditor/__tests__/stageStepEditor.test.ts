@@ -21,8 +21,13 @@ import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serv
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from '../stageStepEditorLabels';
+import {
+    getErrorsFromHydratedElement,
+    mergeErrorsFromHydratedElement
+} from 'builder_platform_interaction/dataMutationLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 jest.mock('../stageStepReducer', () => {
     return {
@@ -44,6 +49,15 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             return mockActionsPromise;
         })
     };
+});
+
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
+
+    return Object.assign('', actual, {
+        getErrorsFromHydratedElement: jest.fn(),
+        mergeErrorsFromHydratedElement: jest.fn((e) => e)
+    });
 });
 
 const RELATED_RECORD_ID = 'mockRecordId';
@@ -182,6 +196,20 @@ describe('StageStepEditor', () => {
     });
 
     describe('node', () => {
+        describe('mergeErrorsFromHydratedElement', () => {
+            it('is called for new node', () => {
+                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(nodeParams, undefined);
+            });
+            it('is called for existing node', async () => {
+                await ticks(1);
+
+                const newNode = { a: 1 };
+                editor.node = newNode;
+
+                expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(newNode, nodeParams);
+            });
+        });
+
         it('sets selectedEntryCriteria by default', () => {
             const entryCriteriaDropdown = editor.shadowRoot.querySelector(selectors.CRITERIA_DROPDOWNS);
             expect(entryCriteriaDropdown.value).toEqual(ENTRY_CRITERIA.ON_STAGE_START);
@@ -250,6 +278,20 @@ describe('StageStepEditor', () => {
     });
 
     describe('input parameters', () => {
+        it('are empty if no action is present', () => {
+            const nodeWithNoAction = { ...nodeParams, ...{ action: null } };
+
+            editor = createComponentUnderTest(nodeWithNoAction);
+
+            expect(stageStepReducer).toHaveBeenCalledWith(
+                nodeWithNoAction,
+                new CustomEvent(MERGE_WITH_PARAMETERS, {
+                    detail: {
+                        parameters: []
+                    }
+                })
+            );
+        });
         it('are retrieved via fetchDetailsForInvocableAction', () => {
             expect(fetchDetailsForInvocableAction).toHaveBeenCalledWith({
                 elementType: ELEMENT_TYPE.ACTION_CALL,
@@ -552,6 +594,22 @@ describe('StageStepEditor', () => {
                     })
                 );
             });
+        });
+    });
+
+    describe('validation', () => {
+        it('calls reducer with validate all event', () => {
+            const node = editor.node;
+            getErrorsFromHydratedElement.mockReturnValueOnce([]);
+            editor.validate();
+            expect(stageStepReducer.mock.calls[0][0]).toEqual(node);
+            expect(stageStepReducer.mock.calls[0][1]).toEqual(new CustomEvent(VALIDATE_ALL));
+        });
+
+        it('gets the errors after validating', () => {
+            getErrorsFromHydratedElement.mockReturnValueOnce(editor.node);
+            editor.validate();
+            expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(editor.node);
         });
     });
 });

@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import {
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
+    mergeErrorsFromHydratedElement,
     ValueWithError
 } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -26,6 +27,7 @@ import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/event
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 enum EXIT_CRITERIA {
     ON_STEP_COMPLETE = 'on_step_complete',
@@ -81,6 +83,9 @@ export default class OrchestratedStageEditor extends LightningElement {
      * @returns list of errors
      */
     @api validate(): object {
+        const event = new CustomEvent(VALIDATE_ALL);
+        this.element = orchestratedStageReducer(this.element, event);
+
         return getErrorsFromHydratedElement(this.element);
     }
 
@@ -92,7 +97,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     set node(newValue) {
-        this.element = newValue;
+        this.element = mergeErrorsFromHydratedElement(newValue, this.element);
 
         if (!this.element) {
             return;

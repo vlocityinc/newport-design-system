@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FOOTER_LABEL_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     createPastedCanvasElement,
@@ -164,6 +164,16 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
         newFields = [...newFields, newField];
     }
 
+    if (newScreen.nextOrFinishLabelType !== FOOTER_LABEL_TYPE.CUSTOM) {
+        newScreen.nextOrFinishLabel = null;
+    }
+    if (newScreen.pauseLabelType !== FOOTER_LABEL_TYPE.CUSTOM) {
+        newScreen.pauseLabel = null;
+    }
+    if (newScreen.backLabelType !== FOOTER_LABEL_TYPE.CUSTOM) {
+        newScreen.backLabel = null;
+    }
+
     const deletedFields = getDeletedScreenFieldsUsingStore(screen, newFields);
     Object.assign(newScreen, {
         childReferences,
@@ -186,7 +196,23 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
  */
 export function createScreenWithFieldReferences(screen = {}) {
     const newScreen = createScreenElement(screen);
-    const { fields = [] } = screen;
+    const { fields = [], nextOrFinishLabel, allowFinish, backLabel, allowBack, pauseLabel, allowPause } = screen;
+    const nextOrFinishLabelType = allowFinish
+        ? nextOrFinishLabel
+            ? FOOTER_LABEL_TYPE.CUSTOM
+            : FOOTER_LABEL_TYPE.STANDARD
+        : FOOTER_LABEL_TYPE.HIDE;
+    const backLabelType = allowBack
+        ? backLabel
+            ? FOOTER_LABEL_TYPE.CUSTOM
+            : FOOTER_LABEL_TYPE.STANDARD
+        : FOOTER_LABEL_TYPE.HIDE;
+    const pauseLabelType = allowPause
+        ? pauseLabel
+            ? FOOTER_LABEL_TYPE.CUSTOM
+            : FOOTER_LABEL_TYPE.STANDARD
+        : FOOTER_LABEL_TYPE.HIDE;
+
     const connectors = createConnectorObjects(screen, newScreen.guid);
     const connectorCount = connectors ? connectors.length : 0;
 
@@ -215,7 +241,13 @@ export function createScreenWithFieldReferences(screen = {}) {
         childReferences,
         elementType,
         connectorCount,
-        maxConnections
+        maxConnections,
+        nextOrFinishLabel,
+        nextOrFinishLabelType,
+        backLabel,
+        backLabelType,
+        pauseLabel,
+        pauseLabelType
     });
 
     return baseCanvasElementsArrayToMap([newScreen, ...screenFields], connectors);
@@ -238,8 +270,23 @@ export function createScreenMetadataObject(screen, config = {}) {
     if (!newScreen.allowPause) {
         newScreen.pausedText = '';
     }
-
-    const { allowBack, allowFinish, allowPause, helpText, pausedText, showFooter, showHeader } = screen;
+    // TODO: uncomment these lines when metadata changes are made on backend, commit with work item W-9142863
+    const {
+        helpText,
+        pausedText,
+        showFooter,
+        showHeader,
+        nextOrFinishLabelType,
+        pauseLabelType,
+        backLabelType
+    } = screen;
+    // let { nextOrFinishLabel, pauseLabel, backLabel } = screen;
+    const allowFinish = nextOrFinishLabelType !== FOOTER_LABEL_TYPE.HIDE;
+    // nextOrFinishLabel = nextOrFinishLabelType === FOOTER_LABEL_TYPE.CUSTOM && nextOrFinishLabel ? nextOrFinishLabel : null;
+    const allowPause = pauseLabelType !== FOOTER_LABEL_TYPE.HIDE;
+    // pauseLabel = pauseLabelType === FOOTER_LABEL_TYPE.CUSTOM && pauseLabel ? pauseLabel : null;
+    const allowBack = backLabelType !== FOOTER_LABEL_TYPE.HIDE;
+    // backLabel = backLabelType === FOOTER_LABEL_TYPE.CUSTOM && backLabel ? backLabel : null;
 
     let { fields = [] } = screen;
     const { childReferences } = screen;
@@ -249,6 +296,7 @@ export function createScreenMetadataObject(screen, config = {}) {
         });
     }
 
+    // TODO: Add nextOrFinishLabel, pauseLabel and backLabel when metadata changes are made on backend, commit with work item W-9142863
     return Object.assign(newScreen, {
         fields,
         allowBack,
@@ -263,6 +311,7 @@ export function createScreenMetadataObject(screen, config = {}) {
 
 export function createScreenElement(screen) {
     const newScreen = baseCanvasElement(screen);
+    // todo: remove setting allowBack, allowFinish, and allowPause when they are not read in the screen, commit with work item W-9142894(Update Screen Canvas View)
     const {
         allowBack = true,
         allowFinish = true,
@@ -270,7 +319,13 @@ export function createScreenElement(screen) {
         helpText = '',
         pausedText = '',
         showFooter = true,
-        showHeader = true
+        showHeader = true,
+        nextOrFinishLabel = null,
+        nextOrFinishLabelType = FOOTER_LABEL_TYPE.STANDARD,
+        backLabel = null,
+        backLabelType = FOOTER_LABEL_TYPE.STANDARD,
+        pauseLabel = null,
+        pauseLabelType = FOOTER_LABEL_TYPE.STANDARD
     } = screen;
 
     const getFieldByGUID = function (guid) {
@@ -334,7 +389,13 @@ export function createScreenElement(screen) {
         getFieldByGUID,
         getFieldIndexesByGUID,
         findFieldByGUID,
-        findFieldIndexByGUID
+        findFieldIndexByGUID,
+        nextOrFinishLabel,
+        nextOrFinishLabelType,
+        backLabel,
+        backLabelType,
+        pauseLabel,
+        pauseLabelType
     });
 
     return screenObject;

@@ -4,7 +4,8 @@ import {
     dehydrate,
     getErrorsFromHydratedElement,
     getValueFromHydratedItem,
-    getErrorFromHydratedItem
+    getErrorFromHydratedItem,
+    mergeErrorsFromHydratedElement
 } from '../elementDataMutation';
 import { deepCopy, isPlainObject } from 'builder_platform_interaction/storeLib';
 
@@ -228,5 +229,46 @@ describe('getErrorFromHydratedItem function', () => {
     it('should return null if not hydrated with error', () => {
         const value = getErrorFromHydratedItem(testObj.name);
         expect(value).toBeNull();
+    });
+
+    describe('mergeErrorsFromHydratedElement', () => {
+        it('with null errorSourceElement returns a copy of the element', () => {
+            const e = { a: 1 };
+            const mergedE = mergeErrorsFromHydratedElement(e, null);
+            expect(mergedE).toEqual(e);
+        });
+        it('merges values from the element and errors from errorSourceElement', () => {
+            const e = { a: { value: 1, error: null } };
+            const errorSource = { a: { value: 5, error: 'someError' } };
+
+            const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
+            expect(mergedE.a.value).toEqual(e.a.value);
+            expect(mergedE.a.error).toEqual(errorSource.a.error);
+        });
+        it('keeps errors from the element if no error in errorSourceElement', () => {
+            const e = { a: { value: 1, error: 'test' } };
+            const errorSource = { a: { value: 5, error: null } };
+
+            const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
+            expect(mergedE.a.value).toEqual(e.a.value);
+            expect(mergedE.a.error).toEqual(e.a.error);
+        });
+        it('merges values from objects in the element and errors from errorSourceElement', () => {
+            const e = { a: { b: { value: 1, error: null } } };
+            const errorSource = { a: { b: { value: 5, error: 'someError' } } };
+
+            const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
+            expect(mergedE.a.b.value).toEqual(e.a.b.value);
+            expect(mergedE.a.b.error).toEqual(errorSource.a.b.error);
+        });
+
+        it('merges values from arrays in the element and errors from errorSourceElement', () => {
+            const e = { a: [{ value: 1, error: null }] };
+            const errorSource = { a: [{ value: 5, error: 'someError' }] };
+
+            const mergedE = mergeErrorsFromHydratedElement(e, errorSource);
+            expect(mergedE.a[0].value).toEqual(e.a[0].value);
+            expect(mergedE.a[0].error).toEqual(errorSource.a[0].error);
+        });
     });
 });

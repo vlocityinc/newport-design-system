@@ -9,6 +9,7 @@ import {
     ReorderListEvent
 } from 'builder_platform_interaction/events';
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { mergeErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 let mockNewState;
 
@@ -30,6 +31,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         getErrorsFromHydratedElement: jest.fn(() => {
             return ['some error'];
         }),
+        mergeErrorsFromHydratedElement: jest.fn((e) => e),
         updateProperties: actual.updateProperties
     };
 });
@@ -122,6 +124,25 @@ const createComponentForTest = (
 };
 
 describe('Decision Editor', () => {
+    describe('mergeErrorsFromHydratedElement', () => {
+        it('is called for new node', () => {
+            createComponentForTest(decisionWithTwoOutcomes);
+            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(decisionWithTwoOutcomes, undefined);
+        });
+
+        it('is called for existing node', async () => {
+            const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+            await ticks(1);
+
+            decisionEditor.node = decisionWithOneOutcome;
+
+            expect(mergeErrorsFromHydratedElement).toHaveBeenCalledWith(
+                decisionWithOneOutcome,
+                decisionWithTwoOutcomes
+            );
+        });
+    });
+
     describe('handleDeleteOutcome', () => {
         it('calls the reducer with the passed in action', async () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
